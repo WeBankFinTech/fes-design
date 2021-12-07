@@ -1,0 +1,61 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin.less';
+
+@input-prefix-cls: ~'@{cls-prefix}-input-number';
+
+.@{input-prefix-cls} {
+    position: relative;
+    display: inline-block;
+    width: 130px;
+    user-select: none;
+
+    &-increase,
+    &-decrease {
+        position: absolute;
+        right: 1px;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 16px;
+        color: @text-color-secondary;
+        font-size: 13px;
+        background-color: @component-background;
+        cursor: pointer;
+
+        &:hover {
+            z-index: 3;
+            color: @primary-color;
+            background-color: @hover-color-light;
+            border-color: @primary-color;
+
+            &
+            ~ .@{cls-prefix}-input:not(.is-disabled)
+            .@{cls-prefix}-input-inner {
+                border-color: @primary-color;
+            }
+        }
+
+        &.is-disabled {
+            color: @disabled-color-base;
+            background-color: @component-background;
+            border-color: @border-color-disabled;
+            cursor: not-allowed;
+        }
+    }
+    &-increase {
+        top: 1px;
+        border-bottom: @border-base;
+        border-left: @border-base;
+        border-radius: 0 @border-radius-base 0 0;
+    }
+
+    &-decrease {
+        bottom: 1px;
+        border-top: @border-base;
+        border-left: @border-base;
+        border-radius: 0 0 @border-radius-base 0;
+    }
+}

@@ -1,0 +1,302 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin.less';
+
+@date-picker-prefix-cls: ~'@{cls-prefix}-date-picker';
+
+.@{date-picker-prefix-cls} {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    vertical-align: middle;
+}
+
+@calendars-prefix-cls: ~'@{cls-prefix}-calendars';
+
+@date-border-split: @border-width-base @border-style-base @border-color-split;
+
+.@{calendars-prefix-cls} {
+    .text();
+    &-daterange {
+        display: flex;
+        flex-direction: row;
+    }
+    &-footer {
+        border-top: @date-border-split;
+        &-inner {
+            padding: 10px 8px;
+            text-align: right;
+            > .@{cls-prefix}-btn {
+                margin-left: 8px;
+            }
+        }
+    }
+}
+
+@calendar-prefix-cls: ~'@{cls-prefix}-calendar';
+
+.@{calendar-prefix-cls} {
+    display: flex;
+    flex-direction: row;
+    color: @text-color;
+    font-size: @font-size-caption;
+    background: @white;
+    user-select: none;
+
+    &-icon {
+        color: @border-color-base;
+        &:hover {
+            color: @primary-color;
+        }
+    }
+
+    &-head {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 9px 0;
+        border-bottom: @date-border-split;
+
+        &-middle {
+            flex: 2;
+            font-weight: @font-weight-semibold;
+            font-size: @font-size-base;
+            text-align: center;
+            &-item {
+                position: relative;
+                display: inline-block;
+                padding: 0 2px;
+                text-align: center;
+            }
+        }
+        &-left {
+            flex: 1;
+            padding-left: @padding-xs;
+        }
+        &-right {
+            flex: 1;
+            padding-right: @padding-xs;
+            text-align: right;
+        }
+    }
+
+    &-body {
+        position: relative;
+        width: 100%;
+        padding: 8px 10px;
+    }
+    &-days {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        width: 224px;
+        height: 224px;
+    }
+    &-week,
+    &-date {
+        position: relative;
+        z-index: 1;
+        box-sizing: border-box;
+        width: 100%;
+        width: 24px;
+        height: 24px;
+        font-weight: normal;
+        line-height: 24px;
+        text-align: center;
+        border-radius: @border-radius-base;
+        place-self: center center;
+    }
+    &-date {
+        cursor: pointer;
+        &:hover {
+            background: @hover-color-light;
+        }
+    }
+    &-date-on {
+        background-color: @hover-color-light;
+        border-radius: 0;
+        &::before {
+            position: absolute;
+            left: -4px;
+            z-index: -1;
+            width: 32px;
+            height: 100%;
+            background-color: @hover-color-light;
+            content: '';
+        }
+    }
+    &-date-now {
+        color: @primary-color;
+        background-color: @hover-color-light;
+        &::after {
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            width: 3px;
+            height: 3px;
+            background-color: @primary-color;
+            border-radius: 50%;
+            content: '';
+        }
+    }
+    &-date-out {
+        color: @text-color-disabled;
+        background-color: @white;
+    }
+    &-date-selected {
+        color: @white;
+        font-weight: @font-weight-medium;
+        background: @primary-color;
+        &:hover {
+            color: @white;
+            font-weight: @font-weight-medium;
+            background: @primary-color;
+        }
+        &.is-start:not(.is-end) {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            &::before {
+                position: absolute;
+                right: -4px;
+                z-index: -1;
+                width: 4px;
+                height: 100%;
+                background-color: @hover-color-light;
+                content: '';
+            }
+        }
+        &.is-end:not(.is-start) {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            &::before {
+                position: absolute;
+                left: -4px;
+                z-index: -1;
+                width: 4px;
+                height: 100%;
+                background-color: @hover-color-light;
+                content: '';
+            }
+        }
+    }
+    &-date-disabled {
+        color: @text-color-disabled;
+        background: @disabled-color-base;
+        cursor: default;
+        &::before {
+            position: absolute;
+            left: -4px;
+            z-index: -1;
+            width: 32px;
+            height: 100%;
+            background-color: @disabled-color-light;
+            content: '';
+        }
+    }
+
+    &-months,
+    &-years,
+    &-quarters {
+        display: grid;
+        grid-row-gap: 8px;
+        grid-template-columns: repeat(4, 1fr);
+        width: 256px;
+        background: @white;
+    }
+    &-months {
+        height: 112px;
+    }
+    &-years {
+        height: 152px;
+    }
+    &-months span,
+    &-years span,
+    &-quarters span {
+        width: 56px;
+        padding: 0 8px;
+    }
+
+    &-title {
+        height: 34px;
+        font-weight: @font-weight-medium;
+        line-height: 34px;
+        text-align: center;
+        background: @white;
+        border-bottom: @date-border-split;
+    }
+
+    &-time {
+        border-left: @date-border-split;
+        &-head {
+            height: 41px;
+            font-weight: @font-weight-semibold;
+            font-size: @font-size-base;
+            line-height: 41px;
+            text-align: center;
+            border-bottom: @date-border-split;
+        }
+    }
+}
+
+@range-input-prefix-cls: ~'@{cls-prefix}-range-input';
+
+.@{range-input-prefix-cls} {
+    position: relative;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    min-width: 264px;
+    height: @data-input-height-base;
+    padding: 5px 9px;
+    font-size: @font-size-base;
+    border: @border-base;
+    border-radius: @border-radius-base;
+
+    &:focus-within {
+        box-shadow: 0 0 0 2px @focus-shadow-color; 
+    }
+
+    &:hover,&:focus-within {
+        border-color: @primary-color;
+    }
+
+    &.is-disabled {
+        color: @text-color-disabled;
+        background-color: @disabled-color-light;
+        cursor: not-allowed;
+        opacity: 1;
+        &:focus-within {
+            box-shadow: none;
+        }
+        &:hover,&:focus-within {
+            border-color: @border-color-base;
+        }
+        > .@{range-input-prefix-cls}-inner {
+            background-color: @disabled-color-light; 
+        }
+    }
+
+    &-inner {
+        flex: 1;
+        border: 0;
+        outline: none;
+        // TODO 一期先不支持输入
+        pointer-events: none;
+        &::placeholder {
+            color: @text-color-caption;
+        }
+    }
+
+    &-separator {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        padding: 0 @padding-xs;
+        color: @border-color-base;;
+    }
+    &-suffix {
+        padding-left: @padding-xs;
+        color: @border-color-base;
+    }
+}

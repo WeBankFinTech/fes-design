@@ -1,0 +1,12 @@
+.DS_Store
+node_modules
+*.log
+.cache
+.temp
+dist
+es
+lib
+package-lock.json
+yarn.lock
+docs/.vitepress/theme/components/demoCode.json
+docs/zh/components

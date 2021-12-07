@@ -1,0 +1,39 @@
+@icon-prefix-cls: ~'fes-design-icon';
+
+.@{icon-prefix-cls} {
+    display: inline-block;
+    color: inherit;
+    font-style: normal;
+    line-height: 0;
+    text-align: center;
+    text-transform: none;
+    outline: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    > * {
+        line-height: 1;
+    }
+
+    svg {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        fill: currentColor;
+    }
+
+    &[tabindex] {
+        cursor: pointer;
+    }
+    &--spin {
+        display: inline-block;
+        animation: loadingCircle 1s infinite linear;
+    }
+
+    @keyframes loadingCircle {
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+}

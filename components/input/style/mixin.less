@@ -1,0 +1,63 @@
+.disabled() {
+    color: @text-color-disabled;
+    background-color: @disabled-color-light;
+    cursor: not-allowed;
+    opacity: 1;
+
+    &:hover {
+        border-color: @border-color-base;
+    }
+}
+
+.border-left-pure() {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.border-right-pure() {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.group-append() {
+    button.@{cls-prefix}-btn,
+    div.@{cls-prefix}-select .@{cls-prefix}-select-trigger,
+    div.@{cls-prefix}-select:hover .@{cls-prefix}-select-trigger {
+        .border-left-pure();
+    }
+}
+.group-prepend() {
+    button.@{cls-prefix}-btn,
+    div.@{cls-prefix}-select .@{cls-prefix}-select-trigger,
+    div.@{cls-prefix}-select:hover .@{cls-prefix}-select-trigger {
+        .border-right-pure();
+    }
+}
+.group() {
+    position: relative;
+    display: table-cell;
+    width: 1px;
+    padding: 0 20px;
+    color: @text-color-secondary;
+    white-space: nowrap;
+    background-color: @component-background;
+    border: @border-base;
+    border-radius: @border-radius-base;
+
+    &:focus {
+        outline: none;
+    }
+
+    .@{cls-prefix}-btn {
+        display: inline-block;
+        margin: -11px -22px;
+    }
+
+    .@{cls-prefix}-select {
+        min-width: 62px;
+        margin: -1px -22px;
+    }
+    .@{cls-prefix}-btn,
+    .@{cls-prefix}-input {
+        font-size: inherit;
+    }
+}

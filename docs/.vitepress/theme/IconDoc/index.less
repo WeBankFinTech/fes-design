@@ -1,0 +1,38 @@
+.icon-doc {
+    display: flex;
+    flex-wrap: wrap;
+}
+.icon-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 150px;
+    height: 100px;
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 14px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    .fes-design-icon {
+        display: flex;
+        flex: 2;
+        align-items: center;
+        font-size: 24px;
+    }
+    .icon-name {
+        flex: 1;
+    }
+    &:hover {
+        color: #fff;
+        background-color: #5384ff;
+        .wd-icon {
+            font-size: 32px;
+        }
+    }
+}
+.dark {
+    .icon-item {
+        color: #fff;
+    }
+}

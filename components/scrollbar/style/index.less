@@ -1,0 +1,80 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin.less';
+
+@scrollbar-prefix-cls: ~'@{cls-prefix}-scrollbar';
+@scrollbar-track-cls: ~'@{scrollbar-prefix-cls}-track';
+@scrollbar-width: 4px;
+@scrollbar-bg: rgba(@font-color-base, 25%);
+@scrollbar-active-bg: rgba(@font-color-base, 65%);
+
+.@{scrollbar-prefix-cls} {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    &-container {
+        height: 100%;
+        overflow: auto;
+        overscroll-behavior: contain;
+    }
+    &-hidden-native-bar {
+        scrollbar-width: none;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+}
+
+.@{scrollbar-track-cls} {
+    position: absolute;
+    right: 2px;
+    bottom: 2px;
+    z-index: 1;
+    border-radius: 4px;
+
+    &.is-vertical {
+        top: 2px;
+        width: @scrollbar-width;
+        > div {
+            width: 100%;
+        }
+    }
+    &.is-horizontal {
+        left: 2px;
+        height: @scrollbar-width;
+        > div {
+            height: 100%;
+        }
+    }
+
+    &-thumb {
+        position: relative;
+        display: block;
+        width: 0;
+        height: 0;
+        background-color: @scrollbar-bg;
+        border-radius: @border-radius-sm;
+        cursor: pointer;
+        transition: @animation-duration-slow background-color;
+
+        &:hover,
+        &.is-hovering {
+            background-color: @scrollbar-active-bg;
+        }
+    }
+}
+
+.@{scrollbar-track-cls}-fade {
+    &-enter-active {
+        transition: opacity 340ms ease-out;
+    }
+
+    &-leave-active {
+        transition: opacity 120ms ease-out;
+    }
+
+    &-enter-from,
+    &-leave-active {
+        opacity: 0;
+    }
+}

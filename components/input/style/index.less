@@ -1,0 +1,186 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin.less';
+
+@input-prefix-cls: ~'@{cls-prefix}-input';
+@textarea-prefix-cls: ~'@{cls-prefix}-textarea';
+
+@input-height-base: @data-input-height-base;
+
+.@{input-prefix-cls} {
+    .default();
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    vertical-align: middle;
+    .text();
+    &-inner {
+        position: relative;
+        width: 100%;
+        height: @input-height-base;
+        padding: 0 8px; // FEATURE 变量抽离
+        color: @text-color;
+        font-size: inherit;
+        border: @border-base;
+        border-radius: @border-radius-base;
+        outline: 0;
+
+        &::placeholder {
+            color: @text-color-caption;
+        }
+
+        &:hover,
+        &:focus {
+            z-index: 1;
+            border-color: @primary-color;
+        }
+        &:focus {
+            box-shadow: 0 0 0 2px @focus-shadow-color;
+        }
+
+        &[disabled] {
+            .disabled();
+        }
+    }
+    &.is-hovering {
+        .@{input-prefix-cls}-inner:not([disabled]) {
+            border-color: @primary-color;
+        }
+    }
+
+    &-with-password-clear {
+        .@{input-prefix-cls}-inner {
+            padding-right: 55px;
+        }
+    }
+
+    &-prefix,
+    &-suffix {
+        position: absolute;
+        z-index: 1;
+        height: 100%;
+        color: inherit;
+        line-height: @input-height-base;
+        text-align: center;
+        transition: all 0.3s;
+        user-select: none;
+        .@{fes-icon-cls} {
+            color: @text-color-caption;
+        }
+    }
+
+    &-prefix {
+        left: 9px;
+        transition: all 0.3s;
+    }
+
+    &-with-prefix {
+        .@{input-prefix-cls}-inner {
+            padding-left: 32px;
+        }
+    }
+
+    &-suffix {
+        top: 0;
+        right: 9px;
+        vertical-align: bottom;
+    }
+    &-icon {
+        padding-left: 8px;
+    }
+    &-with-suffix {
+        .@{input-prefix-cls}-inner {
+            padding-right: 32px;
+        }
+    }
+
+    &-with-password-clear {
+        .@{input-prefix-cls}-inner {
+            padding-right: 55px;
+        }
+    }
+
+    &-prepend {
+        .group();
+        .group-prepend();
+        border-right: 0;
+        .border-right-pure();
+    }
+    &-append {
+        .group();
+        .group-append();
+        border-left: 0;
+        .border-left-pure();
+    }
+
+    &-group {
+        display: inline-table;
+        width: 100%;
+        line-height: normal;
+        border-collapse: separate;
+        border-spacing: 0;
+
+        > .@{input-prefix-cls}-inner {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        &&-prepend {
+            .@{input-prefix-cls}-inner {
+                .border-left-pure();
+            }
+        }
+        &&-append {
+            .@{input-prefix-cls}-inner {
+                .border-right-pure();
+            }
+        }
+    }
+}
+
+.@{textarea-prefix-cls} {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    font-size: @font-size-base;
+    vertical-align: bottom;
+
+    &-inner {
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        min-height: @input-height-base;
+        padding: 5px 9px;
+        color: @text-color;
+        font-size: inherit;
+        line-height: 1.5;
+        border: @border-base;
+        border-radius: @border-radius-base;
+        outline: none;
+        resize: vertical;
+
+        &:hover,
+        &:focus {
+            border-color: @primary-color;
+        }
+        &:focus {
+            box-shadow: 0 0 0 2px @focus-shadow-color;
+        }
+
+        &::placeholder {
+            color: @text-color-caption;
+        }
+
+        &[disabled] {
+            resize: none;
+            .disabled();
+        }
+    }
+
+    &-count {
+        display: inline-block;
+        width: 100%;
+        color: @text-color-secondary;
+        text-align: right;
+    }
+}

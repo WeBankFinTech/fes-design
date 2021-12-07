@@ -1,0 +1,5 @@
+!docs/.vuepress
+es
+lib
+dist
+empty.ts

@@ -1,0 +1,3 @@
+<template>
+    <FDatePicker control />
+</template>
