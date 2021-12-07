@@ -1,0 +1,175 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin.less';
+
+@table-prefix: ~'@{cls-prefix}-table';
+@table-border-color: @border-color-split;
+@table-border: @border-width-base @border-style-base @table-border-color;
+
+.@{table-prefix} {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    height: fit-content;
+    .default();
+    .text();
+    overflow: hidden;
+    background-color: @white;
+    border-bottom: @table-border;
+    .hidden-columns{
+        display: none;
+    }
+    & &-header-wrapper, 
+    & &-body-wrapper{
+        width: 100%;
+        overflow: hidden;
+        scrollbar-width: none;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+    & &-header-wrapper {
+        position: relative;
+        z-index: 2;
+        &.is-scrolling{
+            box-shadow: 0 1px @shadow-sm-radius @shadow-sm-color;
+        }
+    }
+    & &-scrollbar {
+        z-index: 3;
+    }
+    & &-header, 
+    & &-body{
+        display: table;
+        margin: 0;
+        padding: 0;
+        table-layout: fixed;
+        border-collapse: separate;
+        th, td {
+            position: relative;
+            min-width: 0;
+            margin: 0;
+            padding: 0;
+            background-color: @white;
+            border: none;
+            border-bottom: @table-border;
+        }
+        th {
+            font-weight: @font-weight-semibold;
+            background-color: @component-background;
+        }
+        td {
+            background-color: @white;
+            .@{table-prefix}-cell {
+                overflow: hidden;
+                white-space: normal;
+                word-break: break-all;
+            }
+        }
+    }
+    & &-body {
+        tbody tr {
+            &:last-child {
+                td {
+                    border-bottom: none;
+                }
+            }
+        }
+    }
+    & &-fixed, 
+    & &-fixed-right {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 3;
+        overflow: hidden;
+    }
+    & &-fixed {
+        right: auto;
+        box-shadow: 1px 0 @shadow-sm-radius @shadow-sm-color;
+    }
+    & &-fixed-right {
+        right: 0;
+        left: auto;
+        box-shadow: -1px 0 @shadow-sm-radius @shadow-sm-color;
+    }
+    &-body-wrapper.is-scrolling-left ~ &-fixed{
+        box-shadow: none;
+    }
+    &-body-wrapper.is-scrolling-right ~ &-fixed-right{
+        box-shadow: none;
+    }
+    .@{table-prefix}-expand {
+        color: @text-color;
+        font-size: @font-size-head;
+        transform: rotate(-90deg);
+        cursor: pointer;
+        transition: all @animation-duration-base @ease-in-out;
+    }
+    & &-body{ 
+        tr.is-opened{
+            td {
+                border-bottom: none;
+            }
+            .@{table-prefix}-expand {
+                transform: rotate(0);
+            }
+            & + tr {
+                td {
+                    background-color: @component-background;
+                }
+            }
+        }
+    }
+    &.is-bordered{
+        border:  @table-border;
+        .@{table-prefix}-header {
+            th {
+                border-right: @table-border;
+            }
+            thead tr {
+                th {
+                    &:last-child {
+                        border-right: none;
+                    }
+                }
+            }
+        }
+        .@{table-prefix}-body {
+            th, 
+            td {
+                border-right: @table-border;
+            }
+            thead tr {
+                th {
+                    &:last-child {
+                        border-right: none;
+                    }
+                }
+            }
+            tbody tr {
+                td {
+                    &:last-child {
+                        border-right: none;
+                    }
+                }
+                &:last-child {
+                    td {
+                        border-bottom: none;
+                    }
+                }
+            }
+        }
+    }
+    &.is-size-normal {
+        .@{table-prefix}-cell {
+            padding: @padding-md;
+        }
+    }
+    &.is-size-small {
+        .@{table-prefix}-cell {
+            padding: @padding-xs;
+        }
+    }
+}
