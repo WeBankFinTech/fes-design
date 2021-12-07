@@ -1,0 +1,46 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin.less';
+
+@popper-prefix-cls: ~'@{cls-prefix}-popper';
+
+.@{popper-prefix-cls} {
+    position: relative;
+    z-index: @zindex-dropdown;
+    // overflow: hidden;
+    background: @white;
+    border-radius: @border-radius-base;
+    box-shadow: @shadow-down;
+
+    &-arrow {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: inherit;
+        visibility: hidden;
+
+        &::before {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: inherit;
+            transform: rotate(45deg);
+            visibility: visible;
+            content: '';
+        }
+    }
+
+    &[data-popper-placement^='top'] > &-arrow {
+        bottom: -3px;
+    }
+
+    &[data-popper-placement^='bottom'] > &-arrow {
+        top: -3px;
+    }
+    &[data-popper-placement^='left'] > &-arrow {
+        right: -3px;
+    }
+    &[data-popper-placement^='right'] > &-arrow {
+        left: -3px;
+    }
+}
