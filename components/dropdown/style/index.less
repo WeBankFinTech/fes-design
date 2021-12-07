@@ -1,0 +1,57 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin.less';
+
+@dropdown-prefix-cls: ~'@{cls-prefix}-dropdown';
+@dropdown-option-height: @data-input-height-base;
+@dropdown-option-hover-color: @hover-color-light;
+@dropdown-min-width: 100px;
+
+.@{dropdown-prefix-cls} {
+    &-popper {
+        padding: @padding-sm 0;
+        background: @white;
+    }
+    &-option-wrapper {
+        min-width: @dropdown-min-width;
+        .text();
+        &:not(.has-icon) {
+            .@{dropdown-prefix-cls}-option {
+                &-icon {
+                    display: none;
+                }
+            }
+        }
+    }
+    &-option {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: @dropdown-option-height;
+        padding: 0 @padding-sm;
+        color: @text-color;
+        font-size: @font-size-body;
+        line-height: @dropdown-option-height;
+        background: @white;
+        cursor: pointer;
+        transition: all @animation-duration-base @ease-base-in;
+        &-label {
+            flex: auto;
+        }
+        &-icon {
+            display: flex;
+            align-items: center;
+            width: @font-size-head;
+            margin-right: @padding-xs;
+            font-size: @font-size-head;
+        }
+        &:hover {
+            background: @dropdown-option-hover-color;
+        }
+        &.is-disabled {
+            color: @text-color-disabled;
+            background: @white;
+            cursor: not-allowed;
+        }
+    }
+}
