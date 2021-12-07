@@ -1,0 +1,108 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin';
+
+@tree-prefix-cls: ~'@{cls-prefix}-tree';
+@tree-indent: 14px;
+@tree-switcher-width: 16px;
+@tree-selected-background-color: fade(@primary-color, 6%);
+
+.@{tree-prefix-cls} {
+    .default();
+    .text();
+    &-node {
+        &.is-selected {
+            >.@{tree-prefix-cls}-node-content-wrapper {
+                color: @primary-color;
+                background-color: @tree-selected-background-color;
+            }
+        }
+        &.is-disabled {
+            >.@{tree-prefix-cls}-node-content-wrapper {
+                color: @text-color-disabled;
+                background-color: @white;
+                cursor: not-allowed;
+            }
+        }
+    }
+    &-node-content-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: @data-input-height-base;
+        cursor: pointer;
+        &:hover {
+            color: @primary-color;
+            background-color: @tree-selected-background-color;
+        }
+    }
+    &-node-indent {
+        width: @tree-indent;
+    }
+    &-node-switcher,
+    &-node-checkbox {
+        margin-right: @padding-xs;
+    }
+    &-node-switcher {
+        width: @tree-switcher-width;
+        font-size: @font-size-head;
+        &-icon {
+            transform: rotate(-90deg);
+            transition: all @animation-duration-base @ease-base-in;
+            &.is-expanded {
+                transform: rotate(0);
+            }
+        }
+    }
+    &-node-content {
+        display: flex;
+        flex-grow: 1;
+        align-items: center;
+        &-prefix {
+            display: inline-flex;
+            margin-right: @padding-xs;
+        }
+        &-label {
+            flex-grow: 1;
+        }
+        &-suffix {
+            display: inline-flex;
+        }
+    }
+    &-node-children-wrapper {
+        display: flex;
+    }
+    &-node-children {
+        flex: 1;
+        &.is-inline {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0 @padding-lg;
+            .@{tree-prefix-cls}-node-indent,
+            .@{tree-prefix-cls}-node-switcher, {
+                display: none;
+            }
+            .@{tree-prefix-cls}-node-content-wrapper {
+                &:hover {
+                    color: @primary-color;
+                    background-color: @white;
+                }
+            }
+            .@{tree-prefix-cls}-node {
+                &.is-selected {
+                    >.@{tree-prefix-cls}-node-content-wrapper {
+                        color: @primary-color;
+                        background-color: @white;
+                    }
+                }
+                &.is-disabled {
+                    >.@{tree-prefix-cls}-node-content-wrapper {
+                        color: @text-color-disabled;
+                        background-color: @white;
+                        cursor: not-allowed;
+                    }
+                }
+            }
+        }
+    }
+}
