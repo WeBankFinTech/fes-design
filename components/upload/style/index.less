@@ -1,0 +1,94 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+
+@upload-prefix-cls: ~'@{cls-prefix}-upload';
+@upload-item-hover-color: fade(@primary-color, 6%);
+
+.@{upload-prefix-cls} {
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    .@{upload-prefix-cls}-trigger-default {
+        margin: 0;
+    }
+    & &-input {
+        display: none;
+    }
+    &-list {
+        min-width: 320px;
+        .default();
+        .text();
+        color: @sub-head-color;
+        font-size: @font-size-base;
+        line-height: @line-height-base;
+        list-style: none;
+        &-item {
+            display: flex;
+            align-items: center;
+            margin-top: @padding-xs;
+            border-radius: @border-radius-sm;
+            &:first-child {
+                margin-top: @padding-sm;
+            }
+            &:last-child {
+                margin-bottom: @padding-sm;
+            }
+            .@{upload-prefix-cls}-list-name-wrapper {
+                display: flex;
+                flex: 1;
+                align-items: center;
+                .@{upload-prefix-cls}-list-name {
+                    margin-left: 6px;
+                }
+                .@{upload-prefix-cls}-list-progress {
+                    position: relative;
+                    flex: 1;
+                    height: 4px;
+                    margin-left: @padding-lg;
+                    background-color: @border-color-split;
+                    border-radius: @border-radius-sm;
+                    &-inner {
+                        position: absolute;
+                        top: 0;
+                        right: auto;
+                        bottom: 0;
+                        left: 0;
+                        background-color: @primary-color;
+                        border-radius: @border-radius-sm;
+                    }
+                }
+            }
+            .@{upload-prefix-cls}-list-icons {
+                width: 40px;
+                color: @text-color-secondary;
+                text-align: right;
+                &-close {
+                    display: none;
+                    padding: 2px;
+                }
+            }
+            &.is-uploading,
+            &.is-ready {
+                .@{upload-prefix-cls}-list-name-wrapper {
+                    .@{upload-prefix-cls}-list-name {
+                        opacity: 0.6;
+                    }
+                }
+            }
+            &.is-error {
+                color: @danger-color;
+                .@{upload-prefix-cls}-list-icons {
+                    color: @danger-color;
+                }
+            }
+            &:hover {
+                background-color: @upload-item-hover-color;
+                .@{upload-prefix-cls}-list-icons {
+                    &-close {
+                        display: inline-block;
+                    }
+                }
+            }
+        }
+    }
+}
