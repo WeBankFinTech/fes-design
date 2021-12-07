@@ -1,0 +1,44 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin.less';
+
+@divider-prefix-cls: ~'@{cls-prefix}-divider';
+
+.@{divider-prefix-cls} {
+    position: relative;
+    display: flex;
+    width: 100%;
+    background-color: @border-color-split;
+    &:not(.is-vertical){
+        height: 1px;
+        margin-top: @padding-lg;
+        margin-bottom: @padding-lg;
+        .@{divider-prefix-cls}-text {
+            position: absolute;
+            padding: 0 @padding-md;
+            color: @head-color;
+            font-weight: @font-weight-medium;
+            font-size: @font-size-head;
+            background-color: @white;
+            transform: translateY(-50%);
+            &.is-left {
+                left: @padding-lg;
+            }
+            &.is-right {
+                right: @padding-lg;
+            }
+            &.is-center {
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+    }
+    &.is-vertical {
+        position: relative;
+        display: inline-block;
+        width: 1px;
+        height: 1em;
+        margin: 0 @padding-xs;
+        vertical-align: middle;
+    }
+}
