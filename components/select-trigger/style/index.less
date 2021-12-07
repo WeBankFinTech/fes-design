@@ -1,0 +1,82 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin.less';
+
+@select-trigger-prefix-cls: ~'@{cls-prefix}-select-trigger';
+@select-height: @data-input-height-base;
+@select-disabled-bg: @component-background;
+@select-placeholder-color: @border-color-base;
+
+.@{select-trigger-prefix-cls} {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: @select-height;
+    padding: (@padding-xs / 2) @padding-xs;
+    line-height: @line-height-base;
+    background-color: @white;
+    border: @border-base;
+    border-radius: @border-radius-base;
+    outline: 0;
+    &:hover {
+        border-color: @primary-color;
+    }
+    &.is-active {
+        border-color: @primary-color;
+        box-shadow: 0 0 0 2px fade(@primary-color, 20%);
+    }
+    &.is-disabled {
+        background: @select-disabled-bg;
+        border-color: @border-color-base;
+        cursor: not-allowed;
+        .@{select-trigger-prefix-cls}-icons {
+            color: fade(@select-placeholder-color, 60%);
+        }
+    }
+    &.is-multiple {
+        padding: (@padding-xs / 2 - 1px) @padding-xs;
+    }
+    & &-icons {
+        display: flex;
+        align-items: center;
+        margin-left: @padding-xs;
+        color: @select-placeholder-color;
+        font-size: @font-size-body;
+        .@{select-trigger-prefix-cls}-icon {
+            padding: 1px;
+        }
+    }
+    & &-label {
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+        max-width: calc(100% - @padding-xs - @font-size-body - 2px);
+        color: @text-color;
+        &-item {
+            display: flex;
+            align-items: center;
+            max-width: 100%;
+            color: @text-color;
+        }
+        &.is-multiple {
+            flex-wrap: wrap;
+            gap: (@padding-xs / 2 - 1px) (@padding-xs / 2);
+        }
+        &-placeholder {
+            flex: 1;
+            min-width: 40px;
+            max-width: 100%;
+            overflow: hidden;
+        }
+        &-input {
+            width: 100%;
+            border: none;
+            outline: none;
+            &::placeholder {
+                color: @select-placeholder-color;
+            }
+        }
+    }
+}
