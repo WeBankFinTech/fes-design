@@ -1,0 +1,96 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin.less';
+
+@cascader-prefix-cls: ~'@{cls-prefix}-cascader';
+
+@select-option-hover-color: @hover-color-light;
+@select-dropdown-height: 234px;
+@select-dropdown-min-width: 160px;
+@select-dropdown-max-width: 250px;
+@select-height: @data-input-height-base;
+
+.@{cascader-prefix-cls} {
+    &-panel {
+        position: relative;
+        display: flex;
+        .default();
+        .text();
+        border-radius: @border-radius-base;
+    }
+    &-menu {
+        box-sizing: border-box;
+        min-width: @select-dropdown-min-width;
+        max-width: @select-dropdown-max-width;
+        color: @text-color;
+        border-right: 1px solid @border-color-split;
+    }
+    &-menu-list {
+        position: relative;
+        box-sizing: border-box;
+        height: @select-dropdown-height;
+        min-height: 100%;
+        margin: 0;
+        padding: 6px 0;
+        list-style: none;
+    }
+    &-menu-null {
+        margin: 10px 0;
+        text-align: center;
+    }
+    &-node {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: @select-height;
+        padding: 0 20px 0 10px;
+        line-height: @select-height;
+        outline: none;
+
+        &:hover {
+            background: @select-option-hover-color;
+        }
+        &:focus {
+            background: @select-option-hover-color;
+        }
+
+        &.is-disabled {
+            color: @text-color-disabled;
+            background: @white;
+            cursor: not-allowed;
+        }
+        &.is-checked {
+            color: @primary-color;
+            font-weight: @font-weight-medium;
+        }
+        &.in-active-path {
+            color: @primary-color;
+            background: @select-option-hover-color;
+
+            &.is-disabled {
+                opacity: 0.5;
+            }
+        }
+    }
+    &-node-icon-check {
+        position: absolute;
+        right: 10px;
+    }
+    &-node-icon-arrow {
+        position: absolute;
+        right: 10px;
+    }
+    &-node-content {
+        flex: 1;
+        max-width: ;
+        padding-right: 10px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-align: left;
+        text-overflow: ellipsis;
+
+        &.is-multiple {
+            padding-left: 10px;
+        }
+    }
+}
