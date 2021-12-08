@@ -8,7 +8,7 @@ returnToTop: false
 <ClientOnly>
   <section id="hero">
     <div class="descrition">
-      <img class="logo-img" :src="withBase('./images/logo.png')">
+      <img class="logo-img" :src="withBase('./images/fes-logo.png')">
       <h3>微众银行中后台设计 Fes Design</h3>
     </div>
     <p class="actions">
@@ -37,8 +37,8 @@ import { withBase } from 'vitepress'
     justify-content: center;
 }
 .descrition .logo-img {
-    width: 300px;
-    height: 258px;
+    width: 362px;
+    height: 233px;
 }
 .descrition h3 {
     font-size: 36px;
@@ -48,10 +48,10 @@ import { withBase } from 'vitepress'
     text-align: center;
 }
 .actions a {
-  font-size: 16px;
+  font-size: 18px;
   display: inline-block;
   background-color: #5384ff;
-  padding: 8px 18px;
+  padding: 10px 24px;
   font-weight: 500;
   border-radius: 8px;
   transition: background-color 0.5s, color 0.5s;
@@ -61,7 +61,8 @@ import { withBase } from 'vitepress'
 .actions .get-started {
   font-weight: 600;
   color: #fff;
-  background: linear-gradient(135deg, #5384ff, #f5222d);
+  /* background: linear-gradient(135deg, #5384ff, #f5222d); */
+  background: #5384ff;
 }
 
 

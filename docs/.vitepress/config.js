@@ -71,7 +71,7 @@ module.exports = {
     },
     themeConfig: {
         highlight: baseConfig.highlight,
-        logo: `${BASE_URL}images/logo.png`,
+        logo: `${BASE_URL}images/fes-logo.png`,
         nav: navbar.zh,
         sidebar: sidebar.zh,
     },
