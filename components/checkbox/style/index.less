@@ -1,0 +1,89 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin.less';
+
+@checkbox-prefix-cls: ~'@{cls-prefix}-checkbox';
+@checkbox-disabled-bg: @component-background;
+
+.@{checkbox-prefix-cls} {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    .default();
+    .text();
+    cursor: pointer;
+    &.is-item {
+        margin-right: 30px;
+    }
+    &.is-item-vertical {
+        display: block;
+        margin-right: 0;
+    }
+    &-inner {
+        position: relative;
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        line-height: 1;
+        vertical-align: middle;
+        background: @white;
+        border: @border-base;
+        border-radius: @border-radius-sm;
+        transition: all @animation-duration-base @ease-base-in;
+    }
+    &-content{
+        display: inline-block;
+        margin-left: @padding-xs;
+    }
+    &.is-hover{
+        .@{checkbox-prefix-cls}-inner {
+            border-color: @primary-color;
+        }
+    }
+    &.is-checked{
+        .@{checkbox-prefix-cls}-inner {
+            background: @primary-color;
+            border-color: @primary-color;
+            &::before {
+                .checkbox-inner()
+            }
+        }
+    }
+    &.is-indeterminate {
+        .@{checkbox-prefix-cls}-inner {
+            background: @primary-color;
+            border-color: @primary-color;
+            &::before {
+                .checkbox-inner();
+                width: 8px;
+                height: 1px;
+                background: @white;
+                border: none;
+                transform: translate(-50%, -50%) rotate(0);
+            }
+        }
+    }
+    &.is-disabled{
+        color: @border-color-base;
+        cursor: not-allowed;
+        .@{checkbox-prefix-cls}-inner {
+            background: @checkbox-disabled-bg;
+            border-color: @border-color-base;
+        }
+        &.is-checked{
+            .@{checkbox-prefix-cls}-inner {
+                background: @border-color-base;
+                border-color: @border-color-base;
+                &::before {
+                    .checkbox-inner()
+                }
+            }
+        }
+        &.is-indeterminate{
+            .@{checkbox-prefix-cls}-inner {
+                background: @border-color-base;
+                border-color: @border-color-base;
+            }
+        }
+    }
+}

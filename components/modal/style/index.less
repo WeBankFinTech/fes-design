@@ -1,0 +1,167 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin.less';
+
+
+@modal-prefix-cls: ~'@{cls-prefix}-modal';
+
+.@{modal-prefix-cls} {
+    .default();
+    .text();
+    &-open {
+        position: fixed;
+        overflow: hidden;
+    }
+    &-mask {
+        .fixed-full();
+        background: @text-color-secondary;
+    }
+
+    &-container {
+        .fixed-full();
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding-top: 0;
+        overflow: auto;
+
+        &.@{modal-prefix-cls}-center {
+            text-align: center;
+
+            .@{modal-prefix-cls}-wrapper {
+                padding: @padding-md + @padding-xs @padding-md;;
+            }
+            
+            .@{modal-prefix-cls}-header {
+                justify-content: center;
+            }
+
+            .@{modal-prefix-cls}-footer {
+                text-align: center;
+            }
+        }
+
+        &.@{modal-prefix-cls}-global {
+            .@{modal-prefix-cls}-body {
+                padding-left: @padding-xs + @font-size-title;
+            }
+        }
+    }
+
+    &-fullscreen {
+        padding: 0;
+        
+        .@{modal-prefix-cls}-wrapper {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+        }
+
+        .@{modal-prefix-cls}-body {
+            flex: 1;
+        }
+
+    }
+    
+    &-wrapper {
+        position: relative;
+        padding: @padding-md + @padding-xs;
+        background: @body-background;
+        border-radius: @border-radius-base;
+        box-shadow: @shadow-down;
+    }
+    
+    &-header {
+        display: flex;
+        padding-bottom: @padding-md;
+        color: @head-color;
+        font-weight: @font-weight-medium;
+        font-size: @font-size-head;
+
+        .@{modal-prefix-cls}-icon {
+            display: flex;
+            align-items: center;
+            padding-right: @padding-xs;
+            font-size: @font-size-title;
+        }
+
+        .@{modal-prefix-cls}-status-info {
+            .status(@primary-color);
+        }
+
+        .@{modal-prefix-cls}-status-success {
+            .status(@success-color);
+        }
+
+        .@{modal-prefix-cls}-status-error {
+            .status(@danger-color);
+        }
+
+        .@{modal-prefix-cls}-status-confirm,
+        .@{modal-prefix-cls}-status-warning {
+            .status(@warning-color);
+        }
+    }
+
+    &-body {
+        padding: @padding-xs 0;
+        color: @sub-head-color;
+        font-size: @font-size-base;
+    }
+
+    &-footer {
+        padding-top: @padding-md;
+        text-align: right;
+
+        .btn-margin {
+            margin-right: @padding-md;
+        }
+    }
+
+    &-no-header {
+        .@{modal-prefix-cls}-body {
+            padding-top: 0;
+        }
+    }
+
+    &-no-footer {
+        .@{modal-prefix-cls}-body {
+            padding-bottom: 0;
+        }
+    }
+
+    &-close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0 @padding-md;
+        color: @text-color-disabled-light;
+        font-size: @font-size-head;
+        line-height: 40px;
+        cursor: pointer;
+    }
+
+    &-mask-fade-leave-active,
+    &-mask-fade-enter-active {
+        transition: opacity @animation-duration-slow @ease-base-in;
+    }
+    
+    &-mask-fade-leave-to,
+    &-mask-fade-enter-from {
+        opacity: 0;
+    }
+
+    &-fade-leave-active,
+    &-fade-enter-active {
+        transition: all @animation-duration-slow @ease-base-out;
+    }
+    
+    &-fade-leave-to,
+    &-fade-enter-from {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+}

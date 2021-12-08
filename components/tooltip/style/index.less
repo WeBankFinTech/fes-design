@@ -1,0 +1,56 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin.less';
+
+
+@tooltip-prefix-cls: ~'@{cls-prefix}-tooltip';
+
+.@{tooltip-prefix-cls} {
+    .default();
+    .text();
+    padding: @padding-xs;
+    border-radius: @border-radius-base;
+    &-text {
+        color: @white;
+        background-color: tint(@font-color, 30%);
+    }
+
+    &-confirm, &-popover  {
+        padding: @padding-md;
+        background-color: @white;
+    }
+
+    &-modal {
+        &-header {
+            display: flex;
+            font-weight: @font-weight-medium;
+            font-size: @font-size-head;
+
+            &.is-confirm {
+                font-weight: @font-weight-regular;
+                font-size: @font-size-base;
+            }
+        }
+        
+        &-icon {
+            display: flex;
+            align-items: center;
+            padding-right: @padding-xs;
+            color: @warning-color;
+        }
+
+        &-body {
+            &.has-header {
+                margin-top: @padding-md;
+            }
+            &.is-confirm {
+                padding-left: @padding-lg - 2;
+            }
+        }
+
+        &-btn {
+            float: right;
+            margin: @padding-md 0 0 @padding-xs;
+        }
+    }
+}

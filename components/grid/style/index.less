@@ -1,0 +1,39 @@
+@import '../../style/themes/index';
+@import './mixin.less';
+
+@row-prefix-cls: ~'@{cls-prefix}-grid';
+@col-prefix-cls: ~'@{cls-prefix}-grid-item';
+
+.@{row-prefix-cls} {
+    position: relative;
+    display: flex;
+}
+
+.@{col-prefix-cls} {
+    position: relative;
+    display: block;
+    max-width: 100%;
+    min-height: 1px;
+    .@{col-prefix-cls}-0 {
+        display: none;
+    }
+}
+
+each(range(24), {
+    .@{col-prefix-cls}-@{value} {
+        flex: 0 0 (@value / 24 * 100%);
+        max-width: (@value / 24 * 100%);
+    }
+    .@{col-prefix-cls}-offset-@{value} {
+        margin-left: (@value / 24 * 100%);
+    }
+    .@{col-prefix-cls}-pull-@{value} {
+        right: (@value / 24 * 100%);
+    }
+    .@{col-prefix-cls}-push-@{value} {
+        left: (@value / 24 * 100%);
+    }
+    .@{col-prefix-cls}-order-@{value} {
+        order: @value;
+    }
+});

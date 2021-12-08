@@ -1,0 +1,81 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin.less';
+
+@switch-prefix: ~'@{cls-prefix}-switch';
+@switch-inner-prefix: ~'@{cls-prefix}-switch-inner';
+@switch-height: 24px;
+@switch-small-height: 16px;
+@switch-inactive-color: @border-color-base;
+@switch-active-color: @primary-color;
+
+
+.@{switch-prefix} {
+    position: relative;
+    display: inline-block;
+    min-width: @switch-height * 2;
+    height: @switch-height;
+    padding-left: @switch-height;
+    line-height: @switch-height;
+    vertical-align: middle;
+    background: @switch-inactive-color;
+    border-radius: (@switch-height / 2);
+    outline: none;
+    cursor: pointer;
+    transition: background-color @animation-duration-base @ease-base-in;
+    user-select: none;
+    &::after {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        display: block;
+        width: @switch-height - 4px;
+        height: @switch-height - 4px;
+        background-color: @white;
+        border-radius: 50%;
+        transition: all @animation-duration-base @ease-base-in;
+        content: '';
+    }
+    .@{switch-inner-prefix} {
+        display: block;
+        margin-right: @padding-xs;
+        margin-left: 2px;
+        color: @white;
+        font-size: @font-size-base;
+    }
+    &.is-checked {
+        padding-right: @switch-height;
+        padding-left: 0;
+        background: @switch-active-color;
+        .@{switch-inner-prefix} {
+            margin-right: 2px;
+            margin-left: @padding-xs;
+        }
+        &::after {
+            left: 100%;
+            margin-left: -2px;
+            transform: translateX(-100%);
+        }
+    }
+    &.is-disabled {
+        cursor: default;
+        opacity: 0.4;
+    }
+    &-size-small {
+        min-width: @switch-small-height * 2;
+        height: @switch-small-height;
+        padding-left: @switch-small-height;
+        line-height: @switch-small-height;
+        border-radius: (@switch-small-height / 2);
+        &::after {
+            width: @switch-small-height - 4px;
+            height: @switch-small-height - 4px;
+        }
+        .@{switch-inner-prefix} {
+            font-size: @font-size-caption;
+        }
+        &.is-checked {
+            padding-right: @switch-small-height;
+        }
+    }
+}

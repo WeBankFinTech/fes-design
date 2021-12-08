@@ -1,0 +1,108 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin.less';
+
+@layout-prefix-cls: ~'@{cls-prefix}-layout';
+@header-prefix-cls: ~'@{layout-prefix-cls}-header';
+@main-prefix-cls: ~'@{layout-prefix-cls}-main';
+@footer-prefix-cls: ~'@{layout-prefix-cls}-footer';
+@aside-prefix-cls: ~'@{layout-prefix-cls}-aside';
+@aside-trigger-height: 48px;
+@layout-inverted-background-color: @font-color-base;
+@layout-inverted-font-color: @white;
+
+.@{layout-prefix-cls} {
+    display: flex;
+    .default();
+    .text();
+    flex: 1;
+    flex-basis: auto;
+    flex-direction: row;
+    box-sizing: border-box;
+    min-width: 0;
+    &.is-vertical {
+        flex-direction: column;
+    }
+}
+
+.@{aside-prefix-cls} {
+    position: relative;
+    flex-shrink: 0;
+    overflow: auto;
+    color: @text-color;
+    transition: all @animation-duration-base;
+    &.is-fixed {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        overflow: auto;
+        &.is-placement-left {
+            left: 0;
+        }
+        &.is-placement-right {
+            right: 0;
+        }
+        .@{aside-prefix-cls}-trigger {
+            position: absolute;
+        }
+    }
+    &.is-has-trigger {
+        z-index: @zindex-affix;
+        padding-bottom: @aside-trigger-height;
+    }
+    &.is-inverted {
+        color: @layout-inverted-font-color;
+        background-color: @layout-inverted-background-color;
+        .@{aside-prefix-cls}-trigger {
+            color: @layout-inverted-font-color;
+            background-color: tint(@layout-inverted-background-color, 5%) ;
+            border-top: none;
+        }
+    }
+    &.is-collapsed {
+        overflow: visible;
+    }
+    &-trigger {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: @aside-trigger-height;
+        font-size: @font-size-body;
+        line-height: @aside-trigger-height;
+        text-align: center;
+        border-top: @border-width-base @border-style-base @border-color-split;
+    }
+}
+
+.@{header-prefix-cls} {
+    position: relative;
+    height: 54px;
+    padding: 0 50px;
+    color: @text-color;
+    line-height: 54px;
+    background-color: @white;
+    &.is-inverted {
+        color: @layout-inverted-font-color;
+        background-color: @layout-inverted-background-color;
+    }
+}
+
+.@{main-prefix-cls} {
+    flex: auto;
+    min-height: 0;
+    color: @text-color;
+    font-size: @font-size-body;
+    &.is-embedded {
+        background: @component-background;
+    }
+}
+
+.@{footer-prefix-cls} {
+    padding: 24px 50px;
+    color: @text-color;
+    font-size: @font-size-body;
+    &.is-embedded {
+        background: @component-background;
+    }
+}

@@ -1,0 +1,43 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin.less';
+
+
+@message-prefix-cls: ~'@{cls-prefix}-message';
+
+.@{message-prefix-cls}-wrapper {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    z-index: @zindex-message;
+    .default();
+    .text();
+
+    .@{message-prefix-cls} {
+        width: 100%;
+        margin-bottom: 20px;
+        box-shadow: @shadow-down;
+        
+        &-no-colorful {
+            background-color: @body-background;
+            border-width: 0;
+        }
+
+        &-move,
+        &-enter-active {
+            transition: all 0.3s ease;
+        }
+
+        &-leave-active {
+            display: none; // 为了配合TransitionGroup，leave-active时隐藏，其他元素占用其位置，计算前后差异
+            transition: all 0.3s ease;
+        }
+    
+        &-leave-to,
+        &-enter-from {
+            transform: translateY(-30px);
+            opacity: 0;
+        }
+
+    }
+}
