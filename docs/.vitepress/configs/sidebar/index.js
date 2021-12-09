@@ -166,5 +166,16 @@ module.exports = {
                 ]
             }
         ],
+        '/zh/guide/': [
+            {
+                text: '快速上手',
+                items: [
+                    {
+                        text: '指引',
+                        link: '/zh/guide/quick-start'
+                    }
+                ]
+            },
+        ]
     }
 }
