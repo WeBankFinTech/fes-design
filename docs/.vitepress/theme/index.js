@@ -11,10 +11,9 @@ import './IconDoc/index.less';
 import '../../../components/icon/style';
 
 import WIframe from './components/wIframe';
-import NoLayout from './components/noLayout';
 import NotFound from './components/notFound';
 import ComponentDoc from './components/componentDoc';
-import Space from './components/space';
+import Space from './components/space.vue';
 
 import './global.less';
 
