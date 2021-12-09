@@ -29,7 +29,7 @@ import { ERROR_EVENT, CLOSE_EVENT, LOAD_EVENT } from '../_util/constants';
 import { isHtmlElement, getScrollContainer, isInContainer } from '../_util/dom';
 import { noop } from '../_util/utils';
 import { KEY } from './const';
-import Preview from './preview.vue';
+import Preview from './preview';
 
 const prefixCls = getPrefixCls('img');
 

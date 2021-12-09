@@ -1,8 +1,9 @@
 {
-    "name": "fes-design",
+    "name": "@fesjs/fes-design",
     "version": "0.0.1",
     "description": "fes-design",
-    "main": "index.js",
+    "main": "dist/fesDesign.js",
+    "module": "es/index.js",
     "scripts": {
         "prepare": "husky install",
         "docs:dev": "vitepress dev docs",
@@ -21,11 +22,20 @@
         "lint:style": "stylelint 'components/**/*.less' --fix",
         "commit": "git cz"
     },
-    "keywords": [],
+    "files": [
+        "dist",
+        "es",
+        "scripts"
+    ],
+    "keywords": [
+        "fes",
+        "fes-ui",
+        "fes-design"
+    ],
     "author": "",
     "license": "MIT",
     "peerDependencies": {
-        "vue": "^3.0.7"
+        "vue": "^3.2.7"
     },
     "devDependencies": {
         "@babel/core": "^7.16.0",
