@@ -1,7 +1,7 @@
 {
     "name": "@fesjs/fes-design",
     "version": "0.0.1",
-    "description": "fes-design",
+    "description": "fes-design for PC",
     "main": "dist/fesDesign.js",
     "module": "es/index.js",
     "scripts": {
@@ -32,7 +32,7 @@
         "fes-ui",
         "fes-design"
     ],
-    "author": "",
+    "author": "qlin",
     "license": "MIT",
     "peerDependencies": {
         "vue": "^3.2.7"
@@ -111,5 +111,8 @@
         "commitizen": {
             "path": "./node_modules/cz-conventional-changelog"
         }
+    },
+    "publishConfig": {
+        "access": "public"
     }
 }
