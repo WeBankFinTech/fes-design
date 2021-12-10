@@ -1,6 +1,4 @@
-import {
-    defineComponent, Fragment, Teleport, cloneVNode, computed,
-} from 'vue';
+import { defineComponent, Fragment, Teleport, cloneVNode, computed } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { UPDATE_MODEL_EVENT, TRIGGER, PLACEMENT } from '../_util/constants';
 import useClickOutSide from '../_util/use/useClickOutSide';
@@ -75,16 +73,7 @@ export default defineComponent({
         const config = ConfigProvider.getConfig();
         const getContainer = computed(() => props.getContainer || config.getContainer);
         const { slots } = ctx;
-        const {
-            visible,
-            updateVisible,
-            triggerRef,
-            popperRef,
-            arrowRef,
-            update,
-            popperStyle,
-            updateVirtualRect,
-        } = usePopper(props, ctx);
+        const { visible, updateVisible, triggerRef, popperRef, arrowRef, update, popperStyle, updateVirtualRect } = usePopper(props, ctx);
         useClickOutSide([triggerRef, popperRef], {
             callback: () => {
                 updateVisible(false);
@@ -92,12 +81,7 @@ export default defineComponent({
             enable: () => !props.disabled && visible.value,
         });
         useResize(triggerRef, update, props);
-        const { events, onPopperMouseEnter, onPopperMouseLeave } = useTrigger(
-            visible,
-            updateVisible,
-            props,
-            updateVirtualRect,
-        );
+        const { events, onPopperMouseEnter, onPopperMouseLeave } = useTrigger(visible, updateVisible, props, updateVirtualRect);
         const popperClass = computed(() => [prefixCls, props.popperClass].filter(Boolean).join(' '));
         const renderTrigger = () => {
             const vNode = getFirstValidNode(slots.trigger?.(), 1);
@@ -106,10 +90,7 @@ export default defineComponent({
         return () => (
             <Fragment>
                 {renderTrigger()}
-                <Teleport
-                    to={getContainer.value?.()}
-                    disabled={!props.appendToContainer}
-                >
+                <Teleport to={getContainer.value?.()} disabled={!props.appendToContainer}>
                     <div
                         ref={popperRef}
                         v-show={visible.value}
@@ -120,13 +101,7 @@ export default defineComponent({
                         onMouseleave={onPopperMouseLeave}
                     >
                         {slots.default?.()}
-                        {props.arrow && (
-                            <div
-                                data-popper-arrow
-                                ref={arrowRef}
-                                className={`${prefixCls}-arrow`}
-                            ></div>
-                        )}
+                        {props.arrow && <div data-popper-arrow ref={arrowRef} className={`${prefixCls}-arrow`}></div>}
                     </div>
                 </Teleport>
             </Fragment>

@@ -1,6 +1,7 @@
 
 
 import * as Icons from './icons';
+import { FMessage } from 'fes-design'
 
 const copyToClipboard = (content) => {
     const input = document.createElement('input');
@@ -16,8 +17,8 @@ const copyToClipboard = (content) => {
 
 
 const IconItem = (props, { slots }) => {
-    // TODO 复制成功提示
     const copyIconCode = () => {
+        FMessage.success(`复制成功 <${props.name} />`);
         copyToClipboard(`<${props.name} />`);
     };
     return (
@@ -30,7 +31,7 @@ const IconItem = (props, { slots }) => {
 
 
 export default () => (
-        <div class="icon-doc">
-            {Object.keys(Icons).map(key => (<IconItem name={key}>{Icons[key]()}</IconItem>))}
-        </div>
+    <div class="icon-doc">
+        {Object.keys(Icons).map(key => (<IconItem name={key}>{Icons[key]()}</IconItem>))}
+    </div>
 );

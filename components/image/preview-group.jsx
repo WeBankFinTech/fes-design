@@ -1,5 +1,5 @@
 import { ref, reactive, provide, defineComponent } from 'vue';
-import Preview from './preview.vue';
+import Preview from './preview';
 import { KEY } from './const';
 
 let prevOverflow = '';

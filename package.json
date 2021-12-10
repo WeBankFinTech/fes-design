@@ -1,15 +1,16 @@
 {
-    "name": "fes-design",
+    "name": "@fesjs/fes-design",
     "version": "0.0.1",
-    "description": "fes-design",
-    "main": "index.js",
+    "description": "fes-design for PC",
+    "main": "dist/fesDesign.js",
+    "module": "es/index.js",
     "scripts": {
         "prepare": "husky install",
         "docs:dev": "vitepress dev docs",
         "docs:build": "vitepress build docs",
         "docs:serve": "vitepress serve docs --port 8999",
-        "test": "yarn jest",
-        "test:watch": "yarn jest --watch",
+        "test": "npm run jest",
+        "test:watch": "npm run jest --watch",
         "gen": "node scripts/createComponent.mjs",
         "build:version": "node scripts/genVersion.js",
         "build:esm": "node scripts/build-esm.js",
@@ -19,13 +20,23 @@
         "commitlint": "commitlint --config commitlint.config.js -e -V",
         "lint:script": "eslint --ext .js,.ts,.vue,.jsx ./components --fix",
         "lint:style": "stylelint 'components/**/*.less' --fix",
-        "commit": "git cz"
+        "commit": "git cz",
+        "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
     },
-    "keywords": [],
-    "author": "",
-    "license": "MIT",
+    "exports": {
+        ".": "./es/index.js",
+        "./es/*": "./es/*",
+        "./dist/*": "./dist/*",
+        "./icon": "./es/icon/index.js"
+    },
+    "files": [
+        "dist",
+        "es",
+        "scripts",
+        "types.d.ts"
+    ],
     "peerDependencies": {
-        "vue": "^3.0.7"
+        "vue": "^3.2.7"
     },
     "devDependencies": {
         "@babel/core": "^7.16.0",
@@ -43,16 +54,20 @@
         "@vue/compiler-sfc": "^3.2.23",
         "@vue/repl": "^0.4.3",
         "@vue/test-utils": "^2.0.0-rc.6",
-        "@vue/theme": "^0.1.13",
+        "@vue/theme": "0.1.13",
         "@webank/eslint-config-webank": "^1.1.5",
         "autoprefixer": "^10.4.0",
         "babel-jest": "^26.6.3",
         "browserslist": "^4.18.1",
+        "chalk": "^4.1.0",
         "cheap-watch": "^1.0.4",
         "commitizen": "^4.2.4",
+        "conventional-changelog-cli": "^2.1.1",
         "csso": "^4.2.0",
         "cz-conventional-changelog": "^3.3.0",
+        "enquirer": "^2.3.6",
         "escape-html": "^1.0.3",
+        "execa": "^6.0.0",
         "fs-extra": "^10.0.0",
         "husky": "^7.0.2",
         "jest": "^26.6.3",
@@ -60,12 +75,14 @@
         "less": "^4.1.1",
         "less-loader": "^7.3.0",
         "lint-staged": "^11.1.2",
+        "minimist": "^1.2.5",
         "postcss": "^8.3.11",
         "prettier": "^2.4.1",
         "prismjs": "^1.25.0",
         "rollup": "^2.60.1",
         "rollup-plugin-postcss": "^4.0.1",
         "rollup-plugin-vue": "^6.0.0",
+        "semver": "^7.3.5",
         "stylelint": "^14.1.0",
         "stylelint-config-prettier": "^9.0.3",
         "stylelint-config-rational-order": "^0.1.2",
@@ -74,12 +91,13 @@
         "stylelint-order": "^5.0.0",
         "svgo": "^2.4.0",
         "terser": "^5.9.0",
-        "vitepress": "^0.20.0",
+        "vitepress": "0.20.0",
         "vue": "^3.2.23",
         "vue-jest": "5.0.0-alpha.8"
     },
     "dependencies": {
         "@babel/runtime": "^7.16.3",
+        "@juggle/resize-observer": "^3.3.1",
         "@popperjs/core": "^2.4.0",
         "@vue/shared": "^3.2.19",
         "@vueuse/core": "^6.7.5",
@@ -101,5 +119,24 @@
         "commitizen": {
             "path": "./node_modules/cz-conventional-changelog"
         }
-    }
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "keywords": [
+        "fes",
+        "fes-ui",
+        "fes-design"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/WeBankFinTech/fes-design.git"
+    },
+    "author": "qlin",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/WeBankFinTech/fes-design/issues"
+    },
+    "homepage": "https://github.com/WeBankFinTech/fes-design#readme",
+    "types": "types.d.ts"
 }

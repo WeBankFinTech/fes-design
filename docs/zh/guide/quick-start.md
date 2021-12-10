@@ -1,16 +1,8 @@
-<p align="center">
-  <a href="">
-    <img width="362" src="./docs/public/images/fes-logo.png">
-  </a>
-</p>
+# 指引
 
-<h1 align="center">Fes Design</h1>
+`fes-design` 为 `vue3` 组件库，不支持 `vue2`。
 
-<div align="center">
-
-一个 vue3 组件库。
-
-## Install
+## 安装
 
 ```bash
 npm i @fesjs/fes-design
@@ -20,9 +12,9 @@ npm i @fesjs/fes-design
 pnpm i @fesjs/fes-design
 ```
 
-## Usage
+## 在 SFC 中使用
 
-```js
+```vue
 <template>
     <FButton type="primary">Primary</FButton>
     <CloseCircleFilled />
@@ -34,7 +26,7 @@ import {CloseCircleFilled} from '@fesjs/fes-design/icon';
 </script>
 ```
 
-### 按需加载（临时方案）
+## 按需加载（临时方案）
 
 配置 `babel-plugin-import`。
 
@@ -59,3 +51,7 @@ import {CloseCircleFilled} from '@fesjs/fes-design/icon';
     ]
 }
 ```
+
+
+
+

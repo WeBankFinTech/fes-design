@@ -34,6 +34,14 @@
         padding-left: @padding-xs + 14px;
     }
 
+
+    &-message-center {
+        text-align: center;
+        .@{alert-prefix-cls}-head-message {
+            justify-content: center;
+        }
+    }
+
     &-head {
         position: relative;
         display: flex;
@@ -48,10 +56,6 @@
                 align-items: center;
                 padding-right: @padding-xs;
             }
-        }
-
-        &-message-center {
-            justify-content: center;
         }
 
         &-right {
