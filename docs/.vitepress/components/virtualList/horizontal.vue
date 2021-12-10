@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="virtual-container">
     <FVirtualList class="list-horizontal scroll-touch"
           :data-key="'id'"
           :data-sources="items"
@@ -50,13 +50,13 @@ export default {
 </script>
 
 <style lang="less">
-.container {
-    border: 1px solid #eee;
+.virtual-container {
     padding: 20px;
     margin-top: 20px;
 }
 .list-horizontal {
   width: 100%;
+  height: 120px;
   overflow-x: auto;
   display: flex; 
 

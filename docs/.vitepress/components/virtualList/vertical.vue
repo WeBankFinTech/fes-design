@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="virtual-container">
      <FVirtualList class="list-dynamic scroll-touch"
           :data-key="'id'"
           :data-sources="items"
@@ -79,10 +79,12 @@ export default {
 </script>
 
 <style lang="less">
-.container {
-    border: 1px solid #eee;
+.virtual-container {
     padding: 20px;
     margin-top: 20px;
+    .fes-scrollbar-track-thumb{
+        background-color: aliceblue;
+    }
 }
 .list-dynamic {
   width: 100%;
