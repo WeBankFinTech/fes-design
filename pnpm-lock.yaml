@@ -8,6 +8,7 @@ specifiers:
   '@babel/runtime': ^7.16.3
   '@commitlint/cli': ^13.1.0
   '@commitlint/config-conventional': ^13.1.0
+  '@juggle/resize-observer': ^3.3.1
   '@popperjs/core': ^2.4.0
   '@rollup/plugin-babel': ^5.3.0
   '@rollup/plugin-commonjs': ^21.0.1
@@ -68,6 +69,7 @@ specifiers:
 
 dependencies:
   '@babel/runtime': 7.16.3
+  '@juggle/resize-observer': 3.3.1
   '@popperjs/core': 2.11.0
   '@vue/shared': 3.2.24
   '@vueuse/core': 6.9.2_vue@3.2.24
@@ -1905,6 +1907,10 @@ packages:
       '@types/yargs': 15.0.14
       chalk: 4.1.2
     dev: true
+
+  /@juggle/resize-observer/3.3.1:
+    resolution: {integrity: sha1-tQp4FwnIHhBwEAQhQ0DyVHWhcaA=, tarball: '@juggle/resize-observer/download/@juggle/resize-observer-3.3.1.tgz'}
+    dev: false
 
   /@mrmlnc/readdir-enhanced/2.2.1:
     resolution: {integrity: sha1-UkryQNGjYFJ7cwR17PoTRKpUDd4=, tarball: '@mrmlnc/readdir-enhanced/download/@mrmlnc/readdir-enhanced-2.2.1.tgz'}

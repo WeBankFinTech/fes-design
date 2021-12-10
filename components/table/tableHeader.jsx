@@ -11,11 +11,7 @@ export default {
         fixedColumn: Object,
     },
     setup(props) {
-        const {
-            prefixCls,
-            headerStyle,
-            layout,
-        } = inject(provideKey);
+        const { prefixCls, headerStyle, layout } = inject(provideKey);
 
         return () => (
             <table
@@ -25,7 +21,7 @@ export default {
                 border="0"
                 style={props.fixedColumn ? { width: '100%' } : headerStyle.value}
             >
-                { renderColgroup(layout.widthList.value, props.fixedColumn)}
+                {renderColgroup(layout.widthList.value, props.fixedColumn)}
                 <TableHeaderContent fixedColumn={props.fixedColumn}></TableHeaderContent>
             </table>
         );

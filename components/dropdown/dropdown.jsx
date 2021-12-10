@@ -70,7 +70,7 @@ export default defineComponent({
         const [visible, updateVisible] = useNormalModel(props, emit, {
             prop: 'visible',
         });
-        const hasIcon = computed(() => props.options.some(option => option.icon));
+        const hasIcon = computed(() => props.options.some((option) => option.icon));
         const handleClick = (option) => {
             if (option.disabled) return;
             const value = option[props.valueField];
@@ -81,27 +81,19 @@ export default defineComponent({
             emit('visibleChange', visible.value);
         });
         const renderOptions = () => (
-            <div
-                className={`${prefixCls}-option-wrapper ${
-                    hasIcon.value ? 'has-icon' : ''
-                }`}
-            >
+            <div className={`${prefixCls}-option-wrapper ${hasIcon.value ? 'has-icon' : ''}`}>
                 {props.options.map((option) => {
-                    const optionClassList = [
-                        `${prefixCls}-option`,
-                        option.disabled && 'is-disabled',
-                    ]
-                        .filter(Boolean)
-                        .join(' ');
+                    const optionClassList = [`${prefixCls}-option`, option.disabled && 'is-disabled'].filter(Boolean).join(' ');
                     const label = option[props.labelField];
                     return (
-                        <div className={optionClassList} onClick={() => { handleClick(option); }}>
-                            <span className={`${prefixCls}-option-icon`}>
-                                {option.icon?.()}
-                            </span>
-                            <span className={`${prefixCls}-option-label`}>
-                                {isFunction(label) ? label(option) : label}
-                            </span>
+                        <div
+                            className={optionClassList}
+                            onClick={() => {
+                                handleClick(option);
+                            }}
+                        >
+                            <span className={`${prefixCls}-option-icon`}>{option.icon?.()}</span>
+                            <span className={`${prefixCls}-option-label`}>{isFunction(label) ? label(option) : label}</span>
                         </div>
                     );
                 })}

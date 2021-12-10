@@ -89,7 +89,7 @@ app.use(FTable);
 | emptyText    | 空数据时显示的文本内容，也可以通过 #empty 设置                                | string                                           | -      | `暂无数据` |
 | height       | table 的高度，如果内容过多超出时则表头固定，内容滚动                          | Number                                           | -      | -          |
 | rowKey       | 行数据的 Key，用来优化 Table 的渲染                                           | function(row) / String                           | -      | -          |
-| shoFHeader   | 是否展示表头                                                                  | boolean                                          | -      | `true`     |
+| showHeader   | 是否展示表头                                                                  | boolean                                          | -      | `true`     |
 | spanMethod   | 合并行或列的计算方法                                                          | function({ row, column, rowIndex, columnIndex }) | -      | -          |
 
 ## FTable Slots
