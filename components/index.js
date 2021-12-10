@@ -37,8 +37,12 @@ import { FUpload } from './upload';
 import { FPagination } from './pagination';
 import { FImage, FPreviewGroup } from './image';
 import { FForm, FFormItem } from './form';
-import { FCarousel, FCarouselItem } from './carousel';
-import { FDrawer } from './drawer';
+import { FVirtualList } from './virtual-list';
+
+const ENV = process.env.NODE_ENV;
+if (ENV !== 'production' && ENV !== 'test' && typeof console !== 'undefined' && console.warn && typeof window !== 'undefined') {
+    console.warn('You are using a whole package of fes-design, ' + 'please use https://www.npmjs.com/package/babel-plugin-import to reduce app bundle size.');
+}
 
 const components = [
     FAlert,
@@ -93,6 +97,7 @@ const components = [
     FCarousel,
     FCarouselItem,
     FDrawer,
+    FVirtualList,
 ];
 const install = function (app) {
     components.forEach((component) => {
@@ -154,9 +159,13 @@ export {
     FPreviewGroup,
     FForm,
     FFormItem,
+<<<<<<< HEAD
     FCarousel,
     FCarouselItem,
     FDrawer,
+=======
+    FVirtualList,
+>>>>>>> 0ab7c93 (feat: 添加虚拟列表组件)
 };
 export default {
     version,
