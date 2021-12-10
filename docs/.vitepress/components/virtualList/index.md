@@ -1,4 +1,4 @@
-# VirtualList 虚拟列表 v2
+# VirtualList 虚拟列表
 
 当列表的数据量很大时，使用虚拟列表呈现内容。
 
