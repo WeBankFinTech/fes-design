@@ -32,7 +32,8 @@
     "files": [
         "dist",
         "es",
-        "scripts"
+        "scripts",
+        "types.d.ts"
     ],
     "peerDependencies": {
         "vue": "^3.2.7"
@@ -136,5 +137,6 @@
     "bugs": {
         "url": "https://github.com/WeBankFinTech/fes-design/issues"
     },
-    "homepage": "https://github.com/WeBankFinTech/fes-design#readme"
+    "homepage": "https://github.com/WeBankFinTech/fes-design#readme",
+    "types": "types.d.ts"
 }
