@@ -132,7 +132,8 @@
         "type": "git",
         "url": "git+https://github.com/WeBankFinTech/fes-design.git"
     },
-    "author": "qlin",
+    "sideEffects": false,
+    "author": "winixt",
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/WeBankFinTech/fes-design/issues"

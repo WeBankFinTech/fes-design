@@ -9,6 +9,7 @@
 <div align="center">
 
 一个 vue3 组件库。
+</div>
 
 ## Install
 
