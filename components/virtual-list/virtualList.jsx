@@ -37,9 +37,29 @@ export default defineComponent({
             return props.dataSources.map((dataSource) => (typeof dataKey === 'function' ? dataKey(dataSource) : dataSource[dataKey]));
         };
 
+        const updateHeight = () => {
+            const { padBehind } = rangeRef.value;
+            if (padBehind !== 0) {
+                rangeRef.value.fullHeight = virtual && virtual.getEstimateSize() * props.dataSources.length;
+            }
+        };
+
+        const reSetHeight = () => {
+            const { padBehind } = rangeRef.value;
+            if (padBehind === 0) {
+                rangeRef.value.fullHeight = virtual.getTotalSize();
+                console.log('total size:', virtual.getTotalSize());
+            }
+        };
+
+        onMounted(() => {
+            updateHeight();
+        });
+
         // here is the rerendering entry
         const onRangeChanged = (range) => {
             rangeRef.value = range;
+            updateHeight();
         };
 
         const installVirtual = () => {
@@ -170,6 +190,8 @@ export default defineComponent({
             const clientSize = getClientSize();
             const scrollSize = getScrollSize();
 
+            reSetHeight();
+
             // iOS scroll-spring-back behavior will make direction mistake
             if (offset < 0 || offset + clientSize > scrollSize + 1 || !scrollSize) {
                 return;
@@ -287,11 +309,15 @@ export default defineComponent({
         };
     },
     render() {
-        const { padFront, padBehind } = this.rangeRef;
+        const { padFront, padBehind, fullHeight } = this.rangeRef;
         const { isHorizontal, rootTag, wrapTag, wrapClass, wrapStyle, onScroll } = this;
 
-        const paddingStyle = { padding: isHorizontal ? `0px ${padBehind}px 0px ${padFront}px` : `${padFront}px 0px ${padBehind}px` };
-        const wrapperStyle = wrapStyle ? Object.assign({}, wrapStyle, paddingStyle) : paddingStyle;
+        // const paddingStyle = { padding: isHorizontal ? `0px ${padBehind}px 0px ${padFront}px` : `${padFront}px 0px ${padBehind}px` };
+        const horizontalStyle = { position: 'absolute', left: `${padFront}px`, right: `${padBehind}px` };
+        const verticalStyle = { position: 'absolute', top: `${padFront}px`, bottom: `${padBehind}px` };
+        const extraStyle = isHorizontal ? horizontalStyle : verticalStyle;
+        const wrapperStyle = wrapStyle ? Object.assign({}, wrapStyle, extraStyle) : extraStyle;
+        const rootStyle = isHorizontal ? { position: 'relative', width: `${fullHeight}px` } : { position: 'relative', height: `${fullHeight}px` };
 
         // empty vnode
         const tempEmpty = createVNode('div', {
@@ -308,7 +334,7 @@ export default defineComponent({
             this.onScroll(e);
         };
 
-        const tempVirtualVNode = createVNode(rootTag, {}, [
+        const tempVirtualVNode = createVNode(rootTag, { style: rootStyle }, [
             // 主列表
             createVNode(
                 wrapTag,
