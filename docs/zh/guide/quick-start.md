@@ -25,7 +25,3 @@ import {FButton} from '@fesjs/fes-design';
 import {CloseCircleFilled} from '@fesjs/fes-design/icon';
 </script>
 ```
-
-
-
-
