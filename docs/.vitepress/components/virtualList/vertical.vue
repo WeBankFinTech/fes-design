@@ -82,9 +82,6 @@ export default {
 .virtual-container {
     padding: 20px;
     margin-top: 20px;
-    .fes-scrollbar-track-thumb{
-        background-color: aliceblue;
-    }
 }
 .list-dynamic {
   width: 100%;
