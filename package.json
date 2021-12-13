@@ -1,143 +1,144 @@
 {
-    "name": "@fesjs/fes-design",
-    "version": "0.0.1",
-    "description": "fes-design for PC",
-    "main": "dist/fesDesign.js",
-    "module": "es/index.js",
-    "scripts": {
-        "prepare": "husky install",
-        "docs:dev": "vitepress dev docs",
-        "docs:build": "vitepress build docs",
-        "docs:serve": "vitepress serve docs --port 8999",
-        "test": "npm run jest",
-        "test:watch": "npm run jest --watch",
-        "gen": "node scripts/createComponent.mjs",
-        "build:version": "node scripts/genVersion.js",
-        "build:esm": "node scripts/build-esm.js",
-        "build:umd": "node scripts/build-umd.js",
-        "build": "npm run build:version && npm run build:esm && npm run build:umd",
-        "lint-staged": "lint-staged --allow-empty",
-        "commitlint": "commitlint --config commitlint.config.js -e -V",
-        "lint:script": "eslint --ext .js,.ts,.vue,.jsx ./components --fix",
-        "lint:style": "stylelint 'components/**/*.less' --fix",
-        "commit": "git cz",
-        "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
-    },
-    "exports": {
-        ".": "./es/index.js",
-        "./es/*": "./es/*",
-        "./dist/*": "./dist/*",
-        "./icon": "./es/icon/index.js"
-    },
-    "files": [
-        "dist",
-        "es",
-        "scripts",
-        "types.d.ts"
+  "name": "@fesjs/fes-design",
+  "version": "0.0.2",
+  "description": "fes-design for PC",
+  "main": "dist/fesDesign.js",
+  "module": "es/index.js",
+  "scripts": {
+    "prepare": "husky install",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:serve": "vitepress serve docs --port 8999",
+    "test": "npm run jest",
+    "test:watch": "npm run jest --watch",
+    "gen": "node scripts/createComponent.mjs",
+    "build:version": "node scripts/genVersion.js",
+    "build:esm": "node scripts/build-esm.js",
+    "build:umd": "node scripts/build-umd.js",
+    "build": "npm run build:version && npm run build:esm && npm run build:umd",
+    "release": "node scripts/release.js",
+    "lint-staged": "lint-staged --allow-empty",
+    "commitlint": "commitlint --config commitlint.config.js -e -V",
+    "lint:script": "eslint --ext .js,.ts,.vue,.jsx ./components --fix",
+    "lint:style": "stylelint 'components/**/*.less' --fix",
+    "commit": "git cz",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+  },
+  "exports": {
+    ".": "./es/index.js",
+    "./es/*": "./es/*",
+    "./dist/*": "./dist/*",
+    "./icon": "./es/icon/index.js"
+  },
+  "files": [
+    "dist",
+    "es",
+    "scripts",
+    "types.d.ts"
+  ],
+  "peerDependencies": {
+    "vue": "^3.2.7"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/plugin-syntax-jsx": "^7.16.0",
+    "@babel/plugin-transform-runtime": "^7.16.4",
+    "@babel/preset-env": "^7.16.4",
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.0.6",
+    "@vitejs/plugin-vue-jsx": "^1.1.7",
+    "@vue/babel-plugin-jsx": "^1.1.1",
+    "@vue/compiler-sfc": "^3.2.23",
+    "@vue/repl": "^0.4.3",
+    "@vue/test-utils": "^2.0.0-rc.6",
+    "@vue/theme": "0.1.13",
+    "@webank/eslint-config-webank": "^1.1.5",
+    "autoprefixer": "^10.4.0",
+    "babel-jest": "^26.6.3",
+    "browserslist": "^4.18.1",
+    "chalk": "^4.1.0",
+    "cheap-watch": "^1.0.4",
+    "commitizen": "^4.2.4",
+    "conventional-changelog-cli": "^2.1.1",
+    "csso": "^4.2.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "enquirer": "^2.3.6",
+    "escape-html": "^1.0.3",
+    "execa": "^4.0.2",
+    "fs-extra": "^10.0.0",
+    "husky": "^7.0.2",
+    "jest": "^26.6.3",
+    "jest-transform-stub": "^2.0.0",
+    "less": "^4.1.1",
+    "less-loader": "^7.3.0",
+    "lint-staged": "^11.1.2",
+    "minimist": "^1.2.5",
+    "postcss": "^8.3.11",
+    "prettier": "^2.4.1",
+    "prismjs": "^1.25.0",
+    "rollup": "^2.60.1",
+    "rollup-plugin-postcss": "^4.0.1",
+    "rollup-plugin-vue": "^6.0.0",
+    "semver": "^7.3.5",
+    "stylelint": "^14.1.0",
+    "stylelint-config-prettier": "^9.0.3",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-standard": "^24.0.0",
+    "stylelint-declaration-block-no-ignored-properties": "^2.5.0",
+    "stylelint-order": "^5.0.0",
+    "svgo": "^2.4.0",
+    "terser": "^5.9.0",
+    "vitepress": "0.20.4",
+    "vue": "^3.2.23",
+    "vue-jest": "5.0.0-alpha.8"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.16.3",
+    "@juggle/resize-observer": "^3.3.1",
+    "@popperjs/core": "^2.4.0",
+    "@vue/shared": "^3.2.19",
+    "@vueuse/core": "^6.7.5",
+    "async-validator": "^4.0.1",
+    "lodash-es": "^4.17.21",
+    "normalize-wheel": "^1.0.1",
+    "resize-observer-polyfill": "^1.5.1",
+    "stickybits": "^3.7.9"
+  },
+  "lint-staged": {
+    "components/**/*.{js,ts,vue,jsx}": [
+      "eslint --fix"
     ],
-    "peerDependencies": {
-        "vue": "^3.2.7"
-    },
-    "devDependencies": {
-        "@babel/core": "^7.16.0",
-        "@babel/plugin-syntax-jsx": "^7.16.0",
-        "@babel/plugin-transform-runtime": "^7.16.4",
-        "@babel/preset-env": "^7.16.4",
-        "@commitlint/cli": "^13.1.0",
-        "@commitlint/config-conventional": "^13.1.0",
-        "@rollup/plugin-babel": "^5.3.0",
-        "@rollup/plugin-commonjs": "^21.0.1",
-        "@rollup/plugin-json": "^4.1.0",
-        "@rollup/plugin-node-resolve": "^13.0.6",
-        "@vitejs/plugin-vue-jsx": "^1.1.7",
-        "@vue/babel-plugin-jsx": "^1.1.1",
-        "@vue/compiler-sfc": "^3.2.23",
-        "@vue/repl": "^0.4.3",
-        "@vue/test-utils": "^2.0.0-rc.6",
-        "@vue/theme": "0.1.13",
-        "@webank/eslint-config-webank": "^1.1.5",
-        "autoprefixer": "^10.4.0",
-        "babel-jest": "^26.6.3",
-        "browserslist": "^4.18.1",
-        "chalk": "^4.1.0",
-        "cheap-watch": "^1.0.4",
-        "commitizen": "^4.2.4",
-        "conventional-changelog-cli": "^2.1.1",
-        "csso": "^4.2.0",
-        "cz-conventional-changelog": "^3.3.0",
-        "enquirer": "^2.3.6",
-        "escape-html": "^1.0.3",
-        "execa": "^6.0.0",
-        "fs-extra": "^10.0.0",
-        "husky": "^7.0.2",
-        "jest": "^26.6.3",
-        "jest-transform-stub": "^2.0.0",
-        "less": "^4.1.1",
-        "less-loader": "^7.3.0",
-        "lint-staged": "^11.1.2",
-        "minimist": "^1.2.5",
-        "postcss": "^8.3.11",
-        "prettier": "^2.4.1",
-        "prismjs": "^1.25.0",
-        "rollup": "^2.60.1",
-        "rollup-plugin-postcss": "^4.0.1",
-        "rollup-plugin-vue": "^6.0.0",
-        "semver": "^7.3.5",
-        "stylelint": "^14.1.0",
-        "stylelint-config-prettier": "^9.0.3",
-        "stylelint-config-rational-order": "^0.1.2",
-        "stylelint-config-standard": "^24.0.0",
-        "stylelint-declaration-block-no-ignored-properties": "^2.5.0",
-        "stylelint-order": "^5.0.0",
-        "svgo": "^2.4.0",
-        "terser": "^5.9.0",
-        "vitepress": "0.20.4",
-        "vue": "^3.2.23",
-        "vue-jest": "5.0.0-alpha.8"
-    },
-    "dependencies": {
-        "@babel/runtime": "^7.16.3",
-        "@juggle/resize-observer": "^3.3.1",
-        "@popperjs/core": "^2.4.0",
-        "@vue/shared": "^3.2.19",
-        "@vueuse/core": "^6.7.5",
-        "async-validator": "^4.0.1",
-        "lodash-es": "^4.17.21",
-        "normalize-wheel": "^1.0.1",
-        "resize-observer-polyfill": "^1.5.1",
-        "stickybits": "^3.7.9"
-    },
-    "lint-staged": {
-        "components/**/*.{js,ts,vue,jsx}": [
-            "eslint --fix"
-        ],
-        "components/**/*.{less,css}": [
-            "stylelint --fix"
-        ]
-    },
-    "config": {
-        "commitizen": {
-            "path": "./node_modules/cz-conventional-changelog"
-        }
-    },
-    "publishConfig": {
-        "access": "public"
-    },
-    "keywords": [
-        "fes",
-        "fes-ui",
-        "fes-design"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/WeBankFinTech/fes-design.git"
-    },
-    "sideEffects": false,
-    "author": "winixt",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/WeBankFinTech/fes-design/issues"
-    },
-    "homepage": "https://github.com/WeBankFinTech/fes-design#readme",
-    "types": "types.d.ts"
+    "components/**/*.{less,css}": [
+      "stylelint --fix"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "fes",
+    "fes-ui",
+    "fes-design"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WeBankFinTech/fes-design.git"
+  },
+  "sideEffects": false,
+  "author": "winixt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WeBankFinTech/fes-design/issues"
+  },
+  "homepage": "https://github.com/WeBankFinTech/fes-design#readme",
+  "types": "types.d.ts"
 }

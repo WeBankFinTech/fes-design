@@ -35,7 +35,7 @@ specifiers:
   cz-conventional-changelog: ^3.3.0
   enquirer: ^2.3.6
   escape-html: ^1.0.3
-  execa: ^6.0.0
+  execa: ^4.0.2
   fs-extra: ^10.0.0
   husky: ^7.0.2
   jest: ^26.6.3
@@ -108,7 +108,7 @@ devDependencies:
   cz-conventional-changelog: 3.3.0
   enquirer: 2.3.6
   escape-html: 1.0.3
-  execa: 6.0.0
+  execa: 4.1.0
   fs-extra: 10.0.0
   husky: 7.0.4
   jest: 26.6.3
@@ -4635,21 +4635,6 @@ packages:
       strip-final-newline: 2.0.0
     dev: true
 
-  /execa/6.0.0:
-    resolution: {integrity: sha512-m4wU9j4Z9nXXoqT8RSfl28JSwmMNLFF69OON8H/lL3NeU0tNpGz313bcOfYoBBHokB0dC2tMl3VUcKgHELhL2Q==, tarball: execa/download/execa-6.0.0.tgz?cache=0&sync_timestamp=1637199309855&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fexeca%2Fdownload%2Fexeca-6.0.0.tgz}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dependencies:
-      cross-spawn: 7.0.3
-      get-stream: 6.0.1
-      human-signals: 3.0.1
-      is-stream: 3.0.0
-      merge-stream: 2.0.0
-      npm-run-path: 5.0.1
-      onetime: 6.0.0
-      signal-exit: 3.0.6
-      strip-final-newline: 3.0.0
-    dev: true
-
   /execall/1.0.0:
     resolution: {integrity: sha1-c9CQTjlbPKsGWLCNCewlMH8pu3M=, tarball: execall/download/execall-1.0.0.tgz}
     engines: {node: '>=0.10.0'}
@@ -5421,11 +5406,6 @@ packages:
     engines: {node: '>=10.17.0'}
     dev: true
 
-  /human-signals/3.0.1:
-    resolution: {integrity: sha1-x0CSCFna+lDloyItqdO/S7Dl7vU=, tarball: human-signals/download/human-signals-3.0.1.tgz}
-    engines: {node: '>=12.20.0'}
-    dev: true
-
   /husky/7.0.4:
     resolution: {integrity: sha1-JCBIJF3EnI+xvwzHz7mN1yJTFTU=, tarball: husky/download/husky-7.0.4.tgz}
     engines: {node: '>=12'}
@@ -5865,11 +5845,6 @@ packages:
   /is-stream/2.0.1:
     resolution: {integrity: sha1-+sHj1TuXrVqdCunO8jifWBClwHc=, tarball: is-stream/download/is-stream-2.0.1.tgz}
     engines: {node: '>=8'}
-    dev: true
-
-  /is-stream/3.0.0:
-    resolution: {integrity: sha1-5r/XqmvvafT0cs6btoHj5XtDGaw=, tarball: is-stream/download/is-stream-3.0.0.tgz}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dev: true
 
   /is-string/1.0.7:
@@ -7049,7 +7024,7 @@ packages:
     dev: true
 
   /mime/1.6.0:
-    resolution: {integrity: sha1-Ms2eXGRVO9WNGaVor0Uqz/BJgbE=, tarball: mime/download/mime-1.6.0.tgz}
+    resolution: {integrity: sha1-Ms2eXGRVO9WNGaVor0Uqz/BJgbE=, tarball: mime/download/mime-1.6.0.tgz?cache=0&sync_timestamp=1636373388207&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fmime%2Fdownload%2Fmime-1.6.0.tgz}
     engines: {node: '>=4'}
     hasBin: true
     requiresBuild: true
@@ -7064,11 +7039,6 @@ packages:
   /mimic-fn/2.1.0:
     resolution: {integrity: sha1-ftLCzMyvhNP/y3pptXcR/CCDQBs=, tarball: mimic-fn/download/mimic-fn-2.1.0.tgz}
     engines: {node: '>=6'}
-    dev: true
-
-  /mimic-fn/4.0.0:
-    resolution: {integrity: sha1-YKkFUNXLCyOcymXYk7GlOymHHsw=, tarball: mimic-fn/download/mimic-fn-4.0.0.tgz}
-    engines: {node: '>=12'}
     dev: true
 
   /min-indent/1.0.1:
@@ -7279,13 +7249,6 @@ packages:
       path-key: 3.1.1
     dev: true
 
-  /npm-run-path/5.0.1:
-    resolution: {integrity: sha1-dI3WjtfeN3ux9xMsfa/mV75atAA=, tarball: npm-run-path/download/npm-run-path-5.0.1.tgz}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dependencies:
-      path-key: 4.0.0
-    dev: true
-
   /nth-check/2.0.1:
     resolution: {integrity: sha1-Lv4WL1w9oGoolZ+9PbddvuqfD8I=, tarball: nth-check/download/nth-check-2.0.1.tgz}
     dependencies:
@@ -7369,13 +7332,6 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       mimic-fn: 2.1.0
-    dev: true
-
-  /onetime/6.0.0:
-    resolution: {integrity: sha1-fCTBjtH9LpvKS9JoBqM2E8d9NLQ=, tarball: onetime/download/onetime-6.0.0.tgz}
-    engines: {node: '>=12'}
-    dependencies:
-      mimic-fn: 4.0.0
     dev: true
 
   /optionator/0.8.3:
@@ -7573,11 +7529,6 @@ packages:
   /path-key/3.1.1:
     resolution: {integrity: sha1-WB9q3mWMu6ZaDTOA3ndTKVBU83U=, tarball: path-key/download/path-key-3.1.1.tgz}
     engines: {node: '>=8'}
-    dev: true
-
-  /path-key/4.0.0:
-    resolution: {integrity: sha1-KVWI3DruZBVPh3rbnXgLgcVUvxg=, tarball: path-key/download/path-key-4.0.0.tgz}
-    engines: {node: '>=12'}
     dev: true
 
   /path-parse/1.0.7:
@@ -9140,11 +9091,6 @@ packages:
   /strip-final-newline/2.0.0:
     resolution: {integrity: sha1-ibhS+y/L6Tb29LMYevsKEsGrWK0=, tarball: strip-final-newline/download/strip-final-newline-2.0.0.tgz}
     engines: {node: '>=6'}
-    dev: true
-
-  /strip-final-newline/3.0.0:
-    resolution: {integrity: sha1-UolMMT+/8xiDUoCu1g/3Hr8SuP0=, tarball: strip-final-newline/download/strip-final-newline-3.0.0.tgz}
-    engines: {node: '>=12'}
     dev: true
 
   /strip-indent/2.0.0:
