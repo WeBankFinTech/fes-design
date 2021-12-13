@@ -26,7 +26,7 @@ jobs:
       - name: Upload COS
         uses: zkqiang/tencent-cos-action@v0.1.0
         with:
-          args: upload -rs --delete -y ./docs/.vitepress/dist/ /
+          args: upload -rs --delete -y ./docs/.vitepress/dist/ /fes-design
           secret_id: ${{ secrets.QLIN_COS_SECRET_ID }}
           secret_key: ${{ secrets.QLIN_COS_SECRET_KEY }}
           bucket: ${{ secrets.BUCKET }}
