@@ -5,13 +5,14 @@
 
 import { defineComponent, watch, onActivated, onMounted, ref, createVNode, cloneVNode, reactive } from 'vue';
 import Virtual from './virtual';
-import { FVirtualListItem } from './list-item';
+import { FVirtualListItem } from './listItem';
 import { VirtualProps } from './props';
 import WScrollbar from '../scrollbar/scrollbar';
+import { TO_TOP_EVENT, TO_BOTTOM_EVENT, RESIZED_EVENT } from '../_util/constants';
 
 import getPrefixCls from '../_util/getPrefixCls';
 
-const prefixCls = getPrefixCls('virtuallistv2');
+const prefixCls = getPrefixCls('virtuallist');
 
 const SLOT_TYPE = {
     HEADER: 'thead', // string value also use for aria role attribute
@@ -21,7 +22,7 @@ const SLOT_TYPE = {
 export default defineComponent({
     name: 'FVirtualList',
     props: VirtualProps,
-    emits: ['scroll', 'totop', 'tobottom', 'resized'],
+    emits: [TO_TOP_EVENT, TO_BOTTOM_EVENT, RESIZED_EVENT, 'scroll'],
     setup(props, { emit, slots }) {
         const isHorizontal = props.direction === 'horizontal';
         const directionKey = isHorizontal ? 'scrollLeft' : 'scrollTop';
@@ -153,7 +154,7 @@ export default defineComponent({
         // event called when each item mounted or size changed
         const onItemResized = (id, size) => {
             virtual.saveSize(id, size);
-            emit('resized', id, size);
+            emit(RESIZED_EVENT, id, size);
         };
 
         // event called when slot mounted or size changed
@@ -176,9 +177,9 @@ export default defineComponent({
             emit('scroll', evt, virtual.getRange());
 
             if (virtual.isFront() && !!props.dataSources.length && offset - props.topThreshold <= 0) {
-                emit('totop');
+                emit(TO_TOP_EVENT);
             } else if (virtual.isBehind() && offset + clientSize + props.bottomThreshold >= scrollSize) {
-                emit('tobottom');
+                emit(TO_BOTTOM_EVENT);
             }
         };
 
@@ -224,12 +225,13 @@ export default defineComponent({
                             style: itemStyle,
                             class: `${itemClass}${itemClassAdd ? ` ${itemClassAdd(index)}` : ''}`,
                         });
-                        const events = reactive([]);
-                        const eventName = 'itemresized';
-                        events[eventName] = (id, size) => {
-                            onItemResized(id, size);
-                        };
-                        const vNode = cloneVNode(tempNode, { ...events }, true);
+                        const vNode = cloneVNode(
+                            tempNode,
+                            {
+                                onItemResized,
+                            },
+                            true,
+                        );
                         _slots.push(vNode);
                     } else {
                         console.warn(`Cannot get the data-key '${dataKey}' from data-sources.`);

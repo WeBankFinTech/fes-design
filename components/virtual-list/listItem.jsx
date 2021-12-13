@@ -19,7 +19,7 @@ export const FVirtualListItem = defineComponent({
         const getCurrentSize = () => (itemRef.value ? itemRef.value[shapeKey] : 0);
         // tell parent current size identify by unqiue key
         const dispatchSizeChange = () => {
-            attrs.itemresized(props.uniqueKey, getCurrentSize());
+            attrs.onItemResized(props.uniqueKey, getCurrentSize());
         };
 
         onMounted(() => {
@@ -66,8 +66,6 @@ export const FVirtualListItem = defineComponent({
             ],
         );
 
-        const renderNode = () => cloneVNode(tempNode, { ref: itemRef }, true);
-
-        return () => renderNode();
+        return () => cloneVNode(tempNode, { ref: itemRef }, true);
     },
 });
