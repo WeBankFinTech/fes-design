@@ -34,29 +34,3 @@ import {FButton} from '@fesjs/fes-design';
 import {CloseCircleFilled} from '@fesjs/fes-design/icon';
 </script>
 ```
-
-### 按需加载（临时方案）
-
-配置 `babel-plugin-import`。
-
-```js
-{
-    plugins: [
-        [
-            "import",
-            {
-                "libraryName": "@fesjs/fes-design",
-                camel2DashComponentName: false,
-                "customName": (name) => {
-                    name = name.slice(1).replace(/([A-Z])/g, "-$1").toLowerCase().slice(1)
-                    return `@fesjs/fes-design/es/${name}`;
-                },
-                "style": (name) => {
-                    return `${name}/style`;
-                }
-            },
-            'fes-design'
-        ]
-    ]
-}
-```
