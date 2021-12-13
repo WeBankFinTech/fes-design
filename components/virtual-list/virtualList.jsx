@@ -48,7 +48,6 @@ export default defineComponent({
             const { padBehind } = rangeRef.value;
             if (padBehind === 0) {
                 rangeRef.value.fullHeight = virtual.getTotalSize();
-                console.log('total size:', virtual.getTotalSize());
             }
         };
 
@@ -89,7 +88,6 @@ export default defineComponent({
         // return current scroll offset
         const getOffset = () => {
             const root = rootRef.value;
-            // console.log('root: ', Math.ceil(root[directionKey]));
             return root ? Math.ceil(root[directionKey]) : 0;
         };
 
@@ -111,7 +109,6 @@ export default defineComponent({
         const scrollToOffset = (offset) => {
             const root = rootRef.value;
             if (root) {
-                // root[directionKey] = offset;
                 isHorizontal ? root.scrollBy(offset, 0) : root.scrollBy(0, offset); // 解决设置OffsetTop无效的问题
             }
         };
@@ -312,7 +309,6 @@ export default defineComponent({
         const { padFront, padBehind, fullHeight } = this.rangeRef;
         const { isHorizontal, rootTag, wrapTag, wrapClass, wrapStyle, onScroll } = this;
 
-        // const paddingStyle = { padding: isHorizontal ? `0px ${padBehind}px 0px ${padFront}px` : `${padFront}px 0px ${padBehind}px` };
         const horizontalStyle = { position: 'absolute', left: `${padFront}px`, right: `${padBehind}px` };
         const verticalStyle = { position: 'absolute', top: `${padFront}px`, bottom: `${padBehind}px` };
         const extraStyle = isHorizontal ? horizontalStyle : verticalStyle;
