@@ -7,7 +7,7 @@ import { ItemProps } from './props';
 
 // wrapping for item
 export const FVirtualListItem = defineComponent({
-    name: 'virtual-list-item',
+    name: 'FVirtualListItem',
     props: ItemProps,
     setup(props, { attrs }) {
         let resizeObserver = null;

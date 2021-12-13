@@ -62,14 +62,9 @@ export default class Virtual {
         if (this.param) {
             this.checkRange(0, this.param.keeps - 1);
         }
-
-        // benchmark test data
-        // this.__bsearchCalls = 0
-        // this.__getIndexOffsetCalls = 0
     }
 
     destroy() {
-        // console.log('destory');
         this.init();
     }
 
@@ -165,14 +160,11 @@ export default class Virtual {
 
     // calculating range on scroll
     handleScroll(offset) {
-        // console.log('handleScroll : ', offset, this.offset);
         this.direction = offset < this.offset ? DIRECTION_TYPE.FRONT : DIRECTION_TYPE.BEHIND;
         this.offset = offset;
-        // console.log('handleScroll: ', this.direction, this.offset, this.param);
         if (!this.param) {
             return;
         }
-        // console.log(this.direction);
         if (this.direction === DIRECTION_TYPE.FRONT) {
             this.handleFront();
         } else if (this.direction === DIRECTION_TYPE.BEHIND) {
@@ -180,11 +172,8 @@ export default class Virtual {
         }
     }
 
-    // ----------- public method end -----------
-
     handleFront() {
         const overs = this.getScrollOvers();
-        // console.log('overs:', overs);
         // should not change range if start doesn't exceed overs
         if (overs > this.range.start) {
             return;
@@ -197,7 +186,6 @@ export default class Virtual {
 
     handleBehind() {
         const overs = this.getScrollOvers();
-        // console.log('behind overs:', overs, this.range.start, this.param.buffer);
         // range should not change if scroll overs within buffer
         if (overs < this.range.start + this.param.buffer) {
             return;
@@ -252,7 +240,6 @@ export default class Virtual {
         let offset = 0;
         let indexSize = 0;
         for (let index = 0; index < givenIndex; index++) {
-            // this.__getIndexOffsetCalls++
             indexSize = this.sizes.get(this.param.uniqueIds[index]);
             offset = offset + (typeof indexSize === 'number' ? indexSize : this.getEstimateSize());
         }
