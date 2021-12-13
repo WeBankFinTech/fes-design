@@ -91,7 +91,7 @@
         "stylelint-order": "^5.0.0",
         "svgo": "^2.4.0",
         "terser": "^5.9.0",
-        "vitepress": "0.20.0",
+        "vitepress": "0.20.4",
         "vue": "^3.2.23",
         "vue-jest": "5.0.0-alpha.8"
     },

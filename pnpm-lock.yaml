@@ -63,7 +63,7 @@ specifiers:
   stylelint-order: ^5.0.0
   svgo: ^2.4.0
   terser: ^5.9.0
-  vitepress: 0.20.0
+  vitepress: 0.20.4
   vue: ^3.2.23
   vue-jest: 5.0.0-alpha.8
 
@@ -132,11 +132,31 @@ devDependencies:
   stylelint-order: 5.0.0_stylelint@14.1.0
   svgo: 2.8.0
   terser: 5.10.0
-  vitepress: 0.20.0_less@4.1.2
+  vitepress: 0.20.4_less@4.1.2
   vue: 3.2.24
   vue-jest: 5.0.0-alpha.8_cabff1f189c63593ab06a9e820f822aa
 
 packages:
+
+  /@algolia/autocomplete-core/1.5.0:
+    resolution: {integrity: sha1-bJHJ3ndI6cEDhGgopY3+kr1NZok=, tarball: '@algolia/autocomplete-core/download/@algolia/autocomplete-core-1.5.0.tgz'}
+    dependencies:
+      '@algolia/autocomplete-shared': 1.5.0
+    dev: true
+
+  /@algolia/autocomplete-preset-algolia/1.5.0_algoliasearch@4.11.0:
+    resolution: {integrity: sha1-YWcfCcDHcTPZuvE1Zxn4N4xIQ3o=, tarball: '@algolia/autocomplete-preset-algolia/download/@algolia/autocomplete-preset-algolia-1.5.0.tgz'}
+    peerDependencies:
+      '@algolia/client-search': ^4.9.1
+      algoliasearch: ^4.9.1
+    dependencies:
+      '@algolia/autocomplete-shared': 1.5.0
+      algoliasearch: 4.11.0
+    dev: true
+
+  /@algolia/autocomplete-shared/1.5.0:
+    resolution: {integrity: sha1-CVgLyJQIoqtfKeMSEg2taPWAGb0=, tarball: '@algolia/autocomplete-shared/download/@algolia/autocomplete-shared-1.5.0.tgz'}
+    dev: true
 
   /@algolia/cache-browser-local-storage/4.11.0:
     resolution: {integrity: sha1-HBaK3QCzmKhg22yGA54zsoQ6lCU=, tarball: '@algolia/cache-browser-local-storage/download/@algolia/cache-browser-local-storage-4.11.0.tgz'}
@@ -1623,12 +1643,28 @@ packages:
     resolution: {integrity: sha1-yKLNjBuzpoVcUYkunb2rXUL+biM=, tarball: '@docsearch/css/download/@docsearch/css-1.0.0-alpha.28.tgz'}
     dev: true
 
+  /@docsearch/css/3.0.0-alpha.42:
+    resolution: {integrity: sha512-AGwI2AXUacYhVOHmYnsXoYDJKO6Ued2W+QO80GERbMLhC7GH5tfvtW5REs/s7jSdcU3vzFoxT8iPDBCh/PkrlQ==, tarball: '@docsearch/css/download/@docsearch/css-3.0.0-alpha.42.tgz'}
+    dev: true
+
   /@docsearch/js/1.0.0-alpha.28:
     resolution: {integrity: sha1-8P3nuKax4dinrh52VcQ9lZtFeys=, tarball: '@docsearch/js/download/@docsearch/js-1.0.0-alpha.28.tgz'}
     dependencies:
       '@docsearch/react': 1.0.0-alpha.28
       preact: 10.6.2
     transitivePeerDependencies:
+      - react
+      - react-dom
+    dev: true
+
+  /@docsearch/js/3.0.0-alpha.42:
+    resolution: {integrity: sha512-8rxxsvFKS5GzDX2MYMETeib4EOwAkoxVUHFP5R4tSENXojhuCEy3np+k3Q0c9WPT+MUmWLxKJab5jyl0jmaeBQ==, tarball: '@docsearch/js/download/@docsearch/js-3.0.0-alpha.42.tgz'}
+    dependencies:
+      '@docsearch/react': 3.0.0-alpha.42
+      preact: 10.6.2
+    transitivePeerDependencies:
+      - '@algolia/client-search'
+      - '@types/react'
       - react
       - react-dom
     dev: true
@@ -1643,6 +1679,21 @@ packages:
       '@francoischalifour/autocomplete-core': 1.0.0-alpha.28
       '@francoischalifour/autocomplete-preset-algolia': 1.0.0-alpha.28
       algoliasearch: 4.11.0
+    dev: true
+
+  /@docsearch/react/3.0.0-alpha.42:
+    resolution: {integrity: sha512-1aOslZJDxwUUcm2QRNmlEePUgL8P5fOAeFdOLDMctHQkV2iTja9/rKVbkP8FZbIUnZxuuCCn8ErLrjD/oXWOag==, tarball: '@docsearch/react/download/@docsearch/react-3.0.0-alpha.42.tgz'}
+    peerDependencies:
+      '@types/react': '>= 16.8.0 < 18.0.0'
+      react: '>= 16.8.0 < 18.0.0'
+      react-dom: '>= 16.8.0 < 18.0.0'
+    dependencies:
+      '@algolia/autocomplete-core': 1.5.0
+      '@algolia/autocomplete-preset-algolia': 1.5.0_algoliasearch@4.11.0
+      '@docsearch/css': 3.0.0-alpha.42
+      algoliasearch: 4.11.0
+    transitivePeerDependencies:
+      - '@algolia/client-search'
     dev: true
 
   /@endemolshinegroup/cosmiconfig-typescript-loader/3.0.2_b67f536f129c730ed129a6d21d223ba9:
@@ -6998,7 +7049,7 @@ packages:
     dev: true
 
   /mime/1.6.0:
-    resolution: {integrity: sha1-Ms2eXGRVO9WNGaVor0Uqz/BJgbE=, tarball: mime/download/mime-1.6.0.tgz?cache=0&sync_timestamp=1636373388207&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fmime%2Fdownload%2Fmime-1.6.0.tgz}
+    resolution: {integrity: sha1-Ms2eXGRVO9WNGaVor0Uqz/BJgbE=, tarball: mime/download/mime-1.6.0.tgz}
     engines: {node: '>=4'}
     hasBin: true
     requiresBuild: true
@@ -9890,18 +9941,20 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitepress/0.20.0_less@4.1.2:
-    resolution: {integrity: sha1-60+Gq7epDp3FLFlftcxjyitxfGA=, tarball: vitepress/download/vitepress-0.20.0.tgz}
+  /vitepress/0.20.4_less@4.1.2:
+    resolution: {integrity: sha512-UzmGxYDkZnSSsQp3yenxpulZCibQDzOo/4ipX6GgIurol21FkFhAqkNwhAK+5pwp1TY4rkaBR5cFmNh02JtrJg==, tarball: vitepress/download/vitepress-0.20.4.tgz}
     engines: {node: '>=12.0.0'}
     hasBin: true
     dependencies:
-      '@docsearch/css': 1.0.0-alpha.28
-      '@docsearch/js': 1.0.0-alpha.28
+      '@docsearch/css': 3.0.0-alpha.42
+      '@docsearch/js': 3.0.0-alpha.42
       '@vitejs/plugin-vue': 1.10.1_vite@2.7.1
       prismjs: 1.25.0
       vite: 2.7.1_less@4.1.2
       vue: 3.2.24
     transitivePeerDependencies:
+      - '@algolia/client-search'
+      - '@types/react'
       - less
       - react
       - react-dom
