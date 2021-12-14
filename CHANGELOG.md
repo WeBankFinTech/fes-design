@@ -1,3 +1,17 @@
+## [0.0.3](https://github.com/WeBankFinTech/fes-design/compare/v0.0.2...v0.0.3) (2021-12-14)
+
+
+### Bug Fixes
+
+* 优化一些细节 ([025c05a](https://github.com/WeBankFinTech/fes-design/commit/025c05a389d45e3120158487f8d4d142d2124949))
+
+
+### Features
+
+* drawer组件 ([fcea35d](https://github.com/WeBankFinTech/fes-design/commit/fcea35d52db36e3bf4d73a96e06d86adb16772e9))
+
+
+
 ## 0.0.2 (2021-12-13)
 
 
