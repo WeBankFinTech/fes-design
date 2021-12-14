@@ -9,11 +9,13 @@ const commonjs = require('@rollup/plugin-commonjs');
 const postcss = require('rollup-plugin-postcss');
 const { minify } = require('terser');
 const csso = require('csso');
+const babel = require('@rollup/plugin-babel');
+const vuePlugin = require('rollup-plugin-vue');
 
 const { compilerCss } = require('./compilerCss');
 
-const SOURCE = path.join(__dirname, '../es/index.js');
-const STYLE_SOURCE = path.join(__dirname, '../es/style.js');
+const SOURCE = path.join(__dirname, '../components/index.js');
+const STYLE_SOURCE = path.join(__dirname, '../components/style.js');
 const OUTPUT_DIR = path.join(__dirname, '../dist');
 
 fse.removeSync(OUTPUT_DIR);
@@ -24,9 +26,27 @@ async function compiler() {
         input: SOURCE,
         plugins: [
             json(),
-            commonjs(),
             nodeResolve({
                 extensions: ['.js', '.vue', '.jsx', '.json'],
+            }),
+            vuePlugin({
+                preprocessStyles: false,
+                target: 'browser',
+            }),
+            commonjs(),
+            babel.babel({
+                targets: 'defaults, Chrome >= 56, not IE 11',
+                babelHelpers: 'runtime',
+                presets: ['@babel/env'],
+                plugins: [
+                    [
+                        '@vue/babel-plugin-jsx',
+                        {
+                            enableObjectSlots: false,
+                        },
+                    ],
+                    ['@babel/plugin-transform-runtime', { useESModules: true }],
+                ],
             }),
             postcss({
                 // plugins: [
@@ -53,7 +73,6 @@ async function compilerCSS() {
     const compressResult = csso.minify(fse.readFileSync(outputFilePath, 'utf-8'));
     fse.outputFileSync(path.join(OUTPUT_DIR, 'fesDesign.min.css'), compressResult.css);
 }
-
 
 compiler();
 compilerCSS();

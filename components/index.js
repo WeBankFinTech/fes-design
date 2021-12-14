@@ -38,6 +38,7 @@ import { FPagination } from './pagination';
 import { FImage, FPreviewGroup } from './image';
 import { FForm, FFormItem } from './form';
 import { FVirtualList } from './virtual-list';
+import { FDrawer } from './drawer';
 
 const ENV = process.env.NODE_ENV;
 if (ENV !== 'production' && ENV !== 'test' && typeof console !== 'undefined' && console.warn && typeof window !== 'undefined') {
@@ -95,6 +96,7 @@ const components = [
     FForm,
     FFormItem,
     FVirtualList,
+    FDrawer,
 ];
 const install = function (app) {
     components.forEach((component) => {
@@ -157,6 +159,7 @@ export {
     FForm,
     FFormItem,
     FVirtualList,
+    FDrawer,
 };
 export default {
     version,

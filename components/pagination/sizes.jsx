@@ -1,6 +1,4 @@
-import {
-    defineComponent,
-} from 'vue';
+import { defineComponent } from 'vue';
 
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
@@ -13,7 +11,8 @@ const prefixCls = getPrefixCls('pagination');
 export default defineComponent({
     name: COMPONENT_NAME.PAGINATION_SIZES,
     components: {
-        FSelect, FOption,
+        FSelect,
+        FOption,
     },
     props: {
         modelValue: {
@@ -27,13 +26,11 @@ export default defineComponent({
     emits: [UPDATE_MODEL_EVENT],
     setup(props, { emit }) {
         const [pageSize] = useNormalModel(props, emit);
-        const renderOptions = () => props.pageSizeOption.map(item => <FOption key={item} value={item} label={`${item} 条/页`}></FOption>);
+        const renderOptions = () => props.pageSizeOption.map((item) => <FOption key={item} value={item} label={`${item}条/页`}></FOption>);
 
         return () => (
             <div className={`${prefixCls}-size`}>
-                <FSelect v-model={pageSize.value}>
-                    {renderOptions()}
-                </FSelect>
+                <FSelect v-model={pageSize.value}>{renderOptions()}</FSelect>
             </div>
         );
     },

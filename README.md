@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="">
+  <a href="https://fes-design-4gvn317r3b6bfe17-1254145788.ap-shanghai.app.tcloudbase.com/">
     <img width="362" src="./docs/public/images/fes-logo.png">
   </a>
 </p>
@@ -9,6 +9,7 @@
 <div align="center">
 
 一个 vue3 组件库。
+</div>
 
 ## Install
 
@@ -34,28 +35,8 @@ import {CloseCircleFilled} from '@fesjs/fes-design/icon';
 </script>
 ```
 
-### 按需加载（临时方案）
+## 反馈
 
-配置 `babel-plugin-import`。
-
-```js
-{
-    plugins: [
-        [
-            "import",
-            {
-                "libraryName": "@fesjs/fes-design",
-                camel2DashComponentName: false,
-                "customName": (name) => {
-                    name = name.slice(1).replace(/([A-Z])/g, "-$1").toLowerCase().slice(1)
-                    return `@fesjs/fes-design/es/${name}`;
-                },
-                "style": (name) => {
-                    return `${name}/style`;
-                }
-            },
-            'fes-design'
-        ]
-    ]
-}
-```
+| Github Issue  | 微信群 | Fes.js开源运营小助手 |
+| --- | --- | --- |
+| [@fesjs/fes.js/fes-design](../../issues) | <img src="https://i.loli.net/2020/09/11/2XhKtPZd6NFVbDE.png" width="250" /> | <img src="https://i.loli.net/2020/09/16/sxwr62CKhmYOUyV.jpg" height="250"/> 

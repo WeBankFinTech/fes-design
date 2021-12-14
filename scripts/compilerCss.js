@@ -6,7 +6,6 @@ const fse = require('fs-extra');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const postcss = require('rollup-plugin-postcss');
 
-
 async function compilerCss(entryPath, outputPath) {
     const bundle = await rollup.rollup({
         input: entryPath,

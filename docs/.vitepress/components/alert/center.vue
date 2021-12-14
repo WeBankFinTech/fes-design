@@ -31,7 +31,7 @@
             closable
             type="error"
             message="错误表达提示内容"
-            description="辅助信息提示内容辅助信息提示内容辅助信息提示内容辅助信息提示内容辅助信息提示内容辅助"
+            description="辅助信息提示内容辅助信息提示内容辅助信息提示内容"
         />
     </div>
 </template>
