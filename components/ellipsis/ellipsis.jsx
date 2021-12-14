@@ -1,6 +1,4 @@
-import {
-    defineComponent, computed, ref, onMounted,
-} from 'vue';
+import { defineComponent, computed, ref, onMounted } from 'vue';
 import { isObject } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import Tooltip from '../tooltip';
@@ -19,7 +17,9 @@ export default defineComponent({
         },
         tooltip: {
             type: [Boolean, Object],
-            default: true,
+            default: {
+                showAfter: 500,
+            },
         },
         triggerClass: {
             type: String,
@@ -34,9 +34,7 @@ export default defineComponent({
     setup(props, { slots }) {
         const triggerRef = ref(null);
         const overflowVisible = ref(false);
-        const classList = computed(() => [prefixCls, props.triggerClass, props.line > 1 && 'is-line-clamp']
-            .filter(Boolean)
-            .join(' '));
+        const classList = computed(() => [prefixCls, props.triggerClass, props.line > 1 && 'is-line-clamp'].filter(Boolean).join(' '));
         const style = computed(() => {
             const _style = props.style;
             if (props.line > 1) {
@@ -44,9 +42,7 @@ export default defineComponent({
             }
             return _style;
         });
-        const tooltipDisabled = computed(
-            () => overflowVisible.value || props.tooltip === false,
-        );
+        const tooltipDisabled = computed(() => overflowVisible.value || props.tooltip === false);
         // 元素可能是隐藏的，当hover时需要重新计算下
         const handleDisabled = () => {
             const { value: trigger } = triggerRef;
@@ -67,25 +63,16 @@ export default defineComponent({
             return {};
         });
         const renderTrigger = () => (
-                <span
-                    ref={triggerRef}
-                    className={classList.value}
-                    style={style.value}
-                    onMouseenter={handleDisabled}
-                >
-                    {slots.default?.()}
-                </span>
+            <span ref={triggerRef} className={classList.value} style={style.value} onMouseenter={handleDisabled}>
+                {slots.default?.()}
+            </span>
         );
         return () => {
             if (tooltipDisabled.value) {
                 return renderTrigger();
             }
             return (
-                <Tooltip
-                    placement="top"
-                    {...toolTipProps.value}
-                    v-slots={toolTipSlots()}
-                >
+                <Tooltip placement="top" {...toolTipProps.value} v-slots={toolTipSlots()}>
                     {renderTrigger()}
                 </Tooltip>
             );
