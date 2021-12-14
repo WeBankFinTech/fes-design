@@ -29,7 +29,7 @@ app.use(FDrawer);
 
 | 属性             | 说明                                                                           | 类型              | 默认值                |
 | ---------------- | ------------------------------------------------------------------------------ | ----------------- | --------------------- |
-| show             | v-model:show，是否显示模态框                                                   | Boolean           | `false`               |
+| show             | v-model:show，是否显示抽屉                                                   | Boolean           | `false`               |
 | displayDirective | 选择渲染使用的指令，if 对应 v-if，show 对应 v-show，使用 show 的时候不会被重置 | string            | `show`                |
 | closable         | 是否显示右上角关闭图标                                                         | Boolean           | `true`                |
 | mask             | 是否显示蒙层                                                                   | Boolean           | `true`                |
