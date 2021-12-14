@@ -1,12 +1,12 @@
 <template>
 <div class="virtual-container">
     <FVirtualList class="list-horizontal scroll-touch"
-          :data-key="'id'"
-          :data-sources="items"
-          :estimate-size="110"
+          :dataKey="'id'"
+          :dataSources="items"
+          :estimateSize="110"
           :direction="'horizontal'"
-          :wrap-class="'wrapper'"
-          :item-class="'list-item-horizontal'"
+          :wrapClass="'wrapper'"
+          :itemClass="'list-item-horizontal'"
         >
         <template #={source}>
             <div class="item-inner-horizontal" v-bind:style="{width: source.size + 'px'}">
