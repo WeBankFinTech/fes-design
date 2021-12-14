@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="">
+  <a href="https://fes-design-4gvn317r3b6bfe17-1254145788.ap-shanghai.app.tcloudbase.com/">
     <img width="362" src="./docs/public/images/fes-logo.png">
   </a>
 </p>
@@ -34,3 +34,9 @@ import {FButton} from '@fesjs/fes-design';
 import {CloseCircleFilled} from '@fesjs/fes-design/icon';
 </script>
 ```
+
+## 反馈
+
+| Github Issue  | 微信群 | Fes.js开源运营小助手 |
+| --- | --- | --- |
+| [@fesjs/fes.js/issues](../../issues) | <img src="https://i.loli.net/2020/09/11/2XhKtPZd6NFVbDE.png" width="250" /> | <img src="https://i.loli.net/2020/09/16/sxwr62CKhmYOUyV.jpg" height="250"/> 
