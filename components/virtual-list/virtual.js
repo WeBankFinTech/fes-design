@@ -15,36 +15,12 @@ const LEADING_BUFFER = 0;
 
 export default class Virtual {
     constructor(param, callUpdate) {
-        this.param = param;
-        // console.log(this.param);
-        this.callUpdate = callUpdate;
-        // size data
-        this.sizes = new Map();
-        this.firstRangeTotalSize = 0;
-        this.firstRangeAverageSize = 0;
-        this.lastCalcIndex = 0;
-        this.fixedSizeValue = 0;
-        this.calcType = CALC_TYPE.INIT;
-
-        // scroll data
-        this.offset = 0;
-        this.direction = '';
-
-        // range data
-        this.range = Object.create(null);
-        if (this.param) {
-            this.checkRange(0, this.param.keeps - 1);
-        }
+        this.init(param, callUpdate);
     }
 
-    init(type) {
-        // param data
-        if (!type) {
-            // console.log('empty init');
-            this.param = null;
-            this.callUpdate = null;
-        }
-
+    init(param = {}, callUpdate = null) {
+        this.param = param;
+        this.callUpdate = callUpdate;
         // size data
         this.sizes = new Map();
         this.firstRangeTotalSize = 0;
@@ -108,7 +84,6 @@ export default class Virtual {
     // save each size map by id
     saveSize(id, size) {
         this.sizes.set(id, size);
-
         // we assume size type is fixed at the beginning and remember first size value
         // if there is no size value different from this at next comming saving
         // we think it's a fixed size list, otherwise is dynamic size list
@@ -201,7 +176,6 @@ export default class Virtual {
         if (offset <= 0) {
             return 0;
         }
-
         // if is fixed type, that can be easily
         if (this.isFixedType()) {
             return Math.floor(offset / this.fixedSizeValue);

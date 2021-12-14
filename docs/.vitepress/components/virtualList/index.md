@@ -28,8 +28,8 @@ app.use(FVirtualList);
 
 | **<span style="width:150px;display:inline-block;">属性</span>** | **类型**  | **描述**                                                               |
 |------------------|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `data-key`       | String\|Function | 从`data-sources`中的每个数据对象获取唯一键。或者使用每个数据源调用函数并返回其唯一键。其值在数据源中必须是唯一的，用于标识每一项的尺寸。 |
-| `data-sources`   | Array[Object]    | 为列表生成的源数组，每个数组数据必须是一个对象，并且具有唯一的key get或generate for`data key`属性。 |
+| `dataKey`       | String\|Function | 从`dataSources`中的每个数据对象获取唯一键。或者使用每个数据源调用函数并返回其唯一键。其值在数据源中必须是唯一的，用于标识每一项的尺寸。 |
+| `dataSources`   | Array[Object]    | 为列表生成的源数组，每个数组数据必须是一个对象，并且具有唯一的key get或generate for`data key`属性。 |
 
 ### 其他属性
 
@@ -48,13 +48,13 @@ app.use(FVirtualList);
       <td>您期望虚拟列表在真实 dom 中保持渲染的项目数量。 </td>
     </tr>
     <tr>
-      <td><code>extra-props</code></td>
+      <td><code>extraProps</code></td>
       <td>Object</td>
       <td>{}</td>
-      <td>分配给组件一些不在<code>data-sources</code>中的属性. 注意: <code>index</code> 和 <code>source</code> 都被内部占用了.</td>
+      <td>分配给组件一些不在<code>dataSources</code>中的属性. 注意: <code>index</code> 和 <code>source</code> 都被内部占用了.</td>
     </tr>
     <tr>
-      <td><code>estimate-size</code></td>
+      <td><code>estimateSize</code></td>
       <td>Number</td>
       <td>50</td>
       <td>每个<code>Item</code>的估计大小，如果它更接近平均大小，滚动条长度看起来更准确。建议指定自己计算的平均值。</td>
@@ -102,67 +102,67 @@ app.use(FVirtualList);
       <td>滚动的方向, 可选值为 <code>vertical</code> 和 <code>horizontal</code>。</td>
     </tr>
     <tr>
-      <td><code>top-threshold</code></td>
+      <td><code>topThreshold</code></td>
       <td>Number</td>
       <td>0</td>
       <td>发出<code>totop</code> 事件的阈值, 注意多个调用。</td>
     </tr>
     <tr>
-      <td><code>bottom-threshold</code></td>
+      <td><code>bottomThreshold</code></td>
       <td>Number</td>
       <td>0</td>
       <td>发出<code>tobottom</code> 事件的阈值, 注意多个调用。</td>
     </tr>
     <tr>
-      <td><code>root-tag</code></td>
+      <td><code>rootTag</code></td>
       <td>String</td>
       <td>div</td>
       <td>根节点的名称。</td>
     </tr>
     <tr>
-      <td><code>wrap-tag</code></td>
+      <td><code>wrapTag</code></td>
       <td>String</td>
       <td>div</td>
       <td>列表包裹元素名称<code>(role=group)</code>。</td>
     </tr>
     <tr>
-      <td><code>wrap-class</code></td>
+      <td><code>wrapClass</code></td>
       <td>String</td>
       <td></td>
       <td>列表包裹元素类名。</td>
     </tr>
     <tr>
-      <td><code>wrap-style</code></td>
+      <td><code>wrapStyle</code></td>
       <td>Object</td>
       <td>{}</td>
       <td>列表包裹元素内联样式。</td>
     </tr>
     <tr>
-      <td><code>item-tag</code></td>
+      <td><code>itemTag</code></td>
       <td>String</td>
       <td>div</td>
       <td>项目包裹元素名称。</td>
     </tr>
     <tr>
-      <td><code>item-class</code></td>
+      <td><code>itemClass</code></td>
       <td>String</td>
       <td></td>
       <td>项目包裹元素类名。</td>
     </tr>
     <tr>
-      <td><code>item-class-add</code></td>
+      <td><code>itemClassAdd</code></td>
       <td>Function</td>
       <td></td>
       <td>一个函数，您可以将额外的类（字符串）返回给项包装器元素， 参数 <code>(index)</code>。</td>
     </tr>
     <tr>
-      <td><code>item-style</code></td>
+      <td><code>itemStyle</code></td>
       <td>Object</td>
       <td>{}</td>
       <td>项目包裹元素内联样式。</td>
     </tr>
     <tr>
-      <td><code>item-scoped-slots</code></td>
+      <td><code>itemScopedSlots</code></td>
       <td>Object</td>
       <td>{}</td>
       <td>Item组件的 slot。</td>

@@ -3,7 +3,7 @@
  * rewrite by uct8086
  */
 
-import { defineComponent, watch, onActivated, onMounted, ref, createVNode, cloneVNode, reactive } from 'vue';
+import { defineComponent, watch, onActivated, onMounted, ref, createVNode, computed } from 'vue';
 import Virtual from './virtual';
 import { FVirtualListItem } from './listItem';
 import { VirtualProps } from './props';
@@ -27,39 +27,23 @@ export default defineComponent({
         const isHorizontal = props.direction === 'horizontal';
         const directionKey = isHorizontal ? 'scrollLeft' : 'scrollTop';
 
-        const rootRef = ref('root');
-        const shepherdRef = ref('shepherd');
+        const rootRef = ref();
+        const shepherdRef = ref();
         const rangeRef = ref(Object.create(null));
 
         let virtual = null;
 
+        const fullHeight = computed(() => {
+            const { padBehind } = rangeRef.value;
+            if (padBehind !== 0) {
+                return virtual && virtual.getEstimateSize() * props.dataSources.length;
+            }
+            return virtual.getTotalSize();
+        });
+
         const getUniqueIdFromDataSources = () => {
             const { dataKey } = props;
             return props.dataSources.map((dataSource) => (typeof dataKey === 'function' ? dataKey(dataSource) : dataSource[dataKey]));
-        };
-
-        const updateHeight = () => {
-            const { padBehind } = rangeRef.value;
-            if (padBehind !== 0) {
-                rangeRef.value.fullHeight = virtual && virtual.getEstimateSize() * props.dataSources.length;
-            }
-        };
-
-        const reSetHeight = () => {
-            const { padBehind } = rangeRef.value;
-            if (padBehind === 0) {
-                rangeRef.value.fullHeight = virtual.getTotalSize();
-            }
-        };
-
-        onMounted(() => {
-            updateHeight();
-        });
-
-        // here is the rerendering entry
-        const onRangeChanged = (range) => {
-            rangeRef.value = range;
-            updateHeight();
         };
 
         const installVirtual = () => {
@@ -72,7 +56,9 @@ export default defineComponent({
                     buffer: Math.round(props.keeps / 3), // recommend for a third of keeps
                     uniqueIds: getUniqueIdFromDataSources(),
                 },
-                onRangeChanged,
+                (range) => {
+                    rangeRef.value = range;
+                },
             );
             // sync initial range
             rangeRef.value = virtual.getRange();
@@ -145,7 +131,6 @@ export default defineComponent({
 
         // reset all state back to initial
         const reset = () => {
-            console.log('call reset method');
             virtual.destroy();
             scrollToOffset(0);
             installVirtual();
@@ -188,8 +173,6 @@ export default defineComponent({
             const clientSize = getClientSize();
             const scrollSize = getScrollSize();
 
-            reSetHeight();
-
             // iOS scroll-spring-back behavior will make direction mistake
             if (offset < 0 || offset + clientSize > scrollSize + 1 || !scrollSize) {
                 return;
@@ -205,42 +188,40 @@ export default defineComponent({
         const getRenderSlots = () => {
             const _slots = [];
             const { start, end } = rangeRef.value;
-            const { dataSources, dataKey, itemClass, itemTag, itemStyle, extraProps, itemScopedSlots, itemClassAdd } = props;
-            const slotComponent = slots && slots.default;
-            for (let index = start; index <= end; index++) {
-                const dataSource = dataSources[index];
-                if (dataSource) {
-                    const uniqueKey = typeof dataKey === 'function' ? dataKey(dataSource) : dataSource[dataKey];
-                    if (typeof uniqueKey === 'string' || typeof uniqueKey === 'number') {
-                        const tempNode = createVNode(FVirtualListItem, {
-                            index,
-                            key: index, // Vue3采用Key变更刷新，最省事
-                            tag: itemTag,
-                            horizontal: isHorizontal,
-                            uniqueKey,
-                            source: dataSource,
-                            extraProps,
-                            slotComponent,
-                            scopedSlots: itemScopedSlots,
-                            style: itemStyle,
-                            class: `${itemClass}${itemClassAdd ? ` ${itemClassAdd(index)}` : ''}`,
-                        });
-                        const vNode = cloneVNode(
-                            tempNode,
-                            {
+            try {
+                const { dataSources, dataKey, itemClass, itemTag, itemStyle, extraProps, itemScopedSlots, itemClassAdd } = props;
+                const slotComponent = slots && slots.default;
+                for (let index = start; index <= end; index++) {
+                    const dataSource = dataSources[index];
+                    if (dataSource) {
+                        const uniqueKey = typeof dataKey === 'function' ? dataKey(dataSource) : dataSource[dataKey];
+                        if (typeof uniqueKey === 'string' || typeof uniqueKey === 'number') {
+                            const tempNode = createVNode(FVirtualListItem, {
+                                index,
+                                key: index, // Vue3采用Key变更刷新，最省事
+                                tag: itemTag,
+                                horizontal: isHorizontal,
+                                uniqueKey,
+                                source: dataSource,
+                                extraProps,
+                                slotComponent,
+                                scopedSlots: itemScopedSlots,
+                                style: itemStyle,
                                 onItemResized,
-                            },
-                            true,
-                        );
-                        _slots.push(vNode);
+                                class: `${itemClass}${itemClassAdd ? ` ${itemClassAdd(index)}` : ''}`,
+                            });
+                            _slots.push(tempNode);
+                        } else {
+                            console.warn(`Cannot get the data-key '${dataKey}' from data-sources.`);
+                        }
                     } else {
-                        console.warn(`Cannot get the data-key '${dataKey}' from data-sources.`);
+                        console.warn(`Cannot get the index '${index}' from data-sources.`);
                     }
-                } else {
-                    console.warn(`Cannot get the index '${index}' from data-sources.`);
                 }
+                return _slots;
+            } catch (e) {
+                console.warn(e);
             }
-            return _slots;
         };
 
         watch(
@@ -301,6 +282,7 @@ export default defineComponent({
             getRenderSlots,
             onItemResized,
             onSlotResized,
+            fullHeight,
             isHorizontal,
             rootRef,
             shepherdRef,
@@ -308,60 +290,39 @@ export default defineComponent({
         };
     },
     render() {
-        const { padFront, padBehind, fullHeight } = this.rangeRef;
-        const { isHorizontal, rootTag, wrapTag, wrapClass, wrapStyle, onScroll } = this;
+        const { padFront, padBehind } = this.rangeRef;
+        const { isHorizontal, rootTag, wrapTag, wrapClass, wrapStyle, onScroll, fullHeight } = this;
 
+        // wrap style
         const horizontalStyle = { position: 'absolute', left: `${padFront}px`, right: `${padBehind}px` };
         const verticalStyle = { position: 'absolute', top: `${padFront}px`, bottom: `${padBehind}px` };
         const extraStyle = isHorizontal ? horizontalStyle : verticalStyle;
         const wrapperStyle = wrapStyle ? Object.assign({}, wrapStyle, extraStyle) : extraStyle;
+        // root style
         const rootStyle = isHorizontal ? { position: 'relative', width: `${fullHeight}px` } : { position: 'relative', height: `${fullHeight}px` };
 
-        // empty vnode
-        const tempEmpty = createVNode('div', {
-            style: {
-                width: isHorizontal ? '0px' : '100%',
-                height: isHorizontal ? '100%' : '0px',
-            },
-        });
-
-        const emptyVNode = cloneVNode(tempEmpty, { ref: this.shepherdRef }, true);
-
-        const events = reactive([]);
-        events.onScroll = (e) => {
-            this.onScroll(e);
-        };
-
-        const tempVirtualVNode = createVNode(rootTag, { style: rootStyle }, [
-            // 主列表
-            createVNode(
-                wrapTag,
-                {
-                    class: wrapClass,
-                    role: 'group',
-                    style: wrapperStyle,
-                },
-                this.getRenderSlots(),
-            ),
-            // 数据为空时展示
-            emptyVNode,
-        ]);
-
-        const node = cloneVNode(
-            tempVirtualVNode,
+        const tempVirtualVNode = createVNode(
+            rootTag,
             {
+                style: rootStyle,
                 ref: (el) => {
                     if (el) this.rootRef = el.parentElement;
                 },
-                ...events,
             },
-            true,
+            [
+                // 主列表
+                createVNode(
+                    wrapTag,
+                    {
+                        class: wrapClass,
+                        role: 'group',
+                        style: wrapperStyle,
+                    },
+                    this.getRenderSlots(),
+                ),
+            ],
         );
 
-        return (
-            <WScrollbar class={`${prefixCls}-container`} onScroll={onScroll}>
-                {node}
-            </WScrollbar>
-        );
+        return <WScrollbar onScroll={onScroll}>{tempVirtualVNode}</WScrollbar>;
     },
 });
