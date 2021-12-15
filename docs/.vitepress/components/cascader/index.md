@@ -24,6 +24,10 @@ app.use(FCascader);
 
 --CUSTOMNODE
 
+### 禁用
+
+--DISABLED
+
 --CODE
 
 ## Cascader Props

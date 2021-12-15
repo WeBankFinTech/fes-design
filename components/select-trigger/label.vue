@@ -21,7 +21,7 @@
                 :key="index"
                 type="info"
                 size="small"
-                closable
+                :closable="!disabled"
                 :class="`${prefixCls}-item`"
                 @close="handleRemoveTag(index)"
             >
@@ -56,6 +56,7 @@ export default {
         placeholder: String,
         filterable: Boolean,
         isOpened: Boolean,
+        disabled: Boolean,
         selectedOptions: {
             type: [Array],
             default() {

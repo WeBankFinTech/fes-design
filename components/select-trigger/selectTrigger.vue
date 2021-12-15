@@ -6,6 +6,7 @@
             :multiple="multiple"
             :placeholder="placeholder"
             :filterable="filterable"
+            :disabled="disabled"
             @remove-tag="handleRemove"
             @input="handleFilterTextChange"
         ></Label>
