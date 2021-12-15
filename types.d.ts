@@ -52,5 +52,6 @@ declare module "@fesjs/fes-design" {
     export const FPreviewGroup: Component;
     export const FForm: Component;
     export const FFormItem: Component;
+    export const FDrawer: Component;
 }
 
