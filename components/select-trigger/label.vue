@@ -1,7 +1,9 @@
 <template>
     <div :class="[prefixCls, multiple && 'is-multiple']">
         <template v-if="!multiple">
-            <Ellipsis v-if="!(isOpened || unSelected)">{{ singleLabel }}</Ellipsis>
+            <Ellipsis v-if="!(isOpened || unSelected)">
+                <span :class="`${prefixCls}-text`">{{ singleLabel }}</span>
+            </Ellipsis>
             <div v-else :class="`${prefixCls}-placeholder`">
                 <input
                     ref="inputRef"
@@ -19,11 +21,13 @@
                 :key="index"
                 type="info"
                 size="small"
-                closable
+                :closable="!disabled"
                 :class="`${prefixCls}-item`"
                 @close="handleRemoveTag(index)"
             >
-                <Ellipsis>{{ label }}</Ellipsis>
+                <Ellipsis>
+                    <span :class="`${prefixCls}-text`">{{ label }}</span>
+                </Ellipsis>
             </Tag>
             <template v-if="filterable">
                 <div v-if="isOpened || unSelected" :class="`${prefixCls}-placeholder`">
@@ -52,6 +56,7 @@ export default {
         placeholder: String,
         filterable: Boolean,
         isOpened: Boolean,
+        disabled: Boolean,
         selectedOptions: {
             type: [Array],
             default() {

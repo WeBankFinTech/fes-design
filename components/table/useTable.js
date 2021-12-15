@@ -1,10 +1,5 @@
 import { computed, reactive } from 'vue';
-import {
-    getRowKey as _getRowKey,
-    getHeaderRows,
-    getColumns,
-    getCellValue,
-} from './helper';
+import { getRowKey as _getRowKey, getHeaderRows, getColumns, getCellValue } from './helper';
 
 let tableIdSeed = 1;
 export default (props, ctx) => {
@@ -16,7 +11,7 @@ export default (props, ctx) => {
     };
 
     const removeColumn = (id) => {
-        const colIndex = originColumns.findIndex(item => item.id === id);
+        const colIndex = originColumns.findIndex((item) => item.id === id);
         if (colIndex !== -1) {
             originColumns.splice(colIndex, 1);
         }

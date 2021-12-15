@@ -1,45 +1,59 @@
 <template>
-    <FSelect disabled>
-        <FOption
-            v-for="(item, index) in optionList"
-            :key="index"
-            :value="item.value"
-            :label="item.label"
-        ></FOption>
-    </FSelect>
+    <space>
+        <FSelect v-model="value1" disabled>
+            <FOption
+                v-for="(item, index) in optionList"
+                :key="index"
+                :value="item.value"
+                :label="item.label"
+            ></FOption>
+        </FSelect>
+        <FSelect v-model="value2" multiple disabled>
+            <FOption
+                v-for="(item, index) in optionList"
+                :key="index"
+                :value="item.value"
+                :label="item.label"
+            ></FOption>
+        </FSelect>
+    </space>
 </template>
 <script>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 export default {
     setup() {
         const optionList = reactive([
             {
                 value: 'HuNan',
-                label: '湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南'
+                label: '湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南',
             },
             {
                 value: 'HuBei',
                 label: '湖北',
-                disabled: true
+                disabled: true,
             },
             {
                 value: 'ZheJiang',
-                label: '浙江'
+                label: '浙江',
             },
             {
                 value: 'GuangDong',
-                label: '广东'
+                label: '广东',
             },
             {
                 value: 'JiangSu',
-                label: '江苏'
-            }
+                label: '江苏',
+            },
         ]);
+        const value1 = ref("HuNan");
+        const value2 = ref(["HuNan"]);
         return {
-            optionList
+            optionList,
+            value1,
+            value2
         };
-    }
+    },
 };
 </script>
 <style lang="less" scoped>

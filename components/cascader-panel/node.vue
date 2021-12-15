@@ -4,51 +4,29 @@
         ref="elemRef"
         role="menuitem"
         :tabindex="node.isDisabled ? null : -1"
-        :class="[
-            prefixCls,
-            node.checked && 'is-checked',
-            node.isDisabled && 'is-disabled',
-            inExpandingPath && 'in-active-path',
-        ]"
+        :class="[prefixCls, node.checked && 'is-checked', node.isDisabled && 'is-disabled', inExpandingPath && 'in-active-path']"
         @mouseenter="handleHoverExpand"
         @focus="handleHoverExpand"
         @click="handleClick"
     >
         <!-- prefix -->
-        <Checkbox
-            v-if="multiple"
-            :model-value="node.checked"
-            :indeterminate="node.indeterminate"
-            :disabled="isDisabled"
-            @click.stop
-            @change="handleCheck"
-        />
+        <Checkbox v-if="multiple" :model-value="node.checked" :indeterminate="node.indeterminate" :disabled="isDisabled" @click.stop @change="handleCheck" />
 
         <!-- content -->
         <NodeContent :node="node" />
 
         <!-- postfix -->
         <template v-if="!isLeaf">
-            <RightOutlined
-                :class="`${prefixCls}-icon-arrow`"
-            ></RightOutlined>
+            <RightOutlined :class="`${prefixCls}-icon-arrow`"></RightOutlined>
         </template>
         <template v-else-if="!multiple && node.checked">
-            <CheckOutlined
-                :class="`${prefixCls}-icon-check`"
-            ></CheckOutlined>
+            <CheckOutlined :class="`${prefixCls}-icon-check`"></CheckOutlined>
         </template>
     </li>
 </template>
 
 <script>
-import {
-    computed,
-    defineComponent,
-    inject,
-    ref,
-    watch,
-} from 'vue';
+import { computed, defineComponent, inject, ref, watch } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { CASCADER_PANEL_INJECTION_KEY } from './const';
 import Checkbox from '../checkbox';
@@ -87,9 +65,12 @@ export default defineComponent({
 
         const elemRef = ref(null);
 
-        watch(() => elemRef.value, () => {
-            panel.setNodeElem(props.node, elemRef.value);
-        });
+        watch(
+            () => elemRef.value,
+            () => {
+                panel.setNodeElem(props.node, elemRef.value);
+            },
+        );
 
         /**
          * 判断节点是否在当前的展开路径
@@ -137,7 +118,6 @@ export default defineComponent({
                 handleExpand();
             }
         };
-
 
         return {
             elemRef,

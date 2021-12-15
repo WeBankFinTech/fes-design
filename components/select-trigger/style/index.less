@@ -31,6 +31,12 @@
         background: @select-disabled-bg;
         border-color: @border-color-base;
         cursor: not-allowed;
+        .@{select-trigger-prefix-cls}-label {
+            color: @text-color-secondary;
+            .@{select-trigger-prefix-cls}-label-text {
+                color: @text-color-secondary;
+            }
+        }
         .@{select-trigger-prefix-cls}-icons {
             color: fade(@select-placeholder-color, 60%);
         }
