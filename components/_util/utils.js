@@ -1,10 +1,11 @@
 import { isNumber, isString } from 'lodash-es';
 
-export const noop = () => { };
+export const noop = () => {};
 
-export const sleep = time => new Promise((resolve) => {
-    setTimeout(resolve, time);
-});
+export const sleep = (time) =>
+    new Promise((resolve) => {
+        setTimeout(resolve, time);
+    });
 
 export const hasOwn = (val, key) => hasOwnProperty.call(val, key);
 
@@ -30,3 +31,17 @@ export const requestAnimationFrame = (() => {
 })();
 
 export const isFirefox = () => !!window.navigator.userAgent.match(/firefox/i);
+
+export const autoprefixer = function (style) {
+    const rules = ['transform', 'transition', 'animation'];
+    const prefixes = ['ms-', 'webkit-'];
+    rules.forEach((rule) => {
+        const value = style[rule];
+        if (rule && value) {
+            prefixes.forEach((prefix) => {
+                style[prefix + rule] = value;
+            });
+        }
+    });
+    return style;
+};

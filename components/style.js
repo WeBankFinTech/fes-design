@@ -32,5 +32,6 @@ import './ellipsis/style';
 import './dropdown/style';
 import './spin/style';
 import './cascader/style';
+import './carousel/style';
 import './config-provider/style';
 import './image/style';
