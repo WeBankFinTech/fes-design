@@ -1,5 +1,5 @@
 import {
-    defineComponent, computed, toRefs,
+    defineComponent, computed, toRefs, watch,
 } from 'vue';
 import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
@@ -131,6 +131,12 @@ export default defineComponent({
             }
             return null;
         };
+
+        watch(total, () => {
+            if (total.value > 0 && total.value < currentPage.value) {
+                updateCurrentPage(total.value);
+            }
+        });
         return () => (
             <div className={`${prefixCls}-pager`}>
                 <div
