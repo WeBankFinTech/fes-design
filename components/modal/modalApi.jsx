@@ -66,7 +66,7 @@ function create(type, config) {
             type,
             onAfterLeave: removeModal,
         };
-        render(<Modal {...props} v-slots={slots}/>, div);
+        render(<Modal {...props} v-slots={slots} />, div);
     }
 
     async function handleCallBack(event, cbFunc) {
@@ -83,12 +83,8 @@ function create(type, config) {
     function updateProps(options) {
         // 更新 props
         Object.assign(mergeProps, options || {});
-        if (options.onOk) {
-            mergeProps.onOk = event => handleCallBack(event, options.onOk);
-        }
-        if (options.onCancel) {
-            mergeProps.onCancel = event => handleCallBack(event, options.onCancel);
-        }
+        mergeProps.onOk = (event) => handleCallBack(event, options.onOk);
+        mergeProps.onCancel = (event) => handleCallBack(event, options.onCancel);
 
         // 更新 slots
         ['title', 'content', 'footer'].forEach((key) => {
@@ -104,9 +100,9 @@ function create(type, config) {
         });
     }
 
-
     function update(options) {
-        if (mergeProps.show) { // 展示时才能更新
+        if (mergeProps.show) {
+            // 展示时才能更新
             updateProps(options);
             renderModal();
         }
@@ -131,10 +127,10 @@ function create(type, config) {
  * @type { ModalApi }
  */
 export default {
-    info: config => create('info', config),
-    warning: config => create('warning', config),
-    warn: config => create('warning', config),
-    success: config => create('success', config),
-    error: config => create('error', config),
-    confirm: config => create('confirm', config),
+    info: (config) => create('info', config),
+    warning: (config) => create('warning', config),
+    warn: (config) => create('warning', config),
+    success: (config) => create('success', config),
+    error: (config) => create('error', config),
+    confirm: (config) => create('confirm', config),
 };
