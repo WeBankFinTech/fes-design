@@ -6,7 +6,7 @@ import useTrigger from './useTrigger';
 import usePopper from './usePopper';
 import useResize from './useResize';
 import { getFirstValidNode } from '../_util/vnode';
-import ConfigProvider from '../config-provider';
+import { getConfig } from '../config-provider';
 
 const prefixCls = getPrefixCls('popper');
 
@@ -70,7 +70,7 @@ export default defineComponent({
         if (!ctx.slots.trigger) {
             throw new Error('FPopper', 'Trigger must be provided');
         }
-        const config = ConfigProvider.getConfig();
+        const config = getConfig();
         const getContainer = computed(() => props.getContainer || config.getContainer);
         const { slots } = ctx;
         const { visible, updateVisible, triggerRef, popperRef, arrowRef, update, popperStyle, updateVirtualRect } = usePopper(props, ctx);
