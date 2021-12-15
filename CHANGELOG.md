@@ -1,3 +1,13 @@
+## [0.0.4](https://github.com/WeBankFinTech/fes-design/compare/v0.0.3...v0.0.4) (2021-12-15)
+
+
+### Bug Fixes
+
+* change Button export default ([9fdff2a](https://github.com/WeBankFinTech/fes-design/commit/9fdff2a9742e008ace87c406c22133c344fdcf05))
+* 换写法避免config-provider编译问题 ([7d43824](https://github.com/WeBankFinTech/fes-design/commit/7d43824b123d0dd86199ff84025a0cab5f57fb62))
+
+
+
 ## [0.0.3](https://github.com/WeBankFinTech/fes-design/compare/v0.0.2...v0.0.3) (2021-12-14)
 
 
