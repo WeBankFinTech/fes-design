@@ -10,10 +10,6 @@ import { VirtualProps } from './props';
 import WScrollbar from '../scrollbar/scrollbar';
 import { TO_TOP_EVENT, TO_BOTTOM_EVENT, RESIZED_EVENT } from '../_util/constants';
 
-import getPrefixCls from '../_util/getPrefixCls';
-
-const prefixCls = getPrefixCls('virtuallist');
-
 const SLOT_TYPE = {
     HEADER: 'thead', // string value also use for aria role attribute
     FOOTER: 'tfoot',
