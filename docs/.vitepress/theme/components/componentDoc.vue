@@ -1,7 +1,7 @@
 <template>
     <div class="component-doc">
         <div class="component-doc-header">
-            <LeftOutlined @click="visibleCode = !visibleCode" />
+            <LeftOutlined @click="visibleCode = !visibleCode" :class="['show-code-btn', visibleCode && 'active']" />
         </div>
         <div class="component-doc-content">
             <slot></slot>
@@ -59,8 +59,13 @@ export default defineComponent({
         border-bottom: 1px solid #cfd0d3;
         font-size: 14px;
         padding: 0 16px;
-        > .fes-design-icon {
+        .show-code-btn {
             cursor: pointer;
+            transition: .3s all;
+            transform-origin: center center;
+            &.active {
+                transform: rotateZ(-90deg);
+            }
         }
     }
 
