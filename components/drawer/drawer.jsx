@@ -5,7 +5,7 @@ import FButton from '../button';
 import { CloseOutlined } from '../icon';
 import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
-import ConfigProvider from '../config-provider';
+import { getConfig } from '../config-provider';
 
 const prefixCls = getPrefixCls('drawer');
 const UPDATE_SHOW_EVENT = 'update:show';
@@ -91,7 +91,7 @@ const Drawer = defineComponent({
             },
             { immediate: true },
         );
-        const config = ConfigProvider.getConfig();
+        const config = getConfig();
         const getContainer = computed(() => props.getContainer || config.getContainer);
 
         function handleCancel(event) {
