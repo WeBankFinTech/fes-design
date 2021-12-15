@@ -1,3 +1,16 @@
+## [0.0.6](https://github.com/WeBankFinTech/fes-design/compare/v0.0.5...v0.0.6) (2021-12-15)
+
+
+### Bug Fixes
+
+* 修复 input 和 select 样式被覆盖问题 ([b99331a](https://github.com/WeBankFinTech/fes-design/commit/b99331a050106ed200c18e4454e4937a0685c096))
+* 优化select和table细节 ([5efe839](https://github.com/WeBankFinTech/fes-design/commit/5efe839537fa8ea8134b8ecbc98569871da6702a))
+* Modal.confirm ([d2a7fb3](https://github.com/WeBankFinTech/fes-design/commit/d2a7fb3e1896cb51f8bf1655f4990f8caa65ccbd))
+* pagination组件totalPage显示问题 ([dc68841](https://github.com/WeBankFinTech/fes-design/commit/dc68841736fe324e16fde2d427ffe4865c22e7c0))
+* Select&Cascader组件disabled多选交互 ([2536cd9](https://github.com/WeBankFinTech/fes-design/commit/2536cd9c98b5cebd271030c50fca9072f5065cc4))
+
+
+
 ## [0.0.5](https://github.com/WeBankFinTech/fes-design/compare/v0.0.4...v0.0.5) (2021-12-15)
 
 
