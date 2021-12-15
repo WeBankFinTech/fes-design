@@ -1,28 +1,16 @@
 <template>
     <div :class="prefixCls">
-        <Scrollbar
-            :class="`${prefixCls}-dropdown`"
-            :containerClass="`${prefixCls}-dropdown__wrap`"
-        >
+        <Scrollbar :class="`${prefixCls}-dropdown`" :containerClass="`${prefixCls}-dropdown__wrap`">
             <ul v-if="!isEmpty" :class="`${prefixCls}-list`" role="menu">
-                <CascaderNode
-                    v-for="node in nodes"
-                    :key="node.nodeId"
-                    :node="node"
-                    :menuId="menuId"
-                />
+                <CascaderNode v-for="node in nodes" :key="node.nodeId" :node="node" :menuId="menuId" />
             </ul>
-            <div v-else :class="`${prefixCls}-null`">{{emptyText}}</div>
+            <div v-else :class="`${prefixCls}-null`">{{ emptyText }}</div>
         </Scrollbar>
     </div>
 </template>
 
 <script>
-import {
-    computed,
-    defineComponent,
-    inject,
-} from 'vue';
+import { computed, defineComponent, inject } from 'vue';
 import Scrollbar from '../scrollbar';
 import CascaderNode from './node';
 import getPrefixCls from '../_util/getPrefixCls';

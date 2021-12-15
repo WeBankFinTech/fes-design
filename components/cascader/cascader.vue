@@ -40,16 +40,8 @@
     </div>
 </template>
 <script>
-import {
-    defineComponent,
-    ref,
-    unref,
-    watch,
-    computed,
-} from 'vue';
-import {
-    cloneDeep,
-} from 'lodash-es';
+import { defineComponent, ref, unref, watch, computed } from 'vue';
+import { cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
@@ -74,7 +66,7 @@ export default defineComponent({
         },
         nodeConfig: {
             type: Object,
-            default: () => { },
+            default: () => {},
         },
         placeholder: {
             type: String,
@@ -108,14 +100,7 @@ export default defineComponent({
             type: Function,
         },
     },
-    emits: [
-        UPDATE_MODEL_EVENT,
-        CHANGE_EVENT,
-        'removeTag',
-        'visibleChange',
-        'clear',
-        'expandChange',
-    ],
+    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'removeTag', 'visibleChange', 'clear', 'expandChange'],
     setup(props, { emit }) {
         const isOpened = ref(false);
         const selectedNodes = ref([]);
@@ -140,9 +125,15 @@ export default defineComponent({
             const { emitPath } = props.nodeConfig || {};
             const copyValue = cloneDeep(currentValue.value);
             if (emitPath) {
-                copyValue.splice(copyValue.indexOf(item => item.includes(value)), 1);
+                copyValue.splice(
+                    copyValue.indexOf((item) => item.includes(value)),
+                    1,
+                );
             } else {
-                copyValue.splice(copyValue.indexOf(item => item === value), 1);
+                copyValue.splice(
+                    copyValue.indexOf((item) => item === value),
+                    1,
+                );
             }
             updateCurrentValue(copyValue);
             emit('removeTag', value);
@@ -159,10 +150,12 @@ export default defineComponent({
         const handleUpdateSelectedNodes = (value) => {
             selectedNodes.value = value;
         };
-        const selectedOptions = computed(() => selectedNodes.value.map(selectedNode => ({
-            value: selectedNode.value,
-            label: props.showAllLevels ? selectedNode.pathLabels.join(props.separator) : selectedNode.label,
-        })));
+        const selectedOptions = computed(() =>
+            selectedNodes.value.map((selectedNode) => ({
+                value: selectedNode.value,
+                label: props.showAllLevels ? selectedNode.pathLabels.join(props.separator) : selectedNode.label,
+            })),
+        );
 
         return {
             prefixCls,

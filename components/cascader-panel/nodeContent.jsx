@@ -18,15 +18,16 @@ export default defineComponent({
         const { data, label } = node;
         const { renderLabelFn } = panel;
 
-        return () => h(
-            'span',
-            {
-                class: {
-                    [prefixCls]: true,
-                    'is-multiple': panel.multiple,
+        return () =>
+            h(
+                'span',
+                {
+                    class: {
+                        [prefixCls]: true,
+                        'is-multiple': panel.multiple,
+                    },
                 },
-            },
-            renderLabelFn ? renderLabelFn({ node, data }) : label,
-        );
+                renderLabelFn ? renderLabelFn({ node, data }) : label,
+            );
     },
 });
