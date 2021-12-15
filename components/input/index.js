@@ -3,4 +3,4 @@ import Input from './input';
 
 export const FInput = withInstall(Input);
 
-export default Input;
+export default FInput;
