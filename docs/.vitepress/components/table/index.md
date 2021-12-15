@@ -76,6 +76,11 @@ app.use(FTable);
 
 --SPAN
 
+
+### 无数据
+
+--NODATA
+
 --CODE
 
 ## FTable Props

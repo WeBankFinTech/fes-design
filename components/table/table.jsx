@@ -201,7 +201,7 @@ export default defineComponent({
                         ...fixBodyWrapperStyle.value,
                     }}
                 >
-                    {showData.value && showData.value.length ? <TableBody fixedColumn={fixedColumn} height={props.height} /> : null}
+                    <TableBody emptyText={props.emptyText} showHeader={props.showHeader} fixedColumn={fixedColumn} height={props.height} />
                 </div>
             </div>
         );
@@ -225,7 +225,7 @@ export default defineComponent({
                         onScroll(e);
                     }}
                 >
-                    {showData.value && showData.value.length ? <TableBody height={props.height} /> : props.emptyText}
+                    <TableBody showHeader={props.showHeader} emptyText={props.emptyText} height={props.height} />
                 </div>
                 {fixLeftColumn.value && renderFixTable(fixLeftColumn.value)}
                 {fixRightColumn.value && renderFixTable(fixRightColumn.value)}
