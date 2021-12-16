@@ -1,16 +1,17 @@
-import {
-    unref, watchEffect, onBeforeUnmount,
-} from 'vue';
+import { unref, watchEffect, onBeforeUnmount } from 'vue';
 import getElementFromRef from '../getElementFromRef';
 
 export default function useClickOutSide(ref, options) {
     let listened = false;
     function onGlobalMouseDown(event) {
         const target = event.target;
-        const elements = Array.isArray(ref) ? ref.map(r => getElementFromRef(unref(r))) : [getElementFromRef(unref(ref))];
+        const elements = Array.isArray(ref)
+            ? ref.map((r) => getElementFromRef(unref(r)))
+            : [getElementFromRef(unref(ref))];
         if (
             elements.every(
-                element => element && !element.contains(target) && element !== target,
+                (element) =>
+                    element && !element.contains(target) && element !== target,
             )
         ) {
             options.callback?.();
