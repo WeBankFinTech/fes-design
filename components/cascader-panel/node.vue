@@ -4,13 +4,25 @@
         ref="elemRef"
         role="menuitem"
         :tabindex="node.isDisabled ? null : -1"
-        :class="[prefixCls, node.checked && 'is-checked', node.isDisabled && 'is-disabled', inExpandingPath && 'in-active-path']"
+        :class="[
+            prefixCls,
+            node.checked && 'is-checked',
+            node.isDisabled && 'is-disabled',
+            inExpandingPath && 'in-active-path',
+        ]"
         @mouseenter="handleHoverExpand"
         @focus="handleHoverExpand"
         @click="handleClick"
     >
         <!-- prefix -->
-        <Checkbox v-if="multiple" :model-value="node.checked" :indeterminate="node.indeterminate" :disabled="isDisabled" @click.stop @change="handleCheck" />
+        <Checkbox
+            v-if="multiple"
+            :model-value="node.checked"
+            :indeterminate="node.indeterminate"
+            :disabled="isDisabled"
+            @click.stop
+            @change="handleCheck"
+        />
 
         <!-- content -->
         <NodeContent :node="node" />

@@ -4,7 +4,11 @@
             <slot name="icon"></slot>
         </template>
         <slot></slot>
-        <CloseOutlined v-if="closable" :class="`${prefixCls}__close`" @click.stop="handleClose" />
+        <CloseOutlined
+            v-if="closable"
+            :class="`${prefixCls}__close`"
+            @click.stop="handleClose"
+        />
     </div>
 </template>
 

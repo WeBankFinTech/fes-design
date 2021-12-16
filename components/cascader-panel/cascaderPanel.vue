@@ -1,12 +1,21 @@
 <template>
     <div :class="prefixCls" @keydown="handleKeyDown">
-        <CascaderMenu v-for="menu in menus" :key="menu.menuId" :nodes="menu.nodes" :menuId="menu.menuId" />
+        <CascaderMenu
+            v-for="menu in menus"
+            :key="menu.menuId"
+            :nodes="menu.nodes"
+            :menuId="menu.menuId"
+        />
     </div>
 </template>
 <script>
 import { computed, defineComponent, provide, reactive } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
-import { CASCADER_PANEL_INJECTION_KEY, DEFAULT_CONFIG, EXPAND_TRIGGER } from './const';
+import {
+    CASCADER_PANEL_INJECTION_KEY,
+    DEFAULT_CONFIG,
+    EXPAND_TRIGGER,
+} from './const';
 import usePanel from './usePanel';
 import CascaderMenu from './menu';
 
@@ -36,7 +45,9 @@ export default defineComponent({
     },
     emits: ['expandChange', 'checkChange', 'close'],
     setup(props, { emit, slots }) {
-        const renderLabelFn = computed(() => props.renderLabel || slots.default);
+        const renderLabelFn = computed(
+            () => props.renderLabel || slots.default,
+        );
         const currentMultiple = computed(() => props.multiple);
 
         const config = computed(() => ({
@@ -44,9 +55,18 @@ export default defineComponent({
             ...props.nodeConfig,
         }));
 
-        const isHoverMenu = computed(() => config.value.expandTrigger === EXPAND_TRIGGER.HOVER);
+        const isHoverMenu = computed(
+            () => config.value.expandTrigger === EXPAND_TRIGGER.HOVER,
+        );
 
-        const { menus, setNodeElem, expandingNode, handleExpandNode, handleCheckChange, handleKeyDown } = usePanel(config, props, emit);
+        const {
+            menus,
+            setNodeElem,
+            expandingNode,
+            handleExpandNode,
+            handleCheckChange,
+            handleKeyDown,
+        } = usePanel(config, props, emit);
 
         provide(
             CASCADER_PANEL_INJECTION_KEY,

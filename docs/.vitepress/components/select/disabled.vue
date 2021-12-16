@@ -16,6 +16,14 @@
                 :label="item.label"
             ></FOption>
         </FSelect>
+        <FSelect v-model="value2" multiple disabled collapseTags>
+            <FOption
+                v-for="(item, index) in optionList"
+                :key="index"
+                :value="item.value"
+                :label="item.label"
+            ></FOption>
+        </FSelect>
     </space>
 </template>
 <script>
@@ -47,7 +55,7 @@ export default {
             },
         ]);
         const value1 = ref("HuNan");
-        const value2 = ref(["HuNan"]);
+        const value2 = ref(["HuNan", "GuangDong"]);
         return {
             optionList,
             value1,
