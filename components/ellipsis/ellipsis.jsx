@@ -34,7 +34,11 @@ export default defineComponent({
     setup(props, { slots }) {
         const triggerRef = ref(null);
         const overflowVisible = ref(false);
-        const classList = computed(() => [prefixCls, props.triggerClass, props.line > 1 && 'is-line-clamp'].filter(Boolean).join(' '));
+        const classList = computed(() =>
+            [prefixCls, props.triggerClass, props.line > 1 && 'is-line-clamp']
+                .filter(Boolean)
+                .join(' '),
+        );
         const style = computed(() => {
             const _style = props.style;
             if (props.line > 1) {
@@ -42,14 +46,18 @@ export default defineComponent({
             }
             return _style;
         });
-        const tooltipDisabled = computed(() => overflowVisible.value || props.tooltip === false);
+        const tooltipDisabled = computed(
+            () => overflowVisible.value || props.tooltip === false,
+        );
         // 元素可能是隐藏的，当hover时需要重新计算下
         const handleDisabled = () => {
             const { value: trigger } = triggerRef;
             if (props.line > 1) {
-                overflowVisible.value = trigger.scrollHeight <= trigger.offsetHeight;
+                overflowVisible.value =
+                    trigger.scrollHeight <= trigger.offsetHeight;
             } else {
-                overflowVisible.value = trigger.scrollWidth <= trigger.offsetWidth;
+                overflowVisible.value =
+                    trigger.scrollWidth <= trigger.offsetWidth;
             }
         };
         onMounted(handleDisabled);
@@ -63,7 +71,12 @@ export default defineComponent({
             return {};
         });
         const renderTrigger = () => (
-            <span ref={triggerRef} className={classList.value} style={style.value} onMouseenter={handleDisabled}>
+            <span
+                ref={triggerRef}
+                className={classList.value}
+                style={style.value}
+                onMouseenter={handleDisabled}
+            >
                 {slots.default?.()}
             </span>
         );
@@ -72,7 +85,11 @@ export default defineComponent({
                 return renderTrigger();
             }
             return (
-                <Tooltip placement="top" {...toolTipProps.value} v-slots={toolTipSlots()}>
+                <Tooltip
+                    placement="top"
+                    {...toolTipProps.value}
+                    v-slots={toolTipSlots()}
+                >
                     {renderTrigger()}
                 </Tooltip>
             );

@@ -1,5 +1,11 @@
 import {
-    onMounted, onBeforeUnmount, onActivated, onDeactivated, ref, watch, reactive,
+    onMounted,
+    onBeforeUnmount,
+    onActivated,
+    onDeactivated,
+    ref,
+    watch,
+    reactive,
 } from 'vue';
 import { createPopper } from '@popperjs/core';
 import { useNormalModel } from '../_util/use/useModel';
@@ -19,12 +25,14 @@ export default (props, ctx) => {
 
     const initializePopper = () => {
         if (props.disabled) return;
-        const modifiers = [{
-            name: 'offset',
-            options: {
-                offset: [0, props.offset],
+        const modifiers = [
+            {
+                name: 'offset',
+                options: {
+                    offset: [0, props.offset],
+                },
             },
-        }];
+        ];
         if (props.arrow) {
             modifiers.push({
                 name: 'arrow',
@@ -33,9 +41,16 @@ export default (props, ctx) => {
                     padding: ({ popper, placement }) => {
                         const offset = 16;
                         if (placement.endsWith('end')) {
-                            return { left: popper.width - offset, top: popper.height - offset };
-                        } if (placement.endsWith('start')) {
-                            return { right: popper.width - offset, bottom: popper.height - offset };
+                            return {
+                                left: popper.width - offset,
+                                top: popper.height - offset,
+                            };
+                        }
+                        if (placement.endsWith('start')) {
+                            return {
+                                right: popper.width - offset,
+                                bottom: popper.height - offset,
+                            };
                         }
                         return 0;
                     },
@@ -43,10 +58,14 @@ export default (props, ctx) => {
             });
         }
         if (!virtualRect.value) {
-            instance = createPopper(getElementFromRef(triggerRef.value), popperRef.value, {
-                placement: props.placement,
-                modifiers,
-            });
+            instance = createPopper(
+                getElementFromRef(triggerRef.value),
+                popperRef.value,
+                {
+                    placement: props.placement,
+                    modifiers,
+                },
+            );
         } else {
             const virtualElement = {
                 getBoundingClientRect: () => ({

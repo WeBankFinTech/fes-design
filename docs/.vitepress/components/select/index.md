@@ -74,6 +74,7 @@ app.use(FSelect);
 | clearable            | 是否显示清除按钮                              | boolean                            | `false`               |
 | disabled             | 是否禁用                                      | boolean                            | `false`               |
 | collapseTags         | 多选时选中项是否折叠展示                      | boolean                            | `false`               |
+| collapseTagsLimit    | 多选时选中项超出限制个数后才会折叠            | number                             | 1                     |
 | emptyText            | 选项为空时显示的文字，也可以使用#empty 设置   | string                             | `无数据`              |
 | getContainer         | 指定下拉选项挂载的 HTML 节点                  | () => HTMLElement                  | `() => document.body` |
 | multiple             | 是否多选                                      | boolean                            | `false`               |
