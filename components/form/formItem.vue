@@ -33,6 +33,7 @@ export default defineComponent({
     props: {
         prop: String,
         label: String,
+        labelWidth: String | Number,
         showMessage: {
             type: Boolean,
             default: null,
@@ -79,7 +80,7 @@ export default defineComponent({
                 .concat((validateStatus.value === VALIDATE_STATUS.ERROR && ['is-error']) || []); // 校验错误: is-error
             return classSet.join(' ');
         });
-        const formItemLabelStyle = computed(() => ({ width: `${props.labelWidth || labelWidth.value}px` }));
+        const formItemLabelStyle = computed(() => ({ width: `${+props.labelWidth || +labelWidth.value}px` }));
 
         let ruleDefaultType = 'string';
         const setRuleDefaultType = (val) => {

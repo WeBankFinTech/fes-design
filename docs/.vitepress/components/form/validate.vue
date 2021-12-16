@@ -1,5 +1,5 @@
 <template>
-    <FForm ref="WFormDomRef" labelWidth="140" labelPosition="right" :model="modelForm" :rules="rules">
+    <FForm ref="WFormDomRef" :labelWidth="140" labelPosition="right" :model="modelForm" :rules="rules">
         <FFormItem prop="name" :rules="nameRules">
             <template v-slot:label><span>输入姓名(slot)</span></template>
             <FInput v-model="modelForm.name" placeholder="请输入" @change="changeHandler"></FInput>
@@ -37,8 +37,18 @@
             </FCheckboxGroup>
         </FFormItem>
         <FFormItem label="基础信息补充" prop="more">
-            <FInput v-model="modelForm.more.height" placeholder="请输入身高"></FInput>
-            <FInput v-model="modelForm.more.weight" placeholder="请输入体重"></FInput>
+            <div class="row-container">
+                <div class="row-item">
+                    <FSelect></FSelect>
+                    <FInput></FInput>
+                    <PlusCircleOutlined />
+                </div>
+                <div class="row-item">
+                    <FSelect></FSelect>
+                    <FInput></FInput>
+                    <PlusCircleOutlined />
+                </div>
+            </div>
         </FFormItem>
         <FFormItem label="备注 slot" prop="desc">
             <template v-slot:label>
@@ -214,3 +224,11 @@ export default {
     }
 }
 </script>
+<style scoped>
+.row-container {
+    width: 100%;
+}
+.row-item {
+    display: flex;
+}
+</style>
