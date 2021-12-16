@@ -1,21 +1,32 @@
 <template>
-    <div class="text-tips">默认单选：</div>
+    <div class="text-tips">默认多选：</div>
     <FCascader       
-        v-model="base.value"
+        v-model="base.multiValue"
         :options="base.options"
+        :multiple="true"
         @change="base.handleChange">
     </FCascader>
-    <div class="text-tips">hover单选：</div>
+    <div class="text-tips">hover多选：</div>
     <FCascader       
-        v-model="base.value"
+        v-model="base.multiValue"
         :options="base.options" 
+        :multiple="true"
         :nodeConfig="{ expandTrigger: 'hover' }"
         @change="base.handleChange">
     </FCascader>
-    <div class="text-tips">单选不展示路径：</div>
+    <div class="text-tips">折叠选中项：</div>
     <FCascader       
-        v-model="base.valueEmitPath"
+        v-model="base.multiValue"
         :options="base.options"
+        :multiple="true"
+        collapseTags
+        @change="base.handleChange">
+    </FCascader>
+    <div class="text-tips">多选不展示路径：</div>
+    <FCascader       
+        v-model="base.multiValueEmitPath"
+        :options="base.options"
+        :multiple="true"
         :showAllLevels="false"
         :clearable="true"
         :nodeConfig="{ emitPath: true }"
@@ -208,8 +219,8 @@
     // 基础用法
     const useBase = () => {
         const state = reactive({
-            value: '',
-            valueEmitPath: [],
+            multiValue: [],
+            multiValueEmitPath: []
         })
 
         return {

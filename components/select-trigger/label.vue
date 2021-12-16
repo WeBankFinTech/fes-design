@@ -17,16 +17,16 @@
         </template>
         <template v-else>
             <Tag
-                v-for="(label, index) in multiLabels"
+                v-for="(tag, index) in multiLabels"
                 :key="index"
                 type="info"
                 size="small"
-                :closable="!disabled"
+                :closable="tag.closable"
                 :class="`${prefixCls}-item`"
                 @close="handleRemoveTag(index)"
             >
                 <Ellipsis>
-                    <span :class="`${prefixCls}-text`">{{ label }}</span>
+                    <span :class="`${prefixCls}-text`">{{ tag.label }}</span>
                 </Ellipsis>
             </Tag>
             <template v-if="filterable">
@@ -83,11 +83,24 @@ export default {
             type: Boolean,
             default: false,
         },
+        collapseTags: {
+            type: Boolean,
+            default: false,
+        },
     },
     emits: ['removeTag', 'input'],
     setup(props, { emit }) {
         const inputRef = ref();
         const filterText = ref('');
+
+        const genTag = (option) => {
+            const { label, value } = option;
+            return {
+                label: label || value || '',
+                closable: !props.disabled,
+            };
+        };
+
         const unSelected = computed(() => props.selectedOptions.length === 0);
         const singleLabel = computed(() => {
             const options = props.selectedOptions;
@@ -97,7 +110,27 @@ export default {
         });
         const multiLabels = computed(() => {
             const options = props.selectedOptions;
-            return options.map((v) => v.label || options[0].value || '');
+            const tags = [];
+
+            if (options.length > 0) {
+                const [first, ...rest] = options;
+                const restCount = rest.length;
+
+                tags.push(genTag(first));
+
+                if (restCount > 0) {
+                    if (props.collapseTags) {
+                        tags.push({
+                            label: `+ ${restCount}`,
+                            closable: false,
+                        });
+                    } else {
+                        rest.forEach((option) => tags.push(genTag(option)));
+                    }
+                }
+            }
+
+            return tags;
         });
 
         watch(

@@ -19,6 +19,7 @@
                     :isOpened="isOpened"
                     :multiple="multiple"
                     :placeholder="placeholder"
+                    :collapseTags="collapseTags"
                     @remove="handleRemove"
                     @clear="handleClear"
                 />
@@ -98,6 +99,10 @@ export default defineComponent({
         },
         getContainer: {
             type: Function,
+        },
+        collapseTags: {
+            type: Boolean,
+            default: false,
         },
     },
     emits: [
