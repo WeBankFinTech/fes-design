@@ -82,6 +82,7 @@ export default {
             mregion: ['HuNan', 'HuBei'],
             time: '',
             sex: '2',
+            show: true,
             age: ['1-10'],
             more: {
                 height: 180,

@@ -3,9 +3,12 @@ import { radioGroupKey, name } from './const';
 import { useNormalModel } from '../_util/use/useModel';
 import { CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
+import useFormGroupResetter from '../_util/use/useFormGroupResetter';
 
 export const useRadioGroup = (props, { emit }) => {
+    useFormGroupResetter();
     const { validate } = useFormAdaptor();
+
     const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
     watch(currentValue, () => {
