@@ -12,9 +12,13 @@ app.use(FCascader);
 
 ## 代码演示
 
-### 基础用法
+### 基础用法（默认单选）
 
 --COMMON
+
+### 基础多选
+
+--MULTIPLE
 
 ### 空选项
 
@@ -24,7 +28,7 @@ app.use(FCascader);
 
 --CUSTOMNODE
 
-### 禁用
+### 禁用状态
 
 --DISABLED
 
@@ -40,6 +44,8 @@ app.use(FCascader);
 | placeholder          | 输入框占位文本                                  | string              | `请选择`              |
 | disabled             | 是否禁用                                        | boolean             | `false`               |
 | clearable            | 是否支持清空选项                                | boolean             | `false`               |
+| collapseTags         | 多选时选中项是否折叠展示                        | boolean             | `false`               |
+| collapseTagsLimit    | 多选时选中项超出限制个数后才会折叠              | number              | 1                     |
 | multiple             | 是否多选                                        | boolean             | `false`               |
 | showAllLevels        | 输入框中是否显示选中值的完整路径                | boolean             | `true`                |
 | separator            | 选项分隔符                                      | string              | `/`                   |

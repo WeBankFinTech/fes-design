@@ -19,6 +19,8 @@
                     :isOpened="isOpened"
                     :multiple="multiple"
                     :placeholder="placeholder"
+                    :collapseTags="collapseTags"
+                    :collapseTagsLimit="collapseTagsLimit"
                     @remove="handleRemove"
                     @clear="handleClear"
                 />
@@ -99,8 +101,23 @@ export default defineComponent({
         getContainer: {
             type: Function,
         },
+        collapseTags: {
+            type: Boolean,
+            default: false,
+        },
+        collapseTagsLimit: {
+            type: Number,
+            default: 1,
+        },
     },
-    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'removeTag', 'visibleChange', 'clear', 'expandChange'],
+    emits: [
+        UPDATE_MODEL_EVENT,
+        CHANGE_EVENT,
+        'removeTag',
+        'visibleChange',
+        'clear',
+        'expandChange',
+    ],
     setup(props, { emit }) {
         const isOpened = ref(false);
         const selectedNodes = ref([]);
@@ -153,7 +170,9 @@ export default defineComponent({
         const selectedOptions = computed(() =>
             selectedNodes.value.map((selectedNode) => ({
                 value: selectedNode.value,
-                label: props.showAllLevels ? selectedNode.pathLabels.join(props.separator) : selectedNode.label,
+                label: props.showAllLevels
+                    ? selectedNode.pathLabels.join(props.separator)
+                    : selectedNode.label,
             })),
         );
 

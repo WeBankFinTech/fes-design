@@ -20,6 +20,8 @@
                     :multiple="multiple"
                     :placeholder="placeholder"
                     :filterable="filterable"
+                    :collapseTags="collapseTags"
+                    :collapseTagsLimit="collapseTagsLimit"
                     @remove="handleRemove"
                     @clear="handleClear"
                     @focus="focus"
@@ -38,7 +40,15 @@
     </div>
 </template>
 <script>
-import { defineComponent, ref, provide, unref, reactive, watch, computed } from 'vue';
+import {
+    defineComponent,
+    ref,
+    provide,
+    unref,
+    reactive,
+    watch,
+    computed,
+} from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel, useArrayModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
@@ -99,12 +109,32 @@ export default defineComponent({
             type: Boolean,
             default: false,
         },
+        collapseTags: {
+            type: Boolean,
+            default: false,
+        },
+        collapseTagsLimit: {
+            type: Number,
+            default: 1,
+        },
     },
-    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'removeTag', 'visibleChange', 'focus', 'blur', 'clear'],
+    emits: [
+        UPDATE_MODEL_EVENT,
+        CHANGE_EVENT,
+        'removeTag',
+        'visibleChange',
+        'focus',
+        'blur',
+        'clear',
+    ],
     setup(props, { emit }) {
-        const { validate } = useFormAdaptor(computed(() => (props.multiple ? 'array' : 'string')));
+        const { validate } = useFormAdaptor(
+            computed(() => (props.multiple ? 'array' : 'string')),
+        );
         const isOpened = ref(false);
-        const [currentValue, updateCurrentValue] = props.multiple ? useArrayModel(props, emit) : useNormalModel(props, emit);
+        const [currentValue, updateCurrentValue] = props.multiple
+            ? useArrayModel(props, emit)
+            : useNormalModel(props, emit);
         const filterText = ref('');
 
         watch(isOpened, () => {
@@ -148,7 +178,10 @@ export default defineComponent({
                     emit('removeTag', value);
                 } else {
                     const selectVal = unref(currentValue);
-                    if (props.multipleLimit > 0 && props.multipleLimit === selectVal.length) {
+                    if (
+                        props.multipleLimit > 0 &&
+                        props.multipleLimit === selectVal.length
+                    ) {
                         return;
                     }
                 }
@@ -165,7 +198,9 @@ export default defineComponent({
                 return options.filter((option) => option.value === val);
             }
             return val.map((value) => {
-                const fileredOption = options.filter((option) => option.value === value);
+                const fileredOption = options.filter(
+                    (option) => option.value === value,
+                );
                 if (fileredOption.length) {
                     return fileredOption[0];
                 }

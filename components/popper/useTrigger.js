@@ -1,6 +1,11 @@
 import { reactive } from 'vue';
 
-export default function useTrigger(visible, updateVisible, props, updateVirtualRect) {
+export default function useTrigger(
+    visible,
+    updateVisible,
+    props,
+    updateVirtualRect,
+) {
     let triggerFocused = false;
     let showTimer = null;
     let hideTimer = null;
@@ -44,7 +49,6 @@ export default function useTrigger(visible, updateVisible, props, updateVirtualR
     };
 
     const popperEventsHandler = (e, t) => {
-        e.stopPropagation();
         switch (e.type) {
             case 'click': {
                 if (t === 'contextmenu') {
@@ -122,7 +126,10 @@ export default function useTrigger(visible, updateVisible, props, updateVirtualR
 
     function onPopperMouseLeave() {
         const { trigger } = props;
-        const shouldPrevent = (trigger === 'click' || trigger === 'focus' || trigger === 'contextmenu');
+        const shouldPrevent =
+            trigger === 'click' ||
+            trigger === 'focus' ||
+            trigger === 'contextmenu';
         if (shouldPrevent) return;
         hide();
     }
