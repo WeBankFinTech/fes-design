@@ -12,12 +12,21 @@
         :disabled="true"
         :options="disabled.options">
     </FCascader>
-    <div class="text-tips">折叠选中项：</div>
+    <div class="text-tips">折叠选中项（默认1项起）：</div>
     <FCascader       
         v-model="disabled.multipleValue"
         :multiple="true"
         :disabled="true"
         collapseTags
+        :options="disabled.options">
+    </FCascader>
+    <div class="text-tips">折叠选中项（2项起）：</div>
+    <FCascader       
+        v-model="disabled.multipleValue"
+        :multiple="true"
+        :disabled="true"
+        collapseTags
+        :collapseTagsLimit="2"
         :options="disabled.options">
     </FCascader>
 </template>
@@ -28,7 +37,7 @@
     const useDisabled = () => {
         const state = reactive({
             value: '140000',
-            multipleValue: ["140000", "210000"],
+            multipleValue: ["140000", "210000", "220000"],
         })
 
         return {

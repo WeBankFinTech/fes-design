@@ -87,6 +87,10 @@ export default {
             type: Boolean,
             default: false,
         },
+        collapseTagsLimit: {
+            type: Number,
+            default: 1,
+        },
     },
     emits: ['removeTag', 'input'],
     setup(props, { emit }) {
@@ -112,22 +116,21 @@ export default {
             const options = props.selectedOptions;
             const tags = [];
 
-            if (options.length > 0) {
-                const [first, ...rest] = options;
+            if (props.collapseTags) {
+                const showOptions = options.slice(0, props.collapseTagsLimit);
+                const rest = options.slice(props.collapseTagsLimit);
                 const restCount = rest.length;
 
-                tags.push(genTag(first));
+                showOptions.forEach((option) => tags.push(genTag(option)));
 
                 if (restCount > 0) {
-                    if (props.collapseTags) {
-                        tags.push({
-                            label: `+ ${restCount}`,
-                            closable: false,
-                        });
-                    } else {
-                        rest.forEach((option) => tags.push(genTag(option)));
-                    }
+                    tags.push({
+                        label: `+ ${restCount}`,
+                        closable: false,
+                    });
                 }
+            } else {
+                options.forEach((option) => tags.push(genTag(option)));
             }
 
             return tags;

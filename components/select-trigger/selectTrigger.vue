@@ -15,6 +15,7 @@
             :filterable="filterable"
             :disabled="disabled"
             :collapseTags="collapseTags"
+            :collapseTagsLimit="collapseTagsLimit"
             @remove-tag="handleRemove"
             @input="handleFilterTextChange"
         ></Label>
@@ -90,6 +91,7 @@ export default defineComponent({
         filterable: Boolean,
         placeholder: String,
         collapseTags: Boolean,
+        collapseTagsLimit: Number,
     },
     emits: ['remove', 'clear', 'focus', 'blur', 'input'],
     setup(props, { emit }) {

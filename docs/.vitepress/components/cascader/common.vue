@@ -1,13 +1,13 @@
 <template>
     <div class="text-tips">默认单选：</div>
     <FCascader       
-        v-model="base.value"
+        v-model="base.value1"
         :options="base.options"
         @change="base.handleChange">
     </FCascader>
     <div class="text-tips">hover单选：</div>
     <FCascader       
-        v-model="base.value"
+        v-model="base.value2"
         :options="base.options" 
         :nodeConfig="{ expandTrigger: 'hover' }"
         @change="base.handleChange">
@@ -208,7 +208,8 @@
     // 基础用法
     const useBase = () => {
         const state = reactive({
-            value: '',
+            value1: '',
+            value2: '',
             valueEmitPath: [],
         })
 

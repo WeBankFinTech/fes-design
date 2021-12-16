@@ -20,6 +20,7 @@
                     :multiple="multiple"
                     :placeholder="placeholder"
                     :collapseTags="collapseTags"
+                    :collapseTagsLimit="collapseTagsLimit"
                     @remove="handleRemove"
                     @clear="handleClear"
                 />
@@ -103,6 +104,10 @@ export default defineComponent({
         collapseTags: {
             type: Boolean,
             default: false,
+        },
+        collapseTagsLimit: {
+            type: Number,
+            default: 1,
         },
     },
     emits: [

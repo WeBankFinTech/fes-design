@@ -8,8 +8,17 @@
             :label="item.label"
         ></FOption>
     </FSelect>
-    <div class="text-tips">折叠选中项：</div>
+    <div class="text-tips">折叠选中项（默认1项起）：</div>
     <FSelect multiple clearable collapseTags>
+        <FOption
+            v-for="(item, index) in optionList"
+            :key="index"
+            :value="item.value"
+            :label="item.label"
+        ></FOption>
+    </FSelect>
+    <div class="text-tips">折叠选中项（2项起）：</div>
+    <FSelect multiple clearable collapseTags :collapseTagsLimit="2">
         <FOption
             v-for="(item, index) in optionList"
             :key="index"
