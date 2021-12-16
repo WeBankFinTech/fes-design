@@ -21,6 +21,7 @@
                     :placeholder="placeholder"
                     :filterable="filterable"
                     :collapseTags="collapseTags"
+                    :collapseTagsLimit="collapseTagsLimit"
                     @remove="handleRemove"
                     @clear="handleClear"
                     @focus="focus"
@@ -111,6 +112,10 @@ export default defineComponent({
         collapseTags: {
             type: Boolean,
             default: false,
+        },
+        collapseTagsLimit: {
+            type: Number,
+            default: 1,
         },
     },
     emits: [
