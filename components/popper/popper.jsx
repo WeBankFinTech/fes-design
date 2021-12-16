@@ -85,12 +85,14 @@ export default defineComponent({
             popperStyle,
             updateVirtualRect,
         } = usePopper(props, ctx);
-        useClickOutSide([triggerRef, popperRef], {
-            callback: () => {
+        const disabledWatch = computed(() => props.disabled || !visible.value);
+        useClickOutSide(
+            [triggerRef, popperRef],
+            () => {
                 updateVisible(false);
             },
-            enable: () => !props.disabled && visible.value,
-        });
+            disabledWatch,
+        );
         useResize(triggerRef, update, props);
         const { events, onPopperMouseEnter, onPopperMouseLeave } = useTrigger(
             visible,

@@ -78,29 +78,36 @@ export default defineComponent({
                     ...props.confirmOption,
                     ...defaultConfirmOption,
                 };
-                const contentClass = [`${prefixCls}-modal-body`, isConfirm && 'is-confirm', title && 'has-header'].filter(Boolean).join(' ');
+                const contentClass = [
+                    `${prefixCls}-modal-body`,
+                    isConfirm && 'is-confirm',
+                    title && 'has-header',
+                ]
+                    .filter(Boolean)
+                    .join(' ');
                 return (
                     <>
                         {title && (
-                            <div class={`${prefixCls}-modal-header ${isConfirm && 'is-confirm'}`}>
+                            <div
+                                class={`${prefixCls}-modal-header ${
+                                    isConfirm && 'is-confirm'
+                                }`}
+                            >
                                 {isConfirm && (
-                                    <div class={`${prefixCls}-modal-icon`}>{mergeOpt.icon}</div>
+                                    <div class={`${prefixCls}-modal-icon`}>
+                                        {mergeOpt.icon}
+                                    </div>
                                 )}
                                 {title}
                             </div>
                         )}
-                        {content && (
-                            <div
-                                class={contentClass}
-                            >
-                                {content}
-                            </div>
-                        )}
+                        {content && <div class={contentClass}>{content}</div>}
                         {isConfirm && (
                             <>
                                 <Button
                                     class={`${prefixCls}-modal-btn`}
-                                    onClick={event => handleConfirmCB(OK_EVENT, event)
+                                    onClick={(event) =>
+                                        handleConfirmCB(OK_EVENT, event)
                                     }
                                     size="small"
                                     type="primary"
@@ -109,7 +116,8 @@ export default defineComponent({
                                 </Button>
                                 <Button
                                     class={`${prefixCls}-modal-btn`}
-                                    onClick={event => handleConfirmCB(CANCEL_EVENT, event)
+                                    onClick={(event) =>
+                                        handleConfirmCB(CANCEL_EVENT, event)
                                     }
                                     size="small"
                                 >
@@ -124,7 +132,7 @@ export default defineComponent({
 
         return () => {
             const popperProps = { ...props };
-            tooltipPropKeys.forEach(key => delete popperProps[key]);
+            tooltipPropKeys.forEach((key) => delete popperProps[key]);
             if (props.mode === 'confirm') {
                 // confirm模式下，只能点击触发
                 popperProps.trigger = 'click';
