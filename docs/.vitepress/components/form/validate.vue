@@ -1,5 +1,5 @@
 <template>
-    <FForm ref="WFormDomRef" :labelWidth="140" labelPosition="right" :model="modelForm" :rules="rules">
+    <FForm ref="WFormDomRef" labelWidth="140px" labelPosition="right" :model="modelForm" :rules="rules">
         <FFormItem prop="name" :rules="nameRules">
             <template v-slot:label><span>输入姓名(slot)</span></template>
             <FInput v-model="modelForm.name" placeholder="请输入" @change="changeHandler"></FInput>

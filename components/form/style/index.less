@@ -20,6 +20,8 @@
 @form-size-base: @font-size-base;
 @form-size-error: @font-size-base - 2;
 
+@form-item-height: @data-input-height-base;
+
 
 // 表单布局: horizontal
 .@{form-cls} {
@@ -38,7 +40,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: left;
-            height: 32px;
+            height: @form-item-height;
             margin-right: @form-item-label-mr;
         }
         &-content {
@@ -46,7 +48,7 @@
             display: flex;
             flex: 1;
             align-items: center;
-            min-height: 32px;
+            min-height: @form-item-height;
         }
     }
     // 对齐方式: 右对齐 

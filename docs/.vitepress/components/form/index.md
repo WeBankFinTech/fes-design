@@ -44,7 +44,7 @@ Form 组件提供表单验证的功能，通过 rules 属性传入约定的验�
 | rules | 表单验证规则，可查看`async-validator` | object | - |
 | layout | 表单布局，可选值为`horizontal`、`inline` | string | `horizontal` |
 | labelPosition  | 表单域标签的位置，可选值为`left`、`top`、`right` | string | `left` |
-| labelWidth  | 表单域标签的宽度。作为 Form 直接子元素的 form-item 会继承该值。| string、number | - |
+| labelWidth  | 表单域标签的宽度。作为 Form 直接子元素的 form-item 会继承该值。| string(100px)、number(100) | - |
 | showMessage  | 是否显示校验错误信息。| boolean | `true` |
 
 
@@ -64,7 +64,7 @@ Form 组件提供表单验证的功能，通过 rules 属性传入约定的验�
 | prop | 表单域 `model` 字段，在使用 `validate`、`resetFields` 方法的情况下，该属性是必填的 | string | - |
 | rules | 表单项验证规则，可查看`Form-Item Rule Type` | object | - |
 | label | 标签文本 | string | - |
-| labelWidth  | 表单域标签的的宽度 | string、number | - |
+| labelWidth  | 表单项标签的的宽度 | string(100px)、number(100) | - |
 | showMessage  | 是否显示校验错误信息 | boolean | `true` |
 
 ## Form-Item Methods

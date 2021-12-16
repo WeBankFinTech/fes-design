@@ -19,6 +19,7 @@ import {
 } from 'vue';
 import Schema from 'async-validator';
 import { isArray, cloneDeep } from 'lodash-es';
+import { addUnit } from '../_util/utils';
 import {
     provideKey, FORM_ITEM_NAME, LABEL_POSITION, TRIGGER_DEFAULT, VALIDATE_STATUS, VALIDATE_MESSAGE_DEFAULT,
 } from './const';
@@ -79,8 +80,8 @@ export default defineComponent({
                 .concat((formItemRequired.value && ['is-required']) || []) // 必填校验: is-required
                 .concat((validateStatus.value === VALIDATE_STATUS.ERROR && ['is-error']) || []); // 校验错误: is-error
             return classSet.join(' ');
-        });
-        const formItemLabelStyle = computed(() => ({ width: `${+props.labelWidth || +labelWidth.value}px` }));
+        });        
+        const formItemLabelStyle = computed(() => ({ width: addUnit(props.labelWidth || labelWidth.value) }));
 
         let ruleDefaultType = 'string';
         const setRuleDefaultType = (val) => {
