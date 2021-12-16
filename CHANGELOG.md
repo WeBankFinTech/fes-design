@@ -1,3 +1,22 @@
+## [0.0.7](https://github.com/WeBankFinTech/fes-design/compare/v0.0.6...v0.0.7) (2021-12-16)
+
+
+### Bug Fixes
+
+* 修复 form 组件bug ([0b26bc7](https://github.com/WeBankFinTech/fes-design/commit/0b26bc755a06f1d4aee3e03e2a21e0eba05dd539))
+* 修复popper中clickout判定时机的bug + tree组件icon没对齐 ([8698ca9](https://github.com/WeBankFinTech/fes-design/commit/8698ca93a45c22393c2d66d219260fa5010e44d6))
+* 修复Popper组件的trigger事件冒泡被阻止 ([1baaaf8](https://github.com/WeBankFinTech/fes-design/commit/1baaaf867acdda1a672ab4e43d67435e9f81aa69))
+* 处理form-item是group(radio/checkbox)的校验问题 ([f9ba4d8](https://github.com/WeBankFinTech/fes-design/commit/f9ba4d867a8fe8432035dc8d7f4bc152d465b13b))
+
+
+### Features
+
+* Select&Cascader多选时选中项折叠体验优化 ([7036ce8](https://github.com/WeBankFinTech/fes-design/commit/7036ce8546990348026a23bdddaaf0f8e25a9006))
+* select支持从option.text取label ([2dc0771](https://github.com/WeBankFinTech/fes-design/commit/2dc077141fa4593f2e4931e462de5234b168d3c5))
+* 修复form问题: ([f4346be](https://github.com/WeBankFinTech/fes-design/commit/f4346befbef9fd37ff3f9f5be263526530b04a4e))
+
+
+
 ## [0.0.6](https://github.com/WeBankFinTech/fes-design/compare/v0.0.5...v0.0.6) (2021-12-15)
 
 
