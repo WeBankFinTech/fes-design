@@ -1,5 +1,12 @@
 <template>
-    <div tabindex="0" :class="triggerClass" @mouseenter="inputHovering = true" @mouseleave="inputHovering = false" @focus="handleFocus" @blur="handleBlur">
+    <div
+        tabindex="0"
+        :class="triggerClass"
+        @mouseenter="inputHovering = true"
+        @mouseleave="inputHovering = false"
+        @focus="handleFocus"
+        @blur="handleBlur"
+    >
         <Label
             :isOpened="isOpened"
             :selectedOptions="selectedOptions"
@@ -11,9 +18,20 @@
             @input="handleFilterTextChange"
         ></Label>
         <div :class="`${prefixCls}-icons`">
-            <UpOutlined v-show="isOpened && !showClear" :class="`${prefixCls}-icon`" />
-            <DownOutlined v-show="!isOpened && !showClear" :class="`${prefixCls}-icon`" />
-            <CloseCircleFilled v-if="clearable" v-show="showClear" :class="`${prefixCls}-icon`" @click.stop="handleClear" />
+            <UpOutlined
+                v-show="isOpened && !showClear"
+                :class="`${prefixCls}-icon`"
+            />
+            <DownOutlined
+                v-show="!isOpened && !showClear"
+                :class="`${prefixCls}-icon`"
+            />
+            <CloseCircleFilled
+                v-if="clearable"
+                v-show="showClear"
+                :class="`${prefixCls}-icon`"
+                @click.stop="handleClear"
+            />
         </div>
     </div>
 </template>
@@ -76,7 +94,13 @@ export default defineComponent({
         const inputHovering = ref(false);
         const unSelected = computed(() => props.selectedOptions.length === 0);
         const { isFocus, handleFocus, handleBlur } = useFocus(emit, props);
-        const showClear = computed(() => !props.disabled && props.clearable && !unSelected.value && inputHovering.value);
+        const showClear = computed(
+            () =>
+                !props.disabled &&
+                props.clearable &&
+                !unSelected.value &&
+                inputHovering.value,
+        );
         const triggerClass = computed(() => ({
             [`${prefixCls}`]: true,
             'is-active': props.isOpened || isFocus.value,

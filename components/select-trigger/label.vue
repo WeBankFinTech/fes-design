@@ -30,13 +30,29 @@
                 </Ellipsis>
             </Tag>
             <template v-if="filterable">
-                <div v-if="isOpened || unSelected" :class="`${prefixCls}-placeholder`">
-                    <input ref="inputRef" :value="filterText" :placeholder="placeholder" :class="`${prefixCls}-input`" @input="handleInput" />
+                <div
+                    v-if="isOpened || unSelected"
+                    :class="`${prefixCls}-placeholder`"
+                >
+                    <input
+                        ref="inputRef"
+                        :value="filterText"
+                        :placeholder="placeholder"
+                        :class="`${prefixCls}-input`"
+                        @input="handleInput"
+                    />
                 </div>
             </template>
             <template v-else>
                 <div v-if="unSelected" :class="`${prefixCls}-placeholder`">
-                    <input ref="inputRef" :value="filterText" :placeholder="placeholder" :class="`${prefixCls}-input`" readonly @input="handleInput" />
+                    <input
+                        ref="inputRef"
+                        :value="filterText"
+                        :placeholder="placeholder"
+                        :class="`${prefixCls}-input`"
+                        readonly
+                        @input="handleInput"
+                    />
                 </div>
             </template>
         </template>
@@ -75,7 +91,9 @@ export default {
         const unSelected = computed(() => props.selectedOptions.length === 0);
         const singleLabel = computed(() => {
             const options = props.selectedOptions;
-            return options.length > 0 ? options[0].label || options[0].value : '';
+            return options.length > 0
+                ? options[0].label || options[0].value
+                : '';
         });
         const multiLabels = computed(() => {
             const options = props.selectedOptions;
