@@ -1,8 +1,16 @@
 <template>
     <div :class="prefixCls">
-        <Scrollbar :class="`${prefixCls}-dropdown`" :containerClass="`${prefixCls}-dropdown__wrap`">
+        <Scrollbar
+            :class="`${prefixCls}-dropdown`"
+            :containerClass="`${prefixCls}-dropdown__wrap`"
+        >
             <ul v-if="!isEmpty" :class="`${prefixCls}-list`" role="menu">
-                <CascaderNode v-for="node in nodes" :key="node.nodeId" :node="node" :menuId="menuId" />
+                <CascaderNode
+                    v-for="node in nodes"
+                    :key="node.nodeId"
+                    :node="node"
+                    :menuId="menuId"
+                />
             </ul>
             <div v-else :class="`${prefixCls}-null`">{{ emptyText }}</div>
         </Scrollbar>

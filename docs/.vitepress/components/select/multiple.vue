@@ -1,5 +1,15 @@
 <template>
+    <div class="text-tips">不折叠选中项（默认）：</div>
     <FSelect multiple clearable>
+        <FOption
+            v-for="(item, index) in optionList"
+            :key="index"
+            :value="item.value"
+            :label="item.label"
+        ></FOption>
+    </FSelect>
+    <div class="text-tips">折叠选中项：</div>
+    <FSelect multiple clearable collapseTags>
         <FOption
             v-for="(item, index) in optionList"
             :key="index"
@@ -45,5 +55,8 @@ export default {
 <style lang="less" scoped>
 .fes-select {
     width: 200px;
+}
+.text-tips {
+    margin-top: 10px;
 }
 </style>

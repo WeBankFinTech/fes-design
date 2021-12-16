@@ -12,6 +12,14 @@
         :disabled="true"
         :options="disabled.options">
     </FCascader>
+    <div class="text-tips">折叠选中项：</div>
+    <FCascader       
+        v-model="disabled.multipleValue"
+        :multiple="true"
+        :disabled="true"
+        collapseTags
+        :options="disabled.options">
+    </FCascader>
 </template>
 
 <script>
@@ -77,8 +85,6 @@
 .fes-cascader {
     width: 200px;
 }
-</style>
-<style lang="less" scoped>
 .text-tips {
     margin-top: 10px;
 }
