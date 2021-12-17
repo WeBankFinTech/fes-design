@@ -54,12 +54,12 @@ app.use(FCarousel);
 | 属性               | 说明                                  | 类型    | 可选值              | 默认值     |
 | :----------------- | :------------------------------------ | :------ | :------------------ | :--------- |
 | height             | carousel 的高度                       | string  | —                   | —          |
-| initial-index      | 初始状态激活的幻灯片的索引，从 0 开始 | number  | —                   | 0          |
-| trigger            | 指示器的触发方式                      | string  | hover/click         | hover      |
+| initial-index      | 初始状态激活的幻灯片的索引，从 0 开始    | number  | —                   | 0          |
+| trigger            | 指示器的触发方式                      | string  | click/hover         | click      |
 | autoplay           | 是否自动切换                          | boolean | —                   | true       |
 | interval           | 自动切换的时间间隔，单位为毫秒        | number  | —                   | 3000       |
-| indicator-type | 指示器的位置                          | string  | linear/dot        | linear          |
-| indicator-placement | 指示器的摆放方向                     | string  | top/right/bottom/left       | —bottom |
+| indicator-type | 指示器的类型（线性/圆点）                          | string  | linear/dot        | linear          |
+| indicator-placement | 指示器的摆放方向                     | string  | top/right/bottom/left       | bottom |
 | indicator-position | 指示器的位置                          | string  | outside/none        | —          |
 | show-arrow         | 切换箭头的显示时机                    | string  | always/hover/never  | hover      |
 | type               | carousel 的类型                       | string  | card                | —          |
