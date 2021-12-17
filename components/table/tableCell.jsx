@@ -69,12 +69,13 @@ export default defineComponent({
                     <Fragment>{column.ctx.slots.default(props)}</Fragment>
                 );
         }
-        const res = column?.props?.formatter?.(props) || cellValue || '';
+        const getResult = () =>
+            column?.props?.formatter?.(props) || cellValue || '';
         return () =>
             column.props.ellipsis ? (
-                <Ellipsis>{`${res}`}</Ellipsis>
+                <Ellipsis>{getResult()}</Ellipsis>
             ) : (
-                <Fragment>{`${res}`}</Fragment>
+                <Fragment>{getResult()}</Fragment>
             );
     },
 });

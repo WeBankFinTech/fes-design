@@ -1,9 +1,8 @@
 import { ref, watch, reactive, computed } from 'vue';
 import { isFunction } from 'lodash-es';
 import { TABLE_NAME } from './const';
-import { getRowKey } from './helper';
 
-export default ({ props, ctx, showData, columns }) => {
+export default ({ props, ctx, showData, columns, getRowKey }) => {
     // 选择器列唯一
     const selectionColumn = computed(() => {
         const arr = columns.value.filter(
@@ -51,13 +50,13 @@ export default ({ props, ctx, showData, columns }) => {
     };
 
     const isSelected = ({ row }) => {
-        const rowKey = getRowKey({ row, rowKey: props.rowKey });
+        const rowKey = getRowKey({ row });
         return selection.includes(rowKey);
     };
 
     const handleSelect = ({ row }) => {
         if (isSelectDisabled({ row })) return;
-        const rowKey = getRowKey({ row, rowKey: props.rowKey });
+        const rowKey = getRowKey({ row });
         const index = selection.indexOf(rowKey);
         if (index !== -1) {
             selection.splice(index, 1);
@@ -77,7 +76,7 @@ export default ({ props, ctx, showData, columns }) => {
         // 如果全部选中，则设置全选按钮
         if (
             selectableData.value.every((_row) => {
-                const _rowKey = getRowKey({ row: _row, rowKey: props.rowKey });
+                const _rowKey = getRowKey({ row: _row });
                 return selection.includes(_rowKey);
             })
         ) {
@@ -86,7 +85,7 @@ export default ({ props, ctx, showData, columns }) => {
         // 如果全部不选中，则设置全选按钮
         if (
             selectableData.value.some((_row) => {
-                const _rowKey = getRowKey({ row: _row, rowKey: props.rowKey });
+                const _rowKey = getRowKey({ row: _row });
                 return !selection.includes(_rowKey);
             })
         ) {
@@ -95,7 +94,7 @@ export default ({ props, ctx, showData, columns }) => {
     };
 
     function splice(row) {
-        const rowKey = getRowKey({ row, rowKey: props.rowKey });
+        const rowKey = getRowKey({ row });
         const index = selection.indexOf(rowKey);
         if (index !== -1) {
             selection.splice(index, 1);
@@ -103,7 +102,7 @@ export default ({ props, ctx, showData, columns }) => {
     }
 
     function push(row) {
-        const rowKey = getRowKey({ row, rowKey: props.rowKey });
+        const rowKey = getRowKey({ row });
         const index = selection.indexOf(rowKey);
         if (index === -1) {
             selection.push(rowKey);

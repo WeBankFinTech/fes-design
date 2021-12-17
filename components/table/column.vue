@@ -1,9 +1,22 @@
 <script>
 import {
-    defineComponent, h, Fragment,
+    defineComponent,
+    h,
+    Fragment,
+    inject,
+    onBeforeMount,
+    onBeforeUnmount,
+    getCurrentInstance,
 } from 'vue';
-import { ALIGN, COL_TYPE, TABLE_COLUMN_NAME } from './const';
-import useColumn from './useColumn';
+import {
+    TABLE_NAME,
+    TABLE_COLUMN_NAME,
+    ALIGN,
+    COL_TYPE,
+    provideKey,
+} from './const';
+
+let columnIdSeed = 1;
 
 export default defineComponent({
     name: TABLE_COLUMN_NAME,
@@ -52,7 +65,29 @@ export default defineComponent({
         },
     },
     setup(props, ctx) {
-        useColumn(props, ctx);
+        console.log('column setup');
+        const table = inject(provideKey, null);
+        if (!table) {
+            return console.error(
+                `[${TABLE_COLUMN_NAME}]: ${TABLE_COLUMN_NAME} 须搭配 ${TABLE_NAME} 组件使用！`,
+            );
+        }
+        const instance = getCurrentInstance();
+        const parentInstance = instance.vnode.vParent || instance.parent;
+        const { tableId, addColumn, removeColumn } = table;
+        const columnId = `${tableId}-column_${columnIdSeed++}`;
+        instance.columnId = columnId;
+        onBeforeMount(() => {
+            addColumn({
+                id: columnId,
+                props,
+                ctx,
+                parentId: parentInstance.columnId || null,
+            });
+        });
+        onBeforeUnmount(() => {
+            removeColumn(columnId);
+        });
     },
     render() {
         let children = [];
@@ -61,13 +96,13 @@ export default defineComponent({
             if (renderDefault instanceof Array) {
                 renderDefault.forEach((childNode) => {
                     if (
-                        childNode.type?.name === TABLE_COLUMN_NAME
-                        || childNode.shapeFlag !== 36
+                        childNode.type?.name === TABLE_COLUMN_NAME ||
+                        childNode.shapeFlag !== 36
                     ) {
                         children.push(childNode);
                     } else if (
-                        childNode.type === Fragment
-                        && childNode.children instanceof Array
+                        childNode.type === Fragment &&
+                        childNode.children instanceof Array
                     ) {
                         renderDefault.push(...childNode.children);
                     }

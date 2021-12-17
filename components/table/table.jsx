@@ -1,18 +1,7 @@
-import {
-    defineComponent,
-    provide,
-    onMounted,
-    nextTick,
-    watch,
-    reactive,
-} from 'vue';
+import { defineComponent, onMounted, nextTick, watch, reactive } from 'vue';
 import { isUndefined } from 'lodash-es';
-import { TABLE_NAME, SIZE, provideKey } from './const';
+import { TABLE_NAME, SIZE } from './const';
 import useTable from './useTable';
-import useTableSelect from './useTableSelect';
-import useTableExpand from './useTableExpand';
-import useTableStyle from './useTableStyle';
-import useTableFix from './useTableFix';
 import TableHeader from './tableHeader';
 import TableBody from './tableBody';
 import Mousewheel from '../_util/directives/mousewheel';
@@ -70,118 +59,31 @@ export default defineComponent({
         'sort-change',
     ],
     setup(props, ctx) {
+        console.log('table setup');
         const {
-            tableId,
-            addColumn,
-            removeColumn,
-            headerRows,
-            columns,
-            showData,
-            getCellValue,
-            getRowKey,
-            handleCellClick,
-            handleHeaderClick,
-            handleRowClick,
-        } = useTable(props, ctx);
-
-        const {
-            selectionColumn,
-            selection,
-            isSelectDisabled,
-            isSelected,
-            isAllSelected,
             handleSelect,
             handleSelectAll,
             clearSelect,
-        } = useTableSelect({
-            props,
-            ctx,
-            showData,
-            columns,
-        });
-
-        const { expandColumn, isExpandOpened, handleExpand } = useTableExpand({
-            props,
-            ctx,
-            columns,
-        });
-
-        const {
-            wrapperRef,
-            headerWrapperRef,
-            bodyWrapperRef,
-            getRowClassName,
-            getRowStyle,
-            getColClassName,
-            getColStyle,
-            prefixCls,
-            wrapperClass,
             layout,
-            wrapperStyle,
-            headerWrapperStyle,
-            bodyWrapperStyle,
-            headerStyle,
-            bodyStyle,
-            getCellSpan,
-            syncPosition,
-            fixeHeaderWrapperRef,
-            fixedBodyWrapperRef,
-            handleHeaderMousewheel,
-            handleFixedMousewheel,
-        } = useTableStyle({
-            props,
-            columns,
-            expandColumn,
-            isExpandOpened,
-        });
-
-        const {
-            fixLeftColumn,
-            fixRightColumn,
+            bodyWrapperRef,
             getFixClass,
             getFixStyle,
-            getFixTrStyle,
+            fixeHeaderWrapperRef,
+            prefixCls,
+            headerWrapperStyle,
+            fixedBodyWrapperRef,
+            handleFixedMousewheel,
+            bodyWrapperStyle,
             fixBodyWrapperStyle,
-        } = useTableFix({
-            props,
-            columns,
-            layout,
-            prefixCls,
-        });
-
-        provide(provideKey, {
-            id: tableId,
-            addColumn,
-            removeColumn,
-            prefixCls,
-            layout,
-            headerRows,
-            handleHeaderClick,
-            getColStyle,
-            isAllSelected,
-            selection,
-            handleSelectAll,
-            showData,
-            getRowKey,
-            getRowClassName,
-            getRowStyle,
-            handleRowClick,
-            columns,
-            getCellSpan,
-            handleCellClick,
-            getCellValue,
-            getColClassName,
-            isSelectDisabled,
-            isSelected,
-            selectionColumn,
-            handleSelect,
-            expandColumn,
-            isExpandOpened,
-            handleExpand,
-            headerStyle,
-            bodyStyle,
-            getFixTrStyle,
-        });
+            wrapperRef,
+            wrapperClass,
+            wrapperStyle,
+            headerWrapperRef,
+            handleHeaderMousewheel,
+            syncPosition,
+            fixLeftColumn,
+            fixRightColumn,
+        } = useTable(props, ctx);
 
         ctx.expose &&
             ctx.expose({
