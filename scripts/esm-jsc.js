@@ -7,6 +7,8 @@ const babel = require('@rollup/plugin-babel');
 const vuePlugin = require('rollup-plugin-vue');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 
+const injectCss = require('./injectcss');
+
 async function compiler(codePath, outputDir) {
     const extname = path.extname(codePath);
     const outputPath = path.join(outputDir, `${path.basename(codePath, extname)}.js`);
@@ -31,6 +33,7 @@ async function compiler(codePath, outputDir) {
                 preprocessStyles: false,
                 target: 'browser',
             }),
+            injectCss(),
             babel.babel({
                 targets: 'defaults, Chrome >= 56, not IE 11',
                 babelHelpers: 'runtime',

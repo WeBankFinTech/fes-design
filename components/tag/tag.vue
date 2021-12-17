@@ -1,14 +1,14 @@
 <template>
-    <div
-        :class="classes"
-        :style="{ backgroundColor }"
-        @click="handleClick"
-    >
+    <div :class="classes" :style="{ backgroundColor }" @click="handleClick">
         <template v-if="$slots.icon">
             <slot name="icon"></slot>
         </template>
         <slot></slot>
-        <CloseOutlined v-if="closable" :class="`${prefixCls}__close`" @click.stop="handleClose" />
+        <CloseOutlined
+            v-if="closable"
+            :class="`${prefixCls}__close`"
+            @click.stop="handleClose"
+        />
     </div>
 </template>
 
@@ -22,7 +22,6 @@ const prefixCls = getPrefixCls('tag');
 const TAG_TYPE = ['default', 'success', 'info', 'warning', 'danger'];
 const TAG_SIZE = ['small', 'middle', 'large'];
 const TAG_EFFECT = ['dark', 'light', 'plain'];
-
 
 export default defineComponent({
     name: 'FTag',

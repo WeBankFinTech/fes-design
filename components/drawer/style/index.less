@@ -1,0 +1,150 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin.less';
+
+
+@drawer-prefix-cls: ~'@{cls-prefix}-drawer';
+
+.@{drawer-prefix-cls} {
+    .default();
+    .text();
+    &-open {
+        position: fixed;
+        overflow: hidden;
+    }
+    &-mask {
+        .fixed-full();
+        background: @text-color-secondary;
+    }
+
+    &-container {
+        .fixed-full();
+        display: flex;
+        overflow: auto;
+    }
+    
+    &-wrapper {
+        position: relative;
+        background: @body-background;
+        border-radius: @border-radius-base;
+        box-shadow: @shadow-down;
+    }
+    
+    &-header {
+        display: flex;
+        padding: @padding-md @padding-md + @padding-xs;
+        color: @head-color;
+        font-weight: @font-weight-medium;
+        font-size: @font-size-head;
+        border-bottom: @border-width-base @border-style-base @border-color-split;
+    }
+
+    &-body {
+        padding: @padding-md @padding-md + @padding-xs;
+        color: @sub-head-color;
+        font-size: @font-size-base;
+    }
+
+    &-footer {
+        position: absolute;
+        bottom: @padding-md + @padding-xs;
+        left: @padding-md + @padding-xs;
+        text-align: left;
+        .btn-margin {
+            margin-right: @padding-md;
+        }
+    }
+
+    &-close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0 @padding-md;
+        color: @text-color-disabled-light;
+        font-size: @font-size-head;
+        line-height: 40px;
+        cursor: pointer;
+    }
+
+    &-mask-fade-leave-active,
+    &-mask-fade-enter-active {
+        transition: opacity @animation-duration-slow @ease-base-in;
+    }
+    
+    &-mask-fade-leave-to,
+    &-mask-fade-enter-from {
+        opacity: 0;
+    }
+
+    &-fade-leave-active,
+    &-fade-enter-active {
+        transition: all @animation-duration-slow @ease-base-out;
+    }
+
+    &-top {
+        .@{drawer-prefix-cls}-fade-leave-to,
+        .@{drawer-prefix-cls}-fade-enter-from {
+            transform: translateY(-100%);
+        }
+
+        .@{drawer-prefix-cls}-container {
+            align-items: flex-start;
+        }
+
+
+        .@{drawer-prefix-cls}-wrapper {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    }
+
+    &-right {
+        .@{drawer-prefix-cls}-fade-leave-to,
+        .@{drawer-prefix-cls}-fade-enter-from {
+            transform: translateX(100%);
+        }
+
+        .@{drawer-prefix-cls}-container {
+            justify-content: end;
+        }
+
+        .@{drawer-prefix-cls}-wrapper {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    }
+
+    &-bottom {
+        .@{drawer-prefix-cls}-fade-leave-to,
+        .@{drawer-prefix-cls}-fade-enter-from {
+            transform: translateY(100%);
+        }
+
+        .@{drawer-prefix-cls}-container {
+            align-items: flex-end;
+        }
+
+
+        .@{drawer-prefix-cls}-wrapper {
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    }
+
+    &-left {
+        .@{drawer-prefix-cls}-fade-leave-to,
+        .@{drawer-prefix-cls}-fade-enter-from {
+            transform: translateX(-100%);
+        }
+
+        .@{drawer-prefix-cls}-container {
+            justify-content: start;
+        }
+
+        .@{drawer-prefix-cls}-wrapper {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    }
+
+}

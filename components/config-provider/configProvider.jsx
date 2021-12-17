@@ -1,7 +1,21 @@
-import {
-    defineComponent, watch,
-} from 'vue';
-import config from './config';
+import { defineComponent, watch, reactive } from 'vue';
+import { isObject, isNil } from 'lodash-es';
+
+const config = reactive({
+    getContainer: () => document.body,
+});
+
+export const setConfig = (data) => {
+    if (isObject(data)) {
+        Object.keys(data).forEach((prop) => {
+            if (!isNil(data[prop])) {
+                config[prop] = data[prop];
+            }
+        });
+    }
+};
+
+export const getConfig = () => config;
 
 export default defineComponent({
     name: 'FConfigProvider',
@@ -9,11 +23,15 @@ export default defineComponent({
         getContainer: Function,
     },
     setup(props, { slots }) {
-        watch(props, () => {
-            config.setConfig(props);
-        }, {
-            immediate: true,
-        });
+        watch(
+            props,
+            () => {
+                setConfig(props);
+            },
+            {
+                immediate: true,
+            },
+        );
         return () => slots.default?.();
     },
 });

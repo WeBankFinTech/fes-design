@@ -1,8 +1,8 @@
-import { Component, APP } from 'vue';
+import { Component, App } from 'vue';
 
 declare module "@fesjs/fes-design" {
     export const version: string;
-    export function install(app: APP): APP;
+    export function install(app: App): App;
     export const FAlert: Component;
     export const FButton: Component;
     export const FCheckbox: Component;
@@ -52,5 +52,6 @@ declare module "@fesjs/fes-design" {
     export const FPreviewGroup: Component;
     export const FForm: Component;
     export const FFormItem: Component;
+    export const FDrawer: Component;
 }
 

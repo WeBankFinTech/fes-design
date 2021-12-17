@@ -101,13 +101,13 @@ async function main() {
     }
 
     // run tests before release
-    step('\nRunning tests...');
-    if (!skipTests) {
-        await run(bin('jest'), ['--clearCache']);
-        await run('pnpm', ['test', '--', '--bail']);
-    } else {
-        console.log(`(skipped)`);
-    }
+    // step('\nRunning tests...');
+    // if (!skipTests) {
+    //     await run(bin('jest'), ['--clearCache']);
+    //     await run('pnpm', ['test', '--', '--bail']);
+    // } else {
+    //     console.log(`(skipped)`);
+    // }
 
     // update all package versions and inter-dependencies
     step('\nUpdating cross dependencies...');

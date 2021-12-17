@@ -13,7 +13,7 @@ const ssrTransformCustomDir = () => ({
 
 genComponentDoc();
 
-const BASE_URL = process.env.NODE_ENV === 'production' ? '/s/wxmp-extension/we-design/' : '/';
+const BASE_URL = process.env.NODE_ENV === 'production' ? '/' : '/';
 
 module.exports = {
     base: BASE_URL,
@@ -34,6 +34,8 @@ module.exports = {
             exclude: ['@vue/repl']
         },
         ssr: {
+            // lodash-es 模块是 esm，ssr 渲染的时候编译成 cjs 的引入方式，会引发 nodejs 的模块加载异常错误
+            noExternal: ['lodash-es'],
             external: ['@vue/repl']
         },
         resolve: {
@@ -71,7 +73,7 @@ module.exports = {
     },
     themeConfig: {
         highlight: baseConfig.highlight,
-        logo: `${BASE_URL}images/fes-logo.png`,
+        logo: `${BASE_URL}images/fes-logo.svg`,
         nav: navbar.zh,
         sidebar: sidebar.zh,
     },

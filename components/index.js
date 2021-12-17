@@ -38,6 +38,7 @@ import { FPagination } from './pagination';
 import { FImage, FPreviewGroup } from './image';
 import { FForm, FFormItem } from './form';
 import { FCarousel, FCarouselItem } from './carousel';
+import { FDrawer } from './drawer';
 
 const ENV = process.env.NODE_ENV;
 if (ENV !== 'production' && ENV !== 'test' && typeof console !== 'undefined' && console.warn && typeof window !== 'undefined') {
@@ -96,6 +97,7 @@ const components = [
     FFormItem,
     FCarousel,
     FCarouselItem,
+    FDrawer,
 ];
 const install = function (app) {
     components.forEach((component) => {
@@ -159,6 +161,7 @@ export {
     FFormItem,
     FCarousel,
     FCarouselItem,
+    FDrawer,
 };
 export default {
     version,

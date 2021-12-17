@@ -1,5 +1,5 @@
 import {
-    defineComponent, computed, toRefs, watch,
+    defineComponent, computed, toRefs, watch, ref,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
@@ -30,7 +30,7 @@ export default defineComponent({
         const {
             small, pageSizeOption, totalCount, simple, showSizeChanger, showQuickJumper, showTotal,
         } = toRefs(props);
-
+        const totalPage = ref(Math.ceil(totalCount.value / pageSize.value));
         const classList = computed(() => `${prefixCls}${small.value ? ` ${prefixCls}-small` : ''}`);
         const sizeOption = computed(() => {
             const res = pageSizeOption.value.slice();
@@ -52,7 +52,7 @@ export default defineComponent({
             return (
                 <Simpler
                     v-model={currentPage.value}
-                    total={totalCount.value}
+                    total={totalPage.value}
                 />
             );
         };
@@ -64,7 +64,7 @@ export default defineComponent({
             return (
                 <Pager
                     v-model={currentPage.value}
-                    total={totalCount.value}
+                    total={totalPage.value}
                 />
             );
         };
@@ -87,7 +87,7 @@ export default defineComponent({
             }
             return (
                 <Jumper
-                    total={totalCount.value}
+                    total={totalPage.value}
                     change={changeCurrentPage}
                 />
             );
@@ -104,10 +104,14 @@ export default defineComponent({
             );
         };
 
+        watch(totalCount, () => {
+            totalPage.value = Math.ceil(totalCount.value / pageSize.value);
+        });
         watch(currentPage, () => {
             emit(CHANGE_EVENT, currentPage.value);
         });
         watch(pageSize, () => {
+            totalPage.value = Math.ceil(totalCount.value / pageSize.value);
             emit('pageSizeChange', pageSize.value);
         });
         return () => (

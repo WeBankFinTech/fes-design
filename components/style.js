@@ -1,3 +1,4 @@
+import './icon/style';
 import './input/style';
 import './input-number/style';
 import './button/style';
@@ -35,3 +36,4 @@ import './cascader/style';
 import './carousel/style';
 import './config-provider/style';
 import './image/style';
+import './drawer/style';

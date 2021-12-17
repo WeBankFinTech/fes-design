@@ -1,6 +1,4 @@
-import {
-    defineComponent, computed, ref, onMounted,
-} from 'vue';
+import { defineComponent, computed, ref, onMounted } from 'vue';
 import { isObject } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import Tooltip from '../tooltip';
@@ -19,7 +17,9 @@ export default defineComponent({
         },
         tooltip: {
             type: [Boolean, Object],
-            default: true,
+            default: {
+                showAfter: 500,
+            },
         },
         triggerClass: {
             type: String,
@@ -34,9 +34,11 @@ export default defineComponent({
     setup(props, { slots }) {
         const triggerRef = ref(null);
         const overflowVisible = ref(false);
-        const classList = computed(() => [prefixCls, props.triggerClass, props.line > 1 && 'is-line-clamp']
-            .filter(Boolean)
-            .join(' '));
+        const classList = computed(() =>
+            [prefixCls, props.triggerClass, props.line > 1 && 'is-line-clamp']
+                .filter(Boolean)
+                .join(' '),
+        );
         const style = computed(() => {
             const _style = props.style;
             if (props.line > 1) {
@@ -51,9 +53,11 @@ export default defineComponent({
         const handleDisabled = () => {
             const { value: trigger } = triggerRef;
             if (props.line > 1) {
-                overflowVisible.value = trigger.scrollHeight <= trigger.offsetHeight;
+                overflowVisible.value =
+                    trigger.scrollHeight <= trigger.offsetHeight;
             } else {
-                overflowVisible.value = trigger.scrollWidth <= trigger.offsetWidth;
+                overflowVisible.value =
+                    trigger.scrollWidth <= trigger.offsetWidth;
             }
         };
         onMounted(handleDisabled);
@@ -67,14 +71,14 @@ export default defineComponent({
             return {};
         });
         const renderTrigger = () => (
-                <span
-                    ref={triggerRef}
-                    className={classList.value}
-                    style={style.value}
-                    onMouseenter={handleDisabled}
-                >
-                    {slots.default?.()}
-                </span>
+            <span
+                ref={triggerRef}
+                className={classList.value}
+                style={style.value}
+                onMouseenter={handleDisabled}
+            >
+                {slots.default?.()}
+            </span>
         );
         return () => {
             if (tooltipDisabled.value) {

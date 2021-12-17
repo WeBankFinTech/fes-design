@@ -38,5 +38,4 @@ jobs:
         force_update: true
         # 账号类型：对 luban-h5 而言是 user，因为是个人项目；如果是企业项目，请填写 org，因为是组织下的项目
         account_type: org
-        clone_style: ssh
 

@@ -6,7 +6,7 @@ import useTrigger from './useTrigger';
 import usePopper from './usePopper';
 import useResize from './useResize';
 import { getFirstValidNode } from '../_util/vnode';
-import ConfigProvider from '../config-provider';
+import { getConfig } from '../config-provider';
 
 const prefixCls = getPrefixCls('popper');
 
@@ -70,19 +70,39 @@ export default defineComponent({
         if (!ctx.slots.trigger) {
             throw new Error('FPopper', 'Trigger must be provided');
         }
-        const config = ConfigProvider.getConfig();
-        const getContainer = computed(() => props.getContainer || config.getContainer);
+        const config = getConfig();
+        const getContainer = computed(
+            () => props.getContainer || config.getContainer,
+        );
         const { slots } = ctx;
-        const { visible, updateVisible, triggerRef, popperRef, arrowRef, update, popperStyle, updateVirtualRect } = usePopper(props, ctx);
-        useClickOutSide([triggerRef, popperRef], {
-            callback: () => {
+        const {
+            visible,
+            updateVisible,
+            triggerRef,
+            popperRef,
+            arrowRef,
+            update,
+            popperStyle,
+            updateVirtualRect,
+        } = usePopper(props, ctx);
+        const disabledWatch = computed(() => props.disabled || !visible.value);
+        useClickOutSide(
+            [triggerRef, popperRef],
+            () => {
                 updateVisible(false);
             },
-            enable: () => !props.disabled && visible.value,
-        });
+            disabledWatch,
+        );
         useResize(triggerRef, update, props);
-        const { events, onPopperMouseEnter, onPopperMouseLeave } = useTrigger(visible, updateVisible, props, updateVirtualRect);
-        const popperClass = computed(() => [prefixCls, props.popperClass].filter(Boolean).join(' '));
+        const { events, onPopperMouseEnter, onPopperMouseLeave } = useTrigger(
+            visible,
+            updateVisible,
+            props,
+            updateVirtualRect,
+        );
+        const popperClass = computed(() =>
+            [prefixCls, props.popperClass].filter(Boolean).join(' '),
+        );
         const renderTrigger = () => {
             const vNode = getFirstValidNode(slots.trigger?.(), 1);
             return cloneVNode(vNode, { ref: triggerRef, ...events }, true);
@@ -90,7 +110,10 @@ export default defineComponent({
         return () => (
             <Fragment>
                 {renderTrigger()}
-                <Teleport to={getContainer.value?.()} disabled={!props.appendToContainer}>
+                <Teleport
+                    to={getContainer.value?.()}
+                    disabled={!props.appendToContainer}
+                >
                     <div
                         ref={popperRef}
                         v-show={visible.value}
@@ -101,7 +124,13 @@ export default defineComponent({
                         onMouseleave={onPopperMouseLeave}
                     >
                         {slots.default?.()}
-                        {props.arrow && <div data-popper-arrow ref={arrowRef} className={`${prefixCls}-arrow`}></div>}
+                        {props.arrow && (
+                            <div
+                                data-popper-arrow
+                                ref={arrowRef}
+                                className={`${prefixCls}-arrow`}
+                            ></div>
+                        )}
                     </div>
                 </Teleport>
             </Fragment>

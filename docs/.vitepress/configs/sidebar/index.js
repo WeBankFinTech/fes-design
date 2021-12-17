@@ -149,6 +149,10 @@ module.exports = {
                         link: '/zh/components/alert',
                     },
                     {
+                        text: 'Drawer 抽屉',
+                        link: '/zh/components/drawer',
+                    },
+                    {
                         text: 'Tooltip 文字提示',
                         link: '/zh/components/tooltip',
                     },{

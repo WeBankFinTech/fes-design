@@ -1,7 +1,4 @@
-import {
-    onBeforeUnmount,
-    onMounted,
-} from 'vue';
+import { onBeforeUnmount, onMounted } from 'vue';
 import { addResizeListener, removeResizeListener } from '../_util/resizeEvent';
 import getElementFromRef from '../_util/getElementFromRef';
 

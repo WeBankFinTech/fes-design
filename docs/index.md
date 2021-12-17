@@ -8,7 +8,7 @@ returnToTop: false
 <ClientOnly>
   <section id="hero">
     <div class="descrition">
-      <img class="logo-img" :src="withBase('./images/fes-logo.png')">
+      <img class="logo-img" :src="withBase('./images/fes-logo.svg')">
       <h3>微众银行中后台设计 Fes Design</h3>
     </div>
     <p class="actions">

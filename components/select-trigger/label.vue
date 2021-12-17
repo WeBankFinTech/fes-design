@@ -1,7 +1,9 @@
 <template>
     <div :class="[prefixCls, multiple && 'is-multiple']">
         <template v-if="!multiple">
-            <Ellipsis v-if="!(isOpened || unSelected)">{{singleLabel}}</Ellipsis>
+            <Ellipsis v-if="!(isOpened || unSelected)">
+                <span :class="`${prefixCls}-text`">{{ singleLabel }}</span>
+            </Ellipsis>
             <div v-else :class="`${prefixCls}-placeholder`">
                 <input
                     ref="inputRef"
@@ -15,33 +17,49 @@
         </template>
         <template v-else>
             <Tag
-                v-for="(label, index) in multiLabels"
+                v-for="(tag, index) in multiLabels"
                 :key="index"
                 type="info"
                 size="small"
-                closable
+                :closable="tag.closable"
                 :class="`${prefixCls}-item`"
                 @close="handleRemoveTag(index)"
             >
-                <Ellipsis>{{label}}</Ellipsis>
+                <Ellipsis>
+                    <span :class="`${prefixCls}-text`">{{ tag.label }}</span>
+                </Ellipsis>
             </Tag>
-            <div v-if="isOpened || unSelected" :class="`${prefixCls}-placeholder`">
-                <input
-                    ref="inputRef"
-                    :value="filterText"
-                    :placeholder="placeholder"
-                    :class="`${prefixCls}-input`"
-                    :readonly="!filterable"
-                    @input="handleInput"
-                />
-            </div>
+            <template v-if="filterable">
+                <div
+                    v-if="isOpened || unSelected"
+                    :class="`${prefixCls}-placeholder`"
+                >
+                    <input
+                        ref="inputRef"
+                        :value="filterText"
+                        :placeholder="placeholder"
+                        :class="`${prefixCls}-input`"
+                        @input="handleInput"
+                    />
+                </div>
+            </template>
+            <template v-else>
+                <div v-if="unSelected" :class="`${prefixCls}-placeholder`">
+                    <input
+                        ref="inputRef"
+                        :value="filterText"
+                        :placeholder="placeholder"
+                        :class="`${prefixCls}-input`"
+                        readonly
+                        @input="handleInput"
+                    />
+                </div>
+            </template>
         </template>
     </div>
 </template>
 <script>
-import {
-    computed, nextTick, ref, watch,
-} from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 import Ellipsis from '../ellipsis';
 import getPrefixCls from '../_util/getPrefixCls';
 import Tag from '../tag';
@@ -54,6 +72,7 @@ export default {
         placeholder: String,
         filterable: Boolean,
         isOpened: Boolean,
+        disabled: Boolean,
         selectedOptions: {
             type: [Array],
             default() {
@@ -64,11 +83,28 @@ export default {
             type: Boolean,
             default: false,
         },
+        collapseTags: {
+            type: Boolean,
+            default: false,
+        },
+        collapseTagsLimit: {
+            type: Number,
+            default: 1,
+        },
     },
     emits: ['removeTag', 'input'],
     setup(props, { emit }) {
         const inputRef = ref();
         const filterText = ref('');
+
+        const genTag = (option) => {
+            const { label, value } = option;
+            return {
+                label: label || value || '',
+                closable: !props.disabled,
+            };
+        };
+
         const unSelected = computed(() => props.selectedOptions.length === 0);
         const singleLabel = computed(() => {
             const options = props.selectedOptions;
@@ -78,22 +114,44 @@ export default {
         });
         const multiLabels = computed(() => {
             const options = props.selectedOptions;
-            return options.map(v => v.label || options[0].value || '');
+            const tags = [];
+
+            if (props.collapseTags) {
+                const showOptions = options.slice(0, props.collapseTagsLimit);
+                const rest = options.slice(props.collapseTagsLimit);
+                const restCount = rest.length;
+
+                showOptions.forEach((option) => tags.push(genTag(option)));
+
+                if (restCount > 0) {
+                    tags.push({
+                        label: `+ ${restCount}`,
+                        closable: false,
+                    });
+                }
+            } else {
+                options.forEach((option) => tags.push(genTag(option)));
+            }
+
+            return tags;
         });
 
-        watch(() => props.isOpened, (isOpened) => {
-            if (isOpened) {
-                nextTick(() => {
-                    if (!inputRef.value) return;
-                    inputRef.value.focus();
-                });
-            } else {
-                nextTick(() => {
-                    if (!inputRef.value) return;
-                    inputRef.value.blur();
-                });
-            }
-        });
+        watch(
+            () => props.isOpened,
+            (isOpened) => {
+                if (isOpened) {
+                    nextTick(() => {
+                        if (!inputRef.value) return;
+                        inputRef.value.focus();
+                    });
+                } else {
+                    nextTick(() => {
+                        if (!inputRef.value) return;
+                        inputRef.value.blur();
+                    });
+                }
+            },
+        );
 
         watch(multiLabels, () => {
             if (props.isOpened) {

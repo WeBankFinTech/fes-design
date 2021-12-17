@@ -2,14 +2,14 @@ import { isObject } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { createManager } from '../_util/noticeManager';
 import Alert from '../alert/alert';
-import ConfigProvider from '../config-provider';
+import { getConfig } from '../config-provider';
 
 const prefixCls = getPrefixCls('message');
 
 const defaultConfig = {
     duration: 3,
     getContainer: () => {
-        const config = ConfigProvider.getConfig();
+        const config = getConfig();
         return config.getContainer();
     },
     maxCount: null,
@@ -20,15 +20,7 @@ let mergeConfig = defaultConfig;
 
 let messageInstance = null;
 
-async function create({
-    type,
-    content,
-    duration,
-    icon,
-    closable,
-    afterClose,
-    colorful,
-}) {
+async function create({ type, content, duration, icon, closable, afterClose, colorful }) {
     if (!messageInstance) {
         messageInstance = await createManager({
             getContainer: mergeConfig.getContainer,

@@ -1,3 +1,3 @@
 <template>
-    <FPagination :total-count="20"></FPagination>
+    <FPagination :total-count="1000"></FPagination>
 </template>

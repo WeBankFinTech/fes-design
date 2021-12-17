@@ -12,17 +12,13 @@
                     :menuId="menuId"
                 />
             </ul>
-            <div v-else :class="`${prefixCls}-null`">{{emptyText}}</div>
+            <div v-else :class="`${prefixCls}-null`">{{ emptyText }}</div>
         </Scrollbar>
     </div>
 </template>
 
 <script>
-import {
-    computed,
-    defineComponent,
-    inject,
-} from 'vue';
+import { computed, defineComponent, inject } from 'vue';
 import Scrollbar from '../scrollbar';
 import CascaderNode from './node';
 import getPrefixCls from '../_util/getPrefixCls';

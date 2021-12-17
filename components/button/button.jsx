@@ -1,13 +1,20 @@
-import {
-    defineComponent, computed, ref,
-} from 'vue';
+import { defineComponent, computed, ref } from 'vue';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
 
 const prefixCls = getPrefixCls('btn');
 
 const loadingIconClassName = `${prefixCls}-loading-icon`;
-const BUTTON_TYPE = ['default', 'primary', 'link', 'text', 'info', 'success', 'warning', 'danger'];
+const BUTTON_TYPE = [
+    'default',
+    'primary',
+    'link',
+    'text',
+    'info',
+    'success',
+    'warning',
+    'danger',
+];
 
 export default defineComponent({
     name: 'FButton',
@@ -74,8 +81,12 @@ export default defineComponent({
                 class={classes.value}
                 onClick={handleClick}
             >
-                { props.loading ? (<LoadingOutlined class={loadingIconClassName} />) : slots.icon?.() }
-                { slots.default?.()}
+                {props.loading ? (
+                    <LoadingOutlined class={loadingIconClassName} />
+                ) : (
+                    slots.icon?.()
+                )}
+                {slots.default?.()}
             </button>
         );
     },

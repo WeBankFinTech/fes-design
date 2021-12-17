@@ -1,6 +1,6 @@
 <template>
     <FSelect>
-        <FOption v-for="(item, index) in optionList" :key="index" :value="item.value" :label="item.label"></FOption>
+        <FOption v-for="(item, index) in optionList" :key="index" :value="item.value">{{item.label}}</FOption>
     </FSelect>
 </template>
 <script>
@@ -10,7 +10,7 @@ export default {
     setup(){
         const optionList = reactive([{
             value: 'HuNan',
-            label: '湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南'
+            label: '湖南'
         },{
             value: 'HuBei',
             label: '湖北',
@@ -31,7 +31,7 @@ export default {
     }
 }
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .fes-select {
     width: 200px;
 }
