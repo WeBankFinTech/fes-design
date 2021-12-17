@@ -1,14 +1,6 @@
 <template>
     <Space class="carousel-demo">
-        <FCarousel height="200px" indicator-position="outside">
-            <FCarouselItem><div>1</div></FCarouselItem>
-            <FCarouselItem><div>2</div></FCarouselItem>
-            <FCarouselItem><div>3</div></FCarouselItem>
-            <FCarouselItem><div>4</div></FCarouselItem>
-        </FCarousel>
-    </Space>
-    <Space class="carousel-demo">
-        <FCarousel height="200px" indicator-type="dot">
+        <FCarousel height="200px" trigger="hover">
             <FCarouselItem><div>1</div></FCarouselItem>
             <FCarouselItem><div>2</div></FCarouselItem>
             <FCarouselItem><div>3</div></FCarouselItem>
