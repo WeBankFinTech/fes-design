@@ -86,7 +86,6 @@ export default defineComponent({
             width: addUnit(props.labelWidth || labelWidth.value),
             'margin-right': addUnit(labelMarginRight.value) || LABEL_MARGIN_RIGHT_DEFAULT
         }));
-        console.log('formItemLabelStyle', formItemLabelStyle.value);
 
         let ruleDefaultType = 'string';
         const setRuleDefaultType = (val) => {
