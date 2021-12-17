@@ -39,7 +39,10 @@ export default {
         const renderTdList = (row, rowIndex) =>
             columns.value
                 .map((column, columnIndex) => {
-                    if (!props.fixedColumn || props.fixedColumn.id === column.id) {
+                    if (
+                        !props.fixedColumn ||
+                        props.fixedColumn.id === column.id
+                    ) {
                         return (
                             <TableBodyTd
                                 key={column.id}
@@ -53,7 +56,10 @@ export default {
                                         {
                                             row,
                                             column,
-                                            cellValue: getCellValue(row, column),
+                                            cellValue: getCellValue(
+                                                row,
+                                                column,
+                                            ),
                                         },
                                         $event,
                                     );
@@ -70,7 +76,10 @@ export default {
                     <Fragment key={getRowKey({ row }) || rowIndex}>
                         <tr
                             className={getRowClassName({ row, rowIndex })}
-                            style={{ ...getRowStyle({ row, rowIndex }), ...getFixTrStyle(props.fixedColumn, rowIndex) }}
+                            style={{
+                                ...getRowStyle({ row, rowIndex }),
+                                ...getFixTrStyle(props.fixedColumn, rowIndex),
+                            }}
                             onClick={($event) => {
                                 handleRowClick({ row, rowIndex }, $event);
                             }}
@@ -78,21 +87,39 @@ export default {
                             {renderTdList(row, rowIndex)}
                         </tr>
                         {expandColumn.value && isExpandOpened({ row }) && (
-                            <TableExpand row={row} column={expandColumn.value} rowIndex={rowIndex} length={columns.value.length} />
+                            <TableExpand
+                                row={row}
+                                column={expandColumn.value}
+                                rowIndex={rowIndex}
+                                length={columns.value.length}
+                            />
                         )}
                     </Fragment>
                 ))
             ) : (
                 <tr>
                     <td colSpan={props.fixedColumn ? 1 : columns.value.length}>
-                        <div className={`${prefixCls}-cell ${prefixCls}-no-data`}> {props.fixedColumn ? '' : props.emptyText}</div>
+                        <div
+                            className={`${prefixCls}-cell ${prefixCls}-no-data`}
+                        >
+                            {' '}
+                            {props.fixedColumn ? '' : props.emptyText}
+                        </div>
                     </td>
                 </tr>
             );
         return () => (
-            <table className={`${prefixCls}-body`} cellspacing="0" cellpadding="0" border="0" style={props.fixedColumn ? { width: '100%' } : bodyStyle.value}>
+            <table
+                className={`${prefixCls}-body`}
+                cellspacing="0"
+                cellpadding="0"
+                border="0"
+                style={props.fixedColumn ? { width: '100%' } : bodyStyle.value}
+            >
                 {renderColgroup(layout.widthList.value, props.fixedColumn)}
-                {props.showHeader && isUndefined(props.height) && <TableHeaderContent fixedColumn={props.fixedColumn} />}
+                {props.showHeader && isUndefined(props.height) && (
+                    <TableHeaderContent fixedColumn={props.fixedColumn} />
+                )}
                 <tbody>{renderTrList()}</tbody>
             </table>
         );

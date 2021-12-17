@@ -15,9 +15,7 @@ export default defineComponent({
         length: Number,
     },
     setup(props) {
-        const {
-            row, rowIndex, column, length,
-        } = props;
+        const { row, rowIndex, column, length } = props;
         if (column.ctx?.slots?.default) {
             return () => (
                 <tr>

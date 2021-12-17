@@ -36,9 +36,7 @@ export default defineComponent({
             getCellValue,
         } = inject(provideKey);
         return () => {
-            const {
-                row, column, rowIndex, columnIndex,
-            } = props;
+            const { row, column, rowIndex, columnIndex } = props;
             const { rowspan, colspan } = getCellSpan(props);
             if (!rowspan || !colspan) {
                 return null;

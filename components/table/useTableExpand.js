@@ -6,7 +6,7 @@ export default ({ props, ctx, columns }) => {
     // 展开列唯一
     const expandColumn = computed(() => {
         const arr = columns.value.filter(
-            column => column.props.type === 'expand',
+            (column) => column.props.type === 'expand',
         );
         if (arr.length > 1) {
             console.warn(`[${TABLE_NAME}]: type=expand 不能存在多个`);

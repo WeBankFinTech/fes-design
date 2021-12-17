@@ -1,4 +1,11 @@
-import { defineComponent, provide, onMounted, nextTick, watch, reactive } from 'vue';
+import {
+    defineComponent,
+    provide,
+    onMounted,
+    nextTick,
+    watch,
+    reactive,
+} from 'vue';
 import { isUndefined } from 'lodash-es';
 import { TABLE_NAME, SIZE, provideKey } from './const';
 import useTable from './useTable';
@@ -52,12 +59,41 @@ export default defineComponent({
         rowStyle: [Function, Object],
         height: Number,
     },
-    emits: ['cell-click', 'expand-change', 'header-click', 'row-click', 'select', 'select-all', 'selection-change', 'sort-change'],
+    emits: [
+        'cell-click',
+        'expand-change',
+        'header-click',
+        'row-click',
+        'select',
+        'select-all',
+        'selection-change',
+        'sort-change',
+    ],
     setup(props, ctx) {
-        const { tableId, addColumn, removeColumn, headerRows, columns, showData, getCellValue, getRowKey, handleCellClick, handleHeaderClick, handleRowClick } =
-            useTable(props, ctx);
+        const {
+            tableId,
+            addColumn,
+            removeColumn,
+            headerRows,
+            columns,
+            showData,
+            getCellValue,
+            getRowKey,
+            handleCellClick,
+            handleHeaderClick,
+            handleRowClick,
+        } = useTable(props, ctx);
 
-        const { selectionColumn, selection, isSelectDisabled, isSelected, isAllSelected, handleSelect, handleSelectAll, clearSelect } = useTableSelect({
+        const {
+            selectionColumn,
+            selection,
+            isSelectDisabled,
+            isSelected,
+            isAllSelected,
+            handleSelect,
+            handleSelectAll,
+            clearSelect,
+        } = useTableSelect({
             props,
             ctx,
             showData,
@@ -99,7 +135,14 @@ export default defineComponent({
             isExpandOpened,
         });
 
-        const { fixLeftColumn, fixRightColumn, getFixClass, getFixStyle, getFixTrStyle, fixBodyWrapperStyle } = useTableFix({
+        const {
+            fixLeftColumn,
+            fixRightColumn,
+            getFixClass,
+            getFixStyle,
+            getFixTrStyle,
+            fixBodyWrapperStyle,
+        } = useTableFix({
             props,
             columns,
             layout,
@@ -147,7 +190,17 @@ export default defineComponent({
                 clearSelection: clearSelect,
             });
 
-        const { onUpdate, onScroll, containerRef, ratioX, ratioY, thumbMoveX, thumbMoveY, sizeHeight, sizeWidth } = useScrollbar({ minSize: 20 });
+        const {
+            onUpdate,
+            onScroll,
+            containerRef,
+            ratioX,
+            ratioY,
+            thumbMoveX,
+            thumbMoveY,
+            sizeHeight,
+            sizeWidth,
+        } = useScrollbar({ minSize: 20 });
 
         watch(layout.bodyHeight, () => {
             nextTick(onUpdate);
@@ -201,18 +254,32 @@ export default defineComponent({
                         ...fixBodyWrapperStyle.value,
                     }}
                 >
-                    <TableBody emptyText={props.emptyText} showHeader={props.showHeader} fixedColumn={fixedColumn} height={props.height} />
+                    <TableBody
+                        emptyText={props.emptyText}
+                        showHeader={props.showHeader}
+                        fixedColumn={fixedColumn}
+                        height={props.height}
+                    />
                 </div>
             </div>
         );
 
         return () => (
-            <div ref={wrapperRef} className={wrapperClass.value} style={wrapperStyle.value}>
+            <div
+                ref={wrapperRef}
+                className={wrapperClass.value}
+                style={wrapperStyle.value}
+            >
                 <div ref="hiddenColumns" class="hidden-columns">
                     {ctx.slots?.default()}
                 </div>
                 {props.showHeader && !isUndefined(props.height) && (
-                    <div ref={headerWrapperRef} v-mousewheel={handleHeaderMousewheel} className={`${prefixCls}-header-wrapper`} style={headerWrapperStyle}>
+                    <div
+                        ref={headerWrapperRef}
+                        v-mousewheel={handleHeaderMousewheel}
+                        className={`${prefixCls}-header-wrapper`}
+                        style={headerWrapperStyle}
+                    >
                         <TableHeader />
                     </div>
                 )}
@@ -225,7 +292,11 @@ export default defineComponent({
                         onScroll(e);
                     }}
                 >
-                    <TableBody showHeader={props.showHeader} emptyText={props.emptyText} height={props.height} />
+                    <TableBody
+                        showHeader={props.showHeader}
+                        emptyText={props.emptyText}
+                        height={props.height}
+                    />
                 </div>
                 {fixLeftColumn.value && renderFixTable(fixLeftColumn.value)}
                 {fixRightColumn.value && renderFixTable(fixRightColumn.value)}

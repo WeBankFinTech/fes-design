@@ -1,5 +1,10 @@
 import { computed, reactive } from 'vue';
-import { getRowKey as _getRowKey, getHeaderRows, getColumns, getCellValue } from './helper';
+import {
+    getRowKey as _getRowKey,
+    getHeaderRows,
+    getColumns,
+    getCellValue,
+} from './helper';
 
 let tableIdSeed = 1;
 export default (props, ctx) => {

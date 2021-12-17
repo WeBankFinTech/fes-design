@@ -57,7 +57,6 @@ export default ({ columns, layout, prefixCls }) => {
         overflow: 'hidden',
     }));
 
-
     return {
         fixLeftColumn,
         fixRightColumn,

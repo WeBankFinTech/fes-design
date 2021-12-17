@@ -21,49 +21,54 @@ export default {
             selection,
             handleSelectAll,
         } = inject(provideKey);
-        const renderThList = row => row.map((column, columnIndex) => {
-            if (!props.fixedColumn || props.fixedColumn.id === column.id) {
-                return (
-                        <th
-                            key={column.id}
-                            colspan={column.colSpan}
-                            rowspan={column.rowSpan}
-                            className={column.id}
-                            onClick={($event) => {
-                                handleHeaderClick({ column }, $event);
-                            }}
-                        >
-                            <div
-                                className={`${prefixCls}-cell`}
-                                style={getColStyle({ column })}
+        const renderThList = (row) =>
+            row
+                .map((column, columnIndex) => {
+                    if (
+                        !props.fixedColumn ||
+                        props.fixedColumn.id === column.id
+                    ) {
+                        return (
+                            <th
+                                key={column.id}
+                                colspan={column.colSpan}
+                                rowspan={column.rowSpan}
+                                className={column.id}
+                                onClick={($event) => {
+                                    handleHeaderClick({ column }, $event);
+                                }}
                             >
-                                {column.props.type === 'default' && (
-                                    <TableHeaderLabel
-                                        column={column}
-                                        columnIndex={columnIndex}
-                                    />
-                                )}
-                                {column.props.type === 'selection' && (
-                                    <Checkbox
-                                        modelValue={isAllSelected.value}
-                                        indeterminate={
-                                            !isAllSelected.value
-                                            && selection.length > 0
-                                        }
-                                        onClick={handleSelectAll}
-                                    />
-                                )}
-                            </div>
-                        </th>
-                );
-            }
-            return false;
-        }).filter(Boolean);
-        const renderTrList = () => headerRows.value.map((row, rowIndex) => (
+                                <div
+                                    className={`${prefixCls}-cell`}
+                                    style={getColStyle({ column })}
+                                >
+                                    {column.props.type === 'default' && (
+                                        <TableHeaderLabel
+                                            column={column}
+                                            columnIndex={columnIndex}
+                                        />
+                                    )}
+                                    {column.props.type === 'selection' && (
+                                        <Checkbox
+                                            modelValue={isAllSelected.value}
+                                            indeterminate={
+                                                !isAllSelected.value &&
+                                                selection.length > 0
+                                            }
+                                            onClick={handleSelectAll}
+                                        />
+                                    )}
+                                </div>
+                            </th>
+                        );
+                    }
+                    return false;
+                })
+                .filter(Boolean);
+        const renderTrList = () =>
+            headerRows.value.map((row, rowIndex) => (
                 <tr key={rowIndex}>{renderThList(row)}</tr>
-        ));
-        return () => (
-            <thead>{renderTrList()}</thead>
-        );
+            ));
+        return () => <thead>{renderTrList()}</thead>;
     },
 };

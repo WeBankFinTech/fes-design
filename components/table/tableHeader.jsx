@@ -19,10 +19,14 @@ export default {
                 cellspacing="0"
                 cellpadding="0"
                 border="0"
-                style={props.fixedColumn ? { width: '100%' } : headerStyle.value}
+                style={
+                    props.fixedColumn ? { width: '100%' } : headerStyle.value
+                }
             >
                 {renderColgroup(layout.widthList.value, props.fixedColumn)}
-                <TableHeaderContent fixedColumn={props.fixedColumn}></TableHeaderContent>
+                <TableHeaderContent
+                    fixedColumn={props.fixedColumn}
+                ></TableHeaderContent>
             </table>
         );
     },
