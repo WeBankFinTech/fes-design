@@ -21,7 +21,7 @@ import Schema from 'async-validator';
 import { isArray, cloneDeep } from 'lodash-es';
 import { addUnit } from '../_util/utils';
 import {
-    provideKey, FORM_ITEM_NAME, LABEL_POSITION, TRIGGER_DEFAULT, VALIDATE_STATUS, VALIDATE_MESSAGE_DEFAULT,
+    provideKey, FORM_ITEM_NAME, LABEL_POSITION, TRIGGER_DEFAULT, VALIDATE_STATUS, VALIDATE_MESSAGE_DEFAULT, LABEL_MARGIN_RIGHT_DEFAULT
 } from './const';
 import getPrefixCls from '../_util/getPrefixCls';
 import { FORMITEM_INJECTION_KEY } from '../_util/constants';
@@ -50,6 +50,7 @@ export default defineComponent({
             rules,
             showMessage,
             labelWidth,
+            labelMarginRight,
             labelPosition,
             addField,
             removeField,
@@ -81,7 +82,11 @@ export default defineComponent({
                 .concat((validateStatus.value === VALIDATE_STATUS.ERROR && ['is-error']) || []); // 校验错误: is-error
             return classSet.join(' ');
         });        
-        const formItemLabelStyle = computed(() => ({ width: addUnit(props.labelWidth || labelWidth.value) }));
+        const formItemLabelStyle = computed(() => ({ 
+            width: addUnit(props.labelWidth || labelWidth.value),
+            'margin-right': addUnit(labelMarginRight.value) || LABEL_MARGIN_RIGHT_DEFAULT
+        }));
+        console.log('formItemLabelStyle', formItemLabelStyle.value);
 
         let ruleDefaultType = 'string';
         const setRuleDefaultType = (val) => {

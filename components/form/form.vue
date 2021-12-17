@@ -35,6 +35,7 @@ export default defineComponent({
             default: true,
         },
         labelWidth: String | Number,
+        labelMarginRight: String | Number,
     },
 
     setup(props) {
