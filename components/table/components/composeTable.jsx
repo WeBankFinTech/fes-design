@@ -46,8 +46,8 @@ export default defineComponent({
                         }}
                         class={headerWrapperClass.value}
                         style={headerWrapperStyle.value}
-                        v-mousewheel={(e) => {
-                            emit('mousewheelHeader', e);
+                        v-mousewheel={(e, data) => {
+                            emit('mousewheelHeader', e, data);
                         }}
                     >
                         <Table
