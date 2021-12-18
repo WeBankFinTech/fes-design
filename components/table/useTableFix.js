@@ -29,13 +29,7 @@ export default ({ columns, layout, prefixCls }) => {
 
     const getFixStyle = (column) => {
         const widthListValue = layout.widthList.value;
-        let width = 0;
-        if (column.fixLeft) {
-            width = widthListValue[0]?.width;
-        }
-        if (column.fixRight) {
-            width = widthListValue[widthListValue.length - 1]?.width;
-        }
+        const width = widthListValue[column.id];
         return {
             width: width ? `${width}px` : 'auto',
             height: `${layout.wrapperHeight.value}px`,

@@ -17,13 +17,7 @@
 </template>
 
 <script>
-import {
-    computed,
-    defineComponent,
-    ref,
-    onMounted,
-    nextTick,
-} from 'vue';
+import { computed, defineComponent, ref, onMounted, nextTick } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import getPrefixCls from '../_util/getPrefixCls';
 import { BAR_MAP } from './const';
@@ -62,16 +56,19 @@ export default defineComponent({
         const barMap = computed(
             () => BAR_MAP[props.vertical ? 'vertical' : 'horizontal'],
         );
-        const thumbStyle = computed(() => renderThumbStyle({
-            size: props.size,
-            move: props.move,
-            bar: barMap.value,
-        }));
+        const thumbStyle = computed(() =>
+            renderThumbStyle({
+                size: props.size,
+                move: props.move,
+                bar: barMap.value,
+            }),
+        );
         const offsetRatio = computed(
-            () => (barRef.value[barMap.value.offset] ** 2)
-                / containerRef.value[barMap.value.scrollSize]
-                / props.ratio
-                / thumbRef.value[barMap.value.offset],
+            () =>
+                barRef.value[barMap.value.offset] ** 2 /
+                containerRef.value[barMap.value.scrollSize] /
+                props.ratio /
+                thumbRef.value[barMap.value.offset],
         );
 
         const visible = ref(false);
@@ -85,15 +82,19 @@ export default defineComponent({
 
             if (!prevPage) return;
 
-            const offset = (barRef.value.getBoundingClientRect()[barMap.value.direction]
-                - e[barMap.value.client])
-                * -1;
-            const thumbClickPosition = thumbRef.value[barMap.value.offset] - prevPage;
-            const thumbPositionPercentage = ((offset - thumbClickPosition) * 100 * offsetRatio.value)
-                / barRef.value[barMap.value.offset];
-            containerRef.value[barMap.value.scroll] = (thumbPositionPercentage
-                * containerRef.value[barMap.value.scrollSize])
-                / 100;
+            const offset =
+                (barRef.value.getBoundingClientRect()[barMap.value.direction] -
+                    e[barMap.value.client]) *
+                -1;
+            const thumbClickPosition =
+                thumbRef.value[barMap.value.offset] - prevPage;
+            const thumbPositionPercentage =
+                ((offset - thumbClickPosition) * 100 * offsetRatio.value) /
+                barRef.value[barMap.value.offset];
+            containerRef.value[barMap.value.scroll] =
+                (thumbPositionPercentage *
+                    containerRef.value[barMap.value.scrollSize]) /
+                100;
         };
 
         let docMouseMoveClose;
@@ -110,7 +111,11 @@ export default defineComponent({
         const startDrag = (e) => {
             e.stopImmediatePropagation();
             cursorDown.value = true;
-            docMouseMoveClose = useEventListener(document, 'mousemove', mouseMoveDocumentHandler);
+            docMouseMoveClose = useEventListener(
+                document,
+                'mousemove',
+                mouseMoveDocumentHandler,
+            );
             useEventListener(document, 'mouseup', mouseUpDocumentHandler);
             onselectstartStore = document.onselectstart;
             document.onselectstart = () => false;
@@ -128,24 +133,38 @@ export default defineComponent({
         onMounted(() => {
             nextTick(() => {
                 scrollbarRef.value.forEach((item) => {
-                    useEventListener(item, 'mouseenter', mouseMoveScrollbarHandler);
-                    useEventListener(item, 'mousemove', mouseMoveScrollbarHandler);
-                    useEventListener(item, 'mouseleave', mouseLeaveScrollbarHandler);
+                    useEventListener(
+                        item,
+                        'mouseenter',
+                        mouseMoveScrollbarHandler,
+                    );
+                    useEventListener(
+                        item,
+                        'mousemove',
+                        mouseMoveScrollbarHandler,
+                    );
+                    useEventListener(
+                        item,
+                        'mouseleave',
+                        mouseLeaveScrollbarHandler,
+                    );
                 });
             });
         });
 
         const clickTrackHandler = (e) => {
             const offset = Math.abs(
-                e.target.getBoundingClientRect()[barMap.value.direction]
-                    - e[barMap.value.client],
+                e.target.getBoundingClientRect()[barMap.value.direction] -
+                    e[barMap.value.client],
             );
             const thumbHalf = thumbRef.value[barMap.value.offset] / 2;
-            const thumbPositionPercentage = ((offset - thumbHalf) * 100 * offsetRatio.value)
-                / barRef.value[barMap.value.offset];
-            containerRef.value[barMap.value.scroll] = (thumbPositionPercentage
-                * containerRef.value[barMap.value.scrollSize])
-                / 100;
+            const thumbPositionPercentage =
+                ((offset - thumbHalf) * 100 * offsetRatio.value) /
+                barRef.value[barMap.value.offset];
+            containerRef.value[barMap.value.scroll] =
+                (thumbPositionPercentage *
+                    containerRef.value[barMap.value.scrollSize]) /
+                100;
         };
 
         const clickThumbHandler = (e) => {
@@ -156,9 +175,10 @@ export default defineComponent({
             }
             window.getSelection().removeAllRanges();
             startDrag(e);
-            barStore.value[barMap.value.axis] = e.currentTarget[barMap.value.offset]
-                - (e[barMap.value.client]
-                    - e.currentTarget.getBoundingClientRect()[
+            barStore.value[barMap.value.axis] =
+                e.currentTarget[barMap.value.offset] -
+                (e[barMap.value.client] -
+                    e.currentTarget.getBoundingClientRect()[
                         barMap.value.direction
                     ]);
         };

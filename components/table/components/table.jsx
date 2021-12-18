@@ -1,4 +1,4 @@
-import { defineComponent, inject } from 'vue';
+import { computed, defineComponent, inject } from 'vue';
 import { provideKey } from '../const';
 import Colgroup from './colgroup';
 import Header from './header';
@@ -26,10 +26,18 @@ export default defineComponent({
     },
     setup(props) {
         const { layout } = inject(provideKey);
+        // 计算出传入columns列的对应的宽度
+        const widthList = computed(() => {
+            const widtListValue = layout.widthList.value;
+            return props.columns.map((column) => ({
+                ...column,
+                width: widtListValue[column.id],
+            }));
+        });
 
         return () => (
             <table cellspacing="0" cellpadding="0" border="0">
-                <Colgroup columns={props.columns} />
+                <Colgroup columns={widthList.value} />
                 {props.hasHeader && <Header />}
                 {props.hasBody && <Body columns={props.columns} />}
             </table>

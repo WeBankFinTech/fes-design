@@ -13,7 +13,7 @@ export default function useTableLayout({
     bodyWrapperRef,
     columns,
 }) {
-    const widthList = ref([]);
+    const widthList = ref({});
     const heightList = ref([]);
     const bodyWidth = ref(0);
     const isScrollX = ref(false);
@@ -84,8 +84,7 @@ export default function useTableLayout({
                 }
                 _widthList.push(widthObj);
             });
-            widthList.value = _widthList;
-            const needAddWidthColumns = widthList.value.filter(
+            const needAddWidthColumns = _widthList.filter(
                 (column) => !column.width,
             );
             // 如果不够，则需要补宽度
@@ -108,6 +107,13 @@ export default function useTableLayout({
                     column.width = column.minWidth || min;
                 });
             }
+            widthList.value = _widthList.reduce(
+                (previousValue, currentValue) => {
+                    previousValue[currentValue.id] = currentValue.width;
+                    return previousValue;
+                },
+                {},
+            );
         }
     };
 
