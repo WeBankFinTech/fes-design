@@ -11,10 +11,10 @@ export default {
     props: {},
     setup() {
         const {
-            prefixCls,
             headerRows,
             handleHeaderClick,
-            getColStyle,
+            getCellClass,
+            getCustomCellStyle,
             isAllSelected,
             selection,
             handleSelectAll,
@@ -26,32 +26,24 @@ export default {
                         key={column.id}
                         colspan={column.colSpan}
                         rowspan={column.rowSpan}
-                        className={column.id}
+                        class={getCellClass({ column })}
+                        style={getCustomCellStyle({ column })}
                         onClick={($event) => {
                             handleHeaderClick({ column }, $event);
                         }}
                     >
-                        <div
-                            className={`${prefixCls}-cell`}
-                            style={getColStyle({ column })}
-                        >
-                            {column.props.type === 'default' && (
-                                <Label
-                                    column={column}
-                                    columnIndex={columnIndex}
-                                />
-                            )}
-                            {column.props.type === 'selection' && (
-                                <Checkbox
-                                    modelValue={isAllSelected.value}
-                                    indeterminate={
-                                        !isAllSelected.value &&
-                                        selection.length > 0
-                                    }
-                                    onClick={handleSelectAll}
-                                />
-                            )}
-                        </div>
+                        {column.props.type === 'default' && (
+                            <Label column={column} columnIndex={columnIndex} />
+                        )}
+                        {column.props.type === 'selection' && (
+                            <Checkbox
+                                modelValue={isAllSelected.value}
+                                indeterminate={
+                                    !isAllSelected.value && selection.length > 0
+                                }
+                                onClick={handleSelectAll}
+                            />
+                        )}
                     </th>
                 ))
                 .filter(Boolean);

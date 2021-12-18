@@ -1,11 +1,4 @@
-import {
-    defineComponent,
-    computed,
-    onMounted,
-    nextTick,
-    watch,
-    reactive,
-} from 'vue';
+import { defineComponent, nextTick, watch, reactive } from 'vue';
 import { isUndefined } from 'lodash-es';
 import useScrollbar from '../scrollbar/useScrollbar';
 import WBar from '../scrollbar/bar';
@@ -74,12 +67,7 @@ export default defineComponent({
             bodyWrapperRef,
             layout,
             syncPosition,
-            fixLeftColumn,
-            fixRightColumn,
-            getFixClass,
-            getFixStyle,
-            fixeHeaderWrapperRef,
-            fixedBodyWrapperRef,
+            handleHeaderMousewheel,
         } = useTable(props, ctx);
 
         ctx.expose &&
@@ -103,7 +91,7 @@ export default defineComponent({
 
         const scrollbarRef = reactive([]);
 
-        watch([layout.bodyHeight, layout.isScrollY], () => {
+        watch([layout.bodyHeight, layout.isScrollX, layout.isScrollY], () => {
             nextTick(onUpdate);
         });
 
@@ -124,33 +112,6 @@ export default defineComponent({
             }
         };
 
-        // const handleFixedTableRef = (elObject) => {
-        //     if (elObject.header) {
-        //         collectRef(fixeHeaderWrapperRef, elObject.header);
-        //     }
-        //     if (elObject.body) {
-        //         collectRef(fixedBodyWrapperRef, elObject.body);
-        //     }
-        // };
-
-        // const renderFixTable = (fixedColumn) => (
-        //     <div
-        //         className={getFixClass(fixedColumn)}
-        //         style={getFixStyle(fixedColumn)}
-        //         ref={(el) => {
-        //             collectRef(scrollbarRef, el);
-        //         }}
-        //     >
-        //         <Table
-        //             onRef={handleFixedTableRef}
-        //             showHeader={props.showHeader}
-        //             columns={[fixedColumn]}
-        //             composed={!isUndefined(props.height)}
-        //             isFixed={true}
-        //         />
-        //     </div>
-        // );
-
         return () => (
             <div
                 ref={wrapperRef}
@@ -169,9 +130,8 @@ export default defineComponent({
                         syncPosition(e);
                         onScroll(e);
                     }}
+                    onMousewheelHeader={handleHeaderMousewheel}
                 />
-                {/* {fixLeftColumn.value && renderFixTable(fixLeftColumn.value)}
-                {fixRightColumn.value && renderFixTable(fixRightColumn.value)} */}
                 <WBar
                     class={`${prefixCls}-scrollbar`}
                     scrollbarRef={scrollbarRef}

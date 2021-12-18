@@ -28,7 +28,7 @@ app.use(FTable);
 纵向内容过多时，可选择固定表头。配置`height`属性，当内容高度超出时出现滚动条。
 
 --HEIGHT
-<!-- 
+
 ### 固定列
 
 横向内容过多时，可选择固定列。
@@ -80,7 +80,7 @@ app.use(FTable);
 
 ### 无数据
 
---NODATA -->
+--NODATA 
 
 --CODE
 

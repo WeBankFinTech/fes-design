@@ -27,8 +27,9 @@ export default defineComponent({
         const {
             prefixCls,
             getCellSpan,
-            getColStyle,
-            getColClassName,
+            getCellClass,
+            getCustionCellClass,
+            getCustomCellStyle,
             isSelected,
             isSelectDisabled,
             handleSelect,
@@ -43,50 +44,51 @@ export default defineComponent({
                 return null;
             }
             return (
-                <td rowspan={rowspan} colspan={colspan}>
-                    <div
-                        style={getColStyle({
+                <td
+                    rowspan={rowspan}
+                    colspan={colspan}
+                    style={getCustomCellStyle({
+                        row,
+                        column,
+                        rowIndex,
+                        columnIndex,
+                    })}
+                    class={[
+                        ...getCellClass({ column }),
+                        ...getCustionCellClass({
                             row,
                             column,
                             rowIndex,
                             columnIndex,
-                        })}
-                        className={`${prefixCls}-cell ${
-                            getColClassName({
-                                row,
-                                column,
-                                rowIndex,
-                                columnIndex,
-                            }) || ''
-                        }`}
-                    >
-                        {column.props.type === 'default' && (
-                            <Cell
-                                row={row}
-                                rowIndex={rowIndex}
-                                column={column}
-                                columnIndex={columnIndex}
-                                cellValue={getCellValue(row, column)}
-                            />
-                        )}
-                        {column.props.type === 'selection' && (
-                            <Checkbox
-                                modelValue={isSelected({ row })}
-                                disabled={isSelectDisabled({ row })}
-                                onClick={() => {
-                                    handleSelect({ row });
-                                }}
-                            />
-                        )}
-                        {column.props.type === 'expand' && (
-                            <CaretDownOutlined
-                                class={`${prefixCls}-expand`}
-                                onClick={() => {
-                                    handleExpand({ row });
-                                }}
-                            />
-                        )}
-                    </div>
+                        }),
+                    ]}
+                >
+                    {column.props.type === 'default' && (
+                        <Cell
+                            row={row}
+                            rowIndex={rowIndex}
+                            column={column}
+                            columnIndex={columnIndex}
+                            cellValue={getCellValue(row, column)}
+                        />
+                    )}
+                    {column.props.type === 'selection' && (
+                        <Checkbox
+                            modelValue={isSelected({ row })}
+                            disabled={isSelectDisabled({ row })}
+                            onClick={() => {
+                                handleSelect({ row });
+                            }}
+                        />
+                    )}
+                    {column.props.type === 'expand' && (
+                        <CaretDownOutlined
+                            class={`${prefixCls}-expand`}
+                            onClick={() => {
+                                handleExpand({ row });
+                            }}
+                        />
+                    )}
                 </td>
             );
         };

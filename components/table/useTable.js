@@ -6,7 +6,6 @@ import useTableEvent from './useTableEvent';
 import useTableSelect from './useTableSelect';
 import useTableExpand from './useTableExpand';
 import useTableStyle from './useTableStyle';
-import useTableFix from './useTableFix';
 
 let tableIdSeed = 1;
 export default (props, ctx) => {
@@ -36,13 +35,6 @@ export default (props, ctx) => {
         isExpandOpened: expandState.isExpandOpened,
     });
 
-    const fixState = useTableFix({
-        props,
-        columns: columnState.columns,
-        layout: styleState.layout,
-        prefixCls: styleState.prefixCls,
-    });
-
     const selectState = useTableSelect({
         props,
         ctx,
@@ -60,7 +52,6 @@ export default (props, ctx) => {
         ...eventState,
         ...expandState,
         ...styleState,
-        ...fixState,
         ...selectState,
     };
 

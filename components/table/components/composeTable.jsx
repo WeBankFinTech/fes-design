@@ -1,10 +1,14 @@
 import { defineComponent, inject } from 'vue';
+import Mousewheel from '../../_util/directives/mousewheel';
 import { provideKey } from '../const';
 import Table from './table';
 
 export default defineComponent({
     components: {
         Table,
+    },
+    directives: {
+        mousewheel: Mousewheel,
     },
     props: {
         showHeader: {
@@ -17,22 +21,19 @@ export default defineComponent({
         composed: {
             type: Boolean,
         },
-        isFixed: {
-            type: Boolean,
-            default: false,
-        },
     },
-    emits: ['ref', 'scroll'],
+    emits: ['ref', 'scroll', 'mousewheelHeader'],
     setup(props, { emit }) {
         console.log('composetable setup');
         const {
             layout,
             prefixCls,
+            headerWrapperClass,
             headerWrapperStyle,
             headerStyle,
+            bodyWrapperClass,
             bodyWrapperStyle,
             bodyStyle,
-            fixBodyWrapperStyle,
         } = inject(provideKey);
         return () => (
             <>
@@ -41,8 +42,11 @@ export default defineComponent({
                         ref={(ele) => {
                             emit('ref', { header: ele });
                         }}
-                        className={`${prefixCls}-header-wrapper`}
+                        class={headerWrapperClass.value}
                         style={headerWrapperStyle.value}
+                        v-mousewheel={(e) => {
+                            emit('mousewheelHeader', e);
+                        }}
                     >
                         <Table
                             class={`${prefixCls}-header`}
@@ -57,13 +61,10 @@ export default defineComponent({
                     ref={(ele) => {
                         emit('ref', { body: ele });
                     }}
-                    className={`${prefixCls}-body-wrapper`}
-                    style={{
-                        ...bodyWrapperStyle.value,
-                        ...(props.isFixed ? fixBodyWrapperStyle.value : {}),
-                    }}
+                    class={bodyWrapperClass.value}
+                    style={bodyWrapperStyle.value}
                     onScroll={(e) => {
-                        if (layout.isScrollY.value) {
+                        if (layout.isScrollX.value || layout.isScrollY.value) {
                             emit('scroll', e);
                         }
                     }}

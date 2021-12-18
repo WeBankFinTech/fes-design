@@ -36,7 +36,6 @@ export default defineComponent({
                         rowIndex={rowIndex}
                         column={column}
                         columnIndex={columnIndex}
-                        class={column.id}
                         onClick={($event) => {
                             handleCellClick(
                                 {
@@ -56,7 +55,9 @@ export default defineComponent({
                 <Fragment key={getRowKey({ row }) || rowIndex}>
                     <tr
                         className={getRowClassName({ row, rowIndex })}
-                        style={getRowStyle({ row, rowIndex })}
+                        style={{
+                            ...getRowStyle({ row, rowIndex }),
+                        }}
                         onClick={($event) => {
                             handleRowClick({ row, rowIndex }, $event);
                         }}

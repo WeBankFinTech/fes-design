@@ -16,8 +16,6 @@ export default ({ props, columns, expandColumn, isExpandOpened }) => {
     const wrapperRef = ref(null);
     const headerWrapperRef = ref(null);
     const bodyWrapperRef = ref(null);
-    const fixedBodyWrapperRef = reactive([]);
-    const fixeHeaderWrapperRef = reactive([]);
 
     const wrapperClass = computed(() =>
         [
@@ -37,9 +35,33 @@ export default ({ props, columns, expandColumn, isExpandOpened }) => {
         columns,
     });
 
+    const scrollState = reactive({
+        x: 'left',
+        y: false,
+    });
+
     const wrapperStyle = {};
 
+    const headerWrapperClass = computed(() => {
+        const arr = [`${prefixCls}-header-wrapper`];
+        if (scrollState.y) {
+            arr.push('is-scrolling-y');
+        }
+        if (scrollState.x) {
+            arr.push(`is-scrolling-x-${scrollState.x}`);
+        }
+        return arr;
+    });
+
     const headerWrapperStyle = {};
+
+    const bodyWrapperClass = computed(() => {
+        const arr = [`${prefixCls}-body-wrapper`];
+        if (scrollState.x) {
+            arr.push(`is-scrolling-x-${scrollState.x}`);
+        }
+        return arr;
+    });
 
     const bodyWrapperStyle = computed(() => {
         const style = {};
@@ -104,24 +126,39 @@ export default ({ props, columns, expandColumn, isExpandOpened }) => {
         }
     };
 
-    const getColClassName = ({ row, column, rowIndex, columnIndex }) => {
-        const colClassName = column.props.colClassName;
-        const cellValue = getCellValue(row, column);
-        if (isString(colClassName)) {
-            return colClassName;
+    const getCellClass = ({ column }) => {
+        const arr = [`${prefixCls}-cell`, column.id];
+        if (column.fixLeft) {
+            arr.push(`${prefixCls}-fixed-left`);
         }
-        if (isFunction(colClassName)) {
-            return colClassName({
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-                cellValue,
-            });
+        if (column.fixRight) {
+            arr.push(`${prefixCls}-fixed-right`);
         }
+        return arr;
     };
 
-    const getColStyle = ({ row, column, rowIndex, columnIndex }) => {
+    const getCustionCellClass = ({ row, column, rowIndex, columnIndex }) => {
+        const colClassName = column.props.colClassName;
+        const cellValue = getCellValue(row, column);
+        const arr = [];
+        if (isString(colClassName)) {
+            arr.push(colClassName);
+        }
+        if (isFunction(colClassName)) {
+            arr.push(
+                colClassName({
+                    row,
+                    column,
+                    rowIndex,
+                    columnIndex,
+                    cellValue,
+                }) || '',
+            );
+        }
+        return arr;
+    };
+
+    const getCustomCellStyle = ({ row, column, rowIndex, columnIndex }) => {
         const cellValue = getCellValue(row, column);
         const colStyle = column.props.colStyle;
         const align = column.props.align;
@@ -168,15 +205,6 @@ export default ({ props, columns, expandColumn, isExpandOpened }) => {
         };
     };
 
-    const setScrollClassByEl = (el, className) => {
-        if (!el) return;
-        const classList = Array.from(el.classList).filter(
-            (item) => !item.startsWith('is-scrolling'),
-        );
-        classList.push(className);
-        el.className = classList.join(' ');
-    };
-
     // 同步两个table的位移
     const syncPosition = throttle(() => {
         const $bodyWrapper = bodyWrapperRef.value;
@@ -187,44 +215,15 @@ export default ({ props, columns, expandColumn, isExpandOpened }) => {
         if ($headerWrapper) {
             $headerWrapper.scrollLeft = scrollLeft;
         }
-        const $fixedBodyWrapper = fixedBodyWrapperRef;
-        if ($fixedBodyWrapper.length) {
-            $fixedBodyWrapper.forEach((item) => {
-                item.scrollTop = scrollTop;
-            });
-        }
         const maxScrollLeftPosition = scrollWidth - offsetWidth - 1;
-        const isScrollX = layout.isScrollX.value;
         if (scrollLeft >= maxScrollLeftPosition) {
-            setScrollClassByEl(
-                $bodyWrapper,
-                isScrollX ? 'is-scrolling-right' : '',
-            );
+            scrollState.x = 'right';
         } else if (scrollLeft === 0) {
-            setScrollClassByEl(
-                $bodyWrapper,
-                isScrollX ? 'is-scrolling-left' : '',
-            );
+            scrollState.x = 'left';
         } else {
-            setScrollClassByEl(
-                $bodyWrapper,
-                isScrollX ? 'is-scrolling-middle' : '',
-            );
+            scrollState.x = 'middle';
         }
-        const isScrollY = layout.isScrollY.value;
-        setScrollClassByEl(
-            $headerWrapper,
-            isScrollY && scrollTop > 0 ? 'is-scrolling' : '',
-        );
-        const $fixeHeaderWrapper = fixeHeaderWrapperRef;
-        if ($fixeHeaderWrapper.length) {
-            $fixeHeaderWrapper.forEach((item) => {
-                setScrollClassByEl(
-                    item,
-                    isScrollY && scrollTop > 0 ? 'is-scrolling' : '',
-                );
-            });
-        }
+        scrollState.y = scrollTop > 0;
     }, 10);
 
     const handleHeaderMousewheel = (e, data) => {
@@ -235,39 +234,27 @@ export default ({ props, columns, expandColumn, isExpandOpened }) => {
         }
     };
 
-    const handleFixedMousewheel = (e, data) => {
-        const { pixelX, pixelY } = data;
-        if (Math.abs(pixelY) >= Math.abs(pixelX)) {
-            e.preventDefault();
-            bodyWrapperRef.value.scrollTop += data.pixelY;
-        }
-    };
-
-    onMounted(() => {
-        setScrollClassByEl(bodyWrapperRef.value, 'is-scrolling-left');
-    });
-
     return {
+        prefixCls,
         wrapperRef,
         headerWrapperRef,
         bodyWrapperRef,
-        getRowClassName,
-        getRowStyle,
-        getColClassName,
-        getColStyle,
-        wrapperClass,
-        prefixCls,
         layout,
+        wrapperClass,
         wrapperStyle,
         headerWrapperStyle,
         bodyWrapperStyle,
         headerStyle,
         bodyStyle,
         getCellSpan,
+        getRowClassName,
+        getRowStyle,
+        getCellClass,
+        getCustionCellClass,
+        getCustomCellStyle,
         syncPosition,
-        fixedBodyWrapperRef,
-        fixeHeaderWrapperRef,
         handleHeaderMousewheel,
-        handleFixedMousewheel,
+        headerWrapperClass,
+        bodyWrapperClass,
     };
 };

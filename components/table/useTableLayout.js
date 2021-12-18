@@ -13,9 +13,8 @@ export default function useTableLayout({
     bodyWrapperRef,
     columns,
 }) {
-    const widthList = ref({});
-    const heightList = ref([]);
     const bodyWidth = ref(0);
+    const widthList = ref({});
     const isScrollX = ref(false);
     const isScrollY = ref(false);
     const wrapperHeight = ref(0);
@@ -42,9 +41,6 @@ export default function useTableLayout({
                 headerHeight.value = headerWrapperHeight;
             }
             wrapperHeight.value = $wrapper.offsetHeight;
-            heightList.value = Array.from(
-                $bodyWrapper.querySelectorAll('tbody tr'),
-            ).map(($tr) => $tr.offsetHeight);
         }
     };
 
@@ -162,7 +158,6 @@ export default function useTableLayout({
 
     return {
         widthList,
-        heightList,
         wrapperHeight,
         headerHeight,
         bodyWidth,
