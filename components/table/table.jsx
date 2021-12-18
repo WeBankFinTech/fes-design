@@ -53,7 +53,6 @@ export default defineComponent({
         'sort-change',
     ],
     setup(props, ctx) {
-        console.log('table setup');
         const {
             prefixCls,
             handleSelect,
@@ -126,6 +125,7 @@ export default defineComponent({
                     showHeader={props.showHeader}
                     columns={columns.value}
                     composed={!isUndefined(props.height)}
+                    emptyText={props.emptyText}
                     onScroll={(e) => {
                         syncPosition(e);
                         onScroll(e);

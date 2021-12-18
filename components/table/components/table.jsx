@@ -23,6 +23,9 @@ export default defineComponent({
             type: Array,
             required: true,
         },
+        emptyText: {
+            type: String,
+        },
     },
     setup(props) {
         const { layout } = inject(provideKey);
@@ -39,7 +42,9 @@ export default defineComponent({
             <table cellspacing="0" cellpadding="0" border="0">
                 <Colgroup columns={widthList.value} />
                 {props.hasHeader && <Header />}
-                {props.hasBody && <Body columns={props.columns} />}
+                {props.hasBody && (
+                    <Body emptyText={props.emptyText} columns={props.columns} />
+                )}
             </table>
         );
     },

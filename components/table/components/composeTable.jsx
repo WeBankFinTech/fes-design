@@ -21,10 +21,12 @@ export default defineComponent({
         composed: {
             type: Boolean,
         },
+        emptyText: {
+            type: String,
+        },
     },
     emits: ['ref', 'scroll', 'mousewheelHeader'],
     setup(props, { emit }) {
-        console.log('composetable setup');
         const {
             layout,
             prefixCls,
@@ -54,6 +56,7 @@ export default defineComponent({
                             columns={props.columns}
                             hasHeader={true}
                             hasBody={false}
+                            emptyText={props.emptyText}
                         />
                     </div>
                 )}
@@ -75,6 +78,7 @@ export default defineComponent({
                         columns={props.columns}
                         hasHeader={!props.composed && props.showHeader}
                         hasBody={true}
+                        emptyText={props.emptyText}
                     />
                 </div>
             </>

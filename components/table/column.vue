@@ -65,7 +65,6 @@ export default defineComponent({
         },
     },
     setup(props, ctx) {
-        console.log('column setup');
         const table = inject(provideKey, null);
         if (!table) {
             return console.error(

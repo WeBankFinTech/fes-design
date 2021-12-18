@@ -13,9 +13,13 @@ export default defineComponent({
             type: Array,
             required: true,
         },
+        emptyText: {
+            type: String,
+        },
     },
     setup(props) {
         const {
+            prefixCls,
             showData,
             getRowKey,
             handleRowClick,
@@ -51,29 +55,40 @@ export default defineComponent({
                 .filter(Boolean);
 
         const renderTrList = () =>
-            showData.value.map((row, rowIndex) => (
-                <Fragment key={getRowKey({ row }) || rowIndex}>
-                    <tr
-                        className={getRowClassName({ row, rowIndex })}
-                        style={{
-                            ...getRowStyle({ row, rowIndex }),
-                        }}
-                        onClick={($event) => {
-                            handleRowClick({ row, rowIndex }, $event);
-                        }}
+            showData.value.length ? (
+                showData.value.map((row, rowIndex) => (
+                    <Fragment key={getRowKey({ row }) || rowIndex}>
+                        <tr
+                            className={getRowClassName({ row, rowIndex })}
+                            style={{
+                                ...getRowStyle({ row, rowIndex }),
+                            }}
+                            onClick={($event) => {
+                                handleRowClick({ row, rowIndex }, $event);
+                            }}
+                        >
+                            {renderTdList(row, rowIndex)}
+                        </tr>
+                        {expandColumn.value && isExpandOpened({ row }) && (
+                            <ExpandTr
+                                row={row}
+                                column={expandColumn.value}
+                                rowIndex={rowIndex}
+                                length={props.columns.length}
+                            />
+                        )}
+                    </Fragment>
+                ))
+            ) : (
+                <tr>
+                    <td
+                        colSpan={props.columns.length}
+                        className={`${prefixCls}-cell ${prefixCls}-no-data`}
                     >
-                        {renderTdList(row, rowIndex)}
-                    </tr>
-                    {expandColumn.value && isExpandOpened({ row }) && (
-                        <ExpandTr
-                            row={row}
-                            column={expandColumn.value}
-                            rowIndex={rowIndex}
-                            length={props.columns.length}
-                        />
-                    )}
-                </Fragment>
-            ));
+                        {props.emptyText}
+                    </td>
+                </tr>
+            );
         return () => <tbody>{renderTrList()}</tbody>;
     },
 });
