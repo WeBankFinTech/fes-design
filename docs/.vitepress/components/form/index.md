@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FForm } from 'fes-design';
+import { FForm } from '@fesjs/fes-design';
 
 app.use(FForm);
 ```

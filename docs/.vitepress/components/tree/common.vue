@@ -3,7 +3,7 @@
 </template>
 <script>
 import { reactive, h } from 'vue';
-import { PictureOutlined, PlusCircleOutlined } from 'fes-design/icon';
+import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
 
 function createData (level = 1, baseKey = '', prefix = null, suffix = null) {
   if (!level) return undefined

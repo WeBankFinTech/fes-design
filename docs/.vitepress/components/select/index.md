@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FSelect } from 'fes-design';
+import { FSelect } from '@fesjs/fes-design';
 
 app.use(FSelect);
 ```

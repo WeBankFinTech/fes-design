@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FTimePicker } from 'fes-design';
+import { FTimePicker } from '@fesjs/fes-design';
 
 app.use(FTimePicker);
 ```

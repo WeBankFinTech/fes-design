@@ -3,7 +3,7 @@
 ## 组件注册
 
 ```js
-import FTable from 'fes-design';
+import FTable from '@fesjs/fes-design';
 
 app.use(FTable);
 ```

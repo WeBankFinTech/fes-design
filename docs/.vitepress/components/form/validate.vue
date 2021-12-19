@@ -68,7 +68,7 @@
 
 <script>
 import { ref, reactive } from 'vue';
-import { FMessage } from 'fes-design';
+import { FMessage } from '@fesjs/fes-design';
 
 export default {
     setup(){

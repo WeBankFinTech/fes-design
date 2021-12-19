@@ -1,7 +1,7 @@
 
 
 import * as Icons from './icons';
-import { FMessage } from 'fes-design'
+import { FMessage } from '@fesjs/fes-design'
 
 const copyToClipboard = (content) => {
     const input = document.createElement('input');

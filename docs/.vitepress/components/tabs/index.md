@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FTabs } from 'fes-design';
+import { FTabs } from '@fesjs/fes-design';
 
 app.use(FTabs);
 ```
