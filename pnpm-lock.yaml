@@ -22,7 +22,7 @@ specifiers:
   '@vue/test-utils': ^2.0.0-rc.6
   '@vue/theme': 0.1.13
   '@vueuse/core': ^6.7.5
-  '@webank/eslint-config-webank': ^1.1.5
+  '@webank/eslint-config-webank': ^1.1.6
   async-validator: ^4.0.1
   autoprefixer: ^10.4.0
   babel-jest: ^26.6.3
@@ -96,7 +96,7 @@ devDependencies:
   '@vue/repl': 0.4.5_vue@3.2.24
   '@vue/test-utils': 2.0.0-rc.17_vue@3.2.24
   '@vue/theme': 0.1.13_vue@3.2.24
-  '@webank/eslint-config-webank': 1.1.5
+  '@webank/eslint-config-webank': 1.1.6
   autoprefixer: 10.4.0_postcss@8.4.4
   babel-jest: 26.6.3_@babel+core@7.16.0
   browserslist: 4.18.1
@@ -2453,8 +2453,8 @@ packages:
       vue-demi: 0.12.1_vue@3.2.24
     dev: false
 
-  /@webank/eslint-config-webank/1.1.5:
-    resolution: {integrity: sha512-egYJt8E2pCDtImz0NY1yPuy4pzIJr7+8H/vpNG0cj/DOjFHfUyLRG0s8ccxCiWVoPk0bsb78i8ZU+4SB9BlIjw==, tarball: '@webank/eslint-config-webank/download/@webank/eslint-config-webank-1.1.5.tgz'}
+  /@webank/eslint-config-webank/1.1.6:
+    resolution: {integrity: sha512-/ol8pGTdiGGRWamGUkbpvSVfUu5JUnU5RTgk6sbYCRcJCkV9+FqPrEXu4ev9Y1JnVfX65z9ZzRdJpuW2VxQsCg==, tarball: '@webank/eslint-config-webank/download/@webank/eslint-config-webank-1.1.6.tgz'}
     dependencies:
       '@babel/core': 7.16.0
       '@babel/eslint-parser': 7.16.3_@babel+core@7.16.0+eslint@8.4.1
@@ -2462,6 +2462,7 @@ packages:
       confusing-browser-globals: 1.0.10
       eslint: 8.4.1
       eslint-config-prettier: 8.3.0_eslint@8.4.1
+      eslint-import-resolver-custom-alias: 1.3.0_eslint-plugin-import@2.25.3
       eslint-plugin-angular: 4.1.0
       eslint-plugin-html: 6.2.0
       eslint-plugin-import: 2.25.3_eslint@8.4.1
@@ -4319,6 +4320,16 @@ packages:
       eslint: 8.4.1
     dev: true
 
+  /eslint-import-resolver-custom-alias/1.3.0_eslint-plugin-import@2.25.3:
+    resolution: {integrity: sha1-NhhY0YED7dGaxpKEuV4nbpGjz3w=, tarball: eslint-import-resolver-custom-alias/download/eslint-import-resolver-custom-alias-1.3.0.tgz}
+    peerDependencies:
+      eslint-plugin-import: '>=2.2.0'
+    dependencies:
+      eslint-plugin-import: 2.25.3_eslint@8.4.1
+      glob-parent: 5.1.2
+      resolve: 1.20.0
+    dev: true
+
   /eslint-import-resolver-node/0.3.6:
     resolution: {integrity: sha1-QEi5WDldqJZoJSAB29nsprg7rL0=, tarball: eslint-import-resolver-node/download/eslint-import-resolver-node-0.3.6.tgz}
     dependencies:
@@ -4426,7 +4437,7 @@ packages:
     dev: true
 
   /eslint-scope/5.1.1:
-    resolution: {integrity: sha1-54blmmbLkrP2wfsNUIqrF0hI9Iw=, tarball: eslint-scope/download/eslint-scope-5.1.1.tgz?cache=0&sync_timestamp=1637476311807&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Feslint-scope%2Fdownload%2Feslint-scope-5.1.1.tgz}
+    resolution: {integrity: sha1-54blmmbLkrP2wfsNUIqrF0hI9Iw=, tarball: eslint-scope/download/eslint-scope-5.1.1.tgz}
     engines: {node: '>=8.0.0'}
     dependencies:
       esrecurse: 4.3.0
@@ -4434,7 +4445,7 @@ packages:
     dev: true
 
   /eslint-scope/6.0.0:
-    resolution: {integrity: sha1-nPRbE8Wsjz1MUPRqUSH2Gz4xiXg=, tarball: eslint-scope/download/eslint-scope-6.0.0.tgz?cache=0&sync_timestamp=1637476311807&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Feslint-scope%2Fdownload%2Feslint-scope-6.0.0.tgz}
+    resolution: {integrity: sha1-nPRbE8Wsjz1MUPRqUSH2Gz4xiXg=, tarball: eslint-scope/download/eslint-scope-6.0.0.tgz}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
       esrecurse: 4.3.0
@@ -4442,7 +4453,7 @@ packages:
     dev: true
 
   /eslint-scope/7.1.0:
-    resolution: {integrity: sha512-aWwkhnS0qAXqNOgKOK0dJ2nvzEbhEvpy8OlJ9kZ0FeZnA6zpjv1/Vei+puGFFX7zkPCkHHXb7IDX3A+7yPrRWg==, tarball: eslint-scope/download/eslint-scope-7.1.0.tgz?cache=0&sync_timestamp=1637476311807&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Feslint-scope%2Fdownload%2Feslint-scope-7.1.0.tgz}
+    resolution: {integrity: sha512-aWwkhnS0qAXqNOgKOK0dJ2nvzEbhEvpy8OlJ9kZ0FeZnA6zpjv1/Vei+puGFFX7zkPCkHHXb7IDX3A+7yPrRWg==, tarball: eslint-scope/download/eslint-scope-7.1.0.tgz}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
       esrecurse: 4.3.0
