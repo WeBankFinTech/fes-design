@@ -1,5 +1,5 @@
 <template>
-    <f-table :data="data">
+    <f-table :data="data" rowKey="date">
         <f-table-column type="expand" v-slot="{ row }">
             <f-grid :gutter="[20, 20]" wrap>
                 <f-grid-item :span="12"> 省份：{{ row.province }} </f-grid-item>

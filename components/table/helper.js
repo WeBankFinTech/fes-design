@@ -27,16 +27,16 @@ export function getHeaderRows(originColumns) {
     const rows = [];
 
     // copy，避免污染源数据，导致多次执行 getHeaderRows
-    const cols = originColumns.map(column => ({
+    const cols = originColumns.map((column) => ({
         ...column,
     }));
 
     let isChildren = [];
     cols.forEach((column) => {
-        column.children = cols.filter(col => col.parentId === column.id);
-        isChildren = isChildren.concat(column.children.map(col => col.id));
+        column.children = cols.filter((col) => col.parentId === column.id);
+        isChildren = isChildren.concat(column.children.map((col) => col.id));
     });
-    const treeCols = cols.filter(column => !isChildren.includes(column.id));
+    const treeCols = cols.filter((column) => !isChildren.includes(column.id));
 
     let maxLevel = 1;
     const traverse = (column, parent) => {
@@ -80,11 +80,12 @@ export function getHeaderRows(originColumns) {
  */
 export function getColumns(originColumns) {
     const arr = originColumns.filter(
-        col => !originColumns.some(c => c.parentId === col.id),
+        (col) => !originColumns.some((c) => c.parentId === col.id),
     );
     // fixed固定列需要排在首尾
     const fixLeftIndex = arr.findIndex(
-        column => column.props.fixed === true || column.props.fixed === 'left',
+        (column) =>
+            column.props.fixed === true || column.props.fixed === 'left',
     );
     if (fixLeftIndex !== -1) {
         const fixLeftColumn = arr[fixLeftIndex];
@@ -93,7 +94,7 @@ export function getColumns(originColumns) {
         arr.unshift(fixLeftColumn);
     }
     const fixRightIndex = arr.findIndex(
-        column => column.props.fixed === 'right',
+        (column) => column.props.fixed === 'right',
     );
     if (fixRightIndex !== -1) {
         const fixRightColumn = arr[fixRightIndex];

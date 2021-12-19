@@ -1,4 +1,5 @@
-import { defineComponent } from 'vue';
+import { defineComponent, inject } from 'vue';
+import { provideKey } from '../const';
 
 export default defineComponent({
     name: 'FTableExpand',
@@ -15,13 +16,12 @@ export default defineComponent({
         length: Number,
     },
     setup(props) {
-        const {
-            row, rowIndex, column, length,
-        } = props;
+        const { prefixCls } = inject(provideKey);
+        const { row, rowIndex, column, length } = props;
         if (column.ctx?.slots?.default) {
             return () => (
-                <tr>
-                    <td colspan={length}>
+                <tr className={`${prefixCls}-expand-tr`}>
+                    <td colspan={length} className={`${prefixCls}-expand-td`}>
                         {column.ctx.slots.default({
                             row,
                             rowIndex,

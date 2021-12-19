@@ -117,11 +117,11 @@ export default {
                     message: '请再次输入密码',
                     trigger: ['input', 'blur']
                 },
-                // {
-                //     validator: validatePasswordStartWith,
-                //     message: '再次输入密码时，两次密码输入不一致',
-                //     trigger: ['input']
-                // },
+                {
+                    validator: validatePasswordStartWith,
+                    message: '再次输入密码时，两次密码输入不一致',
+                    trigger: ['input']
+                },
                 {
                     validator: validatePasswordSame,
                     message: '输入密码时，两次密码输入不一致',
@@ -182,19 +182,22 @@ export default {
                 console.log('表单验证失败: ', error);
             })
 
-            // try {
-            //     const result = await WFormDomRef.value.validate();
-            //     console.log('表单验证成功: ', result);
-            // } catch (error) {
-            //     console.log('表单验证失败: ', error);
-            // }
-            
-            // 验证表单指定字段: validateField() 
-            // try {
-            //     await WFormDomRef.value.validateField('name');
-            // } catch (error) {
-            //     console.log('表单验证失败: ', error);
-            // }
+            /** await 调用
+             * try {
+             *      const result = await WFormDomRef.value.validate();
+             *      console.log('表单验证成功: ', result);
+             * } catch (error) {
+             *      console.log('表单验证失败: ', error);
+             * }
+             */ 
+
+            /** 验证表单指定字段: validateField() 
+             * try {
+             *      await WFormDomRef.value.validateField('name');
+             * } catch (error) {
+             *      console.log('表单项验证失败: ', error);
+             * }
+             */ 
         }
         const clearHandler = () => {
             WFormDomRef.value.clearValidate();

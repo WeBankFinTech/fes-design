@@ -1,25 +1,15 @@
-import { defineComponent, provide, onMounted, nextTick, watch, reactive } from 'vue';
+import { defineComponent, nextTick, watch, reactive } from 'vue';
 import { isUndefined } from 'lodash-es';
-import { TABLE_NAME, SIZE, provideKey } from './const';
-import useTable from './useTable';
-import useTableSelect from './useTableSelect';
-import useTableExpand from './useTableExpand';
-import useTableStyle from './useTableStyle';
-import useTableFix from './useTableFix';
-import TableHeader from './tableHeader';
-import TableBody from './tableBody';
-import Mousewheel from '../_util/directives/mousewheel';
-import WBar from '../scrollbar/bar';
 import useScrollbar from '../scrollbar/useScrollbar';
+import WBar from '../scrollbar/bar';
+import { TABLE_NAME, SIZE } from './const';
+import useTable from './useTable';
+import Table from './components/composeTable';
 
 export default defineComponent({
     name: TABLE_NAME,
-    directives: {
-        mousewheel: Mousewheel,
-    },
     components: {
-        TableHeader,
-        TableBody,
+        Table,
         WBar,
     },
     props: {
@@ -52,93 +42,32 @@ export default defineComponent({
         rowStyle: [Function, Object],
         height: Number,
     },
-    emits: ['cell-click', 'expand-change', 'header-click', 'row-click', 'select', 'select-all', 'selection-change', 'sort-change'],
+    emits: [
+        'cellClick',
+        'expandChange',
+        'headerClick',
+        'rowClick',
+        'select',
+        'selectAll',
+        'selectionChange',
+        'sortChange',
+    ],
     setup(props, ctx) {
-        const { tableId, addColumn, removeColumn, headerRows, columns, showData, getCellValue, getRowKey, handleCellClick, handleHeaderClick, handleRowClick } =
-            useTable(props, ctx);
-
-        const { selectionColumn, selection, isSelectDisabled, isSelected, isAllSelected, handleSelect, handleSelectAll, clearSelect } = useTableSelect({
-            props,
-            ctx,
-            showData,
-            columns,
-        });
-
-        const { expandColumn, isExpandOpened, handleExpand } = useTableExpand({
-            props,
-            ctx,
-            columns,
-        });
-
         const {
+            prefixCls,
+            handleSelect,
+            handleSelectAll,
+            clearSelect,
             wrapperRef,
+            wrapperClass,
+            wrapperStyle,
+            columns,
             headerWrapperRef,
             bodyWrapperRef,
-            getRowClassName,
-            getRowStyle,
-            getColClassName,
-            getColStyle,
-            prefixCls,
-            wrapperClass,
             layout,
-            wrapperStyle,
-            headerWrapperStyle,
-            bodyWrapperStyle,
-            headerStyle,
-            bodyStyle,
-            getCellSpan,
             syncPosition,
-            fixeHeaderWrapperRef,
-            fixedBodyWrapperRef,
             handleHeaderMousewheel,
-            handleFixedMousewheel,
-        } = useTableStyle({
-            props,
-            columns,
-            expandColumn,
-            isExpandOpened,
-        });
-
-        const { fixLeftColumn, fixRightColumn, getFixClass, getFixStyle, getFixTrStyle, fixBodyWrapperStyle } = useTableFix({
-            props,
-            columns,
-            layout,
-            prefixCls,
-        });
-
-        provide(provideKey, {
-            id: tableId,
-            addColumn,
-            removeColumn,
-            prefixCls,
-            layout,
-            headerRows,
-            handleHeaderClick,
-            getColStyle,
-            isAllSelected,
-            selection,
-            handleSelectAll,
-            showData,
-            getRowKey,
-            getRowClassName,
-            getRowStyle,
-            handleRowClick,
-            columns,
-            getCellSpan,
-            handleCellClick,
-            getCellValue,
-            getColClassName,
-            isSelectDisabled,
-            isSelected,
-            selectionColumn,
-            handleSelect,
-            expandColumn,
-            isExpandOpened,
-            handleExpand,
-            headerStyle,
-            bodyStyle,
-            getFixTrStyle,
-        });
+        } = useTable(props, ctx);
 
         ctx.expose &&
             ctx.expose({
@@ -147,91 +76,56 @@ export default defineComponent({
                 clearSelection: clearSelect,
             });
 
-        const { onUpdate, onScroll, containerRef, ratioX, ratioY, thumbMoveX, thumbMoveY, sizeHeight, sizeWidth } = useScrollbar({ minSize: 20 });
+        const {
+            onUpdate,
+            onScroll,
+            containerRef,
+            ratioX,
+            ratioY,
+            thumbMoveX,
+            thumbMoveY,
+            sizeHeight,
+            sizeWidth,
+        } = useScrollbar({ minSize: 20 });
 
-        watch(layout.bodyHeight, () => {
+        watch([layout.bodyHeight, layout.isScrollX, layout.isScrollY], () => {
             nextTick(onUpdate);
         });
 
-        onMounted(() => {
-            nextTick(onUpdate);
-        });
-
-        const scrollbarRef = reactive([]);
-
-        const collectRef = (ref, el) => {
-            if (!ref.includes(el)) {
-                ref.push(el);
+        const handleTableRef = (elObject) => {
+            if (!headerWrapperRef.value && elObject.header) {
+                headerWrapperRef.value = elObject.header;
+            }
+            if (!bodyWrapperRef.value && elObject.body) {
+                bodyWrapperRef.value = elObject.body;
+                containerRef.value = elObject.body;
             }
         };
 
-        const handleRef = (el) => {
-            bodyWrapperRef.value = el;
-            collectRef(scrollbarRef, el);
-            containerRef.value = el;
-        };
-
-        const renderFixTable = (fixedColumn) => (
-            <div
-                className={getFixClass(fixedColumn)}
-                style={getFixStyle(fixedColumn)}
-                ref={(el) => {
-                    collectRef(scrollbarRef, el);
-                }}
-            >
-                {props.showHeader && !isUndefined(props.height) && (
-                    <div
-                        ref={(el) => {
-                            collectRef(fixeHeaderWrapperRef, el);
-                        }}
-                        className={`${prefixCls}-header-wrapper`}
-                        style={headerWrapperStyle}
-                    >
-                        <TableHeader fixedColumn={fixedColumn} />
-                    </div>
-                )}
-                <div
-                    ref={(el) => {
-                        collectRef(fixedBodyWrapperRef, el);
-                    }}
-                    v-mousewheel={handleFixedMousewheel}
-                    className={`${prefixCls}-body-wrapper`}
-                    style={{
-                        ...bodyWrapperStyle.value,
-                        ...fixBodyWrapperStyle.value,
-                    }}
-                >
-                    <TableBody emptyText={props.emptyText} showHeader={props.showHeader} fixedColumn={fixedColumn} height={props.height} />
-                </div>
-            </div>
-        );
-
         return () => (
-            <div ref={wrapperRef} className={wrapperClass.value} style={wrapperStyle.value}>
+            <div
+                ref={wrapperRef}
+                className={wrapperClass.value}
+                style={wrapperStyle.value}
+            >
                 <div ref="hiddenColumns" class="hidden-columns">
                     {ctx.slots?.default()}
                 </div>
-                {props.showHeader && !isUndefined(props.height) && (
-                    <div ref={headerWrapperRef} v-mousewheel={handleHeaderMousewheel} className={`${prefixCls}-header-wrapper`} style={headerWrapperStyle}>
-                        <TableHeader />
-                    </div>
-                )}
-                <div
-                    ref={handleRef}
-                    className={`${prefixCls}-body-wrapper`}
-                    style={bodyWrapperStyle.value}
+                <Table
+                    onRef={handleTableRef}
+                    showHeader={props.showHeader}
+                    columns={columns.value}
+                    composed={!isUndefined(props.height)}
+                    emptyText={props.emptyText}
                     onScroll={(e) => {
                         syncPosition(e);
                         onScroll(e);
                     }}
-                >
-                    <TableBody showHeader={props.showHeader} emptyText={props.emptyText} height={props.height} />
-                </div>
-                {fixLeftColumn.value && renderFixTable(fixLeftColumn.value)}
-                {fixRightColumn.value && renderFixTable(fixRightColumn.value)}
+                    onMousewheelHeader={handleHeaderMousewheel}
+                />
                 <WBar
                     class={`${prefixCls}-scrollbar`}
-                    scrollbarRef={scrollbarRef}
+                    scrollbarRef={[wrapperRef]}
                     containerRef={containerRef.value}
                     move={thumbMoveX.value}
                     ratio={ratioX.value}
@@ -240,7 +134,7 @@ export default defineComponent({
                 />
                 <WBar
                     class={`${prefixCls}-scrollbar`}
-                    scrollbarRef={scrollbarRef}
+                    scrollbarRef={[wrapperRef]}
                     containerRef={containerRef.value}
                     move={thumbMoveY.value}
                     ratio={ratioY.value}
