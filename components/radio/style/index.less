@@ -3,7 +3,7 @@
 @import './mixin.less';
 
 @radio-prefix-cls: ~'@{cls-prefix}-radio';
-@radio-disabled-bg: @component-background;
+@radio-disabled-bg: var(--f-component-bg-color);
 
 .@{radio-prefix-cls} {
     position: relative;
@@ -26,8 +26,8 @@
         height: 14px;
         line-height: 1;
         vertical-align: middle;
-        background: @white;
-        border: @border-base;
+        background: var(--f-white);
+        border: var(--f-border-base);
         border-radius: 100%;
         transition: all @animation-duration-base @ease-base-in;
     }
@@ -37,29 +37,29 @@
     }
     &.is-hover{
         .@{radio-prefix-cls}-inner {
-            border-color: @primary-color;
+            border-color: var(--f-primary-color);
         }
     }
     &.is-checked{
         .@{radio-prefix-cls}-inner {
-            background: @primary-color;
-            border-color: @primary-color;
+            background: var(--f-primary-color);
+            border-color: var(--f-primary-color);
             &::before {
                 .radio-inner()
             }
         }
     }
     &.is-disabled{
-        color: @border-color-base;
+        color: var(--f-border-color-base);
         cursor: not-allowed;
         .@{radio-prefix-cls}-inner {
             background: @radio-disabled-bg;
-            border-color: @border-color-base;
+            border-color: var(--f-border-color-base);
         }
         &.is-checked{
             .@{radio-prefix-cls}-inner {
-                background: @border-color-base;
-                border-color: @border-color-base;
+                background: var(--f-border-color-base);
+                border-color: var(--f-border-color-base);
                 &::before {
                     .radio-inner()
                 }

@@ -1,4 +1,4 @@
-import { tint, shade } from './colors/colorFunc';
+import { tint, shade, fade } from './colors/colorFunc';
 
 export const baseTheme = (themeOverrides = {}) => {
     const fontColorBase = '#0f1222';
@@ -14,7 +14,7 @@ export const baseTheme = (themeOverrides = {}) => {
             white: '#fff',
             black: '#000',
 
-            bodyBackground: '#fff',
+            bodyBgColor: '#fff',
 
             fontColorBase,
             fontSizeBase: '14px',
@@ -26,8 +26,12 @@ export const baseTheme = (themeOverrides = {}) => {
 
             borderColorBase: tint(fontColorBase, 0.8),
 
-            shadowColor: tint(fontColorBase, 0.9),
+            shadowColor: fade(fontColorBase, 0.1),
+            shadowColorSm: fade(fontColorBase, 0.2),
             shadowRadius: '12px',
+            shadowRadiusSm: '4px',
+
+            maskColor: fade(fontColorBase, 0.45),
         },
         themeOverrides,
     );
@@ -36,7 +40,7 @@ export const baseTheme = (themeOverrides = {}) => {
 
         linkColor: base.primaryColor,
 
-        componentBackground: tint(base.fontColorBase, 0.97),
+        componentBgColor: tint(base.fontColorBase, 0.97),
 
         hoverColorBase: tint(base.primaryColor, 0.2),
         hoverColorLight: tint(base.primaryColor, 0.94),
@@ -72,5 +76,15 @@ export const baseTheme = (themeOverrides = {}) => {
         borderColorSplit: tint(base.fontColorBase, 0.94),
         borderColorInverse: base.white,
         borderBase: `${base.borderWidthBase} ${base.borderStyleBase} ${base.borderColorBase}`,
+
+        layoutInvertedBgColor: tint(base.fontColorBase, 0.05),
+
+        tooltipTextBgColor: tint(base.fontColorBase, 0.3),
+
+        selectTriggerIconColor: tint(base.fontColorBase, 0.6),
+        selectTriggerShaowColor: fade(base.primaryColor, 0.2),
+
+        scrollbarBgColor: fade(base.fontColorBase, 0.25),
+        scrollbarActiveColor: fade(base.fontColorBase, 0.65),
     };
 };

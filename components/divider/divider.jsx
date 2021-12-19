@@ -1,5 +1,6 @@
 import { defineComponent, computed } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
+import { useTheme } from '../_theme/useTheme';
 
 const prefixCls = getPrefixCls('divider');
 const PLACEMENT = ['center', 'left', 'right'];
@@ -22,9 +23,12 @@ export default defineComponent({
         },
     },
     setup(props, { slots }) {
-        const classList = computed(() => [prefixCls, props.vertical && 'is-vertical']
-            .filter(Boolean)
-            .join(' '));
+        useTheme();
+        const classList = computed(() =>
+            [prefixCls, props.vertical && 'is-vertical']
+                .filter(Boolean)
+                .join(' '),
+        );
         return () => (
             <div className={classList.value}>
                 {!props.vertical ? (

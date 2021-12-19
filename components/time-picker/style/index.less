@@ -17,7 +17,7 @@
         .text();
         &-cell {
             flex: 1;
-            border-right: 1px solid @border-color-split;
+            border-right: 1px solid var(--f-border-color-split);
             &:last-child {
                 border: 0;
             }
@@ -41,19 +41,19 @@
                 cursor: pointer;
                 &.is-focus,
                 &:hover {
-                    background-color: @hover-color-light;
+                    background-color: var(--f-hover-color-light);
                 }
                 &.is-disabled {
-                    color: @disabled-color-base;
+                    color: var(--f-disabled-color-base);
                     background: transparent;
                     cursor: not-allowed;
                 }
                 &.is-active {
-                    color: @primary-color;
+                    color: var(--f-primary-color);
                     font-weight: bold;
-                    background-color: @hover-color-light;
+                    background-color: var(--f-hover-color-light);
                     &:hover {
-                        color: @primary-color;
+                        color: var(--f-primary-color);
                     }
                 }
             }
@@ -62,7 +62,7 @@
 
     &-addon {
         width: 100%;
-        border-top: 1px solid @border-color-split;
+        border-top: 1px solid var(--f-border-color-split);
         &-inner {
             padding: 10px;
             text-align: right;

@@ -18,7 +18,7 @@
 @form-item-label-mb: 8px;
 
 @form-size-base: @font-size-base;
-@form-size-error: @font-size-base - 2;
+@form-size-error: @font-size-caption;
 
 @form-item-height: @data-input-height-base;
 
@@ -28,14 +28,14 @@
     width: 100%;
     margin: @form-margin;
     padding: @form-padding;
-    font-size: @form-size-base;
+    font-size: var(--f-form-size-base);
 
     // 对齐方式: 左对齐 
     .@{form-item-cls} {
         display: flex;
         margin-bottom: @form-item-margin;
         padding: @form-margin;
-        font-size: @form-size-base;
+        font-size: var(--f-form-size-base);
         &-label {
             display: inline-flex;
             align-items: center;
@@ -90,7 +90,7 @@
                 display: inline-block;
                 margin-top: 2px;
                 margin-right: 4px;
-                color: @danger-color;
+                color: var(--f-danger-color);
                 content: '*';
             }
         }
@@ -103,14 +103,14 @@
             top: 100%;
             left: 0;
             padding-top: 5px;
-            color: @danger-color;
+            color: var(--f-danger-color);
             font-size: @form-size-error;
             line-height: 1;
         }
         .wd-input-inner,
         .wd-textarea-inner,
         .wd-select-trigger {
-            border-color: @danger-color;
+            border-color: var(--f-danger-color);
         }
     }
 }

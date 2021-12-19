@@ -115,13 +115,13 @@ function parseColor(color) {
     }
 }
 
-export function fade(color, amount) {
+export function fade(color, alpha) {
     color = parseColor(color);
     const hsl = toHSL(color);
 
-    hsl.a = amount.value / 100;
+    hsl.a = alpha;
     hsl.a = clamp(hsl.a);
-    return _hsla(color, hsl).toHex();
+    return _hsla(color, hsl).toCSS();
 }
 
 export function tint(color, amount) {

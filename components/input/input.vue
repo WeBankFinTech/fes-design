@@ -1,3 +1,4 @@
+/* eslint-disable no-undefined */
 <template>
     <div :class="classes" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
         <template v-if="type !== 'textarea'">
@@ -8,7 +9,13 @@
                 ref="inputRef"
                 :value="currentValue"
                 :maxlength="maxlength"
-                :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
+                :type="
+                    showPassword
+                        ? passwordVisible
+                            ? 'text'
+                            : 'password'
+                        : type
+                "
                 :readonly="readonly"
                 :disabled="disabled"
                 :placeholder="placeholder"
@@ -29,14 +36,30 @@
                 <slot name="prefix"></slot>
             </span>
             <!-- 后置内容 -->
-            <span v-if="suffixVisible" :class="`${prefixCls}-suffix`" @mousedown.prevent>
+            <span
+                v-if="suffixVisible"
+                :class="`${prefixCls}-suffix`"
+                @mousedown.prevent
+            >
                 <template v-if="!showClear && !showPwdSwitchIcon">
                     <slot name="suffix"></slot>
                 </template>
-                <CloseCircleFilled v-if="showClear" :class="`${prefixCls}-icon`" @click.stop="clear" />
+                <CloseCircleFilled
+                    v-if="showClear"
+                    :class="`${prefixCls}-icon`"
+                    @click.stop="clear"
+                />
                 <template v-if="showPwdSwitchIcon">
-                    <EyeOutlined v-if="passwordVisible" :class="`${prefixCls}-icon`" @click.stop="handlePasswordVisible" />
-                    <EyeInvisibleOutlined v-else :class="`${prefixCls}-icon`" @click.stop="handlePasswordVisible" />
+                    <EyeOutlined
+                        v-if="passwordVisible"
+                        :class="`${prefixCls}-icon`"
+                        @click.stop="handlePasswordVisible"
+                    />
+                    <EyeInvisibleOutlined
+                        v-else
+                        :class="`${prefixCls}-icon`"
+                        @click.stop="handlePasswordVisible"
+                    />
                 </template>
             </span>
             <div v-if="$slots.append" :class="`${prefixCls}-append`">
@@ -65,18 +88,32 @@
             @keydown="handleKeydown"
         >
         </textarea>
-        <span v-if="isWordLimitVisible && type === 'textarea'" :class="`${textareaPrefixCls}-count`">{{ textLength }}/{{ maxlength }}</span>
+        <span
+            v-if="isWordLimitVisible && type === 'textarea'"
+            :class="`${textareaPrefixCls}-count`"
+        >
+            {{ textLength }}/{{ maxlength }}
+        </span>
     </div>
 </template>
 
 <script>
-import { computed, toRefs, ref, shallowRef, watch, nextTick, onMounted } from 'vue';
+import {
+    computed,
+    toRefs,
+    ref,
+    shallowRef,
+    watch,
+    nextTick,
+    onMounted,
+} from 'vue';
 import { isObject } from 'lodash-es';
 
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import { EyeOutlined, EyeInvisibleOutlined, CloseCircleFilled } from '../icon';
 import getPrefixCls from '../_util/getPrefixCls';
+import { useTheme } from '../_theme/useTheme';
 import { useNormalModel } from '../_util/use/useModel';
 import calcTextareaHeight from './calcTextareaHeight';
 
@@ -90,7 +127,13 @@ function usePassword(currentValue, showPassword, readonly, disabled, focused) {
         passwordVisible.value = !passwordVisible.value;
     };
 
-    const showPwdSwitchIcon = computed(() => showPassword.value && !readonly.value && !disabled.value && (currentValue.value != null || focused.value));
+    const showPwdSwitchIcon = computed(
+        () =>
+            showPassword.value &&
+            !readonly.value &&
+            !disabled.value &&
+            (currentValue.value != null || focused.value),
+    );
 
     return {
         passwordVisible,
@@ -99,8 +142,24 @@ function usePassword(currentValue, showPassword, readonly, disabled, focused) {
     };
 }
 
-function useClear(currentValue, clearable, readonly, disabled, focused, hovering, updateCurrentValue, emit) {
-    const showClear = computed(() => clearable.value && !readonly.value && !disabled.value && currentValue.value && (focused.value || hovering.value));
+function useClear(
+    currentValue,
+    clearable,
+    readonly,
+    disabled,
+    focused,
+    hovering,
+    updateCurrentValue,
+    emit,
+) {
+    const showClear = computed(
+        () =>
+            clearable.value &&
+            !readonly.value &&
+            !disabled.value &&
+            currentValue.value &&
+            (focused.value || hovering.value),
+    );
 
     const clear = () => {
         updateCurrentValue('');
@@ -154,7 +213,9 @@ function useMouse(emit) {
 }
 
 function useWordLimit(currentValue, showWordLimit, maxlength, disabled) {
-    const isWordLimitVisible = computed(() => showWordLimit.value && maxlength.value && !disabled.value);
+    const isWordLimitVisible = computed(
+        () => showWordLimit.value && maxlength.value && !disabled.value,
+    );
     const textLength = computed(() => currentValue.value?.length || 0);
     return {
         isWordLimitVisible,
@@ -220,18 +281,45 @@ export default {
             default: 'off',
         },
     },
-    emits: [UPDATE_MODEL_EVENT, 'change', 'input', 'keydown', 'blur', 'focus', 'clear', 'mouseleave', 'mouseenter'],
+    emits: [
+        UPDATE_MODEL_EVENT,
+        'change',
+        'input',
+        'keydown',
+        'blur',
+        'focus',
+        'clear',
+        'mouseleave',
+        'mouseenter',
+    ],
     setup(props, { slots, emit }) {
+        useTheme();
         const { validate } = useFormAdaptor();
         const inputRef = ref();
         const textareaRef = ref();
-        const { showPassword, clearable, disabled, readonly, showWordLimit, maxlength } = toRefs(props);
+        const {
+            showPassword,
+            clearable,
+            disabled,
+            readonly,
+            showWordLimit,
+            maxlength,
+        } = toRefs(props);
         const { focused, handleFocus, handleBlur } = useFocus(emit, validate);
         const { hovering, onMouseLeave, onMouseEnter } = useMouse(emit);
 
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
-        const { showClear, clear } = useClear(currentValue, clearable, readonly, disabled, focused, hovering, updateCurrentValue, emit);
+        const { showClear, clear } = useClear(
+            currentValue,
+            clearable,
+            readonly,
+            disabled,
+            focused,
+            hovering,
+            updateCurrentValue,
+            emit,
+        );
 
         const classes = computed(() => [
             props.type === 'textarea' ? textareaPrefixCls : prefixCls,
@@ -242,12 +330,16 @@ export default {
                 [`${prefixCls}-group-prepend`]: slots.prepend,
                 [`${prefixCls}-group-append`]: slots.append,
                 [`${prefixCls}-with-prefix`]: slots.prefix,
-                [`${prefixCls}-with-suffix`]: slots.suffix || props.showPassword || props.clearable,
-                [`${prefixCls}-with-password-clear`]: props.showPassword && props.clearable,
+                [`${prefixCls}-with-suffix`]:
+                    slots.suffix || props.showPassword || props.clearable,
+                [`${prefixCls}-with-password-clear`]:
+                    props.showPassword && props.clearable,
             },
         ]);
 
-        const suffixVisible = computed(() => slots.suffix || props.showPassword || props.clearable);
+        const suffixVisible = computed(
+            () => slots.suffix || props.showPassword || props.clearable,
+        );
 
         const isComposing = ref(false);
         const handleInput = (event) => {
@@ -280,10 +372,12 @@ export default {
             if (type !== 'textarea') return;
 
             if (autosize) {
-                // eslint-disable-next-line no-undefined
-                const minRows = isObject(autosize) ? autosize.minRows : undefined;
-                // eslint-disable-next-line no-undefined
-                const maxRows = isObject(autosize) ? autosize.maxRows : undefined;
+                const minRows = isObject(autosize)
+                    ? autosize.minRows
+                    : undefined; // eslint-disable-line no-undefined
+                const maxRows = isObject(autosize)
+                    ? autosize.maxRows
+                    : undefined; // eslint-disable-line no-undefined
                 textareaCalcStyle.value = {
                     ...calcTextareaHeight(textareaRef.value, minRows, maxRows),
                 };
@@ -311,7 +405,9 @@ export default {
             emit('keydown', e);
         };
 
-        const currentInput = computed(() => (props.type === 'textarea' ? textareaRef.value : inputRef.value));
+        const currentInput = computed(() =>
+            props.type === 'textarea' ? textareaRef.value : inputRef.value,
+        );
         const focus = () => {
             currentInput.value.focus();
         };
@@ -350,7 +446,13 @@ export default {
             textareaStyle,
             resizeTextarea,
 
-            ...usePassword(currentValue, showPassword, readonly, disabled, focused),
+            ...usePassword(
+                currentValue,
+                showPassword,
+                readonly,
+                disabled,
+                focused,
+            ),
 
             ...useWordLimit(currentValue, showWordLimit, maxlength, disabled),
         };

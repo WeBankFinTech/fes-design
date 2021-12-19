@@ -16,13 +16,13 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        color: @text-color-secondary;
+        color: var(--f-text-color-secondary);
         font-size: @font-size-caption;
         line-height: @line-height-base;
-        background: @component-background;
+        background: var(--f-component-bg-color);
         svg {
             padding-bottom: @padding-xs;
-            color: @text-color-disabled-light;
+            color: var(--f-text-color-disabled-light);
             font-size: 46px;
         }
     }
@@ -40,7 +40,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: @text-color-secondary;
+        background: var(--f-mask-color);
     }
     &__btn {
         position: absolute;
@@ -50,9 +50,9 @@
         justify-content: center;
         width: 40px;
         height: 40px;
-        color: @white;
+        color: var(--f-white);
         font-size: @font-size-head;
-        background:  @text-color-secondary;
+        background:  var(--f-mask-color);
         border-radius: 50%;
         cursor: pointer;
     }
@@ -83,10 +83,10 @@
         justify-content: space-around;
         width: 176px;
         height: 40px;
-        color: @white;
+        color: var(--f-white);
         font-size: @font-size-head;
-        background: @sub-head-color;
-        border-radius: @border-radius-base;
+        background: var(--f-mask-color);
+        border-radius: var(--f-border-radius-base);
         transform: translate(-50%);
         svg {
             cursor: pointer;

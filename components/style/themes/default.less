@@ -53,11 +53,11 @@
 @text-color-caption: fade(@font-color, 20%);
 
 // font-size
-@font-size-caption: @font-size-base - 2px;
-@font-size-body: @font-size-base;
-@font-size-head: @font-size-base + 2px;
-@font-size-title: @font-size-base + 6px;
-@font-size-large-title: @font-size-base + 10px;
+@font-size-caption: calc(var(--f-font-size-base) - 2px);
+@font-size-body: var(--f-font-size-base);
+@font-size-head: calc(var(--f-font-size-base) + 2px);
+@font-size-title: calc(var(--f-font-size-base) + 6px);
+@font-size-large-title: calc(var(--f-font-size-base) + 10px);
 
 // font-weight
 @font-weight-regular: 400;
@@ -96,18 +96,14 @@
 @padding-xs: 8px; // small items
 
 // -------- shadow -----------
-@shadow-color: fade(@font-color-base, 10%);
-@shadow-radius: 12px;
-@shadow-up: 0 -2px @shadow-radius @shadow-color;
-@shadow-down: 0 2px @shadow-radius @shadow-color;
-@shadow-left: -2px 0 @shadow-radius @shadow-color;
-@shadow-right: 2px 0 @shadow-radius @shadow-color;
-@shadow-sm-color: fade(@font-color-base, 20%);
-@shadow-sm-radius: 4px;
-@shadow-sm-up: 0 -2px @shadow-sm-radius @shadow-sm-color;
-@shadow-sm-down: 0 2px @shadow-sm-radius @shadow-sm-color;
-@shadow-sm-left: -2px 0 @shadow-sm-radius @shadow-sm-color;
-@shadow-sm-right: 2px 0 @shadow-sm-radius @shadow-sm-color;
+@shadow-up: 0 -2px var(--f-shadow-radius) var(--f-shadow-color);
+@shadow-down: 0 2px var(--f-shadow-radius) var(--f-shadow-color);
+@shadow-left: -2px 0 var(--f-shadow-radius) var(--f-shadow-color);
+@shadow-right: 2px 0 var(--f-shadow-radius) var(--f-shadow-color);
+@shadow-sm-up: 0 -2px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
+@shadow-sm-down: 0 2px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
+@shadow-sm-left: -2px 0 var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
+@shadow-sm-right: 2px 0 var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
 
 // z-index list, order by `z-index`
 @zindex-badge: 1;

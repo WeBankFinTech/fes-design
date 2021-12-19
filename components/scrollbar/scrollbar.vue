@@ -35,14 +35,9 @@
 </template>
 
 <script>
-import {
-    computed,
-    nextTick,
-    onBeforeUnmount,
-    onMounted,
-    ref,
-} from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
+import { useTheme } from '../_theme/useTheme';
 import { addUnit, requestAnimationFrame } from '../_util/utils';
 import { addResizeListener, removeResizeListener } from '../_util/resizeEvent';
 
@@ -82,6 +77,7 @@ export default {
     },
     emits: ['scroll'],
     setup(props, { emit }) {
+        useTheme();
         const {
             onUpdate,
             onScroll,
@@ -119,7 +115,10 @@ export default {
                 nextTick(onUpdate);
             }
             if (!props.noresize) {
-                addResizeListener(containerRef.value.firstElementChild, onUpdate);
+                addResizeListener(
+                    containerRef.value.firstElementChild,
+                    onUpdate,
+                );
                 window.addEventListener('resize', onUpdate);
             }
         });

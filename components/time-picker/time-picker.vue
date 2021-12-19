@@ -46,8 +46,22 @@
                 <div v-if="showControl" :class="`${prefixCls}-addon`">
                     <slot name="addon" :activeTime="activeTime">
                         <div :class="`${prefixCls}-addon-inner`">
-                            <FButton type="link" size="small" @mousedown.prevent @click="setCurrentTime">此刻</FButton>
-                            <FButton type="primary" size="small" @mousedown.prevent @click="confirmChangeTime">确认</FButton>
+                            <FButton
+                                type="link"
+                                size="small"
+                                @mousedown.prevent
+                                @click="setCurrentTime"
+                            >
+                                此刻
+                            </FButton>
+                            <FButton
+                                type="primary"
+                                size="small"
+                                @mousedown.prevent
+                                @click="confirmChangeTime"
+                            >
+                                确认
+                            </FButton>
                         </div>
                     </slot>
                 </div>
@@ -62,6 +76,7 @@ import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
+import { useTheme } from '../_theme/useTheme';
 import TimeSelect from './time-select';
 import FInput from '../input';
 import { ClockCircleOutlined } from '../icon';
@@ -88,7 +103,12 @@ const getCurrentTime = (format) => {
 
 function validator(val, cellFormat, format, max) {
     if (!val) return false;
-    if (val.length > 3 || !/^\d{1,2}$/.test(val) || Number(val) > max || (format.indexOf(cellFormat) === -1 && val.startsWith('0'))) {
+    if (
+        val.length > 3 ||
+        !/^\d{1,2}$/.test(val) ||
+        Number(val) > max ||
+        (format.indexOf(cellFormat) === -1 && val.startsWith('0'))
+    ) {
         return false;
     }
     return true;
@@ -190,10 +210,13 @@ export default {
     },
     emits: [UPDATE_MODEL_EVENT, 'update:open', 'change', 'blur', 'focus'],
     setup(props, { emit, slots }) {
+        useTheme();
         const { validate } = useFormAdaptor();
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
         const { isOpened, closePopper } = useOpen(props, emit);
-        const classes = computed(() => [prefixCls, props.disabled && 'is-disabled'].filter(Boolean));
+        const classes = computed(() =>
+            [prefixCls, props.disabled && 'is-disabled'].filter(Boolean),
+        );
 
         const showControl = computed(() => props.control || slots.addon);
 

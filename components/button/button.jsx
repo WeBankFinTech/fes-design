@@ -1,6 +1,7 @@
 import { defineComponent, computed, ref } from 'vue';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
+import { useTheme } from '../_theme/useTheme';
 
 const prefixCls = getPrefixCls('btn');
 
@@ -56,6 +57,7 @@ export default defineComponent({
     },
     emits: ['click'],
     setup(props, { slots, emit }) {
+        useTheme();
         const notAllowed = ref(false);
         const handleClick = (event) => {
             if (notAllowed.value || props.disabled) return;
@@ -74,7 +76,7 @@ export default defineComponent({
             'is-loading': props.loading || notAllowed.value,
         }));
 
-        return () => (
+        const renderBtn = () => (
             <button
                 type={props.htmlType}
                 disabled={props.disabled}
@@ -89,5 +91,12 @@ export default defineComponent({
                 {slots.default?.()}
             </button>
         );
+
+        return () =>
+            props.disabled ? (
+                <span style="cursor: not-allowed">{renderBtn()}</span>
+            ) : (
+                renderBtn()
+            );
     },
 });
