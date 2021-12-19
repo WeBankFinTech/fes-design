@@ -6,7 +6,7 @@
             :width="150"
             fixed
         ></f-table-column>
-        <f-table-column prop="name" label="姓名" :width="150"></f-table-column>
+        <f-table-column prop="name" label="姓名姓名姓名姓名姓名姓名姓名姓名" :width="150"></f-table-column>
         <f-table-column
             prop="province"
             label="省份"
