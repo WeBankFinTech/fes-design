@@ -34,7 +34,7 @@ export default ({ props, ctx, columns, getRowKey }) => {
         } else {
             expandOpenedList.push(rowKey);
         }
-        ctx.emit('expand-change', { row, expanded: !index });
+        ctx.emit('expandChange', { row, expanded: !index });
     };
     return {
         expandColumn,

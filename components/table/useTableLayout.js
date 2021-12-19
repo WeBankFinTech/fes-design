@@ -1,5 +1,5 @@
 import { onBeforeUnmount, nextTick, ref, watch } from 'vue';
-import { debounce } from 'lodash-es';
+import { debounce, isEqual } from 'lodash-es';
 import { ResizeObserver } from '@juggle/resize-observer';
 
 /**
@@ -17,7 +17,6 @@ export default function useTableLayout({
     const widthList = ref({});
     const isScrollX = ref(false);
     const isScrollY = ref(false);
-    const wrapperHeight = ref(0);
     const headerHeight = ref(0);
     const bodyHeight = ref(0);
 
@@ -25,22 +24,19 @@ export default function useTableLayout({
         // 需要在宽度分配完，重新渲染后，此时table已经按照期望正常渲染，此时的高度才是最终高度
         const $wrapper = wrapperRef.value;
         const $bodyWrapper = bodyWrapperRef.value;
-        if ($wrapper && $bodyWrapper) {
+        if ($wrapper && $bodyWrapper && props.height) {
+            const $headerWrapper = props.showHeader
+                ? headerWrapperRef.value
+                : { offsetHeight: 0 };
+            const headerWrapperHeight = $headerWrapper.offsetHeight;
+            // 减去wrapperRef的border-bottom
+            const remainBodyHeight = props.height - headerWrapperHeight - 1;
+            bodyHeight.value = remainBodyHeight;
             const bodyWrapperHeight = $bodyWrapper.offsetHeight;
-            if (props.height) {
-                const $headerWrapper = props.showHeader
-                    ? headerWrapperRef.value
-                    : { offsetHeight: 0 };
-                const headerWrapperHeight = $headerWrapper.offsetHeight;
-                // 减去wrapperRef的border-bottom
-                const remainBodyHeight = props.height - headerWrapperHeight - 1;
-                bodyHeight.value = remainBodyHeight;
-                if (remainBodyHeight < bodyWrapperHeight) {
-                    isScrollY.value = true;
-                }
-                headerHeight.value = headerWrapperHeight;
+            if (remainBodyHeight < bodyWrapperHeight) {
+                isScrollY.value = true;
             }
-            wrapperHeight.value = $wrapper.offsetHeight;
+            headerHeight.value = headerWrapperHeight;
         }
     };
 
@@ -103,13 +99,17 @@ export default function useTableLayout({
                     column.width = column.minWidth || min;
                 });
             }
-            widthList.value = _widthList.reduce(
+            const newWidthList = _widthList.reduce(
                 (previousValue, currentValue) => {
                     previousValue[currentValue.id] = currentValue.width;
                     return previousValue;
                 },
                 {},
             );
+            // 如果值一样则没必要再次渲染，可减少一次多余渲染
+            if (!isEqual(newWidthList, widthList.value)) {
+                widthList.value = newWidthList;
+            }
         }
     };
 
@@ -158,7 +158,6 @@ export default function useTableLayout({
 
     return {
         widthList,
-        wrapperHeight,
         headerHeight,
         bodyWidth,
         bodyHeight,

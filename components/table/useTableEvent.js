@@ -1,14 +1,14 @@
 export default function useTableEvent(ctx) {
     const handleCellClick = (params, event) => {
-        ctx.emit('cell-click', { ...params, event });
+        ctx.emit('cellClick', { ...params, event });
     };
 
     const handleHeaderClick = (params, event) => {
-        ctx.emit('header-click', { ...params, event });
+        ctx.emit('headerClick', { ...params, event });
     };
 
     const handleRowClick = (params, event) => {
-        ctx.emit('row-click', { ...params, event });
+        ctx.emit('rowClick', { ...params, event });
     };
 
     return {

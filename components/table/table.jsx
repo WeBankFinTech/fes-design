@@ -43,14 +43,14 @@ export default defineComponent({
         height: Number,
     },
     emits: [
-        'cell-click',
-        'expand-change',
-        'header-click',
-        'row-click',
+        'cellClick',
+        'expandChange',
+        'headerClick',
+        'rowClick',
         'select',
-        'select-all',
-        'selection-change',
-        'sort-change',
+        'selectAll',
+        'selectionChange',
+        'sortChange',
     ],
     setup(props, ctx) {
         const {
@@ -88,17 +88,9 @@ export default defineComponent({
             sizeWidth,
         } = useScrollbar({ minSize: 20 });
 
-        const scrollbarRef = reactive([]);
-
         watch([layout.bodyHeight, layout.isScrollX, layout.isScrollY], () => {
             nextTick(onUpdate);
         });
-
-        const collectRef = (ref, el) => {
-            if (!ref.includes(el)) {
-                ref.push(el);
-            }
-        };
 
         const handleTableRef = (elObject) => {
             if (!headerWrapperRef.value && elObject.header) {
@@ -106,7 +98,6 @@ export default defineComponent({
             }
             if (!bodyWrapperRef.value && elObject.body) {
                 bodyWrapperRef.value = elObject.body;
-                collectRef(scrollbarRef, elObject.body);
                 containerRef.value = elObject.body;
             }
         };
@@ -134,7 +125,7 @@ export default defineComponent({
                 />
                 <WBar
                     class={`${prefixCls}-scrollbar`}
-                    scrollbarRef={scrollbarRef}
+                    scrollbarRef={[wrapperRef]}
                     containerRef={containerRef.value}
                     move={thumbMoveX.value}
                     ratio={ratioX.value}
@@ -143,7 +134,7 @@ export default defineComponent({
                 />
                 <WBar
                     class={`${prefixCls}-scrollbar`}
-                    scrollbarRef={scrollbarRef}
+                    scrollbarRef={[wrapperRef]}
                     containerRef={containerRef.value}
                     move={thumbMoveY.value}
                     ratio={ratioY.value}

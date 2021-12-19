@@ -41,7 +41,7 @@ export default ({ props, ctx, showData, columns, getRowKey }) => {
     );
 
     watch(selection, () => {
-        ctx.emit('selection-change', selection);
+        ctx.emit('selectionChange', selection);
     });
 
     const isSelectDisabled = ({ row }) => {
@@ -117,7 +117,7 @@ export default ({ props, ctx, showData, columns, getRowKey }) => {
             selectableData.value.forEach(push);
             isAllSelected.value = true;
         }
-        ctx.emit('select-all', { selection });
+        ctx.emit('selectAll', { selection });
     };
 
     const clearSelect = () => {
