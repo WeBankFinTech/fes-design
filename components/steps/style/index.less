@@ -5,6 +5,7 @@
 @steps-prefix-cls: ~'@{cls-prefix}-steps';
 @step-prefix-cls: ~'@{cls-prefix}-step';
 @step-symbol-size: 24px;
+@step-symbol-line-height: @step-symbol-size - 2px;
 
 .@{steps-prefix-cls} {
     display: flex;
@@ -39,7 +40,7 @@
                 width: 1px;
                 height: auto;
                 margin: 0;
-                background: @border-color-base;
+                background: var(--f-border-color-base);
             }
             &:last-child {
                 .@{step-prefix-cls}-description {
@@ -59,11 +60,17 @@
     vertical-align: top;
     &-symbol {
         &-wrapper {
+            --f-step-symbol-wrapper-color: inherit;
+            --f-step-symbol-wrapper-border-color: transparent;
             display: flex;
             align-items: center;
             justify-content: center;
-            .square(@step-symbol-size);
+            color: var(--f-step-symbol-wrapper-color);
+            line-height: @step-symbol-line-height;
+            border: var(--f-border-width-base) var(--f-border-style-base) transparent;
+            border-color: var(--f-step-symbol-wrapper-border-color);
             border-radius: 50%;
+            .square(@step-symbol-size);
         }
     }
     &-content {
@@ -80,13 +87,13 @@
         flex: 1;
         height: 1px;
         margin: 0 @padding-xs;
-        background: @border-color-base;
+        background: var(--f-border-color-base);
     }
     &-description {
         width: 100%;
         margin-top: (@padding-xs / 2);
         font-size: @font-size-caption;
-        line-height: (@font-size-caption * @line-height-base / @font-size-base);
+        line-height: calc(@font-size-caption * @line-height-base / var(--f-font-size-base));
     }
     &-icon {
         display: inline-flex;
@@ -94,40 +101,49 @@
         font-size: @font-size-head;
     }
     &.is-wait {
-        color:  @text-color-secondary;
+        color: var(--f-text-color-secondary);
         .@{step-prefix-cls}-symbol {
             .@{step-prefix-cls}-symbol-wrapper {
-                .wrapper(@text-color-secondary, (@step-symbol-size - 2px),  @border-color-base);
+                --f-step-symbol-wrapper-color: var(--f-text-color-secondary);
+                // --f-step-symbol-wrapper-line-height: (@step-symbol-size - 2px);
+                --f-step-symbol-wrapper-border-color: var(--f-border-color-base);
             }
         }
     }
     &.is-process {
         .@{step-prefix-cls}-symbol {
             .@{step-prefix-cls}-symbol-wrapper {
-                .wrapper(@white, (@step-symbol-size - 2px),  @primary-color);
-                background: @primary-color;
+                background: var(--f-primary-color);
+
+                --f-step-symbol-wrapper-color: var(--f-white);
+                // --f-step-symbol-wrapper-line-height: (@step-symbol-size - 2px);
+                --f-step-symbol-wrapper-border-color: var(--f-primary-color);
             }
         }
         .@{step-prefix-cls}-tail {
-            background: @primary-color;
+            background: var(--f-primary-color);
         }
     }
     &.is-finish {
         color:  @text-color-secondary;
         .@{step-prefix-cls}-symbol {
             .@{step-prefix-cls}-symbol-wrapper {
-                .wrapper(@primary-color, (@step-symbol-size - 2px), @primary-color);
+                --f-step-symbol-wrapper-color: var(--f-primary-color);
+                // --f-step-symbol-wrapper-line-height: (@step-symbol-size - 2px);
+                --f-step-symbol-wrapper-border-color: var(--f-primary-color);
             }
         }
         .@{step-prefix-cls}-tail {
-            background: @primary-color;
+            background: var(--f-primary-color);
         }
     }
     &.is-error {
         color: @danger-color;
         .@{step-prefix-cls}-symbol {
             .@{step-prefix-cls}-symbol-wrapper {
-                .wrapper(@danger-color, (@step-symbol-size - 2px), @danger-color);
+                --f-step-symbol-wrapper-color: var(--f-danger-color);
+                // --f-step-symbol-wrapper-line-height: (@step-symbol-size - 2px);
+                --f-step-symbol-wrapper-border-color: var(--f-danger-color);
             }
         }
     }

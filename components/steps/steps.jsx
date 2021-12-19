@@ -1,11 +1,8 @@
-import {
-    computed, provide, defineComponent, ref,
-} from 'vue';
+import { computed, provide, defineComponent, ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
-import {
-    PROVIDE_KEY, COMPONENT_NAME, STATUS, TYPE,
-} from './const';
+import { useTheme } from '../_theme/useTheme';
+import { PROVIDE_KEY, COMPONENT_NAME, STATUS, TYPE } from './const';
 
 const prefixCls = getPrefixCls('steps');
 
@@ -39,17 +36,26 @@ export default defineComponent({
         },
     },
     setup(props, { slots, emit }) {
+        useTheme();
         const parentDomRef = ref(null);
-        const [current, updateCurrent] = useNormalModel(props, emit, { prop: 'current' });
-        const classList = computed(() => [prefixCls, `is-${props.type}`, props.vertical && 'is-vertical']
-            .filter(Boolean)
-            .join(' '));
+        const [current, updateCurrent] = useNormalModel(props, emit, {
+            prop: 'current',
+        });
+        const classList = computed(() =>
+            [prefixCls, `is-${props.type}`, props.vertical && 'is-vertical']
+                .filter(Boolean)
+                .join(' '),
+        );
         provide(PROVIDE_KEY, {
             current,
             updateCurrent,
             props,
             parentDomRef,
         });
-        return () => <div ref={parentDomRef} className={classList.value}>{slots.default?.()}</div>;
+        return () => (
+            <div ref={parentDomRef} className={classList.value}>
+                {slots.default?.()}
+            </div>
+        );
     },
 });

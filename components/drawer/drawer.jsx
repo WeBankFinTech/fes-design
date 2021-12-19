@@ -1,4 +1,12 @@
-import { computed, defineComponent, Teleport, Transition, ref, watch, nextTick } from 'vue';
+import {
+    computed,
+    defineComponent,
+    Teleport,
+    Transition,
+    ref,
+    watch,
+    nextTick,
+} from 'vue';
 import { isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import FButton from '../button';
@@ -6,6 +14,7 @@ import { CloseOutlined } from '../icon';
 import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
 import { getConfig } from '../config-provider';
+import { useTheme } from '../_theme/useTheme';
 
 const prefixCls = getPrefixCls('drawer');
 const UPDATE_SHOW_EVENT = 'update:show';
@@ -78,6 +87,7 @@ const Drawer = defineComponent({
     props: { ...drawerProps },
     emits: [UPDATE_SHOW_EVENT, OK_EVENT, CANCEL_EVENT, AFTER_LEAVE_EVENT],
     setup(props, ctx) {
+        useTheme();
         const zIndex = ref(PopupManager.nextZIndex());
         const visible = ref(false);
         useLockScreen(visible);
@@ -92,7 +102,9 @@ const Drawer = defineComponent({
             { immediate: true },
         );
         const config = getConfig();
-        const getContainer = computed(() => props.getContainer || config.getContainer);
+        const getContainer = computed(
+            () => props.getContainer || config.getContainer,
+        );
 
         function handleCancel(event) {
             ctx.emit(UPDATE_SHOW_EVENT, false);
@@ -123,7 +135,12 @@ const Drawer = defineComponent({
             } else {
                 footer = (
                     <>
-                        <FButton type="primary" class="btn-margin" size="middle" onClick={handleOk}>
+                        <FButton
+                            type="primary"
+                            class="btn-margin"
+                            size="middle"
+                            onClick={handleOk}
+                        >
                             {props.okText}
                         </FButton>
                         <FButton size="middle" onClick={handleCancel}>
@@ -137,41 +154,70 @@ const Drawer = defineComponent({
 
         const styles = computed(() => {
             const sty = { width: '100%', height: '100%' };
-            const propsKey = ['top', 'bottom'].includes(props.placement) ? 'height' : 'width';
-            sty[propsKey] = isNumber(props[propsKey]) ? `${props[propsKey]}px` : props[propsKey];
+            const propsKey = ['top', 'bottom'].includes(props.placement)
+                ? 'height'
+                : 'width';
+            sty[propsKey] = isNumber(props[propsKey])
+                ? `${props[propsKey]}px`
+                : props[propsKey];
             return sty;
         });
 
-        const showDom = computed(() => (props.displayDirective === 'if' && visible.value) || props.displayDirective === 'show');
+        const showDom = computed(
+            () =>
+                (props.displayDirective === 'if' && visible.value) ||
+                props.displayDirective === 'show',
+        );
 
         return () => (
             <Teleport to={getContainer.value?.()}>
                 <div class={`${prefixCls} ${prefixCls}-${props.placement}`}>
                     <Transition name={`${prefixCls}-mask-fade`}>
-                        {props.mask && showDom.value && <div class={`${prefixCls}-mask`} style={{ zIndex: zIndex.value }} v-show={visible.value}></div>}
+                        {props.mask && showDom.value && (
+                            <div
+                                class={`${prefixCls}-mask`}
+                                style={{ zIndex: zIndex.value }}
+                                v-show={visible.value}
+                            ></div>
+                        )}
                     </Transition>
-                    <Transition name={`${prefixCls}-fade`} onAfterLeave={handleTransitionAfterLeave}>
+                    <Transition
+                        name={`${prefixCls}-fade`}
+                        onAfterLeave={handleTransitionAfterLeave}
+                    >
                         {showDom.value && (
                             <div
                                 v-show={visible.value}
                                 class={{
                                     [`${prefixCls}-container`]: true,
-                                    [`${prefixCls}-no-header`]: !hasHeader.value,
+                                    [`${prefixCls}-no-header`]:
+                                        !hasHeader.value,
                                     [`${prefixCls}-no-footer`]: !props.footer,
                                 }}
                                 style={{ zIndex: zIndex.value }}
-                                onClick={(event) => props.maskClosable && props.mask && handleCancel(event)}
+                                onClick={(event) =>
+                                    props.maskClosable &&
+                                    props.mask &&
+                                    handleCancel(event)
+                                }
                             >
                                 <div
-                                    class={`${prefixCls}-wrapper ${props.contentClass || ''}`}
+                                    class={`${prefixCls}-wrapper ${
+                                        props.contentClass || ''
+                                    }`}
                                     style={styles.value}
                                     onClick={(event) => event.stopPropagation()}
                                 >
                                     {getHeader()}
-                                    <div class={`${prefixCls}-body`}>{ctx.slots.default?.()}</div>
+                                    <div class={`${prefixCls}-body`}>
+                                        {ctx.slots.default?.()}
+                                    </div>
                                     {getFooter()}
                                     {props.closable && (
-                                        <div class={`${prefixCls}-close`} onClick={handleCancel}>
+                                        <div
+                                            class={`${prefixCls}-close`}
+                                            onClick={handleCancel}
+                                        >
                                             <CloseOutlined />
                                         </div>
                                     )}

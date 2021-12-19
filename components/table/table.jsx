@@ -1,5 +1,6 @@
-import { defineComponent, nextTick, watch, reactive } from 'vue';
+import { defineComponent, nextTick, watch } from 'vue';
 import { isUndefined } from 'lodash-es';
+import { useTheme } from '../_theme/useTheme';
 import useScrollbar from '../scrollbar/useScrollbar';
 import WBar from '../scrollbar/bar';
 import { TABLE_NAME, SIZE } from './const';
@@ -15,7 +16,7 @@ export default defineComponent({
     props: {
         data: {
             type: Array,
-            data: () => [],
+            default: () => [],
         },
         rowKey: [Function, String],
         bordered: {
@@ -53,6 +54,7 @@ export default defineComponent({
         'sortChange',
     ],
     setup(props, ctx) {
+        useTheme();
         const {
             prefixCls,
             handleSelect,
@@ -105,7 +107,7 @@ export default defineComponent({
         return () => (
             <div
                 ref={wrapperRef}
-                className={wrapperClass.value}
+                class={wrapperClass.value}
                 style={wrapperStyle.value}
             >
                 <div ref="hiddenColumns" class="hidden-columns">

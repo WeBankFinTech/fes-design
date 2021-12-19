@@ -4,10 +4,9 @@
     </section>
 </template>
 <script>
-import {
-    computed, provide, reactive, toRefs, inject, ref,
-} from 'vue';
+import { computed, provide, reactive, toRefs, inject, ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
+import { useTheme } from '../_theme/useTheme';
 import { COMPONENT_NAME, KEY } from './const';
 
 const prefixCls = getPrefixCls('layout');
@@ -20,6 +19,7 @@ export default {
         },
     },
     setup(props) {
+        useTheme();
         const isRoot = ref(true);
         // layout可以嵌套，所以layout也可能有父的layout
         const parent = inject(KEY, null);
@@ -36,8 +36,9 @@ export default {
         const isVertical = computed(() => {
             if (children.length) {
                 return children.some(
-                    node => node.type === COMPONENT_NAME.HEADER
-                        || node.type === COMPONENT_NAME.FOOTER,
+                    (node) =>
+                        node.type === COMPONENT_NAME.HEADER ||
+                        node.type === COMPONENT_NAME.FOOTER,
                 );
             }
             return false;
@@ -47,17 +48,21 @@ export default {
                 if (children[0].type === COMPONENT_NAME.ASIDE) {
                     return 'left';
                 }
-                if (children[children.length - 1].type === COMPONENT_NAME.ASIDE) {
+                if (
+                    children[children.length - 1].type === COMPONENT_NAME.ASIDE
+                ) {
                     return 'right';
                 }
             }
             return '';
         });
-        const classList = computed(() => [
-            prefixCls,
-            isVertical.value && 'is-vertical',
-            isRoot.value && 'is-root',
-        ].filter(Boolean));
+        const classList = computed(() =>
+            [
+                prefixCls,
+                isVertical.value && 'is-vertical',
+                isRoot.value && 'is-root',
+            ].filter(Boolean),
+        );
 
         provide(KEY, {
             addChild,

@@ -1,4 +1,5 @@
 import { defineComponent } from 'vue';
+import { useTheme } from '../_theme/useTheme';
 import Trigger from './trigger';
 import FileList from './fileList';
 import request from './ajax';
@@ -40,13 +41,13 @@ export default defineComponent({
         },
         fileList: {
             type: Array,
-            validator: value => value.every(file => file.name && file.url),
+            validator: (value) => value.every((file) => file.name && file.url),
             default: () => [],
         },
         listType: {
             type: String,
             default: 'text',
-            validator: value => ['text', 'picture-card'].includes(value),
+            validator: (value) => ['text', 'picture-card'].includes(value),
         },
         multiple: {
             type: Boolean,
@@ -68,6 +69,7 @@ export default defineComponent({
     },
     emits: ['change', 'remove', 'success', 'error', 'progress', 'exceed'],
     setup(props, ctx) {
+        useTheme();
         const { uploadFiles } = useUpload(props, ctx);
         const getFileList = () => {
             if (!props.showFileList) {
@@ -75,7 +77,7 @@ export default defineComponent({
             }
             const fileListSlots = ctx.slots.fileList;
             if (!fileListSlots) {
-                return <FileList/>;
+                return <FileList />;
             }
             return fileListSlots({ uploadFiles: uploadFiles.value });
         };

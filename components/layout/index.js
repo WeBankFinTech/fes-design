@@ -6,7 +6,10 @@ import Aside from './aside';
 import Footer from './footer';
 
 export const FLayout = withInstall(Layout, {
-    Header, Main, Aside, Footer,
+    Header,
+    Main,
+    Aside,
+    Footer,
 });
 export const FHeader = withNoopInstall(Header);
 export const FMain = withNoopInstall(Main);

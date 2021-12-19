@@ -40,6 +40,7 @@
 <script>
 import { defineComponent, ref, computed } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
+import { useTheme } from '../_theme/useTheme';
 import Label from './label';
 import UpOutlined from '../icon/UpOutlined';
 import DownOutlined from '../icon/DownOutlined';
@@ -95,6 +96,7 @@ export default defineComponent({
     },
     emits: ['remove', 'clear', 'focus', 'blur', 'input'],
     setup(props, { emit }) {
+        useTheme();
         const inputHovering = ref(false);
         const unSelected = computed(() => props.selectedOptions.length === 0);
         const { isFocus, handleFocus, handleBlur } = useFocus(emit, props);

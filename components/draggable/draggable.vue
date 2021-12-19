@@ -24,6 +24,7 @@
 import { computed, ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useDraggable, emits } from './useDraggable';
+import { useTheme } from '../_theme/useTheme';
 
 const prefixCls = getPrefixCls('draggable');
 
@@ -45,6 +46,7 @@ export default {
     },
     emits,
     setup(props, ctx) {
+        useTheme();
         const rootRef = ref(null);
         const propsRef = computed(() => ({
             droppable: props.droppable,

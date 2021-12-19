@@ -71,6 +71,10 @@ Color.prototype = {
         output.add(this.toCSS(context));
     },
 
+    toRGB() {
+        return toHex(this.rgb);
+    },
+
     toCSS(context, doNotCompress) {
         const compress = context && context.compress && !doNotCompress;
         let color;
@@ -80,7 +84,7 @@ Color.prototype = {
         // `value` is set if this color was originally
         // converted from a named color string so we need
         // to respect this and try to output named color too.
-        const alpha = this.fround(context, this.alpha);
+        const alpha = this.alpha;
 
         if (this.value) {
             if (this.value.indexOf('rgb') === 0) {

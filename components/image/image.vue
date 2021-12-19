@@ -12,10 +12,23 @@
                 <span>加载失败</span>
             </div>
         </slot>
-        <img v-else :class="`${prefixCls}__inner`" :src="src" :style="imageStyle" v-bind="imgCommonProps" @click="clickHandler" />
+        <img
+            v-else
+            :class="`${prefixCls}__inner`"
+            :src="src"
+            :style="imageStyle"
+            v-bind="imgCommonProps"
+            @click="clickHandler"
+        />
 
         <teleport v-show="preview" to="body">
-            <preview v-if="isShowPreview" :src="src" :hide-on-click-modal="hideOnClickModal" @close="closeViewer"> </preview>
+            <preview
+                v-if="isShowPreview"
+                :src="src"
+                :hide-on-click-modal="hideOnClickModal"
+                @close="closeViewer"
+            >
+            </preview>
         </teleport>
     </div>
 </template>
@@ -28,6 +41,7 @@ import { PictureOutlined, PictureFailOutlined } from '../icon';
 import { ERROR_EVENT, CLOSE_EVENT, LOAD_EVENT } from '../_util/constants';
 import { isHtmlElement, getScrollContainer, isInContainer } from '../_util/dom';
 import { noop } from '../_util/utils';
+import { useTheme } from '../_theme/useTheme';
 import { KEY } from './const';
 import Preview from './preview';
 
@@ -72,6 +86,7 @@ export default {
     },
     emits: [ERROR_EVENT, LOAD_EVENT],
     setup(props, { attrs, emit }) {
+        useTheme();
         const loading = ref(true);
         const isLoadError = ref(false);
         const container = ref(null);
@@ -79,7 +94,16 @@ export default {
         const isShowPreview = ref(false);
         const currentId = ref(curIndex++);
 
-        const { width, height, crossorigin, decoding, alt, sizes, srcset, usemap } = attrs;
+        const {
+            width,
+            height,
+            crossorigin,
+            decoding,
+            alt,
+            sizes,
+            srcset,
+            usemap,
+        } = attrs;
         const imgCommonProps = {
             crossorigin,
             decoding,
@@ -89,13 +113,18 @@ export default {
             usemap,
         };
 
-        const { isGroup, setShowPreview, setCurrent, registerImage } = inject(KEY, {
-            isGroup: ref(false),
-            setShowPreview: noop,
-            setCurrent: noop,
-            registerImage: noop,
-        });
-        const canPreview = computed(() => (props.preview || isGroup.value) && !isLoadError.value);
+        const { isGroup, setShowPreview, setCurrent, registerImage } = inject(
+            KEY,
+            {
+                isGroup: ref(false),
+                setShowPreview: noop,
+                setCurrent: noop,
+                registerImage: noop,
+            },
+        );
+        const canPreview = computed(
+            () => (props.preview || isGroup.value) && !isLoadError.value,
+        );
         const containerStyle = computed(() => attrs.style);
         const _scrollContainer = computed(() => {
             let dom = '';
@@ -155,7 +184,11 @@ export default {
             clearScrollListener && clearScrollListener();
 
             if (_scrollContainer.value) {
-                clearScrollListener = useEventListener(_scrollContainer, 'scroll', lazyLoadHandler);
+                clearScrollListener = useEventListener(
+                    _scrollContainer,
+                    'scroll',
+                    lazyLoadHandler,
+                );
             }
             lazyLoadHandler();
         }

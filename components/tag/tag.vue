@@ -4,7 +4,7 @@
             <slot name="icon"></slot>
         </template>
         <slot></slot>
-        <CloseOutlined
+        <CloseCircleOutlined
             v-if="closable"
             :class="`${prefixCls}__close`"
             @click.stop="handleClose"
@@ -15,7 +15,8 @@
 <script>
 import { computed, defineComponent } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
-import CloseOutlined from '../icon/CloseOutlined';
+import { useTheme } from '../_theme/useTheme';
+import CloseCircleOutlined from '../icon/CloseOutlined';
 
 const prefixCls = getPrefixCls('tag');
 
@@ -25,7 +26,7 @@ const TAG_EFFECT = ['dark', 'light', 'plain'];
 
 export default defineComponent({
     name: 'FTag',
-    components: { CloseOutlined },
+    components: { CloseCircleOutlined },
     props: {
         type: {
             type: String,
@@ -59,6 +60,7 @@ export default defineComponent({
     },
     emits: ['close', 'click'],
     setup(props, ctx) {
+        useTheme();
         const { type, size, effect } = props;
 
         /**

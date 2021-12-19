@@ -79,6 +79,7 @@ import Popper from '../popper';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
+import { useTheme } from '../_theme/useTheme';
 import { DateOutlined, SwapRightOutlined } from '../icon';
 
 import { isEmptyValue, timeFormat } from './helper';
@@ -165,21 +166,34 @@ export default {
         ...CALENDARS_PROPS,
         ...RANGE_PROPS,
     },
-    emits: ['update:modelValue', 'update:open', 'change', 'clear', 'blur', 'focus'],
+    emits: [
+        'update:modelValue',
+        'update:open',
+        'change',
+        'clear',
+        'blur',
+        'focus',
+    ],
     setup(props, { emit }) {
+        useTheme();
         const [isOpened, updatePopperOpen] = useNormalModel(props, emit, {
             prop: 'open',
         });
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
         const isRange = computed(() => DATE_TYPE[props.type].isRange);
-        const { validate } = useFormAdaptor(computed(() => (isRange.value ? 'array' : 'number')));
+        const { validate } = useFormAdaptor(
+            computed(() => (isRange.value ? 'array' : 'number')),
+        );
 
-        const { tmpSelectedDates, tmpSelectedDateChange } = useTmpSelectedDates(isOpened);
+        const { tmpSelectedDates, tmpSelectedDateChange } =
+            useTmpSelectedDates(isOpened);
 
         const visibleValue = computed(() => {
             if (isOpened.value) {
-                return isEmptyValue(tmpSelectedDates.value) ? currentValue.value : tmpSelectedDates.value;
+                return isEmptyValue(tmpSelectedDates.value)
+                    ? currentValue.value
+                    : tmpSelectedDates.value;
             }
             return currentValue.value;
         });
