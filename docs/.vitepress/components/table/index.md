@@ -22,6 +22,7 @@ app.use(FTable);
 
 --BORDERED
 
+
 ### 固定表头
 
 纵向内容过多时，可选择固定表头。配置`height`属性，当内容高度超出时出现滚动条。
@@ -79,7 +80,7 @@ app.use(FTable);
 
 ### 无数据
 
---NODATA
+--NODATA 
 
 --CODE
 
@@ -107,13 +108,13 @@ app.use(FTable);
 
 | 事件名称         | 说明                                         | 回调参数                        |
 | ---------------- | -------------------------------------------- | ------------------------------- |
-| cell-click       | 当某个单元格被点击时会触发该事件             | object({row, column, cellValue, event})  |
-| expand-change    | 当用户对某一行展开或者关闭的时候会触发该事件 | object({ row })                        |
-| header-click     | 当某一列的表头被点击时会触发该事件           | object({column, event})               |
-| row-click        | 当某一行被点击时会触发该事件                 | object({row, event})                    |
+| cellClick       | 当某个单元格被点击时会触发该事件             | object({row, column, cellValue, event})  |
+| expandChange    | 当用户对某一行展开或者关闭的时候会触发该事件 | object({ row })                        |
+| headerClick     | 当某一列的表头被点击时会触发该事件           | object({column, event})               |
+| rowClick        | 当某一行被点击时会触发该事件                 | object({row, event})                    |
 | select           | 当用户手动勾选数据行的 Checkbox 时触发的事件 | object({ selection, row, checked})      |
-| select-all       | 当用户手动勾选全选 Checkbox 时触发的事件     | object({ selection, checked })          |
-| selection-change | 当选择项发生变化时会触发该事件               | object({ selection })                   |
+| selectAll       | 当用户手动勾选全选 Checkbox 时触发的事件     | object({ selection, checked })          |
+| selectionChange | 当选择项发生变化时会触发该事件               | object({ selection })                   |
 
 ## FTable Methods
 

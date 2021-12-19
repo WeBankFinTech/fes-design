@@ -1,5 +1,5 @@
 <template>
-    <f-table :data="data" ref="multipleTable">
+    <f-table :data="data" ref="multipleTable" rowKey="date">
         <f-table-column
             type="selection"
             :selectable="selectable"

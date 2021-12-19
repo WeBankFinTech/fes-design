@@ -1,27 +1,15 @@
-import { computed, reactive } from 'vue';
-import { getRowKey as _getRowKey, getHeaderRows, getColumns, getCellValue } from './helper';
+import { computed, provide } from 'vue';
+import { getRowKey as _getRowKey, getCellValue } from './helper';
+import { provideKey } from './const';
+import useTableColumn from './useTableColumn';
+import useTableEvent from './useTableEvent';
+import useTableSelect from './useTableSelect';
+import useTableExpand from './useTableExpand';
+import useTableStyle from './useTableStyle';
 
 let tableIdSeed = 1;
 export default (props, ctx) => {
     const tableId = `f-table_${tableIdSeed++}`;
-    const originColumns = reactive([]);
-
-    const addColumn = (column) => {
-        originColumns.push(column);
-    };
-
-    const removeColumn = (id) => {
-        const colIndex = originColumns.findIndex((item) => item.id === id);
-        if (colIndex !== -1) {
-            originColumns.splice(colIndex, 1);
-        }
-    };
-
-    // 表头Rows
-    const headerRows = computed(() => getHeaderRows(originColumns));
-
-    // 列配置
-    const columns = computed(() => getColumns(originColumns));
 
     // 展示的数据
     const showData = computed(() => props.data);
@@ -29,29 +17,45 @@ export default (props, ctx) => {
     // 行数据的key
     const getRowKey = ({ row }) => _getRowKey({ row, rowKey: props.rowKey });
 
-    const handleCellClick = (params, event) => {
-        ctx.emit('cell-click', { ...params, event });
-    };
+    const columnState = useTableColumn();
 
-    const handleHeaderClick = (params, event) => {
-        ctx.emit('header-click', { ...params, event });
-    };
+    const eventState = useTableEvent(ctx);
 
-    const handleRowClick = (params, event) => {
-        ctx.emit('row-click', { ...params, event });
-    };
-
-    return {
-        tableId,
-        addColumn,
-        removeColumn,
-        headerRows,
-        columns,
-        showData,
-        getCellValue,
+    const expandState = useTableExpand({
+        props,
+        ctx,
+        columns: columnState.columns,
         getRowKey,
-        handleCellClick,
-        handleHeaderClick,
-        handleRowClick,
+    });
+
+    const styleState = useTableStyle({
+        props,
+        columns: columnState.columns,
+        expandColumn: expandState.expandColumn,
+        isExpandOpened: expandState.isExpandOpened,
+    });
+
+    const selectState = useTableSelect({
+        props,
+        ctx,
+        showData,
+        getRowKey,
+        columns: columnState.columns,
+    });
+
+    const state = {
+        getRowKey,
+        getCellValue,
+        tableId,
+        showData,
+        ...columnState,
+        ...eventState,
+        ...expandState,
+        ...styleState,
+        ...selectState,
     };
+
+    provide(provideKey, state);
+
+    return state;
 };
