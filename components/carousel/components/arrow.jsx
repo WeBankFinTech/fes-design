@@ -70,7 +70,7 @@ export default defineComponent({
                                 onMouseleave={onLeaveArrowButton}
                                 onClick={(e) => throttledArrowClick(e, props.activeIndex - 1)}
                             >
-                                <i></i>
+                                <i class={`${prefixCls}-arrow-icon ${prefixCls}-arrow-icon-left`}></i>
                             </button>
                         </Transition>
                         <Transition name="carousel-arrow-right">
@@ -82,7 +82,7 @@ export default defineComponent({
                                 onMouseleave={onLeaveArrowButton}
                                 onClick={(e) => throttledArrowClick(e, props.activeIndex + 1)}
                             >
-                                <i></i>
+                                <i class={`${prefixCls}-arrow-icon ${prefixCls}-arrow-icon-right`}></i>
                             </button>
                         </Transition>
                     </Fragment>

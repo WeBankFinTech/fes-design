@@ -30,13 +30,11 @@ export default defineComponent({
         const onClickIndicator = (index, event) => {
             event.stopPropagation();
             emit(INDICATOR_MOUSE_EVENT, { index }, event);
-            // state.activeIndex = index;
         };
 
         const onHoverIndicator = (index, event) => {
             if (props.trigger === 'hover' && index !== props.activeIndex) {
                 emit(INDICATOR_MOUSE_EVENT, { index }, event);
-                // state.activeIndex = index;
             }
         };
 
