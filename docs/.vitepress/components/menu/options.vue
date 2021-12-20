@@ -3,7 +3,7 @@
 </template>
 <script>
     import { ref, h } from 'vue';
-    import { AppstoreOutlined } from 'fes-design/icon'
+    import { AppstoreOutlined } from '@fesjs/fes-design/icon'
     export default {
         setup(){
             const options = [{

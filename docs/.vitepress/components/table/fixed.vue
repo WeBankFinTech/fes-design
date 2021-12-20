@@ -6,7 +6,8 @@
             :width="150"
             ellipsis
             fixed
-        ></f-table-column>
+        >
+        </f-table-column>
         <f-table-column prop="name" label="姓名" :width="150"></f-table-column>
         <f-table-column
             prop="province"

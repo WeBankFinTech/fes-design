@@ -3,7 +3,7 @@
 ## 组件注册
 
 ```js
-import { FEllipsis } from 'fes-design';
+import { FEllipsis } from '@fesjs/fes-design';
 
 app.use(FEllipsis);
 ```

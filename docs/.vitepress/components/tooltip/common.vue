@@ -16,12 +16,14 @@
         <FTooltip content="right-start" placement="right-start">
             <FButton class="w-100 mt-20 ml-340">right-start</FButton>
         </FTooltip>
+        <br />
         <FTooltip content="left" placement="left">
             <FButton class="w-100 mt-20">left</FButton>
         </FTooltip>
         <FTooltip content="right" placement="right">
             <FButton class="w-100 mt-20 ml-340">right</FButton>
         </FTooltip>
+        <br />
         <FTooltip content="left-end" placement="left-end">
             <FButton class="w-100 mt-20">left-end</FButton>
         </FTooltip>

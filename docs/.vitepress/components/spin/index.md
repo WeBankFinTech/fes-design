@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FSpin } from 'fes-design';
+import { FSpin } from '@fesjs/fes-design';
 
 app.use(FSpin);
 ```

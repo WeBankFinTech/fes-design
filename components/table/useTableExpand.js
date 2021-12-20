@@ -1,12 +1,11 @@
 import { reactive, computed, watch } from 'vue';
 import { TABLE_NAME } from './const';
-import { getRowKey } from './helper';
 
-export default ({ props, ctx, columns }) => {
+export default ({ props, ctx, columns, getRowKey }) => {
     // 展开列唯一
     const expandColumn = computed(() => {
         const arr = columns.value.filter(
-            column => column.props.type === 'expand',
+            (column) => column.props.type === 'expand',
         );
         if (arr.length > 1) {
             console.warn(`[${TABLE_NAME}]: type=expand 不能存在多个`);
@@ -23,19 +22,19 @@ export default ({ props, ctx, columns }) => {
     const expandOpenedList = reactive([]);
 
     const isExpandOpened = ({ row }) => {
-        const rowKey = getRowKey({ row, rowKey: props.rowKey });
+        const rowKey = getRowKey({ row });
         return expandOpenedList.includes(rowKey);
     };
 
     const handleExpand = ({ row }) => {
-        const rowKey = getRowKey({ row, rowKey: props.rowKey });
+        const rowKey = getRowKey({ row });
         const index = expandOpenedList.indexOf(rowKey);
         if (index !== -1) {
             expandOpenedList.splice(index, 1);
         } else {
             expandOpenedList.push(rowKey);
         }
-        ctx.emit('expand-change', { row, expanded: !index });
+        ctx.emit('expandChange', { row, expanded: !index });
     };
     return {
         expandColumn,

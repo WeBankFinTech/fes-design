@@ -17,13 +17,22 @@ export default (props) => {
             const offsetHeight = containerRef.value.offsetHeight - GAP;
             const offsetWidth = containerRef.value.offsetWidth - GAP;
 
-            const originalThumbHeight = (offsetHeight ** 2) / containerRef.value.scrollHeight;
-            const originalThumbWidth = (offsetWidth ** 2) / containerRef.value.scrollWidth;
+            const originalThumbHeight =
+                offsetHeight ** 2 / containerRef.value.scrollHeight;
+            const originalThumbWidth =
+                offsetWidth ** 2 / containerRef.value.scrollWidth;
             const height = Math.max(originalThumbHeight, props.minSize);
             const width = Math.max(originalThumbWidth, props.minSize);
-            ratioY.value = (originalThumbHeight / (offsetHeight - originalThumbHeight)) / (height / (offsetHeight - height));
-            ratioX.value = (originalThumbWidth / (offsetWidth - originalThumbWidth)) / (width / (offsetWidth - width));
-            sizeHeight.value = height + GAP < offsetHeight ? addUnit(height) : '';
+            ratioY.value =
+                originalThumbHeight /
+                (offsetHeight - originalThumbHeight) /
+                (height / (offsetHeight - height));
+            ratioX.value =
+                originalThumbWidth /
+                (offsetWidth - originalThumbWidth) /
+                (width / (offsetWidth - width));
+            sizeHeight.value =
+                height + GAP < offsetHeight ? addUnit(height) : '';
             sizeWidth.value = width + GAP < offsetWidth ? addUnit(width) : '';
         }
     };
@@ -38,8 +47,12 @@ export default (props) => {
             // = (offsetHeight - H) / H
             // = (scrollHeight - offsetHeight) / offsetHeight
             // = scrollTop / offsetHeight
-            thumbMoveY.value = (containerRefValue.scrollTop * 100) / offsetHeight * ratioY.value;
-            thumbMoveX.value = (containerRefValue.scrollLeft * 100) / offsetWidth * ratioX.value;
+            thumbMoveY.value =
+                ((containerRefValue.scrollTop * 100) / offsetHeight) *
+                ratioY.value;
+            thumbMoveX.value =
+                ((containerRefValue.scrollLeft * 100) / offsetWidth) *
+                ratioX.value;
         }
     };
 

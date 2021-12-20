@@ -5,7 +5,7 @@
 </template>
 <script>
 import { h } from 'vue';
-import { DeleteOutlined, StarOutlined, EditOutlined, PlusSquareOutlined, UserOutlined} from 'fes-design/icon';
+import { DeleteOutlined, StarOutlined, EditOutlined, PlusSquareOutlined, UserOutlined} from '@fesjs/fes-design/icon';
 
 export default {
     setup() {

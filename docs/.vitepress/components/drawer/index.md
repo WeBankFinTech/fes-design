@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FDrawer } from 'fes-design';
+import { FDrawer } from '@fesjs/fes-design';
 
 app.use(FDrawer);
 ```

@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FCascader } from 'fes-design';
+import { FCascader } from '@fesjs/fes-design';
 
 app.use(FCascader);
 ```

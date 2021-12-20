@@ -3,7 +3,7 @@
 ## 组件注册
 
 ```js
-import { FCheckbox, FCheckboxGroup } from 'fes-design';
+import { FCheckbox, FCheckboxGroup } from '@fesjs/fes-design';
 
 app.use(FCheckbox);
 app.use(FCheckboxGroup);

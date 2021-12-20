@@ -39,11 +39,6 @@ import { FImage, FPreviewGroup } from './image';
 import { FForm, FFormItem } from './form';
 import { FDrawer } from './drawer';
 
-const ENV = process.env.NODE_ENV;
-if (ENV !== 'production' && ENV !== 'test' && typeof console !== 'undefined' && console.warn && typeof window !== 'undefined') {
-    console.warn('You are using a whole package of fes-design, ' + 'please use https://www.npmjs.com/package/babel-plugin-import to reduce app bundle size.');
-}
-
 const components = [
     FAlert,
     FButton,

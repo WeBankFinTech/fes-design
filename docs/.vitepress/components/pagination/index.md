@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FPagination } from 'fes-design';
+import { FPagination } from '@fesjs/fes-design';
 
 app.use(FPagination);
 ```

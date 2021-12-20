@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { FMessage } from 'fes-design';
+import { FMessage } from '@fesjs/fes-design';
 
 export default {
     setup() {
