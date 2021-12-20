@@ -35,3 +35,7 @@ export const PLACEMENT = [
 export const TRIGGER = ['click', 'hover', 'focus', 'contextmenu'];
 
 export const FORMITEM_INJECTION_KEY = Symbol('WFormItemKey');
+
+export const TO_TOP_EVENT = 'toTop';
+export const TO_BOTTOM_EVENT = 'toBottom';
+export const RESIZED_EVENT = 'resized';

@@ -35,4 +35,5 @@ import './spin/style';
 import './cascader/style';
 import './config-provider/style';
 import './image/style';
+import './virtual-list/style';
 import './drawer/style';
