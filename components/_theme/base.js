@@ -33,7 +33,7 @@ export const baseTheme = (themeOverrides = {}) => {
 
             maskColor: fade(fontColorBase, 0.45),
         },
-        themeOverrides,
+        themeOverrides.common,
     );
     return {
         ...base,
