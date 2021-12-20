@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FCarousel } from 'fes-design';
+import { FCarousel } from '@fesjs/fes-design';
 
 app.use(FCarousel);
 ```
@@ -84,11 +84,11 @@ app.use(FCarousel);
 
 | 插槽名 | 说明           | 子标签        |
 | :----- | :------------- | :------------ |
-| -      | 自定义默认内容 | Carousel-Item |
+| default | 默认插槽 | Carousel-Item |
 
 
 ## Carousel-Item Slots（插槽）
 
 | 插槽名 | 说明           |
 | :----- | :------------- |
-| —      | 自定义默认内容 |
+| default | 自定义标签内容 |

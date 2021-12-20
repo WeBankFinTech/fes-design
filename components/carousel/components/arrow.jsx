@@ -1,9 +1,14 @@
 import { defineComponent, computed, inject, Fragment, Transition } from 'vue';
 import { throttle } from 'lodash-es';
 import { provideKey } from '../const';
+import { LeftOutlined, RightOutlined } from '../../icon';
 
 export default defineComponent({
     name: 'FCarouselArrow',
+    components: {
+        LeftOutlined,
+        RightOutlined,
+    },
     props: {
         hover: {
             type: Boolean,
@@ -95,9 +100,7 @@ export default defineComponent({
                                     )
                                 }
                             >
-                                <i
-                                    class={`${prefixCls}-arrow-icon ${prefixCls}-arrow-icon-left`}
-                                ></i>
+                                <LeftOutlined />
                             </button>
                         </Transition>
                         <Transition name="carousel-arrow-right">
@@ -119,9 +122,7 @@ export default defineComponent({
                                     )
                                 }
                             >
-                                <i
-                                    class={`${prefixCls}-arrow-icon ${prefixCls}-arrow-icon-right`}
-                                ></i>
+                                <RightOutlined />
                             </button>
                         </Transition>
                     </Fragment>

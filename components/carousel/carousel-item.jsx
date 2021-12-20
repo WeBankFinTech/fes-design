@@ -16,6 +16,27 @@ import {
     provideKey,
 } from './const';
 
+const useItemStyle = (direction) => {
+    const itemStyleState = reactive({
+        translate: 0,
+        scale: 1,
+    });
+
+    const itemStyle = computed(() => {
+        const translateType =
+            direction.value === 'vertical' ? 'translateY' : 'translateX';
+        const value = `${translateType}(${itemStyleState.translate}px) scale(${itemStyleState.scale}, ${itemStyleState.scale})`;
+        const style = {
+            transform: value,
+        };
+        return style;
+    });
+    return {
+        itemStyleState,
+        itemStyle,
+    };
+};
+
 export default defineComponent({
     name: 'FCarouselItem',
     setup(props, { slots }) {
@@ -34,20 +55,7 @@ export default defineComponent({
             removeItem,
         } = inject(provideKey);
 
-        const itemStyleState = reactive({
-            translate: 0,
-            scale: 1,
-        });
-
-        const itemStyle = computed(() => {
-            const translateType =
-                direction.value === 'vertical' ? 'translateY' : 'translateX';
-            const value = `${translateType}(${itemStyleState.translate}px) scale(${itemStyleState.scale}, ${itemStyleState.scale})`;
-            const style = {
-                transform: value,
-            };
-            return style;
-        });
+        const { itemStyleState, itemStyle } = useItemStyle(direction);
 
         function processIndex(index, activeIndex, length) {
             if (activeIndex === 0 && index === length - 1) {

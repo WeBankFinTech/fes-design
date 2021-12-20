@@ -7,7 +7,7 @@ import {
     ref,
 } from 'vue';
 import { addResizeListener, removeResizeListener } from '../_util/resizeEvent';
-import { CAROUSEL_NAME, CAROUSEL_ITEM_NAME, CHANGE_EVENT } from './const';
+import { CAROUSEL_NAME, CHANGE_EVENT } from './const';
 import Arrow from './components/arrow';
 import Indicator from './components/indicator';
 import useCarousel from './useCarousel';
@@ -82,56 +82,26 @@ export default defineComponent({
             carouselStyle,
             slideChildren,
             carouselState,
+            useStartTimer,
+            usePauseTimer,
             prev,
             next,
             setActiveItem,
             resetItemPosition,
         } = useCarousel(props);
 
-        const defaultNodes = slots.default();
-        defaultNodes.forEach((childNode) => {
-            if (childNode.type?.name !== CAROUSEL_ITEM_NAME) {
-                console.error(
-                    `[${CAROUSEL_NAME}]: The ${CAROUSEL_NAME} child node must be ${CAROUSEL_ITEM_NAME}`,
-                );
-            }
-        });
-
-        // control play
-        const play = () => {
-            if (carouselState.activeIndex < slideChildren.value.length - 1) {
-                carouselState.activeIndex = carouselState.activeIndex + 1;
-            } else if (props.loop) {
-                carouselState.activeIndex = 0;
-            }
-        };
-
-        const playTimer = ref(null);
-        const startTimer = () => {
-            if (props.interval <= 0 || !props.autoplay || playTimer.value)
-                return;
-            playTimer.value = setInterval(() => play(), props.interval);
-        };
-
-        const pauseTimer = () => {
-            if (playTimer.value) {
-                clearInterval(playTimer.value);
-                playTimer.value = null;
-            }
-        };
-
         // mouse event
         const carouselHover = ref(false);
         const handleMouseEnter = (event) => {
             event.stopPropagation();
             carouselHover.value = true;
-            if (props.pauseOnHover) pauseTimer();
+            if (props.pauseOnHover) usePauseTimer();
         };
 
         const handleMouseLeave = (event) => {
             event.stopPropagation();
             carouselHover.value = false;
-            startTimer();
+            useStartTimer();
         };
 
         // 操作指示器 (click / hover)
@@ -153,7 +123,7 @@ export default defineComponent({
         watch(
             () => props.autoplay,
             (current) => {
-                current ? startTimer() : pauseTimer();
+                current ? useStartTimer() : usePauseTimer();
             },
         );
 
@@ -174,14 +144,14 @@ export default defineComponent({
                 ) {
                     carouselState.activeIndex = props.initialIndex;
                 }
-                startTimer();
+                useStartTimer();
             });
         });
 
         onBeforeUnmount(() => {
             if (wrapperRef.value)
                 removeResizeListener(wrapperRef.value, resetItemPosition);
-            pauseTimer();
+            usePauseTimer();
         });
 
         // expose methods
