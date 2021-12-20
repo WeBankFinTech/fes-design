@@ -37,6 +37,10 @@ import './cascader/style';
 import './config-provider/style';
 import './image/style';
 import './carousel/style';
+<<<<<<< HEAD
+=======
+import './virtual-list/style';
+>>>>>>> 48a176c (feat(carousel): 新增carousel组件)
 import './drawer/style';
 import './virtual-list/style';
 import './select-tree/style';

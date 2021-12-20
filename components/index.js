@@ -37,7 +37,11 @@ import { FUpload } from './upload';
 import { FPagination } from './pagination';
 import { FImage, FPreviewGroup } from './image';
 import { FForm, FFormItem } from './form';
+<<<<<<< HEAD
 import { FVirtualList } from './virtual-list';
+=======
+import { FCarousel, FCarouselItem } from './carousel';
+>>>>>>> c3af387 (feat(carousel): 新增carousel组件)
 import { FDrawer } from './drawer';
 import { FSelectTree } from './select-tree';
 
@@ -96,8 +100,17 @@ const components = [
     FPreviewGroup,
     FForm,
     FFormItem,
+<<<<<<< HEAD
     FCarousel,
     FCarouselItem,
+=======
+<<<<<<< HEAD
+    FVirtualList,
+=======
+    FCarousel,
+    FCarouselItem,
+>>>>>>> c3af387 (feat(carousel): 新增carousel组件)
+>>>>>>> 48a176c (feat(carousel): 新增carousel组件)
     FDrawer,
     FVirtualList,
     FSelectTree,
@@ -162,6 +175,10 @@ export {
     FPreviewGroup,
     FForm,
     FFormItem,
+<<<<<<< HEAD
+=======
+    FVirtualList,
+>>>>>>> 48a176c (feat(carousel): 新增carousel组件)
     FCarousel,
     FCarouselItem,
     FDrawer,
