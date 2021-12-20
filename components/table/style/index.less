@@ -41,13 +41,13 @@
         &.is-scrolling-x-left,
         &.is-scrolling-x-middle {
             .@{table-prefix}-fixed-right {
-                box-shadow: -1px 2px @shadow-sm-radius @shadow-sm-color;
+                box-shadow: -1px 2px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
             }
         }
         &.is-scrolling-x-right,
         &.is-scrolling-x-middle {
             .@{table-prefix}-fixed-left {
-                box-shadow: 1px 2px @shadow-sm-radius @shadow-sm-color;
+                box-shadow: 1px 2px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
             }
         }
     }
@@ -177,7 +177,7 @@
         }
     }
     .@{table-prefix}-expand {
-        color: @text-color;
+        color: var(--f-text-color);
         font-size: @font-size-head;
         transform: rotate(-90deg);
         cursor: pointer;
