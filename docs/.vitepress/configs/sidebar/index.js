@@ -131,6 +131,10 @@ module.exports = {
                     {
                         text: 'Image 图片',
                         link: '/zh/components/image',
+                    },
+                    {
+                        text: 'VirtualList 虚拟列表',
+                        link: '/zh/components/virtualList',
                     }
                 ]
             },

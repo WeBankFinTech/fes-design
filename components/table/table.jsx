@@ -16,7 +16,7 @@ export default defineComponent({
     props: {
         data: {
             type: Array,
-            data: () => [],
+            default: () => [],
         },
         rowKey: [Function, String],
         bordered: {

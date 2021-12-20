@@ -37,6 +37,7 @@ import { FUpload } from './upload';
 import { FPagination } from './pagination';
 import { FImage, FPreviewGroup } from './image';
 import { FForm, FFormItem } from './form';
+import { FVirtualList } from './virtual-list';
 import { FDrawer } from './drawer';
 
 const components = [
@@ -89,6 +90,7 @@ const components = [
     FPreviewGroup,
     FForm,
     FFormItem,
+    FVirtualList,
     FDrawer,
 ];
 const install = function (app) {
@@ -151,6 +153,7 @@ export {
     FPreviewGroup,
     FForm,
     FFormItem,
+    FVirtualList,
     FDrawer,
 };
 export default {
