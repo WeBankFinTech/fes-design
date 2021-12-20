@@ -138,6 +138,10 @@ module.exports = {
                     {
                         text: 'Tree 树形控件',
                         link: '/zh/components/tree',
+                    },
+                    {
+                        text: 'VirtualList 虚拟列表',
+                        link: '/zh/components/virtualList',
                     }
                 ]
             },
@@ -173,10 +177,6 @@ module.exports = {
                     {
                         text: 'ConfigProvider 全局化配置',
                         link: '/zh/components/configProvider',
-                    },
-                    {
-                        text: 'VirtualList 虚拟列表',
-                        link: '/zh/components/virtualList',
                     }
                 ]
             }
