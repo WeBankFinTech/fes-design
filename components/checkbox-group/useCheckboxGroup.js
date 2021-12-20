@@ -3,8 +3,10 @@ import { checkboxGroupKey, name } from './const';
 import { useArrayModel } from '../_util/use/useModel';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import { CHANGE_EVENT } from '../_util/constants';
+import useFormGroupResetter from '../_util/use/useFormGroupResetter';
 
 export const useCheckboxGroup = (props, { emit }) => {
+    useFormGroupResetter();
     const { validate } = useFormAdaptor('array');
 
     const [currentValue, updateItem] = useArrayModel(props, emit);

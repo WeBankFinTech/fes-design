@@ -49,7 +49,7 @@ module.exports = {
                 '.vue',
             ],
             alias: {
-                'fes-design': path.resolve(__dirname, '../../components'),
+                '@fesjs/fes-design': path.resolve(__dirname, '../../components'),
             },
         },
         json: {
@@ -73,7 +73,7 @@ module.exports = {
     },
     themeConfig: {
         highlight: baseConfig.highlight,
-        logo: `${BASE_URL}images/fes-logo.png`,
+        logo: `${BASE_URL}images/fes-logo.svg`,
         nav: navbar.zh,
         sidebar: sidebar.zh,
     },

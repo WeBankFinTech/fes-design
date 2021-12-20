@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { DatePicker } from 'wedesign';
+import { DatePicker } from '@fesjs/fes-design';
 
 app.use(DatePicker);
 ```
@@ -40,7 +40,7 @@ app.use(DatePicker);
 
 | 属性         | 说明                                                                                   | 类型                                                                                                             | 默认值    |
 | ------------ | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | --------- |
-| modelValue   | 日期值，支持 v-model 双向绑定                                                          | Date/Array/Number                                                                                                | -         |
+| modelValue   | 日期值，支持 v-model 双向绑定                                                          | Array/Number                                                                                                | -         |
 | disabledDate | 禁止日期函数，参数为对应的时间 Date，执行结果为 true 则禁止                            | (date: Date)=> Boolean                                                                                           | -         |
 | disabledTime | 禁止时间选择, 返回参数同 time-picker 的 disableHours, disabledMinutes, disabledSeconds | (date: Date) => ({disabledHours: () => Boolean, disabledMinutes: () => Boolean, disabledSeconds: () => Boolean}) | -         |
 | type         | 类型                                                                                   | `date` `datetime` `daterange` `datetimerange` `year` `month`                                                     | `quarter` |

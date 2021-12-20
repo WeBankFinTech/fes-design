@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FTree } from 'fes-design';
+import { FTree } from '@fesjs/fes-design';
 
 app.use(FTree);
 ```

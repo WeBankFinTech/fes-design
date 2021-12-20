@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FScrollbar } from 'fes-design';
+import { FScrollbar } from '@fesjs/fes-design';
 
 app.use(FScrollbar);
 ```

@@ -9,7 +9,7 @@
 ## 组件注册
 
 ```js
-import { FLayout } from 'fes-design';
+import { FLayout } from '@fesjs/fes-design';
 
 app.use(FLayout);
 ```

@@ -1,3 +1,49 @@
+## [0.0.7](https://github.com/WeBankFinTech/fes-design/compare/v0.0.6...v0.0.7) (2021-12-16)
+
+
+### Bug Fixes
+
+* 修复 form 组件bug ([0b26bc7](https://github.com/WeBankFinTech/fes-design/commit/0b26bc755a06f1d4aee3e03e2a21e0eba05dd539))
+* 修复popper中clickout判定时机的bug + tree组件icon没对齐 ([8698ca9](https://github.com/WeBankFinTech/fes-design/commit/8698ca93a45c22393c2d66d219260fa5010e44d6))
+* 修复Popper组件的trigger事件冒泡被阻止 ([1baaaf8](https://github.com/WeBankFinTech/fes-design/commit/1baaaf867acdda1a672ab4e43d67435e9f81aa69))
+* 处理form-item是group(radio/checkbox)的校验问题 ([f9ba4d8](https://github.com/WeBankFinTech/fes-design/commit/f9ba4d867a8fe8432035dc8d7f4bc152d465b13b))
+
+
+### Features
+
+* Select&Cascader多选时选中项折叠体验优化 ([7036ce8](https://github.com/WeBankFinTech/fes-design/commit/7036ce8546990348026a23bdddaaf0f8e25a9006))
+* select支持从option.text取label ([2dc0771](https://github.com/WeBankFinTech/fes-design/commit/2dc077141fa4593f2e4931e462de5234b168d3c5))
+* 修复form问题: ([f4346be](https://github.com/WeBankFinTech/fes-design/commit/f4346befbef9fd37ff3f9f5be263526530b04a4e))
+
+
+
+## [0.0.6](https://github.com/WeBankFinTech/fes-design/compare/v0.0.5...v0.0.6) (2021-12-15)
+
+
+### Bug Fixes
+
+* 修复 input 和 select 样式被覆盖问题 ([b99331a](https://github.com/WeBankFinTech/fes-design/commit/b99331a050106ed200c18e4454e4937a0685c096))
+* 优化select和table细节 ([5efe839](https://github.com/WeBankFinTech/fes-design/commit/5efe839537fa8ea8134b8ecbc98569871da6702a))
+* Modal.confirm ([d2a7fb3](https://github.com/WeBankFinTech/fes-design/commit/d2a7fb3e1896cb51f8bf1655f4990f8caa65ccbd))
+* pagination组件totalPage显示问题 ([dc68841](https://github.com/WeBankFinTech/fes-design/commit/dc68841736fe324e16fde2d427ffe4865c22e7c0))
+* Select&Cascader组件disabled多选交互 ([2536cd9](https://github.com/WeBankFinTech/fes-design/commit/2536cd9c98b5cebd271030c50fca9072f5065cc4))
+
+
+
+## [0.0.5](https://github.com/WeBankFinTech/fes-design/compare/v0.0.4...v0.0.5) (2021-12-15)
+
+
+
+## [0.0.4](https://github.com/WeBankFinTech/fes-design/compare/v0.0.3...v0.0.4) (2021-12-15)
+
+
+### Bug Fixes
+
+* change Button export default ([9fdff2a](https://github.com/WeBankFinTech/fes-design/commit/9fdff2a9742e008ace87c406c22133c344fdcf05))
+* 换写法避免config-provider编译问题 ([7d43824](https://github.com/WeBankFinTech/fes-design/commit/7d43824b123d0dd86199ff84025a0cab5f57fb62))
+
+
+
 ## [0.0.3](https://github.com/WeBankFinTech/fes-design/compare/v0.0.2...v0.0.3) (2021-12-14)
 
 

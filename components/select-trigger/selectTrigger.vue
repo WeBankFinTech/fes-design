@@ -1,18 +1,39 @@
 <template>
-    <div tabindex="0" :class="triggerClass" @mouseenter="inputHovering = true" @mouseleave="inputHovering = false" @focus="handleFocus" @blur="handleBlur">
+    <div
+        tabindex="0"
+        :class="triggerClass"
+        @mouseenter="inputHovering = true"
+        @mouseleave="inputHovering = false"
+        @focus="handleFocus"
+        @blur="handleBlur"
+    >
         <Label
             :isOpened="isOpened"
             :selectedOptions="selectedOptions"
             :multiple="multiple"
             :placeholder="placeholder"
             :filterable="filterable"
+            :disabled="disabled"
+            :collapseTags="collapseTags"
+            :collapseTagsLimit="collapseTagsLimit"
             @remove-tag="handleRemove"
             @input="handleFilterTextChange"
         ></Label>
         <div :class="`${prefixCls}-icons`">
-            <UpOutlined v-show="isOpened && !showClear" :class="`${prefixCls}-icon`" />
-            <DownOutlined v-show="!isOpened && !showClear" :class="`${prefixCls}-icon`" />
-            <CloseCircleFilled v-if="clearable" v-show="showClear" :class="`${prefixCls}-icon`" @click.stop="handleClear" />
+            <UpOutlined
+                v-show="isOpened && !showClear"
+                :class="`${prefixCls}-icon`"
+            />
+            <DownOutlined
+                v-show="!isOpened && !showClear"
+                :class="`${prefixCls}-icon`"
+            />
+            <CloseCircleFilled
+                v-if="clearable"
+                v-show="showClear"
+                :class="`${prefixCls}-icon`"
+                @click.stop="handleClear"
+            />
         </div>
     </div>
 </template>
@@ -26,15 +47,17 @@ import CloseCircleFilled from '../icon/CloseCircleFilled';
 
 const prefixCls = getPrefixCls('select-trigger');
 
-function useFocus(emit) {
+function useFocus(emit, props) {
     const isFocus = ref(false);
 
     const handleFocus = (event) => {
+        if (props.disabled) return;
         isFocus.value = true;
         emit('focus', event);
     };
 
     const handleBlur = (event) => {
+        if (props.disabled) return;
         isFocus.value = false;
         emit('blur', event);
     };
@@ -67,13 +90,21 @@ export default defineComponent({
         multiple: Boolean,
         filterable: Boolean,
         placeholder: String,
+        collapseTags: Boolean,
+        collapseTagsLimit: Number,
     },
     emits: ['remove', 'clear', 'focus', 'blur', 'input'],
     setup(props, { emit }) {
         const inputHovering = ref(false);
         const unSelected = computed(() => props.selectedOptions.length === 0);
-        const { isFocus, handleFocus, handleBlur } = useFocus(emit);
-        const showClear = computed(() => !props.disabled && props.clearable && !unSelected.value && inputHovering.value);
+        const { isFocus, handleFocus, handleBlur } = useFocus(emit, props);
+        const showClear = computed(
+            () =>
+                !props.disabled &&
+                props.clearable &&
+                !unSelected.value &&
+                inputHovering.value,
+        );
         const triggerClass = computed(() => ({
             [`${prefixCls}`]: true,
             'is-active': props.isOpened || isFocus.value,
@@ -81,12 +112,15 @@ export default defineComponent({
             'is-multiple': props.multiple,
         }));
         const handleRemove = (val) => {
+            if (props.disabled) return;
             emit('remove', val);
         };
         const handleClear = () => {
+            if (props.disabled) return;
             emit('clear');
         };
         const handleFilterTextChange = (val) => {
+            if (props.disabled) return;
             emit('input', val);
         };
         return {

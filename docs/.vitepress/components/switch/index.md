@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FSwitch } from 'fes-design';
+import { FSwitch } from '@fesjs/fes-design';
 
 app.use(FSwitch);
 ```

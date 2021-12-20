@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FSelect } from 'fes-design';
+import { FSelect } from '@fesjs/fes-design';
 
 app.use(FSelect);
 ```
@@ -19,10 +19,10 @@ app.use(FSelect);
 --COMMON
 
 ### 禁用选项
+
 禁止选择某一项
 
 --OPTIONDISABLED
-
 
 ### 基础多选
 
@@ -31,6 +31,7 @@ app.use(FSelect);
 --MULTIPLE
 
 ### 限制多选个数
+
 当选择达到上限时无法再继续选择新的
 
 --LIMIT
@@ -65,7 +66,6 @@ app.use(FSelect);
 
 --CODE
 
-
 ## Select Props
 
 | 属性                 | 说明                                          | 类型                               | 默认值                |
@@ -73,13 +73,15 @@ app.use(FSelect);
 | appendToContainer    | 弹窗内容是否添加到指定的 DOM 元素             | boolean                            | `true`                |
 | clearable            | 是否显示清除按钮                              | boolean                            | `false`               |
 | disabled             | 是否禁用                                      | boolean                            | `false`               |
+| collapseTags         | 多选时选中项是否折叠展示                      | boolean                            | `false`               |
+| collapseTagsLimit    | 多选时选中项超出限制个数后才会折叠            | number                             | 1                     |
 | emptyText            | 选项为空时显示的文字，也可以使用#empty 设置   | string                             | `无数据`              |
 | getContainer         | 指定下拉选项挂载的 HTML 节点                  | () => HTMLElement                  | `() => document.body` |
 | multiple             | 是否多选                                      | boolean                            | `false`               |
 | multipleLimit        | 多选时用户最多可以选择的项目数，为 0 则不限制 | number                             | `0`                   |
 | placeholder          | 当没有选择内容时的提示语                      | string                             | -                     |
 | modelValue / v-model | 选中的值                                      | number / string / boolean / object | -                     |
-| filterable | 是否支持过滤选项                                      | boolean  | -                     | `false`
+| filterable           | 是否支持过滤选项                              | boolean                            | `false`               |
 
 ## Select Events
 

@@ -176,8 +176,6 @@
 .fes-cascader {
     width: 200px;
 }
-</style>
-<style lang="less" scoped>
 .text-tips {
     margin-top: 10px;
 }

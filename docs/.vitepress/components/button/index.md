@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FButton } from 'fes-design';
+import { FButton } from '@fesjs/fes-design';
 
 app.use(FButton);
 ```

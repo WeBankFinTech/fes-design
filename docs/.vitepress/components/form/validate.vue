@@ -1,5 +1,5 @@
 <template>
-    <FForm ref="WFormDomRef" labelWidth="140" labelPosition="right" :model="modelForm" :rules="rules">
+    <FForm ref="WFormDomRef" labelWidth="140px" labelPosition="right" :model="modelForm" :rules="rules">
         <FFormItem prop="name" :rules="nameRules">
             <template v-slot:label><span>输入姓名(slot)</span></template>
             <FInput v-model="modelForm.name" placeholder="请输入" @change="changeHandler"></FInput>
@@ -37,8 +37,18 @@
             </FCheckboxGroup>
         </FFormItem>
         <FFormItem label="基础信息补充" prop="more">
-            <FInput v-model="modelForm.more.height" placeholder="请输入身高"></FInput>
-            <FInput v-model="modelForm.more.weight" placeholder="请输入体重"></FInput>
+            <div class="row-container">
+                <div class="row-item">
+                    <FSelect></FSelect>
+                    <FInput></FInput>
+                    <PlusCircleOutlined />
+                </div>
+                <div class="row-item">
+                    <FSelect></FSelect>
+                    <FInput></FInput>
+                    <PlusCircleOutlined />
+                </div>
+            </div>
         </FFormItem>
         <FFormItem label="备注 slot" prop="desc">
             <template v-slot:label>
@@ -58,7 +68,7 @@
 
 <script>
 import { ref, reactive } from 'vue';
-import { FMessage } from 'fes-design';
+import { FMessage } from '@fesjs/fes-design';
 
 export default {
     setup(){
@@ -72,6 +82,7 @@ export default {
             mregion: ['HuNan', 'HuBei'],
             time: '',
             sex: '2',
+            show: true,
             age: ['1-10'],
             more: {
                 height: 180,
@@ -106,11 +117,11 @@ export default {
                     message: '请再次输入密码',
                     trigger: ['input', 'blur']
                 },
-                // {
-                //     validator: validatePasswordStartWith,
-                //     message: '再次输入密码时，两次密码输入不一致',
-                //     trigger: ['input']
-                // },
+                {
+                    validator: validatePasswordStartWith,
+                    message: '再次输入密码时，两次密码输入不一致',
+                    trigger: ['input']
+                },
                 {
                     validator: validatePasswordSame,
                     message: '输入密码时，两次密码输入不一致',
@@ -171,19 +182,22 @@ export default {
                 console.log('表单验证失败: ', error);
             })
 
-            // try {
-            //     const result = await WFormDomRef.value.validate();
-            //     console.log('表单验证成功: ', result);
-            // } catch (error) {
-            //     console.log('表单验证失败: ', error);
-            // }
-            
-            // 验证表单指定字段: validateField() 
-            // try {
-            //     await WFormDomRef.value.validateField('name');
-            // } catch (error) {
-            //     console.log('表单验证失败: ', error);
-            // }
+            /** await 调用
+             * try {
+             *      const result = await WFormDomRef.value.validate();
+             *      console.log('表单验证成功: ', result);
+             * } catch (error) {
+             *      console.log('表单验证失败: ', error);
+             * }
+             */ 
+
+            /** 验证表单指定字段: validateField() 
+             * try {
+             *      await WFormDomRef.value.validateField('name');
+             * } catch (error) {
+             *      console.log('表单项验证失败: ', error);
+             * }
+             */ 
         }
         const clearHandler = () => {
             WFormDomRef.value.clearValidate();
@@ -214,3 +228,11 @@ export default {
     }
 }
 </script>
+<style scoped>
+.row-container {
+    width: 100%;
+}
+.row-item {
+    display: flex;
+}
+</style>

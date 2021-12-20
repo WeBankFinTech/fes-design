@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FDivider } from 'fes-design';
+import { FDivider } from '@fesjs/fes-design';
 
 app.use(FDivider);
 ```

@@ -1,6 +1,6 @@
 <template>
     <f-table :data="data" bordered>
-        <f-table-column prop="date" label="日期" :width="150"></f-table-column>
+        <f-table-column prop="date" label="日期" ellipsis :width="150"></f-table-column>
         <f-table-column label="配送信息">
             <f-table-column prop="name" label="姓名" :width="150"></f-table-column>
             <f-table-column label="地址">

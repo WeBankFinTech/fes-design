@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FDropdown } from 'fes-design';
+import { FDropdown } from '@fesjs/fes-design';
 
 app.use(FDropdown);
 ```

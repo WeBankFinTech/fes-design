@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FDraggable } from 'fes-design';
+import { FDraggable } from '@fesjs/fes-design';
 
 app.use(FDraggable);
 ```

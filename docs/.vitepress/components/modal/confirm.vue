@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { FModal } from 'fes-design';
+import { FModal } from '@fesjs/fes-design';
 
 export default {
     setup() {
@@ -26,10 +26,10 @@ export default {
                     console.log('modal ok');
                     if (type === 'confirm') {
                         return new Promise((resolve) => {
-                            modal.update({ okText: '1s后自动关闭' });
+                            modal.update({ okText: '2s后自动关闭' });
                             setTimeout(() => {
                                 modal.destroy();
-                            }, 1000);
+                            }, 2000);
                         });
                     } else {
                         return Promise.resolve();

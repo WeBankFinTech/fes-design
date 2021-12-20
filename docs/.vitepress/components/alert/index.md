@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FAlert } from 'fes-design';
+import { FAlert } from '@fesjs/fes-design';
 
 app.use(FAlert);
 ```
