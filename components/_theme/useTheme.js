@@ -8,6 +8,7 @@ function _useTheme() {
     const config = getConfig();
 
     watch(
+        config,
         () => {
             applyTheme(
                 config.getContainer(),

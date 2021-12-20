@@ -7,50 +7,15 @@
 // An override for the html selector for theme prefixes
 @html-selector: html;
 
-// -------- Colors -----------
-@primary-color:  #5384ff;
-@font-color-base: #0f1222;
-
-// 功能辅助色
-@success-color: #00cb91;
-@danger-color: #ff4d4f;
-@warning-color: #f29360;
-@tip-color: @primary-color;
-
-@white: #fff;
-@black: #000;
-
-// 状态辅助色
-@hover-color-base: tint(@primary-color, 20%);
-@hover-color-light: tint(@primary-color, 94%);
-@active-color: shade(@primary-color, 6%);
-@focus-color: @primary-color;
-@focus-shadow-color: tint(@primary-color, 80%);
-
-@processing-color: tint(@primary-color, 40%);
-@disabled-color-base: tint(@font-color-base, 80%);
-@disabled-color-light: tint(@font-color-base, 97%);
-
 // -------- font -----------
 @font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
     'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial,
     sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 @code-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier,
     monospace;
-@font-size-base: 14px;
 @font-variant-base: tabular-nums;
 @font-feature-settings-base: 'tnum';
 @line-height-base: 22px;
-@font-color: @font-color-base;
-
-// font-color
-@head-color: @font-color;
-@sub-head-color: fade(@font-color, 65%);
-@text-color: @font-color;
-@text-color-secondary: fade(@font-color, 45%);
-@text-color-disabled: fade(@font-color, 30%);
-@text-color-disabled-light: fade(@font-color, 20%);
-@text-color-caption: fade(@font-color, 20%);
 
 // font-size
 @font-size-caption: calc(var(--f-font-size-base) - 2px);
@@ -63,31 +28,6 @@
 @font-weight-regular: 400;
 @font-weight-medium: 500;
 @font-weight-semibold: 600;
-
-// Background color for `<body>`
-@body-background: #fff;
-// Base background color for most components
-@component-background: tint(@font-color-base, 97%);
-
-// -------- link -----------
-@link-color: @primary-color;
-@link-hover-color: tint(@link-color, 20%);
-@link-active-color: shade(@link-color, 6%);
-@link-decoration: none;
-@link-hover-decoration: none;
-@link-focus-decoration: none;
-@link-focus-outline: 0;
-
-// -------- border -----------
-@border-radius-base: 4px;
-@border-radius-sm: 2px;
-@border-color-base: tint(@font-color-base, 80%);
-@border-color-disabled: tint(@font-color-base, 80%);
-@border-color-split: tint(@font-color-base, 94%);
-@border-color-inverse: @white;
-@border-width-base: 1px; // width of the border for a component
-@border-style-base: solid; // style of a components border
-@border-base: @border-width-base @border-style-base @border-color-base;
 
 // -------- vertical paddings -----------
 @padding-lg: 24px; // containers

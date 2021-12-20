@@ -21,6 +21,8 @@ export default defineComponent({
     name: 'FConfigProvider',
     props: {
         getContainer: Function,
+        theme: Object,
+        themeOverrides: Object,
     },
     setup(props, { slots }) {
         watch(
