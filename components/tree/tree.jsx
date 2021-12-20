@@ -1,9 +1,5 @@
-import {
-    defineComponent, computed, provide, onMounted, ref, watch,
-} from 'vue';
-import {
-    isFunction, isString, isNil, cloneDeep,
-} from 'lodash-es';
+import { defineComponent, computed, provide, onMounted, ref, watch } from 'vue';
+import { isFunction, isString, isNil, cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import TreeNode from './treeNode';
@@ -138,20 +134,29 @@ export default defineComponent({
             addNode(value, copy);
             return copy;
         };
-        const handleData = (arr, indexPath = [], level = 1) => arr.map((item) => {
-            const copy = transformNode(item, indexPath, level);
-            if (copy.hasChildren) {
-                copy.children = handleData(copy.children, copy.indexPath, level + 1);
-            }
-            return copy;
-        });
+        const handleData = (arr, indexPath = [], level = 1) =>
+            arr.map((item) => {
+                const copy = transformNode(item, indexPath, level);
+                if (copy.hasChildren) {
+                    copy.children = handleData(
+                        copy.children,
+                        copy.indexPath,
+                        level + 1,
+                    );
+                }
+                return copy;
+            });
 
-        watch(() => props.data, () => {
-            currentData.value = handleData(props.data);
-        }, {
-            immediate: true,
-            deep: true,
-        });
+        watch(
+            () => props.data,
+            () => {
+                currentData.value = handleData(props.data);
+            },
+            {
+                immediate: true,
+                deep: true,
+            },
+        );
 
         const [currentExpandedKeys, updateExpandedKeys] = useNormalModel(
             props,
@@ -170,8 +175,13 @@ export default defineComponent({
         );
         const { filter, hiddenKeys, filteredExpandedKeys } = useFilter(props);
         onMounted(() => {
-            if (props.defaultExpandAll && currentExpandedKeys.value.length === 0) {
-                updateExpandedKeys(Object.values(nodeList).map(item => item.value));
+            if (
+                props.defaultExpandAll &&
+                currentExpandedKeys.value.length === 0
+            ) {
+                updateExpandedKeys(
+                    Object.values(nodeList).map((item) => item.value),
+                );
             }
         });
         const selectNode = (val, event) => {
@@ -193,9 +203,13 @@ export default defineComponent({
                 values[0] = val;
             }
             updateSelectedKeys(values);
-            event && emit('select', {
-                selectedKeys: values, event, node, selected: values.includes(val),
-            });
+            event &&
+                emit('select', {
+                    selectedKeys: values,
+                    event,
+                    node,
+                    selected: values.includes(val),
+                });
         };
         const expandNode = (val, event) => {
             const node = nodeList[val];
@@ -206,14 +220,20 @@ export default defineComponent({
                 values.splice(index, 1);
             } else {
                 if (props.accordion) {
-                    values = values.filter(item => node.indexPath.includes(item));
+                    values = values.filter((item) =>
+                        node.indexPath.includes(item),
+                    );
                 }
                 values.push(val);
             }
             updateExpandedKeys(values);
-            event && emit('expand', {
-                expandedKeys: values, event, node, expanded: values.includes(val),
-            });
+            event &&
+                emit('expand', {
+                    expandedKeys: values,
+                    event,
+                    node,
+                    expanded: values.includes(val),
+                });
         };
         function handleChildren(arr, children, isAdd) {
             children.forEach((child) => {
@@ -241,7 +261,9 @@ export default defineComponent({
                     }
                 } else if (index === -1) {
                     if (
-                        parent.children.every(item => arr.includes(item.value))
+                        parent.children.every((item) =>
+                            arr.includes(item.value),
+                        )
                     ) {
                         arr.push(parent.value);
                     }
@@ -273,9 +295,13 @@ export default defineComponent({
                 }
             }
             updateCheckedKeys(values);
-            event && emit('check', {
-                checkedKeys: values, event, node, checked: values.includes(val),
-            });
+            event &&
+                emit('check', {
+                    checkedKeys: values,
+                    event,
+                    node,
+                    checked: values.includes(val),
+                });
         };
 
         if (expose) {
@@ -298,42 +324,42 @@ export default defineComponent({
             filteredExpandedKeys,
         });
 
-
         const classList = computed(() => [prefixCls].filter(Boolean).join(' '));
-        const renderChildren = arr => arr.map((item) => {
-            const itemSlots = {};
-            if (isFunction(item.prefix)) {
-                itemSlots.prefix = item.prefix;
-            }
-            if (isString(item.prefix)) {
-                itemSlots.prefix = () => item.prefix;
-            }
-            if (isFunction(item.suffix)) {
-                itemSlots.suffix = item.suffix;
-            }
-            if (isString(item.suffix)) {
-                itemSlots.suffix = () => item.suffix;
-            }
-            const hasChildren = Array.isArray(item.children) && item.children.length;
-            return (
-                <TreeNode
-                    v-show={!hiddenKeys.includes(item.value)}
-                    node={item}
-                    level={item.level}
-                    value={item.value}
-                    label={item.label}
-                    disabled={item.disabled}
-                    checkboxDisabled={item.checkboxDisabled}
-                    isLeaf={item.isLeaf}
-                    handleData={handleData}
-                    v-slots={itemSlots}
-                >
-                    {hasChildren
-                        ? renderChildren(item.children)
-                        : null}
-                </TreeNode>
-            );
-        });
+        const renderChildren = (arr) =>
+            arr.map((item) => {
+                const itemSlots = {};
+                if (isFunction(item.prefix)) {
+                    itemSlots.prefix = item.prefix;
+                }
+                if (isString(item.prefix)) {
+                    itemSlots.prefix = () => item.prefix;
+                }
+                if (isFunction(item.suffix)) {
+                    itemSlots.suffix = item.suffix;
+                }
+                if (isString(item.suffix)) {
+                    itemSlots.suffix = () => item.suffix;
+                }
+                const hasChildren =
+                    Array.isArray(item.children) && item.children.length;
+                return (
+                    <TreeNode
+                        v-show={!hiddenKeys.includes(item.value)}
+                        node={item}
+                        level={item.level}
+                        value={item.value}
+                        label={item.label}
+                        disabled={item.disabled}
+                        selectable={item.selectable}
+                        checkable={item.checkable}
+                        isLeaf={item.isLeaf}
+                        handleData={handleData}
+                        v-slots={itemSlots}
+                    >
+                        {hasChildren ? renderChildren(item.children) : null}
+                    </TreeNode>
+                );
+            });
         const renderTreeNode = () => renderChildren(currentData.value);
         return () => (
             <div className={classList.value} role="tree">
