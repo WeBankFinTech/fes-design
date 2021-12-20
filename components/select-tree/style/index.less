@@ -1,0 +1,29 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+
+@select-prefix-cls: ~'@{cls-prefix}-select-tree';
+@select-dropdown-max-height: 274px;
+@select-dropdown-min-width: 240px;
+@select-dropdown-max-width: 640px;
+@select-dropdown-padding: @padding-xs;
+
+.@{select-prefix-cls} {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    vertical-align: middle;
+    .text();
+    &-popper {
+        min-width: @select-dropdown-min-width;
+        max-width: @select-dropdown-max-width;
+        .text();
+        background: @white;
+    }
+    &-dropdown {
+        max-height: @select-dropdown-max-height;
+        padding: @select-dropdown-padding;
+    }
+    &-null {
+        text-align: center;
+    }
+}

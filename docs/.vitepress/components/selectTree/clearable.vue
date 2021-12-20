@@ -1,9 +1,8 @@
 <template>
-    <FTree :data="data" checkable :selectable="false"></FTree>
+    <FSelectTree :data="data" clearable></FSelectTree>
 </template>
 <script>
-import { reactive, h } from 'vue';
-import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
+import { reactive } from 'vue';
 
 function createData (level = 1, baseKey = '', prefix = null, suffix = null) {
   if (!level) return undefined
@@ -37,3 +36,8 @@ export default {
     }
 }
 </script>
+<style lang="less" scoped>
+.fes-select-tree {
+    width: 200px;
+}
+</style>

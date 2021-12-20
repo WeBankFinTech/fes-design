@@ -39,6 +39,7 @@ import { FImage, FPreviewGroup } from './image';
 import { FForm, FFormItem } from './form';
 import { FVirtualList } from './virtual-list';
 import { FDrawer } from './drawer';
+import { FSelectTree } from './select-tree';
 
 const components = [
     FAlert,
@@ -92,6 +93,7 @@ const components = [
     FFormItem,
     FVirtualList,
     FDrawer,
+    FSelectTree,
 ];
 const install = function (app) {
     components.forEach((component) => {
@@ -155,6 +157,7 @@ export {
     FFormItem,
     FVirtualList,
     FDrawer,
+    FSelectTree,
 };
 export default {
     version,
