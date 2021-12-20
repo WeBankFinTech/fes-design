@@ -2,7 +2,7 @@
     <Space>
         <FTag closable>
             <template v-slot:icon>
-                <UserOutlined />
+                <UserOutlined style="margin-right: 5px;" />
             </template>
             Default
         </FTag>

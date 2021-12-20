@@ -8,7 +8,7 @@
     position: relative;
     display: flex;
     width: 100%;
-    background-color: @border-color-split;
+    background-color: var(--f-border-color-split);
     &:not(.is-vertical){
         height: 1px;
         margin-top: @padding-lg;
@@ -16,10 +16,10 @@
         .@{divider-prefix-cls}-text {
             position: absolute;
             padding: 0 @padding-md;
-            color: @head-color;
+            color: var(--f-head-color);
             font-weight: @font-weight-medium;
             font-size: @font-size-head;
-            background-color: @white;
+            background-color: var(--f-white);
             transform: translateY(-50%);
             &.is-left {
                 left: @padding-lg;

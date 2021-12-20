@@ -1,10 +1,9 @@
-import {
-    computed, onMounted, provide, ref, defineComponent,
-} from 'vue';
+import { computed, onMounted, provide, ref, defineComponent } from 'vue';
 import { isFunction } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
+import { useTheme } from '../_theme/useTheme';
 import { COMPONENT_NAME, MENU_PROPS } from './const';
 import useChildren from './useChildren';
 import MenuGroup from './menuGroup';
@@ -17,6 +16,7 @@ export default defineComponent({
     props: MENU_PROPS,
     emits: ['select', UPDATE_MODEL_EVENT],
     setup(props, { emit, slots }) {
+        useTheme();
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
         const renderWithPopper = computed(() => {
@@ -52,7 +52,9 @@ export default defineComponent({
         const clickSubMenu = (subMenu, indexPath) => {
             if (subMenu.isOpened.value) {
                 if (props.accordion) {
-                    openedMenus.value = openedMenus.value.filter(uid => indexPath.value.includes(uid));
+                    openedMenus.value = openedMenus.value.filter((uid) =>
+                        indexPath.value.includes(uid),
+                    );
                 }
                 openedMenus.value.push(subMenu.value || subMenu.uid);
             } else {
@@ -74,35 +76,41 @@ export default defineComponent({
             openedMenus,
         });
 
-        const classList = computed(() => [
-            prefixCls,
-            `is-${props.mode}`,
-            props.inverted && 'is-inverted',
-            props.collapsed && 'is-collapsed',
-        ].filter(Boolean).join(' '));
+        const classList = computed(() =>
+            [
+                prefixCls,
+                `is-${props.mode}`,
+                props.inverted && 'is-inverted',
+                props.collapsed && 'is-collapsed',
+            ]
+                .filter(Boolean)
+                .join(' '),
+        );
 
-        const renderChildren = arr => arr.map((item) => {
-            const itemSlots = {};
-            if (isFunction(item.icon)) {
-                itemSlots.icon = item.icon;
-            }
-            itemSlots.label = () => (isFunction(item.label) ? item.label() : item.label);
-            if (!item.children) {
-                return <MenuItem value={item.value} v-slots={itemSlots} />;
-            }
-            if (item.isGroup) {
+        const renderChildren = (arr) =>
+            arr.map((item) => {
+                const itemSlots = {};
+                if (isFunction(item.icon)) {
+                    itemSlots.icon = item.icon;
+                }
+                itemSlots.label = () =>
+                    isFunction(item.label) ? item.label() : item.label;
+                if (!item.children) {
+                    return <MenuItem value={item.value} v-slots={itemSlots} />;
+                }
+                if (item.isGroup) {
+                    return (
+                        <MenuGroup v-slots={itemSlots}>
+                            {renderChildren(item.children)}
+                        </MenuGroup>
+                    );
+                }
                 return (
-                    <MenuGroup v-slots={itemSlots}>
+                    <SubMenu value={item.value} v-slots={itemSlots}>
                         {renderChildren(item.children)}
-                    </MenuGroup>
+                    </SubMenu>
                 );
-            }
-            return (
-                <SubMenu value={item.value} v-slots={itemSlots}>
-                    {renderChildren(item.children)}
-                </SubMenu>
-            );
-        });
+            });
 
         const render = () => {
             if (props.options.length === 0) {

@@ -1,4 +1,3 @@
-@theme: default;
 
 // The prefix to use on all css classes from ant.
 @cls-prefix: fes;
@@ -8,87 +7,27 @@
 // An override for the html selector for theme prefixes
 @html-selector: html;
 
-// -------- Colors -----------
-@primary-color: #5384ff;
-@font-color-base: #0f1222;
-
-// 功能辅助色
-@success-color: #00cb91;
-@danger-color: #ff4d4f;
-@warning-color: #f29360;
-@tip-color: @primary-color;
-
-@white: #fff;
-@black: #000;
-
-// 状态辅助色
-@hover-color-base: tint(@primary-color, 20%);
-@hover-color-light: tint(@primary-color, 94%);
-@active-color: shade(@primary-color, 6%);
-@focus-color: @primary-color;
-@focus-shadow-color: tint(@primary-color, 80%);
-
-@processing-color: tint(@primary-color, 40%);
-@disabled-color-base: tint(@font-color-base, 80%);
-@disabled-color-light: tint(@font-color-base, 97%);
-
 // -------- font -----------
 @font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
     'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial,
     sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 @code-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier,
     monospace;
-@font-size-base: 14px;
 @font-variant-base: tabular-nums;
 @font-feature-settings-base: 'tnum';
 @line-height-base: 22px;
-@font-color: @font-color-base;
-
-// font-color
-@head-color: @font-color;
-@sub-head-color: fade(@font-color, 65%);
-@text-color: @font-color;
-@text-color-secondary: fade(@font-color, 45%);
-@text-color-disabled: fade(@font-color, 30%);
-@text-color-disabled-light: fade(@font-color, 20%);
-@text-color-caption: fade(@font-color, 20%);
 
 // font-size
-@font-size-caption: @font-size-base - 2px;
-@font-size-body: @font-size-base;
-@font-size-head: @font-size-base + 2px;
-@font-size-title: @font-size-base + 6px;
-@font-size-large-title: @font-size-base + 10px;
+@font-size-caption: calc(var(--f-font-size-base) - 2px);
+@font-size-body: var(--f-font-size-base);
+@font-size-head: calc(var(--f-font-size-base) + 2px);
+@font-size-title: calc(var(--f-font-size-base) + 6px);
+@font-size-large-title: calc(var(--f-font-size-base) + 10px);
 
 // font-weight
 @font-weight-regular: 400;
 @font-weight-medium: 500;
 @font-weight-semibold: 600;
-
-// Background color for `<body>`
-@body-background: #fff;
-// Base background color for most components
-@component-background: tint(@font-color-base, 97%);
-
-// -------- link -----------
-@link-color: @primary-color;
-@link-hover-color: tint(@link-color, 20%);
-@link-active-color: shade(@link-color, 6%);
-@link-decoration: none;
-@link-hover-decoration: none;
-@link-focus-decoration: none;
-@link-focus-outline: 0;
-
-// -------- border -----------
-@border-radius-base: 4px;
-@border-radius-sm: 2px;
-@border-color-base: tint(@font-color-base, 80%);
-@border-color-disabled: tint(@font-color-base, 80%);
-@border-color-split: tint(@font-color-base, 94%);
-@border-color-inverse: @white;
-@border-width-base: 1px; // width of the border for a component
-@border-style-base: solid; // style of a components border
-@border-base: @border-width-base @border-style-base @border-color-base;
 
 // -------- vertical paddings -----------
 @padding-lg: 24px; // containers
@@ -97,18 +36,14 @@
 @padding-xs: 8px; // small items
 
 // -------- shadow -----------
-@shadow-color: fade(@font-color-base, 10%);
-@shadow-radius: 12px;
-@shadow-up: 0 -2px @shadow-radius @shadow-color;
-@shadow-down: 0 2px @shadow-radius @shadow-color;
-@shadow-left: -2px 0 @shadow-radius @shadow-color;
-@shadow-right: 2px 0 @shadow-radius @shadow-color;
-@shadow-sm-color: fade(@font-color-base, 20%);
-@shadow-sm-radius: 4px;
-@shadow-sm-up: 0 -2px @shadow-sm-radius @shadow-sm-color;
-@shadow-sm-down: 0 2px @shadow-sm-radius @shadow-sm-color;
-@shadow-sm-left: -2px 0 @shadow-sm-radius @shadow-sm-color;
-@shadow-sm-right: 2px 0 @shadow-sm-radius @shadow-sm-color;
+@shadow-up: 0 -2px var(--f-shadow-radius) var(--f-shadow-color);
+@shadow-down: 0 2px var(--f-shadow-radius) var(--f-shadow-color);
+@shadow-left: -2px 0 var(--f-shadow-radius) var(--f-shadow-color);
+@shadow-right: 2px 0 var(--f-shadow-radius) var(--f-shadow-color);
+@shadow-sm-up: 0 -2px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
+@shadow-sm-down: 0 2px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
+@shadow-sm-left: -2px 0 var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
+@shadow-sm-right: 2px 0 var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
 
 // z-index list, order by `z-index`
 @zindex-badge: 1;
@@ -149,79 +84,3 @@
 // form
 
 @data-input-height-base: 32px;
-
-// // Outline
-// @outline-blur-size: 0;
-// @outline-width: 2px;
-// @outline-color: @primary-color;
-
-// @icon-color: inherit;
-// @icon-color-hover: fade(@black, 75%);
-// @heading-color: fade(#000, 85%);
-// @heading-color-dark: fade(@white, 100%);
-// @text-color-dark: fade(@white, 85%);
-// @text-selection-bg: @primary-color;
-// @font-size-lg: @font-size-base + 2px;
-// @font-size-sm: 12px;
-// @heading-1-size: ceil((@font-size-base * 2.71));
-// @heading-2-size: ceil((@font-size-base * 2.14));
-// @heading-3-size: ceil((@font-size-base * 1.71));
-// @heading-4-size: ceil((@font-size-base * 1.42));
-
-// // vertical padding for all form controls
-// @control-padding-horizontal: @padding-sm;
-// @control-padding-horizontal-sm: @padding-xs;
-
-// // list items or table cells.
-// @item-active-bg: @primary-1;
-// @item-hover-bg: #f5f5f5;
-
-// // ICONFONT
-// @iconfont-css-prefix: anticon;
-
-// // Divider
-// @divider-text-padding: 1em;
-// @divider-orientation-margin: 5%;
-// @divider-color: rgba(0, 0, 0, 6%);
-
-// // Empty
-// @empty-font-size: @font-size-base;
-
-// // Media queries breakpoints
-// // Extra small screen / phone
-// @screen-xs: 480px;
-// @screen-xs-min: @screen-xs;
-
-// // Small screen / tablet
-// @screen-sm: 576px;
-// @screen-sm-min: @screen-sm;
-
-// // Medium screen / desktop
-// @screen-md: 768px;
-// @screen-md-min: @screen-md;
-
-// // Large screen / wide desktop
-// @screen-lg: 992px;
-// @screen-lg-min: @screen-lg;
-
-// // Extra large screen / full hd
-// @screen-xl: 1200px;
-// @screen-xl-min: @screen-xl;
-
-// // Extra extra large screen / large desktop
-// @screen-xxl: 1600px;
-// @screen-xxl-min: @screen-xxl;
-
-// // provide a maximum
-// @screen-xs-max: (@screen-sm-min - 1px);
-// @screen-sm-max: (@screen-md-min - 1px);
-// @screen-md-max: (@screen-lg-min - 1px);
-// @screen-lg-max: (@screen-xl-min - 1px);
-// @screen-xl-max: (@screen-xxl-min - 1px);
-
-// // Grid system
-// @grid-columns: 24;
-// @grid-gutter-width: 0;
-
-// // TODO 其他 padding 规则
-// @padding-md: 10px; // small containers and buttons

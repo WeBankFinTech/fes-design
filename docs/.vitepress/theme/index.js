@@ -1,4 +1,3 @@
-import { h } from 'vue'
 import { VPTheme, VTBadge } from '@vue/theme'
 
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -20,7 +19,6 @@ import './global.less';
 export default Object.assign({}, VPTheme, {
     NotFound,
     enhanceApp({app}) {
-        console.log(Object.keys(VPTheme))
         app.component('Badge', VTBadge)
         app.component('IconDoc', IconDoc);
         app.component('WIframe', WIframe);

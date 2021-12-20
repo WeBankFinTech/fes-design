@@ -7,10 +7,9 @@
     </div>
 </template>
 <script>
-import {
-    defineComponent, computed, watch, onMounted,
-} from 'vue';
+import { defineComponent, computed, watch, onMounted } from 'vue';
 import { isEqual, isFunction } from 'lodash-es';
+import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { CHANGE_EVENT } from '../_util/constants';
@@ -46,6 +45,7 @@ export default defineComponent({
         },
     },
     setup(props, ctx) {
+        useTheme();
         const [currentValue, updateCurrentValue] = useNormalModel(
             props,
             ctx.emit,
@@ -64,11 +64,11 @@ export default defineComponent({
         watch(currentValue, () => {
             ctx.emit(CHANGE_EVENT, currentValue.value);
         });
-        const actived = computed(
-            () => isEqual(currentValue.value, props.activeValue),
+        const actived = computed(() =>
+            isEqual(currentValue.value, props.activeValue),
         );
-        const inactived = computed(
-            () => isEqual(currentValue.value, props.inactiveValue),
+        const inactived = computed(() =>
+            isEqual(currentValue.value, props.inactiveValue),
         );
         const toggle = async () => {
             if (props.disabled) return;
@@ -82,12 +82,14 @@ export default defineComponent({
                 actived.value ? props.inactiveValue : props.activeValue,
             );
         };
-        const wrapperClass = computed(() => [
-            prefixCls,
-            props.size && `${prefixCls}-size-${props.size}`,
-            actived.value && 'is-checked',
-            props.disabled && 'is-disabled',
-        ].filter(Boolean));
+        const wrapperClass = computed(() =>
+            [
+                prefixCls,
+                props.size && `${prefixCls}-size-${props.size}`,
+                actived.value && 'is-checked',
+                props.disabled && 'is-disabled',
+            ].filter(Boolean),
+        );
         return {
             prefixCls,
             wrapperClass,

@@ -19,23 +19,23 @@
         width: 100%;
         height: @input-height-base;
         padding: 0 8px; // FEATURE 变量抽离
-        color: @text-color;
+        color: var(--f-text-color);
         font-size: inherit;
-        border: @border-base;
-        border-radius: @border-radius-base;
+        border: var(--f-border-base);
+        border-radius: var(--f-border-radius-base);
         outline: 0;
 
         &::placeholder {
-            color: @text-color-caption;
+            color: var(--f-text-color-caption);
         }
 
         &:hover,
         &:focus {
             z-index: 1;
-            border-color: @primary-color;
+            border-color: var(--f-primary-color);
         }
         &:focus {
-            box-shadow: 0 0 0 2px @focus-shadow-color;
+            box-shadow: 0 0 0 2px var(--f-focus-shadow-color);
         }
 
         &[disabled] {
@@ -44,7 +44,7 @@
     }
     &.is-hovering {
         .@{input-prefix-cls}-inner:not([disabled]) {
-            border-color: @primary-color;
+            border-color: var(--f-primary-color);
         }
     }
 
@@ -65,7 +65,7 @@
         transition: all 0.3s;
         user-select: none;
         .@{fes-icon-cls} {
-            color: @text-color-caption;
+            color: var(--f-text-color-caption);
         }
     }
 
@@ -141,7 +141,7 @@
     position: relative;
     display: inline-block;
     width: 100%;
-    font-size: @font-size-base;
+    font-size: var(--f-font-size-base);
     vertical-align: bottom;
 
     &-inner {
@@ -150,24 +150,24 @@
         width: 100%;
         min-height: @input-height-base;
         padding: 5px 9px;
-        color: @text-color;
+        color: var(--f-text-color);
         font-size: inherit;
         line-height: 1.5;
-        border: @border-base;
-        border-radius: @border-radius-base;
+        border: var(--f-border-base);
+        border-radius: var(--f-border-radius-base);
         outline: none;
         resize: vertical;
 
         &:hover,
         &:focus {
-            border-color: @primary-color;
+            border-color: var(--f-primary-color);
         }
         &:focus {
-            box-shadow: 0 0 0 2px @focus-shadow-color;
+            box-shadow: 0 0 0 2px var(--f-focus-shadow-color);
         }
 
         &::placeholder {
-            color: @text-color-caption;
+            color: var(--f-text-color-caption);
         }
 
         &[disabled] {
@@ -179,7 +179,7 @@
     &-count {
         display: inline-block;
         width: 100%;
-        color: @text-color-secondary;
+        color: var(--f-text-color-secondary);
         text-align: right;
     }
 }

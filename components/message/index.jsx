@@ -20,7 +20,15 @@ let mergeConfig = defaultConfig;
 
 let messageInstance = null;
 
-async function create({ type, content, duration, icon, closable, afterClose, colorful }) {
+async function create({
+    type,
+    content,
+    duration,
+    icon,
+    closable,
+    afterClose,
+    colorful,
+}) {
     if (!messageInstance) {
         messageInstance = await createManager({
             getContainer: mergeConfig.getContainer,

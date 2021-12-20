@@ -1,5 +1,6 @@
 import { defineComponent, nextTick, watch } from 'vue';
 import { isUndefined } from 'lodash-es';
+import { useTheme } from '../_theme/useTheme';
 import useScrollbar from '../scrollbar/useScrollbar';
 import WBar from '../scrollbar/bar';
 import { TABLE_NAME, SIZE } from './const';
@@ -53,6 +54,7 @@ export default defineComponent({
         'sortChange',
     ],
     setup(props, ctx) {
+        useTheme();
         const {
             prefixCls,
             handleSelect,

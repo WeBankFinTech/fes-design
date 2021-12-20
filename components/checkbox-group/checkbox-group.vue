@@ -5,10 +5,10 @@
 </template>
 <script>
 import { computed } from 'vue';
+import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useCheckboxGroup } from './useCheckboxGroup';
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
-
 
 import { name } from './const';
 
@@ -34,6 +34,7 @@ export default {
     },
     emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT],
     setup(props, ctx) {
+        useTheme();
         useCheckboxGroup(props, ctx);
         const classList = computed(() => [
             prefixCls,

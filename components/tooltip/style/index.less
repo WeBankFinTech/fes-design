@@ -9,15 +9,15 @@
     .default();
     .text();
     padding: @padding-xs;
-    border-radius: @border-radius-base;
+    border-radius: var(--f-border-radius-base);
     &-text {
-        color: @white;
-        background-color: tint(@font-color, 30%);
+        color: var(--f-white);
+        background-color: var(--f-tooltip-text-bg-color);
     }
 
     &-confirm, &-popover  {
         padding: @padding-md;
-        background-color: @white;
+        background-color: var(--f-white);
     }
 
     &-modal {
@@ -28,7 +28,7 @@
 
             &.is-confirm {
                 font-weight: @font-weight-regular;
-                font-size: @font-size-base;
+                font-size: var(--f-font-size-base);
             }
         }
         
@@ -36,7 +36,7 @@
             display: flex;
             align-items: center;
             padding-right: @padding-xs;
-            color: @warning-color;
+            color: var(--f-warning-color);
         }
 
         &-body {
