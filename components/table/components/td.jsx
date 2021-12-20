@@ -28,7 +28,7 @@ export default defineComponent({
             prefixCls,
             getCellSpan,
             getCellClass,
-            getCustionCellClass,
+            getCustomCellClass,
             getCustomCellStyle,
             isSelected,
             isSelectDisabled,
@@ -55,7 +55,7 @@ export default defineComponent({
                     })}
                     class={[
                         ...getCellClass({ column }),
-                        ...getCustionCellClass({
+                        ...getCustomCellClass({
                             row,
                             column,
                             rowIndex,

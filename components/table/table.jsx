@@ -1,4 +1,4 @@
-import { defineComponent, nextTick, watch, reactive } from 'vue';
+import { defineComponent, nextTick, watch } from 'vue';
 import { isUndefined } from 'lodash-es';
 import useScrollbar from '../scrollbar/useScrollbar';
 import WBar from '../scrollbar/bar';
@@ -15,7 +15,7 @@ export default defineComponent({
     props: {
         data: {
             type: Array,
-            data: () => [],
+            default: () => [],
         },
         rowKey: [Function, String],
         bordered: {

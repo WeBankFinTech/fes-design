@@ -1,6 +1,7 @@
 import { computed, provide } from 'vue';
+import { isArray } from 'lodash-es';
 import { getRowKey as _getRowKey, getCellValue } from './helper';
-import { provideKey } from './const';
+import { provideKey, TABLE_NAME } from './const';
 import useTableColumn from './useTableColumn';
 import useTableEvent from './useTableEvent';
 import useTableSelect from './useTableSelect';
@@ -12,7 +13,13 @@ export default (props, ctx) => {
     const tableId = `f-table_${tableIdSeed++}`;
 
     // 展示的数据
-    const showData = computed(() => props.data);
+    const showData = computed(() => {
+        if (isArray(props.data)) {
+            return props.data;
+        }
+        console.warn(`[${TABLE_NAME}]: data must be array`);
+        return [];
+    });
 
     // 行数据的key
     const getRowKey = ({ row }) => _getRowKey({ row, rowKey: props.rowKey });
