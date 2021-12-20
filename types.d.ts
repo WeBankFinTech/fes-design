@@ -55,5 +55,6 @@ declare module "@fesjs/fes-design" {
     export const FCarousel: Component;
     export const FCarouselItem: Component;
     export const FDrawer: Component;
+    export const FVirtualList: Component;
 }
 
