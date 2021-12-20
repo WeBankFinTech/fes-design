@@ -12,7 +12,7 @@ export default (props, ctx) => {
     const tableId = `f-table_${tableIdSeed++}`;
 
     // 展示的数据
-    const showData = computed(() => props.data);
+    const showData = computed(() => props.data || []);
 
     // 行数据的key
     const getRowKey = ({ row }) => _getRowKey({ row, rowKey: props.rowKey });
