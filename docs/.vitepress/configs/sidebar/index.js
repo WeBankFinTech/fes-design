@@ -112,25 +112,32 @@ module.exports = {
                 text: '数据展示组件',
                 items: [
                     {
-                        text: 'Table 表格',
-                        link: '/zh/components/table',
+                        text: 'Carousel 走马灯',
+                        link: '/zh/components/carousel',
                     },
                     {
-                        text: 'Tabs 标签页',
-                        link: '/zh/components/tabs',
-                    },{
-                        text: 'Tag 标签',
-                        link: '/zh/components/tag',
-                    },{
-                        text: 'Tree 树形控件',
-                        link: '/zh/components/tree',
-                    },{
                         text: 'Draggable 拖拽',
                         link: '/zh/components/draggable',
                     },
                     {
                         text: 'Image 图片',
                         link: '/zh/components/image',
+                    },
+                    {
+                        text: 'Table 表格',
+                        link: '/zh/components/table',
+                    },
+                    {
+                        text: 'Tabs 标签页',
+                        link: '/zh/components/tabs',
+                    },
+                    {
+                        text: 'Tag 标签',
+                        link: '/zh/components/tag',
+                    },
+                    {
+                        text: 'Tree 树形控件',
+                        link: '/zh/components/tree',
                     }
                 ]
             },

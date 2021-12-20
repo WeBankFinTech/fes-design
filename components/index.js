@@ -37,6 +37,7 @@ import { FUpload } from './upload';
 import { FPagination } from './pagination';
 import { FImage, FPreviewGroup } from './image';
 import { FForm, FFormItem } from './form';
+import { FCarousel, FCarouselItem } from './carousel';
 import { FDrawer } from './drawer';
 
 const components = [
@@ -89,6 +90,8 @@ const components = [
     FPreviewGroup,
     FForm,
     FFormItem,
+    FCarousel,
+    FCarouselItem,
     FDrawer,
 ];
 const install = function (app) {
@@ -151,6 +154,8 @@ export {
     FPreviewGroup,
     FForm,
     FFormItem,
+    FCarousel,
+    FCarouselItem,
     FDrawer,
 };
 export default {
