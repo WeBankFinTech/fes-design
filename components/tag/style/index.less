@@ -46,7 +46,10 @@
     --f-tag-border-radius: var(--f-border-radius-base);
 
     position: relative;
-    display: inline-block;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     min-width: @tag-min-width-base;
 
 
@@ -70,15 +73,16 @@
     user-select: none;
     touch-action: manipulation;
 
-    .tag-size(@tag-height-base; @tag-padding-base; @font-size-base; @border-radius-base);
-
     &__close {
         margin-right: -2px;
         margin-left: 4px;
         padding: 2px;
+        color: @tag-text-color-base;
+        border: var(--f-border-width-base) var(--f-border-style-base) @tag-text-color-base;
+        border-radius: 50%;
         transform: scale(0.6);
         &:hover {
-            color: @white;
+            color: var(--f-white);
             background-color: @tag-text-color-base;
         }
     }
@@ -88,7 +92,8 @@
         --f-tag-bg-color: @tag-bg-color-success;
         --f-tag-border-color: @tag-border-color-success;
         .@{tag-prefix-cls}__close {
-            border: @border-width-base @border-style-base @tag-text-color-success;
+            color: @tag-text-color-success;
+            border: var(--f-border-width-base) var(--f-border-style-base) @tag-text-color-success;
             &:hover {
                 background-color: @tag-text-color-success;
             }
@@ -99,7 +104,8 @@
         --f-tag-bg-color: @tag-bg-color-info;
         --f-tag-border-color: @tag-border-color-info;
         .@{tag-prefix-cls}__close {
-            border: @border-width-base @border-style-base @tag-text-color-info;
+            color: @tag-text-color-info;
+            border: var(--f-border-width-base) var(--f-border-style-base) @tag-text-color-info;
             &:hover {
                 background-color: @tag-text-color-info;
             }
@@ -110,7 +116,8 @@
         --f-tag-bg-color: @tag-bg-color-warning;
         --f-tag-border-color: @tag-border-color-warning;
         .@{tag-prefix-cls}__close {
-            border: @border-width-base @border-style-base @tag-text-color-warning;
+            color: @tag-text-color-warning;
+            border: var(--f-border-width-base) var(--f-border-style-base) @tag-text-color-warning;
             &:hover {
                 background-color: @tag-text-color-warning;
             }
@@ -121,7 +128,8 @@
         --f-tag-bg-color: @tag-bg-color-danger;
         --f-tag-border-color: @tag-border-color-danger;
         .@{tag-prefix-cls}__close {
-            border: @border-width-base @border-style-base @tag-text-color-danger;
+            color: @tag-text-color-danger;
+            border: var(--f-border-width-base) var(--f-border-style-base) @tag-text-color-danger;
             &:hover {
                 background-color: @tag-text-color-danger;
             }
@@ -132,45 +140,52 @@
         min-width: @tag-min-width-lg;
 
         --f-tag-height: @tag-height-lg;
+        --f-tag-padding: @tag-padding-base;
         --f-tag-font-size: @tag-font-size-lg;
+        --f-tag-border-radius: var(--f-border-radius-base);
     }
     &-size--small {
+        min-width: @tag-min-width-sm;
+
         --f-tag-height: @tag-height-sm;
         --f-tag-padding: @tag-padding-sm;
         --f-tag-font-size: @tag-font-size-sm;
         --f-tag-border-radius: var(--f-border-radius-sm);
-    
-        min-width: @tag-min-width-sm;
     }
 
     &-effect--dark {
         --f-tag-color: var(--f-white);
+        --f-tag-bg-color: @tag-text-color-base;
+        --f-tag-border-color: @tag-border-color-base;
         .@{tag-prefix-cls}__close {
             margin-right: -4px;
-            border: @border-width-base @border-style-base transparent;
+            color: var(--f-white);
+            border: var(--f-border-width-base) var(--f-border-style-base) transparent;
             &:hover {
-                border: @border-width-base @border-style-base @white;
+                border: var(--f-border-width-base) var(--f-border-style-base) var(--f-white);
             }
         }
         &.@{tag-prefix-cls}-type--success {
-            --f-tag-color: @tag-text-color-success;
+            --f-tag-bg-color: @tag-text-color-success;
             --f-tag-border-color: @tag-border-color-success;
         }
         &.@{tag-prefix-cls}-type--info {
-            --f-tag-color: @tag-text-color-info;
+            --f-tag-bg-color: @tag-text-color-info;
             --f-tag-border-color: @tag-border-color-info;
         }
         &.@{tag-prefix-cls}-type--warning {
-            --f-tag-color: @tag-text-color-warning;
+            --f-tag-bg-color: @tag-text-color-warning;
             --f-tag-border-color: @tag-border-color-warning;
         }
         &.@{tag-prefix-cls}-type--danger {
-            --f-tag-color: @tag-text-color-danger;
+            --f-tag-bg-color: @tag-text-color-danger;
             --f-tag-border-color: @tag-border-color-danger;
         }
     }
     &-effect--plain {
+        --f-tag-color: @tag-text-color-base;
         --f-tag-bg-color: var(--f-white);
+        --f-tag-border-color: @tag-border-color-base;
         &.@{tag-prefix-cls}-type--success {
             --f-tag-color: @tag-text-color-success;
             --f-tag-border-color: @tag-border-color-success;
