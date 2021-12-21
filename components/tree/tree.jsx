@@ -130,13 +130,12 @@ export default defineComponent({
                 values[0] = val;
             }
             updateSelectedKeys(values);
-            event &&
-                emit('select', {
-                    selectedKeys: values,
-                    event,
-                    node,
-                    selected: values.includes(val),
-                });
+            emit('select', {
+                selectedKeys: values,
+                event,
+                node,
+                selected: values.includes(val),
+            });
         };
         const expandNode = (val, event) => {
             const node = nodeList[val];
@@ -154,13 +153,12 @@ export default defineComponent({
                 values.push(val);
             }
             updateExpandedKeys(values);
-            event &&
-                emit('expand', {
-                    expandedKeys: values,
-                    event,
-                    node,
-                    expanded: values.includes(val),
-                });
+            emit('expand', {
+                expandedKeys: values,
+                event,
+                node,
+                expanded: values.includes(val),
+            });
         };
         function handleChildren(arr, children, isAdd) {
             children.forEach((child) => {
@@ -222,13 +220,12 @@ export default defineComponent({
                 }
             }
             updateCheckedKeys(values);
-            event &&
-                emit('check', {
-                    checkedKeys: values,
-                    event,
-                    node,
-                    checked: values.includes(val),
-                });
+            emit('check', {
+                checkedKeys: values,
+                event,
+                node,
+                checked: values.includes(val),
+            });
         };
 
         if (expose) {

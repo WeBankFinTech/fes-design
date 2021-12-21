@@ -75,7 +75,7 @@ import Tree from '../tree';
 import Scrollbar from '../scrollbar';
 import SELECT_PROPS from '../select/props';
 import TREE_PROPS from '../tree/props';
-import { flatNodes } from '../cascader-panel/utils';
+import { flatNodes } from '../_util/utils';
 
 const prefixCls = getPrefixCls('select-tree');
 
@@ -153,17 +153,17 @@ export default defineComponent({
             if (!props.multiple) {
                 return;
             }
-            if (currentValue.value.includes(value)) {
+            const arr = currentValue.value;
+            const findIndex = arr.indexOf(value);
+            if (findIndex !== -1) {
                 emit('removeTag', value);
-                const arr = currentValue.value;
-                const index = arr.includes(value);
-                arr.splice(index - 1, 1);
+                arr.splice(findIndex, 1);
                 updateCurrentValue(arr);
             }
         };
 
-        const selectedOptions = computed(() => {
-            const arr = nodes.value
+        const selectedOptions = computed(() =>
+            nodes.value
                 .map((option) => {
                     const value = option[props.valueField];
                     const label = option[props.labelField];
@@ -178,9 +178,8 @@ export default defineComponent({
                         return currentValue.value.includes(option.value);
                     }
                     return [currentValue.value].includes(option.value);
-                });
-            return arr;
-        });
+                }),
+        );
 
         const focus = (e) => {
             emit('focus', e);
