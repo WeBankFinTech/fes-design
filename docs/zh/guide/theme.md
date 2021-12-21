@@ -12,7 +12,6 @@
 <script setup>
 import { FConfigProvider } from '@fesjs/fes-design';
 
-const fontColorBase = '#0f1222';
 const themeOverrides = {
     common: {
         primaryColor: '#5384ff',
@@ -27,7 +26,7 @@ const themeOverrides = {
 
         bodyBgColor: '#fff',
 
-        fontColorBase,
+        fontColorBase: '#0f1222',
         fontSizeBase: '14px',
 
         borderRadiusBase: '4px',
@@ -35,14 +34,14 @@ const themeOverrides = {
         borderWidthBase: '1px',
         borderStyleBase: 'solid',
 
-        borderColorBase: tint(fontColorBase, 0.8),
+        borderColorBase: '#cfd0d3',
 
-        shadowColor: fade(fontColorBase, 0.1),
-        shadowColorSm: fade(fontColorBase, 0.2),
+        shadowColor: 'rgba(18, 18, 18, 0.1)',
+        shadowColorSm: 'rgba(18, 18, 18, 0.2)',
         shadowRadius: '12px',
         shadowRadiusSm: '4px',
 
-        maskColor: fade(fontColorBase, 0.45),
+        maskColor: 'rgba(18, 18, 18, 0.45)',
     }
 }
 </script>
