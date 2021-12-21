@@ -1,6 +1,6 @@
-import { onBeforeUnmount, nextTick, ref, watch } from 'vue';
+import { nextTick, ref, watch } from 'vue';
 import { debounce, isEqual } from 'lodash-es';
-import { ResizeObserver } from '@juggle/resize-observer';
+import useResize from '../_util/use/useResize';
 
 /**
  * 更新列的宽度
@@ -114,23 +114,14 @@ export default function useTableLayout({
     };
 
     // 检测Table宽度变化
-    const ro = new ResizeObserver(
+    useResize(
+        wrapperRef,
         debounce(() => {
             nextTick(() => {
                 handlerWidth();
             });
         }, 100),
     );
-
-    watch(wrapperRef, ($wrapper) => {
-        if ($wrapper) {
-            ro.observe($wrapper);
-        }
-    });
-
-    onBeforeUnmount(() => {
-        ro.disconnect();
-    });
 
     watch([columns, () => props.bordered, wrapperRef], handlerWidth);
 
