@@ -35,11 +35,11 @@
 </template>
 
 <script>
-import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, nextTick, onMounted, ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { addUnit, requestAnimationFrame } from '../_util/utils';
-import { addResizeListener, removeResizeListener } from '../_util/resizeEvent';
+import useResize from '../_util/use/useResize';
 
 import Bar from './bar';
 
@@ -110,25 +110,19 @@ export default {
             }
         };
 
+        useResize(
+            computed(() =>
+                containerRef.value
+                    ? containerRef.value.firstElementChild
+                    : null,
+            ),
+            onUpdate,
+            computed(() => props.noresize),
+        );
+
         onMounted(() => {
             if (!props.native) {
                 nextTick(onUpdate);
-            }
-            if (!props.noresize) {
-                addResizeListener(
-                    containerRef.value.firstElementChild,
-                    onUpdate,
-                );
-                window.addEventListener('resize', onUpdate);
-            }
-        });
-        onBeforeUnmount(() => {
-            if (!props.noresize) {
-                removeResizeListener(
-                    containerRef.value?.firstElementChild,
-                    onUpdate,
-                );
-                window.removeEventListener('resize', onUpdate);
             }
         });
 
