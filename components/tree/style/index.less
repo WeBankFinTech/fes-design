@@ -13,14 +13,14 @@
     &-node {
         &.is-selected {
             >.@{tree-prefix-cls}-node-content-wrapper {
-                color: var(--f-primary-color);
-                background-color: @tree-selected-background-color;
+                --f-tree-node-content-wrapper-color: var(--f-primary-color);
+                --f-tree-node-content-wrapper-bg-color: @tree-selected-background-color;
             }
         }
         &.is-disabled {
             >.@{tree-prefix-cls}-node-content-wrapper {
-                color: var(--f-text-color-disabled);
-                background-color: var(--f-white);
+                --f-tree-node-content-wrapper-color: var(--f-text-color-disabled);
+                --f-tree-node-content-wrapper-bg-color: var(--f-white);
                 cursor: not-allowed;
             }
         }

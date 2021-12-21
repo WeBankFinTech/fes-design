@@ -145,12 +145,12 @@ export default defineComponent({
             const copyValue = cloneDeep(currentValue.value);
             if (emitPath) {
                 copyValue.splice(
-                    copyValue.indexOf((item) => item.includes(value)),
+                    copyValue.findIndex((item) => item.includes(value)),
                     1,
                 );
             } else {
                 copyValue.splice(
-                    copyValue.indexOf((item) => item === value),
+                    copyValue.findIndex((item) => item === value),
                     1,
                 );
             }
