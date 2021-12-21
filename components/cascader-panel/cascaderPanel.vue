@@ -11,6 +11,7 @@
 <script>
 import { computed, defineComponent, provide, reactive } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
+import { useTheme } from '../_theme/useTheme';
 import {
     CASCADER_PANEL_INJECTION_KEY,
     DEFAULT_CONFIG,
@@ -45,6 +46,7 @@ export default defineComponent({
     },
     emits: ['expandChange', 'checkChange', 'close'],
     setup(props, { emit, slots }) {
+        useTheme();
         const renderLabelFn = computed(
             () => props.renderLabel || slots.default,
         );

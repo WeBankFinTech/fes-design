@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FTooltip } from 'fes-design';
+import { FTooltip } from '@fesjs/fes-design';
 
 app.use(FTooltip);
 ```

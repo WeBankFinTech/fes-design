@@ -2,7 +2,7 @@
 @import '../../style/mixins/index';
 
 @upload-prefix-cls: ~'@{cls-prefix}-upload';
-@upload-item-hover-color: fade(@primary-color, 6%);
+@upload-item-hover-color: var(--f-hover-color-light);
 
 .@{upload-prefix-cls} {
     display: inline-block;
@@ -18,15 +18,15 @@
         min-width: 320px;
         .default();
         .text();
-        color: @sub-head-color;
-        font-size: @font-size-base;
+        color: var(--f-sub-head-color);
+        font-size: var(--f-font-size-base);
         line-height: @line-height-base;
         list-style: none;
         &-item {
             display: flex;
             align-items: center;
             margin-top: @padding-xs;
-            border-radius: @border-radius-sm;
+            border-radius: var(--f-border-radius-sm);
             &:first-child {
                 margin-top: @padding-sm;
             }
@@ -45,22 +45,22 @@
                     flex: 1;
                     height: 4px;
                     margin-left: @padding-lg;
-                    background-color: @border-color-split;
-                    border-radius: @border-radius-sm;
+                    background-color: var(--f-border-color-split);
+                    border-radius: var(--f-border-radius-sm);
                     &-inner {
                         position: absolute;
                         top: 0;
                         right: auto;
                         bottom: 0;
                         left: 0;
-                        background-color: @primary-color;
-                        border-radius: @border-radius-sm;
+                        background-color: var(--f-primary-color);
+                        border-radius: var(--f-border-radius-sm);
                     }
                 }
             }
             .@{upload-prefix-cls}-list-icons {
                 width: 40px;
-                color: @text-color-secondary;
+                color: var(--f-text-color-secondary);
                 text-align: right;
                 &-close {
                     display: none;
@@ -76,9 +76,9 @@
                 }
             }
             &.is-error {
-                color: @danger-color;
+                color: var(--f-danger-color);
                 .@{upload-prefix-cls}-list-icons {
-                    color: @danger-color;
+                    color: var(--f-danger-color);
                 }
             }
             &:hover {

@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FModal } from 'fes-design';
+import { FModal } from '@fesjs/fes-design';
 
 app.use(FModal);
 ```

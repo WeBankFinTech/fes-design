@@ -1,63 +1,15 @@
-// mixin for button
 
-.button-size(@height; @padding; @font-size; @border-radius) {
-    height: @height;
-    padding: @padding;
-    font-size: @font-size;
-    border-radius: @border-radius;
-}
 
-.button-color(@color; @background; @border) {
-    color: @color;
-    background: @background;
-    border-color: @border;
-}
-
-.button-disabled(@color: @btn-disable-color; @background: @btn-disable-bg; @border: @btn-disable-border) {
-    &[disabled] {
-        &,
-        &:hover,
-        &:focus,
-        &:active {
-            .button-color(@color; @background; @border);
-    
-            text-shadow: none;
-            box-shadow: none;
-        }
-    }
-}
-
-.button-athoer(@color) {
-    .button-color(@color; @white; @color);
-    .button-hover(@color; tint(@color, 94%); @color);
-    .button-active(shade(@color, 6%); tint(@color, 94%); shade(@color, 6%));
-    .button-processing(@color; @white; @color);
-    .button-disabled(@disabled-color-base; @disabled-color-light; @disabled-color-base);
-}
-
-.button-processing(@color; @background; @border) {
+.button-processing() {
     &.is-loading {
         &,
         &:hover,
         &:focus,
         &:active {
-            opacity: 0.6;
-            .button-color(@color; @background; @border);
             text-shadow: none;
             box-shadow: none;
+            opacity: 0.6;
+            pointer-events: none;
         }
-    }
-}
-
-.button-active(@color; @background; @border) {
-    &:active {
-        .button-color(@color, @background, @border)
-    }
-}
-
-.button-hover(@color; @background; @border) {
-    &:hover,
-    &:focus {
-        .button-color(@color; @background; @border);
     }
 }

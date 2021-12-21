@@ -1,11 +1,11 @@
 .disabled() {
-    color: @text-color-disabled;
-    background-color: @disabled-color-light;
+    color: var(--f-text-color-disabled);
+    background-color: var(--f-disabled-color-light);
     cursor: not-allowed;
     opacity: 1;
 
     &:hover {
-        border-color: @border-color-base;
+        border-color: var(--f-border-color-base);
     }
 }
 
@@ -37,11 +37,11 @@
     display: table-cell;
     width: 1px;
     padding: 0 20px;
-    color: @text-color-secondary;
+    color: var(--f-text-color-secondary);
     white-space: nowrap;
-    background-color: @component-background;
-    border: @border-base;
-    border-radius: @border-radius-base;
+    background-color: var(--f-component-bg-color);
+    border: var(--f-border-base);
+    border-radius: var(--f-border-radius-base);
 
     &:focus {
         outline: none;

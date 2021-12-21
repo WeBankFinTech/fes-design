@@ -5,7 +5,7 @@
 @prefix-cls: ~'@{cls-prefix}';
 @pagination-prefix-cls: ~'@{cls-prefix}-pagination';
 
-@pager-border-color: @border-color-base;
+@pager-border-color: var(--f-border-color-base);
 
 @pagination-min-width-base: 32px;
 @pagination-min-width-sm: @pagination-min-width-base - 8;
@@ -35,11 +35,11 @@
 @pagination-big-btn-width-base: 48px;
 @pagination-big-btn-width-sm: 36px;
 
-@btn-disabled-color: @disabled-color-base;
+@pagination-disabled-color: var(--f-disabled-color-base);
 
 .@{pagination-prefix-cls} {
     .flex-box();
-    color: @text-color;
+    color: var(--f-text-color);
     font-size: @pagination-font-size-base;
     &-pager, &-size, &-jumper, &-total {
         height: @pagination-height-base;
@@ -52,18 +52,43 @@
         text-align: center;
         user-select: none;
         &-item {
+            --f-pager-item-color: var(--f-text-color);
+            --f-pager-item-bg-color: var(--f-white);
+            --f-pager-item-border-color: @pager-border-color;
+            --f-pager-item-min-width: @pagination-min-width-base;
+            --f-pager-item-height: @pagination-height-base;
+            --f-pager-item-line-height: @pagination-pager-line-height-base;
+            --f-pager-item-border-radius: var(--f-border-radius-base);
+
             .flex-box();
             justify-content: center;
+
+            min-width: var(--f-pager-item-min-width);
+            height: var(--f-pager-item-height);
             margin-right: @pagination-normal-item-horizontal-margin-base;
+            color: var(--f-pager-item-color);
+            line-height: var(--f-pager-item-line-height);
+            background-color: var(--f-pager-item-bg-color);
+            border-color: var(--f-pager-item-border-color);
             border-style: solid;
             border-width: 1px;
+            border-radius: var(--f-pager-item-border-radius);
             cursor: pointer;
-            .pager-color(@text-color; @white; @pager-border-color);
-            .pager-size(@pagination-min-width-base; @pagination-height-base; @pagination-pager-line-height-base; @border-radius-base);
-            .pager-hover(@primary-color; @hover-color-light; @primary-color);
+
+            &:hover {
+                --f-pager-item-color: var(--f-primary-color);
+                --f-pager-item-bg-color: var(--f-hover-color-ligh);
+                --f-pager-item-border-color: var(--f-primary-color);  
+            }
+
             &.is-active {
-                .pager-active(@white; @primary-color; @primary-color);
-                .pager-hover(@white; @hover-color-base; @hover-color-base);
+                --f-pager-item-color: var(--f-white);
+                --f-pager-item-bg-color: var(--f-primary-color);
+                --f-pager-item-border-color: var(--f-primary-color);
+                &:hover {
+                    --f-pager-item-bg-color: var(--f-hover-color-base);
+                    --f-pager-item-border-color: var(--f-hover-color-base); 
+                }
             }
             &.is-double-jump {
                 .flex-box();
@@ -86,8 +111,7 @@
                 }
             }
             &.is-disabled {
-                background-color: red;
-                .btn-disabled(@btn-disabled-color; @disabled-color-light; @btn-disabled-color);
+                .pagination-disabled();
             }
             &:last-child {
                 margin-right: 0;
@@ -120,8 +144,14 @@
         &-total {
             margin-right: @pagination-normal-item-horizontal-margin-base;
             list-style: none;
-            .pager-color(@text-color; @white; @pager-border-color);
-            .pager-size(@pagination-min-width-base; @pagination-height-base; @pagination-height-base; @border-radius-base);
+
+            --f-pager-total-color: var(--f-text-color);
+            --f-pager-total-bg-color: var(--f-white);
+            --f-pager-total-border-color: @pager-border-color;
+            --f-pager-total-min-width: @pagination-min-width-base;
+            --f-pager-total-height: @pagination-height-base;
+            --f-pager-total-line-height: @pagination-height-base;
+            --f-pager-total-border-radius: var(--f-border-radius-base);
             &-split {
                 margin-right: @pagination-normal-item-horizontal-margin-base;
                 font-style: normal;
@@ -131,7 +161,11 @@
             &.is-current {
                 width: @pagination-big-btn-width-base;
                 cursor: default;
-                .pager-hover(@text-color; @white; @pager-border-color);
+                &:hover {
+                    --f-pager-item-color: var(--f-text-color);
+                    --f-pager-item-bg-color: var(--f-white);
+                    --f-pager-item-border-color: @pager-border-color;
+                }
             }
         }
     }
@@ -146,8 +180,10 @@
     .@{pagination-prefix-cls}-pager {
         margin: 0 @pagination-normal-item-horizontal-margin-sm 0 0;
         &-item {
+            --f-pager-item-min-width: @pagination-min-width-sm;
+            --f-pager-item-height: @pagination-height-sm;
+            --f-pager-item-line-height: @pagination-pager-line-height-sm;
             margin-right: @pagination-normal-item-horizontal-margin-sm;
-            .pager-size(@pagination-min-width-sm; @pagination-height-sm; @pagination-pager-line-height-sm; @border-radius-base);
             &.is-double-jump {
                 min-width: @pagination-ellipsis-min-width;
             }
@@ -185,7 +221,11 @@
     .@{pagination-prefix-cls}-simpler {
         &-total {
             margin-right: @pagination-normal-item-horizontal-margin-sm;
-            .pager-size(@pagination-min-width-sm; @pagination-height-sm; @pagination-height-sm; @border-radius-sm);
+
+            --f-pager-total-min-width: @pagination-min-width-sm;
+            --f-pager-total-height: @pagination-height-sm;
+            --f-pager-total-line-height: @pagination-height-sm;
+            --f-pager-total-border-radius: var(--f-border-radius-sm);
             &-split {
                 margin-right: @pagination-normal-item-horizontal-margin-sm;
             }

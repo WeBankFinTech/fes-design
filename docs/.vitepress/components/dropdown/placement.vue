@@ -25,7 +25,7 @@ import {
     EditOutlined,
     PlusSquareOutlined,
     UserOutlined
-} from 'fes-design/icon';
+} from '@fesjs/fes-design/icon';
 
 export default {
     setup() {

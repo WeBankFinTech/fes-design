@@ -49,7 +49,7 @@ module.exports = {
                 '.vue',
             ],
             alias: {
-                'fes-design': path.resolve(__dirname, '../../components'),
+                '@fesjs/fes-design': path.resolve(__dirname, '../../components'),
             },
         },
         json: {

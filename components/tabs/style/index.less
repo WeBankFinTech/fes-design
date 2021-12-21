@@ -4,16 +4,17 @@
 
 
 @tabs-prefix-cls: ~'@{cls-prefix}-tabs';
-@tabs-border-color: @border-color-split;
-@tabs-border: @border-width-base @border-style-base @tabs-border-color;
-@tab-active-color: @primary-color;
+@tabs-border-color: var(--f-border-color-split);
+@tabs-border: var(--f-border-width-base) var(--f-border-style-base) @tabs-border-color;
+@tab-active-color: var(--f-primary-color);
+@text-color-disabled: var(--f-text-color-disabled);
 
 .@{tabs-prefix-cls} {
     display: flex;
     flex-direction: column;
     .default();
     .text();
-    background: @white;
+    background: var(--f-white);
 
     &-bottom {
         flex-direction: column-reverse;
@@ -41,12 +42,12 @@
 
         &-left {
             left: 0;
-            box-shadow: 1px 0 4px 0 @text-color-caption;
+            box-shadow: 1px 0 4px 0 var(--f-text-color-caption);
         }
 
         &-right {
             right: 0;
-            box-shadow: -1px 0 4px 0 @text-color-caption;
+            box-shadow: -1px 0 4px 0 var(--f-text-color-caption);
         }
     }
 
@@ -59,12 +60,12 @@
 
         &-top {
             top: 0;
-            box-shadow: 0 1px 4px @text-color-caption;
+            box-shadow: 0 1px 4px var(--f-text-color-caption);
         }
 
         &-bottom {
             bottom: 0;
-            box-shadow: 0 -1px 4px @text-color-caption;
+            box-shadow: 0 -1px 4px var(--f-text-color-caption);
         }
     }
 
@@ -118,8 +119,8 @@
 
     &-tab {
         padding: 4px 16px;
-        color: @font-color-base;
-        font-size: @font-size-base;
+        color: var(--f-font-color-base);
+        font-size: var(--f-font-size-base);
         cursor: pointer;
         user-select: none;
 
@@ -133,11 +134,11 @@
         }
 
         &-disabled {
-            color: @text-color-disabled;
+            color: var(--f-text-color-disabled);
             cursor: not-allowed;
 
             &:hover {
-                color: @text-color-disabled;
+                color: var(--f-text-color-disabled);
             }
         }
         
@@ -151,11 +152,11 @@
         &-card {
             display: flex;
             flex-wrap: nowrap;
-            background: @disabled-color-light;
+            background: var(--f-disabled-color-light);
             border: @tabs-border;
             border-color: @text-color-disabled;
-            border-top-left-radius: @border-radius-base;
-            border-top-right-radius: @border-radius-base;
+            border-top-left-radius: var(--f-border-radius-base);
+            border-top-right-radius: var(--f-border-radius-base);
             transition: width @animation-duration-base;
         }
 
@@ -168,7 +169,7 @@
         &-close {
             box-sizing: border-box;
             width: 0;
-            color: @text-color-disabled;
+            color: var(--f-text-color-disabled);
             transform: translateX(8px);
             opacity: 0;
             transition: all @animation-duration-slow;

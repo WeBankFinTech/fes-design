@@ -7,32 +7,38 @@
 @menu-item-prefix-cls: ~'@{cls-prefix}-menu-item';
 @menu-group-prefix-cls: ~'@{cls-prefix}-menu-group';
 @menu-item-height: 32px;
-@menu-light-background-color: @white;
-@menu-light-active-background-color: fade(@primary-color, 6%);
-@menu-inverted-background-color: @font-color-base;
-@menu-inverted-font-color: tint(@font-color-base, 80%);
-@menu-inverted-active-background-color: @primary-color;
-@menu-inverted-active-font-color: @white;
+@menu-light-background-color: var(--f-white);
+@menu-light-active-background-color: var(--f-hover-color-light);
+@menu-inverted-background-color: var(--f-font-color-base);
+@menu-inverted-font-color: var(--f-text-color-caption);
+@menu-inverted-active-background-color: var(--f-primary-color);
+@menu-inverted-active-font-color: var(--f-white);
 @menu-popper-width: 200px;
 
 .@{menu-prefix-cls} {
+    --f-sub-menu-color: var(--f-head-color);
+    --f-sub-menu-wrapper-color: inherit;
+    --f-menu-item-color: var(--f-head-color);
+    --f-menu-item-wrapper-color: inherit;
+
     &.is-vertical,
     &.is-horizontal {
         .default();
         .text();
-        font-size: @font-size-body;
+        font-size: var(--f-font-size-body);
         line-height: @line-height-base;
         background-color: @menu-light-background-color;
 
         .@{sub-menu-prefix-cls} {
             position: relative;
-            color: @head-color;
+            color: var(--f-sub-menu-color);
             cursor: pointer;
             &-wrapper {
                 display: flex;
                 align-items: center;
                 width: 100%;
                 padding: 0 @padding-sm;
+                color: var(--f-sub-menu-wrapper-color);
             }
             &-icon {
                 display: flex;
@@ -79,20 +85,21 @@
             &:hover,
             &.is-active {
                 > .@{sub-menu-prefix-cls}-wrapper {
-                    color: @primary-color;
+                    --f-sub-menu-wrapper-color: var(--f-primary-color);
                 }
             }
         }
 
         .@{menu-item-prefix-cls} {
             position: relative;
-            color: @head-color;
+            color: var(--f-menu-item-color);
             cursor: pointer;
             &-wrapper {
                 display: flex;
                 align-items: center;
                 width: 100%;
                 padding: 0 @padding-sm;
+                color: var(--f-menu-item-wrapper-color);
             }
             &-icon {
                 display: flex;
@@ -106,13 +113,13 @@
             &:hover,
             &.is-active {
                 > .@{menu-item-prefix-cls}-wrapper {
-                    color: @primary-color;
+                    --f-menu-item-wrapper-color: var(--f-primary-color);
                 }
             }
         }
 
         .@{menu-group-prefix-cls} {
-            color: @text-color-secondary;
+            color: var(--f-text-color-secondary);
             line-height: @menu-item-height;
             cursor: auto;
             &-label {
@@ -126,33 +133,33 @@
             color: @menu-inverted-font-color;
             background-color: @menu-inverted-background-color;
             .@{sub-menu-prefix-cls} {
-                color: @menu-inverted-font-color;
+                --f-sub-menu-color: @menu-inverted-font-color;
                 &:hover {
                     > .@{sub-menu-prefix-cls}-wrapper {
-                        color: @menu-inverted-active-font-color;
+                        --f-sub-menu-wrapper-color: @menu-inverted-active-font-color;
                     }
                 }
                 &.is-active {
                     > .@{sub-menu-prefix-cls}-wrapper {
-                        color: @primary-color;
+                        --f-sub-menu-wrapper-color: var(--f-primary-color);
                     }
                 }
                 &-popper {
                     .@{sub-menu-prefix-cls} {
-                        color: @head-color;
+                        --f-sub-menu-color: var(--f-head-color);
                         &:hover,
                         &.is-active {
                             > .@{sub-menu-prefix-cls}-wrapper {
-                                color: @primary-color;
+                                --f-sub-menu-wrapper-color: var(--f-primary-color);
                             }
                         }
                     }
                     .@{menu-item-prefix-cls} {
-                        color: @head-color;
+                        --f-menu-item-color: var(--f-head-color);
                         &:hover,
                         &.is-active {
                             > .@{menu-item-prefix-cls}-wrapper {
-                                color: @primary-color;
+                                --f-menu-item-wrapper-color: var(--f-primary-color);
                             }
                         }
                         &.is-active {
@@ -162,16 +169,16 @@
                         }
                     }
                     .@{menu-group-prefix-cls} {
-                        color: @text-color-secondary;
+                        color: var(--f-text-color-secondary);
                     }
                 }
             }
             .@{menu-item-prefix-cls} {
-                color: @menu-inverted-font-color;
+                --f-menu-item-color: @menu-inverted-font-color;
                 &:hover,
                 &.is-active {
                     > .@{menu-item-prefix-cls}-wrapper {
-                        color: @menu-inverted-active-font-color;
+                        --f-menu-item-wrapper-color: @menu-inverted-active-font-color;
                     }
                 }
                 &.is-active {
@@ -195,7 +202,7 @@
     flex-wrap: nowrap;
     align-items: center;
     height: @menu-item-height + @line-height-base;
-    border-bottom: 1px solid @border-color-split;
+    border-bottom: 1px solid var(--f-border-color-split);
     > .@{sub-menu-prefix-cls},
     > .@{menu-item-prefix-cls} {
         height: 100%;
@@ -211,7 +218,7 @@
                 bottom: 0;
                 left: @padding-md;
                 height: 2px;
-                background-color: @primary-color;
+                background-color: var(--f-primary-color);
                 content: '';
             }
         }
@@ -249,7 +256,7 @@
                     right: 0;
                     bottom: (@menu-item-height/2);
                     width: 2px;
-                    background-color: @primary-color;
+                    background-color: var(--f-primary-color);
                     content: '';
                 }
             }
@@ -292,7 +299,7 @@
                         right: 0;
                         bottom: (@menu-item-height/2);
                         width: 2px;
-                        background-color: @primary-color;
+                        background-color: var(--f-primary-color);
                         content: '';
                     }
                 }

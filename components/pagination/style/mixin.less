@@ -29,12 +29,14 @@
     }
 }
 
-.btn-disabled(@color: @btn-disable-color; @background: @btn-disable-bg; @border: @btn-disable-border) {
+.pagination-disabled() {
     &,
     &:hover,
     &:focus,
     &:active {
-        .pager-color(@color; @background; @border);
+        --f-pager-item-color: var(--f-disabled-color-base);
+        --f-pager-item-bg-color: var(--f-disabled-color-light);
+        --f-pager-item-border-color: var(--f-disabled-color-base);
         text-shadow: none;
         box-shadow: none;
         cursor: not-allowed;

@@ -2,6 +2,7 @@ import { defineComponent, Fragment, Teleport, cloneVNode, computed } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { UPDATE_MODEL_EVENT, TRIGGER, PLACEMENT } from '../_util/constants';
 import useClickOutSide from '../_util/use/useClickOutSide';
+import { useTheme } from '../_theme/useTheme';
 import useTrigger from './useTrigger';
 import usePopper from './usePopper';
 import useResize from './useResize';
@@ -67,6 +68,7 @@ export default defineComponent({
     props: PopperProps,
     emits: [UPDATE_MODEL_EVENT],
     setup(props, ctx) {
+        useTheme();
         if (!ctx.slots.trigger) {
             throw new Error('FPopper', 'Trigger must be provided');
         }

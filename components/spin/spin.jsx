@@ -1,8 +1,7 @@
-import {
-    defineComponent, computed, ref, watch, onBeforeUnmount,
-} from 'vue';
+import { defineComponent, computed, ref, watch, onBeforeUnmount } from 'vue';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
+import { useTheme } from '../_theme/useTheme';
 
 const prefixCls = getPrefixCls('spin');
 
@@ -32,6 +31,7 @@ export default defineComponent({
         },
     },
     setup(props, { slots }) {
+        useTheme();
         const isShow = ref(props.show);
 
         let showTimer = null;

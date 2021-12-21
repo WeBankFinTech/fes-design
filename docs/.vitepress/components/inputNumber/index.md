@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FInputNumber } from 'fes-design';
+import { FInputNumber } from '@fesjs/fes-design';
 
 app.use(FInputNumber);
 ```

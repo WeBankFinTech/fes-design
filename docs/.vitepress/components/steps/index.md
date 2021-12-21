@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FSteps } from 'fes-design';
+import { FSteps } from '@fesjs/fes-design';
 
 app.use(FSteps);
 ```

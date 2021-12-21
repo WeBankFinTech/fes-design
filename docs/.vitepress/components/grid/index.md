@@ -10,7 +10,7 @@
 ## 组件注册
 
 ```js
-import { FGrid } from 'fes-design';
+import { FGrid } from '@fesjs/fes-design';
 
 app.use(FGrid);
 ```

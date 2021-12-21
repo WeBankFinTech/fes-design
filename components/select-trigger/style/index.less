@@ -4,10 +4,11 @@
 
 @select-trigger-prefix-cls: ~'@{cls-prefix}-select-trigger';
 @select-height: @data-input-height-base;
-@select-disabled-bg: @component-background;
-@select-placeholder-color: @border-color-base;
+@select-disabled-bg: var(--f-component-bg-color);
+@select-placeholder-color: var(--f-border-color-base);
 
 .@{select-trigger-prefix-cls} {
+    --f-select-trigger-border-color: var(--f-border-color-base);
     position: relative;
     display: flex;
     align-items: center;
@@ -16,29 +17,30 @@
     min-height: @select-height;
     padding: (@padding-xs / 2) @padding-xs;
     line-height: @line-height-base;
-    background-color: @white;
-    border: @border-base;
-    border-radius: @border-radius-base;
+    background-color: var(--f-white);
+    border: var(--f-border-width-base) var(--f-border-style-base) transparent;
+    border-color: var(--f-select-trigger-border-color);
+    border-radius: var(--f-border-radius-base);
     outline: 0;
     &:hover {
-        border-color: @primary-color;
+        --f-select-trigger-border-color: var(--f-primary-color);
     }
     &.is-active {
-        border-color: @primary-color;
-        box-shadow: 0 0 0 2px fade(@primary-color, 20%);
+        --f-select-trigger-border-color: var(--f-primary-color);
+        box-shadow: 0 0 0 2px var(--f-select-trigger-shadow-color);
     }
     &.is-disabled {
+        --f-select-trigger-border-color: var(--f-border-color-base);
         background: @select-disabled-bg;
-        border-color: @border-color-base;
         cursor: not-allowed;
         .@{select-trigger-prefix-cls}-label {
-            color: @text-color-secondary;
+            color: var(--f-text-color-secondary);
             .@{select-trigger-prefix-cls}-label-text {
-                color: @text-color-secondary;
+                color: var(--f-text-color-secondary);
             }
         }
         .@{select-trigger-prefix-cls}-icons {
-            color: fade(@select-placeholder-color, 60%);
+            color: var(--f-select-trigger-icon-color);
         }
     }
     &.is-multiple {
@@ -59,12 +61,12 @@
         flex-direction: row;
         flex-grow: 1;
         max-width: calc(100% - @padding-xs - @font-size-body - 2px);
-        color: @text-color;
+        color: var(--f-text-color);
         &-item {
             display: flex;
             align-items: center;
             max-width: 100%;
-            color: @text-color;
+            color: var(--f-text-color);
         }
         &.is-multiple {
             flex-wrap: wrap;

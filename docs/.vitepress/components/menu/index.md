@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FMenu } from 'fes-design';
+import { FMenu } from '@fesjs/fes-design';
 
 app.use(FMenu);
 ```

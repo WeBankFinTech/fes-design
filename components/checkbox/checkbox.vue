@@ -1,8 +1,13 @@
 <template>
-    <label :class="wrapperClass" @click="handleClick" @mouseover="handleMouseOver" @mouseout="handleMouseOut">
+    <label
+        :class="wrapperClass"
+        @click="handleClick"
+        @mouseover="handleMouseOver"
+        @mouseout="handleMouseOut"
+    >
         <span :class="`${prefixCls}-inner`" />
         <span v-if="$slots.default || label" :class="`${prefixCls}-content`">
-            <slot>{{label}}</slot>
+            <slot>{{ label }}</slot>
         </span>
     </label>
 </template>
@@ -12,6 +17,7 @@ import getPrefixCls from '../_util/getPrefixCls';
 import useSelect from '../_util/use/useSelect';
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
 import { name, checkboxGroupKey } from '../checkbox-group/const';
+import { useTheme } from '../_theme/useTheme';
 
 const prefixCls = getPrefixCls('checkbox');
 
@@ -40,11 +46,9 @@ export default {
             default: false,
         },
     },
-    emits: [
-        UPDATE_MODEL_EVENT,
-        CHANGE_EVENT,
-    ],
+    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT],
     setup(props, ctx) {
+        useTheme();
         const {
             isGroup,
             group,
@@ -54,7 +58,11 @@ export default {
             handleClick,
             handleMouseOver,
             handleMouseOut,
-        } = useSelect({ props, ctx, parent: { groupKey: checkboxGroupKey, name } });
+        } = useSelect({
+            props,
+            ctx,
+            parent: { groupKey: checkboxGroupKey, name },
+        });
         const wrapperClass = computed(() => {
             const arr = [`${prefixCls}`];
             if (checked.value) {

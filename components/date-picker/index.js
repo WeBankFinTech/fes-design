@@ -1,4 +1,3 @@
-
 import { withInstall } from '../_util/withInstall';
 import DatePicker from './date-picker';
 

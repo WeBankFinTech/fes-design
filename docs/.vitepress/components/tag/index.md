@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FTag } from 'fes-design';
+import { FTag } from '@fesjs/fes-design';
 
 app.use(FTag);
 ```

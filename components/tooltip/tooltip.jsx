@@ -1,6 +1,7 @@
 import { defineComponent } from 'vue';
 import Popper from '../popper';
 import getPrefixCls from '../_util/getPrefixCls';
+import { useTheme } from '../_theme/useTheme';
 import ExclamationCircleFilled from '../icon/ExclamationCircleFilled';
 import Button from '../button';
 import { useNormalModel } from '../_util/use/useModel';
@@ -49,6 +50,7 @@ export default defineComponent({
     },
     emits: [OK_EVENT, CANCEL_EVENT, UPDATE_MODEL_EVENT],
     setup(props, ctx) {
+        useTheme();
         const [currentValue, updateCurrentValue] = useNormalModel(
             props,
             ctx.emit,

@@ -20,42 +20,42 @@
         justify-content: center;
         width: 30px;
         height: 16px;
-        color: @text-color-secondary;
+        color: var(--f-text-color-secondary);
         font-size: 13px;
-        background-color: @component-background;
+        background-color: var(--f-component-bg-color);
         cursor: pointer;
 
         &:hover {
             z-index: 3;
-            color: @primary-color;
-            background-color: @hover-color-light;
-            border-color: @primary-color;
+            color: var(--f-primary-color);
+            background-color: var(--f-hover-color-light);
+            border-color: var(--f-primary-color);
 
             &
             ~ .@{cls-prefix}-input:not(.is-disabled)
             .@{cls-prefix}-input-inner {
-                border-color: @primary-color;
+                border-color: var(--f-primary-color);
             }
         }
 
         &.is-disabled {
-            color: @disabled-color-base;
-            background-color: @component-background;
-            border-color: @border-color-disabled;
+            color: var(--f-disabled-color-base);
+            background-color: var(--f-component-bg-color);
+            border-color: var(--f-border-color-disabled);
             cursor: not-allowed;
         }
     }
     &-increase {
         top: 1px;
-        border-bottom: @border-base;
-        border-left: @border-base;
-        border-radius: 0 @border-radius-base 0 0;
+        border-bottom: var(--f-border-base);
+        border-left: var(--f-border-base);
+        border-radius: 0 var(--f-border-radius-base) 0 0;
     }
 
     &-decrease {
         bottom: 1px;
-        border-top: @border-base;
-        border-left: @border-base;
-        border-radius: 0 0 @border-radius-base 0;
+        border-top: var(--f-border-base);
+        border-left: var(--f-border-base);
+        border-radius: 0 0 var(--f-border-radius-base) 0;
     }
 }

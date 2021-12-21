@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FMessage } from 'fes-design';
+import { FMessage } from '@fesjs/fes-design';
 
 FMessage.info('这是一条消息');
 ```

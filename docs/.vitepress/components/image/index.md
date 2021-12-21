@@ -3,7 +3,7 @@
 ## 组件注册
 
 ```js
-import { FImage, FPreviewGroup } from 'fes-design';
+import { FImage, FPreviewGroup } from '@fesjs/fes-design';
 
 app.use(FImage);
 app.use(FPreviewGroup);

@@ -4,13 +4,16 @@
     </form>
 </template>
 <script>
+import { provide, toRefs, defineComponent, computed } from 'vue';
 import {
-    provide, toRefs, defineComponent, computed,
-} from 'vue';
-import {
-    provideKey, FORM_NAME, FORM_LAYOUT, LABEL_POSITION, TRIGGER_DEFAULT,
+    provideKey,
+    FORM_NAME,
+    FORM_LAYOUT,
+    LABEL_POSITION,
+    TRIGGER_DEFAULT,
 } from './const';
 import getPrefixCls from '../_util/getPrefixCls';
+import { useTheme } from '../_theme/useTheme';
 import { allPromiseFinish } from './utils';
 
 const prefixCls = getPrefixCls('form');
@@ -23,23 +26,32 @@ export default defineComponent({
         layout: {
             type: String,
             default: FORM_LAYOUT.HORIZONTAL,
-            validator(value) { return Object.values(FORM_LAYOUT).indexOf(value) !== -1; },
+            validator(value) {
+                return Object.values(FORM_LAYOUT).indexOf(value) !== -1;
+            },
         },
         labelPosition: {
             type: String,
             default: LABEL_POSITION.LEFT,
-            validator(value) { return Object.values(LABEL_POSITION).indexOf(value) !== -1; },
+            validator(value) {
+                return Object.values(LABEL_POSITION).indexOf(value) !== -1;
+            },
         },
         showMessage: {
             type: Boolean,
             default: true,
         },
-        labelWidth: String | Number,
+        labelWidth: [String, Number],
+        labelMarginRight: [String, Number],
     },
 
     setup(props) {
+        useTheme();
         const formFields = {};
-        const formClass = computed(() => ([prefixCls, `${prefixCls}-${props.layout}`]));
+        const formClass = computed(() => [
+            prefixCls,
+            `${prefixCls}-${props.layout}`,
+        ]);
 
         const addField = (formItemProp, formItemContext) => {
             formItemProp && (formFields[formItemProp] = formItemContext);
@@ -48,8 +60,14 @@ export default defineComponent({
             delete formFields[formItemProp];
         };
 
-        const validateFields = async (fieldProps, triggers = TRIGGER_DEFAULT) => {
-            if (!props.model) return Promise.reject('Form `model` is required for resetFields to work.');
+        const validateFields = async (
+            fieldProps,
+            triggers = TRIGGER_DEFAULT,
+        ) => {
+            if (!props.model)
+                return Promise.reject(
+                    'Form `model` is required for resetFields to work.',
+                );
             const specifyProps = !!fieldProps; // 是否指定 prop: validateField() 调用会指定; validate() 调用不会指定
 
             const promiseList = []; // 原始校验结果
@@ -61,7 +79,9 @@ export default defineComponent({
                 promiseList.push(
                     promise
                         .then(() => ({ name: formField.prop, errors: [] }))
-                        .catch(errors => Promise.reject({ name: formField.prop, errors })),
+                        .catch((errors) =>
+                            Promise.reject({ name: formField.prop, errors }),
+                        ),
                 );
             });
             const summaryPromise = allPromiseFinish(promiseList); // 汇总校验结果
@@ -71,12 +91,13 @@ export default defineComponent({
             } catch (results) {
                 const errorList = [];
                 const errorNameList = [];
-                results.length && results.forEach((result) => {
-                    if (result && result.errors.length) {
-                        errorList.push(result);
-                        errorNameList.push(result.name);
-                    }
-                });
+                results.length &&
+                    results.forEach((result) => {
+                        if (result && result.errors.length) {
+                            errorList.push(result);
+                            errorNameList.push(result.name);
+                        }
+                    });
                 return Promise.reject({
                     valid: false,
                     values: errorNameList,
@@ -91,7 +112,10 @@ export default defineComponent({
          *    return    { Promise }   校验结果
          */
         const validateField = (fieldProp = '', triggers = TRIGGER_DEFAULT) => {
-            if (!fieldProp) return Promise.reject('`prop` is required for validateField to work.');
+            if (!fieldProp)
+                return Promise.reject(
+                    '`prop` is required for validateField to work.',
+                );
             return validateFields(fieldProp, triggers);
         };
 
@@ -100,14 +124,24 @@ export default defineComponent({
 
         // 移除表单项的校验结果
         const clearValidate = () => {
-            if (!props.model) return Promise.reject('Form `model` is required for resetFields to work.');
-            Object.values(formFields).forEach((formField) => { formField.clearValidate(); });
+            if (!props.model)
+                return Promise.reject(
+                    'Form `model` is required for resetFields to work.',
+                );
+            Object.values(formFields).forEach((formField) => {
+                formField.clearValidate();
+            });
         };
 
         // 对整个表单进行重置，将所有字段值重置为初始值并移除校验结果
         const resetFields = () => {
-            if (!props.model) return Promise.reject('Form `model` is required for resetFields to work.');
-            Object.values(formFields).forEach((formField) => { formField.resetField(); });
+            if (!props.model)
+                return Promise.reject(
+                    'Form `model` is required for resetFields to work.',
+                );
+            Object.values(formFields).forEach((formField) => {
+                formField.resetField();
+            });
         };
 
         provide(provideKey, {

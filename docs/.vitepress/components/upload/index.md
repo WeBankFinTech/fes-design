@@ -5,7 +5,7 @@
 ## 组件注册
 
 ```js
-import { FUpload } from 'fes-design';
+import { FUpload } from '@fesjs/fes-design';
 
 app.use(FUpload);
 ```

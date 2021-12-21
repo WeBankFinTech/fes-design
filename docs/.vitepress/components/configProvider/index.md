@@ -9,7 +9,7 @@
 1. 注册组件
 
 ```js
-import { FConfigProvider } from 'fes-design';
+import { FConfigProvider } from '@fesjs/fes-design';
 
 app.use(FConfigProvider);
 ```
@@ -33,7 +33,7 @@ const getContainer = () => {
 ### API 方式
 
 ```js
-import { FConfigProvider } from 'fes-design';
+import { FConfigProvider } from '@fesjs/fes-design';
 
 FConfigProvider.setConfig({
     getContainer: () => {

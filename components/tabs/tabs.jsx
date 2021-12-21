@@ -6,6 +6,7 @@ import useScrollX from '../_util/use/useScrollX';
 import { flatten } from '../_util/vnode';
 import { computeTabBarStyle } from './helper';
 import Tab from './tab';
+import { useTheme } from '../_theme/useTheme';
 
 const prefixCls = getPrefixCls('tabs');
 
@@ -52,6 +53,7 @@ export default defineComponent({
     },
     emits: [UPDATE_MODEL_EVENT, CLOSE_EVENT],
     setup(props, ctx) {
+        useTheme();
         const tabRefs = ref([]);
         const [currentValue, updateCurrentValue] = useNormalModel(props, ctx.emit);
         const isCard = computed(() => props.type === 'card');
@@ -151,7 +153,7 @@ export default defineComponent({
                                         {index > 0 && isCard.value && <div class={`${prefixCls}-tab-pad`}></div>}
                                         {tabSlot ? (
                                             <Tab {...vNode.props} ref={(el) => setTabRefs(el, index)}>
-                                                {tabSlot}
+                                                {tabSlot?.()}
                                             </Tab>
                                         ) : (
                                             <Tab {...vNode.props} ref={(el) => setTabRefs(el, index)} />

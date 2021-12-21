@@ -8,8 +8,8 @@
 @footer-prefix-cls: ~'@{layout-prefix-cls}-footer';
 @aside-prefix-cls: ~'@{layout-prefix-cls}-aside';
 @aside-trigger-height: 48px;
-@layout-inverted-background-color: @font-color-base;
-@layout-inverted-font-color: @white;
+@layout-inverted-background-color: var(--f-font-color-base);
+@layout-inverted-font-color: var(--f-white);
 
 .@{layout-prefix-cls} {
     display: flex;
@@ -29,7 +29,7 @@
     position: relative;
     flex-shrink: 0;
     overflow: auto;
-    color: @text-color;
+    color: var(--f-text-color);
     transition: all @animation-duration-base;
     &.is-fixed {
         position: fixed;
@@ -55,7 +55,7 @@
         background-color: @layout-inverted-background-color;
         .@{aside-prefix-cls}-trigger {
             color: @layout-inverted-font-color;
-            background-color: tint(@layout-inverted-background-color, 5%) ;
+            background-color: var(--f-layout-inverted-bg-color);
             border-top: none;
         }
     }
@@ -68,10 +68,10 @@
         left: 0;
         width: 100%;
         height: @aside-trigger-height;
-        font-size: @font-size-body;
+        font-size: var(--f-font-size-body);
         line-height: @aside-trigger-height;
         text-align: center;
-        border-top: @border-width-base @border-style-base @border-color-split;
+        border-top: var(--f-border-width-base) var(--f-border-style-base) var(--f-border-color-split);
     }
 }
 
@@ -79,9 +79,9 @@
     position: relative;
     height: 54px;
     padding: 0 50px;
-    color: @text-color;
+    color:var(--f-text-color);
     line-height: 54px;
-    background-color: @white;
+    background-color: var(--f-white);
     &.is-inverted {
         color: @layout-inverted-font-color;
         background-color: @layout-inverted-background-color;
@@ -91,18 +91,18 @@
 .@{main-prefix-cls} {
     flex: auto;
     min-height: 0;
-    color: @text-color;
-    font-size: @font-size-body;
+    color: var(--f-text-color);
+    font-size: var(--f-font-size-body);
     &.is-embedded {
-        background: @component-background;
+        background: var(--f-component-bg-color);
     }
 }
 
 .@{footer-prefix-cls} {
     padding: 24px 50px;
-    color: @text-color;
-    font-size: @font-size-body;
+    color: var(--f-text-color);
+    font-size: var(--f-font-size-body);
     &.is-embedded {
-        background: @component-background;
+        background: var(--f-component-bg-color);
     }
 }

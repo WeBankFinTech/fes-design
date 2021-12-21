@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { FModal } from 'fes-design';
+import { FModal } from '@fesjs/fes-design';
 
 export default {
     setup() {

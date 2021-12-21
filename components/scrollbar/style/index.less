@@ -5,8 +5,8 @@
 @scrollbar-prefix-cls: ~'@{cls-prefix}-scrollbar';
 @scrollbar-track-cls: ~'@{scrollbar-prefix-cls}-track';
 @scrollbar-width: 4px;
-@scrollbar-bg: rgba(@font-color-base, 25%);
-@scrollbar-active-bg: rgba(@font-color-base, 65%);
+@scrollbar-bg: var(--f-scrollbar-bg-color);
+@scrollbar-active-bg: var(--f-scrollbar-active-color);
 
 .@{scrollbar-prefix-cls} {
     position: relative;
@@ -53,7 +53,7 @@
         width: 0;
         height: 0;
         background-color: @scrollbar-bg;
-        border-radius: @border-radius-sm;
+        border-radius: var(--f-border-radius-sm);
         cursor: pointer;
         transition: @animation-duration-slow background-color;
 

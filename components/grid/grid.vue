@@ -8,6 +8,7 @@
 import { computed, provide } from 'vue';
 import { isArray } from 'lodash-es';
 import { ALIGN, JUSTIFY, GRID_KEY } from './const';
+import { useTheme } from '../_theme/useTheme';
 
 import getPrefixCls from '../_util/getPrefixCls';
 
@@ -41,6 +42,7 @@ export default {
         },
     },
     setup(props) {
+        useTheme();
         const gutterX = computed(() => {
             if (isArray(props.gutter)) {
                 return props.gutter[0];
