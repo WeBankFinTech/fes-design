@@ -38,6 +38,8 @@ import { FPagination } from './pagination';
 import { FImage, FPreviewGroup } from './image';
 import { FForm, FFormItem } from './form';
 import { FVirtualList } from './virtual-list';
+import { FDrawer } from './drawer';
+import { FSelectTree } from './select-tree';
 
 const ENV = process.env.NODE_ENV;
 if (ENV !== 'production' && ENV !== 'test' && typeof console !== 'undefined' && console.warn && typeof window !== 'undefined') {
@@ -98,6 +100,7 @@ const components = [
     FCarouselItem,
     FDrawer,
     FVirtualList,
+    FSelectTree,
 ];
 const install = function (app) {
     components.forEach((component) => {
@@ -159,13 +162,11 @@ export {
     FPreviewGroup,
     FForm,
     FFormItem,
-<<<<<<< HEAD
     FCarousel,
     FCarouselItem,
     FDrawer,
-=======
     FVirtualList,
->>>>>>> 0ab7c93 (feat: 添加虚拟列表组件)
+    FSelectTree,
 };
 export default {
     version,

@@ -1,9 +1,16 @@
 <template>
-    <FTree :data="data" checkable :selectable="false"></FTree>
+    <div class="text-tips">不折叠选中项（默认）：</div>
+    <FSelectTree :data="data" multiple clearable>
+    </FSelectTree>
+    <div class="text-tips">折叠选中项（默认1项起）：</div>
+    <FSelectTree :data="data" multiple clearable collapseTags>
+    </FSelectTree>
+    <div class="text-tips">折叠选中项（2项起）：</div>
+    <FSelectTree :data="data" multiple clearable collapseTags :collapseTagsLimit="2">
+    </FSelectTree>
 </template>
 <script>
-import { reactive, h } from 'vue';
-import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
+import { reactive } from 'vue';
 
 function createData (level = 1, baseKey = '', prefix = null, suffix = null) {
   if (!level) return undefined
@@ -37,3 +44,11 @@ export default {
     }
 }
 </script>
+<style lang="less" scoped>
+.fes-select-tree {
+    width: 200px;
+}
+.text-tips {
+    margin-top: 10px;
+}
+</style>

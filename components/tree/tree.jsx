@@ -6,89 +6,14 @@ import { useNormalModel } from '../_util/use/useModel';
 import TreeNode from './treeNode';
 import { PROVIDE_KEY, COMPONENT_NAME } from './const';
 import useFilter from './useFilter';
+import PROPS from './props';
 
 const prefixCls = getPrefixCls('tree');
 
 export default defineComponent({
     name: COMPONENT_NAME.TREE,
     props: {
-        data: {
-            type: Array,
-            default() {
-                return [];
-            },
-            required: true,
-        },
-        defaultExpandAll: {
-            type: Boolean,
-            default: false,
-        },
-        expandedKeys: {
-            type: Array,
-            default() {
-                return [];
-            },
-        },
-        checkedKeys: {
-            type: Array,
-            default() {
-                return [];
-            },
-        },
-        accordion: {
-            type: Boolean,
-            default: false,
-        },
-        checkable: {
-            type: Boolean,
-            default: false,
-        },
-        checkStrictly: {
-            type: Boolean,
-            default: false,
-        },
-        selectable: {
-            type: Boolean,
-            default: true,
-        },
-        selectedKeys: {
-            type: Array,
-            default() {
-                return [];
-            },
-        },
-        multiple: {
-            type: Boolean,
-            default: false,
-        },
-        childrenField: {
-            type: String,
-            default: 'children',
-        },
-        valueField: {
-            type: String,
-            default: 'value',
-        },
-        labelField: {
-            type: String,
-            default: 'label',
-        },
-        remote: {
-            type: Boolean,
-            default: false,
-        },
-        loadData: {
-            type: Function,
-            default: null,
-        },
-        filterMethod: {
-            type: Function,
-            default: null,
-        },
-        inline: {
-            type: Boolean,
-            default: false,
-        },
+        ...PROPS,
     },
     emits: [
         'update:expandedKeys',
@@ -205,13 +130,12 @@ export default defineComponent({
                 values[0] = val;
             }
             updateSelectedKeys(values);
-            event &&
-                emit('select', {
-                    selectedKeys: values,
-                    event,
-                    node,
-                    selected: values.includes(val),
-                });
+            emit('select', {
+                selectedKeys: values,
+                event,
+                node,
+                selected: values.includes(val),
+            });
         };
         const expandNode = (val, event) => {
             const node = nodeList[val];
@@ -229,13 +153,12 @@ export default defineComponent({
                 values.push(val);
             }
             updateExpandedKeys(values);
-            event &&
-                emit('expand', {
-                    expandedKeys: values,
-                    event,
-                    node,
-                    expanded: values.includes(val),
-                });
+            emit('expand', {
+                expandedKeys: values,
+                event,
+                node,
+                expanded: values.includes(val),
+            });
         };
         function handleChildren(arr, children, isAdd) {
             children.forEach((child) => {
@@ -297,13 +220,12 @@ export default defineComponent({
                 }
             }
             updateCheckedKeys(values);
-            event &&
-                emit('check', {
-                    checkedKeys: values,
-                    event,
-                    node,
-                    checked: values.includes(val),
-                });
+            emit('check', {
+                checkedKeys: values,
+                event,
+                node,
+                checked: values.includes(val),
+            });
         };
 
         if (expose) {
@@ -352,7 +274,8 @@ export default defineComponent({
                         value={item.value}
                         label={item.label}
                         disabled={item.disabled}
-                        checkboxDisabled={item.checkboxDisabled}
+                        selectable={item.selectable}
+                        checkable={item.checkable}
                         isLeaf={item.isLeaf}
                         handleData={handleData}
                         v-slots={itemSlots}

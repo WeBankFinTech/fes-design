@@ -103,6 +103,10 @@ module.exports = {
                         link: '/zh/components/cascader',
                     },
                     {
+                        text: 'SelectTree 树形选择器',
+                        link: '/zh/components/selectTree',
+                    },
+                    {
                         text: 'Form 表单',
                         link: '/zh/components/form',
                     },

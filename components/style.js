@@ -38,3 +38,4 @@ import './image/style';
 import './carousel/style';
 import './drawer/style';
 import './virtual-list/style';
+import './select-tree/style';
