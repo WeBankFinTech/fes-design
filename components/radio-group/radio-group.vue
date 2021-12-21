@@ -6,6 +6,7 @@
 <script>
 import { computed } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
+import { useTheme } from '../_theme/useTheme';
 import { useRadioGroup } from './useRadioGroup';
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
 import { name } from './const';
@@ -28,11 +29,9 @@ export default {
             default: false,
         },
     },
-    emits: [
-        UPDATE_MODEL_EVENT,
-        CHANGE_EVENT,
-    ],
+    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT],
     setup(props, ctx) {
+        useTheme();
         useRadioGroup(props, ctx);
         const classList = computed(() => [
             prefixCls,

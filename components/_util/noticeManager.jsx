@@ -1,9 +1,17 @@
 import {
-    createApp, defineComponent, onMounted, ref, TransitionGroup,
+    createApp,
+    defineComponent,
+    onMounted,
+    ref,
+    TransitionGroup,
 } from 'vue';
 import {
-    InfoCircleFilled, CloseCircleFilled, CheckCircleFilled, ExclamationCircleFilled,
+    InfoCircleFilled,
+    CloseCircleFilled,
+    CheckCircleFilled,
+    ExclamationCircleFilled,
 } from '../icon';
+import { useTheme } from '../_theme/useTheme';
 
 let seed = 0;
 const now = Date.now();
@@ -22,7 +30,7 @@ const Notification = defineComponent({
         const notices = ref([]);
 
         function remove(key) {
-            const index = notices.value.findIndex(item => item.key === key);
+            const index = notices.value.findIndex((item) => item.key === key);
             const notice = notices.value[index];
             if (notice) {
                 notices.value.splice(index, 1);
@@ -52,16 +60,26 @@ const Notification = defineComponent({
         };
     },
     render() {
-        const {
-            notices, class: className, transitionName, style,
-        } = this;
-        const children = notices.map(notice => <div key={notice.key}>{ typeof notice.children === 'function' ? notice.children() : notice.children }</div>);
+        const { notices, class: className, transitionName, style } = this;
+        const children = notices.map((notice) => (
+            <div key={notice.key}>
+                {typeof notice.children === 'function'
+                    ? notice.children()
+                    : notice.children}
+            </div>
+        ));
         return (
-            <TransitionGroup name={transitionName} tag="div" class={className} style={style}>{children}</TransitionGroup>
+            <TransitionGroup
+                name={transitionName}
+                tag="div"
+                class={className}
+                style={style}
+            >
+                {children}
+            </TransitionGroup>
         );
     },
 });
-
 
 export function createManager(opt = {}) {
     return new Promise((resolve) => {
@@ -75,10 +93,12 @@ export function createManager(opt = {}) {
         }
         const app = createApp({
             setup() {
+                useTheme();
                 const notificationRef = ref(null);
                 const instance = {
-                    append: noticeProps => notificationRef.value.append(noticeProps),
-                    remove: key => notificationRef.value.remove(key),
+                    append: (noticeProps) =>
+                        notificationRef.value.append(noticeProps),
+                    remove: (key) => notificationRef.value.remove(key),
                     destroy() {
                         app.unmount(div);
                         if (div.parentNode) {
@@ -87,7 +107,7 @@ export function createManager(opt = {}) {
                     },
                 };
                 onMounted(() => resolve(instance));
-                return () => <Notification ref={ notificationRef } {...props}/>;
+                return () => <Notification ref={notificationRef} {...props} />;
             },
         });
         app.mount(div);

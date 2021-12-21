@@ -1,8 +1,17 @@
-import { computed, defineComponent, Teleport, Transition, ref, watch, nextTick } from 'vue';
+import {
+    computed,
+    defineComponent,
+    Teleport,
+    Transition,
+    ref,
+    watch,
+    nextTick,
+} from 'vue';
 import { isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import FButton from '../button';
 import { CloseOutlined } from '../icon';
+import { useTheme } from '../_theme/useTheme';
 import { iconComponentMap } from '../_util/noticeManager';
 import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
@@ -94,6 +103,7 @@ const Modal = defineComponent({
     props: { ...globalModalProps, ...modalProps },
     emits: [UPDATE_SHOW_EVENT, OK_EVENT, CANCEL_EVENT, AFTER_LEAVE_EVENT],
     setup(props, ctx) {
+        useTheme();
         const zIndex = ref(PopupManager.nextZIndex());
         const visible = ref(false);
         useLockScreen(visible);
@@ -108,7 +118,9 @@ const Modal = defineComponent({
             { immediate: true },
         );
         const config = getConfig();
-        const getContainer = computed(() => props.getContainer || config.getContainer);
+        const getContainer = computed(
+            () => props.getContainer || config.getContainer,
+        );
 
         function handleCancel(event) {
             ctx.emit(UPDATE_SHOW_EVENT, false);
@@ -131,7 +143,13 @@ const Modal = defineComponent({
             const Icon = modalIconMap[props.type];
             return (
                 <div class={`${prefixCls}-header`}>
-                    {props.forGlobal && <div class={`${prefixCls}-icon ${prefixCls}-status-${props.type}`}>{Icon && <Icon />}</div>}
+                    {props.forGlobal && (
+                        <div
+                            class={`${prefixCls}-icon ${prefixCls}-status-${props.type}`}
+                        >
+                            {Icon && <Icon />}
+                        </div>
+                    )}
                     <div>{header}</div>
                 </div>
             );
@@ -146,11 +164,19 @@ const Modal = defineComponent({
                 footer = (
                     <>
                         {(!props.forGlobal || props.type === 'confirm') && (
-                            <FButton size="middle" class="btn-margin" onClick={handleCancel}>
+                            <FButton
+                                size="middle"
+                                class="btn-margin"
+                                onClick={handleCancel}
+                            >
                                 {props.cancelText}
                             </FButton>
                         )}
-                        <FButton type="primary" size="middle" onClick={handleOk}>
+                        <FButton
+                            type="primary"
+                            size="middle"
+                            onClick={handleOk}
+                        >
                             {props.okText}
                         </FButton>
                     </>
@@ -167,39 +193,67 @@ const Modal = defineComponent({
             };
         });
 
-        const showDom = computed(() => (props.displayDirective === 'if' && visible.value) || props.displayDirective === 'show');
+        const showDom = computed(
+            () =>
+                (props.displayDirective === 'if' && visible.value) ||
+                props.displayDirective === 'show',
+        );
 
         return () => (
             <Teleport to={getContainer.value?.()}>
                 <div class={`${prefixCls}`}>
                     <Transition name={`${prefixCls}-mask-fade`}>
-                        {props.mask && showDom.value && <div class={`${prefixCls}-mask`} style={{ zIndex: zIndex.value }} v-show={visible.value}></div>}
+                        {props.mask && showDom.value && (
+                            <div
+                                class={`${prefixCls}-mask`}
+                                style={{ zIndex: zIndex.value }}
+                                v-show={visible.value}
+                            ></div>
+                        )}
                     </Transition>
-                    <Transition name={`${prefixCls}-fade`} onAfterLeave={handleTransitionAfterLeave}>
+                    <Transition
+                        name={`${prefixCls}-fade`}
+                        onAfterLeave={handleTransitionAfterLeave}
+                    >
                         {showDom.value && (
                             <div
                                 v-show={visible.value}
                                 class={{
                                     [`${prefixCls}-container`]: true,
                                     [`${prefixCls}-center`]: props.center,
-                                    [`${prefixCls}-fullscreen`]: props.fullScreen,
+                                    [`${prefixCls}-fullscreen`]:
+                                        props.fullScreen,
                                     [`${prefixCls}-global`]: props.forGlobal,
-                                    [`${prefixCls}-no-header`]: !hasHeader.value,
+                                    [`${prefixCls}-no-header`]:
+                                        !hasHeader.value,
                                     [`${prefixCls}-no-footer`]: !props.footer,
                                 }}
                                 style={{ zIndex: zIndex.value }}
-                                onClick={(event) => props.maskClosable && props.mask && handleCancel(event)}
+                                onClick={(event) =>
+                                    props.maskClosable &&
+                                    props.mask &&
+                                    handleCancel(event)
+                                }
                             >
                                 <div
-                                    class={`${prefixCls}-wrapper ${props.contentClass || ''}`}
+                                    class={`${prefixCls}-wrapper ${
+                                        props.contentClass || ''
+                                    }`}
                                     style={styles.value}
                                     onClick={(event) => event.stopPropagation()}
                                 >
                                     {getHeader()}
-                                    <div class={`${prefixCls}-body`}>{ctx.slots.default ? ctx.slots.default() : props.forGlobal && props.content}</div>
+                                    <div class={`${prefixCls}-body`}>
+                                        {ctx.slots.default
+                                            ? ctx.slots.default()
+                                            : props.forGlobal && props.content}
+                                    </div>
                                     {getFooter()}
                                     {props.closable && (
-                                        <div class={`${prefixCls}-close`} onClick={handleCancel}>
+                                        <div
+                                            class={`${prefixCls}-close`}
+                                            onClick={handleCancel}
+                                        >
                                             <CloseOutlined />
                                         </div>
                                     )}

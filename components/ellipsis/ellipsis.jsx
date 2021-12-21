@@ -2,6 +2,7 @@ import { defineComponent, computed, ref, onMounted } from 'vue';
 import { isObject } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import Tooltip from '../tooltip';
+import { useTheme } from '../_theme/useTheme';
 
 const prefixCls = getPrefixCls('ellipsis');
 
@@ -32,6 +33,7 @@ export default defineComponent({
         },
     },
     setup(props, { slots }) {
+        useTheme();
         const triggerRef = ref(null);
         const overflowVisible = ref(false);
         const classList = computed(() =>

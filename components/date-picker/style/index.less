@@ -13,7 +13,7 @@
 
 @calendars-prefix-cls: ~'@{cls-prefix}-calendars';
 
-@date-border-split: @border-width-base @border-style-base @border-color-split;
+@date-border-split: var(--f-border-width-base) var(--f-border-style-base) var(--f-border-color-split);
 
 .@{calendars-prefix-cls} {
     .text();
@@ -38,15 +38,15 @@
 .@{calendar-prefix-cls} {
     display: flex;
     flex-direction: row;
-    color: @text-color;
+    color: var(--f-text-color);
     font-size: @font-size-caption;
-    background: @white;
+    background: var(--f-white);
     user-select: none;
 
     &-icon {
-        color: @border-color-base;
+        color: var(--f-border-color-base);
         &:hover {
-            color: @primary-color;
+            color: var(--f-primary-color);
         }
     }
 
@@ -60,7 +60,7 @@
         &-middle {
             flex: 2;
             font-weight: @font-weight-semibold;
-            font-size: @font-size-base;
+            font-size: var(--f-font-size-base);
             text-align: center;
             &-item {
                 position: relative;
@@ -102,17 +102,17 @@
         font-weight: normal;
         line-height: 24px;
         text-align: center;
-        border-radius: @border-radius-base;
+        border-radius: var(--f-border-radius-base);
         place-self: center center;
     }
     &-date {
         cursor: pointer;
         &:hover {
-            background: @hover-color-light;
+            background: var(--f-hover-color-light);
         }
     }
     &-date-on {
-        background-color: @hover-color-light;
+        background-color: var(--f-hover-color-light);
         border-radius: 0;
         &::before {
             position: absolute;
@@ -120,36 +120,36 @@
             z-index: -1;
             width: 32px;
             height: 100%;
-            background-color: @hover-color-light;
+            background-color: var(--f-hover-color-light);
             content: '';
         }
     }
     &-date-now {
-        color: @primary-color;
-        background-color: @hover-color-light;
+        color: var(--f-primary-color);
+        background-color: var(--f-hover-color-light);
         &::after {
             position: absolute;
             top: 3px;
             right: 3px;
             width: 3px;
             height: 3px;
-            background-color: @primary-color;
+            background-color: var(--f-primary-color);
             border-radius: 50%;
             content: '';
         }
     }
     &-date-out {
-        color: @text-color-disabled;
-        background-color: @white;
+        color: var(--f-text-color-disabled);
+        background-color: var(--f-white);
     }
     &-date-selected {
-        color: @white;
+        color: var(--f-white);
         font-weight: @font-weight-medium;
-        background: @primary-color;
+        background: var(--f-primary-color);
         &:hover {
-            color: @white;
+            color: var(--f-white);
             font-weight: @font-weight-medium;
-            background: @primary-color;
+            background: var(--f-primary-color);
         }
         &.is-start:not(.is-end) {
             border-top-right-radius: 0;
@@ -160,7 +160,7 @@
                 z-index: -1;
                 width: 4px;
                 height: 100%;
-                background-color: @hover-color-light;
+                background-color: var(--f-hover-color-light);
                 content: '';
             }
         }
@@ -173,14 +173,14 @@
                 z-index: -1;
                 width: 4px;
                 height: 100%;
-                background-color: @hover-color-light;
+                background-color: var(--f-hover-color-light);
                 content: '';
             }
         }
     }
     &-date-disabled {
-        color: @text-color-disabled;
-        background: @disabled-color-base;
+        color: var(--f-text-color-disabled);
+        background: var(--f-disabled-color-base);
         cursor: default;
         &::before {
             position: absolute;
@@ -188,7 +188,7 @@
             z-index: -1;
             width: 32px;
             height: 100%;
-            background-color: @disabled-color-light;
+            background-color: var(--f-disabled-color-light);
             content: '';
         }
     }
@@ -200,7 +200,7 @@
         grid-row-gap: 8px;
         grid-template-columns: repeat(4, 1fr);
         width: 256px;
-        background: @white;
+        background: var(--f-white);
     }
     &-months {
         height: 112px;
@@ -220,7 +220,7 @@
         font-weight: @font-weight-medium;
         line-height: 34px;
         text-align: center;
-        background: @white;
+        background: var(--f-white);
         border-bottom: @date-border-split;
     }
 
@@ -229,7 +229,7 @@
         &-head {
             height: 41px;
             font-weight: @font-weight-semibold;
-            font-size: @font-size-base;
+            font-size: var(--f-font-size-base);
             line-height: 41px;
             text-align: center;
             border-bottom: @date-border-split;
@@ -248,31 +248,31 @@
     min-width: 264px;
     height: @data-input-height-base;
     padding: 5px 9px;
-    font-size: @font-size-base;
-    border: @border-base;
-    border-radius: @border-radius-base;
+    font-size: var(--f-font-size-base);
+    border: var(--f-border-base);
+    border-radius: var(--f-border-radius-base);
 
     &:focus-within {
-        box-shadow: 0 0 0 2px @focus-shadow-color; 
+        box-shadow: 0 0 0 2px var(--f-focus-shadow-color);
     }
 
     &:hover,&:focus-within {
-        border-color: @primary-color;
+        border-color: var(--f-primary-color);
     }
 
     &.is-disabled {
-        color: @text-color-disabled;
-        background-color: @disabled-color-light;
+        color: var(--f-text-color-disabled);
+        background-color: var(--f-disabled-color-light);
         cursor: not-allowed;
         opacity: 1;
         &:focus-within {
             box-shadow: none;
         }
         &:hover,&:focus-within {
-            border-color: @border-color-base;
+            border-color: var(--f-border-color-base);
         }
         > .@{range-input-prefix-cls}-inner {
-            background-color: @disabled-color-light; 
+            background-color: var(--f-disabled-color-light);
         }
     }
 
@@ -283,7 +283,7 @@
         // TODO 一期先不支持输入
         pointer-events: none;
         &::placeholder {
-            color: @text-color-caption;
+            color: var(--f-text-color-caption);
         }
     }
 
@@ -293,10 +293,10 @@
         justify-content: center;
         width: 32px;
         padding: 0 @padding-xs;
-        color: @border-color-base;;
+        color: var(--f-border-color-base);
     }
     &-suffix {
         padding-left: @padding-xs;
-        color: @border-color-base;
+        color: var(--f-border-color-base);
     }
 }

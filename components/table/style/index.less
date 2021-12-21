@@ -3,8 +3,8 @@
 @import './mixin.less';
 
 @table-prefix: ~'@{cls-prefix}-table';
-@table-border-color: @border-color-split;
-@table-border: @border-width-base @border-style-base @table-border-color;
+@table-border-color: var(--f-border-color-split);
+@table-border: var(--f-border-width-base) var(--f-border-style-base) @table-border-color;
 
 .@{table-prefix} {
     position: relative;
@@ -15,7 +15,7 @@
     .default();
     .text();
     overflow: hidden;
-    background-color: @white;
+    background-color: var(--f-white);
     border-bottom: @table-border;
     .hidden-columns{
         display: none;
@@ -32,8 +32,8 @@
     & &-header-wrapper {
         position: relative;
         z-index: 3;
-        &.is-scrolling-y{
-            box-shadow: 0 1px @shadow-sm-radius @shadow-sm-color;
+        &.is-scrolling{
+            box-shadow: 0 1px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
         }
     }
     & &-header-wrapper,
@@ -41,13 +41,13 @@
         &.is-scrolling-x-left,
         &.is-scrolling-x-middle {
             .@{table-prefix}-fixed-right {
-                box-shadow: -1px 2px @shadow-sm-radius @shadow-sm-color;
+                box-shadow: -1px 2px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
             }
         }
         &.is-scrolling-x-right,
         &.is-scrolling-x-middle {
             .@{table-prefix}-fixed-left {
-                box-shadow: 1px 2px @shadow-sm-radius @shadow-sm-color;
+                box-shadow: 1px 2px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
             }
         }
     }
@@ -72,7 +72,7 @@
             min-width: 0;
             margin: 0;
             padding: 0;
-            background-color: @white;
+            background-color: var(--f-white);
             border: none;
             border-bottom: @table-border;
             &.@{table-prefix}-fixed-left {
@@ -88,10 +88,10 @@
         }
         th {
             font-weight: @font-weight-semibold;
-            background-color: @component-background;
+            background-color: var(--f-component-bg-color);
         }
         td {
-            background-color: @white;
+            background-color: var(--f-white);
             &.@{table-prefix}-no-data {
                 text-align: center;
             }
@@ -121,7 +121,7 @@
             }
             & + tr {
                 td {
-                    background-color: @component-background;
+                    background-color: var(--f-component-bg-color);
                 }
             }
         }
@@ -177,7 +177,7 @@
         }
     }
     .@{table-prefix}-expand {
-        color: @text-color;
+        color: var(--f-text-color);
         font-size: @font-size-head;
         transform: rotate(-90deg);
         cursor: pointer;

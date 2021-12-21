@@ -41,7 +41,7 @@ specifiers:
   jest: ^26.6.3
   jest-transform-stub: ^2.0.0
   less: ^4.1.1
-  less-loader: ^7.3.0
+  less-loader: ^10.2.0
   lint-staged: ^11.1.2
   lodash-es: ^4.17.21
   minimist: ^1.2.5
@@ -114,7 +114,7 @@ devDependencies:
   jest: 26.6.3
   jest-transform-stub: 2.0.0
   less: 4.1.2
-  less-loader: 7.3.0_less@4.1.2
+  less-loader: 10.2.0_less@4.1.2
   lint-staged: 11.2.6
   minimist: 1.2.5
   postcss: 8.4.4
@@ -2166,10 +2166,6 @@ packages:
       '@types/istanbul-lib-report': 3.0.0
     dev: true
 
-  /@types/json-schema/7.0.9:
-    resolution: {integrity: sha1-l+3JA36gw4WFMgsolk3eOznkZg0=, tarball: '@types/json-schema/download/@types/json-schema-7.0.9.tgz'}
-    dev: true
-
   /@types/json5/0.0.29:
     resolution: {integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=, tarball: '@types/json5/download/@types/json5-0.0.29.tgz'}
     dev: true
@@ -2537,14 +2533,6 @@ packages:
     dependencies:
       clean-stack: 2.2.0
       indent-string: 4.0.0
-    dev: true
-
-  /ajv-keywords/3.5.2_ajv@6.12.6:
-    resolution: {integrity: sha1-MfKdpatuANHC0yms97WSlhTVAU0=, tarball: ajv-keywords/download/ajv-keywords-3.5.2.tgz}
-    peerDependencies:
-      ajv: ^6.9.1
-    dependencies:
-      ajv: 6.12.6
     dev: true
 
   /ajv/6.12.6:
@@ -3286,8 +3274,8 @@ packages:
     resolution: {integrity: sha1-wqCah6y95pVD3m9j+jmVyCbFNqI=, tarball: color-name/download/color-name-1.1.4.tgz}
     dev: true
 
-  /colord/2.9.1:
-    resolution: {integrity: sha1-yWHqDv61fJ8PSDRFjybLnMSj+Q4=, tarball: colord/download/colord-2.9.1.tgz}
+  /colord/2.9.2:
+    resolution: {integrity: sha512-Uqbg+J445nc1TKn4FoDPS6ZZqAvEDnwrH42yo8B40JSOgSLxMZ/gt3h4nmCtPLQeXhjJJkqBx7SCY35WnIixaQ==, tarball: colord/download/colord-2.9.2.tgz}
     dev: true
 
   /colorette/1.4.0:
@@ -6598,17 +6586,15 @@ packages:
     resolution: {integrity: sha1-5kPhurKx+LopLuqVVxIcwC6YRqA=, tarball: known-css-properties/download/known-css-properties-0.23.0.tgz}
     dev: true
 
-  /less-loader/7.3.0_less@4.1.2:
-    resolution: {integrity: sha1-+dbTbRhznWQgZ6Bftb1wyMYTF+U=, tarball: less-loader/download/less-loader-7.3.0.tgz}
-    engines: {node: '>= 10.13.0'}
+  /less-loader/10.2.0_less@4.1.2:
+    resolution: {integrity: sha1-lyhth5fcPcBbHRaw7OxflovdTjI=, tarball: less-loader/download/less-loader-10.2.0.tgz}
+    engines: {node: '>= 12.13.0'}
     peerDependencies:
       less: ^3.5.0 || ^4.0.0
-      webpack: ^4.0.0 || ^5.0.0
+      webpack: ^5.0.0
     dependencies:
       klona: 2.0.5
       less: 4.1.2
-      loader-utils: 2.0.2
-      schema-utils: 3.1.1
     dev: true
 
   /less/4.1.2:
@@ -6721,15 +6707,6 @@ packages:
       big.js: 5.2.2
       emojis-list: 3.0.0
       json5: 1.0.1
-    dev: true
-
-  /loader-utils/2.0.2:
-    resolution: {integrity: sha1-1uO0+4GHByGuTghoqxHdY4NowSk=, tarball: loader-utils/download/loader-utils-2.0.2.tgz?cache=0&sync_timestamp=1636688923923&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Floader-utils%2Fdownload%2Floader-utils-2.0.2.tgz}
-    engines: {node: '>=8.9.0'}
-    dependencies:
-      big.js: 5.2.2
-      emojis-list: 3.0.0
-      json5: 2.2.0
     dev: true
 
   /locate-path/2.0.0:
@@ -7630,7 +7607,7 @@ packages:
     dependencies:
       browserslist: 4.18.1
       caniuse-api: 3.0.0
-      colord: 2.9.1
+      colord: 2.9.2
       postcss: 8.4.4
       postcss-value-parser: 4.2.0
     dev: true
@@ -7782,7 +7759,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      colord: 2.9.1
+      colord: 2.9.2
       cssnano-utils: 2.0.1_postcss@8.4.4
       postcss: 8.4.4
       postcss-value-parser: 4.2.0
@@ -8671,15 +8648,6 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       xmlchars: 2.2.0
-    dev: true
-
-  /schema-utils/3.1.1:
-    resolution: {integrity: sha1-vHTEtraZXB2I92qLd76nIZ4MgoE=, tarball: schema-utils/download/schema-utils-3.1.1.tgz}
-    engines: {node: '>= 10.13.0'}
-    dependencies:
-      '@types/json-schema': 7.0.9
-      ajv: 6.12.6
-      ajv-keywords: 3.5.2_ajv@6.12.6
     dev: true
 
   /semver-compare/1.0.0:

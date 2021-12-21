@@ -1,4 +1,5 @@
 import { ref, reactive, provide, defineComponent } from 'vue';
+import { useTheme } from '../_theme/useTheme';
 import Preview from './preview';
 import { KEY } from './const';
 
@@ -17,6 +18,7 @@ export default defineComponent({
         },
     },
     setup(props, { slots }) {
+        useTheme();
         const previewUrls = reactive({});
         const curIndex = ref();
         const isGroup = ref(true);
@@ -55,7 +57,11 @@ export default defineComponent({
             <div>
                 {slots.default?.()}
                 {isShowPreview.value ? (
-                    <Preview src={previewUrls[curIndex.value]} hideOnClickModal={props.hideOnClickModal} onClose={closeViewer}></Preview>
+                    <Preview
+                        src={previewUrls[curIndex.value]}
+                        hideOnClickModal={props.hideOnClickModal}
+                        onClose={closeViewer}
+                    ></Preview>
                 ) : (
                     ''
                 )}
