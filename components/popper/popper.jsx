@@ -2,11 +2,13 @@ import { defineComponent, Fragment, Teleport, cloneVNode, computed } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { UPDATE_MODEL_EVENT, TRIGGER, PLACEMENT } from '../_util/constants';
 import useClickOutSide from '../_util/use/useClickOutSide';
+import useResize from '../_util/use/useResize';
+import { getFirstValidNode } from '../_util/vnode';
+import getElementFromRef from '../_util/getElementFromRef';
 import { useTheme } from '../_theme/useTheme';
 import useTrigger from './useTrigger';
 import usePopper from './usePopper';
-import useResize from './useResize';
-import { getFirstValidNode } from '../_util/vnode';
+
 import { getConfig } from '../config-provider';
 
 const prefixCls = getPrefixCls('popper');
@@ -95,7 +97,11 @@ export default defineComponent({
             },
             disabledWatch,
         );
-        useResize(triggerRef, update, props);
+        useResize(
+            computed(() => getElementFromRef(triggerRef.value)),
+            update,
+            disabledWatch,
+        );
         const { events, onPopperMouseEnter, onPopperMouseLeave } = useTrigger(
             visible,
             updateVisible,

@@ -43,7 +43,8 @@ app.use(FTree);
 --CHECKABLE
 
 #### 展开部分 + 默认选中 + 默认 check
-通过`expandedKeys`配置默认展开部分节点，通过`selectedKeys`配置默认select的节点，通过`checkedKeys`配置默认check的节点。
+
+通过`expandedKeys`配置默认展开部分节点，通过`selectedKeys`配置默认 select 的节点，通过`checkedKeys`配置默认 check 的节点。
 
 --DEFAULT
 
@@ -53,12 +54,11 @@ app.use(FTree);
 
 --ITEMDISABLED
 
-
 ### 异步加载
+
 点击展开节点时加载子选项。
 
 --ASYNC
-
 
 ### 搜索
 
@@ -70,7 +70,6 @@ app.use(FTree);
 
 放一些操作。
 
-
 --FIX
 
 --CODE
@@ -80,14 +79,14 @@ app.use(FTree);
 | 属性                  | 说明                                                                    | 类型                                      | 默认值     |
 | --------------------- | ----------------------------------------------------------------------- | ----------------------------------------- | ---------- |
 | data                  | 展示数据                                                                | Array\<TreeOption\>                       | `[]`       |
+| multiple              | 支持点选多个节点（节点本身）                                            | boolean                                   | `false`    |
+| accordion             | 手风琴模式，是否保持同级节点中只有一个节点展开                          | boolean                                   | `false`    |
 | defaultExpandAll      | 是否默认展开所有节点，当有 `expandedKeys` 时，`defaultExpandAll` 将失效 | boolean                                   | `false`    |
 | expandedKeys(v-model) | 展开的节点的 key 的数组                                                 | Array<string \| number>                   | `[]`       |
-| checkedKeys(v-model)  | 勾选的节点的 key 的数组                                                 | Array<string \| number>                   | `[]`       |
-| accordion             | 手风琴模式，是否保持同级节点中只有一个节点展开                          | boolean                                   | `false`    |
 | checkable             | 节点前添加 `Checkbox` 复选框                                            | boolean                                   | `false`    |
 | checkStrictly         | `checkable` 状态下节点选择完全受控（父子节点选中状态不再关联）          | boolean                                   | `false`    |
-| selectable            | 是否可选中                                                              | boolean                                   | `true`     |
-| multiple              | 支持点选多个节点（节点本身）                                            | boolean                                   | `false`    |
+| checkedKeys(v-model)  | 勾选的节点的 key 的数组                                                 | Array<string \| number>                   | `[]`       |
+| selectable            | 是否可选中节点                                                              | boolean                                   | `true`     |
 | selectedKeys(v-model) | 设置选中的树节点                                                        | Array<string \| number>                   | `[]`       |
 | childrenField         | 替代 `TreeOption` 中的 `children` 字段名                                | string                                    | `children` |
 | valueField            | 替代 `TreeOption` 中的 `value` 字段名                                   | string                                    | `value`    |
@@ -121,8 +120,9 @@ app.use(FTree);
 | value             | 节点的 `key`，需要唯一，可使用 `valueField` 修改字段名 | string / number             | `-`     |
 | label             | 节点的内容，可使用 `labelField` 修改字段名             | string                      | `-`     |
 | children?         | 节点的子节点                                           | TreeOption[]                | `[]`    |
-| disabled?         | 是否禁用节点                                           | boolean                     | `false` |
-| checkboxDisabled? | 是否禁用节点的 checkbox                                | boolean                     | `false` |
+| disabled?         | 是否禁用节点， 默认为`Tree`组件的`disabled`                                           | boolean                     | `-` |
+| selectable? | 是否禁用选中节点，默认为`Tree`组件的`selectable`                          | boolean                     | `-` |
+| checkable? | 是否禁用勾选节点，默认为`Tree`组件的`checkable`                          | boolean                     | `-` |
 | isLeaf?           | 节点是否是叶节点，在 remote 模式下是必须的             | boolean                     | `false` |
 | prefix?           | 节点的前缀                                             | string / (() => VNodeChild) | `null`  |
 | suffix?           | 节点的后缀                                             | string / (() => VNodeChild) | `null`  |

@@ -58,6 +58,7 @@ import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
 import Scrollbar from '../scrollbar';
 import { key } from './const';
+import PROPS from './props';
 
 const prefixCls = getPrefixCls('select');
 
@@ -69,55 +70,7 @@ export default defineComponent({
         SelectTrigger,
     },
     props: {
-        modelValue: {
-            type: [String, Number, Array, Boolean, Object],
-            default: null,
-        },
-        placeholder: {
-            type: String,
-            default() {
-                return '请选择';
-            },
-        },
-        disabled: {
-            type: Boolean,
-            default: false,
-        },
-        clearable: {
-            type: Boolean,
-            default: false,
-        },
-        multiple: {
-            type: Boolean,
-            default: false,
-        },
-        multipleLimit: {
-            type: Number,
-            default: 0,
-        },
-        emptyText: {
-            type: String,
-            default: '无数据',
-        },
-        appendToContainer: {
-            type: Boolean,
-            default: true,
-        },
-        getContainer: {
-            type: Function,
-        },
-        filterable: {
-            type: Boolean,
-            default: false,
-        },
-        collapseTags: {
-            type: Boolean,
-            default: false,
-        },
-        collapseTagsLimit: {
-            type: Number,
-            default: 1,
-        },
+        ...PROPS,
     },
     emits: [
         UPDATE_MODEL_EVENT,
@@ -200,11 +153,11 @@ export default defineComponent({
                 return options.filter((option) => option.value === val);
             }
             return val.map((value) => {
-                const fileredOption = options.filter(
+                const filteredOption = options.filter(
                     (option) => option.value === value,
                 );
-                if (fileredOption.length) {
-                    return fileredOption[0];
+                if (filteredOption.length) {
+                    return filteredOption[0];
                 }
                 return { value };
             });

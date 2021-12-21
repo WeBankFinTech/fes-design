@@ -1,10 +1,11 @@
 import { isNumber, isString } from 'lodash-es';
 
-export const noop = () => { };
+export const noop = () => {};
 
-export const sleep = time => new Promise((resolve) => {
-    setTimeout(resolve, time);
-});
+export const sleep = (time) =>
+    new Promise((resolve) => {
+        setTimeout(resolve, time);
+    });
 
 export const hasOwn = (val, key) => hasOwnProperty.call(val, key);
 
@@ -30,3 +31,14 @@ export const requestAnimationFrame = (() => {
 })();
 
 export const isFirefox = () => !!window.navigator.userAgent.match(/firefox/i);
+
+export const flatNodes = (nodes = [], leafOnly = false) =>
+    nodes.reduce((res, node) => {
+        if (node.isLeaf) {
+            res.push(node);
+        } else {
+            !leafOnly && res.push(node);
+            res = res.concat(flatNodes(node.children, leafOnly));
+        }
+        return res;
+    }, []);

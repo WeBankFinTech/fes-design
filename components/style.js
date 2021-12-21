@@ -37,3 +37,4 @@ import './config-provider/style';
 import './image/style';
 import './virtual-list/style';
 import './drawer/style';
+import './select-tree/style';
