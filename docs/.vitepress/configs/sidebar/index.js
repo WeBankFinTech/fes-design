@@ -185,6 +185,10 @@ module.exports = {
                     {
                         text: '指引',
                         link: '/zh/guide/quick-start'
+                    },
+                    {
+                        text: '主题',
+                        link: '/zh/guide/theme'
                     }
                 ]
             },

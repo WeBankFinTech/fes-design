@@ -137,7 +137,7 @@ export default ({ props, columns, expandColumn, isExpandOpened }) => {
         return arr;
     };
 
-    const getCustionCellClass = ({ row, column, rowIndex, columnIndex }) => {
+    const getCustomCellClass = ({ row, column, rowIndex, columnIndex }) => {
         const colClassName = column.props.colClassName;
         const cellValue = getCellValue(row, column);
         const arr = [];
@@ -250,7 +250,7 @@ export default ({ props, columns, expandColumn, isExpandOpened }) => {
         getRowClassName,
         getRowStyle,
         getCellClass,
-        getCustionCellClass,
+        getCustomCellClass,
         getCustomCellStyle,
         syncPosition,
         handleHeaderMousewheel,

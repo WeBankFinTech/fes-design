@@ -3,9 +3,11 @@
 @import './mixin.less';
 
 @checkbox-prefix-cls: ~'@{cls-prefix}-checkbox';
-@checkbox-disabled-bg: @component-background;
+@checkbox-disabled-bg: var(--f-component-bg-color);
 
 .@{checkbox-prefix-cls} {
+    --f-checkbox-border-color: var(--f-border-color-base);
+    --f-checkbox-bg-color: var(--f-white);
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -19,16 +21,17 @@
         display: block;
         margin-right: 0;
     }
-    &-inner {
+    &-inner {  
         position: relative;
         display: inline-block;
         width: 14px;
         height: 14px;
         line-height: 1;
         vertical-align: middle;
-        background: @white;
-        border: @border-base;
-        border-radius: @border-radius-sm;
+        background-color: var(--f-checkbox-bg-color);
+        border: var(--f-border-width-base) var(--f-border-style-base) transparent;
+        border-color: var(--f-checkbox-border-color);
+        border-radius: var(--f-border-radius-sm);
         transition: all @animation-duration-base @ease-base-in;
     }
     &-content{
@@ -37,13 +40,13 @@
     }
     &.is-hover{
         .@{checkbox-prefix-cls}-inner {
-            border-color: @primary-color;
+            --f-checkbox-border-color: var(--f-primary-color);
         }
     }
     &.is-checked{
         .@{checkbox-prefix-cls}-inner {
-            background: @primary-color;
-            border-color: @primary-color;
+            --f-checkbox-bg-color: var(--f-primary-color);
+            --f-checkbox-border-color: var(--f-primary-color);
             &::before {
                 .checkbox-inner()
             }
@@ -51,29 +54,29 @@
     }
     &.is-indeterminate {
         .@{checkbox-prefix-cls}-inner {
-            background: @primary-color;
-            border-color: @primary-color;
+            --f-checkbox-bg-color: var(--f-primary-color);
+            --f-checkbox-border-color: var(--f-primary-color);
             &::before {
                 .checkbox-inner();
                 width: 8px;
                 height: 1px;
-                background: @white;
+                background: var(--f-white);
                 border: none;
                 transform: translate(-50%, -50%) rotate(0);
             }
         }
     }
     &.is-disabled{
-        color: @border-color-base;
+        color: var(--f-disabled-color-base);
         cursor: not-allowed;
         .@{checkbox-prefix-cls}-inner {
-            background: @checkbox-disabled-bg;
-            border-color: @border-color-base;
+            --f-checkbox-bg-color: @checkbox-disabled-bg;
+            --f-checkbox-border-color: var(--f-border-color-base);
         }
         &.is-checked{
             .@{checkbox-prefix-cls}-inner {
-                background: @border-color-base;
-                border-color: @border-color-base;
+                --f-checkbox-bg-color: var(--f-border-color-base);
+                --f-checkbox-border-color: var(--f-border-color-base);
                 &::before {
                     .checkbox-inner()
                 }
@@ -81,8 +84,8 @@
         }
         &.is-indeterminate{
             .@{checkbox-prefix-cls}-inner {
-                background: @border-color-base;
-                border-color: @border-color-base;
+                --f-checkbox-bg-color: var(--f-border-color-base);
+                --f-checkbox-border-color: var(--f-border-color-base);
             }
         }
     }

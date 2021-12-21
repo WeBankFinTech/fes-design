@@ -14,7 +14,7 @@
     }
     &-mask {
         .fixed-full();
-        background: @text-color-secondary;
+        background: var(--f-mask-color);
     }
 
     &-container {
@@ -43,7 +43,7 @@
 
         &.@{modal-prefix-cls}-global {
             .@{modal-prefix-cls}-body {
-                padding-left: @padding-xs + @font-size-title;
+                padding-left: calc(@padding-xs + @font-size-title);
             }
         }
     }
@@ -68,15 +68,16 @@
     &-wrapper {
         position: relative;
         padding: @padding-md + @padding-xs;
-        background: @body-background;
-        border-radius: @border-radius-base;
+        background: var(--f-body-bg-color);
+        border-radius: var(--f-border-radius-base);
         box-shadow: @shadow-down;
     }
     
     &-header {
+        --f-modal-header-icon-color: inherit;
         display: flex;
         padding-bottom: @padding-md;
-        color: @head-color;
+        color: var(--f-head-color);
         font-weight: @font-weight-medium;
         font-size: @font-size-head;
 
@@ -84,31 +85,32 @@
             display: flex;
             align-items: center;
             padding-right: @padding-xs;
+            color: var(--f-modal-header-icon-color);
             font-size: @font-size-title;
         }
 
         .@{modal-prefix-cls}-status-info {
-            .status(@primary-color);
+            --f-modal-header-icon-color: var(--f-primary-color);
         }
 
         .@{modal-prefix-cls}-status-success {
-            .status(@success-color);
+            --f-modal-header-icon-color: var(--f-success-color);
         }
 
         .@{modal-prefix-cls}-status-error {
-            .status(@danger-color);
+            --f-modal-header-icon-color: var(--f-danger-color);
         }
 
         .@{modal-prefix-cls}-status-confirm,
         .@{modal-prefix-cls}-status-warning {
-            .status(@warning-color);
+            --f-modal-header-icon-color: var(--f-warning-color);
         }
     }
 
     &-body {
         padding: @padding-xs 0;
-        color: @sub-head-color;
-        font-size: @font-size-base;
+        color: var(--f-sub-head-color);
+        font-size: var(--f-font-size-base);
     }
 
     &-footer {
@@ -137,7 +139,7 @@
         top: 0;
         right: 0;
         padding: 0 @padding-md;
-        color: @text-color-disabled-light;
+        color: var(--f-text-color-disabled-light);
         font-size: @font-size-head;
         line-height: 40px;
         cursor: pointer;

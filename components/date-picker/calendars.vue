@@ -53,7 +53,7 @@
         <div v-if="visibleFooter" :class="`${prefixCls}-footer`">
             <div :class="`${prefixCls}-footer-inner`">
                 <WButton type="link" size="small" @click="selectCurrentTime">
-                    {{currentDateType.currentText}}
+                    {{ currentDateType.currentText }}
                 </WButton>
                 <WButton
                     :disabled="confirmDisabled"
@@ -105,7 +105,8 @@ const useRange = (props, tempCurrentValue, innerDisabledDate) => {
         () => props.visible,
         () => {
             if (props.visible) {
-                leftDefaultDate.value = tempCurrentValue.value[0] || leftDefaultDate.value;
+                leftDefaultDate.value =
+                    tempCurrentValue.value[0] || leftDefaultDate.value;
             }
         },
     );
@@ -133,8 +134,9 @@ const useRange = (props, tempCurrentValue, innerDisabledDate) => {
     };
 
     // disable 相关逻辑
-    const beyondTimeScope = (min, max, time, format) => contrastDate(time, min, format) === -1
-        || contrastDate(time, max, format) === 1;
+    const beyondTimeScope = (min, max, time, format) =>
+        contrastDate(time, min, format) === -1 ||
+        contrastDate(time, max, format) === 1;
     const maxRangeDisabled = (date, format) => {
         if (props.maxRange && tempCurrentValue.value) {
             const [start, end] = tempCurrentValue.value;
@@ -184,9 +186,9 @@ const useRange = (props, tempCurrentValue, innerDisabledDate) => {
     const rangeDiabledDate = (date, format) => {
         if (DATE_TYPE[props.type].isRange) {
             if (
-                activeRangePosition.value === RIGHT_RANGE
-                && tempCurrentValue.value[0]
-                && contrastDate(
+                activeRangePosition.value === RIGHT_RANGE &&
+                tempCurrentValue.value[0] &&
+                contrastDate(
                     date,
                     new Date(tempCurrentValue.value[0]),
                     format,
@@ -196,10 +198,10 @@ const useRange = (props, tempCurrentValue, innerDisabledDate) => {
             }
 
             if (
-                activeRangePosition.value === LEFT_RANGE
-                && tempCurrentValue.value[1]
-                && !tempCurrentValue.value[0]
-                && contrastDate(
+                activeRangePosition.value === LEFT_RANGE &&
+                tempCurrentValue.value[1] &&
+                !tempCurrentValue.value[0] &&
+                contrastDate(
                     date,
                     new Date(tempCurrentValue.value[1]),
                     format,
@@ -252,10 +254,12 @@ export default {
         const tempCurrentValue = ref([]);
 
         const innerDisabledDate = (date, format) => {
-            const min = props.minDate
-                && contrastDate(date, props.minDate, format) === -1;
-            const max = props.maxDate
-                && contrastDate(date, props.maxDate, format) === 1;
+            const min =
+                props.minDate &&
+                contrastDate(date, props.minDate, format) === -1;
+            const max =
+                props.maxDate &&
+                contrastDate(date, props.maxDate, format) === 1;
             return min || max || props.disabledDate(date);
         };
 
@@ -304,8 +308,8 @@ export default {
         const isCompleteSelected = () => {
             if (DATE_TYPE[props.type].isRange) {
                 return (
-                    tempCurrentValue.value.length === 2
-                    && tempCurrentValue.value.every(item => item)
+                    tempCurrentValue.value.length === 2 &&
+                    tempCurrentValue.value.every((item) => item)
                 );
             }
             return !!tempCurrentValue.value[0];
@@ -371,8 +375,8 @@ export default {
 
         const confirm = () => {
             if (
-                DATE_TYPE[props.type].isRange
-                && activeRangePosition.value === LEFT_RANGE
+                DATE_TYPE[props.type].isRange &&
+                activeRangePosition.value === LEFT_RANGE
             ) {
                 updateRangePosition(RIGHT_RANGE);
             } else if (isCompleteSelected()) {

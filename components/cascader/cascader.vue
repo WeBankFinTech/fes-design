@@ -47,6 +47,7 @@ import { cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
+import { useTheme } from '../_theme/useTheme';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
 import CascaderPanel from '../cascader-panel';
@@ -119,6 +120,7 @@ export default defineComponent({
         'expandChange',
     ],
     setup(props, { emit }) {
+        useTheme();
         const isOpened = ref(false);
         const selectedNodes = ref([]);
 

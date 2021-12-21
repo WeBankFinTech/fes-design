@@ -53,5 +53,7 @@ declare module "@fesjs/fes-design" {
     export const FForm: Component;
     export const FFormItem: Component;
     export const FDrawer: Component;
+    export const FVirtualList: Component;
+    export const FSelectTree: Component;
 }
 

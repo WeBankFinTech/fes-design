@@ -50,6 +50,7 @@ import {
     computed,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
+import { useTheme } from '../_theme/useTheme';
 import { useNormalModel, useArrayModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
@@ -81,6 +82,7 @@ export default defineComponent({
         'clear',
     ],
     setup(props, { emit }) {
+        useTheme();
         const { validate } = useFormAdaptor(
             computed(() => (props.multiple ? 'array' : 'string')),
         );

@@ -14,7 +14,7 @@
     }
     &-mask {
         .fixed-full();
-        background: @text-color-secondary;
+        background: var(--f-mask-color);
     }
 
     &-container {
@@ -25,24 +25,24 @@
     
     &-wrapper {
         position: relative;
-        background: @body-background;
-        border-radius: @border-radius-base;
+        background: var(--f-body-bg-color);
+        border-radius: var(--f-border-radius-base);
         box-shadow: @shadow-down;
     }
     
     &-header {
         display: flex;
         padding: @padding-md @padding-md + @padding-xs;
-        color: @head-color;
+        color: var(--f-head-color);
         font-weight: @font-weight-medium;
         font-size: @font-size-head;
-        border-bottom: @border-width-base @border-style-base @border-color-split;
+        border-bottom: var(--f-border-width-base) var(--f-border-style-base) var(--f-border-color-split);
     }
 
     &-body {
         padding: @padding-md @padding-md + @padding-xs;
-        color: @sub-head-color;
-        font-size: @font-size-base;
+        color: var(--f-sub-head-color);
+        font-size: var(--f-font-size-base);
     }
 
     &-footer {
@@ -60,7 +60,7 @@
         top: 0;
         right: 0;
         padding: 0 @padding-md;
-        color: @text-color-disabled-light;
+        color: var(--f-text-color-disabled-light);
         font-size: @font-size-head;
         line-height: 40px;
         cursor: pointer;

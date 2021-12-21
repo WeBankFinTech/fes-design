@@ -1,6 +1,7 @@
 import { defineComponent, computed, provide, onMounted, ref, watch } from 'vue';
 import { isFunction, isString, isNil, cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
+import { useTheme } from '../_theme/useTheme';
 import { useNormalModel } from '../_util/use/useModel';
 import TreeNode from './treeNode';
 import { PROVIDE_KEY, COMPONENT_NAME } from './const';
@@ -24,6 +25,7 @@ export default defineComponent({
         'select',
     ],
     setup(props, { emit, expose }) {
+        useTheme();
         const nodeList = {};
         const addNode = (value, item) => {
             if (!nodeList[value]) {

@@ -1,13 +1,13 @@
 # SelectTree 树形选择器
 
-当选项过多时，使用下拉菜单展示并选择内容。
+用于展示树形数据，并且提供选择功能。
 
 ## 组件注册
 
 ```js
-import { FSelect } from '@fesjs/fes-design';
+import { FSelectTree } from '@fesjs/fes-design';
 
-app.use(FSelect);
+app.use(FSelectTree);
 ```
 
 ## 代码演示
@@ -78,7 +78,7 @@ app.use(FSelect);
 | loadData              | 异步加载数据的回调函数                                                  | (node: TreeOption) => Promise\<void\>     | `null`     |
 | inline                | 底层节点是否横向排列                                                    | boolean                                   | `false`    |
 
-## Select Events
+## SelectTree Events
 
 | 事件名称      | 说明                                                                         | 回调参数                      |
 | ------------- | ---------------------------------------------------------------------------- | ----------------------------- |
@@ -89,7 +89,7 @@ app.use(FSelect);
 | focus         | 当 input 获得焦点时触发                                                      | event                         |
 
 
-## Select Methods
+## SelectTree Methods
 
 | 名称  | 说明     |
 | ----- | -------- |

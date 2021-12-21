@@ -1,14 +1,20 @@
 <template>
     <div :class="classes" @dragstart.prevent>
         <span
-            :class="[`${prefixCls}-increase`, { 'is-disabled': maxDisabled || disabled }]"
+            :class="[
+                `${prefixCls}-increase`,
+                { 'is-disabled': maxDisabled || disabled },
+            ]"
             @mousedown.prevent
             @click="calculationNum(PLUS_CALCULATION_TYPE)"
         >
             <UpOutlined />
         </span>
         <span
-            :class="[`${prefixCls}-decrease`, { 'is-disabled': minDisabled || disabled }]"
+            :class="[
+                `${prefixCls}-decrease`,
+                { 'is-disabled': minDisabled || disabled },
+            ]"
             @mousedown.prevent
             @click="calculationNum(REDUCE_CALCULATION_TYPE)"
         >
@@ -21,21 +27,18 @@
             :class="`${prefixCls}-inner`"
             @input="handleInput"
             @change="handleInputChange"
-            @focus="event => $emit('focus', event)"
+            @focus="(event) => $emit('focus', event)"
             @blur="handleBlur"
         />
     </div>
 </template>
 
 <script>
-import {
-    defineComponent,
-    computed,
-    ref,
-} from 'vue';
+import { defineComponent, computed, ref } from 'vue';
 import { isNumber } from 'lodash-es';
 
 import { UpOutlined, DownOutlined } from '../icon';
+import { useTheme } from '../_theme/useTheme';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
@@ -85,13 +88,13 @@ export default defineComponent({
     },
     emits: [UPDATE_MODEL_EVENT, 'change', 'blur', 'focus', 'input'],
     setup(props, { emit }) {
+        useTheme();
         const { validate } = useFormAdaptor('number');
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
-        const classes = computed(() => [
-            `${prefixCls}`,
-            props.disabled && 'is-disabled',
-        ].filter(Boolean));
+        const classes = computed(() =>
+            [`${prefixCls}`, props.disabled && 'is-disabled'].filter(Boolean),
+        );
 
         const tempValue = ref();
         const displayValue = computed(() => {
@@ -116,9 +119,13 @@ export default defineComponent({
         const numPresicion = computed(() => {
             const stepPrecision = getPrecison(props.step);
             if (props.precision != null) {
-                const positiveIntegerPresicion = Math.abs(Math.round(props.precision));
+                const positiveIntegerPresicion = Math.abs(
+                    Math.round(props.precision),
+                );
                 if (stepPrecision > positiveIntegerPresicion) {
-                    console.warn('[InputNumber]precision should not be less than the decimal places of step');
+                    console.warn(
+                        '[InputNumber]precision should not be less than the decimal places of step',
+                    );
                 }
                 return positiveIntegerPresicion;
             }
@@ -128,7 +135,7 @@ export default defineComponent({
         // 保留指定的小数位数
         const toPrecision = (num, pre) => {
             if (pre == null) pre = numPresicion.value;
-            return parseFloat(Math.round(num * (10 ** pre)) / (10 ** pre));
+            return parseFloat(Math.round(num * 10 ** pre) / 10 ** pre);
         };
 
         const setCurrentValue = (newVal) => {
@@ -177,9 +184,17 @@ export default defineComponent({
             return toPrecision(tmp / precisionFactor);
         };
         // 是否已减小到最小值
-        const minDisabled = computed(() => _calculationNum(currentValue.value, REDUCE_CALCULATION_TYPE) < props.min);
+        const minDisabled = computed(
+            () =>
+                _calculationNum(currentValue.value, REDUCE_CALCULATION_TYPE) <
+                props.min,
+        );
         // 是否已加到最大值
-        const maxDisabled = computed(() => _calculationNum(currentValue.value, PLUS_CALCULATION_TYPE) > props.max);
+        const maxDisabled = computed(
+            () =>
+                _calculationNum(currentValue.value, PLUS_CALCULATION_TYPE) >
+                props.max,
+        );
 
         const calculationNum = (type) => {
             if (props.disabled || maxDisabled.value) return;
@@ -205,5 +220,4 @@ export default defineComponent({
         };
     },
 });
-
 </script>

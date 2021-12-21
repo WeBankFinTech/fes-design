@@ -1,14 +1,20 @@
 <template>
-    <label :class="wrapperClass" @click="handleClick" @mouseover="handleMouseOver" @mouseout="handleMouseOut">
+    <label
+        :class="wrapperClass"
+        @click="handleClick"
+        @mouseover="handleMouseOver"
+        @mouseout="handleMouseOut"
+    >
         <span :class="`${prefixCls}-inner`" />
         <span :class="`${prefixCls}-content`">
-            <slot>{{label}}</slot>
+            <slot>{{ label }}</slot>
         </span>
     </label>
 </template>
 <script>
 import { computed } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
+import { useTheme } from '../_theme/useTheme';
 import useSelect from '../_util/use/useSelect';
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
 import { name, radioGroupKey } from '../radio-group/const';
@@ -36,11 +42,9 @@ export default {
             default: false,
         },
     },
-    emits: [
-        UPDATE_MODEL_EVENT,
-        CHANGE_EVENT,
-    ],
+    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT],
     setup(props, ctx) {
+        useTheme();
         const {
             isGroup,
             group,
@@ -50,7 +54,11 @@ export default {
             handleClick,
             handleMouseOver,
             handleMouseOut,
-        } = useSelect({ props, ctx, parent: { groupKey: radioGroupKey, name } });
+        } = useSelect({
+            props,
+            ctx,
+            parent: { groupKey: radioGroupKey, name },
+        });
         const wrapperClass = computed(() => {
             const arr = [`${prefixCls}`];
             if (checked.value) {
