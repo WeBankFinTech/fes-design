@@ -10,13 +10,7 @@ export default defineComponent({
     components: { CloseCircleFilled },
     props: tabProps,
     setup(props, ctx) {
-        const {
-            valueRef,
-            closableRef,
-            isCard,
-            handleTabClick,
-            handleClose,
-        } = inject(TABS_INJECTION_KEY);
+        const { valueRef, closableRef, isCard, handleTabClick, handleClose } = inject(TABS_INJECTION_KEY);
 
         const mergeClosable = computed(() => {
             if (!isCard.value) return;
@@ -41,15 +35,20 @@ export default defineComponent({
             return (
                 <div
                     key={props.value}
-                    onClick={ handleClick }
+                    onClick={handleClick}
                     class={{
                         [`${prefixCls}-tab`]: true,
                         [`${prefixCls}-tab-card`]: isCard.value,
                         [`${prefixCls}-tab-active`]: valueRef.value === props.value,
                         [`${prefixCls}-tab-disabled`]: props.disabled,
-                    }}>
-                    <div class={`${prefixCls}-tab-label`}>{ defaultSlot ? defaultSlot() : props.name }</div>
-                    { mergeClosable.value && <div class={`${prefixCls}-tab-close`}><CloseCircleFilled onClick={handleCloseClick}/></div> }
+                    }}
+                >
+                    <div class={`${prefixCls}-tab-label`}>{defaultSlot ? defaultSlot() : props.name}</div>
+                    {mergeClosable.value && (
+                        <div class={`${prefixCls}-tab-close`}>
+                            <CloseCircleFilled onClick={handleCloseClick} />
+                        </div>
+                    )}
                 </div>
             );
         };

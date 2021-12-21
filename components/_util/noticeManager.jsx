@@ -1,16 +1,5 @@
-import {
-    createApp,
-    defineComponent,
-    onMounted,
-    ref,
-    TransitionGroup,
-} from 'vue';
-import {
-    InfoCircleFilled,
-    CloseCircleFilled,
-    CheckCircleFilled,
-    ExclamationCircleFilled,
-} from '../icon';
+import { createApp, defineComponent, onMounted, ref, TransitionGroup } from 'vue';
+import { InfoCircleFilled, CloseCircleFilled, CheckCircleFilled, ExclamationCircleFilled } from '../icon';
 import { useTheme } from '../_theme/useTheme';
 
 let seed = 0;
@@ -61,20 +50,9 @@ const Notification = defineComponent({
     },
     render() {
         const { notices, class: className, transitionName, style } = this;
-        const children = notices.map((notice) => (
-            <div key={notice.key}>
-                {typeof notice.children === 'function'
-                    ? notice.children()
-                    : notice.children}
-            </div>
-        ));
+        const children = notices.map((notice) => <div key={notice.key}>{typeof notice.children === 'function' ? notice.children() : notice.children}</div>);
         return (
-            <TransitionGroup
-                name={transitionName}
-                tag="div"
-                class={className}
-                style={style}
-            >
+            <TransitionGroup name={transitionName} tag="div" class={className} style={style}>
                 {children}
             </TransitionGroup>
         );
@@ -96,14 +74,27 @@ export function createManager(opt = {}) {
                 useTheme();
                 const notificationRef = ref(null);
                 const instance = {
-                    append: (noticeProps) =>
-                        notificationRef.value.append(noticeProps),
+                    append: (noticeProps) => notificationRef.value.append(noticeProps),
                     remove: (key) => notificationRef.value.remove(key),
                     destroy() {
                         app.unmount(div);
                         if (div.parentNode) {
                             div.parentNode.removeChild(div);
                         }
+                    },
+                    exited() {
+                        // 容器是否存在
+                        if (!getContainer) return true;
+                        try {
+                            if (!getContainer()) {
+                                instance.destroy();
+                                return false;
+                            }
+                        } catch (error) {
+                            instance.destroy();
+                            return false;
+                        }
+                        return true;
                     },
                 };
                 onMounted(() => resolve(instance));

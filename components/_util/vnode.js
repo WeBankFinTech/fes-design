@@ -1,25 +1,23 @@
-import {
-    Fragment, Text, Comment, createTextVNode,
-} from 'vue';
+import { Fragment, Text, Comment, createTextVNode } from 'vue';
 
 const TEMPLATE = 'template';
 
-export const isFragment = node => node.type === Fragment;
+export const isFragment = (node) => node.type === Fragment;
 
-export const isText = node => node.type === Text;
+export const isText = (node) => node.type === Text;
 
-export const isComment = node => node.type === Comment;
+export const isComment = (node) => node.type === Comment;
 
-export const isTemplate = node => node.type === TEMPLATE;
+export const isTemplate = (node) => node.type === TEMPLATE;
 
 export function getChildren(node, depth) {
     if (isComment(node)) return;
     if (isFragment(node) || isTemplate(node)) {
         return depth > 0
-            // eslint-disable-next-line no-use-before-define
-            ? getFirstValidNode(node.children, depth - 1)
-            // eslint-disable-next-line no-undefined
-            : undefined;
+            ? // eslint-disable-next-line no-use-before-define
+              getFirstValidNode(node.children, depth - 1)
+            : // eslint-disable-next-line no-undefined
+              undefined;
     }
     return node;
 }
@@ -28,12 +26,9 @@ export function getChildren(node, depth) {
  * determine if the element is a valid element type rather than fragments and comment e.g. <template> v-if
  * @param node {VNode} node to be tested
  */
-export const isValidElementNode = node => !(isFragment(node) || isComment(node));
+export const isValidElementNode = (node) => !(isFragment(node) || isComment(node));
 
-export function getFirstValidNode(
-    nodes,
-    maxDepth = 3,
-) {
+export function getFirstValidNode(nodes, maxDepth = 3) {
     if (Array.isArray(nodes)) {
         return getChildren(nodes[0], maxDepth);
     }
