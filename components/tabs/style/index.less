@@ -145,6 +145,7 @@
         &-pad {
             flex: 0 0 4px;
             border-bottom: @tabs-border;
+            border-bottom-color: @text-color-disabled;
         }
 
         &-card {
@@ -152,6 +153,7 @@
             flex-wrap: nowrap;
             background: @disabled-color-light;
             border: @tabs-border;
+            border-color: @text-color-disabled;
             border-top-left-radius: @border-radius-base;
             border-top-right-radius: @border-radius-base;
             transition: width @animation-duration-base;
@@ -178,7 +180,6 @@
 
         &-card.@{tabs-prefix-cls}-tab-active {
             background: none;
-            border-color: @tab-active-color;
             border-bottom: 0;
         }
     }
