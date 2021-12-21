@@ -1,9 +1,7 @@
 <template>
     <FTabs>
         <FTabPane value="微笑">
-            <template #tab
-                ><span><UserOutlined /> 微笑</span></template
-            >
+            <template #tab><span><UserOutlined /> 微笑</span></template>
             <div class="tab-content">微笑</div>
         </FTabPane>
         <FTabPane value="等待">

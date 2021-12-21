@@ -7,6 +7,7 @@
 @tabs-border-color: var(--f-border-color-split);
 @tabs-border: var(--f-border-width-base) var(--f-border-style-base) @tabs-border-color;
 @tab-active-color: var(--f-primary-color);
+@text-color-disabled: var(--f-text-color-disabled);
 
 .@{tabs-prefix-cls} {
     display: flex;
@@ -85,6 +86,7 @@
         flex-wrap: nowrap;
         width: 100%;
         height: 100%;
+        overflow: hidden;
         scrollbar-width: none;
         -ms-overflow-style: none;
         &::-webkit-scrollbar {
@@ -145,6 +147,7 @@
         &-pad {
             flex: 0 0 4px;
             border-bottom: @tabs-border;
+            border-bottom-color: @text-color-disabled;
         }
 
         &-card {
@@ -152,6 +155,7 @@
             flex-wrap: nowrap;
             background: var(--f-disabled-color-light);
             border: @tabs-border;
+            border-color: @text-color-disabled;
             border-top-left-radius: var(--f-border-radius-base);
             border-top-right-radius: var(--f-border-radius-base);
             transition: width @animation-duration-base;
@@ -178,7 +182,6 @@
 
         &-card.@{tabs-prefix-cls}-tab-active {
             background: none;
-            border-color: @tab-active-color;
             border-bottom: 0;
         }
     }

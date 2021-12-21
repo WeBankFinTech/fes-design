@@ -4,7 +4,6 @@
     </div>
 </template>
 
-
 <script>
 import { inject } from 'vue';
 import { tabProps } from './helper';
@@ -28,6 +27,4 @@ export default {
 };
 </script>
 
-<style>
-
-</style>
+<style></style>

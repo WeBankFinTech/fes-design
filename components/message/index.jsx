@@ -1,8 +1,10 @@
 import { isObject } from 'lodash-es';
+import { reactive } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { createManager } from '../_util/noticeManager';
 import Alert from '../alert/alert';
 import { getConfig } from '../config-provider';
+import PopupManager from '../_util/popupManager';
 
 const prefixCls = getPrefixCls('message');
 
@@ -19,25 +21,20 @@ const defaultConfig = {
 let mergeConfig = defaultConfig;
 
 let messageInstance = null;
+const managerStyle = reactive({
+    zIndex: 0,
+    top: mergeConfig.top,
+});
 
-async function create({
-    type,
-    content,
-    duration,
-    icon,
-    closable,
-    afterClose,
-    colorful,
-}) {
-    if (!messageInstance) {
+async function create({ type, content, duration, icon, closable, afterClose, colorful }) {
+    managerStyle.zIndex = PopupManager.nextZIndex();
+    if (!messageInstance?.exited?.()) {
         messageInstance = await createManager({
             getContainer: mergeConfig.getContainer,
             transitionName: `${prefixCls}`,
             class: `${prefixCls}-wrapper`,
             maxCount: mergeConfig.maxCount,
-            style: {
-                top: mergeConfig.top,
-            },
+            style: managerStyle,
         });
     }
 
@@ -62,6 +59,9 @@ async function create({
     item = messageInstance.append({
         afterRemove: afterClose,
         duration: duration >= 0 ? duration : mergeConfig.duration,
+        style: {
+            zIndex: PopupManager.nextZIndex(),
+        },
         children: (
             <Alert
                 class={classNames}
