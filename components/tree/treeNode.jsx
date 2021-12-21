@@ -1,6 +1,5 @@
-import {
-    defineComponent, computed, ref,
-} from 'vue';
+import { defineComponent, computed, ref } from 'vue';
+import { isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import CaretDownOutlined from '../icon/CaretDownOutlined';
 import Checkbox from '../checkbox';
@@ -22,11 +21,12 @@ export default defineComponent({
         },
         disabled: {
             type: Boolean,
-            default: false,
         },
-        checkboxDisabled: {
+        selectable: {
             type: Boolean,
-            default: false,
+        },
+        checkable: {
+            type: Boolean,
         },
         isLeaf: {
             type: Boolean,
@@ -51,26 +51,48 @@ export default defineComponent({
             isChildrenInline,
         } = useTreeNode(props);
 
-        const classList = computed(() => [
-            prefixCls,
-            props.disabled && 'is-disabled',
-            isSelected.value && 'is-selected',
-        ]
-            .filter(Boolean)
-            .join(' '));
+        const disabled = computed(() =>
+            isUndefined(props.disabled) ? root.props.disabled : props.disabled,
+        );
+        const selectable = computed(() =>
+            isUndefined(props.selectable)
+                ? root.props.selectable
+                : props.selectable,
+        );
+        const checkable = computed(() =>
+            isUndefined(props.checkable)
+                ? root.props.checkable
+                : props.checkable,
+        );
+
+        const classList = computed(() =>
+            [
+                prefixCls,
+                disabled.value && 'is-disabled',
+                isSelected.value && 'is-selected',
+            ]
+                .filter(Boolean)
+                .join(' '),
+        );
 
         let isLoaded = false;
         const isLoading = ref(false);
         const handleClickSwitcher = async (event) => {
             if (
-                !isLoaded
-                && root.props.loadData
-                && (!props.node.children || props.node.children.length === 0)
+                !isLoaded &&
+                root.props.loadData &&
+                (!props.node.children || props.node.children.length === 0)
             ) {
                 isLoading.value = true;
                 try {
-                    const children = await root.props.loadData(props.node.origin);
-                    props.node.children = props.handleData(children, props.node.indexPath, props.node.level + 1);
+                    const children = await root.props.loadData(
+                        props.node.origin,
+                    );
+                    props.node.children = props.handleData(
+                        children,
+                        props.node.indexPath,
+                        props.node.level + 1,
+                    );
                     isLoaded = true;
                     root.expandNode(props.value, event);
                 } catch (e) {
@@ -82,12 +104,22 @@ export default defineComponent({
             }
         };
         const handleClickContent = (event) => {
-            if (props.disabled) return;
-            root.selectNode(props.value, event);
+            if (disabled.value) return;
+            if (selectable.value) {
+                return root.selectNode(props.value, event);
+            }
+            if (checkable.value) {
+                return root.checkNode(props.value, event);
+            }
         };
         const handleClickCheckbox = (event) => {
-            if (props.disabled || props.checkboxDisabled) return;
-            root.checkNode(props.value, event);
+            if (disabled.value) return;
+            if (checkable.value) {
+                return root.checkNode(props.value, event);
+            }
+            if (selectable.value) {
+                return root.selectNode(props.value, event);
+            }
         };
         const handleStopClickPrefix = (event) => {
             event.stopPropagation();
@@ -102,7 +134,9 @@ export default defineComponent({
             return arr;
         };
         const renderSwitcher = (children) => {
-            if (props.isLeaf || children) { return <span className={`${prefixCls}-switcher`} />; }
+            if (props.isLeaf || children) {
+                return <span className={`${prefixCls}-switcher`} />;
+            }
             return (
                 <span
                     className={`${prefixCls}-switcher`}

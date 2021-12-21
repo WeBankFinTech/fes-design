@@ -1,11 +1,8 @@
-import {
-    ref,
-    watch,
-} from 'vue';
+import { ref, watch } from 'vue';
+import { flatNodes } from '../_util/utils';
 import { EVENT_CODE, EXPAND_TRIGGER } from './const';
 import useNode from './useNode';
 import {
-    flatNodes,
     updateParentNodesCheckState,
     getValueByOption,
     getNodeSibling,
@@ -75,7 +72,10 @@ function useExpandNode(menus, emit, updateMenus) {
         }
 
         // 若有展开节点
-        if (newExpandingNode && expandingNode.value?.nodeId !== newExpandingNode?.nodeId) {
+        if (
+            newExpandingNode &&
+            expandingNode.value?.nodeId !== newExpandingNode?.nodeId
+        ) {
             expandingNode.value = node;
             updateMenus(newMenus);
             !silent && emit('expandChange', node?.pathValues || []);
@@ -109,7 +109,7 @@ function useCheckChange(config, props, emit, selectedNodes, leafNodes) {
              * 3. 若为选中情况，则遍历子孙节点值，判断当前值是否存在，若不存在，则插入
              * 4. 若为取消选中情况，则遍历子孙节点值，判断当前值是否存在，若存在，则删除
              */
-            const nodeValues = selectedNodes.value.map(item => item.value);
+            const nodeValues = selectedNodes.value.map((item) => item.value);
 
             // 获取当前节点的子孙节点信息
             const checkNodes = flatNodes([node], true);
@@ -124,10 +124,12 @@ function useCheckChange(config, props, emit, selectedNodes, leafNodes) {
             });
 
             // 目前值为最后一级节点值，所以仅需过滤子节点即可
-            const filterNodes = leafNodes.value.filter(
-                item => nodeValues.includes(item.value),
+            const filterNodes = leafNodes.value.filter((item) =>
+                nodeValues.includes(item.value),
             );
-            const sortValues = filterNodes.map(item => getValueByOption(config.value, item));
+            const sortValues = filterNodes.map((item) =>
+                getValueByOption(config.value, item),
+            );
             emit('checkChange', sortValues);
         }
     };
@@ -157,29 +159,40 @@ function useKeyDown(config, emit, menus) {
              * 2. 根据当前节点所在的维度列表，找到对应的元素
              */
             case EVENT_CODE.UP: {
-                if (!isValidKeyDown()) { return; }
+                if (!isValidKeyDown()) {
+                    return;
+                }
                 focusNodeElem(getNodeSibling(target, -1, menus.value));
                 break;
             }
             case EVENT_CODE.DOWN: {
-                if (!isValidKeyDown()) { return; }
+                if (!isValidKeyDown()) {
+                    return;
+                }
                 focusNodeElem(getNodeSibling(target, 1, menus.value));
                 break;
             }
             case EVENT_CODE.LEFT: {
-                if (!isValidKeyDown()) { return; }
+                if (!isValidKeyDown()) {
+                    return;
+                }
                 const menuNode = getMenuNodeByElem(target, menus.value);
                 focusNodeElem(menuNode?.parent);
                 break;
             }
             case EVENT_CODE.RIGHT: {
-                if (!isValidKeyDown()) { return; }
-                const nextMenu = menus.value[getMenuIndexByElem(target, menus.value) + 1];
+                if (!isValidKeyDown()) {
+                    return;
+                }
+                const nextMenu =
+                    menus.value[getMenuIndexByElem(target, menus.value) + 1];
                 focusNodeElem(nextMenu?.[0]);
                 break;
             }
             case EVENT_CODE.ENTER: {
-                if (!isValidKeyDown()) { return; }
+                if (!isValidKeyDown()) {
+                    return;
+                }
                 const menuNode = getMenuNodeByElem(target, menus.value);
                 checkNodeElem(menuNode);
                 break;
@@ -214,9 +227,19 @@ export default (config, props, emit) => {
 
     useUpdateNodes(props, selectedNodes, allNodes);
 
-    const { handleExpandNode, expandingNode } = useExpandNode(menus, emit, updateMenus);
+    const { handleExpandNode, expandingNode } = useExpandNode(
+        menus,
+        emit,
+        updateMenus,
+    );
 
-    const { handleCheckChange } = useCheckChange(config, props, emit, selectedNodes, leafNodes);
+    const { handleCheckChange } = useCheckChange(
+        config,
+        props,
+        emit,
+        selectedNodes,
+        leafNodes,
+    );
 
     const { handleKeyDown } = useKeyDown(config, emit, menus);
 
