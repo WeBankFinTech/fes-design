@@ -1,3 +1,41 @@
+# [0.1.0](https://github.com/WeBankFinTech/fes-design/compare/v0.0.6...v0.1.0) (2021-12-21)
+
+
+### Bug Fixes
+
+* 处理form-item是group(radio/checkbox)的校验问题 ([f9ba4d8](https://github.com/WeBankFinTech/fes-design/commit/f9ba4d867a8fe8432035dc8d7f4bc152d465b13b))
+* 调整命名规范,修改onItemResized方法调用逻辑 ([0f37522](https://github.com/WeBankFinTech/fes-design/commit/0f37522a89cb16973abfaf3b18da2dc7c2500adc))
+* 调整组件名称,删除无用代码 ([0485fe0](https://github.com/WeBankFinTech/fes-design/commit/0485fe073d7b0a6fa012528cc3fdf419b6e1d099))
+* 修复 form 组件bug ([0b26bc7](https://github.com/WeBankFinTech/fes-design/commit/0b26bc755a06f1d4aee3e03e2a21e0eba05dd539))
+* 修复问题 ([7a85ae7](https://github.com/WeBankFinTech/fes-design/commit/7a85ae7e8d23df6cc51d1e95b272422e83eae0af))
+* 修复popper中clickout判定时机的bug + tree组件icon没对齐 ([8698ca9](https://github.com/WeBankFinTech/fes-design/commit/8698ca93a45c22393c2d66d219260fa5010e44d6))
+* 修复Popper组件的trigger事件冒泡被阻止 ([1baaaf8](https://github.com/WeBankFinTech/fes-design/commit/1baaaf867acdda1a672ab4e43d67435e9f81aa69))
+* 修复tree样式问题 ([1f5d596](https://github.com/WeBankFinTech/fes-design/commit/1f5d596dfe00cc1a4e12e7d01df46a6e4c25c4e6))
+* 修改文档 ([3cac13a](https://github.com/WeBankFinTech/fes-design/commit/3cac13abbcb3652c11aa8716ccaab3d76a1c178d))
+* button disabled 状态颜色展示问题 ([828fb5b](https://github.com/WeBankFinTech/fes-design/commit/828fb5baf3b510b3c0c746c882ef33baf5197af4))
+* cascader删除项逻辑 ([1e102ff](https://github.com/WeBankFinTech/fes-design/commit/1e102ff16eae5d36b2dbc56b4716d8d921305100))
+* table的data默认值错误 ([e27ae92](https://github.com/WeBankFinTech/fes-design/commit/e27ae923a7a87ffff6448d539138fad92d7800df))
+* tag样式 ([ca46e0e](https://github.com/WeBankFinTech/fes-design/commit/ca46e0ec6dee337623df01d9c4397bf067ff2379))
+* tag样式优化 ([5775070](https://github.com/WeBankFinTech/fes-design/commit/5775070fd728d5ba0e5fffcc37b94b37570fb1ca))
+
+
+### Features
+
+* 切换成绝对定位逻辑实现 ([fe8bc8d](https://github.com/WeBankFinTech/fes-design/commit/fe8bc8d9aa4944d3470b754504bf645f4cfcef65))
+* 添加虚拟列表组件 ([0ab7c93](https://github.com/WeBankFinTech/fes-design/commit/0ab7c9329d638ad68ceadf7e1102e81997f0ad00))
+* 修复form问题: ([f4346be](https://github.com/WeBankFinTech/fes-design/commit/f4346befbef9fd37ff3f9f5be263526530b04a4e))
+* 重构95% ([80ef5b2](https://github.com/WeBankFinTech/fes-design/commit/80ef5b20a3dc57f0c5639a2bfaf02c2a48c23c56))
+* 重构table 10% ([1c8b655](https://github.com/WeBankFinTech/fes-design/commit/1c8b6550d2cf699c0b29cac22ab09a248d467803))
+* 重构table 100% ([7d92789](https://github.com/WeBankFinTech/fes-design/commit/7d92789652aff51c771c3e75c9f6089d8ff7e885))
+* 重构table 30% ([0288a8f](https://github.com/WeBankFinTech/fes-design/commit/0288a8fee3301cbf90ab83e17cb5544c9aa30000))
+* add theme feature ([be1ed78](https://github.com/WeBankFinTech/fes-design/commit/be1ed789008a9f64059bef27168db6964ec601cc))
+* form 支持 labelMarginRight 属性 ([c353720](https://github.com/WeBankFinTech/fes-design/commit/c353720cd99bd161fe1196e12b76247a66528a76))
+* form 支持 labelMarginRight 属性 ([3d78421](https://github.com/WeBankFinTech/fes-design/commit/3d784215ff259efdb21d072aa4c6e01a96a933d6))
+* Select&Cascader多选时选中项折叠体验优化 ([7036ce8](https://github.com/WeBankFinTech/fes-design/commit/7036ce8546990348026a23bdddaaf0f8e25a9006))
+* select支持从option.text取label ([2dc0771](https://github.com/WeBankFinTech/fes-design/commit/2dc077141fa4593f2e4931e462de5234b168d3c5))
+
+
+
 ## [0.0.8](https://github.com/WeBankFinTech/fes-design/compare/v0.0.7...v0.0.8) (2021-12-20)
 
 
