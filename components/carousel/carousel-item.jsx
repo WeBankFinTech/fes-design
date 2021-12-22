@@ -31,9 +31,15 @@ const useItemStyle = (direction) => {
         };
         return style;
     });
+
+    const setItemStyle = (translate, scale) => {
+        itemStyleState.translate = translate;
+        if (scale) itemStyleState.scale = scale;
+    };
+
     return {
-        itemStyleState,
         itemStyle,
+        setItemStyle,
     };
 };
 
@@ -55,7 +61,7 @@ export default defineComponent({
             removeItem,
         } = inject(provideKey);
 
-        const { itemStyleState, itemStyle } = useItemStyle(direction);
+        const { itemStyle, setItemStyle } = useItemStyle(direction);
 
         function processIndex(index, activeIndex, length) {
             if (activeIndex === 0 && index === length - 1) {
@@ -125,20 +131,15 @@ export default defineComponent({
                     Math.round(Math.abs(index - activeIndex)) <= 1;
                 itemStatus.active = index === activeIndex;
 
-                itemStyleState.translate = calcCardTranslate(
-                    index,
-                    activeIndex,
+                setItemStyle(
+                    calcCardTranslate(index, activeIndex),
+                    itemStatus.active ? 1 : CARD_SCALE,
                 );
-                itemStyleState.scale = itemStatus.active ? 1 : CARD_SCALE;
             } else {
                 itemStatus.active = index === activeIndex;
 
                 const isVertical = direction.value === 'vertical';
-                itemStyleState.translate = calcTranslate(
-                    index,
-                    activeIndex,
-                    isVertical,
-                );
+                setItemStyle(calcTranslate(index, activeIndex, isVertical));
             }
 
             itemReady.value = true;

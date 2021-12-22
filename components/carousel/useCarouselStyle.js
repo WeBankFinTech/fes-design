@@ -1,47 +1,20 @@
-import { computed, ref } from 'vue';
-import getPrefixCls from '../_util/getPrefixCls';
+import { computed } from 'vue';
 
-const prefixCls = getPrefixCls('carousel');
-
-export default (props) => {
-    const wrapperRef = ref(null);
-    // 方向
-    const direction = computed(() => {
-        const { indicatorPlacement: propIndicatorPlacement } = props;
-        if (
-            propIndicatorPlacement === 'top' ||
-            propIndicatorPlacement === 'bottom'
-        ) {
-            return 'horizontal';
-        }
-        if (
-            propIndicatorPlacement === 'left' ||
-            propIndicatorPlacement === 'right'
-        ) {
-            return 'vertical';
-        }
-        return '';
-    });
-
+export default ({ prefixCls, height, type, direction }) => {
     const wrapperClass = computed(() => {
         const classes = [prefixCls, `${prefixCls}-${direction.value}`];
-        if (props.type === 'card') {
+        if (type === 'card') {
             classes.push(`${prefixCls}-card`);
         }
         return classes;
     });
 
     const carouselStyle = computed(() => {
-        const style = {
-            height: props.height,
-        };
+        const style = { height };
         return style;
     });
 
     return {
-        prefixCls,
-        direction,
-        wrapperRef,
         wrapperClass,
         carouselStyle,
     };

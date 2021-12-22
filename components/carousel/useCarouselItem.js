@@ -1,13 +1,13 @@
 import { ref } from 'vue';
 import { CAROUSEL_NAME } from './const';
 
-export default function useCarouselItem({ props, carouselState }) {
+export default function useCarouselItem({ props, activeIndex }) {
     // 子项集合
     const slideChildren = ref([]);
 
     const resetItemPosition = (oldIndex) => {
         slideChildren.value.forEach((item, index) => {
-            item.translateItem(index, carouselState.activeIndex, oldIndex);
+            item.translateItem(index, activeIndex.value, oldIndex);
         });
     };
 
@@ -20,25 +20,25 @@ export default function useCarouselItem({ props, carouselState }) {
             return;
         }
         const childrenCount = slideChildren.value.length;
-        const oldIndex = carouselState.activeIndex;
+        const oldIndex = activeIndex.value;
         if (index < 0) {
-            carouselState.activeIndex = props.loop ? childrenCount - 1 : 0;
+            activeIndex.value = props.loop ? childrenCount - 1 : 0;
         } else if (index >= childrenCount) {
-            carouselState.activeIndex = props.loop ? 0 : childrenCount - 1;
+            activeIndex.value = props.loop ? 0 : childrenCount - 1;
         } else {
-            carouselState.activeIndex = index;
+            activeIndex.value = index;
         }
-        if (oldIndex === carouselState.activeIndex) {
+        if (oldIndex === activeIndex.value) {
             resetItemPosition(oldIndex);
         }
     }
 
     function prev() {
-        setActiveItem(carouselState.activeIndex - 1);
+        setActiveItem(activeIndex.value - 1);
     }
 
     function next() {
-        setActiveItem(carouselState.activeIndex + 1);
+        setActiveItem(activeIndex.value + 1);
     }
 
     function addItem(item) {
@@ -49,7 +49,7 @@ export default function useCarouselItem({ props, carouselState }) {
         const index = slideChildren.value.findIndex((item) => item.uid === uid);
         if (index !== -1) {
             slideChildren.value.splice(index, 1);
-            if (carouselState.activeIndex === index) next();
+            if (activeIndex.value === index) next();
         }
     }
 

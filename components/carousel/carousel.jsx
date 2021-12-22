@@ -1,16 +1,10 @@
-import {
-    defineComponent,
-    watch,
-    onMounted,
-    onBeforeUnmount,
-    nextTick,
-    ref,
-} from 'vue';
-import { addResizeListener, removeResizeListener } from '../_util/resizeEvent';
+import { defineComponent, watch, ref } from 'vue';
 import { CAROUSEL_NAME, CHANGE_EVENT } from './const';
 import Arrow from './components/arrow';
 import Indicator from './components/indicator';
 import useCarousel from './useCarousel';
+import useCarouselStyle from './useCarouselStyle';
+import useCarouselPlay from './useCarouselPlay';
 
 export default defineComponent({
     name: CAROUSEL_NAME,
@@ -78,40 +72,55 @@ export default defineComponent({
         const {
             prefixCls,
             wrapperRef,
-            wrapperClass,
-            carouselStyle,
+            direction,
             slideChildren,
-            carouselState,
-            useStartTimer,
-            usePauseTimer,
+            activeIndex,
             prev,
             next,
             setActiveItem,
             resetItemPosition,
         } = useCarousel(props);
 
+        const { wrapperClass, carouselStyle } = useCarouselStyle({
+            prefixCls,
+            height: props.height,
+            type: props.type,
+            direction,
+        });
+
+        const { startTimer, pauseTimer } = useCarouselPlay({
+            wrapperRef,
+            interval: props.interval,
+            initialIndex: props.initialIndex,
+            autoplay: props.autoplay,
+            loop: props.loop,
+            activeIndex,
+            slideChildren,
+            resetItemPosition,
+        });
+
         // mouse event
         const carouselHover = ref(false);
         const handleMouseEnter = (event) => {
             event.stopPropagation();
             carouselHover.value = true;
-            if (props.pauseOnHover) usePauseTimer();
+            if (props.pauseOnHover) pauseTimer();
         };
 
         const handleMouseLeave = (event) => {
             event.stopPropagation();
             carouselHover.value = false;
-            useStartTimer();
+            startTimer();
         };
 
         // 操作指示器 (click / hover)
         const onOperateIndicator = ({ index }) => {
-            carouselState.activeIndex = index;
+            activeIndex.value = index;
         };
 
         // watch
         watch(
-            () => carouselState.activeIndex,
+            () => activeIndex.value,
             (currValue, prevState) => {
                 resetItemPosition(prevState);
                 if (prevState > -1) {
@@ -121,38 +130,11 @@ export default defineComponent({
         );
 
         watch(
-            () => props.autoplay,
-            (current) => {
-                current ? useStartTimer() : usePauseTimer();
-            },
-        );
-
-        watch(
             () => props.loop,
             () => {
-                setActiveItem(carouselState.activeIndex);
+                setActiveItem(activeIndex.value);
             },
         );
-
-        // lifecycle
-        onMounted(() => {
-            nextTick(() => {
-                addResizeListener(wrapperRef.value, resetItemPosition);
-                if (
-                    props.initialIndex >= 0 &&
-                    props.initialIndex < slideChildren.value.length
-                ) {
-                    carouselState.activeIndex = props.initialIndex;
-                }
-                useStartTimer();
-            });
-        });
-
-        onBeforeUnmount(() => {
-            if (wrapperRef.value)
-                removeResizeListener(wrapperRef.value, resetItemPosition);
-            usePauseTimer();
-        });
 
         // expose methods
         expose({
@@ -172,7 +154,7 @@ export default defineComponent({
                 <div class={`${prefixCls}-slides`}>
                     <Arrow
                         hover={carouselHover.value}
-                        activeIndex={carouselState.activeIndex}
+                        activeIndex={activeIndex.value}
                     />
                     <div
                         class={`${prefixCls}-list`}
@@ -183,7 +165,7 @@ export default defineComponent({
                 </div>
                 <Indicator
                     trigger={props.trigger}
-                    activeIndex={carouselState.activeIndex}
+                    activeIndex={activeIndex.value}
                     position={props.indicatorPosition}
                     placement={props.indicatorPlacement}
                     indicatorType={props.indicatorType}

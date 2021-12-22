@@ -1,63 +1,46 @@
-import { reactive, provide } from 'vue';
+import { ref, computed, provide } from 'vue';
 import { provideKey } from './const';
+import getPrefixCls from '../_util/getPrefixCls';
 import useCarouselItem from './useCarouselItem';
-import useCarouselStyle from './useCarouselStyle';
 
-const usePlayControl = ({ props, carouselState, slideChildren }) => {
-    const play = () => {
-        if (carouselState.activeIndex < slideChildren.value.length - 1) {
-            carouselState.activeIndex = carouselState.activeIndex + 1;
-        } else if (props.loop) {
-            carouselState.activeIndex = 0;
-        }
-    };
-
-    let playTimer = null;
-    const useStartTimer = () => {
-        if (props.interval <= 0 || !props.autoplay || playTimer) return;
-        playTimer = setInterval(() => play(), props.interval);
-    };
-
-    const usePauseTimer = () => {
-        if (playTimer) {
-            clearInterval(playTimer);
-            playTimer = null;
-        }
-    };
-    return {
-        useStartTimer,
-        usePauseTimer,
-    };
-};
+const prefixCls = getPrefixCls('carousel');
 
 export default (props) => {
-    const carouselState = reactive({
-        activeIndex: -1,
-    });
+    const wrapperRef = ref(null); // 最外层容器句柄
+    const activeIndex = ref(-1); // 当前激活的索引
 
-    const styleState = useCarouselStyle(props);
+    // 方向
+    const direction = computed(() => {
+        const { indicatorPlacement: propIndicatorPlacement } = props;
+        if (
+            propIndicatorPlacement === 'top' ||
+            propIndicatorPlacement === 'bottom'
+        ) {
+            return 'horizontal';
+        }
+        if (
+            propIndicatorPlacement === 'left' ||
+            propIndicatorPlacement === 'right'
+        ) {
+            return 'vertical';
+        }
+        return '';
+    });
 
     const itemState = useCarouselItem({
         props,
-        carouselState,
-    });
-
-    // control play
-    const { useStartTimer, usePauseTimer } = usePlayControl({
-        props,
-        carouselState,
-        slideChildren: itemState.slideChildren,
+        activeIndex,
     });
 
     const state = {
+        prefixCls,
+        wrapperRef,
+        direction,
         type: props.type,
         loop: props.loop,
         showArrow: props.showArrow,
-        carouselState,
-        useStartTimer,
-        usePauseTimer,
+        activeIndex,
         ...itemState,
-        ...styleState,
     };
 
     provide(provideKey, state);

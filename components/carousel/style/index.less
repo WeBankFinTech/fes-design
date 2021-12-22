@@ -6,6 +6,8 @@
 @carousel-prefix-cls: ~"@{cls-prefix}-carousel";
 
 @carousel-arrow-size: 36px;
+@carousel-arrow-offset: 16px;
+@carousel-arrow-icon-size: 18px;
 @carousel-arrow-background: rgba(31, 45, 61, 0.12);
 @carousel-arrow-hover-background: rgba(31, 45, 61, 0.36);
 
@@ -177,13 +179,17 @@
 
     &-indicators-outside {
         .@{carousel-prefix-cls}-indicator-btn {
-            background-color: #c0c4cc;
-            opacity: 0.25;
+            background-color: fade(@font-color-base, 20%);
         }
         .@{carousel-prefix-cls}-indicator {
             &:hover {
                 .@{carousel-prefix-cls}-indicator-btn {
-                    opacity: 0.6;
+                    background-color: fade(@font-color-base, 70%);
+                }
+            }
+            &.is-active {
+                .@{carousel-prefix-cls}-indicator-btn {
+                    background-color: fade(@font-color-base, 65%);
                 }
             }
         }
@@ -193,7 +199,6 @@
         position: relative;
         margin: 0;
         padding: 0;
-        font-size: 12px;
         cursor: pointer;
         &::before {
             display: none;
@@ -232,7 +237,7 @@
         padding: 0;
         background-color: @white;
         border: none;
-        border-radius: 2px;
+        border-radius: @border-radius-sm;
         outline: none;
         cursor: pointer;
         opacity: 0.48;
@@ -248,7 +253,7 @@
         margin: 0;
         padding: 0;
         color: @white;
-        font-size: 18px;
+        font-size: @carousel-arrow-icon-size;
         text-align: center;
         background-color: @carousel-arrow-background;
         border: none;
@@ -264,11 +269,11 @@
     }
 
     &-arrow-left {
-        left: 16px;
+        left: @carousel-arrow-offset;
     }
 
     &-arrow-right {
-        right: 16px; 
+        right: @carousel-arrow-offset;
     }
 }
 

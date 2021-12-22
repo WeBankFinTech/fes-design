@@ -1,10 +1,18 @@
 <template>
     <Space class="carousel-demo">
-        <FCarousel height="200px" @change="onChange">
-            <FCarouselItem><div>1</div></FCarouselItem>
-            <FCarouselItem><div>2</div></FCarouselItem>
-            <FCarouselItem><div>3</div></FCarouselItem>
-            <FCarouselItem><div>4</div></FCarouselItem>
+        <FCarousel height="240px" @change="onChange">
+            <FCarouselItem>
+                <img src="https://s4.ax1x.com/2021/12/22/T1AQmj.png" />
+            </FCarouselItem>
+            <FCarouselItem>
+                <img src="https://s4.ax1x.com/2021/12/22/T1AoNt.png" />
+            </FCarouselItem>
+            <FCarouselItem>
+                <img src="https://s3.bmp.ovh/imgs/2021/12/db8a9d08fcba2a27.png" />
+            </FCarouselItem>
+            <FCarouselItem>
+                <img src="https://s4.ax1x.com/2021/12/22/T1Ecan.png" />
+            </FCarouselItem>
         </FCarousel>
     </Space>
 </template>
@@ -37,6 +45,11 @@ export default defineComponent({
         &:nth-child(2n+1) {
             background: #516fa8;
         }
+    }
+
+    .fes-carousel .fes-carousel-item img {
+        width: 100%;
+        height: 100%;
     }
 
     .fes-carousel .fes-carousel-item div {

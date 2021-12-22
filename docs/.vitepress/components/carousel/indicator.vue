@@ -1,25 +1,43 @@
 <template>
     <Space class="carousel-demo">
-        <FCarousel height="200px" indicator-type="dot">
-            <FCarouselItem><div>1</div></FCarouselItem>
-            <FCarouselItem><div>2</div></FCarouselItem>
-            <FCarouselItem><div>3</div></FCarouselItem>
-            <FCarouselItem><div>4</div></FCarouselItem>
+        <FCarousel height="240px" indicator-type="dot">
+            <FCarouselItem>
+                <img src="https://s3.bmp.ovh/imgs/2021/12/04a87cadff3febad.png" />
+            </FCarouselItem>
+            <FCarouselItem>
+                <img src="https://s4.ax1x.com/2021/12/22/T1AoNt.png" />
+            </FCarouselItem>
+            <FCarouselItem>
+                <img src="https://s3.bmp.ovh/imgs/2021/12/db8a9d08fcba2a27.png" />
+            </FCarouselItem>
+            <FCarouselItem>
+                <img src="https://s4.ax1x.com/2021/12/22/T1Ecan.png" />
+            </FCarouselItem>
         </FCarousel>
     </Space>
-    <Space class="carousel-demo">
-        <FCarousel height="200px" indicator-position="outside">
-            <FCarouselItem><div>1</div></FCarouselItem>
-            <FCarouselItem><div>2</div></FCarouselItem>
-            <FCarouselItem><div>3</div></FCarouselItem>
-            <FCarouselItem><div>4</div></FCarouselItem>
+    <Space class="carousel-demo demo-gap">
+        <FCarousel height="240px" indicator-position="outside">
+            <FCarouselItem>
+                <img src="https://s4.ax1x.com/2021/12/22/T1ZzEd.png" />
+            </FCarouselItem>
+            <FCarouselItem>
+                <img src="https://s4.ax1x.com/2021/12/22/T1AoNt.png" />
+            </FCarouselItem>
+            <FCarouselItem>
+                <img src="https://s3.bmp.ovh/imgs/2021/12/db8a9d08fcba2a27.png" />
+            </FCarouselItem>
+            <FCarouselItem>
+                <img src="https://s4.ax1x.com/2021/12/22/T1Ecan.png" />
+            </FCarouselItem>
         </FCarousel>
     </Space>
 </template>
 
 <style lang="less" scope>
 .carousel-demo {
-    margin-top: 50px;
+    &.demo-gap {
+        margin-top: 50px;
+    }
     .fes-carousel .fes-carousel-item {
         text-align: center;
         line-height: 200px;
