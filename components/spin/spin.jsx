@@ -78,14 +78,14 @@ export default defineComponent({
         const renderDesc = () => {
             if (!slots.description && !props.description) return null;
             return (
-                <span className={`${prefixCls}-description`}>
+                <span class={`${prefixCls}-description`}>
                     {slots.description?.() || props.description}
                 </span>
             );
         };
         const renderSpin = () => (
             <div
-                className={`${prefixCls} is-size-${props.size}`}
+                class={`${prefixCls} is-size-${props.size}`}
                 style={style.value}
             >
                 {renderIcon()}
@@ -97,14 +97,12 @@ export default defineComponent({
             }
             return (
                 <div
-                    className={`${prefixCls}-container ${
+                    class={`${prefixCls}-container ${
                         isShow.value ? 'is-spinning' : ''
                     }`}
                 >
-                    <div className={`${prefixCls}-content`}>
-                        {slots.default()}
-                    </div>
-                    <div className={`${prefixCls}-wrapper`}>
+                    <div class={`${prefixCls}-content`}>{slots.default()}</div>
+                    <div class={`${prefixCls}-wrapper`}>
                         {renderSpin()}
                         {renderDesc()}
                     </div>

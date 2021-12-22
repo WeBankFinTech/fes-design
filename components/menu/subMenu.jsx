@@ -17,7 +17,6 @@ import { COMPONENT_NAME } from './const';
 import useMenu from './useMenu';
 import useChildren from './useChildren';
 
-
 const prefixCls = getPrefixCls('sub-menu');
 export default defineComponent({
     name: COMPONENT_NAME.SUB_MENU,
@@ -56,7 +55,9 @@ export default defineComponent({
         }
         const { children } = useChildren();
         const isOpened = ref(false);
-        const isActive = computed(() => children.some(child => child?.isActive));
+        const isActive = computed(() =>
+            children.some((child) => child?.isActive),
+        );
         const subMenu = {
             uid: instance.uid,
             value: props.value,
@@ -70,7 +71,9 @@ export default defineComponent({
             // 默认展开全部
             if (rootMenu.props.defaultExpandAll) {
                 // 这才能触发watch
-                rootMenu.openedMenus.value = rootMenu.openedMenus.value.concat(props.value || instance.uid);
+                rootMenu.openedMenus.value = rootMenu.openedMenus.value.concat(
+                    props.value || instance.uid,
+                );
             }
         });
         onBeforeUnmount(() => {
@@ -82,16 +85,20 @@ export default defineComponent({
             }
             return 'right-start';
         });
-        const classList = computed(() => [prefixCls, isActive.value && 'is-active'].filter(Boolean).join(' '));
+        const classList = computed(() =>
+            [prefixCls, isActive.value && 'is-active']
+                .filter(Boolean)
+                .join(' '),
+        );
         const handleClickTrigger = () => {
             isOpened.value = !isOpened.value;
             rootMenu.clickSubMenu(subMenu, indexPath);
         };
         watch(rootMenu.openedMenus, () => {
-            if (
-                !rootMenu.renderWithPopper.value
-            ) {
-                const index = rootMenu.openedMenus.value.indexOf(props.value || instance.uid);
+            if (!rootMenu.renderWithPopper.value) {
+                const index = rootMenu.openedMenus.value.indexOf(
+                    props.value || instance.uid,
+                );
                 if (index === -1 && isOpened.value) {
                     isOpened.value = false;
                 } else if (index !== -1 && !isOpened.value) {
@@ -100,14 +107,14 @@ export default defineComponent({
             }
         });
         const renderTitle = () => {
-            const Wrapper = <Ellipsis triggerClass={`${prefixCls}-label`}></Ellipsis>;
+            const Wrapper = (
+                <Ellipsis triggerClass={`${prefixCls}-label`}></Ellipsis>
+            );
             return <Wrapper>{slots.label?.() || props.label}</Wrapper>;
         };
         const renderIcon = () => {
             if (slots.icon) {
-                return (
-                    <div className={`${prefixCls}-icon`}>{slots.icon()}</div>
-                );
+                return <div class={`${prefixCls}-icon`}>{slots.icon()}</div>;
             }
             if (onlyIcon.value) {
                 return renderTitle();
@@ -118,26 +125,26 @@ export default defineComponent({
             if (rootMenu.renderWithPopper.value) {
                 if (isFirstLevel.value) {
                     return (
-                        <span className={`${prefixCls}-arrow`}>
+                        <span class={`${prefixCls}-arrow`}>
                             {isOpened.value ? <UpOutlined /> : <DownOutlined />}
                         </span>
                     );
                 }
                 return (
-                    <span className={`${prefixCls}-arrow is-right`}>
+                    <span class={`${prefixCls}-arrow is-right`}>
                         <RightOutlined />
                     </span>
                 );
             }
             return (
-                <span className={`${prefixCls}-arrow is-right`}>
+                <span class={`${prefixCls}-arrow is-right`}>
                     {isOpened.value ? <UpOutlined /> : <DownOutlined />}
                 </span>
             );
         };
-        const renderWrapper = trigger => (
+        const renderWrapper = (trigger) => (
             <div
-                className={`${prefixCls}-wrapper`}
+                class={`${prefixCls}-wrapper`}
                 style={paddingStyle.value}
                 onClick={() => {
                     trigger === 'click' && handleClickTrigger();
@@ -174,7 +181,7 @@ export default defineComponent({
             );
         };
         return () => (
-            <div className={classList.value} ref={subMenuRef}>
+            <div class={classList.value} ref={subMenuRef}>
                 {renderContent()}
             </div>
         );

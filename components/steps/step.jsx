@@ -35,9 +35,9 @@ export default defineComponent({
     setup(props, { slots }) {
         const vm = getCurrentInstance();
         if (
-            !vm.parent
-            || !vm.parent.type
-            || vm.parent.type.name !== COMPONENT_NAME.STEPS
+            !vm.parent ||
+            !vm.parent.type ||
+            vm.parent.type.name !== COMPONENT_NAME.STEPS
         ) {
             return console.warn(
                 `[${COMPONENT_NAME.STEP}] must be a child of ${COMPONENT_NAME.STEPS}`,
@@ -50,8 +50,8 @@ export default defineComponent({
             const itemDom = itemDomRef.value;
             if (parentDom && itemDom) {
                 return (
-                    Array.from(parentDom.children).indexOf(itemDom)
-                    + parent.props.initial
+                    Array.from(parentDom.children).indexOf(itemDom) +
+                    parent.props.initial
                 );
             }
             return parent.props.initial - 1;
@@ -60,9 +60,13 @@ export default defineComponent({
             const _style = {};
             const parentDom = parent.parentDomRef.value;
             if (parentDom) {
-                const lastChild = index.value === (parentDom.children.length - 1 + parent.props.initial);
+                const lastChild =
+                    index.value ===
+                    parentDom.children.length - 1 + parent.props.initial;
                 if (lastChild) {
-                    _style['max-width'] = `${1 / parentDom.children.length * 100}%`;
+                    _style['max-width'] = `${
+                        (1 / parentDom.children.length) * 100
+                    }%`;
                 }
             }
             return _style;
@@ -82,38 +86,55 @@ export default defineComponent({
             }
             return parent.props.status;
         });
-        const classList = computed(() => [prefixCls, `is-${status.value}`].filter(Boolean).join(' '));
+        const classList = computed(() =>
+            [prefixCls, `is-${status.value}`].filter(Boolean).join(' '),
+        );
         const renderSymbol = () => {
-            const Wrapper = <div className={`${prefixCls}-symbol`}></div>;
+            const Wrapper = <div class={`${prefixCls}-symbol`}></div>;
             let content;
             if (slots.icon) {
-                content = <span className={`${prefixCls}-icon`}>{slots.icon()}</span>;
-            } else if (status.value === STATUS.WAIT || status.value === STATUS.PROCESS) {
+                content = (
+                    <span class={`${prefixCls}-icon`}>{slots.icon()}</span>
+                );
+            } else if (
+                status.value === STATUS.WAIT ||
+                status.value === STATUS.PROCESS
+            ) {
                 content = index.value;
             } else if (status.value === STATUS.FINISH) {
-                content = <span className={`${prefixCls}-icon`}><CheckOutlined /></span>;
+                content = (
+                    <span class={`${prefixCls}-icon`}>
+                        <CheckOutlined />
+                    </span>
+                );
             } else if (status.value === STATUS.ERROR) {
-                content = <span className={`${prefixCls}-icon`}><CloseOutlined /></span>;
+                content = (
+                    <span class={`${prefixCls}-icon`}>
+                        <CloseOutlined />
+                    </span>
+                );
             }
             return (
                 <Wrapper>
-                    <div className={`${prefixCls}-symbol-wrapper`}>
-                        {content}
-                    </div>
-                    {parent.props.vertical && <div className={`${prefixCls}-tail`}></div> }
+                    <div class={`${prefixCls}-symbol-wrapper`}>{content}</div>
+                    {parent.props.vertical && (
+                        <div class={`${prefixCls}-tail`}></div>
+                    )}
                 </Wrapper>
             );
         };
         return () => (
-            <div ref={itemDomRef} className={classList.value} style={style.value}>
+            <div ref={itemDomRef} class={classList.value} style={style.value}>
                 {renderSymbol()}
-                <div className={`${prefixCls}-content`}>
-                    <div className={`${prefixCls}-title`}>
+                <div class={`${prefixCls}-content`}>
+                    <div class={`${prefixCls}-title`}>
                         {slots.title?.() || props.title}
-                        {!parent.props.vertical && <div className={`${prefixCls}-tail`}></div> }
+                        {!parent.props.vertical && (
+                            <div class={`${prefixCls}-tail`}></div>
+                        )}
                     </div>
                     {(slots.description || props.description) && (
-                        <div className={`${prefixCls}-description`}>
+                        <div class={`${prefixCls}-description`}>
                             {slots.description?.() || props.description}
                         </div>
                     )}

@@ -75,7 +75,7 @@ export default defineComponent({
         const renderTrigger = () => (
             <span
                 ref={triggerRef}
-                className={classList.value}
+                class={classList.value}
                 style={style.value}
                 onMouseenter={handleDisabled}
             >

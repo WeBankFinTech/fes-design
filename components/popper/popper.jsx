@@ -126,7 +126,7 @@ export default defineComponent({
                         ref={popperRef}
                         v-show={visible.value}
                         style={popperStyle}
-                        className={popperClass.value}
+                        class={popperClass.value}
                         role={'tooltip'}
                         onMouseenter={onPopperMouseEnter}
                         onMouseleave={onPopperMouseLeave}
@@ -136,7 +136,7 @@ export default defineComponent({
                             <div
                                 data-popper-arrow
                                 ref={arrowRef}
-                                className={`${prefixCls}-arrow`}
+                                class={`${prefixCls}-arrow`}
                             ></div>
                         )}
                     </div>

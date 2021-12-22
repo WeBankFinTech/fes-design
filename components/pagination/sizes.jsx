@@ -26,10 +26,17 @@ export default defineComponent({
     emits: [UPDATE_MODEL_EVENT],
     setup(props, { emit }) {
         const [pageSize] = useNormalModel(props, emit);
-        const renderOptions = () => props.pageSizeOption.map((item) => <FOption key={item} value={item} label={`${item}条/页`}></FOption>);
+        const renderOptions = () =>
+            props.pageSizeOption.map((item) => (
+                <FOption
+                    key={item}
+                    value={item}
+                    label={`${item}条/页`}
+                ></FOption>
+            ));
 
         return () => (
-            <div className={`${prefixCls}-size`}>
+            <div class={`${prefixCls}-size`}>
                 <FSelect v-model={pageSize.value}>{renderOptions()}</FSelect>
             </div>
         );

@@ -107,7 +107,7 @@ export default defineComponent({
         return () => (
             <div
                 ref={wrapperRef}
-                className={wrapperClass.value}
+                class={wrapperClass.value}
                 style={wrapperStyle.value}
             >
                 <div ref="hiddenColumns" class="hidden-columns">

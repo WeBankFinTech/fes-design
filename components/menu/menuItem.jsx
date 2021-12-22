@@ -25,9 +25,8 @@ export default defineComponent({
     },
     setup(props, { slots }) {
         const instance = getCurrentInstance();
-        const {
-            rootMenu, parentMenu, paddingStyle, onlyIcon,
-        } = useMenu(instance);
+        const { rootMenu, parentMenu, paddingStyle, onlyIcon } =
+            useMenu(instance);
         // 根节点 menu
         if (!rootMenu) {
             return console.warn(
@@ -55,19 +54,23 @@ export default defineComponent({
         onBeforeUnmount(() => {
             parentMenu.removeChild(menuItem);
         });
-        const classList = computed(() => [prefixCls, isActive.value && 'is-active'].filter(Boolean).join(' '));
+        const classList = computed(() =>
+            [prefixCls, isActive.value && 'is-active']
+                .filter(Boolean)
+                .join(' '),
+        );
         const handleClick = () => {
             rootMenu.clickMenuItem(props.value);
         };
         const renderTitle = () => {
-            const Wrapper = <Ellipsis triggerClass={`${prefixCls}-label`}></Ellipsis>;
+            const Wrapper = (
+                <Ellipsis triggerClass={`${prefixCls}-label`}></Ellipsis>
+            );
             return <Wrapper>{slots.label?.() || props.label}</Wrapper>;
         };
         const renderIcon = () => {
             if (slots.icon) {
-                return (
-                    <span className={`${prefixCls}-icon`}>{slots.icon()}</span>
-                );
+                return <span class={`${prefixCls}-icon`}>{slots.icon()}</span>;
             }
             if (onlyIcon.value) {
                 return renderTitle();
@@ -75,8 +78,8 @@ export default defineComponent({
             return null;
         };
         return () => (
-            <div className={classList.value} onClick={handleClick}>
-                <div className={`${prefixCls}-wrapper`} style={paddingStyle.value}>
+            <div class={classList.value} onClick={handleClick}>
+                <div class={`${prefixCls}-wrapper`} style={paddingStyle.value}>
                     {renderIcon()}
                     {!onlyIcon.value ? renderTitle() : null}
                 </div>
