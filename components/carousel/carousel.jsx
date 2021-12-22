@@ -1,7 +1,7 @@
 import { defineComponent, watch, ref } from 'vue';
 import { CAROUSEL_NAME, CHANGE_EVENT } from './const';
-import Arrow from './components/arrow';
-import Indicator from './components/indicator';
+import Arrow from './arrow';
+import Indicator from './indicator';
 import useCarousel from './useCarousel';
 import useCarouselStyle from './useCarouselStyle';
 import useCarouselPlay from './useCarouselPlay';

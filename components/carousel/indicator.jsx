@@ -1,6 +1,6 @@
 import { defineComponent, inject, computed } from 'vue';
 import { throttle } from 'lodash-es';
-import { provideKey } from '../const';
+import { provideKey } from './const';
 
 const INDICATOR_MOUSE_EVENT = 'mouse-operate';
 export default defineComponent({

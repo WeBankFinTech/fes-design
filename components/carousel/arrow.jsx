@@ -1,7 +1,7 @@
 import { defineComponent, computed, inject, Fragment, Transition } from 'vue';
 import { throttle } from 'lodash-es';
-import { provideKey } from '../const';
-import { LeftOutlined, RightOutlined } from '../../icon';
+import { provideKey } from './const';
+import { LeftOutlined, RightOutlined } from '../icon';
 
 export default defineComponent({
     name: 'FCarouselArrow',
