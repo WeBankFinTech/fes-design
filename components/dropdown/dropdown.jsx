@@ -86,7 +86,7 @@ export default defineComponent({
         });
         const renderOptions = () => (
             <div
-                className={`${prefixCls}-option-wrapper ${
+                class={`${prefixCls}-option-wrapper ${
                     hasIcon.value ? 'has-icon' : ''
                 }`}
             >
@@ -100,15 +100,15 @@ export default defineComponent({
                     const label = option[props.labelField];
                     return (
                         <div
-                            className={optionClassList}
+                            class={optionClassList}
                             onClick={() => {
                                 handleClick(option);
                             }}
                         >
-                            <span className={`${prefixCls}-option-icon`}>
+                            <span class={`${prefixCls}-option-icon`}>
                                 {option.icon?.()}
                             </span>
-                            <span className={`${prefixCls}-option-label`}>
+                            <span class={`${prefixCls}-option-label`}>
                                 {isFunction(label) ? label(option) : label}
                             </span>
                         </div>

@@ -1,6 +1,4 @@
-import {
-    defineComponent, computed, toRefs, watch,
-} from 'vue';
+import { defineComponent, computed, toRefs, watch } from 'vue';
 import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import LeftOutlined from '../icon/LeftOutlined';
@@ -17,7 +15,11 @@ const STEP = 5; // 理论上说根据对称性只能为奇数，实际偶数也�
 export default defineComponent({
     name: COMPONENT_NAME.PAGINATION_PAGER,
     components: {
-        LeftOutlined, RightOutlined, MoreOutlined, DoubleLeftOutlined, DoubleRightOutlined,
+        LeftOutlined,
+        RightOutlined,
+        MoreOutlined,
+        DoubleLeftOutlined,
+        DoubleRightOutlined,
     },
     props: {
         modelValue: {
@@ -31,14 +33,14 @@ export default defineComponent({
     },
     emits: [UPDATE_MODEL_EVENT],
     setup(props, { emit }) {
-        const {
-            total,
-        } = toRefs(props);
+        const { total } = toRefs(props);
         const [currentPage, updateCurrentPage] = useNormalModel(props, emit);
         const pages = computed(() => {
             const res = [];
             let count = 0;
-            const currentVal = Number.isNaN(parseInt(currentPage.value, 10)) ? 1 : parseInt(currentPage.value, 10);
+            const currentVal = Number.isNaN(parseInt(currentPage.value, 10))
+                ? 1
+                : parseInt(currentPage.value, 10);
             let start = currentVal - Math.floor(STEP / 2);
             while (count < STEP) {
                 res.push(start);
@@ -78,20 +80,34 @@ export default defineComponent({
             updateCurrentPage(temp);
         };
 
-        const getClassList = cur => `${prefixCls}-pager-item${cur === parseInt(currentPage.value, 10) ? ' is-active' : ''}`;
-        const getBtnElement = () => pages.value.map(item => <div className={getClassList(item)} onClick={handleCurrentChange.bind(null, item)}>{item}</div>);
+        const getClassList = (cur) =>
+            `${prefixCls}-pager-item${
+                cur === parseInt(currentPage.value, 10) ? ' is-active' : ''
+            }`;
+        const getBtnElement = () =>
+            pages.value.map((item) => (
+                <div
+                    class={getClassList(item)}
+                    onClick={handleCurrentChange.bind(null, item)}
+                >
+                    {item}
+                </div>
+            ));
 
         const renderPrevDoubleJump = () => {
             if (pages.value.length > 0 && pages.value[0] > 2) {
                 return (
                     <div
-                        className={`${prefixCls}-pager-item is-double-jump`}
-                        onClick={handleCurrentChange.bind(null, currentPage.value - STEP)}
+                        class={`${prefixCls}-pager-item is-double-jump`}
+                        onClick={handleCurrentChange.bind(
+                            null,
+                            currentPage.value - STEP,
+                        )}
                     >
-                        <div className={'is-more'}>
+                        <div class={'is-more'}>
                             <MoreOutlined />
                         </div>
-                        <div className={'is-jump'}>
+                        <div class={'is-jump'}>
                             <DoubleLeftOutlined />
                         </div>
                     </div>
@@ -101,16 +117,22 @@ export default defineComponent({
         };
 
         const renderNextDoubleJump = () => {
-            if (pages.value.length > 0 && pages.value[pages.value.length - 1] < total.value - 1) {
+            if (
+                pages.value.length > 0 &&
+                pages.value[pages.value.length - 1] < total.value - 1
+            ) {
                 return (
                     <div
-                        className={`${prefixCls}-pager-item is-double-jump`}
-                        onClick={handleCurrentChange.bind(null, currentPage.value + STEP)}
+                        class={`${prefixCls}-pager-item is-double-jump`}
+                        onClick={handleCurrentChange.bind(
+                            null,
+                            currentPage.value + STEP,
+                        )}
                     >
-                        <div className={'is-more'}>
+                        <div class={'is-more'}>
                             <MoreOutlined />
                         </div>
-                        <div className={'is-jump'}>
+                        <div class={'is-jump'}>
                             <DoubleRightOutlined />
                         </div>
                     </div>
@@ -123,8 +145,9 @@ export default defineComponent({
             if (total.value > 1) {
                 return (
                     <div
-                        className={getClassList(total.value)}
-                        onClick={handleCurrentChange.bind(null, total.value)}>
+                        class={getClassList(total.value)}
+                        onClick={handleCurrentChange.bind(null, total.value)}
+                    >
                         {total.value}
                     </div>
                 );
@@ -138,16 +161,22 @@ export default defineComponent({
             }
         });
         return () => (
-            <div className={`${prefixCls}-pager`}>
+            <div class={`${prefixCls}-pager`}>
                 <div
-                    className={`${prefixCls}-pager-item${currentPage.value <= 1 ? ' is-disabled' : ''}`}
-                    onClick={handleCurrentChange.bind(null, currentPage.value - 1)}
+                    class={`${prefixCls}-pager-item${
+                        currentPage.value <= 1 ? ' is-disabled' : ''
+                    }`}
+                    onClick={handleCurrentChange.bind(
+                        null,
+                        currentPage.value - 1,
+                    )}
                 >
                     <LeftOutlined />
                 </div>
                 <div
-                    className={getClassList(1)}
-                    onClick={handleCurrentChange.bind(null, 1)}>
+                    class={getClassList(1)}
+                    onClick={handleCurrentChange.bind(null, 1)}
+                >
                     1
                 </div>
                 {renderPrevDoubleJump()}
@@ -155,8 +184,13 @@ export default defineComponent({
                 {renderNextDoubleJump()}
                 {renderLast()}
                 <div
-                    className={`${prefixCls}-pager-item${total.value <= currentPage.value ? ' is-disabled' : ''}`}
-                    onClick={handleCurrentChange.bind(null, currentPage.value + 1)}
+                    class={`${prefixCls}-pager-item${
+                        total.value <= currentPage.value ? ' is-disabled' : ''
+                    }`}
+                    onClick={handleCurrentChange.bind(
+                        null,
+                        currentPage.value + 1,
+                    )}
                 >
                     <RightOutlined />
                 </div>

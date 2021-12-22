@@ -128,18 +128,18 @@ export default defineComponent({
             const arr = [];
             let i = 1 + (children ? -1 : 0);
             while (i < props.level) {
-                arr.push(<span className={`${prefixCls}-indent`} />);
+                arr.push(<span class={`${prefixCls}-indent`} />);
                 i++;
             }
             return arr;
         };
         const renderSwitcher = (children) => {
             if (props.isLeaf || children) {
-                return <span className={`${prefixCls}-switcher`} />;
+                return <span class={`${prefixCls}-switcher`} />;
             }
             return (
                 <span
-                    className={`${prefixCls}-switcher`}
+                    class={`${prefixCls}-switcher`}
                     onClick={handleClickSwitcher}
                 >
                     <LoadingOutlined v-show={isLoading.value} />
@@ -155,7 +155,7 @@ export default defineComponent({
         const renderCheckbox = () => {
             if (root.props.checkable) {
                 return (
-                    <span className={`${prefixCls}-checkbox`}>
+                    <span class={`${prefixCls}-checkbox`}>
                         <Checkbox
                             indeterminate={isIndeterminate.value}
                             modelValue={isChecked.value}
@@ -181,10 +181,10 @@ export default defineComponent({
         const renderChildren = () => {
             if (slots.default && isExpanded.value) {
                 return (
-                    <div className={`${prefixCls}-children-wrapper`}>
+                    <div class={`${prefixCls}-children-wrapper`}>
                         {renderChildrenIndent()}
                         <div
-                            className={`${prefixCls}-children ${
+                            class={`${prefixCls}-children ${
                                 isChildrenInline.value ? 'is-inline' : ''
                             }`}
                         >
@@ -199,7 +199,7 @@ export default defineComponent({
             if (!slots.prefix) return null;
             return (
                 <span
-                    className={`${prefixCls}-content-prefix`}
+                    class={`${prefixCls}-content-prefix`}
                     onClick={handleStopClickPrefix}
                 >
                     {slots.prefix?.()}
@@ -210,7 +210,7 @@ export default defineComponent({
             if (!slots.suffix) return null;
             return (
                 <span
-                    className={`${prefixCls}-content-suffix`}
+                    class={`${prefixCls}-content-suffix`}
                     onClick={handleStopClickPrefix}
                 >
                     {slots.suffix?.()}
@@ -218,17 +218,17 @@ export default defineComponent({
             );
         };
         return () => (
-            <div className={classList.value} data-value={props.value}>
-                <div className={`${prefixCls}-content-wrapper`}>
+            <div class={classList.value} data-value={props.value}>
+                <div class={`${prefixCls}-content-wrapper`}>
                     {renderIndent()}
                     {renderSwitcher()}
                     {renderCheckbox()}
                     <span
-                        className={`${prefixCls}-content`}
+                        class={`${prefixCls}-content`}
                         onClick={handleClickContent}
                     >
                         {renderPrefix()}
-                        <span className={`${prefixCls}-content-label`}>
+                        <span class={`${prefixCls}-content-label`}>
                             {props.label}
                         </span>
                         {renderSuffix()}

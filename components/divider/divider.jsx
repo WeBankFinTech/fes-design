@@ -32,9 +32,7 @@ export default defineComponent({
         return () => (
             <div className={classList.value}>
                 {!props.vertical ? (
-                    <div
-                        className={`${prefixCls}-text is-${props.titlePlacement}`}
-                    >
+                    <div class={`${prefixCls}-text is-${props.titlePlacement}`}>
                         {slots.default?.()}
                     </div>
                 ) : null}

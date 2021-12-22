@@ -1,6 +1,4 @@
-import {
-    defineComponent, computed, toRefs, watch, ref,
-} from 'vue';
+import { defineComponent, computed, toRefs, watch, ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { CHANGE_EVENT } from '../_util/constants';
@@ -16,10 +14,19 @@ const prefixCls = getPrefixCls('pagination');
 export default defineComponent({
     name: COMPONENT_NAME.PAGINATION,
     components: {
-        Simpler, Pager, Sizes, Jumper, Total,
+        Simpler,
+        Pager,
+        Sizes,
+        Jumper,
+        Total,
     },
     props: PROPS,
-    emits: [CHANGE_EVENT, 'pageSizeChange', 'update:currentPage', 'update:pageSize'],
+    emits: [
+        CHANGE_EVENT,
+        'pageSizeChange',
+        'update:currentPage',
+        'update:pageSize',
+    ],
     setup(props, { emit }) {
         const [currentPage, updateCurrentPage] = useNormalModel(props, emit, {
             prop: 'currentPage',
@@ -28,10 +35,18 @@ export default defineComponent({
             prop: 'pageSize',
         });
         const {
-            small, pageSizeOption, totalCount, simple, showSizeChanger, showQuickJumper, showTotal,
+            small,
+            pageSizeOption,
+            totalCount,
+            simple,
+            showSizeChanger,
+            showQuickJumper,
+            showTotal,
         } = toRefs(props);
         const totalPage = ref(Math.ceil(totalCount.value / pageSize.value));
-        const classList = computed(() => `${prefixCls}${small.value ? ` ${prefixCls}-small` : ''}`);
+        const classList = computed(
+            () => `${prefixCls}${small.value ? ` ${prefixCls}-small` : ''}`,
+        );
         const sizeOption = computed(() => {
             const res = pageSizeOption.value.slice();
             if (res.includes(pageSize.value) === false) {
@@ -50,10 +65,7 @@ export default defineComponent({
                 return null;
             }
             return (
-                <Simpler
-                    v-model={currentPage.value}
-                    total={totalPage.value}
-                />
+                <Simpler v-model={currentPage.value} total={totalPage.value} />
             );
         };
 
@@ -62,10 +74,7 @@ export default defineComponent({
                 return null;
             }
             return (
-                <Pager
-                    v-model={currentPage.value}
-                    total={totalPage.value}
-                />
+                <Pager v-model={currentPage.value} total={totalPage.value} />
             );
         };
 
@@ -86,10 +95,7 @@ export default defineComponent({
                 return null;
             }
             return (
-                <Jumper
-                    total={totalPage.value}
-                    change={changeCurrentPage}
-                />
+                <Jumper total={totalPage.value} change={changeCurrentPage} />
             );
         };
 
@@ -97,11 +103,7 @@ export default defineComponent({
             if (!showTotal.value) {
                 return null;
             }
-            return (
-                <Total
-                    total={totalCount.value}
-                />
-            );
+            return <Total total={totalCount.value} />;
         };
 
         watch(totalCount, () => {
@@ -115,13 +117,13 @@ export default defineComponent({
             emit('pageSizeChange', pageSize.value);
         });
         return () => (
-            <div className={classList.value}>
-            {renderSimpler()}
-            {renderPager()}
-            {renderSizes()}
-            {renderJumper()}
-            {renderTotal()}
-        </div>
+            <div class={classList.value}>
+                {renderSimpler()}
+                {renderPager()}
+                {renderSizes()}
+                {renderJumper()}
+                {renderTotal()}
+            </div>
         );
     },
 });

@@ -119,6 +119,6 @@ export default defineComponent({
             return renderChildren(props.options);
         };
 
-        return () => <div className={classList.value}>{render()}</div>;
+        return () => <div class={classList.value}>{render()}</div>;
     },
 });

@@ -286,7 +286,7 @@ export default defineComponent({
             });
         const renderTreeNode = () => renderChildren(currentData.value);
         return () => (
-            <div className={classList.value} role="tree">
+            <div class={classList.value} role="tree">
                 {renderTreeNode()}
             </div>
         );
