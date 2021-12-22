@@ -47,14 +47,12 @@ export default defineComponent({
         }
     }
 
-<<<<<<< HEAD
     .fes-carousel .fes-carousel-item img {
         width: 100%;
         height: 100%;
     }
 
-=======
->>>>>>> 48a176c (feat(carousel): 新增carousel组件)
+
     .fes-carousel .fes-carousel-item div {
         color: #fff;
 

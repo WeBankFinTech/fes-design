@@ -20,8 +20,21 @@ export default defineComponent({
             loop,
             setActiveItem,
         } = inject(provideKey);
+
         const arrowVisible = computed(
             () => showArrow !== 'never' && direction.value === 'horizontal',
+        );
+
+        const arrowLeftShow = computed(
+            () =>
+                (showArrow === 'always' || props.hover) &&
+                (loop || props.activeIndex > 0),
+        );
+
+        const arrowRightShow = computed(
+            () =>
+                (showArrow === 'always' || props.hover) &&
+                (loop || props.activeIndex < slideChildren.value.length - 1),
         );
 
         const slideItemInStage = (slideItem, index) => {
@@ -49,6 +62,7 @@ export default defineComponent({
             return false;
         };
 
+        // 当鼠标进入箭头按钮
         const onEnterArrowButton = (arrow) => {
             if (direction.value === 'vertical') return;
             slideChildren.value.forEach((item, index) => {
@@ -58,6 +72,7 @@ export default defineComponent({
             });
         };
 
+        // 当鼠标离开箭头按钮
         const onLeaveArrowButton = () => {
             if (direction.value === 'vertical') return;
             slideChildren.value.forEach((item) => {
@@ -65,7 +80,8 @@ export default defineComponent({
             });
         };
 
-        const throttledArrowClick = throttle(
+        // 处理点击箭头按钮
+        const handleArrowClick = throttle(
             (event, index) => {
                 event.stopPropagation();
                 setActiveItem(index);
@@ -80,19 +96,13 @@ export default defineComponent({
                     <Fragment>
                         <Transition name="carousel-arrow-left">
                             <button
-                                vShow={
-                                    (showArrow === 'always' || props.hover) &&
-                                    (loop || props.activeIndex > 0)
-                                }
+                                vShow={arrowLeftShow.value}
                                 type="button"
                                 class={`${prefixCls}-arrow ${prefixCls}-arrow-left`}
                                 onMouseenter={() => onEnterArrowButton('left')}
                                 onMouseleave={onLeaveArrowButton}
                                 onClick={(e) =>
-                                    throttledArrowClick(
-                                        e,
-                                        props.activeIndex - 1,
-                                    )
+                                    handleArrowClick(e, props.activeIndex - 1)
                                 }
                             >
                                 <i
@@ -102,21 +112,13 @@ export default defineComponent({
                         </Transition>
                         <Transition name="carousel-arrow-right">
                             <button
-                                vShow={
-                                    (showArrow === 'always' || props.hover) &&
-                                    (loop ||
-                                        props.activeIndex <
-                                            slideChildren.value.length - 1)
-                                }
+                                vShow={arrowRightShow.value}
                                 type="button"
                                 class={`${prefixCls}-arrow ${prefixCls}-arrow-right`}
                                 onMouseenter={() => onEnterArrowButton('right')}
                                 onMouseleave={onLeaveArrowButton}
                                 onClick={(e) =>
-                                    throttledArrowClick(
-                                        e,
-                                        props.activeIndex + 1,
-                                    )
+                                    handleArrowClick(e, props.activeIndex + 1)
                                 }
                             >
                                 <i
