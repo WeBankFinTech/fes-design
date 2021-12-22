@@ -1,6 +1,4 @@
-import {
-    defineComponent, toRefs, watch,
-} from 'vue';
+import { defineComponent, toRefs, watch } from 'vue';
 import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import LeftOutlined from '../icon/LeftOutlined';
@@ -13,7 +11,8 @@ const prefixCls = getPrefixCls('pagination');
 export default defineComponent({
     name: COMPONENT_NAME.PAGINATION_SIMPLER,
     components: {
-        LeftOutlined, RightOutlined,
+        LeftOutlined,
+        RightOutlined,
     },
     props: {
         modelValue: {
@@ -27,9 +26,7 @@ export default defineComponent({
     },
     emits: [UPDATE_MODEL_EVENT],
     setup(props, { emit }) {
-        const {
-            total,
-        } = toRefs(props);
+        const { total } = toRefs(props);
         const [currentPage, updateCurrentPage] = useNormalModel(props, emit);
 
         const handleCurrentChange = (cur) => {
@@ -51,25 +48,33 @@ export default defineComponent({
         });
 
         return () => (
-            <div className={`${prefixCls}-pager ${prefixCls}-simpler`}>
+            <div class={`${prefixCls}-pager ${prefixCls}-simpler`}>
                 <div
-                    className={`${prefixCls}-pager-item${currentPage.value <= 1 ? ' is-disabled' : ''}`}
-                    onClick={handleCurrentChange.bind(null, currentPage.value - 1)}
+                    class={`${prefixCls}-pager-item${
+                        currentPage.value <= 1 ? ' is-disabled' : ''
+                    }`}
+                    onClick={handleCurrentChange.bind(
+                        null,
+                        currentPage.value - 1,
+                    )}
                 >
                     <LeftOutlined />
                 </div>
-                <div className={`${prefixCls}-pager-item is-current`}>
+                <div class={`${prefixCls}-pager-item is-current`}>
                     {currentPage.value}
                 </div>
-                <div className={`${prefixCls}-simpler-total`}>
-                    <i className={`${prefixCls}-simpler-total-split`}>/</i>
-                    <span>
-                        {total.value}
-                    </span>
+                <div class={`${prefixCls}-simpler-total`}>
+                    <i class={`${prefixCls}-simpler-total-split`}>/</i>
+                    <span>{total.value}</span>
                 </div>
                 <div
-                    className={`${prefixCls}-pager-item${total.value <= currentPage.value ? ' is-disabled' : ''}`}
-                    onClick={handleCurrentChange.bind(null, currentPage.value + 1)}
+                    class={`${prefixCls}-pager-item${
+                        total.value <= currentPage.value ? ' is-disabled' : ''
+                    }`}
+                    onClick={handleCurrentChange.bind(
+                        null,
+                        currentPage.value + 1,
+                    )}
                 >
                     <RightOutlined />
                 </div>

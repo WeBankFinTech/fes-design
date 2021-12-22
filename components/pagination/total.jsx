@@ -1,6 +1,4 @@
-import {
-    defineComponent, toRefs,
-} from 'vue';
+import { defineComponent, toRefs } from 'vue';
 
 import getPrefixCls from '../_util/getPrefixCls';
 import { COMPONENT_NAME } from './const';
@@ -17,10 +15,6 @@ export default defineComponent({
     },
     setup(props) {
         const { total } = toRefs(props);
-        return () => (
-            <div className={`${prefixCls}-total`}>
-                共{total.value}条
-            </div>
-        );
+        return () => <div class={`${prefixCls}-total`}>共{total.value}条</div>;
     },
 });
