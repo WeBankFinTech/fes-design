@@ -70,7 +70,8 @@ app.use(FSelectTree);
 | accordion             | 手风琴模式，是否保持同级节点中只有一个节点展开                          | boolean                                   | `false`    |
 | defaultExpandAll      | 是否默认展开所有节点，当有 `expandedKeys` 时，`defaultExpandAll` 将失效 | boolean                                   | `false`    |
 | expandedKeys(v-model) | 展开的节点的 key 的数组                                                 | Array<string \| number>                   | `[]`       |
-| checkStrictly         | `checkable` 状态下节点选择完全受控（父子节点选中状态不再关联）          | boolean                                   | `false`    |
+| cascade             | `checkable` 状态下节点选择完全受控（父子节点选中状态关联）                                           | boolean                                   | `false`    |
+| checkStrictly         | 设置勾选策略来指定勾选回调返回的值，`all` 表示回调函数值为全部选中节点；`parent` 表示回调函数值为父节点（当父节点下所有子节点都选中时）；`child` 表示回调函数值为子节点          | string                                   | `all`    |
 | childrenField         | 替代 `TreeOption` 中的 `children` 字段名                                | string                                    | `children` |
 | valueField            | 替代 `TreeOption` 中的 `value` 字段名                                   | string                                    | `value`    |
 | labelField            | 替代 `TreeOption` 中的 `label` 字段名                                   | string                                    | `label`    |

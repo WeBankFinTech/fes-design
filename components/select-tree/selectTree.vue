@@ -47,6 +47,7 @@
                         :selectable="treeSelectable"
                         :checkable="treeCheckable"
                         :checkStrictly="checkStrictly"
+                        :cascade="cascade"
                         :multiple="multiple"
                         :childrenField="childrenField"
                         :valueField="valueField"
@@ -55,8 +56,8 @@
                         :inline="inline"
                         :remote="remote"
                         :loadData="loadData"
-                        @update:selectedKeys="handleSelect"
-                        @update:checkedKeys="handleSelect"
+                        @select="handleSelect"
+                        @check="handleCheck"
                     ></Tree>
                     <div v-show="!data.length" :class="`${prefixCls}-null`">
                         {{ emptyText }}
@@ -79,7 +80,7 @@ import Tree from '../tree';
 import Scrollbar from '../scrollbar';
 import SELECT_PROPS from '../select/props';
 import TREE_PROPS from '../tree/props';
-import { flatNodes } from '../_util/utils';
+import useData from '../tree/useData';
 
 const prefixCls = getPrefixCls('select-tree');
 
@@ -123,7 +124,9 @@ export default defineComponent({
             validate(CHANGE_EVENT);
         });
 
-        const nodes = computed(() => flatNodes(props.data));
+        const { nodeList, getChildrenByValues, getParentByValues } =
+            useData(props);
+
         const treeSelectable = computed(() => !props.multiple);
         const treeCheckable = computed(() => props.multiple);
         const selectedKeys = computed(() => {
@@ -132,9 +135,31 @@ export default defineComponent({
             return [];
         });
         const checkedKeys = computed(() => {
-            if (props.multiple) return currentValue.value;
+            if (props.multiple) {
+                if (!props.cascade) {
+                    return currentValue.value;
+                }
+                if (props.checkStrictly === 'all') {
+                    return currentValue.value;
+                }
+                if (props.checkStrictly === 'parent') {
+                    return getChildrenByValues(currentValue.value);
+                }
+                if (props.checkStrictly === 'child') {
+                    return getParentByValues(currentValue.value);
+                }
+            }
             return [];
         });
+
+        watch(
+            () => props.checkStrictly,
+            () => {
+                if (props.multiple && props.cascade) {
+                    updateCurrentValue([]);
+                }
+            },
+        );
 
         const handleClear = () => {
             const value = props.multiple ? [] : null;
@@ -142,14 +167,25 @@ export default defineComponent({
             emit('clear');
         };
 
-        const handleSelect = (value) => {
+        const handleSelect = (data) => {
             if (props.disabled) return;
             filterText.value = '';
             if (!props.multiple) {
-                updateCurrentValue(value[0]);
+                updateCurrentValue(data.selectedKeys[0]);
                 isOpened.value = false;
             } else {
-                updateCurrentValue(value);
+                updateCurrentValue(data.selectedKeys);
+            }
+        };
+
+        const handleCheck = (data) => {
+            if (props.disabled) return;
+            filterText.value = '';
+            if (!props.multiple) {
+                updateCurrentValue(data.checkedKeys[0]);
+                isOpened.value = false;
+            } else {
+                updateCurrentValue(data.checkedKeys);
             }
         };
 
@@ -157,32 +193,21 @@ export default defineComponent({
             if (!props.multiple) {
                 return;
             }
-            const arr = currentValue.value;
-            const findIndex = arr.indexOf(value);
+            const findIndex = currentValue.value.indexOf(value);
             if (findIndex !== -1) {
                 emit('removeTag', value);
-                arr.splice(findIndex, 1);
-                updateCurrentValue(arr);
+                // arrayModel会自动添加或者删除
+                updateCurrentValue(value);
             }
         };
 
         const selectedOptions = computed(() =>
-            nodes.value
-                .map((option) => {
-                    const value = option[props.valueField];
-                    const label = option[props.labelField];
-                    return {
-                        ...option,
-                        value,
-                        label,
-                    };
-                })
-                .filter((option) => {
-                    if (props.multiple) {
-                        return currentValue.value.includes(option.value);
-                    }
-                    return [currentValue.value].includes(option.value);
-                }),
+            Object.values(nodeList).filter((option) => {
+                if (props.multiple) {
+                    return currentValue.value.includes(option.value);
+                }
+                return [currentValue.value].includes(option.value);
+            }),
         );
 
         const focus = (e) => {
@@ -235,6 +260,7 @@ export default defineComponent({
             selectedKeys,
             treeCheckable,
             handleSelect,
+            handleCheck,
             checkedKeys,
             refTree,
             filterMethod,

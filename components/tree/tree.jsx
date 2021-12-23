@@ -1,11 +1,11 @@
-import { defineComponent, computed, provide, onMounted, ref, watch } from 'vue';
-import { isFunction, isString, isNil, cloneDeep } from 'lodash-es';
+import { defineComponent, computed, provide, onMounted } from 'vue';
+import { isFunction, isString, cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
-import { useNormalModel } from '../_util/use/useModel';
 import TreeNode from './treeNode';
-import { PROVIDE_KEY, COMPONENT_NAME } from './const';
-import useFilter from './useFilter';
+import { PROVIDE_KEY, COMPONENT_NAME, CHECK_STRATEGY } from './const';
+import useData from './useData';
+import useState from './useState';
 import PROPS from './props';
 
 const prefixCls = getPrefixCls('tree');
@@ -26,81 +26,24 @@ export default defineComponent({
     ],
     setup(props, { emit, expose }) {
         useTheme();
-        const nodeList = {};
-        const addNode = (value, item) => {
-            if (!nodeList[value]) {
-                nodeList[value] = item;
-            }
-        };
-        const currentData = ref([]);
-        const transformNode = (item, indexPath, level) => {
-            const copy = { ...item };
-            const value = copy[props.valueField];
-            const label = copy[props.labelField];
-            const children = copy[props.childrenField];
-            const hasChildren = Array.isArray(children) && children.length;
-            let isLeaf;
-            if (!isNil(copy.isLeaf)) {
-                isLeaf = copy.isLeaf;
-            } else if (hasChildren) {
-                isLeaf = false;
-            } else if (props.remote) {
-                isLeaf = false;
-            } else {
-                isLeaf = true;
-            }
-            copy.origin = item;
-            copy.value = value;
-            copy.label = label;
-            copy.isLeaf = isLeaf;
-            // 处理indexPath
-            copy.indexPath = [...indexPath, value];
-            copy.level = level;
-            copy.hasChildren = hasChildren;
-            // 扁平化
-            addNode(value, copy);
-            return copy;
-        };
-        const handleData = (arr, indexPath = [], level = 1) =>
-            arr.map((item) => {
-                const copy = transformNode(item, indexPath, level);
-                if (copy.hasChildren) {
-                    copy.children = handleData(
-                        copy.children,
-                        copy.indexPath,
-                        level + 1,
-                    );
-                }
-                return copy;
-            });
 
-        watch(
-            () => props.data,
-            () => {
-                currentData.value = handleData(props.data);
-            },
-            {
-                immediate: true,
-                deep: true,
-            },
-        );
+        const { nodeList, currentData, handleData } = useData(props);
 
-        const [currentExpandedKeys, updateExpandedKeys] = useNormalModel(
-            props,
-            emit,
-            { prop: 'expandedKeys', isEqual: true },
-        );
-        const [currentCheckedKeys, updateCheckedKeys] = useNormalModel(
-            props,
-            emit,
-            { prop: 'checkedKeys', isEqual: true },
-        );
-        const [currentSelectedKeys, updateSelectedKeys] = useNormalModel(
-            props,
-            emit,
-            { prop: 'selectedKeys', isEqual: true },
-        );
-        const { filter, hiddenKeys, filteredExpandedKeys } = useFilter(props);
+        const {
+            currentExpandedKeys,
+            updateExpandedKeys,
+            currentCheckedKeys,
+            updateCheckedKeys,
+            currentSelectedKeys,
+            updateSelectedKeys,
+            filter,
+            hiddenKeys,
+            hasSelected,
+            hasChecked,
+            hasIndeterminate,
+            hasExpanded,
+        } = useState(props, { emit });
+
         onMounted(() => {
             if (
                 props.defaultExpandAll &&
@@ -111,6 +54,7 @@ export default defineComponent({
                 );
             }
         });
+
         const selectNode = (val, event) => {
             const node = nodeList[val];
             const values = cloneDeep(currentSelectedKeys.value);
@@ -137,6 +81,7 @@ export default defineComponent({
                 selected: values.includes(val),
             });
         };
+
         const expandNode = (val, event) => {
             const node = nodeList[val];
             let values = cloneDeep(currentExpandedKeys.value);
@@ -160,6 +105,30 @@ export default defineComponent({
                 expanded: values.includes(val),
             });
         };
+
+        function getCheckedKeys(arr) {
+            return props.cascade
+                ? arr.filter((key) => {
+                      const node = nodeList[key];
+                      if (props.checkStrictly === CHECK_STRATEGY.ALL) {
+                          return true;
+                      }
+                      if (props.checkStrictly === CHECK_STRATEGY.PARENT) {
+                          return (
+                              !node.isLeaf &&
+                              !hasIndeterminate(node) &&
+                              node.indexPath.filter((_key) =>
+                                  arr.includes(_key),
+                              ).length === 1
+                          );
+                      }
+                      if (props.checkStrictly === CHECK_STRATEGY.CHILD) {
+                          return node.isLeaf;
+                      }
+                      return true;
+                  })
+                : arr;
+        }
         function handleChildren(arr, children, isAdd) {
             children.forEach((child) => {
                 const index = arr.indexOf(child.value);
@@ -200,7 +169,7 @@ export default defineComponent({
             const { isLeaf, children, indexPath } = node;
             const values = cloneDeep(currentCheckedKeys.value);
             const index = values.indexOf(val);
-            if (props.checkStrictly) {
+            if (!props.cascade) {
                 if (index !== -1) {
                     values.splice(index, 1);
                 } else {
@@ -219,9 +188,10 @@ export default defineComponent({
                     handleChildren(values, children, true);
                 }
             }
+
             updateCheckedKeys(values);
             emit('check', {
-                checkedKeys: values,
+                checkedKeys: getCheckedKeys(values),
                 event,
                 node,
                 checked: values.includes(val),
@@ -240,12 +210,12 @@ export default defineComponent({
         provide(PROVIDE_KEY, {
             props,
             selectNode,
-            currentSelectedKeys,
             expandNode,
-            currentExpandedKeys,
             checkNode,
-            currentCheckedKeys,
-            filteredExpandedKeys,
+            hasSelected,
+            hasChecked,
+            hasIndeterminate,
+            hasExpanded,
         });
 
         const classList = computed(() => [prefixCls].filter(Boolean).join(' '));
@@ -285,6 +255,7 @@ export default defineComponent({
                 );
             });
         const renderTreeNode = () => renderChildren(currentData.value);
+
         return () => (
             <div class={classList.value} role="tree">
                 {renderTreeNode()}
