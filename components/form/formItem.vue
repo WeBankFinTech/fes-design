@@ -78,12 +78,11 @@ export default defineComponent({
         const formItemShowMessage = computed(() => (props.showMessage === null ? showMessage.value : props.showMessage));
         const formItemRequired = computed(() => (formItemRules.value.length > 0 && formItemRules.value.some(_ => _.required)));
         const formItemClass = computed(() => {
-            const classSet = [prefixCls, labelPosition.value !== LABEL_POSITION.LEFT && `${prefixCls}-${labelPosition.value}`].filter(Boolean)
+            return [prefixCls, labelPosition.value !== LABEL_POSITION.LEFT && `${prefixCls}-${labelPosition.value}`].filter(Boolean)
                 .concat((formItemRequired.value && ['is-required']) || []) // 必填校验: is-required
                 .concat((validateStatus.value === VALIDATE_STATUS.ERROR && ['is-error']) || []); // 校验错误: is-error
-            return classSet.join(' ');
         });
-        const formItemLabelClass = computed(() => ([`${prefixCls}-label`, labelClass.value, props.labelClass].filter(Boolean).join(' ')));
+        const formItemLabelClass = computed(() => ([`${prefixCls}-label`, labelClass.value, props.labelClass].filter(Boolean)));
         const formItemLabelStyle = computed(() => ({ width: addUnit(props.labelWidth || labelWidth.value) }));
 
         let ruleDefaultType = 'string';
