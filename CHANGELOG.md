@@ -1,3 +1,17 @@
+## [0.1.2](https://github.com/WeBankFinTech/fes-design/compare/v0.1.1...v0.1.2) (2021-12-23)
+
+
+### Bug Fixes
+
+* selectTrigger的focus/blur事件无法正常抛出 ([62a3937](https://github.com/WeBankFinTech/fes-design/commit/62a393752db305e63cede153ef9b6fcf7beb5125))
+
+
+### Features
+
+* tree改变级联字段和增加级联显示模式 ([d6478b4](https://github.com/WeBankFinTech/fes-design/commit/d6478b4dee511f4136ef4251029765d884e73511))
+
+
+
 ## [0.1.1](https://github.com/WeBankFinTech/fes-design/compare/v0.1.0...v0.1.1) (2021-12-21)
 
 
