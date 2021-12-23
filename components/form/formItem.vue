@@ -34,7 +34,7 @@ export default defineComponent({
     props: {
         prop: String,
         label: String,
-        labelWidth: String | Number,
+        labelWidth: [String, Number],
         labelClass: String,
         showMessage: {
             type: Boolean,
