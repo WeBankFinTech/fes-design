@@ -42,7 +42,7 @@ export default defineComponent({
             default: true,
         },
         labelWidth: [String, Number],
-        labelMarginRight: [String, Number],
+        labelClass: String,
     },
 
     setup(props) {

@@ -1,6 +1,6 @@
 <template>
     <div :class="formItemClass">
-        <label v-if="label || $slots.label" :class="`${prefixCls}-label`" :style="formItemLabelStyle">
+        <label v-if="label || $slots.label" :class="formItemLabelClass" :style="formItemLabelStyle">
             <slot name="label">
                 {{label}}
             </slot>
@@ -21,7 +21,7 @@ import Schema from 'async-validator';
 import { isArray, cloneDeep } from 'lodash-es';
 import { addUnit } from '../_util/utils';
 import {
-    provideKey, FORM_ITEM_NAME, LABEL_POSITION, TRIGGER_DEFAULT, VALIDATE_STATUS, VALIDATE_MESSAGE_DEFAULT, LABEL_MARGIN_RIGHT_DEFAULT
+    provideKey, FORM_ITEM_NAME, LABEL_POSITION, TRIGGER_DEFAULT, VALIDATE_STATUS, VALIDATE_MESSAGE_DEFAULT
 } from './const';
 import getPrefixCls from '../_util/getPrefixCls';
 import { FORMITEM_INJECTION_KEY } from '../_util/constants';
@@ -35,6 +35,7 @@ export default defineComponent({
         prop: String,
         label: String,
         labelWidth: String | Number,
+        labelClass: String,
         showMessage: {
             type: Boolean,
             default: null,
@@ -50,7 +51,7 @@ export default defineComponent({
             rules,
             showMessage,
             labelWidth,
-            labelMarginRight,
+            labelClass,
             labelPosition,
             addField,
             removeField,
@@ -81,11 +82,9 @@ export default defineComponent({
                 .concat((formItemRequired.value && ['is-required']) || []) // 必填校验: is-required
                 .concat((validateStatus.value === VALIDATE_STATUS.ERROR && ['is-error']) || []); // 校验错误: is-error
             return classSet.join(' ');
-        });        
-        const formItemLabelStyle = computed(() => ({ 
-            width: addUnit(props.labelWidth || labelWidth.value),
-            'margin-right': addUnit(labelMarginRight.value) || LABEL_MARGIN_RIGHT_DEFAULT
-        }));
+        });
+        const formItemLabelClass = computed(() => ([`${prefixCls}-label`, labelClass.value, props.labelClass].filter(Boolean).join(' ')));
+        const formItemLabelStyle = computed(() => ({ width: addUnit(props.labelWidth || labelWidth.value) }));
 
         let ruleDefaultType = 'string';
         const setRuleDefaultType = (val) => {
@@ -174,6 +173,7 @@ export default defineComponent({
             formItemClass,
             formItemRequired,
             formItemShowMessage,
+            formItemLabelClass,
             formItemLabelStyle,
             validateRules,
             validate,
