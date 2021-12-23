@@ -142,6 +142,7 @@ export default {
                 if (isOpened) {
                     nextTick(() => {
                         if (!inputRef.value) return;
+                        if (!props.filterable) return;
                         inputRef.value.focus();
                     });
                 } else {
@@ -158,6 +159,7 @@ export default {
                 filterText.value = '';
                 nextTick(() => {
                     if (!inputRef.value) return;
+                    if (!props.filterable) return;
                     inputRef.value.focus();
                 });
             }

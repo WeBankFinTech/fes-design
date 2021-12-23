@@ -13,6 +13,7 @@
         >
             <template #trigger>
                 <SelectTrigger
+                    ref="triggerRef"
                     :selectedOptions="selectedOptions"
                     :disabled="disabled"
                     :clearable="clearable"
@@ -30,7 +31,10 @@
                 />
             </template>
             <template #default>
-                <Scrollbar :containerClass="`${prefixCls}-dropdown`">
+                <Scrollbar
+                    :containerStyle="dropdownStyle"
+                    :containerClass="`${prefixCls}-dropdown`"
+                >
                     <Tree
                         v-show="data.length"
                         ref="refTree"
@@ -63,7 +67,7 @@
     </div>
 </template>
 <script>
-import { defineComponent, ref, unref, watch, computed } from 'vue';
+import { defineComponent, ref, unref, watch, computed, onMounted } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel, useArrayModel } from '../_util/use/useModel';
@@ -200,6 +204,23 @@ export default defineComponent({
         });
         const filterMethod = (value, node) => node.label.indexOf(value) !== -1;
 
+        const triggerRef = ref();
+        const triggerWidth = ref(0);
+
+        onMounted(() => {
+            if (triggerRef.value) {
+                triggerWidth.value = triggerRef.value.$el.offsetWidth;
+            }
+        });
+
+        const dropdownStyle = computed(() => {
+            const style = {};
+            if (triggerWidth.value) {
+                style['min-width'] = `${triggerWidth.value}px`;
+            }
+            return style;
+        });
+
         return {
             prefixCls,
             isOpened,
@@ -217,6 +238,8 @@ export default defineComponent({
             checkedKeys,
             refTree,
             filterMethod,
+            triggerRef,
+            dropdownStyle,
         };
     },
 });
