@@ -49,6 +49,8 @@ export default function useTrigger(
     };
 
     const popperEventsHandler = (e, t) => {
+        // 不是用户触发的行为
+        e.stopPropagation();
         switch (e.type) {
             case 'click': {
                 if (t === 'contextmenu') {

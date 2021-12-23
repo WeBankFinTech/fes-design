@@ -13,6 +13,7 @@
         >
             <template #trigger>
                 <SelectTrigger
+                    ref="triggerRef"
                     :selectedOptions="selectedOptions"
                     :disabled="disabled"
                     :clearable="clearable"
@@ -30,7 +31,10 @@
                 />
             </template>
             <template #default>
-                <Scrollbar :containerClass="`${prefixCls}-dropdown`">
+                <Scrollbar
+                    :containerStyle="dropdownStyle"
+                    :containerClass="`${prefixCls}-dropdown`"
+                >
                     <slot>
                         <div :class="`${prefixCls}-null`">{{ emptyText }}</div>
                     </slot>
@@ -48,6 +52,7 @@ import {
     reactive,
     watch,
     computed,
+    onMounted,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -183,6 +188,23 @@ export default defineComponent({
             filterText.value = val;
         };
 
+        const triggerRef = ref();
+        const triggerWidth = ref(0);
+
+        onMounted(() => {
+            if (triggerRef.value) {
+                triggerWidth.value = triggerRef.value.$el.offsetWidth;
+            }
+        });
+
+        const dropdownStyle = computed(() => {
+            const style = {};
+            if (triggerWidth.value) {
+                style['min-width'] = `${triggerWidth.value}px`;
+            }
+            return style;
+        });
+
         return {
             prefixCls,
             isOpened,
@@ -193,6 +215,8 @@ export default defineComponent({
             focus,
             blur,
             handleFilterTextChange,
+            triggerRef,
+            dropdownStyle,
         };
     },
 });

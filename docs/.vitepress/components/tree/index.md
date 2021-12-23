@@ -18,33 +18,25 @@ app.use(FTree);
 
 --COMMON
 
-#### inline
-
-底层节点在一行展示
+#### 叶子节点一行展示
 
 --INLINE
 
-#### 多选节点
+#### 可选择多个节点
 
 可以选择多个节点。
 
 --MULTIPLE
 
-#### 展开全部
-
-默认展开全部节点
-
---EXPANDALL
-
-### 可选择
+### 可勾选
 
 适用于需要选择层级时使用。
 
 --CHECKABLE
 
-#### 展开部分 + 默认选中 + 默认 check
+#### 展开部分 + 默认选中 + 默认勾选
 
-通过`expandedKeys`配置默认展开部分节点，通过`selectedKeys`配置默认 select 的节点，通过`checkedKeys`配置默认 check 的节点。
+通过`expandedKeys`配置默认展开节点，通过`selectedKeys`配置默认选择节点，通过`checkedKeys`配置默认勾选节点。
 
 --DEFAULT
 
@@ -84,7 +76,8 @@ app.use(FTree);
 | defaultExpandAll      | 是否默认展开所有节点，当有 `expandedKeys` 时，`defaultExpandAll` 将失效 | boolean                                   | `false`    |
 | expandedKeys(v-model) | 展开的节点的 key 的数组                                                 | Array<string \| number>                   | `[]`       |
 | checkable             | 节点前添加 `Checkbox` 复选框                                            | boolean                                   | `false`    |
-| checkStrictly         | `checkable` 状态下节点选择完全受控（父子节点选中状态不再关联）          | boolean                                   | `false`    |
+| cascade             | `checkable` 状态下节点选择完全受控（父子节点选中状态关联）                                           | boolean                                   | `false`    |
+| checkStrictly         | 设置勾选策略来指定勾选回调返回的值，`all` 表示回调函数值为全部选中节点；`parent` 表示回调函数值为父节点（当父节点下所有子节点都选中时）；`child` 表示回调函数值为子节点          | string                                   | `all`    |
 | checkedKeys(v-model)  | 勾选的节点的 key 的数组                                                 | Array<string \| number>                   | `[]`       |
 | selectable            | 是否可选中节点                                                              | boolean                                   | `true`     |
 | selectedKeys(v-model) | 设置选中的树节点                                                        | Array<string \| number>                   | `[]`       |
@@ -94,7 +87,7 @@ app.use(FTree);
 | remote                | 是否异步获取选项，和 `onLoad` 配合                                      | boolean                                   | `false`    |
 | loadData              | 异步加载数据的回调函数                                                  | (node: TreeOption) => Promise\<void\>     | `null`     |
 | inline                | 底层节点是否横向排列                                                    | boolean                                   | `false`    |
-| filterMethod          | 按需筛选树节点（高亮），返回 true                                       | (filterText, node: TreeOption) => Boolean | `null`     |
+| filterMethod          | 类似Array.filter函数，筛选树节点（高亮）                                      | (filterText, node: TreeOption) => Boolean | `null`     |
 
 ## Tree Events
 

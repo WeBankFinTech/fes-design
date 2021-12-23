@@ -1,3 +1,5 @@
+import { CHECK_STRATEGY } from './const';
+
 const PROPS = {
     data: {
         type: Array,
@@ -30,13 +32,20 @@ const PROPS = {
             return [];
         },
     },
+    cascade: {
+        type: Boolean,
+        default: false,
+    },
     checkable: {
         type: Boolean,
         default: false,
     },
     checkStrictly: {
-        type: Boolean,
-        default: false,
+        type: String,
+        default: 'all',
+        validator(value) {
+            return Object.values(CHECK_STRATEGY).includes(value);
+        },
     },
     checkedKeys: {
         type: Array,

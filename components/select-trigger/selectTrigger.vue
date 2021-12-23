@@ -4,8 +4,8 @@
         :class="triggerClass"
         @mouseenter="inputHovering = true"
         @mouseleave="inputHovering = false"
-        @focus="handleFocus"
-        @blur="handleBlur"
+        @focusin="handleFocus"
+        @focusout="handleBlur"
     >
         <Label
             :isOpened="isOpened"
