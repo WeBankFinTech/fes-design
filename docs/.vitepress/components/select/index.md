@@ -82,6 +82,7 @@ app.use(FSelect);
 | placeholder          | 当没有选择内容时的提示语                      | string                             | -                     |
 | modelValue / v-model | 选中的值                                      | number / string / boolean / object | -                     |
 | filterable           | 是否支持过滤选项                              | boolean                            | `false`               |
+| remote           | 是否开启远程搜索，配合 search 事件使用                              | boolean                            | `false`               |
 | loading           | 数据加载中                              | boolean                            | `false`               |
 
 ## Select Events
