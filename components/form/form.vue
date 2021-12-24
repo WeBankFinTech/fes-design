@@ -42,6 +42,7 @@ export default defineComponent({
             default: true,
         },
         labelWidth: [String, Number],
+        labelClass: String,
     },
 
     setup(props) {
