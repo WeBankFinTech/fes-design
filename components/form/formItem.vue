@@ -77,11 +77,13 @@ export default defineComponent({
         /** 错误展示逻辑: 就近原则【formItem 权重更高】  */
         const formItemShowMessage = computed(() => (props.showMessage === null ? showMessage.value : props.showMessage));
         const formItemRequired = computed(() => (formItemRules.value.length > 0 && formItemRules.value.some(_ => _.required)));
-        const formItemClass = computed(() => {
-            return [prefixCls, labelPosition.value !== LABEL_POSITION.LEFT && `${prefixCls}-${labelPosition.value}`].filter(Boolean)
-                .concat((formItemRequired.value && ['is-required']) || []) // 必填校验: is-required
-                .concat((validateStatus.value === VALIDATE_STATUS.ERROR && ['is-error']) || []); // 校验错误: is-error
-        });
+        const formItemClass = computed(() => [
+                prefixCls,
+                labelPosition.value !== LABEL_POSITION.LEFT && `${prefixCls}-${labelPosition.value}`,
+                formItemRequired.value && 'is-required', // 必填校验: is-required
+                validateStatus.value === VALIDATE_STATUS.ERROR && 'is-error' // 校验错误: is-error
+            ].filter(Boolean)
+        );
         const formItemLabelClass = computed(() => ([`${prefixCls}-label`, labelClass.value, props.labelClass].filter(Boolean)));
         const formItemLabelStyle = computed(() => ({ width: addUnit(props.labelWidth || labelWidth.value) }));
 
