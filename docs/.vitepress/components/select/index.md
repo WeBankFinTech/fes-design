@@ -82,8 +82,8 @@ app.use(FSelect);
 | placeholder          | 当没有选择内容时的提示语                      | string                             | -                     |
 | modelValue / v-model | 选中的值                                      | number / string / boolean / object | -                     |
 | filterable           | 是否支持过滤选项                              | boolean                            | `false`               |
-| remote           | 是否开启远程搜索，配合 search 事件使用                              | boolean                            | `false`               |
-| loading           | 数据加载中                              | boolean                            | `false`               |
+| fetchData           | 开启远程搜索，如果同时传了 options, 有搜索结果时替换 options                            | (inputText): => options                            | -               |
+| isFetchInInitial           | 是否在初始化完组件后，自动执行一次 fetchData                              | boolean                            | `false`               |
 
 ## Select Events
 
@@ -94,7 +94,6 @@ app.use(FSelect);
 | removeTag     | 取消选中时调用，参数为选中项的 value (或 key) 值，仅在 `multiple` 模式下生效 | 取消选中的值                  |
 | blur          | 当 input 失去焦点时触发                                                      | event                         |
 | focus         | 当 input 获得焦点时触发                                                      | event                         |
-| search         | 输入内容时触发                                                    | event                         |
 
 ## Select Slots
 
