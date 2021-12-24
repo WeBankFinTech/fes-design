@@ -49,7 +49,6 @@ specifiers:
   postcss: ^8.3.11
   prettier: ^2.4.1
   prismjs: ^1.25.0
-  resize-observer-polyfill: ^1.5.1
   rollup: ^2.60.1
   rollup-plugin-postcss: ^4.0.1
   rollup-plugin-vue: ^6.0.0
@@ -76,7 +75,6 @@ dependencies:
   async-validator: 4.0.7
   lodash-es: 4.17.21
   normalize-wheel: 1.0.1
-  resize-observer-polyfill: 1.5.1
   stickybits: 3.7.9
 
 devDependencies:
@@ -8421,10 +8419,6 @@ packages:
   /require-main-filename/2.0.0:
     resolution: {integrity: sha1-0LMp7MfMD2Fkn2IhW+aa9UqomJs=, tarball: require-main-filename/download/require-main-filename-2.0.0.tgz}
     dev: true
-
-  /resize-observer-polyfill/1.5.1:
-    resolution: {integrity: sha1-DpAg3T0hAkRY1OvSfiPkAmmBBGQ=, tarball: resize-observer-polyfill/download/resize-observer-polyfill-1.5.1.tgz}
-    dev: false
 
   /resolve-cwd/3.0.0:
     resolution: {integrity: sha1-DwB18bslRHZs9zumpuKt/ryxPy0=, tarball: resolve-cwd/download/resolve-cwd-3.0.0.tgz}

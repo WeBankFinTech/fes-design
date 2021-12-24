@@ -1,5 +1,9 @@
 import {
-    defineComponent, getCurrentInstance, computed, onMounted, onBeforeUnmount,
+    defineComponent,
+    getCurrentInstance,
+    computed,
+    onMounted,
+    onBeforeUnmount,
 } from 'vue';
 import Ellipsis from '../ellipsis';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -21,9 +25,7 @@ export default defineComponent({
     },
     setup(props, { slots }) {
         const instance = getCurrentInstance();
-        const {
-            rootMenu, parentMenu, paddingStyle,
-        } = useMenu(instance);
+        const { rootMenu, parentMenu, paddingStyle } = useMenu(instance);
         // 根节点 menu
         if (!rootMenu) {
             return console.warn(
@@ -37,7 +39,9 @@ export default defineComponent({
             );
         }
         const { children } = useChildren();
-        const isActive = computed(() => children.some(child => child?.isActive));
+        const isActive = computed(() =>
+            children.some((child) => child?.isActive),
+        );
         const subMenu = {
             uid: instance.uid,
             type: 'menuGroup',
@@ -51,11 +55,16 @@ export default defineComponent({
             parentMenu.removeChild(subMenu);
         });
         const renderTitle = () => {
-            const Wrapper = <Ellipsis triggerClass={`${prefixCls}-label`} style={paddingStyle.value}></Ellipsis>;
+            const Wrapper = (
+                <Ellipsis
+                    triggerClass={`${prefixCls}-label`}
+                    style={paddingStyle.value}
+                ></Ellipsis>
+            );
             return <Wrapper>{slots.label?.() || props.label}</Wrapper>;
         };
         return () => (
-            <div className={prefixCls}>
+            <div class={prefixCls}>
                 {renderTitle()}
                 {slots.default?.()}
             </div>

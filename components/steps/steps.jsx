@@ -53,7 +53,7 @@ export default defineComponent({
             parentDomRef,
         });
         return () => (
-            <div ref={parentDomRef} className={classList.value}>
+            <div ref={parentDomRef} class={classList.value}>
                 {slots.default?.()}
             </div>
         );

@@ -20,8 +20,8 @@ export default defineComponent({
         const { row, rowIndex, column, length } = props;
         if (column.ctx?.slots?.default) {
             return () => (
-                <tr className={`${prefixCls}-expand-tr`}>
-                    <td colspan={length} className={`${prefixCls}-expand-td`}>
+                <tr class={`${prefixCls}-expand-tr`}>
+                    <td colspan={length} class={`${prefixCls}-expand-td`}>
                         {column.ctx.slots.default({
                             row,
                             rowIndex,

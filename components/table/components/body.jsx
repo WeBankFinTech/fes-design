@@ -59,7 +59,7 @@ export default defineComponent({
                 showData.value.map((row, rowIndex) => (
                     <Fragment key={getRowKey({ row }) || rowIndex}>
                         <tr
-                            className={getRowClassName({ row, rowIndex })}
+                            class={getRowClassName({ row, rowIndex })}
                             style={{
                                 ...getRowStyle({ row, rowIndex }),
                             }}
@@ -83,7 +83,7 @@ export default defineComponent({
                 <tr>
                     <td
                         colSpan={props.columns.length}
-                        className={`${prefixCls}-cell ${prefixCls}-no-data`}
+                        class={`${prefixCls}-cell ${prefixCls}-no-data`}
                     >
                         {props.emptyText}
                     </td>

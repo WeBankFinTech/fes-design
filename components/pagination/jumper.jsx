@@ -1,6 +1,4 @@
-import {
-    defineComponent, toRefs, ref,
-} from 'vue';
+import { defineComponent, toRefs, ref } from 'vue';
 
 import getPrefixCls from '../_util/getPrefixCls';
 import FInput from '../input/input';
@@ -31,20 +29,21 @@ export default defineComponent({
             if (Number.isNaN(cur)) {
                 return;
             }
-            const currentPage = cur < 1 ? 1 : (cur > total.value ? total.value : cur);
+            const currentPage =
+                cur < 1 ? 1 : cur > total.value ? total.value : cur;
             current.value = currentPage;
             props.change(currentPage);
         };
         return () => (
-            <div className={`${prefixCls}-jumper`}>
-                <span className={`${prefixCls}-jumper-item`}>跳至</span>
-                <span className={`${prefixCls}-jumper-item`}>第</span>
+            <div class={`${prefixCls}-jumper`}>
+                <span class={`${prefixCls}-jumper-item`}>跳至</span>
+                <span class={`${prefixCls}-jumper-item`}>第</span>
                 <FInput
                     v-model={current.value}
                     placeholder=""
-                    onChange={handleChange}>
-                </FInput>
-                <span className={`${prefixCls}-jumper-item`}>页</span>
+                    onChange={handleChange}
+                ></FInput>
+                <span class={`${prefixCls}-jumper-item`}>页</span>
             </div>
         );
     },

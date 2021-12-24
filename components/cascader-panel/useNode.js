@@ -1,10 +1,6 @@
+import { ref, computed, watch } from 'vue';
+import { flatNodes } from '../_util/utils';
 import {
-    ref,
-    computed,
-    watch,
-} from 'vue';
-import {
-    flatNodes,
     generateId,
     getMultiNodeValuesByCurrentValue,
     getNode,
@@ -19,17 +15,18 @@ function useNodes(config, props) {
     const allNodes = computed(() => flatNodes(nodes.value));
     const leafNodes = computed(() => flatNodes(nodes.value, true));
 
-
     watch(
         [() => config.value, () => props.options],
         () => {
-            nodes.value = (props.options || []).map(
-                nodeData => getNode(nodeData, config.value),
+            nodes.value = (props.options || []).map((nodeData) =>
+                getNode(nodeData, config.value),
             );
-            menus.value = [{
-                nodes: nodes.value,
-                menuId: `${generateId()}`, // 随机生成 menuId，以便重新渲染
-            }];
+            menus.value = [
+                {
+                    nodes: nodes.value,
+                    menuId: `${generateId()}`, // 随机生成 menuId，以便重新渲染
+                },
+            ];
         },
         {
             deep: true,
@@ -64,7 +61,10 @@ function useSelectedNodes(config, props, nodes) {
          * 单选
          */
         if (!multiple) {
-            const nodeValue = getNodeValueByCurrentValue(emitPath, currentValue);
+            const nodeValue = getNodeValueByCurrentValue(
+                emitPath,
+                currentValue,
+            );
 
             const node = getNodeByValue(nodes.value, nodeValue);
 
@@ -75,7 +75,10 @@ function useSelectedNodes(config, props, nodes) {
             /**
              * 多选
              */
-            const nodeValues = getMultiNodeValuesByCurrentValue(emitPath, currentValue);
+            const nodeValues = getMultiNodeValuesByCurrentValue(
+                emitPath,
+                currentValue,
+            );
             nodeValues.forEach((nodeValue) => {
                 const node = getNodeByValue(nodes.value, nodeValue);
                 if (node) {
@@ -93,13 +96,10 @@ function useSelectedNodes(config, props, nodes) {
 }
 
 export default (config, props) => {
-    const {
-        nodes,
-        menus,
-        allNodes,
-        leafNodes,
-        updateMenus,
-    } = useNodes(config, props);
+    const { nodes, menus, allNodes, leafNodes, updateMenus } = useNodes(
+        config,
+        props,
+    );
 
     const { selectedNodes } = useSelectedNodes(config, props, nodes);
 
