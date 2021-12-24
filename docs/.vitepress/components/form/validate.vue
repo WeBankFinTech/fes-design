@@ -36,7 +36,12 @@
                 <FCheckbox value="31-60">31-60</FCheckbox>
             </FCheckboxGroup>
         </FFormItem>
-        <FFormItem label="基础信息补充" prop="more">
+        <FFormItem prop="more" labelClass="more-label">
+            <template v-slot:label>
+                <span @click="moreClickHandler"> 
+                    <CheckCircleFilled />补充信息
+                </span>
+            </template>
             <div class="row-container">
                 <div class="row-item">
                     <FSelect></FSelect>
@@ -206,6 +211,10 @@ export default {
             WFormDomRef.value.resetFields();
         }
 
+        const moreClickHandler = () => {
+            FMessage.success({ content: '支持 labelClass 啦～' });
+        }
+
         const descClickHandler = () => {
             FMessage.success({ content: '你点击了备注<slot/>！' });
         }
@@ -223,12 +232,16 @@ export default {
             submitHandler,
             clearHandler,
             resetHandler,
-            descClickHandler
+            descClickHandler,
+            moreClickHandler
         }
     }
 }
 </script>
-<style scoped>
+<style>
+.fes-form .fes-form-item-label.more-label {
+   color: #9e9e9e;
+}
 .row-container {
     width: 100%;
 }
