@@ -21,4 +21,3 @@ export const VALIDATE_STATUS = {
 };
 export const VALIDATE_MESSAGE_DEFAULT = '';
 export const TRIGGER_DEFAULT = '';
-export const LABEL_MARGIN_RIGHT_DEFAULT = '16px';
