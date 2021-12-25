@@ -9,7 +9,7 @@
 <script>
 export default {};
 </script>
-<style lang="less">
+<style>
 .group-wrapper {
     display: flex;
 }

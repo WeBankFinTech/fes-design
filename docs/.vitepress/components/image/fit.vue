@@ -22,19 +22,21 @@ export default {
     },
 };
 </script>
-<style lang="less">
+<style>
 .fit-demo {
     display: flex;
-    .block {
-        width: 20%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        border-right: solid 1px #dcdfe6;
-        &:last-child {
-            border-right: none;
-        }
-    }
+    
+}
+.fit-demo .block {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-right: solid 1px #dcdfe6;
+    
+}
+.fit-demo .block:last-child {
+    border-right: none;
 }
 </style>

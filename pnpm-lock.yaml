@@ -17,7 +17,7 @@ specifiers:
   '@vitejs/plugin-vue-jsx': ^1.1.7
   '@vue/babel-plugin-jsx': ^1.1.1
   '@vue/compiler-sfc': ^3.2.23
-  '@vue/repl': ^0.4.3
+  '@vue/repl': ^0.4.8
   '@vue/shared': ^3.2.19
   '@vue/test-utils': ^2.0.0-rc.6
   '@vue/theme': 0.1.13
@@ -91,7 +91,7 @@ devDependencies:
   '@vitejs/plugin-vue-jsx': 1.3.0
   '@vue/babel-plugin-jsx': 1.1.1_@babel+core@7.16.0
   '@vue/compiler-sfc': 3.2.24
-  '@vue/repl': 0.4.5_vue@3.2.24
+  '@vue/repl': 0.4.8_vue@3.2.24
   '@vue/test-utils': 2.0.0-rc.17_vue@3.2.24
   '@vue/theme': 0.1.13_vue@3.2.24
   '@webank/eslint-config-webank': 1.1.5
@@ -2337,8 +2337,8 @@ packages:
       magic-string: 0.25.7
     dev: true
 
-  /@vue/repl/0.4.5_vue@3.2.24:
-    resolution: {integrity: sha512-FnKLdekdKsgVaFTi2wwE0ZjQfxIOlCEFeU0TtO5Quaa13k4/VJvqTKsJGEqcdC4rc4E7avKe5HhnND0tEnC+ag==, tarball: '@vue/repl/download/@vue/repl-0.4.5.tgz'}
+  /@vue/repl/0.4.8_vue@3.2.24:
+    resolution: {integrity: sha512-MP4xVHMuInTQEo6b3Q8OQF3R4fTrfFzWqQl157/S6hOnPDW3b05pMisC2RRubp+scHzR/1M+OnCNCRfpAHzPGg==, tarball: '@vue/repl/download/@vue/repl-0.4.8.tgz'}
     peerDependencies:
       vue: ^3.2.13
     dependencies:
