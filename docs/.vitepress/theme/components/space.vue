@@ -16,15 +16,15 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 .space {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-end;
     gap: 12px 16px;
-    &.is-vertical {
-        align-items: flex-start;
-        flex-direction: column;
-    }
+}
+.space.is-vertical {
+    align-items: flex-start;
+    flex-direction: column;
 }
 </style>

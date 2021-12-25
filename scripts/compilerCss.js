@@ -34,7 +34,10 @@ async function compilerStyleDir(codePath, outputDir) {
     const jsIndexPath = path.join(codePath, 'index.js');
     if (fse.existsSync(jsIndexPath)) {
         const cssEntryPath = path.join(outputDir, 'css.js');
-        fse.outputFileSync(cssEntryPath, fse.readFileSync(jsIndexPath, 'utf-8').replace(/\.less/g, '.css'));
+        fse.outputFileSync(
+            cssEntryPath,
+            fse.readFileSync(jsIndexPath, 'utf-8').replace(/\.less/g, '.css'),
+        );
     }
 
     const lessIndexPath = path.join(codePath, 'index.less');

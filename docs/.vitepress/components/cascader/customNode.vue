@@ -172,7 +172,7 @@
     })
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 .fes-cascader {
     width: 200px;
 }
