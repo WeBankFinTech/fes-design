@@ -5,63 +5,66 @@
             <div v-if="$slots.prepend" :class="`${prefixCls}-prepend`">
                 <slot name="prepend"></slot>
             </div>
-            <input
-                ref="inputRef"
-                :value="currentValue"
-                :maxlength="maxlength"
-                :type="
-                    showPassword
-                        ? passwordVisible
-                            ? 'text'
-                            : 'password'
-                        : type
-                "
-                :readonly="readonly"
-                :disabled="disabled"
-                :placeholder="placeholder"
-                :autocomplete="autocomplete"
-                :style="inputStyle"
-                :class="`${prefixCls}-inner`"
-                @compositionstart="handleCompositionStart"
-                @compositionend="handleCompositionEnd"
-                @input="handleInput"
-                @focus="handleFocus"
-                @blur="handleBlur"
-                @change="handleChange"
-                @keydown.enter="handleChange"
-                @keydown="handleKeydown"
-            />
-            <!-- 前置内容 -->
-            <span v-if="$slots.prefix" :class="`${prefixCls}-prefix`">
-                <slot name="prefix"></slot>
-            </span>
-            <!-- 后置内容 -->
-            <span
-                v-if="suffixVisible"
-                :class="`${prefixCls}-suffix`"
-                @mousedown.prevent
-            >
-                <template v-if="!showClear && !showPwdSwitchIcon">
-                    <slot name="suffix"></slot>
-                </template>
-                <CloseCircleFilled
-                    v-if="showClear"
-                    :class="`${prefixCls}-icon`"
-                    @click.stop="clear"
+            <span :class="`${prefixCls}-inner-wrapper`">
+                <input
+                    ref="inputRef"
+                    :value="currentValue"
+                    :maxlength="maxlength"
+                    :type="
+                        showPassword
+                            ? passwordVisible
+                                ? 'text'
+                                : 'password'
+                            : type
+                    "
+                    :readonly="readonly"
+                    :disabled="disabled"
+                    :placeholder="placeholder"
+                    :autocomplete="autocomplete"
+                    :style="inputStyle"
+                    :class="`${prefixCls}-inner`"
+                    @compositionstart="handleCompositionStart"
+                    @compositionend="handleCompositionEnd"
+                    @input="handleInput"
+                    @focus="handleFocus"
+                    @blur="handleBlur"
+                    @change="handleChange"
+                    @keydown.enter="handleChange"
+                    @keydown="handleKeydown"
                 />
-                <template v-if="showPwdSwitchIcon">
-                    <EyeOutlined
-                        v-if="passwordVisible"
+                <!-- 前置内容 -->
+                <span v-if="$slots.prefix" :class="`${prefixCls}-prefix`">
+                    <slot name="prefix"></slot>
+                </span>
+                <!-- 后置内容 -->
+                <span
+                    v-if="suffixVisible"
+                    :class="`${prefixCls}-suffix`"
+                    @mousedown.prevent
+                >
+                    <template v-if="!showClear && !showPwdSwitchIcon">
+                        <slot name="suffix"></slot>
+                    </template>
+                    <CloseCircleFilled
+                        v-if="showClear"
                         :class="`${prefixCls}-icon`"
-                        @click.stop="handlePasswordVisible"
+                        @click.stop="clear"
                     />
-                    <EyeInvisibleOutlined
-                        v-else
-                        :class="`${prefixCls}-icon`"
-                        @click.stop="handlePasswordVisible"
-                    />
-                </template>
+                    <template v-if="showPwdSwitchIcon">
+                        <EyeOutlined
+                            v-if="passwordVisible"
+                            :class="`${prefixCls}-icon`"
+                            @click.stop="handlePasswordVisible"
+                        />
+                        <EyeInvisibleOutlined
+                            v-else
+                            :class="`${prefixCls}-icon`"
+                            @click.stop="handlePasswordVisible"
+                        />
+                    </template>
+                </span>
             </span>
+
             <div v-if="$slots.append" :class="`${prefixCls}-append`">
                 <slot name="append"></slot>
             </div>
