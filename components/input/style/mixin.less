@@ -21,24 +21,30 @@
 .group-append() {
     button.@{cls-prefix}-btn,
     div.@{cls-prefix}-select .@{cls-prefix}-select-trigger,
-    div.@{cls-prefix}-select:hover .@{cls-prefix}-select-trigger {
+    div.@{cls-prefix}-cascader .@{cls-prefix}-select-trigger,
+    div.@{cls-prefix}-select:hover .@{cls-prefix}-select-trigger,
+    div.@{cls-prefix}-cascader:hover .@{cls-prefix}-select-trigger {
         .border-left-pure();
     }
 }
 .group-prepend() {
     button.@{cls-prefix}-btn,
     div.@{cls-prefix}-select .@{cls-prefix}-select-trigger,
-    div.@{cls-prefix}-select:hover .@{cls-prefix}-select-trigger {
+    div.@{cls-prefix}-cascader .@{cls-prefix}-select-trigger,
+    div.@{cls-prefix}-select:hover .@{cls-prefix}-select-trigger,
+    div.@{cls-prefix}-cascader:hover .@{cls-prefix}-select-trigger  {
         .border-right-pure();
     }
 }
 .group() {
     position: relative;
     display: table-cell;
+    box-sizing: border-box;
     width: 1px;
     padding: 0 20px;
     color: var(--f-text-color-secondary);
     white-space: nowrap;
+    vertical-align: middle;
     background-color: var(--f-component-bg-color);
     border: var(--f-border-base);
     border-radius: var(--f-border-radius-base);
@@ -48,11 +54,11 @@
     }
 
     .@{cls-prefix}-btn {
-        display: inline-block;
-        margin: -11px -22px;
+        margin: -1px -22px;
     }
 
-    .@{cls-prefix}-select {
+    .@{cls-prefix}-select, .@{cls-prefix}-cascader {
+        width: auto;
         min-width: 62px;
         margin: -1px -21px;
     }

@@ -74,7 +74,7 @@ function resolveSFCExample(demo) {
 
 function updateExample(fileName) {
   store.setFiles(resolveSFCExample(fileName), mainFile).then(() => {
-    //   store.setActive(demoFile);
+      store.setActive(demoFile);
   })
 }
 
@@ -82,9 +82,17 @@ watch(() => props.codeName, () => {
     updateExample(props.codeName);
 }, {
     immediate: true
-})
+});
 
 const isShow = ref(true);
+const handleShow = (val) => {
+  isShow.value = val;
+}
+defineExpose({
+  isShow,
+  handleShow
+})
+
 </script>
 
 <style scoped>
