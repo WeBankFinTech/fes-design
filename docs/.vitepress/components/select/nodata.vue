@@ -2,7 +2,7 @@
     <FSelect>
     </FSelect>
 </template>
-<style lang="less" scoped>
+<style scoped>
 .fes-select {
     width: 200px;
 }

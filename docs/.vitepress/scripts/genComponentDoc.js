@@ -2,7 +2,6 @@ const path = require('path');
 const fs = require('fs');
 const fse = require('fs-extra')
 
-
 const SCRIPT_TEMPLATE = `
 <script>
 IMPORT_EXPRESSION
@@ -15,14 +14,30 @@ export default {
 </script>
 `;
 
+const DEMO_ENTRY_FILE = `
+<template>
+    <Demo />
+</template>
+
+<script setup>
+import {setupFesDesign } from './fes-design.js';
+import Demo from './demo.vue';
+setupFesDesign();
+</script>
+`
+
 const CODE_PATH = path.join(process.cwd(), './docs/.vitepress/theme/components/demoCode.json');
+const COMP_SPACE_PATH = path.join(process.cwd(), './docs/.vitepress/theme/components/space.vue');
 
 function getDemoCode() {
     if (fs.existsSync(CODE_PATH)) {
         return JSON.parse(fs.readFileSync(CODE_PATH, 'utf-8'));
     }
 
-    return {};
+    return {
+        'app': DEMO_ENTRY_FILE,
+        'space': fs.readFileSync(COMP_SPACE_PATH, 'utf-8')
+    };
 }
 
 const code = getDemoCode();

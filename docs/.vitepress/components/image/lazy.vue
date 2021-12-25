@@ -19,7 +19,7 @@ export default {
     },
 };
 </script>
-<style lang="less">
+<style>
 .lazy-load-wrapper {
     width: 600px;
     height: 400px;
