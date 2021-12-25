@@ -19,32 +19,39 @@ const store = new ReplStore({
   defaultVueRuntimeURL: `https://unpkg.com/vue@${version}/dist/vue.esm-browser.js`
 })
 
-store.setImportMap({
-  imports: {
-    'fes-design': 'https://unpkg.com/@fesjs/fes-design@latest/dist/fesDesign.min.js'
-  }
-})
-
-const fesDesignSetup = `import { getCurrentInstance } from 'vue'
-import FesDesign from 'fes-design'
-
-export function setupFesDesign() {
-  const instance = getCurrentInstance()
-  instance.appContext.app.use(FesDesign)
-  loadStyle();
-}
-
+const fesDesignSetup = `
+// ⛔️ ⛔️ ⛔️
+// 不要修改此文件！该文件在共享时被还原
+import { getCurrentInstance } from 'vue';
+import 'fes-design';
 export function loadStyle() {
+  const hasLinks = document.querySelectorAll('link');
+  for(let l of hasLinks) {
+    if (/fesDesign.min.css/.test(l.href)) return;
+  }
+
   const link = document.createElement('link')
 	link.rel = 'stylesheet'
-	link.href = 'https://unpkg.com/@fesjs/fes-design@latest/dist/fesDesign.min.css'
-	document.body.appendChild(link)
-}`;
+	link.href = 'https://unpkg.com/@fesjs/fes-design@latest/dist/fesDesign.min.css';
+	document.head.appendChild(link)
+}
+
+export function setupFesDesign() {
+  loadStyle();
+  const instance = getCurrentInstance()
+  instance.appContext.app.use(FesDesign);
+}
+`;
 
 function resolveSFCExample() {
     const files = {
         [mainFile]: data['button.type'],
-        'fes-design.js': fesDesignSetup
+        'fes-design.js': fesDesignSetup,
+        'import-map.json': JSON.stringify({
+          imports: {
+            'fes-design': 'https://unpkg.com/@fesjs/fes-design@latest/dist/fesDesign.min.js'
+          }
+        })
     };
     return files;
 }
