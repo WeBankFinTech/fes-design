@@ -18,7 +18,7 @@
 </template>
 
 
-<style lang="less" scoped>
+<style scoped>
 .mtb-10 {
     margin: 10px 0;
 }
