@@ -25,8 +25,7 @@ import ExampleRepl from './exampleRepl.vue';
 let vm;
 export default function playground(codeName) {
     if (vm) {
-        console.log(vm);
-        vm.component.setupState.isShow = true;
+        vm.component.exposed.handleShow(true);
         vm.component.props.codeName = codeName;
         return vm;
     }
