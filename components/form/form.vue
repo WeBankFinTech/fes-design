@@ -61,7 +61,10 @@ export default defineComponent({
         };
 
         const validateFields = async (fieldProps, trigger = TRIGGER_TYPE_DEFAULT) => {
-            if (!props.model) return Promise.reject('Form `model` is required for resetFields to work.');
+            if (!props.model)
+                return Promise.reject(
+                    'Form `model` is required for resetFields to work.',
+                );
             const specifyProps = !!fieldProps; // 是否指定 prop: validateField() 调用会指定; validate() 调用不会指定
 
             const promiseList = []; // 原始校验结果
@@ -69,9 +72,9 @@ export default defineComponent({
                 if (!formField.rules.length) return; // Skip if without rule
                 if (specifyProps && formField.prop !== fieldProps) return; // Skip if Specify prop but not equal
 
-                // const promise = formField.validateRules(trigger);
+                const promise = formField.validateRules(trigger);
                 promiseList.push(
-                    formField.validateRules(trigger)
+                    promise
                         .then(() => ({ name: formField.prop, errors: [] }))
                         .catch((errors) =>
                             Promise.reject({ name: formField.prop, errors }),
@@ -106,7 +109,10 @@ export default defineComponent({
          *    return    { Promise }   校验结果
          */
         const validateField = (fieldProp = '', trigger = TRIGGER_TYPE_DEFAULT) => {
-            if (!fieldProp) return Promise.reject('`prop` is required for validateField to work.');
+            if (!fieldProp)
+                return Promise.reject(
+                    '`prop` is required for validateField to work.',
+                );
             return validateFields(fieldProp, trigger);
         };
 
