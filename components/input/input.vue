@@ -100,7 +100,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import {
     computed,
     toRefs,
@@ -109,8 +109,10 @@ import {
     watch,
     nextTick,
     onMounted,
+    defineComponent,
+    PropType,
+    Ref,
 } from 'vue';
-import { isObject } from 'lodash-es';
 
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
@@ -120,10 +122,81 @@ import { useTheme } from '../_theme/useTheme';
 import { useNormalModel } from '../_util/use/useModel';
 import calcTextareaHeight from './calcTextareaHeight';
 
+import type {
+    UpdateCurrentValue,
+    FormValidate,
+    Emit,
+    BooleanRef,
+} from '../_util/interface';
+
 const prefixCls = getPrefixCls('input');
 const textareaPrefixCls = getPrefixCls('textarea');
 
-function usePassword(currentValue, showPassword, readonly, disabled, focused) {
+const inputProps = {
+    modelValue: {
+        type: [Number, String] as PropType<number | string>,
+    },
+    type: {
+        type: String,
+        default: 'text',
+    },
+    placeholder: {
+        type: String,
+    },
+    readonly: {
+        type: Boolean,
+        default: false,
+    },
+    disabled: {
+        type: Boolean,
+        default: false,
+    },
+    clearable: {
+        type: Boolean,
+        default: false,
+    },
+    maxlength: {
+        type: Number,
+    },
+    rows: {
+        type: Number,
+        default: 2,
+    },
+    showWordLimit: {
+        type: Boolean,
+        default: false,
+    },
+    showPassword: {
+        type: Boolean,
+        default: false,
+    },
+    inputStyle: {
+        type: Object,
+        default: () => ({}),
+    },
+    autosize: {
+        type: [Boolean, Object] as PropType<boolean | Autosize>,
+        default: false,
+    },
+    autocomplete: {
+        type: String,
+        default: 'off',
+    },
+    resize: {
+        type: String,
+        default: 'none',
+    },
+} as const;
+
+type CurrentValue = Ref<number | string>;
+
+function usePassword(
+    currentValue: CurrentValue,
+    showPassword: BooleanRef,
+    readonly: BooleanRef,
+    disabled: BooleanRef,
+    focused: BooleanRef,
+) {
     const passwordVisible = ref(false);
 
     const handlePasswordVisible = () => {
@@ -146,14 +219,14 @@ function usePassword(currentValue, showPassword, readonly, disabled, focused) {
 }
 
 function useClear(
-    currentValue,
-    clearable,
-    readonly,
-    disabled,
-    focused,
-    hovering,
-    updateCurrentValue,
-    emit,
+    currentValue: CurrentValue,
+    clearable: BooleanRef,
+    readonly: BooleanRef,
+    disabled: BooleanRef,
+    focused: BooleanRef,
+    hovering: BooleanRef,
+    updateCurrentValue: UpdateCurrentValue,
+    emit: Emit,
 ) {
     const showClear = computed(
         () =>
@@ -175,7 +248,7 @@ function useClear(
     };
 }
 
-function useFocus(emit, validate) {
+function useFocus(emit: Emit, validate: FormValidate) {
     const focused = ref(false);
 
     const handleFocus = (event) => {
@@ -196,14 +269,14 @@ function useFocus(emit, validate) {
     };
 }
 
-function useMouse(emit) {
+function useMouse(emit: Emit) {
     const hovering = ref(false);
-    const onMouseLeave = (e) => {
+    const onMouseLeave = (e: MouseEvent) => {
         hovering.value = false;
         emit('mouseleave', e);
     };
 
-    const onMouseEnter = (e) => {
+    const onMouseEnter = (e: MouseEvent) => {
         hovering.value = true;
         emit('mouseenter', e);
     };
@@ -215,75 +288,37 @@ function useMouse(emit) {
     };
 }
 
-function useWordLimit(currentValue, showWordLimit, maxlength, disabled) {
+function useWordLimit(
+    currentValue: CurrentValue,
+    showWordLimit: BooleanRef,
+    maxlength: Ref<number>,
+    disabled: BooleanRef,
+) {
     const isWordLimitVisible = computed(
         () => showWordLimit.value && maxlength.value && !disabled.value,
     );
-    const textLength = computed(() => currentValue.value?.length || 0);
+    const textLength = computed(
+        () => currentValue.value?.toString().length || 0,
+    );
     return {
         isWordLimitVisible,
         textLength,
     };
 }
 
-export default {
+interface Autosize {
+    minRows?: number;
+    maxRows?: number;
+}
+
+export default defineComponent({
     name: 'FInput',
     components: {
         EyeOutlined,
         EyeInvisibleOutlined,
         CloseCircleFilled,
     },
-    props: {
-        modelValue: {
-            type: [Number, String],
-        },
-        type: {
-            type: String,
-            default: 'text',
-        },
-        placeholder: {
-            type: String,
-        },
-        readonly: {
-            type: Boolean,
-            default: false,
-        },
-        disabled: {
-            type: Boolean,
-            default: false,
-        },
-        clearable: {
-            type: Boolean,
-            default: false,
-        },
-        maxlength: {
-            type: Number,
-        },
-        rows: {
-            type: Number,
-            default: 2,
-        },
-        showWordLimit: {
-            type: Boolean,
-            default: false,
-        },
-        showPassword: {
-            type: Boolean,
-            default: false,
-        },
-        inputStyle: {
-            type: Object,
-            default: () => ({}),
-        },
-        autosize: {
-            type: [Boolean, Object],
-            default: false,
-        },
-        autocomplete: {
-            type: String,
-            default: 'off',
-        },
-    },
+    props: inputProps,
     emits: [
         UPDATE_MODEL_EVENT,
         'change',
@@ -375,12 +410,8 @@ export default {
             if (type !== 'textarea') return;
 
             if (autosize) {
-                const minRows = isObject(autosize)
-                    ? autosize.minRows
-                    : undefined; // eslint-disable-line no-undefined
-                const maxRows = isObject(autosize)
-                    ? autosize.maxRows
-                    : undefined; // eslint-disable-line no-undefined
+                const minRows = autosize.minRows;
+                const maxRows = autosize.maxRows;
                 textareaCalcStyle.value = {
                     ...calcTextareaHeight(textareaRef.value, minRows, maxRows),
                 };
@@ -400,11 +431,11 @@ export default {
             nextTick(resizeTextarea);
         });
 
-        const handleChange = (event) => {
-            emit('change', event.target.value);
+        const handleChange = (event: Event) => {
+            emit('change', (event.target as HTMLInputElement).value);
             validate('change');
         };
-        const handleKeydown = (e) => {
+        const handleKeydown = (e: KeyboardEvent) => {
             emit('keydown', e);
         };
 
@@ -460,5 +491,5 @@ export default {
             ...useWordLimit(currentValue, showWordLimit, maxlength, disabled),
         };
     },
-};
+});
 </script>

@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+        "paths": {
+            "fes-design": [
+                "./components"
+            ]
+        },
+        "strict": true,
+        "strictNullChecks": true,
+        "jsx": "react",
+        "jsxFactory": "h",
+        "jsxFragmentFactory": "Fragment",
+        "module": "ES6",
+        "moduleResolution": "Node",
+        "declaration": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "composite": true,
+        "target": "ES6",
+        "lib": [
+            "ESNext",
+            "DOM"
+        ]
+    },
+    "include": [
+        "./vue-shim.d.ts"
+    ]
+}

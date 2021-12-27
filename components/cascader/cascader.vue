@@ -41,7 +41,7 @@
         </Popper>
     </div>
 </template>
-<script>
+<script lang="ts">
 import { defineComponent, ref, unref, watch, computed } from 'vue';
 import { cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -69,7 +69,7 @@ export default defineComponent({
         },
         nodeConfig: {
             type: Object,
-            default: () => {},
+            default: () => ({}),
         },
         placeholder: {
             type: String,
