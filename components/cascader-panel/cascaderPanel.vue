@@ -19,6 +19,7 @@ import {
 } from './const';
 import usePanel from './usePanel';
 import CascaderMenu from './menu';
+import PROPS from './props';
 
 const prefixCls = getPrefixCls('cascader-panel');
 
@@ -28,21 +29,7 @@ export default defineComponent({
         CascaderMenu,
     },
     props: {
-        currentValue: [Number, String, Array, Object],
-        options: {
-            type: Array,
-            default: () => [],
-        },
-        multiple: Boolean,
-        nodeConfig: {
-            type: Object,
-            default: () => {},
-        },
-        renderLabel: Function,
-        handleUpdateSelectedNodes: {
-            type: Function,
-            required: true,
-        },
+        ...PROPS,
     },
     emits: ['expandChange', 'checkChange', 'close'],
     setup(props, { emit, slots }) {
