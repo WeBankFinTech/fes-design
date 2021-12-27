@@ -15,13 +15,13 @@
 </template>
 <script>
 import {
-    provide, ref, inject, defineComponent, computed, onBeforeUnmount,
+    provide, ref, inject, defineComponent, computed, onBeforeUnmount, nextTick
 } from 'vue';
 import Schema from 'async-validator';
 import { isArray, cloneDeep } from 'lodash-es';
 import { addUnit } from '../_util/utils';
 import {
-    provideKey, FORM_ITEM_NAME, LABEL_POSITION, TRIGGER_DEFAULT, VALIDATE_STATUS, VALIDATE_MESSAGE_DEFAULT
+    provideKey, FORM_ITEM_NAME, LABEL_POSITION, TRIGGER_TYPE_DEFAULT, RULE_TYPE_DEFAULT, VALIDATE_STATUS, VALIDATE_MESSAGE_DEFAULT
 } from './const';
 import getPrefixCls from '../_util/getPrefixCls';
 import { FORMITEM_INJECTION_KEY } from '../_util/constants';
@@ -68,6 +68,7 @@ export default defineComponent({
         /** 规则校验结果逻辑: 仅存最后一条校验规则的逻辑
          *      存在问题: 如果同时触发两个规则 A|B，规则 A 先触发校验且不通过，接着规则 B 触发校验且通过，规则 A 结果会不展示
          */
+        const validateDisabled = ref(false); // 是否触发校验的标志
         const validateStatus = ref(VALIDATE_STATUS.DEFAULT);
         const validateMessage = ref(VALIDATE_MESSAGE_DEFAULT);
         const setValidateInfo = (status = VALIDATE_STATUS.DEFAULT, message = VALIDATE_MESSAGE_DEFAULT) => {
@@ -87,11 +88,14 @@ export default defineComponent({
         const formItemLabelClass = computed(() => ([`${prefixCls}-label`, labelClass.value, props.labelClass].filter(Boolean)));
         const formItemLabelStyle = computed(() => ({ width: addUnit(props.labelWidth || labelWidth.value) }));
 
-        let ruleDefaultType = 'string';
-        const setRuleDefaultType = (val) => {
-            ruleDefaultType = val;
-        };
-        const validateRules = async (trigger = TRIGGER_DEFAULT) => {
+        /** 校验规则的类型: 默认 String  */
+        let ruleDefaultType = RULE_TYPE_DEFAULT;
+        const setRuleDefaultType = (val = RULE_TYPE_DEFAULT) => { ruleDefaultType = val; };
+        const validateRules = async (trigger = TRIGGER_TYPE_DEFAULT) => {
+            if (validateDisabled.value) {
+                validateDisabled.value = false; return;
+            }
+
             /** 过滤符合条件的 triggersRules
              *
              *  未指定具体 trigger 类型，则直接返回 rule 规则
@@ -119,9 +123,9 @@ export default defineComponent({
                 }
                 return shallowClonedRule;
             });
-
             if (!activeRules.length) return Promise.resolve();
 
+            // 开始规则校验
             setValidateInfo(VALIDATE_STATUS.VALIDATING);
             const descriptor = {};
             descriptor[props.prop] = activeRules;
@@ -140,16 +144,30 @@ export default defineComponent({
         };
 
         // 验证表单项
-        const validate = (trigger = TRIGGER_DEFAULT) => validateRules(trigger);
-        const clearValidate = () => setValidateInfo();
+        const validate = async (trigger = TRIGGER_TYPE_DEFAULT) => {
+            try {
+                await validateRules(trigger);
+            } catch (err) {}
+        };
+        const clearValidate = () => {
+            setValidateInfo();
+            validateDisabled.value = false;
+        };
         const resetField = () => {
-            clearValidate();
+            setValidateInfo();
+            validateDisabled.value = true; // 在表单重置行为，不应触发校验
+            
+            // reset initialValue
             const prop = getPropByPath(model.value || {}, namePath.value, true);
             if (Array.isArray(fieldValue.value)) {
                 prop.o[prop.k] = [].concat(initialValue.value);
             } else {
                 prop.o[prop.k] = initialValue.value;
             }
+            // reset validateDisabled after onFieldChange triggered
+            nextTick(() => {
+                validateDisabled.value = false;
+            });
         };
 
         addField(props.prop, {
