@@ -89,7 +89,7 @@ export const getNodeValueByCurrentValue = (emitPath, value) => {
     let nodeValue = '';
     if (emitPath) {
         if (Array.isArray(value)) {
-            nodeValue = value[value.length - 1];
+            nodeValue = (value.length && value[value.length - 1]) || '';
         } else {
             console.warn(
                 'value类型不符预期，emitPath为true的情况下，value应该为数组格式',

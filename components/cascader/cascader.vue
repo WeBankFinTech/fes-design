@@ -90,7 +90,8 @@ export default defineComponent({
             emit(CHANGE_EVENT, unref(currentValue));
         });
         const handleClear = () => {
-            const value = props.multiple ? [] : null;
+            const value =
+                props.multiple || props?.nodeConfig?.emitPath ? [] : null;
             updateCurrentValue(value);
             emit('clear');
         };
