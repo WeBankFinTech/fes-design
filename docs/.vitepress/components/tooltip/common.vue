@@ -42,32 +42,26 @@
     </div>
 </template>
 
-<style lang="less" scoped>
+<style scoped>
 .wrapper {
     padding: 20px;
-
-    .w-100 {
-        width: 100px;
-    }
-
-    .ml-100 {
-        margin-left: 100px;
-    }
-
-    .ml-20 {
-        margin-left: 20px;
-    }
-
-    .ml-340 {
-        margin-left: 340px;
-    }
-
-    .mt-20 {
-        margin-top: 20px;
-    }
-
 }
-    .porper {
-        width: 100px;
-    }
+.wrapper .w-100 {
+    width: 100px;
+}
+.wrapper .ml-100 {
+    margin-left: 100px;
+}
+.wrapper  .ml-20 {
+    margin-left: 20px;
+}
+.wrapper .ml-340 {
+    margin-left: 340px;
+}
+.wrapper .mt-20 {
+    margin-top: 20px;
+}
+.porper {
+    width: 100px;
+}
 </style>

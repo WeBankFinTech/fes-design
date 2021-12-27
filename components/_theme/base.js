@@ -82,7 +82,6 @@ export const baseTheme = (themeOverrides = {}) => {
         tooltipTextBgColor: tint(base.fontColorBase, 0.3),
 
         selectTriggerIconColor: tint(base.fontColorBase, 0.6),
-        selectTriggerShadowColor: fade(base.primaryColor, 0.2),
 
         scrollbarBgColor: fade(base.fontColorBase, 0.25),
         scrollbarActiveColor: fade(base.fontColorBase, 0.65),

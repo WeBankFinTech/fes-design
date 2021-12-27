@@ -6,4 +6,4 @@ export default {
     setup() {},
 };
 </script>
-<style lang="less"></style>
+

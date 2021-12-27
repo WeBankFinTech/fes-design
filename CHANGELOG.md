@@ -1,3 +1,20 @@
+## [0.1.5](https://github.com/WeBankFinTech/fes-design/compare/v0.1.4...v0.1.5) (2021-12-25)
+
+
+### Bug Fixes
+
+* 修复 input select-trigger 样式问题 ([#19](https://github.com/WeBankFinTech/fes-design/issues/19)) ([a718492](https://github.com/WeBankFinTech/fes-design/commit/a7184923e0a6ecbdb52d2d118f6a960ac748bc8b))
+
+
+
+## [0.1.4](https://github.com/WeBankFinTech/fes-design/compare/v0.1.3...v0.1.4) (2021-12-25)
+
+
+
+## [0.1.3](https://github.com/WeBankFinTech/fes-design/compare/v0.1.2...v0.1.3) (2021-12-24)
+
+
+
 ## [0.1.2](https://github.com/WeBankFinTech/fes-design/compare/v0.1.1...v0.1.2) (2021-12-23)
 
 

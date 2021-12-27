@@ -1,3 +1,4 @@
+import './style/index';
 import './icon/style';
 import './input/style';
 import './input-number/style';
