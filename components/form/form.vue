@@ -10,7 +10,7 @@ import {
     FORM_NAME,
     FORM_LAYOUT,
     LABEL_POSITION,
-    TRIGGER_DEFAULT,
+    TRIGGER_TYPE_DEFAULT,
 } from './const';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -60,10 +60,7 @@ export default defineComponent({
             delete formFields[formItemProp];
         };
 
-        const validateFields = async (
-            fieldProps,
-            triggers = TRIGGER_DEFAULT,
-        ) => {
+        const validateFields = async (fieldProps, trigger = TRIGGER_TYPE_DEFAULT) => {
             if (!props.model)
                 return Promise.reject(
                     'Form `model` is required for resetFields to work.',
@@ -75,7 +72,7 @@ export default defineComponent({
                 if (!formField.rules.length) return; // Skip if without rule
                 if (specifyProps && formField.prop !== fieldProps) return; // Skip if Specify prop but not equal
 
-                const promise = formField.validateRules(triggers);
+                const promise = formField.validateRules(trigger);
                 promiseList.push(
                     promise
                         .then(() => ({ name: formField.prop, errors: [] }))
@@ -111,12 +108,12 @@ export default defineComponent({
          *    trigger   { Object }    指定 trigger, 该表单项指定 trigger 相关的规则都会使用; 不指定 trigger, 直接用表单项的所有规则
          *    return    { Promise }   校验结果
          */
-        const validateField = (fieldProp = '', triggers = TRIGGER_DEFAULT) => {
+        const validateField = (fieldProp = '', trigger = TRIGGER_TYPE_DEFAULT) => {
             if (!fieldProp)
                 return Promise.reject(
                     '`prop` is required for validateField to work.',
                 );
-            return validateFields(fieldProp, triggers);
+            return validateFields(fieldProp, trigger);
         };
 
         // 对整个表单进行校验，返回一个 promise
