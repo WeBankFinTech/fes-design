@@ -1,5 +1,4 @@
 import getPrefixCls from '../_util/getPrefixCls';
-import { flatNodes } from '../_util/utils';
 
 /**
  * Generate unique ID
@@ -79,11 +78,8 @@ export const getNode = (data = [], config = {}, parent = null) => {
     return node;
 };
 
-export const getNodeByValue = (nodes, value) => {
-    const filterNodes = flatNodes(nodes).filter((node) => node.value === value);
-
-    return filterNodes[0] || null;
-};
+export const getNodeByValue = (allNodes, value) =>
+    allNodes.find((node) => node.value === value) || null;
 
 export const getValueByOption = (config, node) =>
     config.emitPath ? node.pathValues : node.value;

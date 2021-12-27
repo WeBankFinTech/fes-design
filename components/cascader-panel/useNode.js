@@ -51,7 +51,7 @@ function setNodeElem(node, elem) {
     node.elem = elem;
 }
 
-function useSelectedNodes(config, props, nodes) {
+function useSelectedNodes(config, props, allNodes) {
     const selectedNodes = computed(() => {
         const { emitPath } = config.value;
         const { currentValue, multiple } = props;
@@ -66,7 +66,7 @@ function useSelectedNodes(config, props, nodes) {
                 currentValue,
             );
 
-            const node = getNodeByValue(nodes.value, nodeValue);
+            const node = getNodeByValue(allNodes.value, nodeValue);
 
             if (node) {
                 currentSelectedNodes.push(node);
@@ -80,7 +80,7 @@ function useSelectedNodes(config, props, nodes) {
                 currentValue,
             );
             nodeValues.forEach((nodeValue) => {
-                const node = getNodeByValue(nodes.value, nodeValue);
+                const node = getNodeByValue(allNodes.value, nodeValue);
                 if (node) {
                     currentSelectedNodes.push(node);
                 }
@@ -101,7 +101,7 @@ export default (config, props) => {
         props,
     );
 
-    const { selectedNodes } = useSelectedNodes(config, props, nodes);
+    const { selectedNodes } = useSelectedNodes(config, props, allNodes);
 
     return {
         nodes,

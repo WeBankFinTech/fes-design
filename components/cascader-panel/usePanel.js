@@ -1,6 +1,6 @@
 import { ref, watch } from 'vue';
 import { flatNodes } from '../_util/utils';
-import { EVENT_CODE, EXPAND_TRIGGER } from './const';
+import { CHECK_STRATEGY, EVENT_CODE, EXPAND_TRIGGER } from './const';
 import useNode from './useNode';
 import {
     updateParentNodesCheckState,
@@ -104,33 +104,42 @@ function useCheckChange(config, props, emit, selectedNodes, leafNodes) {
         } else {
             /**
              * 多选
-             * 1. 解析得到节点值的列表（目前为最后一级节点的值的列表）
-             * 2. 解析得到当前节点下所有子孙节点的值的列表
+             * 1. 解析得到叶子节点列表
+             * 2. 解析得到当前节点下所有叶子节点的值的列表
              * 3. 若为选中情况，则遍历子孙节点值，判断当前值是否存在，若不存在，则插入
              * 4. 若为取消选中情况，则遍历子孙节点值，判断当前值是否存在，若存在，则删除
              */
-            const nodeValues = selectedNodes.value.map((item) => item.value);
-
+            const leafNodeValues = flatNodes(selectedNodes.value, true).map(
+                (item) => item.value,
+            );
             // 获取当前节点的子孙节点信息
             const checkNodes = flatNodes([node], true);
             checkNodes.forEach((item) => {
                 if (checked) {
-                    if (!nodeValues.includes(item.value)) {
-                        nodeValues.push(item.value);
+                    if (!leafNodeValues.includes(item.value)) {
+                        leafNodeValues.push(item.value);
                     }
-                } else if (nodeValues.includes(item.value)) {
-                    nodeValues.splice(nodeValues.indexOf(item.value), 1);
+                } else if (leafNodeValues.includes(item.value)) {
+                    leafNodeValues.splice(
+                        leafNodeValues.indexOf(item.value),
+                        1,
+                    );
                 }
             });
 
             // 目前值为最后一级节点值，所以仅需过滤子节点即可
-            const filterNodes = leafNodes.value.filter((item) =>
-                nodeValues.includes(item.value),
+            const sortLeafNodes = leafNodes.value.filter((item) =>
+                leafNodeValues.includes(item.value),
             );
-            const sortValues = filterNodes.map((item) =>
-                getValueByOption(config.value, item),
-            );
-            emit('checkChange', sortValues);
+
+            if (props.checkStrictly === CHECK_STRATEGY.CHILD) {
+                const sortLeafValues = sortLeafNodes.map((item) =>
+                    getValueByOption(config.value, item),
+                );
+                emit('checkChange', sortLeafValues);
+            } else {
+                // TODO:
+            }
         }
     };
 

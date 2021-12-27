@@ -28,6 +28,7 @@
             <template #default>
                 <CascaderPanel
                     :currentValue="currentValue"
+                    :checkStrictly="checkStrictly"
                     :options="options"
                     :multiple="multiple"
                     :nodeConfig="nodeConfig"
@@ -51,6 +52,8 @@ import { useTheme } from '../_theme/useTheme';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
 import CascaderPanel from '../cascader-panel';
+import SELECT_PROPS from '../select/props';
+import CASCADER_PANEL_PROPS from '../cascader-panel/props';
 
 const prefixCls = getPrefixCls('cascader');
 
@@ -62,54 +65,8 @@ export default defineComponent({
         CascaderPanel,
     },
     props: {
-        modelValue: [Number, String, Array, Object],
-        options: {
-            type: Array,
-            default: () => [],
-        },
-        nodeConfig: {
-            type: Object,
-            default: () => {},
-        },
-        placeholder: {
-            type: String,
-            default: () => '请选择',
-        },
-        disabled: {
-            type: Boolean,
-            default: false,
-        },
-        clearable: {
-            type: Boolean,
-            default: false,
-        },
-        multiple: {
-            type: Boolean,
-            default: false,
-        },
-        showAllLevels: {
-            type: Boolean,
-            default: true,
-        },
-        separator: {
-            type: String,
-            default: ' / ',
-        },
-        appendToContainer: {
-            type: Boolean,
-            default: true,
-        },
-        getContainer: {
-            type: Function,
-        },
-        collapseTags: {
-            type: Boolean,
-            default: false,
-        },
-        collapseTagsLimit: {
-            type: Number,
-            default: 1,
-        },
+        ...SELECT_PROPS,
+        ...CASCADER_PANEL_PROPS,
     },
     emits: [
         UPDATE_MODEL_EVENT,
