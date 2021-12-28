@@ -115,10 +115,8 @@ export default defineComponent({
                       }
                       if (props.checkStrictly === CHECK_STRATEGY.PARENT) {
                           return (
-                              !node.isLeaf &&
-                              !hasIndeterminate(node) &&
-                              node.indexPath.filter((_key) =>
-                                  arr.includes(_key),
+                              node.indexPath.filter((path) =>
+                                  arr.includes(path),
                               ).length === 1
                           );
                       }
