@@ -28,6 +28,7 @@
             <template #default>
                 <CascaderPanel
                     :currentValue="currentValue"
+                    :checkStrictly="checkStrictly"
                     :options="options"
                     :multiple="multiple"
                     :nodeConfig="nodeConfig"
@@ -51,6 +52,9 @@ import { useTheme } from '../_theme/useTheme';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
 import CascaderPanel from '../cascader-panel';
+import SELECT_PROPS from '../select/props';
+import CASCADER_PANEL_PROPS from '../cascader-panel/props';
+import { flatNodes } from '../_util/utils';
 
 const prefixCls = getPrefixCls('cascader');
 
@@ -62,54 +66,8 @@ export default defineComponent({
         CascaderPanel,
     },
     props: {
-        modelValue: [Number, String, Array, Object],
-        options: {
-            type: Array,
-            default: () => [],
-        },
-        nodeConfig: {
-            type: Object,
-            default: () => {},
-        },
-        placeholder: {
-            type: String,
-            default: () => '请选择',
-        },
-        disabled: {
-            type: Boolean,
-            default: false,
-        },
-        clearable: {
-            type: Boolean,
-            default: false,
-        },
-        multiple: {
-            type: Boolean,
-            default: false,
-        },
-        showAllLevels: {
-            type: Boolean,
-            default: true,
-        },
-        separator: {
-            type: String,
-            default: ' / ',
-        },
-        appendToContainer: {
-            type: Boolean,
-            default: true,
-        },
-        getContainer: {
-            type: Function,
-        },
-        collapseTags: {
-            type: Boolean,
-            default: false,
-        },
-        collapseTagsLimit: {
-            type: Number,
-            default: 1,
-        },
+        ...SELECT_PROPS,
+        ...CASCADER_PANEL_PROPS,
     },
     emits: [
         UPDATE_MODEL_EVENT,
@@ -133,28 +91,47 @@ export default defineComponent({
             emit(CHANGE_EVENT, unref(currentValue));
         });
         const handleClear = () => {
-            const value = props.multiple ? [] : null;
+            const value =
+                props.multiple || props?.nodeConfig?.emitPath ? [] : null;
             updateCurrentValue(value);
             emit('clear');
         };
-        // 多选才会有删除事件，所有仅考虑数组情况即可
+        /**
+         * 多选才会有删除事件，所有仅考虑数组情况即可
+         *
+         * 若为 checkStrictly = all 情况，则：
+         * 1. 若删除的为父节点，需要把子节点的值一起删除
+         * 2. 若删除的为子节点，需要把父节点的值一起删除
+         */
         const handleRemove = (value) => {
             if (props.disabled) return;
 
             const { emitPath } = props.nodeConfig || {};
-            const copyValue = cloneDeep(currentValue.value);
+            let copyValue = cloneDeep(currentValue.value);
+            const updateValues = [];
+
             if (emitPath) {
-                copyValue.splice(
-                    copyValue.findIndex((item) => item.includes(value)),
-                    1,
-                );
-            } else {
-                copyValue.splice(
-                    copyValue.findIndex((item) => item === value),
-                    1,
-                );
+                copyValue = copyValue.map((item) => item[item.length - 1]);
             }
-            updateCurrentValue(copyValue);
+
+            const currentNode = selectedNodes.value.find(
+                (node) => node.value === value,
+            );
+            const removeValues = []
+                .concat(currentNode.pathNodes, flatNodes(currentNode.children))
+                .map((node) => node.value);
+
+            copyValue.forEach((item) => {
+                let itemValue = item;
+                if (emitPath) {
+                    itemValue = item[item.length - 1];
+                }
+                if (!removeValues.includes(itemValue)) {
+                    updateValues.push(item);
+                }
+            });
+
+            updateCurrentValue(updateValues);
             emit('removeTag', value);
         };
         const handleExpandChange = (value) => {

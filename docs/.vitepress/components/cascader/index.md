@@ -20,6 +20,10 @@ app.use(FCascader);
 
 --MULTIPLE
 
+### 关联多选
+
+--CHECKSTRICTLY
+
 ### 空选项
 
 --EMPTY
@@ -36,21 +40,22 @@ app.use(FCascader);
 
 ## Cascader Props
 
-| 参数                 | 说明                                            | 类型                | 默认值                |
-| -------------------- | ----------------------------------------------- | ------------------- | --------------------- |
-| modelValue / v-model | 选中项绑定值                                    | -                   | -                     |
-| options              | 可选项数据源，键名可通过 nodeConfig 属性配置    | Array\<NodeOption\> | -                     |
-| nodeConfig           | 菜单选择配置选项，具体见下表 `NodeConfig Props` | object              | -                     |
-| placeholder          | 输入框占位文本                                  | string              | `请选择`              |
-| disabled             | 是否禁用                                        | boolean             | `false`               |
-| clearable            | 是否支持清空选项                                | boolean             | `false`               |
-| collapseTags         | 多选时选中项是否折叠展示                        | boolean             | `false`               |
-| collapseTagsLimit    | 多选时选中项超出限制个数后才会折叠              | number              | 1                     |
-| multiple             | 是否多选                                        | boolean             | `false`               |
-| showAllLevels        | 输入框中是否显示选中值的完整路径                | boolean             | `true`                |
-| separator            | 选项分隔符                                      | string              | `/`                   |
-| appendToContainer    | 弹窗内容是否添加到指定的 DOM 元素               | boolean             | `true`                |
-| getContainer         | 指定下拉选项挂载的 HTML 节点                    | () => HTMLElement   | `() => document.body` |
+| 参数                 | 说明                                                                                                                                                                    | 类型                | 默认值                |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | --------------------- |
+| modelValue / v-model | 选中项绑定值                                                                                                                                                            | -                   | -                     |
+| options              | 可选项数据源，键名可通过 nodeConfig 属性配置                                                                                                                            | Array\<NodeOption\> | -                     |
+| nodeConfig           | 菜单选择配置选项，具体见下表 `NodeConfig Props`                                                                                                                         | object              | -                     |
+| placeholder          | 输入框占位文本                                                                                                                                                          | string              | `请选择`              |
+| disabled             | 是否禁用                                                                                                                                                                | boolean             | `false`               |
+| clearable            | 是否支持清空选项                                                                                                                                                        | boolean             | `false`               |
+| collapseTags         | 多选时选中项是否折叠展示                                                                                                                                                | boolean             | `false`               |
+| collapseTagsLimit    | 多选时选中项超出限制个数后才会折叠                                                                                                                                      | number              | 1                     |
+| multiple             | 是否多选                                                                                                                                                                | boolean             | `false`               |
+| showAllLevels        | 输入框中是否显示选中值的完整路径                                                                                                                                        | boolean             | `true`                |
+| separator            | 选项分隔符                                                                                                                                                              | string              | `/`                   |
+| appendToContainer    | 弹窗内容是否添加到指定的 DOM 元素                                                                                                                                       | boolean             | `true`                |
+| getContainer         | 指定下拉选项挂载的 HTML 节点                                                                                                                                            | () => HTMLElement   | `() => document.body` |
+| checkStrictly        | 设置勾选策略来指定勾选回调返回的值，`all` 表示回调函数值为全部选中节点；`parent` 表示回调函数值为父节点（当父节点下所有子节点都选中时）；`child` 表示回调函数值为子节点 | string              | `child`               |
 
 ## Cascader Events
 
