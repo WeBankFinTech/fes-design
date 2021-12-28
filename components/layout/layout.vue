@@ -1,22 +1,33 @@
 <template>
     <section :class="classList">
-        <slot></slot>
+        <div :class="containerClassRef" :style="containerStyle">
+            <slot></slot>
+        </div>
     </section>
 </template>
 <script>
 import { computed, provide, reactive, toRefs, inject, ref } from 'vue';
+import { isPlainObject, isArray, isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { COMPONENT_NAME, KEY } from './const';
+// import scrollbar from '../scrollbar/scrollbar';
 
 const prefixCls = getPrefixCls('layout');
 export default {
     name: COMPONENT_NAME.LAYOUT,
+    components: {},
     props: {
         embedded: {
             type: Boolean,
-            default: true,
+            default: false,
         },
+        fixed: {
+            type: Boolean,
+            default: false,
+        },
+        containerClass: [Array, Object, String],
+        containerStyle: Object,
     },
     setup(props) {
         useTheme();
@@ -43,7 +54,7 @@ export default {
             }
             return false;
         });
-        const asiderPlacement = computed(() => {
+        const asidePlacement = computed(() => {
             if (children.length > 0) {
                 if (children[0].type === COMPONENT_NAME.ASIDE) {
                     return 'left';
@@ -60,17 +71,37 @@ export default {
             [
                 prefixCls,
                 isVertical.value && 'is-vertical',
+                props.fixed && 'is-fixed',
                 isRoot.value && 'is-root',
             ].filter(Boolean),
         );
 
+        const containerClassRef = computed(() => {
+            const base = `${prefixCls}-container`;
+            if (isPlainObject(props.containerClass)) {
+                return {
+                    [base]: true,
+                    ...props.containerClass,
+                };
+            }
+            if (isArray(props.containerClass)) {
+                return [base, ...props.containerClass];
+            }
+            if (isString(props.containerClass)) {
+                return [base, props.containerClass];
+            }
+            return [base];
+        });
+
         provide(KEY, {
             addChild,
-            asiderPlacement,
+            asidePlacement,
             ...toRefs(props),
         });
         return {
+            prefixCls,
             classList,
+            containerClassRef,
         };
     },
 };

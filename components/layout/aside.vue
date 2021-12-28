@@ -7,7 +7,7 @@
             :style="style"
             @click="handleTrigger"
         >
-            <template v-if="asiderPlacement === 'left'">
+            <template v-if="asidePlacement === 'left'">
                 <LeftOutlined v-if="!currentCollapsed" />
                 <RightOutlined v-else />
             </template>
@@ -17,7 +17,6 @@
             </template>
         </div>
     </aside>
-    <aside v-if="fixed" :class="`${prefixCls}-aside`" :style="style"></aside>
 </template>
 <script>
 import { computed, inject, getCurrentInstance } from 'vue';
@@ -59,6 +58,10 @@ export default {
             type: Boolean,
             default: false,
         },
+        bordered: {
+            type: Boolean,
+            default: false,
+        },
         showTrigger: {
             type: Boolean,
             default: true,
@@ -66,27 +69,40 @@ export default {
     },
     setup(props, { emit }) {
         const vm = getCurrentInstance();
-        if (!vm.parent || !vm.parent.type || vm.parent.type.name !== COMPONENT_NAME.LAYOUT) {
-            console.warn(`[${COMPONENT_NAME.ASIDE}] must be a child of ${COMPONENT_NAME.LAYOUT}`);
+        if (
+            !vm.parent ||
+            !vm.parent.type ||
+            vm.parent.type.name !== COMPONENT_NAME.LAYOUT
+        ) {
+            console.warn(
+                `[${COMPONENT_NAME.ASIDE}] must be a child of ${COMPONENT_NAME.LAYOUT}`,
+            );
         }
-        const { addChild, asiderPlacement } = inject(KEY, { addChild: noop, asiderPlacement: { value: '' } });
+        const { addChild, asidePlacement } = inject(KEY, {
+            addChild: noop,
+            asidePlacement: { value: '' },
+        });
         const [currentCollapsed, updateCurrentCollapsed] = useNormalModel(
             props,
             emit,
             { prop: 'collapsed' },
         );
-        const classList = computed(() => [
-            `${prefixCls}-aside`,
-            props.fixed && 'is-fixed',
-            props.showTrigger && 'is-has-trigger',
-            props.inverted && 'is-inverted',
-            (props.collapsible && currentCollapsed.value) && 'is-collapsed',
-            asiderPlacement.value && `is-placement-${asiderPlacement.value}`,
-        ].filter(Boolean));
+        const classList = computed(() =>
+            [
+                `${prefixCls}-aside`,
+                props.fixed && 'is-fixed',
+                props.collapsible && props.showTrigger && 'is-has-trigger',
+                props.inverted && 'is-inverted',
+                props.collapsible && currentCollapsed.value && 'is-collapsed',
+                asidePlacement.value && `is-placement-${asidePlacement.value}`,
+                props.bordered && 'is-bordered',
+            ].filter(Boolean),
+        );
         const style = computed(() => ({
-            width: props.collapsible && currentCollapsed.value
-                ? props.collapsedWidth
-                : props.width,
+            width:
+                props.collapsible && currentCollapsed.value
+                    ? props.collapsedWidth
+                    : props.width,
         }));
         const handleTrigger = () => {
             updateCurrentCollapsed(!currentCollapsed.value);
@@ -100,7 +116,7 @@ export default {
             style,
             handleTrigger,
             currentCollapsed,
-            asiderPlacement,
+            asidePlacement,
         };
     },
 };

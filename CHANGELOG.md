@@ -1,3 +1,12 @@
+## [0.1.6](https://github.com/WeBankFinTech/fes-design/compare/v0.1.5...v0.1.6) (2021-12-28)
+
+
+### Features
+
+* 重构layout组件,添加border/fixed等特性 ([380d827](https://github.com/WeBankFinTech/fes-design/commit/380d827ae9243fb9b402bb32d616a8f3b2229a8f))
+
+
+
 ## [0.1.5](https://github.com/WeBankFinTech/fes-design/compare/v0.1.4...v0.1.5) (2021-12-25)
 
 
