@@ -95,7 +95,13 @@ export default defineComponent({
             updateCurrentValue(value);
             emit('clear');
         };
-        // 多选才会有删除事件，所有仅考虑数组情况即可
+        /**
+         * 多选才会有删除事件，所有仅考虑数组情况即可
+         *
+         * TODO: 若为 checkStrictly = all 情况，则：
+         * 1. 若删除的为父节点，需要把子节点的值一起删除
+         * 2. 若删除的为子节点，需要把父节点的值一起删除
+         */
         const handleRemove = (value) => {
             if (props.disabled) return;
 

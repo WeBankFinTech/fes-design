@@ -79,10 +79,9 @@ function useSelectedNodes(config, props, allNodes) {
                 emitPath,
                 currentValue,
             );
-            nodeValues.forEach((nodeValue) => {
-                const node = getNodeByValue(allNodes.value, nodeValue);
-                if (node) {
-                    currentSelectedNodes.push(node);
+            allNodes.value.forEach((item) => {
+                if (nodeValues.includes(item.value)) {
+                    currentSelectedNodes.push(item);
                 }
             });
         }
