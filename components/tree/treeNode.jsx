@@ -2,6 +2,7 @@ import { defineComponent, computed, ref } from 'vue';
 import { isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import CaretDownOutlined from '../icon/CaretDownOutlined';
+import LoadingOutlined from '../icon/LoadingOutlined';
 import Checkbox from '../checkbox';
 import { COMPONENT_NAME } from './const';
 import useTreeNode from './useTreeNode';
