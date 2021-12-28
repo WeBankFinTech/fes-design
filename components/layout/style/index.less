@@ -18,16 +18,17 @@
     flex: auto;
     box-sizing: border-box;
     >.@{layout-prefix-cls}-container {
-        min-width: 100%;
-        min-height: 100%;
         display: flex;
         flex-wrap: nowrap;
         align-items: stretch;
         flex-direction: row;
+        height: 100%;
+        overflow: auto;
     }
     &.is-vertical {
         >.@{layout-prefix-cls}-container {
             flex-direction: column;
+            width: 100%;
         }
     }
     &.is-fixed {
@@ -36,7 +37,6 @@
         right: 0;
         top: 0;
         bottom: 0;
-        overflow: auto;
     }
 }
 
