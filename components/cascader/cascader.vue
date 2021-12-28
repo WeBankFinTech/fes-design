@@ -54,6 +54,7 @@ import SelectTrigger from '../select-trigger';
 import CascaderPanel from '../cascader-panel';
 import SELECT_PROPS from '../select/props';
 import CASCADER_PANEL_PROPS from '../cascader-panel/props';
+import { flatNodes } from '../_util/utils';
 
 const prefixCls = getPrefixCls('cascader');
 
@@ -98,7 +99,7 @@ export default defineComponent({
         /**
          * 多选才会有删除事件，所有仅考虑数组情况即可
          *
-         * TODO: 若为 checkStrictly = all 情况，则：
+         * 若为 checkStrictly = all 情况，则：
          * 1. 若删除的为父节点，需要把子节点的值一起删除
          * 2. 若删除的为子节点，需要把父节点的值一起删除
          */
@@ -106,19 +107,31 @@ export default defineComponent({
             if (props.disabled) return;
 
             const { emitPath } = props.nodeConfig || {};
-            const copyValue = cloneDeep(currentValue.value);
+            let copyValue = cloneDeep(currentValue.value);
+            const updateValues = [];
+
             if (emitPath) {
-                copyValue.splice(
-                    copyValue.findIndex((item) => item.includes(value)),
-                    1,
-                );
-            } else {
-                copyValue.splice(
-                    copyValue.findIndex((item) => item === value),
-                    1,
-                );
+                copyValue = copyValue.map((item) => item[item.length - 1]);
             }
-            updateCurrentValue(copyValue);
+
+            const currentNode = selectedNodes.value.find(
+                (node) => node.value === value,
+            );
+            const removeValues = []
+                .concat(currentNode.pathNodes, flatNodes(currentNode.children))
+                .map((node) => node.value);
+
+            copyValue.forEach((item) => {
+                let itemValue = item;
+                if (emitPath) {
+                    itemValue = item[item.length - 1];
+                }
+                if (!removeValues.includes(itemValue)) {
+                    updateValues.push(item);
+                }
+            });
+
+            updateCurrentValue(updateValues);
             emit('removeTag', value);
         };
         const handleExpandChange = (value) => {
