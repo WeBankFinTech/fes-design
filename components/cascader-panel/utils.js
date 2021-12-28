@@ -1,4 +1,6 @@
 import getPrefixCls from '../_util/getPrefixCls';
+import { CHECK_STRATEGY } from './const';
+import { flatNodes } from '../_util/utils';
 
 /**
  * Generate unique ID
@@ -21,7 +23,7 @@ export const calculatePathNodes = (node) => {
 
 /**
  * 多选的时候，更新选中节点的父级节点的选中和半选中状态
- * 1. 遍历选中节点，level从下到上更新父节点的选中状态
+ * 1. 遍历选中节点，level 从下到上更新父节点的选中状态
  */
 export const updateParentNodesCheckState = (selectedNodes = []) => {
     selectedNodes.forEach((node) => {
@@ -40,6 +42,61 @@ export const updateParentNodesCheckState = (selectedNodes = []) => {
             parentNode.indeterminate =
                 checkedNum !== totalNum && checkedNum > 0;
         }
+    });
+};
+
+/**
+ * 多选情况，更新选中节点子级节点的选中状态
+ * 1. 遍历选中节点，获取所有的子孙节点，全部置为选中状态
+ */
+export const updateChildNodesCheckState = (selectedNodes = []) => {
+    selectedNodes.forEach((node) => {
+        const childAndLeafNodes = flatNodes(node.children);
+        childAndLeafNodes.forEach((item) => {
+            item.checked = true;
+        });
+    });
+};
+
+/**
+ * 根据叶子节点列表获取包含关联选中父节点的值列表
+ * 1. 遍历叶子节点，level 从下到上判断父节点是否选中
+ * 2. 若父节点为选中状态（所有子节点值都在值列表中），则值列表中插入父节点
+ * 3. 遍历全部节点列表，顺序返回
+ * 4. 若为 checkStrictly = parent 情况，则若当前节点的父节点值不在值列表中，则插入当前节点
+ */
+export const getCheckNodesByLeafCheckNodes = (
+    checkLeafNodes = [],
+    allNodes = [],
+    checkStrictly,
+) => {
+    const checkNodeValues = [];
+
+    checkLeafNodes.forEach((node) => {
+        checkNodeValues.push(node.value);
+
+        const parentNodes = node.pathNodes.slice(0, node.pathNodes.length - 1);
+        for (let i = parentNodes.length - 1; i >= 0; i--) {
+            const parentNode = parentNodes[i];
+            const parentChecked = parentNode.children.every((child) =>
+                checkNodeValues.includes(child.value),
+            );
+            if (parentChecked) {
+                checkNodeValues.push(parentNode.value);
+            }
+        }
+    });
+
+    return allNodes.filter((item) => {
+        if (!checkNodeValues.includes(item.value)) {
+            return false;
+        }
+        if (checkStrictly === CHECK_STRATEGY.PARENT) {
+            if (item.parent) {
+                return !checkNodeValues.includes(item.parent.value);
+            }
+        }
+        return true;
     });
 };
 
@@ -120,10 +177,10 @@ export const getMultiNodeValuesByCurrentValue = (emitPath, currentValue) => {
 };
 
 export const getMenuIndexByElem = (el, menus) =>
-    menus.findIndex((menu) => menu.find((node) => node.elem === el));
+    menus.findIndex((menu) => menu.nodes.find((node) => node.elem === el));
 export const getMenuNodeByElem = (el, menus) => {
     const currentMenu = menus[getMenuIndexByElem(el, menus)] || null;
-    return currentMenu?.find((node) => node.elem === el) || null;
+    return currentMenu?.nodes.find((node) => node.elem === el) || null;
 };
 
 // 获取元素兄弟节点
@@ -133,21 +190,22 @@ export const getNodeSibling = (el, distance = 0, menus) => {
     let currentNodeIndex = -1;
 
     const currentMenu = menus[getMenuIndexByElem(el, menus)] || null;
-    currentNodeIndex = currentMenu?.findIndex((node) => node.elem === el);
+    currentNodeIndex = currentMenu?.nodes.findIndex((node) => node.elem === el);
     siblingNode =
         currentNodeIndex > -1
-            ? currentMenu?.[currentNodeIndex + distance] || null
+            ? currentMenu?.nodes[currentNodeIndex + distance] || null
             : null;
 
     while (siblingNode && siblingNode.isDisabled) {
         const currentElem = siblingNode.elem;
-        currentNodeIndex = currentMenu.findIndex(
+        currentNodeIndex = currentMenu.nodes.findIndex(
             (node) => node.elem === currentElem,
         );
         siblingNode =
             currentNodeIndex > -1
-                ? currentMenu[currentNodeIndex + (distance > 0 ? 1 : -1)] ||
-                  null
+                ? currentMenu.nodes[
+                      currentNodeIndex + (distance > 0 ? 1 : -1)
+                  ] || null
                 : null;
     }
 
