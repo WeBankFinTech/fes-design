@@ -1,10 +1,10 @@
 <template>
-    <FSelect :options="optionList"> </FSelect>
+    <FSelect filterable :options="optionList"> </FSelect>
 </template>
 <script>
 import { reactive } from 'vue';
 
-const TOTAL_COUNT = 1000;
+const TOTAL_COUNT = 10000;
 
 const DataItems = [];
 let count = TOTAL_COUNT;
