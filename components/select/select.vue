@@ -136,7 +136,7 @@ export default defineComponent({
             options.value.filter(
                 (option) =>
                     !filterText.value ||
-                    option.label.includes(filterText.value),
+                    String(option.label).includes(filterText.value),
             ),
         );
 
