@@ -63,7 +63,7 @@ app.use(FSelect);
 
 ### 配置方式
 
-通过配置`options`直接生成选项。
+通过配置`options`直接生成选项，当数据量大于 `50` 时使用 `VirtualList`组件实现虚拟列表，性能更优。
 
 --OPTIONS
 
