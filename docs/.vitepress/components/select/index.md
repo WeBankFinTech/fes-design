@@ -60,6 +60,13 @@ app.use(FSelect);
 
 --DISABLED
 
+
+### 配置方式
+
+通过配置`options`直接生成选项。
+
+--OPTIONS
+
 ### 无数据
 
 --NODATA
