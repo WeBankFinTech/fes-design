@@ -52,13 +52,13 @@ const PLUS_CALCULATION_TYPE = 'plus';
 const REDUCE_CALCULATION_TYPE = 'reduce';
 
 type InputNumberProps = {
-    modelValue: number;
-    min: number;
-    max: number;
-    step: number;
-    precision: number;
-    disabled: boolean;
-    placeholder: string;
+    modelValue?: number;
+    min?: number;
+    max?: number;
+    step?: number;
+    precision?: number;
+    disabled?: boolean;
+    placeholder?: string;
 };
 
 type InputNumberEmits = {

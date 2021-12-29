@@ -1,5 +1,5 @@
 import { withInstall } from '../_util/withInstall';
-import Checkbox from './checkbox';
+import Checkbox from './checkbox.vue';
 
 export const FCheckbox = withInstall(Checkbox);
 

@@ -1,8 +1,9 @@
 import { ref } from 'vue';
 import { addUnit } from '../_util/utils';
+import type { ScrollbarProps } from './interface';
 
-export default (props) => {
-    const containerRef = ref();
+export default (props: ScrollbarProps) => {
+    const containerRef = ref<HTMLElement>();
     const ratioX = ref(1);
     const ratioY = ref(1);
     const thumbMoveX = ref(0);

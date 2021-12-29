@@ -16,23 +16,15 @@
     </transition>
 </template>
 
-<script lang="ts">
-import {
-    computed,
-    defineComponent,
-    ref,
-    onMounted,
-    nextTick,
-    CSSProperties,
-    PropType,
-} from 'vue';
+<script setup lang="ts">
+import { computed, ref, onMounted, nextTick, CSSProperties } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import getPrefixCls from '../_util/getPrefixCls';
 import { BAR_MAP } from './const';
 
 const prefixCls = getPrefixCls('scrollbar-track');
 
-export function renderThumbStyle({ move, size, bar }) {
+function renderThumbStyle({ move, size, bar }) {
     const style: CSSProperties = {};
     const translate = `translate${bar.axis}(${move}%)`;
 
@@ -42,167 +34,144 @@ export function renderThumbStyle({ move, size, bar }) {
     return style;
 }
 
-const barProps = {
-    vertical: Boolean,
-    size: String,
-    move: Number,
-    ratio: Number,
-    always: Boolean,
-    scrollbarRef: Array as PropType<HTMLElement[]>,
-    containerRef: Object,
-} as const;
+type BarProps = {
+    vertical?: boolean;
+    size: string;
+    move: number;
+    ratio: number;
+    always: boolean;
+    scrollbarRef: HTMLElement[];
+    containerRef: HTMLElement;
+};
 
-export default defineComponent({
-    name: 'FBar',
-    props: barProps,
-    setup(props) {
-        const containerRef = computed(() => props.containerRef);
-        const barStore = ref({});
-        const barRef = ref();
-        const thumbRef = ref();
+const props = defineProps<BarProps>();
 
-        const barMap = computed(
-            () => BAR_MAP[props.vertical ? 'vertical' : 'horizontal'],
-        );
-        const thumbStyle = computed(() =>
-            renderThumbStyle({
-                size: props.size,
-                move: props.move,
-                bar: barMap.value,
-            }),
-        );
-        const offsetRatio = computed(
-            () =>
-                barRef.value[barMap.value.offset] ** 2 /
-                containerRef.value[barMap.value.scrollSize] /
-                props.ratio /
-                thumbRef.value[barMap.value.offset],
-        );
+const containerRef = computed(() => props.containerRef);
+const barStore = ref({});
+const barRef = ref();
+const thumbRef = ref();
 
-        const visible = ref(false);
+const barMap = computed(
+    () => BAR_MAP[props.vertical ? 'vertical' : 'horizontal'],
+);
+const thumbStyle = computed(() =>
+    renderThumbStyle({
+        size: props.size,
+        move: props.move,
+        bar: barMap.value,
+    }),
+);
+const offsetRatio = computed(
+    () =>
+        barRef.value[barMap.value.offset] ** 2 /
+        containerRef.value[barMap.value.scrollSize] /
+        props.ratio /
+        thumbRef.value[barMap.value.offset],
+);
 
-        const cursorLeave = ref();
-        const cursorDown = ref();
-        let onselectstartStore = null;
-        const mouseMoveDocumentHandler = (e: MouseEvent) => {
-            if (cursorDown.value === false) return;
-            const prevPage = barStore.value[barMap.value.axis];
+const visible = ref(false);
 
-            if (!prevPage) return;
+const cursorLeave = ref();
+const cursorDown = ref();
+let onselectstartStore = null;
+const mouseMoveDocumentHandler = (e: MouseEvent) => {
+    if (cursorDown.value === false) return;
+    const prevPage = barStore.value[barMap.value.axis];
 
-            const offset =
-                (barRef.value.getBoundingClientRect()[barMap.value.direction] -
-                    e[barMap.value.client]) *
-                -1;
-            const thumbClickPosition =
-                thumbRef.value[barMap.value.offset] - prevPage;
-            const thumbPositionPercentage =
-                ((offset - thumbClickPosition) * 100 * offsetRatio.value) /
-                barRef.value[barMap.value.offset];
-            containerRef.value[barMap.value.scroll] =
-                (thumbPositionPercentage *
-                    containerRef.value[barMap.value.scrollSize]) /
-                100;
-        };
+    if (!prevPage) return;
 
-        let docMouseMoveClose: () => void;
-        const mouseUpDocumentHandler = () => {
-            cursorDown.value = false;
-            barStore.value[barMap.value.axis] = 0;
-            docMouseMoveClose && docMouseMoveClose();
-            document.onselectstart = onselectstartStore;
-            if (cursorLeave.value) {
-                visible.value = false;
-            }
-        };
+    const offset =
+        (barRef.value.getBoundingClientRect()[barMap.value.direction] -
+            e[barMap.value.client]) *
+        -1;
+    const thumbClickPosition = thumbRef.value[barMap.value.offset] - prevPage;
+    const thumbPositionPercentage =
+        ((offset - thumbClickPosition) * 100 * offsetRatio.value) /
+        barRef.value[barMap.value.offset];
+    containerRef.value[barMap.value.scroll] =
+        (thumbPositionPercentage *
+            containerRef.value[barMap.value.scrollSize]) /
+        100;
+};
 
-        const startDrag = (e: MouseEvent) => {
-            e.stopImmediatePropagation();
-            cursorDown.value = true;
-            docMouseMoveClose = useEventListener(
-                document,
-                'mousemove',
-                mouseMoveDocumentHandler,
-            );
-            useEventListener(document, 'mouseup', mouseUpDocumentHandler);
-            onselectstartStore = document.onselectstart;
-            document.onselectstart = () => false;
-        };
+let docMouseMoveClose: () => void;
+const mouseUpDocumentHandler = () => {
+    cursorDown.value = false;
+    barStore.value[barMap.value.axis] = 0;
+    docMouseMoveClose && docMouseMoveClose();
+    document.onselectstart = onselectstartStore;
+    if (cursorLeave.value) {
+        visible.value = false;
+    }
+};
 
-        const mouseMoveScrollbarHandler = () => {
-            cursorLeave.value = false;
-            visible.value = !!props.size;
-        };
+const startDrag = (e: MouseEvent) => {
+    e.stopImmediatePropagation();
+    cursorDown.value = true;
+    docMouseMoveClose = useEventListener(
+        document,
+        'mousemove',
+        mouseMoveDocumentHandler,
+    );
+    useEventListener(document, 'mouseup', mouseUpDocumentHandler);
+    onselectstartStore = document.onselectstart;
+    document.onselectstart = () => false;
+};
 
-        const mouseLeaveScrollbarHandler = () => {
-            cursorLeave.value = true;
-            visible.value = cursorDown.value;
-        };
-        onMounted(() => {
-            nextTick(() => {
-                props.scrollbarRef.forEach((item) => {
-                    useEventListener(
-                        item,
-                        'mouseenter',
-                        mouseMoveScrollbarHandler,
-                    );
-                    useEventListener(
-                        item,
-                        'mousemove',
-                        mouseMoveScrollbarHandler,
-                    );
-                    useEventListener(
-                        item,
-                        'mouseleave',
-                        mouseLeaveScrollbarHandler,
-                    );
-                });
-            });
+const mouseMoveScrollbarHandler = () => {
+    cursorLeave.value = false;
+    visible.value = !!props.size;
+};
+
+const mouseLeaveScrollbarHandler = () => {
+    cursorLeave.value = true;
+    visible.value = cursorDown.value;
+};
+onMounted(() => {
+    nextTick(() => {
+        props.scrollbarRef.forEach((item) => {
+            useEventListener(item, 'mouseenter', mouseMoveScrollbarHandler);
+            useEventListener(item, 'mousemove', mouseMoveScrollbarHandler);
+            useEventListener(item, 'mouseleave', mouseLeaveScrollbarHandler);
         });
-
-        const clickTrackHandler = (e: MouseEvent) => {
-            const offset = Math.abs(
-                (e.target as HTMLElement).getBoundingClientRect()[
-                    barMap.value.direction
-                ] - e[barMap.value.client],
-            );
-            const thumbHalf = thumbRef.value[barMap.value.offset] / 2;
-            const thumbPositionPercentage =
-                ((offset - thumbHalf) * 100 * offsetRatio.value) /
-                barRef.value[barMap.value.offset];
-            containerRef.value[barMap.value.scroll] =
-                (thumbPositionPercentage *
-                    containerRef.value[barMap.value.scrollSize]) /
-                100;
-        };
-
-        const clickThumbHandler = (e: MouseEvent) => {
-            // prevent click event of middle and right button
-            e.stopPropagation();
-            if (e.ctrlKey || [1, 2].includes(e.button)) {
-                return;
-            }
-            window.getSelection().removeAllRanges();
-            startDrag(e);
-            barStore.value[barMap.value.axis] =
-                e.currentTarget[barMap.value.offset] -
-                (e[barMap.value.client] -
-                    (e.currentTarget as HTMLElement).getBoundingClientRect()[
-                        barMap.value.direction
-                    ]);
-        };
-
-        return {
-            prefixCls,
-            barRef,
-            thumbRef,
-            visible,
-            cursorDown,
-            barMap,
-            thumbStyle,
-            clickTrackHandler,
-            clickThumbHandler,
-        };
-    },
+    });
 });
+
+const clickTrackHandler = (e: MouseEvent) => {
+    const offset = Math.abs(
+        (e.target as HTMLElement).getBoundingClientRect()[
+            barMap.value.direction
+        ] - e[barMap.value.client],
+    );
+    const thumbHalf = thumbRef.value[barMap.value.offset] / 2;
+    const thumbPositionPercentage =
+        ((offset - thumbHalf) * 100 * offsetRatio.value) /
+        barRef.value[barMap.value.offset];
+    containerRef.value[barMap.value.scroll] =
+        (thumbPositionPercentage *
+            containerRef.value[barMap.value.scrollSize]) /
+        100;
+};
+
+const clickThumbHandler = (e: MouseEvent) => {
+    // prevent click event of middle and right button
+    e.stopPropagation();
+    if (e.ctrlKey || [1, 2].includes(e.button)) {
+        return;
+    }
+    window.getSelection().removeAllRanges();
+    startDrag(e);
+    barStore.value[barMap.value.axis] =
+        e.currentTarget[barMap.value.offset] -
+        (e[barMap.value.client] -
+            (e.currentTarget as HTMLElement).getBoundingClientRect()[
+                barMap.value.direction
+            ]);
+};
+</script>
+
+<script>
+export default {
+    name: 'FBar',
+};
 </script>

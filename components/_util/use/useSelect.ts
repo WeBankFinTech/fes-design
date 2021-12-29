@@ -1,15 +1,29 @@
-import { inject, ref, computed, SetupContext } from 'vue';
+import { inject, ref, computed } from 'vue';
 import { useNormalModel } from './useModel';
 import useFormAdaptor from './useFormAdaptor';
 import { CHANGE_EVENT } from '../constants';
 
-export default ({ props, ctx, parent }: { ctx: SetupContext }) => {
+export default <Props, Emits>({
+    props,
+    emit,
+    parent,
+}: {
+    props: Props;
+    emit: Emits;
+    parent: {
+        groupKey: symbol;
+        name: string;
+    };
+}) => {
     const { validate } = useFormAdaptor('boolean');
     const group = inject(parent.groupKey, null);
     const focus = ref(false);
     const hover = ref(false);
     const isGroup = group !== null;
-    const [currentValue, updateCurrentValue] = useNormalModel(props, ctx.emit);
+    const [currentValue, updateCurrentValue] = useNormalModel<Emits>(
+        props,
+        emit,
+    );
     const checked = computed(() => {
         if (!isGroup) {
             return currentValue.value;
@@ -28,7 +42,7 @@ export default ({ props, ctx, parent }: { ctx: SetupContext }) => {
         } else {
             const newVal = !currentValue.value;
             updateCurrentValue(newVal);
-            ctx.emit(CHANGE_EVENT, newVal);
+            emit(CHANGE_EVENT, newVal);
             validate(CHANGE_EVENT);
         }
     };
