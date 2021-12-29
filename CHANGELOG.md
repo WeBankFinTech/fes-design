@@ -1,3 +1,12 @@
+## [0.1.8](https://github.com/WeBankFinTech/fes-design/compare/v0.1.7...v0.1.8) (2021-12-29)
+
+
+### Features
+
+* table的列支持配置visible ([a1a32c5](https://github.com/WeBankFinTech/fes-design/commit/a1a32c5cae520f3a7404aeee69a9589e8e4c10bb))
+
+
+
 ## [0.1.7](https://github.com/WeBankFinTech/fes-design/compare/v0.1.6...v0.1.7) (2021-12-28)
 
 
