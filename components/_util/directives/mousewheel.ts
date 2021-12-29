@@ -6,12 +6,8 @@ const isFirefox =
     typeof navigator !== 'undefined' &&
     navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 
-interface NormalizeWheel {
-    spinX: number;
-    spinY: number;
-    pixelX: number;
-    pixelY: number;
-}
+type NormalizeWheel = ReturnType<typeof normalizeWheel>;
+
 const mousewheel = function (
     element: HTMLElement,
     callback?: (event: Event, normalized: NormalizeWheel) => void,
@@ -25,7 +21,7 @@ const mousewheel = function (
             element.addEventListener('DOMMouseScroll', fn);
         } else {
             // TODO: chrome 61 才支持标准的 wheel 事件，暂且这么实现
-            (<any>element).onmousewheel = fn;
+            (element as any).onmousewheel = fn;
         }
     }
 };

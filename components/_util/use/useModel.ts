@@ -3,9 +3,9 @@ import { isEqual, isArray } from 'lodash-es';
 
 import { Emit } from '../interface';
 
-export const useNormalModel = (
+export function useNormalModel<T>(
     props: Record<string, any>,
-    emit: Emit,
+    emit: T,
     config = {
         prop: 'modelValue',
         isEqual: false,

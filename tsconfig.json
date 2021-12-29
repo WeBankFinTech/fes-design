@@ -23,6 +23,6 @@
         ]
     },
     "include": [
-        "./vue-shim.d.ts"
+        "./shim.d.ts"
     ]
 }

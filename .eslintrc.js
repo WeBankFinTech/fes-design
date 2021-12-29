@@ -13,6 +13,7 @@ module.exports = {
     },
     // 规则
     rules: {
+        'vue/one-component-per-file': 'off',
         'import/no-named-as-default': 'off',
         'import/no-extraneous-dependencies': 'off',
         'no-restricted-syntax': [

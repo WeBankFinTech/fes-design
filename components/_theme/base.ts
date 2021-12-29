@@ -33,7 +33,7 @@ const themeCommon = {
     maskColor: fade(fontColorBase, 0.45),
 };
 
-export const baseTheme = (themeOverrides: Theme = {}) => {
+export const baseTheme = (themeOverrides: Partial<Theme> = {}) => {
     const base = Object.assign(themeCommon, themeOverrides.common);
     return {
         ...base,

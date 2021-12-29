@@ -4,11 +4,12 @@ import type { FObjectDirective, ComponentInstall } from './interface';
 import { noop } from './utils';
 
 export const withInstall = (
-    main: ComponentInstall,
+    main: Component,
     extra?: Record<string, Component>,
     directives?: FObjectDirective[],
 ) => {
-    main.install = (app: App) => {
+    const _main = main as ComponentInstall;
+    _main.install = (app: App) => {
         for (const comp of [main, ...Object.values(extra ?? {})]) {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             app.component(comp.name!, comp);
@@ -24,7 +25,7 @@ export const withInstall = (
             main[key] = comp;
         }
     }
-    return main;
+    return _main;
 };
 
 export const withNoopInstall = (component: ComponentInstall) => {

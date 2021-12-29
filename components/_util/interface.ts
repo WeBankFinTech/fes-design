@@ -8,6 +8,8 @@ export type FObjectDirective = ObjectDirective & {
     name: string;
 };
 
+export type VModelEvent = 'update:modelValue';
+
 export type UpdateCurrentValue = (val: any) => void;
 export type FormValidate = (eventName: string) => void;
 

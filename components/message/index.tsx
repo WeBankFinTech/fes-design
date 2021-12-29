@@ -1,5 +1,4 @@
-import { isObject } from 'lodash-es';
-import { reactive } from 'vue';
+import { reactive, Component } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { createManager } from '../_util/noticeManager';
 import Alert from '../alert/alert';
@@ -7,6 +6,22 @@ import { getConfig } from '../config-provider';
 import PopupManager from '../_util/popupManager';
 
 const prefixCls = getPrefixCls('message');
+
+type MessageType = 'info' | 'success' | 'warning' | 'error';
+
+type Options = {
+    type?: MessageType;
+    duration?: number;
+    getContainer?: () => HTMLElement;
+    maxCount?: number;
+    top?: string;
+    colorful?: boolean;
+    content?: string;
+    afterClose?: () => void;
+    closable?: boolean;
+    icon?: () => Component
+};
+
 
 const defaultConfig = {
     duration: 3,
@@ -18,7 +33,7 @@ const defaultConfig = {
     top: '24px',
     colorful: false,
 };
-let mergeConfig = defaultConfig;
+let mergeConfig: Options = defaultConfig;
 
 let messageInstance = null;
 const managerStyle = reactive({
@@ -26,7 +41,15 @@ const managerStyle = reactive({
     top: mergeConfig.top,
 });
 
-async function create({ type, content, duration, icon, closable, afterClose, colorful }) {
+async function create({
+    type,
+    content,
+    duration,
+    icon,
+    closable,
+    afterClose,
+    colorful,
+}: Options) {
     managerStyle.zIndex = PopupManager.nextZIndex();
     if (!messageInstance?.exited?.()) {
         messageInstance = await createManager({
@@ -76,29 +99,21 @@ async function create({ type, content, duration, icon, closable, afterClose, col
     });
 }
 
-function apiArgsParse(type, args = []) {
-    const params = { type };
-    if (isObject(args[0]) && args[0].content) {
-        Object.assign(params, args[0]);
+// function message(type: MessageType, content: string, duration?: number): void;
+// function message(type: MessageType, options: Options): void;
+function message(type: MessageType, options: string | Options, duration?: number): void {
+    const params: Options = { type };
+    if (typeof options === 'string') {
+        params.content = options;
+        params.duration = duration || 0;
     } else {
-        params.content = args[0];
-        params.duration = args[1];
+        Object.assign(params, options);
     }
-    return params;
+    create(params)
 }
 
 export default {
-    /**
-     * 全局配置
-     * @param {{
-     *  duration: Number,
-     *  getContainer: Function,
-     *  maxCount: Number,
-     *  top: String,
-     *  colorful: Boolean
-     * }} options 配置项
-     */
-    config(options) {
+    config(options: Options) {
         if (options) {
             mergeConfig = {
                 ...defaultConfig,
@@ -106,11 +121,11 @@ export default {
             };
         }
     },
-    info: (...args) => create(apiArgsParse('info', args)),
-    success: (...args) => create(apiArgsParse('success', args)),
-    warning: (...args) => create(apiArgsParse('warning', args)),
-    warn: (...args) => create(apiArgsParse('warning', args)),
-    error: (...args) => create(apiArgsParse('error', args)),
+    info: (content: string | Options, duration?: number) => message('info', content, duration),
+    success: (content: string | Options, duration?: number) => message('success', content, duration),
+    warning: (content: string | Options, duration?: number) => message('warning', content, duration),
+    warn: (content: string | Options, duration?: number) => message('warning', content, duration),
+    error: (content: string | Options, duration?: number) => message('error', content, duration),
     destroy() {
         messageInstance && messageInstance.destroy();
         messageInstance = null;

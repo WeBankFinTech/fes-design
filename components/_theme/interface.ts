@@ -1,34 +1,34 @@
 export interface ThemeCommon {
-    primaryColor?: string;
+    primaryColor: string;
 
-    successColor?: string;
-    dangerColor?: string;
-    warningColor?: string;
-    tipColor?: string;
+    successColor: string;
+    dangerColor: string;
+    warningColor: string;
+    tipColor: string;
 
-    white?: string;
-    black?: string;
+    white: string;
+    black: string;
 
-    bodyBgColor?: string;
+    bodyBgColor: string;
 
-    fontColorBase?: string;
-    fontSizeBase?: string;
+    fontColorBase: string;
+    fontSizeBase: string;
 
-    borderRadiusBase?: string;
-    borderRadiusSm?: string;
-    borderWidthBase?: string;
-    borderStyleBase?: string;
+    borderRadiusBase: string;
+    borderRadiusSm: string;
+    borderWidthBase: string;
+    borderStyleBase: string;
 
-    borderColorBase?: string;
+    borderColorBase: string;
 
-    shadowColor?: string;
-    shadowColorSm?: string;
-    shadowRadius?: string;
-    shadowRadiusSm?: string;
+    shadowColor: string;
+    shadowColorSm: string;
+    shadowRadius: string;
+    shadowRadiusSm: string;
 
-    maskColor?: string;
+    maskColor: string;
 }
 
 export interface Theme {
-    common?: ThemeCommon;
+    common: ThemeCommon;
 }

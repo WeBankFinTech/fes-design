@@ -25,9 +25,7 @@ function genUid() {
 const Notification = defineComponent({
     props: {
         maxCount: Number,
-        class: String,
         transitionName: String,
-        style: Object,
     },
     setup(props) {
         const notices = ref([]);
@@ -63,7 +61,7 @@ const Notification = defineComponent({
         };
     },
     render() {
-        const { notices, class: className, transitionName, style } = this;
+        const { notices, transitionName } = this;
         const children = notices.map((notice) => (
             <div key={notice.key}>
                 {typeof notice.children === 'function'
@@ -75,16 +73,17 @@ const Notification = defineComponent({
             <TransitionGroup
                 name={transitionName}
                 tag="div"
-                class={className}
-                style={style}
             >
                 {children}
             </TransitionGroup>
-        );
+        )
     },
 });
 
-export function createManager(opt = {}) {
+export function createManager(opt: {
+    getContainer: () => HTMLElement;
+    [key: string]: any;
+}) {
     return new Promise((resolve) => {
         const { getContainer, ...props } = opt;
         const div = document.createElement('div');
@@ -103,7 +102,7 @@ export function createManager(opt = {}) {
                         notificationRef.value.append(noticeProps),
                     remove: (key) => notificationRef.value.remove(key),
                     destroy() {
-                        app.unmount(div);
+                        app.unmount();
                         if (div.parentNode) {
                             div.parentNode.removeChild(div);
                         }
@@ -131,9 +130,9 @@ export function createManager(opt = {}) {
     });
 }
 
-export const iconComponentMap: { [key: string]: Component } = {
-    info: InfoCircleFilled,
-    success: CheckCircleFilled,
-    error: CloseCircleFilled,
-    warning: ExclamationCircleFilled,
+export const iconComponentMap: { [key: string]: () => Component } = {
+    info: () => InfoCircleFilled,
+    success: () => CheckCircleFilled,
+    error: () => CloseCircleFilled,
+    warning: () => ExclamationCircleFilled,
 };

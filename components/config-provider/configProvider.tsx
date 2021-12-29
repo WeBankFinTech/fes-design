@@ -11,13 +11,10 @@ const config = reactive<ConfigProvider>({
 const configProviderProps = {
     getContainer: Function as PropType<() => HTMLElement>,
     theme: String,
-    themeOverrides: Object as PropType<Theme>,
+    themeOverrides: Object as PropType<Partial<Theme>>,
 } as const;
 
-
-type ConfigProviderProps = typeof configProviderProps;
-
-export const setConfig = (data: ConfigProviderProps) => {
+export const setConfig = (data: ConfigProvider) => {
     if (isObject(data)) {
         Object.keys(data).forEach((prop) => {
             if (!isNil(data[prop])) {

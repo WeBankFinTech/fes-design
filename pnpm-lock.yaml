@@ -34,6 +34,7 @@ specifiers:
   commitizen: ^4.2.4
   conventional-changelog-cli: ^2.1.1
   csso: ^4.2.0
+  csstype: ^3.0.10
   cz-conventional-changelog: ^3.3.0
   enquirer: ^2.3.6
   escape-html: ^1.0.3
@@ -78,6 +79,7 @@ dependencies:
   '@vue/shared': 3.2.24
   '@vueuse/core': 6.9.2_vue@3.2.24
   async-validator: 4.0.7
+  csstype: 3.0.10
   lodash-es: 4.17.21
   normalize-wheel: 1.0.1
   stickybits: 3.7.9
@@ -3833,8 +3835,12 @@ packages:
     dev: true
 
   /csstype/2.6.19:
-    resolution: {integrity: sha512-ZVxXaNy28/k3kJg0Fou5MiYpp88j7H9hLZp8PDC3jV0WFjfH5E9xHb56L0W59cPbKbcHXeP4qyT8PrHp8t6LcQ==, tarball: csstype/download/csstype-2.6.19.tgz}
+    resolution: {integrity: sha512-ZVxXaNy28/k3kJg0Fou5MiYpp88j7H9hLZp8PDC3jV0WFjfH5E9xHb56L0W59cPbKbcHXeP4qyT8PrHp8t6LcQ==, tarball: csstype/download/csstype-2.6.19.tgz?cache=0&sync_timestamp=1637224867418&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fcsstype%2Fdownload%2Fcsstype-2.6.19.tgz}
     dev: true
+
+  /csstype/3.0.10:
+    resolution: {integrity: sha512-2u44ZG2OcNUO9HDp/Jl8C07x6pU/eTR3ncV91SiK3dhG9TWvRVsCoJw14Ckx5DgWkzGA3waZWO3d7pgqpUI/XA==, tarball: csstype/download/csstype-3.0.10.tgz?cache=0&sync_timestamp=1637224867418&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fcsstype%2Fdownload%2Fcsstype-3.0.10.tgz}
+    dev: false
 
   /currently-unhandled/0.4.1:
     resolution: {integrity: sha1-mI3zP+qxke95mmE2nddsF635V+o=, tarball: currently-unhandled/download/currently-unhandled-0.4.1.tgz}
@@ -7087,7 +7093,7 @@ packages:
     dev: true
 
   /mime/1.6.0:
-    resolution: {integrity: sha1-Ms2eXGRVO9WNGaVor0Uqz/BJgbE=, tarball: mime/download/mime-1.6.0.tgz?cache=0&sync_timestamp=1636373388207&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fmime%2Fdownload%2Fmime-1.6.0.tgz}
+    resolution: {integrity: sha1-Ms2eXGRVO9WNGaVor0Uqz/BJgbE=, tarball: mime/download/mime-1.6.0.tgz?cache=0&sync_timestamp=1636370946189&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fmime%2Fdownload%2Fmime-1.6.0.tgz}
     engines: {node: '>=4'}
     hasBin: true
     requiresBuild: true

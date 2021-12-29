@@ -1,4 +1,4 @@
-import { h, ref, Transition, defineComponent } from 'vue';
+import { h, ref, Transition, computed, defineComponent, PropType } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import CloseCircleOutlined from '../icon/CloseCircleOutlined';
 import { CLOSE_EVENT } from '../_util/constants';
@@ -14,11 +14,8 @@ const alertProps = {
     closable: Boolean,
     center: Boolean,
     type: {
-        type: String,
+        type: String as PropType<keyof typeof iconComponentMap>,
         default: 'info',
-        validator(value: string) {
-            return Object.keys(iconComponentMap).includes(value);
-        },
     },
     beforeClose: {
         type: Function,
@@ -28,7 +25,6 @@ const alertProps = {
 
 export default defineComponent({
     name: 'FAlert',
-    components: { ...Object.values(iconComponentMap), CloseCircleOutlined },
     props: alertProps,
     emits: [CLOSE_EVENT],
     setup(props, ctx) {
@@ -43,27 +39,31 @@ export default defineComponent({
             });
         }
 
+        const bodyClass = computed(() => [
+            `${prefixCls}-body`,
+            props.showIcon && !props.center && `${prefixCls}-icon-padding`,
+        ]);
+
+        const renderIcon = () => {
+            return ctx.slots.icon ? ctx.slots.icon() : (iconComponentMap[props.type]?.())
+        }
+
         return () => {
             const {
                 action: actionSlot,
                 default: defaultSlot,
-                icon: iconSlot,
                 description: descriptionSlot,
             } = ctx.slots;
-            const bodyClass = [
-                `${prefixCls}-body`,
-                props.showIcon && !props.center && `${prefixCls}-icon-padding`,
-            ];
+
             const description =
                 props.description || descriptionSlot ? (
-                    <div class={bodyClass.filter(Boolean).join(' ')}>
+                    <div class={bodyClass.value}>
                         {descriptionSlot
                             ? descriptionSlot()
                             : props.description}
                     </div>
                 ) : null;
 
-            const Icon = iconComponentMap[props.type];
             return (
                 <Transition name={`${prefixCls}-fade-expand`}>
                     {!visible.value ? null : (
@@ -79,9 +79,7 @@ export default defineComponent({
                                         <div
                                             class={`${prefixCls}-head-message-icon`}
                                         >
-                                            {iconSlot
-                                                ? iconSlot()
-                                                : Icon && <Icon />}
+                                            {renderIcon()}
                                         </div>
                                     ) : null}
                                     <div>
