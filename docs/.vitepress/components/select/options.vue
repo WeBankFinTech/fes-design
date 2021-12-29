@@ -1,34 +1,29 @@
 <template>
-    <FSelect :options="optionList">
-    </FSelect>
+    <FSelect :options="optionList"> </FSelect>
 </template>
 <script>
 import { reactive } from 'vue';
 
-export default {
-    setup(){
-        const optionList = reactive([{
-            value: 'HuNan',
-            label: '湖南'
-        },{
-            value: 'HuBei',
-            label: '湖北',
-            disabled: true
-        },{
-            value: 'ZheJiang',
-            label: '浙江'
-        },{
-            value: 'GuangDong',
-            label: '广东'
-        },{
-            value: 'JiangSu',
-            label: '江苏'
-        },])
-        return {
-            optionList
-        }
-    }
+const TOTAL_COUNT = 1000;
+
+const DataItems = [];
+let count = TOTAL_COUNT;
+while (count--) {
+    const index = TOTAL_COUNT - count;
+    DataItems.push({
+        label: index,
+        value: index,
+    });
 }
+
+export default {
+    setup() {
+        const optionList = reactive(DataItems);
+        return {
+            optionList,
+        };
+    },
+};
 </script>
 <style scoped>
 .fes-select {
