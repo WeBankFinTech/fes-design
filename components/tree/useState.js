@@ -22,19 +22,17 @@ export default (props, { emit }) => {
     const hasSelected = (value) => currentSelectedKeys.value.includes(value);
     const hasChecked = (value) => currentCheckedKeys.value.includes(value);
     const hasIndeterminate = (node) => {
-        const value = node[props.valueField];
-        if (hasChecked(value)) {
+        if (hasChecked(node.value)) {
             return false;
         }
         if (node.isLeaf) {
             return false;
         }
         return (
+            props.cascade &&
             Array.isArray(node.children) &&
             node.children.some(
-                (item) =>
-                    hasChecked(item[props.valueField]) ||
-                    hasIndeterminate(item),
+                (item) => hasChecked(node.value) || hasIndeterminate(item),
             )
         );
     };
