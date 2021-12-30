@@ -31,7 +31,7 @@
     }
     & &-header-wrapper {
         position: relative;
-        z-index: 2;
+        z-index: 3;
         &.is-scrolling{
             box-shadow: 0 1px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
         }
@@ -92,7 +92,7 @@
         }
         td {
             background-color: var(--f-white);
-            .@{table-prefix}-no-data {
+            &.@{table-prefix}-no-data {
                 text-align: center;
             }
             &.@{table-prefix}-cell {

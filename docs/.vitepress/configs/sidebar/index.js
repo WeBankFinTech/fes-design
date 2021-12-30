@@ -146,7 +146,7 @@ module.exports = {
                     {
                         text: 'VirtualList 虚拟列表',
                         link: '/zh/components/virtualList',
-                    },
+                    }
                 ]
             },
             {

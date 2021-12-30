@@ -89,5 +89,6 @@ export const baseTheme = (themeOverrides = {}) => {
         carouselColor: base.shadowColorSm,
         carouselHoverColor: base.maskColor,
         carouselActiveColor: fade(base.fontColorBase, 0.65),
+
     };
 };
