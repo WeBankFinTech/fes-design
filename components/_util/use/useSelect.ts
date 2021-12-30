@@ -3,27 +3,32 @@ import { useNormalModel } from './useModel';
 import useFormAdaptor from './useFormAdaptor';
 import { CHANGE_EVENT } from '../constants';
 
-export default <Props, Emits>({
+import type { VModelEvent, ChangeEvent } from '../interface';
+
+export default ({
     props,
     emit,
     parent,
 }: {
-    props: Props;
-    emit: Emits;
+    props: {
+        value: any;
+        disabled: boolean;
+    };
+    emit: {
+        (e: VModelEvent, value: any): void;
+        (e: ChangeEvent, value: any): void;
+    };
     parent: {
         groupKey: symbol;
         name: string;
     };
 }) => {
     const { validate } = useFormAdaptor('boolean');
-    const group = inject(parent.groupKey, null);
+    const group = inject(parent.groupKey, null) as any;
     const focus = ref(false);
     const hover = ref(false);
     const isGroup = group !== null;
-    const [currentValue, updateCurrentValue] = useNormalModel<Emits>(
-        props,
-        emit,
-    );
+    const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
     const checked = computed(() => {
         if (!isGroup) {
             return currentValue.value;

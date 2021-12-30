@@ -6,7 +6,7 @@
                 { 'is-disabled': maxDisabled || disabled },
             ]"
             @mousedown.prevent
-            @click="calculationNum(PLUS_CALCULATION_TYPE)"
+            @click="calculationNum(ActionEnum.PLUS)"
         >
             <UpOutlined />
         </span>
@@ -16,7 +16,7 @@
                 { 'is-disabled': minDisabled || disabled },
             ]"
             @mousedown.prevent
-            @click="calculationNum(REDUCE_CALCULATION_TYPE)"
+            @click="calculationNum(ActionEnum.REDUCE)"
         >
             <DownOutlined />
         </span>
@@ -50,6 +50,11 @@ const prefixCls = getPrefixCls('input-number');
 
 const PLUS_CALCULATION_TYPE = 'plus';
 const REDUCE_CALCULATION_TYPE = 'reduce';
+
+enum ActionEnum {
+    PLUS,
+    REDUCE,
+}
 
 type InputNumberProps = {
     modelValue?: number;
@@ -94,7 +99,7 @@ const displayValue = computed(() => {
 });
 
 // 获取输入值的小数位数
-const getPrecison = (val) => {
+const getPrecison = (val: number) => {
     if (val == null) return 0;
     const valueString = val.toString();
     const dotPosition = valueString.indexOf('.');
@@ -149,22 +154,22 @@ const handleBlur = (e: Event) => {
     validate('blur');
 };
 
-const handleInput = (value) => {
+const handleInput = (value: string | number) => {
     tempValue.value = value;
 };
-const handleInputChange = (value) => {
+const handleInputChange = (value: string | number) => {
     const newVal = value === '' ? null : Number(value);
     if (!Number.isNaN(newVal) || value === '') {
-        setCurrentValue(newVal);
+        setCurrentValue(Number(newVal));
     }
     tempValue.value = null;
 };
 
-const _calculationNum = (val: number, type) => {
+const _calculationNum = (val: number, type: ActionEnum) => {
     if (!isNumber(val) && val != null) return tempValue.value;
     const precisionFactor = 10 ** numPresicion.value;
     let tmp;
-    if (type === PLUS_CALCULATION_TYPE) {
+    if (type === ActionEnum.PLUS) {
         tmp = precisionFactor * val + precisionFactor * props.step;
     } else {
         tmp = precisionFactor * val - precisionFactor * props.step;
@@ -173,17 +178,14 @@ const _calculationNum = (val: number, type) => {
 };
 // 是否已减小到最小值
 const minDisabled = computed(
-    () =>
-        _calculationNum(currentValue.value, REDUCE_CALCULATION_TYPE) <
-        props.min,
+    () => _calculationNum(currentValue.value, ActionEnum.REDUCE) < props.min,
 );
 // 是否已加到最大值
 const maxDisabled = computed(
-    () =>
-        _calculationNum(currentValue.value, PLUS_CALCULATION_TYPE) > props.max,
+    () => _calculationNum(currentValue.value, ActionEnum.PLUS) > props.max,
 );
 
-const calculationNum = (type) => {
+const calculationNum = (type: ActionEnum) => {
     if (props.disabled || maxDisabled.value) return;
     if (tempValue.value) {
         handleInputChange(tempValue.value);

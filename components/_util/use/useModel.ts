@@ -1,12 +1,17 @@
 import { ref, watch, computed, WritableComputedRef } from 'vue';
 import { isEqual, isArray } from 'lodash-es';
 
-import { Emit } from '../interface';
+import { Emit, VModelEvent } from '../interface';
 
-export function useNormalModel<T>(
+export const useNormalModel = (
     props: Record<string, any>,
-    emit: T,
-    config = {
+    emit: {
+        (e: VModelEvent, value: any): void;
+    },
+    config: {
+        prop: string;
+        isEqual: boolean;
+    } = {
         prop: 'modelValue',
         isEqual: false,
     },
@@ -21,7 +26,8 @@ export function useNormalModel<T>(
             return;
         }
         currentValue.value = value;
-        emit(`update:${usingProp}`, value);
+        // TODO 这种用 ts 不知道怎么写
+        (emit as any)(`update:${usingProp}`, value);
     };
 
     watch(

@@ -54,7 +54,7 @@ const {
     handleClick,
     handleMouseOver,
     handleMouseOut,
-} = useSelect<CheckboxProps, CheckboxEmits>({
+} = useSelect({
     props,
     emit,
     parent: { groupKey: checkboxGroupKey, name },
@@ -70,9 +70,9 @@ const wrapperClass = computed(() => {
     if (hover.value) {
         arr.push('is-hover');
     }
-    if (isGroup.value) {
+    if (isGroup) {
         arr.push('is-item');
-        if (group.props.vertical) {
+        if (group?.props?.vertical) {
             arr.push('is-item-vertical');
         }
     }
