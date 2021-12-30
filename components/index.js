@@ -43,8 +43,17 @@ import { FDrawer } from './drawer';
 import { FSelectTree } from './select-tree';
 
 const ENV = process.env.NODE_ENV;
-if (ENV !== 'production' && ENV !== 'test' && typeof console !== 'undefined' && console.warn && typeof window !== 'undefined') {
-    console.warn('You are using a whole package of fes-design, ' + 'please use https://www.npmjs.com/package/babel-plugin-import to reduce app bundle size.');
+if (
+    ENV !== 'production' &&
+    ENV !== 'test' &&
+    typeof console !== 'undefined' &&
+    console.warn &&
+    typeof window !== 'undefined'
+) {
+    console.warn(
+        'You are using a whole package of fes-design, ' +
+            'please use https://www.npmjs.com/package/babel-plugin-import to reduce app bundle size.',
+    );
 }
 
 const components = [
@@ -97,23 +106,8 @@ const components = [
     FPreviewGroup,
     FForm,
     FFormItem,
-<<<<<<< HEAD
-<<<<<<< HEAD
     FCarousel,
     FCarouselItem,
-=======
-<<<<<<< HEAD
-    FVirtualList,
-=======
-    FCarousel,
-    FCarouselItem,
->>>>>>> c3af387 (feat(carousel): 新增carousel组件)
->>>>>>> 48a176c (feat(carousel): 新增carousel组件)
-=======
-    FCarousel,
-    FCarouselItem,
-    FVirtualList,
->>>>>>> 5bb3b99 (refactor(carousel): 调整less变量、调整demo样式)
     FDrawer,
     FVirtualList,
     FSelectTree,
