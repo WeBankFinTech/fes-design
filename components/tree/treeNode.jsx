@@ -37,10 +37,6 @@ export default defineComponent({
             type: Number,
             default: 0,
         },
-        node: {
-            type: Object,
-        },
-        handleData: Function,
     },
     setup(props, { slots }) {
         const {
@@ -49,7 +45,8 @@ export default defineComponent({
             isSelected,
             isChecked,
             isIndeterminate,
-            isChildrenInline,
+            isInline,
+            isFirst,
         } = useTreeNode(props);
 
         const disabled = computed(() =>
@@ -71,29 +68,23 @@ export default defineComponent({
                 prefixCls,
                 disabled.value && 'is-disabled',
                 isSelected.value && 'is-selected',
-            ]
-                .filter(Boolean)
-                .join(' '),
+                isInline.value && 'is-inline',
+                isFirst.value && 'is-inline-first',
+            ].filter(Boolean),
         );
 
         let isLoaded = false;
         const isLoading = ref(false);
         const handleClickSwitcher = async (event) => {
+            const node = root.nodeList[props.value];
             if (
                 !isLoaded &&
                 root.props.loadData &&
-                (!props.node.children || props.node.children.length === 0)
+                (!node.children || node.children.length === 0)
             ) {
                 isLoading.value = true;
                 try {
-                    const children = await root.props.loadData(
-                        props.node.origin,
-                    );
-                    props.node.children = props.handleData(
-                        children,
-                        props.node.indexPath,
-                        props.node.level + 1,
-                    );
+                    await root.props.loadData(node.origin);
                     isLoaded = true;
                     root.expandNode(props.value, event);
                 } catch (e) {
@@ -126,6 +117,9 @@ export default defineComponent({
             event.stopPropagation();
         };
         const renderIndent = (children) => {
+            if (isInline.value && !isFirst.value) {
+                return [];
+            }
             const arr = [];
             let i = 1 + (children ? -1 : 0);
             while (i < props.level) {
@@ -134,8 +128,8 @@ export default defineComponent({
             }
             return arr;
         };
-        const renderSwitcher = (children) => {
-            if (props.isLeaf || children) {
+        const renderSwitcher = () => {
+            if (props.isLeaf) {
                 return <span class={`${prefixCls}-switcher`} />;
             }
             return (
@@ -143,13 +137,15 @@ export default defineComponent({
                     class={`${prefixCls}-switcher`}
                     onClick={handleClickSwitcher}
                 >
-                    <LoadingOutlined v-show={isLoading.value} />
-                    <CaretDownOutlined
-                        v-show={!isLoading.value}
-                        class={`${prefixCls}-switcher-icon ${
-                            isExpanded.value ? 'is-expanded' : ''
-                        }`}
-                    />
+                    {isLoading.value ? (
+                        <LoadingOutlined />
+                    ) : (
+                        <CaretDownOutlined
+                            class={`${prefixCls}-switcher-icon ${
+                                isExpanded.value ? 'is-expanded' : ''
+                            }`}
+                        />
+                    )}
                 </span>
             );
         };
@@ -164,34 +160,6 @@ export default defineComponent({
                             disabled={props.disabled || props.checkboxDisabled}
                         />
                     </span>
-                );
-            }
-            return null;
-        };
-        const renderChildrenIndent = () => {
-            if (isChildrenInline.value) {
-                return (
-                    <>
-                        {renderIndent(true)}
-                        {renderSwitcher(true)}
-                    </>
-                );
-            }
-            return null;
-        };
-        const renderChildren = () => {
-            if (slots.default && isExpanded.value) {
-                return (
-                    <div class={`${prefixCls}-children-wrapper`}>
-                        {renderChildrenIndent()}
-                        <div
-                            class={`${prefixCls}-children ${
-                                isChildrenInline.value ? 'is-inline' : ''
-                            }`}
-                        >
-                            {slots.default?.()}
-                        </div>
-                    </div>
                 );
             }
             return null;
@@ -220,22 +188,19 @@ export default defineComponent({
         };
         return () => (
             <div class={classList.value} data-value={props.value}>
-                <div class={`${prefixCls}-content-wrapper`}>
-                    {renderIndent()}
-                    {renderSwitcher()}
-                    {renderCheckbox()}
-                    <span
-                        class={`${prefixCls}-content`}
-                        onClick={handleClickContent}
-                    >
-                        {renderPrefix()}
-                        <span class={`${prefixCls}-content-label`}>
-                            {props.label}
-                        </span>
-                        {renderSuffix()}
+                {renderIndent()}
+                {renderSwitcher()}
+                {renderCheckbox()}
+                <span
+                    class={`${prefixCls}-content`}
+                    onClick={handleClickContent}
+                >
+                    {renderPrefix()}
+                    <span class={`${prefixCls}-content-label`}>
+                        {props.label}
                     </span>
-                </div>
-                {renderChildren()}
+                    {renderSuffix()}
+                </span>
             </div>
         );
     },
