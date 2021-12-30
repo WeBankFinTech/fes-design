@@ -1,4 +1,4 @@
-import { h, defineComponent, Fragment, Teleport, cloneVNode, computed, Ref } from 'vue';
+import { h, defineComponent, Fragment, Teleport, cloneVNode, computed } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import useClickOutSide from '../_util/use/useClickOutSide';
@@ -11,7 +11,7 @@ import usePopper from './usePopper';
 
 import { getConfig } from '../config-provider';
 
-import { popperProps } from './props'
+import { popperProps } from './props';
 
 const prefixCls = getPrefixCls('popper');
 

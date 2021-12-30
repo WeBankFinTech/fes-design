@@ -7,9 +7,9 @@ export const CHANGE_EVENT = 'change';
 
 export const CLOSE_EVENT = 'close';
 
-export const OK_EVENT = 'ok';
+export const OK_EVENT = 'ok' as const;
 
-export const CANCEL_EVENT = 'cancel';
+export const CANCEL_EVENT = 'cancel' as const;
 
 export const ERROR_EVENT = 'error';
 

@@ -1,7 +1,7 @@
 import { h, defineComponent, computed, ref, onMounted, PropType } from 'vue';
 import { isObject } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
-import Tooltip from '../tooltip';
+import Tooltip from '../tooltip/tooltip';
 import { useTheme } from '../_theme/useTheme';
 
 const prefixCls = getPrefixCls('ellipsis');

@@ -1,6 +1,7 @@
-import { reactive } from 'vue';
+import { reactive, Ref } from 'vue';
 
 import type { PopperProps } from './props';
+import type { VirtualRect } from './interface';
 
 const triggerEventsMap = {
     click: ['onClick'],
@@ -12,10 +13,10 @@ const triggerEventsMap = {
 type TriggerEventsMapKey = keyof typeof triggerEventsMap;
 
 export default function useTrigger(
-    visible,
-    updateVisible,
+    visible: Ref<boolean>,
+    updateVisible: (val: boolean) => void,
     props: PopperProps,
-    updateVirtualRect,
+    updateVirtualRect: (val: VirtualRect | null) => void,
 ) {
     let triggerFocused = false;
     let showTimer: ReturnType<typeof setTimeout>;
@@ -116,9 +117,7 @@ export default function useTrigger(
         });
     };
 
-    if (Array.isArray(props.trigger)) {
-        Object.values(props.trigger).forEach(mapEvents);
-    } else {
+    if (props.trigger) {
         mapEvents(props.trigger);
     }
 

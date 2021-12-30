@@ -1,9 +1,9 @@
-import { defineComponent } from 'vue';
-import Popper from '../popper';
+import { h, Fragment, defineComponent, PropType } from 'vue';
+import Popper from '../popper/popper';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import ExclamationCircleFilled from '../icon/ExclamationCircleFilled';
-import Button from '../button';
+import FButton from '../button/button';
 import { useNormalModel } from '../_util/use/useModel';
 import { popperProps } from '../popper/props';
 import { CANCEL_EVENT, OK_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
@@ -16,29 +16,26 @@ const defaultConfirmOption = {
     icon: <ExclamationCircleFilled />,
 };
 
-const ToolTipProps = {
+const toolTipProps = {
     title: String,
     content: String,
     mode: {
-        type: String,
+        type: String as PropType<'text' | 'confirm' | 'popover'>,
         default: 'text',
-        validator(value) {
-            return ['text', 'confirm', 'popover'].includes(value);
-        },
     },
     confirmOption: {
         type: Object,
         default: () => defaultConfirmOption,
     },
-};
+} as const;
 
-const tooltipPropKeys = Object.keys(ToolTipProps);
+const tooltipPropKeys = Object.keys(toolTipProps);
 
 export default defineComponent({
     name: 'FTooltip',
     props: {
         ...popperProps,
-        ...ToolTipProps,
+        ...toolTipProps,
         arrow: {
             type: Boolean,
             default: true,
@@ -62,7 +59,7 @@ export default defineComponent({
             };
         }
 
-        async function handleConfirmCB(name, event) {
+        function handleConfirmCB(name: typeof OK_EVENT | typeof CANCEL_EVENT, event: MouseEvent) {
             updateCurrentValue(false);
             ctx.emit(name, event);
         }
@@ -91,9 +88,8 @@ export default defineComponent({
                     <>
                         {title && (
                             <div
-                                class={`${prefixCls}-modal-header ${
-                                    isConfirm && 'is-confirm'
-                                }`}
+                                class={`${prefixCls}-modal-header ${isConfirm && 'is-confirm'
+                                    }`}
                             >
                                 {isConfirm && (
                                     <div class={`${prefixCls}-modal-icon`}>
@@ -106,7 +102,7 @@ export default defineComponent({
                         {content && <div class={contentClass}>{content}</div>}
                         {isConfirm && (
                             <>
-                                <Button
+                                <FButton
                                     class={`${prefixCls}-modal-btn`}
                                     onClick={(event) =>
                                         handleConfirmCB(OK_EVENT, event)
@@ -115,8 +111,8 @@ export default defineComponent({
                                     type="primary"
                                 >
                                     {mergeOpt.okText}
-                                </Button>
-                                <Button
+                                </FButton>
+                                <FButton
                                     class={`${prefixCls}-modal-btn`}
                                     onClick={(event) =>
                                         handleConfirmCB(CANCEL_EVENT, event)
@@ -124,7 +120,7 @@ export default defineComponent({
                                     size="small"
                                 >
                                     {mergeOpt.cancelText}
-                                </Button>
+                                </FButton>
                             </>
                         )}
                     </>
@@ -133,17 +129,17 @@ export default defineComponent({
         }
 
         return () => {
-            const popperProps = { ...props };
-            tooltipPropKeys.forEach((key) => delete popperProps[key]);
+            const _props = { ...props };
+            tooltipPropKeys.forEach((key) => delete _props[key as keyof typeof toolTipProps]);
             if (props.mode === 'confirm') {
                 // confirm模式下，只能点击触发
-                popperProps.trigger = 'click';
+                _props.trigger = 'click';
             }
             return (
                 <Popper
-                    {...popperProps}
+                    {..._props}
                     v-model={currentValue.value}
-                    popperClass={`${prefixCls} ${prefixCls}-${props.mode} ${popperProps.popperClass}`}
+                    popperClass={`${prefixCls} ${prefixCls}-${props.mode} ${_props.popperClass}`}
                     v-slots={getPopperSlots()}
                 >
                     {renderContent()}

@@ -39,7 +39,7 @@
                 :placeholder="placeholder"
                 :disabled="disabled"
                 :clearable="clearable"
-                @focus="(e) => $emit('focus', e)"
+                @focus="(e: Event) => $emit('focus', e)"
                 @blur="handleBlur"
                 @clear="clear"
                 @click="isOpened = true"
@@ -70,27 +70,59 @@
     </Popper>
 </template>
 
-<script>
-import { computed, ref, watch } from 'vue';
-import RangeInput from './rangeInput';
-import Calendars from './calendars';
+<script setup lang="ts">
+import { computed, ref, watch, Ref } from 'vue';
+import RangeInput from './rangeInput.vue';
+import Calendars from './calendars.vue';
 import WInput from '../input';
 import Popper from '../popper';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
-import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { useTheme } from '../_theme/useTheme';
 import { DateOutlined, SwapRightOutlined } from '../icon';
 
 import { isEmptyValue, timeFormat } from './helper';
-import { COMMON_PROPS, CALENDARS_PROPS, RANGE_PROPS, DATE_TYPE } from './const';
+import { DATE_TYPE } from './const';
 
-const prefixCls = getPrefixCls('date-picker');
+import type { VModelEvent, ChangeEvent } from '../_util/interface';
+import type { CommonProps, RangeProps } from './interface';
+
+type DatePickerProps = CommonProps &
+    RangeProps & {
+        open: boolean;
+        disabled: boolean;
+        clearable: boolean;
+        placeholder: string | string[];
+        appendToContainer: boolean;
+        getContainer: () => HTMLElement;
+        format: string;
+        popperClass: string;
+        control: boolean;
+        shortcuts: object;
+    };
+
+type DatePickerEmits = {
+    (e: VModelEvent, value: number | number[]): void;
+    (e: ChangeEvent, value: number | number[] | null): void;
+    (e: 'update:open', open: boolean): void;
+    (e: 'clear'): void;
+    (e: 'focus', event: Event): void;
+    (e: 'blur', event: Event): void;
+};
+
+const props = withDefaults(defineProps<DatePickerProps>(), {
+    type: DATE_TYPE.date.name,
+    disabledDate: () => false,
+    disabledTime: () => false,
+    control: false,
+});
+
+const emit = defineEmits<DatePickerEmits>();
 
 const useTmpSelectedDates = () => {
     const tmpSelectedDates = ref();
 
-    const tmpSelectedDateChange = (val) => {
+    const tmpSelectedDateChange = (val: number | null | number[]) => {
         tmpSelectedDates.value = val;
     };
 
@@ -100,7 +132,7 @@ const useTmpSelectedDates = () => {
     };
 };
 
-const useInput = (props, visibleValue) => {
+const useInput = (props: DatePickerProps, visibleValue: Ref<number>) => {
     const dateText = ref();
 
     const getFormatDate = () => {
@@ -125,123 +157,60 @@ const useInput = (props, visibleValue) => {
     };
 };
 
+useTheme();
+const [isOpened, updatePopperOpen] = useNormalModel(props, emit, {
+    prop: 'open',
+});
+const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
+
+const isRange = computed(() => DATE_TYPE[props.type].isRange);
+const { validate } = useFormAdaptor(
+    computed(() => (isRange.value ? 'array' : 'number')),
+);
+
+const { tmpSelectedDates, tmpSelectedDateChange } = useTmpSelectedDates();
+
+const visibleValue = computed(() => {
+    if (isOpened.value) {
+        return isEmptyValue(tmpSelectedDates.value)
+            ? currentValue.value
+            : tmpSelectedDates.value;
+    }
+    return currentValue.value;
+});
+
+const { resetDateText, dateText } = useInput(props, visibleValue);
+
+const handleChange = (val: number | number[] | null) => {
+    emit('change', val);
+    validate('change');
+};
+// 事件
+const clear = () => {
+    const initValue = isRange.value ? [] : null;
+    tmpSelectedDateChange(initValue);
+    updateCurrentValue(initValue);
+    emit('clear');
+    handleChange(initValue);
+};
+
+const change = (val: number) => {
+    updateCurrentValue(val);
+    handleChange(val);
+    updatePopperOpen(false);
+};
+
+const handleBlur = (e: Event) => {
+    updatePopperOpen(false);
+    emit('blur', e);
+    validate('blur');
+    // 重置输入框内容
+    resetDateText();
+};
+</script>
+
+<script>
 export default {
     name: 'FDatePicker',
-    components: {
-        Calendars,
-        WInput,
-        Popper,
-        DateOutlined,
-        RangeInput,
-        SwapRightOutlined,
-    },
-    props: {
-        open: {
-            type: Boolean,
-            default: false,
-        },
-        disabled: {
-            type: Boolean,
-            default: false,
-        },
-        clearable: {
-            type: Boolean,
-            default: false,
-        },
-        placeholder: {
-            type: [String, Array],
-            default: '请选择日期',
-        },
-        appendToContainer: {
-            type: Boolean,
-            default: true,
-        },
-        getContainer: {
-            type: Function,
-        },
-        format: String,
-        popperClass: String,
-
-        ...COMMON_PROPS,
-        ...CALENDARS_PROPS,
-        ...RANGE_PROPS,
-    },
-    emits: [
-        'update:modelValue',
-        'update:open',
-        'change',
-        'clear',
-        'blur',
-        'focus',
-    ],
-    setup(props, { emit }) {
-        useTheme();
-        const [isOpened, updatePopperOpen] = useNormalModel(props, emit, {
-            prop: 'open',
-        });
-        const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
-
-        const isRange = computed(() => DATE_TYPE[props.type].isRange);
-        const { validate } = useFormAdaptor(
-            computed(() => (isRange.value ? 'array' : 'number')),
-        );
-
-        const { tmpSelectedDates, tmpSelectedDateChange } =
-            useTmpSelectedDates(isOpened);
-
-        const visibleValue = computed(() => {
-            if (isOpened.value) {
-                return isEmptyValue(tmpSelectedDates.value)
-                    ? currentValue.value
-                    : tmpSelectedDates.value;
-            }
-            return currentValue.value;
-        });
-
-        const { resetDateText, dateText } = useInput(props, visibleValue);
-
-        const handleChange = (val) => {
-            emit('change', val);
-            validate('change');
-        };
-        // 事件
-        const clear = () => {
-            const initValue = isRange.value ? [] : null;
-            tmpSelectedDateChange(initValue);
-            updateCurrentValue(initValue);
-            emit('clear', initValue);
-            handleChange(initValue);
-        };
-
-        const change = (val) => {
-            updateCurrentValue(val);
-            handleChange(val);
-            updatePopperOpen(false);
-        };
-
-        const handleBlur = (e) => {
-            updatePopperOpen(false);
-            emit('blur', e);
-            validate('blur');
-            // 重置输入框内容
-            resetDateText();
-        };
-
-        return {
-            prefixCls,
-            isOpened,
-            currentValue,
-            visibleValue,
-
-            dateText,
-            isRange,
-
-            clear,
-            change,
-            handleBlur,
-
-            tmpSelectedDateChange,
-        };
-    },
 };
 </script>

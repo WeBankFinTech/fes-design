@@ -1,6 +1,6 @@
 import { isNumber } from 'lodash-es';
 
-export const isEmptyValue = (val) => {
+export const isEmptyValue = (val: any) => {
     if (!val) return true;
     if (Array.isArray(val)) {
         return val.length === 0;
@@ -8,7 +8,7 @@ export const isEmptyValue = (val) => {
     return false;
 };
 
-export const timeFormat = (date, format = 'YYYY-MM-DD') => {
+export const timeFormat = (date: number | Date, format = 'YYYY-MM-DD') => {
     if (!date) return null;
     if (isNumber(date)) {
         date = new Date(date);
@@ -21,7 +21,7 @@ export const timeFormat = (date, format = 'YYYY-MM-DD') => {
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
     const milliseconds = date.getMilliseconds();
-    const dd = t => (`0${t}`).slice(-2);
+    const dd = (t: number) => `0${t}`.slice(-2);
     const map = {
         YYYY: year,
         MM: dd(month + 1),
@@ -39,32 +39,15 @@ export const timeFormat = (date, format = 'YYYY-MM-DD') => {
         s: seconds,
         S: milliseconds,
         Q: `Q${Math.floor(month / 3) + 1}`,
-    };
-    return format.replace(/Y+|M+|D+|H+|h+|m+|s+|S+|Q/g, str => map[str]);
+    } as const;
+    return format.replace(/Y+|M+|D+|H+|h+|m+|s+|S+|Q/g, (str) => map[str]);
 };
 
-export const isSameDay = (date1, date2) => timeFormat(date1, 'YYYY-MM-DD') === timeFormat(date2, 'YYYY-MM-DD');
-
-
-export const inOnePanel = (dates, format) => {
-    const [start, end] = dates;
-    if (start && end) {
-        if (format.indexOf('D') !== -1) {
-            if (timeFormat(start, 'YYYYMM') === timeFormat(end, 'YYYYMM')) {
-                return true;
-            }
-        } else if (format.indexOf('M') !== -1) {
-            if (start.getFullYear() === end.getFullYear()) {
-                return true;
-            }
-        } else if (Number.parseInt(start.getFullYear() / 10) === Number.parseInt(end.getFullYear() / 10)) {
-            return true;
-        }
-    }
-    return false;
-};
-
-export const contrastDate = (date1, date2, format = 'YYYY-MM-DD HH:mm:ss') => {
+export const contrastDate = (
+    date1: number | Date,
+    date2: number | Date,
+    format = 'YYYY-MM-DD HH:mm:ss',
+) => {
     const t1 = timeFormat(date1, format);
     const t2 = timeFormat(date2, format);
     if (t1 > t2) return 1;
@@ -72,20 +55,7 @@ export const contrastDate = (date1, date2, format = 'YYYY-MM-DD HH:mm:ss') => {
     return -1;
 };
 
-
-export const isEqualDate = (val, dates, model = 'single') => {
-    const emptyVal = isEmptyValue(val);
-    const emptyDates = isEmptyValue(dates);
-    if (emptyVal && emptyDates) return true;
-    if ((emptyVal && !emptyDates) || (!emptyVal && emptyDates)) return false;
-    if (model === 'single') {
-        return contrastDate(new Date(dates), new Date(val)) === 0;
-    }
-    if (val.length !== dates.length) return false;
-    return val.every((timestamp, i) => contrastDate(new Date(dates[i]), new Date(timestamp)) === 0);
-};
-
-export const parseDate = (date) => {
+export const parseDate = (date: number | Date) => {
     const vDate = new Date(date || Date.now());
     return {
         year: vDate.getFullYear(),
@@ -102,14 +72,35 @@ export const transformDateToTimestamp = (date, isFullMax = false) => {
     if (isFullMax) {
         const month = date.month ?? 11;
         const maxDay = new Date(date.year, month + 1, 0).getDate();
-        return (new Date(date.year, date.month ?? 11, date.day ?? maxDay, date.hour ?? 23, date.minute ?? 59, date.second ?? 59, 999)).getTime();
+        return new Date(
+            date.year,
+            date.month ?? 11,
+            date.day ?? maxDay,
+            date.hour ?? 23,
+            date.minute ?? 59,
+            date.second ?? 59,
+            999,
+        ).getTime();
     }
-    return (new Date(date.year, date.month ?? 0, date.day ?? 1, date.hour ?? 0, date.minute ?? 0, date.second ?? 0, 0)).getTime();
+    return new Date(
+        date.year,
+        date.month ?? 0,
+        date.day ?? 1,
+        date.hour ?? 0,
+        date.minute ?? 0,
+        date.second ?? 0,
+        0,
+    ).getTime();
 };
 
-export const padStartZero = (target, len = 2) => (`${target}`).padStart(len, '0');
+export const padStartZero = (target: number | string, len = 2) =>
+    `${target}`.padStart(len, '0');
 
-export const getTimestampFromFormat = (date, format, isFullMax) => {
+export const getTimestampFromFormat = (
+    date: Date,
+    format: string,
+    isFullMax: boolean,
+) => {
     date = date || new Date();
     const dateObj = {
         year: date.getFullYear(),

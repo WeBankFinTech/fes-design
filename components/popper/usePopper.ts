@@ -12,11 +12,10 @@ import { useNormalModel } from '../_util/use/useModel';
 import popupManager from '../_util/popupManager';
 import getElementFromRef from '../_util/getElementFromRef';
 
-import { Emit } from '../_util/interface';
 import type { PopperProps } from './props';
-import type { VirtualRect } from './interface';
+import type { VirtualRect, Placement, Popper } from './interface';
 
-export default (props: PopperProps, emit: Emit) => {
+export default (props: PopperProps, emit: any) => {
     const [visible, updateVisible] = useNormalModel(props, emit);
     const virtualRect = ref<VirtualRect | null>(null);
     const triggerRef = ref<HTMLElement>();
@@ -29,7 +28,7 @@ export default (props: PopperProps, emit: Emit) => {
 
     const initializePopper = () => {
         if (props.disabled) return;
-        const modifiers = [
+        const modifiers: any = [
             {
                 name: 'offset',
                 options: {
@@ -42,7 +41,13 @@ export default (props: PopperProps, emit: Emit) => {
                 name: 'arrow',
                 options: {
                     element: arrowRef.value,
-                    padding: ({ popper, placement }) => {
+                    padding: ({
+                        popper,
+                        placement,
+                    }: {
+                        popper: Popper;
+                        placement: Placement;
+                    }) => {
                         const offset = 16;
                         if (placement.endsWith('end')) {
                             return {
@@ -64,7 +69,7 @@ export default (props: PopperProps, emit: Emit) => {
         if (!virtualRect.value) {
             instance = createPopper(
                 getElementFromRef(triggerRef.value),
-                popperRef.value,
+                popperRef.value as HTMLElement,
                 {
                     placement: props.placement,
                     modifiers,
@@ -72,20 +77,25 @@ export default (props: PopperProps, emit: Emit) => {
             );
         } else {
             const virtualElement = {
-                getBoundingClientRect: () => ({
-                    width: 0,
-                    height: 0,
-                    top: virtualRect.value.y,
-                    right: virtualRect.value.x,
-                    bottom: virtualRect.value.y,
-                    left: virtualRect.value.x,
-                }),
+                getBoundingClientRect: () =>
+                    virtualRect.value && {
+                        width: 0,
+                        height: 0,
+                        top: virtualRect.value.y,
+                        right: virtualRect.value.x,
+                        bottom: virtualRect.value.y,
+                        left: virtualRect.value.x,
+                    },
                 contextElement: getElementFromRef(triggerRef.value),
             };
-            instance = createPopper(virtualElement, popperRef.value, {
-                placement: props.placement,
-                modifiers,
-            });
+            instance = createPopper(
+                virtualElement as any, // TODO 不知道写啥，参数类型匹配不上
+                popperRef.value as HTMLElement,
+                {
+                    placement: props.placement,
+                    modifiers,
+                },
+            );
         }
         instance.update();
     };
@@ -106,7 +116,7 @@ export default (props: PopperProps, emit: Emit) => {
         instance = null;
     };
 
-    const updateVirtualRect = (value: VirtualRect) => {
+    const updateVirtualRect = (value: VirtualRect | null) => {
         virtualRect.value = value;
     };
 

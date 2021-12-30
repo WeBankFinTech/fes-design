@@ -4,8 +4,8 @@ import getElementFromRef from '../getElementFromRef';
 export default function useClickOutSide(
     watchList:
         | HTMLElement
-        | Ref<HTMLElement>
-        | Ref<HTMLElement>[]
+        | Ref<HTMLElement | undefined>
+        | Ref<HTMLElement | undefined>[]
         | HTMLElement[],
     callback?: () => void,
     disabled: boolean | Ref<boolean> = false,

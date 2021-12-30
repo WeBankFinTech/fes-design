@@ -1,15 +1,16 @@
-
 export const DATE_TYPE = {
     date: {
         name: 'date',
         currentText: '今天',
         format: 'YYYY-MM-DD',
+        isRange: false,
     },
     datetime: {
         name: 'datetime',
         currentText: '此刻',
         hasTime: true,
         format: 'YYYY-MM-DD HH:mm:ss',
+        isRange: false,
     },
     daterange: {
         name: 'daterange',
@@ -28,26 +29,32 @@ export const DATE_TYPE = {
         name: 'year',
         currentText: '今年',
         format: 'YYYY',
+        isRange: false,
     },
     month: {
         name: 'month',
         currentText: '本月',
         format: 'YYYY-MM',
+        isRange: false,
     },
     quarter: {
         name: 'quarter',
         currentText: '本季度',
         format: 'YYYY-Q',
+        isRange: false,
     },
-};
+} as const;
 
-export const DATE_TYPE_NAMES = Object.keys(DATE_TYPE).map(key => DATE_TYPE[key].name);
+export const DATE_TYPE_NAMES = Object.keys(DATE_TYPE).map(
+    (key) => DATE_TYPE[key].name,
+);
 
-export const LEFT_RANGE = 'start';
-export const RIGHT_RANGE = 'end';
+export enum RANGE_POSITION {
+    LEFT,
+    RIGHT,
+}
 
 export const YEAR_COUNT = 16;
-
 
 export const COMMON_PROPS = {
     modelValue: {
