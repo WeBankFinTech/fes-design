@@ -7,16 +7,19 @@ export default (props, { emit }) => {
         emit,
         { prop: 'expandedKeys', isEqual: true },
     );
+
     const [currentCheckedKeys, updateCheckedKeys] = useNormalModel(
         props,
         emit,
         { prop: 'checkedKeys', isEqual: true },
     );
+
     const [currentSelectedKeys, updateSelectedKeys] = useNormalModel(
         props,
         emit,
         { prop: 'selectedKeys', isEqual: true },
     );
+
     const { filter, hiddenKeys, filteredExpandedKeys } = useFilter(props);
 
     const hasSelected = (value) => currentSelectedKeys.value.includes(value);

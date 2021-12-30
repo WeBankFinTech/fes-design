@@ -16,11 +16,16 @@ export default ({ props, hasExpanded, hiddenKeys }) => {
             if (isRoot) {
                 return true;
             }
-            const parentNodePath = node.indexPath.slice(
-                0,
-                node.indexPath.length - 1,
-            );
-            return parentNodePath.every((path) => hasExpanded(path));
+            const indexPath = node.indexPath;
+            const len = indexPath.length;
+            let index = 0;
+            while (index < len - 1) {
+                if (!hasExpanded(indexPath[index])) {
+                    return false;
+                }
+                index += 1;
+            }
+            return true;
         }),
     );
 

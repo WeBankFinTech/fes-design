@@ -58,7 +58,9 @@ export default defineComponent({
                 currentExpandedKeys.value.length === 0
             ) {
                 updateExpandedKeys(
-                    Object.values(nodeList).map((item) => item.value),
+                    Object.values(nodeList)
+                        .filter((item) => !item.isLeaf)
+                        .map((item) => item.value),
                 );
             }
         });
