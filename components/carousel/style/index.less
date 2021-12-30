@@ -8,8 +8,8 @@
 @carousel-arrow-size: 36px;
 @carousel-arrow-offset: 16px;
 @carousel-arrow-icon-size: 18px;
-@carousel-arrow-background: fade(@font-color-base, 20%);
-@carousel-arrow-hover-background: fade(@font-color-base, 45%);
+@carousel-arrow-background: var(--f-carousel-color);
+@carousel-arrow-hover-background: var(--f-carousel-hover-color);
 
 @carousel-item-mask-background: rgba(255, 255, 255, 0.24);
 @carousel-item-mask-hover-background: rgba(255, 255, 255, 0.48);
@@ -179,17 +179,17 @@
 
     &-indicators-outside {
         .@{carousel-prefix-cls}-indicator-btn {
-            background-color: fade(@font-color-base, 20%);
+            background-color: var(--f-carousel-color);
         }
         .@{carousel-prefix-cls}-indicator {
             &:hover {
                 .@{carousel-prefix-cls}-indicator-btn {
-                    background-color: fade(@font-color-base, 70%);
+                    background-color: var(--f-carousel-active-color);
                 }
             }
             &.is-active {
                 .@{carousel-prefix-cls}-indicator-btn {
-                    background-color: fade(@font-color-base, 65%);
+                    background-color: var(--f-carousel-active-color);
                 }
             }
         }
@@ -235,9 +235,9 @@
         display: block;
         margin: 0;
         padding: 0;
-        background-color: @white;
+        background-color: var(--f-white);
         border: none;
-        border-radius: @border-radius-sm;
+        border-radius: var(--f-border-radius-sm);
         outline: none;
         cursor: pointer;
         opacity: 0.48;
@@ -252,7 +252,7 @@
         height: @carousel-arrow-size;
         margin: 0;
         padding: 0;
-        color: @white;
+        color: var(--f-white);
         font-size: @carousel-arrow-icon-size;
         text-align: center;
         background-color: @carousel-arrow-background;

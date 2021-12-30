@@ -1,5 +1,6 @@
 import { watch, onMounted, onBeforeUnmount, nextTick } from 'vue';
-import { addResizeListener, removeResizeListener } from '../_util/resizeEvent';
+import useResize from '../_util/use/useResize';
+// import { addResizeListener, removeResizeListener } from '../_util/use/useResize';
 
 // control play
 export default ({
@@ -41,7 +42,7 @@ export default ({
     // lifecycle
     onMounted(() => {
         nextTick(() => {
-            addResizeListener(wrapperRef.value, resetItemPosition);
+            useResize(wrapperRef, resetItemPosition);
             if (
                 initialIndex >= 0 &&
                 initialIndex < slideChildren.value.length
@@ -53,8 +54,7 @@ export default ({
     });
 
     onBeforeUnmount(() => {
-        if (wrapperRef.value)
-            removeResizeListener(wrapperRef.value, resetItemPosition);
+        // if (wrapperRef.value) removeResizeListener(wrapperRef.value, resetItemPosition);
         pauseTimer();
     });
 

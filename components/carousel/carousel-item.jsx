@@ -15,6 +15,7 @@ import {
     CARD_SCALE,
     provideKey,
 } from './const';
+import { useTheme } from '../_theme/useTheme';
 
 const useItemStyle = (direction) => {
     const itemStyleState = reactive({
@@ -44,8 +45,9 @@ const useItemStyle = (direction) => {
 };
 
 export default defineComponent({
-    name: 'FCarouselItem',
+    name: CAROUSEL_ITEM_NAME,
     setup(props, { slots }) {
+        useTheme();
         const instance = getCurrentInstance();
 
         const slideRef = ref(null);

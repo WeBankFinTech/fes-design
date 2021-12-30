@@ -5,6 +5,7 @@ import Indicator from './indicator';
 import useCarousel from './useCarousel';
 import useCarouselStyle from './useCarouselStyle';
 import useCarouselPlay from './useCarouselPlay';
+import { useTheme } from '../_theme/useTheme';
 
 export default defineComponent({
     name: CAROUSEL_NAME,
@@ -69,6 +70,7 @@ export default defineComponent({
     },
     emits: [CHANGE_EVENT],
     setup(props, { slots, emit, expose }) {
+        useTheme();
         const {
             prefixCls,
             wrapperRef,
