@@ -28,8 +28,9 @@ export const withInstall = (
     return _main;
 };
 
-export const withNoopInstall = (component: ComponentInstall) => {
-    component.install = noop;
+export const withNoopInstall = (component: Component) => {
+    const _main = component as ComponentInstall;
+    _main.install = noop;
 
     return component;
 };

@@ -33,9 +33,9 @@ export const PLACEMENT = [
     'left',
     'left-start',
     'left-end',
-];
+] as const;
 
-export const TRIGGER = ['click', 'hover', 'focus', 'contextmenu'];
+export const TRIGGER = ['click', 'hover', 'focus', 'contextmenu'] as const;
 
 export const FORMITEM_INJECTION_KEY: InjectionKey<FormItemInject> =
     Symbol('FFormItemKey');

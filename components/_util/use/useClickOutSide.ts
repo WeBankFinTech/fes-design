@@ -8,7 +8,7 @@ export default function useClickOutSide(
         | Ref<HTMLElement>[]
         | HTMLElement[],
     callback?: () => void,
-    disabled = false,
+    disabled: boolean | Ref<boolean> = false,
 ) {
     const _watchList = Array.isArray(watchList) ? watchList : [watchList];
     let listened = false;

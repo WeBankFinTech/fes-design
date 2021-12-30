@@ -1,7 +1,7 @@
-import { defineComponent, toRefs, ref } from 'vue';
+import { h, defineComponent, toRefs, ref } from 'vue';
 
 import getPrefixCls from '../_util/getPrefixCls';
-import FInput from '../input/input';
+import FInput from '../input/input.vue';
 import { COMPONENT_NAME } from './const';
 
 const prefixCls = getPrefixCls('pagination');
@@ -22,9 +22,9 @@ export default defineComponent({
         },
     },
     setup(props) {
-        const current = ref('');
+        const current = ref();
         const { total } = toRefs(props);
-        const handleChange = (val) => {
+        const handleChange = (val: string) => {
             const cur = parseInt(val, 10);
             if (Number.isNaN(cur)) {
                 return;

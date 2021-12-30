@@ -1,71 +1,72 @@
-import { defineComponent, computed, watch } from 'vue';
+import { h, defineComponent, computed, watch, PropType, VNodeTypes } from 'vue';
 import { isFunction } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { TRIGGER, PLACEMENT } from '../_util/constants';
 import { useNormalModel } from '../_util/use/useModel';
 import { useTheme } from '../_theme/useTheme';
-import Popper from '../popper';
+import Popper from '../popper/popper';
 
 const prefixCls = getPrefixCls('dropdown');
 
+type Option = {
+    value: string | number;
+    label: string | number;
+    disabled?: boolean;
+    icon?: () => VNodeTypes;
+    [key: string]: string | number | boolean | (() => VNodeTypes) | undefined
+}
+
+const dropdownProps = {
+    visible: {
+        type: Boolean,
+        default: false,
+    },
+    appendToContainer: {
+        type: Boolean,
+        default: true,
+    },
+    getContainer: {
+        type: Function,
+    },
+    trigger: {
+        type: String as PropType<typeof TRIGGER[number]>,
+        default: 'hover'
+    },
+    placement: {
+        type: String as PropType<typeof PLACEMENT[number]>,
+        default: 'bottom',
+    },
+    offset: {
+        type: Number,
+        default: 6,
+    },
+    options: {
+        type: Array as PropType<Option[]>,
+        default() {
+            return [];
+        },
+    },
+    disabled: {
+        type: Boolean,
+        default: false,
+    },
+    valueField: {
+        type: String,
+        default: 'value',
+    },
+    labelField: {
+        type: String,
+        default: 'label',
+    },
+    arrow: {
+        type: Boolean,
+        default: false,
+    },
+}
+
 export default defineComponent({
     name: 'FDropdown',
-    components: {
-        Popper,
-    },
-    props: {
-        visible: {
-            type: Boolean,
-            default: false,
-        },
-        appendToContainer: {
-            type: Boolean,
-            default: true,
-        },
-        getContainer: {
-            type: Function,
-        },
-        trigger: {
-            type: String,
-            default: 'hover',
-            validator(value) {
-                return TRIGGER.includes(value);
-            },
-        },
-        placement: {
-            type: String,
-            default: 'bottom',
-            validator(value) {
-                return PLACEMENT.includes(value);
-            },
-        },
-        offset: {
-            type: Number,
-            default: 6,
-        },
-        options: {
-            type: Array,
-            default() {
-                return [];
-            },
-        },
-        disabled: {
-            type: Boolean,
-            default: false,
-        },
-        valueField: {
-            type: String,
-            default: 'value',
-        },
-        labelField: {
-            type: String,
-            default: 'label',
-        },
-        arrow: {
-            type: Boolean,
-            default: false,
-        },
-    },
+    props: dropdownProps,
     emits: ['click', 'visibleChange', 'update:visible'],
     setup(props, { slots, emit }) {
         useTheme();
@@ -75,7 +76,7 @@ export default defineComponent({
         const hasIcon = computed(() =>
             props.options.some((option) => option.icon),
         );
-        const handleClick = (option) => {
+        const handleClick = (option: Option) => {
             if (option.disabled) return;
             const value = option[props.valueField];
             updateVisible(false);
@@ -86,9 +87,8 @@ export default defineComponent({
         });
         const renderOptions = () => (
             <div
-                class={`${prefixCls}-option-wrapper ${
-                    hasIcon.value ? 'has-icon' : ''
-                }`}
+                class={`${prefixCls}-option-wrapper ${hasIcon.value ? 'has-icon' : ''
+                    }`}
             >
                 {props.options.map((option) => {
                     const optionClassList = [
@@ -109,7 +109,7 @@ export default defineComponent({
                                 {option.icon?.()}
                             </span>
                             <span class={`${prefixCls}-option-label`}>
-                                {isFunction(label) ? label(option) : label}
+                                {isFunction(label) ? (label as any)(option) : label}
                             </span>
                         </div>
                     );

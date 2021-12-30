@@ -5,7 +5,7 @@ import { useTheme } from '../_theme/useTheme';
 import ExclamationCircleFilled from '../icon/ExclamationCircleFilled';
 import Button from '../button';
 import { useNormalModel } from '../_util/use/useModel';
-import { PopperProps } from '../popper/popper';
+import { popperProps } from '../popper/props';
 import { CANCEL_EVENT, OK_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 
 const prefixCls = getPrefixCls('tooltip');
@@ -37,7 +37,7 @@ const tooltipPropKeys = Object.keys(ToolTipProps);
 export default defineComponent({
     name: 'FTooltip',
     props: {
-        ...PopperProps,
+        ...popperProps,
         ...ToolTipProps,
         arrow: {
             type: Boolean,

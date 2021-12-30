@@ -5,7 +5,12 @@ import { CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import useFormGroupResetter from '../_util/use/useFormGroupResetter';
 
-export const useRadioGroup = (props, { emit }) => {
+import type { RadioGroupProps, RadioGroupEmits } from './interface';
+
+export const useRadioGroup = (
+    props: RadioGroupProps,
+    emit: RadioGroupEmits,
+) => {
     useFormGroupResetter();
     const { validate } = useFormAdaptor();
 
@@ -16,12 +21,12 @@ export const useRadioGroup = (props, { emit }) => {
         validate(CHANGE_EVENT);
     });
 
-    const isSelect = (value) => {
+    const isSelect = (value: string | number | boolean) => {
         const radioGroupVal = unref(currentValue);
         const radioVal = unref(value);
         return radioGroupVal === radioVal;
     };
-    const onSelect = (value) => {
+    const onSelect = (value: string | number | boolean) => {
         const radioGroupVal = unref(currentValue);
         const radioVal = unref(value);
         if (radioGroupVal === radioVal) {

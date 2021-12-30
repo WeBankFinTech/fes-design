@@ -3,47 +3,37 @@
         <slot />
     </div>
 </template>
-<script>
+
+<script setup lang="ts">
 import { computed } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useCheckboxGroup } from './useCheckboxGroup';
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
 
-import { name } from './const';
+import type { CheckboxGroupProps, CheckboxGroupEmits } from './interface';
 
 const prefixCls = getPrefixCls('checkbox-group');
+
+const props = withDefaults(defineProps<CheckboxGroupProps>(), {
+    modelValue: () => [],
+    vertical: false,
+    disabled: false,
+});
+
+const emit = defineEmits<CheckboxGroupEmits>();
+
+useTheme();
+useCheckboxGroup(props, emit);
+const classList = computed(() => [
+    prefixCls,
+    props.vertical && 'is-vertical',
+    props.disabled && 'is-disabled',
+]);
+</script>
+
+<script>
+import { name } from './const';
 export default {
     name,
-    componentName: name,
-    props: {
-        modelValue: {
-            type: Array,
-            default() {
-                return [];
-            },
-        },
-        vertical: {
-            type: Boolean,
-            default: false,
-        },
-        disabled: {
-            type: Boolean,
-            default: false,
-        },
-    },
-    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT],
-    setup(props, ctx) {
-        useTheme();
-        useCheckboxGroup(props, ctx);
-        const classList = computed(() => [
-            prefixCls,
-            props.vertical && 'is-vertical',
-            props.disabled && 'is-disabled',
-        ]);
-        return {
-            classList,
-        };
-    },
 };
 </script>

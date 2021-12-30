@@ -12,16 +12,20 @@ import { useNormalModel } from '../_util/use/useModel';
 import popupManager from '../_util/popupManager';
 import getElementFromRef from '../_util/getElementFromRef';
 
-export default (props, ctx) => {
-    const [visible, updateVisible] = useNormalModel(props, ctx.emit);
-    const virtualRect = ref(null);
-    const triggerRef = ref(null);
-    const popperRef = ref(null);
-    const arrowRef = ref(null);
+import { Emit } from '../_util/interface';
+import type { PopperProps } from './props';
+import type { VirtualRect } from './interface';
+
+export default (props: PopperProps, emit: Emit) => {
+    const [visible, updateVisible] = useNormalModel(props, emit);
+    const virtualRect = ref<VirtualRect | null>(null);
+    const triggerRef = ref<HTMLElement>();
+    const popperRef = ref<HTMLElement>();
+    const arrowRef = ref<HTMLElement>();
     const popperStyle = reactive({
         zIndex: popupManager.nextZIndex(),
     });
-    let instance;
+    let instance: ReturnType<typeof createPopper> | null;
 
     const initializePopper = () => {
         if (props.disabled) return;
@@ -102,7 +106,7 @@ export default (props, ctx) => {
         instance = null;
     };
 
-    const updateVirtualRect = (value) => {
+    const updateVirtualRect = (value: VirtualRect) => {
         virtualRect.value = value;
     };
 

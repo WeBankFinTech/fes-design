@@ -1,3 +1,5 @@
+import { PropType } from 'vue';
+
 export const COMPONENT_NAME = {
     PAGINATION: 'FPagination',
     PAGINATION_JUMPER: 'FPaginationJumper',
@@ -7,8 +9,7 @@ export const COMPONENT_NAME = {
     PAGINATION_TOTAL: 'FPaginationTotal',
 };
 
-
-export const PROVIDE_KEY = Symbol(COMPONENT_NAME);
+export const PROVIDE_KEY = Symbol('PaginationProvideKey');
 
 export const PROPS = {
     // 每页显示条目个数
@@ -28,7 +29,7 @@ export const PROPS = {
     },
     // 每页条数
     pageSizeOption: {
-        type: Array,
+        type: Array as PropType<number[]>,
         default() {
             return [10, 20, 30, 50, 100];
         },
@@ -58,4 +59,4 @@ export const PROPS = {
         type: Boolean,
         default: false,
     },
-};
+} as const;

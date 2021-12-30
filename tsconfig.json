@@ -21,5 +21,14 @@
             "ESNext",
             "DOM"
         ]
-    }
+    },
+    "include": [
+        "shims-vue.d",
+        "components/**/*.ts",
+        "components/**/*.tsx",
+        "components/**/*.vue",
+    ],
+    "exclude": [
+        "node_modules"
+    ]
 }

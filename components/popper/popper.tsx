@@ -1,6 +1,6 @@
-import { defineComponent, Fragment, Teleport, cloneVNode, computed } from 'vue';
+import { h, defineComponent, Fragment, Teleport, cloneVNode, computed, Ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
-import { UPDATE_MODEL_EVENT, TRIGGER, PLACEMENT } from '../_util/constants';
+import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import useClickOutSide from '../_util/use/useClickOutSide';
 import useResize from '../_util/use/useResize';
 import { getFirstValidNode } from '../_util/vnode';
@@ -11,74 +11,23 @@ import usePopper from './usePopper';
 
 import { getConfig } from '../config-provider';
 
-const prefixCls = getPrefixCls('popper');
+import { popperProps } from './props'
 
-export const PopperProps = {
-    modelValue: {
-        type: Boolean,
-        default: false,
-    },
-    trigger: {
-        type: String,
-        default: 'hover',
-        validator(value) {
-            return TRIGGER.includes(value);
-        },
-    },
-    placement: {
-        type: String,
-        default: 'bottom',
-        validator(value) {
-            return PLACEMENT.includes(value);
-        },
-    },
-    offset: {
-        type: Number,
-        default: 6,
-    },
-    disabled: {
-        type: Boolean,
-        default: false,
-    },
-    arrow: {
-        type: Boolean,
-        default: false,
-    },
-    appendToContainer: {
-        type: Boolean,
-        default: true,
-    },
-    popperClass: {
-        type: String,
-        default: '',
-    },
-    showAfter: {
-        type: Number,
-        default: 0,
-    },
-    hideAfter: {
-        type: Number,
-        default: 200,
-    },
-    getContainer: {
-        type: Function,
-    },
-};
+const prefixCls = getPrefixCls('popper');
 
 export default defineComponent({
     name: 'FPopper',
-    props: PopperProps,
+    props: popperProps,
     emits: [UPDATE_MODEL_EVENT],
-    setup(props, ctx) {
+    setup(props, { slots, emit }) {
         useTheme();
-        if (!ctx.slots.trigger) {
-            throw new Error('FPopper', 'Trigger must be provided');
+        if (!slots.trigger) {
+            throw new Error('[FPopper]: Trigger must be provided');
         }
         const config = getConfig();
         const getContainer = computed(
             () => props.getContainer || config.getContainer,
         );
-        const { slots } = ctx;
         const {
             visible,
             updateVisible,
@@ -88,7 +37,7 @@ export default defineComponent({
             update,
             popperStyle,
             updateVirtualRect,
-        } = usePopper(props, ctx);
+        } = usePopper(props, emit);
         const disabledWatch = computed(() => props.disabled || !visible.value);
         useClickOutSide(
             [triggerRef, popperRef],
@@ -112,8 +61,10 @@ export default defineComponent({
             [prefixCls, props.popperClass].filter(Boolean).join(' '),
         );
         const renderTrigger = () => {
-            const vNode = getFirstValidNode(slots.trigger?.(), 1);
-            return cloneVNode(vNode, { ref: triggerRef, ...events }, true);
+            const vNode = getFirstValidNode(slots.trigger!?.(), 1);
+            if (vNode) {
+                return cloneVNode(vNode, { ref: triggerRef, ...events }, true);
+            }
         };
         return () => (
             <Fragment>

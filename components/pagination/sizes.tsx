@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue';
+import { h, defineComponent, PropType } from 'vue';
 
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
@@ -8,26 +8,24 @@ import { COMPONENT_NAME } from './const';
 
 const prefixCls = getPrefixCls('pagination');
 
+const pagerSizeProps = {
+    modelValue: {
+        type: Number,
+        default: 10,
+    },
+    pageSizeOption: {
+        type: Array as PropType<number[]>
+    },
+} as const;
+
 export default defineComponent({
     name: COMPONENT_NAME.PAGINATION_SIZES,
-    components: {
-        FSelect,
-        FOption,
-    },
-    props: {
-        modelValue: {
-            type: Number,
-            default: 10,
-        },
-        pageSizeOption: {
-            type: Array,
-        },
-    },
+    props: pagerSizeProps,
     emits: [UPDATE_MODEL_EVENT],
     setup(props, { emit }) {
         const [pageSize] = useNormalModel(props, emit);
         const renderOptions = () =>
-            props.pageSizeOption.map((item) => (
+            props.pageSizeOption && props.pageSizeOption.map((item) => (
                 <FOption
                     key={item}
                     value={item}

@@ -5,7 +5,12 @@ import useFormAdaptor from '../_util/use/useFormAdaptor';
 import { CHANGE_EVENT } from '../_util/constants';
 import useFormGroupResetter from '../_util/use/useFormGroupResetter';
 
-export const useCheckboxGroup = (props, { emit }) => {
+import type { CheckboxGroupProps, CheckboxGroupEmits } from './interface';
+
+export const useCheckboxGroup = (
+    props: CheckboxGroupProps,
+    emit: CheckboxGroupEmits,
+) => {
     useFormGroupResetter();
     const { validate } = useFormAdaptor('array');
 
@@ -16,7 +21,7 @@ export const useCheckboxGroup = (props, { emit }) => {
         validate(CHANGE_EVENT);
     });
 
-    const isSelect = (value) => {
+    const isSelect = (value: string | number | boolean) => {
         const groupVal = unref(currentValue);
         const itemVal = unref(value);
         if (groupVal === null || itemVal === null) {
@@ -25,7 +30,7 @@ export const useCheckboxGroup = (props, { emit }) => {
         return groupVal.includes(itemVal);
     };
 
-    const onSelect = (value) => {
+    const onSelect = (value: string | number | boolean) => {
         updateItem(unref(value));
     };
 

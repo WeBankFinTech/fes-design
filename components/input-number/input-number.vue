@@ -48,9 +48,6 @@ import type { VModelEvent } from '../_util/interface';
 
 const prefixCls = getPrefixCls('input-number');
 
-const PLUS_CALCULATION_TYPE = 'plus';
-const REDUCE_CALCULATION_TYPE = 'reduce';
-
 enum ActionEnum {
     PLUS,
     REDUCE,

@@ -1,4 +1,4 @@
-import { defineComponent, computed, ref, onMounted } from 'vue';
+import { h, defineComponent, computed, ref, onMounted, PropType } from 'vue';
 import { isObject } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import Tooltip from '../tooltip';
@@ -6,35 +6,37 @@ import { useTheme } from '../_theme/useTheme';
 
 const prefixCls = getPrefixCls('ellipsis');
 
+const ellipsisProps = {
+    line: {
+        type: [Number, String] as PropType<number | string>,
+        default: 1,
+    },
+    tooltip: {
+        type: [Boolean, Object] as PropType<boolean | object>,
+        default: {
+            showAfter: 500,
+        },
+    },
+    triggerClass: {
+        type: String,
+    },
+    style: {
+        type: Object,
+        default() {
+            return {};
+        },
+    },
+} as const;
+
 export default defineComponent({
     name: 'FEllipsis',
     components: {
         Tooltip,
     },
-    props: {
-        line: {
-            type: [Number, String],
-            default: 1,
-        },
-        tooltip: {
-            type: [Boolean, Object],
-            default: {
-                showAfter: 500,
-            },
-        },
-        triggerClass: {
-            type: String,
-        },
-        style: {
-            type: Object,
-            default() {
-                return {};
-            },
-        },
-    },
+    props: ellipsisProps,
     setup(props, { slots }) {
         useTheme();
-        const triggerRef = ref(null);
+        const triggerRef = ref<HTMLElement>();
         const overflowVisible = ref(false);
         const classList = computed(() =>
             [prefixCls, props.triggerClass, props.line > 1 && 'is-line-clamp']
@@ -54,6 +56,7 @@ export default defineComponent({
         // 元素可能是隐藏的，当hover时需要重新计算下
         const handleDisabled = () => {
             const { value: trigger } = triggerRef;
+            if (!trigger) return;
             if (props.line > 1) {
                 overflowVisible.value =
                     trigger.scrollHeight <= trigger.offsetHeight;

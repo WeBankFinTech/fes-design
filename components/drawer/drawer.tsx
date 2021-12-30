@@ -1,4 +1,5 @@
 import {
+    h,
     computed,
     defineComponent,
     Teleport,
@@ -6,10 +7,14 @@ import {
     ref,
     watch,
     nextTick,
+    PropType,
+    Component,
+    CSSProperties,
+    Fragment,
 } from 'vue';
 import { isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
-import FButton from '../button';
+import FButton from '../button/button';
 import { CloseOutlined } from '../icon';
 import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
@@ -26,11 +31,8 @@ const AFTER_LEAVE_EVENT = 'after-leave';
 const drawerProps = {
     show: Boolean,
     displayDirective: {
-        type: String,
+        type: String as PropType<'show' | 'if'>,
         default: 'show',
-        validator(value) {
-            return ['show', 'if'].includes(value);
-        },
     },
     closable: {
         type: Boolean,
@@ -54,11 +56,11 @@ const drawerProps = {
         default: '取消',
     },
     width: {
-        type: [String, Number],
+        type: [String, Number] as PropType<string | number>,
         default: 520,
     },
     height: {
-        type: [String, Number],
+        type: [String, Number] as PropType<string | number>,
         default: 520,
     },
     footer: {
@@ -69,22 +71,15 @@ const drawerProps = {
         type: Function,
     },
     placement: {
-        type: String,
+        type: String as PropType<'top' | 'right' | 'bottom' | 'left'>,
         default: 'right',
-        validator(value) {
-            return ['top', 'right', 'bottom', 'left'].includes(value);
-        },
     },
     contentClass: String,
-};
+} as const;
 
-/**
- * @type { ModalApi | import('vue').DefineComponent  }
- */
 const Drawer = defineComponent({
     name: 'FDrawer',
-    components: { FButton, CloseOutlined },
-    props: { ...drawerProps },
+    props: drawerProps,
     emits: [UPDATE_SHOW_EVENT, OK_EVENT, CANCEL_EVENT, AFTER_LEAVE_EVENT],
     setup(props, ctx) {
         useTheme();
@@ -106,17 +101,17 @@ const Drawer = defineComponent({
             () => props.getContainer || config.getContainer,
         );
 
-        function handleCancel(event) {
+        function handleCancel(event: MouseEvent) {
             ctx.emit(UPDATE_SHOW_EVENT, false);
             ctx.emit(CANCEL_EVENT, event);
         }
 
-        function handleOk(event) {
+        function handleOk(event: MouseEvent) {
             ctx.emit(OK_EVENT, event);
         }
 
-        function handleTransitionAfterLeave(event) {
-            ctx.emit(AFTER_LEAVE_EVENT, event);
+        function handleTransitionAfterLeave(el: Element) {
+            ctx.emit(AFTER_LEAVE_EVENT, el);
         }
 
         const hasHeader = computed(() => ctx.slots.title || props.title);
@@ -129,7 +124,7 @@ const Drawer = defineComponent({
 
         function getFooter() {
             if (!props.footer) return null;
-            let footer = null;
+            let footer: Component;
             if (ctx.slots.footer) {
                 footer = ctx.slots.footer();
             } else {
@@ -153,7 +148,7 @@ const Drawer = defineComponent({
         }
 
         const styles = computed(() => {
-            const sty = { width: '100%', height: '100%' };
+            const sty: CSSProperties = { width: '100%', height: '100%' };
             const propsKey = ['top', 'bottom'].includes(props.placement)
                 ? 'height'
                 : 'width';
@@ -202,9 +197,8 @@ const Drawer = defineComponent({
                                 }
                             >
                                 <div
-                                    class={`${prefixCls}-wrapper ${
-                                        props.contentClass || ''
-                                    }`}
+                                    class={`${prefixCls}-wrapper ${props.contentClass || ''
+                                        }`}
                                     style={styles.value}
                                     onClick={(event) => event.stopPropagation()}
                                 >

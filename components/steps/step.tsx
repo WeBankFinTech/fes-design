@@ -1,16 +1,32 @@
 import {
+    h,
     computed,
     getCurrentInstance,
     inject,
     defineComponent,
     ref,
+    PropType,
+    CSSProperties,
 } from 'vue';
 import { isNil } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { COMPONENT_NAME, STATUS, PROVIDE_KEY } from './const';
 import { CloseOutlined, CheckOutlined } from '../icon';
 
+
 const prefixCls = getPrefixCls('step');
+
+const stepProps = {
+    description: {
+        type: String,
+    },
+    title: {
+        type: String,
+    },
+    status: {
+        type: String as PropType<STATUS>
+    },
+} as const;
 
 export default defineComponent({
     name: COMPONENT_NAME.STEP,
@@ -18,23 +34,11 @@ export default defineComponent({
         CloseOutlined,
         CheckOutlined,
     },
-    props: {
-        description: {
-            type: String,
-        },
-        title: {
-            type: String,
-        },
-        status: {
-            type: String,
-            validator(value) {
-                return !value || Object.values(STATUS).includes(value);
-            },
-        },
-    },
+    props: stepProps,
     setup(props, { slots }) {
         const vm = getCurrentInstance();
         if (
+            !vm ||
             !vm.parent ||
             !vm.parent.type ||
             vm.parent.type.name !== COMPONENT_NAME.STEPS
@@ -43,7 +47,7 @@ export default defineComponent({
                 `[${COMPONENT_NAME.STEP}] must be a child of ${COMPONENT_NAME.STEPS}`,
             );
         }
-        const parent = inject(PROVIDE_KEY);
+        const parent = inject(PROVIDE_KEY)!;
         const itemDomRef = ref();
         const index = computed(() => {
             const parentDom = parent.parentDomRef.value;
@@ -51,22 +55,21 @@ export default defineComponent({
             if (parentDom && itemDom) {
                 return (
                     Array.from(parentDom.children).indexOf(itemDom) +
-                    parent.props.initial
+                    parent.props.initial!
                 );
             }
-            return parent.props.initial - 1;
+            return parent.props.initial! - 1;
         });
         const style = computed(() => {
-            const _style = {};
+            const _style: CSSProperties = {};
             const parentDom = parent.parentDomRef.value;
             if (parentDom) {
                 const lastChild =
                     index.value ===
-                    parentDom.children.length - 1 + parent.props.initial;
+                    parentDom.children.length - 1 + parent.props.initial!;
                 if (lastChild) {
-                    _style['max-width'] = `${
-                        (1 / parentDom.children.length) * 100
-                    }%`;
+                    _style['max-width'] = `${(1 / parentDom.children.length) * 100
+                        }%`;
                 }
             }
             return _style;
@@ -90,7 +93,6 @@ export default defineComponent({
             [prefixCls, `is-${status.value}`].filter(Boolean).join(' '),
         );
         const renderSymbol = () => {
-            const Wrapper = <div class={`${prefixCls}-symbol`}></div>;
             let content;
             if (slots.icon) {
                 content = (
@@ -115,12 +117,12 @@ export default defineComponent({
                 );
             }
             return (
-                <Wrapper>
+                <div class={`${prefixCls}-symbol`}>
                     <div class={`${prefixCls}-symbol-wrapper`}>{content}</div>
                     {parent.props.vertical && (
                         <div class={`${prefixCls}-tail`}></div>
                     )}
-                </Wrapper>
+                </div>
             );
         };
         return () => (

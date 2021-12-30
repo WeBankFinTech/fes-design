@@ -1,4 +1,4 @@
-import { defineComponent, toRefs } from 'vue';
+import { h, defineComponent, toRefs } from 'vue';
 
 import getPrefixCls from '../_util/getPrefixCls';
 import { COMPONENT_NAME } from './const';

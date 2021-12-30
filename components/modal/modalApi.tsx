@@ -76,7 +76,7 @@ function create(type, config) {
             if (isFunction(cbFunc)) await cbFunc(event);
             mergeProps.show = false;
             renderModal();
-        } catch (error) {}
+        } catch (error) { }
         cbFuncEnd = false;
     }
 

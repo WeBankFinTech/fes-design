@@ -1,4 +1,4 @@
-import { defineComponent, computed, toRefs, watch, ref } from 'vue';
+import { h, defineComponent, computed, toRefs, watch, ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { CHANGE_EVENT } from '../_util/constants';
@@ -56,7 +56,7 @@ export default defineComponent({
             return res;
         });
 
-        const changeCurrentPage = (cur) => {
+        const changeCurrentPage = (cur: number) => {
             updateCurrentPage(cur);
         };
 

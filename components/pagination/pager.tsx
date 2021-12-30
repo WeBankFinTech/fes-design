@@ -1,4 +1,4 @@
-import { defineComponent, computed, toRefs, watch } from 'vue';
+import { h, defineComponent, computed, toRefs, watch } from 'vue';
 import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import LeftOutlined from '../icon/LeftOutlined';
@@ -49,7 +49,7 @@ export default defineComponent({
             }
             while (res[0] < 1) {
                 res.shift();
-                const lastCount = res[res.length - 1];
+                const lastCount: number = res[res.length - 1];
                 if (lastCount < total.value - 1) {
                     res.push(lastCount + 1);
                 }
@@ -68,7 +68,7 @@ export default defineComponent({
             }
             return res;
         });
-        const handleCurrentChange = (cur) => {
+        const handleCurrentChange = (cur: number) => {
             let temp = 0;
             if (cur < 1) {
                 temp = 1;
@@ -80,9 +80,8 @@ export default defineComponent({
             updateCurrentPage(temp);
         };
 
-        const getClassList = (cur) =>
-            `${prefixCls}-pager-item${
-                cur === parseInt(currentPage.value, 10) ? ' is-active' : ''
+        const getClassList = (cur: number) =>
+            `${prefixCls}-pager-item${cur === parseInt(currentPage.value, 10) ? ' is-active' : ''
             }`;
         const getBtnElement = () =>
             pages.value.map((item) => (
@@ -163,9 +162,8 @@ export default defineComponent({
         return () => (
             <div class={`${prefixCls}-pager`}>
                 <div
-                    class={`${prefixCls}-pager-item${
-                        currentPage.value <= 1 ? ' is-disabled' : ''
-                    }`}
+                    class={`${prefixCls}-pager-item${currentPage.value <= 1 ? ' is-disabled' : ''
+                        }`}
                     onClick={handleCurrentChange.bind(
                         null,
                         currentPage.value - 1,
@@ -184,9 +182,8 @@ export default defineComponent({
                 {renderNextDoubleJump()}
                 {renderLast()}
                 <div
-                    class={`${prefixCls}-pager-item${
-                        total.value <= currentPage.value ? ' is-disabled' : ''
-                    }`}
+                    class={`${prefixCls}-pager-item${total.value <= currentPage.value ? ' is-disabled' : ''
+                        }`}
                     onClick={handleCurrentChange.bind(
                         null,
                         currentPage.value + 1,

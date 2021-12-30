@@ -10,10 +10,7 @@ export default ({
     emit,
     parent,
 }: {
-    props: {
-        value: any;
-        disabled: boolean;
-    };
+    props: any;
     emit: {
         (e: VModelEvent, value: any): void;
         (e: ChangeEvent, value: any): void;

@@ -1,40 +1,41 @@
-import { defineComponent, computed, ref, watch, onBeforeUnmount } from 'vue';
+import { h, defineComponent, computed, ref, watch, onBeforeUnmount, PropType, CSSProperties } from 'vue';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 
 const prefixCls = getPrefixCls('spin');
 
+type SpinSize = 'small' | 'middle' | 'large';
+
+const spinProps = {
+    size: {
+        type: String as PropType<SpinSize>,
+        default: 'middle'
+    },
+    description: {
+        type: String,
+    },
+    stroke: {
+        type: String,
+    },
+    delay: {
+        type: Number,
+        default: 0,
+    },
+    show: {
+        type: Boolean,
+        default: true,
+    },
+} as const;
+
 export default defineComponent({
     name: 'FSpin',
-    props: {
-        size: {
-            type: String,
-            default: 'middle',
-            validator(value) {
-                return ['small', 'middle', 'large'].includes(value);
-            },
-        },
-        description: {
-            type: String,
-        },
-        stroke: {
-            type: String,
-        },
-        delay: {
-            type: Number,
-            default: 0,
-        },
-        show: {
-            type: Boolean,
-            default: true,
-        },
-    },
+    props: spinProps,
     setup(props, { slots }) {
         useTheme();
         const isShow = ref(props.show);
 
-        let showTimer = null;
+        let showTimer: ReturnType<typeof setTimeout>;
 
         function clearTimers() {
             clearTimeout(showTimer);
@@ -44,14 +45,14 @@ export default defineComponent({
         };
         const show = () => {
             if (props.delay) {
-                showTimer = window.setTimeout(() => {
+                showTimer = setTimeout(() => {
                     isShow.value = true;
                 }, props.delay);
             } else {
                 isShow.value = true;
             }
         };
-        const toggleState = (value) => {
+        const toggleState = (value: boolean) => {
             clearTimers();
             if (!value) {
                 hide();
@@ -67,7 +68,7 @@ export default defineComponent({
         });
 
         const style = computed(() => {
-            const o = {};
+            const o: CSSProperties = {};
             if (props.stroke) {
                 o.color = props.stroke;
             }
@@ -97,9 +98,8 @@ export default defineComponent({
             }
             return (
                 <div
-                    class={`${prefixCls}-container ${
-                        isShow.value ? 'is-spinning' : ''
-                    }`}
+                    class={`${prefixCls}-container ${isShow.value ? 'is-spinning' : ''
+                        }`}
                 >
                     <div class={`${prefixCls}-content`}>{slots.default()}</div>
                     <div class={`${prefixCls}-wrapper`}>

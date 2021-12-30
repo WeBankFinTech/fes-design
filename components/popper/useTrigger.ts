@@ -1,15 +1,26 @@
 import { reactive } from 'vue';
 
+import type { PopperProps } from './props';
+
+const triggerEventsMap = {
+    click: ['onClick'],
+    hover: ['onMouseenter', 'onMouseleave'],
+    focus: ['onFocus', 'onBlur'],
+    contextmenu: ['onContextmenu', 'onClick'],
+};
+
+type TriggerEventsMapKey = keyof typeof triggerEventsMap;
+
 export default function useTrigger(
     visible,
     updateVisible,
-    props,
+    props: PopperProps,
     updateVirtualRect,
 ) {
     let triggerFocused = false;
-    let showTimer = null;
-    let hideTimer = null;
-    const events = reactive([]);
+    let showTimer: ReturnType<typeof setTimeout>;
+    let hideTimer: ReturnType<typeof setTimeout>;
+    const events = reactive<Record<string, (e: MouseEvent) => void>>({});
 
     function clearTimers() {
         clearTimeout(showTimer);
@@ -20,7 +31,7 @@ export default function useTrigger(
         if (props.disabled) return;
         clearTimers();
         if (props.hideAfter) {
-            hideTimer = window.setTimeout(() => {
+            hideTimer = setTimeout(() => {
                 updateVisible(false);
             }, props.hideAfter);
         } else {
@@ -32,7 +43,7 @@ export default function useTrigger(
         if (props.disabled) return;
         clearTimers();
         if (props.showAfter) {
-            showTimer = window.setTimeout(() => {
+            showTimer = setTimeout(() => {
                 updateVisible(true);
             }, props.showAfter);
         } else {
@@ -48,7 +59,7 @@ export default function useTrigger(
         }
     };
 
-    const popperEventsHandler = (e, t) => {
+    const popperEventsHandler = (e: MouseEvent, t: TriggerEventsMapKey) => {
         // 不是用户触发的行为
         e.stopPropagation();
         switch (e.type) {
@@ -97,16 +108,9 @@ export default function useTrigger(
         }
     };
 
-    const triggerEventsMap = {
-        click: ['onClick'],
-        hover: ['onMouseenter', 'onMouseleave'],
-        focus: ['onFocus', 'onBlur'],
-        contextmenu: ['onContextmenu', 'onClick'],
-    };
-
-    const mapEvents = (t) => {
-        triggerEventsMap[t].forEach((event) => {
-            events[event] = (e) => {
+    const mapEvents = (t: TriggerEventsMapKey) => {
+        triggerEventsMap[t].forEach((event: string) => {
+            events[event] = (e: MouseEvent) => {
                 popperEventsHandler(e, t);
             };
         });

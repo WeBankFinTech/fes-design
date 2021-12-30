@@ -3,44 +3,37 @@
         <slot />
     </div>
 </template>
-<script>
+
+<script setup lang="ts">
 import { computed } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useRadioGroup } from './useRadioGroup';
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
-import { name } from './const';
+
+import type { RadioGroupProps, RadioGroupEmits } from './interface';
 
 const prefixCls = getPrefixCls('radio-group');
+
+const props = withDefaults(defineProps<RadioGroupProps>(), {
+    vertical: false,
+    disabled: false,
+});
+
+const emit = defineEmits<RadioGroupEmits>();
+
+useTheme();
+useRadioGroup(props, emit);
+const classList = computed(() => [
+    prefixCls,
+    props.vertical && 'is-vertical',
+    props.disabled && 'is-disabled',
+]);
+</script>
+
+<script>
+import { name } from './const';
+
 export default {
     name,
-    componentName: name,
-    props: {
-        modelValue: {
-            type: [String, Number, Boolean],
-            default: null,
-        },
-        vertical: {
-            type: Boolean,
-            default: false,
-        },
-        disabled: {
-            type: Boolean,
-            default: false,
-        },
-    },
-    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT],
-    setup(props, ctx) {
-        useTheme();
-        useRadioGroup(props, ctx);
-        const classList = computed(() => [
-            prefixCls,
-            props.vertical && 'is-vertical',
-            props.disabled && 'is-disabled',
-        ]);
-        return {
-            classList,
-        };
-    },
 };
 </script>

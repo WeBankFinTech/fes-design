@@ -1,26 +1,26 @@
-import { nextTick, ref, watch } from 'vue';
+import { nextTick, ref, watch, Ref } from 'vue';
 
 const GLOBAL_SHARE = Symbol('DRAGGABLE_DROP_SHARE');
 export const emits = ['drag-start', 'drag-end', 'update:modelValue'];
 
 class Setting {
-    draggable = false
+    draggable = false;
 
     first = {
         x: 0,
         y: 0,
-    }
+    };
 
     last = {
         x: 0,
         y: 0,
-    }
+    };
 
     style = {
         transition: '',
         transform: '',
         opacity: 1,
-    }
+    };
 
     setDrag(draggable = false) {
         this.draggable = draggable;
@@ -28,7 +28,7 @@ class Setting {
     }
 }
 
-function pushAt(array = [], value, index) {
+function pushAt<T>(array: T[] = [], value: T, index: number) {
     if (index < 0) {
         return array.unshift(value);
     }
@@ -39,51 +39,38 @@ function pushAt(array = [], value, index) {
 
 /**
  * 数组移动
- * @param {*} array 操作的数组
- * @param {*} source 移动时的元素下标，< 0时，为在target位置添加元素，若taget也是<-1,在添加在头部
- * @param {*} target 移动到的元素下标，< 0时，为在source位置删除元素
- * @param {*} value 添加时的值
- * @returns
  */
-function arrayMove(array = [], source = -1, target = -1, value) {
-    if (source < 0) { // add target
+function arrayMove<T>(array: T[] = [], source = -1, target = -1, value: T) {
+    if (source < 0) {
+        // add target
         return pushAt(array, value, target);
     }
-    if (target < 0) { // remove source
+    if (target < 0) {
+        // remove source
         return array.splice(source, 1);
     }
     const evens = array.splice(source, 1);
     return pushAt(array, evens[0], target);
 }
 
-/**
- * 根据目标元素找到拖拽的元素
- * @param {Element} target 目标元素
- * @param {Element} parent 父容器
- * @returns {{
- *  el: Element,
- *  index: number
- * }}
- */
 // 根据目标元素找到拖拽的元素
-function findDragElement(target, parent) {
-    const res = {};
-    if (!parent || !target) return res;
+function findDragElement(target: Element, parent: Element) {
+    if (!parent || !target) return;
     for (let index = 0; index < parent.children.length; index++) {
         const el = parent.children[index];
         if (el.contains(target)) {
-            res.el = el;
-            res.index = index;
-            break;
+            return {
+                el,
+                index,
+            };
         }
     }
-    return res;
 }
 
-
-function resetDragWhenEnd(event, {
-    settings, dragTarget, list, emitEvent, resetDragTarget,
-}) {
+function resetDragWhenEnd(
+    event,
+    { settings, dragTarget, list, emitEvent, resetDragTarget },
+) {
     if (dragTarget.index < 0) return;
     const setting = settings.value[dragTarget.index];
     if (setting) setting.setDrag();
@@ -104,37 +91,40 @@ function resetDragWhenEnd(event, {
  * } } ctx
  * @returns
  */
-export function useDraggable(containerRef, propsRef, ctx = {}) {
-    /**
-     * 拖拽的item设置，与数据的索引对应
-     * @type {import('vue').Ref<Array<Setting>>}
-     */
-    const settings = ref([]);
+export function useDraggable(
+    containerRef: Ref<HTMLElement>,
+    propsRef: Ref<{ list: []; droppable: boolean; disabled: boolean }>,
+    ctx = {},
+) {
+    const settings = ref<Setting[]>([]);
     const animation = {
         done: true,
         duration: 200,
     };
 
-    /**
-     * @type {{el: Element,index: number}}
-     */
-    const dragTarget = { el: null, index: -1 };
+    const dragTarget: {
+        el?: Element | null;
+        index: number;
+    } = { el: null, index: -1 };
 
     /** 放置在条目上时，需要跳过当次的dragover事件 */
     let isDropOverItem = false;
 
     /**
      * FLIP动画 https://aerotwist.com/blog/flip-your-animations/
-     * @param { boolean } isFirst 是否计算开始位置
-     * @returns
      */
     function updateSettingStyle(isFirst = false) {
-        for (let index = 0; index < containerRef.value.children.length; index++) {
+        for (
+            let index = 0;
+            index < containerRef.value.children.length;
+            index++
+        ) {
             const node = containerRef.value.children[index];
             if (!settings.value[index]) settings.value[index] = new Setting();
             const setting = settings.value[index];
             const rect = node.getBoundingClientRect();
-            if (isFirst) { // First
+            if (isFirst) {
+                // First
                 setting.first.x = rect.left;
                 setting.first.y = rect.top;
             } else {
@@ -142,12 +132,15 @@ export function useDraggable(containerRef, propsRef, ctx = {}) {
                 setting.last.x = rect.left;
                 setting.last.y = rect.top;
                 // Invert
-                setting.style.transform = `translate3d(${setting.first.x - setting.last.x}px, ${setting.first.y - setting.last.y}px , 0)`;
+                setting.style.transform = `translate3d(${
+                    setting.first.x - setting.last.x
+                }px, ${setting.first.y - setting.last.y}px , 0)`;
                 setting.style.transition = '';
             }
         }
         if (isFirst) return;
-        requestAnimationFrame(() => { // Play
+        requestAnimationFrame(() => {
+            // Play
             settings.value.forEach((item) => {
                 item.style.transition = 'transform 200ms ease';
                 item.style.transform = '';
@@ -186,42 +179,58 @@ export function useDraggable(containerRef, propsRef, ctx = {}) {
         };
     }
 
-
     /**
      * 计算落点位置
-     * @param { DragEvent } target
      */
-    function computeDropPos(event) {
-        const target = findDragElement(event.target, containerRef.value);
-        if (!target.el) {
-            if (event.clientY > containerRef.value.getBoundingClientRect().top) { // 底部
-                target.index = propsRef.value.list.length;
-            } else { // 顶部
-                target.index = -1;
+    function computeDropPos(event: DragEvent) {
+        const target = findDragElement(
+            event.target as Element,
+            containerRef.value,
+        );
+        if (!target) {
+            if (
+                event.clientY > containerRef.value.getBoundingClientRect().top
+            ) {
+                // 底部
+                return {
+                    index: propsRef.value.list.length,
+                };
             }
+            return {
+                index: -1,
+            };
         }
         return target;
     }
 
-    function moveTarget(event, source, isCross) {
+    function moveTarget(event: DragEvent, source, isCross?: boolean) {
         // 目标位置
         const target = computeDropPos(event);
         let dragTargetIndex = dragTarget.index;
         let evens;
         let evens2;
-        if (isCross) { // source框拖拽过来的
+        if (isCross) {
+            // source框拖拽过来的
             isDropOverItem = !!target.el;
             source.updateSettingStyle(true);
             // 从source框移除拖拽
-            evens = arrayMove(source.propsRef.value.list, source.dragTarget.index)[0];
-            evens2 = arrayMove(source.settings.value, source.dragTarget.index)[0];
+            evens = arrayMove(
+                source.propsRef.value.list,
+                source.dragTarget.index,
+            )[0];
+            evens2 = arrayMove(
+                source.settings.value,
+                source.dragTarget.index,
+            )[0];
             source.animation.done = false;
             source.resetDragTarget();
             dragTargetIndex = -1;
             source.emitEvent(emits[2], source.propsRef.value.list);
-        } else { // 当前框的
+        } else {
+            // 当前框的
             if (target.index < 0) target.index = 0;
-            if (target.index >= propsRef.value.list.length) target.index = propsRef.value.list.length - 1;
+            if (target.index >= propsRef.value.list.length)
+                target.index = propsRef.value.list.length - 1;
             if (target.index === dragTargetIndex) return;
         }
         // 先计算起始位置
@@ -231,7 +240,6 @@ export function useDraggable(containerRef, propsRef, ctx = {}) {
         arrayMove(settings.value, dragTargetIndex, target.index, evens2);
         emitEvent(emits[2], propsRef.value.list);
         animation.done = false;
-
 
         nextTick(() => {
             dragTarget.index = target.index === -1 ? 0 : target.index;
@@ -255,12 +263,15 @@ export function useDraggable(containerRef, propsRef, ctx = {}) {
 
     /**
      * 选中拖拽条目
-     * @param { DragEvent } event
      */
-    function handleSelectDrag(event) {
+    function handleSelectDrag(event: DragEvent) {
         if (propsRef.value.disabled) return;
-        const target = findDragElement(event.target, containerRef.value);
-        if (target.index < 0) return;
+        const target = findDragElement(
+            event.target as Element,
+            containerRef.value,
+        );
+
+        if (!target || target.index < 0) return;
 
         dragTarget.index = target.index;
         dragTarget.el = target.el;
@@ -270,21 +281,30 @@ export function useDraggable(containerRef, propsRef, ctx = {}) {
         const setting = settings.value[dragTarget.index];
         setting?.setDrag(true);
 
-        if (propsRef.value.droppable) { // 共享容器拖拽的数据
+        if (propsRef.value.droppable) {
+            // 共享容器拖拽的数据
             setGlobalShare();
         }
-        emitEvent(emits[0], event, propsRef.value.list[dragTarget.index], setting);
+        emitEvent(
+            emits[0],
+            event,
+            propsRef.value.list[dragTarget.index],
+            setting,
+        );
     }
 
     /**
      * 拖拽元素到目标元素上时
-     * @param { DragEvent } event
      */
-    function handleDragover(event) {
+    function handleDragover(event: DragEvent) {
         event.preventDefault();
         const source = window[GLOBAL_SHARE]; // 拖拽容器共享的数据
         if (!animation.done || (source && !source.animation.done)) return; // 如果动画没结束，就直接结束
-        if (propsRef.value.droppable && !containerRef.value.contains(source?.dragTarget.el)) { // 从source框，拖拽到了当前框
+        if (
+            propsRef.value.droppable &&
+            !containerRef.value.contains(source?.dragTarget.el)
+        ) {
+            // 从source框，拖拽到了当前框
             moveTarget(event, source, true);
             return;
         }
@@ -297,12 +317,21 @@ export function useDraggable(containerRef, propsRef, ctx = {}) {
      */
     function handleDragEnd(event) {
         const source = window[GLOBAL_SHARE];
-        if (propsRef.value.droppable && source) { // reset source
-            resetDragWhenEnd(event, { ...source, list: source.propsRef.value.list });
+        if (propsRef.value.droppable && source) {
+            // reset source
+            resetDragWhenEnd(event, {
+                ...source,
+                list: source.propsRef.value.list,
+            });
             delete window[GLOBAL_SHARE];
         }
-        resetDragWhenEnd(event, { // reset current
-            settings, dragTarget, list: propsRef.value.list, emitEvent, resetDragTarget,
+        resetDragWhenEnd(event, {
+            // reset current
+            settings,
+            dragTarget,
+            list: propsRef.value.list,
+            emitEvent,
+            resetDragTarget,
         });
     }
 
