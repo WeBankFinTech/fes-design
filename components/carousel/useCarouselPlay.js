@@ -1,6 +1,5 @@
 import { watch, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import useResize from '../_util/use/useResize';
-// import { addResizeListener, removeResizeListener } from '../_util/use/useResize';
 
 // control play
 export default ({
