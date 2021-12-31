@@ -26,7 +26,15 @@ const managerStyle = reactive({
     top: mergeConfig.top,
 });
 
-async function create({ type, content, duration, icon, closable, afterClose, colorful }) {
+async function create({
+    type,
+    content,
+    duration,
+    icon,
+    closable,
+    afterClose,
+    colorful,
+}) {
     managerStyle.zIndex = PopupManager.nextZIndex();
     if (!messageInstance?.exited?.()) {
         messageInstance = await createManager({

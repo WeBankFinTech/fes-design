@@ -1,3 +1,17 @@
+## [0.1.9](https://github.com/WeBankFinTech/fes-design/compare/v0.1.8...v0.1.9) (2021-12-31)
+
+
+### Features
+
+* 虚拟列表监听item大小事件 ([212ac6d](https://github.com/WeBankFinTech/fes-design/commit/212ac6d9b2fd5a13d6cf0bf217440025702b2216))
+* select支持虚拟滚动 ([afeb90b](https://github.com/WeBankFinTech/fes-design/commit/afeb90b0edd69c6d46f371708e71f37089f0a721))
+* select支持options配置 ([f3f525a](https://github.com/WeBankFinTech/fes-design/commit/f3f525aa2321e8b1b9cf19123fd384a39c749304))
+* selectTree支持虚拟列表 ([#27](https://github.com/WeBankFinTech/fes-design/issues/27)) ([9409415](https://github.com/WeBankFinTech/fes-design/commit/94094151ddb6d4825b1d3cee365e9c00cca13f19))
+* tabs支持前后插槽 ([3f02d76](https://github.com/WeBankFinTech/fes-design/commit/3f02d76b024985dcc3b82db0f24e4c6adb63e9d8))
+* Tree 支持虚拟列表 ([#23](https://github.com/WeBankFinTech/fes-design/issues/23)) ([1cd0c87](https://github.com/WeBankFinTech/fes-design/commit/1cd0c876e6b9dbd9d4df23a2f33a88651d040b63))
+
+
+
 ## [0.1.8](https://github.com/WeBankFinTech/fes-design/compare/v0.1.7...v0.1.8) (2021-12-29)
 
 
