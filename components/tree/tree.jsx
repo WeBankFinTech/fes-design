@@ -1,4 +1,4 @@
-import { defineComponent, provide, onMounted } from 'vue';
+import { defineComponent, provide, onMounted, watch } from 'vue';
 import { isFunction, isString, cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -20,6 +20,7 @@ export default defineComponent({
         'update:expandedKeys',
         'update:checkedKeys',
         'update:selectedKeys',
+        'update:nodeList',
         'check',
         'expand',
         'load',
@@ -49,6 +50,16 @@ export default defineComponent({
             filteredExpandedKeys,
             currentExpandedKeys,
         });
+
+        watch(
+            nodeList,
+            () => {
+                emit('update:nodeList', nodeList);
+            },
+            {
+                immediate: true,
+            },
+        );
 
         onMounted(() => {
             if (

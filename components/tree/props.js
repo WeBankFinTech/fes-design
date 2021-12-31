@@ -6,7 +6,6 @@ const PROPS = {
         default() {
             return [];
         },
-        required: true,
     },
     defaultExpandAll: {
         type: Boolean,
