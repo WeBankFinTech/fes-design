@@ -38,6 +38,7 @@
         font-size: var(--f-form-size-base);
         &-label {
             display: inline-flex;
+            flex-shrink: 0; // 解决问题: 整体宽度不够时 label 被压缩
             align-items: center;
             justify-content: left;
             height: @form-item-height;

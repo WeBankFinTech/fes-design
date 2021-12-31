@@ -25,19 +25,20 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 .scroll-ul {
     list-style-type: none;
     margin: 0;
     list-style: none;
-    > li {
-        height: 36px;
-        background: rgba(83, 132, 255, 0.06);
-        list-style-type: none;
-        border-bottom: 2px solid #fff;
-        &::before {
-            display: none;
-        }
-    }
+    
+}
+.scroll-ul > li {
+    height: 36px;
+    background: rgba(83, 132, 255, 0.06);
+    list-style-type: none;
+    border-bottom: 2px solid #fff;
+}
+.scroll-ul > li::before {
+    display: none;
 }
 </style>

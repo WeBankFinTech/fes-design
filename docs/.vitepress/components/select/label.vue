@@ -40,7 +40,7 @@ export default {
     }
 };
 </script>
-<style lang="less" scoped>
+<style scoped>
 .fes-select {
     width: 200px;
 }

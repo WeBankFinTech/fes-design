@@ -13,6 +13,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    box-sizing: border-box;
     width: 100%;
     min-height: @select-height;
     padding: (@padding-xs / 2) @padding-xs;
@@ -27,7 +28,7 @@
     }
     &.is-active {
         --f-select-trigger-border-color: var(--f-primary-color);
-        box-shadow: 0 0 0 2px var(--f-select-trigger-shadow-color);
+        box-shadow: 0 0 0 2px var(--f-focus-shadow-color);
     }
     &.is-disabled {
         --f-select-trigger-border-color: var(--f-border-color-base);

@@ -5,7 +5,7 @@
     <FAlert class="mtb-10" showIcon type="error" message="错误表达提示内容" />
 </template>
 
-<style lang="less" scoped>
+<style scoped>
 .mtb-10 {
     margin: 10px 0;
 }

@@ -49,7 +49,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style>
 .virtual-container {
     padding: 20px;
     margin-top: 20px;
@@ -59,30 +59,29 @@ export default {
   height: 120px;
   overflow-x: auto;
   display: flex; 
-
-  .wrapper {
+  
+}
+.list-horizontal .wrapper {
     display: flex;
     flex-direction: row;
-  }
-
-  .list-item-horizontal {
+}
+.list-horizontal .list-item-horizontal {
     border-right: 2px solid rgb(255, 255, 255);
     background: rgba(83, 132, 255, 0.06) none repeat scroll 0% 0%;
-  }
 }
 .item-inner-horizontal {
   display: flex;
   align-items: center;
   flex-direction: column;
   padding: 2em 0;
-  .index {
+}
+.item-inner-horizontal .index {
     width: 100%;
     text-align: center;
-  }
-  .size {
+}
+.item-inner-horizontal .size {
     text-align: right;
     color: darkgray;
     font-size: 16px;
-  }
 }
 </style>

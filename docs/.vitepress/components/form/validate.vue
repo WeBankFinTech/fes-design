@@ -2,7 +2,7 @@
     <FForm ref="WFormDomRef" labelWidth="140px" labelPosition="right" :model="modelForm" :rules="rules">
         <FFormItem prop="name" :rules="nameRules">
             <template v-slot:label><span>输入姓名(slot)</span></template>
-            <FInput v-model="modelForm.name" placeholder="请输入" @change="changeHandler"></FInput>
+            <FInput v-model="modelForm.name" placeholder="请输入" @input="changeHandler"></FInput>
         </FFormItem>
         <FFormItem label="输入密码" prop="password">
             <FInput v-model="modelForm.password" type="password" showPassword placeholder="请输入密码" @input="handlePasswordInput"></FInput>
@@ -29,14 +29,20 @@
                 <FRadio value="2">女</FRadio>
             </FRadioGroup>
         </FFormItem>
-        <FFormItem label="年龄范围" prop="age">
-            <FCheckboxGroup v-model="modelForm.age" @change="changeHandler">
-                <FCheckbox value="1-10">1-10</FCheckbox>
-                <FCheckbox value="11-30">11-30</FCheckbox>
-                <FCheckbox value="31-60">31-60</FCheckbox>
+        <FFormItem label="操作权限" prop="permission">
+            <FCheckboxGroup v-model="modelForm.permission" @change="changeHandler">
+                <FCheckbox :value="1">Admin</FCheckbox>
+                <FCheckbox :value="2">edit</FCheckbox>
+                <FCheckbox :value="3">run</FCheckbox>
+                <FCheckbox :value="4">view</FCheckbox>
             </FCheckboxGroup>
         </FFormItem>
-        <FFormItem label="基础信息补充" prop="more">
+        <FFormItem prop="more" labelClass="more-label">
+            <template v-slot:label>
+                <span @click="moreClickHandler"> 
+                    <CheckCircleFilled />补充信息
+                </span>
+            </template>
             <div class="row-container">
                 <div class="row-item">
                     <FSelect></FSelect>
@@ -83,7 +89,7 @@ export default {
             time: '',
             sex: '2',
             show: true,
-            age: ['1-10'],
+            permission: [],
             more: {
                 height: 180,
                 weight: 100
@@ -106,7 +112,7 @@ export default {
 
         const rules = {
             name: [
-                { min: 3, max: 8, message: '姓名长度在 3 到 8 个字符', trigger: ['input'] },
+                { min: 3, max: 8, message: '姓名长度在 3 到 8 个字符', trigger: 'input' },
             ],
             password: [
                 { required: true, message: '请输入密码', trigger: ['blur', 'input'] }
@@ -133,8 +139,8 @@ export default {
             sex: [{
                 required: true, message: '请选择性别', trigger: 'change'
             }],
-            age: [{
-                required: true, message: '请选择年龄范围', trigger: 'change', type: 'array'
+            permission: [{
+                required: true, message: '请选择权限', trigger: 'change', type: 'array'
             }],
             desc: [
                 { required: true, message: '请备注内容', trigger: ['blur'] },
@@ -175,9 +181,9 @@ export default {
         }
 
         const submitHandler = async () => {
-            
             WFormDomRef.value.validate().then((result) => {
                 console.log('表单验证成功: ', result);
+                WFormDomRef.value.resetFields();
             }).catch((error) => {
                 console.log('表单验证失败: ', error);
             })
@@ -206,6 +212,10 @@ export default {
             WFormDomRef.value.resetFields();
         }
 
+        const moreClickHandler = () => {
+            FMessage.success({ content: '支持 labelClass 啦～' });
+        }
+
         const descClickHandler = () => {
             FMessage.success({ content: '你点击了备注<slot/>！' });
         }
@@ -223,12 +233,16 @@ export default {
             submitHandler,
             clearHandler,
             resetHandler,
-            descClickHandler
+            descClickHandler,
+            moreClickHandler
         }
     }
 }
 </script>
-<style scoped>
+<style>
+.fes-form .fes-form-item-label.more-label {
+   color: #9e9e9e;
+}
 .row-container {
     width: 100%;
 }

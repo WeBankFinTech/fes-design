@@ -1,6 +1,6 @@
 <template>
     <div :class="formItemClass">
-        <label v-if="label || $slots.label" :class="`${prefixCls}-label`" :style="formItemLabelStyle">
+        <label v-if="label || $slots.label" :class="formItemLabelClass" :style="formItemLabelStyle">
             <slot name="label">
                 {{label}}
             </slot>
@@ -15,13 +15,13 @@
 </template>
 <script>
 import {
-    provide, ref, inject, defineComponent, computed, onBeforeUnmount,
+    provide, ref, inject, defineComponent, computed, onBeforeUnmount, nextTick
 } from 'vue';
 import Schema from 'async-validator';
 import { isArray, cloneDeep } from 'lodash-es';
 import { addUnit } from '../_util/utils';
 import {
-    provideKey, FORM_ITEM_NAME, LABEL_POSITION, TRIGGER_DEFAULT, VALIDATE_STATUS, VALIDATE_MESSAGE_DEFAULT, LABEL_MARGIN_RIGHT_DEFAULT
+    provideKey, FORM_ITEM_NAME, LABEL_POSITION, TRIGGER_TYPE_DEFAULT, RULE_TYPE_DEFAULT, VALIDATE_STATUS, VALIDATE_MESSAGE_DEFAULT
 } from './const';
 import getPrefixCls from '../_util/getPrefixCls';
 import { FORMITEM_INJECTION_KEY } from '../_util/constants';
@@ -34,7 +34,8 @@ export default defineComponent({
     props: {
         prop: String,
         label: String,
-        labelWidth: String | Number,
+        labelWidth: [String, Number],
+        labelClass: String,
         showMessage: {
             type: Boolean,
             default: null,
@@ -50,7 +51,7 @@ export default defineComponent({
             rules,
             showMessage,
             labelWidth,
-            labelMarginRight,
+            labelClass,
             labelPosition,
             addField,
             removeField,
@@ -67,6 +68,7 @@ export default defineComponent({
         /** 规则校验结果逻辑: 仅存最后一条校验规则的逻辑
          *      存在问题: 如果同时触发两个规则 A|B，规则 A 先触发校验且不通过，接着规则 B 触发校验且通过，规则 A 结果会不展示
          */
+        const validateDisabled = ref(false); // 是否触发校验的标志
         const validateStatus = ref(VALIDATE_STATUS.DEFAULT);
         const validateMessage = ref(VALIDATE_MESSAGE_DEFAULT);
         const setValidateInfo = (status = VALIDATE_STATUS.DEFAULT, message = VALIDATE_MESSAGE_DEFAULT) => {
@@ -76,22 +78,24 @@ export default defineComponent({
         /** 错误展示逻辑: 就近原则【formItem 权重更高】  */
         const formItemShowMessage = computed(() => (props.showMessage === null ? showMessage.value : props.showMessage));
         const formItemRequired = computed(() => (formItemRules.value.length > 0 && formItemRules.value.some(_ => _.required)));
-        const formItemClass = computed(() => {
-            const classSet = [prefixCls, labelPosition.value !== LABEL_POSITION.LEFT && `${prefixCls}-${labelPosition.value}`].filter(Boolean)
-                .concat((formItemRequired.value && ['is-required']) || []) // 必填校验: is-required
-                .concat((validateStatus.value === VALIDATE_STATUS.ERROR && ['is-error']) || []); // 校验错误: is-error
-            return classSet.join(' ');
-        });        
-        const formItemLabelStyle = computed(() => ({ 
-            width: addUnit(props.labelWidth || labelWidth.value),
-            'margin-right': addUnit(labelMarginRight.value) || LABEL_MARGIN_RIGHT_DEFAULT
-        }));
+        const formItemClass = computed(() => [
+                prefixCls,
+                labelPosition.value !== LABEL_POSITION.LEFT && `${prefixCls}-${labelPosition.value}`,
+                formItemRequired.value && 'is-required', // 必填校验: is-required
+                validateStatus.value === VALIDATE_STATUS.ERROR && 'is-error' // 校验错误: is-error
+            ].filter(Boolean)
+        );
+        const formItemLabelClass = computed(() => ([`${prefixCls}-label`, labelClass.value, props.labelClass].filter(Boolean)));
+        const formItemLabelStyle = computed(() => ({ width: addUnit(props.labelWidth || labelWidth.value) }));
 
-        let ruleDefaultType = 'string';
-        const setRuleDefaultType = (val) => {
-            ruleDefaultType = val;
-        };
-        const validateRules = async (trigger = TRIGGER_DEFAULT) => {
+        /** 校验规则的类型: 默认 String  */
+        let ruleDefaultType = RULE_TYPE_DEFAULT;
+        const setRuleDefaultType = (val = RULE_TYPE_DEFAULT) => { ruleDefaultType = val; };
+        const validateRules = async (trigger = TRIGGER_TYPE_DEFAULT) => {
+            if (validateDisabled.value) {
+                validateDisabled.value = false; return;
+            }
+
             /** 过滤符合条件的 triggersRules
              *
              *  未指定具体 trigger 类型，则直接返回 rule 规则
@@ -119,9 +123,9 @@ export default defineComponent({
                 }
                 return shallowClonedRule;
             });
-
             if (!activeRules.length) return Promise.resolve();
 
+            // 开始规则校验
             setValidateInfo(VALIDATE_STATUS.VALIDATING);
             const descriptor = {};
             descriptor[props.prop] = activeRules;
@@ -140,16 +144,30 @@ export default defineComponent({
         };
 
         // 验证表单项
-        const validate = (trigger = TRIGGER_DEFAULT) => validateRules(trigger);
-        const clearValidate = () => setValidateInfo();
+        const validate = async (trigger = TRIGGER_TYPE_DEFAULT) => {
+            try {
+                await validateRules(trigger);
+            } catch (err) {}
+        };
+        const clearValidate = () => {
+            setValidateInfo();
+            validateDisabled.value = false;
+        };
         const resetField = () => {
-            clearValidate();
+            setValidateInfo();
+            validateDisabled.value = true; // 在表单重置行为，不应触发校验
+            
+            // reset initialValue
             const prop = getPropByPath(model.value || {}, namePath.value, true);
             if (Array.isArray(fieldValue.value)) {
                 prop.o[prop.k] = [].concat(initialValue.value);
             } else {
                 prop.o[prop.k] = initialValue.value;
             }
+            // reset validateDisabled after onFieldChange triggered
+            nextTick(() => {
+                validateDisabled.value = false;
+            });
         };
 
         addField(props.prop, {
@@ -174,6 +192,7 @@ export default defineComponent({
             formItemClass,
             formItemRequired,
             formItemShowMessage,
+            formItemLabelClass,
             formItemLabelStyle,
             validateRules,
             validate,

@@ -1,6 +1,7 @@
 <template>
     <div class="component-doc">
         <div class="component-doc-header">
+            <span class="play" @click="openPlayground">play</span>
             <LeftOutlined @click="visibleCode = !visibleCode" :class="['show-code-btn', visibleCode && 'active']" />
         </div>
         <div class="component-doc-content">
@@ -15,6 +16,7 @@
 <script>
 import { defineComponent, ref, watch } from 'vue';
 
+import playground from './playground';
 import { highlight } from './highlight';
 import codes from './demoCode';
 
@@ -37,9 +39,13 @@ export default defineComponent({
         );
 
         const visibleCode = ref(false);
+        const openPlayground = () => {
+            playground(props.code);
+        }
         return {
             visibleCode,
-            code
+            code,
+            openPlayground
         };
     }
 });
@@ -66,6 +72,10 @@ export default defineComponent({
             &.active {
                 transform: rotateZ(-90deg);
             }
+        }
+        .play {
+            margin-right: 20px;
+            cursor: pointer;
         }
     }
 

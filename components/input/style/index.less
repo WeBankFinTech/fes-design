@@ -11,11 +11,17 @@
     .default();
     position: relative;
     display: inline-block;
+    box-sizing: border-box;
     width: 100%;
     vertical-align: middle;
     .text();
+    &-inner-wrapper {
+        position: relative;
+        display: inline;
+    }
     &-inner {
         position: relative;
+        box-sizing: border-box;
         width: 100%;
         height: @input-height-base;
         padding: 0 8px; // FEATURE 变量抽离
@@ -58,20 +64,22 @@
     &-suffix {
         position: absolute;
         z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         height: 100%;
         color: inherit;
-        line-height: @input-height-base;
-        text-align: center;
         transition: all 0.3s;
         user-select: none;
         .@{fes-icon-cls} {
             color: var(--f-text-color-caption);
+            vertical-align: middle;
         }
     }
 
     &-prefix {
+        top: 0;
         left: 9px;
-        transition: all 0.3s;
     }
 
     &-with-prefix {

@@ -1,10 +1,33 @@
-import { ref, reactive, watch } from 'vue';
+import { ref, reactive, watch, computed } from 'vue';
 import { isNil, isArray } from 'lodash-es';
 
-export default (props) => {
+export default ({ props, hasExpanded, hiddenKeys }) => {
     const nodeList = reactive({});
 
-    const currentData = ref([]);
+    const transformData = ref([]);
+
+    const currentData = computed(() =>
+        transformData.value.filter((value) => {
+            if (hiddenKeys.includes(value)) {
+                return false;
+            }
+            const node = nodeList[value];
+            const isRoot = node.indexPath.length === 1;
+            if (isRoot) {
+                return true;
+            }
+            const indexPath = node.indexPath;
+            const len = indexPath.length;
+            let index = 0;
+            while (index < len - 1) {
+                if (!hasExpanded(indexPath[index])) {
+                    return false;
+                }
+                index += 1;
+            }
+            return true;
+        }),
+    );
 
     const getChildrenByValues = (values = []) => {
         let arr = [...values];
@@ -91,25 +114,24 @@ export default (props) => {
         return copy;
     };
 
-    const handleData = (arr = [], indexPath = [], level = 1) =>
-        arr.map((item) => {
-            const copy = transformNode(item, indexPath, level);
+    const flatNodes = (nodes = [], indexPath = [], level = 1) =>
+        nodes.reduce((res, node) => {
+            const copy = transformNode(node, indexPath, level);
             // 扁平化
             nodeList[copy.value] = copy;
+            res.push(copy.value);
             if (copy.hasChildren) {
-                copy.children = handleData(
-                    copy.children,
-                    copy.indexPath,
-                    level + 1,
+                res = res.concat(
+                    flatNodes(copy.children, copy.indexPath, level + 1),
                 );
             }
-            return copy;
-        });
+            return res;
+        }, []);
 
     watch(
-        () => props.data,
+        [() => props.data],
         () => {
-            currentData.value = handleData(props.data);
+            transformData.value = flatNodes(props.data);
         },
         {
             immediate: true,
@@ -120,7 +142,6 @@ export default (props) => {
     return {
         nodeList,
         currentData,
-        handleData,
         getChildrenByValues,
         getParentByValues,
     };
