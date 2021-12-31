@@ -64,7 +64,10 @@ export default class Virtual {
 
     // return start index offset
     getOffset(start) {
-        return (start < 1 ? 0 : this.getIndexOffset(start)) + this.param.slotHeaderSize;
+        return (
+            (start < 1 ? 0 : this.getIndexOffset(start)) +
+            this.param.slotHeaderSize
+        );
     }
 
     updateParam(key, value) {
@@ -90,17 +93,31 @@ export default class Virtual {
         if (this.calcType === CALC_TYPE.INIT) {
             this.fixedSizeValue = size;
             this.calcType = CALC_TYPE.FIXED;
-        } else if (this.calcType === CALC_TYPE.FIXED && this.fixedSizeValue !== size) {
+        } else if (
+            this.calcType === CALC_TYPE.FIXED &&
+            this.fixedSizeValue !== size
+        ) {
             this.calcType = CALC_TYPE.DYNAMIC;
             // it's no use at all
             delete this.fixedSizeValue;
         }
 
         // calculate the average size only in the first range
-        if (this.calcType !== CALC_TYPE.FIXED && typeof this.firstRangeTotalSize !== 'undefined') {
-            if (this.sizes.size < Math.min(this.param.keeps, this.param.uniqueIds.length)) {
-                this.firstRangeTotalSize = [...this.sizes.values()].reduce((acc, val) => acc + val, 0);
-                this.firstRangeAverageSize = Math.round(this.firstRangeTotalSize / this.sizes.size);
+        if (
+            this.calcType !== CALC_TYPE.FIXED &&
+            typeof this.firstRangeTotalSize !== 'undefined'
+        ) {
+            if (
+                this.sizes.size <
+                Math.min(this.param.keeps, this.param.uniqueIds.length)
+            ) {
+                this.firstRangeTotalSize = [...this.sizes.values()].reduce(
+                    (acc, val) => acc + val,
+                    0,
+                );
+                this.firstRangeAverageSize = Math.round(
+                    this.firstRangeTotalSize / this.sizes.size,
+                );
             } else {
                 // it's done using
                 delete this.firstRangeTotalSize;
@@ -135,7 +152,8 @@ export default class Virtual {
 
     // calculating range on scroll
     handleScroll(offset) {
-        this.direction = offset < this.offset ? DIRECTION_TYPE.FRONT : DIRECTION_TYPE.BEHIND;
+        this.direction =
+            offset < this.offset ? DIRECTION_TYPE.FRONT : DIRECTION_TYPE.BEHIND;
         this.offset = offset;
         if (!this.param) {
             return;
@@ -215,7 +233,11 @@ export default class Virtual {
         let indexSize = 0;
         for (let index = 0; index < givenIndex; index++) {
             indexSize = this.sizes.get(this.param.uniqueIds[index]);
-            offset = offset + (typeof indexSize === 'number' ? indexSize : this.getEstimateSize());
+            offset =
+                offset +
+                (typeof indexSize === 'number'
+                    ? indexSize
+                    : this.getEstimateSize());
         }
 
         // remember last calculate index
@@ -297,6 +319,8 @@ export default class Virtual {
 
     // get the item estimate size
     getEstimateSize() {
-        return this.isFixedType() ? this.fixedSizeValue : this.firstRangeAverageSize || this.param.estimateSize;
+        return this.isFixedType()
+            ? this.fixedSizeValue
+            : this.firstRangeAverageSize || this.param.estimateSize;
     }
 }

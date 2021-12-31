@@ -15,11 +15,15 @@ export default function useColumn() {
         }
     };
 
+    const visibleColumns = computed(() =>
+        originColumns.filter((column) => column.props.visible),
+    );
+
     // 表头Rows
-    const headerRows = computed(() => getHeaderRows(originColumns));
+    const headerRows = computed(() => getHeaderRows(visibleColumns.value));
 
     // 列配置
-    const columns = computed(() => getColumns(originColumns));
+    const columns = computed(() => getColumns(visibleColumns.value));
 
     return {
         addColumn,

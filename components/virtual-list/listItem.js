@@ -2,8 +2,9 @@
  * item component, we need to know their size change at any time
  */
 
-import { defineComponent, onMounted, ref, createVNode, h } from 'vue';
+import { defineComponent, ref, createVNode, h } from 'vue';
 import { ItemProps } from './props';
+import useResize from '../_util/use/useResize';
 
 // wrapping for item
 export const FVirtualListItem = defineComponent({
@@ -19,16 +20,22 @@ export const FVirtualListItem = defineComponent({
             attrs.onItemResized(props.uniqueKey, s);
         };
 
-        onMounted(() => {
-            dispatchSizeChange();
-        });
+        useResize(itemRef, dispatchSizeChange);
 
         return {
             itemRef,
         };
     },
     render() {
-        const { tag, extraProps = {}, index, source, scopedSlots = {}, uniqueKey, slotComponent } = this;
+        const {
+            tag,
+            extraProps = {},
+            index,
+            source,
+            scopedSlots = {},
+            uniqueKey,
+            slotComponent,
+        } = this;
 
         const _props = {
             ...extraProps,

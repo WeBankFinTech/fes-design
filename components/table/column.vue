@@ -63,6 +63,10 @@ export default defineComponent({
             type: Boolean,
             default: false,
         },
+        visible: {
+            type: Boolean,
+            default: true,
+        },
     },
     setup(props, ctx) {
         const table = inject(provideKey, null);

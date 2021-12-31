@@ -44,6 +44,11 @@ app.use(FSelectTree);
 
 --DISABLED
 
+### 虚拟列表
+设置`virtualList`属性，处理大数据。
+--VIRTUALLIST
+
+
 ### 无数据
 
 --NODATA
@@ -78,6 +83,7 @@ app.use(FSelectTree);
 | remote                | 是否异步获取选项，和 `onLoad` 配合                                      | boolean                                   | `false`    |
 | loadData              | 异步加载数据的回调函数                                                  | (node: TreeOption) => Promise\<void\>     | `null`     |
 | inline                | 底层节点是否横向排列                                                    | boolean                                   | `false`    |
+| virtualList                | 是否使用虚拟滚动，inline需要为false                                                    | boolean                                   | `false`    |
 
 ## SelectTree Events
 

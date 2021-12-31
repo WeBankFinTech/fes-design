@@ -48,6 +48,12 @@ const PROPS = {
         type: Number,
         default: 1,
     },
+    options: {
+        type: Array,
+        default() {
+            return [];
+        },
+    },
 };
 
 export default PROPS;

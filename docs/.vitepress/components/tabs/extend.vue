@@ -1,8 +1,10 @@
 <template>
     <FTabs>
-        <FTabPane v-for="i in 20" :name="'Tab ' + i" :value="i" :key="i"
+        <FTabPane v-for="i in 20" :name="'Tab ' + i" :value="i" :key="i" closable
             ><div class="tab-content">Tab {{ i }}</div></FTabPane
         >
+        <template #prefix>Prefix</template>
+        <template #suffix>Suffix</template>
     </FTabs>
 </template>
 
@@ -24,4 +26,5 @@
     line-height: 60px;
     text-align: center;
 }
+
 </style>

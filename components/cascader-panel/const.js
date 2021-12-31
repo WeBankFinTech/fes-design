@@ -23,3 +23,9 @@ export const EVENT_CODE = {
     DOWN: 'ArrowDown', // 40
     ESC: 'Escape',
 };
+
+export const CHECK_STRATEGY = {
+    ALL: 'all',
+    PARENT: 'parent',
+    CHILD: 'child',
+};
