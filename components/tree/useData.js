@@ -88,7 +88,7 @@ export default ({
         }, []);
 
     watch(
-        () => props.data,
+        [() => props.data],
         () => {
             transformData.value = flatNodes(props.data);
         },
