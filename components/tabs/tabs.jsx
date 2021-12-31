@@ -9,6 +9,7 @@ import {
     vShow,
     watch,
     withDirectives,
+    onMounted,
 } from 'vue';
 import {
     CLOSE_EVENT,
@@ -73,7 +74,7 @@ export default defineComponent({
             default: false,
         },
         closeMode: {
-            type: Boolean,
+            type: String,
             default: 'visible',
             validator(value) {
                 return ['hover', 'visible'].includes(value);
@@ -92,6 +93,7 @@ export default defineComponent({
     setup(props, ctx) {
         useTheme();
         const tabRefs = ref([]);
+        const isScroll = ref(false);
         const [currentValue, updateCurrentValue] = useNormalModel(
             props,
             ctx.emit,
@@ -104,7 +106,17 @@ export default defineComponent({
         const showBeforeScrollBar = ref(false);
         const showAfterScrollBar = ref(false);
         const tabNavRef = ref(null);
-        useScrollX(tabNavRef);
+
+        onMounted(() => {
+            if (!tabNavRef.value) return;
+            const { scrollWidth, offsetWidth, scrollHeight, offsetHeight } =
+                tabNavRef.value;
+            if (scrollWidth > offsetWidth || scrollHeight > offsetHeight) {
+                isScroll.value = true;
+                useScrollX(tabNavRef);
+            }
+        });
+
         const barStyle = ref({});
 
         function setTabRefs(el, index) {
@@ -126,6 +138,7 @@ export default defineComponent({
         function handleTabNavScroll(event) {
             event?.preventDefault();
             if (!tabNavRef.value) return;
+            if (!isScroll.value) return;
             const {
                 scrollWidth,
                 scrollHeight,
@@ -143,6 +156,7 @@ export default defineComponent({
 
         function autoScrollTab(el) {
             if (!tabNavRef.value || !el) return;
+            if (!isScroll.value) return;
             const { scrollLeft, scrollTop, offsetWidth, offsetHeight } =
                 tabNavRef.value;
             if (
