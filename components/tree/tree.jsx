@@ -1,4 +1,4 @@
-import { defineComponent, provide, onMounted } from 'vue';
+import { defineComponent, provide, onMounted, watch } from 'vue';
 import { isFunction, isString, cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -20,6 +20,7 @@ export default defineComponent({
         'update:expandedKeys',
         'update:checkedKeys',
         'update:selectedKeys',
+        'update:nodeList',
         'check',
         'expand',
         'load',
@@ -41,16 +42,24 @@ export default defineComponent({
             hasSelected,
             hasChecked,
             hasIndeterminate,
-            hasExpanded,
         } = useState(props, { emit });
 
-        const { nodeList, currentData } = useData({
+        const { nodeList, currentData, transformData } = useData({
             props,
             hiddenKeys,
-            hasExpanded,
             filteredExpandedKeys,
             currentExpandedKeys,
         });
+
+        watch(
+            nodeList,
+            () => {
+                emit('update:nodeList', nodeList);
+            },
+            {
+                immediate: true,
+            },
+        );
 
         onMounted(() => {
             if (
@@ -58,9 +67,9 @@ export default defineComponent({
                 currentExpandedKeys.value.length === 0
             ) {
                 updateExpandedKeys(
-                    Object.values(nodeList)
-                        .filter((item) => !item.isLeaf)
-                        .map((item) => item.value),
+                    transformData.value.filter(
+                        (value) => !nodeList[value].isLeaf,
+                    ),
                 );
             }
         });
@@ -224,7 +233,6 @@ export default defineComponent({
             hasSelected,
             hasChecked,
             hasIndeterminate,
-            hasExpanded,
             nodeList,
         });
 

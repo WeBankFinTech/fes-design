@@ -31,10 +31,7 @@
                 />
             </template>
             <template #default>
-                <Scrollbar
-                    :containerStyle="dropdownStyle"
-                    :containerClass="`${prefixCls}-dropdown`"
-                >
+                <template v-if="virtualList && !inline">
                     <Tree
                         v-show="data.length"
                         ref="refTree"
@@ -56,13 +53,52 @@
                         :inline="inline"
                         :remote="remote"
                         :loadData="loadData"
+                        virtualList
+                        :style="dropdownStyle"
+                        :class="`${prefixCls}-dropdown is-max-height`"
+                        @update:nodeList="onChangeNodeList"
                         @select="handleSelect"
                         @check="handleCheck"
                     ></Tree>
                     <div v-show="!data.length" :class="`${prefixCls}-null`">
                         {{ emptyText }}
                     </div>
-                </Scrollbar>
+                </template>
+                <template v-else>
+                    <Scrollbar
+                        :containerStyle="dropdownStyle"
+                        :containerClass="`${prefixCls}-dropdown`"
+                    >
+                        <Tree
+                            v-show="data.length"
+                            ref="refTree"
+                            :selectedKeys="selectedKeys"
+                            :checkedKeys="checkedKeys"
+                            :data="data"
+                            :defaultExpandAll="defaultExpandAll"
+                            :expandedKeys="expandedKeys"
+                            :accordion="accordion"
+                            :selectable="treeSelectable"
+                            :checkable="treeCheckable"
+                            :checkStrictly="checkStrictly"
+                            :cascade="cascade"
+                            :multiple="multiple"
+                            :childrenField="childrenField"
+                            :valueField="valueField"
+                            :labelField="labelField"
+                            :filterMethod="filterMethod"
+                            :inline="inline"
+                            :remote="remote"
+                            :loadData="loadData"
+                            @update:nodeList="onChangeNodeList"
+                            @select="handleSelect"
+                            @check="handleCheck"
+                        ></Tree>
+                        <div v-show="!data.length" :class="`${prefixCls}-null`">
+                            {{ emptyText }}
+                        </div>
+                    </Scrollbar>
+                </template>
             </template>
         </Popper>
     </div>
@@ -80,7 +116,7 @@ import Tree from '../tree';
 import Scrollbar from '../scrollbar';
 import SELECT_PROPS from '../select/props';
 import TREE_PROPS from '../tree/props';
-import useData from '../tree/useData';
+import { getChildrenByValues, getParentByValues } from './helper';
 
 const prefixCls = getPrefixCls('select-tree');
 
@@ -124,8 +160,11 @@ export default defineComponent({
             validate(CHANGE_EVENT);
         });
 
-        const { nodeList, getChildrenByValues, getParentByValues } =
-            useData(props);
+        const nodeList = ref([]);
+
+        const onChangeNodeList = (data) => {
+            nodeList.value = data;
+        };
 
         const treeSelectable = computed(() => !props.multiple);
         const treeCheckable = computed(() => props.multiple);
@@ -143,10 +182,16 @@ export default defineComponent({
                     return currentValue.value;
                 }
                 if (props.checkStrictly === 'parent') {
-                    return getChildrenByValues(currentValue.value);
+                    return getChildrenByValues(
+                        nodeList.value,
+                        currentValue.value,
+                    );
                 }
                 if (props.checkStrictly === 'child') {
-                    return getParentByValues(currentValue.value);
+                    return getParentByValues(
+                        nodeList.value,
+                        currentValue.value,
+                    );
                 }
             }
             return [];
@@ -202,7 +247,7 @@ export default defineComponent({
         };
 
         const selectedOptions = computed(() =>
-            Object.values(nodeList).filter((option) => {
+            Object.values(nodeList.value).filter((option) => {
                 if (props.multiple) {
                     return currentValue.value.includes(option.value);
                 }
@@ -266,6 +311,7 @@ export default defineComponent({
             filterMethod,
             triggerRef,
             dropdownStyle,
+            onChangeNodeList,
         };
     },
 });

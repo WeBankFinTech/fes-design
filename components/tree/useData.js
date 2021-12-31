@@ -1,10 +1,26 @@
 import { ref, reactive, watch, computed } from 'vue';
-import { isNil, isArray } from 'lodash-es';
+import { isNil } from 'lodash-es';
 
-export default ({ props, hasExpanded, hiddenKeys }) => {
+export default ({
+    props,
+    filteredExpandedKeys,
+    currentExpandedKeys,
+    hiddenKeys,
+}) => {
     const nodeList = reactive({});
 
     const transformData = ref([]);
+
+    watch([filteredExpandedKeys, currentExpandedKeys, transformData], () => {
+        const expandedKeys = filteredExpandedKeys.length
+            ? filteredExpandedKeys
+            : currentExpandedKeys.value;
+        // 缓存每个节点的展开状态，性能更优
+        transformData.value.forEach((key) => {
+            const node = nodeList[key];
+            node.isExpanded = expandedKeys.includes(key);
+        });
+    });
 
     const currentData = computed(() =>
         transformData.value.filter((value) => {
@@ -20,7 +36,8 @@ export default ({ props, hasExpanded, hiddenKeys }) => {
             const len = indexPath.length;
             let index = 0;
             while (index < len - 1) {
-                if (!hasExpanded(indexPath[index])) {
+                const parentNode = nodeList[indexPath[index]];
+                if (!parentNode.isExpanded) {
                     return false;
                 }
                 index += 1;
@@ -28,64 +45,6 @@ export default ({ props, hasExpanded, hiddenKeys }) => {
             return true;
         }),
     );
-
-    const getChildrenByValues = (values = []) => {
-        let arr = [...values];
-        values.forEach((value) => {
-            const node = nodeList[value];
-            if (isArray(node.children)) {
-                arr = arr.concat(
-                    getChildrenByValues(
-                        node.children.map((child) => child.value),
-                    ),
-                );
-            }
-        });
-        return arr;
-    };
-
-    const getParentByValues = (values = []) => {
-        const res = {};
-        values.forEach((value) => {
-            const node = nodeList[value];
-            if (!res[node.level]) {
-                res[node.level] = [];
-            }
-            res[node.level].push(node.value);
-        });
-        const levels = Object.keys(res);
-        const maxLevel = levels[levels.length - 1];
-        for (let level = maxLevel; level > 0; level--) {
-            const levelValues = res[level];
-            if (levelValues) {
-                levelValues.forEach((value) => {
-                    const node = nodeList[value];
-                    const parentValue =
-                        node.indexPath[node.indexPath.length - 2];
-                    if (parentValue) {
-                        const parentNode = nodeList[parentValue];
-                        if (
-                            parentNode.children.every((child) =>
-                                levelValues.includes(child.value),
-                            )
-                        ) {
-                            if (!res[level - 1]) {
-                                res[level - 1] = [];
-                            }
-                            if (!res[level - 1].includes(parentValue)) {
-                                res[level - 1].push(parentValue);
-                            }
-                        }
-                    }
-                });
-            }
-        }
-        let arr = [];
-        Object.values(res).forEach((levelValues) => {
-            arr = arr.concat(levelValues);
-        });
-        return arr;
-    };
 
     const transformNode = (item, indexPath, level) => {
         const copy = { ...item };
@@ -141,8 +100,7 @@ export default ({ props, hasExpanded, hiddenKeys }) => {
 
     return {
         nodeList,
+        transformData,
         currentData,
-        getChildrenByValues,
-        getParentByValues,
     };
 };

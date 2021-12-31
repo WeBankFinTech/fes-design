@@ -92,6 +92,7 @@ export default defineComponent({
                     dataKey={'value'}
                     estimateSize={32}
                     keeps={14}
+                    style={props.containerStyle}
                     class={`${props.prefixCls}-dropdown is-max-height`}
                     v-slots={{ default: renderDefault }}
                 ></VirtualList>
