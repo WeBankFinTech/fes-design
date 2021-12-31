@@ -1,7 +1,18 @@
-import { computed, reactive, ref, watch, ObjectDirective } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import { useDraggable } from './useDraggable';
 
-const dragMap = reactive({});
+import type { FObjectDirective } from '../_util/interface';
+
+const dragMap = reactive<{
+    [key: string]: {
+        props: {
+            list: never[];
+            droppable: boolean;
+            disabled: boolean;
+        };
+        drag?: any; // TODO Ref 和 ReturnType 不能一起工作？
+    };
+}>({});
 
 export default {
     name: 'drag',
@@ -23,6 +34,7 @@ export default {
         el.addEventListener('mouseup', drag.handleDragEnd);
         el.addEventListener('dragend', drag.handleDragEnd);
         el.addEventListener('transitionend', drag.handleTransitionEnd);
+
         dragMap[key].drag = drag;
 
         watch(
@@ -33,12 +45,14 @@ export default {
                     index < containerRef.value.children.length;
                     index++
                 ) {
-                    const node = containerRef.value.children[index];
+                    const node = containerRef.value.children[
+                        index
+                    ] as HTMLElement;
                     const setting = drag.settings.value[index];
-                    node.setAttribute('draggable', setting?.draggable);
+                    node.setAttribute('draggable', String(setting?.draggable));
                     node.style.transform = setting?.style.transform;
                     node.style.transition = setting?.style.transition;
-                    node.style.opacity = setting?.style.opacity;
+                    node.style.opacity = '' + setting?.style.opacity;
                 }
             },
             { deep: true },
@@ -56,13 +70,15 @@ export default {
     },
     beforeUnmount(el) {
         const key = el.getAttribute('data-drag-key');
-        const drag = dragMap[key].drag || {};
-        el.removeEventListener('mousedown', drag.handleSelectDrag);
-        el.removeEventListener('dragover', drag.handleDragover);
-        el.removeEventListener('drop', drag.handleDragEnd);
-        el.removeEventListener('mouseup', drag.handleDragEnd);
-        el.removeEventListener('dragend', drag.handleDragEnd);
-        el.removeEventListener('transitionend', drag.handleTransitionEnd);
+        const drag = dragMap[key].drag;
+        if (drag) {
+            el.removeEventListener('mousedown', drag.handleSelectDrag);
+            el.removeEventListener('dragover', drag.handleDragover);
+            el.removeEventListener('drop', drag.handleDragEnd);
+            el.removeEventListener('mouseup', drag.handleDragEnd);
+            el.removeEventListener('dragend', drag.handleDragEnd);
+            el.removeEventListener('transitionend', drag.handleTransitionEnd);
+        }
         delete dragMap[key];
     },
-} as ObjectDirective;
+} as FObjectDirective;

@@ -20,56 +20,49 @@
         </li>
     </ul>
 </template>
-<script>
+<script setup lang="ts">
 import { computed, ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
-import { useDraggable, emits } from './useDraggable';
+import { useDraggable } from './useDraggable';
 import { useTheme } from '../_theme/useTheme';
+
+import type { DraggableEmits } from './interface';
 
 const prefixCls = getPrefixCls('draggable');
 
+type DraggableProps = {
+    modelValue: [];
+    droppable: boolean;
+    disabled: boolean;
+};
+
+const props = withDefaults(defineProps<DraggableProps>(), {
+    droppable: false,
+    disabled: false,
+});
+
+const emit = defineEmits<DraggableEmits>();
+
+useTheme();
+const rootRef = ref<HTMLElement>();
+const propsRef = computed(() => ({
+    droppable: props.droppable,
+    disabled: props.disabled,
+    list: [...props.modelValue],
+}));
+const {
+    settings,
+    handleSelectDrag,
+    handleDragover,
+    handleDragEnd,
+    handleTransitionEnd,
+} = useDraggable(rootRef, propsRef, {
+    emit,
+});
+</script>
+
+<script>
 export default {
     name: 'FDraggable',
-    props: {
-        modelValue: {
-            type: Array,
-            default: () => [],
-        },
-        droppable: {
-            type: Boolean,
-            default: false,
-        },
-        disabled: {
-            type: Boolean,
-            default: false,
-        },
-    },
-    emits,
-    setup(props, ctx) {
-        useTheme();
-        const rootRef = ref(null);
-        const propsRef = computed(() => ({
-            droppable: props.droppable,
-            disabled: props.disabled,
-            list: [...props.modelValue],
-        }));
-        const {
-            settings,
-            handleSelectDrag,
-            handleDragover,
-            handleDragEnd,
-            handleTransitionEnd,
-        } = useDraggable(rootRef, propsRef, ctx);
-
-        return {
-            rootRef,
-            prefixCls,
-            settings,
-            handleSelectDrag,
-            handleDragover,
-            handleDragEnd,
-            handleTransitionEnd,
-        };
-    },
 };
 </script>

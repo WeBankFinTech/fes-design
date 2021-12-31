@@ -1,37 +1,26 @@
+import { h, render, Slots, VNode, VNodeChild } from 'vue';
 import { isFunction } from 'lodash-es';
-import { render } from 'vue';
 import Modal from './modal';
 
-/**
- * @typedef { Object } ModalConfig
- * @property { Boolean } closable - 是否显示右上角关闭图标
- * @property { Boolean } mask - 是否显示蒙层
- * @property { Boolean } maskClosable - 点击蒙层是否允许关闭
- * @property { String | VNode | Function  } title - 标题
- * @property { String | VNode | Function  } content - 内容
- * @property { VNode | Function  } footer - 页脚内容
- * @property { String } okText - 确认按钮文字
- * @property { String } cancelText - 取消按钮文字
- * @property { Function } onOk - 点击确定
- * @property { Function } onCancel - 点击遮罩层或右上角叉或取消按钮的回调
- * @property { String | Number } width - 宽度
- * @property { Boolean } center - 标题、内容、按钮居中
- * @property { Function } getContainer - 指定 Modal 挂载的 HTML 节点
- */
+import type { ModalType } from './modal';
 
-/**
- * @typedef { Object } ModalApi
- * @property { function (ModalConfig):string } info - 普通提示
- * @property { function (ModalConfig):string } success - 成功提示
- * @property { function (ModalConfig):string } warn - 警告提示
- * @property { function (ModalConfig):string } warning - 警告提示
- * @property { function (ModalConfig):string } error - 错误提示
- * @property { function (ModalConfig):string } confirm - 确认提示
- */
+interface ModalConfig {
+    closable?: boolean;
+    mask?: boolean;
+    maskClosable?: boolean;
+    title?: string | VNode | (() => VNodeChild);
+    content?: string | VNode | (() => VNodeChild);
+    footer?: VNode | (() => VNodeChild);
+    okText?: string;
+    cancelText?: string;
+    onOk?: (event: MouseEvent) => void | Promise<any>;
+    onCancel?: (event: MouseEvent) => void | Promise<any>;
+    width?: string | number;
+    center?: boolean;
+    getContainer?: () => HTMLElement;
+}
 
-/**
- * @typedef { 'info' | 'error' ｜ 'success' | 'warning' | 'confirm' } ModalType
- */
+type VNodeProperty = 'title' | 'content' | 'footer';
 
 const forceProps = {
     closable: false,
@@ -39,17 +28,19 @@ const forceProps = {
     forGlobal: true,
     displayDirective: 'if',
     footer: true,
-};
+} as const;
 
 /**
  * 创建Model
- * @param { ModalType } type 类型
- * @param { ModalConfig } config 配置
  */
-function create(type, config) {
+function create(type: ModalType, config: ModalConfig) {
     const div = document.createElement('div');
-    const slots = {};
-    const mergeProps = {
+    const slots: {
+        [key: string]: () => VNodeChild | VNode | string;
+    } = {};
+    const mergeProps: ModalConfig & {
+        show: boolean;
+    } = {
         width: 400,
         show: true,
     };
@@ -69,7 +60,7 @@ function create(type, config) {
         render(<Modal {...props} v-slots={slots} />, div);
     }
 
-    async function handleCallBack(event, cbFunc) {
+    async function handleCallBack(event: MouseEvent, cbFunc?: (event: MouseEvent) => void | Promise<any>) {
         if (cbFuncEnd) return;
         cbFuncEnd = true;
         try {
@@ -80,15 +71,15 @@ function create(type, config) {
         cbFuncEnd = false;
     }
 
-    function updateProps(options) {
+    function updateProps(options: ModalConfig) {
         // 更新 props
         Object.assign(mergeProps, options || {});
-        mergeProps.onOk = (event) => handleCallBack(event, options.onOk);
-        mergeProps.onCancel = (event) => handleCallBack(event, options.onCancel);
+        mergeProps.onOk = (event: MouseEvent) => handleCallBack(event, options.onOk);
+        mergeProps.onCancel = (event: MouseEvent) => handleCallBack(event, options.onCancel);
 
         // 更新 slots
         ['title', 'content', 'footer'].forEach((key) => {
-            const slot = options[key];
+            const slot = options[key as VNodeProperty];
             if (slot) {
                 slots[key] = isFunction(slot) ? slot : () => slot;
             }
@@ -96,11 +87,11 @@ function create(type, config) {
                 slots.default = slots.content;
                 delete slots.content;
             }
-            delete mergeProps[key];
+            delete mergeProps[key as VNodeProperty];
         });
     }
 
-    function update(options) {
+    function update(options: ModalConfig) {
         if (mergeProps.show) {
             // 展示时才能更新
             updateProps(options);
@@ -122,15 +113,11 @@ function create(type, config) {
     };
 }
 
-/**
- * Modal全局API
- * @type { ModalApi }
- */
 export default {
-    info: (config) => create('info', config),
-    warning: (config) => create('warning', config),
-    warn: (config) => create('warning', config),
-    success: (config) => create('success', config),
-    error: (config) => create('error', config),
-    confirm: (config) => create('confirm', config),
+    info: (config: ModalConfig) => create('info', config),
+    warning: (config: ModalConfig) => create('warning', config),
+    warn: (config: ModalConfig) => create('warning', config),
+    success: (config: ModalConfig) => create('success', config),
+    error: (config: ModalConfig) => create('error', config),
+    confirm: (config: ModalConfig) => create('confirm', config),
 };

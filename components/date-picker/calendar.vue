@@ -11,9 +11,9 @@
                     <LeftOutlined
                         v-show="
                             !isYearSelect &&
-                            !isMonthSelect &&
-                            !isQuarterSelect &&
-                            visibleLeftArrow
+                                !isMonthSelect &&
+                                !isQuarterSelect &&
+                                visibleLeftArrow
                         "
                         :class="`${prefixCls}-icon`"
                         @click="monthToPre"
@@ -36,9 +36,9 @@
                     <RightOutlined
                         v-show="
                             !isYearSelect &&
-                            !isMonthSelect &&
-                            !isQuarterSelect &&
-                            visibleRightArrow
+                                !isMonthSelect &&
+                                !isQuarterSelect &&
+                                visibleRightArrow
                         "
                         :class="`${prefixCls}-icon`"
                         @click="monthToNext"
@@ -127,7 +127,7 @@ import getPrefixCls from '../_util/getPrefixCls';
 
 import { RANGE_POSITION, DATE_TYPE, YEAR_COUNT } from './const';
 
-import { CommonProps } from './interface';
+import type { CalendarProps } from './interface';
 
 const prefixCls = getPrefixCls('calendar');
 
@@ -148,19 +148,6 @@ const MONTHS_NAMES = [
     '十一月',
     '十二月',
 ];
-
-type CalendarProps = CommonProps & {
-    rangePosition: RANGE_POSITION;
-    defaultDate: number;
-    visible: boolean;
-    visibleLeftArrow: boolean;
-    visibleRightArrow: boolean;
-};
-
-type CalendarEmits = {
-    (e: 'change', val: number): void;
-    (e: 'changeCurrentDate', val: number): void;
-};
 
 const props = withDefaults(defineProps<CalendarProps>(), {
     type: DATE_TYPE.date.name,

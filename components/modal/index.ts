@@ -3,7 +3,7 @@ import Modal from './modal';
 import Api from './modalApi';
 
 Object.keys(Api).forEach((key) => {
-    Modal[key] = Api[key];
+    Modal[key] = Api[key as keyof typeof Api];
 });
 
 export const FModal = withInstall(Modal);

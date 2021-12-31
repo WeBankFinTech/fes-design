@@ -7,6 +7,9 @@ import {
     ref,
     TransitionGroup,
     Component,
+    CSSProperties,
+    VNodeChild,
+    VNode,
 } from 'vue';
 import {
     InfoCircleFilled,
@@ -22,15 +25,37 @@ function genUid() {
     return `notice_manager_${now}_${seed++}`;
 }
 
+
+export interface Notice {
+    key?: string;
+    afterRemove?: () => void;
+    duration: number;
+    style: CSSProperties;
+    children: VNode | (() => VNodeChild)
+}
+
+
+interface NotificationInst {
+    remove: (key: string) => void;
+    append: (notice: Notice) => Notice
+}
+
+export interface NoticeManagerInst {
+    remove: (key: string) => void;
+    append: (notice: Notice) => Notice
+    destroy: () => void;
+    exited: () => boolean;
+}
+
 const Notification = defineComponent({
     props: {
         maxCount: Number,
         transitionName: String,
     },
     setup(props) {
-        const notices = ref([]);
+        const notices = ref<Notice[]>([]);
 
-        function remove(key) {
+        function remove(key?: string) {
             const index = notices.value.findIndex((item) => item.key === key);
             const notice = notices.value[index];
             if (notice) {
@@ -39,7 +64,7 @@ const Notification = defineComponent({
             }
         }
 
-        function append(notice) {
+        function append(notice: Notice) {
             if (!notice.key) notice.key = genUid();
             if (props.maxCount && notices.value.length >= props.maxCount) {
                 notices.value.shift();
@@ -81,9 +106,9 @@ const Notification = defineComponent({
 });
 
 export function createManager(opt: {
-    getContainer: () => HTMLElement;
+    getContainer?: () => HTMLElement;
     [key: string]: any;
-}) {
+}): Promise<NoticeManagerInst> {
     return new Promise((resolve) => {
         const { getContainer, ...props } = opt;
         const div = document.createElement('div');
@@ -96,11 +121,11 @@ export function createManager(opt: {
         const app = createApp({
             setup() {
                 useTheme();
-                const notificationRef = ref(null);
+                const notificationRef = ref<NotificationInst>();
                 const instance = {
-                    append: (noticeProps) =>
-                        notificationRef.value.append(noticeProps),
-                    remove: (key) => notificationRef.value.remove(key),
+                    append: (noticeProps: Notice) =>
+                        notificationRef.value!.append(noticeProps),
+                    remove: (key: string) => notificationRef.value!.remove(key),
                     destroy() {
                         app.unmount();
                         if (div.parentNode) {
@@ -130,7 +155,7 @@ export function createManager(opt: {
     });
 }
 
-export const iconComponentMap: { [key: string]: () => Component } = {
+export const iconComponentMap = {
     info: () => InfoCircleFilled,
     success: () => CheckCircleFilled,
     error: () => CloseCircleFilled,

@@ -1,5 +1,7 @@
 import { isNumber } from 'lodash-es';
 
+import type { DateObj } from './interface';
+
 export const isEmptyValue = (val: any) => {
     if (!val) return true;
     if (Array.isArray(val)) {
@@ -8,7 +10,9 @@ export const isEmptyValue = (val: any) => {
     return false;
 };
 
-export const timeFormat = (date: number | Date, format = 'YYYY-MM-DD') => {
+function timeFormat(date: null, format: string): null;
+function timeFormat(date: number | Date, format: string): string;
+function timeFormat(date: number | Date | null, format = 'YYYY-MM-DD') {
     if (!date) return null;
     if (isNumber(date)) {
         date = new Date(date);
@@ -40,8 +44,12 @@ export const timeFormat = (date: number | Date, format = 'YYYY-MM-DD') => {
         S: milliseconds,
         Q: `Q${Math.floor(month / 3) + 1}`,
     } as const;
-    return format.replace(/Y+|M+|D+|H+|h+|m+|s+|S+|Q/g, (str) => map[str]);
-};
+    return format.replace(/Y+|M+|D+|H+|h+|m+|s+|S+|Q/g, (str) =>
+        String(map[str as keyof typeof map]),
+    );
+}
+
+export { timeFormat };
 
 export const contrastDate = (
     date1: number | Date,
@@ -55,7 +63,7 @@ export const contrastDate = (
     return -1;
 };
 
-export const parseDate = (date: number | Date) => {
+export const parseDate = (date?: number | Date) => {
     const vDate = new Date(date || Date.now());
     return {
         year: vDate.getFullYear(),
@@ -67,8 +75,7 @@ export const parseDate = (date: number | Date) => {
     };
 };
 
-export const transformDateToTimestamp = (date, isFullMax = false) => {
-    if (!date) return null;
+export function transformDateToTimestamp(date: DateObj, isFullMax = false) {
     if (isFullMax) {
         const month = date.month ?? 11;
         const maxDay = new Date(date.year, month + 1, 0).getDate();
@@ -91,7 +98,7 @@ export const transformDateToTimestamp = (date, isFullMax = false) => {
         date.second ?? 0,
         0,
     ).getTime();
-};
+}
 
 export const padStartZero = (target: number | string, len = 2) =>
     `${target}`.padStart(len, '0');
@@ -102,7 +109,7 @@ export const getTimestampFromFormat = (
     isFullMax: boolean,
 ) => {
     date = date || new Date();
-    const dateObj = {
+    const dateObj: DateObj = {
         year: date.getFullYear(),
     };
 
@@ -127,7 +134,7 @@ export const getTimestampFromFormat = (
     }
 
     if (/Q/.test(format)) {
-        dateObj.month = Math.floor(date.getMonth() / 3) + 1;
+        dateObj.quarter = Math.floor(date.getMonth() / 3) + 1;
     }
 
     return transformDateToTimestamp(dateObj, isFullMax);

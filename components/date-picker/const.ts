@@ -4,6 +4,7 @@ export const DATE_TYPE = {
         currentText: '今天',
         format: 'YYYY-MM-DD',
         isRange: false,
+        hasTime: false,
     },
     datetime: {
         name: 'datetime',
@@ -17,6 +18,7 @@ export const DATE_TYPE = {
         currentText: '今天',
         isRange: true,
         format: 'YYYY-MM-DD',
+        hasTime: false,
     },
     datetimerange: {
         name: 'datetimerange',
@@ -30,18 +32,21 @@ export const DATE_TYPE = {
         currentText: '今年',
         format: 'YYYY',
         isRange: false,
+        hasTime: false,
     },
     month: {
         name: 'month',
         currentText: '本月',
         format: 'YYYY-MM',
         isRange: false,
+        hasTime: false,
     },
     quarter: {
         name: 'quarter',
         currentText: '本季度',
         format: 'YYYY-Q',
         isRange: false,
+        hasTime: false,
     },
 } as const;
 

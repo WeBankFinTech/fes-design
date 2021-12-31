@@ -1,8 +1,6 @@
-import { nextTick, ref, watch, Ref } from 'vue';
+import { nextTick, ref, watch, Ref, ComputedRef } from 'vue';
 
-const GLOBAL_SHARE = Symbol('DRAGGABLE_DROP_SHARE');
-export const emits = ['drag-start', 'drag-end', 'update:modelValue'];
-
+import type { DraggableEmits } from './interface';
 class Setting {
     draggable = false;
 
@@ -28,6 +26,39 @@ class Setting {
     }
 }
 
+export const emits = ['drag-start', 'drag-end', 'update:modelValue'] as const;
+
+interface DragTarget {
+    el?: Element | null;
+    index: number;
+}
+
+type PropsRef = ComputedRef<{
+    list: never[];
+    droppable: boolean;
+    disabled: boolean;
+}>;
+
+interface Animation {
+    done: boolean;
+    duration: number;
+}
+
+type FDragEvent = typeof emits[number];
+
+type DragSource = {
+    dragTarget: DragTarget;
+    containerRef: Ref<HTMLElement | undefined>;
+    propsRef: PropsRef;
+    settings: Ref<Setting[]>;
+    animation: Animation;
+    emitEvent: (event: FDragEvent, ...args: any[]) => void;
+    updateSettingStyle: (isFirst?: boolean) => void;
+    resetDragTarget: () => void;
+};
+
+let dragSource: DragSource | null;
+
 function pushAt<T>(array: T[] = [], value: T, index: number) {
     if (index < 0) {
         return array.unshift(value);
@@ -40,21 +71,29 @@ function pushAt<T>(array: T[] = [], value: T, index: number) {
 /**
  * 数组移动
  */
-function arrayMove<T>(array: T[] = [], source = -1, target = -1, value: T) {
+function arrayMove<T>(
+    array: T[] = [],
+    source = -1,
+    target = -1,
+    value?: T,
+): T[] {
     if (source < 0) {
         // add target
-        return pushAt(array, value, target);
+        pushAt(array, value, target);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return [value!];
     }
     if (target < 0) {
         // remove source
         return array.splice(source, 1);
     }
     const evens = array.splice(source, 1);
-    return pushAt(array, evens[0], target);
+    pushAt(array, evens[0], target);
+    return evens;
 }
 
 // 根据目标元素找到拖拽的元素
-function findDragElement(target: Element, parent: Element) {
+function findDragElement(target?: Element, parent?: Element) {
     if (!parent || !target) return;
     for (let index = 0; index < parent.children.length; index++) {
         const el = parent.children[index];
@@ -68,8 +107,19 @@ function findDragElement(target: Element, parent: Element) {
 }
 
 function resetDragWhenEnd(
-    event,
-    { settings, dragTarget, list, emitEvent, resetDragTarget },
+    event: Event,
+    {
+        settings,
+        dragTarget,
+        list,
+        emitEvent,
+        resetDragTarget,
+    }: Omit<
+        DragSource,
+        'updateSettingStyle' | 'propsRef' | 'animation' | 'containerRef'
+    > & {
+        list: never[];
+    },
 ) {
     if (dragTarget.index < 0) return;
     const setting = settings.value[dragTarget.index];
@@ -78,23 +128,12 @@ function resetDragWhenEnd(
     resetDragTarget();
 }
 
-/**
- * Draggable逻辑
- * @param {import('vue').Ref<Document>} containerRef
- * @param { import('vue').Ref<{
- *  list: Array,
- *  droppable: Boolean,
- *  disabled: Boolean
- * }> } propsRef
- * @param { {
- *  emit: Function
- * } } ctx
- * @returns
- */
 export function useDraggable(
-    containerRef: Ref<HTMLElement>,
-    propsRef: Ref<{ list: []; droppable: boolean; disabled: boolean }>,
-    ctx = {},
+    containerRef: Ref<HTMLElement | undefined>,
+    propsRef: PropsRef,
+    ctx: {
+        emit?: DraggableEmits;
+    } = {},
 ) {
     const settings = ref<Setting[]>([]);
     const animation = {
@@ -114,6 +153,7 @@ export function useDraggable(
      * FLIP动画 https://aerotwist.com/blog/flip-your-animations/
      */
     function updateSettingStyle(isFirst = false) {
+        if (!containerRef.value) return;
         for (
             let index = 0;
             index < containerRef.value.children.length;
@@ -160,14 +200,14 @@ export function useDraggable(
         dragTarget.index = -1;
     }
 
-    function emitEvent(...args) {
+    function emitEvent(event: typeof emits[number], ...args: any[]) {
         if (typeof ctx.emit !== 'function') return;
-        ctx.emit(...args);
+        ctx.emit(event as any, ...args);
     }
 
     /** 设置共享数据 */
     function setGlobalShare() {
-        window[GLOBAL_SHARE] = {
+        dragSource = {
             dragTarget,
             containerRef,
             propsRef,
@@ -183,6 +223,7 @@ export function useDraggable(
      * 计算落点位置
      */
     function computeDropPos(event: DragEvent) {
+        if (!containerRef.value) return;
         const target = findDragElement(
             event.target as Element,
             containerRef.value,
@@ -193,27 +234,35 @@ export function useDraggable(
             ) {
                 // 底部
                 return {
+                    el: null,
                     index: propsRef.value.list.length,
                 };
             }
             return {
+                el: null,
                 index: -1,
             };
         }
         return target;
     }
 
-    function moveTarget(event: DragEvent, source, isCross?: boolean) {
+    function moveTarget(
+        event: DragEvent,
+        source?: DragSource | null,
+        isCross?: boolean,
+    ) {
         // 目标位置
         const target = computeDropPos(event);
+        if (!target) return;
         let dragTargetIndex = dragTarget.index;
         let evens;
         let evens2;
-        if (isCross) {
+        if (isCross && source) {
             // source框拖拽过来的
             isDropOverItem = !!target.el;
             source.updateSettingStyle(true);
             // 从source框移除拖拽
+            // TODO evens
             evens = arrayMove(
                 source.propsRef.value.list,
                 source.dragTarget.index,
@@ -243,7 +292,8 @@ export function useDraggable(
 
         nextTick(() => {
             dragTarget.index = target.index === -1 ? 0 : target.index;
-            dragTarget.el = containerRef.value.children[dragTarget.index];
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            dragTarget.el = containerRef.value!.children[dragTarget.index];
             if (source) {
                 setGlobalShare(); // 反转共享数据
                 source.updateSettingStyle(); // 计算移动后位置
@@ -264,7 +314,7 @@ export function useDraggable(
     /**
      * 选中拖拽条目
      */
-    function handleSelectDrag(event: DragEvent) {
+    function handleSelectDrag(event: Event) {
         if (propsRef.value.disabled) return;
         const target = findDragElement(
             event.target as Element,
@@ -298,11 +348,13 @@ export function useDraggable(
      */
     function handleDragover(event: DragEvent) {
         event.preventDefault();
-        const source = window[GLOBAL_SHARE]; // 拖拽容器共享的数据
+        const source = dragSource; // 拖拽容器共享的数据
         if (!animation.done || (source && !source.animation.done)) return; // 如果动画没结束，就直接结束
         if (
             propsRef.value.droppable &&
-            !containerRef.value.contains(source?.dragTarget.el)
+            source &&
+            containerRef.value &&
+            !containerRef.value.contains(source?.dragTarget.el as Node)
         ) {
             // 从source框，拖拽到了当前框
             moveTarget(event, source, true);
@@ -315,15 +367,15 @@ export function useDraggable(
     /**
      * 拖拽结束
      */
-    function handleDragEnd(event) {
-        const source = window[GLOBAL_SHARE];
+    function handleDragEnd(event: Event) {
+        const source = dragSource;
         if (propsRef.value.droppable && source) {
             // reset source
             resetDragWhenEnd(event, {
                 ...source,
                 list: source.propsRef.value.list,
             });
-            delete window[GLOBAL_SHARE];
+            dragSource = null;
         }
         resetDragWhenEnd(event, {
             // reset current

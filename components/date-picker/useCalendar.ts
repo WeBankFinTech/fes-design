@@ -1,7 +1,8 @@
-import { watch, watchEffect, ref } from 'vue';
+import { watch, watchEffect, ref, reactive, computed, Ref } from 'vue';
 import { isNil } from 'lodash-es';
+import getPrefixCls from '../_util/getPrefixCls';
 
-import { DATE_TYPE, RANGE_POSITION } from './const';
+import { DATE_TYPE, RANGE_POSITION, YEAR_COUNT } from './const';
 import {
     parseDate,
     timeFormat,
@@ -9,7 +10,18 @@ import {
     transformDateToTimestamp,
 } from './helper';
 
-const isCompeleteSelected = (selectedDate, type) => {
+import type {
+    DatePickerType,
+    DateObj,
+    CalendarProps,
+    CalendarEmits,
+} from './interface';
+
+const prefixCls = getPrefixCls('calendar');
+const WEEK_NAMES = ['日', '一', '二', '三', '四', '五', '六'];
+
+const isCompeleteSelected = (selectedDate: DateObj, type?: DatePickerType) => {
+    if (!type) return false;
     if (DATE_TYPE[type].hasTime) {
         return (
             selectedDate?.day &&
@@ -23,9 +35,11 @@ const isCompeleteSelected = (selectedDate, type) => {
     return !!selectedDate;
 };
 
-export const useCurrentDate = (props, emit) => {
+type UpdateCurrentDate = (date: DateObj) => void;
+
+export const useCurrentDate = (props: CalendarProps, emit: CalendarEmits) => {
     const currentDate = reactive(parseDate(props.defaultDate));
-    const updateCurrentDate = (date) => {
+    const updateCurrentDate: UpdateCurrentDate = (date: DateObj) => {
         Object.assign(currentDate, date);
 
         emit('changeCurrentDate', transformDateToTimestamp(currentDate));
@@ -44,16 +58,26 @@ export const useCurrentDate = (props, emit) => {
     };
 };
 
-export const useSelectedDates = (props, emit) => {
-    const selectedDates = ref([]);
-    const updateSelectedDates = (date, index, isTime) => {
+type UpdateSelectedDates = (
+    date: DateObj,
+    index: number,
+    isTime?: boolean,
+) => void;
+
+export const useSelectedDates = (props: CalendarProps, emit: CalendarEmits) => {
+    const selectedDates = ref<DateObj[]>([]);
+    const updateSelectedDates: UpdateSelectedDates = (
+        date: DateObj,
+        index: number,
+        isTime?: boolean,
+    ) => {
         const newDate = Object.assign({}, selectedDates.value[index], date);
         if (
             !isTime &&
             ((selectedDates.value[index] &&
                 props.type === DATE_TYPE.daterange.name) ||
                 (props.type === DATE_TYPE.datetimerange.name &&
-                    props.rangePosition === LEFT_RANGE &&
+                    props.rangePosition === RANGE_POSITION.LEFT &&
                     selectedDates.value[1]))
         ) {
             selectedDates.value = [];
@@ -96,12 +120,12 @@ export const useSelectedDates = (props, emit) => {
 };
 
 export function useYear(
-    props,
-    selectedDates,
-    updateSelectedDates,
-    activeIndex,
-    currentDate,
-    updateCurrentDate,
+    props: CalendarProps,
+    selectedDates: Ref<DateObj[]>,
+    updateSelectedDates: UpdateSelectedDates,
+    activeIndex: Ref<number>,
+    currentDate: DateObj,
+    updateCurrentDate: UpdateCurrentDate,
 ) {
     const isYearSelect = ref(false);
     // 年份相关
@@ -110,7 +134,7 @@ export function useYear(
             isYearSelect.value = true;
         }
     });
-    const selectYear = (year) => {
+    const selectYear = (year: number) => {
         updateCurrentDate({
             year,
         });
@@ -135,19 +159,19 @@ export function useYear(
         return arr;
     });
 
-    const disabled = (year) => {
+    const disabled = (year: number) => {
         const date = new Date(year, 0);
-        props.disabledDate(date, 'YYYY');
+        return props.disabledDate && props.disabledDate(date, 'YYYY');
     };
 
-    const isSelectedYear = (year) => {
+    const isSelectedYear = (year: number) => {
         if (props.type === DATE_TYPE.year.name) {
             return !!selectedDates.value.find((item) => item?.year === year);
         }
         return false;
     };
 
-    const yearCls = (year) => [
+    const yearCls = (year: number) => [
         `${prefixCls}-date`,
         disabled(year) && `${prefixCls}-date-disabled`,
         isSelectedYear(year) && `${prefixCls}-date-selected`,
@@ -165,12 +189,12 @@ export function useYear(
 }
 
 export function useMonth(
-    props,
-    selectedDates,
-    updateSelectedDates,
-    activeIndex,
-    currentDate,
-    updateCurrentDate,
+    props: CalendarProps,
+    selectedDates: Ref<DateObj[]>,
+    updateSelectedDates: UpdateSelectedDates,
+    activeIndex: Ref<number>,
+    currentDate: DateObj,
+    updateCurrentDate: UpdateCurrentDate,
 ) {
     // 月份相关
     const format = 'YYYY-MM';
@@ -180,7 +204,7 @@ export function useMonth(
             isMonthSelect.value = true;
         }
     });
-    const selectMonth = (month) => {
+    const selectMonth = (month: number) => {
         if (props.type !== DATE_TYPE.month.name) {
             isMonthSelect.value = false;
         }
@@ -194,9 +218,10 @@ export function useMonth(
     };
 
     const monthToNext = () => {
-        if (currentDate.month < 11) {
+        if (currentDate.month! < 11) {
             updateCurrentDate({
-                month: currentDate.month + 1,
+                year: currentDate.year,
+                month: currentDate.month! + 1,
             });
         } else {
             updateCurrentDate({
@@ -206,9 +231,10 @@ export function useMonth(
         }
     };
     const monthToPre = () => {
-        if (currentDate.month > 0) {
+        if (currentDate.month! > 0) {
             updateCurrentDate({
-                month: currentDate.month - 1,
+                year: currentDate.year,
+                month: currentDate.month! - 1,
             });
         } else {
             updateCurrentDate({
@@ -218,12 +244,12 @@ export function useMonth(
         }
     };
 
-    const disabled = (month) => {
+    const disabled = (month: number) => {
         const date = new Date(currentDate.year, month);
 
-        return props.disabledDate(date, format);
+        return props.disabledDate && props.disabledDate(date, format);
     };
-    const isSelectedMonth = (month) => {
+    const isSelectedMonth = (month: number) => {
         if (props.type === DATE_TYPE.month.name) {
             return !!selectedDates.value.find(
                 (item) =>
@@ -234,7 +260,7 @@ export function useMonth(
         }
         return false;
     };
-    const monthCls = (month) => [
+    const monthCls = (month: number) => [
         `${prefixCls}-date`,
         disabled(month) && `${prefixCls}-date-disabled`,
         isSelectedMonth(month) && `${prefixCls}-date-selected`,
@@ -252,11 +278,11 @@ export function useMonth(
 }
 
 export function useDay(
-    props,
-    selectedDates,
-    updateSelectedDates,
-    activeIndex,
-    currentDate,
+    props: CalendarProps,
+    selectedDates: Ref<DateObj[]>,
+    updateSelectedDates: UpdateSelectedDates,
+    activeIndex: Ref<number>,
+    currentDate: DateObj,
 ) {
     // TODO 英文一个星期的第一天是 周日
     const weekFirstDay = ref(1);
@@ -280,7 +306,7 @@ export function useDay(
     const days = computed(() => {
         const daysTemp = [];
         const { year, month } = currentDate;
-        const time = new Date(year, month, 1);
+        const time = new Date(year, month!, 1);
         const weekFirstDayValue = weekFirstDay.value;
         time.setDate(0); // switch to the last day of last month
         let lastDay = time.getDate();
@@ -319,7 +345,7 @@ export function useDay(
         return daysTemp;
     });
 
-    const isSelected = (selectedDate, dayItem) =>
+    const isSelected = (selectedDate: DateObj, dayItem: DateObj) =>
         dayItem.year === selectedDate?.year &&
         dayItem.month === selectedDate?.month &&
         dayItem.month === currentDate.month &&
@@ -387,11 +413,11 @@ export function useDay(
 }
 
 export const useQuarter = (
-    props,
-    selectedDates,
-    updateSelectedDates,
-    activeIndex,
-    currentDate,
+    props: CalendarProps,
+    selectedDates: Ref<DateObj[]>,
+    updateSelectedDates: UpdateSelectedDates,
+    activeIndex: Ref<number>,
+    currentDate: DateObj,
 ) => {
     const isQuarterSelect = computed(
         () => props.type === DATE_TYPE.quarter.name,
@@ -455,22 +481,22 @@ export const useQuarter = (
     };
 };
 
-const transformDateToTime = (selectedDate) => {
+const transformDateToTime = (selectedDate: DateObj) => {
     if (!selectedDate) return '';
     const times = [];
     if (!isNil(selectedDate.hour)) {
-        times.push(`${selectedDate.hour}`.padStart(2, 0));
+        times.push(`${selectedDate.hour}`.padStart(2, '0'));
     }
     if (!isNil(selectedDate.minute)) {
-        times.push(`${selectedDate.minute}`.padStart(2, 0));
+        times.push(`${selectedDate.minute}`.padStart(2, '0'));
     }
     if (!isNil(selectedDate.second)) {
-        times.push(`${selectedDate.second}`.padStart(2, 0));
+        times.push(`${selectedDate.second}`.padStart(2, '0'));
     }
     return times.join(':');
 };
 
-const transformTimeToDate = (timeStr) => {
+const transformTimeToDate = (timeStr: string) => {
     const times = timeStr.split(':');
     return {
         hour: Number(times[0]),
@@ -480,10 +506,10 @@ const transformTimeToDate = (timeStr) => {
 };
 
 export const useTime = (
-    props,
-    selectedDates,
-    updateSelectedDates,
-    activeIndex,
+    props: CalendarProps,
+    selectedDates: Ref<DateObj[]>,
+    updateSelectedDates: UpdateSelectedDates,
+    activeIndex: Ref<number>,
 ) => {
     const hasTime = computed(() => DATE_TYPE[props.type].hasTime);
     const currentTime = ref('');
@@ -499,7 +525,7 @@ export const useTime = (
         },
     );
 
-    const changeTime = (t) => {
+    const changeTime = (t: string) => {
         if (t) {
             updateSelectedDates(
                 transformTimeToDate(t),
@@ -513,7 +539,7 @@ export const useTime = (
         if (!props.disabledTime) return null;
         if (DATE_TYPE[props.type].isRange) {
             return props.disabledTime(
-                selectedDates.value[activeIndex],
+                selectedDates.value[activeIndex.value],
                 props.rangePosition,
                 selectedDates.value,
             );

@@ -5,13 +5,15 @@ import Alert from '../alert/alert';
 import { getConfig } from '../config-provider';
 import PopupManager from '../_util/popupManager';
 
+import type { Notice, NoticeManagerInst } from '../_util/noticeManager';
+
 const prefixCls = getPrefixCls('message');
 
 type MessageType = 'info' | 'success' | 'warning' | 'error';
 
 type Options = {
     type?: MessageType;
-    duration?: number;
+    duration: number;
     getContainer?: () => HTMLElement;
     maxCount?: number;
     top?: string;
@@ -29,13 +31,12 @@ const defaultConfig = {
         const config = getConfig();
         return config.getContainer();
     },
-    maxCount: null,
     top: '24px',
     colorful: false,
 };
 let mergeConfig: Options = defaultConfig;
 
-let messageInstance = null;
+let messageInstance: NoticeManagerInst | null = null;
 const managerStyle = reactive({
     zIndex: 0,
     top: mergeConfig.top,
@@ -49,7 +50,7 @@ async function create({
     closable,
     afterClose,
     colorful,
-}: Options) {
+}: Partial<Options>) {
     managerStyle.zIndex = PopupManager.nextZIndex();
     if (!messageInstance?.exited?.()) {
         messageInstance = await createManager({
@@ -68,9 +69,9 @@ async function create({
     }
     if (closable) classNames.push(`${prefixCls}-close`);
 
-    let item;
+    let item: Notice;
     function handleCloseClick() {
-        messageInstance.remove(item?.key);
+        messageInstance!.remove(item?.key!);
     }
 
     const contentIsFunc = typeof content === 'function';
@@ -81,7 +82,7 @@ async function create({
     };
     item = messageInstance.append({
         afterRemove: afterClose,
-        duration: duration >= 0 ? duration : mergeConfig.duration,
+        duration: duration != null && duration >= 0 ? duration : mergeConfig.duration,
         style: {
             zIndex: PopupManager.nextZIndex(),
         },
@@ -101,8 +102,8 @@ async function create({
 
 // function message(type: MessageType, content: string, duration?: number): void;
 // function message(type: MessageType, options: Options): void;
-function message(type: MessageType, options: string | Options, duration?: number): void {
-    const params: Options = { type };
+function message(type: MessageType, options: string | Partial<Options>, duration?: number): void {
+    const params: Partial<Options> = { type };
     if (typeof options === 'string') {
         params.content = options;
         params.duration = duration || 0;
@@ -113,7 +114,7 @@ function message(type: MessageType, options: string | Options, duration?: number
 }
 
 export default {
-    config(options: Options) {
+    config(options: Partial<Options>) {
         if (options) {
             mergeConfig = {
                 ...defaultConfig,
@@ -121,11 +122,11 @@ export default {
             };
         }
     },
-    info: (content: string | Options, duration?: number) => message('info', content, duration),
-    success: (content: string | Options, duration?: number) => message('success', content, duration),
-    warning: (content: string | Options, duration?: number) => message('warning', content, duration),
-    warn: (content: string | Options, duration?: number) => message('warning', content, duration),
-    error: (content: string | Options, duration?: number) => message('error', content, duration),
+    info: (content: string | Partial<Options>, duration?: number) => message('info', content, duration),
+    success: (content: string | Partial<Options>, duration?: number) => message('success', content, duration),
+    warning: (content: string | Partial<Options>, duration?: number) => message('warning', content, duration),
+    warn: (content: string | Partial<Options>, duration?: number) => message('warning', content, duration),
+    error: (content: string | Partial<Options>, duration?: number) => message('error', content, duration),
     destroy() {
         messageInstance && messageInstance.destroy();
         messageInstance = null;

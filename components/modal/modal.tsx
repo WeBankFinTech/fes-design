@@ -1,4 +1,5 @@
 import {
+    h,
     computed,
     defineComponent,
     Teleport,
@@ -6,10 +7,14 @@ import {
     ref,
     watch,
     nextTick,
+    Fragment,
+    PropType,
+    VNode,
+    VNodeChild
 } from 'vue';
 import { isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
-import FButton from '../button';
+import FButton from '../button/button';
 import { CloseOutlined } from '../icon';
 import { useTheme } from '../_theme/useTheme';
 import { iconComponentMap } from '../_util/noticeManager';
@@ -25,30 +30,26 @@ const AFTER_LEAVE_EVENT = 'after-leave';
 const modalIconMap = {
     ...iconComponentMap,
     confirm: iconComponentMap.warning,
-};
+} as const;
+
+export type ModalType = keyof typeof modalIconMap;
 
 // 全局方法的特有属性
 const globalModalProps = {
     type: {
-        type: String,
-        default: 'info',
-        validator(value) {
-            return Object.keys(modalIconMap).includes(value);
-        },
+        type: String as PropType<ModalType>,
+        default: 'info'
     },
-    content: String,
+    content: String as PropType<string | VNode | (() => VNodeChild)>,
     forGlobal: Boolean,
-};
+} as const;
 
 // 通用的属性
 const modalProps = {
     show: Boolean,
     displayDirective: {
-        type: String,
-        default: 'show',
-        validator(value) {
-            return ['show', 'if'].includes(value);
-        },
+        type: String as PropType<'show' | 'if'>,
+        default: 'show'
     },
     closable: {
         type: Boolean,
@@ -62,7 +63,7 @@ const modalProps = {
         type: Boolean,
         default: true,
     },
-    title: String,
+    title: String as PropType<string | VNode | (() => VNodeChild)>,
     okText: {
         type: String,
         default: '确定',
@@ -72,11 +73,11 @@ const modalProps = {
         default: '取消',
     },
     width: {
-        type: [String, Number],
+        type: [String, Number] as PropType<string | number>,
         default: 520,
     },
     top: {
-        type: [String, Number],
+        type: [String, Number] as PropType<string | number>,
         default: 50,
     },
     center: Boolean,
@@ -85,21 +86,18 @@ const modalProps = {
         default: true,
     },
     getContainer: {
-        type: Function,
+        type: Function as PropType<() => HTMLElement>,
     },
     fullScreen: {
         type: Boolean,
         default: false,
     },
     contentClass: String,
-};
+} as const;
 
-/**
- * @type { ModalApi | import('vue').DefineComponent  }
- */
+
 const Modal = defineComponent({
     name: 'FModal',
-    components: { ...Object.values(iconComponentMap), FButton, CloseOutlined },
     props: { ...globalModalProps, ...modalProps },
     emits: [UPDATE_SHOW_EVENT, OK_EVENT, CANCEL_EVENT, AFTER_LEAVE_EVENT],
     setup(props, ctx) {
@@ -122,17 +120,17 @@ const Modal = defineComponent({
             () => props.getContainer || config.getContainer,
         );
 
-        function handleCancel(event) {
+        function handleCancel(event: MouseEvent) {
             ctx.emit(UPDATE_SHOW_EVENT, false);
             ctx.emit(CANCEL_EVENT, event);
         }
 
-        function handleOk(event) {
+        function handleOk(event: MouseEvent) {
             ctx.emit(OK_EVENT, event);
         }
 
-        function handleTransitionAfterLeave(event) {
-            ctx.emit(AFTER_LEAVE_EVENT, event);
+        function handleTransitionAfterLeave(el: Element) {
+            ctx.emit(AFTER_LEAVE_EVENT, el);
         }
 
         const hasHeader = computed(() => ctx.slots.title || props.title);
@@ -140,14 +138,13 @@ const Modal = defineComponent({
         function getHeader() {
             if (!hasHeader.value) return null;
             const header = ctx.slots.title?.() || props.title;
-            const Icon = modalIconMap[props.type];
             return (
                 <div class={`${prefixCls}-header`}>
                     {props.forGlobal && (
                         <div
                             class={`${prefixCls}-icon ${prefixCls}-status-${props.type}`}
                         >
-                            {Icon && <Icon />}
+                            {props.type && modalIconMap[props.type]()}
                         </div>
                     )}
                     <div>{header}</div>
@@ -236,9 +233,8 @@ const Modal = defineComponent({
                                 }
                             >
                                 <div
-                                    class={`${prefixCls}-wrapper ${
-                                        props.contentClass || ''
-                                    }`}
+                                    class={`${prefixCls}-wrapper ${props.contentClass || ''
+                                        }`}
                                     style={styles.value}
                                     onClick={(event) => event.stopPropagation()}
                                 >
