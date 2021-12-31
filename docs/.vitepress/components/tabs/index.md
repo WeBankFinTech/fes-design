@@ -39,6 +39,13 @@ app.use(FTabs);
 可以左右、上下滑动，容纳更多标签。
 
 --WITHSCROLL
+
+### 前缀 & 后缀
+
+使用 prefix、suffix slot 来添加前后缀。
+
+--EXTEND
+
 ### 位置
 
 指定标签的位置，position = 'left' | 'top' | 'right' | 'bottom'
@@ -69,7 +76,8 @@ app.use(FTabs);
 | modelValue | 当前激活 tab 面板的 key                         | number / string | -       |
 | position   | 页签位置，可选值有`left` `top` `right` `bottom` | string          | `top`   |
 | type       | 页签的基本样式，可选`card` `line`               | string          | `line`  |
-| closable   | 页签是否可关闭                                  | boolean         | `false` |
+| closable   | 页签是否可关闭，type为`card`时可用               | boolean         | `false` |
+| closeMode | 关闭显示的方式，可选`hover` `visible` | string | `visible`
 
 ## Tabs Events
 
@@ -82,6 +90,8 @@ app.use(FTabs);
 | 名称    | 说明             |
 | ------- | ---------------- |
 | default | TabPane 页签面板 |
+| prefix | tabs的前置内容 |
+| suffix | tabs的后置内容 |
 
 ## TabPane Props
 
