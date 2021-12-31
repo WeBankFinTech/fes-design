@@ -84,19 +84,11 @@ app.use(FCarousel);
 
 | 插槽名 | 说明           | 子标签        |
 | :----- | :------------- | :------------ |
-<<<<<<< HEAD
 | default | 默认插槽 | Carousel-Item |
-=======
-| -      | 自定义默认内容 | Carousel-Item |
->>>>>>> 48a176c (feat(carousel): 新增carousel组件)
 
 
 ## Carousel-Item Slots（插槽）
 
 | 插槽名 | 说明           |
 | :----- | :------------- |
-<<<<<<< HEAD
 | default | 自定义标签内容 |
-=======
-| —      | 自定义默认内容 |
->>>>>>> 48a176c (feat(carousel): 新增carousel组件)
