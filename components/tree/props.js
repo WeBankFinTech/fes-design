@@ -85,6 +85,10 @@ const PROPS = {
         type: Boolean,
         default: false,
     },
+    virtualList: {
+        type: Boolean,
+        default: false,
+    },
 };
 
 export default PROPS;
