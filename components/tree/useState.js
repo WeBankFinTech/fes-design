@@ -40,13 +40,6 @@ export default (props, { emit }) => {
         );
     };
 
-    const hasExpanded = (value) => {
-        if (filteredExpandedKeys.length) {
-            return filteredExpandedKeys.includes(value);
-        }
-        return currentExpandedKeys.value.includes(value);
-    };
-
     return {
         currentExpandedKeys,
         updateExpandedKeys,
@@ -60,6 +53,5 @@ export default (props, { emit }) => {
         hasSelected,
         hasChecked,
         hasIndeterminate,
-        hasExpanded,
     };
 };

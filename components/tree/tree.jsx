@@ -41,13 +41,11 @@ export default defineComponent({
             hasSelected,
             hasChecked,
             hasIndeterminate,
-            hasExpanded,
         } = useState(props, { emit });
 
-        const { nodeList, currentData } = useData({
+        const { nodeList, currentData, transformData } = useData({
             props,
             hiddenKeys,
-            hasExpanded,
             filteredExpandedKeys,
             currentExpandedKeys,
         });
@@ -58,9 +56,9 @@ export default defineComponent({
                 currentExpandedKeys.value.length === 0
             ) {
                 updateExpandedKeys(
-                    Object.values(nodeList)
-                        .filter((item) => !item.isLeaf)
-                        .map((item) => item.value),
+                    transformData.value.filter(
+                        (value) => !nodeList[value].isLeaf,
+                    ),
                 );
             }
         });
@@ -224,7 +222,6 @@ export default defineComponent({
             hasSelected,
             hasChecked,
             hasIndeterminate,
-            hasExpanded,
             nodeList,
         });
 

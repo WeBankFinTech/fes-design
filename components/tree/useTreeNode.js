@@ -5,7 +5,7 @@ import { PROVIDE_KEY } from './const';
 export default (props) => {
     const root = inject(PROVIDE_KEY);
 
-    const isExpanded = computed(() => root.hasExpanded(props.value));
+    const isExpanded = computed(() => root.nodeList[props.value].isExpanded);
     const isSelected = computed(() => root.hasSelected(props.value));
     const isChecked = computed(() => root.hasChecked(props.value));
     const isIndeterminate = computed(() =>
