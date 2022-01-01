@@ -50,13 +50,9 @@ export const DATE_TYPE = {
     },
 } as const;
 
-export const DATE_TYPE_NAMES = Object.keys(DATE_TYPE).map(
-    (key) => DATE_TYPE[key].name,
-);
-
 export enum RANGE_POSITION {
-    LEFT,
-    RIGHT,
+    LEFT = 'left',
+    RIGHT = 'right',
 }
 
 export const YEAR_COUNT = 16;
@@ -64,13 +60,9 @@ export const YEAR_COUNT = 16;
 export const COMMON_PROPS = {
     modelValue: {
         type: [Array, Number],
-        default: null,
     },
     type: {
         default: DATE_TYPE.date.name,
-        validator(value) {
-            return DATE_TYPE_NAMES.includes(value);
-        },
     },
     minDate: {
         type: Date,
@@ -95,7 +87,6 @@ export const CALENDARS_PROPS = {
     },
     shortcuts: {
         type: Object,
-        default: null,
     },
 };
 

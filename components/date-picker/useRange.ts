@@ -1,9 +1,15 @@
-import { computed, watch, ref } from 'vue';
+import { computed, watch, ref, Ref } from 'vue';
 
 import { contrastDate } from './helper';
 import { DATE_TYPE, RANGE_POSITION } from './const';
 
-export const useRange = (props, tempCurrentValue, innerDisabledDate) => {
+import type { CalendarsProps } from './interface';
+
+export const useRange = (
+    props: CalendarsProps,
+    tempCurrentValue: Ref<number[]>,
+    innerDisabledDate: (date: Date, format: string) => boolean | undefined,
+) => {
     const isDateTimeRange = computed(
         () => props.type === DATE_TYPE.datetimerange.name,
     );
@@ -64,12 +70,13 @@ export const useRange = (props, tempCurrentValue, innerDisabledDate) => {
             const [start, end] = tempCurrentValue.value;
             if ((start && end) || !(start || end)) return false;
 
-            const arr = props.maxRange.match(/(\d*)([MDY])/);
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const arr = props.maxRange.match(/(\d*)([MDY])/)!;
             const length = Number(arr[1]) - 1;
             const type = arr[2];
 
-            let minDate: Date;
-            let maxDate: Date;
+            let minDate: Date | null = null;
+            let maxDate: Date | null = null;
 
             if (start) {
                 minDate = new Date(start);
@@ -77,11 +84,12 @@ export const useRange = (props, tempCurrentValue, innerDisabledDate) => {
             if (end) {
                 maxDate = new Date(end);
             }
+
             if (type === 'D') {
                 if (minDate) {
                     maxDate = new Date(minDate);
                     maxDate.setDate(maxDate.getDate() + length);
-                } else {
+                } else if (maxDate) {
                     minDate = new Date(maxDate);
                     minDate.setDate(minDate.getDate() - length);
                 }
@@ -89,18 +97,19 @@ export const useRange = (props, tempCurrentValue, innerDisabledDate) => {
                 if (minDate) {
                     maxDate = new Date(minDate);
                     maxDate.setMonth(maxDate.getMonth() + length, 1);
-                } else {
+                } else if (maxDate) {
                     minDate = new Date(maxDate);
                     minDate.setMonth(maxDate.getMonth() - length, 1);
                 }
             } else if (type === 'Y') {
                 if (minDate) {
                     maxDate = new Date(minDate.getFullYear() - length, 0);
-                } else {
+                } else if (maxDate) {
                     minDate = new Date(maxDate.getFullYear() + length, 0);
                 }
             }
-            return beyondTimeScope(minDate, maxDate, date, format);
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            return beyondTimeScope(minDate!, maxDate!, date, format);
         }
         return false;
     };

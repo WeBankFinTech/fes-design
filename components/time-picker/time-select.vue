@@ -46,7 +46,7 @@ const prefixCls = getPrefixCls('time-picker');
 function formatTime(
     total: number,
     step: number,
-    disable?: (num: number) => boolean,
+    disable?: (num: number) => boolean | undefined,
     format = true,
 ) {
     const formatData: TimeOption[] = [];
@@ -66,16 +66,16 @@ function formatTime(
 }
 
 type TimeSelectProps = {
-    visible: boolean;
-    modelValue: string;
-    format: string;
-    hourStep: number;
-    minuteStep: number;
-    secondStep: number;
-    disabledHours: (h: number) => boolean;
-    disabledMinutes: (h: number, m: number) => boolean;
-    disabledSeconds: (h: number, m: number, s: number) => boolean;
-    visibleCount: number;
+    visible?: boolean;
+    modelValue?: string;
+    format?: string;
+    hourStep?: number;
+    minuteStep?: number;
+    secondStep?: number;
+    disabledHours?: (h: number) => boolean;
+    disabledMinutes?: (h: number, m: number) => boolean;
+    disabledSeconds?: (h: number, m: number, s: number) => boolean;
+    visibleCount?: number;
 };
 
 type TimeSelectEmits = {

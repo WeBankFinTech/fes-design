@@ -8,38 +8,24 @@ import {
     timeFormat,
     contrastDate,
     transformDateToTimestamp,
+    isCompeleteSelected,
 } from './helper';
 
 import type {
-    DatePickerType,
     DateObj,
     CalendarProps,
     CalendarEmits,
+    DayItem,
 } from './interface';
 
 const prefixCls = getPrefixCls('calendar');
 const WEEK_NAMES = ['日', '一', '二', '三', '四', '五', '六'];
 
-const isCompeleteSelected = (selectedDate: DateObj, type?: DatePickerType) => {
-    if (!type) return false;
-    if (DATE_TYPE[type].hasTime) {
-        return (
-            selectedDate?.day &&
-            !(
-                isNil(selectedDate.hour) &&
-                isNil(selectedDate.minute) &&
-                isNil(selectedDate.second)
-            )
-        );
-    }
-    return !!selectedDate;
-};
-
-type UpdateCurrentDate = (date: DateObj) => void;
+type UpdateCurrentDate = (date: Partial<DateObj>) => void;
 
 export const useCurrentDate = (props: CalendarProps, emit: CalendarEmits) => {
     const currentDate = reactive(parseDate(props.defaultDate));
-    const updateCurrentDate: UpdateCurrentDate = (date: DateObj) => {
+    const updateCurrentDate: UpdateCurrentDate = (date: Partial<DateObj>) => {
         Object.assign(currentDate, date);
 
         emit('changeCurrentDate', transformDateToTimestamp(currentDate));
@@ -59,15 +45,15 @@ export const useCurrentDate = (props: CalendarProps, emit: CalendarEmits) => {
 };
 
 type UpdateSelectedDates = (
-    date: DateObj,
+    date: Partial<DateObj>,
     index: number,
     isTime?: boolean,
 ) => void;
 
 export const useSelectedDates = (props: CalendarProps, emit: CalendarEmits) => {
-    const selectedDates = ref<DateObj[]>([]);
+    const selectedDates = ref<(DateObj | null)[]>([]);
     const updateSelectedDates: UpdateSelectedDates = (
-        date: DateObj,
+        date: Partial<DateObj>,
         index: number,
         isTime?: boolean,
     ) => {
@@ -218,10 +204,10 @@ export function useMonth(
     };
 
     const monthToNext = () => {
-        if (currentDate.month! < 11) {
+        if (currentDate.month < 11) {
             updateCurrentDate({
                 year: currentDate.year,
-                month: currentDate.month! + 1,
+                month: currentDate.month + 1,
             });
         } else {
             updateCurrentDate({
@@ -231,10 +217,10 @@ export function useMonth(
         }
     };
     const monthToPre = () => {
-        if (currentDate.month! > 0) {
+        if (currentDate.month > 0) {
             updateCurrentDate({
                 year: currentDate.year,
-                month: currentDate.month! - 1,
+                month: currentDate.month - 1,
             });
         } else {
             updateCurrentDate({
@@ -300,13 +286,13 @@ export function useDay(
             DATE_TYPE.datetime.name,
             DATE_TYPE.daterange.name,
             DATE_TYPE.datetimerange.name,
-        ].includes(props.type),
+        ].includes(props.type as any),
     );
 
     const days = computed(() => {
         const daysTemp = [];
         const { year, month } = currentDate;
-        const time = new Date(year, month!, 1);
+        const time = new Date(year, month, 1);
         const weekFirstDayValue = weekFirstDay.value;
         time.setDate(0); // switch to the last day of last month
         let lastDay = time.getDate();
@@ -345,12 +331,12 @@ export function useDay(
         return daysTemp;
     });
 
-    const isSelected = (selectedDate: DateObj, dayItem: DateObj) =>
+    const isSelected = (selectedDate: DateObj, dayItem: DayItem) =>
         dayItem.year === selectedDate?.year &&
         dayItem.month === selectedDate?.month &&
         dayItem.month === currentDate.month &&
         dayItem.day === selectedDate?.day;
-    const findSelectedIndex = (dayItem) =>
+    const findSelectedIndex = (dayItem: DayItem) =>
         selectedDates.value.findIndex((selectedDate) =>
             isSelected(selectedDate, dayItem),
         );
@@ -369,7 +355,7 @@ export function useDay(
         () => startDate.value && endDate.value,
     );
     // 样式计算
-    const inRangeDate = (date, format) => {
+    const inRangeDate = (date: Date, format: string) => {
         if (DATE_TYPE[props.type].isRange && startDate.value && endDate.value) {
             const isIn =
                 contrastDate(date, startDate.value, format) === 1 &&
@@ -379,7 +365,7 @@ export function useDay(
         return false;
     };
 
-    const dayCls = (item) => {
+    const dayCls = (item: DayItem) => {
         const format = 'YYYY-MM-DD';
         const { year, month } = item;
         const date = new Date(year, month, item.day);
@@ -387,7 +373,8 @@ export function useDay(
         return {
             [`${prefixCls}-date-out`]: item.pre || item.next,
             [`${prefixCls}-date`]: true,
-            [`${prefixCls}-date-disabled`]: props.disabledDate(date, format),
+            [`${prefixCls}-date-disabled`]:
+                props.disabledDate && props.disabledDate(date, format),
             [`${prefixCls}-date-selected`]: selectedIndex !== -1,
             'is-start':
                 DATE_TYPE[props.type].isRange &&
@@ -423,6 +410,11 @@ export const useQuarter = (
         () => props.type === DATE_TYPE.quarter.name,
     );
 
+    type QuarterItem = {
+        name: string;
+        value: number;
+    };
+
     const quarterList = [
         {
             name: 'Q1',
@@ -442,7 +434,7 @@ export const useQuarter = (
         },
     ];
 
-    const selectQuarter = (item) => {
+    const selectQuarter = (item: QuarterItem) => {
         updateSelectedDates(
             {
                 year: currentDate.year,
@@ -452,7 +444,7 @@ export const useQuarter = (
         );
     };
 
-    const isSelected = (item) =>
+    const isSelected = (item: QuarterItem) =>
         !!selectedDates.value.find(
             (selectedDate) =>
                 selectedDate &&
@@ -460,7 +452,7 @@ export const useQuarter = (
                 item.value === selectedDate.month / 3 + 1,
         );
 
-    const isNow = (item) => {
+    const isNow = (item: QuarterItem) => {
         const now = parseDate();
         return (
             now.year === currentDate.year &&
@@ -468,7 +460,7 @@ export const useQuarter = (
         );
     };
 
-    const quarterCls = (item) => ({
+    const quarterCls = (item: QuarterItem) => ({
         [`${prefixCls}-date`]: true,
         [`${prefixCls}-date-selected`]: isSelected(item),
         [`${prefixCls}-date-now`]: isNow(item),
@@ -539,13 +531,21 @@ export const useTime = (
         if (!props.disabledTime) return null;
         if (DATE_TYPE[props.type].isRange) {
             return props.disabledTime(
-                selectedDates.value[activeIndex.value],
+                new Date(
+                    transformDateToTimestamp(
+                        selectedDates.value[activeIndex.value],
+                    ),
+                ),
                 props.rangePosition,
-                selectedDates.value,
+                selectedDates.value.map((val) => {
+                    return new Date(transformDateToTimestamp(val));
+                }),
             );
         }
 
-        return props.disabledTime(selectedDates.value[0]);
+        return props.disabledTime(
+            new Date(transformDateToTimestamp(selectedDates.value[0])),
+        );
     });
 
     return {

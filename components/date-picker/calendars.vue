@@ -80,21 +80,14 @@ import { DATE_TYPE, RANGE_POSITION } from './const';
 import { useRange } from './useRange';
 
 import type { VModelEvent, ChangeEvent } from '../_util/interface';
-import type { CommonProps, RangeProps } from './interface';
+import type { CalendarsProps } from './interface';
 
 const prefixCls = getPrefixCls('calendars');
-
-type CalendarsProps = CommonProps &
-    RangeProps & {
-        visible: boolean;
-        control: boolean;
-        shortcuts: object;
-    };
 
 type CalendarsEmits = {
     (e: VModelEvent, value: number | number[]): void;
     (e: ChangeEvent, value: number | number[] | null): void;
-    (e: 'tmpSelectedDateChange', open: boolean): void;
+    (e: 'tmpSelectedDateChange', value: number | number[]): void;
 };
 
 const props = withDefaults(defineProps<CalendarsProps>(), {
@@ -108,11 +101,11 @@ const props = withDefaults(defineProps<CalendarsProps>(), {
 const emit = defineEmits<CalendarsEmits>();
 
 const [selectedDates] = useNormalModel(props, emit);
-const currentDateType = computed(() => DATE_TYPE[props.type] || {});
+const currentDateType = computed(() => DATE_TYPE[props.type]);
 
-const tempCurrentValue = ref([]);
+const tempCurrentValue = ref<number[]>([]);
 
-const innerDisabledDate = (date, format) => {
+const innerDisabledDate = (date: Date, format: string) => {
     const min =
         props.minDate && contrastDate(date, props.minDate, format) === -1;
     const max =
@@ -185,7 +178,7 @@ const change = () => {
     }
 };
 
-const updateTempCurrentValue = (val) => {
+const updateTempCurrentValue = (val: number[]) => {
     tempCurrentValue.value = val;
 
     if (DATE_TYPE[props.type].isRange) {

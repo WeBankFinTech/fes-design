@@ -9,12 +9,7 @@
                         @click="yearToPre"
                     />
                     <LeftOutlined
-                        v-show="
-                            !isYearSelect &&
-                                !isMonthSelect &&
-                                !isQuarterSelect &&
-                                visibleLeftArrow
-                        "
+                        v-show="visibleLeftSingleArrow"
                         :class="`${prefixCls}-icon`"
                         @click="monthToPre"
                     />
@@ -34,12 +29,7 @@
                 </div>
                 <div :class="`${prefixCls}-head-right`">
                     <RightOutlined
-                        v-show="
-                            !isYearSelect &&
-                                !isMonthSelect &&
-                                !isQuarterSelect &&
-                                visibleRightArrow
-                        "
+                        v-show="visibleRightSingleArrow"
                         :class="`${prefixCls}-icon`"
                         @click="monthToNext"
                     />
@@ -125,14 +115,22 @@ import {
 import TimeSelect from '../time-picker/time-select.vue';
 import getPrefixCls from '../_util/getPrefixCls';
 
+import { isCompeleteSelected } from './helper';
 import { RANGE_POSITION, DATE_TYPE, YEAR_COUNT } from './const';
 
-import type { CalendarProps } from './interface';
+import {
+    useCurrentDate,
+    useSelectedDates,
+    useYear,
+    useMonth,
+    useDay,
+    useQuarter,
+    useTime,
+} from './useCalendar';
+
+import type { CalendarProps, CalendarEmits, DayItem } from './interface';
 
 const prefixCls = getPrefixCls('calendar');
-
-// TODO 国际化
-const WEEK_NAMES = ['日', '一', '二', '三', '四', '五', '六'];
 
 const MONTHS_NAMES = [
     '一月',
@@ -182,7 +180,7 @@ const activeIndex = computed(() => {
         }
 
         if (props.type === DATE_TYPE.datetimerange.name) {
-            return props.rangePosition === LEFT_RANGE ? 0 : 1;
+            return props.rangePosition === RANGE_POSITION.LEFT ? 0 : 1;
         }
     }
     return 0;
@@ -231,11 +229,11 @@ const { hasTime, currentTime, changeTime, innerDisabledTime } = useTime(
     activeIndex,
 );
 
-const selecteDay = (info) => {
+const selecteDay = (info: DayItem) => {
     info.next && monthToNext();
     info.pre && monthToPre();
 
-    const time = {};
+    const time: any = {};
     if (
         DATE_TYPE[props.type].hasTime &&
         !selectedDates.value[activeIndex.value]?.hour
@@ -279,6 +277,22 @@ const yearToNext = () => {
         });
     }
 };
+
+const visibleLeftSingleArrow = computed(
+    () =>
+        !isYearSelect.value &&
+        !isMonthSelect.value &&
+        !isQuarterSelect.value &&
+        props.visibleLeftArrow,
+);
+
+const visibleRightSingleArrow = computed(
+    () =>
+        !isYearSelect.value &&
+        !isMonthSelect.value &&
+        !isQuarterSelect.value &&
+        props.visibleRightArrow,
+);
 
 const isNotDisabled = (e: MouseEvent) =>
     (e.target as HTMLElement).className.indexOf(

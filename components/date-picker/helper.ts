@@ -1,6 +1,7 @@
-import { isNumber } from 'lodash-es';
+import { isNumber, isNil } from 'lodash-es';
 
-import type { DateObj } from './interface';
+import { DATE_TYPE } from './const';
+import type { DateObj, ParticalDateObj, DatePickerType } from './interface';
 
 export const isEmptyValue = (val: any) => {
     if (!val) return true;
@@ -63,6 +64,24 @@ export const contrastDate = (
     return -1;
 };
 
+export const isCompeleteSelected = (
+    selectedDate?: DateObj,
+    type?: DatePickerType,
+) => {
+    if (!selectedDate || !type) return false;
+    if (DATE_TYPE[type].hasTime) {
+        return (
+            selectedDate?.day &&
+            !(
+                isNil(selectedDate.hour) &&
+                isNil(selectedDate.minute) &&
+                isNil(selectedDate.second)
+            )
+        );
+    }
+    return !!selectedDate;
+};
+
 export const parseDate = (date?: number | Date) => {
     const vDate = new Date(date || Date.now());
     return {
@@ -75,7 +94,10 @@ export const parseDate = (date?: number | Date) => {
     };
 };
 
-export function transformDateToTimestamp(date: DateObj, isFullMax = false) {
+export function transformDateToTimestamp(
+    date: ParticalDateObj,
+    isFullMax = false,
+) {
     if (isFullMax) {
         const month = date.month ?? 11;
         const maxDay = new Date(date.year, month + 1, 0).getDate();
@@ -104,12 +126,12 @@ export const padStartZero = (target: number | string, len = 2) =>
     `${target}`.padStart(len, '0');
 
 export const getTimestampFromFormat = (
-    date: Date,
+    date: Date | null,
     format: string,
-    isFullMax: boolean,
+    isFullMax?: boolean,
 ) => {
     date = date || new Date();
-    const dateObj: DateObj = {
+    const dateObj: ParticalDateObj = {
         year: date.getFullYear(),
     };
 

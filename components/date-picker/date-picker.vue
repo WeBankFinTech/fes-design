@@ -99,6 +99,7 @@ type DatePickerProps = CommonProps &
         popperClass: string;
         control: boolean;
         shortcuts: object;
+        disabledDate?: (date: Date) => boolean;
     };
 
 type DatePickerEmits = {
@@ -187,14 +188,14 @@ const handleChange = (val: number | number[] | null) => {
 };
 // 事件
 const clear = () => {
-    const initValue = isRange.value ? [] : null;
+    const initValue: [] | null = isRange.value ? [] : null;
     tmpSelectedDateChange(initValue);
     updateCurrentValue(initValue);
     emit('clear');
     handleChange(initValue);
 };
 
-const change = (val: number) => {
+const change = (val: number | number[] | null) => {
     updateCurrentValue(val);
     handleChange(val);
     updatePopperOpen(false);
