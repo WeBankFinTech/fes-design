@@ -1,3 +1,52 @@
+## [0.1.9](https://github.com/WeBankFinTech/fes-design/compare/v0.1.8...v0.1.9) (2021-12-31)
+
+
+### Features
+
+* 虚拟列表监听item大小事件 ([212ac6d](https://github.com/WeBankFinTech/fes-design/commit/212ac6d9b2fd5a13d6cf0bf217440025702b2216))
+* select支持虚拟滚动 ([afeb90b](https://github.com/WeBankFinTech/fes-design/commit/afeb90b0edd69c6d46f371708e71f37089f0a721))
+* select支持options配置 ([f3f525a](https://github.com/WeBankFinTech/fes-design/commit/f3f525aa2321e8b1b9cf19123fd384a39c749304))
+* selectTree支持虚拟列表 ([#27](https://github.com/WeBankFinTech/fes-design/issues/27)) ([9409415](https://github.com/WeBankFinTech/fes-design/commit/94094151ddb6d4825b1d3cee365e9c00cca13f19))
+* tabs支持前后插槽 ([3f02d76](https://github.com/WeBankFinTech/fes-design/commit/3f02d76b024985dcc3b82db0f24e4c6adb63e9d8))
+* Tree 支持虚拟列表 ([#23](https://github.com/WeBankFinTech/fes-design/issues/23)) ([1cd0c87](https://github.com/WeBankFinTech/fes-design/commit/1cd0c876e6b9dbd9d4df23a2f33a88651d040b63))
+
+
+
+## [0.1.8](https://github.com/WeBankFinTech/fes-design/compare/v0.1.7...v0.1.8) (2021-12-29)
+
+
+### Features
+
+* table的列支持配置visible ([a1a32c5](https://github.com/WeBankFinTech/fes-design/commit/a1a32c5cae520f3a7404aeee69a9589e8e4c10bb))
+
+
+
+## [0.1.7](https://github.com/WeBankFinTech/fes-design/compare/v0.1.6...v0.1.7) (2021-12-28)
+
+
+### Bug Fixes
+
+* cascader单选清空 ([9d24ce4](https://github.com/WeBankFinTech/fes-design/commit/9d24ce4b2e49b4bf5d177b18c5f627ec17f24cfd))
+* cascader选中项关联删除 ([128fc14](https://github.com/WeBankFinTech/fes-design/commit/128fc1415acaa625ba3e8b1d0f38ab0b764b3d70))
+* tree 勾选策略为parent时,选中的节点判断不正确 ([f560281](https://github.com/WeBankFinTech/fes-design/commit/f560281e636be3c0fc0f3622f3e0b5120921609b))
+* 修复layout-container不撑开铺满的bug ([54df38f](https://github.com/WeBankFinTech/fes-design/commit/54df38f54e6bfa58667cba520440a1465c96a274))
+
+
+### Features
+
+* cascader支持关联选中 ([aa0ddc2](https://github.com/WeBankFinTech/fes-design/commit/aa0ddc2ce0feea3ffedca934ebb16ed368c3d931))
+
+
+
+## [0.1.6](https://github.com/WeBankFinTech/fes-design/compare/v0.1.5...v0.1.6) (2021-12-28)
+
+
+### Features
+
+* 重构layout组件,添加border/fixed等特性 ([380d827](https://github.com/WeBankFinTech/fes-design/commit/380d827ae9243fb9b402bb32d616a8f3b2229a8f))
+
+
+
 ## [0.1.5](https://github.com/WeBankFinTech/fes-design/compare/v0.1.4...v0.1.5) (2021-12-25)
 
 

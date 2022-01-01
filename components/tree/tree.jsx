@@ -1,7 +1,8 @@
-import { defineComponent, computed, provide, onMounted } from 'vue';
+import { defineComponent, provide, onMounted, watch } from 'vue';
 import { isFunction, isString, cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
+import VirtualList from '../virtual-list';
 import TreeNode from './treeNode';
 import { PROVIDE_KEY, COMPONENT_NAME, CHECK_STRATEGY } from './const';
 import useData from './useData';
@@ -19,6 +20,7 @@ export default defineComponent({
         'update:expandedKeys',
         'update:checkedKeys',
         'update:selectedKeys',
+        'update:nodeList',
         'check',
         'expand',
         'load',
@@ -26,8 +28,6 @@ export default defineComponent({
     ],
     setup(props, { emit, expose }) {
         useTheme();
-
-        const { nodeList, currentData, handleData } = useData(props);
 
         const {
             currentExpandedKeys,
@@ -38,11 +38,28 @@ export default defineComponent({
             updateSelectedKeys,
             filter,
             hiddenKeys,
+            filteredExpandedKeys,
             hasSelected,
             hasChecked,
             hasIndeterminate,
-            hasExpanded,
         } = useState(props, { emit });
+
+        const { nodeList, currentData, transformData } = useData({
+            props,
+            hiddenKeys,
+            filteredExpandedKeys,
+            currentExpandedKeys,
+        });
+
+        watch(
+            nodeList,
+            () => {
+                emit('update:nodeList', nodeList);
+            },
+            {
+                immediate: true,
+            },
+        );
 
         onMounted(() => {
             if (
@@ -50,7 +67,9 @@ export default defineComponent({
                 currentExpandedKeys.value.length === 0
             ) {
                 updateExpandedKeys(
-                    Object.values(nodeList).map((item) => item.value),
+                    transformData.value.filter(
+                        (value) => !nodeList[value].isLeaf,
+                    ),
                 );
             }
         });
@@ -115,10 +134,8 @@ export default defineComponent({
                       }
                       if (props.checkStrictly === CHECK_STRATEGY.PARENT) {
                           return (
-                              !node.isLeaf &&
-                              !hasIndeterminate(node) &&
-                              node.indexPath.filter((_key) =>
-                                  arr.includes(_key),
+                              node.indexPath.filter((path) =>
+                                  arr.includes(path),
                               ).length === 1
                           );
                       }
@@ -130,19 +147,20 @@ export default defineComponent({
                 : arr;
         }
         function handleChildren(arr, children, isAdd) {
-            children.forEach((child) => {
-                const index = arr.indexOf(child.value);
-                if (!isAdd) {
-                    if (index !== -1) {
-                        arr.splice(index, 1);
+            children &&
+                children.forEach((child) => {
+                    const index = arr.indexOf(child.value);
+                    if (!isAdd) {
+                        if (index !== -1) {
+                            arr.splice(index, 1);
+                        }
+                    } else if (index === -1) {
+                        arr.push(child.value);
                     }
-                } else if (index === -1) {
-                    arr.push(child.value);
-                }
-                if (child.children) {
-                    handleChildren(arr, child.children, isAdd);
-                }
-            });
+                    if (child.children) {
+                        handleChildren(arr, child.children, isAdd);
+                    }
+                });
         }
         function handleParent(arr, indexPath, isAdd) {
             let len = indexPath.length - 2;
@@ -215,51 +233,57 @@ export default defineComponent({
             hasSelected,
             hasChecked,
             hasIndeterminate,
-            hasExpanded,
+            nodeList,
         });
 
-        const classList = computed(() => [prefixCls].filter(Boolean).join(' '));
-        const renderChildren = (arr) =>
-            arr.map((item) => {
-                const itemSlots = {};
-                if (isFunction(item.prefix)) {
-                    itemSlots.prefix = item.prefix;
-                }
-                if (isString(item.prefix)) {
-                    itemSlots.prefix = () => item.prefix;
-                }
-                if (isFunction(item.suffix)) {
-                    itemSlots.suffix = item.suffix;
-                }
-                if (isString(item.suffix)) {
-                    itemSlots.suffix = () => item.suffix;
-                }
-                const hasChildren =
-                    Array.isArray(item.children) && item.children.length;
-                return (
-                    <TreeNode
-                        v-show={!hiddenKeys.includes(item.value)}
-                        node={item}
-                        level={item.level}
-                        value={item.value}
-                        label={item.label}
-                        disabled={item.disabled}
-                        selectable={item.selectable}
-                        checkable={item.checkable}
-                        isLeaf={item.isLeaf}
-                        handleData={handleData}
-                        v-slots={itemSlots}
-                    >
-                        {hasChildren ? renderChildren(item.children) : null}
-                    </TreeNode>
-                );
-            });
-        const renderTreeNode = () => renderChildren(currentData.value);
+        const renderNode = (value) => {
+            const node = nodeList[value];
+            const itemSlots = {};
+            if (isFunction(node.prefix)) {
+                itemSlots.prefix = node.prefix;
+            }
+            if (isString(node.prefix)) {
+                itemSlots.prefix = () => node.prefix;
+            }
+            if (isFunction(node.suffix)) {
+                itemSlots.suffix = node.suffix;
+            }
+            if (isString(node.suffix)) {
+                itemSlots.suffix = () => node.suffix;
+            }
+            return (
+                <TreeNode
+                    key={node.value}
+                    level={node.level}
+                    value={node.value}
+                    label={node.label}
+                    disabled={node.disabled}
+                    selectable={node.selectable}
+                    checkable={node.checkable}
+                    isLeaf={node.isLeaf}
+                    v-slots={itemSlots}
+                ></TreeNode>
+            );
+        };
 
-        return () => (
-            <div class={classList.value} role="tree">
-                {renderTreeNode()}
-            </div>
-        );
+        const renderChildren = (arr) => arr.map((value) => renderNode(value));
+
+        const renderDefault = ({ source }) => renderNode(source);
+
+        return () =>
+            props.virtualList && !props.inline ? (
+                <VirtualList
+                    dataSources={currentData.value}
+                    dataKey={(source) => source}
+                    estimateSize={32}
+                    keeps={14}
+                    class={prefixCls}
+                    v-slots={{ default: renderDefault }}
+                />
+            ) : (
+                <div class={prefixCls} role="tree">
+                    {renderChildren(currentData.value)}
+                </div>
+            );
     },
 });

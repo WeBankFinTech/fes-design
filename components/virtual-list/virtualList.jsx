@@ -3,12 +3,24 @@
  * rewrite by uct8086
  */
 
-import { defineComponent, watch, onActivated, onMounted, ref, createVNode, computed } from 'vue';
+import {
+    defineComponent,
+    watch,
+    onActivated,
+    onMounted,
+    ref,
+    createVNode,
+    computed,
+} from 'vue';
 import Virtual from './virtual';
 import { FVirtualListItem } from './listItem';
 import { VirtualProps } from './props';
-import FScrollbar from '../scrollbar/scrollbar.vue';
-import { TO_TOP_EVENT, TO_BOTTOM_EVENT, RESIZED_EVENT } from '../_util/constants';
+import WScrollbar from '../scrollbar/scrollbar';
+import {
+    TO_TOP_EVENT,
+    TO_BOTTOM_EVENT,
+    RESIZED_EVENT,
+} from '../_util/constants';
 
 const SLOT_TYPE = {
     HEADER: 'thead', // string value also use for aria role attribute
@@ -32,14 +44,21 @@ export default defineComponent({
         const fullHeight = computed(() => {
             const { padBehind } = rangeRef.value;
             if (padBehind !== 0) {
-                return virtual && virtual.getEstimateSize() * props.dataSources.length;
+                return (
+                    virtual &&
+                    virtual.getEstimateSize() * props.dataSources.length
+                );
             }
             return virtual.getTotalSize();
         });
 
         const getUniqueIdFromDataSources = () => {
             const { dataKey } = props;
-            return props.dataSources.map((dataSource) => (typeof dataKey === 'function' ? dataKey(dataSource) : dataSource[dataKey]));
+            return props.dataSources.map((dataSource) =>
+                typeof dataKey === 'function'
+                    ? dataKey(dataSource)
+                    : dataSource[dataKey],
+            );
         };
 
         const installVirtual = () => {
@@ -92,7 +111,9 @@ export default defineComponent({
         const scrollToOffset = (offset) => {
             const root = rootRef.value;
             if (root) {
-                isHorizontal ? root.scrollBy(offset, 0) : root.scrollBy(0, offset); // 解决设置OffsetTop无效的问题
+                isHorizontal
+                    ? root.scrollBy(offset, 0)
+                    : root.scrollBy(0, offset); // 解决设置OffsetTop无效的问题
             }
         };
 
@@ -100,7 +121,8 @@ export default defineComponent({
         const scrollToBottom = () => {
             const shepherd = rootRef.value;
             if (shepherd) {
-                const offset = shepherd[isHorizontal ? 'offsetLeft' : 'offsetTop'];
+                const offset =
+                    shepherd[isHorizontal ? 'offsetLeft' : 'offsetTop'];
                 scrollToOffset(offset);
                 // check if it's really scrolled to the bottom
                 // maybe list doesn't render and calculate to last range
@@ -157,9 +179,16 @@ export default defineComponent({
         const emitEvent = (offset, clientSize, scrollSize, evt) => {
             emit('scroll', evt, virtual.getRange());
 
-            if (virtual.isFront() && !!props.dataSources.length && offset - props.topThreshold <= 0) {
+            if (
+                virtual.isFront() &&
+                !!props.dataSources.length &&
+                offset - props.topThreshold <= 0
+            ) {
                 emit(TO_TOP_EVENT);
-            } else if (virtual.isBehind() && offset + clientSize + props.bottomThreshold >= scrollSize) {
+            } else if (
+                virtual.isBehind() &&
+                offset + clientSize + props.bottomThreshold >= scrollSize
+            ) {
                 emit(TO_BOTTOM_EVENT);
             }
         };
@@ -170,7 +199,11 @@ export default defineComponent({
             const scrollSize = getScrollSize();
 
             // iOS scroll-spring-back behavior will make direction mistake
-            if (offset < 0 || offset + clientSize > scrollSize + 1 || !scrollSize) {
+            if (
+                offset < 0 ||
+                offset + clientSize > scrollSize + 1 ||
+                !scrollSize
+            ) {
                 return;
             }
 
@@ -185,13 +218,28 @@ export default defineComponent({
             const _slots = [];
             const { start, end } = rangeRef.value;
             try {
-                const { dataSources, dataKey, itemClass, itemTag, itemStyle, extraProps, itemScopedSlots, itemClassAdd } = props;
+                const {
+                    dataSources,
+                    dataKey,
+                    itemClass,
+                    itemTag,
+                    itemStyle,
+                    extraProps,
+                    itemScopedSlots,
+                    itemClassAdd,
+                } = props;
                 const slotComponent = slots && slots.default;
                 for (let index = start; index <= end; index++) {
                     const dataSource = dataSources[index];
                     if (dataSource) {
-                        const uniqueKey = typeof dataKey === 'function' ? dataKey(dataSource) : dataSource[dataKey];
-                        if (typeof uniqueKey === 'string' || typeof uniqueKey === 'number') {
+                        const uniqueKey =
+                            typeof dataKey === 'function'
+                                ? dataKey(dataSource)
+                                : dataSource[dataKey];
+                        if (
+                            typeof uniqueKey === 'string' ||
+                            typeof uniqueKey === 'number'
+                        ) {
                             const tempNode = createVNode(FVirtualListItem, {
                                 index,
                                 key: index, // Vue3采用Key变更刷新，最省事
@@ -204,14 +252,22 @@ export default defineComponent({
                                 scopedSlots: itemScopedSlots,
                                 style: itemStyle,
                                 onItemResized,
-                                class: `${itemClass}${itemClassAdd ? ` ${itemClassAdd(index)}` : ''}`,
+                                class: `${itemClass}${
+                                    itemClassAdd
+                                        ? ` ${itemClassAdd(index)}`
+                                        : ''
+                                }`,
                             });
                             _slots.push(tempNode);
                         } else {
-                            console.warn(`Cannot get the data-key '${dataKey}' from data-sources.`);
+                            console.warn(
+                                `Cannot get the data-key '${dataKey}' from data-sources.`,
+                            );
                         }
                     } else {
-                        console.warn(`Cannot get the index '${index}' from data-sources.`);
+                        console.warn(
+                            `Cannot get the index '${index}' from data-sources.`,
+                        );
                     }
                 }
                 return _slots;
@@ -287,15 +343,39 @@ export default defineComponent({
     },
     render() {
         const { padFront, padBehind } = this.rangeRef;
-        const { isHorizontal, rootTag, wrapTag, wrapClass, wrapStyle, onScroll, fullHeight } = this;
+        const {
+            isHorizontal,
+            rootTag,
+            wrapTag,
+            wrapClass,
+            wrapStyle,
+            onScroll,
+            fullHeight,
+        } = this;
 
         // wrap style
-        const horizontalStyle = { position: 'absolute', left: `${padFront}px`, right: `${padBehind}px` };
-        const verticalStyle = { position: 'absolute', top: `${padFront}px`, bottom: `${padBehind}px` };
+        const horizontalStyle = {
+            position: 'absolute',
+            bottom: 0,
+            top: 0,
+            left: `${padFront}px`,
+            right: `${padBehind}px`,
+        };
+        const verticalStyle = {
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: `${padFront}px`,
+            bottom: `${padBehind}px`,
+        };
         const extraStyle = isHorizontal ? horizontalStyle : verticalStyle;
-        const wrapperStyle = wrapStyle ? Object.assign({}, wrapStyle, extraStyle) : extraStyle;
+        const wrapperStyle = wrapStyle
+            ? Object.assign({}, wrapStyle, extraStyle)
+            : extraStyle;
         // root style
-        const rootStyle = isHorizontal ? { position: 'relative', width: `${fullHeight}px` } : { position: 'relative', height: `${fullHeight}px` };
+        const rootStyle = isHorizontal
+            ? { position: 'relative', width: `${fullHeight}px` }
+            : { position: 'relative', height: `${fullHeight}px` };
 
         const tempVirtualVNode = createVNode(
             rootTag,
@@ -319,6 +399,6 @@ export default defineComponent({
             ],
         );
 
-        return <FScrollbar onScroll={onScroll}>{tempVirtualVNode}</FScrollbar>;
+        return <WScrollbar onScroll={onScroll}>{tempVirtualVNode}</WScrollbar>;
     },
 });

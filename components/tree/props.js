@@ -6,7 +6,6 @@ const PROPS = {
         default() {
             return [];
         },
-        required: true,
     },
     defaultExpandAll: {
         type: Boolean,
@@ -82,6 +81,10 @@ const PROPS = {
         default: null,
     },
     inline: {
+        type: Boolean,
+        default: false,
+    },
+    virtualList: {
         type: Boolean,
         default: false,
     },

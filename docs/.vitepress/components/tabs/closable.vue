@@ -1,8 +1,8 @@
 <template>
-    <FButton @click="handleAddTab">ADD</FButton><br /><br />
-    <FTabs type="card" v-model="activeTab" closable @close="handleCloseTab">
+    <FTabs type="card" addable v-model="activeTab" closable @close="handleCloseTab" @add="handleAddTab">
         <FTabPane
             v-for="(tab, index) in tabs"
+            :key="index"
             :name="tab"
             :closable="tab !== '卫衣'"
             :value="index"

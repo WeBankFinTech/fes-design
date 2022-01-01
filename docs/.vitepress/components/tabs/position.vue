@@ -5,10 +5,12 @@
         <FRadio value="left">left</FRadio>
         <FRadio value="right">right</FRadio>
     </FRadioGroup>
-    <FTabs :position="position" style="height: 150px">
-        <FTabPane v-for="i in 10" :name="'Tab ' + i" :value="i"
+    <FTabs :position="position" style="height: 300px">
+        <FTabPane v-for="i in 20" :name="'Tab ' + i" :value="i" :key="i"
             ><div class="tab-content">Tab {{ i }}</div></FTabPane
         >
+        <template #prefix>Prefix</template>
+        <template #suffix>Suffix</template>
     </FTabs>
 </template>
 
@@ -27,7 +29,7 @@ export default {
 <style scoped>
 .tab-content{
     background: #FFF;
-    line-height: 60px;
+    line-height: 300px;
     text-align: center;
 }
 </style>

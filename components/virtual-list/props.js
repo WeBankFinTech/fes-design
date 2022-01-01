@@ -118,7 +118,7 @@ export const ItemProps = {
         type: Boolean,
     },
     source: {
-        type: Object,
+        type: [Object, String, Number],
     },
     component: {
         type: [Object, Function],

@@ -6,7 +6,6 @@ import {
     onMounted,
     ref,
     TransitionGroup,
-    Component,
     CSSProperties,
     VNodeChild,
     VNode,

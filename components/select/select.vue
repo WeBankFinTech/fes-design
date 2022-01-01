@@ -31,14 +31,17 @@
                 />
             </template>
             <template #default>
-                <Scrollbar
+                <div ref="hiddenOptions" :class="`${prefixCls}-hidden-options`">
+                    <slot />
+                </div>
+                <OptionList
+                    :options="filteredOptions"
+                    :prefixCls="prefixCls"
                     :containerStyle="dropdownStyle"
-                    :containerClass="`${prefixCls}-dropdown`"
-                >
-                    <slot>
-                        <div :class="`${prefixCls}-null`">{{ emptyText }}</div>
-                    </slot>
-                </Scrollbar>
+                    :isSelect="isSelect"
+                    :onSelect="onSelect"
+                    :emptyText="emptyText"
+                />
             </template>
         </Popper>
     </div>
@@ -61,9 +64,9 @@ import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
-import Scrollbar from '../scrollbar';
 import { key } from './const';
 import PROPS from './props';
+import OptionList from './optionList';
 
 const prefixCls = getPrefixCls('select');
 
@@ -71,8 +74,8 @@ export default defineComponent({
     name: 'FSelect',
     components: {
         Popper,
-        Scrollbar,
         SelectTrigger,
+        OptionList,
     },
     props: {
         ...PROPS,
@@ -95,7 +98,6 @@ export default defineComponent({
         const [currentValue, updateCurrentValue] = props.multiple
             ? useArrayModel(props, emit)
             : useNormalModel(props, emit);
-        const filterText = ref('');
 
         watch(isOpened, () => {
             emit('visibleChange', unref(isOpened));
@@ -111,12 +113,32 @@ export default defineComponent({
             emit('clear');
         };
 
-        const options = reactive([]);
+        const childOptions = reactive([]);
+
         const addOption = (option) => {
-            if (!options.includes(option)) {
-                options.push(option);
+            if (!childOptions.includes(option)) {
+                childOptions.push(option);
             }
         };
+
+        const removeOption = (id) => {
+            const colIndex = childOptions.findIndex((item) => item.id === id);
+            if (colIndex !== -1) {
+                childOptions.splice(colIndex, 1);
+            }
+        };
+
+        const options = computed(() => [...props.options, ...childOptions]);
+
+        const filterText = ref('');
+
+        const filteredOptions = computed(() =>
+            options.value.filter(
+                (option) =>
+                    !filterText.value ||
+                    String(option.label).includes(filterText.value),
+            ),
+        );
 
         const isSelect = (value) => {
             const selectVal = unref(currentValue);
@@ -155,10 +177,10 @@ export default defineComponent({
         const selectedOptions = computed(() => {
             const val = unref(currentValue);
             if (!props.multiple) {
-                return options.filter((option) => option.value === val);
+                return options.value.filter((option) => option.value === val);
             }
             return val.map((value) => {
-                const filteredOption = options.filter(
+                const filteredOption = options.value.filter(
                     (option) => option.value === value,
                 );
                 if (filteredOption.length) {
@@ -169,10 +191,8 @@ export default defineComponent({
         });
 
         provide(key, {
-            onSelect,
-            isSelect,
             addOption,
-            filterText,
+            removeOption,
         });
 
         const focus = (e) => {
@@ -217,6 +237,9 @@ export default defineComponent({
             handleFilterTextChange,
             triggerRef,
             dropdownStyle,
+            isSelect,
+            onSelect,
+            filteredOptions,
         };
     },
 });

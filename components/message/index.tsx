@@ -76,7 +76,7 @@ async function create({
 
     const contentIsFunc = typeof content === 'function';
     const iconIsFunc = typeof icon === 'function';
-    const scopedSlots = {
+    const scopedSlots: any = {
         default: contentIsFunc ? content : null,
         icon: iconIsFunc ? icon : null,
     };
