@@ -140,7 +140,8 @@ app.use(FTable);
 | selectable   | 仅对 type=selection 的列有效，Function 的返回值用来决定这一行的 CheckBox 是否可以勾选 | function({row, rowIndex})                                            | -                     | -       |
 | type         | 列的类型，如果设置为`selection`则显示选择器，如果设置为`expand`则显示一个展开按钮     | string                                                               | selection / expand    | `false` |
 | width        | 对应列的宽度，优先级大于 minWidth                                                     | string                                                               | -                     | -       |
-| ellipsis     | 设置宽度后，如果文本溢出后出现省略号                                                  | boolean                                                              | -                     | false   |
+| ellipsis     | 设置宽度后，如果文本溢出后出现省略号                                                  | boolean                                                              | -                     | `false`   |
+| visible     | 是否显示列                                                  | boolean                                                              | -                     | `true`   |
 
 ## FTableColumn Slots
 

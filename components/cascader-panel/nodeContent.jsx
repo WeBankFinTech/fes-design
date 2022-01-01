@@ -1,4 +1,4 @@
-import { defineComponent, h, inject } from 'vue';
+import { computed, defineComponent, inject } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { CASCADER_PANEL_INJECTION_KEY } from './const';
 
@@ -18,16 +18,15 @@ export default defineComponent({
         const { data, label } = node;
         const { renderLabelFn } = panel;
 
-        return () =>
-            h(
-                'span',
-                {
-                    class: {
-                        [prefixCls]: true,
-                        'is-multiple': panel.multiple,
-                    },
-                },
-                renderLabelFn ? renderLabelFn({ node, data }) : label,
-            );
+        const classes = computed(() => ({
+            [prefixCls]: true,
+            'is-multiple': panel.multiple,
+        }));
+
+        return () => (
+            <span class={classes.value}>
+                {renderLabelFn ? renderLabelFn({ node, data }) : label}
+            </span>
+        );
     },
 });

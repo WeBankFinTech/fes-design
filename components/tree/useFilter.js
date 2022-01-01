@@ -32,7 +32,12 @@ export default (props) => {
                     if (!expandKeySet.has(node.value)) {
                         if (!children) {
                             hiddenKeys.push(node.value);
-                        } else if (children.every(childNode => !expandKeySet.has(childNode.value))) {
+                        } else if (
+                            children.every(
+                                (childNode) =>
+                                    !expandKeySet.has(childNode.value),
+                            )
+                        ) {
                             hiddenKeys.push(node.value);
                         }
                     }
@@ -47,7 +52,6 @@ export default (props) => {
             });
         }
     };
-
 
     return {
         hiddenKeys,
