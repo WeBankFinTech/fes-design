@@ -44,7 +44,7 @@ import { useNormalModel } from '../_util/use/useModel';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import FInput from '../input';
 
-import type { VModelEvent } from '../_util/interface';
+import type { VModelEvent, ChangeEvent } from '../_util/interface';
 
 const prefixCls = getPrefixCls('input-number');
 
@@ -65,7 +65,7 @@ type InputNumberProps = {
 
 type InputNumberEmits = {
     (e: VModelEvent, value: number): void;
-    (e: 'change', newValue: number, oldValue: number): void;
+    (e: ChangeEvent, newValue: number, oldValue: number): void;
     (e: 'input', value: number): void;
     (e: 'blur', event: Event): void;
     (e: 'focus', event: Event): void;

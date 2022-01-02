@@ -1,7 +1,7 @@
-import { defineComponent, Fragment, inject } from 'vue';
+import { h, defineComponent, Fragment, inject } from 'vue';
 import { isArray, isFunction, isPlainObject } from 'lodash-es';
-import Button from '../../button';
-import Ellipsis from '../../ellipsis';
+import Button from '../../button/button';
+import Ellipsis from '../../ellipsis/ellipsis';
 import { provideKey } from '../const';
 
 export default defineComponent({

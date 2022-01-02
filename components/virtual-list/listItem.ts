@@ -17,7 +17,7 @@ export const FVirtualListItem = defineComponent({
         // tell parent current size identify by unqiue key
         const dispatchSizeChange = () => {
             const s = itemRef.value ? itemRef.value[shapeKey] : 0;
-            attrs.onItemResized(props.uniqueKey, s);
+            (attrs as any).onItemResized(props.uniqueKey, s);
         };
 
         useResize(itemRef, dispatchSizeChange);

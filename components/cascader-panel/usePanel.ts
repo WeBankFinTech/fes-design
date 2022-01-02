@@ -1,4 +1,4 @@
-import { ref, watch } from 'vue';
+import { ref, watch, Ref } from 'vue';
 import { flatNodes } from '../_util/utils';
 import { CHECK_STRATEGY, EVENT_CODE, EXPAND_TRIGGER } from './const';
 import useNode from './useNode';
@@ -15,7 +15,19 @@ import {
     getCheckNodesByLeafCheckNodes,
 } from './utils';
 
-function useUpdateNodes(props, selectedNodes, allNodes) {
+import type {
+    CascaderNode,
+    CascaderNodeConfig,
+    CascaderNodeValue,
+    CascaderPanelEmits,
+} from './interface';
+import { CascaderPanelProps } from './props';
+
+function useUpdateNodes(
+    props: CascaderPanelProps,
+    selectedNodes: Ref<CascaderNode[]>,
+    allNodes: Ref<CascaderNode[]>,
+) {
     // 清除选中和中间状态
     const clearCheckedNodes = () => {
         allNodes.value.forEach((node) => {
@@ -60,10 +72,10 @@ function useUpdateNodes(props, selectedNodes, allNodes) {
     );
 }
 
-function useExpandNode(menus, emit, updateMenus) {
+function useExpandNode(menus, emit: CascaderPanelEmits, updateMenus) {
     const expandingNode = ref(null);
 
-    const handleExpandNode = (node, silent = false) => {
+    const handleExpandNode = (node: CascaderNode, silent = false) => {
         const { level } = node;
         const newMenus = menus.value.slice(0, level);
         let newExpandingNode;
@@ -102,14 +114,14 @@ function useExpandNode(menus, emit, updateMenus) {
 }
 
 function useCheckChange(
-    config,
-    props,
-    emit,
-    selectedNodes,
-    leafNodes,
-    allNodes,
+    config: Ref<CascaderNodeConfig>,
+    props: CascaderPanelProps,
+    emit: CascaderPanelEmits,
+    selectedNodes: Ref<CascaderNode[]>,
+    leafNodes: Ref<CascaderNode[]>,
+    allNodes: Ref<CascaderNode[]>,
 ) {
-    const handleCheckChange = (node, checked) => {
+    const handleCheckChange = (node: CascaderNode, checked: boolean) => {
         if (node.checked === checked) return;
         const { multiple } = props;
 
@@ -151,13 +163,13 @@ function useCheckChange(
                 leafNodeValues.includes(item.value),
             );
 
-            let checkValues = [];
+            let checkValues: CascaderNodeValue[] = [];
 
             if (props.checkStrictly === CHECK_STRATEGY.CHILD) {
                 const sortLeafValues = sortLeafNodes.map((item) =>
                     getValueByOption(config.value, item),
                 );
-                checkValues = sortLeafValues;
+                checkValues = sortLeafValues as CascaderNodeValue[];
             } else {
                 const checkParentNodes = getCheckNodesByLeafCheckNodes(
                     sortLeafNodes,
@@ -168,7 +180,7 @@ function useCheckChange(
                     getValueByOption(config.value, item),
                 );
 
-                checkValues = checkParentValus;
+                checkValues = checkParentValus as CascaderNodeValue[];
             }
 
             emit('checkChange', checkValues);
@@ -183,8 +195,12 @@ function useCheckChange(
 /**
  * 由于 hover 的时候，容易和 keydown 操作由冲突，所以 hover 不支持自动聚焦元素
  */
-function useKeyDown(config, emit, menus) {
-    const handleKeyDown = (e) => {
+function useKeyDown(
+    config: Ref<CascaderNodeConfig>,
+    emit: CascaderPanelEmits,
+    menus,
+) {
+    const handleKeyDown = (e: KeyboardEvent) => {
         const { target, code } = e;
 
         const isValidKeyDown = () => {
@@ -256,7 +272,11 @@ function useKeyDown(config, emit, menus) {
     };
 }
 
-export default (config, props, emit) => {
+export default (
+    config: Ref<CascaderNodeConfig>,
+    props: CascaderPanelProps,
+    emit: CascaderPanelEmits,
+) => {
     const {
         menus,
         allNodes,

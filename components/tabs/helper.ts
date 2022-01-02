@@ -1,28 +1,25 @@
+import type { PropType } from 'vue';
+import type { Position } from './interface';
+
 export const tabProps = {
-    key: [String, Number],
+    key: [String, Number, Symbol] as PropType<string | number | symbol>,
     value: {
-        type: [String, Number],
+        type: [String, Number] as PropType<string | number>,
         required: true,
     },
-    name: [String, Number],
+    name: [String, Number] as PropType<string | number>,
     disabled: Boolean,
     closable: Boolean,
     displayDirective: {
-        type: String,
+        type: String as PropType<'if' | 'show'>,
         default: 'if',
-        validator(value) {
-            return ['if', 'show'].includes(value);
-        },
     },
 };
 
 /**
  * 计算TabBar样式
- * @param { Element } tabEl tab元素
- * @param { 'left' | 'top' | 'right' | 'bottom' } pos tab的展示位置
- * @returns
  */
-export function computeTabBarStyle(tabEl, pos = 'top') {
+export function computeTabBarStyle(tabEl: Element, pos: Position = 'top') {
     const style = {
         width: '0px',
         height: '0px',

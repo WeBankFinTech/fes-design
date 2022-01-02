@@ -1,7 +1,7 @@
 import { ref, reactive, watch, computed, Ref } from 'vue';
 import { isNil } from 'lodash-es';
 
-import type { InnerTreeOption, TreeNodeKey } from './interface';
+import type { InnerTreeOption, TreeNodeKey, TreeNodeList } from './interface';
 import type { TreeProps } from './props';
 
 export default ({
@@ -15,9 +15,7 @@ export default ({
     currentExpandedKeys: Ref<TreeNodeKey[]>;
     hiddenKeys: TreeNodeKey[];
 }) => {
-    const nodeList = reactive<{
-        [key: string]: InnerTreeOption;
-    }>({});
+    const nodeList = reactive<TreeNodeList>({});
 
     const transformData = ref([]);
 

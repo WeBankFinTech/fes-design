@@ -2,6 +2,13 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { CHECK_STRATEGY } from './const';
 import { flatNodes } from '../_util/utils';
 
+import type {
+    NodeOption,
+    CascaderNode,
+    CascaderNodeConfig,
+    CascaderNodeValue,
+} from './interface';
+
 /**
  * Generate unique ID
  * Maybe replace with [uuid](https://www.npmjs.com/package/uuid)
@@ -9,7 +16,7 @@ import { flatNodes } from '../_util/utils';
 export const generateId = () =>
     `${Math.random().toString(16).substr(2).toUpperCase()}`;
 
-export const calculatePathNodes = (node) => {
+export const calculatePathNodes = (node: CascaderNode) => {
     const nodes = [node];
     let { parent } = node;
 
@@ -25,7 +32,9 @@ export const calculatePathNodes = (node) => {
  * 多选的时候，更新选中节点的父级节点的选中和半选中状态
  * 1. 遍历选中节点，level 从下到上更新父节点的选中状态
  */
-export const updateParentNodesCheckState = (selectedNodes = []) => {
+export const updateParentNodesCheckState = (
+    selectedNodes: CascaderNode[] = [],
+) => {
     selectedNodes.forEach((node) => {
         const parentNodes = node.pathNodes.slice(0, node.pathNodes.length - 1);
         for (let i = parentNodes.length - 1; i >= 0; i--) {
@@ -49,7 +58,9 @@ export const updateParentNodesCheckState = (selectedNodes = []) => {
  * 多选情况，更新选中节点子级节点的选中状态
  * 1. 遍历选中节点，获取所有的子孙节点，全部置为选中状态
  */
-export const updateChildNodesCheckState = (selectedNodes = []) => {
+export const updateChildNodesCheckState = (
+    selectedNodes: CascaderNode[] = [],
+) => {
     selectedNodes.forEach((node) => {
         const childAndLeafNodes = flatNodes(node.children);
         childAndLeafNodes.forEach((item) => {
@@ -66,11 +77,11 @@ export const updateChildNodesCheckState = (selectedNodes = []) => {
  * 4. 若为 checkStrictly = parent 情况，则若当前节点的父节点值不在值列表中，则插入当前节点
  */
 export const getCheckNodesByLeafCheckNodes = (
-    checkLeafNodes = [],
-    allNodes = [],
-    checkStrictly,
+    checkLeafNodes: CascaderNode[] = [],
+    allNodes: CascaderNode[] = [],
+    checkStrictly: CHECK_STRATEGY,
 ) => {
-    const checkNodeValues = [];
+    const checkNodeValues: CascaderNodeValue[] = [];
 
     checkLeafNodes.forEach((node) => {
         checkNodeValues.push(node.value);
@@ -100,50 +111,64 @@ export const getCheckNodesByLeafCheckNodes = (
     });
 };
 
-export const getNode = (data = [], config = {}, parent = null) => {
-    const node = {};
-
+export const getNode = (
+    data: NodeOption,
+    config?: CascaderNodeConfig,
+    parent?: CascaderNode,
+): CascaderNode => {
     const { valueField, labelField, childrenField, disabledField } =
         config || {};
 
-    node.checked = false;
-    node.indeterminate = false;
+    const childrenData = (data as any)[childrenField];
+    const children = (childrenData || []).map((child: NodeOption) =>
+        getNode(child, config, node),
+    );
 
-    node.data = data || [];
-    node.parent = parent;
+    const node: CascaderNode = {
+        checked: false,
+        indeterminate: false,
+        data: data || {},
+        parent,
+        nodeId: generateId(),
+        level: parent ? parent.level + 1 : 1,
+        value: (data as any)[valueField],
+        label: (data as any)[labelField],
+        pathNodes: [],
+        pathValues: [],
+        pathLabels: [],
+        childrenData: childrenData,
+        children,
+        isDisabled:
+            !!(data as any)[disabledField] ||
+            !!(parent?.data as any)[disabledField],
+        isLeaf: children.length < 1,
+        elem: null,
+    };
 
-    const childrenData = data[childrenField];
     const pathNodes = calculatePathNodes(node);
-
-    node.nodeId = generateId();
-    node.level = parent ? parent.level + 1 : 1;
-    node.value = data[valueField];
-    node.label = data[labelField];
     node.pathNodes = pathNodes;
     node.pathValues = pathNodes.map((item) => item.value);
     node.pathLabels = pathNodes.map((item) => item.label);
 
-    node.childrenData = childrenData;
-    node.children = (childrenData || []).map((child) =>
-        getNode(child, config, node),
-    );
-    node.isDisabled = !!data[disabledField] || !!parent?.data[disabledField];
-    node.isLeaf = node.children.length < 1;
-
-    node.elem = null;
-
     return node;
 };
 
-export const getNodeByValue = (allNodes, value) =>
-    allNodes.find((node) => node.value === value) || null;
+export const getNodeByValue = (
+    allNodes: CascaderNode[],
+    value: CascaderNodeValue,
+) => allNodes.find((node) => node.value === value) || null;
 
-export const getValueByOption = (config, node) =>
-    config.emitPath ? node.pathValues : node.value;
+export const getValueByOption = (
+    config: CascaderNodeConfig,
+    node: CascaderNode,
+) => (config.emitPath ? node.pathValues : node.value);
 
 // 获取单节点值
-export const getNodeValueByCurrentValue = (emitPath, value) => {
-    let nodeValue = '';
+export const getNodeValueByCurrentValue = (
+    emitPath: boolean,
+    value: CascaderNodeValue,
+) => {
+    let nodeValue: CascaderNodeValue;
     if (emitPath) {
         if (Array.isArray(value)) {
             nodeValue = (value.length && value[value.length - 1]) || '';
@@ -159,8 +184,11 @@ export const getNodeValueByCurrentValue = (emitPath, value) => {
 };
 
 // 获取多节点值列表
-export const getMultiNodeValuesByCurrentValue = (emitPath, currentValue) => {
-    const nodeValues = [];
+export const getMultiNodeValuesByCurrentValue = (
+    emitPath: boolean,
+    currentValue: CascaderNodeValue[],
+) => {
+    const nodeValues: CascaderNodeValue[] = [];
     if (!Array.isArray(currentValue)) {
         console.warn(
             'currentValue类型不符预期，multiple为true的情况下，currentValue应该为数组格式',
@@ -190,7 +218,9 @@ export const getNodeSibling = (el, distance = 0, menus) => {
     let currentNodeIndex = -1;
 
     const currentMenu = menus[getMenuIndexByElem(el, menus)] || null;
-    currentNodeIndex = currentMenu?.nodes.findIndex((node) => node.elem === el);
+    currentNodeIndex = currentMenu?.nodes.findIndex(
+        (node: CascaderNode) => node.elem === el,
+    );
     siblingNode =
         currentNodeIndex > -1
             ? currentMenu?.nodes[currentNodeIndex + distance] || null
@@ -199,7 +229,7 @@ export const getNodeSibling = (el, distance = 0, menus) => {
     while (siblingNode && siblingNode.isDisabled) {
         const currentElem = siblingNode.elem;
         currentNodeIndex = currentMenu.nodes.findIndex(
-            (node) => node.elem === currentElem,
+            (node: CascaderNode) => node.elem === currentElem,
         );
         siblingNode =
             currentNodeIndex > -1
@@ -213,17 +243,17 @@ export const getNodeSibling = (el, distance = 0, menus) => {
 };
 
 // 让元素获取焦点，同时若为非叶子节点，则展开下一级
-export const focusNodeElem = (node) => {
+export const focusNodeElem = (node: CascaderNode) => {
     if (!node || !node.elem) return;
     node.elem.focus();
     !node.isLeaf && node.elem.click();
 };
 
-export const checkNodeElem = (node) => {
+export const checkNodeElem = (node: CascaderNode) => {
     if (!node || !node.elem) return;
     const input = node.elem.querySelector(`.${getPrefixCls('checkbox')}`);
     if (input) {
-        input.click();
+        (input as HTMLInputElement).click();
     } else if (node.isLeaf) {
         node.elem.click();
     }

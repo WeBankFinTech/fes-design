@@ -47,12 +47,12 @@ import UpOutlined from '../icon/UpOutlined';
 import DownOutlined from '../icon/DownOutlined';
 import CloseCircleFilled from '../icon/CloseCircleFilled';
 
-import type { SelectValue } from '../select/interface';
+import type { SelectValue, SelectOption } from '../select/interface';
 
 const prefixCls = getPrefixCls('select-trigger');
 
 interface SelectTriggerProps {
-    selectedOptions?: [];
+    selectedOptions?: SelectOption[];
     disabled?: boolean;
     clearable?: boolean;
     isOpened?: boolean;

@@ -1,6 +1,8 @@
-import { computed, defineComponent, inject } from 'vue';
+import { h, computed, defineComponent, inject, PropType } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
-import { CASCADER_PANEL_INJECTION_KEY } from './const';
+import { CASCADER_PANEL_INJECTION_KEY } from './props';
+
+import type { CascaderNode } from './interface'
 
 const prefixCls = getPrefixCls('cascader-node-content');
 
@@ -8,7 +10,7 @@ export default defineComponent({
     name: 'NodeContent',
     props: {
         node: {
-            type: Object,
+            type: Object as PropType<CascaderNode>,
             required: true,
         },
     },

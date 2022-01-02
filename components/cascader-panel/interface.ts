@@ -1,3 +1,5 @@
+import { EXPAND_TRIGGER } from './const';
+
 export type CascaderNodeValue = string | number;
 export type CascaderNodePathValue = CascaderNodeValue[];
 
@@ -9,21 +11,42 @@ export interface CascaderOption extends Record<string, unknown> {
     leaf?: boolean;
 }
 
-export interface Node {
+export interface CascaderNodeConfig {
+    expandTrigger: EXPAND_TRIGGER;
+    emitPath: boolean;
+    valueField: string;
+    labelField: string;
+    childrenField: string;
+    disabledField: string;
+}
+
+export interface NodeOption {
+    value?: CascaderNodeValue;
+    label?: string;
+    children?: CascaderOption[];
+    disabled?: boolean;
+}
+export interface CascaderNode {
     checked: boolean;
     indeterminate: boolean;
-    data: [];
-    parent?: Node;
+    data: NodeOption;
+    parent?: CascaderNode;
     nodeId: string;
     level: number;
-    value: number | string | boolean;
+    value: CascaderNodeValue;
     label: string;
-    pathNodes: Node[];
+    pathNodes: CascaderNode[];
     pathValues: CascaderNodePathValue;
     pathLabels: string[];
     childrenData: CascaderOption[] | undefined;
-    children: Node[];
+    children: CascaderNode[];
     isDisabled: boolean;
     isLeaf: boolean;
     elem: HTMLElement | null;
 }
+
+export type CascaderPanelEmits = {
+    (e: 'expandChange', value: CascaderNodeValue[]): void;
+    (e: 'checkChange', value: CascaderNodeValue | CascaderNodeValue[]): void;
+    (e: 'close'): void;
+};

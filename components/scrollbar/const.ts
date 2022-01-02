@@ -22,4 +22,4 @@ export const BAR_MAP = {
         client: 'clientX',
         direction: 'left',
     },
-};
+} as const;

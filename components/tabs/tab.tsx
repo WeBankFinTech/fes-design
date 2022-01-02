@@ -1,4 +1,4 @@
-import { computed, defineComponent, inject } from 'vue';
+import { h, computed, defineComponent, inject } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { TABS_INJECTION_KEY } from '../_util/constants';
 import { tabProps } from './helper';
@@ -7,7 +7,6 @@ import CloseCircleFilled from '../icon/CloseCircleFilled';
 const prefixCls = getPrefixCls('tabs');
 
 export default defineComponent({
-    components: { CloseCircleFilled },
     props: tabProps,
     setup(props, ctx) {
         const {
@@ -29,10 +28,7 @@ export default defineComponent({
             handleTabClick(props.value);
         }
 
-        /**
-         * @param {Event} event
-         */
-        function handleCloseClick(event) {
+        function handleCloseClick(event: Event) {
             event.stopPropagation();
             handleClose(props.value);
         }

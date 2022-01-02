@@ -24,7 +24,15 @@ import { BAR_MAP } from './const';
 
 const prefixCls = getPrefixCls('scrollbar-track');
 
-function renderThumbStyle({ move, size, bar }) {
+function renderThumbStyle({
+    move,
+    size,
+    bar,
+}: {
+    move: number;
+    size: 'width' | 'height';
+    bar: typeof BAR_MAP.vertical | typeof BAR_MAP.horizontal;
+}) {
     const style: CSSProperties = {};
     const translate = `translate${bar.axis}(${move}%)`;
 
@@ -36,7 +44,7 @@ function renderThumbStyle({ move, size, bar }) {
 
 type BarProps = {
     vertical?: boolean;
-    size: string;
+    size: 'width' | 'height';
     move: number;
     ratio: number;
     always: boolean;
@@ -47,8 +55,10 @@ type BarProps = {
 const props = defineProps<BarProps>();
 
 const containerRef = computed(() => props.containerRef);
-const barStore = ref({});
-const barRef = ref();
+const barStore = ref<{
+    [key: string]: number;
+}>({});
+const barRef = ref<HTMLElement>();
 const thumbRef = ref();
 
 const barMap = computed(
@@ -73,7 +83,7 @@ const visible = ref(false);
 
 const cursorLeave = ref();
 const cursorDown = ref();
-let onselectstartStore = null;
+let onselectstartStore: GlobalEventHandlers['onselectstart'] = null;
 const mouseMoveDocumentHandler = (e: MouseEvent) => {
     if (cursorDown.value === false) return;
     const prevPage = barStore.value[barMap.value.axis];
@@ -162,7 +172,7 @@ const clickThumbHandler = (e: MouseEvent) => {
     window.getSelection().removeAllRanges();
     startDrag(e);
     barStore.value[barMap.value.axis] =
-        e.currentTarget[barMap.value.offset] -
+        (e.currentTarget as HTMLElement)[barMap.value.offset] -
         (e[barMap.value.client] -
             (e.currentTarget as HTMLElement).getBoundingClientRect()[
                 barMap.value.direction

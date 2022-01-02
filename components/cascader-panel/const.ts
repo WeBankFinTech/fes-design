@@ -1,9 +1,7 @@
-export const CASCADER_PANEL_INJECTION_KEY = Symbol('CascaderPanel');
-
-export const EXPAND_TRIGGER = {
-    CLICK: 'click',
-    HOVER: 'hover',
-};
+export enum EXPAND_TRIGGER {
+    CLICK = 'click',
+    HOVER = 'hover',
+}
 
 export const DEFAULT_CONFIG = {
     expandTrigger: EXPAND_TRIGGER.CLICK,
@@ -24,8 +22,8 @@ export const EVENT_CODE = {
     ESC: 'Escape',
 };
 
-export const CHECK_STRATEGY = {
-    ALL: 'all',
-    PARENT: 'parent',
-    CHILD: 'child',
-};
+export enum CHECK_STRATEGY {
+    ALL = 'all',
+    PARENT = 'parent',
+    CHILD = 'child',
+}

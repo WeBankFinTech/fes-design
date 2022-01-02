@@ -1,6 +1,6 @@
 import { withInstall, withNoopInstall } from '../_util/withInstall';
 import Tabs from './tabs';
-import TabPane from './tab-pane';
+import TabPane from './tab-pane.vue';
 
 export const FTabs = withInstall(Tabs, { TabPane });
 export const FTabPane = withNoopInstall(TabPane);

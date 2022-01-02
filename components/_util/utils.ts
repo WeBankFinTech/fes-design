@@ -1,5 +1,5 @@
 import { isNumber, isString } from 'lodash-es';
-import { Node } from '../cascader-panel/interface';
+import { CascaderNode } from '../cascader-panel/interface';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = () => {};
@@ -35,8 +35,8 @@ export const requestAnimationFrame = (() => {
 
 export const isFirefox = () => !!window.navigator.userAgent.match(/firefox/i);
 
-export const flatNodes = (nodes: Node[] = [], leafOnly = false) =>
-    nodes.reduce((res: Node[], node) => {
+export const flatNodes = (nodes: CascaderNode[] = [], leafOnly = false) =>
+    nodes.reduce((res: CascaderNode[], node) => {
         if (node.isLeaf) {
             res.push(node);
         } else {

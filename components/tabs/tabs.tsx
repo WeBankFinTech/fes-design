@@ -1,4 +1,5 @@
 import {
+    h,
     computed,
     defineComponent,
     nextTick,
@@ -10,6 +11,9 @@ import {
     watch,
     withDirectives,
     onMounted,
+    Fragment,
+    VNode,
+    ComponentPublicInstance,
 } from 'vue';
 import {
     CLOSE_EVENT,
@@ -21,15 +25,18 @@ import { useNormalModel } from '../_util/use/useModel';
 import useScrollX from '../_util/use/useScrollX';
 import { flatten } from '../_util/vnode';
 import { computeTabBarStyle } from './helper';
-import Tab from './tab';
+import FTab from './tab';
 import { useTheme } from '../_theme/useTheme';
 import PlusOutlined from '../icon/PlusOutlined';
+
+import type { PropType } from 'vue';
+import type { Position } from './interface';
 
 const prefixCls = getPrefixCls('tabs');
 const ADD_EVENT = 'add';
 
-function mapTabPane(tabPaneVNodes = [], tabValue) {
-    const children = [];
+function mapTabPane(tabPaneVNodes: VNode[] = [], tabValue: string | number) {
+    const children: VNode[] = [];
     tabPaneVNodes.forEach((vNode) => {
         const {
             value,
@@ -50,39 +57,28 @@ function mapTabPane(tabPaneVNodes = [], tabValue) {
     return children;
 }
 
+type TabType = 'line' | 'card';
+type TabCloseMode = 'hover' | 'visible'
+
 export default defineComponent({
     name: 'FTabs',
-    components: { Tab, TransitionGroup, PlusOutlined },
     props: {
-        modelValue: [String, Number],
+        modelValue: [String, Number] as PropType<string | number>,
         position: {
-            type: String,
-            default: 'top',
-            validator(value) {
-                return ['top', 'right', 'bottom', 'left'].includes(value);
-            },
+            type: String as PropType<Position>,
+            default: 'top'
         },
         type: {
-            type: String,
+            type: String as PropType<TabType>,
             default: 'line',
-            validator(value) {
-                return ['line', 'card'].includes(value);
-            },
         },
         closable: {
             type: Boolean,
             default: false,
         },
         closeMode: {
-            type: String,
+            type: String as PropType<TabCloseMode>,
             default: 'visible',
-            validator(value) {
-                return ['hover', 'visible'].includes(value);
-            },
-        },
-        tabsPadding: {
-            type: [Number, Array],
-            default: 0,
         },
         addable: {
             type: Boolean,
@@ -119,23 +115,23 @@ export default defineComponent({
 
         const barStyle = ref({});
 
-        function setTabRefs(el, index) {
+        function setTabRefs(el?: ComponentPublicInstance, index?: number) {
             if (el) tabRefs.value[index] = el;
         }
 
-        function handleTabClick(key) {
+        function handleTabClick(key: string | number) {
             updateCurrentValue(key);
         }
 
-        function handleAddClick(event) {
+        function handleAddClick(event: Event) {
             ctx.emit(ADD_EVENT, event);
         }
 
-        function handleClose(key) {
+        function handleClose(key: string | number) {
             ctx.emit(CLOSE_EVENT, key);
         }
 
-        function handleTabNavScroll(event) {
+        function handleTabNavScroll(event?: Event) {
             event?.preventDefault();
             if (!tabNavRef.value) return;
             if (!isScroll.value) return;
@@ -154,7 +150,7 @@ export default defineComponent({
                 scrollTop + offsetHeight < scrollHeight;
         }
 
-        function autoScrollTab(el) {
+        function autoScrollTab(el?: HTMLElement) {
             if (!tabNavRef.value || !el) return;
             if (!isScroll.value) return;
             const { scrollLeft, scrollTop, offsetWidth, offsetHeight } =
@@ -208,7 +204,7 @@ export default defineComponent({
         if (!currentValue.value && ctx.slots.default) {
             // set default value
             const tabPanes = flatten(ctx.slots.default()).filter(
-                (vNode) => vNode.type.name === 'FTabPane',
+                (vNode) => (vNode.type as any).name === 'FTabPane',
             );
             updateCurrentValue(tabPanes[0]?.props?.value);
         }
@@ -217,7 +213,7 @@ export default defineComponent({
             const children =
                 ctx.slots.default &&
                 flatten(ctx.slots.default()).filter(
-                    (vNode) => vNode.type.name === 'FTabPane',
+                    (vNode) => (vNode.type as any).name === 'FTabPane',
                 );
             return (
                 <div
@@ -248,7 +244,7 @@ export default defineComponent({
                                 ref={tabNavRef}
                             >
                                 {children.map((vNode, index) => {
-                                    const tabSlot = vNode.children.tab;
+                                    const tabSlot = (vNode.children as any).tab;
                                     return (
                                         <>
                                             {index > 0 && isCard.value && (
@@ -256,23 +252,14 @@ export default defineComponent({
                                                     class={`${prefixCls}-tab-pad`}
                                                 ></div>
                                             )}
-                                            {tabSlot ? (
-                                                <Tab
-                                                    {...vNode.props}
-                                                    ref={(el) =>
-                                                        setTabRefs(el, index)
-                                                    }
-                                                >
-                                                    {tabSlot?.()}
-                                                </Tab>
-                                            ) : (
-                                                <Tab
-                                                    {...vNode.props}
-                                                    ref={(el) =>
-                                                        setTabRefs(el, index)
-                                                    }
-                                                />
-                                            )}
+                                            <FTab
+                                                {...vNode.props}
+                                                ref={((el: ComponentPublicInstance) =>
+                                                    setTabRefs(el, index)) as any
+                                                }
+                                            >
+                                                {tabSlot?.()}
+                                            </FTab>
                                         </>
                                     );
                                 })}

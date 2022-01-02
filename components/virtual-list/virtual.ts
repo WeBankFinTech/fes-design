@@ -2,23 +2,50 @@
  * virtual list core calculating center
  */
 
-const DIRECTION_TYPE = {
-    FRONT: 'FRONT', // scroll up or left
-    BEHIND: 'BEHIND', // scroll down or right
-};
-const CALC_TYPE = {
-    INIT: 'INIT',
-    FIXED: 'FIXED',
-    DYNAMIC: 'DYNAMIC',
-};
+enum DIRECTION_TYPE {
+    FRONT = 'FRONT', // scroll up or left
+    BEHIND = 'BEHIND', // scroll down or right
+}
+enum CALC_TYPE {
+    INIT = 'INIT',
+    FIXED = 'FIXED',
+    DYNAMIC = 'DYNAMIC',
+}
+
+interface Range {
+    start: number;
+    end: number;
+    padFront: number;
+    padBehind: number;
+}
+interface VirtualPramas {
+    slotHeaderSize?: number;
+    slotFooterSize?: number;
+    keeps?: number;
+    estimateSize?: number;
+    buffer?: number;
+    uniqueIds?: (string | number)[];
+}
+
 const LEADING_BUFFER = 0;
 
 export default class Virtual {
-    constructor(param, callUpdate) {
+    param: VirtualPramas;
+    sizes: Map<number | string, number>;
+    firstRangeTotalSize: number;
+    firstRangeAverageSize: number;
+    lastCalcIndex: number;
+    fixedSizeValue: number;
+    calcType: CALC_TYPE;
+    offset: number;
+    direction: DIRECTION_TYPE;
+    range: Range;
+    callUpdate: (range: Range) => void;
+    constructor(param: VirtualPramas, callUpdate: (range: Range) => void) {
         this.init(param, callUpdate);
     }
 
-    init(param = {}, callUpdate = null) {
+    init(param: VirtualPramas = {}, callUpdate: (range: Range) => void = null) {
         this.param = param;
         this.callUpdate = callUpdate;
         // size data
@@ -31,7 +58,6 @@ export default class Virtual {
 
         // scroll data
         this.offset = 0;
-        this.direction = '';
 
         // range data
         this.range = Object.create(null);
@@ -63,14 +89,14 @@ export default class Virtual {
     }
 
     // return start index offset
-    getOffset(start) {
+    getOffset(start: number) {
         return (
             (start < 1 ? 0 : this.getIndexOffset(start)) +
             this.param.slotHeaderSize
         );
     }
 
-    updateParam(key, value) {
+    updateParam(key: keyof VirtualPramas, value: any) {
         if (this.param && Object.keys(this.param).includes(key)) {
             // if uniqueIds change, find out deleted id and remove from size map
             if (key === 'uniqueIds') {
@@ -85,7 +111,7 @@ export default class Virtual {
     }
 
     // save each size map by id
-    saveSize(id, size) {
+    saveSize(id: number | string, size: number) {
         this.sizes.set(id, size);
         // we assume size type is fixed at the beginning and remember first size value
         // if there is no size value different from this at next comming saving
@@ -151,7 +177,7 @@ export default class Virtual {
     }
 
     // calculating range on scroll
-    handleScroll(offset) {
+    handleScroll(offset: number) {
         this.direction =
             offset < this.offset ? DIRECTION_TYPE.FRONT : DIRECTION_TYPE.BEHIND;
         this.offset = offset;
@@ -224,7 +250,7 @@ export default class Virtual {
 
     // return a scroll offset from given index, can efficiency be improved more here?
     // although the call frequency is very high, its only a superposition of numbers
-    getIndexOffset(givenIndex) {
+    getIndexOffset(givenIndex: number) {
         if (!givenIndex) {
             return 0;
         }
@@ -259,7 +285,7 @@ export default class Virtual {
 
     // in some conditions range is broke, we need correct it
     // and then decide whether need update to next range
-    checkRange(start, end) {
+    checkRange(start: number, end: number) {
         const keeps = this.param.keeps;
         const total = this.param.uniqueIds.length;
         // datas less than keeps, render all
@@ -277,7 +303,7 @@ export default class Virtual {
     }
 
     // setting to a new range and rerender
-    updateRange(start, end) {
+    updateRange(start: number, end: number) {
         this.range.start = start;
         this.range.end = end;
         this.range.padFront = this.getPadFront();
@@ -286,7 +312,7 @@ export default class Virtual {
     }
 
     // return end base on start
-    getEndByStart(start) {
+    getEndByStart(start: number) {
         const theoryEnd = start + this.param.keeps - 1;
         const truelyEnd = Math.min(theoryEnd, this.getLastIndex());
         return truelyEnd;

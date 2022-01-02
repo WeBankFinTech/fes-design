@@ -42,7 +42,8 @@
         </Popper>
     </div>
 </template>
-<script>
+
+<script setup lang="ts">
 import { defineComponent, ref, unref, watch, computed } from 'vue';
 import { cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -169,4 +170,10 @@ export default defineComponent({
         };
     },
 });
+</script>
+
+<script>
+export default {
+    name: 'FCascader',
+};
 </script>

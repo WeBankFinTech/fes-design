@@ -8,75 +8,70 @@
         />
     </div>
 </template>
-<script>
-import { computed, defineComponent, provide, reactive } from 'vue';
+
+<script setup lang="ts">
+import { computed, provide, reactive, useSlots } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
-import {
-    CASCADER_PANEL_INJECTION_KEY,
-    DEFAULT_CONFIG,
-    EXPAND_TRIGGER,
-} from './const';
+import { DEFAULT_CONFIG, EXPAND_TRIGGER } from './const';
 import usePanel from './usePanel';
-import CascaderMenu from './menu';
-import PROPS from './props';
+import CascaderMenu from './menu.vue';
+import {
+    CascaderPanelProps,
+    cascaderPanelPropsDefaultValue,
+    CASCADER_PANEL_INJECTION_KEY,
+} from './props';
+
+import type { CascaderNodeConfig, CascaderPanelEmits } from './interface';
+
+const props = withDefaults(defineProps<CascaderPanelProps>(), {
+    ...cascaderPanelPropsDefaultValue,
+});
 
 const prefixCls = getPrefixCls('cascader-panel');
+const emit = defineEmits<CascaderPanelEmits>();
+const slots = useSlots();
 
-export default defineComponent({
+useTheme();
+const renderLabelFn = computed(() => props.renderLabel || slots.default);
+const currentMultiple = computed(() => props.multiple);
+
+const config = computed<CascaderNodeConfig>(() => ({
+    ...DEFAULT_CONFIG,
+    ...props.nodeConfig,
+}));
+
+const isHoverMenu = computed(
+    () => config.value.expandTrigger === EXPAND_TRIGGER.HOVER,
+);
+
+const {
+    menus,
+    setNodeElem,
+    expandingNode,
+    handleExpandNode,
+    handleCheckChange,
+    handleKeyDown,
+} = usePanel(config, props, emit);
+
+provide(
+    CASCADER_PANEL_INJECTION_KEY,
+    reactive({
+        emptyText: '暂无数据',
+        config,
+        multiple: currentMultiple,
+        isHoverMenu,
+        renderLabelFn,
+        expandingNode,
+        handleExpandNode,
+        handleCheckChange,
+        setNodeElem,
+    }),
+);
+</script>
+
+<script>
+export default {
     name: 'FCascaderPanel',
-    components: {
-        CascaderMenu,
-    },
-    props: {
-        ...PROPS,
-    },
-    emits: ['expandChange', 'checkChange', 'close'],
-    setup(props, { emit, slots }) {
-        useTheme();
-        const renderLabelFn = computed(
-            () => props.renderLabel || slots.default,
-        );
-        const currentMultiple = computed(() => props.multiple);
-
-        const config = computed(() => ({
-            ...DEFAULT_CONFIG,
-            ...props.nodeConfig,
-        }));
-
-        const isHoverMenu = computed(
-            () => config.value.expandTrigger === EXPAND_TRIGGER.HOVER,
-        );
-
-        const {
-            menus,
-            setNodeElem,
-            expandingNode,
-            handleExpandNode,
-            handleCheckChange,
-            handleKeyDown,
-        } = usePanel(config, props, emit);
-
-        provide(
-            CASCADER_PANEL_INJECTION_KEY,
-            reactive({
-                emptyText: '暂无数据',
-                config,
-                multiple: currentMultiple,
-                isHoverMenu,
-                renderLabelFn,
-                expandingNode,
-                handleExpandNode,
-                handleCheckChange,
-                setNodeElem,
-            }),
-        );
-
-        return {
-            prefixCls,
-            menus,
-            handleKeyDown,
-        };
-    },
-});
+};
 </script>

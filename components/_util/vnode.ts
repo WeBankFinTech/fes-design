@@ -1,5 +1,4 @@
 import { Fragment, Text, Comment, createTextVNode, VNode } from 'vue';
-// import { Vnode } from '../cascader-panel/interface';
 
 const TEMPLATE = 'template';
 

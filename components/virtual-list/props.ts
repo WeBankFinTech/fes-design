@@ -2,13 +2,17 @@
  * props declaration for default, item and slot component
  */
 
+import { PropType, VNodeChild } from 'vue';
+
 export const VirtualProps = {
     dataKey: {
-        type: [String, Function],
+        type: [String, Function] as PropType<
+            string | ((dataSource: object) => number | string)
+        >,
         required: true,
     },
     dataSources: {
-        type: Array,
+        type: Array as PropType<object[]>,
         required: true,
     },
 
@@ -25,7 +29,7 @@ export const VirtualProps = {
     },
 
     direction: {
-        type: String,
+        type: String as PropType<'horizontal' | 'vertical'>,
         default: 'vertical', // the other value is horizontal
     },
     start: {
@@ -102,7 +106,7 @@ export const VirtualProps = {
     itemScopedSlots: {
         type: Object,
     },
-};
+} as const;
 
 export const ItemProps = {
     index: {
@@ -118,16 +122,16 @@ export const ItemProps = {
         type: Boolean,
     },
     source: {
-        type: [Object, String, Number],
+        type: [Object, String, Number] as PropType<object | string | number>,
     },
     component: {
-        type: [Object, Function],
+        type: [Object, Function] as PropType<object | (() => VNodeChild)>,
     },
     slotComponent: {
-        type: Function,
+        type: Function as PropType<() => VNodeChild>,
     },
     uniqueKey: {
-        type: [String, Number],
+        type: [String, Number] as PropType<string | number>,
     },
     extraProps: {
         type: Object,
@@ -135,4 +139,4 @@ export const ItemProps = {
     scopedSlots: {
         type: Object,
     },
-};
+} as const;

@@ -4,6 +4,7 @@
  */
 
 import {
+    h,
     defineComponent,
     watch,
     onActivated,
@@ -15,16 +16,16 @@ import {
 import Virtual from './virtual';
 import { FVirtualListItem } from './listItem';
 import { VirtualProps } from './props';
-import WScrollbar from '../scrollbar/scrollbar';
+import FScrollbar from '../scrollbar/scrollbar';
 import {
     TO_TOP_EVENT,
     TO_BOTTOM_EVENT,
     RESIZED_EVENT,
 } from '../_util/constants';
 
-const SLOT_TYPE = {
-    HEADER: 'thead', // string value also use for aria role attribute
-    FOOTER: 'tfoot',
+enum SLOT_TYPE {
+    HEADER = 'thead', // string value also use for aria role attribute
+    FOOTER = 'tfoot',
 };
 
 export default defineComponent({
@@ -39,7 +40,7 @@ export default defineComponent({
         const shepherdRef = ref();
         const rangeRef = ref(Object.create(null));
 
-        let virtual = null;
+        let virtual: Virtual = null;
 
         const fullHeight = computed(() => {
             const { padBehind } = rangeRef.value;
@@ -57,7 +58,7 @@ export default defineComponent({
             return props.dataSources.map((dataSource) =>
                 typeof dataKey === 'function'
                     ? dataKey(dataSource)
-                    : dataSource[dataKey],
+                    : (dataSource as any)[dataKey],
             );
         };
 
@@ -82,7 +83,7 @@ export default defineComponent({
         installVirtual();
 
         // get item size by id
-        const getSize = (id) => virtual.sizes.get(id);
+        const getSize = (id: number | string) => virtual.sizes.get(id);
 
         // get the total number of stored (rendered) items
         const getSizes = () => virtual.sizes.size;
@@ -108,7 +109,7 @@ export default defineComponent({
         };
 
         // set current scroll position to a expectant offset
-        const scrollToOffset = (offset) => {
+        const scrollToOffset = (offset: number) => {
             const root = rootRef.value;
             if (root) {
                 isHorizontal
@@ -137,7 +138,7 @@ export default defineComponent({
         };
 
         // set current scroll position to a expectant index
-        const scrollToIndex = (index) => {
+        const scrollToIndex = (index: number) => {
             // scroll to bottom
             if (index >= props.dataSources.length - 1) {
                 scrollToBottom();
@@ -155,13 +156,13 @@ export default defineComponent({
         };
 
         // event called when each item mounted or size changed
-        const onItemResized = (id, size) => {
+        const onItemResized = (id: number | string, size: number) => {
             virtual.saveSize(id, size);
             emit(RESIZED_EVENT, id, size);
         };
 
         // event called when slot mounted or size changed
-        const onSlotResized = (type, size, hasInit) => {
+        const onSlotResized = (type: SLOT_TYPE, size: number, hasInit: boolean) => {
             if (slots.header() || slots.footer()) {
                 if (type === SLOT_TYPE.HEADER) {
                     virtual.updateParam('slotHeaderSize', size);
@@ -176,7 +177,7 @@ export default defineComponent({
         };
 
         // emit event in special position
-        const emitEvent = (offset, clientSize, scrollSize, evt) => {
+        const emitEvent = (offset: number, clientSize: number, scrollSize: number, evt: Event) => {
             emit('scroll', evt, virtual.getRange());
 
             if (
@@ -193,7 +194,7 @@ export default defineComponent({
             }
         };
 
-        const onScroll = (evt) => {
+        const onScroll = (evt: Event) => {
             const offset = getOffset();
             const clientSize = getClientSize();
             const scrollSize = getScrollSize();
@@ -235,7 +236,7 @@ export default defineComponent({
                         const uniqueKey =
                             typeof dataKey === 'function'
                                 ? dataKey(dataSource)
-                                : dataSource[dataKey];
+                                : (dataSource as any)[dataKey];
                         if (
                             typeof uniqueKey === 'string' ||
                             typeof uniqueKey === 'number'
@@ -253,8 +254,8 @@ export default defineComponent({
                                 style: itemStyle,
                                 onItemResized,
                                 class: `${itemClass}${itemClassAdd
-                                        ? ` ${itemClassAdd(index)}`
-                                        : ''
+                                    ? ` ${itemClassAdd(index)}`
+                                    : ''
                                     }`,
                             });
                             _slots.push(tempNode);
@@ -380,9 +381,9 @@ export default defineComponent({
             rootTag,
             {
                 style: rootStyle,
-                ref: (el) => {
+                ref: ((el: Element) => {
                     if (el) this.rootRef = el.parentElement;
-                },
+                }) as any,
             },
             [
                 // 主列表
@@ -398,6 +399,6 @@ export default defineComponent({
             ],
         );
 
-        return <WScrollbar onScroll={onScroll}>{tempVirtualVNode}</WScrollbar>;
+        return <FScrollbar onScroll={onScroll}>{tempVirtualVNode}</FScrollbar>;
     },
 });

@@ -1,4 +1,4 @@
-<script>
+<script setup lang="ts">
 import {
     defineComponent,
     h,
@@ -18,56 +18,58 @@ import {
 
 let columnIdSeed = 1;
 
-export default defineComponent({
-    name: TABLE_COLUMN_NAME,
-    props: {
-        label: String,
-        prop: String,
-        type: {
-            type: String,
-            default: 'default',
-            validator(value) {
-                return COL_TYPE.includes(value);
-            },
-        },
-        align: {
-            type: String,
-            default: 'left',
-            validator(value) {
-                return ALIGN.includes(value);
-            },
-        },
-        width: Number,
-        minWidth: Number,
-        colClassName: [Function, String],
-        colStyle: [Function, Object],
-        fixed: {
-            type: [Boolean, String],
-            validator(value) {
-                return ['left', 'right', true, false].includes(value);
-            },
-        },
-        formatter: Function,
-        resizable: {
-            type: Boolean,
-            default: false,
-        },
-        sortable: {
-            type: Boolean,
-            default: false,
-        },
-        sortMethod: Function,
-        selectable: Function,
-        action: [Object, Array],
-        ellipsis: {
-            type: Boolean,
-            default: false,
-        },
-        visible: {
-            type: Boolean,
-            default: true,
+const columnProps = {
+    label: String,
+    prop: String,
+    type: {
+        type: String,
+        default: 'default',
+        validator(value) {
+            return COL_TYPE.includes(value);
         },
     },
+    align: {
+        type: String,
+        default: 'left',
+        validator(value) {
+            return ALIGN.includes(value);
+        },
+    },
+    width: Number,
+    minWidth: Number,
+    colClassName: [Function, String],
+    colStyle: [Function, Object],
+    fixed: {
+        type: [Boolean, String],
+        validator(value) {
+            return ['left', 'right', true, false].includes(value);
+        },
+    },
+    formatter: Function,
+    resizable: {
+        type: Boolean,
+        default: false,
+    },
+    sortable: {
+        type: Boolean,
+        default: false,
+    },
+    sortMethod: Function,
+    selectable: Function,
+    action: [Object, Array],
+    ellipsis: {
+        type: Boolean,
+        default: false,
+    },
+    visible: {
+        type: Boolean,
+        default: true,
+    },
+} as const;
+
+export default defineComponent({
+    name: TABLE_COLUMN_NAME,
+    props: columnProps,
     setup(props, ctx) {
         const table = inject(provideKey, null);
         if (!table) {
@@ -117,4 +119,10 @@ export default defineComponent({
         return h('div', children);
     },
 });
+</script>
+
+<script>
+export default {
+    name: TABLE_COLUMN_NAME,
+};
 </script>

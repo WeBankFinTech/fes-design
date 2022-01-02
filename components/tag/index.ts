@@ -1,5 +1,5 @@
 import { withInstall } from '../_util/withInstall';
-import Tag from './tag';
+import Tag from './tag.vue';
 
 export const FTag = withInstall(Tag);
 

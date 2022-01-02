@@ -1,4 +1,4 @@
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, Ref } from 'vue';
 import { flatNodes } from '../_util/utils';
 import {
     generateId,
@@ -8,7 +8,10 @@ import {
     getNodeValueByCurrentValue,
 } from './utils';
 
-function useNodes(config, props) {
+import type { CascaderNode, CascaderNodeConfig } from './interface';
+import { CascaderPanelProps } from './props';
+
+function useNodes(config: Ref<CascaderNodeConfig>, props: CascaderPanelProps) {
     const nodes = ref([]);
     const menus = ref([]);
 
@@ -47,11 +50,15 @@ function useNodes(config, props) {
     };
 }
 
-function setNodeElem(node, elem) {
+function setNodeElem(node: CascaderNode, elem: HTMLElement) {
     node.elem = elem;
 }
 
-function useSelectedNodes(config, props, allNodes) {
+function useSelectedNodes(
+    config: Ref<CascaderNodeConfig>,
+    props: CascaderPanelProps,
+    allNodes: Ref<CascaderNode[]>,
+) {
     const selectedNodes = computed(() => {
         const { emitPath } = config.value;
         const { currentValue, multiple } = props;
@@ -94,7 +101,7 @@ function useSelectedNodes(config, props, allNodes) {
     };
 }
 
-export default (config, props) => {
+export default (config: Ref<CascaderNodeConfig>, props: CascaderPanelProps) => {
     const { nodes, menus, allNodes, leafNodes, updateMenus } = useNodes(
         config,
         props,

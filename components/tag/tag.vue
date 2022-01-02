@@ -12,84 +12,67 @@
     </div>
 </template>
 
-<script>
-import { computed, defineComponent } from 'vue';
+<script setup lang="ts">
+import { computed } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import CloseCircleOutlined from '../icon/CloseOutlined';
 
 const prefixCls = getPrefixCls('tag');
 
-const TAG_TYPE = ['default', 'success', 'info', 'warning', 'danger'];
-const TAG_SIZE = ['small', 'middle', 'large'];
-const TAG_EFFECT = ['dark', 'light', 'plain'];
+const TAG_TYPE = ['default', 'success', 'info', 'warning', 'danger'] as const;
+const TAG_SIZE = ['small', 'middle', 'large'] as const;
+const TAG_EFFECT = ['dark', 'light', 'plain'] as const;
 
-export default defineComponent({
-    name: 'FTag',
-    components: { CloseCircleOutlined },
-    props: {
-        type: {
-            type: String,
-            default: 'default',
-            validator(value) {
-                return !value || TAG_TYPE.includes(value);
-            },
-        },
-        closable: {
-            type: Boolean,
-            default: false,
-        },
-        backgroundColor: {
-            type: String,
-            default: '',
-        },
-        size: {
-            type: String,
-            default: 'middle',
-            validator(value) {
-                return !value || TAG_SIZE.includes(value);
-            },
-        },
-        effect: {
-            type: String,
-            default: 'light',
-            validator(value) {
-                return !value || TAG_EFFECT.indexOf(value) !== -1;
-            },
-        },
-    },
-    emits: ['close', 'click'],
-    setup(props, ctx) {
-        useTheme();
-        const { type, size, effect } = props;
+interface TagProps {
+    type: typeof TAG_TYPE[number];
+    closable: boolean;
+    backgroundColor: string;
+    size: typeof TAG_SIZE[number];
+    effect: typeof TAG_EFFECT[number];
+}
 
-        /**
-         * computed
-         */
-        const classes = computed(() => ({
-            [prefixCls]: true,
-            [`${prefixCls}-type--${type}`]: type,
-            [`${prefixCls}-size--${size}`]: size,
-            [`${prefixCls}-effect--${effect}`]: effect,
-        }));
+type TagEmits = {
+    (e: 'close', event: Event): void;
+    (e: 'click', event: Event): void;
+};
 
-        /**
-         * methods
-         */
-        const handleClose = (event) => {
-            ctx.emit('close', event);
-        };
-
-        const handleClick = (event) => {
-            ctx.emit('click', event);
-        };
-
-        return {
-            prefixCls,
-            classes,
-            handleClose,
-            handleClick,
-        };
-    },
+const props = withDefaults(defineProps<TagProps>(), {
+    type: 'default',
+    closable: false,
+    size: 'middle',
+    effect: 'light',
 });
+
+const emit = defineEmits<TagEmits>();
+
+useTheme();
+const { type, size, effect } = props;
+
+/**
+ * computed
+ */
+const classes = computed(() => ({
+    [prefixCls]: true,
+    [`${prefixCls}-type--${type}`]: type,
+    [`${prefixCls}-size--${size}`]: size,
+    [`${prefixCls}-effect--${effect}`]: effect,
+}));
+
+/**
+ * methods
+ */
+const handleClose = (event: Event) => {
+    emit('close', event);
+};
+
+const handleClick = (event: Event) => {
+    emit('click', event);
+};
+</script>
+
+<script>
+export default {
+    name: 'FTag',
+};
 </script>

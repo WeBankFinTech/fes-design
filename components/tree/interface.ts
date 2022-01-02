@@ -22,3 +22,21 @@ export interface InnerTreeOption extends TreeOption {
     children?: InnerTreeOption[];
     isExpanded?: boolean;
 }
+
+export interface TreeNodeList {
+    [key: string]: InnerTreeOption;
+}
+
+interface TreeEventParams {
+    node: TreeOption;
+    event: Event;
+    selected: boolean;
+}
+
+export interface SelectParams extends TreeEventParams {
+    selectedKeys: TreeNodeKey[];
+}
+
+export interface CheckParams extends TreeEventParams {
+    checkedKeys: TreeNodeKey[];
+}
