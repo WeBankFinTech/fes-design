@@ -103,6 +103,7 @@
         </Popper>
     </div>
 </template>
+
 <script>
 import { defineComponent, ref, unref, watch, computed, onMounted } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -315,4 +316,10 @@ export default defineComponent({
         };
     },
 });
+</script>
+
+<script>
+export default {
+    name: 'FSelectTree',
+};
 </script>

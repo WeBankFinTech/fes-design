@@ -6,97 +6,87 @@
         </span>
     </div>
 </template>
-<script>
-import { defineComponent, computed, watch, onMounted } from 'vue';
+
+<script setup lang="ts">
+import { computed, watch, onMounted } from 'vue';
 import { isEqual, isFunction } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
+
 import { CHANGE_EVENT } from '../_util/constants';
+
+import type { VModelEvent, ChangeEvent } from '../_util/interface';
 
 const prefixCls = getPrefixCls('switch');
 
-export default defineComponent({
-    name: 'FSwitch',
-    props: {
-        modelValue: {
-            type: [String, Array, Object, Number, Boolean],
-            default: null,
-        },
-        disabled: {
-            type: Boolean,
-            default: false,
-        },
-        activeValue: {
-            type: [String, Array, Object, Number, Boolean],
-            default: true,
-        },
-        inactiveValue: {
-            type: [String, Array, Object, Number, Boolean],
-            default: false,
-        },
-        beforeChange: Function,
-        size: {
-            type: String,
-            validator(value) {
-                return ['normal', 'small'].includes(value);
-            },
-            default: 'normal',
-        },
-    },
-    setup(props, ctx) {
-        useTheme();
-        const [currentValue, updateCurrentValue] = useNormalModel(
-            props,
-            ctx.emit,
-            {
-                prop: 'modelValue',
-                isEqual: true,
-            },
-        );
-        onMounted(() => {
-            // 默认为未选中
-            if (currentValue.value === null) {
-                updateCurrentValue(props.inactiveValue);
-            }
-        });
+type SwitchValue = string | [] | object | number | boolean;
+type SwitchSize = 'normal' | 'small';
 
-        watch(currentValue, () => {
-            ctx.emit(CHANGE_EVENT, currentValue.value);
-        });
-        const actived = computed(() =>
-            isEqual(currentValue.value, props.activeValue),
-        );
-        const inactived = computed(() =>
-            isEqual(currentValue.value, props.inactiveValue),
-        );
-        const toggle = async () => {
-            if (props.disabled) return;
-            if (isFunction(props.beforeChange)) {
-                const confirm = await props.beforeChange(currentValue.value);
-                if (!confirm) {
-                    return;
-                }
-            }
-            updateCurrentValue(
-                actived.value ? props.inactiveValue : props.activeValue,
-            );
-        };
-        const wrapperClass = computed(() =>
-            [
-                prefixCls,
-                props.size && `${prefixCls}-size-${props.size}`,
-                actived.value && 'is-checked',
-                props.disabled && 'is-disabled',
-            ].filter(Boolean),
-        );
-        return {
-            prefixCls,
-            wrapperClass,
-            actived,
-            inactived,
-            toggle,
-        };
-    },
+interface SwitchProps {
+    modelValue: SwitchValue;
+    disabled: boolean;
+    activeValue: SwitchValue;
+    inactiveValue: SwitchValue;
+    beforeChange: (val: SwitchValue) => boolean | Promise<boolean>;
+    size: SwitchSize;
+}
+
+type SwitchEmits = {
+    (e: VModelEvent, value: SwitchValue): void;
+    (e: ChangeEvent, value: SwitchValue): void;
+};
+
+const props = withDefaults(defineProps<SwitchProps>(), {
+    disabled: false,
+    activeValue: true,
+    inactiveValue: false,
+    size: 'normal',
 });
+
+const emit = defineEmits<SwitchEmits>();
+
+useTheme();
+const [currentValue, updateCurrentValue] = useNormalModel(props, emit, {
+    prop: 'modelValue',
+    isEqual: true,
+});
+onMounted(() => {
+    // 默认为未选中
+    if (currentValue.value === null) {
+        updateCurrentValue(props.inactiveValue);
+    }
+});
+
+watch(currentValue, () => {
+    emit(CHANGE_EVENT, currentValue.value);
+});
+const actived = computed(() => isEqual(currentValue.value, props.activeValue));
+const inactived = computed(() =>
+    isEqual(currentValue.value, props.inactiveValue),
+);
+const toggle = async () => {
+    if (props.disabled) return;
+    if (isFunction(props.beforeChange)) {
+        const confirm = await props.beforeChange(currentValue.value);
+        if (!confirm) {
+            return;
+        }
+    }
+    updateCurrentValue(actived.value ? props.inactiveValue : props.activeValue);
+};
+const wrapperClass = computed(() =>
+    [
+        prefixCls,
+        props.size && `${prefixCls}-size-${props.size}`,
+        actived.value && 'is-checked',
+        props.disabled && 'is-disabled',
+    ].filter(Boolean),
+);
+</script>
+
+<script>
+export default {
+    name: 'FSwitch',
+};
 </script>

@@ -19,3 +19,5 @@ export type ComponentInstall = Component & {
 } & {
     [key: string]: Component;
 };
+
+export type GetContainer = () => HTMLElement;

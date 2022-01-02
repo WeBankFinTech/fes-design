@@ -23,7 +23,7 @@
                     :filterable="filterable"
                     :collapseTags="collapseTags"
                     :collapseTagsLimit="collapseTagsLimit"
-                    @remove="handleRemove"
+                    @remove="onSelect"
                     @clear="handleClear"
                     @focus="focus"
                     @blur="blur"
@@ -46,9 +46,9 @@
         </Popper>
     </div>
 </template>
-<script>
+
+<script setup lang="ts">
 import {
-    defineComponent,
     ref,
     provide,
     unref,
@@ -56,191 +56,178 @@ import {
     watch,
     computed,
     onMounted,
+    CSSProperties,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel, useArrayModel } from '../_util/use/useModel';
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
+import { CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
 import { key } from './const';
-import PROPS from './props';
 import OptionList from './optionList';
+import { SelectProps, selectPropsDefaultValue } from './props';
+
+import type { VModelEvent, ChangeEvent } from '../_util/interface';
+import type { SelectValue, OptionChildren } from './interface';
 
 const prefixCls = getPrefixCls('select');
 
-export default defineComponent({
-    name: 'FSelect',
-    components: {
-        Popper,
-        SelectTrigger,
-        OptionList,
-    },
-    props: {
-        ...PROPS,
-    },
-    emits: [
-        UPDATE_MODEL_EVENT,
-        CHANGE_EVENT,
-        'removeTag',
-        'visibleChange',
-        'focus',
-        'blur',
-        'clear',
-    ],
-    setup(props, { emit }) {
-        useTheme();
-        const { validate } = useFormAdaptor(
-            computed(() => (props.multiple ? 'array' : 'string')),
-        );
-        const isOpened = ref(false);
-        const [currentValue, updateCurrentValue] = props.multiple
-            ? useArrayModel(props, emit)
-            : useNormalModel(props, emit);
-
-        watch(isOpened, () => {
-            emit('visibleChange', unref(isOpened));
-        });
-        watch(currentValue, () => {
-            emit(CHANGE_EVENT, unref(currentValue));
-            validate(CHANGE_EVENT);
-        });
-
-        const handleClear = () => {
-            const value = props.multiple ? [] : null;
-            updateCurrentValue(value);
-            emit('clear');
-        };
-
-        const childOptions = reactive([]);
-
-        const addOption = (option) => {
-            if (!childOptions.includes(option)) {
-                childOptions.push(option);
-            }
-        };
-
-        const removeOption = (id) => {
-            const colIndex = childOptions.findIndex((item) => item.id === id);
-            if (colIndex !== -1) {
-                childOptions.splice(colIndex, 1);
-            }
-        };
-
-        const options = computed(() => [...props.options, ...childOptions]);
-
-        const filterText = ref('');
-
-        const filteredOptions = computed(() =>
-            options.value.filter(
-                (option) =>
-                    !filterText.value ||
-                    String(option.label).includes(filterText.value),
-            ),
-        );
-
-        const isSelect = (value) => {
-            const selectVal = unref(currentValue);
-            const optVal = unref(value);
-            if (selectVal === null) {
-                return false;
-            }
-            if (props.multiple) {
-                return selectVal.includes(optVal);
-            }
-            return selectVal === optVal;
-        };
-
-        const onSelect = (value) => {
-            if (props.disabled) return;
-            filterText.value = '';
-            if (props.multiple) {
-                if (isSelect(value)) {
-                    emit('removeTag', value);
-                } else {
-                    const selectVal = unref(currentValue);
-                    if (
-                        props.multipleLimit > 0 &&
-                        props.multipleLimit === selectVal.length
-                    ) {
-                        return;
-                    }
-                }
-            } else {
-                isOpened.value = false;
-            }
-            updateCurrentValue(unref(value));
-        };
-
-        // select-trigger 选择项展示
-        const selectedOptions = computed(() => {
-            const val = unref(currentValue);
-            if (!props.multiple) {
-                return options.value.filter((option) => option.value === val);
-            }
-            return val.map((value) => {
-                const filteredOption = options.value.filter(
-                    (option) => option.value === value,
-                );
-                if (filteredOption.length) {
-                    return filteredOption[0];
-                }
-                return { value };
-            });
-        });
-
-        provide(key, {
-            addOption,
-            removeOption,
-        });
-
-        const focus = (e) => {
-            emit('focus', e);
-        };
-
-        const blur = (e) => {
-            emit('blur', e);
-            validate('blur');
-        };
-
-        const handleFilterTextChange = (val) => {
-            filterText.value = val;
-        };
-
-        const triggerRef = ref();
-        const triggerWidth = ref(0);
-
-        onMounted(() => {
-            if (triggerRef.value) {
-                triggerWidth.value = triggerRef.value.$el.offsetWidth;
-            }
-        });
-
-        const dropdownStyle = computed(() => {
-            const style = {};
-            if (triggerWidth.value) {
-                style['min-width'] = `${triggerWidth.value}px`;
-            }
-            return style;
-        });
-
-        return {
-            prefixCls,
-            isOpened,
-            currentValue,
-            handleRemove: onSelect,
-            handleClear,
-            selectedOptions,
-            focus,
-            blur,
-            handleFilterTextChange,
-            triggerRef,
-            dropdownStyle,
-            isSelect,
-            onSelect,
-            filteredOptions,
-        };
-    },
+const props = withDefaults(defineProps<SelectProps>(), {
+    ...selectPropsDefaultValue,
 });
+
+type SelectEmits = {
+    (e: VModelEvent, value: SelectValue): void;
+    (e: ChangeEvent, value: SelectValue): void;
+    (e: 'removeTag', value: SelectValue): void;
+    (e: 'visibleChange', value: SelectValue): void;
+    (e: 'clear'): void;
+    (e: 'blur', event: Event): void;
+    (e: 'focus', event: Event): void;
+};
+
+const emit = defineEmits<SelectEmits>();
+
+useTheme();
+const { validate } = useFormAdaptor(
+    computed(() => (props.multiple ? 'array' : 'string')),
+);
+const isOpened = ref(false);
+const [currentValue, updateCurrentValue] = props.multiple
+    ? useArrayModel(props, emit)
+    : useNormalModel(props, emit);
+
+watch(isOpened, () => {
+    emit('visibleChange', unref(isOpened));
+});
+watch(currentValue, () => {
+    emit(CHANGE_EVENT, unref(currentValue));
+    validate(CHANGE_EVENT);
+});
+
+const handleClear = () => {
+    const value: null | [] = props.multiple ? [] : null;
+    updateCurrentValue(value);
+    emit('clear');
+};
+
+const childOptions = reactive([]);
+
+const addOption = (option: OptionChildren) => {
+    if (!childOptions.includes(option)) {
+        childOptions.push(option);
+    }
+};
+
+const removeOption = (id: number | string) => {
+    const colIndex = childOptions.findIndex((item) => item.id === id);
+    if (colIndex !== -1) {
+        childOptions.splice(colIndex, 1);
+    }
+};
+
+const options = computed(() => [...props.options, ...childOptions]);
+
+const filterText = ref('');
+
+const filteredOptions = computed(() =>
+    options.value.filter(
+        (option) =>
+            !filterText.value ||
+            String(option.label).includes(filterText.value),
+    ),
+);
+
+const isSelect = (value: SelectValue) => {
+    const selectVal = unref(currentValue);
+    const optVal = unref(value);
+    if (selectVal === null) {
+        return false;
+    }
+    if (props.multiple) {
+        return selectVal.includes(optVal);
+    }
+    return selectVal === optVal;
+};
+
+const onSelect = (value: SelectValue) => {
+    if (props.disabled) return;
+    filterText.value = '';
+    if (props.multiple) {
+        if (isSelect(value)) {
+            emit('removeTag', value);
+        } else {
+            const selectVal = unref(currentValue);
+            if (
+                props.multipleLimit > 0 &&
+                props.multipleLimit === selectVal.length
+            ) {
+                return;
+            }
+        }
+    } else {
+        isOpened.value = false;
+    }
+    updateCurrentValue(unref(value));
+};
+
+// select-trigger 选择项展示
+const selectedOptions = computed(() => {
+    const val = unref(currentValue);
+    if (!props.multiple) {
+        return options.value.filter((option) => option.value === val);
+    }
+    return val.map((value: SelectValue) => {
+        const filteredOption = options.value.filter(
+            (option) => option.value === value,
+        );
+        if (filteredOption.length) {
+            return filteredOption[0];
+        }
+        return { value };
+    });
+});
+
+provide(key, {
+    addOption,
+    removeOption,
+});
+
+const focus = (e: Event) => {
+    emit('focus', e);
+};
+
+const blur = (e: Event) => {
+    emit('blur', e);
+    validate('blur');
+};
+
+const handleFilterTextChange = (val: string) => {
+    filterText.value = val;
+};
+
+const triggerRef = ref();
+const triggerWidth = ref(0);
+
+onMounted(() => {
+    if (triggerRef.value) {
+        triggerWidth.value = triggerRef.value.$el.offsetWidth;
+    }
+});
+
+const dropdownStyle = computed(() => {
+    const style: CSSProperties = {};
+    if (triggerWidth.value) {
+        style['min-width'] = `${triggerWidth.value}px`;
+    }
+    return style;
+});
+</script>
+
+<script>
+export default {
+    name: 'FSelect',
+};
 </script>

@@ -45,3 +45,15 @@ export const flatNodes = (nodes: Node[] = [], leafOnly = false) =>
         }
         return res;
     }, []);
+
+export const extractPropsDefaultValue = (props: { [key: string]: any }) => {
+    const defaultValue: {
+        [key: string]: any;
+    } = {};
+    Object.keys(props).forEach((key) => {
+        if (props[key].default) {
+            defaultValue[key] = props[key].default;
+        }
+    });
+    return defaultValue;
+};

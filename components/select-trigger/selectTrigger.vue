@@ -37,27 +37,57 @@
         </div>
     </div>
 </template>
-<script>
-import { defineComponent, ref, computed } from 'vue';
+
+<script setup lang="ts">
+import { ref, computed } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
-import Label from './label';
+import Label from './label.vue';
 import UpOutlined from '../icon/UpOutlined';
 import DownOutlined from '../icon/DownOutlined';
 import CloseCircleFilled from '../icon/CloseCircleFilled';
 
+import type { SelectValue } from '../select/interface';
+
 const prefixCls = getPrefixCls('select-trigger');
 
-function useFocus(emit, props) {
+interface SelectTriggerProps {
+    selectedOptions?: [];
+    disabled?: boolean;
+    clearable?: boolean;
+    isOpened?: boolean;
+    multiple?: boolean;
+    filterable?: boolean;
+    placeholder?: string;
+    collapseTags?: boolean;
+    collapseTagsLimit?: number;
+}
+
+type SelectTriggerEmits = {
+    (e: 'remove', value: SelectValue): void;
+    (e: 'clear'): void;
+    (e: 'input', value: string): void;
+    (e: 'blur', event: Event): void;
+    (e: 'focus', event: Event): void;
+};
+
+const props = withDefaults(defineProps<SelectTriggerProps>(), {
+    selectedOptions: () => [],
+});
+
+const emit = defineEmits<SelectTriggerEmits>();
+useTheme();
+
+function useFocus(emit: SelectTriggerEmits, props: SelectTriggerProps) {
     const isFocus = ref(false);
 
-    const handleFocus = (event) => {
+    const handleFocus = (event: Event) => {
         if (props.disabled) return;
         isFocus.value = true;
         emit('focus', event);
     };
 
-    const handleBlur = (event) => {
+    const handleBlur = (event: Event) => {
         if (props.disabled) return;
         isFocus.value = false;
         emit('blur', event);
@@ -70,73 +100,34 @@ function useFocus(emit, props) {
     };
 }
 
-export default defineComponent({
-    name: 'FSelect',
-    components: {
-        Label,
-        UpOutlined,
-        DownOutlined,
-        CloseCircleFilled,
-    },
-    props: {
-        selectedOptions: {
-            type: Array,
-            default() {
-                return [];
-            },
-        },
-        disabled: Boolean,
-        clearable: Boolean,
-        isOpened: Boolean,
-        multiple: Boolean,
-        filterable: Boolean,
-        placeholder: String,
-        collapseTags: Boolean,
-        collapseTagsLimit: Number,
-    },
-    emits: ['remove', 'clear', 'focus', 'blur', 'input'],
-    setup(props, { emit }) {
-        useTheme();
-        const inputHovering = ref(false);
-        const unSelected = computed(() => props.selectedOptions.length === 0);
-        const { isFocus, handleFocus, handleBlur } = useFocus(emit, props);
-        const showClear = computed(
-            () =>
-                !props.disabled &&
-                props.clearable &&
-                !unSelected.value &&
-                inputHovering.value,
-        );
-        const triggerClass = computed(() => ({
-            [`${prefixCls}`]: true,
-            'is-active': props.isOpened || isFocus.value,
-            'is-disabled': props.disabled,
-            'is-multiple': props.multiple,
-        }));
-        const handleRemove = (val) => {
-            if (props.disabled) return;
-            emit('remove', val);
-        };
-        const handleClear = () => {
-            if (props.disabled) return;
-            emit('clear');
-        };
-        const handleFilterTextChange = (val) => {
-            if (props.disabled) return;
-            emit('input', val);
-        };
-        return {
-            prefixCls,
-            inputHovering,
-            showClear,
-            triggerClass,
-            unSelected,
-            handleRemove,
-            handleClear,
-            handleFocus,
-            handleBlur,
-            handleFilterTextChange,
-        };
-    },
-});
+const inputHovering = ref(false);
+const unSelected = computed(() => props.selectedOptions.length === 0);
+const { isFocus, handleFocus, handleBlur } = useFocus(emit, props);
+const showClear = computed(
+    () =>
+        !props.disabled &&
+        props.clearable &&
+        !unSelected.value &&
+        inputHovering.value,
+);
+const triggerClass = computed(() => ({
+    [`${prefixCls}`]: true,
+    'is-active': props.isOpened || isFocus.value,
+    'is-disabled': props.disabled,
+    'is-multiple': props.multiple,
+}));
+const handleRemove = (val: SelectValue) => {
+    if (props.disabled) return;
+    emit('remove', val);
+};
+
+const handleClear = () => {
+    if (props.disabled) return;
+    emit('clear');
+};
+
+const handleFilterTextChange = (val: string) => {
+    if (props.disabled) return;
+    emit('input', val);
+};
 </script>

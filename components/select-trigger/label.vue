@@ -58,130 +58,122 @@
         </template>
     </div>
 </template>
-<script>
+
+<script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue';
 import Ellipsis from '../ellipsis';
 import getPrefixCls from '../_util/getPrefixCls';
-import Tag from '../tag';
+import Tag from '../tag/tag.vue';
+
+import type { SelectValue, SelectOption } from '../select/interface';
 
 const prefixCls = getPrefixCls('select-trigger-label');
+
+interface LabelProps {
+    placeholder?: string;
+    filterable?: boolean;
+    isOpened: boolean;
+    disabled: boolean;
+    selectedOptions: SelectOption[];
+    multiple: boolean;
+    collapseTags: boolean;
+    collapseTagsLimit: number;
+}
+
+const props = withDefaults(defineProps<LabelProps>(), {
+    selectedOptions: () => [],
+    multiple: false,
+    collapseTags: false,
+    collapseTagsLimit: 1,
+});
+
+type LabelEmits = {
+    (e: 'removeTag', value: SelectValue): void;
+    (e: 'input', value: string): void;
+};
+
+const emit = defineEmits<LabelEmits>();
+
+const inputRef = ref();
+const filterText = ref('');
+
+const genTag = (option: SelectOption) => {
+    const { label, value } = option;
+    return {
+        label: label || value || '',
+        closable: !props.disabled,
+    };
+};
+
+const unSelected = computed(() => props.selectedOptions.length === 0);
+const singleLabel = computed(() => {
+    const options = props.selectedOptions;
+    return options.length > 0 ? options[0].label || options[0].value : '';
+});
+const multiLabels = computed(() => {
+    const options = props.selectedOptions;
+    const tags = [];
+
+    if (props.collapseTags) {
+        const showOptions = options.slice(0, props.collapseTagsLimit);
+        const rest = options.slice(props.collapseTagsLimit);
+        const restCount = rest.length;
+
+        showOptions.forEach((option) => tags.push(genTag(option)));
+
+        if (restCount > 0) {
+            tags.push({
+                label: `+ ${restCount}`,
+                closable: false,
+            });
+        }
+    } else {
+        options.forEach((option) => tags.push(genTag(option)));
+    }
+
+    return tags;
+});
+
+watch(
+    () => props.isOpened,
+    (isOpened) => {
+        if (isOpened) {
+            nextTick(() => {
+                if (!inputRef.value) return;
+                if (!props.filterable) return;
+                inputRef.value.focus();
+            });
+        } else {
+            nextTick(() => {
+                if (!inputRef.value) return;
+                inputRef.value.blur();
+            });
+        }
+    },
+);
+
+watch(multiLabels, () => {
+    if (props.isOpened) {
+        filterText.value = '';
+        nextTick(() => {
+            if (!inputRef.value) return;
+            if (!props.filterable) return;
+            inputRef.value.focus();
+        });
+    }
+});
+
+const handleRemoveTag = (index: number) => {
+    emit('removeTag', props.selectedOptions[index].value);
+};
+const handleInput = (e: Event) => {
+    filterText.value = (e.target as HTMLInputElement).value;
+    emit('input', filterText.value);
+};
+</script>
+
+<script>
 export default {
-    name: 'WLabel',
-    components: { Tag, Ellipsis },
-    props: {
-        placeholder: String,
-        filterable: Boolean,
-        isOpened: Boolean,
-        disabled: Boolean,
-        selectedOptions: {
-            type: [Array],
-            default() {
-                return [];
-            },
-        },
-        multiple: {
-            type: Boolean,
-            default: false,
-        },
-        collapseTags: {
-            type: Boolean,
-            default: false,
-        },
-        collapseTagsLimit: {
-            type: Number,
-            default: 1,
-        },
-    },
-    emits: ['removeTag', 'input'],
-    setup(props, { emit }) {
-        const inputRef = ref();
-        const filterText = ref('');
-
-        const genTag = (option) => {
-            const { label, value } = option;
-            return {
-                label: label || value || '',
-                closable: !props.disabled,
-            };
-        };
-
-        const unSelected = computed(() => props.selectedOptions.length === 0);
-        const singleLabel = computed(() => {
-            const options = props.selectedOptions;
-            return options.length > 0
-                ? options[0].label || options[0].value
-                : '';
-        });
-        const multiLabels = computed(() => {
-            const options = props.selectedOptions;
-            const tags = [];
-
-            if (props.collapseTags) {
-                const showOptions = options.slice(0, props.collapseTagsLimit);
-                const rest = options.slice(props.collapseTagsLimit);
-                const restCount = rest.length;
-
-                showOptions.forEach((option) => tags.push(genTag(option)));
-
-                if (restCount > 0) {
-                    tags.push({
-                        label: `+ ${restCount}`,
-                        closable: false,
-                    });
-                }
-            } else {
-                options.forEach((option) => tags.push(genTag(option)));
-            }
-
-            return tags;
-        });
-
-        watch(
-            () => props.isOpened,
-            (isOpened) => {
-                if (isOpened) {
-                    nextTick(() => {
-                        if (!inputRef.value) return;
-                        if (!props.filterable) return;
-                        inputRef.value.focus();
-                    });
-                } else {
-                    nextTick(() => {
-                        if (!inputRef.value) return;
-                        inputRef.value.blur();
-                    });
-                }
-            },
-        );
-
-        watch(multiLabels, () => {
-            if (props.isOpened) {
-                filterText.value = '';
-                nextTick(() => {
-                    if (!inputRef.value) return;
-                    if (!props.filterable) return;
-                    inputRef.value.focus();
-                });
-            }
-        });
-
-        const handleRemoveTag = (index) => {
-            emit('removeTag', props.selectedOptions[index].value);
-        };
-        const handleInput = (e) => {
-            filterText.value = e.target.value;
-            emit('input', filterText.value);
-        };
-        return {
-            singleLabel,
-            multiLabels,
-            prefixCls,
-            handleRemoveTag,
-            unSelected,
-            filterText,
-            inputRef,
-            handleInput,
-        };
-    },
+    name: 'FLabel',
 };
 </script>

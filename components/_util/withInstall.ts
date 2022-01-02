@@ -22,7 +22,7 @@ export const withInstall = (
     };
     if (extra) {
         for (const [key, comp] of Object.entries(extra)) {
-            main[key] = comp;
+            _main[key] = comp;
         }
     }
     return _main;
