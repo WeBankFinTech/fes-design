@@ -68,10 +68,6 @@ export type UploadProps = Partial<ExtractPropTypes<typeof uploadProps>>;
 
 export default defineComponent({
     name: 'FUpload',
-    components: {
-        Trigger,
-        FileList,
-    },
     props: uploadProps,
     emits: ['change', 'remove', 'success', 'error', 'progress', 'exceed'],
     setup(props, ctx) {

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 const csso = require('csso');
 const fse = require('fs-extra');
 const path = require('path');

@@ -1,5 +1,4 @@
-// 关闭 import 规则
-/* eslint import/no-extraneous-dependencies: 0 */
+/* eslint-disable @typescript-eslint/no-var-requires */
 
 const path = require('path');
 const rollup = require('rollup');
@@ -11,7 +10,10 @@ const injectCss = require('./injectcss');
 
 async function compiler(codePath, outputDir) {
     const extname = path.extname(codePath);
-    const outputPath = path.join(outputDir, `${path.basename(codePath, extname)}.js`);
+    const outputPath = path.join(
+        outputDir,
+        `${path.basename(codePath, extname)}.js`,
+    );
     const bundle = await rollup.rollup({
         input: codePath,
         onwarn(warning, warn) {

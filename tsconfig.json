@@ -1,10 +1,5 @@
 {
     "compilerOptions": {
-        "paths": {
-            "fes-design": [
-                "./components"
-            ]
-        },
         "strict": true,
         "strictNullChecks": false,
         "jsx": "react",
@@ -23,7 +18,7 @@
         ]
     },
     "include": [
-        "shims-vue.d",
+        "shims-vue.d.ts",
         "components/**/*.ts",
         "components/**/*.tsx",
         "components/**/*.vue",

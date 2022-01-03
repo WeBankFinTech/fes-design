@@ -1,18 +1,13 @@
 import { h, defineComponent, inject, PropType } from 'vue';
 import { CaretDownOutlined } from '../../icon';
-import Checkbox from '../../checkbox.vue';
+import FCheckbox from '../../checkbox/checkbox.vue';
 import { provideKey } from '../const';
 import Cell from './cell';
 
-import type { ColumnInst, RowType } from '../interface'
+import type { ColumnInst } from '../interface'
 
 export default defineComponent({
     name: 'FTableBodyTd',
-    components: {
-        Cell,
-        CaretDownOutlined,
-        Checkbox,
-    },
     props: {
         row: {
             type: Object,
@@ -77,7 +72,7 @@ export default defineComponent({
                         />
                     )}
                     {column.props.type === 'selection' && (
-                        <Checkbox
+                        <FCheckbox
                             modelValue={isSelected({ row })}
                             disabled={isSelectDisabled({ row })}
                             onClick={() => {

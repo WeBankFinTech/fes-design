@@ -24,11 +24,11 @@ import type { VModelEvent, ChangeEvent } from '../_util/interface';
 const prefixCls = getPrefixCls('checkbox');
 
 type CheckboxProps = {
-    modelValue: boolean;
-    value: string | number | boolean;
-    label: string | number;
-    disabled: boolean;
-    indeterminate: boolean;
+    modelValue?: boolean;
+    value?: string | number | boolean;
+    label?: string | number;
+    disabled?: boolean;
+    indeterminate?: boolean;
 };
 
 const props = withDefaults(defineProps<CheckboxProps>(), {

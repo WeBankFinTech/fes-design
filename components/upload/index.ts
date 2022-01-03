@@ -1,5 +1,5 @@
 import { withInstall } from '../_util/withInstall';
-import Upload from './upload.vue';
+import Upload from './upload';
 
 export const FUpload = withInstall(Upload);
 

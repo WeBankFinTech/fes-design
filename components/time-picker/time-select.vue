@@ -100,16 +100,17 @@ const focusKey = reactive({
     4: -1,
 });
 
-const initialSelectedTime = {
+interface SelectedTime {
+    hour: string | null;
+    minute: string | null;
+    seconds: string | null;
+}
+const initialSelectedTime: SelectedTime = {
     hour: null,
     minute: null,
     seconds: null,
 };
-const selectedTime = reactive<{
-    hour: string | null;
-    minute: string | null;
-    seconds: string | null;
-}>({ ...initialSelectedTime });
+const selectedTime = reactive<SelectedTime>({ ...initialSelectedTime });
 const formatSingleTime = (timeFormat: string) =>
     props.format.indexOf(timeFormat) !== -1 ? '00' : '0';
 const parseTime = () => {

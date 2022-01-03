@@ -1,5 +1,4 @@
-// 关闭 import 规则
-/* eslint import/no-extraneous-dependencies: 0 */
+/* eslint-disable @typescript-eslint/no-var-requires */
 
 const fs = require('fs');
 const fse = require('fs-extra');

@@ -1,8 +1,23 @@
-import { ref, watch, reactive, computed } from 'vue';
+import { ref, watch, reactive, computed, SetupContext, Ref } from 'vue';
 import { isFunction } from 'lodash-es';
 import { TABLE_NAME } from './const';
 
-export default ({ props, ctx, showData, columns, getRowKey }) => {
+import type { TableProps } from './table';
+import type { RowType, ColumnInst } from './interface';
+
+export default ({
+    props,
+    ctx,
+    showData,
+    columns,
+    getRowKey,
+}: {
+    props: TableProps;
+    ctx: SetupContext;
+    showData: Ref<object[]>;
+    columns: Ref<ColumnInst[]>;
+    getRowKey: ({ row }: { row: RowType }) => string | RowType;
+}) => {
     // 选择器列唯一
     const selectionColumn = computed(() => {
         const arr = columns.value.filter(
@@ -44,17 +59,17 @@ export default ({ props, ctx, showData, columns, getRowKey }) => {
         ctx.emit('selectionChange', selection);
     });
 
-    const isSelectDisabled = ({ row }) => {
+    const isSelectDisabled = ({ row }: { row: RowType }) => {
         if (!selectionColumn.value) return false;
         return !selectableData.value.includes(row);
     };
 
-    const isSelected = ({ row }) => {
+    const isSelected = ({ row }: { row: RowType }) => {
         const rowKey = getRowKey({ row });
         return selection.includes(rowKey);
     };
 
-    const handleSelect = ({ row }) => {
+    const handleSelect = ({ row }: { row: RowType }) => {
         if (isSelectDisabled({ row })) return;
         const rowKey = getRowKey({ row });
         const index = selection.indexOf(rowKey);
@@ -93,7 +108,7 @@ export default ({ props, ctx, showData, columns, getRowKey }) => {
         }
     };
 
-    function splice(row) {
+    function splice(row: RowType) {
         const rowKey = getRowKey({ row });
         const index = selection.indexOf(rowKey);
         if (index !== -1) {
@@ -101,7 +116,7 @@ export default ({ props, ctx, showData, columns, getRowKey }) => {
         }
     }
 
-    function push(row) {
+    function push(row: RowType) {
         const rowKey = getRowKey({ row });
         const index = selection.indexOf(rowKey);
         if (index === -1) {

@@ -1,5 +1,4 @@
-// 关闭 import 规则
-/* eslint import/no-extraneous-dependencies: 0 */
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const rollup = require('rollup');
 const fse = require('fs-extra');

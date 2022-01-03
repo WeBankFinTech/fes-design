@@ -3,7 +3,7 @@ import { debounce, isEqual } from 'lodash-es';
 import useResize from '../_util/use/useResize';
 
 import type { TableProps } from './table';
-import type { RowType, ColumnInst } from './interface';
+import type { ColumnInst } from './interface';
 
 /**
  * 更新列的宽度
