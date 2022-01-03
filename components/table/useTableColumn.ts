@@ -1,14 +1,16 @@
 import { reactive, computed } from 'vue';
 import { getHeaderRows, getColumns } from './helper';
 
-export default function useColumn() {
-    const originColumns = reactive([]);
+import type { ColumnInst } from './interface';
 
-    const addColumn = (column) => {
+export default function useColumn() {
+    const originColumns = reactive<ColumnInst[]>([]);
+
+    const addColumn = (column: ColumnInst) => {
         originColumns.push(column);
     };
 
-    const removeColumn = (id) => {
+    const removeColumn = (id: number) => {
         const colIndex = originColumns.findIndex((item) => item.id === id);
         if (colIndex !== -1) {
             originColumns.splice(colIndex, 1);

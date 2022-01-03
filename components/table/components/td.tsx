@@ -1,8 +1,10 @@
-import { defineComponent, inject } from 'vue';
+import { h, defineComponent, inject, PropType } from 'vue';
 import { CaretDownOutlined } from '../../icon';
-import Checkbox from '../../checkbox';
+import Checkbox from '../../checkbox.vue';
 import { provideKey } from '../const';
 import Cell from './cell';
+
+import type { ColumnInst, RowType } from '../interface'
 
 export default defineComponent({
     name: 'FTableBodyTd',
@@ -18,10 +20,11 @@ export default defineComponent({
         },
         rowIndex: Number,
         column: {
-            type: Object,
+            type: Object as PropType<ColumnInst>,
             required: true,
         },
         columnIndex: Number,
+        onClick: Function as PropType<(e: Event) => void>
     },
     setup(props) {
         const {
@@ -62,6 +65,7 @@ export default defineComponent({
                             columnIndex,
                         }),
                     ]}
+                    onClick={props.onClick}
                 >
                     {column.props.type === 'default' && (
                         <Cell

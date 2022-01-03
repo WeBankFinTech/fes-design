@@ -1,7 +1,9 @@
-import { h, defineComponent, Fragment, inject } from 'vue';
+import { h, defineComponent, Fragment, inject, PropType } from 'vue';
 import { provideKey } from '../const';
 import Td from './td';
 import ExpandTr from './expandTr';
+
+import type { ColumnInst } from '../interface'
 
 export default defineComponent({
     components: {
@@ -10,7 +12,7 @@ export default defineComponent({
     },
     props: {
         columns: {
-            type: Array,
+            type: Array as PropType<ColumnInst[]>,
             required: true,
         },
         emptyText: {
@@ -31,7 +33,7 @@ export default defineComponent({
             getCellValue,
         } = inject(provideKey);
 
-        const renderTdList = (row, rowIndex) =>
+        const renderTdList = (row: object, rowIndex: number) =>
             props.columns
                 .map((column, columnIndex) => (
                     <Td
@@ -40,7 +42,7 @@ export default defineComponent({
                         rowIndex={rowIndex}
                         column={column}
                         columnIndex={columnIndex}
-                        onClick={($event) => {
+                        onClick={($event: Event) => {
                             handleCellClick(
                                 {
                                     row,
@@ -56,8 +58,8 @@ export default defineComponent({
 
         const renderTrList = () =>
             showData.value.length ? (
-                showData.value.map((row, rowIndex) => (
-                    <Fragment key={getRowKey({ row }) || rowIndex}>
+                showData.value.map((row: object, rowIndex: number) => (
+                    <Fragment key={(getRowKey({ row }) || rowIndex) as any}>
                         <tr
                             class={getRowClassName({ row, rowIndex })}
                             style={{
@@ -82,7 +84,7 @@ export default defineComponent({
             ) : (
                 <tr>
                     <td
-                        colSpan={props.columns.length}
+                        colspan={props.columns.length}
                         class={`${prefixCls}-cell ${prefixCls}-no-data`}
                     >
                         {props.emptyText}

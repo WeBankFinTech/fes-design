@@ -1,5 +1,7 @@
-import { defineComponent, inject } from 'vue';
+import { h, defineComponent, inject, PropType } from 'vue';
 import { provideKey } from '../const';
+
+import type { ColumnInst } from '../interface'
 
 export default defineComponent({
     name: 'FTableExpand',
@@ -9,7 +11,7 @@ export default defineComponent({
             required: true,
         },
         column: {
-            type: Object,
+            type: Object as PropType<ColumnInst>,
             required: true,
         },
         rowIndex: Number,
@@ -18,11 +20,11 @@ export default defineComponent({
     setup(props) {
         const { prefixCls } = inject(provideKey);
         const { row, rowIndex, column, length } = props;
-        if (column.ctx?.slots?.default) {
+        if (column?.slots?.default) {
             return () => (
                 <tr class={`${prefixCls}-expand-tr`}>
                     <td colspan={length} class={`${prefixCls}-expand-td`}>
-                        {column.ctx.slots.default({
+                        {column.slots.default({
                             row,
                             rowIndex,
                             column,

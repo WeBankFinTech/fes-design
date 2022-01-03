@@ -1,4 +1,12 @@
-export const getRowKey = ({ row, rowKey }) => {
+import type { RowType, RowKey, ColumnInst } from './interface';
+
+export const getRowKey = ({
+    row,
+    rowKey,
+}: {
+    row: RowType;
+    rowKey?: RowKey;
+}) => {
     if (rowKey) {
         if (typeof rowKey === 'string') {
             if (rowKey.indexOf('.') < 0) {
@@ -23,15 +31,15 @@ export const getRowKey = ({ row, rowKey }) => {
  * @param {} originColumns
  * @returns
  */
-export function getHeaderRows(originColumns) {
-    const rows = [];
+export function getHeaderRows(originColumns: ColumnInst[]) {
+    const rows: ColumnInst[][] = [];
 
     // copy，避免污染源数据，导致多次执行 getHeaderRows
     const cols = originColumns.map((column) => ({
         ...column,
     }));
 
-    let isChildren = [];
+    let isChildren: number[] = [];
     cols.forEach((column) => {
         column.children = cols.filter((col) => col.parentId === column.id);
         isChildren = isChildren.concat(column.children.map((col) => col.id));
@@ -39,7 +47,7 @@ export function getHeaderRows(originColumns) {
     const treeCols = cols.filter((column) => !isChildren.includes(column.id));
 
     let maxLevel = 1;
-    const traverse = (column, parent) => {
+    const traverse = (column: ColumnInst, parent?: ColumnInst) => {
         column.level = parent ? parent.level + 1 : 1;
         maxLevel = Math.max(column.level, maxLevel);
         if (column.children && column.children.length > 0) {
@@ -78,7 +86,7 @@ export function getHeaderRows(originColumns) {
  * @param {*} originColumns
  * @returns
  */
-export function getColumns(originColumns) {
+export function getColumns(originColumns: ColumnInst[]) {
     const arr = originColumns.filter(
         (col) => !originColumns.some((c) => c.parentId === col.id),
     );
@@ -105,7 +113,7 @@ export function getColumns(originColumns) {
     return arr;
 }
 
-export const getCellValue = (row, column) => {
+export const getCellValue = (row?: RowType, column?: ColumnInst) => {
     if (!row) {
         // eslint-disable-next-line no-undefined
         return undefined;

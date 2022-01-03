@@ -6,7 +6,8 @@ import type {
     NodeOption,
     CascaderNode,
     CascaderNodeConfig,
-    CascaderNodeValue,
+    OptionValue,
+    CascaderMenu,
 } from './interface';
 
 /**
@@ -81,7 +82,7 @@ export const getCheckNodesByLeafCheckNodes = (
     allNodes: CascaderNode[] = [],
     checkStrictly: CHECK_STRATEGY,
 ) => {
-    const checkNodeValues: CascaderNodeValue[] = [];
+    const checkNodeValues: OptionValue[] = [];
 
     checkLeafNodes.forEach((node) => {
         checkNodeValues.push(node.value);
@@ -153,10 +154,8 @@ export const getNode = (
     return node;
 };
 
-export const getNodeByValue = (
-    allNodes: CascaderNode[],
-    value: CascaderNodeValue,
-) => allNodes.find((node) => node.value === value) || null;
+export const getNodeByValue = (allNodes: CascaderNode[], value: OptionValue) =>
+    allNodes.find((node) => node.value === value) || null;
 
 export const getValueByOption = (
     config: CascaderNodeConfig,
@@ -166,9 +165,9 @@ export const getValueByOption = (
 // 获取单节点值
 export const getNodeValueByCurrentValue = (
     emitPath: boolean,
-    value: CascaderNodeValue,
+    value: OptionValue,
 ) => {
-    let nodeValue: CascaderNodeValue;
+    let nodeValue: OptionValue;
     if (emitPath) {
         if (Array.isArray(value)) {
             nodeValue = (value.length && value[value.length - 1]) || '';
@@ -186,9 +185,9 @@ export const getNodeValueByCurrentValue = (
 // 获取多节点值列表
 export const getMultiNodeValuesByCurrentValue = (
     emitPath: boolean,
-    currentValue: CascaderNodeValue[],
+    currentValue: OptionValue[],
 ) => {
-    const nodeValues: CascaderNodeValue[] = [];
+    const nodeValues: OptionValue[] = [];
     if (!Array.isArray(currentValue)) {
         console.warn(
             'currentValue类型不符预期，multiple为true的情况下，currentValue应该为数组格式',
@@ -204,15 +203,20 @@ export const getMultiNodeValuesByCurrentValue = (
     return nodeValues;
 };
 
-export const getMenuIndexByElem = (el, menus) =>
+export const getMenuIndexByElem = (el: HTMLElement, menus: CascaderMenu[]) =>
     menus.findIndex((menu) => menu.nodes.find((node) => node.elem === el));
-export const getMenuNodeByElem = (el, menus) => {
+
+export const getMenuNodeByElem = (el: HTMLElement, menus: CascaderMenu[]) => {
     const currentMenu = menus[getMenuIndexByElem(el, menus)] || null;
     return currentMenu?.nodes.find((node) => node.elem === el) || null;
 };
 
 // 获取元素兄弟节点
-export const getNodeSibling = (el, distance = 0, menus) => {
+export const getNodeSibling = (
+    el: HTMLElement,
+    distance = 0,
+    menus: CascaderMenu[],
+) => {
     if (!el || !menus.length) return;
     let siblingNode = null;
     let currentNodeIndex = -1;

@@ -1,7 +1,9 @@
-import { defineComponent, inject } from 'vue';
+import { h, defineComponent, inject, Fragment, PropType } from 'vue';
 import Mousewheel from '../../_util/directives/mousewheel';
 import { provideKey } from '../const';
 import Table from './table';
+
+import type { ColumnInst } from '../interface'
 
 export default defineComponent({
     components: {
@@ -15,7 +17,7 @@ export default defineComponent({
             type: Boolean,
         },
         columns: {
-            type: Array,
+            type: Array as PropType<ColumnInst[]>,
             required: true,
         },
         composed: {
@@ -31,7 +33,6 @@ export default defineComponent({
             layout,
             prefixCls,
             headerWrapperClass,
-            headerWrapperStyle,
             headerStyle,
             bodyWrapperClass,
             bodyWrapperStyle,
@@ -45,8 +46,7 @@ export default defineComponent({
                             emit('ref', { header: ele });
                         }}
                         class={headerWrapperClass.value}
-                        style={headerWrapperStyle.value}
-                        v-mousewheel={(e, data) => {
+                        v-mousewheel={(e: Event, data: any) => {
                             emit('mousewheelHeader', e, data);
                         }}
                     >

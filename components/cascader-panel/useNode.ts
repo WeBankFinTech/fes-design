@@ -8,12 +8,17 @@ import {
     getNodeValueByCurrentValue,
 } from './utils';
 
-import type { CascaderNode, CascaderNodeConfig } from './interface';
+import type {
+    CascaderNode,
+    CascaderNodeConfig,
+    CascaderMenu,
+    OptionValue,
+} from './interface';
 import { CascaderPanelProps } from './props';
 
 function useNodes(config: Ref<CascaderNodeConfig>, props: CascaderPanelProps) {
-    const nodes = ref([]);
-    const menus = ref([]);
+    const nodes = ref<CascaderNode[]>([]);
+    const menus = ref<CascaderMenu[]>([]);
 
     const allNodes = computed(() => flatNodes(nodes.value));
     const leafNodes = computed(() => flatNodes(nodes.value, true));
@@ -37,7 +42,7 @@ function useNodes(config: Ref<CascaderNodeConfig>, props: CascaderPanelProps) {
         },
     );
 
-    const updateMenus = (currentMenus) => {
+    const updateMenus = (currentMenus: CascaderMenu[]) => {
         menus.value = currentMenus;
     };
 
@@ -70,7 +75,7 @@ function useSelectedNodes(
         if (!multiple) {
             const nodeValue = getNodeValueByCurrentValue(
                 emitPath,
-                currentValue,
+                currentValue as OptionValue,
             );
 
             const node = getNodeByValue(allNodes.value, nodeValue);
@@ -84,7 +89,7 @@ function useSelectedNodes(
              */
             const nodeValues = getMultiNodeValuesByCurrentValue(
                 emitPath,
-                currentValue,
+                currentValue as OptionValue[],
             );
             allNodes.value.forEach((item) => {
                 if (nodeValues.includes(item.value)) {

@@ -1,7 +1,20 @@
-import { reactive, computed, watch } from 'vue';
+import { reactive, computed, watch, SetupContext, Ref } from 'vue';
 import { TABLE_NAME } from './const';
 
-export default ({ props, ctx, columns, getRowKey }) => {
+import type { TableProps } from './table';
+import type { ColumnInst, RowType } from './interface';
+
+export default ({
+    props,
+    ctx,
+    columns,
+    getRowKey,
+}: {
+    props: TableProps;
+    ctx: SetupContext;
+    columns: Ref<ColumnInst[]>;
+    getRowKey: ({ row }: { row: RowType }) => string | RowType;
+}) => {
     // 展开列唯一
     const expandColumn = computed(() => {
         const arr = columns.value.filter(
@@ -21,12 +34,12 @@ export default ({ props, ctx, columns, getRowKey }) => {
 
     const expandOpenedList = reactive([]);
 
-    const isExpandOpened = ({ row }) => {
+    const isExpandOpened = ({ row }: { row: RowType }) => {
         const rowKey = getRowKey({ row });
         return expandOpenedList.includes(rowKey);
     };
 
-    const handleExpand = ({ row }) => {
+    const handleExpand = ({ row }: { row: RowType }) => {
         const rowKey = getRowKey({ row });
         const index = expandOpenedList.indexOf(rowKey);
         if (index !== -1) {

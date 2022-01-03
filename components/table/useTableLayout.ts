@@ -1,6 +1,9 @@
-import { nextTick, ref, watch } from 'vue';
+import { nextTick, ref, watch, Ref } from 'vue';
 import { debounce, isEqual } from 'lodash-es';
 import useResize from '../_util/use/useResize';
+
+import type { TableProps } from './table';
+import type { RowType, ColumnInst } from './interface';
 
 /**
  * 更新列的宽度
@@ -12,6 +15,12 @@ export default function useTableLayout({
     headerWrapperRef,
     bodyWrapperRef,
     columns,
+}: {
+    props: TableProps;
+    wrapperRef: Ref<HTMLElement>;
+    headerWrapperRef: Ref<HTMLElement>;
+    bodyWrapperRef: Ref<HTMLElement>;
+    columns: Ref<ColumnInst[]>;
 }) {
     const bodyWidth = ref(0);
     const widthList = ref({});
@@ -49,9 +58,14 @@ export default function useTableLayout({
                 : _wrapperWidth;
             let bodyMinWidth = 0;
             const min = 80;
-            const _widthList = [];
+            type WidthItem = {
+                id: number;
+                width?: number;
+                minWidth?: number;
+            };
+            const _widthList: WidthItem[] = [];
             columns.value.forEach((column) => {
-                const widthObj = {
+                const widthObj: WidthItem = {
                     id: column.id,
                 };
                 const width = column.props.width;
@@ -104,7 +118,7 @@ export default function useTableLayout({
                     previousValue[currentValue.id] = currentValue.width;
                     return previousValue;
                 },
-                {},
+                {} as Record<string, number>,
             );
             // 如果值一样则没必要再次渲染，可减少一次多余渲染
             if (!isEqual(newWidthList, widthList.value)) {

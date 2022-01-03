@@ -1,4 +1,4 @@
-import { computed, ref, reactive } from 'vue';
+import { computed, ref, reactive, Ref, CSSProperties } from 'vue';
 import {
     isString,
     isFunction,
@@ -12,8 +12,21 @@ import useTableLayout from './useTableLayout';
 
 const prefixCls = getPrefixCls('table');
 
-export default ({ props, columns, expandColumn, isExpandOpened }) => {
-    const wrapperRef = ref(null);
+import type { TableProps } from './table';
+import type { RowType, ColumnInst } from './interface';
+
+export default ({
+    props,
+    columns,
+    expandColumn,
+    isExpandOpened,
+}: {
+    props: TableProps;
+    columns: Ref<ColumnInst[]>;
+    expandColumn: Ref<ColumnInst>;
+    isExpandOpened: ({ row }: { row: RowType }) => boolean;
+}) => {
+    const wrapperRef = ref<HTMLElement>(null);
     const headerWrapperRef = ref(null);
     const bodyWrapperRef = ref(null);
 
@@ -40,8 +53,6 @@ export default ({ props, columns, expandColumn, isExpandOpened }) => {
         y: false,
     });
 
-    const wrapperStyle = {};
-
     const headerWrapperClass = computed(() => {
         const arr = [`${prefixCls}-header-wrapper`];
         if (scrollState.y) {
@@ -53,8 +64,6 @@ export default ({ props, columns, expandColumn, isExpandOpened }) => {
         return arr;
     });
 
-    const headerWrapperStyle = {};
-
     const bodyWrapperClass = computed(() => {
         const arr = [`${prefixCls}-body-wrapper`];
         if (scrollState.x) {
@@ -64,7 +73,7 @@ export default ({ props, columns, expandColumn, isExpandOpened }) => {
     });
 
     const bodyWrapperStyle = computed(() => {
-        const style = {};
+        const style: CSSProperties = {};
         if (layout.isScrollY.value) {
             style['overflow-y'] = 'scroll';
             style.height = `${layout.bodyHeight.value}px`;
@@ -89,11 +98,17 @@ export default ({ props, columns, expandColumn, isExpandOpened }) => {
         return style;
     });
 
-    const getRowClassName = ({ row, rowIndex }) => {
+    const getRowClassName = ({
+        row,
+        rowIndex,
+    }: {
+        row: RowType;
+        rowIndex: number;
+    }) => {
         let defaultClass = '';
         const rowClassName = props.rowClassName;
         if (expandColumn.value) {
-            defaultClass = isExpandOpened({ row, rowIndex }) ? 'is-opened' : '';
+            defaultClass = isExpandOpened({ row }) ? 'is-opened' : '';
         }
         if (isString(rowClassName)) {
             return `${rowClassName} ${defaultClass}`;
@@ -116,7 +131,13 @@ export default ({ props, columns, expandColumn, isExpandOpened }) => {
         return defaultClass;
     };
 
-    const getRowStyle = ({ row, rowIndex }) => {
+    const getRowStyle = ({
+        row,
+        rowIndex,
+    }: {
+        row: RowType;
+        rowIndex: number;
+    }) => {
         const rowStyle = props.rowStyle;
         if (isPlainObject(rowStyle)) {
             return rowStyle;
@@ -126,7 +147,7 @@ export default ({ props, columns, expandColumn, isExpandOpened }) => {
         }
     };
 
-    const getCellClass = ({ column }) => {
+    const getCellClass = ({ column }: { column: ColumnInst }) => {
         const arr = [`${prefixCls}-cell`, column.id];
         if (column.fixLeft) {
             arr.push(`${prefixCls}-fixed-left`);
@@ -137,7 +158,17 @@ export default ({ props, columns, expandColumn, isExpandOpened }) => {
         return arr;
     };
 
-    const getCustomCellClass = ({ row, column, rowIndex, columnIndex }) => {
+    const getCustomCellClass = ({
+        row,
+        column,
+        rowIndex,
+        columnIndex,
+    }: {
+        row: RowType;
+        column: ColumnInst;
+        rowIndex: number;
+        columnIndex: number;
+    }) => {
         const colClassName = column.props.colClassName;
         const cellValue = getCellValue(row, column);
         const arr = [];
@@ -158,7 +189,17 @@ export default ({ props, columns, expandColumn, isExpandOpened }) => {
         return arr;
     };
 
-    const getCustomCellStyle = ({ row, column, rowIndex, columnIndex }) => {
+    const getCustomCellStyle = ({
+        row,
+        column,
+        rowIndex,
+        columnIndex,
+    }: {
+        row?: RowType;
+        column: ColumnInst;
+        rowIndex?: number;
+        columnIndex?: number;
+    }) => {
         const cellValue = getCellValue(row, column);
         const colStyle = column.props.colStyle;
         const align = column.props.align;
@@ -184,7 +225,17 @@ export default ({ props, columns, expandColumn, isExpandOpened }) => {
         return { ...alignStyle, ...extraStyle };
     };
 
-    const getCellSpan = ({ row, column, rowIndex, columnIndex }) => {
+    const getCellSpan = ({
+        row,
+        column,
+        rowIndex,
+        columnIndex,
+    }: {
+        row: RowType;
+        column: ColumnInst;
+        rowIndex: number;
+        columnIndex: number;
+    }) => {
         let rowspan = '1';
         let colspan = '1';
         if (isFunction(props.spanMethod)) {
@@ -226,7 +277,7 @@ export default ({ props, columns, expandColumn, isExpandOpened }) => {
         scrollState.y = scrollTop > 0;
     }, 10);
 
-    const handleHeaderMousewheel = (e, data) => {
+    const handleHeaderMousewheel = (e: Event, data: any) => {
         const { pixelX, pixelY } = data;
         if (Math.abs(pixelX) >= Math.abs(pixelY)) {
             e.preventDefault();
@@ -241,8 +292,6 @@ export default ({ props, columns, expandColumn, isExpandOpened }) => {
         bodyWrapperRef,
         layout,
         wrapperClass,
-        wrapperStyle,
-        headerWrapperStyle,
         bodyWrapperStyle,
         headerStyle,
         bodyStyle,

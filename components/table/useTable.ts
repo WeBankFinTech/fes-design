@@ -1,4 +1,4 @@
-import { computed, provide } from 'vue';
+import { computed, provide, SetupContext } from 'vue';
 import { isArray } from 'lodash-es';
 import { getRowKey as _getRowKey, getCellValue } from './helper';
 import { provideKey, TABLE_NAME } from './const';
@@ -8,8 +8,11 @@ import useTableSelect from './useTableSelect';
 import useTableExpand from './useTableExpand';
 import useTableStyle from './useTableStyle';
 
+import type { TableProps } from './table';
+import type { RowType } from './interface';
+
 let tableIdSeed = 1;
-export default (props, ctx) => {
+export default (props: TableProps, ctx: SetupContext) => {
     const tableId = `f-table_${tableIdSeed++}`;
 
     // 展示的数据
@@ -22,7 +25,8 @@ export default (props, ctx) => {
     });
 
     // 行数据的key
-    const getRowKey = ({ row }) => _getRowKey({ row, rowKey: props.rowKey });
+    const getRowKey = ({ row }: { row: RowType }) =>
+        _getRowKey({ row, rowKey: props.rowKey });
 
     const columnState = useTableColumn();
 

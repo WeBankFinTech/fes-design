@@ -1,14 +1,15 @@
-import { inject } from 'vue';
-import Checkbox from '../../checkbox';
+import { h, inject, defineComponent } from 'vue';
+import Checkbox from '../../checkbox.vue';
 import { provideKey } from '../const';
 import Label from './label';
 
-export default {
+import type { ColumnInst } from '../interface'
+
+export default defineComponent({
     components: {
         Label,
         Checkbox,
     },
-    props: {},
     setup() {
         const {
             headerRows,
@@ -19,9 +20,9 @@ export default {
             selection,
             handleSelectAll,
         } = inject(provideKey);
-        const renderThList = (row) =>
+        const renderThList = (row: ColumnInst[]) =>
             row
-                .map((column, columnIndex) => (
+                .map((column, columnIndex: number) => (
                     <th
                         key={column.id}
                         colspan={column.colSpan}
@@ -55,4 +56,5 @@ export default {
 
         return () => <thead>{renderTrList()}</thead>;
     },
-};
+});
+

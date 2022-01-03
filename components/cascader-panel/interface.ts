@@ -1,11 +1,11 @@
 import { EXPAND_TRIGGER } from './const';
 
-export type CascaderNodeValue = string | number;
-export type CascaderNodePathValue = CascaderNodeValue[];
+export type OptionValue = string | number;
+export type CascaderNodePathValue = OptionValue[];
 
 export interface CascaderOption extends Record<string, unknown> {
     label?: string;
-    value?: CascaderNodeValue;
+    value?: OptionValue;
     children?: CascaderOption[];
     disabled?: boolean;
     leaf?: boolean;
@@ -21,7 +21,7 @@ export interface CascaderNodeConfig {
 }
 
 export interface NodeOption {
-    value?: CascaderNodeValue;
+    value?: OptionValue;
     label?: string;
     children?: CascaderOption[];
     disabled?: boolean;
@@ -33,7 +33,7 @@ export interface CascaderNode {
     parent?: CascaderNode;
     nodeId: string;
     level: number;
-    value: CascaderNodeValue;
+    value: OptionValue;
     label: string;
     pathNodes: CascaderNode[];
     pathValues: CascaderNodePathValue;
@@ -45,8 +45,13 @@ export interface CascaderNode {
     elem: HTMLElement | null;
 }
 
+export interface CascaderMenu {
+    nodes: CascaderNode[];
+    menuId: string;
+}
+
 export type CascaderPanelEmits = {
-    (e: 'expandChange', value: CascaderNodeValue[]): void;
-    (e: 'checkChange', value: CascaderNodeValue | CascaderNodeValue[]): void;
+    (e: 'expandChange', value: OptionValue[]): void;
+    (e: 'checkChange', value: OptionValue | OptionValue[]): void;
     (e: 'close'): void;
 };

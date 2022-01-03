@@ -1,48 +1,57 @@
-import { defineComponent, nextTick, watch } from 'vue';
+import { h, defineComponent, nextTick, watch, PropType, ExtractPropTypes, SetupContext } from 'vue';
 import { isUndefined } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
 import useScrollbar from '../scrollbar/useScrollbar';
-import WBar from '../scrollbar/bar';
+import FBar from '../scrollbar/bar.vue';
 import { TABLE_NAME, SIZE } from './const';
 import useTable from './useTable';
 import Table from './components/composeTable';
+
+import type { RowType, RowKey } from './interface';
+
+const tableProps = {
+    data: {
+        type: Array as PropType<object[]>,
+        default: (): object[] => [],
+    },
+    rowKey: [Function, String] as PropType<RowKey>,
+    bordered: {
+        type: Boolean,
+        default: false,
+    },
+    showHeader: {
+        type: Boolean,
+        default: true,
+    },
+    emptyText: {
+        type: String,
+        default: '暂无数据',
+    },
+    size: {
+        type: String as PropType<typeof SIZE[number]>,
+        default: 'normal',
+    },
+    spanMethod: Function,
+    rowClassName: [Function, String] as PropType<string | (({ row, rowIndex }: {
+        row: RowType,
+        rowIndex: number
+    }) => string | string[] | object)>,
+    rowStyle: [Function, Object] as PropType<object | ((({ row, rowIndex }: {
+        row: RowType,
+        rowIndex: number
+    }) => object))>,
+    height: Number,
+} as const;
+
+export type TableProps = Partial<ExtractPropTypes<typeof tableProps>>;
 
 export default defineComponent({
     name: TABLE_NAME,
     components: {
         Table,
-        WBar,
+        FBar,
     },
-    props: {
-        data: {
-            type: Array,
-            default: () => [],
-        },
-        rowKey: [Function, String],
-        bordered: {
-            type: Boolean,
-            default: false,
-        },
-        showHeader: {
-            type: Boolean,
-            default: true,
-        },
-        emptyText: {
-            type: String,
-            default: '暂无数据',
-        },
-        size: {
-            type: String,
-            validator(value) {
-                return SIZE.includes(value);
-            },
-            default: 'normal',
-        },
-        spanMethod: Function,
-        rowClassName: [Function, String],
-        rowStyle: [Function, Object],
-        height: Number,
-    },
+    props: tableProps,
     emits: [
         'cellClick',
         'expandChange',
@@ -53,7 +62,7 @@ export default defineComponent({
         'selectionChange',
         'sortChange',
     ],
-    setup(props, ctx) {
+    setup(props, ctx: SetupContext) {
         useTheme();
         const {
             prefixCls,
@@ -62,7 +71,6 @@ export default defineComponent({
             clearSelect,
             wrapperRef,
             wrapperClass,
-            wrapperStyle,
             columns,
             headerWrapperRef,
             bodyWrapperRef,
@@ -94,7 +102,7 @@ export default defineComponent({
             nextTick(onUpdate);
         });
 
-        const handleTableRef = (elObject) => {
+        const handleTableRef = (elObject: any) => {
             if (!headerWrapperRef.value && elObject.header) {
                 headerWrapperRef.value = elObject.header;
             }
@@ -108,7 +116,6 @@ export default defineComponent({
             <div
                 ref={wrapperRef}
                 class={wrapperClass.value}
-                style={wrapperStyle.value}
             >
                 <div ref="hiddenColumns" class="hidden-columns">
                     {ctx.slots?.default()}
@@ -119,13 +126,13 @@ export default defineComponent({
                     columns={columns.value}
                     composed={!isUndefined(props.height)}
                     emptyText={props.emptyText}
-                    onScroll={(e) => {
-                        syncPosition(e);
-                        onScroll(e);
+                    onScroll={(e: Event) => {
+                        syncPosition();
+                        onScroll();
                     }}
                     onMousewheelHeader={handleHeaderMousewheel}
                 />
-                <WBar
+                <FBar
                     class={`${prefixCls}-scrollbar`}
                     scrollbarRef={[wrapperRef]}
                     containerRef={containerRef.value}
@@ -134,7 +141,7 @@ export default defineComponent({
                     size={sizeWidth.value}
                     always={false}
                 />
-                <WBar
+                <FBar
                     class={`${prefixCls}-scrollbar`}
                     scrollbarRef={[wrapperRef]}
                     containerRef={containerRef.value}

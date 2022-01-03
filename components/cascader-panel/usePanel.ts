@@ -18,8 +18,9 @@ import {
 import type {
     CascaderNode,
     CascaderNodeConfig,
-    CascaderNodeValue,
+    OptionValue,
     CascaderPanelEmits,
+    CascaderMenu,
 } from './interface';
 import { CascaderPanelProps } from './props';
 
@@ -72,7 +73,11 @@ function useUpdateNodes(
     );
 }
 
-function useExpandNode(menus, emit: CascaderPanelEmits, updateMenus) {
+function useExpandNode(
+    menus: Ref<CascaderMenu[]>,
+    emit: CascaderPanelEmits,
+    updateMenus: (menus: CascaderMenu[]) => void,
+) {
     const expandingNode = ref(null);
 
     const handleExpandNode = (node: CascaderNode, silent = false) => {
@@ -163,13 +168,13 @@ function useCheckChange(
                 leafNodeValues.includes(item.value),
             );
 
-            let checkValues: CascaderNodeValue[] = [];
+            let checkValues: OptionValue[] = [];
 
             if (props.checkStrictly === CHECK_STRATEGY.CHILD) {
                 const sortLeafValues = sortLeafNodes.map((item) =>
                     getValueByOption(config.value, item),
                 );
-                checkValues = sortLeafValues as CascaderNodeValue[];
+                checkValues = sortLeafValues as OptionValue[];
             } else {
                 const checkParentNodes = getCheckNodesByLeafCheckNodes(
                     sortLeafNodes,
@@ -180,7 +185,7 @@ function useCheckChange(
                     getValueByOption(config.value, item),
                 );
 
-                checkValues = checkParentValus as CascaderNodeValue[];
+                checkValues = checkParentValus as OptionValue[];
             }
 
             emit('checkChange', checkValues);
@@ -198,11 +203,11 @@ function useCheckChange(
 function useKeyDown(
     config: Ref<CascaderNodeConfig>,
     emit: CascaderPanelEmits,
-    menus,
+    menus: Ref<CascaderMenu[]>,
 ) {
     const handleKeyDown = (e: KeyboardEvent) => {
-        const { target, code } = e;
-
+        const target = e.target as HTMLElement;
+        const code = e.code;
         const isValidKeyDown = () => {
             if (config.value.expandTrigger === EXPAND_TRIGGER.HOVER) {
                 return false;
@@ -243,7 +248,7 @@ function useKeyDown(
                 }
                 const nextMenu =
                     menus.value[getMenuIndexByElem(target, menus.value) + 1];
-                focusNodeElem(nextMenu?.[0]);
+                focusNodeElem(nextMenu?.nodes?.[0]);
                 break;
             }
             case EVENT_CODE.ENTER: {
