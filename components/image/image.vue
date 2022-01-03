@@ -1,3 +1,11 @@
+<!--
+ * @Author: tgsx
+ * @Date: 2022-01-03 16:15:57
+ * @LastEditTime: 2022-01-03 17:51:14
+ * @LastEditors: Please set LastEditors
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: /fes-design/components/image/image.vue
+-->
 <template>
     <div ref="container" :style="containerStyle">
         <slot v-if="loading" name="placeholder">
@@ -32,14 +40,13 @@
         </teleport>
     </div>
 </template>
-<script lang="ts">
+<script setup lang="ts">
 import { computed, watch, ref, nextTick, inject } from 'vue';
 import { useEventListener, useThrottleFn } from '@vueuse/core';
 import { isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { PictureOutlined, PictureFailOutlined } from '../icon';
-import { ERROR_EVENT, CLOSE_EVENT, LOAD_EVENT } from '../_util/constants';
-import { isHtmlElement, getScrollContainer, isInContainer } from '../_util/dom';
+import type { CLOSE_EVENT, LOAD_EVENT } from '../_util/interface';import { isHtmlElement, getScrollContainer, isInContainer } from '../_util/dom';
 import { noop } from '../_util/utils';
 import { useTheme } from '../_theme/useTheme';
 import { KEY } from './const';
@@ -59,6 +66,11 @@ type ImageProps = {
     scrollContainer?: String | Object;
 };
 
+type ImageEmits = {
+    (e: Error_EVENT, value: object): void;
+    (e: LOAD_EVENT, value: object): void;
+};
+
 const props = withDefaults(defineProps<ImageProps>(), {
     src: '',
     preview: false,
@@ -67,189 +79,170 @@ const props = withDefaults(defineProps<ImageProps>(), {
     hideOnClickModal: false,
 });
 
-export default {
-    name: 'FImage',
-    componentName: 'FImage',
-    components: {
-        Preview,
-        PictureOutlined,
-        PictureFailOutlined,
+const emit = defineEmits<ImageEmits>();
+
+useTheme();
+const loading = ref(true);
+const isLoadError = ref(false);
+const container = ref(null);
+let clearScrollListener = () => {};
+const isShowPreview = ref(false);
+const currentId = ref(curIndex++);
+
+const {
+    width,
+    height,
+    crossorigin,
+    decoding,
+    alt,
+    sizes,
+    srcset,
+    usemap,
+} = attrs;
+const imgCommonProps = {
+    crossorigin,
+    decoding,
+    alt,
+    sizes,
+    srcset,
+    usemap,
+};
+
+const { isGroup, setShowPreview, setCurrent, registerImage } = inject(
+    KEY,
+    {
+        isGroup: ref(false),
+        setShowPreview: noop,
+        setCurrent: noop,
+        registerImage: noop,
     },
-    props: props,
-    emits: [ERROR_EVENT, LOAD_EVENT],
-    setup(props, { attrs, emit }) {
-        useTheme();
-        const loading = ref(true);
-        const isLoadError = ref(false);
-        const container = ref(null);
-        let clearScrollListener = () => {};
-        const isShowPreview = ref(false);
-        const currentId = ref(curIndex++);
+);
+const canPreview = computed(
+    () => (props.preview || isGroup.value) && !isLoadError.value,
+);
+const containerStyle = computed(() => attrs.style);
+const _scrollContainer = computed(() => {
+    let dom = '';
+    const _container = props.scrollContainer;
+    if (isString(_container) && _container !== '') {
+        dom = document.querySelector(_container);
+    }
+    if (isHtmlElement(_container)) {
+        dom = _container;
+    } else if (container) {
+        dom = getScrollContainer(container.value);
+    }
+    return dom;
+});
+const imageStyle = computed(() => {
+    const { fit } = props;
+    const styleObj = {};
+    if (fit) {
+        styleObj.objectFit = fit;
+    }
+    if (canPreview.value) {
+        styleObj.cursor = 'pointer';
+    }
+    return styleObj;
+});
 
-        const {
-            width,
-            height,
-            crossorigin,
-            decoding,
-            alt,
-            sizes,
-            srcset,
-            usemap,
-        } = attrs;
-        const imgCommonProps = {
-            crossorigin,
-            decoding,
-            alt,
-            sizes,
-            srcset,
-            usemap,
-        };
+const handleLoaded = (e: MouseEvent) => {
+    loading.value = false;
+    isLoadError.value = false;
+    emit(LOAD_EVENT, e);
+};
+const handleError = (e: MouseEvent) => {
+    loading.value = false;
+    isLoadError.value = true;
+    emit(ERROR_EVENT, e);
+};
 
-        const { isGroup, setShowPreview, setCurrent, registerImage } = inject(
-            KEY,
-            {
-                isGroup: ref(false),
-                setShowPreview: noop,
-                setCurrent: noop,
-                registerImage: noop,
-            },
+const loadImage = () => {
+    if (!loading.value) return;
+
+    const img = new Image();
+    img.addEventListener('load', (e) => handleLoaded(e, img));
+    img.addEventListener('error', handleError);
+
+    img.src = props.src;
+};
+
+const lazyLoadHandler = useThrottleFn(() => {
+    // load image until image enter the container
+    if (isInContainer(container.value, _scrollContainer.value)) {
+        loadImage();
+    }
+}, 200);
+
+async function addLazyLoadListener() {
+    await nextTick();
+    clearScrollListener && clearScrollListener();
+
+    if (_scrollContainer.value) {
+        clearScrollListener = useEventListener(
+            _scrollContainer,
+            'scroll',
+            lazyLoadHandler,
         );
-        const canPreview = computed(
-            () => (props.preview || isGroup.value) && !isLoadError.value,
-        );
-        const containerStyle = computed(() => attrs.style);
-        const _scrollContainer = computed(() => {
-            let dom = '';
-            const _container = props.scrollContainer;
-            if (isString(_container) && _container !== '') {
-                dom = document.querySelector(_container);
-            }
-            if (isHtmlElement(_container)) {
-                dom = _container;
-            } else if (container) {
-                dom = getScrollContainer(container.value);
-            }
-            return dom;
-        });
-        const imageStyle = computed(() => {
-            const { fit } = props;
-            const styleObj = {};
-            if (fit) {
-                styleObj.objectFit = fit;
-            }
-            if (canPreview.value) {
-                styleObj.cursor = 'pointer';
-            }
-            return styleObj;
-        });
+    }
+    lazyLoadHandler();
+}
 
-        const handleLoaded = (e: MouseEvent) => {
-            loading.value = false;
-            isLoadError.value = false;
-            emit(LOAD_EVENT, e);
-        };
-        const handleError = (e: MouseEvent) => {
-            loading.value = false;
-            isLoadError.value = true;
-            emit(ERROR_EVENT, e);
-        };
+function clickHandler() {
+    if ((!props.preview && isGroup) || !canPreview.value) return;
+    if (isGroup.value) {
+        setCurrent(currentId.value);
+        setShowPreview(true);
+    } else {
+        // prevent body scroll
+        prevOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        isShowPreview.value = true;
+        console.log('herre');
+    }
+}
 
-        const loadImage = () => {
-            if (!loading.value) return;
+function closeViewer() {
+    if (isGroup.value) {
+        setShowPreview(false);
+    } else {
+        document.body.style.overflow = prevOverflow;
+        isShowPreview.value = false;
+    }
+    emit(CLOSE_EVENT);
+}
 
-            const img = new Image();
-            img.addEventListener('load', (e) => handleLoaded(e, img));
-            img.addEventListener('error', handleError);
-
-            img.src = props.src;
-        };
-
-        const lazyLoadHandler = useThrottleFn(() => {
-            // load image until image enter the container
-            if (isInContainer(container.value, _scrollContainer.value)) {
+let unRegister = () => {};
+watch(
+    () => props.src,
+    (_src) => {
+        if (_src) {
+            if (props.lazy) {
+                addLazyLoadListener();
+            } else {
                 loadImage();
             }
-        }, 200);
-
-        async function addLazyLoadListener() {
-            await nextTick();
-            clearScrollListener && clearScrollListener();
-
-            if (_scrollContainer.value) {
-                clearScrollListener = useEventListener(
-                    _scrollContainer,
-                    'scroll',
-                    lazyLoadHandler,
-                );
-            }
-            lazyLoadHandler();
         }
-
-        function clickHandler() {
-            if ((!props.preview && isGroup) || !canPreview.value) return;
-            if (isGroup.value) {
-                setCurrent(currentId.value);
-                setShowPreview(true);
-            } else {
-                // prevent body scroll
-                prevOverflow = document.body.style.overflow;
-                document.body.style.overflow = 'hidden';
-                isShowPreview.value = true;
-                console.log('herre');
-            }
-        }
-
-        function closeViewer() {
-            if (isGroup.value) {
-                setShowPreview(false);
-            } else {
-                document.body.style.overflow = prevOverflow;
-                isShowPreview.value = false;
-            }
-            emit(CLOSE_EVENT);
-        }
-
-        let unRegister = () => {};
-        watch(
-            () => props.src,
-            (_src) => {
-                if (_src) {
-                    if (props.lazy) {
-                        addLazyLoadListener();
-                    } else {
-                        loadImage();
-                    }
-                }
-            },
-            { immediate: true },
-        );
-
-        watch(
-            [() => props.src, canPreview],
-            () => {
-                unRegister();
-                if (!isGroup.value) return;
-
-                if (canPreview.value) {
-                    unRegister = registerImage(currentId.value, props.src);
-                }
-            },
-            { immediate: true },
-        );
-        return {
-            width,
-            height,
-            imgCommonProps,
-            imageStyle,
-            containerStyle,
-            clickHandler,
-            isShowPreview,
-            closeViewer,
-            container,
-            prefixCls,
-            isLoadError,
-            loading,
-        };
     },
+    { immediate: true },
+);
+
+watch(
+    [() => props.src, canPreview],
+    () => {
+        unRegister();
+        if (!isGroup.value) return;
+
+        if (canPreview.value) {
+            unRegister = registerImage(currentId.value, props.src);
+        }
+    },
+    { immediate: true },
+);
+</script>
+
+<script>
+export default {
+    name: 'FImage',
 };
 </script>

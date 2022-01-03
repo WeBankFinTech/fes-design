@@ -10,6 +10,8 @@ export type FObjectDirective = ObjectDirective & {
 
 export type VModelEvent = 'update:modelValue';
 export type ChangeEvent = 'change';
+export type CLOSE_EVENT = 'close';
+export type LOAD_EVENT = 'close';
 
 export type UpdateCurrentValue = (val: any) => void;
 export type FormValidate = (eventName: string) => void;
