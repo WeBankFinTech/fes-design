@@ -32,7 +32,7 @@
         </teleport>
     </div>
 </template>
-<script>
+<script lang="ts">
 import { computed, watch, ref, nextTick, inject } from 'vue';
 import { useEventListener, useThrottleFn } from '@vueuse/core';
 import { isString } from 'lodash-es';
@@ -47,8 +47,25 @@ import Preview from './preview';
 
 const prefixCls = getPrefixCls('img');
 
-let curIndex = 0;
-let prevOverflow = '';
+let curIndex: number = 0;
+let prevOverflow: string = '';
+
+type ImageProps = {
+    src: string;
+    preview?: boolean;
+    fit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
+    lazy?: boolean;
+    hideOnClickModal?: boolean;
+    scrollContainer?: String | Object;
+};
+
+const props = withDefaults(defineProps<ImageProps>(), {
+    src: '',
+    preview: false,
+    lazy: false,
+    fit: '',
+    hideOnClickModal: false,
+});
 
 export default {
     name: 'FImage',
@@ -58,32 +75,7 @@ export default {
         PictureOutlined,
         PictureFailOutlined,
     },
-    props: {
-        src: {
-            type: String,
-            default: '',
-        },
-        preview: {
-            type: Boolean,
-            default: false,
-        },
-        fit: {
-            type: String,
-            values: ['', 'contain', 'cover', 'fill', 'none', 'scale-down'],
-            default: '',
-        },
-        lazy: {
-            type: Boolean,
-            default: false,
-        },
-        hideOnClickModal: {
-            type: Boolean,
-            default: false,
-        },
-        scrollContainer: {
-            type: [String, Object],
-        },
-    },
+    props: props,
     emits: [ERROR_EVENT, LOAD_EVENT],
     setup(props, { attrs, emit }) {
         useTheme();
@@ -151,12 +143,12 @@ export default {
             return styleObj;
         });
 
-        const handleLoaded = (e) => {
+        const handleLoaded = (e: MouseEvent) => {
             loading.value = false;
             isLoadError.value = false;
             emit(LOAD_EVENT, e);
         };
-        const handleError = (e) => {
+        const handleError = (e: MouseEvent) => {
             loading.value = false;
             isLoadError.value = true;
             emit(ERROR_EVENT, e);
@@ -194,9 +186,7 @@ export default {
         }
 
         function clickHandler() {
-            console.log('test---');
             if ((!props.preview && isGroup) || !canPreview.value) return;
-            console.log('test---11');
             if (isGroup.value) {
                 setCurrent(currentId.value);
                 setShowPreview(true);
