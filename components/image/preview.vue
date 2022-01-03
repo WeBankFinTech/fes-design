@@ -29,7 +29,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, inject, ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -40,6 +40,16 @@ import { LeftOutlined, RightOutlined, CloseOutlined, ReloadOutlined, RotateLeftO
 import { KEY } from './const';
 
 const prefixCls = getPrefixCls('preview');
+
+type PreviewProps = {
+    src: string;
+    hideOnClickModal?: boolean;
+};
+
+const props = withDefaults(defineProps<PreviewProps>(), {
+    src: '',
+    hideOnClickModal: false,
+});
 
 export default defineComponent({
     name: 'FPreview',
@@ -53,16 +63,7 @@ export default defineComponent({
         SearchPlusOutlined,
         SearchMinusOutlined,
     },
-    props: {
-        hideOnClickModal: {
-            type: Boolean,
-            default: false,
-        },
-        src: {
-            type: String,
-            default: '',
-        },
-    },
+    props: props,
     emits: [CLOSE_EVENT],
     setup(props, { emit }) {
         const zIndex = ref(PopupManager.nextZIndex());
@@ -110,7 +111,7 @@ export default defineComponent({
             }
         };
 
-        const handleActions = (action, option) => {
+        const handleActions = (action: string, option: object) => {
             const { zoomRate, rotateDeg } = {
                 zoomRate: 0.2,
                 rotateDeg: 90,
@@ -141,7 +142,7 @@ export default defineComponent({
             };
         };
 
-        const handleScroll = (e) =>
+        const handleScroll = (e: MouseEvent) =>
             window.requestAnimationFrame(() => {
                 const delta = e.wheelDelta ? e.wheelDelta : -e.detail;
                 if (delta > 0) {
