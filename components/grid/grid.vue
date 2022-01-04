@@ -15,10 +15,10 @@ import getPrefixCls from '../_util/getPrefixCls';
 const prefixCls = getPrefixCls('grid');
 
 type GridProps = {
-    align: typeof ALIGN[number];
-    gutter: number | number[];
-    justify: typeof JUSTIFY[number];
-    wrap: boolean;
+    align?: typeof ALIGN[number];
+    gutter?: number | number[];
+    justify?: typeof JUSTIFY[number];
+    wrap?: boolean;
 };
 
 const props = withDefaults(defineProps<GridProps>(), {

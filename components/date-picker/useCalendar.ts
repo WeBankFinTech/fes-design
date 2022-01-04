@@ -11,12 +11,8 @@ import {
     isCompeleteSelected,
 } from './helper';
 
-import type {
-    DateObj,
-    CalendarProps,
-    CalendarEmits,
-    DayItem,
-} from './interface';
+import type { CalendarProps } from './calendar.vue';
+import type { DateObj, CalendarEmits, DayItem } from './interface';
 
 const prefixCls = getPrefixCls('calendar');
 const WEEK_NAMES = ['日', '一', '二', '三', '四', '五', '六'];

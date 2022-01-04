@@ -5,7 +5,10 @@ import useFormAdaptor from '../_util/use/useFormAdaptor';
 import { CHANGE_EVENT } from '../_util/constants';
 import useFormGroupResetter from '../_util/use/useFormGroupResetter';
 
-import type { CheckboxGroupProps, CheckboxGroupEmits } from './interface';
+import type {
+    CheckboxGroupProps,
+    CheckboxGroupEmits,
+} from './checkbox-group.vue';
 
 export const useCheckboxGroup = (
     props: CheckboxGroupProps,

@@ -3,7 +3,7 @@ import { provideKey } from '../const';
 import Td from './td';
 import ExpandTr from './expandTr';
 
-import type { ColumnInst } from '../interface'
+import type { ColumnInst } from '../column.vue';
 
 export default defineComponent({
     components: {

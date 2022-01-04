@@ -121,10 +121,6 @@ export const getNode = (
         config || {};
 
     const childrenData = (data as any)[childrenField];
-    const children = (childrenData || []).map((child: NodeOption) =>
-        getNode(child, config, node),
-    );
-
     const node: CascaderNode = {
         checked: false,
         indeterminate: false,
@@ -138,11 +134,10 @@ export const getNode = (
         pathValues: [],
         pathLabels: [],
         childrenData: childrenData,
-        children,
+        children: [],
         isDisabled:
-            !!(data as any)[disabledField] ||
-            !!(parent?.data as any)[disabledField],
-        isLeaf: children.length < 1,
+            !!(data as any)[disabledField] || !!parent?.data[disabledField],
+        isLeaf: false,
         elem: null,
     };
 
@@ -150,6 +145,11 @@ export const getNode = (
     node.pathNodes = pathNodes;
     node.pathValues = pathNodes.map((item) => item.value);
     node.pathLabels = pathNodes.map((item) => item.label);
+    const children = (childrenData || []).map((child: NodeOption) =>
+        getNode(child, config, node),
+    );
+    node.children = children;
+    node.isLeaf = children.length < 1;
 
     return node;
 };

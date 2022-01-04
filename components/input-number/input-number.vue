@@ -42,7 +42,7 @@ import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
-import FInput from '../input';
+import FInput from '../input/input.vue';
 
 import type { VModelEvent, ChangeEvent } from '../_util/interface';
 
@@ -151,7 +151,7 @@ const handleBlur = (e: Event) => {
     validate('blur');
 };
 
-const handleInput = (value: string | number) => {
+const handleInput = (value: string) => {
     tempValue.value = value;
 };
 const handleInputChange = (value: string | number) => {

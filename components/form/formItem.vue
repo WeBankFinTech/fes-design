@@ -41,9 +41,9 @@ interface FormItemProps {
     prop?: string;
     label?: string;
     labelWidth?: string | number;
-    labelClass: string;
-    showMessage: boolean;
-    rules: [];
+    labelClass?: string;
+    showMessage?: boolean;
+    rules?: [];
 }
 
 const props = withDefaults(defineProps<FormItemProps>(), {

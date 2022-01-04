@@ -5,7 +5,7 @@ import { CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import useFormGroupResetter from '../_util/use/useFormGroupResetter';
 
-import type { RadioGroupProps, RadioGroupEmits } from './interface';
+import type { RadioGroupProps, RadioGroupEmits } from './radio-group.vue';
 
 export const useRadioGroup = (
     props: RadioGroupProps,

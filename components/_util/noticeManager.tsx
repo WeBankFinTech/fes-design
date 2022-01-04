@@ -155,8 +155,8 @@ export function createManager(opt: {
 }
 
 export const iconComponentMap = {
-    info: () => InfoCircleFilled,
-    success: () => CheckCircleFilled,
-    error: () => CloseCircleFilled,
-    warning: () => ExclamationCircleFilled,
+    info: InfoCircleFilled,
+    success: CheckCircleFilled,
+    error: CloseCircleFilled,
+    warning: ExclamationCircleFilled,
 };

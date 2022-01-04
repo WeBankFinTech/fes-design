@@ -24,12 +24,12 @@ type SwitchValue = string | [] | object | number | boolean;
 type SwitchSize = 'normal' | 'small';
 
 interface SwitchProps {
-    modelValue: SwitchValue;
-    disabled: boolean;
-    activeValue: SwitchValue;
-    inactiveValue: SwitchValue;
-    beforeChange: (val: SwitchValue) => boolean | Promise<boolean>;
-    size: SwitchSize;
+    modelValue?: SwitchValue;
+    disabled?: boolean;
+    activeValue?: SwitchValue;
+    inactiveValue?: SwitchValue;
+    beforeChange?: (val: SwitchValue) => boolean | Promise<boolean>;
+    size?: SwitchSize;
 }
 
 type SwitchEmits = {

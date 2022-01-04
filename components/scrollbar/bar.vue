@@ -30,7 +30,7 @@ function renderThumbStyle({
     bar,
 }: {
     move: number;
-    size: 'width' | 'height';
+    size: string;
     bar: typeof BAR_MAP.vertical | typeof BAR_MAP.horizontal;
 }) {
     const style: CSSProperties = {};
@@ -44,7 +44,7 @@ function renderThumbStyle({
 
 type BarProps = {
     vertical?: boolean;
-    size: 'width' | 'height';
+    size: string;
     move: number;
     ratio: number;
     always: boolean;
@@ -180,7 +180,7 @@ const clickThumbHandler = (e: MouseEvent) => {
 };
 </script>
 
-<script>
+<script lang="ts">
 export default {
     name: 'FBar',
 };

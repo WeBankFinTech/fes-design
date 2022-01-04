@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts">
 import {
     defineComponent,
     h,
@@ -8,47 +8,132 @@ import {
     onBeforeUnmount,
     getCurrentInstance,
     VNode,
+    PropType,
     useSlots,
+    ExtractPropTypes,
 } from 'vue';
-import { TABLE_NAME, TABLE_COLUMN_NAME, provideKey } from './const';
+import {
+    COL_TYPE,
+    ALIGN,
+    TABLE_NAME,
+    TABLE_COLUMN_NAME,
+    provideKey,
+} from './const';
 
-import type { ColumnProps } from './interface';
+import type { CellProps } from './components/cell';
+import type { RowType, ActionType } from './interface';
 
-const props = withDefaults(defineProps<ColumnProps>(), {
-    type: 'default',
-    align: 'left',
-    resizable: false,
-    sortable: false,
-    ellipsis: false,
-    visible: true,
-});
-const slots = useSlots();
+const columnProps = {
+    label: String,
+    prop: String,
+    type: {
+        type: String as PropType<typeof COL_TYPE[number]>,
+        default: 'default',
+    },
+    align: {
+        type: String as PropType<typeof ALIGN[number]>,
+        default: 'left',
+    },
+    width: Number,
+    minWidth: Number,
+    colClassName: [Function, String] as PropType<
+        | string
+        | (({
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+              cellValue,
+          }: {
+              row: RowType;
+              column: ColumnInst;
+              rowIndex: number;
+              columnIndex: number;
+              cellValue: any;
+          }) => string)
+    >,
+    colStyle: [Function, Object] as PropType<
+        | object
+        | (({
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+              cellValue,
+          }: {
+              row: RowType;
+              column: ColumnInst;
+              rowIndex: number;
+              columnIndex: number;
+              cellValue: any;
+          }) => object)
+    >,
+    fixed: {
+        type: [Boolean, String] as PropType<'left' | 'right' | true | false>,
+    },
+    formatter: Function as PropType<(data: CellProps) => any>,
+    resizable: {
+        type: Boolean,
+        default: false,
+    },
+    sortable: {
+        type: Boolean,
+        default: false,
+    },
+    sortMethod: Function as PropType<() => void>,
+    selectable: Function as PropType<() => void>,
+    action: [Object, Array] as PropType<ActionType | ActionType[]>,
+    ellipsis: {
+        type: Boolean,
+        default: false,
+    },
+    visible: {
+        type: Boolean,
+        default: true,
+    },
+} as const;
 
-const table = inject(provideKey, null);
-if (!table) {
-    console.error(
-        `[${TABLE_COLUMN_NAME}]: ${TABLE_COLUMN_NAME} 须搭配 ${TABLE_NAME} 组件使用！`,
-    );
+export type ColumnProps = Partial<ExtractPropTypes<typeof columnProps>>;
+
+export interface ColumnInst {
+    id: number;
+    props: ColumnProps;
+    slots: ReturnType<typeof useSlots>;
+    parentId?: number;
+    width?: number;
+    fixLeft?: boolean;
+    fixRight?: boolean;
+    colSpan?: number;
+    rowSpan?: number;
+    children?: ColumnInst[];
+    level?: number;
 }
-const instance = getCurrentInstance();
-const parentInstance = instance.parent;
-const { addColumn, removeColumn } = table;
-onBeforeMount(() => {
-    addColumn({
-        id: instance.uid,
-        props,
-        slots,
-        parentId: parentInstance.uid || null,
-    });
-});
-onBeforeUnmount(() => {
-    removeColumn(instance.uid);
-});
-</script>
 
-<script lang="ts">
 export default defineComponent({
     name: TABLE_COLUMN_NAME,
+    props: columnProps,
+    setup(props, ctx) {
+        const table = inject(provideKey, null);
+        if (!table) {
+            return console.error(
+                `[${TABLE_COLUMN_NAME}]: ${TABLE_COLUMN_NAME} 须搭配 ${TABLE_NAME} 组件使用！`,
+            );
+        }
+        const instance = getCurrentInstance();
+        const parentInstance = instance.parent;
+        const { addColumn, removeColumn } = table;
+        onBeforeMount(() => {
+            addColumn({
+                id: instance.uid,
+                props,
+                slots: ctx.slots,
+                parentId: parentInstance.uid || null,
+            });
+        });
+        onBeforeUnmount(() => {
+            removeColumn(instance.uid);
+        });
+    },
     render() {
         let children: VNode[] = [];
         try {

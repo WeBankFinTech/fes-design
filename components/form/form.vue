@@ -21,13 +21,13 @@ import type { Field, ValidateResult } from './interface';
 const prefixCls = getPrefixCls('form');
 
 interface FormProps {
-    model: object;
-    rules: object;
-    layout: FORM_LAYOUT;
-    labelPosition: LABEL_POSITION;
-    showMessage: boolean;
-    labelWidth: string | number;
-    labelClass: string;
+    model?: object;
+    rules?: object;
+    layout?: FORM_LAYOUT;
+    labelPosition?: LABEL_POSITION;
+    showMessage?: boolean;
+    labelWidth?: string | number;
+    labelClass?: string;
 }
 
 const props = withDefaults(defineProps<FormProps>(), {

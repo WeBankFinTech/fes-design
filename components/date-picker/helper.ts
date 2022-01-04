@@ -98,6 +98,7 @@ export function transformDateToTimestamp(
     date: ParticalDateObj,
     isFullMax = false,
 ) {
+    if (!date) return null;
     if (isFullMax) {
         const month = date.month ?? 11;
         const maxDay = new Date(date.year, month + 1, 0).getDate();

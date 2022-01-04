@@ -13,7 +13,7 @@ export default {
                 closable: true,
                 content: '可以手动关闭的消息！',
                 afterClose() {
-                    Message.destroy();
+                    FMessage.destroy();
                     console.log('Message closed!');
                 }
             });

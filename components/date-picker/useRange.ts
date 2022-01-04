@@ -3,7 +3,7 @@ import { computed, watch, ref, Ref } from 'vue';
 import { contrastDate } from './helper';
 import { DATE_TYPE, RANGE_POSITION } from './const';
 
-import type { CalendarsProps } from './interface';
+import type { CalendarsProps } from './calendars.vue';
 
 export const useRange = (
     props: CalendarsProps,

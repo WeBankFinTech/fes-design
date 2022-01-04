@@ -1,10 +1,10 @@
 import type { VModelEvent, ChangeEvent } from '../_util/interface';
 
-export type CheckboxGroupProps = {
+export interface CheckboxGroupProps {
     modelValue: [];
-    vertical: boolean;
-    disabled: boolean;
-};
+    vertical?: boolean;
+    disabled?: boolean;
+}
 
 export type CheckboxGroupEmits = {
     (e: VModelEvent, value: string | number | boolean): void;

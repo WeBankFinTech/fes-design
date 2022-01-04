@@ -25,11 +25,11 @@ const TAG_SIZE = ['small', 'middle', 'large'] as const;
 const TAG_EFFECT = ['dark', 'light', 'plain'] as const;
 
 interface TagProps {
-    type: typeof TAG_TYPE[number];
-    closable: boolean;
+    type?: typeof TAG_TYPE[number];
+    closable?: boolean;
     backgroundColor?: string;
-    size: typeof TAG_SIZE[number];
-    effect: typeof TAG_EFFECT[number];
+    size?: typeof TAG_SIZE[number];
+    effect?: typeof TAG_EFFECT[number];
 }
 
 type TagEmits = {

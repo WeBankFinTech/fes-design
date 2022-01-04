@@ -126,32 +126,42 @@ import {
     useWordLimit,
 } from './useInput';
 
-import type { InputCurrentValue, InputEmits } from './interface';
-
 const prefixCls = getPrefixCls('input');
 const textareaPrefixCls = getPrefixCls('textarea');
-
-type InputProps = {
-    modelValue?: InputCurrentValue;
-    type?: string; // default text
-    placeholder?: string;
-    readonly?: boolean;
-    disabled: boolean;
-    clearable: boolean;
-    maxlength: number;
-    rows: number; // default 2
-    showWordLimit: boolean;
-    showPassword: boolean;
-    inputStyle: object;
-    autosize: boolean | Autosize;
-    autocomplete: string; // default 'off'
-    resize: 'none' | 'both' | 'horizontal' | 'vertical' | 'block' | 'inline';
-};
 
 interface Autosize {
     minRows?: number;
     maxRows?: number;
 }
+
+type InputProps = {
+    modelValue?: number | string;
+    type?: string; // default text
+    placeholder?: string;
+    readonly?: boolean;
+    disabled?: boolean;
+    clearable?: boolean;
+    maxlength?: number;
+    rows?: number; // default 2
+    showWordLimit?: boolean;
+    showPassword?: boolean;
+    inputStyle?: object;
+    autosize?: boolean | Autosize;
+    autocomplete?: string; // default 'off'
+    resize?: 'none' | 'both' | 'horizontal' | 'vertical' | 'block' | 'inline';
+};
+
+export type InputEmits = {
+    (e: 'update:modelValue', value: string): void;
+    (e: 'change', value: string): void;
+    (e: 'input', value: string): void;
+    (e: 'keydown', event: KeyboardEvent): void;
+    (e: 'blur', event: Event): void;
+    (e: 'focus', event: Event): void;
+    (e: 'clear'): void;
+    (e: 'mouseleave', event: MouseEvent): void;
+    (e: 'mouseenter', event: MouseEvent): void;
+};
 
 const props = withDefaults(defineProps<InputProps>(), {
     type: 'text',
@@ -211,8 +221,8 @@ const suffixVisible = computed(
 );
 
 const isComposing = ref(false);
-const handleInput = (event) => {
-    const { value } = event.target;
+const handleInput = (event: Event) => {
+    const { value } = event.target as HTMLInputElement;
     if (!isComposing.value) {
         updateCurrentValue(value);
         emit('input', value);
@@ -222,7 +232,7 @@ const handleInput = (event) => {
 const handleCompositionStart = () => {
     isComposing.value = true;
 };
-const handleCompositionEnd = (event) => {
+const handleCompositionEnd = (event: Event) => {
     if (isComposing.value) {
         isComposing.value = false;
         handleInput(event);

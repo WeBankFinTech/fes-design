@@ -104,19 +104,27 @@
     </div>
 </template>
 
-<script setup lang="ts">
-import { ref, unref, watch, computed, onMounted, CSSProperties } from 'vue';
+<script lang="ts">
+import {
+    defineComponent,
+    ref,
+    unref,
+    watch,
+    computed,
+    onMounted,
+    CSSProperties,
+} from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel, useArrayModel } from '../_util/use/useModel';
-import { CHANGE_EVENT } from '../_util/constants';
+import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
-import Tree from '../tree';
+import Tree from '../tree/tree';
 import Scrollbar from '../scrollbar';
-import { SelectProps, selectPropsDefaultValue } from '../select/props';
-import { TreeProps, treePropsDefaultValue } from '../tree/props';
+import { selectProps } from '../select/props';
+import { treeProps } from '../tree/props';
 import { getChildrenByValues, getParentByValues } from './helper';
 
 import type { SelectValue } from '../select/interface';
@@ -126,175 +134,212 @@ import type {
     CheckParams,
     InnerTreeOption,
 } from '../tree/interface';
-import type { VModelEvent, ChangeEvent } from '../_util/interface';
 
 const prefixCls = getPrefixCls('select-tree');
 
-type SelectTreeProps = SelectProps & TreeProps;
+// type SelectTreeEmits = {
+//     (e: VModelEvent, value: SelectValue): void;
+//     (e: ChangeEvent, value: SelectValue): void;
+//     (e: 'removeTag', value: SelectValue): void;
+//     (e: 'visibleChange', isOpen: boolean): void;
+//     (e: 'clear'): void;
+//     (e: 'blur', event: Event): void;
+//     (e: 'focus', event: Event): void;
+// };
 
-type SelectTreeEmits = {
-    (e: VModelEvent, value: SelectValue): void;
-    (e: ChangeEvent, value: SelectValue): void;
-    (e: 'removeTag', value: SelectValue): void;
-    (e: 'visibleChange', isOpen: boolean): void;
-    (e: 'clear'): void;
-    (e: 'blur', event: Event): void;
-    (e: 'focus', event: Event): void;
-};
-
-const props = withDefaults(defineProps<SelectTreeProps>(), {
-    ...selectPropsDefaultValue,
-    ...treePropsDefaultValue,
-});
-
-const emit = defineEmits<SelectTreeEmits>();
-
-useTheme();
-const { validate } = useFormAdaptor(
-    computed(() => (props.multiple ? 'array' : 'string')),
-);
-const isOpened = ref(false);
-const [currentValue, updateCurrentValue] = props.multiple
-    ? useArrayModel(props, emit)
-    : useNormalModel(props, emit);
-const filterText = ref('');
-
-watch(isOpened, () => {
-    emit('visibleChange', unref(isOpened));
-});
-watch(currentValue, () => {
-    emit(CHANGE_EVENT, unref(currentValue));
-    validate(CHANGE_EVENT);
-});
-
-const nodeList = ref<TreeNodeList>({});
-
-const onChangeNodeList = (data: TreeNodeList) => {
-    nodeList.value = data;
-};
-
-const treeSelectable = computed(() => !props.multiple);
-const treeCheckable = computed(() => props.multiple);
-const selectedKeys = computed(() => {
-    if (!props.multiple) return currentValue.value ? [currentValue.value] : [];
-    return [];
-});
-const checkedKeys = computed(() => {
-    if (props.multiple) {
-        if (!props.cascade) {
-            return currentValue.value;
-        }
-        if (props.checkStrictly === 'all') {
-            return currentValue.value;
-        }
-        if (props.checkStrictly === 'parent') {
-            return getChildrenByValues(nodeList.value, currentValue.value);
-        }
-        if (props.checkStrictly === 'child') {
-            return getParentByValues(nodeList.value, currentValue.value);
-        }
-    }
-    return [];
-});
-
-watch(
-    () => props.checkStrictly,
-    () => {
-        if (props.multiple && props.cascade) {
-            updateCurrentValue([]);
-        }
-    },
-);
-
-const handleClear = () => {
-    const value: [] | null = props.multiple ? [] : null;
-    updateCurrentValue(value);
-    emit('clear');
-};
-
-const handleSelect = (data: SelectParams) => {
-    if (props.disabled) return;
-    filterText.value = '';
-    if (!props.multiple) {
-        updateCurrentValue(data.selectedKeys[0]);
-        isOpened.value = false;
-    } else {
-        updateCurrentValue(data.selectedKeys);
-    }
-};
-
-const handleCheck = (data: CheckParams) => {
-    if (props.disabled) return;
-    filterText.value = '';
-    if (!props.multiple) {
-        updateCurrentValue(data.checkedKeys[0]);
-        isOpened.value = false;
-    } else {
-        updateCurrentValue(data.checkedKeys);
-    }
-};
-
-const handleRemove = (value: SelectValue) => {
-    if (!props.multiple) {
-        return;
-    }
-    const findIndex = currentValue.value.indexOf(value);
-    if (findIndex !== -1) {
-        emit('removeTag', value);
-        // arrayModel会自动添加或者删除
-        updateCurrentValue(value);
-    }
-};
-
-const selectedOptions = computed(() =>
-    Object.values(nodeList.value).filter((option) => {
-        if (props.multiple) {
-            return currentValue.value.includes(option.value);
-        }
-        return [currentValue.value].includes(option.value);
-    }),
-);
-
-const focus = (e: Event) => {
-    emit('focus', e);
-};
-
-const blur = (e: Event) => {
-    emit('blur', e);
-    validate('blur');
-};
-
-const handleFilterTextChange = (val: string) => {
-    filterText.value = val;
-};
-
-const refTree = ref(null);
-watch(filterText, () => {
-    refTree.value.filter(filterText.value);
-});
-const filterMethod = (value: string, node: InnerTreeOption) =>
-    node.label.indexOf(value) !== -1;
-
-const triggerRef = ref();
-const triggerWidth = ref(0);
-
-onMounted(() => {
-    if (triggerRef.value) {
-        triggerWidth.value = triggerRef.value.$el.offsetWidth;
-    }
-});
-
-const dropdownStyle = computed(() => {
-    const style: CSSProperties = {};
-    if (triggerWidth.value) {
-        style['min-width'] = `${triggerWidth.value}px`;
-    }
-    return style;
-});
-</script>
-
-<script lang="ts">
-export default {
+export default defineComponent({
     name: 'FSelectTree',
-};
+    components: {
+        Popper,
+        SelectTrigger,
+        Tree,
+        Scrollbar,
+    },
+    props: {
+        ...selectProps,
+        ...treeProps,
+    },
+    emits: [
+        UPDATE_MODEL_EVENT,
+        CHANGE_EVENT,
+        'removeTag',
+        'visibleChange',
+        'focus',
+        'blur',
+        'clear',
+    ],
+    setup(props, { emit }) {
+        useTheme();
+        const { validate } = useFormAdaptor(
+            computed(() => (props.multiple ? 'array' : 'string')),
+        );
+        const isOpened = ref(false);
+        const [currentValue, updateCurrentValue] = props.multiple
+            ? useArrayModel(props, emit)
+            : useNormalModel(props, emit);
+        const filterText = ref('');
+
+        watch(isOpened, () => {
+            emit('visibleChange', unref(isOpened));
+        });
+        watch(currentValue, () => {
+            emit(CHANGE_EVENT, unref(currentValue));
+            validate(CHANGE_EVENT);
+        });
+
+        const nodeList = ref<TreeNodeList>({});
+
+        const onChangeNodeList = (data: TreeNodeList) => {
+            nodeList.value = data;
+        };
+
+        const treeSelectable = computed(() => !props.multiple);
+        const treeCheckable = computed(() => props.multiple);
+        const selectedKeys = computed(() => {
+            if (!props.multiple)
+                return currentValue.value ? [currentValue.value] : [];
+            return [];
+        });
+        const checkedKeys = computed(() => {
+            if (props.multiple) {
+                if (!props.cascade) {
+                    return currentValue.value;
+                }
+                if (props.checkStrictly === 'all') {
+                    return currentValue.value;
+                }
+                if (props.checkStrictly === 'parent') {
+                    return getChildrenByValues(
+                        nodeList.value,
+                        currentValue.value,
+                    );
+                }
+                if (props.checkStrictly === 'child') {
+                    return getParentByValues(
+                        nodeList.value,
+                        currentValue.value,
+                    );
+                }
+            }
+            return [];
+        });
+
+        watch(
+            () => props.checkStrictly,
+            () => {
+                if (props.multiple && props.cascade) {
+                    updateCurrentValue([]);
+                }
+            },
+        );
+
+        const handleClear = () => {
+            const value: [] | null = props.multiple ? [] : null;
+            updateCurrentValue(value);
+            emit('clear');
+        };
+
+        const handleSelect = (data: SelectParams) => {
+            if (props.disabled) return;
+            filterText.value = '';
+            if (!props.multiple) {
+                updateCurrentValue(data.selectedKeys[0]);
+                isOpened.value = false;
+            } else {
+                updateCurrentValue(data.selectedKeys);
+            }
+        };
+
+        const handleCheck = (data: CheckParams) => {
+            if (props.disabled) return;
+            filterText.value = '';
+            if (!props.multiple) {
+                updateCurrentValue(data.checkedKeys[0]);
+                isOpened.value = false;
+            } else {
+                updateCurrentValue(data.checkedKeys);
+            }
+        };
+
+        const handleRemove = (value: SelectValue) => {
+            if (!props.multiple) {
+                return;
+            }
+            const findIndex = currentValue.value.indexOf(value);
+            if (findIndex !== -1) {
+                emit('removeTag', value);
+                // arrayModel会自动添加或者删除
+                updateCurrentValue(value);
+            }
+        };
+
+        const selectedOptions = computed(() =>
+            Object.values(nodeList.value).filter((option) => {
+                if (props.multiple) {
+                    return currentValue.value.includes(option.value);
+                }
+                return [currentValue.value].includes(option.value);
+            }),
+        );
+
+        const focus = (e: Event) => {
+            emit('focus', e);
+        };
+
+        const blur = (e: Event) => {
+            emit('blur', e);
+            validate('blur');
+        };
+
+        const handleFilterTextChange = (val: string) => {
+            filterText.value = val;
+        };
+
+        const refTree = ref(null);
+        watch(filterText, () => {
+            refTree.value.filter(filterText.value);
+        });
+        const filterMethod = (value: string, node: InnerTreeOption) =>
+            node.label.indexOf(value) !== -1;
+
+        const triggerRef = ref();
+        const triggerWidth = ref(0);
+
+        onMounted(() => {
+            if (triggerRef.value) {
+                triggerWidth.value = triggerRef.value.$el.offsetWidth;
+            }
+        });
+
+        const dropdownStyle = computed(() => {
+            const style: CSSProperties = {};
+            if (triggerWidth.value) {
+                style['min-width'] = `${triggerWidth.value}px`;
+            }
+            return style;
+        });
+        return {
+            prefixCls,
+            isOpened,
+            currentValue,
+            handleRemove,
+            handleClear,
+            selectedOptions,
+            focus,
+            blur,
+            handleFilterTextChange,
+            treeSelectable,
+            selectedKeys,
+            treeCheckable,
+            handleSelect,
+            handleCheck,
+            checkedKeys,
+            refTree,
+            filterMethod,
+            triggerRef,
+            dropdownStyle,
+            onChangeNodeList,
+        };
+    },
+});
 </script>

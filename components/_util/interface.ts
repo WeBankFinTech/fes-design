@@ -1,4 +1,10 @@
-import type { ObjectDirective, SetupContext, Ref, Component, App } from 'vue';
+import type {
+    ObjectDirective,
+    SetupContext,
+    Ref,
+    DefineComponent,
+    App,
+} from 'vue';
 
 export type Emit = SetupContext['emit'];
 
@@ -16,10 +22,10 @@ export type LOAD_EVENT = 'close';
 export type UpdateCurrentValue = (val: any) => void;
 export type FormValidate = (eventName: string) => void;
 
-export type ComponentInstall = Component & {
+export type ComponentInstall = DefineComponent & {
     install: (app: App) => void;
 } & {
-    [key: string]: Component;
+    [key: string]: DefineComponent;
 };
 
 export type GetContainer = () => HTMLElement;

@@ -3,13 +3,14 @@ import { isObject, isNil } from 'lodash-es';
 
 import type { ConfigProvider } from './interface';
 import type { Theme } from '../_theme/interface';
+import type { GetContainer } from '../_util/interface'
 
 const config = reactive<ConfigProvider>({
     getContainer: () => document.body,
 });
 
 const configProviderProps = {
-    getContainer: Function as PropType<() => HTMLElement>,
+    getContainer: Function as PropType<GetContainer>,
     theme: String,
     themeOverrides: Object as PropType<Partial<Theme>>,
 } as const;
@@ -17,8 +18,8 @@ const configProviderProps = {
 export const setConfig = (data: ConfigProvider) => {
     if (isObject(data)) {
         Object.keys(data).forEach((prop) => {
-            if (!isNil(data[prop])) {
-                config[prop] = data[prop];
+            if (!isNil(data[prop as keyof typeof data])) {
+                (config as any)[prop] = data[prop as keyof typeof data];
             }
         });
     }
