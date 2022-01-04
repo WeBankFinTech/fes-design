@@ -42,6 +42,7 @@ export { default as HomeOutlined } from './HomeOutlined';
 export { default as IndentOutlined } from './IndentOutlined';
 export { default as InfoCircleFilled } from './InfoCircleFilled';
 export { default as InfoCircleOutlined } from './InfoCircleOutlined';
+export { default as LanguageOutlined } from './LanguageOutlined';
 export { default as LeftCircleFilled } from './LeftCircleFilled';
 export { default as LeftCircleOutlined } from './LeftCircleOutlined';
 export { default as LeftOutlined } from './LeftOutlined';

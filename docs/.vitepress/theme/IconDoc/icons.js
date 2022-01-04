@@ -42,6 +42,7 @@ export { default as HomeOutlined } from '../../../../components/icon/HomeOutline
 export { default as IndentOutlined } from '../../../../components/icon/IndentOutlined';
 export { default as InfoCircleFilled } from '../../../../components/icon/InfoCircleFilled';
 export { default as InfoCircleOutlined } from '../../../../components/icon/InfoCircleOutlined';
+export { default as LanguageOutlined } from '../../../../components/icon/LanguageOutlined';
 export { default as LeftCircleFilled } from '../../../../components/icon/LeftCircleFilled';
 export { default as LeftCircleOutlined } from '../../../../components/icon/LeftCircleOutlined';
 export { default as LeftOutlined } from '../../../../components/icon/LeftOutlined';
@@ -83,7 +84,9 @@ export { default as SortOutlined } from '../../../../components/icon/SortOutline
 export { default as StarOutlined } from '../../../../components/icon/StarOutlined';
 export { default as StopFilled } from '../../../../components/icon/StopFilled';
 export { default as StopOutlined } from '../../../../components/icon/StopOutlined';
+export { default as SwapLeftOutlined } from '../../../../components/icon/SwapLeftOutlined';
 export { default as SwapOutlined } from '../../../../components/icon/SwapOutlined';
+export { default as SwapRightOutlined } from '../../../../components/icon/SwapRightOutlined';
 export { default as UnorderedListOutlined } from '../../../../components/icon/UnorderedListOutlined';
 export { default as UpCircleFilled } from '../../../../components/icon/UpCircleFilled';
 export { default as UpCircleOutlined } from '../../../../components/icon/UpCircleOutlined';
