@@ -1,19 +1,13 @@
 import type { ExtractPropTypes, PropType, InjectionKey, VNodeChild } from 'vue';
+import { SelectValue } from '../cascader/interface';
 
 import { extractPropsDefaultValue } from '../_util/utils';
 import { CHECK_STRATEGY } from './const';
 
-import type {
-    CascaderNode,
-    CascaderNodeConfig,
-    NodeOption,
-    OptionValue,
-} from './interface';
+import type { CascaderNode, CascaderNodeConfig, NodeOption } from './interface';
 
 export const cascaderPanelProps = {
-    currentValue: [Number, String, Array] as PropType<
-        OptionValue | OptionValue[] | OptionValue[][]
-    >,
+    currentValue: [Number, String, Array] as PropType<SelectValue>,
     options: {
         type: Array as PropType<NodeOption[]>,
         default: (): NodeOption[] => [],

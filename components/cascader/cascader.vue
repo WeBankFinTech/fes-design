@@ -115,13 +115,7 @@ const handleRemove = (value: SelectOptionValue) => {
 
     const { emitPath } = props.nodeConfig || {};
     let copyValue = cloneDeep(currentValue.value);
-    const updateValues: OptionValue[] = [];
-
-    if (emitPath) {
-        copyValue = copyValue.map(
-            (item: OptionValue[]) => item[item.length - 1],
-        );
-    }
+    const updateValues: SelectValue[] = [];
 
     const currentNode = selectedNodes.value.find(
         (node) => node.value === value,
@@ -130,10 +124,15 @@ const handleRemove = (value: SelectOptionValue) => {
         .concat(currentNode.pathNodes, flatNodes(currentNode.children))
         .map((node) => node.value);
 
-    copyValue.forEach((item: OptionValue) => {
-        let itemValue = item;
+    copyValue.forEach((item: OptionValue | OptionValue[]) => {
+        let itemValue: OptionValue = item as OptionValue;
+        if (emitPath) {
+            itemValue = (item as OptionValue[])[
+                (item as OptionValue[]).length - 1
+            ];
+        }
         if (!removeValues.includes(itemValue)) {
-            updateValues.push(itemValue);
+            updateValues.push(item);
         }
     });
 
