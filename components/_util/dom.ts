@@ -115,7 +115,7 @@ export function isScroll(el: HTMLElement, isVertical?: boolean) {
     return overflow.match(/(scroll|auto|overlay)/);
 }
 
-export function getScrollContainer(el: HTMLElement, isVertical: boolean) {
+export function getScrollContainer(el: HTMLElement, isVertical?: boolean) {
     let parent: HTMLElement | null = el;
 
     while (parent) {

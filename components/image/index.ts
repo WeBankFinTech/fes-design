@@ -1,5 +1,5 @@
 import { withInstall } from '../_util/withInstall';
-import Image from './image';
+import Image from './image.vue';
 import PreviewGroup from './preview-group';
 
 export const FImage = withInstall(Image);
