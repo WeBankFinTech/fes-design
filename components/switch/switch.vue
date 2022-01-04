@@ -85,7 +85,7 @@ const wrapperClass = computed(() =>
 );
 </script>
 
-<script>
+<script lang="ts">
 export default {
     name: 'FSwitch',
 };

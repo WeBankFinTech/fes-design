@@ -65,7 +65,7 @@ import Ellipsis from '../ellipsis';
 import getPrefixCls from '../_util/getPrefixCls';
 import Tag from '../tag/tag.vue';
 
-import type { SelectValue, SelectOption } from '../select/interface';
+import type { SelectOptionValue, SelectOption } from './interface';
 
 const prefixCls = getPrefixCls('select-trigger-label');
 
@@ -88,7 +88,7 @@ const props = withDefaults(defineProps<LabelProps>(), {
 });
 
 type LabelEmits = {
-    (e: 'removeTag', value: SelectValue): void;
+    (e: 'removeTag', value: SelectOptionValue): void;
     (e: 'input', value: string): void;
 };
 

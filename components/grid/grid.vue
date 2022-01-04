@@ -66,7 +66,7 @@ provide(GRID_KEY, {
 });
 </script>
 
-<script>
+<script lang="ts">
 export default {
     name: 'FGrid',
 };

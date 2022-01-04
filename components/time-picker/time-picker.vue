@@ -258,7 +258,7 @@ const handleBlur = (event: Event) => {
 };
 </script>
 
-<script>
+<script lang="ts">
 export default {
     name: 'FTimePicker',
 };

@@ -91,7 +91,7 @@ provide(LAYOUT_PROVIDE_KEY, {
 });
 </script>
 
-<script>
+<script lang="ts">
 export default {
     name: COMPONENT_NAME.LAYOUT,
 };

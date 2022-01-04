@@ -146,7 +146,7 @@ defineExpose({
 });
 </script>
 
-<script>
+<script lang="ts">
 import { FORM_NAME } from './const';
 export default {
     name: FORM_NAME,

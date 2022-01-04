@@ -31,7 +31,7 @@ const classList = computed(() => [
 ]);
 </script>
 
-<script>
+<script lang="ts">
 import { name } from './const';
 export default {
     name,
