@@ -227,7 +227,7 @@ function useKeyDown(config, emit, menus) {
                 }
                 const nextMenu =
                     menus.value[getMenuIndexByElem(target, menus.value) + 1];
-                focusNodeElem(nextMenu?.[0]);
+                focusNodeElem(nextMenu?.nodes?.[0]);
                 break;
             }
             case EVENT_CODE.ENTER: {

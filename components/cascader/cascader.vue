@@ -110,10 +110,6 @@ export default defineComponent({
             let copyValue = cloneDeep(currentValue.value);
             const updateValues = [];
 
-            if (emitPath) {
-                copyValue = copyValue.map((item) => item[item.length - 1]);
-            }
-
             const currentNode = selectedNodes.value.find(
                 (node) => node.value === value,
             );
