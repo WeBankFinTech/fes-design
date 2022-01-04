@@ -1,15 +1,11 @@
 import { h, inject, defineComponent } from 'vue';
-import Checkbox from '../../checkbox.vue';
+import FCheckbox from '../../checkbox/checkbox.vue';
 import { provideKey } from '../const';
 import Label from './label';
 
-import type { ColumnInst } from '../interface'
+import type { ColumnInst } from '../column.vue';
 
 export default defineComponent({
-    components: {
-        Label,
-        Checkbox,
-    },
     setup() {
         const {
             headerRows,
@@ -37,7 +33,7 @@ export default defineComponent({
                             <Label column={column} columnIndex={columnIndex} />
                         )}
                         {column.props.type === 'selection' && (
-                            <Checkbox
+                            <FCheckbox
                                 modelValue={isAllSelected.value}
                                 indeterminate={
                                     !isAllSelected.value && selection.length > 0

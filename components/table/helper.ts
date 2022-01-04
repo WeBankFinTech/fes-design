@@ -1,4 +1,5 @@
-import type { RowType, RowKey, ColumnInst } from './interface';
+import type { RowType, RowKey } from './interface';
+import type { ColumnInst } from './column.vue';
 
 export const getRowKey = ({
     row,

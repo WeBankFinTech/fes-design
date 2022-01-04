@@ -3,7 +3,7 @@ import Mousewheel from '../../_util/directives/mousewheel';
 import { provideKey } from '../const';
 import Table from './table';
 
-import type { ColumnInst } from '../interface'
+import type { ColumnInst } from '../column.vue';
 
 export default defineComponent({
     components: {

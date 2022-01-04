@@ -3,7 +3,8 @@ import { isFunction } from 'lodash-es';
 import { TABLE_NAME } from './const';
 
 import type { TableProps } from './table';
-import type { RowType, ColumnInst } from './interface';
+import type { RowType } from './interface';
+import type { ColumnInst } from './column.vue';
 
 export default ({
     props,

@@ -7,13 +7,39 @@
 </template>
 
 <script setup lang="ts">
-import { computed, provide, reactive, toRefs, inject, ref } from 'vue';
+import {
+    computed,
+    provide,
+    reactive,
+    toRefs,
+    inject,
+    ref,
+    Ref,
+    CSSProperties,
+    ToRefs,
+} from 'vue';
 import { isPlainObject, isArray, isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { COMPONENT_NAME, LAYOUT_PROVIDE_KEY } from './const';
 
-import type { LayoutChild, LayoutProps } from './interface';
+export interface LayoutChild {
+    type: COMPONENT_NAME;
+}
+
+export type AsidePlacement = 'left' | 'right' | '';
+
+export interface LayoutProps {
+    embedded?: boolean;
+    fixed?: boolean;
+    containerClass?: CSSProperties;
+    containerStyle?: CSSProperties;
+}
+
+export interface LayoutInst extends ToRefs<LayoutProps> {
+    addChild: (child: LayoutChild) => void;
+    asidePlacement?: Ref<AsidePlacement>;
+}
 
 const prefixCls = getPrefixCls('layout');
 

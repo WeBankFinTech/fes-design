@@ -1,7 +1,7 @@
 import { reactive, computed } from 'vue';
 import { getHeaderRows, getColumns } from './helper';
 
-import type { ColumnInst } from './interface';
+import type { ColumnInst } from './column.vue';
 
 export default function useColumn() {
     const originColumns = reactive<ColumnInst[]>([]);

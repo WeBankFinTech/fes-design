@@ -1,6 +1,5 @@
 import { nextTick, ref, watch, Ref, ComputedRef } from 'vue';
 
-import type { DraggableEmits } from './interface';
 class Setting {
     draggable = false;
 
@@ -131,9 +130,7 @@ function resetDragWhenEnd(
 export function useDraggable(
     containerRef: Ref<HTMLElement | undefined>,
     propsRef: PropsRef,
-    ctx: {
-        emit?: DraggableEmits;
-    } = {},
+    ctx: object = {},
 ) {
     const settings = ref<Setting[]>([]);
     const animation = {

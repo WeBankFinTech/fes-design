@@ -13,7 +13,8 @@ import useTableLayout from './useTableLayout';
 const prefixCls = getPrefixCls('table');
 
 import type { TableProps } from './table';
-import type { RowType, ColumnInst } from './interface';
+import type { RowType } from './interface';
+import type { ColumnInst } from './column.vue';
 
 export default ({
     props,

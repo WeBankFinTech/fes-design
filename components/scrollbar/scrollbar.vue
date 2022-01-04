@@ -35,13 +35,22 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref } from 'vue';
+import { computed, nextTick, onMounted, ref, CSSProperties } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { addUnit, requestAnimationFrame } from '../_util/utils';
 import useResize from '../_util/use/useResize';
 
-import type { ScrollbarProps } from './interface';
+export type ScrollbarProps = {
+    height?: number | string;
+    maxHeight?: number | string;
+    native?: boolean;
+    containerClass?: CSSProperties;
+    containerStyle?: CSSProperties;
+    noresize?: boolean;
+    always?: boolean;
+    minSize?: number;
+};
 
 import FBar from './bar.vue';
 

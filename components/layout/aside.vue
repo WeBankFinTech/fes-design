@@ -27,7 +27,7 @@ import { useNormalModel } from '../_util/use/useModel';
 import { noop } from '../_util/utils';
 import { COMPONENT_NAME, LAYOUT_PROVIDE_KEY } from './const';
 
-import type { AsidePlacement } from './interface';
+export type AsidePlacement = 'left' | 'right' | '';
 
 const prefixCls = getPrefixCls('layout');
 

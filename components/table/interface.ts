@@ -1,6 +1,4 @@
-import { useSlots, Ref } from 'vue';
-import { COL_TYPE, ALIGN } from './const';
-import { CellProps } from './components/cell';
+import { Ref } from 'vue';
 import { getCellValue } from './helper';
 import useTableColumn from './useTableColumn';
 import useTableEvent from './useTableEvent';
@@ -17,67 +15,53 @@ export interface ActionType {
     func: (row: object) => void;
 }
 
-export interface ColumnProps {
-    label: string;
-    prop: string;
-    type: typeof COL_TYPE[number];
-    align: typeof ALIGN[number];
-    width: number;
-    minWidth: number;
-    colClassName:
-        | string
-        | (({
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-              cellValue,
-          }: {
-              row: RowType;
-              column: ColumnInst;
-              rowIndex: number;
-              columnIndex: number;
-              cellValue: any;
-          }) => string);
-    colStyle:
-        | object
-        | (({
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-              cellValue,
-          }: {
-              row: RowType;
-              column: ColumnInst;
-              rowIndex: number;
-              columnIndex: number;
-              cellValue: any;
-          }) => object);
-    fixed: 'left' | 'right' | true | false;
-    formatter: (data: CellProps) => any;
-    resizable: boolean;
-    sortable: boolean;
-    sortMethod: () => void;
-    selectable: () => void;
-    action: ActionType | ActionType[];
-    ellipsis: boolean;
-    visible: boolean;
-}
-
-export interface ColumnInst {
-    id: number;
-    props: ColumnProps;
-    slots: ReturnType<typeof useSlots>;
-    parentId?: number;
-    width?: number;
-    fixLeft?: boolean;
-    fixRight?: boolean;
-    colSpan?: number;
-    rowSpan?: number;
-    children?: ColumnInst[];
-    level?: number;
-}
+// export interface ColumnProps {
+//     label: string;
+//     prop: string;
+//     type: typeof COL_TYPE[number];
+//     align: typeof ALIGN[number];
+//     width: number;
+//     minWidth: number;
+//     colClassName:
+//         | string
+//         | (({
+//               row,
+//               column,
+//               rowIndex,
+//               columnIndex,
+//               cellValue,
+//           }: {
+//               row: RowType;
+//               column: ColumnInst;
+//               rowIndex: number;
+//               columnIndex: number;
+//               cellValue: any;
+//           }) => string);
+//     colStyle:
+//         | object
+//         | (({
+//               row,
+//               column,
+//               rowIndex,
+//               columnIndex,
+//               cellValue,
+//           }: {
+//               row: RowType;
+//               column: ColumnInst;
+//               rowIndex: number;
+//               columnIndex: number;
+//               cellValue: any;
+//           }) => object);
+//     fixed: 'left' | 'right' | true | false;
+//     formatter: (data: CellProps) => any;
+//     resizable: boolean;
+//     sortable: boolean;
+//     sortMethod: () => void;
+//     selectable: () => void;
+//     action: ActionType | ActionType[];
+//     ellipsis: boolean;
+//     visible: boolean;
+// }
 
 export interface TableInst
     extends ReturnType<typeof useTableColumn>,

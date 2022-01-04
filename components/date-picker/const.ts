@@ -1,3 +1,5 @@
+import type { PropType } from 'vue';
+
 export const DATE_TYPE = {
     date: {
         name: 'date',
@@ -57,11 +59,14 @@ export enum RANGE_POSITION {
 
 export const YEAR_COUNT = 16;
 
+export type DatePickerType = keyof typeof DATE_TYPE;
+
 export const COMMON_PROPS = {
     modelValue: {
-        type: [Array, Number],
+        type: [Array, Number] as PropType<number | number[]>,
     },
     type: {
+        type: String as PropType<DatePickerType>,
         default: DATE_TYPE.date.name,
     },
     minDate: {
@@ -71,11 +76,17 @@ export const COMMON_PROPS = {
         type: Date,
     },
     disabledDate: {
-        type: Function,
+        type: Function as PropType<(date: Date) => boolean>,
         default: () => false,
     },
     disabledTime: {
-        type: Function,
+        type: Function as PropType<
+            (
+                date: Date,
+                rangePosition?: RANGE_POSITION,
+                value?: Date | Date[],
+            ) => boolean
+        >,
         default: () => false,
     },
 };

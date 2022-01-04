@@ -114,6 +114,7 @@ export function fade(color: string, alpha: number) {
 
     hsl.a = alpha;
     hsl.a = clamp(hsl.a);
+    console.log(_hsla(colorInstance, hsl).toCSS(), alpha);
     return _hsla(colorInstance, hsl).toCSS();
 }
 

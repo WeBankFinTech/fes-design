@@ -2,7 +2,8 @@ import { reactive, computed, watch, SetupContext, Ref } from 'vue';
 import { TABLE_NAME } from './const';
 
 import type { TableProps } from './table';
-import type { ColumnInst, RowType } from './interface';
+import type { RowType } from './interface';
+import type { ColumnInst } from './column.vue';
 
 export default ({
     props,

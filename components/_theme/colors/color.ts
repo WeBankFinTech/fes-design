@@ -13,7 +13,7 @@ function toHex(v: number[]) {
 
 class Color {
     rgb: number[];
-    alpha = 1;
+    alpha = 0;
     value = '';
     constructor(
         rgb: string | Array<number>,

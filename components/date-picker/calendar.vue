@@ -104,8 +104,8 @@
     </div>
 </template>
 
-<script setup lang="ts">
-import { ref, computed, reactive, watchEffect, watch } from 'vue';
+<script lang="ts">
+import { computed, defineComponent, PropType, ExtractPropTypes } from 'vue';
 import {
     LeftOutlined,
     RightOutlined,
@@ -116,7 +116,7 @@ import TimeSelect from '../time-picker/time-select.vue';
 import getPrefixCls from '../_util/getPrefixCls';
 
 import { isCompeleteSelected } from './helper';
-import { RANGE_POSITION, DATE_TYPE, YEAR_COUNT } from './const';
+import { RANGE_POSITION, COMMON_PROPS, DATE_TYPE, YEAR_COUNT } from './const';
 
 import {
     useCurrentDate,
@@ -128,7 +128,7 @@ import {
     useTime,
 } from './useCalendar';
 
-import type { CalendarProps, CalendarEmits, DayItem } from './interface';
+import type { DayItem } from './interface';
 
 const prefixCls = getPrefixCls('calendar');
 
@@ -147,161 +147,237 @@ const MONTHS_NAMES = [
     '十二月',
 ];
 
-const props = withDefaults(defineProps<CalendarProps>(), {
-    type: DATE_TYPE.date.name,
-    visible: false,
-    visibleLeftArrow: true,
-    visibleRightArrow: true,
-    disabledDate: () => false,
-    disabledTime: () => false,
-});
+const calendarProps = {
+    ...COMMON_PROPS,
+    rangePosition: {
+        type: String as PropType<RANGE_POSITION>,
+    },
+    modelValue: Array as PropType<number[]>,
+    defaultDate: Number,
+    visible: {
+        type: Boolean,
+        default: false,
+    },
+    visibleLeftArrow: {
+        type: Boolean,
+        default: true,
+    },
+    visibleRightArrow: {
+        type: Boolean,
+        default: true,
+    },
+    disabledDate: {
+        type: Function as PropType<
+            (date: Date, format: string) => boolean | undefined
+        >,
+    },
+} as const;
 
-const emit = defineEmits<CalendarEmits>();
+export type CalendarProps = Partial<ExtractPropTypes<typeof calendarProps>>;
 
-const { currentDate, updateCurrentDate } = useCurrentDate(props, emit);
-
-const { selectedDates, updateSelectedDates } = useSelectedDates(props, emit);
-
-const activeIndex = computed(() => {
-    if (DATE_TYPE[props.type].isRange) {
-        if (props.type === DATE_TYPE.daterange.name) {
-            const leftComplete = isCompeleteSelected(
-                selectedDates.value[0],
-                props.type,
-            );
-            const rightComplete = isCompeleteSelected(
-                selectedDates.value[1],
-                props.type,
-            );
-            if (!leftComplete || (leftComplete && rightComplete)) {
-                return 0;
-            }
-            return 1;
-        }
-
-        if (props.type === DATE_TYPE.datetimerange.name) {
-            return props.rangePosition === RANGE_POSITION.LEFT ? 0 : 1;
-        }
-    }
-    return 0;
-});
-
-const { years, yearStart, yearEnd, selectYear, isYearSelect, yearCls } =
-    useYear(
-        props,
-        selectedDates,
-        updateSelectedDates,
-        activeIndex,
-        currentDate,
-        updateCurrentDate,
-    );
-
-const { isMonthSelect, selectMonth, monthToNext, monthToPre, monthCls } =
-    useMonth(
-        props,
-        selectedDates,
-        updateSelectedDates,
-        activeIndex,
-        currentDate,
-        updateCurrentDate,
-    );
-
-const { days, isDaySelect, weekNames, dayCls } = useDay(
-    props,
-    selectedDates,
-    updateSelectedDates,
-    activeIndex,
-    currentDate,
-);
-
-const { isQuarterSelect, quarterList, selectQuarter, quarterCls } = useQuarter(
-    props,
-    selectedDates,
-    updateSelectedDates,
-    activeIndex,
-    currentDate,
-);
-
-const { hasTime, currentTime, changeTime, innerDisabledTime } = useTime(
-    props,
-    selectedDates,
-    updateSelectedDates,
-    activeIndex,
-);
-
-const selecteDay = (info: DayItem) => {
-    info.next && monthToNext();
-    info.pre && monthToPre();
-
-    const time: any = {};
-    if (
-        DATE_TYPE[props.type].hasTime &&
-        !selectedDates.value[activeIndex.value]?.hour
-    ) {
-        const date = new Date();
-        time.hour = date.getHours();
-        time.minute = date.getMinutes();
-        time.second = date.getSeconds();
-    }
-
-    updateSelectedDates(
-        {
-            year: info.year,
-            month: info.month,
-            day: info.day,
-            ...time,
-        },
-        activeIndex.value,
-    );
-};
-
-const yearToPre = () => {
-    if (isYearSelect.value) {
-        updateCurrentDate({
-            year: currentDate.year - YEAR_COUNT,
-        });
-    } else {
-        updateCurrentDate({
-            year: currentDate.year - 1,
-        });
-    }
-};
-const yearToNext = () => {
-    if (isYearSelect.value) {
-        updateCurrentDate({
-            year: currentDate.year + YEAR_COUNT,
-        });
-    } else {
-        updateCurrentDate({
-            year: currentDate.year + 1,
-        });
-    }
-};
-
-const visibleLeftSingleArrow = computed(
-    () =>
-        !isYearSelect.value &&
-        !isMonthSelect.value &&
-        !isQuarterSelect.value &&
-        props.visibleLeftArrow,
-);
-
-const visibleRightSingleArrow = computed(
-    () =>
-        !isYearSelect.value &&
-        !isMonthSelect.value &&
-        !isQuarterSelect.value &&
-        props.visibleRightArrow,
-);
-
-const isNotDisabled = (e: MouseEvent) =>
-    (e.target as HTMLElement).className.indexOf(
-        `${prefixCls}-date-disabled`,
-    ) === -1;
-</script>
-
-<script>
-export default {
+export default defineComponent({
     name: 'FCalendar',
-};
+    components: {
+        LeftOutlined,
+        RightOutlined,
+        DoubleLeftOutlined,
+        DoubleRightOutlined,
+        TimeSelect,
+    },
+    props: calendarProps,
+    emits: ['change', 'changeCurrentDate'],
+    setup(props, { emit }) {
+        const { currentDate, updateCurrentDate } = useCurrentDate(props, emit);
+
+        const { selectedDates, updateSelectedDates } = useSelectedDates(
+            props,
+            emit,
+        );
+
+        const activeIndex = computed(() => {
+            if (DATE_TYPE[props.type].isRange) {
+                if (props.type === DATE_TYPE.daterange.name) {
+                    const leftComplete = isCompeleteSelected(
+                        selectedDates.value[0],
+                        props.type,
+                    );
+                    const rightComplete = isCompeleteSelected(
+                        selectedDates.value[1],
+                        props.type,
+                    );
+                    if (!leftComplete || (leftComplete && rightComplete)) {
+                        return 0;
+                    }
+                    return 1;
+                }
+
+                if (props.type === DATE_TYPE.datetimerange.name) {
+                    return props.rangePosition === RANGE_POSITION.LEFT ? 0 : 1;
+                }
+            }
+            return 0;
+        });
+
+        const { years, yearStart, yearEnd, selectYear, isYearSelect, yearCls } =
+            useYear(
+                props,
+                selectedDates,
+                updateSelectedDates,
+                activeIndex,
+                currentDate,
+                updateCurrentDate,
+            );
+
+        const {
+            isMonthSelect,
+            selectMonth,
+            monthToNext,
+            monthToPre,
+            monthCls,
+        } = useMonth(
+            props,
+            selectedDates,
+            updateSelectedDates,
+            activeIndex,
+            currentDate,
+            updateCurrentDate,
+        );
+
+        const { days, isDaySelect, weekNames, dayCls } = useDay(
+            props,
+            selectedDates,
+            updateSelectedDates,
+            activeIndex,
+            currentDate,
+        );
+
+        const { isQuarterSelect, quarterList, selectQuarter, quarterCls } =
+            useQuarter(
+                props,
+                selectedDates,
+                updateSelectedDates,
+                activeIndex,
+                currentDate,
+            );
+
+        const { hasTime, currentTime, changeTime, innerDisabledTime } = useTime(
+            props,
+            selectedDates,
+            updateSelectedDates,
+            activeIndex,
+        );
+
+        const selecteDay = (info: DayItem) => {
+            info.next && monthToNext();
+            info.pre && monthToPre();
+
+            const time: any = {};
+            if (
+                DATE_TYPE[props.type].hasTime &&
+                !selectedDates.value[activeIndex.value]?.hour
+            ) {
+                const date = new Date();
+                time.hour = date.getHours();
+                time.minute = date.getMinutes();
+                time.second = date.getSeconds();
+            }
+
+            updateSelectedDates(
+                {
+                    year: info.year,
+                    month: info.month,
+                    day: info.day,
+                    ...time,
+                },
+                activeIndex.value,
+            );
+        };
+
+        const yearToPre = () => {
+            if (isYearSelect.value) {
+                updateCurrentDate({
+                    year: currentDate.year - YEAR_COUNT,
+                });
+            } else {
+                updateCurrentDate({
+                    year: currentDate.year - 1,
+                });
+            }
+        };
+        const yearToNext = () => {
+            if (isYearSelect.value) {
+                updateCurrentDate({
+                    year: currentDate.year + YEAR_COUNT,
+                });
+            } else {
+                updateCurrentDate({
+                    year: currentDate.year + 1,
+                });
+            }
+        };
+
+        const visibleLeftSingleArrow = computed(
+            () =>
+                !isYearSelect.value &&
+                !isMonthSelect.value &&
+                !isQuarterSelect.value &&
+                props.visibleLeftArrow,
+        );
+
+        const visibleRightSingleArrow = computed(
+            () =>
+                !isYearSelect.value &&
+                !isMonthSelect.value &&
+                !isQuarterSelect.value &&
+                props.visibleRightArrow,
+        );
+
+        const isNotDisabled = (e: MouseEvent) =>
+            (e.target as HTMLElement).className.indexOf(
+                `${prefixCls}-date-disabled`,
+            ) === -1;
+        return {
+            prefixCls,
+            currentDate,
+            MONTHS_NAMES,
+
+            visibleLeftSingleArrow,
+            visibleRightSingleArrow,
+
+            years,
+            yearStart,
+            yearEnd,
+            selectYear,
+            isYearSelect,
+            yearCls,
+
+            isMonthSelect,
+            selectMonth,
+            monthCls,
+
+            weekNames,
+            isDaySelect,
+            days,
+
+            isQuarterSelect,
+            quarterList,
+            selectQuarter,
+            quarterCls,
+
+            dayCls,
+            monthToNext,
+            monthToPre,
+            isNotDisabled,
+            selecteDay,
+
+            hasTime,
+            currentTime,
+            changeTime,
+            innerDisabledTime,
+
+            yearToPre,
+            yearToNext,
+        };
+    },
+});
 </script>

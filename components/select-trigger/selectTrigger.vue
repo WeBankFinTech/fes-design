@@ -38,8 +38,14 @@
     </div>
 </template>
 
-<script setup lang="ts">
-import { ref, computed } from 'vue';
+<script lang="ts">
+import {
+    ref,
+    computed,
+    defineComponent,
+    PropType,
+    ExtractPropTypes,
+} from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import Label from './label.vue';
@@ -51,18 +57,6 @@ import type { SelectOptionValue, SelectOption } from './interface';
 
 const prefixCls = getPrefixCls('select-trigger');
 
-interface SelectTriggerProps {
-    selectedOptions?: SelectOption[];
-    disabled?: boolean;
-    clearable?: boolean;
-    isOpened?: boolean;
-    multiple?: boolean;
-    filterable?: boolean;
-    placeholder?: string;
-    collapseTags?: boolean;
-    collapseTagsLimit?: number;
-}
-
 type SelectTriggerEmits = {
     (e: 'remove', value: SelectOptionValue): void;
     (e: 'clear'): void;
@@ -71,12 +65,24 @@ type SelectTriggerEmits = {
     (e: 'focus', event: Event): void;
 };
 
-const props = withDefaults(defineProps<SelectTriggerProps>(), {
-    selectedOptions: () => [],
-});
+const selectTriggerProps = {
+    selectedOptions: {
+        type: Array as PropType<SelectOption[]>,
+        default(): SelectOption[] {
+            return [];
+        },
+    },
+    disabled: Boolean,
+    clearable: Boolean,
+    isOpened: Boolean,
+    multiple: Boolean,
+    filterable: Boolean,
+    placeholder: String,
+    collapseTags: Boolean,
+    collapseTagsLimit: Number,
+} as const;
 
-const emit = defineEmits<SelectTriggerEmits>();
-useTheme();
+type SelectTriggerProps = Partial<ExtractPropTypes<typeof selectTriggerProps>>;
 
 function useFocus(emit: SelectTriggerEmits, props: SelectTriggerProps) {
     const isFocus = ref(false);
@@ -100,34 +106,62 @@ function useFocus(emit: SelectTriggerEmits, props: SelectTriggerProps) {
     };
 }
 
-const inputHovering = ref(false);
-const unSelected = computed(() => props.selectedOptions.length === 0);
-const { isFocus, handleFocus, handleBlur } = useFocus(emit, props);
-const showClear = computed(
-    () =>
-        !props.disabled &&
-        props.clearable &&
-        !unSelected.value &&
-        inputHovering.value,
-);
-const triggerClass = computed(() => ({
-    [`${prefixCls}`]: true,
-    'is-active': props.isOpened || isFocus.value,
-    'is-disabled': props.disabled,
-    'is-multiple': props.multiple,
-}));
-const handleRemove = (val: SelectOptionValue) => {
-    if (props.disabled) return;
-    emit('remove', val);
-};
+export default defineComponent({
+    name: 'FSelect',
+    components: {
+        Label,
+        UpOutlined,
+        DownOutlined,
+        CloseCircleFilled,
+    },
+    props: selectTriggerProps,
+    emits: ['remove', 'clear', 'focus', 'blur', 'input'],
+    setup(props, { emit }) {
+        useTheme();
 
-const handleClear = () => {
-    if (props.disabled) return;
-    emit('clear');
-};
+        const inputHovering = ref(false);
+        const unSelected = computed(() => props.selectedOptions.length === 0);
+        const { isFocus, handleFocus, handleBlur } = useFocus(emit, props);
+        const showClear = computed(
+            () =>
+                !props.disabled &&
+                props.clearable &&
+                !unSelected.value &&
+                inputHovering.value,
+        );
+        const triggerClass = computed(() => ({
+            [`${prefixCls}`]: true,
+            'is-active': props.isOpened || isFocus.value,
+            'is-disabled': props.disabled,
+            'is-multiple': props.multiple,
+        }));
+        const handleRemove = (val: SelectOptionValue) => {
+            if (props.disabled) return;
+            emit('remove', val);
+        };
 
-const handleFilterTextChange = (val: string) => {
-    if (props.disabled) return;
-    emit('input', val);
-};
+        const handleClear = () => {
+            if (props.disabled) return;
+            emit('clear');
+        };
+
+        const handleFilterTextChange = (val: string) => {
+            if (props.disabled) return;
+            emit('input', val);
+        };
+
+        return {
+            prefixCls,
+            inputHovering,
+            showClear,
+            triggerClass,
+            unSelected,
+            handleRemove,
+            handleClear,
+            handleFocus,
+            handleBlur,
+            handleFilterTextChange,
+        };
+    },
+});
 </script>

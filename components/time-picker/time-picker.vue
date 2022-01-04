@@ -149,22 +149,22 @@ function useOpen(props: TimePickerProps, emit: TimePickerEmits) {
 }
 
 type TimePickerProps = {
-    modelValue: string | string[] | number[];
-    open: boolean;
-    appendToContainer: boolean;
-    getContainer: () => HTMLElement;
-    placeholder: string | string[];
-    isRange: boolean;
-    disabled: boolean;
-    clearable: boolean;
-    format: string;
-    hourStep: number;
-    minuteStep: number;
-    secondStep: number;
-    control: boolean;
-    disabledHours: (h: number) => boolean;
-    disabledMinutes: (h: number, m: number) => boolean;
-    disabledSeconds: (h: number, m: number, s: number) => boolean;
+    modelValue?: string | string[] | number[];
+    open?: boolean;
+    appendToContainer?: boolean;
+    getContainer?: () => HTMLElement;
+    placeholder?: string | string[];
+    isRange?: boolean;
+    disabled?: boolean;
+    clearable?: boolean;
+    format?: string;
+    hourStep?: number;
+    minuteStep?: number;
+    secondStep?: number;
+    control?: boolean;
+    disabledHours?: (h: number) => boolean;
+    disabledMinutes?: (h: number, m: number) => boolean;
+    disabledSeconds?: (h: number, m: number, s: number) => boolean;
 };
 
 type TimePickerEmits = {

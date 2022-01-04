@@ -26,14 +26,18 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useDraggable } from './useDraggable';
 import { useTheme } from '../_theme/useTheme';
 
-import type { DraggableEmits } from './interface';
-
 const prefixCls = getPrefixCls('draggable');
 
 type DraggableProps = {
     modelValue: [];
     droppable?: boolean;
     disabled?: boolean;
+};
+
+export type DraggableEmits = {
+    (e: 'update:modelValue', ...args: any[]): void;
+    (e: 'drag-start', ...args: any[]): void;
+    (e: 'drag-end', ...args: any[]): void;
 };
 
 const props = withDefaults(defineProps<DraggableProps>(), {

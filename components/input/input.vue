@@ -126,13 +126,16 @@ import {
     useWordLimit,
 } from './useInput';
 
-import type { InputCurrentValue, InputEmits } from './interface';
-
 const prefixCls = getPrefixCls('input');
 const textareaPrefixCls = getPrefixCls('textarea');
 
+interface Autosize {
+    minRows?: number;
+    maxRows?: number;
+}
+
 type InputProps = {
-    modelValue?: InputCurrentValue;
+    modelValue?: number | string;
     type?: string; // default text
     placeholder?: string;
     readonly?: boolean;
@@ -148,10 +151,17 @@ type InputProps = {
     resize?: 'none' | 'both' | 'horizontal' | 'vertical' | 'block' | 'inline';
 };
 
-interface Autosize {
-    minRows?: number;
-    maxRows?: number;
-}
+export type InputEmits = {
+    (e: 'update:modelValue', value: string): void;
+    (e: 'change', value: string): void;
+    (e: 'input', value: string): void;
+    (e: 'keydown', event: KeyboardEvent): void;
+    (e: 'blur', event: Event): void;
+    (e: 'focus', event: Event): void;
+    (e: 'clear'): void;
+    (e: 'mouseleave', event: MouseEvent): void;
+    (e: 'mouseenter', event: MouseEvent): void;
+};
 
 const props = withDefaults(defineProps<InputProps>(), {
     type: 'text',

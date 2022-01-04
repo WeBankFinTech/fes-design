@@ -172,7 +172,7 @@ const handleInput = (e: Event) => {
 };
 </script>
 
-<script>
+<script lang="ts">
 export default {
     name: 'FLabel',
 };

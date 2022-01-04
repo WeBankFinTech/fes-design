@@ -4,7 +4,7 @@ import Colgroup from './colgroup';
 import Header from './header';
 import Body from './body';
 
-import type { ColumnInst } from '../interface'
+import type { ColumnInst } from '../column.vue';
 
 export default defineComponent({
     components: {

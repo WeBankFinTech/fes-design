@@ -1,6 +1,6 @@
 import { h, defineComponent, PropType } from 'vue';
 
-import type { ColumnInst } from '../interface'
+import type { ColumnInst } from '../column.vue';
 
 export default defineComponent({
     props: {

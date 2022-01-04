@@ -42,7 +42,7 @@ import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
-import FInput from '../input';
+import FInput from '../input/input.vue';
 
 import type { VModelEvent, ChangeEvent } from '../_util/interface';
 
