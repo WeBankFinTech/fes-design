@@ -24,12 +24,12 @@ function parseFlex(flex: number | string) {
 }
 
 type GridItemProps = {
-    flex: string | number;
-    offset: number;
-    pull: number;
-    push: number;
-    span: number;
-    order: number;
+    flex?: string | number;
+    offset?: number;
+    pull?: number;
+    push?: number;
+    span?: number;
+    order?: number;
 };
 
 const props = withDefaults(defineProps<GridItemProps>(), {

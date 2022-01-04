@@ -32,8 +32,8 @@ const prefixCls = getPrefixCls('draggable');
 
 type DraggableProps = {
     modelValue: [];
-    droppable: boolean;
-    disabled: boolean;
+    droppable?: boolean;
+    disabled?: boolean;
 };
 
 const props = withDefaults(defineProps<DraggableProps>(), {

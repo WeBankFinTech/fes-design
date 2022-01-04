@@ -68,12 +68,12 @@ export function useClear(
 export function useFocus(emit: InputEmits, validate: FormValidate) {
     const focused = ref(false);
 
-    const handleFocus = (event) => {
+    const handleFocus = (event: Event) => {
         focused.value = true;
         emit('focus', event);
     };
 
-    const handleBlur = (event) => {
+    const handleBlur = (event: Event) => {
         focused.value = false;
         emit('blur', event);
         validate('blur');

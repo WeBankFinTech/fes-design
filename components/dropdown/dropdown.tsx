@@ -42,7 +42,7 @@ const dropdownProps = {
     },
     options: {
         type: Array as PropType<Option[]>,
-        default() {
+        default(): Option[] {
             return [];
         },
     },

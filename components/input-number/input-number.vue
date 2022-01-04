@@ -151,7 +151,7 @@ const handleBlur = (e: Event) => {
     validate('blur');
 };
 
-const handleInput = (value: string | number) => {
+const handleInput = (value: string) => {
     tempValue.value = value;
 };
 const handleInputChange = (value: string | number) => {

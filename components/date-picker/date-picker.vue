@@ -84,21 +84,25 @@ import { DateOutlined, SwapRightOutlined } from '../icon';
 import { isEmptyValue, timeFormat } from './helper';
 import { DATE_TYPE } from './const';
 
-import type { VModelEvent, ChangeEvent } from '../_util/interface';
+import type {
+    VModelEvent,
+    ChangeEvent,
+    GetContainer,
+} from '../_util/interface';
 import type { CommonProps, RangeProps } from './interface';
 
 type DatePickerProps = CommonProps &
     RangeProps & {
-        open: boolean;
-        disabled: boolean;
-        clearable: boolean;
-        placeholder: string | string[];
-        appendToContainer: boolean;
-        getContainer: () => HTMLElement;
-        format: string;
-        popperClass: string;
-        control: boolean;
-        shortcuts: object;
+        open?: boolean;
+        disabled?: boolean;
+        clearable?: boolean;
+        placeholder?: string | string[];
+        appendToContainer?: boolean;
+        getContainer?: GetContainer;
+        format?: string;
+        popperClass?: string;
+        control?: boolean;
+        shortcuts?: object;
         disabledDate?: (date: Date) => boolean;
     };
 

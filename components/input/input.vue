@@ -136,16 +136,16 @@ type InputProps = {
     type?: string; // default text
     placeholder?: string;
     readonly?: boolean;
-    disabled: boolean;
-    clearable: boolean;
-    maxlength: number;
-    rows: number; // default 2
-    showWordLimit: boolean;
-    showPassword: boolean;
-    inputStyle: object;
-    autosize: boolean | Autosize;
-    autocomplete: string; // default 'off'
-    resize: 'none' | 'both' | 'horizontal' | 'vertical' | 'block' | 'inline';
+    disabled?: boolean;
+    clearable?: boolean;
+    maxlength?: number;
+    rows?: number; // default 2
+    showWordLimit?: boolean;
+    showPassword?: boolean;
+    inputStyle?: object;
+    autosize?: boolean | Autosize;
+    autocomplete?: string; // default 'off'
+    resize?: 'none' | 'both' | 'horizontal' | 'vertical' | 'block' | 'inline';
 };
 
 interface Autosize {
@@ -211,8 +211,8 @@ const suffixVisible = computed(
 );
 
 const isComposing = ref(false);
-const handleInput = (event) => {
-    const { value } = event.target;
+const handleInput = (event: Event) => {
+    const { value } = event.target as HTMLInputElement;
     if (!isComposing.value) {
         updateCurrentValue(value);
         emit('input', value);
@@ -222,7 +222,7 @@ const handleInput = (event) => {
 const handleCompositionStart = () => {
     isComposing.value = true;
 };
-const handleCompositionEnd = (event) => {
+const handleCompositionEnd = (event: Event) => {
     if (isComposing.value) {
         isComposing.value = false;
         handleInput(event);

@@ -18,10 +18,9 @@
         ]
     },
     "include": [
-        "shims-vue.d.ts",
         "components/**/*.ts",
         "components/**/*.tsx",
-        "components/**/*.vue",
+        "components/**/*.vue"
     ],
     "exclude": [
         "node_modules"

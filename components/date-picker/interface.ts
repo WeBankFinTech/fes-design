@@ -15,7 +15,7 @@ export interface CommonProps {
 }
 
 export type RangeProps = {
-    maxRange: string;
+    maxRange?: string;
 };
 
 export type DateObj = {
@@ -57,7 +57,7 @@ export type DayItem = {
 
 export interface CalendarsProps extends CommonProps, RangeProps {
     disabledDate?: (date: Date) => boolean;
-    visible: boolean;
-    control: boolean;
-    shortcuts: object;
+    visible?: boolean;
+    control?: boolean;
+    shortcuts?: object;
 }
