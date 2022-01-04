@@ -58,18 +58,10 @@ import { cascaderPanelProps } from '../cascader-panel/props';
 import { flatNodes } from '../_util/utils';
 
 import type { CascaderNode, OptionValue } from '../cascader-panel/interface';
+import type { SelectValue } from './interface';
 import { SelectOptionValue } from '../select-trigger/interface';
 
 const prefixCls = getPrefixCls('cascader');
-
-// type CascaderberEmits = {
-//     (e: VModelEvent, value: SelectValue): void;
-//     (e: ChangeEvent, value: SelectValue): void;
-//     (e: 'removeTag', value: OptionValue): void;
-//     (e: 'visibleChange', isOpen: boolean): void;
-//     (e: 'clear'): void;
-//     (e: 'expandChange', value: OptionValue[]): void;
-// };
 
 export default defineComponent({
     name: 'FCascader',
@@ -116,18 +108,12 @@ export default defineComponent({
          * 1. 若删除的为父节点，需要把子节点的值一起删除
          * 2. 若删除的为子节点，需要把父节点的值一起删除
          */
-        const handleRemove = (value: SelectOptionValue) => {
+        const handleRemove = (value: SelectValue) => {
             if (props.disabled) return;
 
             const { emitPath } = props.nodeConfig || {};
             let copyValue = cloneDeep(currentValue.value);
-            const updateValues: OptionValue[] = [];
-
-            if (emitPath) {
-                copyValue = copyValue.map(
-                    (item: OptionValue[]) => item[item.length - 1],
-                );
-            }
+            const updateValues: SelectOptionValue[] = [];
 
             const currentNode = selectedNodes.value.find(
                 (node) => node.value === value,
@@ -136,10 +122,15 @@ export default defineComponent({
                 .concat(currentNode.pathNodes, flatNodes(currentNode.children))
                 .map((node) => node.value);
 
-            copyValue.forEach((item: OptionValue) => {
-                let itemValue = item;
+            copyValue.forEach((item: OptionValue | OptionValue[]) => {
+                let itemValue: OptionValue = item as OptionValue;
+                if (emitPath) {
+                    itemValue = (item as OptionValue[])[
+                        (item as OptionValue[]).length - 1
+                    ];
+                }
                 if (!removeValues.includes(itemValue)) {
-                    updateValues.push(itemValue);
+                    updateValues.push(item);
                 }
             });
 
