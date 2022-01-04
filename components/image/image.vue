@@ -49,6 +49,7 @@ import {
     inject,
     ImgHTMLAttributes,
     defineComponent,
+    PropType,
 } from 'vue';
 import { useEventListener, useThrottleFn } from '@vueuse/core';
 import { isString } from 'lodash-es';
@@ -84,9 +85,9 @@ export default defineComponent({
             default: false,
         },
         fit: {
-            type: String,
-            values: ['', 'contain', 'cover', 'fill', 'none', 'scale-down'],
-            default: '',
+            type: String as PropType<
+                'contain' | 'cover' | 'fill' | 'none' | 'scale-down'
+            >,
         },
         lazy: {
             type: Boolean,
@@ -159,7 +160,7 @@ export default defineComponent({
             return styleObj;
         });
 
-        const handleLoaded = (e: Event, _img: HTMLImageElement) => {
+        const handleLoaded = (e: Event) => {
             loading.value = false;
             isLoadError.value = false;
             emit(LOAD_EVENT, e);
@@ -174,7 +175,7 @@ export default defineComponent({
             if (!loading.value) return;
 
             const img = new Image();
-            img.addEventListener('load', (e) => handleLoaded(e, img));
+            img.addEventListener('load', (e) => handleLoaded(e));
             img.addEventListener('error', handleError);
 
             img.src = props.src;

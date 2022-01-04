@@ -88,29 +88,22 @@ import {
 } from '../icon';
 import { CLOSE_EVENT } from '../_util/constants';
 import { KEY } from './const';
-import type { CloseEvent } from '../_util/interface';
 
 const prefixCls = getPrefixCls('preview');
 
-// type PreviewProps = {
-//     src?: string;
-//     hideOnClickModal?: boolean;
-// };
-
-// type PreviewEmits = {
-//     (e: CloseEvent): void;
-// };
-
-// const props = withDefaults(defineProps<PreviewProps>(), {
-//     src: '',
-//     hideOnClickModal: false,
-// });
-
-// const emit = defineEmits<PreviewEmits>();
+const previewProps = {
+    hideOnClickModal: {
+        type: Boolean,
+        default: false,
+    },
+    src: {
+        type: String,
+        default: '',
+    },
+} as const;
 
 export default defineComponent({
     name: 'FPreview',
-    componentName: 'FPreview',
     components: {
         LeftOutlined,
         RightOutlined,
@@ -120,16 +113,7 @@ export default defineComponent({
         SearchPlusOutlined,
         SearchMinusOutlined,
     },
-    props: {
-        hideOnClickModal: {
-            type: Boolean,
-            default: false,
-        },
-        src: {
-            type: String,
-            default: '',
-        },
-    },
+    props: previewProps,
     emits: [CLOSE_EVENT],
     setup(props, { emit }) {
         const zIndex = ref(PopupManager.nextZIndex());

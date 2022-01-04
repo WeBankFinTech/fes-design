@@ -16,10 +16,6 @@ let prevOverflow = '';
 
 export default defineComponent({
     name: 'FPreviewGroup',
-    componentName: 'FPreviewGroup',
-    components: {
-        Preview,
-    },
     props: {
         hideOnClickModal: {
             type: Boolean,
@@ -76,14 +72,12 @@ export default defineComponent({
         return () => (
             <div>
                 {slots.default?.()}
-                {isShowPreview.value ? (
+                {isShowPreview.value && (
                     <Preview
                         src={previewUrls[curIndex.value]}
                         hideOnClickModal={props.hideOnClickModal}
                         onClose={closeViewer}
                     ></Preview>
-                ) : (
-                    ''
                 )}
             </div>
         );
