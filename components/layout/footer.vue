@@ -52,7 +52,7 @@ const classList = computed(() =>
 );
 </script>
 
-<script>
+<script lang="ts">
 export default {
     name: COMPONENT_NAME.FOOTER,
 };

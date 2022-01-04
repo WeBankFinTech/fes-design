@@ -99,7 +99,7 @@ addChild({
 });
 </script>
 
-<script>
+<script lang="ts">
 export default {
     name: COMPONENT_NAME.ASIDE,
 };

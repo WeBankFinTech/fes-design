@@ -40,7 +40,7 @@ const emptyText = panel.emptyText;
 const isEmpty = computed(() => props.nodes.length < 1);
 </script>
 
-<script>
+<script lang="ts">
 export default {
     name: 'FCascaderMenu',
 };

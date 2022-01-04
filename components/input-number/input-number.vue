@@ -192,7 +192,7 @@ const calculationNum = (type: ActionEnum) => {
 };
 </script>
 
-<script>
+<script lang="ts">
 export default {
     name: 'FInputNumber',
 };

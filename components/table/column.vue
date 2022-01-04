@@ -46,7 +46,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<script>
+<script lang="ts">
 export default defineComponent({
     name: TABLE_COLUMN_NAME,
     render() {
@@ -56,7 +56,7 @@ export default defineComponent({
             if (renderDefault instanceof Array) {
                 renderDefault.forEach((childNode) => {
                     if (
-                       (childNode.type as any)?.name === TABLE_COLUMN_NAME ||
+                        (childNode.type as any)?.name === TABLE_COLUMN_NAME ||
                         childNode.shapeFlag !== 36
                     ) {
                         children.push(childNode);
@@ -64,7 +64,7 @@ export default defineComponent({
                         childNode.type === Fragment &&
                         childNode.children instanceof Array
                     ) {
-                        children.push(...childNode.children as VNode[]);
+                        children.push(...(childNode.children as VNode[]));
                     }
                 });
             }

@@ -47,7 +47,7 @@ import UpOutlined from '../icon/UpOutlined';
 import DownOutlined from '../icon/DownOutlined';
 import CloseCircleFilled from '../icon/CloseCircleFilled';
 
-import type { SelectValue, SelectOption } from '../select/interface';
+import type { SelectOptionValue, SelectOption } from './interface';
 
 const prefixCls = getPrefixCls('select-trigger');
 
@@ -64,7 +64,7 @@ interface SelectTriggerProps {
 }
 
 type SelectTriggerEmits = {
-    (e: 'remove', value: SelectValue): void;
+    (e: 'remove', value: SelectOptionValue): void;
     (e: 'clear'): void;
     (e: 'input', value: string): void;
     (e: 'blur', event: Event): void;
@@ -116,7 +116,7 @@ const triggerClass = computed(() => ({
     'is-disabled': props.disabled,
     'is-multiple': props.multiple,
 }));
-const handleRemove = (val: SelectValue) => {
+const handleRemove = (val: SelectOptionValue) => {
     if (props.disabled) return;
     emit('remove', val);
 };

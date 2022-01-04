@@ -46,7 +46,8 @@ import { useEventListener, useThrottleFn } from '@vueuse/core';
 import { isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { PictureOutlined, PictureFailOutlined } from '../icon';
-import type { CLOSE_EVENT, LOAD_EVENT } from '../_util/interface';import { isHtmlElement, getScrollContainer, isInContainer } from '../_util/dom';
+import type { CLOSE_EVENT, LOAD_EVENT } from '../_util/interface';
+import { isHtmlElement, getScrollContainer, isInContainer } from '../_util/dom';
 import { noop } from '../_util/utils';
 import { useTheme } from '../_theme/useTheme';
 import { KEY } from './const';
@@ -54,8 +55,8 @@ import Preview from './preview';
 
 const prefixCls = getPrefixCls('img');
 
-let curIndex: number = 0;
-let prevOverflow: string = '';
+let curIndex = 0;
+let prevOverflow = '';
 
 type ImageProps = {
     src: string;
@@ -63,7 +64,7 @@ type ImageProps = {
     fit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
     lazy?: boolean;
     hideOnClickModal?: boolean;
-    scrollContainer?: String | Object;
+    scrollContainer?: string | Object;
 };
 
 type ImageEmits = {
@@ -89,16 +90,8 @@ let clearScrollListener = () => {};
 const isShowPreview = ref(false);
 const currentId = ref(curIndex++);
 
-const {
-    width,
-    height,
-    crossorigin,
-    decoding,
-    alt,
-    sizes,
-    srcset,
-    usemap,
-} = attrs;
+const { width, height, crossorigin, decoding, alt, sizes, srcset, usemap } =
+    attrs;
 const imgCommonProps = {
     crossorigin,
     decoding,
@@ -108,15 +101,12 @@ const imgCommonProps = {
     usemap,
 };
 
-const { isGroup, setShowPreview, setCurrent, registerImage } = inject(
-    KEY,
-    {
-        isGroup: ref(false),
-        setShowPreview: noop,
-        setCurrent: noop,
-        registerImage: noop,
-    },
-);
+const { isGroup, setShowPreview, setCurrent, registerImage } = inject(KEY, {
+    isGroup: ref(false),
+    setShowPreview: noop,
+    setCurrent: noop,
+    registerImage: noop,
+});
 const canPreview = computed(
     () => (props.preview || isGroup.value) && !isLoadError.value,
 );
@@ -241,7 +231,7 @@ watch(
 );
 </script>
 
-<script>
+<script lang="ts">
 export default {
     name: 'FImage',
 };

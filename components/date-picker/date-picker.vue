@@ -214,7 +214,7 @@ const handleBlur = (e: Event) => {
 };
 </script>
 
-<script>
+<script lang="ts">
 export default {
     name: 'FDatePicker',
 };

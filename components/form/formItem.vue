@@ -221,7 +221,7 @@ onBeforeUnmount(() => {
 provide(FORMITEM_INJECTION_KEY, { validate, setRuleDefaultType });
 </script>
 
-<script>
+<script lang="ts">
 import { FORM_ITEM_NAME } from './const';
 export default {
     name: FORM_ITEM_NAME,

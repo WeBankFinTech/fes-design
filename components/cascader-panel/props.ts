@@ -12,7 +12,7 @@ import type {
 
 export const cascaderPanelProps = {
     currentValue: [Number, String, Array] as PropType<
-        OptionValue | OptionValue[]
+        OptionValue | OptionValue[] | OptionValue[][]
     >,
     options: {
         type: Array as PropType<NodeOption[]>,

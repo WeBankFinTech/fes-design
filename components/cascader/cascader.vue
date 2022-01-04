@@ -62,16 +62,17 @@ import { flatNodes } from '../_util/utils';
 
 import type { VModelEvent, ChangeEvent } from '../_util/interface';
 import type { CascaderNode, OptionValue } from '../cascader-panel/interface';
-import type { SelectValue } from '../select/interface';
+import type { SelectValue } from './interface';
+import { SelectOptionValue } from '../select-trigger/interface';
 
 const prefixCls = getPrefixCls('cascader');
 
 type CascaderProps = SelectProps & CascaderPanelProps;
 
 type CascaderberEmits = {
-    (e: VModelEvent, value: number): void;
+    (e: VModelEvent, value: SelectValue): void;
     (e: ChangeEvent, value: SelectValue): void;
-    (e: 'removeTag', value: SelectValue): void;
+    (e: 'removeTag', value: OptionValue): void;
     (e: 'visibleChange', isOpen: boolean): void;
     (e: 'clear'): void;
     (e: 'expandChange', value: OptionValue[]): void;
@@ -109,16 +110,16 @@ const handleClear = () => {
  * 1. 若删除的为父节点，需要把子节点的值一起删除
  * 2. 若删除的为子节点，需要把父节点的值一起删除
  */
-const handleRemove = (value: SelectValue) => {
+const handleRemove = (value: SelectOptionValue) => {
     if (props.disabled) return;
 
     const { emitPath } = props.nodeConfig || {};
     let copyValue = cloneDeep(currentValue.value);
-    const updateValues: SelectValue[] = [];
+    const updateValues: OptionValue[] = [];
 
     if (emitPath) {
         copyValue = copyValue.map(
-            (item: SelectValue[]) => item[item.length - 1],
+            (item: OptionValue[]) => item[item.length - 1],
         );
     }
 
@@ -129,18 +130,15 @@ const handleRemove = (value: SelectValue) => {
         .concat(currentNode.pathNodes, flatNodes(currentNode.children))
         .map((node) => node.value);
 
-    copyValue.forEach((item: any) => {
+    copyValue.forEach((item: OptionValue) => {
         let itemValue = item;
-        if (emitPath) {
-            itemValue = item[item.length - 1];
-        }
         if (!removeValues.includes(itemValue)) {
-            updateValues.push(item as SelectValue);
+            updateValues.push(itemValue);
         }
     });
 
     updateCurrentValue(updateValues);
-    emit('removeTag', value);
+    emit('removeTag', value as OptionValue);
 };
 const handleExpandChange = (value: OptionValue[]) => {
     emit('expandChange', value);
@@ -164,7 +162,7 @@ const selectedOptions = computed(() =>
 );
 </script>
 
-<script>
+<script lang="ts">
 export default {
     name: 'FCascader',
 };
