@@ -72,10 +72,11 @@ import {
     onMounted,
     onUnmounted,
     defineComponent,
+    reactive,
 } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import getPrefixCls from '../_util/getPrefixCls';
-import { isFirefox } from '../_util/utils';
+import { isFirefox, noop } from '../_util/utils';
 import PopupManager from '../_util/popupManager';
 import {
     LeftOutlined,
@@ -87,7 +88,7 @@ import {
     SearchMinusOutlined,
 } from '../icon';
 import { CLOSE_EVENT } from '../_util/constants';
-import { KEY } from './const';
+import { PREVIEW_PROVIDE_KEY } from './props';
 
 const prefixCls = getPrefixCls('preview');
 
@@ -121,11 +122,19 @@ export default defineComponent({
             scale: 1,
             rotateDeg: 0,
         });
-        const { isGroup, setCurrent, previewUrls, curIndex } = inject(KEY);
+        const { isGroup, setCurrent, previewUrls, curIndex } = inject(
+            PREVIEW_PROVIDE_KEY,
+            {
+                curIndex: ref(0),
+                isGroup: ref(false),
+                setCurrent: noop,
+                previewUrls: reactive<Record<number, string>>({}),
+            },
+        );
 
         let clearScrollListener: () => void;
         const mousewheelEvent = isFirefox() ? 'DOMMouseScroll' : 'mousewheel';
-        const previewUrlsKeys = computed(() => Object.keys(previewUrls));
+        const previewUrlsKeys: any = computed(() => Object.keys(previewUrls));
         const currentPreviewIndex = computed(() =>
             previewUrlsKeys.value.indexOf(String(curIndex.value)),
         );
@@ -148,7 +157,9 @@ export default defineComponent({
             if (currentPreviewIndex.value > 0) {
                 String(currentPreviewIndex.value - 1);
                 setCurrent(
-                    previewUrlsKeys.value[currentPreviewIndex.value - 1],
+                    previewUrlsKeys.value[
+                        String(currentPreviewIndex.value - 1)
+                    ],
                 );
             } else {
                 setCurrent(

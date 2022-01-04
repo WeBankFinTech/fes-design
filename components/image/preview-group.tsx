@@ -10,7 +10,7 @@ import type { Ref } from 'vue';
 import { h, ref, reactive, provide, defineComponent } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import Preview from './preview.vue';
-import { KEY } from './const';
+import { PREVIEW_PROVIDE_KEY } from './props';
 
 let prevOverflow = '';
 
@@ -59,7 +59,7 @@ export default defineComponent({
             registerImage: (id: number, url: string) => () => void;
         }
 
-        let provideParams: PreviewGroupContext = {
+        let provideParams = {
             isGroup,
             previewUrls,
             registerImage,
@@ -67,7 +67,7 @@ export default defineComponent({
             setCurrent,
             setShowPreview,
         };
-        provide(KEY, provideParams);
+        provide(PREVIEW_PROVIDE_KEY, provideParams);
 
         return () => (
             <div>

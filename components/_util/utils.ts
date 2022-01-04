@@ -3,6 +3,7 @@ import { CascaderNode } from '../cascader-panel/interface';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = () => {};
+export const noopInNoop = () => noop;
 
 export const sleep = (time: number) =>
     new Promise((resolve) => {

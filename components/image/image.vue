@@ -56,10 +56,10 @@ import { isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { PictureOutlined, PictureFailOutlined } from '../icon';
 import { isHtmlElement, getScrollContainer, isInContainer } from '../_util/dom';
-import { noop } from '../_util/utils';
+import { noop, noopInNoop } from '../_util/utils';
 import { CLOSE_EVENT, LOAD_EVENT, ERROR_EVENT } from '../_util/constants';
 import { useTheme } from '../_theme/useTheme';
-import { KEY } from './const';
+import { PREVIEW_PROVIDE_KEY } from './props';
 import Preview from './preview.vue';
 
 const prefixCls = getPrefixCls('img');
@@ -97,7 +97,7 @@ export default defineComponent({
             type: Boolean,
             default: false,
         },
-        scrollContainer: [String, Element],
+        scrollContainer: [String, Object] as PropType<string | HTMLElement>,
     },
     emits: [ERROR_EVENT, LOAD_EVENT, CLOSE_EVENT],
     setup(props, { attrs, emit }) {
@@ -128,9 +128,15 @@ export default defineComponent({
             srcset,
             usemap,
         };
-
-        const { isGroup, setShowPreview, setCurrent, registerImage } =
-            inject(KEY);
+        const { isGroup, setShowPreview, setCurrent, registerImage } = inject(
+            PREVIEW_PROVIDE_KEY,
+            {
+                setShowPreview: noop,
+                isGroup: ref(false),
+                setCurrent: noop,
+                registerImage: noopInNoop,
+            },
+        );
         const canPreview = computed(
             () => (props.preview || isGroup.value) && !isLoadError.value,
         );
@@ -159,7 +165,6 @@ export default defineComponent({
             }
             return styleObj;
         });
-
         const handleLoaded = (e: Event) => {
             loading.value = false;
             isLoadError.value = false;
