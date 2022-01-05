@@ -129,12 +129,12 @@ import {
 const prefixCls = getPrefixCls('input');
 const textareaPrefixCls = getPrefixCls('textarea');
 
-interface Autosize {
+export interface Autosize {
     minRows?: number;
     maxRows?: number;
 }
 
-type InputProps = {
+export type InputProps = {
     modelValue?: number | string;
     type?: string; // default text
     placeholder?: string;

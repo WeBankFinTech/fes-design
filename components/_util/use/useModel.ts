@@ -1,7 +1,7 @@
 import { ref, watch, computed, WritableComputedRef } from 'vue';
 import { isEqual, isArray } from 'lodash-es';
 
-import { VModelEvent } from '../interface';
+import type { VModelEvent } from '../interface';
 
 export const useNormalModel = (
     props: Record<string, any>,

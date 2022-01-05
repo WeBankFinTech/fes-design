@@ -24,7 +24,7 @@ async function main(source, outputDir) {
             }
         } else if (stats.isFile(filePath)) {
             const extname = path.extname(filePath);
-            if (['.js', '.jsx', '.vue'].includes(extname)) {
+            if (['.js', '.jsx', '.ts', '.tsx', '.vue'].includes(extname)) {
                 await compiler(filePath, outputDir);
             }
         }

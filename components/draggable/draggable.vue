@@ -21,7 +21,7 @@
     </ul>
 </template>
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, SetupContext } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useDraggable } from './useDraggable';
 import { useTheme } from '../_theme/useTheme';
@@ -62,7 +62,7 @@ const {
     handleTransitionEnd,
 } = useDraggable(rootRef, propsRef, {
     emit,
-});
+} as SetupContext);
 </script>
 
 <script lang="ts">

@@ -6,7 +6,7 @@
     </section>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import {
     computed,
     provide,
@@ -16,7 +16,10 @@ import {
     ref,
     Ref,
     CSSProperties,
+    defineComponent,
     ToRefs,
+    PropType,
+    ExtractPropTypes,
 } from 'vue';
 import { isPlainObject, isArray, isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -29,12 +32,20 @@ export interface LayoutChild {
 
 export type AsidePlacement = 'left' | 'right' | '';
 
-export interface LayoutProps {
-    embedded?: boolean;
-    fixed?: boolean;
-    containerClass?: CSSProperties;
-    containerStyle?: CSSProperties;
-}
+const layoutProps = {
+    embedded: {
+        type: Boolean,
+        default: false,
+    },
+    fixed: {
+        type: Boolean,
+        default: false,
+    },
+    containerClass: [Array, Object, String] as PropType<CSSProperties>,
+    containerStyle: Object as PropType<CSSProperties>,
+} as const;
+
+export type LayoutProps = Partial<ExtractPropTypes<typeof layoutProps>>;
 
 export interface LayoutInst extends ToRefs<LayoutProps> {
     addChild: (child: LayoutChild) => void;
@@ -43,82 +54,86 @@ export interface LayoutInst extends ToRefs<LayoutProps> {
 
 const prefixCls = getPrefixCls('layout');
 
-const props = withDefaults(defineProps<LayoutProps>(), {
-    embedded: false,
-    fixed: false,
-});
-useTheme();
-const isRoot = ref(true);
-// layout可以嵌套，所以layout也可能有父的layout
-const parent = inject(LAYOUT_PROVIDE_KEY, null);
-if (parent) {
-    isRoot.value = false;
-    parent.addChild({
-        type: COMPONENT_NAME.LAYOUT,
-    });
-}
-
-const children = reactive<LayoutChild[]>([]);
-const addChild = (child: LayoutChild) => {
-    children.push(child);
-};
-
-const isVertical = computed(() => {
-    if (children.length) {
-        return children.some(
-            (node) =>
-                node.type === COMPONENT_NAME.HEADER ||
-                node.type === COMPONENT_NAME.FOOTER,
-        );
-    }
-    return false;
-});
-const asidePlacement = computed(() => {
-    if (children.length > 0) {
-        if (children[0].type === COMPONENT_NAME.ASIDE) {
-            return 'left';
-        }
-        if (children[children.length - 1].type === COMPONENT_NAME.ASIDE) {
-            return 'right';
-        }
-    }
-    return '';
-});
-const classList = computed(() =>
-    [
-        prefixCls,
-        isVertical.value && 'is-vertical',
-        props.fixed && 'is-fixed',
-        isRoot.value && 'is-root',
-    ].filter(Boolean),
-);
-
-const containerClassRef = computed(() => {
-    const base = `${prefixCls}-container`;
-    if (isPlainObject(props.containerClass)) {
-        return {
-            [base]: true,
-            ...props.containerClass,
-        };
-    }
-    if (isArray(props.containerClass)) {
-        return [base, ...props.containerClass];
-    }
-    if (isString(props.containerClass)) {
-        return [base, props.containerClass];
-    }
-    return [base];
-});
-
-provide(LAYOUT_PROVIDE_KEY, {
-    addChild,
-    asidePlacement,
-    ...toRefs(props),
-});
-</script>
-
-<script lang="ts">
-export default {
+export default defineComponent({
     name: COMPONENT_NAME.LAYOUT,
-};
+    props: layoutProps,
+    setup(props) {
+        useTheme();
+        const isRoot = ref(true);
+        // layout可以嵌套，所以layout也可能有父的layout
+        const parent = inject(LAYOUT_PROVIDE_KEY, null);
+        if (parent) {
+            isRoot.value = false;
+            parent.addChild({
+                type: COMPONENT_NAME.LAYOUT,
+            });
+        }
+
+        const children = reactive<LayoutChild[]>([]);
+        const addChild = (child: LayoutChild) => {
+            children.push(child);
+        };
+
+        const isVertical = computed(() => {
+            if (children.length) {
+                return children.some(
+                    (node) =>
+                        node.type === COMPONENT_NAME.HEADER ||
+                        node.type === COMPONENT_NAME.FOOTER,
+                );
+            }
+            return false;
+        });
+        const asidePlacement = computed(() => {
+            if (children.length > 0) {
+                if (children[0].type === COMPONENT_NAME.ASIDE) {
+                    return 'left';
+                }
+                if (
+                    children[children.length - 1].type === COMPONENT_NAME.ASIDE
+                ) {
+                    return 'right';
+                }
+            }
+            return '';
+        });
+        const classList = computed(() =>
+            [
+                prefixCls,
+                isVertical.value && 'is-vertical',
+                props.fixed && 'is-fixed',
+                isRoot.value && 'is-root',
+            ].filter(Boolean),
+        );
+
+        const containerClassRef = computed(() => {
+            const base = `${prefixCls}-container`;
+            if (isPlainObject(props.containerClass)) {
+                return {
+                    [base]: true,
+                    ...(props.containerClass as object),
+                };
+            }
+            if (isArray(props.containerClass)) {
+                return [base, ...props.containerClass];
+            }
+            if (isString(props.containerClass)) {
+                return [base, props.containerClass];
+            }
+            return [base];
+        });
+
+        provide(LAYOUT_PROVIDE_KEY, {
+            addChild,
+            asidePlacement,
+            ...toRefs(props),
+        });
+
+        return {
+            prefixCls,
+            classList,
+            containerClassRef,
+        };
+    },
+});
 </script>

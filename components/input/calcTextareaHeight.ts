@@ -1,4 +1,4 @@
-let hiddenTextarea;
+let hiddenTextarea: HTMLTextAreaElement;
 
 const HIDDEN_STYLE = `
   height:0 !important;
@@ -28,7 +28,7 @@ const CONTEXT_STYLE = [
     'box-sizing',
 ];
 
-function calculateNodeStyling(targetElement) {
+function calculateNodeStyling(targetElement: HTMLElement) {
     const style = window.getComputedStyle(targetElement);
 
     const boxSizing = style.getPropertyValue('box-sizing');
@@ -54,9 +54,9 @@ function calculateNodeStyling(targetElement) {
 }
 
 export default function calcTextareaHeight(
-    targetElement,
+    targetElement: HTMLTextAreaElement,
     minRows = 1,
-    maxRows = null,
+    maxRows: number | null = null,
 ) {
     if (!hiddenTextarea) {
         hiddenTextarea = document.createElement('textarea');

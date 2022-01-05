@@ -97,7 +97,7 @@ export default defineComponent({
             type: Boolean,
             default: false,
         },
-        scrollContainer: [String, Element],
+        scrollContainer: [String, Object] as PropType<string | HTMLElement>,
     },
     emits: [ERROR_EVENT, LOAD_EVENT, CLOSE_EVENT],
     setup(props, { attrs, emit }) {
