@@ -1,4 +1,4 @@
-import { h, defineComponent, computed, CSSProperties } from 'vue';
+import { h, defineComponent, computed, CSSProperties, ExtractPropTypes } from 'vue';
 
 import { noop } from '../_util/utils';
 
@@ -9,6 +9,8 @@ const iconProps = {
     rotate: String,
     tabIndex: Number,
 } as const;
+
+export type IconProps = Partial<ExtractPropTypes<typeof iconProps>>;
 
 export default defineComponent({
     name: 'FIconWrapper',

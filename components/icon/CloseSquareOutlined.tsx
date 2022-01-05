@@ -1,9 +1,10 @@
 
-import {h} from 'vue';
+import { h } from 'vue';
 import IconWrapper from './IconWrapper';
+import type {IconProps} from './IconWrapper';
 import './style';
 
-export default props => (
+export default (props?: IconProps) => (
     <IconWrapper {...props} >
         <svg width="200" height="200" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M906.667 96A21.333 21.333 0 0 1 928 117.333v789.334A21.333 21.333 0 0 1 906.667 928H117.333A21.333 21.333 0 0 1 96 906.667V117.333A21.333 21.333 0 0 1 117.333 96h789.334zM864 160H160v704h704V160zM652.288 350.592l21.12 21.12a17.067 17.067 0 0 1 0 24.15L557.269 512l116.139 116.139a17.067 17.067 0 0 1 0 24.149l-21.12 21.12a17.067 17.067 0 0 1-24.15 0L512 557.269 395.861 673.408a17.067 17.067 0 0 1-24.149 0l-21.12-21.12a17.067 17.067 0 0 1 0-24.15L466.731 512 350.592 395.861a17.067 17.067 0 0 1 0-24.149l21.12-21.12a17.067 17.067 0 0 1 24.15 0L512 466.731l116.139-116.139a17.067 17.067 0 0 1 24.149 0z"/></svg>
     </IconWrapper>

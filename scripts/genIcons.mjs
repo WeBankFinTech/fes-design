@@ -15,11 +15,12 @@ const iconFileBase = join(process.cwd(), './icons');
 const iconFiles = readdirSync(iconFileBase);
 
 const SVG_COMPONENT_TMPLATE = `
-import {h} from 'vue';
+import { h } from 'vue';
 import IconWrapper from './IconWrapper';
+import type {IconProps} from './IconWrapper';
 import './style';
 
-export default props => (
+export default (props?: IconProps) => (
     <IconWrapper {...props} ATTRS>
         SVG
     </IconWrapper>

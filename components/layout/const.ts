@@ -1,6 +1,6 @@
 import type { InjectionKey } from 'vue';
 
-import type { LayoutInst } from './interface';
+import type { LayoutInst } from './layout.vue';
 
 export enum COMPONENT_NAME {
     LAYOUT = 'FLayout',

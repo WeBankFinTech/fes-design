@@ -8,6 +8,7 @@
         "module": "ES6",
         "moduleResolution": "Node",
         "declaration": true,
+        "declarationDir": "./types",
         "allowSyntheticDefaultImports": true,
         "forceConsistentCasingInFileNames": true,
         "composite": true,
@@ -18,6 +19,7 @@
         ]
     },
     "include": [
+        "global.d.ts",
         "components/**/*.ts",
         "components/**/*.tsx",
         "components/**/*.vue"

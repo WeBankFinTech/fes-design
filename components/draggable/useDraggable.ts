@@ -1,4 +1,4 @@
-import { nextTick, ref, watch, Ref, ComputedRef } from 'vue';
+import { nextTick, ref, watch, Ref, ComputedRef, SetupContext } from 'vue';
 
 class Setting {
     draggable = false;
@@ -130,7 +130,7 @@ function resetDragWhenEnd(
 export function useDraggable(
     containerRef: Ref<HTMLElement | undefined>,
     propsRef: PropsRef,
-    ctx: object = {},
+    ctx?: SetupContext,
 ) {
     const settings = ref<Setting[]>([]);
     const animation = {
@@ -198,7 +198,7 @@ export function useDraggable(
     }
 
     function emitEvent(event: typeof emits[number], ...args: any[]) {
-        if (typeof ctx.emit !== 'function') return;
+        if (typeof ctx?.emit !== 'function') return;
         ctx.emit(event as any, ...args);
     }
 

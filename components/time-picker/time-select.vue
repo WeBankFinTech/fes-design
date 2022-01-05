@@ -100,7 +100,7 @@ const focusKey = reactive({
     4: -1,
 });
 
-interface SelectedTime {
+export interface SelectedTime {
     hour: string | null;
     minute: string | null;
     seconds: string | null;

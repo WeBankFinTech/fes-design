@@ -280,7 +280,7 @@ export default defineComponent({
             props.virtualList && !props.inline ? (
                 <VirtualList
                     dataSources={currentData.value}
-                    dataKey={(source: TreeNodeKey) => source}
+                    dataKey={(source: string | number | object) => source}
                     estimateSize={32}
                     keeps={14}
                     class={prefixCls}

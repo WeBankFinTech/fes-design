@@ -16,7 +16,7 @@ import {
 import Virtual from './virtual';
 import { FVirtualListItem } from './listItem';
 import { VirtualProps } from './props';
-import FScrollbar from '../scrollbar';
+import FScrollbar from '../scrollbar/scrollbar.vue';
 import {
     TO_TOP_EVENT,
     TO_BOTTOM_EVENT,

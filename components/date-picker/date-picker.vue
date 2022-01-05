@@ -39,7 +39,7 @@
                 :placeholder="placeholder"
                 :disabled="disabled"
                 :clearable="clearable"
-                @focus="(e: Event) => $emit('focus', e)"
+                @focus="(e) => $emit('focus', e)"
                 @blur="handleBlur"
                 @clear="clear"
                 @click="isOpened = true"

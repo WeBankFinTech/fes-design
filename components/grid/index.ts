@@ -1,6 +1,6 @@
 import { withInstall, withNoopInstall } from '../_util/withInstall';
-import Grid from './grid';
-import GridItem from './gridItem';
+import Grid from './grid.vue';
+import GridItem from './gridItem.vue';
 
 export const FGrid = withInstall(Grid, {
     GridItem,

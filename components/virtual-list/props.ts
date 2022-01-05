@@ -7,12 +7,15 @@ import { PropType, VNodeChild } from 'vue';
 export const VirtualProps = {
     dataKey: {
         type: [String, Function] as PropType<
-            string | ((dataSource: object) => number | string)
+            | string
+            | ((
+                  dataSource: object | number | string,
+              ) => number | string | object)
         >,
         required: true,
     },
     dataSources: {
-        type: Array as PropType<object[]>,
+        type: Array as PropType<(number | string | object)[]>,
         required: true,
     },
 
