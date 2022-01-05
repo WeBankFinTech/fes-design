@@ -56,11 +56,13 @@ import { isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { PictureOutlined, PictureFailOutlined } from '../icon';
 import { isHtmlElement, getScrollContainer, isInContainer } from '../_util/dom';
-import { noop } from '../_util/utils';
+import { noop, noopInNoop } from '../_util/utils';
 import { CLOSE_EVENT, LOAD_EVENT, ERROR_EVENT } from '../_util/constants';
 import { useTheme } from '../_theme/useTheme';
-import { KEY } from './const';
+import { PREVIEW_PROVIDE_KEY } from './props';
 import Preview from './preview.vue';
+
+import type { CSSProperties, StyleValue } from 'vue';
 
 const prefixCls = getPrefixCls('img');
 
@@ -128,13 +130,19 @@ export default defineComponent({
             srcset,
             usemap,
         };
-
-        const { isGroup, setShowPreview, setCurrent, registerImage } =
-            inject(KEY);
+        const { isGroup, setShowPreview, setCurrent, registerImage } = inject(
+            PREVIEW_PROVIDE_KEY,
+            {
+                setShowPreview: noop,
+                isGroup: ref(false),
+                setCurrent: noop,
+                registerImage: noopInNoop,
+            },
+        );
         const canPreview = computed(
             () => (props.preview || isGroup.value) && !isLoadError.value,
         );
-        const containerStyle = computed(() => attrs.style);
+        const containerStyle = computed(() => attrs.style as StyleValue);
         const _scrollContainer = computed(() => {
             let dom: any;
             const _container = props.scrollContainer;
@@ -148,18 +156,17 @@ export default defineComponent({
             }
             return dom;
         });
-        const imageStyle = computed(() => {
+        const imageStyle = computed<CSSProperties>(() => {
             const { fit } = props;
-            const styleObj = { fit: '', cursor: '' };
+            const styleObj: CSSProperties = { objectFit: 'fill', cursor: '' };
             if (fit) {
-                styleObj.fit = fit;
+                styleObj.objectFit = fit;
             }
             if (canPreview.value) {
                 styleObj.cursor = 'pointer';
             }
             return styleObj;
         });
-
         const handleLoaded = (e: Event) => {
             loading.value = false;
             isLoadError.value = false;
