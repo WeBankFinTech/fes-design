@@ -32,5 +32,5 @@ export const withNoopInstall = (component: Component) => {
     const _main = component as ComponentInstall;
     _main.install = noop;
 
-    return component;
+    return _main;
 };

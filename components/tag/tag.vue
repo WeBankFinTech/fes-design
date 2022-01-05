@@ -20,16 +20,12 @@ import CloseCircleOutlined from '../icon/CloseOutlined';
 
 const prefixCls = getPrefixCls('tag');
 
-const TAG_TYPE = ['default', 'success', 'info', 'warning', 'danger'] as const;
-const TAG_SIZE = ['small', 'middle', 'large'] as const;
-const TAG_EFFECT = ['dark', 'light', 'plain'] as const;
-
 interface TagProps {
-    type?: typeof TAG_TYPE[number];
+    type?: 'default' | 'success' | 'info' | 'warning' | 'danger';
     closable?: boolean;
     backgroundColor?: string;
-    size?: typeof TAG_SIZE[number];
-    effect?: typeof TAG_EFFECT[number];
+    size?: 'small' | 'middle' | 'large';
+    effect?: 'dark' | 'light' | 'plain';
 }
 
 type TagEmits = {

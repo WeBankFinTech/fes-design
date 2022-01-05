@@ -9,7 +9,9 @@ async function compilerCss(entryPath, outputPath) {
     const bundle = await rollup.rollup({
         input: entryPath,
         plugins: [
-            nodeResolve(),
+            nodeResolve({
+                extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+            }),
             postcss({
                 modules: false,
                 extract: true,

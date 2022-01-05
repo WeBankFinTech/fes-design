@@ -77,12 +77,10 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { useTheme } from '../_theme/useTheme';
 import TimeSelect from './time-select.vue';
-import FInput from '../input';
+import FInput from '../input/input.vue';
 import { ClockCircleOutlined } from '../icon';
 import Popper from '../popper';
 import FButton from '../button';
-
-import type { VModelEvent, ChangeEvent } from '../_util/interface';
 
 const prefixCls = getPrefixCls('time-picker');
 
@@ -153,7 +151,7 @@ type TimePickerProps = {
     open?: boolean;
     appendToContainer?: boolean;
     getContainer?: () => HTMLElement;
-    placeholder?: string | string[];
+    placeholder?: string;
     isRange?: boolean;
     disabled?: boolean;
     clearable?: boolean;
@@ -168,8 +166,8 @@ type TimePickerProps = {
 };
 
 type TimePickerEmits = {
-    (e: VModelEvent, value: string): void;
-    (e: ChangeEvent, value: string): void;
+    (e: 'update:modelValue', value: string): void;
+    (e: 'change', value: string): void;
     (e: 'update:open', value: boolean): void;
     (e: 'blur', event: Event): void;
     (e: 'focus', event: Event): void;

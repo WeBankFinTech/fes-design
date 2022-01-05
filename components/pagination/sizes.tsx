@@ -3,7 +3,8 @@ import { h, defineComponent, PropType } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
-import { FSelect, FOption } from '../select';
+import { FSelect } from '../select';
+import FOption from '../select/option.vue';
 import { COMPONENT_NAME } from './const';
 
 const prefixCls = getPrefixCls('pagination');

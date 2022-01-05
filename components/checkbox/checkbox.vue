@@ -19,8 +19,6 @@ import useSelect from '../_util/use/useSelect';
 import { name, checkboxGroupKey } from '../checkbox-group/const';
 import { useTheme } from '../_theme/useTheme';
 
-import type { VModelEvent, ChangeEvent } from '../_util/interface';
-
 const prefixCls = getPrefixCls('checkbox');
 
 type CheckboxProps = {
@@ -38,8 +36,8 @@ const props = withDefaults(defineProps<CheckboxProps>(), {
 });
 
 type CheckboxEmits = {
-    (e: VModelEvent, value: boolean): void;
-    (e: ChangeEvent, value: boolean): void;
+    (e: 'update:modelValue', value: boolean): void;
+    (e: 'change', value: boolean): void;
 };
 
 const emit = defineEmits<CheckboxEmits>();

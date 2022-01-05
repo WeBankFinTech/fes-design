@@ -136,7 +136,9 @@ export const getNode = (
         childrenData: childrenData,
         children: [],
         isDisabled:
-            !!(data as any)[disabledField] || !!parent?.data[disabledField],
+            !!(data as any)[disabledField] || parent
+                ? !!(parent.data as any)[disabledField]
+                : false,
         isLeaf: false,
         elem: null,
     };

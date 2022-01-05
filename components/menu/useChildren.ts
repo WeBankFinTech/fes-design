@@ -1,16 +1,18 @@
-import { reactive, provide } from 'vue';
+import { reactive, provide, UnwrapRef } from 'vue';
 import { MENU_KEY } from './const';
 
 import type { MenuItemType } from './interface';
 
-export default () => {
-    const children = reactive<MenuItemType[]>([]);
+type MenuItemTypePlain = UnwrapRef<MenuItemType>;
 
-    const addChild = (child: MenuItemType) => {
+export default () => {
+    const children = reactive<MenuItemTypePlain[]>([]);
+
+    const addChild = (child: MenuItemTypePlain) => {
         children.push(child);
     };
 
-    const removeChild = (child: MenuItemType) => {
+    const removeChild = (child: MenuItemTypePlain) => {
         const index = children.indexOf(child);
         if (index !== -1) {
             children.splice(index, 1);

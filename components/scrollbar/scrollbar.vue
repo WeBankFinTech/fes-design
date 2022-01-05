@@ -113,7 +113,11 @@ onMounted(() => {
     }
 });
 
-const move = (type: string, to: number, duration: number) => {
+const move = (
+    type: 'scrollTop' | 'scrollLeft',
+    to: number,
+    duration: number,
+) => {
     if (!duration || duration <= 0) {
         containerRef.value[type] = to;
         return;

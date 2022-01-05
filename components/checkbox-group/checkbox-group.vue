@@ -14,11 +14,11 @@ const prefixCls = getPrefixCls('checkbox-group');
 
 // 由于 vue setup 的限制，声明文件必须放在同一个文件中
 // https://github.com/vuejs/rfcs/blob/master/active-rfcs/0040-script-setup.md#type-only-propsemit-declarations
-export interface CheckboxGroupProps {
+export type CheckboxGroupProps = {
     modelValue?: [];
     vertical?: boolean;
     disabled?: boolean;
-}
+};
 
 export type CheckboxGroupEmits = {
     (e: 'update:modelValue', value: string | number | boolean): void;

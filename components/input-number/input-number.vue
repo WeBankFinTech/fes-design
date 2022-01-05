@@ -44,8 +44,6 @@ import { useNormalModel } from '../_util/use/useModel';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import FInput from '../input/input.vue';
 
-import type { VModelEvent, ChangeEvent } from '../_util/interface';
-
 const prefixCls = getPrefixCls('input-number');
 
 enum ActionEnum {
@@ -64,8 +62,8 @@ type InputNumberProps = {
 };
 
 type InputNumberEmits = {
-    (e: VModelEvent, value: number): void;
-    (e: ChangeEvent, newValue: number, oldValue: number): void;
+    (e: 'update:modelValue', value: number): void;
+    (e: 'change', newValue: number, oldValue: number): void;
     (e: 'input', value: number): void;
     (e: 'blur', event: Event): void;
     (e: 'focus', event: Event): void;
