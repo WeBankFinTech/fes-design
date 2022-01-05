@@ -1,6 +1,8 @@
 <template>
+    <div class="title">
+        <span>默认为中文:</span>
+    </div>
     <div class="components">
-        <span style="margin-right: 16px">外层组件实例:</span>
         <space>
             <FCascader       
                 v-model="cascader.value"
@@ -9,14 +11,13 @@
         </space>
     </div>
 
-    <div class="change-locale">
-        <span style="margin-right: 16px">Change locale of components:</span>
+    <div class="title">
+        <span style="margin-right: 16px">语言切换:</span>
         <FRadioGroup v-model="lang">
             <FRadio key="en" :value="enUS.name">{{ enUS.desc }}</FRadio>
             <FRadio key="cn" :value="zhCN.name">{{ zhCN.desc }}</FRadio>
         </FRadioGroup>
     </div>
-
     <div class="components">
         <space>
             <FConfigProvider :locale="locale">
@@ -24,6 +25,36 @@
                     v-model="cascader.value"
                     :options="cascader.options">
                 </FCascader>
+            </FConfigProvider>
+        </space>
+    </div>
+
+    <div class="title">
+        <div>嵌套配置:</div>
+    </div>
+    <div class="components">
+        <space>
+            <FConfigProvider :locale="enUS">
+                <FCascader       
+                    v-model="cascader.value"
+                    :options="cascader.options">
+                </FCascader>
+                    <space>
+                        <FConfigProvider :locale="zhCN">
+                            <FCascader       
+                                v-model="cascader.value"
+                                :options="cascader.options">
+                            </FCascader>
+                                <space>
+                                    <FConfigProvider :locale="enUS">
+                                        <FCascader       
+                                            v-model="cascader.value"
+                                            :options="cascader.options">
+                                        </FCascader>
+                                    </FConfigProvider>
+                                </space>
+                        </FConfigProvider>
+                    </space>
             </FConfigProvider>
         </space>
     </div>
@@ -69,12 +100,12 @@
 </script>
 
 <style scoped>
-.change-locale {
+.title {
     padding-bottom: 16px;
-    border-bottom: 1px solid #d9d9d9;
 }
 .components {
+    border-top: 1px solid #d9d9d9;
     padding-top: 16px;
-    padding-bottom: 16px;
+    padding-bottom: 32px;
 }
 </style>

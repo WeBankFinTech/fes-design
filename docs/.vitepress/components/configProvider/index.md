@@ -47,12 +47,13 @@ import { FConfigProvider } from '@fesjs/fes-design';
 FConfigProvider.setConfig({
     getContainer: () => {
         return document.body;
-    }
+    },
 });
 ```
 
 ## Props
 
-| 属性         | 说明                    | 类型              | 默认值                |
-| ------------ | ----------------------- | ----------------- | --------------------- |
-| getContainer | 指定弹窗挂载的 DOM 节点 | () => HTMLElement | `() => document.body` |
+| 属性         | 说明                                                                      | 类型              | 默认值                |
+| ------------ | ------------------------------------------------------------------------- | ----------------- | --------------------- |
+| getContainer | 指定弹窗挂载的 DOM 节点                                                   | () => HTMLElement | `() => document.body` |
+| locale       | 语言包配置，语言包可到 `@fesjs/fes-design/components/locales/` 目录下寻找 | object            | 中文                  |
