@@ -70,8 +70,16 @@
     </Popper>
 </template>
 
-<script setup lang="ts">
-import { ref, watch, computed, useSlots } from 'vue';
+<script lang="ts">
+import {
+    defineComponent,
+    ref,
+    watch,
+    computed,
+    PropType,
+    ExtractPropTypes,
+} from 'vue';
+import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
@@ -81,6 +89,8 @@ import FInput from '../input/input.vue';
 import { ClockCircleOutlined } from '../icon';
 import Popper from '../popper';
 import FButton from '../button';
+
+import type { GetContainer } from '../_util/interface';
 
 const prefixCls = getPrefixCls('time-picker');
 
@@ -133,7 +143,96 @@ function validateTime(data: string, format: string) {
     return true;
 }
 
-function useOpen(props: TimePickerProps, emit: TimePickerEmits) {
+// type TimePickerProps = {
+//     modelValue?: string | string[] | number[];
+//     open?: boolean;
+//     appendToContainer?: boolean;
+//     getContainer?: () => HTMLElement;
+//     placeholder?: string;
+//     isRange?: boolean;
+//     disabled?: boolean;
+//     clearable?: boolean;
+//     format?: string;
+//     hourStep?: number;
+//     minuteStep?: number;
+//     secondStep?: number;
+//     control?: boolean;
+//     disabledHours?: (h: number) => boolean;
+//     disabledMinutes?: (h: number, m: number) => boolean;
+//     disabledSeconds?: (h: number, m: number, s: number) => boolean;
+// };
+
+// type TimePickerEmits = {
+//     (e: 'update:modelValue', value: string): void;
+//     (e: 'change', value: string): void;
+//     (e: 'update:open', value: boolean): void;
+//     (e: 'blur', event: Event): void;
+//     (e: 'focus', event: Event): void;
+// };
+
+const timePickerProps = {
+    modelValue: {
+        type: [String, Array] as PropType<string | string[] | number[]>,
+        default: '',
+    },
+    open: {
+        type: Boolean,
+        default: false,
+    },
+    appendToContainer: {
+        type: Boolean,
+        default: true,
+    },
+    getContainer: {
+        type: Function as PropType<GetContainer>,
+    },
+    placeholder: {
+        type: String,
+        default: '',
+    },
+    // FEATURE 下个版本实现
+    isRange: {
+        type: Boolean,
+        default: false,
+    },
+    disabled: {
+        type: Boolean,
+        default: false,
+    },
+    clearable: {
+        type: Boolean,
+        default: true,
+    },
+    format: {
+        type: String,
+        default: 'HH:mm:ss',
+    },
+    hourStep: {
+        type: Number,
+        default: 1,
+    },
+    minuteStep: {
+        type: Number,
+        default: 1,
+    },
+    secondStep: {
+        type: Number,
+        default: 1,
+    },
+    disabledHours: Function as PropType<(h: number) => boolean>,
+    disabledMinutes: Function as PropType<(h: number, m: number) => boolean>,
+    disabledSeconds: Function as PropType<
+        (h: number, m: number, s: number) => boolean
+    >,
+    control: {
+        type: Boolean,
+        default: true,
+    },
+} as const;
+
+type TimePickerProps = Partial<ExtractPropTypes<typeof timePickerProps>>;
+
+function useOpen(props: TimePickerProps, emit: any) {
     const [isOpened, updateCurrentValue] = useNormalModel(props, emit, {
         prop: 'open',
     });
@@ -146,118 +245,101 @@ function useOpen(props: TimePickerProps, emit: TimePickerEmits) {
     };
 }
 
-type TimePickerProps = {
-    modelValue?: string | string[] | number[];
-    open?: boolean;
-    appendToContainer?: boolean;
-    getContainer?: () => HTMLElement;
-    placeholder?: string;
-    isRange?: boolean;
-    disabled?: boolean;
-    clearable?: boolean;
-    format?: string;
-    hourStep?: number;
-    minuteStep?: number;
-    secondStep?: number;
-    control?: boolean;
-    disabledHours?: (h: number) => boolean;
-    disabledMinutes?: (h: number, m: number) => boolean;
-    disabledSeconds?: (h: number, m: number, s: number) => boolean;
-};
-
-type TimePickerEmits = {
-    (e: 'update:modelValue', value: string): void;
-    (e: 'change', value: string): void;
-    (e: 'update:open', value: boolean): void;
-    (e: 'blur', event: Event): void;
-    (e: 'focus', event: Event): void;
-};
-
-const props = withDefaults(defineProps<TimePickerProps>(), {
-    open: false,
-    appendToContainer: true,
-    isRange: false,
-    disabled: false,
-    clearable: true,
-    format: 'HH:mm:ss',
-    hourStep: 1,
-    minuteStep: 1,
-    secondStep: 1,
-    control: true,
-});
-
-const emit = defineEmits<TimePickerEmits>();
-
-const slots = useSlots();
-
-useTheme();
-const { validate } = useFormAdaptor();
-const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
-const { isOpened, closePopper } = useOpen(props, emit);
-const classes = computed(() =>
-    [prefixCls, props.disabled && 'is-disabled'].filter(Boolean),
-);
-
-const showControl = computed(() => props.control || slots.addon);
-
-const tempValue = ref();
-const displayValue = computed(() => {
-    if (props.isRange) {
-        return currentValue.value || [];
-    }
-    return currentValue.value || '';
-});
-
-const setCurrentValue = (val: string) => {
-    updateCurrentValue(val);
-    emit('change', val);
-    validate('change');
-};
-const clear = () => {
-    setCurrentValue('');
-};
-
-const activeTime = ref();
-const changeTime = (val: string) => {
-    activeTime.value = val;
-};
-watch(isOpened, () => {
-    if (!isOpened.value && !showControl.value && activeTime.value) {
-        setCurrentValue(activeTime.value);
-    }
-});
-
-// const inputactiveTime
-const handleInput = (val: string) => {
-    tempValue.value = val;
-};
-const handleChange = (val: string) => {
-    if (validateTime(val, props.format)) {
-        setCurrentValue(val);
-    } else {
-        setCurrentValue(currentValue.value);
-    }
-    tempValue.value = null;
-};
-
-const setCurrentTime = () => {
-    setCurrentValue(getCurrentTime(props.format));
-    closePopper();
-};
-const confirmChangeTime = () => {
-    setCurrentValue(activeTime.value);
-    closePopper();
-};
-
-const handleBlur = (event: Event) => {
-    closePopper();
-    emit('blur', event);
-    validate('blur');
-};
-</script>
-
-<script lang="ts">
-export default {
+export default defineComponent({
     name: 'FTimePicker',
-};
+    components: {
+        TimeSelect,
+        FInput,
+        Popper,
+        ClockCircleOutlined,
+        FButton,
+    },
+    props: timePickerProps,
+    emits: [UPDATE_MODEL_EVENT, 'update:open', 'change', 'blur', 'focus'],
+    setup(props, { emit, slots }) {
+        useTheme();
+        const { validate } = useFormAdaptor();
+        const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
+        const { isOpened, closePopper } = useOpen(props, emit);
+        const classes = computed(() =>
+            [prefixCls, props.disabled && 'is-disabled'].filter(Boolean),
+        );
+
+        const showControl = computed(() => props.control || slots.addon);
+
+        const tempValue = ref();
+        const displayValue = computed(() => {
+            if (props.isRange) {
+                return currentValue.value || [];
+            }
+            return currentValue.value || '';
+        });
+
+        const setCurrentValue = (val: string) => {
+            updateCurrentValue(val);
+            emit('change', val);
+            validate('change');
+        };
+        const clear = () => {
+            setCurrentValue('');
+        };
+
+        const activeTime = ref();
+        const changeTime = (val: string) => {
+            activeTime.value = val;
+        };
+        watch(isOpened, () => {
+            if (!isOpened.value && !showControl.value && activeTime.value) {
+                setCurrentValue(activeTime.value);
+            }
+        });
+
+        // const inputactiveTime
+        const handleInput = (val: string) => {
+            tempValue.value = val;
+        };
+        const handleChange = (val: string) => {
+            if (validateTime(val, props.format)) {
+                setCurrentValue(val);
+            } else {
+                setCurrentValue(currentValue.value);
+            }
+            tempValue.value = null;
+        };
+
+        const setCurrentTime = () => {
+            setCurrentValue(getCurrentTime(props.format));
+            closePopper();
+        };
+        const confirmChangeTime = () => {
+            setCurrentValue(activeTime.value);
+            closePopper();
+        };
+
+        const handleBlur = (event: Event) => {
+            closePopper();
+            emit('blur', event);
+            validate('blur');
+        };
+        return {
+            prefixCls,
+            classes,
+            displayValue,
+            isOpened,
+
+            tempValue,
+
+            handleInput,
+            handleChange,
+            handleBlur,
+            clear,
+            changeTime,
+            showControl,
+            setCurrentTime,
+            confirmChangeTime,
+
+            activeTime,
+        };
+    },
+});
 </script>

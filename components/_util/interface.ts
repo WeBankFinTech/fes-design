@@ -4,6 +4,7 @@ import type {
     Ref,
     DefineComponent,
     App,
+    Plugin,
 } from 'vue';
 
 export type Emit = SetupContext['emit'];
@@ -29,3 +30,5 @@ export type ComponentInstall = DefineComponent & {
 };
 
 export type GetContainer = () => HTMLElement;
+
+export type SFCWithInstall<T> = T & Plugin;

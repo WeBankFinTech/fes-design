@@ -1,5 +1,4 @@
 import type { App } from 'vue';
-import type { ComponentInstall } from './_util/interface';
 import version from './version';
 import { FAlert } from './alert';
 import { FButton } from './button';
@@ -41,7 +40,7 @@ import { FVirtualList } from './virtual-list';
 import { FDrawer } from './drawer';
 import { FSelectTree } from './select-tree';
 
-const components: ComponentInstall[] = [
+const components = [
     FAlert,
     FButton,
     FCheckbox,

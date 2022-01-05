@@ -2,10 +2,13 @@ import { withInstall } from '../_util/withInstall';
 import Modal from './modal';
 import Api from './modalApi';
 
+import type { SFCWithInstall } from '../_util/interface';
+
 Object.keys(Api).forEach((key) => {
     Modal[key] = Api[key as keyof typeof Api];
 });
 
-export const FModal = withInstall(Modal);
+type ModalType = SFCWithInstall<typeof Modal>;
+export const FModal = withInstall<ModalType>(Modal as ModalType);
 
 export default FModal;
