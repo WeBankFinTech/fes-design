@@ -117,7 +117,7 @@ const Modal = defineComponent({
         );
         const config = getConfig();
         const getContainer = computed(
-            () => props.getContainer || config.getContainer,
+            () => props.getContainer || config.value.getContainer,
         );
 
         function handleCancel(event: MouseEvent) {

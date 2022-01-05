@@ -36,7 +36,7 @@ interface CascaderMenuProps {
 const props = withDefaults(defineProps<CascaderMenuProps>(), {});
 
 const panel = inject(CASCADER_PANEL_INJECTION_KEY);
-const emptyText = panel.emptyText;
+const emptyText = computed(() => panel.emptyText);
 const isEmpty = computed(() => props.nodes.length < 1);
 </script>
 

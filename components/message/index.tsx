@@ -29,7 +29,7 @@ const defaultConfig = {
     duration: 3,
     getContainer: () => {
         const config = getConfig();
-        return config.getContainer();
+        return config.value.getContainer();
     },
     top: '24px',
     colorful: false,
