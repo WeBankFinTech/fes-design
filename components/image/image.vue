@@ -62,6 +62,8 @@ import { useTheme } from '../_theme/useTheme';
 import { PREVIEW_PROVIDE_KEY } from './props';
 import Preview from './preview.vue';
 
+import type { CSSProperties, StyleValue } from 'vue';
+
 const prefixCls = getPrefixCls('img');
 
 let curIndex = 0;
@@ -140,7 +142,7 @@ export default defineComponent({
         const canPreview = computed(
             () => (props.preview || isGroup.value) && !isLoadError.value,
         );
-        const containerStyle = computed(() => attrs.style);
+        const containerStyle = computed(() => attrs.style as StyleValue);
         const _scrollContainer = computed(() => {
             let dom: any;
             const _container = props.scrollContainer;
@@ -154,11 +156,11 @@ export default defineComponent({
             }
             return dom;
         });
-        const imageStyle = computed(() => {
+        const imageStyle = computed<CSSProperties>(() => {
             const { fit } = props;
-            const styleObj = { fit: '', cursor: '' };
+            const styleObj: CSSProperties = { objectFit: 'fill', cursor: '' };
             if (fit) {
-                styleObj.fit = fit;
+                styleObj.objectFit = fit;
             }
             if (canPreview.value) {
                 styleObj.cursor = 'pointer';
