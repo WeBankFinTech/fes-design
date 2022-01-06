@@ -24,123 +24,154 @@
     </FScrollbar>
 </template>
 
-<script setup lang="ts">
-import { ref, computed, nextTick, watch, onMounted } from 'vue';
+<script lang="ts">
+import {
+    defineComponent,
+    ref,
+    computed,
+    nextTick,
+    watch,
+    onMounted,
+    PropType,
+} from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import FScrollbar from '../scrollbar';
 
-import type { ChangeEvent } from '../_util/interface';
 import type { TimeOption } from './interface';
 
 const prefixCls = getPrefixCls('time-picker');
 
-type PickerItemProps = {
-    visible?: boolean;
-    value?: string | null;
-    focus?: number;
-    times?: TimeOption[];
-    visibleCount?: number;
-};
+const pickerItemProps = {
+    visible: Boolean,
+    value: {
+        type: String,
+        default: '',
+    },
+    focus: {
+        type: Number,
+        default: -1,
+    },
+    times: {
+        type: Array as PropType<TimeOption[]>,
+        default(): TimeOption[] {
+            return [];
+        },
+    },
+    visibleCount: {
+        type: Number,
+        default: 8,
+    },
+} as const;
 
-type PickerItemEmits = {
-    (e: ChangeEvent, val: TimeOption): void;
-};
-
-const props = withDefaults(defineProps<PickerItemProps>(), {
-    value: '',
-    focus: -1,
-    times: () => [],
-    visibleCount: 8,
-});
-
-const emit = defineEmits<PickerItemEmits>();
-
-const root = ref<HTMLElement>();
-const itemHeight = 24;
-const scrollbarRef = ref();
-const selectedIndex = computed(() => {
-    if (props.value) {
-        return props.times.findIndex((item) => item.value === props.value);
-    }
-    return -1;
-});
-const scrollToSelected = (duration: number) => {
-    // move to selected ite
-    const rootDom = root.value;
-    if (!rootDom) {
-        return;
-    }
-    let index = selectedIndex.value;
-    if (index < 0) {
-        index = 0;
-    }
-    const to = (rootDom.children[index] as HTMLElement).offsetTop;
-    const firstTop = (rootDom.children[0] as HTMLElement).offsetTop;
-    scrollbarRef.value.setScrollTop(to - firstTop, duration);
-};
-watch(selectedIndex, () => {
-    nextTick(() => {
-        scrollToSelected(120);
-    });
-});
-watch(
-    () => props.visible,
-    () => {
-        if (props.visible) {
+export default defineComponent({
+    components: {
+        FScrollbar,
+    },
+    props: pickerItemProps,
+    emits: ['change'],
+    setup(props, { emit }) {
+        const root = ref<HTMLElement>();
+        const itemHeight = 24;
+        const scrollbarRef = ref();
+        const selectedIndex = computed(() => {
+            if (props.value) {
+                return props.times.findIndex(
+                    (item) => item.value === props.value,
+                );
+            }
+            return -1;
+        });
+        const scrollToSelected = (duration: number) => {
+            // move to selected ite
+            const rootDom = root.value;
+            if (!rootDom) {
+                return;
+            }
+            let index = selectedIndex.value;
+            if (index < 0) {
+                index = 0;
+            }
+            const to = (rootDom.children[index] as HTMLElement).offsetTop;
+            const firstTop = (rootDom.children[0] as HTMLElement).offsetTop;
+            scrollbarRef.value.setScrollTop(to - firstTop, duration);
+        };
+        watch(selectedIndex, () => {
             nextTick(() => {
-                scrollbarRef.value.update();
+                scrollToSelected(120);
+            });
+        });
+        watch(
+            () => props.visible,
+            () => {
+                if (props.visible) {
+                    nextTick(() => {
+                        scrollbarRef.value.update();
+                        scrollToSelected(0);
+                    });
+                }
+            },
+        );
+
+        const paddingBottom = computed(
+            () => (props.visibleCount - 1) * itemHeight,
+        );
+
+        const scrollToView = (duration: number) => {
+            const index = props.focus;
+            const rootDom = root.value;
+            if (!rootDom || index < 0) {
+                return;
+            }
+            const scrollTop = rootDom.scrollTop;
+            const offsetTop = (rootDom.children[index] as HTMLElement)
+                .offsetTop;
+            const difference = offsetTop - scrollTop;
+            if (difference < 0) {
+                scrollbarRef.value.setScrollTop(offsetTop, duration);
+            } else if (difference > paddingBottom.value) {
+                scrollbarRef.value.setScrollTop(
+                    scrollTop + (difference - paddingBottom.value),
+                    duration,
+                );
+            }
+        };
+        watch(
+            () => props.focus,
+            () => {
+                nextTick(() => {
+                    scrollToView(0);
+                });
+            },
+        );
+
+        const selectedTime = (e: MouseEvent) => {
+            if (!e.target) return;
+            const key = (e.target as HTMLElement).getAttribute('data-key');
+            const option = props.times.find((item) => item.value === key);
+            if (option && !option.disabled) {
+                emit('change', option);
+            }
+        };
+
+        onMounted(() => {
+            nextTick(() => {
                 scrollToSelected(0);
             });
-        }
-    },
-);
-
-const paddingBottom = computed(() => (props.visibleCount - 1) * itemHeight);
-
-const scrollToView = (duration: number) => {
-    const index = props.focus;
-    const rootDom = root.value;
-    if (!rootDom || index < 0) {
-        return;
-    }
-    const scrollTop = rootDom.scrollTop;
-    const offsetTop = (rootDom.children[index] as HTMLElement).offsetTop;
-    const difference = offsetTop - scrollTop;
-    if (difference < 0) {
-        scrollbarRef.value.setScrollTop(offsetTop, duration);
-    } else if (difference > paddingBottom.value) {
-        scrollbarRef.value.setScrollTop(
-            scrollTop + (difference - paddingBottom.value),
-            duration,
-        );
-    }
-};
-watch(
-    () => props.focus,
-    () => {
-        nextTick(() => {
-            scrollToView(0);
         });
+
+        const visibleHeight = computed(() => props.visibleCount * itemHeight);
+        const style = computed(() => ({
+            'padding-bottom': `${paddingBottom.value}px`,
+        }));
+        return {
+            visibleHeight,
+            style,
+            scrollbarRef,
+            prefixCls,
+            root,
+            selectedIndex,
+            selectedTime,
+        };
     },
-);
-
-const selectedTime = (e: MouseEvent) => {
-    if (!e.target) return;
-    const key = (e.target as HTMLElement).getAttribute('data-key');
-    const option = props.times.find((item) => item.value === key);
-    if (option && !option.disabled) {
-        emit('change', option);
-    }
-};
-
-onMounted(() => {
-    nextTick(() => {
-        scrollToSelected(0);
-    });
 });
-
-const visibleHeight = computed(() => props.visibleCount * itemHeight);
-const style = computed(() => ({
-    'padding-bottom': `${paddingBottom.value}px`,
-}));
 </script>

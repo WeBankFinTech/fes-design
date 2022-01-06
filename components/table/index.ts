@@ -2,7 +2,12 @@ import { withInstall, withNoopInstall } from '../_util/withInstall';
 import Table from './table';
 import Column from './column.vue';
 
-export const FTable = withInstall(Table, { Column });
-export const FColumn = withNoopInstall(Column);
+import type { SFCWithInstall } from '../_util/interface';
+
+type TableType = SFCWithInstall<typeof Table>;
+type ColumnType = SFCWithInstall<typeof Column>;
+
+export const FTable = withInstall<TableType>(Table as TableType, { Column });
+export const FColumn = withNoopInstall<ColumnType>(Column as ColumnType);
 
 export default FTable;

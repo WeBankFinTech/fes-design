@@ -2,7 +2,14 @@ import { withInstall } from '../_util/withInstall';
 import Image from './image.vue';
 import PreviewGroup from './preview-group';
 
-export const FImage = withInstall(Image);
-export const FPreviewGroup = withInstall(PreviewGroup);
+import type { SFCWithInstall } from '../_util/interface';
+
+type ImageType = SFCWithInstall<typeof Image>;
+type PreviewGroupType = SFCWithInstall<typeof PreviewGroup>;
+export const FImage = withInstall<ImageType>(Image as ImageType);
+
+export const FPreviewGroup = withInstall<PreviewGroupType>(
+    PreviewGroup as PreviewGroupType,
+);
 
 export default FImage;

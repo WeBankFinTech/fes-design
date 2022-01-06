@@ -74,12 +74,11 @@ export default defineComponent({
             children.push(child);
         };
 
-        const isVertical = computed(() => {
+        const isHorizontal = computed(() => {
             if (children.length) {
                 return children.some(
                     (node) =>
-                        node.type === COMPONENT_NAME.HEADER ||
-                        node.type === COMPONENT_NAME.FOOTER,
+                        node.type === COMPONENT_NAME.ASIDE 
                 );
             }
             return false;
@@ -100,7 +99,7 @@ export default defineComponent({
         const classList = computed(() =>
             [
                 prefixCls,
-                isVertical.value && 'is-vertical',
+                isHorizontal.value && 'is-horizontal',
                 props.fixed && 'is-fixed',
                 isRoot.value && 'is-root',
             ].filter(Boolean),

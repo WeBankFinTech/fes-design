@@ -1,18 +1,18 @@
-import { Component, App } from 'vue';
-import type { FObjectDirective, ComponentInstall } from './interface';
+import { Component, App, Plugin } from 'vue';
+import type { FObjectDirective } from './interface';
 
 import { noop } from './utils';
 
-export const withInstall = (
-    main: Component,
+export function withInstall<T extends Plugin>(
+    main: T,
     extra?: Record<string, Component>,
     directives?: FObjectDirective[],
-) => {
-    const _main = main as ComponentInstall;
+): T {
+    const _main = main as any;
     _main.install = (app: App) => {
         for (const comp of [main, ...Object.values(extra ?? {})]) {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            app.component(comp.name!, comp);
+            app.component((comp as any).name, comp);
         }
         if (directives) {
             for (const directive of directives) {
@@ -25,12 +25,12 @@ export const withInstall = (
             _main[key] = comp;
         }
     }
-    return _main;
-};
+    return _main as T;
+}
 
-export const withNoopInstall = (component: Component) => {
-    const _main = component as ComponentInstall;
+export function withNoopInstall<T extends Plugin>(component: T) {
+    const _main = component;
     _main.install = noop;
 
     return _main;
-};
+}

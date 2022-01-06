@@ -17,8 +17,8 @@
     </div>
 </template>
 
-<script setup lang="ts">
-import { computed, inject } from 'vue';
+<script lang="ts">
+import { computed, inject, PropType, defineComponent } from 'vue';
 import Scrollbar from '../scrollbar';
 import CascaderNodeComp from './node.vue';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -28,20 +28,34 @@ import type { CascaderNode } from './interface';
 
 const prefixCls = getPrefixCls('cascader-menu');
 
-interface CascaderMenuProps {
-    nodes: CascaderNode[];
-    menuId: string;
-}
+const cascaderMenuProps = {
+    nodes: {
+        type: Array as PropType<CascaderNode[]>,
+        required: true,
+    },
+    menuId: {
+        type: String,
+        required: true,
+    },
+} as const;
 
-const props = withDefaults(defineProps<CascaderMenuProps>(), {});
-
-const panel = inject(CASCADER_PANEL_INJECTION_KEY);
-const emptyText = computed(() => panel.emptyText);
-const isEmpty = computed(() => props.nodes.length < 1);
-</script>
-
-<script lang="ts">
-export default {
+export default defineComponent({
     name: 'FCascaderMenu',
-};
+    components: {
+        Scrollbar,
+        CascaderNodeComp,
+    },
+    props: cascaderMenuProps,
+    setup(props) {
+        const panel = inject(CASCADER_PANEL_INJECTION_KEY);
+        const isEmpty = computed(() => props.nodes.length < 1);
+        const emptyText = computed(() => panel.emptyText);
+
+        return {
+            prefixCls,
+            isEmpty,
+            emptyText,
+        };
+    },
+});
 </script>
