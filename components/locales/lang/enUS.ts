@@ -9,4 +9,13 @@ export default {
         emptyText: 'No Data',
         placeholder: 'Please Select',
     },
+    pagination: {
+        goto: 'Go to',
+        pageSize: '/Page',
+        total: 'Total {total}',
+        pageClassifier: '',
+    },
+    input: {
+        placeholder: 'Please Input',
+    },
 };

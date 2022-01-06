@@ -19,7 +19,7 @@
                     "
                     :readonly="readonly"
                     :disabled="disabled"
-                    :placeholder="placeholder"
+                    :placeholder="inputPlaceholder"
                     :autocomplete="autocomplete"
                     :style="inputStyle"
                     :class="`${prefixCls}-inner`"
@@ -80,7 +80,7 @@
             :disabled="disabled"
             :autocomplete="autocomplete"
             :maxlength="maxlength"
-            :placeholder="placeholder"
+            :placeholder="inputPlaceholder"
             :rows="rows"
             @compositionstart="handleCompositionStart"
             @compositionend="handleCompositionEnd"
@@ -125,6 +125,7 @@ import {
     useMouse,
     useWordLimit,
 } from './useInput';
+import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('input');
 const textareaPrefixCls = getPrefixCls('textarea');
@@ -198,6 +199,11 @@ const { showClear, clear } = useClear(
     hovering,
     updateCurrentValue,
     emit,
+);
+
+const { t } = useLocale();
+const inputPlaceholder = computed(
+    () => props.placeholder || t('input.placeholder'),
 );
 
 const classes = computed(() => [

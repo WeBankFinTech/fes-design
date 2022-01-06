@@ -3,13 +3,14 @@
         <span>默认为中文:</span>
     </div>
     <div class="components">
-        <space>
+        <Space>
             <FCascader       
                 v-model="cascader.value"
                 :options="cascader.options">
             </FCascader>
-        </space>
+        </Space>
     </div>
+    <FDivider></FDivider>
 
     <div class="title">
         <span style="margin-right: 16px">语言切换:</span>
@@ -19,44 +20,51 @@
         </FRadioGroup>
     </div>
     <div class="components">
-        <space>
+        <Space class="gap">
             <FConfigProvider :locale="locale">
                 <FCascader       
                     v-model="cascader.value"
                     :options="cascader.options">
                 </FCascader>
             </FConfigProvider>
-        </space>
+        </Space>
+        <Space class="gap">
+            <FPagination :total-count="1000" show-size-changer show-quick-jumper show-total></FPagination>
+        </Space>
+        <Space>
+            <FInput/>
+        </Space>
     </div>
+    <FDivider></FDivider>
 
     <div class="title">
         <div>嵌套配置:</div>
     </div>
     <div class="components">
-        <space>
+        <Space>
             <FConfigProvider :locale="enUS">
                 <FCascader       
                     v-model="cascader.value"
                     :options="cascader.options">
                 </FCascader>
-                    <space>
+                    <Space>
                         <FConfigProvider :locale="zhCN">
                             <FCascader       
                                 v-model="cascader.value"
                                 :options="cascader.options">
                             </FCascader>
-                                <space>
+                                <Space>
                                     <FConfigProvider :locale="enUS">
                                         <FCascader       
                                             v-model="cascader.value"
                                             :options="cascader.options">
                                         </FCascader>
                                     </FConfigProvider>
-                                </space>
+                                </Space>
                         </FConfigProvider>
-                    </space>
+                    </Space>
             </FConfigProvider>
-        </space>
+        </Space>
     </div>
 </template>
 
@@ -100,12 +108,10 @@
 </script>
 
 <style scoped>
-.title {
-    padding-bottom: 16px;
-}
 .components {
-    border-top: 1px solid #d9d9d9;
-    padding-top: 16px;
-    padding-bottom: 32px;
+    margin-top: 8px;
+}
+.components .gap {
+    margin-bottom: 10px;
 }
 </style>
