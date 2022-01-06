@@ -1,51 +1,59 @@
 import type { PropType } from 'vue';
 
+export const DATE_TYPE_CURRENT = {
+    now: 'now',
+    today: 'today',
+    currentYear: 'currentYear',
+    currentMonth: 'currentMonth',
+    currentQuarter: 'currentQuarter',
+};
+
 export const DATE_TYPE = {
     date: {
         name: 'date',
-        currentText: '今天',
+        currentText: DATE_TYPE_CURRENT.today,
         format: 'YYYY-MM-DD',
         isRange: false,
         hasTime: false,
     },
     datetime: {
         name: 'datetime',
-        currentText: '此刻',
+        currentText: DATE_TYPE_CURRENT.now,
         hasTime: true,
         format: 'YYYY-MM-DD HH:mm:ss',
         isRange: false,
     },
     daterange: {
         name: 'daterange',
-        currentText: '今天',
+        currentText: DATE_TYPE_CURRENT.today,
         isRange: true,
         format: 'YYYY-MM-DD',
         hasTime: false,
     },
     datetimerange: {
         name: 'datetimerange',
-        currentText: '此刻',
+        currentText: DATE_TYPE_CURRENT.now,
         isRange: true,
         hasTime: true,
         format: 'YYYY-MM-DD HH:mm:ss',
     },
     year: {
         name: 'year',
-        currentText: '今年',
+        currentText: DATE_TYPE_CURRENT.currentYear,
         format: 'YYYY',
         isRange: false,
         hasTime: false,
     },
     month: {
         name: 'month',
-        currentText: '本月',
+        currentText: DATE_TYPE_CURRENT.currentMonth,
         format: 'YYYY-MM',
         isRange: false,
         hasTime: false,
     },
     quarter: {
         name: 'quarter',
-        currentText: '本季度',
+        currentText: DATE_TYPE_CURRENT.currentQuarter,
         format: 'YYYY-Q',
         isRange: false,
         hasTime: false,

@@ -31,9 +31,18 @@
         <Space class="gap">
             <FPagination :total-count="1000" show-size-changer show-quick-jumper show-total></FPagination>
         </Space>
-        <Space>
-            <FInput/>
+        <Space class="gap">
+            <FTimePicker></FTimePicker>
         </Space>
+        <Space class="gap">
+            <FDatePicker :control="true" />
+            <FDatePicker type="month" :control="true" />
+            <FDatePicker type="year" :control="true" />
+            <FDatePicker type="quarter" :control="true" />
+            <FDatePicker type="datetime" :control="true" />
+            <FDatePicker type="daterange" :control="true" />
+            <FDatePicker type="datetimerange" :control="true" />
+    </Space>
     </div>
     <FDivider></FDivider>
 

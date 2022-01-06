@@ -16,7 +16,7 @@
                 </div>
                 <div :class="`${prefixCls}-head-middle`">
                     <span :class="`${prefixCls}-head-middle-item`">
-                        {{ currentDate.year }}年
+                        {{ currentDate.year }}{{ t('datePicker.year') }}
                     </span>
                     <span
                         v-show="
@@ -24,7 +24,7 @@
                         "
                         :class="`${prefixCls}-head-middle-item`"
                     >
-                        {{ currentDate.month + 1 + '月' }}
+                        {{ t(`datePicker.month${currentDate.month + 1}`) }}
                     </span>
                 </div>
                 <div :class="`${prefixCls}-head-right`">
@@ -65,7 +65,7 @@
                         :class="monthCls(i)"
                         @click="isNotDisabled($event) && selectMonth(i)"
                     >
-                        {{ monthName }}
+                        {{ t(`datePicker.months.${monthName}`) }}
                     </span>
                 </div>
                 <div v-if="isYearSelect" :class="`${prefixCls}-years`">
@@ -85,7 +85,7 @@
                         :class="quarterCls(item)"
                         @click="isNotDisabled($event) && selectQuarter(item)"
                     >
-                        {{ item.name }}
+                        {{ t(`datePicker.quarters.${item.name}`) }}
                     </span>
                 </div>
             </div>
@@ -129,22 +129,23 @@ import {
 } from './useCalendar';
 
 import type { DayItem } from './interface';
+import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('calendar');
 
 const MONTHS_NAMES = [
-    '一月',
-    '二月',
-    '三月',
-    '四月',
-    '五月',
-    '六月',
-    '七月',
-    '八月',
-    '九月',
-    '十月',
-    '十一月',
-    '十二月',
+    'jan',
+    'feb',
+    'mar',
+    'apr',
+    'may',
+    'jun',
+    'jul',
+    'aug',
+    'sep',
+    'oct',
+    'nov',
+    'dec',
 ];
 
 const calendarProps = {
@@ -193,6 +194,8 @@ export default defineComponent({
             props,
             emit,
         );
+
+        const { t } = useLocale();
 
         const activeIndex = computed(() => {
             if (DATE_TYPE[props.type].isRange) {
@@ -377,6 +380,8 @@ export default defineComponent({
 
             yearToPre,
             yearToNext,
+
+            t,
         };
     },
 });

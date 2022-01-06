@@ -13,9 +13,10 @@ import {
 
 import type { CalendarProps } from './calendar.vue';
 import type { DateObj, CalendarEmits, DayItem } from './interface';
+import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('calendar');
-const WEEK_NAMES = ['日', '一', '二', '三', '四', '五', '六'];
+const WEEK_NAMES = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 
 type UpdateCurrentDate = (date: Partial<DateObj>) => void;
 
@@ -266,15 +267,16 @@ export function useDay(
     activeIndex: Ref<number>,
     currentDate: DateObj,
 ) {
+    const { t } = useLocale();
+
     // TODO 英文一个星期的第一天是 周日
     const weekFirstDay = ref(1);
     // 展示数据
     const weekNames = computed(() => {
         const weekFirstDayValue = weekFirstDay.value;
-        return WEEK_NAMES.concat(WEEK_NAMES).slice(
-            weekFirstDayValue,
-            weekFirstDayValue + 7,
-        );
+        return WEEK_NAMES.concat(WEEK_NAMES)
+            .slice(weekFirstDayValue, weekFirstDayValue + 7)
+            .map((_) => t(`datePicker.weeks.${_}`));
     });
     const isDaySelect = computed(() =>
         [
