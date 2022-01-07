@@ -49,6 +49,7 @@ app.use(FSwitch);
 | disabled      | 是否禁用                                                                    | boolean                                   | `false` |
 | inactiveValue | switch 关闭时的值                                                           | boolean / string / array / object/ number | `false` |
 | v-model       | 绑定值，必须等于 active-value 或 inactive-value，默认为 Boolean 类型        | boolean / string / array / object/ number | -       |
+| size   | 大小，可选有'normal' 、 'small'                                                | string | `normal`  |
 
 ## Switch Events
 
