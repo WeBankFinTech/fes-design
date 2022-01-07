@@ -4,19 +4,29 @@
             <slot name="icon"></slot>
         </template>
         <slot></slot>
-        <CloseCircleOutlined
-            v-if="closable"
-            :class="`${prefixCls}__close`"
-            @click.stop="handleClose"
-        />
+        <template v-if="closable">
+            <CloseCircleOutlined
+                v-show="!isHover"
+                :class="`${prefixCls}__close`"
+                @click.stop="handleClose"
+                @mouseover="mouseCloseOver"
+            />
+            <CloseCircleFilled
+                v-show="isHover"
+                :class="`${prefixCls}__close`"
+                @click.stop="handleClose"
+                @mouseleave="mouseCloseLeave"
+            />
+        </template>
     </div>
 </template>
 
 <script>
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
-import CloseCircleOutlined from '../icon/CloseOutlined';
+import CloseCircleFilled from '../icon/CloseCircleFilled';
+import CloseCircleOutlined from '../icon/CloseCircleOutlined';
 
 const prefixCls = getPrefixCls('tag');
 
@@ -24,9 +34,26 @@ const TAG_TYPE = ['default', 'success', 'info', 'warning', 'danger'];
 const TAG_SIZE = ['small', 'middle', 'large'];
 const TAG_EFFECT = ['dark', 'light', 'plain'];
 
+function useHover() {
+    const isHover = ref(false);
+
+    const mouseCloseOver = () => {
+        isHover.value = true;
+    };
+    const mouseCloseLeave = () => {
+        isHover.value = false;
+    };
+
+    return {
+        isHover,
+        mouseCloseOver,
+        mouseCloseLeave,
+    };
+}
+
 export default defineComponent({
     name: 'FTag',
-    components: { CloseCircleOutlined },
+    components: { CloseCircleFilled, CloseCircleOutlined },
     props: {
         type: {
             type: String,
@@ -63,6 +90,8 @@ export default defineComponent({
         useTheme();
         const { type, size, effect } = props;
 
+        const { isHover, mouseCloseOver, mouseCloseLeave } = useHover();
+
         /**
          * computed
          */
@@ -89,6 +118,9 @@ export default defineComponent({
             classes,
             handleClose,
             handleClick,
+            isHover,
+            mouseCloseOver,
+            mouseCloseLeave,
         };
     },
 });
