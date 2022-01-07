@@ -287,6 +287,9 @@ export default defineComponent({
         };
 
         const blur = (e: Event) => {
+            if (isOpened.value) {
+                isOpened.value = false;
+            }
             emit('blur', e);
             validate('blur');
         };

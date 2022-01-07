@@ -58,6 +58,7 @@
         }
     }
     & &-label {
+        position: relative;
         display: flex;
         flex-direction: row;
         flex-grow: 1;
@@ -72,21 +73,35 @@
         &.is-multiple {
             flex-wrap: wrap;
             gap: (@padding-xs / 2 - 1px) (@padding-xs / 2);
+            .@{select-trigger-prefix-cls}-label-input {
+                width: 1em;
+            }
+            .@{select-trigger-prefix-cls}-label-overlay {
+                background: transparent;
+            }
         }
         &-placeholder {
-            flex: 1;
-            min-width: 40px;
-            max-width: 100%;
-            overflow: hidden;
+            color: @select-placeholder-color;
         }
         &-input {
             width: 100%;
-            line-height: normal;
             border: none;
             outline: none;
             &::placeholder {
                 color: @select-placeholder-color;
             }
+        }
+        &-overlay {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            pointer-events: none;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            background: var(--f-white);
         }
     }
 }
