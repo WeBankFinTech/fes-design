@@ -81,4 +81,11 @@ export default {
             Q4: 'Q4',
         },
     },
+    upload: {
+        btnText: 'Upload File',
+    },
+    modal: {
+        okText: 'Confirm',
+        cancelText: 'Cancel',
+    },
 };

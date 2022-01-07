@@ -4,10 +4,7 @@
     </div>
     <div class="components">
         <Space>
-            <FCascader       
-                v-model="cascader.value"
-                :options="cascader.options">
-            </FCascader>
+            <FCascader :options="[]"></FCascader>
         </Space>
     </div>
     <FDivider></FDivider>
@@ -15,34 +12,34 @@
     <div class="title">
         <span style="margin-right: 16px">语言切换:</span>
         <FRadioGroup v-model="lang">
-            <FRadio key="en" :value="enUS.name">{{ enUS.desc }}</FRadio>
             <FRadio key="cn" :value="zhCN.name">{{ zhCN.desc }}</FRadio>
+            <FRadio key="en" :value="enUS.name">{{ enUS.desc }}</FRadio>
         </FRadioGroup>
     </div>
     <div class="components">
-        <Space class="gap">
-            <FConfigProvider :locale="locale">
-                <FCascader       
-                    v-model="cascader.value"
-                    :options="cascader.options">
-                </FCascader>
-            </FConfigProvider>
-        </Space>
-        <Space class="gap">
-            <FPagination :total-count="1000" show-size-changer show-quick-jumper show-total></FPagination>
-        </Space>
-        <Space class="gap">
-            <FTimePicker></FTimePicker>
-        </Space>
-        <Space class="gap">
-            <FDatePicker :control="true" />
-            <FDatePicker type="month" :control="true" />
-            <FDatePicker type="year" :control="true" />
-            <FDatePicker type="quarter" :control="true" />
-            <FDatePicker type="datetime" :control="true" />
-            <FDatePicker type="daterange" :control="true" />
-            <FDatePicker type="datetimerange" :control="true" />
-    </Space>
+        <FConfigProvider :locale="locale">
+            <Space class="gap">
+                <FCascader :options="[]"></FCascader>
+            </Space>
+            <Space class="gap">
+                <FPagination :total-count="1000" show-size-changer show-quick-jumper show-total></FPagination>
+            </Space>
+            <Space class="gap">
+                <FTimePicker></FTimePicker>
+            </Space>
+            <Space class="gap">
+                <FDatePicker :control="true" />
+                <FDatePicker type="month" :control="true" />
+                <FDatePicker type="year" :control="true" />
+                <FDatePicker type="quarter" :control="true" />
+                <FDatePicker type="datetime" :control="true" />
+                <FDatePicker type="daterange" :control="true" />
+                <FDatePicker type="datetimerange" :control="true" />
+            </Space>
+            <Space class="gap">
+                <FUpload action="https://run.mocky.io/v3/2d9d9844-4a46-4145-8f57-07e13768f565" />
+            </Space>
+        </FConfigProvider>
     </div>
     <FDivider></FDivider>
 
@@ -52,26 +49,17 @@
     <div class="components">
         <Space>
             <FConfigProvider :locale="enUS">
-                <FCascader       
-                    v-model="cascader.value"
-                    :options="cascader.options">
-                </FCascader>
-                    <Space>
-                        <FConfigProvider :locale="zhCN">
-                            <FCascader       
-                                v-model="cascader.value"
-                                :options="cascader.options">
-                            </FCascader>
-                                <Space>
-                                    <FConfigProvider :locale="enUS">
-                                        <FCascader       
-                                            v-model="cascader.value"
-                                            :options="cascader.options">
-                                        </FCascader>
-                                    </FConfigProvider>
-                                </Space>
-                        </FConfigProvider>
-                    </Space>
+                <FCascader :options="[]"></FCascader>
+                <Space>
+                    <FConfigProvider :locale="zhCN">
+                        <FCascader :options="[]"></FCascader>
+                        <Space>
+                            <FConfigProvider :locale="enUS">
+                                <FCascader :options="[]"></FCascader>
+                            </FConfigProvider>
+                        </Space>
+                    </FConfigProvider>
+                </Space>
             </FConfigProvider>
         </Space>
     </div>
@@ -81,36 +69,25 @@
     import { defineComponent, ref, watch } from 'vue';
     import { zhCN, enUS } from '@fesjs/fes-design'
 
-    const lang = ref(enUS.name);
-    const locale = ref(enUS);
+    const lang = ref(zhCN.name);
+    const locale = ref(zhCN);
 
     watch(lang, () => {
+        if (!lang.value) return
         if (lang.value === zhCN.name) {
             locale.value = zhCN
         } else {
             locale.value = enUS
         }
     })
-    
-    // 级联选择
-    const useCascader = () => {
-        return {
-            value: '',
-            options: [],
-        }
-    }
 
     export default defineComponent({
         setup() {
-            // 级联选择
-            const cascader = useCascader()
-
             return {
                 enUS,
                 zhCN,
                 lang,
                 locale,
-                cascader,
             }
         }
     })

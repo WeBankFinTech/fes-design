@@ -19,7 +19,7 @@
                     :clearable="clearable"
                     :isOpened="isOpened"
                     :multiple="multiple"
-                    :placeholder="placeholder"
+                    :placeholder="inputPlaceholder"
                     :filterable="filterable"
                     :collapseTags="collapseTags"
                     :collapseTagsLimit="collapseTagsLimit"
@@ -61,7 +61,7 @@
                         @check="handleCheck"
                     ></Tree>
                     <div v-show="!data.length" :class="`${prefixCls}-null`">
-                        {{ emptyText }}
+                        {{ listEmptyText }}
                     </div>
                 </template>
                 <template v-else>
@@ -95,7 +95,7 @@
                             @check="handleCheck"
                         ></Tree>
                         <div v-show="!data.length" :class="`${prefixCls}-null`">
-                            {{ emptyText }}
+                            {{ listEmptyText }}
                         </div>
                     </Scrollbar>
                 </template>
@@ -134,6 +134,7 @@ import type {
     CheckParams,
     InnerTreeOption,
 } from '../tree/interface';
+import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('select-tree');
 
@@ -178,6 +179,14 @@ export default defineComponent({
             ? useArrayModel(props, emit)
             : useNormalModel(props, emit);
         const filterText = ref('');
+
+        const { t } = useLocale();
+        const inputPlaceholder = computed(
+            () => props.placeholder || t('select.placeholder'),
+        );
+        const listEmptyText = computed(
+            () => props.emptyText || t('select.emptyText'),
+        );
 
         watch(isOpened, () => {
             emit('visibleChange', unref(isOpened));
@@ -339,6 +348,8 @@ export default defineComponent({
             triggerRef,
             dropdownStyle,
             onChangeNodeList,
+            inputPlaceholder,
+            listEmptyText,
         };
     },
 });

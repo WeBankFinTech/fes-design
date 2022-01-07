@@ -81,4 +81,11 @@ export default {
             Q4: 'Q4',
         },
     },
+    upload: {
+        btnText: '上传文件',
+    },
+    modal: {
+        okText: '确定',
+        cancelText: '取消',
+    },
 };
