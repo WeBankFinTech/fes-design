@@ -1,0 +1,22 @@
+<html>
+    <body>
+        
+
+        <select id="select" value="1" style="width: 200px;">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+
+        <script>
+            const selectDom = document.querySelector('#select');
+            selectDom.addEventListener('change', () => {
+                console.log('change');
+            });
+
+            setTimeout(() => {
+                selectDom.value = '2';
+            }, 2000);
+        </script>
+    </body>
+</html>

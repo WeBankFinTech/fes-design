@@ -74,16 +74,6 @@ import type { SelectValue, OptionChildren } from './interface';
 
 const prefixCls = getPrefixCls('select');
 
-// type SelectEmits = {
-//     (e: VModelEvent, value: SelectValue): void;
-//     (e: ChangeEvent, value: SelectValue): void;
-//     (e: 'removeTag', value: SelectValue): void;
-//     (e: 'visibleChange', value: SelectValue): void;
-//     (e: 'clear'): void;
-//     (e: 'blur', event: Event): void;
-//     (e: 'focus', event: Event): void;
-// };
-
 export default defineComponent({
     name: 'FSelect',
     components: {
@@ -214,6 +204,9 @@ export default defineComponent({
         };
 
         const blur = (e: Event) => {
+            if (isOpened.value) {
+                isOpened.value = false;
+            }
             emit('blur', e);
             validate('blur');
         };
