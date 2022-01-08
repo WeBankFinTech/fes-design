@@ -1,6 +1,7 @@
 import { h, defineComponent, computed, ref, PropType } from 'vue';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
+import { useAnimate } from '../_util/use/useAnimate';
 import { useTheme } from '../_theme/useTheme';
 
 import type { Type, Size } from './interface';
@@ -46,10 +47,15 @@ export default defineComponent({
     props: buttonProps,
     emits: ['click'],
     setup(props, { slots, emit }) {
+        const { animateClassName, handelAnimate } = useAnimate(400);
+
         useTheme();
         const notAllowed = ref(false);
         const handleClick = (event: MouseEvent) => {
-            if (notAllowed.value || props.disabled) return;
+            if (notAllowed.value || props.disabled || props.loading) return;
+
+            handelAnimate();
+
             notAllowed.value = true;
             setTimeout(() => {
                 notAllowed.value = false;
@@ -57,13 +63,14 @@ export default defineComponent({
             emit('click', event);
         };
 
-        const classes = computed(() => ({
-            [prefixCls]: true,
-            [`${prefixCls}-type-${props.type}`]: props.type,
-            [`${prefixCls}-long`]: props.long,
-            [`${prefixCls}-${props.size}`]: props.size !== 'middle',
-            'is-loading': props.loading || notAllowed.value,
-        }));
+        const classes = computed(() => ([
+            prefixCls,
+            animateClassName.value,
+            `${prefixCls}-type-${props.type}`,
+            props.long && `${prefixCls}-long`,
+            props.size !== 'middle' && `${prefixCls}-${props.size}`,
+            props.loading && 'is-loading',
+        ]));
 
         const renderBtn = () => (
             <button

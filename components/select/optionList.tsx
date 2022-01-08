@@ -91,6 +91,7 @@ export default defineComponent({
         return () =>
             props.options.length > 50 ? (
                 <VirtualList
+                    onMousedown={(e: Event)=>{e.preventDefault()}}
                     dataSources={props.options}
                     dataKey={'value'}
                     estimateSize={32}
@@ -101,6 +102,7 @@ export default defineComponent({
                 ></VirtualList>
             ) : (
                 <Scrollbar
+                    onMousedown={(e: Event)=>{e.preventDefault()}}
                     containerStyle={props.containerStyle}
                     containerClass={`${props.prefixCls}-dropdown`}
                 >

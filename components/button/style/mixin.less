@@ -13,3 +13,35 @@
         }
     }
 }
+
+@keyframes waveEffect {
+    100% {
+        box-shadow: 0 0 0 6px var(--f-btn-wave-shadow-color);
+    }
+}
+  
+@keyframes fadeEffect {
+    100% {
+        opacity: 0;
+    }
+}
+
+.button-animate() {
+    &.is-animate {
+        &::after {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            display: block;
+            border-radius: inherit;
+            box-shadow: 0 0 0 0 var(--f-btn-wave-shadow-color);
+            opacity: 0.2;
+            animation: fadeEffect 2s @ease-out-circ, waveEffect 0.4s @ease-out-circ;
+            animation-fill-mode: forwards;
+            content: '';
+            pointer-events: none;
+        } 
+    }
+}
