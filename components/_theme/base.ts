@@ -85,5 +85,9 @@ export const baseTheme = (themeOverrides: Partial<Theme> = {}) => {
 
         scrollbarBgColor: fade(base.fontColorBase, 0.25),
         scrollbarActiveColor: fade(base.fontColorBase, 0.65),
+
+        carouselColor: base.shadowColorSm,
+        carouselHoverColor: base.maskColor,
+        carouselActiveColor: fade(base.fontColorBase, 0.65),
     };
 };
