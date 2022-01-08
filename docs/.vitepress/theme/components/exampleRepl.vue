@@ -37,6 +37,7 @@ const fesDesignSetup = `
 import { getCurrentInstance } from 'vue';
 import Space from './space.vue';
 import FesDesign from 'fes-design';
+import * as Icons from 'fes-icon';
 export function loadStyle() {
   const hasLinks = document.querySelectorAll('link');
   for(let l of hasLinks) {
@@ -53,6 +54,9 @@ export function setupFesDesign() {
   loadStyle();
   const instance = getCurrentInstance()
   instance.appContext.app.use(FesDesign);
+  Object.keys(Icons).forEach((iconName) => {
+      instance.appContext.app.component(iconName, Icons[iconName]);
+  });
   instance.appContext.app.component('Space', Space)
 }
 `;
@@ -65,7 +69,8 @@ function resolveSFCExample(demo) {
         'fes-design.js': fesDesignSetup,
         'import-map.json': JSON.stringify({
           imports: {
-            'fes-design': 'https://unpkg.com/@fesjs/fes-design@latest/dist/fes-design.esm-browser.js'
+            'fes-design': 'https://unpkg.com/@fesjs/fes-design@latest/dist/fes-design.esm-browser.js',
+            'fes-icon': 'http://127.0.0.1:8080/fes-design.icon-browser.js'
           }
         })
     };
