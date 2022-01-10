@@ -49,11 +49,12 @@ export default defineComponent({
     setup(props) {
         const panel = inject(CASCADER_PANEL_INJECTION_KEY);
         const isEmpty = computed(() => props.nodes.length < 1);
+        const emptyText = computed(() => panel.emptyText);
 
         return {
             prefixCls,
             isEmpty,
-            emptyText: panel.emptyText,
+            emptyText,
         };
     },
 });

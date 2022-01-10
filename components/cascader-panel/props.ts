@@ -33,6 +33,9 @@ export const cascaderPanelProps = {
         type: String as PropType<CHECK_STRATEGY>,
         default: CHECK_STRATEGY.CHILD,
     },
+    emptyText: {
+        type: String,
+    },
 } as const;
 
 export const cascaderPanelPropsDefaultValue =

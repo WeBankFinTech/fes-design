@@ -41,6 +41,8 @@ import { FVirtualList } from './virtual-list';
 import { FDrawer } from './drawer';
 import { FSelectTree } from './select-tree';
 
+export * from './locales';
+
 const components = [
     FAlert,
     FButton,

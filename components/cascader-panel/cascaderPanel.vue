@@ -19,6 +19,7 @@ import CascaderMenu from './menu.vue';
 import { cascaderPanelProps, CASCADER_PANEL_INJECTION_KEY } from './props';
 
 import type { CascaderNodeConfig } from './interface';
+import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('cascader-panel');
 
@@ -47,6 +48,11 @@ export default defineComponent({
             () => config.value.expandTrigger === EXPAND_TRIGGER.HOVER,
         );
 
+        const { t } = useLocale();
+        const listEmptyText = computed(
+            () => props.emptyText || t('cascader.emptyText'),
+        );
+
         const {
             menus,
             setNodeElem,
@@ -59,7 +65,7 @@ export default defineComponent({
         provide(
             CASCADER_PANEL_INJECTION_KEY,
             reactive({
-                emptyText: '暂无数据',
+                emptyText: listEmptyText,
                 config,
                 multiple: currentMultiple,
                 isHoverMenu,

@@ -15,7 +15,7 @@
                 v-if="isRange"
                 :type="type"
                 :selectedDates="visibleValue"
-                :placeholder="placeholder"
+                :placeholder="rangePlaceholder"
                 :clearable="clearable"
                 :disabled="disabled"
                 @focus="(e) => $emit('focus', e)"
@@ -36,7 +36,7 @@
                 v-else
                 ref="inputRef"
                 v-model="dateText"
-                :placeholder="placeholder"
+                :placeholder="inputPlaceholder"
                 :disabled="disabled"
                 :clearable="clearable"
                 @focus="(e) => $emit('focus', e)"
@@ -79,6 +79,7 @@ import {
     defineComponent,
     PropType,
     ExtractPropTypes,
+    ComputedRef,
 } from 'vue';
 import RangeInput from './rangeInput.vue';
 import Calendars from './calendars.vue';
@@ -94,6 +95,8 @@ import { isEmptyValue, timeFormat } from './helper';
 import { DATE_TYPE, COMMON_PROPS, RANGE_PROPS } from './const';
 
 import type { GetContainer } from '../_util/interface';
+import { useLocale } from '../config-provider/useLocale';
+import { isArray } from 'lodash-es';
 
 const prefixCls = getPrefixCls('date-picker');
 
@@ -112,7 +115,6 @@ const datePickerProps = {
     },
     placeholder: {
         type: [String, Array] as PropType<string | string[]>,
-        default: '请选择日期',
     },
     appendToContainer: {
         type: Boolean,
@@ -170,6 +172,79 @@ const useInput = (props: DatePickerProps, visibleValue: Ref<number>) => {
     };
 };
 
+const usePlaceholder = (
+    props: DatePickerProps,
+    isRange: ComputedRef<boolean>,
+) => {
+    const { t } = useLocale();
+    const rangePlaceholder = computed(() => {
+        let placeholder: string[] = [];
+        if (!isRange.value) {
+            return placeholder;
+        }
+        if (props.placeholder) {
+            return isArray(props.placeholder)
+                ? props.placeholder
+                : [props.placeholder, props.placeholder];
+        }
+
+        switch (props.type) {
+            case DATE_TYPE.daterange.name:
+                placeholder = [
+                    t('datePicker.selectStartDate'),
+                    t('datePicker.selectEndDate'),
+                ];
+                break;
+            case DATE_TYPE.datetimerange.name:
+                placeholder = [
+                    t('datePicker.selectStartDateTime'),
+                    t('datePicker.selectEndDateTime'),
+                ];
+                break;
+            default:
+                placeholder = [t('datePicker.select'), t('datePicker.select')];
+                break;
+        }
+        return placeholder;
+    });
+
+    const inputPlaceholder = computed(() => {
+        let placeholder = '';
+        if (isRange.value) {
+            return placeholder;
+        }
+        if (props.placeholder) {
+            return props.placeholder as string;
+        }
+        switch (props.type) {
+            case DATE_TYPE.year.name:
+                placeholder = t('datePicker.selectYear');
+                break;
+            case DATE_TYPE.month.name:
+                placeholder = t('datePicker.selectMonth');
+                break;
+            case DATE_TYPE.quarter.name:
+                placeholder = t('datePicker.selectQuarter');
+                break;
+            case DATE_TYPE.date.name:
+                placeholder = t('datePicker.selectDate');
+                break;
+            case DATE_TYPE.datetime.name:
+                placeholder = t('datePicker.selectDateTime');
+                break;
+            default:
+                placeholder = t('datePicker.select');
+                break;
+        }
+        return placeholder;
+    });
+
+    return {
+        inputPlaceholder,
+        rangePlaceholder,
+    };
+};
+
 export default defineComponent({
     name: 'FDatePicker',
     components: {
@@ -199,6 +274,11 @@ export default defineComponent({
         const isRange = computed(() => DATE_TYPE[props.type].isRange);
         const { validate } = useFormAdaptor(
             computed(() => (isRange.value ? 'array' : 'number')),
+        );
+
+        const { inputPlaceholder, rangePlaceholder } = usePlaceholder(
+            props,
+            isRange,
         );
 
         const { tmpSelectedDates, tmpSelectedDateChange } =
@@ -255,6 +335,8 @@ export default defineComponent({
             handleBlur,
 
             tmpSelectedDateChange,
+            inputPlaceholder,
+            rangePlaceholder,
         };
     },
 });

@@ -19,7 +19,7 @@
                     :clearable="clearable"
                     :isOpened="isOpened"
                     :multiple="multiple"
-                    :placeholder="placeholder"
+                    :placeholder="inputPlaceholder"
                     :filterable="filterable || !!fetchData"
                     :collapseTags="collapseTags"
                     :collapseTagsLimit="collapseTagsLimit"
@@ -40,7 +40,7 @@
                     :containerStyle="dropdownStyle"
                     :isSelect="isSelect"
                     :onSelect="onSelect"
-                    :emptyText="emptyText"
+                    :emptyText="listEmptyText"
                 />
             </template>
         </Popper>
@@ -72,6 +72,7 @@ import OptionList from './optionList';
 import { selectProps } from './props';
 
 import type { SelectValue, OptionChildren } from './interface';
+import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('select');
 
@@ -117,6 +118,14 @@ export default defineComponent({
             updateCurrentValue(value);
             emit('clear');
         };
+
+        const { t } = useLocale();
+        const inputPlaceholder = computed(
+            () => props.placeholder || t('select.placeholder'),
+        );
+        const listEmptyText = computed(
+            () => props.emptyText || t('select.emptyText'),
+        );
 
         const childOptions = reactive([]);
 
@@ -272,6 +281,8 @@ export default defineComponent({
             isSelect,
             onSelect,
             filteredOptions,
+            listEmptyText,
+            inputPlaceholder,
         };
     },
 });

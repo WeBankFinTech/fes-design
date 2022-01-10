@@ -1,4 +1,5 @@
 import { h, defineComponent, toRefs } from 'vue';
+import { useLocale } from '../config-provider/useLocale';
 
 import getPrefixCls from '../_util/getPrefixCls';
 import { COMPONENT_NAME } from './const';
@@ -15,6 +16,11 @@ export default defineComponent({
     },
     setup(props) {
         const { total } = toRefs(props);
-        return () => <div class={`${prefixCls}-total`}>共{total.value}条</div>;
+        const { t } = useLocale()
+        return () => <div class={`${prefixCls}-total`}>{
+            t('pagination.total', {
+                total: total.value,
+            })
+        }</div>;
     },
 });

@@ -6,6 +6,7 @@ import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import FSelect from '../select/select.vue';
 import FOption from '../select/option.vue';
 import { COMPONENT_NAME } from './const';
+import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('pagination');
 
@@ -25,12 +26,13 @@ export default defineComponent({
     emits: [UPDATE_MODEL_EVENT],
     setup(props, { emit }) {
         const [pageSize] = useNormalModel(props, emit);
+        const { t } = useLocale()
         const renderOptions = () =>
             props.pageSizeOption && props.pageSizeOption.map((item) => (
                 <FOption
                     key={item}
                     value={item}
-                    label={`${item}条/页`}
+                    label={`${item}${t('pagination.pageSize')}`}
                 ></FOption>
             ));
 

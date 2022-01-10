@@ -53,7 +53,7 @@
         <div v-if="visibleFooter" :class="`${prefixCls}-footer`">
             <div :class="`${prefixCls}-footer-inner`">
                 <WButton type="link" size="small" @click="selectCurrentTime">
-                    {{ currentDateType.currentText }}
+                    {{ currentText }}
                 </WButton>
                 <WButton
                     :disabled="confirmDisabled"
@@ -61,7 +61,7 @@
                     size="small"
                     @click="confirm"
                 >
-                    确定
+                    {{ t('datePicker.confirm') }}
                 </WButton>
             </div>
         </div>
@@ -82,9 +82,16 @@ import Calendar from './calendar.vue';
 import { useNormalModel } from '../_util/use/useModel';
 import WButton from '../button';
 import { contrastDate, getTimestampFromFormat } from './helper';
-import { DATE_TYPE, RANGE_POSITION, COMMON_PROPS, RANGE_PROPS } from './const';
+import {
+    DATE_TYPE,
+    RANGE_POSITION,
+    COMMON_PROPS,
+    RANGE_PROPS,
+    DATE_TYPE_CURRENT,
+} from './const';
 
 import { useRange } from './useRange';
+import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('calendars');
 
@@ -128,6 +135,33 @@ export default defineComponent({
                 contrastDate(date, props.maxDate, format) === 1;
             return min || max || props.disabledDate(date);
         };
+
+        const { t } = useLocale();
+
+        const currentText = computed(() => {
+            let currentText = '';
+            switch (currentDateType.value.currentText) {
+                case DATE_TYPE_CURRENT.now:
+                    currentText = t('datePicker.now');
+                    break;
+                case DATE_TYPE_CURRENT.today:
+                    currentText = t('datePicker.today');
+                    break;
+                case DATE_TYPE_CURRENT.currentYear:
+                    currentText = t('datePicker.currentYear');
+                    break;
+                case DATE_TYPE_CURRENT.currentMonth:
+                    currentText = t('datePicker.currentMonth');
+                    break;
+                case DATE_TYPE_CURRENT.currentQuarter:
+                    currentText = t('datePicker.currentQuarter');
+                    break;
+                default:
+                    currentText = t('datePicker.current');
+                    break;
+            }
+            return currentText;
+        });
 
         const {
             isDateRange,
@@ -276,6 +310,9 @@ export default defineComponent({
 
             updateTempCurrentValue,
             confirm,
+
+            t,
+            currentText,
         };
     },
 });

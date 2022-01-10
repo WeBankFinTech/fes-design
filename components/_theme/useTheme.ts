@@ -11,9 +11,9 @@ function _useTheme() {
         config,
         () => {
             applyTheme(
-                config.getContainer(),
-                config.theme,
-                config.themeOverrides,
+                config.value.getContainer(),
+                config.value.theme,
+                config.value.themeOverrides,
             );
         },
         {

@@ -5,7 +5,8 @@
                 :class="`${prefixCls}-trigger-default`"
                 :disabled="disabled"
             >
-                <template #icon> <UploadOutlined /> </template>上传文件
+                <template #icon> <UploadOutlined /> </template>
+                {{ t('upload.btnText') }}
             </Button>
         </slot>
         <input
@@ -25,6 +26,7 @@ import { inject, computed } from 'vue';
 import { key } from './const';
 import Button from '../button/button';
 import UploadOutlined from '../icon/UploadOutlined';
+import { useLocale } from '../config-provider/useLocale';
 
 const { name, multiple, accept, disabled, prefixCls, onUploadFiles, inputRef } =
     inject(key);
@@ -40,4 +42,6 @@ const handleChange = (e: Event) => {
     if (!files) return;
     onUploadFiles(files);
 };
+
+const { t } = useLocale();
 </script>

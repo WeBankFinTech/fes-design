@@ -15,7 +15,7 @@
                 v-if="!isRange"
                 :class="classes"
                 :modelValue="tempValue || displayValue"
-                :placeholder="placeholder"
+                :placeholder="inputPlaceholder"
                 :disabled="disabled"
                 :clearable="clearable"
                 @clear="clear"
@@ -52,7 +52,7 @@
                                 @mousedown.prevent
                                 @click="setCurrentTime"
                             >
-                                此刻
+                                {{ t('timePicker.now') }}
                             </FButton>
                             <FButton
                                 type="primary"
@@ -60,7 +60,7 @@
                                 @mousedown.prevent
                                 @click="confirmChangeTime"
                             >
-                                确认
+                                {{ t('timePicker.confirm') }}
                             </FButton>
                         </div>
                     </slot>
@@ -91,6 +91,7 @@ import Popper from '../popper';
 import FButton from '../button';
 
 import type { GetContainer } from '../_util/interface';
+import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('time-picker');
 
@@ -275,6 +276,11 @@ export default defineComponent({
             return currentValue.value || '';
         });
 
+        const { t } = useLocale();
+        const inputPlaceholder = computed(
+            () => props.placeholder || t('timePicker.placeholder'),
+        );
+
         const setCurrentValue = (val: string) => {
             updateCurrentValue(val);
             emit('change', val);
@@ -339,6 +345,8 @@ export default defineComponent({
             confirmChangeTime,
 
             activeTime,
+            inputPlaceholder,
+            t,
         };
     },
 });

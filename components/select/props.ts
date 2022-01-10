@@ -16,9 +16,6 @@ export const selectProps = {
     },
     placeholder: {
         type: String,
-        default() {
-            return '请选择';
-        },
     },
     disabled: {
         type: Boolean,
@@ -38,7 +35,6 @@ export const selectProps = {
     },
     emptyText: {
         type: String,
-        default: '无数据',
     },
     appendToContainer: {
         type: Boolean,

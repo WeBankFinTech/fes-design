@@ -18,7 +18,7 @@
                     :clearable="clearable"
                     :isOpened="isOpened"
                     :multiple="multiple"
-                    :placeholder="placeholder"
+                    :placeholder="inputPlaceholder"
                     :collapseTags="collapseTags"
                     :collapseTagsLimit="collapseTagsLimit"
                     @remove="handleRemove"
@@ -60,6 +60,7 @@ import { flatNodes } from '../_util/utils';
 import type { CascaderNode, OptionValue } from '../cascader-panel/interface';
 import type { SelectValue } from './interface';
 import { SelectOptionValue } from '../select-trigger/interface';
+import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('cascader');
 
@@ -88,6 +89,11 @@ export default defineComponent({
         const selectedNodes = ref([]);
 
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
+
+        const { t } = useLocale();
+        const inputPlaceholder = computed(
+            () => props.placeholder || t('cascader.placeholder'),
+        );
 
         watch(isOpened, () => {
             emit('visibleChange', unref(isOpened));
@@ -168,6 +174,7 @@ export default defineComponent({
             handleCheckChange,
             handleUpdateSelectedNodes,
             handlePanelClose,
+            inputPlaceholder,
         };
     },
 });

@@ -21,6 +21,7 @@ import { iconComponentMap } from '../_util/noticeManager';
 import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
 import { getConfig } from '../config-provider';
+import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('modal');
 const UPDATE_SHOW_EVENT = 'update:show';
@@ -64,14 +65,8 @@ const modalProps = {
         default: true,
     },
     title: String as PropType<string | VNode | (() => VNodeChild)>,
-    okText: {
-        type: String,
-        default: '确定',
-    },
-    cancelText: {
-        type: String,
-        default: '取消',
-    },
+    okText: String,
+    cancelText: String,
     width: {
         type: [String, Number] as PropType<string | number>,
         default: 520,
@@ -117,8 +112,10 @@ const Modal = defineComponent({
         );
         const config = getConfig();
         const getContainer = computed(
-            () => props.getContainer || config.getContainer,
+            () => props.getContainer || config.value.getContainer,
         );
+
+        const { t } = useLocale()
 
         function handleCancel(event: MouseEvent) {
             ctx.emit(UPDATE_SHOW_EVENT, false);
@@ -166,7 +163,7 @@ const Modal = defineComponent({
                                 class="btn-margin"
                                 onClick={handleCancel}
                             >
-                                {props.cancelText}
+                                {props.cancelText || t('modal.cancelText')}
                             </FButton>
                         )}
                         <FButton
@@ -174,7 +171,7 @@ const Modal = defineComponent({
                             size="middle"
                             onClick={handleOk}
                         >
-                            {props.okText}
+                            {props.okText || t('modal.okText')}
                         </FButton>
                     </>
                 );
