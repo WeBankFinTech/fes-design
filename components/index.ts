@@ -36,6 +36,7 @@ import { FUpload } from './upload';
 import { FPagination } from './pagination';
 import { FImage, FPreviewGroup } from './image';
 import { FForm, FFormItem } from './form';
+import { FCarousel, FCarouselItem } from './carousel';
 import { FVirtualList } from './virtual-list';
 import { FDrawer } from './drawer';
 import { FSelectTree } from './select-tree';
@@ -90,6 +91,8 @@ const components = [
     FPreviewGroup,
     FForm,
     FFormItem,
+    FCarousel,
+    FCarouselItem,
     FVirtualList,
     FDrawer,
     FSelectTree,
@@ -154,6 +157,8 @@ export {
     FPreviewGroup,
     FForm,
     FFormItem,
+    FCarousel,
+    FCarouselItem,
     FVirtualList,
     FDrawer,
     FSelectTree,

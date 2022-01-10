@@ -36,6 +36,7 @@ import './spin/style';
 import './cascader/style';
 import './config-provider/style';
 import './image/style';
+import './carousel/style';
 import './virtual-list/style';
 import './drawer/style';
 import './select-tree/style';
