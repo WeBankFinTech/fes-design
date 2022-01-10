@@ -3,11 +3,11 @@ export default {
     desc: '英文',
     select: {
         emptyText: 'No Data',
-        placeholder: 'Please Select',
+        placeholder: 'Select',
     },
     cascader: {
         emptyText: 'No Data',
-        placeholder: 'Please Select',
+        placeholder: 'Select',
     },
     pagination: {
         goto: 'Go to',

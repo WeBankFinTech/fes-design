@@ -1,6 +1,6 @@
 <template>
     <div class="title">
-        <span>默认为中文:</span>
+        <span>默认:</span>
     </div>
     <div class="components">
         <Space>
