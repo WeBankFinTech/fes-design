@@ -16,16 +16,17 @@ export const useRadioGroup = (
 
     const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
-    watch(currentValue, () => {
+    const handleChange = () => {
         emit(CHANGE_EVENT, currentValue.value);
         validate(CHANGE_EVENT);
-    });
+    };
 
     const isSelect = (value: string | number | boolean) => {
         const radioGroupVal = unref(currentValue);
         const radioVal = unref(value);
         return radioGroupVal === radioVal;
     };
+
     const onSelect = (value: string | number | boolean) => {
         const radioGroupVal = unref(currentValue);
         const radioVal = unref(value);
@@ -34,7 +35,9 @@ export const useRadioGroup = (
         } else {
             updateCurrentValue(radioVal);
         }
+        handleChange();
     };
+
     provide(radioGroupKey, {
         name,
         isSelect,

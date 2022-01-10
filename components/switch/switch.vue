@@ -23,6 +23,7 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { useAnimate } from '../_util/use/useAnimate';
 import { CHANGE_EVENT } from '../_util/constants';
+import useFormAdaptor from '../_util/use/useFormAdaptor';
 
 const prefixCls = getPrefixCls('switch');
 
@@ -50,20 +51,6 @@ const useDelaySwtich = (actived: Ref<boolean>, inactived: Ref<boolean>) => {
 
 type SwitchValue = string | [] | object | number | boolean;
 type SwitchSize = 'normal' | 'small';
-
-// interface SwitchProps {
-//     modelValue?: SwitchValue;
-//     disabled?: boolean;
-//     activeValue?: SwitchValue;
-//     inactiveValue?: SwitchValue;
-//     beforeChange?: (val: SwitchValue) => boolean | Promise<boolean>;
-//     size?: SwitchSize;
-// }
-
-// type SwitchEmits = {
-//     (e: VModelEvent, value: SwitchValue): void;
-//     (e: ChangeEvent, value: SwitchValue): void;
-// };
 
 const switchProps = {
     modelValue: {
@@ -94,8 +81,8 @@ export default defineComponent({
     name: 'FSwitch',
     props: switchProps,
     setup(props, ctx) {
-        const { handelAnimate, animateClassName } = useAnimate(animateDuration);
         useTheme();
+        const { handelAnimate, animateClassName } = useAnimate(animateDuration);
         const [currentValue, updateCurrentValue] = useNormalModel(
             props,
             ctx.emit,
@@ -104,6 +91,7 @@ export default defineComponent({
                 isEqual: true,
             },
         );
+        const { validate } = useFormAdaptor();
         onMounted(() => {
             // 默认为未选中
             if (currentValue.value === null) {
@@ -111,9 +99,11 @@ export default defineComponent({
             }
         });
 
-        watch(currentValue, () => {
+        const handleChange = () => {
             ctx.emit(CHANGE_EVENT, currentValue.value);
-        });
+            validate(CHANGE_EVENT);
+        };
+
         const actived = computed(() =>
             isEqual(currentValue.value, props.activeValue),
         );
@@ -123,16 +113,17 @@ export default defineComponent({
 
         const toggle = async () => {
             if (props.disabled) return;
-            handelAnimate();
             if (isFunction(props.beforeChange)) {
                 const confirm = await props.beforeChange(currentValue.value);
                 if (!confirm) {
                     return;
                 }
             }
+            handelAnimate();
             updateCurrentValue(
                 actived.value ? props.inactiveValue : props.activeValue,
             );
+            handleChange();
         };
         const wrapperClass = computed(() =>
             [

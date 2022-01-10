@@ -44,6 +44,7 @@ export function useClear(
     hovering: BooleanRef,
     updateCurrentValue: UpdateCurrentValue,
     emit: InputEmits,
+    handleChange: () => void,
 ) {
     const showClear = computed(
         () =>
@@ -55,7 +56,10 @@ export function useClear(
     );
 
     const clear = () => {
-        updateCurrentValue('');
+        if (currentValue.value !== '') {
+            updateCurrentValue('');
+            handleChange();
+        }
         emit('clear');
     };
 

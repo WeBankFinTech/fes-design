@@ -9,7 +9,9 @@
     display: inline-flex;
     align-items: center;
     &>.@{checkbox-prefix-cls} {
-        margin-right: @padding-lg;
+        &:last-child {
+            margin-right: 0;
+        }
     }
     &.is-vertical {
         flex-direction: column;

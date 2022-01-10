@@ -59,8 +59,13 @@
                         @update:nodeList="onChangeNodeList"
                         @select="handleSelect"
                         @check="handleCheck"
+                        @mousedown.prevent
                     ></Tree>
-                    <div v-show="!data.length" :class="`${prefixCls}-null`">
+                    <div
+                        v-show="!data.length"
+                        :class="`${prefixCls}-null`"
+                        @mousedown.prevent
+                    >
                         {{ listEmptyText }}
                     </div>
                 </template>
@@ -68,6 +73,7 @@
                     <Scrollbar
                         :containerStyle="dropdownStyle"
                         :containerClass="`${prefixCls}-dropdown`"
+                        @mousedown.prevent
                     >
                         <Tree
                             v-show="data.length"
@@ -138,16 +144,6 @@ import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('select-tree');
 
-// type SelectTreeEmits = {
-//     (e: VModelEvent, value: SelectValue): void;
-//     (e: ChangeEvent, value: SelectValue): void;
-//     (e: 'removeTag', value: SelectValue): void;
-//     (e: 'visibleChange', isOpen: boolean): void;
-//     (e: 'clear'): void;
-//     (e: 'blur', event: Event): void;
-//     (e: 'focus', event: Event): void;
-// };
-
 export default defineComponent({
     name: 'FSelectTree',
     components: {
@@ -191,10 +187,11 @@ export default defineComponent({
         watch(isOpened, () => {
             emit('visibleChange', unref(isOpened));
         });
-        watch(currentValue, () => {
-            emit(CHANGE_EVENT, unref(currentValue));
+
+        const handleChange = () => {
+            emit(CHANGE_EVENT, currentValue.value);
             validate(CHANGE_EVENT);
-        });
+        };
 
         const nodeList = ref<TreeNodeList>({});
 
@@ -243,8 +240,15 @@ export default defineComponent({
         );
 
         const handleClear = () => {
-            const value: [] | null = props.multiple ? [] : null;
-            updateCurrentValue(value);
+            const value: null | [] = props.multiple ? [] : null;
+            if (
+                props.multiple
+                    ? currentValue.value.length
+                    : currentValue.value !== null
+            ) {
+                updateCurrentValue(value);
+                handleChange();
+            }
             emit('clear');
         };
 
@@ -257,6 +261,7 @@ export default defineComponent({
             } else {
                 updateCurrentValue(data.selectedKeys);
             }
+            handleChange();
         };
 
         const handleCheck = (data: CheckParams) => {
@@ -268,6 +273,7 @@ export default defineComponent({
             } else {
                 updateCurrentValue(data.checkedKeys);
             }
+            handleChange();
         };
 
         const handleRemove = (value: SelectValue) => {
@@ -279,6 +285,7 @@ export default defineComponent({
                 emit('removeTag', value);
                 // arrayModel会自动添加或者删除
                 updateCurrentValue(value);
+                handleChange();
             }
         };
 
@@ -293,6 +300,7 @@ export default defineComponent({
 
         const focus = (e: Event) => {
             emit('focus', e);
+            validate('focus');
         };
 
         const blur = (e: Event) => {

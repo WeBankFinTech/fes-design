@@ -16,10 +16,10 @@ export const useCheckboxGroup = (
 
     const [currentValue, updateItem] = useArrayModel(props, emit);
 
-    watch(currentValue, () => {
+    const handleChange = () => {
         emit(CHANGE_EVENT, currentValue.value);
         validate(CHANGE_EVENT);
-    });
+    };
 
     const isSelect = (value: string | number | boolean) => {
         const groupVal = unref(currentValue);
@@ -32,6 +32,7 @@ export const useCheckboxGroup = (
 
     const onSelect = (value: string | number | boolean) => {
         updateItem(unref(value));
+        handleChange();
     };
 
     provide(checkboxGroupKey, {

@@ -108,14 +108,22 @@ export default defineComponent({
         watch(isOpened, () => {
             emit('visibleChange', unref(isOpened));
         });
-        watch(currentValue, () => {
+
+        const handleChange = () => {
             emit(CHANGE_EVENT, unref(currentValue));
             validate(CHANGE_EVENT);
-        });
+        };
 
         const handleClear = () => {
             const value: null | [] = props.multiple ? [] : null;
-            updateCurrentValue(value);
+            if (
+                props.multiple
+                    ? currentValue.value.length
+                    : currentValue.value !== null
+            ) {
+                updateCurrentValue(value);
+                handleChange();
+            }
             emit('clear');
         };
 
@@ -193,6 +201,7 @@ export default defineComponent({
                 isOpened.value = false;
             }
             updateCurrentValue(unref(value));
+            handleChange();
         };
 
         // select-trigger 选择项展示，只在 currentValue 改变时才改变
@@ -224,6 +233,7 @@ export default defineComponent({
 
         const focus = (e: Event) => {
             emit('focus', e);
+            validate('focus');
         };
 
         const blur = (e: Event) => {

@@ -283,8 +283,10 @@ export default defineComponent({
 
         const setCurrentValue = (val: string) => {
             updateCurrentValue(val);
-            emit('change', val);
-            validate('change');
+            if (val !== currentValue.value) {
+                emit('change', val);
+                validate('change');
+            }
         };
         const clear = () => {
             setCurrentValue('');

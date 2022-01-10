@@ -296,8 +296,10 @@ export default defineComponent({
         const { resetDateText, dateText } = useInput(props, visibleValue);
 
         const handleChange = (val: number | number[] | null) => {
-            emit('change', val);
-            validate('change');
+            if (val !== currentValue.value) {
+                emit('change', val);
+                validate('change');
+            }
         };
         // 事件
         const clear = () => {

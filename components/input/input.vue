@@ -28,8 +28,6 @@
                     @input="handleInput"
                     @focus="handleFocus"
                     @blur="handleBlur"
-                    @change="handleChange"
-                    @keydown.enter="handleChange"
                     @keydown="handleKeydown"
                 />
                 <!-- 前置内容 -->
@@ -87,7 +85,6 @@
             @input="handleInput"
             @focus="handleFocus"
             @blur="handleBlur"
-            @change="handleChange"
             @keydown="handleKeydown"
         >
         </textarea>
@@ -189,6 +186,11 @@ const { hovering, onMouseLeave, onMouseEnter } = useMouse(emit);
 
 const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
+const handleChange = () => {
+    emit('change', currentValue.value);
+    validate('change');
+};
+
 const { showClear, clear } = useClear(
     currentValue,
     clearable,
@@ -198,6 +200,7 @@ const { showClear, clear } = useClear(
     hovering,
     updateCurrentValue,
     emit,
+    handleChange,
 );
 
 const classes = computed(() => [
@@ -227,6 +230,7 @@ const handleInput = (event: Event) => {
         updateCurrentValue(value);
         emit('input', value);
         validate('input');
+        handleChange();
     }
 };
 const handleCompositionStart = () => {
@@ -276,10 +280,6 @@ onMounted(() => {
     nextTick(resizeTextarea);
 });
 
-const handleChange = (event: Event) => {
-    emit('change', (event.target as HTMLInputElement).value);
-    validate('change');
-};
 const handleKeydown = (e: KeyboardEvent) => {
     emit('keydown', e);
 };

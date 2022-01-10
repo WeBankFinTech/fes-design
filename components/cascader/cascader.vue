@@ -23,6 +23,8 @@
                     :collapseTagsLimit="collapseTagsLimit"
                     @remove="handleRemove"
                     @clear="handleClear"
+                    @focus="focus"
+                    @blur="blur"
                 />
             </template>
             <template #default>
@@ -37,6 +39,7 @@
                     @expandChange="handleExpandChange"
                     @checkChange="handleCheckChange"
                     @close="handlePanelClose"
+                    @mousedown.prevent
                 ></CascaderPanel>
             </template>
         </Popper>
@@ -50,6 +53,7 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
 import { useTheme } from '../_theme/useTheme';
+import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
 import CascaderPanel from '../cascader-panel';
@@ -82,9 +86,14 @@ export default defineComponent({
         'visibleChange',
         'clear',
         'expandChange',
+        'focus',
+        'blur',
     ],
     setup(props, { emit }) {
         useTheme();
+        const { validate } = useFormAdaptor(
+            computed(() => (props.multiple ? 'array' : 'string')),
+        );
         const isOpened = ref(false);
         const selectedNodes = ref([]);
 
@@ -98,13 +107,21 @@ export default defineComponent({
         watch(isOpened, () => {
             emit('visibleChange', unref(isOpened));
         });
-        watch(currentValue, () => {
-            emit(CHANGE_EVENT, unref(currentValue));
-        });
+        const handleChange = () => {
+            emit(CHANGE_EVENT, currentValue.value);
+            validate(CHANGE_EVENT);
+        };
         const handleClear = () => {
             const value: [] | null =
                 props.multiple || props?.nodeConfig?.emitPath ? [] : null;
-            updateCurrentValue(value);
+            if (
+                props.multiple || props?.nodeConfig?.emitPath
+                    ? currentValue.value.length
+                    : currentValue.value !== null
+            ) {
+                updateCurrentValue(value);
+                handleChange();
+            }
             emit('clear');
         };
         /**
@@ -142,12 +159,14 @@ export default defineComponent({
 
             updateCurrentValue(updateValues);
             emit('removeTag', value as OptionValue);
+            handleChange();
         };
         const handleExpandChange = (value: OptionValue[]) => {
             emit('expandChange', value);
         };
         const handleCheckChange = (value: OptionValue | OptionValue[]) => {
             updateCurrentValue(value);
+            handleChange();
         };
         const handlePanelClose = () => {
             isOpened.value = false;
@@ -163,6 +182,18 @@ export default defineComponent({
                     : selectedNode.label,
             })),
         );
+        const focus = (e: Event) => {
+            emit('focus', e);
+            validate('focus');
+        };
+
+        const blur = (e: Event) => {
+            if (isOpened.value) {
+                isOpened.value = false;
+            }
+            emit('blur', e);
+            validate('blur');
+        };
         return {
             prefixCls,
             isOpened,
@@ -175,6 +206,8 @@ export default defineComponent({
             handleUpdateSelectedNodes,
             handlePanelClose,
             inputPlaceholder,
+            focus,
+            blur,
         };
     },
 });

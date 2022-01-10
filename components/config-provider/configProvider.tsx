@@ -1,6 +1,5 @@
 import {
     defineComponent,
-    watch,
     reactive,
     PropType,
     provide,
