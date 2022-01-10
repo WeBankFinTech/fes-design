@@ -70,7 +70,7 @@ function resolveSFCExample(demo) {
         'import-map.json': JSON.stringify({
           imports: {
             'fes-design': 'https://unpkg.com/@fesjs/fes-design@latest/dist/fes-design.esm-browser.js',
-            'fes-icon': 'http://127.0.0.1:8080/fes-design.icon-browser.js'
+            'fes-icon': 'https://unpkg.com/@fesjs/fes-design@latest/dist/fes-design.icon-browser.js'
           }
         })
     };
