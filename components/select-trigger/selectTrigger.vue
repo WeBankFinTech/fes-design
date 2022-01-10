@@ -174,7 +174,9 @@ export default defineComponent({
             isFocus.value = false;
             if (filterTextRef.value) {
                 filterTextRef.value = '';
-                emit('input', filterTextRef.value, true);
+                emit('input', filterTextRef.value, {
+                    isClear: true,
+                });
             }
             emit('blur', event);
         };

@@ -225,10 +225,15 @@ export default defineComponent({
             validate('blur');
         };
 
-        const handleFilterTextChange = (val: string, isClear?: boolean) => {
+        const handleFilterTextChange = (
+            val: string,
+            extraInfo?: {
+                isClear: boolean;
+            },
+        ) => {
             filterText.value = val;
             // blur 自动清的 inputText 不触发 fetchData
-            if (props.fetchData && !isClear) {
+            if (props.fetchData && !extraInfo?.isClear) {
                 getRemoteData();
             }
         };
