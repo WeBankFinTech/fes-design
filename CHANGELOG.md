@@ -1,3 +1,17 @@
+## [0.1.10](https://github.com/WeBankFinTech/fes-design/compare/v0.1.9...v0.1.10) (2022-01-04)
+
+
+### Bug Fixes
+
+* 水平方向menu子菜单中菜单高度不正确 ([d14145a](https://github.com/WeBankFinTech/fes-design/commit/d14145a9d87442c0212f42f12f63e8d17b63fe8a))
+
+
+### Features
+
+* 新增图标 ([b4f692a](https://github.com/WeBankFinTech/fes-design/commit/b4f692a830864653f0d5b7a654eda0ece53649b1))
+
+
+
 ## [0.1.9](https://github.com/WeBankFinTech/fes-design/compare/v0.1.8...v0.1.9) (2021-12-31)
 
 

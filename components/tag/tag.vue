@@ -4,19 +4,29 @@
             <slot name="icon"></slot>
         </template>
         <slot></slot>
-        <CloseCircleOutlined
-            v-if="closable"
-            :class="`${prefixCls}__close`"
-            @click.stop="handleClose"
-        />
+        <template v-if="closable">
+            <CloseCircleOutlined
+                v-show="!isHover"
+                :class="`${prefixCls}__close`"
+                @click.stop="handleClose"
+                @mouseover="mouseCloseOver"
+            />
+            <CloseCircleFilled
+                v-show="isHover"
+                :class="`${prefixCls}__close`"
+                @click.stop="handleClose"
+                @mouseleave="mouseCloseLeave"
+            />
+        </template>
     </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
-import CloseCircleOutlined from '../icon/CloseOutlined';
+import CloseCircleFilled from '../icon/CloseCircleFilled';
+import CloseCircleOutlined from '../icon/CloseCircleOutlined';
 
 const prefixCls = getPrefixCls('tag');
 
@@ -65,6 +75,24 @@ const handleClose = (event: Event) => {
 const handleClick = (event: Event) => {
     emit('click', event);
 };
+
+function useHover() {
+    const isHover = ref(false);
+
+    const mouseCloseOver = () => {
+        isHover.value = true;
+    };
+    const mouseCloseLeave = () => {
+        isHover.value = false;
+    };
+
+    return {
+        isHover,
+        mouseCloseOver,
+        mouseCloseLeave,
+    };
+}
+const { isHover, mouseCloseOver, mouseCloseLeave } = useHover();
 </script>
 
 <script lang="ts">

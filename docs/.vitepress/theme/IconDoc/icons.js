@@ -42,6 +42,7 @@ export { default as HomeOutlined } from '../../../../components/icon/HomeOutline
 export { default as IndentOutlined } from '../../../../components/icon/IndentOutlined';
 export { default as InfoCircleFilled } from '../../../../components/icon/InfoCircleFilled';
 export { default as InfoCircleOutlined } from '../../../../components/icon/InfoCircleOutlined';
+export { default as LanguageOutlined } from '../../../../components/icon/LanguageOutlined';
 export { default as LeftCircleFilled } from '../../../../components/icon/LeftCircleFilled';
 export { default as LeftCircleOutlined } from '../../../../components/icon/LeftCircleOutlined';
 export { default as LeftOutlined } from '../../../../components/icon/LeftOutlined';
