@@ -48,6 +48,11 @@ app.use(FSelect);
 
 --FILTERABLE
 
+<br>
+远程搜索
+
+--SEARABLE
+
 ### 可清空
 
 包含清空按钮，可将选择器清空为初始状态

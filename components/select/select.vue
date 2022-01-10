@@ -20,7 +20,7 @@
                     :isOpened="isOpened"
                     :multiple="multiple"
                     :placeholder="placeholder"
-                    :filterable="filterable"
+                    :filterable="filterable || !!fetchData"
                     :collapseTags="collapseTags"
                     :collapseTagsLimit="collapseTagsLimit"
                     @remove="onSelect"
@@ -59,6 +59,7 @@ import {
     CSSProperties,
     defineComponent,
 } from 'vue';
+import { debounce } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel, useArrayModel } from '../_util/use/useModel';
@@ -132,17 +133,25 @@ export default defineComponent({
             }
         };
 
-        const options = computed(() => [...props.options, ...childOptions]);
+        const remoteOptions = ref([]);
+        const options = computed(() =>
+            remoteOptions.value.length
+                ? remoteOptions.value
+                : [...props.options, ...childOptions],
+        );
 
         const filterText = ref('');
-
-        const filteredOptions = computed(() =>
-            options.value.filter(
-                (option) =>
-                    !filterText.value ||
+        const filteredOptions = computed(() => {
+            if (props.filterable && !props.fetchData && filterText.value) {
+                return options.value.filter((option) =>
                     String(option.label).includes(filterText.value),
-            ),
-        );
+                );
+            }
+            return options.value;
+        });
+        const getRemoteData = debounce(async () => {
+            remoteOptions.value = await props.fetchData(filterText.value);
+        }, 100);
 
         const isSelect = (value: SelectValue) => {
             const selectVal = unref(currentValue);
@@ -177,21 +186,26 @@ export default defineComponent({
             updateCurrentValue(unref(value));
         };
 
-        // select-trigger 选择项展示
-        const selectedOptions = computed(() => {
-            const val = unref(currentValue);
+        // select-trigger 选择项展示，只在 currentValue 改变时才改变
+        const selectedOptions = ref([]);
+        watch(currentValue, () => {
             if (!props.multiple) {
-                return options.value.filter((option) => option.value === val);
-            }
-            return val.map((value: SelectValue) => {
-                const filteredOption = options.value.filter(
-                    (option) => option.value === value,
+                selectedOptions.value = options.value.filter(
+                    (option) => option.value === currentValue.value,
                 );
-                if (filteredOption.length) {
-                    return filteredOption[0];
-                }
-                return { value };
-            });
+            } else {
+                selectedOptions.value = currentValue.value.map(
+                    (value: SelectValue) => {
+                        const filteredOption = options.value.filter(
+                            (option) => option.value === value,
+                        );
+                        if (filteredOption.length) {
+                            return filteredOption[0];
+                        }
+                        return { value };
+                    },
+                );
+            }
         });
 
         provide(key, {
@@ -211,8 +225,12 @@ export default defineComponent({
             validate('blur');
         };
 
-        const handleFilterTextChange = (val: string) => {
+        const handleFilterTextChange = (val: string, isClear?: boolean) => {
             filterText.value = val;
+            // blur 自动清的 inputText 不触发 fetchData
+            if (props.fetchData && !isClear) {
+                getRemoteData();
+            }
         };
 
         const triggerRef = ref();
@@ -221,6 +239,9 @@ export default defineComponent({
         onMounted(() => {
             if (triggerRef.value) {
                 triggerWidth.value = triggerRef.value.$el.offsetWidth;
+            }
+            if (props.isFetchInInitial && props.fetchData) {
+                getRemoteData();
             }
         });
 

@@ -65,6 +65,12 @@ export const selectProps = {
             return [];
         },
     },
+    fetchData: {
+        type: Function as PropType<
+            (inputText: string) => SelectOption[] | Promise<SelectOption[]>
+        >,
+    },
+    isFetchInInitial: Boolean,
 } as const;
 
 export const selectPropsDefaultValue = extractPropsDefaultValue(selectProps);

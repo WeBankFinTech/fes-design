@@ -31,6 +31,8 @@
                         "
                         :class="`${prefixCls}-label-input`"
                         @input="handleInput"
+                        @compositionstart="handleCompositionStart"
+                        @compositionend="handleCompositionEnd"
                     />
                     <div
                         v-if="!(unSelectedRef || isOpened)"
@@ -70,19 +72,20 @@
                 >
                     {{ placeholder }}
                 </div>
-                <template v-if="filterable">
-                    <input
-                        ref="inputRef"
-                        :value="filterTextRef"
-                        :class="`${prefixCls}-label-input`"
-                        :style="{
-                            width: filterTextRef.length
-                                ? `${filterTextRef.length * 14}px`
-                                : '1em',
-                        }"
-                        @input="handleInput"
-                    />
-                </template>
+                <input
+                    v-if="filterable"
+                    ref="inputRef"
+                    :value="filterTextRef"
+                    :class="`${prefixCls}-label-input`"
+                    :style="{
+                        width: filterTextRef.length
+                            ? `${filterTextRef.length * 14}px`
+                            : '1em',
+                    }"
+                    @compositionstart="handleCompositionStart"
+                    @compositionend="handleCompositionEnd"
+                    @input="handleInput"
+                />
             </template>
         </div>
         <div :class="`${prefixCls}-icons`" @mousedown.prevent>
@@ -106,6 +109,7 @@
 
 <script lang="ts">
 import { ref, computed, defineComponent, PropType, watch, nextTick } from 'vue';
+import { isEqual } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import Ellipsis from '../ellipsis';
@@ -168,8 +172,10 @@ export default defineComponent({
         const handleBlur = (event: Event) => {
             if (props.disabled) return;
             isFocus.value = false;
-            filterTextRef.value = '';
-            emit('input', filterTextRef.value);
+            if (filterTextRef.value) {
+                filterTextRef.value = '';
+                emit('input', filterTextRef.value, true);
+            }
             emit('blur', event);
         };
 
@@ -235,10 +241,22 @@ export default defineComponent({
             emit('clear');
         };
 
+        const isComposing = ref(false);
+
         const handleInput = (e: Event) => {
-            if (props.disabled) return;
+            if (props.disabled || isComposing.value) return;
             filterTextRef.value = (e.target as HTMLInputElement).value;
             emit('input', filterTextRef.value);
+        };
+
+        const handleCompositionStart = () => {
+            isComposing.value = true;
+        };
+        const handleCompositionEnd = (event: Event) => {
+            if (isComposing.value) {
+                isComposing.value = false;
+                handleInput(event);
+            }
         };
 
         const handleMouseDown = (e: Event) => {
@@ -262,8 +280,10 @@ export default defineComponent({
 
         watch(
             () => props.selectedOptions,
-            () => {
-                filterTextRef.value = '';
+            (val, oldVal) => {
+                if (!isEqual(val, oldVal)) {
+                    filterTextRef.value = '';
+                }
             },
             {
                 deep: true,
@@ -282,6 +302,8 @@ export default defineComponent({
             handleBlur,
             inputRef,
             filterTextRef,
+            handleCompositionStart,
+            handleCompositionEnd,
             handleInput,
             labelTextRef,
             multiLabelRef,
