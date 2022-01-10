@@ -1,11 +1,9 @@
 <template>
     <div class="title">
-        <span>默认:</span>
+        <span>默认语言:</span>
     </div>
     <div class="components">
-        <Space>
-            <FCascader :options="[]"></FCascader>
-        </Space>
+        <FCascader :options="[]"></FCascader>
     </div>
     <FDivider></FDivider>
 
@@ -18,9 +16,9 @@
     </div>
     <div class="components">
         <FConfigProvider :locale="locale">
-            <Space class="gap">
+            <div class="gap">
                 <FCascader :options="[]"></FCascader>
-            </Space>
+            </div>
             <Space class="gap">
                 <FPagination :total-count="1000" show-size-changer show-quick-jumper show-total></FPagination>
             </Space>
