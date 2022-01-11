@@ -116,14 +116,25 @@ export default defineComponent({
             }
         };
 
+        const Content = () => {
+            return (
+                <div class={popperClass.value}>
+                    {slots.default?.()}
+                    {props.arrow && (
+                        <div
+                            data-popper-arrow
+                            ref={arrowRef}
+                            class={`${prefixCls}-arrow`}
+                        ></div>
+                    )}
+                </div>
+            );
+        };
+
         const renderCopy = () => {
             if (visible.value && !transitionVisible.value) {
                 if (!containerStyleRef.value) {
-                    return (
-                        <div ref={copyRef} class={popperClass.value}>
-                            {slots.default?.()}
-                        </div>
-                    );
+                    return <Content ref={copyRef} />;
                 }
                 return <div style={containerStyleRef.value} />;
             }
@@ -146,19 +157,7 @@ export default defineComponent({
                     >
                         {renderCopy()}
                         <Transition name={transitionName.value}>
-                            <div
-                                class={popperClass.value}
-                                v-show={transitionVisible.value}
-                            >
-                                {slots.default?.()}
-                                {props.arrow && (
-                                    <div
-                                        data-popper-arrow
-                                        ref={arrowRef}
-                                        class={`${prefixCls}-arrow`}
-                                    ></div>
-                                )}
-                            </div>
+                            <Content v-show={transitionVisible.value} />
                         </Transition>
                     </div>
                 </Teleport>
