@@ -35,7 +35,7 @@ import {
     PropType,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
-import FScrollbar from '../scrollbar';
+import FScrollbar from '../scrollbar/scrollbar.vue';
 
 import type { TimeOption } from './interface';
 
@@ -163,6 +163,7 @@ export default defineComponent({
         const style = computed(() => ({
             'padding-bottom': `${paddingBottom.value}px`,
         }));
+
         return {
             visibleHeight,
             style,
