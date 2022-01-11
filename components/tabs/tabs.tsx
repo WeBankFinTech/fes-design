@@ -253,13 +253,12 @@ export default defineComponent({
                                                 ></div>
                                             )}
                                             <FTab
-                                                {...vNode.props}
-                                                ref={((el: ComponentPublicInstance) =>
-                                                    setTabRefs(el, index)) as any
+                                                {...(vNode.props as any)}
+                                                ref={(el: ComponentPublicInstance) =>
+                                                    setTabRefs(el, index)
                                                 }
-                                            >
-                                                {tabSlot?.()}
-                                            </FTab>
+                                                v-slots={{ default: tabSlot }}
+                                            />
                                         </>
                                     );
                                 })}

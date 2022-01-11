@@ -30,7 +30,7 @@
 @tag-min-width-base: 60px;
 @tag-min-width-sm: 40px;
 
-@tag-padding-base: 0 @padding-md;
+@tag-padding-base: 0 @padding-xs;
 @tag-padding-sm: 0 @padding-xs;
 
 @tag-font-size-sm: @font-size-caption;
@@ -140,7 +140,7 @@
         }
         &.@{tag-prefix-cls}-type--info {
             --f-tag-bg-color: @tag-text-color-info;
-            --f-tag-border-color: @tag-border-color-info;
+            --f-tag-border-color: @tag-text-color-info;
         }
         &.@{tag-prefix-cls}-type--warning {
             --f-tag-bg-color: @tag-text-color-warning;
