@@ -14,7 +14,7 @@ export const tabProps = {
         type: String as PropType<'if' | 'show'>,
         default: 'if',
     },
-};
+} as const;
 
 /**
  * 计算TabBar样式
@@ -33,17 +33,15 @@ export function computeTabBarStyle(tabEl: Element, pos: Position = 'top') {
         case 'right':
             style.width = '2px';
             style.height = `${currRect.height}px`;
-            style.transform = `translate(0px, ${
-                currRect.top - firstRect.top
-            }px)`;
+            style.transform = `translate(0px, ${currRect.top - firstRect.top
+                }px)`;
             break;
         case 'top':
         case 'bottom':
             style.width = `${currRect.width}px`;
             style.height = '2px';
-            style.transform = `translate(${
-                currRect.left - firstRect.left
-            }px, 0px)`;
+            style.transform = `translate(${currRect.left - firstRect.left
+                }px, 0px)`;
             break;
         default:
     }
