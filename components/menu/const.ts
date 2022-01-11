@@ -1,0 +1,57 @@
+import { PropType } from 'vue';
+
+import type { MenuOption } from './interface';
+
+export const MODE = ['horizontal', 'vertical'] as const;
+
+export const COMPONENT_NAME = {
+    MENU: 'FMenu',
+    SUB_MENU: 'FSubMenu',
+    MENU_ITEM: 'FMenuItem',
+    MENU_GROUP: 'FMenuGroup',
+};
+
+export const MENU_KEY = Symbol('FMenu');
+
+export const MENU_PROPS = {
+    // 当前选中的值
+    modelValue: {
+        type: String,
+    },
+    // 垂直或者水平
+    mode: {
+        type: String as PropType<typeof MODE[number]>,
+        default: MODE[0],
+    },
+    // 是否收起
+    collapsed: {
+        type: Boolean,
+        default: false,
+    },
+    // 使用反转样式
+    inverted: {
+        type: Boolean,
+        default: false,
+    },
+    // 是否默认展开全部subMenu
+    defaultExpandAll: {
+        type: Boolean,
+        default: false,
+    },
+    // 当前展开的subMenu的key数组
+    expandedKeys: {
+        type: Array as PropType<(number | string)[]>,
+        default: (): (number | string)[] => [],
+    },
+    // 是否只保持一个子菜单展开
+    accordion: {
+        type: Boolean,
+        default: false,
+    },
+    options: {
+        type: Array as PropType<MenuOption[]>,
+        default(): MenuOption[] {
+            return [];
+        },
+    },
+};

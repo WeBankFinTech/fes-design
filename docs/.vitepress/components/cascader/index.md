@@ -66,12 +66,16 @@ app.use(FCascader);
 | clear         | 清除值的时候触发              | (event: Event)                |
 | visibleChange | 下拉框出现/隐藏时触发         | 出现则为 true，隐藏则为 false |
 | removeTag     | 在多选模式下，移除 Tag 时触发 | 移除的 Tag 对应的节点的值     |
+| blur          | 当级联选择器失去焦点时触发                                                      | event                         |
+| focus         | 当级联选择器获得焦点时触发                                                      | event                         |
 
 ## Cascader Methods
 
 | 方法名          | 说明           | 参数                                        |
 | --------------- | -------------- | ------------------------------------------- |
 | getCheckedNodes | 获取选中的节点 | (leafOnly) 是否只是叶子节点，默认值为 false |
+| blur  | 取消焦点 | - |
+| focus | 获取焦点 | - |
 
 ## Cascader Slots
 

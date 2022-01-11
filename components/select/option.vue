@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import {
     computed,
     getCurrentInstance,
@@ -6,37 +6,35 @@ import {
     onBeforeMount,
     onBeforeUnmount,
     toRefs,
+    defineComponent,
+    PropType,
+    ExtractPropTypes,
 } from 'vue';
 import { isArray, isString } from 'lodash-es';
 import { key } from './const';
-import { getOptionId } from './helper';
 
-export default {
-    name: 'FOption',
-    props: {
-        value: {
-            type: [String, Number, Boolean, Object],
-            required: true,
-        },
-        label: {
-            type: String,
-            default: null,
-        },
-        disabled: {
-            type: Boolean,
-            default: false,
-        },
+const optionProps = {
+    value: {
+        type: [String, Number, Boolean, Object] as PropType<
+            string | number | boolean | object
+        >,
     },
+    label: String,
+    disabled: Boolean,
+} as const;
+
+export type OptionProps = Partial<ExtractPropTypes<typeof optionProps>>;
+
+export default defineComponent({
+    name: 'FOption',
+    props: optionProps,
     setup(props, ctx) {
         const parent = inject(key, null);
         if (!parent) {
-            return console.error(
-                '[FOption]: FOption 必须搭配 FSelect 组件使用！',
-            );
+            console.warn('[FOption]: FOption 必须搭配 FSelect 组件使用！');
         }
         const instance = getCurrentInstance();
-        const optionId = getOptionId();
-        instance.optionId = optionId;
+
         const { addOption, removeOption } = parent;
 
         // 当插槽只是string时，通过slot计算label
@@ -54,19 +52,18 @@ export default {
 
         onBeforeMount(() => {
             const option = {
-                id: optionId,
+                id: instance.uid,
                 ...toRefs(props),
-                ctx,
+                slots: ctx.slots,
             };
             option.label = computed(() => label || props.label);
             addOption(option);
         });
 
         onBeforeUnmount(() => {
-            removeOption(optionId);
+            removeOption(instance.uid);
         });
-
         return () => null;
     },
-};
+});
 </script>

@@ -19,11 +19,11 @@
                     :clearable="clearable"
                     :isOpened="isOpened"
                     :multiple="multiple"
-                    :placeholder="placeholder"
-                    :filterable="filterable"
+                    :placeholder="inputPlaceholder"
+                    :filterable="filterable || !!fetchData"
                     :collapseTags="collapseTags"
                     :collapseTagsLimit="collapseTagsLimit"
-                    @remove="handleRemove"
+                    @remove="onSelect"
                     @clear="handleClear"
                     @focus="focus"
                     @blur="blur"
@@ -40,15 +40,15 @@
                     :containerStyle="dropdownStyle"
                     :isSelect="isSelect"
                     :onSelect="onSelect"
-                    :emptyText="emptyText"
+                    :emptyText="listEmptyText"
                 />
             </template>
         </Popper>
     </div>
 </template>
-<script>
+
+<script lang="ts">
 import {
-    defineComponent,
     ref,
     provide,
     unref,
@@ -56,7 +56,10 @@ import {
     watch,
     computed,
     onMounted,
+    CSSProperties,
+    defineComponent,
 } from 'vue';
+import { debounce } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel, useArrayModel } from '../_util/use/useModel';
@@ -65,8 +68,11 @@ import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
 import { key } from './const';
-import PROPS from './props';
 import OptionList from './optionList';
+import { selectProps } from './props';
+
+import type { SelectValue, OptionChildren } from './interface';
+import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('select');
 
@@ -78,7 +84,7 @@ export default defineComponent({
         OptionList,
     },
     props: {
-        ...PROPS,
+        ...selectProps,
     },
     emits: [
         UPDATE_MODEL_EVENT,
@@ -102,45 +108,69 @@ export default defineComponent({
         watch(isOpened, () => {
             emit('visibleChange', unref(isOpened));
         });
-        watch(currentValue, () => {
+
+        const handleChange = () => {
             emit(CHANGE_EVENT, unref(currentValue));
             validate(CHANGE_EVENT);
-        });
+        };
 
         const handleClear = () => {
-            const value = props.multiple ? [] : null;
-            updateCurrentValue(value);
+            const value: null | [] = props.multiple ? [] : null;
+            if (
+                props.multiple
+                    ? currentValue.value.length
+                    : currentValue.value !== null
+            ) {
+                updateCurrentValue(value);
+                handleChange();
+            }
             emit('clear');
         };
 
+        const { t } = useLocale();
+        const inputPlaceholder = computed(
+            () => props.placeholder || t('select.placeholder'),
+        );
+        const listEmptyText = computed(
+            () => props.emptyText || t('select.emptyText'),
+        );
+
         const childOptions = reactive([]);
 
-        const addOption = (option) => {
+        const addOption = (option: OptionChildren) => {
             if (!childOptions.includes(option)) {
                 childOptions.push(option);
             }
         };
 
-        const removeOption = (id) => {
+        const removeOption = (id: number | string) => {
             const colIndex = childOptions.findIndex((item) => item.id === id);
             if (colIndex !== -1) {
                 childOptions.splice(colIndex, 1);
             }
         };
 
-        const options = computed(() => [...props.options, ...childOptions]);
-
-        const filterText = ref('');
-
-        const filteredOptions = computed(() =>
-            options.value.filter(
-                (option) =>
-                    !filterText.value ||
-                    String(option.label).includes(filterText.value),
-            ),
+        const remoteOptions = ref([]);
+        const options = computed(() =>
+            remoteOptions.value.length
+                ? remoteOptions.value
+                : [...props.options, ...childOptions],
         );
 
-        const isSelect = (value) => {
+        const filterText = ref('');
+        const filteredOptions = computed(() => {
+            if (props.filterable && !props.fetchData && filterText.value) {
+                return options.value.filter((option) =>
+                    String(option.label).includes(filterText.value),
+                );
+            }
+            return options.value;
+        });
+        const getRemoteData = debounce(async () => {
+            remoteOptions.value = await props.fetchData(filterText.value);
+        }, 100);
+
+        const isSelect = (value: SelectValue) => {
             const selectVal = unref(currentValue);
             const optVal = unref(value);
             if (selectVal === null) {
@@ -152,7 +182,7 @@ export default defineComponent({
             return selectVal === optVal;
         };
 
-        const onSelect = (value) => {
+        const onSelect = (value: SelectValue) => {
             if (props.disabled) return;
             filterText.value = '';
             if (props.multiple) {
@@ -171,23 +201,29 @@ export default defineComponent({
                 isOpened.value = false;
             }
             updateCurrentValue(unref(value));
+            handleChange();
         };
 
-        // select-trigger 选择项展示
-        const selectedOptions = computed(() => {
-            const val = unref(currentValue);
+        // select-trigger 选择项展示，只在 currentValue 改变时才改变
+        const selectedOptions = ref([]);
+        watch(currentValue, () => {
             if (!props.multiple) {
-                return options.value.filter((option) => option.value === val);
-            }
-            return val.map((value) => {
-                const filteredOption = options.value.filter(
-                    (option) => option.value === value,
+                selectedOptions.value = options.value.filter(
+                    (option) => option.value === currentValue.value,
                 );
-                if (filteredOption.length) {
-                    return filteredOption[0];
-                }
-                return { value };
-            });
+            } else {
+                selectedOptions.value = currentValue.value.map(
+                    (value: SelectValue) => {
+                        const filteredOption = options.value.filter(
+                            (option) => option.value === value,
+                        );
+                        if (filteredOption.length) {
+                            return filteredOption[0];
+                        }
+                        return { value };
+                    },
+                );
+            }
         });
 
         provide(key, {
@@ -195,17 +231,30 @@ export default defineComponent({
             removeOption,
         });
 
-        const focus = (e) => {
+        const focus = (e: Event) => {
             emit('focus', e);
+            validate('focus');
         };
 
-        const blur = (e) => {
+        const blur = (e: Event) => {
+            if (isOpened.value) {
+                isOpened.value = false;
+            }
             emit('blur', e);
             validate('blur');
         };
 
-        const handleFilterTextChange = (val) => {
+        const handleFilterTextChange = (
+            val: string,
+            extraInfo?: {
+                isClear: boolean;
+            },
+        ) => {
             filterText.value = val;
+            // blur 自动清的 inputText 不触发 fetchData
+            if (props.fetchData && !extraInfo?.isClear) {
+                getRemoteData();
+            }
         };
 
         const triggerRef = ref();
@@ -215,16 +264,18 @@ export default defineComponent({
             if (triggerRef.value) {
                 triggerWidth.value = triggerRef.value.$el.offsetWidth;
             }
+            if (props.isFetchInInitial && props.fetchData) {
+                getRemoteData();
+            }
         });
 
         const dropdownStyle = computed(() => {
-            const style = {};
+            const style: CSSProperties = {};
             if (triggerWidth.value) {
                 style['min-width'] = `${triggerWidth.value}px`;
             }
             return style;
         });
-
         return {
             prefixCls,
             isOpened,
@@ -240,6 +291,8 @@ export default defineComponent({
             isSelect,
             onSelect,
             filteredOptions,
+            listEmptyText,
+            inputPlaceholder,
         };
     },
 });

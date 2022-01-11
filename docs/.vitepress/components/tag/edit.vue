@@ -10,23 +10,24 @@
         </FTag>
         <FInput
             class="input-nef-tag"
-            v-if="dynamicTags.state.inputVisible"
+            ref="inputRef"
+            v-show="dynamicTags.state.inputVisible"
             v-model="dynamicTags.state.inputValue"
             size="small"
             @keyup.enter="dynamicTags.handleInputConfirm"
             @blur="dynamicTags.handleInputConfirm"
         >
         </FInput>
-        <FButton v-else class="button-nef-tag" @click="dynamicTags.shoFInput"
+        <FButton v-show="!dynamicTags.state.inputVisible" class="button-nef-tag" @click="dynamicTags.showInput"
             >+ New Tag</FButton
         >
     </Space>
 </template>
 
 <script>
-import { reactive } from 'vue';
+import { reactive, nextTick, ref, onMounted } from 'vue';
 
-const useDynamicTags = () => {
+const useDynamicTags = (inputRef) => {
     const state = reactive({
         tags: ['标签一', '标签二', '标签三'],
         inputVisible: false,
@@ -36,8 +37,10 @@ const useDynamicTags = () => {
     const handleClose = (tag) => {
         state.tags.splice(state.tags.indexOf(tag), 1);
     };
-    const shoFInput = () => {
+    const showInput = async () => {
         state.inputVisible = true;
+        await nextTick()
+        inputRef.value?.focus()
     };
     const handleInputConfirm = () => {
         let inputValue = state.inputValue;
@@ -51,17 +54,19 @@ const useDynamicTags = () => {
     return {
         state,
         handleClose,
-        shoFInput,
-        handleInputConfirm
+        showInput,
+        handleInputConfirm,
     };
 };
 export default {
     setup() {
+        const inputRef = ref(null)
         // 动态编辑标签
-        const dynamicTags = useDynamicTags();
+        const dynamicTags = useDynamicTags(inputRef);
 
         return {
-            dynamicTags
+            dynamicTags,
+            inputRef
         };
     }
 };

@@ -1,5 +1,4 @@
-// 关闭 import 规则
-/* eslint import/no-extraneous-dependencies: 0 */
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const rollup = require('rollup');
 const fse = require('fs-extra');
@@ -10,7 +9,9 @@ async function compilerCss(entryPath, outputPath) {
     const bundle = await rollup.rollup({
         input: entryPath,
         plugins: [
-            nodeResolve(),
+            nodeResolve({
+                extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+            }),
             postcss({
                 modules: false,
                 extract: true,

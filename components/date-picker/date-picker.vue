@@ -15,7 +15,7 @@
                 v-if="isRange"
                 :type="type"
                 :selectedDates="visibleValue"
-                :placeholder="placeholder"
+                :placeholder="rangePlaceholder"
                 :clearable="clearable"
                 :disabled="disabled"
                 @focus="(e) => $emit('focus', e)"
@@ -36,7 +36,7 @@
                 v-else
                 ref="inputRef"
                 v-model="dateText"
-                :placeholder="placeholder"
+                :placeholder="inputPlaceholder"
                 :disabled="disabled"
                 :clearable="clearable"
                 @focus="(e) => $emit('focus', e)"
@@ -70,27 +70,72 @@
     </Popper>
 </template>
 
-<script>
-import { computed, ref, watch } from 'vue';
-import RangeInput from './rangeInput';
-import Calendars from './calendars';
+<script lang="ts">
+import {
+    computed,
+    ref,
+    watch,
+    Ref,
+    defineComponent,
+    PropType,
+    ExtractPropTypes,
+    ComputedRef,
+} from 'vue';
+import RangeInput from './rangeInput.vue';
+import Calendars from './calendars.vue';
 import WInput from '../input';
 import Popper from '../popper';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
-import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
+import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { DateOutlined, SwapRightOutlined } from '../icon';
 
 import { isEmptyValue, timeFormat } from './helper';
-import { COMMON_PROPS, CALENDARS_PROPS, RANGE_PROPS, DATE_TYPE } from './const';
+import { DATE_TYPE, COMMON_PROPS, RANGE_PROPS } from './const';
+
+import type { GetContainer } from '../_util/interface';
+import { useLocale } from '../config-provider/useLocale';
+import { isArray } from 'lodash-es';
 
 const prefixCls = getPrefixCls('date-picker');
+
+const datePickerProps = {
+    open: {
+        type: Boolean,
+        default: false,
+    },
+    disabled: {
+        type: Boolean,
+        default: false,
+    },
+    clearable: {
+        type: Boolean,
+        default: false,
+    },
+    placeholder: {
+        type: [String, Array] as PropType<string | string[]>,
+    },
+    appendToContainer: {
+        type: Boolean,
+        default: true,
+    },
+    getContainer: {
+        type: Function as PropType<GetContainer>,
+    },
+    format: String,
+    popperClass: String,
+    control: Boolean,
+    shortcuts: Object,
+    disabledDate: Function as PropType<(date: Date) => boolean>,
+    ...COMMON_PROPS,
+    ...RANGE_PROPS,
+} as const;
 
 const useTmpSelectedDates = () => {
     const tmpSelectedDates = ref();
 
-    const tmpSelectedDateChange = (val) => {
+    const tmpSelectedDateChange = (val: number | null | number[]) => {
         tmpSelectedDates.value = val;
     };
 
@@ -100,7 +145,9 @@ const useTmpSelectedDates = () => {
     };
 };
 
-const useInput = (props, visibleValue) => {
+export type DatePickerProps = Partial<ExtractPropTypes<typeof datePickerProps>>;
+
+const useInput = (props: DatePickerProps, visibleValue: Ref<number>) => {
     const dateText = ref();
 
     const getFormatDate = () => {
@@ -125,7 +172,80 @@ const useInput = (props, visibleValue) => {
     };
 };
 
-export default {
+const usePlaceholder = (
+    props: DatePickerProps,
+    isRange: ComputedRef<boolean>,
+) => {
+    const { t } = useLocale();
+    const rangePlaceholder = computed(() => {
+        let placeholder: string[] = [];
+        if (!isRange.value) {
+            return placeholder;
+        }
+        if (props.placeholder) {
+            return isArray(props.placeholder)
+                ? props.placeholder
+                : [props.placeholder, props.placeholder];
+        }
+
+        switch (props.type) {
+            case DATE_TYPE.daterange.name:
+                placeholder = [
+                    t('datePicker.selectStartDate'),
+                    t('datePicker.selectEndDate'),
+                ];
+                break;
+            case DATE_TYPE.datetimerange.name:
+                placeholder = [
+                    t('datePicker.selectStartDateTime'),
+                    t('datePicker.selectEndDateTime'),
+                ];
+                break;
+            default:
+                placeholder = [t('datePicker.select'), t('datePicker.select')];
+                break;
+        }
+        return placeholder;
+    });
+
+    const inputPlaceholder = computed(() => {
+        let placeholder = '';
+        if (isRange.value) {
+            return placeholder;
+        }
+        if (props.placeholder) {
+            return props.placeholder as string;
+        }
+        switch (props.type) {
+            case DATE_TYPE.year.name:
+                placeholder = t('datePicker.selectYear');
+                break;
+            case DATE_TYPE.month.name:
+                placeholder = t('datePicker.selectMonth');
+                break;
+            case DATE_TYPE.quarter.name:
+                placeholder = t('datePicker.selectQuarter');
+                break;
+            case DATE_TYPE.date.name:
+                placeholder = t('datePicker.selectDate');
+                break;
+            case DATE_TYPE.datetime.name:
+                placeholder = t('datePicker.selectDateTime');
+                break;
+            default:
+                placeholder = t('datePicker.select');
+                break;
+        }
+        return placeholder;
+    });
+
+    return {
+        inputPlaceholder,
+        rangePlaceholder,
+    };
+};
+
+export default defineComponent({
     name: 'FDatePicker',
     components: {
         Calendars,
@@ -135,37 +255,7 @@ export default {
         RangeInput,
         SwapRightOutlined,
     },
-    props: {
-        open: {
-            type: Boolean,
-            default: false,
-        },
-        disabled: {
-            type: Boolean,
-            default: false,
-        },
-        clearable: {
-            type: Boolean,
-            default: false,
-        },
-        placeholder: {
-            type: [String, Array],
-            default: '请选择日期',
-        },
-        appendToContainer: {
-            type: Boolean,
-            default: true,
-        },
-        getContainer: {
-            type: Function,
-        },
-        format: String,
-        popperClass: String,
-
-        ...COMMON_PROPS,
-        ...CALENDARS_PROPS,
-        ...RANGE_PROPS,
-    },
+    props: datePickerProps,
     emits: [
         'update:modelValue',
         'update:open',
@@ -186,8 +276,13 @@ export default {
             computed(() => (isRange.value ? 'array' : 'number')),
         );
 
+        const { inputPlaceholder, rangePlaceholder } = usePlaceholder(
+            props,
+            isRange,
+        );
+
         const { tmpSelectedDates, tmpSelectedDateChange } =
-            useTmpSelectedDates(isOpened);
+            useTmpSelectedDates();
 
         const visibleValue = computed(() => {
             if (isOpened.value) {
@@ -200,33 +295,34 @@ export default {
 
         const { resetDateText, dateText } = useInput(props, visibleValue);
 
-        const handleChange = (val) => {
-            emit('change', val);
-            validate('change');
+        const handleChange = (val: number | number[] | null) => {
+            if (val !== currentValue.value) {
+                emit('change', val);
+                validate('change');
+            }
         };
         // 事件
         const clear = () => {
-            const initValue = isRange.value ? [] : null;
+            const initValue: [] | null = isRange.value ? [] : null;
             tmpSelectedDateChange(initValue);
             updateCurrentValue(initValue);
-            emit('clear', initValue);
+            emit('clear');
             handleChange(initValue);
         };
 
-        const change = (val) => {
+        const change = (val: number | number[] | null) => {
             updateCurrentValue(val);
             handleChange(val);
             updatePopperOpen(false);
         };
 
-        const handleBlur = (e) => {
+        const handleBlur = (e: Event) => {
             updatePopperOpen(false);
             emit('blur', e);
             validate('blur');
             // 重置输入框内容
             resetDateText();
         };
-
         return {
             prefixCls,
             isOpened,
@@ -241,7 +337,9 @@ export default {
             handleBlur,
 
             tmpSelectedDateChange,
+            inputPlaceholder,
+            rangePlaceholder,
         };
     },
-};
+});
 </script>

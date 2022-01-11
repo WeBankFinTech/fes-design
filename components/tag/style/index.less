@@ -6,7 +6,7 @@
 
 @tag-text-color-base: var(--f-primary-color);
 @tag-text-color-success: var(--f-success-color);
-@tag-text-color-info: var(--f-sub-head-color);
+@tag-text-color-info: var(--f-text-color);
 @tag-text-color-warning: var(--f-warning-color);
 @tag-text-color-danger: var(--f-danger-color);
 
@@ -18,7 +18,7 @@
 
 @tag-bg-color-base: var(--f-hover-color-light);
 @tag-bg-color-success: var(--f-hover-success-color);
-@tag-bg-color-info: var(--f-hover-color-light);
+@tag-bg-color-info: var(--f-component-bg-color);
 @tag-bg-color-warning: var(--f-hover-warning-color);
 @tag-bg-color-danger: var(--f-hover-danger-color);
 
@@ -30,7 +30,7 @@
 @tag-min-width-base: 60px;
 @tag-min-width-sm: 40px;
 
-@tag-padding-base: 0 @padding-md;
+@tag-padding-base: 0 @padding-xs;
 @tag-padding-sm: 0 @padding-xs;
 
 @tag-font-size-sm: @font-size-caption;
@@ -73,17 +73,8 @@
     touch-action: manipulation;
 
     &__close {
-        margin-right: -2px;
         margin-left: 4px;
-        padding: 2px;
         color: @tag-text-color-base;
-        border: var(--f-border-width-base) var(--f-border-style-base) @tag-text-color-base;
-        border-radius: 50%;
-        transform: scale(0.6);
-        &:hover {
-            color: var(--f-white);
-            background-color: @tag-text-color-base;
-        }
     }
 
     &-type--success {
@@ -92,11 +83,6 @@
         --f-tag-border-color: @tag-border-color-success;
         .@{tag-prefix-cls}__close {
             color: @tag-text-color-success;
-            border: var(--f-border-width-base) var(--f-border-style-base) @tag-text-color-success;
-            &:hover {
-                color: var(--f-white);
-                background-color: @tag-text-color-success;
-            }
         }
     }
     &-type--info {
@@ -104,12 +90,7 @@
         --f-tag-bg-color: @tag-bg-color-info;
         --f-tag-border-color: @tag-border-color-info;
         .@{tag-prefix-cls}__close {
-            color: @tag-text-color-info;
-            border: var(--f-border-width-base) var(--f-border-style-base) @tag-text-color-info;
-            &:hover {
-                color: var(--f-white);
-                background-color: @tag-text-color-info;
-            }
+            color: var(--f-text-color-secondary);
         }
     }
     &-type--warning {
@@ -118,11 +99,6 @@
         --f-tag-border-color: @tag-border-color-warning;
         .@{tag-prefix-cls}__close {
             color: @tag-text-color-warning;
-            border: var(--f-border-width-base) var(--f-border-style-base) @tag-text-color-warning;
-            &:hover {
-                color: var(--f-white);
-                background-color: @tag-text-color-warning;
-            }
         }
     }
     &-type--danger {
@@ -131,11 +107,6 @@
         --f-tag-border-color: @tag-border-color-danger;
         .@{tag-prefix-cls}__close {
             color: @tag-text-color-danger;
-            border: var(--f-border-width-base) var(--f-border-style-base) @tag-text-color-danger;
-            &:hover {
-                color: var(--f-white);
-                background-color: @tag-text-color-danger;
-            }
         }
     }
 
@@ -161,12 +132,7 @@
         --f-tag-bg-color: @tag-text-color-base;
         --f-tag-border-color: @tag-border-color-base;
         .@{tag-prefix-cls}__close {
-            margin-right: -4px;
             color: var(--f-white);
-            border: var(--f-border-width-base) var(--f-border-style-base) transparent;
-            &:hover {
-                border: var(--f-border-width-base) var(--f-border-style-base) var(--f-white);
-            }
         }
         &.@{tag-prefix-cls}-type--success {
             --f-tag-bg-color: @tag-text-color-success;
@@ -174,7 +140,7 @@
         }
         &.@{tag-prefix-cls}-type--info {
             --f-tag-bg-color: @tag-text-color-info;
-            --f-tag-border-color: @tag-border-color-info;
+            --f-tag-border-color: @tag-text-color-info;
         }
         &.@{tag-prefix-cls}-type--warning {
             --f-tag-bg-color: @tag-text-color-warning;

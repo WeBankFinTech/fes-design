@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import {
     defineComponent,
     h,
@@ -7,67 +7,111 @@ import {
     onBeforeMount,
     onBeforeUnmount,
     getCurrentInstance,
+    VNode,
+    PropType,
+    useSlots,
+    ExtractPropTypes,
 } from 'vue';
 import {
+    COL_TYPE,
+    ALIGN,
     TABLE_NAME,
     TABLE_COLUMN_NAME,
-    ALIGN,
-    COL_TYPE,
     provideKey,
 } from './const';
 
-let columnIdSeed = 1;
+import type { CellProps } from './components/cell';
+import type { RowType, ActionType } from './interface';
+
+const columnProps = {
+    label: String,
+    prop: String,
+    type: {
+        type: String as PropType<typeof COL_TYPE[number]>,
+        default: 'default',
+    },
+    align: {
+        type: String as PropType<typeof ALIGN[number]>,
+        default: 'left',
+    },
+    width: Number,
+    minWidth: Number,
+    colClassName: [Function, String] as PropType<
+        | string
+        | (({
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+              cellValue,
+          }: {
+              row: RowType;
+              column: ColumnInst;
+              rowIndex: number;
+              columnIndex: number;
+              cellValue: any;
+          }) => string)
+    >,
+    colStyle: [Function, Object] as PropType<
+        | object
+        | (({
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+              cellValue,
+          }: {
+              row: RowType;
+              column: ColumnInst;
+              rowIndex: number;
+              columnIndex: number;
+              cellValue: any;
+          }) => object)
+    >,
+    fixed: {
+        type: [Boolean, String] as PropType<'left' | 'right' | true | false>,
+    },
+    formatter: Function as PropType<(data: CellProps) => any>,
+    resizable: {
+        type: Boolean,
+        default: false,
+    },
+    sortable: {
+        type: Boolean,
+        default: false,
+    },
+    sortMethod: Function as PropType<() => void>,
+    selectable: Function as PropType<() => void>,
+    action: [Object, Array] as PropType<ActionType | ActionType[]>,
+    ellipsis: {
+        type: Boolean,
+        default: false,
+    },
+    visible: {
+        type: Boolean,
+        default: true,
+    },
+} as const;
+
+export type ColumnProps = Partial<ExtractPropTypes<typeof columnProps>>;
+
+export interface ColumnInst {
+    id: number;
+    props: ColumnProps;
+    slots: ReturnType<typeof useSlots>;
+    parentId?: number;
+    width?: number;
+    fixLeft?: boolean;
+    fixRight?: boolean;
+    colSpan?: number;
+    rowSpan?: number;
+    children?: ColumnInst[];
+    level?: number;
+}
 
 export default defineComponent({
     name: TABLE_COLUMN_NAME,
-    props: {
-        label: String,
-        prop: String,
-        type: {
-            type: String,
-            default: 'default',
-            validator(value) {
-                return COL_TYPE.includes(value);
-            },
-        },
-        align: {
-            type: String,
-            default: 'left',
-            validator(value) {
-                return ALIGN.includes(value);
-            },
-        },
-        width: Number,
-        minWidth: Number,
-        colClassName: [Function, String],
-        colStyle: [Function, Object],
-        fixed: {
-            type: [Boolean, String],
-            validator(value) {
-                return ['left', 'right', true, false].includes(value);
-            },
-        },
-        formatter: Function,
-        resizable: {
-            type: Boolean,
-            default: false,
-        },
-        sortable: {
-            type: Boolean,
-            default: false,
-        },
-        sortMethod: Function,
-        selectable: Function,
-        action: [Object, Array],
-        ellipsis: {
-            type: Boolean,
-            default: false,
-        },
-        visible: {
-            type: Boolean,
-            default: true,
-        },
-    },
+    props: columnProps,
     setup(props, ctx) {
         const table = inject(provideKey, null);
         if (!table) {
@@ -76,30 +120,28 @@ export default defineComponent({
             );
         }
         const instance = getCurrentInstance();
-        const parentInstance = instance.vnode.vParent || instance.parent;
-        const { tableId, addColumn, removeColumn } = table;
-        const columnId = `${tableId}-column_${columnIdSeed++}`;
-        instance.columnId = columnId;
+        const parentInstance = instance.parent;
+        const { addColumn, removeColumn } = table;
         onBeforeMount(() => {
             addColumn({
-                id: columnId,
+                id: instance.uid,
                 props,
-                ctx,
-                parentId: parentInstance.columnId || null,
+                slots: ctx.slots,
+                parentId: parentInstance.uid || null,
             });
         });
         onBeforeUnmount(() => {
-            removeColumn(columnId);
+            removeColumn(instance.uid);
         });
     },
     render() {
-        let children = [];
+        let children: VNode[] = [];
         try {
             const renderDefault = this.$slots.default?.();
             if (renderDefault instanceof Array) {
                 renderDefault.forEach((childNode) => {
                     if (
-                        childNode.type?.name === TABLE_COLUMN_NAME ||
+                        (childNode.type as any)?.name === TABLE_COLUMN_NAME ||
                         childNode.shapeFlag !== 36
                     ) {
                         children.push(childNode);
@@ -107,7 +149,7 @@ export default defineComponent({
                         childNode.type === Fragment &&
                         childNode.children instanceof Array
                     ) {
-                        renderDefault.push(...childNode.children);
+                        children.push(...(childNode.children as VNode[]));
                     }
                 });
             }

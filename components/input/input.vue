@@ -28,8 +28,6 @@
                     @input="handleInput"
                     @focus="handleFocus"
                     @blur="handleBlur"
-                    @change="handleChange"
-                    @keydown.enter="handleChange"
                     @keydown="handleKeydown"
                 />
                 <!-- 前置内容 -->
@@ -87,7 +85,6 @@
             @input="handleInput"
             @focus="handleFocus"
             @blur="handleBlur"
-            @change="handleChange"
             @keydown="handleKeydown"
         >
         </textarea>
@@ -100,7 +97,7 @@
     </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import {
     computed,
     toRefs,
@@ -109,43 +106,92 @@ import {
     watch,
     nextTick,
     onMounted,
+    useSlots,
 } from 'vue';
-import { isObject } from 'lodash-es';
 
-import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import { EyeOutlined, EyeInvisibleOutlined, CloseCircleFilled } from '../icon';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel } from '../_util/use/useModel';
 import calcTextareaHeight from './calcTextareaHeight';
+import {
+    usePassword,
+    useClear,
+    useFocus,
+    useMouse,
+    useWordLimit,
+} from './useInput';
 
 const prefixCls = getPrefixCls('input');
 const textareaPrefixCls = getPrefixCls('textarea');
 
-function usePassword(currentValue, showPassword, readonly, disabled, focused) {
-    const passwordVisible = ref(false);
-
-    const handlePasswordVisible = () => {
-        passwordVisible.value = !passwordVisible.value;
-    };
-
-    const showPwdSwitchIcon = computed(
-        () =>
-            showPassword.value &&
-            !readonly.value &&
-            !disabled.value &&
-            (currentValue.value != null || focused.value),
-    );
-
-    return {
-        passwordVisible,
-        handlePasswordVisible,
-        showPwdSwitchIcon,
-    };
+export interface Autosize {
+    minRows?: number;
+    maxRows?: number;
 }
 
-function useClear(
+export type InputProps = {
+    modelValue?: number | string;
+    type?: string; // default text
+    placeholder?: string;
+    readonly?: boolean;
+    disabled?: boolean;
+    clearable?: boolean;
+    maxlength?: number;
+    rows?: number; // default 2
+    showWordLimit?: boolean;
+    showPassword?: boolean;
+    inputStyle?: object;
+    autosize?: boolean | Autosize;
+    autocomplete?: string; // default 'off'
+    resize?: 'none' | 'both' | 'horizontal' | 'vertical' | 'block' | 'inline';
+};
+
+export type InputEmits = {
+    (e: 'update:modelValue', value: string): void;
+    (e: 'change', value: string): void;
+    (e: 'input', value: string): void;
+    (e: 'keydown', event: KeyboardEvent): void;
+    (e: 'blur', event: Event): void;
+    (e: 'focus', event: Event): void;
+    (e: 'clear'): void;
+    (e: 'mouseleave', event: MouseEvent): void;
+    (e: 'mouseenter', event: MouseEvent): void;
+};
+
+const props = withDefaults(defineProps<InputProps>(), {
+    type: 'text',
+    rows: 2,
+    autocomplete: 'off',
+    resize: 'none',
+});
+const emit = defineEmits<InputEmits>();
+
+const slots = useSlots();
+useTheme();
+const { validate } = useFormAdaptor();
+const inputRef = ref();
+const textareaRef = ref();
+const {
+    showPassword,
+    clearable,
+    disabled,
+    readonly,
+    showWordLimit,
+    maxlength,
+} = toRefs(props);
+const { focused, handleFocus, handleBlur } = useFocus(emit, validate);
+const { hovering, onMouseLeave, onMouseEnter } = useMouse(emit);
+
+const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
+
+const handleChange = () => {
+    emit('change', currentValue.value);
+    validate('change');
+};
+
+const { showClear, clear } = useClear(
     currentValue,
     clearable,
     readonly,
@@ -154,311 +200,117 @@ function useClear(
     hovering,
     updateCurrentValue,
     emit,
-) {
-    const showClear = computed(
-        () =>
-            clearable.value &&
-            !readonly.value &&
-            !disabled.value &&
-            currentValue.value &&
-            (focused.value || hovering.value),
-    );
+    handleChange,
+);
 
-    const clear = () => {
-        updateCurrentValue('');
-        emit('clear');
-    };
+const classes = computed(() => [
+    props.type === 'textarea' ? textareaPrefixCls : prefixCls,
+    {
+        'is-disabled': props.disabled,
+        'is-hovering': hovering.value,
+        [`${prefixCls}-group`]: slots.prepend || slots.append,
+        [`${prefixCls}-group-prepend`]: slots.prepend,
+        [`${prefixCls}-group-append`]: slots.append,
+        [`${prefixCls}-with-prefix`]: slots.prefix,
+        [`${prefixCls}-with-suffix`]:
+            slots.suffix || props.showPassword || props.clearable,
+        [`${prefixCls}-with-password-clear`]:
+            props.showPassword && props.clearable,
+    },
+]);
 
-    return {
-        showClear,
-        clear,
-    };
-}
+const suffixVisible = computed(
+    () => slots.suffix || props.showPassword || props.clearable,
+);
 
-function useFocus(emit, validate) {
-    const focused = ref(false);
+const isComposing = ref(false);
+const handleInput = (event: Event) => {
+    const { value } = event.target as HTMLInputElement;
+    if (!isComposing.value) {
+        updateCurrentValue(value);
+        emit('input', value);
+        validate('input');
+        handleChange();
+    }
+};
+const handleCompositionStart = () => {
+    isComposing.value = true;
+};
+const handleCompositionEnd = (event: Event) => {
+    if (isComposing.value) {
+        isComposing.value = false;
+        handleInput(event);
+    }
+};
 
-    const handleFocus = (event) => {
-        focused.value = true;
-        emit('focus', event);
-    };
+const textareaCalcStyle = shallowRef(props.inputStyle);
+const textareaStyle = computed(() => ({
+    ...props.inputStyle,
+    ...textareaCalcStyle.value,
+    resize: props.resize,
+}));
+const resizeTextarea = () => {
+    const { type, autosize } = props;
 
-    const handleBlur = (event) => {
-        focused.value = false;
-        emit('blur', event);
-        validate('blur');
-    };
+    if (type !== 'textarea') return;
 
-    return {
-        focused,
-        handleFocus,
-        handleBlur,
-    };
-}
+    if (autosize) {
+        let minRows: number;
+        let maxRows: number;
+        if (typeof autosize === 'object') {
+            minRows = autosize.minRows;
+            maxRows = autosize.maxRows;
+        }
+        textareaCalcStyle.value = {
+            ...calcTextareaHeight(textareaRef.value, minRows, maxRows),
+        };
+    } else {
+        textareaCalcStyle.value = {
+            minHeight: calcTextareaHeight(textareaRef.value).minHeight,
+        };
+    }
+};
+watch(
+    () => props.modelValue,
+    () => {
+        nextTick(resizeTextarea);
+    },
+);
+onMounted(() => {
+    nextTick(resizeTextarea);
+});
 
-function useMouse(emit) {
-    const hovering = ref(false);
-    const onMouseLeave = (e) => {
-        hovering.value = false;
-        emit('mouseleave', e);
-    };
+const handleKeydown = (e: KeyboardEvent) => {
+    emit('keydown', e);
+};
 
-    const onMouseEnter = (e) => {
-        hovering.value = true;
-        emit('mouseenter', e);
-    };
+const { passwordVisible, handlePasswordVisible, showPwdSwitchIcon } =
+    usePassword(currentValue, showPassword, readonly, disabled, focused);
+const { isWordLimitVisible, textLength } = useWordLimit(
+    currentValue,
+    showWordLimit,
+    maxlength,
+    disabled,
+);
 
-    return {
-        hovering,
-        onMouseLeave,
-        onMouseEnter,
-    };
-}
+const currentInput = computed(() =>
+    props.type === 'textarea' ? textareaRef.value : inputRef.value,
+);
 
-function useWordLimit(currentValue, showWordLimit, maxlength, disabled) {
-    const isWordLimitVisible = computed(
-        () => showWordLimit.value && maxlength.value && !disabled.value,
-    );
-    const textLength = computed(() => currentValue.value?.length || 0);
-    return {
-        isWordLimitVisible,
-        textLength,
-    };
-}
+const focus = () => {
+    currentInput.value.focus();
+};
+const blur = () => {
+    currentInput.value.blur();
+};
+defineExpose({
+    focus,
+    blur,
+});
+</script>
 
+<script lang="ts">
 export default {
     name: 'FInput',
-    components: {
-        EyeOutlined,
-        EyeInvisibleOutlined,
-        CloseCircleFilled,
-    },
-    props: {
-        modelValue: {
-            type: [Number, String],
-        },
-        type: {
-            type: String,
-            default: 'text',
-        },
-        placeholder: {
-            type: String,
-        },
-        readonly: {
-            type: Boolean,
-            default: false,
-        },
-        disabled: {
-            type: Boolean,
-            default: false,
-        },
-        clearable: {
-            type: Boolean,
-            default: false,
-        },
-        maxlength: {
-            type: Number,
-        },
-        rows: {
-            type: Number,
-            default: 2,
-        },
-        showWordLimit: {
-            type: Boolean,
-            default: false,
-        },
-        showPassword: {
-            type: Boolean,
-            default: false,
-        },
-        inputStyle: {
-            type: Object,
-            default: () => ({}),
-        },
-        autosize: {
-            type: [Boolean, Object],
-            default: false,
-        },
-        autocomplete: {
-            type: String,
-            default: 'off',
-        },
-    },
-    emits: [
-        UPDATE_MODEL_EVENT,
-        'change',
-        'input',
-        'keydown',
-        'blur',
-        'focus',
-        'clear',
-        'mouseleave',
-        'mouseenter',
-    ],
-    setup(props, { slots, emit }) {
-        useTheme();
-        const { validate } = useFormAdaptor();
-        const inputRef = ref();
-        const textareaRef = ref();
-        const {
-            showPassword,
-            clearable,
-            disabled,
-            readonly,
-            showWordLimit,
-            maxlength,
-        } = toRefs(props);
-        const { focused, handleFocus, handleBlur } = useFocus(emit, validate);
-        const { hovering, onMouseLeave, onMouseEnter } = useMouse(emit);
-
-        const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
-
-        const { showClear, clear } = useClear(
-            currentValue,
-            clearable,
-            readonly,
-            disabled,
-            focused,
-            hovering,
-            updateCurrentValue,
-            emit,
-        );
-
-        const classes = computed(() => [
-            props.type === 'textarea' ? textareaPrefixCls : prefixCls,
-            {
-                'is-disabled': props.disabled,
-                'is-hovering': hovering.value,
-                [`${prefixCls}-group`]: slots.prepend || slots.append,
-                [`${prefixCls}-group-prepend`]: slots.prepend,
-                [`${prefixCls}-group-append`]: slots.append,
-                [`${prefixCls}-with-prefix`]: slots.prefix,
-                [`${prefixCls}-with-suffix`]:
-                    slots.suffix || props.showPassword || props.clearable,
-                [`${prefixCls}-with-password-clear`]:
-                    props.showPassword && props.clearable,
-            },
-        ]);
-
-        const suffixVisible = computed(
-            () => slots.suffix || props.showPassword || props.clearable,
-        );
-
-        const isComposing = ref(false);
-        const handleInput = (event) => {
-            const { value } = event.target;
-            if (!isComposing.value) {
-                updateCurrentValue(value);
-                emit('input', value);
-                validate('input');
-            }
-        };
-        const handleCompositionStart = () => {
-            isComposing.value = true;
-        };
-        const handleCompositionEnd = (event) => {
-            if (isComposing.value) {
-                isComposing.value = false;
-                handleInput(event);
-            }
-        };
-
-        const textareaCalcStyle = shallowRef(props.inputStyle);
-        const textareaStyle = computed(() => ({
-            ...props.inputStyle,
-            ...textareaCalcStyle.value,
-            resize: props.resize,
-        }));
-        const resizeTextarea = () => {
-            const { type, autosize } = props;
-
-            if (type !== 'textarea') return;
-
-            if (autosize) {
-                const minRows = isObject(autosize)
-                    ? autosize.minRows
-                    : undefined; // eslint-disable-line no-undefined
-                const maxRows = isObject(autosize)
-                    ? autosize.maxRows
-                    : undefined; // eslint-disable-line no-undefined
-                textareaCalcStyle.value = {
-                    ...calcTextareaHeight(textareaRef.value, minRows, maxRows),
-                };
-            } else {
-                textareaCalcStyle.value = {
-                    minHeight: calcTextareaHeight(textareaRef.value).minHeight,
-                };
-            }
-        };
-        watch(
-            () => props.modelValue,
-            () => {
-                nextTick(resizeTextarea);
-            },
-        );
-        onMounted(() => {
-            nextTick(resizeTextarea);
-        });
-
-        const handleChange = (event) => {
-            emit('change', event.target.value);
-            validate('change');
-        };
-        const handleKeydown = (e) => {
-            emit('keydown', e);
-        };
-
-        const currentInput = computed(() =>
-            props.type === 'textarea' ? textareaRef.value : inputRef.value,
-        );
-        const focus = () => {
-            currentInput.value.focus();
-        };
-        const blur = () => {
-            currentInput.value.blur();
-        };
-
-        return {
-            inputRef,
-            textareaRef,
-            prefixCls,
-            textareaPrefixCls,
-            classes,
-            currentValue,
-
-            suffixVisible,
-
-            handleFocus,
-            handleBlur,
-
-            focus,
-            blur,
-
-            handleCompositionStart,
-            handleCompositionEnd,
-            handleInput,
-            handleChange,
-            handleKeydown,
-
-            onMouseLeave,
-            onMouseEnter,
-
-            showClear,
-            clear,
-
-            textareaStyle,
-            resizeTextarea,
-
-            ...usePassword(
-                currentValue,
-                showPassword,
-                readonly,
-                disabled,
-                focused,
-            ),
-
-            ...useWordLimit(currentValue, showWordLimit, maxlength, disabled),
-        };
-    },
 };
 </script>

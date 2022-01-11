@@ -30,7 +30,7 @@
         height: @dropdown-option-height;
         padding: 0 @padding-sm;
         color: var(--f-text-color);
-        font-size: var(--f-font-size-body);
+        font-size: var(--f-font-size-base);
         line-height: @dropdown-option-height;
         background: var(--f-white);
         cursor: pointer;
@@ -41,9 +41,8 @@
         &-icon {
             display: flex;
             align-items: center;
-            width: @font-size-head;
+            width: var(--f-font-size-base);
             margin-right: @padding-xs;
-            font-size: @font-size-head;
         }
         &:hover {
             background: @dropdown-option-hover-color;

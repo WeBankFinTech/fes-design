@@ -1,5 +1,5 @@
 <template>
-    <div :class="`${prefixCls}-content`" tabindex="0" @keydown="keydown">
+    <div :class="`${prefixCls}-content`" tabindex="0">
         <picker-item
             v-if="canSelectHours"
             :visible="visible"
@@ -33,21 +33,26 @@
     </div>
 </template>
 
-<script>
-import {
-    reactive, computed, watch,
-} from 'vue';
-import PickerItem from './picker-item';
+<script lang="ts">
+import { defineComponent, reactive, computed, watch, PropType } from 'vue';
+import PickerItem from './picker-item.vue';
 import getPrefixCls from '../_util/getPrefixCls';
+
+import type { TimeOption } from './interface';
 
 const prefixCls = getPrefixCls('time-picker');
 
-function formatTime(total, step, disable, format = true) {
-    const formatData = [];
+function formatTime(
+    total: number,
+    step: number,
+    disable?: (num: number) => boolean | undefined,
+    format = true,
+) {
+    const formatData: TimeOption[] = [];
     for (let i = 0; i < total; i += step) {
         let value;
         if (format) {
-            value = (`${i}`).padStart(2, '0');
+            value = `${i}`.padStart(2, '0');
         } else {
             value = `${i}`;
         }
@@ -59,49 +64,77 @@ function formatTime(total, step, disable, format = true) {
     return formatData;
 }
 
-export default {
+// type TimeSelectProps = {
+//     visible?: boolean;
+//     modelValue?: string;
+//     format?: string;
+//     hourStep?: number;
+//     minuteStep?: number;
+//     secondStep?: number;
+//     disabledHours?: (h: number) => boolean;
+//     disabledMinutes?: (h: number, m: number) => boolean;
+//     disabledSeconds?: (h: number, m: number, s: number) => boolean;
+//     visibleCount?: number;
+// };
+
+// type TimeSelectEmits = {
+//     (e: VModelEvent, value: string): void;
+//     (e: ChangeEvent, value: string): void;
+// };
+
+export interface SelectedTime {
+    hour: string | null;
+    minute: string | null;
+    seconds: string | null;
+}
+
+const timeSelectProps = {
+    visible: {
+        type: Boolean,
+        default: false,
+    },
+    modelValue: {
+        type: String,
+        default: '',
+    },
+    format: {
+        type: String,
+        default: 'HH:mm:ss',
+    },
+    hourStep: {
+        type: Number,
+        default: 1,
+    },
+    minuteStep: {
+        type: Number,
+        default: 1,
+    },
+    secondStep: {
+        type: Number,
+        default: 1,
+    },
+    disabledHours: {
+        type: Function as PropType<(h: number) => boolean>,
+    },
+    disabledMinutes: {
+        type: Function as PropType<(h: number, m: number) => boolean>,
+    },
+    disabledSeconds: {
+        type: Function as PropType<
+            (h: number, m: number, s: number) => boolean
+        >,
+    },
+    visibleCount: {
+        type: Number,
+        default: 8,
+    },
+} as const;
+
+export default defineComponent({
     components: {
         PickerItem,
     },
-    props: {
-        visible: {
-            type: Boolean,
-            default: false,
-        },
-        modelValue: {
-            type: String,
-            default: '',
-        },
-        format: {
-            type: String,
-            default: 'HH:mm:ss',
-        },
-        hourStep: {
-            type: Number,
-            default: 1,
-        },
-        minuteStep: {
-            type: Number,
-            default: 1,
-        },
-        secondStep: {
-            type: Number,
-            default: 1,
-        },
-        disabledHours: {
-            type: Function,
-        },
-        disabledMinutes: {
-            type: Function,
-        },
-        disabledSeconds: {
-            type: Function,
-        },
-        visibleCount: {
-            type: Number,
-            default: 8,
-        },
-    },
+    props: timeSelectProps,
     emits: ['update:modelValue', 'change'],
     setup(props, { emit }) {
         const focusKey = reactive({
@@ -110,13 +143,14 @@ export default {
             4: -1,
         });
 
-        const initialSelectedTime = {
+        const initialSelectedTime: SelectedTime = {
             hour: null,
             minute: null,
             seconds: null,
         };
-        const selectedTime = reactive({ ...initialSelectedTime });
-        const formatSingleTime = timeFormat => (props.format.indexOf(timeFormat) !== -1 ? '00' : '0');
+        const selectedTime = reactive<SelectedTime>({ ...initialSelectedTime });
+        const formatSingleTime = (timeFormat: string) =>
+            props.format.indexOf(timeFormat) !== -1 ? '00' : '0';
         const parseTime = () => {
             if (!props.modelValue) {
                 Object.assign(selectedTime, initialSelectedTime);
@@ -127,10 +161,12 @@ export default {
                 selectedTime.hour = splitTime.shift() || formatSingleTime('HH');
             }
             if (/m/.test(props.format)) {
-                selectedTime.minute = splitTime.shift() || formatSingleTime('mm');
+                selectedTime.minute =
+                    splitTime.shift() || formatSingleTime('mm');
             }
             if (/s/.test(props.format)) {
-                selectedTime.seconds = splitTime.shift() || formatSingleTime('ss');
+                selectedTime.seconds =
+                    splitTime.shift() || formatSingleTime('ss');
             }
         };
 
@@ -148,44 +184,63 @@ export default {
 
         const canSelectHours = computed(() => {
             if (props.format.indexOf('H') !== -1) {
-                return formatTime(24, props.hourStep, h => props.disabledHours && props.disabledHours(h), /HH/.test(props.format));
+                return formatTime(
+                    24,
+                    props.hourStep,
+                    (h) => props.disabledHours && props.disabledHours(h),
+                    /HH/.test(props.format),
+                );
             }
             return null;
         });
-        const changeSelectedHour = (option) => {
+        const changeSelectedHour = (option: TimeOption) => {
             selectedTime.hour = option.value;
             setSelectedTimeDefault();
         };
 
         const canSelectMinutes = computed(() => {
             if (props.format.indexOf('m') !== -1) {
-                return formatTime(60, props.minuteStep, m => props.disabledMinutes && props.disabledMinutes(Number(selectedTime.hour), m), /mm/.test(props.format));
+                return formatTime(
+                    60,
+                    props.minuteStep,
+                    (m) =>
+                        props.disabledMinutes &&
+                        props.disabledMinutes(Number(selectedTime.hour), m),
+                    /mm/.test(props.format),
+                );
             }
             return null;
         });
-        const changeSelectedMinute = (option) => {
+        const changeSelectedMinute = (option: TimeOption) => {
             selectedTime.minute = option.value;
             setSelectedTimeDefault();
         };
 
         const canSelectSeconds = computed(() => {
             if (props.format.indexOf('s') !== -1) {
-                return formatTime(60, props.secondStep, s => props.disabledSeconds && props.disabledSeconds(Number(selectedTime.hour), Number(selectedTime.minute), s), /ss/.test(props.format));
+                return formatTime(
+                    60,
+                    props.secondStep,
+                    (s) =>
+                        props.disabledSeconds &&
+                        props.disabledSeconds(
+                            Number(selectedTime.hour),
+                            Number(selectedTime.minute),
+                            s,
+                        ),
+                    /ss/.test(props.format),
+                );
             }
             return null;
         });
-        const changeSelectedSeconds = (option) => {
+        const changeSelectedSeconds = (option: TimeOption) => {
             selectedTime.seconds = option.value;
             setSelectedTimeDefault();
         };
 
         const timeString = computed(() => {
             let currentTime = '';
-            const {
-                hour,
-                minute,
-                seconds,
-            } = selectedTime;
+            const { hour, minute, seconds } = selectedTime;
             if (!(hour || minute || seconds)) {
                 return currentTime;
             }
@@ -193,10 +248,10 @@ export default {
                 currentTime += hour;
             }
             if (/m/.test(props.format)) {
-                currentTime += (currentTime.length > 0 ? `:${minute}` : minute);
+                currentTime += currentTime.length > 0 ? `:${minute}` : minute;
             }
             if (/s/.test(props.format)) {
-                currentTime += (currentTime.length > 0 ? `:${seconds}` : seconds);
+                currentTime += currentTime.length > 0 ? `:${seconds}` : seconds;
             }
             return currentTime;
         });
@@ -205,13 +260,17 @@ export default {
             emit('change', timeString.value);
         });
 
-        watch(() => props.modelValue, () => {
-            if (timeString.value !== props.modelValue) {
-                parseTime();
-            }
-        }, {
-            immediate: true,
-        });
+        watch(
+            () => props.modelValue,
+            () => {
+                if (timeString.value !== props.modelValue) {
+                    parseTime();
+                }
+            },
+            {
+                immediate: true,
+            },
+        );
 
         return {
             prefixCls,
@@ -225,5 +284,5 @@ export default {
             selectedTime,
         };
     },
-};
+});
 </script>

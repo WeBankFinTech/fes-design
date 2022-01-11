@@ -8,18 +8,18 @@
         />
     </div>
 </template>
-<script>
-import { computed, defineComponent, provide, reactive } from 'vue';
+
+<script lang="ts">
+import { defineComponent, computed, provide, reactive } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
-import {
-    CASCADER_PANEL_INJECTION_KEY,
-    DEFAULT_CONFIG,
-    EXPAND_TRIGGER,
-} from './const';
+import { DEFAULT_CONFIG, EXPAND_TRIGGER } from './const';
 import usePanel from './usePanel';
-import CascaderMenu from './menu';
-import PROPS from './props';
+import CascaderMenu from './menu.vue';
+import { cascaderPanelProps, CASCADER_PANEL_INJECTION_KEY } from './props';
+
+import type { CascaderNodeConfig } from './interface';
+import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('cascader-panel');
 
@@ -29,7 +29,7 @@ export default defineComponent({
         CascaderMenu,
     },
     props: {
-        ...PROPS,
+        ...cascaderPanelProps,
     },
     emits: ['expandChange', 'checkChange', 'close'],
     setup(props, { emit, slots }) {
@@ -39,13 +39,18 @@ export default defineComponent({
         );
         const currentMultiple = computed(() => props.multiple);
 
-        const config = computed(() => ({
+        const config = computed<CascaderNodeConfig>(() => ({
             ...DEFAULT_CONFIG,
             ...props.nodeConfig,
         }));
 
         const isHoverMenu = computed(
             () => config.value.expandTrigger === EXPAND_TRIGGER.HOVER,
+        );
+
+        const { t } = useLocale();
+        const listEmptyText = computed(
+            () => props.emptyText || t('cascader.emptyText'),
         );
 
         const {
@@ -60,7 +65,7 @@ export default defineComponent({
         provide(
             CASCADER_PANEL_INJECTION_KEY,
             reactive({
-                emptyText: '暂无数据',
+                emptyText: listEmptyText,
                 config,
                 multiple: currentMultiple,
                 isHoverMenu,
@@ -71,7 +76,6 @@ export default defineComponent({
                 setNodeElem,
             }),
         );
-
         return {
             prefixCls,
             menus,

@@ -25,7 +25,7 @@
     &.is-horizontal {
         .default();
         .text();
-        font-size: var(--f-font-size-body);
+        font-size: var(--f-font-size-base);
         line-height: @line-height-base;
         background-color: @menu-light-background-color;
 
@@ -61,6 +61,7 @@
                 width: @menu-popper-width;
                 padding: @padding-xs 0;
                 overflow: visible;
+                line-height: @menu-item-height;
                 .@{menu-item-prefix-cls} {
                     &.is-active {
                         > .@{menu-item-prefix-cls}-wrapper {

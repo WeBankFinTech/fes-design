@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 const args = require('minimist')(process.argv.slice(2));
 const fs = require('fs');
 const path = require('path');
@@ -7,15 +9,23 @@ const { prompt } = require('enquirer');
 const execa = require('execa');
 const currentVersion = require('../package.json').version;
 
-const preId = args.preid || (semver.prerelease(currentVersion) && semver.prerelease(currentVersion)[0]);
+const preId =
+    args.preid ||
+    (semver.prerelease(currentVersion) && semver.prerelease(currentVersion)[0]);
 const skipTests = args.skipTests;
 const skipBuild = args.skipBuild;
 
-const versionIncrements = ['patch', 'minor', 'major', ...(preId ? ['prepatch', 'preminor', 'premajor', 'prerelease'] : [])];
+const versionIncrements = [
+    'patch',
+    'minor',
+    'major',
+    ...(preId ? ['prepatch', 'preminor', 'premajor', 'prerelease'] : []),
+];
 
 const inc = (i) => semver.inc(currentVersion, i, preId);
 const bin = (name) => path.resolve(__dirname, `../node_modules/.bin/${name}`);
-const run = (rBin, rArgs, opts = {}) => execa(rBin, rArgs, { stdio: 'inherit', ...opts });
+const run = (rBin, rArgs, opts = {}) =>
+    execa(rBin, rArgs, { stdio: 'inherit', ...opts });
 const step = (msg) => console.log(chalk.cyan(msg));
 
 function updatePackage(pkgRoot, version) {
@@ -48,7 +58,14 @@ async function publish(version) {
             // note: use of yarn is intentional here as we rely on its publishing
             // behavior.
             'npm',
-            ['publish', ...(releaseTag ? ['--tag', releaseTag] : []), '--access', 'public', '--registry', 'https://registry.npmjs.org'],
+            [
+                'publish',
+                ...(releaseTag ? ['--tag', releaseTag] : []),
+                '--access',
+                'public',
+                '--registry',
+                'https://registry.npmjs.org',
+            ],
         );
         console.log(chalk.green(`Successfully published ${version}`));
     } catch (e) {
@@ -69,7 +86,9 @@ async function main() {
             type: 'select',
             name: 'release',
             message: 'Select release type',
-            choices: versionIncrements.map((i) => `${i} (${inc(i)})`).concat(['custom']),
+            choices: versionIncrements
+                .map((i) => `${i} (${inc(i)})`)
+                .concat(['custom']),
         });
 
         if (release === 'custom') {

@@ -1,8 +1,6 @@
-/* eslint import/no-extraneous-dependencies: 0 */
-
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { extname, basename } from 'path';
 import { statSync, readFileSync } from 'fs';
-
 
 import { optimize } from 'svgo';
 
@@ -24,7 +22,10 @@ export default function optimizeSvg(files) {
     for (const filePath of files) {
         if (statSync(filePath).isFile() && extname(filePath) === '.svg') {
             const data = readFileSync(filePath, 'utf-8');
-            const svgData = optimize(data, { path: filePath, plugins: presetDefault });
+            const svgData = optimize(data, {
+                path: filePath,
+                plugins: presetDefault,
+            });
             optimizedSvgData.push({
                 fileName: basename(filePath),
                 ...svgData,

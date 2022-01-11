@@ -2,140 +2,314 @@
     <div
         tabindex="0"
         :class="triggerClass"
-        @mouseenter="inputHovering = true"
-        @mouseleave="inputHovering = false"
+        @mouseenter="inputHoveringRef = true"
+        @mouseleave="inputHoveringRef = false"
         @focusin="handleFocus"
         @focusout="handleBlur"
+        @mousedown="handleMouseDown"
     >
-        <Label
-            :isOpened="isOpened"
-            :selectedOptions="selectedOptions"
-            :multiple="multiple"
-            :placeholder="placeholder"
-            :filterable="filterable"
-            :disabled="disabled"
-            :collapseTags="collapseTags"
-            :collapseTagsLimit="collapseTagsLimit"
-            @remove-tag="handleRemove"
-            @input="handleFilterTextChange"
-        ></Label>
-        <div :class="`${prefixCls}-icons`">
+        <div :class="[`${prefixCls}-label`, multiple && 'is-multiple']">
+            <template v-if="!multiple">
+                <template v-if="!filterable">
+                    <Ellipsis v-if="!unSelectedRef">
+                        <span :class="`${prefixCls}-label-text`">
+                            {{ labelTextRef }}
+                        </span>
+                    </Ellipsis>
+                    <span v-else :class="`${prefixCls}-label-placeholder`">
+                        {{ placeholder }}
+                    </span>
+                </template>
+                <template v-else>
+                    <input
+                        ref="inputRef"
+                        :value="filterTextRef"
+                        :placeholder="
+                            isOpened || unSelectedRef
+                                ? labelTextRef || placeholder
+                                : ''
+                        "
+                        :class="`${prefixCls}-label-input`"
+                        @input="handleInput"
+                        @compositionstart="handleCompositionStart"
+                        @compositionend="handleCompositionEnd"
+                    />
+                    <div
+                        v-if="!(unSelectedRef || isOpened)"
+                        :class="`${prefixCls}-label-overlay`"
+                    >
+                        <Ellipsis>
+                            <span :class="`${prefixCls}-label-text`">
+                                {{ labelTextRef }}
+                            </span>
+                        </Ellipsis>
+                    </div>
+                </template>
+            </template>
+            <template v-else>
+                <Tag
+                    v-for="(tag, index) in multiLabelRef"
+                    :key="index"
+                    type="info"
+                    size="small"
+                    :closable="tag.closable"
+                    :class="`${prefixCls}-label-item`"
+                    @close="handleRemove(index)"
+                    @mousedown.prevent
+                >
+                    <Ellipsis>
+                        <span :class="`${prefixCls}-label-text`">
+                            {{ tag.label }}
+                        </span>
+                    </Ellipsis>
+                </Tag>
+                <div
+                    v-if="unSelectedRef && !filterTextRef.length"
+                    :class="[
+                        `${prefixCls}-label-placeholder`,
+                        `${prefixCls}-label-overlay`,
+                    ]"
+                >
+                    {{ placeholder }}
+                </div>
+                <input
+                    v-if="filterable"
+                    ref="inputRef"
+                    :value="filterTextRef"
+                    :class="`${prefixCls}-label-input`"
+                    :style="{
+                        width: filterTextRef.length
+                            ? `${filterTextRef.length * 14}px`
+                            : '1em',
+                    }"
+                    @compositionstart="handleCompositionStart"
+                    @compositionend="handleCompositionEnd"
+                    @input="handleInput"
+                />
+            </template>
+        </div>
+        <div :class="`${prefixCls}-icons`" @mousedown.prevent>
             <UpOutlined
-                v-show="isOpened && !showClear"
+                v-show="isOpened && !hasClearRef"
                 :class="`${prefixCls}-icon`"
             />
             <DownOutlined
-                v-show="!isOpened && !showClear"
+                v-show="!isOpened && !hasClearRef"
                 :class="`${prefixCls}-icon`"
             />
             <CloseCircleFilled
                 v-if="clearable"
-                v-show="showClear"
+                v-show="hasClearRef"
                 :class="`${prefixCls}-icon`"
                 @click.stop="handleClear"
             />
         </div>
     </div>
 </template>
-<script>
-import { defineComponent, ref, computed } from 'vue';
+
+<script lang="ts">
+import { ref, computed, defineComponent, PropType, watch, nextTick } from 'vue';
+import { isEqual } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
-import Label from './label';
+import Ellipsis from '../ellipsis';
+import Tag from '../tag/tag.vue';
 import UpOutlined from '../icon/UpOutlined';
 import DownOutlined from '../icon/DownOutlined';
 import CloseCircleFilled from '../icon/CloseCircleFilled';
 
+import type { SelectOption } from './interface';
+
 const prefixCls = getPrefixCls('select-trigger');
 
-function useFocus(emit, props) {
-    const isFocus = ref(false);
-
-    const handleFocus = (event) => {
-        if (props.disabled) return;
-        isFocus.value = true;
-        emit('focus', event);
-    };
-
-    const handleBlur = (event) => {
-        if (props.disabled) return;
-        isFocus.value = false;
-        emit('blur', event);
-    };
-
-    return {
-        isFocus,
-        handleFocus,
-        handleBlur,
-    };
-}
+const selectTriggerProps = {
+    selectedOptions: {
+        type: Array as PropType<SelectOption[]>,
+        default(): SelectOption[] {
+            return [];
+        },
+    },
+    disabled: Boolean,
+    clearable: Boolean,
+    isOpened: Boolean,
+    multiple: Boolean,
+    filterable: Boolean,
+    placeholder: String,
+    collapseTags: Boolean,
+    collapseTagsLimit: Number,
+} as const;
 
 export default defineComponent({
     name: 'FSelect',
     components: {
-        Label,
+        Tag,
+        Ellipsis,
         UpOutlined,
         DownOutlined,
         CloseCircleFilled,
     },
-    props: {
-        selectedOptions: {
-            type: Array,
-            default() {
-                return [];
-            },
-        },
-        disabled: Boolean,
-        clearable: Boolean,
-        isOpened: Boolean,
-        multiple: Boolean,
-        filterable: Boolean,
-        placeholder: String,
-        collapseTags: Boolean,
-        collapseTagsLimit: Number,
-    },
+    props: selectTriggerProps,
     emits: ['remove', 'clear', 'focus', 'blur', 'input'],
     setup(props, { emit }) {
         useTheme();
-        const inputHovering = ref(false);
-        const unSelected = computed(() => props.selectedOptions.length === 0);
-        const { isFocus, handleFocus, handleBlur } = useFocus(emit, props);
-        const showClear = computed(
+
+        const inputHoveringRef = ref(false);
+        const inputRef = ref();
+        const filterTextRef = ref('');
+
+        const unSelectedRef = computed(
+            () => props.selectedOptions.length === 0,
+        );
+
+        const isFocus = ref(false);
+
+        const handleFocus = (event: Event) => {
+            if (props.disabled) return;
+            isFocus.value = true;
+            emit('focus', event);
+        };
+
+        const handleBlur = (event: Event) => {
+            if (props.disabled) return;
+            isFocus.value = false;
+            if (filterTextRef.value) {
+                filterTextRef.value = '';
+                emit('input', filterTextRef.value, {
+                    isClear: true,
+                });
+            }
+            emit('blur', event);
+        };
+
+        const hasClearRef = computed(
             () =>
                 !props.disabled &&
                 props.clearable &&
-                !unSelected.value &&
-                inputHovering.value,
+                !unSelectedRef.value &&
+                inputHoveringRef.value,
         );
+
         const triggerClass = computed(() => ({
             [`${prefixCls}`]: true,
             'is-active': props.isOpened || isFocus.value,
             'is-disabled': props.disabled,
             'is-multiple': props.multiple,
         }));
-        const handleRemove = (val) => {
-            if (props.disabled) return;
-            emit('remove', val);
+
+        const genTag = (option: SelectOption) => {
+            const { label, value } = option;
+            return {
+                label: label || value || '',
+                closable: !props.disabled,
+            };
         };
+
+        const labelTextRef = computed(() => {
+            const options = props.selectedOptions;
+            return options.length > 0 ? `${options[0].label}` || '' : '';
+        });
+
+        const multiLabelRef = computed(() => {
+            const options = props.selectedOptions;
+            const tags = [];
+
+            if (props.collapseTags) {
+                const showOptions = options.slice(0, props.collapseTagsLimit);
+                const rest = options.slice(props.collapseTagsLimit);
+                const restCount = rest.length;
+
+                showOptions.forEach((option) => tags.push(genTag(option)));
+
+                if (restCount > 0) {
+                    tags.push({
+                        label: `+ ${restCount}`,
+                        closable: false,
+                    });
+                }
+            } else {
+                options.forEach((option) => tags.push(genTag(option)));
+            }
+
+            return tags;
+        });
+
+        const handleRemove = (index: number) => {
+            if (props.disabled) return;
+            emit('remove', props.selectedOptions[index].value);
+        };
+
         const handleClear = () => {
             if (props.disabled) return;
             emit('clear');
         };
-        const handleFilterTextChange = (val) => {
-            if (props.disabled) return;
-            emit('input', val);
+
+        const isComposing = ref(false);
+
+        const handleInput = (e: Event) => {
+            if (props.disabled || isComposing.value) return;
+            filterTextRef.value = (e.target as HTMLInputElement).value;
+            emit('input', filterTextRef.value);
         };
+
+        const handleCompositionStart = () => {
+            isComposing.value = true;
+        };
+        const handleCompositionEnd = (event: Event) => {
+            if (isComposing.value) {
+                isComposing.value = false;
+                handleInput(event);
+            }
+        };
+
+        const handleMouseDown = (e: Event) => {
+            if (props.filterable && e.target !== inputRef.value) {
+                e.preventDefault();
+            }
+        };
+
+        watch(
+            () => props.isOpened,
+            (isOpened) => {
+                if (isOpened) {
+                    nextTick(() => {
+                        if (!inputRef.value) return;
+                        if (!props.filterable) return;
+                        inputRef.value.focus();
+                    });
+                }
+            },
+        );
+
+        watch(
+            () => props.selectedOptions,
+            (val, oldVal) => {
+                if (!isEqual(val, oldVal)) {
+                    filterTextRef.value = '';
+                }
+            },
+            {
+                deep: true,
+            },
+        );
+
         return {
             prefixCls,
-            inputHovering,
-            showClear,
+            inputHoveringRef,
+            hasClearRef,
             triggerClass,
-            unSelected,
+            unSelectedRef,
             handleRemove,
             handleClear,
             handleFocus,
             handleBlur,
-            handleFilterTextChange,
+            inputRef,
+            filterTextRef,
+            handleCompositionStart,
+            handleCompositionEnd,
+            handleInput,
+            labelTextRef,
+            multiLabelRef,
+            handleMouseDown,
         };
     },
 });

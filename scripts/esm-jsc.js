@@ -1,17 +1,22 @@
-// 关闭 import 规则
-/* eslint import/no-extraneous-dependencies: 0 */
+/* eslint-disable @typescript-eslint/no-var-requires */
 
 const path = require('path');
 const rollup = require('rollup');
 const babel = require('@rollup/plugin-babel');
 const vuePlugin = require('rollup-plugin-vue');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
+const renameExtensions =
+    require('@betit/rollup-plugin-rename-extensions').default;
 
+const { extensions } = require('./build-shard');
 const injectCss = require('./injectcss');
 
 async function compiler(codePath, outputDir) {
     const extname = path.extname(codePath);
-    const outputPath = path.join(outputDir, `${path.basename(codePath, extname)}.js`);
+    const outputPath = path.join(
+        outputDir,
+        `${path.basename(codePath, extname)}.js`,
+    );
     const bundle = await rollup.rollup({
         input: codePath,
         onwarn(warning, warn) {
@@ -28,7 +33,17 @@ async function compiler(codePath, outputDir) {
             return true;
         },
         plugins: [
-            nodeResolve(),
+            nodeResolve({
+                extensions,
+            }),
+            renameExtensions({
+                include: ['**/*.ts', '**/*.vue'],
+                mappings: {
+                    '.vue': '.js',
+                    '.ts': '.js',
+                    '.tsx': '.js',
+                },
+            }),
             vuePlugin({
                 preprocessStyles: false,
                 target: 'browser',
@@ -37,7 +52,20 @@ async function compiler(codePath, outputDir) {
             babel.babel({
                 targets: 'defaults, Chrome >= 56, not IE 11',
                 babelHelpers: 'runtime',
-                presets: ['@babel/env'],
+                extensions,
+                presets: [
+                    '@babel/env',
+                    [
+                        '@babel/preset-typescript',
+                        {
+                            allExtensions: true,
+                            onlyRemoveTypeImports: true,
+                            isTSX: true,
+                            jsxPragma: 'h',
+                            jsxPragmaFrag: 'Fragment',
+                        },
+                    ],
+                ],
                 plugins: [
                     [
                         '@vue/babel-plugin-jsx',

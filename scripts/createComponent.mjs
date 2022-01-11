@@ -1,11 +1,9 @@
-// 关闭 import 规则
-/* eslint import/no-extraneous-dependencies: 0 */
+/* eslint-disable @typescript-eslint/no-var-requires */
 
 import { join } from 'path';
 import pkg from 'fs-extra';
 
 const { pathExistsSync, outputFileSync, copySync } = pkg;
-
 
 function hyphenate(str) {
     return str.replace(/\B([A-Z])/g, '-$1').toLowerCase();
@@ -21,7 +19,13 @@ const componentName = hyphenate(process.argv[2]);
 const rootPath = process.cwd();
 const componentsPath = join(rootPath, 'components');
 const componentPath = join(componentsPath, componentName);
-const docPath = join(rootPath, 'docs', 'zh', 'components', `${componentName}.md`);
+const docPath = join(
+    rootPath,
+    'docs',
+    'zh',
+    'components',
+    `${componentName}.md`,
+);
 
 // 这里不进行组件导出操作，因为有些组件内部使用不需要导出
 
@@ -43,12 +47,23 @@ COMPONENT_CAMEL_NAME.install = function (app) {
 
 export default COMPONENT_CAMEL_NAME;
 `;
-    outputFileSync(join(componentPath, 'index.js'), indexTpl.replaceAll('COMPONENT_CAMEL_NAME', getCamel(componentName)).replaceAll('COMPONENT_NAME', componentName));
+    outputFileSync(
+        join(componentPath, 'index.js'),
+        indexTpl
+            .replaceAll('COMPONENT_CAMEL_NAME', getCamel(componentName))
+            .replaceAll('COMPONENT_NAME', componentName),
+    );
 
-    outputFileSync(join(componentPath, `${componentName}.vue`, ''), '<template></template>\n<script></script>');
+    outputFileSync(
+        join(componentPath, `${componentName}.vue`, ''),
+        '<template></template>\n<script></script>',
+    );
 
     // test
-    outputFileSync(join(componentPath, '__tests__', `${componentName}.js`), 'import { mount } from \'@vue/test-utils\'');
+    outputFileSync(
+        join(componentPath, '__tests__', `${componentName}.js`),
+        "import { mount } from '@vue/test-utils'",
+    );
 
     copySync(join(rootPath, 'scripts/styleTpl'), join(componentPath, 'style'));
 }

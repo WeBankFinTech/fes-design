@@ -18,11 +18,13 @@
                     :clearable="clearable"
                     :isOpened="isOpened"
                     :multiple="multiple"
-                    :placeholder="placeholder"
+                    :placeholder="inputPlaceholder"
                     :collapseTags="collapseTags"
                     :collapseTagsLimit="collapseTagsLimit"
                     @remove="handleRemove"
                     @clear="handleClear"
+                    @focus="focus"
+                    @blur="blur"
                 />
             </template>
             <template #default>
@@ -37,24 +39,32 @@
                     @expandChange="handleExpandChange"
                     @checkChange="handleCheckChange"
                     @close="handlePanelClose"
+                    @mousedown.prevent
                 ></CascaderPanel>
             </template>
         </Popper>
     </div>
 </template>
-<script>
+
+<script lang="ts">
 import { defineComponent, ref, unref, watch, computed } from 'vue';
 import { cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
 import { useTheme } from '../_theme/useTheme';
+import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
 import CascaderPanel from '../cascader-panel';
-import SELECT_PROPS from '../select/props';
-import CASCADER_PANEL_PROPS from '../cascader-panel/props';
+import { selectProps } from '../select/props';
+import { cascaderPanelProps } from '../cascader-panel/props';
 import { flatNodes } from '../_util/utils';
+
+import type { CascaderNode, OptionValue } from '../cascader-panel/interface';
+import type { SelectValue } from './interface';
+import { SelectOptionValue } from '../select-trigger/interface';
+import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('cascader');
 
@@ -66,8 +76,8 @@ export default defineComponent({
         CascaderPanel,
     },
     props: {
-        ...SELECT_PROPS,
-        ...CASCADER_PANEL_PROPS,
+        ...selectProps,
+        ...cascaderPanelProps,
     },
     emits: [
         UPDATE_MODEL_EVENT,
@@ -76,24 +86,42 @@ export default defineComponent({
         'visibleChange',
         'clear',
         'expandChange',
+        'focus',
+        'blur',
     ],
     setup(props, { emit }) {
         useTheme();
+        const { validate } = useFormAdaptor(
+            computed(() => (props.multiple ? 'array' : 'string')),
+        );
         const isOpened = ref(false);
         const selectedNodes = ref([]);
 
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
+        const { t } = useLocale();
+        const inputPlaceholder = computed(
+            () => props.placeholder || t('cascader.placeholder'),
+        );
+
         watch(isOpened, () => {
             emit('visibleChange', unref(isOpened));
         });
-        watch(currentValue, () => {
-            emit(CHANGE_EVENT, unref(currentValue));
-        });
+        const handleChange = () => {
+            emit(CHANGE_EVENT, currentValue.value);
+            validate(CHANGE_EVENT);
+        };
         const handleClear = () => {
-            const value =
+            const value: [] | null =
                 props.multiple || props?.nodeConfig?.emitPath ? [] : null;
-            updateCurrentValue(value);
+            if (
+                props.multiple || props?.nodeConfig?.emitPath
+                    ? currentValue.value.length
+                    : currentValue.value !== null
+            ) {
+                updateCurrentValue(value);
+                handleChange();
+            }
             emit('clear');
         };
         /**
@@ -103,16 +131,12 @@ export default defineComponent({
          * 1. 若删除的为父节点，需要把子节点的值一起删除
          * 2. 若删除的为子节点，需要把父节点的值一起删除
          */
-        const handleRemove = (value) => {
+        const handleRemove = (value: SelectValue) => {
             if (props.disabled) return;
 
             const { emitPath } = props.nodeConfig || {};
             let copyValue = cloneDeep(currentValue.value);
-            const updateValues = [];
-
-            if (emitPath) {
-                copyValue = copyValue.map((item) => item[item.length - 1]);
-            }
+            const updateValues: SelectOptionValue[] = [];
 
             const currentNode = selectedNodes.value.find(
                 (node) => node.value === value,
@@ -121,10 +145,12 @@ export default defineComponent({
                 .concat(currentNode.pathNodes, flatNodes(currentNode.children))
                 .map((node) => node.value);
 
-            copyValue.forEach((item) => {
-                let itemValue = item;
+            copyValue.forEach((item: OptionValue | OptionValue[]) => {
+                let itemValue: OptionValue = item as OptionValue;
                 if (emitPath) {
-                    itemValue = item[item.length - 1];
+                    itemValue = (item as OptionValue[])[
+                        (item as OptionValue[]).length - 1
+                    ];
                 }
                 if (!removeValues.includes(itemValue)) {
                     updateValues.push(item);
@@ -132,18 +158,20 @@ export default defineComponent({
             });
 
             updateCurrentValue(updateValues);
-            emit('removeTag', value);
+            emit('removeTag', value as OptionValue);
+            handleChange();
         };
-        const handleExpandChange = (value) => {
+        const handleExpandChange = (value: OptionValue[]) => {
             emit('expandChange', value);
         };
-        const handleCheckChange = (value) => {
+        const handleCheckChange = (value: OptionValue | OptionValue[]) => {
             updateCurrentValue(value);
+            handleChange();
         };
         const handlePanelClose = () => {
             isOpened.value = false;
         };
-        const handleUpdateSelectedNodes = (value) => {
+        const handleUpdateSelectedNodes = (value: CascaderNode[]) => {
             selectedNodes.value = value;
         };
         const selectedOptions = computed(() =>
@@ -154,7 +182,18 @@ export default defineComponent({
                     : selectedNode.label,
             })),
         );
+        const focus = (e: Event) => {
+            emit('focus', e);
+            validate('focus');
+        };
 
+        const blur = (e: Event) => {
+            if (isOpened.value) {
+                isOpened.value = false;
+            }
+            emit('blur', e);
+            validate('blur');
+        };
         return {
             prefixCls,
             isOpened,
@@ -166,6 +205,9 @@ export default defineComponent({
             handleCheckChange,
             handleUpdateSelectedNodes,
             handlePanelClose,
+            inputPlaceholder,
+            focus,
+            blur,
         };
     },
 });
