@@ -7,7 +7,7 @@ import {
     watch,
     reactive,
 } from 'vue';
-import { createPopper } from '@popperjs/core';
+import { createPopper, Modifier, ModifierArguments } from '@popperjs/core';
 import { useNormalModel } from '../_util/use/useModel';
 import popupManager from '../_util/popupManager';
 import getElementFromRef from '../_util/getElementFromRef';
@@ -26,13 +26,23 @@ export default (props: PopperProps, emit: any) => {
     });
     let instance: ReturnType<typeof createPopper> | null;
 
+    const placement = ref(props.placement);
+
     const initializePopper = () => {
         if (props.disabled) return;
-        const modifiers: any = [
+        const modifiers: Partial<Modifier<string, object>>[] = [
             {
                 name: 'offset',
                 options: {
                     offset: [0, props.offset],
+                },
+            },
+            {
+                name: 'collectPlacement',
+                enabled: true,
+                phase: 'main',
+                fn({ state }: ModifierArguments<object>) {
+                    placement.value = state.placement;
                 },
             },
         ];
@@ -138,5 +148,6 @@ export default (props: PopperProps, emit: any) => {
         popperStyle,
         update,
         updateVirtualRect,
+        placement,
     };
 };

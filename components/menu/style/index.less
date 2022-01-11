@@ -39,6 +39,7 @@
                 width: 100%;
                 padding: 0 @padding-sm;
                 color: var(--f-sub-menu-wrapper-color);
+                transition: color @animation-duration-base @ease-base-in;
             }
             &-icon {
                 display: flex;
@@ -89,6 +90,7 @@
             &.is-active {
                 > .@{sub-menu-prefix-cls}-wrapper {
                     --f-sub-menu-wrapper-color: var(--f-primary-color);
+                    transition: color @animation-duration-slow @ease-base-out;
                 }
             }
         }
@@ -103,6 +105,7 @@
                 width: 100%;
                 padding: 0 @padding-sm;
                 color: var(--f-menu-item-wrapper-color);
+                transition: color @animation-duration-base @ease-base-in;
             }
             &-icon {
                 display: flex;
@@ -117,6 +120,7 @@
             &.is-active {
                 > .@{menu-item-prefix-cls}-wrapper {
                     --f-menu-item-wrapper-color: var(--f-primary-color);
+                    transition: color @animation-duration-slow @ease-base-out;
                 }
             }
         }

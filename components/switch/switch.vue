@@ -1,53 +1,22 @@
 <template>
     <div :class="wrapperClass" @click="toggle">
         <span :class="`${prefixCls}-inner`">
-            <slot v-if="delayActived" name="active"></slot>
-            <slot v-if="delayInActived" name="inactive"></slot>
+            <slot v-if="actived" name="active"></slot>
+            <slot v-if="inactived" name="inactive"></slot>
         </span>
     </div>
 </template>
 
 <script lang="ts">
-import {
-    defineComponent,
-    computed,
-    watch,
-    onMounted,
-    ref,
-    PropType,
-    Ref,
-} from 'vue';
+import { defineComponent, computed, onMounted, PropType } from 'vue';
 import { isEqual, isFunction } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
-import { useAnimate } from '../_util/use/useAnimate';
 import { CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 
 const prefixCls = getPrefixCls('switch');
-
-const animateDuration = 300;
-
-const useDelaySwtich = (actived: Ref<boolean>, inactived: Ref<boolean>) => {
-    const delayActived = ref(actived.value);
-    watch(actived, () => {
-        setTimeout(() => {
-            delayActived.value = actived.value;
-        }, animateDuration / 2);
-    });
-    const delayInActived = ref(inactived.value);
-    watch(inactived, () => {
-        setTimeout(() => {
-            delayInActived.value = inactived.value;
-        }, animateDuration / 2);
-    });
-
-    return {
-        delayActived,
-        delayInActived,
-    };
-};
 
 type SwitchValue = string | [] | object | number | boolean;
 type SwitchSize = 'normal' | 'small';
@@ -82,7 +51,6 @@ export default defineComponent({
     props: switchProps,
     setup(props, ctx) {
         useTheme();
-        const { handelAnimate, animateClassName } = useAnimate(animateDuration);
         const [currentValue, updateCurrentValue] = useNormalModel(
             props,
             ctx.emit,
@@ -119,7 +87,6 @@ export default defineComponent({
                     return;
                 }
             }
-            handelAnimate();
             updateCurrentValue(
                 actived.value ? props.inactiveValue : props.activeValue,
             );
@@ -128,9 +95,8 @@ export default defineComponent({
         const wrapperClass = computed(() =>
             [
                 prefixCls,
-                animateClassName.value,
                 props.size && `${prefixCls}-size-${props.size}`,
-                actived.value && 'is-actived',
+                actived.value && 'is-checked',
                 props.disabled && 'is-disabled',
             ].filter(Boolean),
         );
@@ -138,7 +104,8 @@ export default defineComponent({
             prefixCls,
             wrapperClass,
             toggle,
-            ...useDelaySwtich(actived, inactived),
+            actived,
+            inactived,
         };
     },
 });

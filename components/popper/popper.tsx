@@ -1,4 +1,15 @@
-import { h, defineComponent, Fragment, Teleport, cloneVNode, computed } from 'vue';
+import {
+    h,
+    ref,
+    watch,
+    nextTick,
+    defineComponent,
+    Fragment,
+    Teleport,
+    cloneVNode,
+    computed,
+    Transition,
+} from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import useClickOutSide from '../_util/use/useClickOutSide';
@@ -37,6 +48,7 @@ export default defineComponent({
             update,
             popperStyle,
             updateVirtualRect,
+            placement,
         } = usePopper(props, emit);
         const disabledWatch = computed(() => props.disabled || !visible.value);
         useClickOutSide(
@@ -60,12 +72,75 @@ export default defineComponent({
         const popperClass = computed(() =>
             [prefixCls, props.popperClass].filter(Boolean).join(' '),
         );
+        const transitionName = computed(() => {
+            const placementValue = placement.value;
+            const MAP = {
+                bottom: 'up',
+                top: 'down',
+                left: 'right',
+                right: 'left',
+            } as const;
+            return `fes-slide-${
+                MAP[placementValue.split('-')[0] as keyof typeof MAP]
+            }`;
+        });
+        // 当visible发生变化时 -> 动画 -> 计算placement，这样可能存在动画方向跟placement不一致，则设计了transitionVisible
+        const transitionVisible = ref(visible.value);
+        watch(visible, (val, oldVal) => {
+            if (!oldVal) {
+                nextTick(() => {
+                    transitionVisible.value = val;
+                });
+            } else {
+                transitionVisible.value = val;
+            }
+        });
+
+        const copyRef = ref();
+
+        const containerStyleRef = ref(null);
+
+        watch(copyRef, () => {
+            if (copyRef.value) {
+                containerStyleRef.value = {
+                    width: copyRef.value.offsetWidth + 'px',
+                    height: copyRef.value.offsetHeight + 'px',
+                };
+            }
+        });
+
         const renderTrigger = () => {
             const vNode = getFirstValidNode(slots.trigger!?.(), 1);
             if (vNode) {
                 return cloneVNode(vNode, { ref: triggerRef, ...events }, true);
             }
         };
+
+        const Content = () => {
+            return (
+                <div class={popperClass.value}>
+                    {slots.default?.()}
+                    {props.arrow && (
+                        <div
+                            data-popper-arrow
+                            ref={arrowRef}
+                            class={`${prefixCls}-arrow`}
+                        ></div>
+                    )}
+                </div>
+            );
+        };
+
+        const renderCopy = () => {
+            if (visible.value && !transitionVisible.value) {
+                if (!containerStyleRef.value) {
+                    return <Content ref={copyRef} />;
+                }
+                return <div style={containerStyleRef.value} />;
+            }
+            return null;
+        };
+
         return () => (
             <Fragment>
                 {renderTrigger()}
@@ -75,21 +150,15 @@ export default defineComponent({
                 >
                     <div
                         ref={popperRef}
-                        v-show={visible.value}
                         style={popperStyle}
-                        class={popperClass.value}
                         role={'tooltip'}
                         onMouseenter={onPopperMouseEnter}
                         onMouseleave={onPopperMouseLeave}
                     >
-                        {slots.default?.()}
-                        {props.arrow && (
-                            <div
-                                data-popper-arrow
-                                ref={arrowRef}
-                                class={`${prefixCls}-arrow`}
-                            ></div>
-                        )}
+                        {renderCopy()}
+                        <Transition name={transitionName.value}>
+                            <Content v-show={transitionVisible.value} />
+                        </Transition>
                     </div>
                 </Teleport>
             </Fragment>

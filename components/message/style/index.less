@@ -25,12 +25,12 @@
 
         &-move,
         &-enter-active {
-            transition: all 0.3s ease;
+            transition: all @animation-duration-slow @ease-base-in;
         }
 
         &-leave-active {
             display: none; // 为了配合TransitionGroup，leave-active时隐藏，其他元素占用其位置，计算前后差异
-            transition: all 0.3s ease;
+            transition: all @animation-duration-slow @ease-base-in;
         }
     
         &-leave-to,
