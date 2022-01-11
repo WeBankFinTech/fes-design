@@ -40,7 +40,7 @@ export default (props: TreeProps, { emit }: { emit: any }) => {
             props.cascade &&
             Array.isArray(node.children) &&
             node.children.some(
-                (item) => hasChecked(node.value) || hasIndeterminate(item),
+                (item) => hasChecked(item.value) || hasIndeterminate(item),
             )
         );
     };
