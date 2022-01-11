@@ -286,7 +286,6 @@ export default defineComponent({
 
                         {ctx.slots.suffix ? (
                             <div class={`${prefixCls}-nav-suffix`}>
-                                {' '}
                                 {ctx.slots.suffix()}
                             </div>
                         ) : (
