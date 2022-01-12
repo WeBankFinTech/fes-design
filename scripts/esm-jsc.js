@@ -37,7 +37,6 @@ async function compiler(codePath, outputDir) {
                 extensions,
             }),
             renameExtensions({
-                include: ['**/*.ts', '**/*.vue'],
                 mappings: {
                     '.vue': '.js',
                     '.ts': '.js',
