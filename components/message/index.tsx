@@ -106,7 +106,7 @@ function message(type: MessageType, options: string | Partial<Options>, duration
     const params: Partial<Options> = { type };
     if (typeof options === 'string') {
         params.content = options;
-        params.duration = duration || 0;
+        params.duration = duration;
     } else {
         Object.assign(params, options);
     }

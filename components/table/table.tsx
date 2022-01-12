@@ -134,7 +134,7 @@ export default defineComponent({
                 />
                 <FBar
                     class={`${prefixCls}-scrollbar`}
-                    scrollbarRef={[wrapperRef]}
+                    scrollbarRef={[wrapperRef.value]}
                     containerRef={containerRef.value}
                     move={thumbMoveX.value}
                     ratio={ratioX.value}
@@ -143,7 +143,7 @@ export default defineComponent({
                 />
                 <FBar
                     class={`${prefixCls}-scrollbar`}
-                    scrollbarRef={[wrapperRef]}
+                    scrollbarRef={[wrapperRef.value]}
                     containerRef={containerRef.value}
                     move={thumbMoveY.value}
                     ratio={ratioY.value}

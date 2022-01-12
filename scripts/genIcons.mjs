@@ -42,7 +42,7 @@ function genIconIndex(iconNames) {
     const content = iconNames.map(
         (item) => `export { default as ${item} } from './${item}';`,
     );
-    writeFileSync(`${outputPath}/index.js`, content.join('\n'));
+    writeFileSync(`${outputPath}/index.ts`, content.join('\n'));
 }
 
 function gen() {

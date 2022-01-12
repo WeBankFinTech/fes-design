@@ -90,6 +90,7 @@
             &.is-active {
                 > .@{sub-menu-prefix-cls}-wrapper {
                     --f-sub-menu-wrapper-color: var(--f-primary-color);
+                    transition: color @animation-duration-slow @ease-base-out;
                 }
             }
         }
@@ -119,6 +120,7 @@
             &.is-active {
                 > .@{menu-item-prefix-cls}-wrapper {
                     --f-menu-item-wrapper-color: var(--f-primary-color);
+                    transition: color @animation-duration-slow @ease-base-out;
                 }
             }
         }
