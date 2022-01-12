@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper">
+    <div class="tooltip-wrapper">
         <FTooltip content="top-start" placement="top-start">
             <FButton class="w-100 ml-100">top-start</FButton>
         </FTooltip>
@@ -30,6 +30,7 @@
         <FTooltip content="right-end" placement="right-end">
             <FButton class="w-100 mt-20 ml-340">right-end</FButton>
         </FTooltip>
+        <br />
         <FTooltip content="bottom-start" placement="bottom-start">
             <FButton class="w-100 mt-20 ml-100">bottom-start</FButton>
         </FTooltip>
@@ -43,22 +44,22 @@
 </template>
 
 <style scoped>
-.wrapper {
-    padding: 20px;
+.tooltip-wrapper {
+    min-width: 560px;
 }
-.wrapper .w-100 {
+.tooltip-wrapper .w-100 {
     width: 100px;
 }
-.wrapper .ml-100 {
+.tooltip-wrapper .ml-100 {
     margin-left: 100px;
 }
-.wrapper  .ml-20 {
+.tooltip-wrapper  .ml-20 {
     margin-left: 20px;
 }
-.wrapper .ml-340 {
+.tooltip-wrapper .ml-340 {
     margin-left: 340px;
 }
-.wrapper .mt-20 {
+.tooltip-wrapper .mt-20 {
     margin-top: 20px;
 }
 .porper {
