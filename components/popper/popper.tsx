@@ -121,16 +121,13 @@ export default defineComponent({
                 <div class={popperClass.value}>
                     {slots.default?.()}
                     {props.arrow && (
-                        <div
-                            data-popper-arrow
-                            ref={arrowRef}
-                            class={`${prefixCls}-arrow`}
-                        ></div>
+                        <div ref={arrowRef} class={`${prefixCls}-arrow`}></div>
                     )}
                 </div>
             );
         };
 
+        // 提供给popper计算位置
         const renderCopy = () => {
             if (visible.value && !transitionVisible.value) {
                 if (!containerStyleRef.value) {
@@ -150,6 +147,7 @@ export default defineComponent({
                 >
                     <div
                         ref={popperRef}
+                        class={`${prefixCls}-wrapper`}
                         style={popperStyle}
                         role={'tooltip'}
                         onMouseenter={onPopperMouseEnter}
