@@ -1,15 +1,14 @@
-import { computed, inject, provide, ref, unref } from 'vue';
+import { computed, ComputedRef, inject, provide, ref, unref } from 'vue';
 import {
     TypeConfigProviderContext,
     TypeLocaleContext,
     TypeTranslator,
     TypeTranslatorOption,
-} from './interface';
-import { getConfig } from './index';
+    LOCALE_INJECTION_KEY,
+} from './const';
 import { TypeLanguage, zhCN } from '../locales';
 import { MaybeRef } from '@vueuse/core';
 import { get } from 'lodash-es';
-import { LOCALE_INJECTION_KEY } from './const';
 
 let cache: TypeLocaleContext;
 
@@ -28,8 +27,10 @@ const buildTranslator =
     (path, option) =>
         translate(path, option, unref(locale));
 
-export const provideLocale = (props: TypeConfigProviderContext) => {
-    const config = getConfig();
+export const provideLocale = (
+    props: TypeConfigProviderContext,
+    config: ComputedRef<TypeConfigProviderContext>,
+) => {
     const locale = computed(() => props.locale || config.value.locale || zhCN);
     const lang = computed(() => locale.value.name);
 

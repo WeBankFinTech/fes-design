@@ -1,7 +1,6 @@
 import {
     defineComponent,
     reactive,
-    PropType,
     provide,
     inject,
     toRef,
@@ -12,27 +11,9 @@ import {
 } from 'vue';
 import { isObject, isNil } from 'lodash-es';
 
-import type { Theme } from '../_theme/interface';
-import type { GetContainer } from '../_util/interface';
-import { CONFIG_PROVIDER_INJECTION_KEY } from './const';
 import { hasOwn } from '../_util/utils';
-import type { TypeLanguage } from '../locales';
-import { TypeConfigProviderContext } from './interface';
+import { CONFIG_PROVIDER_INJECTION_KEY, configProviderProps, TypeConfigProviderContext } from './const';
 import { provideLocale } from './useLocale';
-
-export const localeProps = {
-    locale: {
-        type: Object as PropType<TypeLanguage>,
-    },
-};
-
-export const configProviderProps = {
-    ...localeProps,
-
-    getContainer: Function as PropType<GetContainer>,
-    theme: String,
-    themeOverrides: Object as PropType<Partial<Theme>>,
-} as const;
 
 const globalConfig = reactive<TypeConfigProviderContext>({
     getContainer: () => document.body,
@@ -111,7 +92,7 @@ export default defineComponent({
         // 兼容子组件局部设置
         setProvideConfig(props);
 
-        provideLocale(props);
+        provideLocale(props, getConfig());
 
         return () => slots.default?.();
     },
