@@ -47,7 +47,7 @@ function genOutputPath(name) {
 }
 
 function handleCompDoc(compCode, compName, demoName) {
-    return compCode.replace(/<template>([\s\S]*)<\/template>/, (match, p1) => `<template><ComponentDoc code="${compName}.${demoName}">${p1}</ComponentDoc></template>`)
+    return compCode.replace(/<template>([\s\S]*)<\/template>/, (match, p1) => `<template><ComponentDoc code="${compName}.${demoName}"><ClientOnly>${p1}</ClientOnly></ComponentDoc></template>`)
 }
 
 function genComponent(dir, name) {
