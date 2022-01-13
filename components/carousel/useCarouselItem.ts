@@ -1,6 +1,6 @@
 import { ref, Ref } from 'vue';
 import { CAROUSEL_NAME } from './const';
-import { CarouselItem } from './interface';
+import type { CarouselItemData } from './interface';
 
 interface UseCarouselItemType {
     loop: boolean;
@@ -50,7 +50,7 @@ export default function useCarouselItem({
         setActiveItem(activeIndex.value + 1);
     }
 
-    function addItem(item: CarouselItem) {
+    function addItem(item: CarouselItemData) {
         slideChildren.value.push(item);
     }
 
