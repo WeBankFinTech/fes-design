@@ -36,6 +36,14 @@ export function getFirstValidNode(nodes: VNode | VNode[], maxDepth = 3) {
     return getChildren(nodes, maxDepth);
 }
 
+export function getSlot(slots: any, slotName = 'default') {
+    const slot = slots[slotName];
+    if (slot === undefined) {
+        throw new Error(`slot[${slotName}] is empty.`);
+    }
+    return slot();
+}
+
 // o(n) flatten
 export function flatten(vNodes: VNode[], result: VNode[] = []) {
     vNodes.forEach((vNode) => {

@@ -6,6 +6,7 @@ import {
     ref,
     watch,
     reactive,
+    nextTick,
 } from 'vue';
 import { createPopper, Modifier, ModifierArguments } from '@popperjs/core';
 import { useNormalModel } from '../_util/use/useModel';
@@ -24,90 +25,99 @@ export default (props: PopperProps, emit: any) => {
     const popperStyle = reactive({
         zIndex: popupManager.nextZIndex(),
     });
+    const placement = ref(props.placement);
+    const transitionVisible = ref(visible.value);
+    watch(visible, (val) => {
+        if (!val) {
+            transitionVisible.value = val;
+        }
+    });
+
     let instance: ReturnType<typeof createPopper> | null;
 
-    const placement = ref(props.placement);
+    const updateInstance = () => {
+        transitionVisible.value = false;
+        instance.update().then(() => {
+            nextTick(() => {
+                transitionVisible.value = true;
+            });
+        });
+    };
 
     const initializePopper = () => {
         if (props.disabled) return;
-        const modifiers: Partial<Modifier<string, object>>[] = [
-            {
-                name: 'offset',
-                options: {
-                    offset: [0, props.offset],
-                },
-            },
-            {
-                name: 'collectPlacement',
-                enabled: true,
-                phase: 'main',
-                fn({ state }: ModifierArguments<object>) {
-                    placement.value = state.placement;
-                },
-            },
-        ];
-        if (props.arrow) {
-            modifiers.push({
-                name: 'arrow',
-                options: {
-                    element: arrowRef.value,
-                    padding: ({
-                        popper,
-                        placement,
-                    }: {
-                        popper: Popper;
-                        placement: Placement;
-                    }) => {
-                        const offset = 16;
-                        if (placement.endsWith('end')) {
-                            return {
-                                left: popper.width - offset,
-                                top: popper.height - offset,
-                            };
-                        }
-                        if (placement.endsWith('start')) {
-                            return {
-                                right: popper.width - offset,
-                                bottom: popper.height - offset,
-                            };
-                        }
-                        return 0;
+        if (!visible.value) return;
+        nextTick(() => {
+            const triggerElement = virtualRect.value
+                ? {
+                      getBoundingClientRect: () =>
+                          virtualRect.value && {
+                              width: 0,
+                              height: 0,
+                              top: virtualRect.value.y,
+                              right: virtualRect.value.x,
+                              bottom: virtualRect.value.y,
+                              left: virtualRect.value.x,
+                          },
+                      contextElement: getElementFromRef(triggerRef.value),
+                  }
+                : getElementFromRef(triggerRef.value);
+            const modifiers: Partial<Modifier<string, object>>[] = [
+                {
+                    name: 'offset',
+                    options: {
+                        offset: [0, props.offset],
                     },
                 },
-            });
-        }
-        if (!virtualRect.value) {
+                {
+                    name: 'collectPlacement',
+                    enabled: true,
+                    phase: 'main',
+                    fn({ state }: ModifierArguments<object>) {
+                        placement.value = state.placement;
+                    },
+                },
+            ];
+            if (props.arrow) {
+                modifiers.push({
+                    name: 'arrow',
+                    options: {
+                        element: arrowRef.value,
+                        padding: ({
+                            popper,
+                            placement,
+                        }: {
+                            popper: Popper;
+                            placement: Placement;
+                        }) => {
+                            const offset = 16;
+                            if (placement.endsWith('end')) {
+                                return {
+                                    left: popper.width - offset,
+                                    top: popper.height - offset,
+                                };
+                            }
+                            if (placement.endsWith('start')) {
+                                return {
+                                    right: popper.width - offset,
+                                    bottom: popper.height - offset,
+                                };
+                            }
+                            return 0;
+                        },
+                    },
+                });
+            }
             instance = createPopper(
-                getElementFromRef(triggerRef.value),
+                triggerElement,
                 popperRef.value as HTMLElement,
                 {
                     placement: props.placement,
                     modifiers,
                 },
             );
-        } else {
-            const virtualElement = {
-                getBoundingClientRect: () =>
-                    virtualRect.value && {
-                        width: 0,
-                        height: 0,
-                        top: virtualRect.value.y,
-                        right: virtualRect.value.x,
-                        bottom: virtualRect.value.y,
-                        left: virtualRect.value.x,
-                    },
-                contextElement: getElementFromRef(triggerRef.value),
-            };
-            instance = createPopper(
-                virtualElement as any, // TODO 不知道写啥，参数类型匹配不上
-                popperRef.value as HTMLElement,
-                {
-                    placement: props.placement,
-                    modifiers,
-                },
-            );
-        }
-        instance.update();
+            updateInstance();
+        });
     };
 
     const update = () => {
@@ -115,7 +125,7 @@ export default (props: PopperProps, emit: any) => {
         if (!visible.value) return;
         popperStyle.zIndex = popupManager.nextZIndex();
         if (instance) {
-            instance.update();
+            updateInstance();
         } else {
             initializePopper();
         }
@@ -149,5 +159,6 @@ export default (props: PopperProps, emit: any) => {
         update,
         updateVirtualRect,
         placement,
+        transitionVisible,
     };
 };

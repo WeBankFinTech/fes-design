@@ -5,11 +5,11 @@ import {
     nextTick,
     defineComponent,
     Fragment,
-    Teleport,
     cloneVNode,
     computed,
     Transition,
 } from 'vue';
+import LazyTeleport from '../_util/lazyTeleport';
 import getPrefixCls from '../_util/getPrefixCls';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import useClickOutSide from '../_util/use/useClickOutSide';
@@ -42,6 +42,7 @@ export default defineComponent({
         const {
             visible,
             updateVisible,
+            transitionVisible,
             triggerRef,
             popperRef,
             arrowRef,
@@ -72,6 +73,7 @@ export default defineComponent({
         const popperClass = computed(() =>
             [prefixCls, props.popperClass].filter(Boolean).join(' '),
         );
+
         const transitionName = computed(() => {
             const placementValue = placement.value;
             const MAP = {
@@ -83,30 +85,6 @@ export default defineComponent({
             return `fes-slide-${
                 MAP[placementValue.split('-')[0] as keyof typeof MAP]
             }`;
-        });
-        // 当visible发生变化时 -> 动画 -> 计算placement，这样可能存在动画方向跟placement不一致，则设计了transitionVisible
-        const transitionVisible = ref(visible.value);
-        watch(visible, (val, oldVal) => {
-            if (!oldVal) {
-                nextTick(() => {
-                    transitionVisible.value = val;
-                });
-            } else {
-                transitionVisible.value = val;
-            }
-        });
-
-        const copyRef = ref();
-
-        const containerStyleRef = ref(null);
-
-        watch(copyRef, () => {
-            if (copyRef.value) {
-                containerStyleRef.value = {
-                    width: copyRef.value.offsetWidth + 'px',
-                    height: copyRef.value.offsetHeight + 'px',
-                };
-            }
         });
 
         const renderTrigger = () => {
@@ -127,13 +105,27 @@ export default defineComponent({
             );
         };
 
-        // 提供给popper计算位置
-        const renderCopy = () => {
+        const contentRef = ref();
+        const contentStyle = ref();
+
+        watch(transitionVisible, () => {
+            if (transitionVisible.value) {
+                nextTick(() => {
+                    contentStyle.value = {
+                        width: contentRef.value.offsetWidth + 'px',
+                        height: contentRef.value.offsetHeight + 'px',
+                    };
+                });
+            }
+        });
+
+        const renderContentCopy = () => {
             if (visible.value && !transitionVisible.value) {
-                if (!containerStyleRef.value) {
-                    return <Content ref={copyRef} />;
-                }
-                return <div style={containerStyleRef.value} />;
+                return contentStyle.value ? (
+                    <div style={contentStyle.value} />
+                ) : (
+                    <Content />
+                );
             }
             return null;
         };
@@ -141,9 +133,10 @@ export default defineComponent({
         return () => (
             <Fragment>
                 {renderTrigger()}
-                <Teleport
+                <LazyTeleport
                     to={getContainer.value?.()}
                     disabled={!props.appendToContainer}
+                    show={visible.value}
                 >
                     <div
                         ref={popperRef}
@@ -153,12 +146,15 @@ export default defineComponent({
                         onMouseenter={onPopperMouseEnter}
                         onMouseleave={onPopperMouseLeave}
                     >
-                        {renderCopy()}
+                        {renderContentCopy()}
                         <Transition name={transitionName.value}>
-                            <Content v-show={transitionVisible.value} />
+                            <Content
+                                ref={contentRef}
+                                v-show={transitionVisible.value}
+                            />
                         </Transition>
                     </div>
-                </Teleport>
+                </LazyTeleport>
             </Fragment>
         );
     },
