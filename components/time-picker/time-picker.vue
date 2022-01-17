@@ -21,7 +21,7 @@
                 @clear="clear"
                 @input="handleInput"
                 @change="handleChange"
-                @focus="(event: Event) => $emit('focus', event)"
+                @focus="(event) => $emit('focus', event)"
                 @blur="handleBlur"
             >
                 <template #suffix>
