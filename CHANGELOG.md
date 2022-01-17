@@ -1,3 +1,14 @@
+## [0.2.2](https://github.com/WeBankFinTech/fes-design/compare/v0.2.1...v0.2.2) (2022-01-17)
+
+
+### Bug Fixes
+
+* layout的trigger需要背景色遮挡 ([36cf7e4](https://github.com/WeBankFinTech/fes-design/commit/36cf7e48ff35646c98906210e387956307f55e8b))
+* modal、drawer、tabs ([a613c90](https://github.com/WeBankFinTech/fes-design/commit/a613c90c303adc9265a8b9edcbef75ca9551e57c))
+* select默认值无法显示 ([11ca23c](https://github.com/WeBankFinTech/fes-design/commit/11ca23c4bb4b31fc59b09214cb9eafbe5d64d3da))
+
+
+
 ## [0.2.1](https://github.com/WeBankFinTech/fes-design/compare/v0.2.0...v0.2.1) (2022-01-12)
 
 
