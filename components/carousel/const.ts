@@ -1,5 +1,5 @@
 import type { InjectionKey } from 'vue';
-import { CarouselInst } from './interface';
+import type { CarouselInst } from './interface';
 
 export const CAROUSEL_NAME = 'FCarousel';
 export const CAROUSEL_ITEM_NAME = 'FCarouselItem';

@@ -10,7 +10,7 @@ import {
     Fragment,
     PropType,
     VNode,
-    VNodeChild
+    VNodeChild,
 } from 'vue';
 import { isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -39,7 +39,7 @@ export type ModalType = keyof typeof modalIconMap;
 const globalModalProps = {
     type: {
         type: String as PropType<ModalType>,
-        default: 'info'
+        default: 'info',
     },
     content: String as PropType<string | VNode | (() => VNodeChild)>,
     forGlobal: Boolean,
@@ -50,7 +50,7 @@ const modalProps = {
     show: Boolean,
     displayDirective: {
         type: String as PropType<'show' | 'if'>,
-        default: 'show'
+        default: 'show',
     },
     closable: {
         type: Boolean,
@@ -90,7 +90,6 @@ const modalProps = {
     contentClass: String,
 } as const;
 
-
 const Modal = defineComponent({
     name: 'FModal',
     props: { ...globalModalProps, ...modalProps },
@@ -115,7 +114,7 @@ const Modal = defineComponent({
             () => props.getContainer || config.value.getContainer,
         );
 
-        const { t } = useLocale()
+        const { t } = useLocale();
 
         function handleCancel(event: MouseEvent) {
             ctx.emit(UPDATE_SHOW_EVENT, false);
@@ -133,7 +132,12 @@ const Modal = defineComponent({
         const hasHeader = computed(() => ctx.slots.title || props.title);
 
         function getHeader() {
-            if (!hasHeader.value) return null;
+            const closeJsx = props.closable && (
+                <div class={`${prefixCls}-close`} onClick={handleCancel}>
+                    <CloseOutlined />
+                </div>
+            );
+            if (!hasHeader.value) return closeJsx;
             const header = ctx.slots.title?.() || props.title;
             return (
                 <div class={`${prefixCls}-header`}>
@@ -145,6 +149,7 @@ const Modal = defineComponent({
                         </div>
                     )}
                     <div>{header}</div>
+                    {closeJsx}
                 </div>
             );
         }
@@ -230,8 +235,9 @@ const Modal = defineComponent({
                                 }
                             >
                                 <div
-                                    class={`${prefixCls}-wrapper ${props.contentClass || ''
-                                        }`}
+                                    class={`${prefixCls}-wrapper ${
+                                        props.contentClass || ''
+                                    }`}
                                     style={styles.value}
                                     onClick={(event) => event.stopPropagation()}
                                 >
@@ -242,14 +248,6 @@ const Modal = defineComponent({
                                             : props.forGlobal && props.content}
                                     </div>
                                     {getFooter()}
-                                    {props.closable && (
-                                        <div
-                                            class={`${prefixCls}-close`}
-                                            onClick={handleCancel}
-                                        >
-                                            <CloseOutlined />
-                                        </div>
-                                    )}
                                 </div>
                             </div>
                         )}

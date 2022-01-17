@@ -3,7 +3,7 @@ import { provideKey } from './const';
 import getPrefixCls from '../_util/getPrefixCls';
 import useCarouselItem from './useCarouselItem';
 
-import { CarouselProps } from './carousel';
+import type { CarouselProps } from './carousel';
 
 const prefixCls = getPrefixCls('carousel');
 

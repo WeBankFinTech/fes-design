@@ -78,7 +78,7 @@ app.use(FTabs);
 | type       | 页签的基本样式，可选`card` `line`               | string          | `line`  |
 | closable   | 页签是否可关闭，type为`card`时可用               | boolean         | `false` |
 | closeMode | 关闭显示的方式，可选`hover` `visible` | string | `visible`
-
+| transition  | 自定义页签切换过渡TransitionGroup的动画名。默认是true，使用内置过渡动画 | string/boolean  | `true`   |
 ## Tabs Events
 
 | 事件名称 | 说明                 | 回调参数         |

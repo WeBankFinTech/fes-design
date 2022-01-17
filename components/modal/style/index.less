@@ -74,8 +74,11 @@
     }
     
     &-header {
+        position: relative;
+
         --f-modal-header-icon-color: inherit;
         display: flex;
+        align-items: center;
         padding-bottom: @padding-md;
         color: var(--f-head-color);
         font-weight: @font-weight-medium;
@@ -104,6 +107,12 @@
         .@{modal-prefix-cls}-status-confirm,
         .@{modal-prefix-cls}-status-warning {
             --f-modal-header-icon-color: var(--f-warning-color);
+        }
+
+        .@{modal-prefix-cls}-close {
+            top: auto;
+            padding: 0;
+            line-height: 0;
         }
     }
 

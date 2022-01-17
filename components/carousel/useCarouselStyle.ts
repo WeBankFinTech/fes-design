@@ -1,5 +1,5 @@
 import { computed, ComputedRef } from 'vue';
-import { Direction } from './interface';
+import type { Direction } from './interface';
 
 interface UseCarouselStyleType {
     prefixCls: string;
