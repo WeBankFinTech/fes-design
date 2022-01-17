@@ -45,6 +45,10 @@ export const popperProps = {
     getContainer: {
         type: Function,
     },
+    lazy: {
+        type: Boolean,
+        default: true,
+    },
 } as const;
 
 export type PopperProps = Partial<ExtractPropTypes<typeof popperProps>>;

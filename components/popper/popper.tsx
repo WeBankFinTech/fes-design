@@ -136,7 +136,7 @@ export default defineComponent({
                 <LazyTeleport
                     to={getContainer.value?.()}
                     disabled={!props.appendToContainer}
-                    show={visible.value}
+                    show={!props.lazy || visible.value}
                 >
                     <div
                         ref={popperRef}

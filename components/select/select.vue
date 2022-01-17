@@ -10,6 +10,7 @@
             :offset="4"
             :hideAfter="0"
             :disabled="disabled"
+            :lazy="isLazy"
         >
             <template #trigger>
                 <SelectTrigger
@@ -59,7 +60,7 @@ import {
     CSSProperties,
     defineComponent,
 } from 'vue';
-import { debounce } from 'lodash-es';
+import { debounce, isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel, useArrayModel } from '../_util/use/useModel';
@@ -95,7 +96,7 @@ export default defineComponent({
         'blur',
         'clear',
     ],
-    setup(props, { emit }) {
+    setup(props, { emit, slots }) {
         useTheme();
         const { validate } = useFormAdaptor(
             computed(() => (props.multiple ? 'array' : 'string')),
@@ -206,25 +207,34 @@ export default defineComponent({
 
         // select-trigger 选择项展示，只在 currentValue 改变时才改变
         const selectedOptions = ref([]);
-        watch(currentValue, () => {
-            if (!props.multiple) {
-                selectedOptions.value = options.value.filter(
-                    (option) => option.value === currentValue.value,
-                );
-            } else {
-                selectedOptions.value = currentValue.value.map(
-                    (value: SelectValue) => {
-                        const filteredOption = options.value.filter(
-                            (option) => option.value === value,
-                        );
-                        if (filteredOption.length) {
-                            return filteredOption[0];
-                        }
-                        return { value };
-                    },
-                );
-            }
+        const allOptions = computed(() => {
+            return [...props.options, ...childOptions, ...remoteOptions.value];
         });
+        watch(
+            [currentValue, allOptions],
+            () => {
+                if (!props.multiple) {
+                    selectedOptions.value = allOptions.value.filter(
+                        (option) => option.value === currentValue.value,
+                    );
+                } else {
+                    selectedOptions.value = currentValue.value.map(
+                        (value: SelectValue) => {
+                            const filteredOption = allOptions.value.filter(
+                                (option) => option.value === value,
+                            );
+                            if (filteredOption.length) {
+                                return filteredOption[0];
+                            }
+                            return { value };
+                        },
+                    );
+                }
+            },
+            {
+                immediate: true,
+            },
+        );
 
         provide(key, {
             addOption,
@@ -293,6 +303,7 @@ export default defineComponent({
             filteredOptions,
             listEmptyText,
             inputPlaceholder,
+            isLazy: isUndefined(slots.default),
         };
     },
 });
