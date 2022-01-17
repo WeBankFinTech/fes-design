@@ -1,7 +1,7 @@
 import { h, defineComponent, inject, computed } from 'vue';
 import { throttle } from 'lodash-es';
 import { provideKey } from './const';
-import { CarouselItem } from './interface';
+import type { CarouselItemData } from './interface';
 
 const INDICATOR_MOUSE_EVENT = 'mouse-operate';
 export default defineComponent({
@@ -50,7 +50,7 @@ export default defineComponent({
 
         return () => (
             <ul class={indicatorsClass.value}>
-                {slideChildren.value.map((item: CarouselItem, index: number) => (
+                {slideChildren.value.map((item: CarouselItemData, index: number) => (
                     <li
                         key={index}
                         class={[

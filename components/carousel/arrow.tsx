@@ -2,7 +2,7 @@ import { h, defineComponent, computed, inject, Fragment, Transition } from 'vue'
 import { throttle } from 'lodash-es';
 import { provideKey } from './const';
 import { LeftOutlined, RightOutlined } from '../icon';
-import { CarouselItem } from './interface';
+import type { CarouselItemData } from './interface';
 
 export default defineComponent({
     name: 'FCarouselArrow',
@@ -43,7 +43,7 @@ export default defineComponent({
                 (loop || props.activeIndex < slideChildren.value.length - 1),
         );
 
-        const slideItemInStage = (slideItem: CarouselItem, index: number) => {
+        const slideItemInStage = (slideItem: CarouselItemData, index: number) => {
             const length = slideChildren.value.length;
             if (
                 (index === length - 1 &&

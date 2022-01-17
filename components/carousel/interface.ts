@@ -1,13 +1,10 @@
 import { ToRefs, ExtractPropTypes, Ref } from 'vue';
 import useCarousel from './useCarousel';
-import useCarouselItem from './useCarouselItem';
 
 export type Placement = 'top' | 'bottom' | 'left' | 'right';
 export type Direction = 'horizontal' | 'vertical' | '';
 
-export interface CarouselInst
-    extends ReturnType<typeof useCarouselItem>,
-        ReturnType<typeof useCarousel> {
+export interface CarouselInst extends ReturnType<typeof useCarousel> {
     carouselId: string;
 }
 
@@ -32,7 +29,7 @@ export interface CarouselItemStatus {
 export type UnionCarouselItemData = CarouselItemProps &
     ToRefs<CarouselItemStatus>;
 
-export interface CarouselItem extends UnionCarouselItemData {
+export interface CarouselItemData extends UnionCarouselItemData {
     uid: number;
     translateItem: (
         index: number,
