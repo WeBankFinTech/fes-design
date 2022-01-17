@@ -117,9 +117,19 @@ const Drawer = defineComponent({
         const hasHeader = computed(() => ctx.slots.title || props.title);
 
         function getHeader() {
-            if (!hasHeader.value) return null;
+            const closeJsx = props.closable && (
+                <div class={`${prefixCls}-close`} onClick={handleCancel}>
+                    <CloseOutlined />
+                </div>
+            );
+            if (!hasHeader.value) return closeJsx;
             const header = ctx.slots.title?.() || props.title;
-            return <div class={`${prefixCls}-header`}>{header}</div>;
+            return (
+                <div class={`${prefixCls}-header`}>
+                    {header}
+                    {closeJsx}
+                </div>
+            );
         }
 
         function getFooter() {
@@ -197,8 +207,9 @@ const Drawer = defineComponent({
                                 }
                             >
                                 <div
-                                    class={`${prefixCls}-wrapper ${props.contentClass || ''
-                                        }`}
+                                    class={`${prefixCls}-wrapper ${
+                                        props.contentClass || ''
+                                    }`}
                                     style={styles.value}
                                     onClick={(event) => event.stopPropagation()}
                                 >
@@ -207,14 +218,6 @@ const Drawer = defineComponent({
                                         {ctx.slots.default?.()}
                                     </div>
                                     {getFooter()}
-                                    {props.closable && (
-                                        <div
-                                            class={`${prefixCls}-close`}
-                                            onClick={handleCancel}
-                                        >
-                                            <CloseOutlined />
-                                        </div>
-                                    )}
                                 </div>
                             </div>
                         )}

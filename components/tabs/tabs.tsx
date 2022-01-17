@@ -58,7 +58,7 @@ function mapTabPane(tabPaneVNodes: VNode[] = [], tabValue: string | number) {
 }
 
 type TabType = 'line' | 'card';
-type TabCloseMode = 'hover' | 'visible'
+type TabCloseMode = 'hover' | 'visible';
 
 export default defineComponent({
     name: 'FTabs',
@@ -66,7 +66,7 @@ export default defineComponent({
         modelValue: [String, Number] as PropType<string | number>,
         position: {
             type: String as PropType<Position>,
-            default: 'top'
+            default: 'top',
         },
         type: {
             type: String as PropType<TabType>,
@@ -83,6 +83,10 @@ export default defineComponent({
         addable: {
             type: Boolean,
             default: false,
+        },
+        transition: {
+            type: [String, Boolean],
+            default: true,
         },
     },
     emits: [UPDATE_MODEL_EVENT, CLOSE_EVENT, ADD_EVENT],
@@ -254,9 +258,9 @@ export default defineComponent({
                                             )}
                                             <FTab
                                                 {...(vNode.props as any)}
-                                                ref={(el: ComponentPublicInstance) =>
-                                                    setTabRefs(el, index)
-                                                }
+                                                ref={(
+                                                    el: ComponentPublicInstance,
+                                                ) => setTabRefs(el, index)}
                                                 v-slots={{ default: tabSlot }}
                                             />
                                         </>
@@ -294,7 +298,15 @@ export default defineComponent({
                         )}
                     </div>
                     <div class={`${prefixCls}-tab-pane-wrapper`}>
-                        <TransitionGroup name={`${prefixCls}-slide-fade`}>
+                        <TransitionGroup
+                            name={
+                                props.transition
+                                    ? props.transition === true
+                                        ? `${prefixCls}-slide-fade`
+                                        : props.transition
+                                    : null
+                            }
+                        >
                             {mapTabPane(children, currentValue.value)}
                         </TransitionGroup>
                     </div>
