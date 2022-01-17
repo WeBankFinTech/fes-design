@@ -31,12 +31,19 @@
     }
     
     &-header {
+        position: relative;
         display: flex;
+        align-items: center;
         padding: @padding-md @padding-md + @padding-xs;
         color: var(--f-head-color);
         font-weight: @font-weight-medium;
         font-size: @font-size-head;
         border-bottom: var(--f-border-width-base) var(--f-border-style-base) var(--f-border-color-split);
+
+        .@{drawer-prefix-cls}-close {
+            top: auto;
+            line-height: 0;
+        }
     }
 
     &-body {
