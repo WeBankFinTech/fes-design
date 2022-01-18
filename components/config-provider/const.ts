@@ -1,7 +1,7 @@
 import type { ExtractPropTypes, InjectionKey, PropType, Ref } from 'vue';
-import { TypeLanguage } from '../locales';
-import { Theme } from '../_theme/interface';
-import { GetContainer } from '../_util/interface';
+import type { TypeLanguage } from '../locales';
+import type { Theme } from '../_theme/interface';
+import type { GetContainer } from '../_util/interface';
 
 export type TypeTranslatorOption = Record<string, string | number>;
 export type TypeTranslator = (

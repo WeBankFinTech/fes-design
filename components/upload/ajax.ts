@@ -1,5 +1,5 @@
 import { hasOwn } from '../_util/utils';
-import { UploadProgressEvent } from './interface';
+import type { UploadProgressEvent } from './interface';
 
 import type { UploadOption, UploadError } from './interface';
 

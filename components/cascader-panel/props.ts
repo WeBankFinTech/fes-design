@@ -1,5 +1,5 @@
 import type { ExtractPropTypes, PropType, InjectionKey, VNodeChild } from 'vue';
-import { SelectValue } from '../cascader/interface';
+import type { SelectValue } from '../cascader/interface';
 
 import { extractPropsDefaultValue } from '../_util/utils';
 import { CHECK_STRATEGY } from './const';

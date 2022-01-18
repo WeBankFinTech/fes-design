@@ -8,7 +8,8 @@ import {
     reactive,
     nextTick,
 } from 'vue';
-import { createPopper, Modifier, ModifierArguments } from '@popperjs/core';
+import { createPopper } from '@popperjs/core';
+import type { Modifier, ModifierArguments } from '@popperjs/core';
 import { useNormalModel } from '../_util/use/useModel';
 import popupManager from '../_util/popupManager';
 import getElementFromRef from '../_util/getElementFromRef';

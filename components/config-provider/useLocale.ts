@@ -1,13 +1,14 @@
 import { computed, ComputedRef, inject, provide, ref, unref } from 'vue';
-import {
+import { LOCALE_INJECTION_KEY } from './const';
+import type {
     TypeConfigProviderContext,
     TypeLocaleContext,
     TypeTranslator,
     TypeTranslatorOption,
-    LOCALE_INJECTION_KEY,
 } from './const';
-import { TypeLanguage, zhCN } from '../locales';
-import { MaybeRef } from '@vueuse/core';
+import { zhCN } from '../locales';
+import type { TypeLanguage } from '../locales';
+import type { MaybeRef } from '@vueuse/core';
 import { get } from 'lodash-es';
 
 let cache: TypeLocaleContext;

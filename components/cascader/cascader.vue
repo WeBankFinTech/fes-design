@@ -63,7 +63,7 @@ import { flatNodes } from '../_util/utils';
 
 import type { CascaderNode, OptionValue } from '../cascader-panel/interface';
 import type { SelectValue } from './interface';
-import { SelectOptionValue } from '../select-trigger/interface';
+import type { SelectOptionValue } from '../select-trigger/interface';
 import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('cascader');

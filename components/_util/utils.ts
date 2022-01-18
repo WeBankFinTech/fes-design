@@ -1,5 +1,5 @@
 import { isNumber, isString } from 'lodash-es';
-import { CascaderNode } from '../cascader-panel/interface';
+import type { CascaderNode } from '../cascader-panel/interface';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = () => {};
