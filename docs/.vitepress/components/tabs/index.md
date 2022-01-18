@@ -107,7 +107,7 @@ app.use(FTabs);
 | name             | tab 的名称                                                                                       | string / number | -       |
 | disabled         | 是否禁用                                                                                         | boolean         | `false` |
 | closable         | 是否可关闭                                                                                       | boolean         | `false` |
-| displayDirective | 选择性渲染使用的指令，if 对应 v-if，show 对应 v-show，使用 show 的时候标签页状态切换后不会被重置 | string          | `if`    |
+| displayDirective | 选择渲染使用的指令为 if 、 show 或者 show:lazy。使用 show 的时候标签页内容不会随着切换重置。使用 show:lazy 的时候显示效果跟 show 一致，不过内容会进行延迟加载。 | string          | `if`    |
 
 ## Tabs Slots
 
