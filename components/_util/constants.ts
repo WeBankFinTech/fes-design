@@ -37,7 +37,7 @@ export const PLACEMENT = [
 
 export const TRIGGER = ['click', 'hover', 'focus', 'contextmenu'] as const;
 
-export const FORMITEM_INJECTION_KEY: InjectionKey<FormItemInject> =
+export const FORM_ITEM_INJECTION_KEY: InjectionKey<FormItemInject> =
     Symbol('FFormItemKey');
 
 export const TO_TOP_EVENT = 'toTop';

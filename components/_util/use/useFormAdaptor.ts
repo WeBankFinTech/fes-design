@@ -1,10 +1,10 @@
 import { inject, isRef, watch, Ref } from 'vue';
 import { isString, isFunction } from 'lodash-es';
 import { noop } from '../utils';
-import { FORMITEM_INJECTION_KEY } from '../constants';
+import { FORM_ITEM_INJECTION_KEY } from '../constants';
 
 export default (valueType?: string | Ref<string> | (() => string)) => {
-    const { validate, setRuleDefaultType } = inject(FORMITEM_INJECTION_KEY, {
+    const { validate, setRuleDefaultType } = inject(FORM_ITEM_INJECTION_KEY, {
         validate: noop,
     });
 

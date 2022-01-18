@@ -32,7 +32,7 @@ import {
     VALIDATE_MESSAGE_DEFAULT,
 } from './const';
 import getPrefixCls from '../_util/getPrefixCls';
-import { FORMITEM_INJECTION_KEY } from '../_util/constants';
+import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
 import { wrapValidator, getNamePath, getPropByPath } from './utils';
 
 const prefixCls = getPrefixCls('form-item');
@@ -48,6 +48,7 @@ interface FormItemProps {
 
 const props = withDefaults(defineProps<FormItemProps>(), {
     rules: () => [],
+    showMessage: null,
 });
 
 const {
@@ -218,7 +219,7 @@ onBeforeUnmount(() => {
     removeField(props.prop);
 });
 
-provide(FORMITEM_INJECTION_KEY, { validate, setRuleDefaultType });
+provide(FORM_ITEM_INJECTION_KEY, { validate, setRuleDefaultType });
 </script>
 
 <script lang="ts">
