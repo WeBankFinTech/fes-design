@@ -1,3 +1,13 @@
+## [0.2.3](https://github.com/WeBankFinTech/fes-design/compare/v0.2.2...v0.2.3) (2022-01-18)
+
+
+### Bug Fixes
+
+* 编译 css 问题 ([869187b](https://github.com/WeBankFinTech/fes-design/commit/869187bfcc657738ee234badeacd7aa3805ac571))
+* 修复Form组件不显示错误信息 ([76a76f5](https://github.com/WeBankFinTech/fes-design/commit/76a76f58bc1e4fc9ea5d8579945b67a7c0f57abb))
+
+
+
 ## [0.2.2](https://github.com/WeBankFinTech/fes-design/compare/v0.2.1...v0.2.2) (2022-01-17)
 
 
