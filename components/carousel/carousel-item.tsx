@@ -19,7 +19,8 @@ import {
 } from './const';
 import { useTheme } from '../_theme/useTheme';
 
-import { carouselItemProps, CarouselItem, Direction } from './interface';
+import type { CarouselItemData, Direction } from './interface';
+import { carouselItemProps } from './interface';
 
 const useItemStyle = (direction: ComputedRef<Direction>) => {
     const itemStyleState = reactive({
@@ -155,7 +156,7 @@ export default defineComponent({
         const onClickSlide = () => {
             if (parentType === 'card') {
                 const index = slideChildren.value
-                    .map((item: CarouselItem) => item.uid)
+                    .map((item: CarouselItemData) => item.uid)
                     .indexOf(instance.uid);
                 setActiveItem(index);
             }
@@ -167,7 +168,7 @@ export default defineComponent({
                 ...props,
                 ...toRefs(itemStatus),
                 translateItem,
-            } as CarouselItem);
+            } as CarouselItemData);
         });
 
         onUnmounted(() => {

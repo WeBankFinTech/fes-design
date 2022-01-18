@@ -72,7 +72,7 @@ export default defineComponent({
             props.loading && 'is-loading',
         ]));
 
-        const renderBtn = () => (
+        return () => (
             <button
                 type={props.htmlType}
                 disabled={props.disabled}
@@ -85,14 +85,6 @@ export default defineComponent({
                     slots.icon?.()
                 )}
                 {slots.default?.()}
-            </button>
-        );
-
-        return () =>
-            props.disabled ? (
-                <span style="cursor: not-allowed">{renderBtn()}</span>
-            ) : (
-                renderBtn()
-            );
+            </button>);
     },
 });
