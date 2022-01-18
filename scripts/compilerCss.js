@@ -32,8 +32,12 @@ async function compilerCss(entryPath, outputPath) {
 async function compilerStyleDir(codePath, outputDir) {
     fse.copySync(codePath, outputDir);
 
-    const jsIndexPath = path.join(codePath, 'index.js');
+    const jsIndexPath = path.join(codePath, 'index.ts');
     if (fse.existsSync(jsIndexPath)) {
+        fse.moveSync(
+            path.join(outputDir, 'index.ts'),
+            path.join(outputDir, 'index.js'),
+        );
         const cssEntryPath = path.join(outputDir, 'css.js');
         fse.outputFileSync(
             cssEntryPath,
