@@ -150,10 +150,10 @@ export default ({
 
     const getCellClass = ({ column }: { column: ColumnInst }) => {
         const arr = [`${prefixCls}-cell`, column.id];
-        if (column.fixLeft) {
+        if (layout.isScrollX.value && column.fixLeft) {
             arr.push(`${prefixCls}-fixed-left`);
         }
-        if (column.fixRight) {
+        if (layout.isScrollX.value && column.fixRight) {
             arr.push(`${prefixCls}-fixed-right`);
         }
         return arr;
