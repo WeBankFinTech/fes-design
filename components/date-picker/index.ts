@@ -1,5 +1,5 @@
 import { withInstall } from '../_util/withInstall';
-import DatePicker from './date-picker.vue';
+import DatePicker from './datePicker.vue';
 
 import type { SFCWithInstall } from '../_util/interface';
 
