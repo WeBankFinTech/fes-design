@@ -29,6 +29,21 @@
                 <FRadio value="2">女</FRadio>
             </FRadioGroup>
         </FFormItem>
+        <FFormItem label="级联单选" prop="singleCity">
+            <FCascader       
+                v-model="modelForm.singleCity"
+                :options="cascaderOptions"
+                @change="changeHandler">
+            </FCascader>
+        </FFormItem>
+        <FFormItem label="级联多选" prop="multiCity">
+            <FCascader       
+                v-model="modelForm.multiCity"
+                :options="cascaderOptions"
+                :multiple="true"
+                @change="changeHandler">
+            </FCascader>
+        </FFormItem>
         <FFormItem label="操作权限" prop="permission">
             <FCheckboxGroup v-model="modelForm.permission" @change="changeHandler">
                 <FCheckbox :value="1">Admin</FCheckbox>
@@ -94,7 +109,10 @@ export default {
                 height: 180,
                 weight: 100
             },
-            desc: ''
+            desc: '',
+
+            singleCity: '',
+            multiCity: [],
         });
         const validateContFun = (rule, value) => {
             return Boolean(value.startsWith(modelForm.name));
@@ -146,7 +164,9 @@ export default {
                 { required: true, message: '请备注内容', trigger: ['blur'] },
                 { min: 3, max: 8, message: '长度在 3 到 8 个字符', trigger: ['input'] },
                 { validator: validateContFun, message: '请输入以【姓名】开头的备注信息', trigger: ['input', 'change'] }
-            ]
+            ],
+            singleCity: [{ required: true, message: '请选择单选', trigger: 'change' }],
+            multiCity: [{ required: true, message: '请选择多选', trigger: 'change', type: 'array' }],
         };
         const nameRules = [{ required: true, message: '请输入姓名', trigger: 'blur' }];
         const optionList = [{
@@ -165,6 +185,60 @@ export default {
             value: 'JiangSu',
             label: '江苏'
         }];
+        const cascaderOptions = [
+        {
+            "value": "110000",
+            "label": "北京市",
+            "children": [
+                {
+                    "value": "110100",
+                    "label": "市辖区",
+                    "children": [
+                        {
+                            "value": "110101",
+                            "label": "东城区东城区东城区东城区东城区东城区",
+                        },
+                        {
+                            "value": "110102",
+                            "label": "西城区",
+                        },
+                    ]
+                },
+                {
+                    "value": "110200",
+                    "label": "市辖县",
+                    "children": [
+                        {
+                            "value": "110228",
+                            "label": "密云县",
+                        },
+                        {
+                            "value": "110229",
+                            "label": "延庆县",
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "value": "130000",
+            "label": "河北省",
+            "children": [
+                {
+                    "value": "130100",
+                    "label": "石家庄市",
+                },
+                {
+                    "value": "130200",
+                    "label": "唐山市",
+                },
+            ]
+        },
+        {
+            "value": "140000",
+            "label": "山西省",
+        },
+    ]
 
         const changeHandler = (value) => {
             console.log('value', value);
@@ -234,7 +308,8 @@ export default {
             clearHandler,
             resetHandler,
             descClickHandler,
-            moreClickHandler
+            moreClickHandler,
+            cascaderOptions,
         }
     }
 }
