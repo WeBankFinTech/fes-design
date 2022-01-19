@@ -26,3 +26,9 @@
         </FTabPane>
     </FTabs>
 </template>
+
+<style>
+.tab-content {
+    margin-top: 24px;
+}
+</style>
