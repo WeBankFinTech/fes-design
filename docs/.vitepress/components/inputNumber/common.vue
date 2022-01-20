@@ -11,8 +11,8 @@ export default {
     setup() {
         const placeholder = ref();
         return {
-            placeholder
+            placeholder,
         };
-    }
+    },
 };
 </script>

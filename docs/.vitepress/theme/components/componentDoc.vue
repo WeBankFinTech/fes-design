@@ -2,7 +2,10 @@
     <div class="component-doc">
         <div class="component-doc-header">
             <span class="play" @click="openPlayground">play</span>
-            <LeftOutlined @click="visibleCode = !visibleCode" :class="['show-code-btn', visibleCode && 'active']" />
+            <LeftOutlined
+                :class="['show-code-btn', visibleCode && 'active']"
+                @click="visibleCode = !visibleCode"
+            />
         </div>
         <div class="component-doc-content">
             <slot></slot>
@@ -22,7 +25,7 @@ import codes from './demoCode';
 
 export default defineComponent({
     props: {
-        code: String
+        code: String,
     },
     setup(props) {
         const code = ref('');
@@ -34,20 +37,21 @@ export default defineComponent({
                     : '';
             },
             {
-                immediate: true
-            }
+                immediate: true,
+            },
         );
 
         const visibleCode = ref(false);
         const openPlayground = () => {
             playground(props.code);
-        }
+        };
         return {
             visibleCode,
+            // eslint-disable-next-line vue/no-dupe-keys
             code,
-            openPlayground
+            openPlayground,
         };
-    }
+    },
 });
 </script>
 
@@ -67,7 +71,7 @@ export default defineComponent({
         padding: 0 16px;
         .show-code-btn {
             cursor: pointer;
-            transition: .3s all;
+            transition: 0.3s all;
             transform-origin: center center;
             &.active {
                 transform: rotateZ(-90deg);

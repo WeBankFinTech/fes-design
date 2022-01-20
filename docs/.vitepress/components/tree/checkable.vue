@@ -1,10 +1,16 @@
 <template>
-    父子关联: 
-	<FSwitch v-model="cascade"></FSwitch>
-    <FTree :data="data" checkable :cascade="cascade" :selectable="false"></FTree>
+    父子关联:
+    <FSwitch v-model="cascade"></FSwitch>
+    <FTree
+        :data="data"
+        checkable
+        :cascade="cascade"
+        :selectable="false"
+    ></FTree>
 </template>
 <script>
 import { reactive, h, ref } from 'vue';
+// eslint-disable-next-line import/no-unresolved
 import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
 
 function createData(level = 1, baseKey = '', prefix = null, suffix = null) {
@@ -31,10 +37,10 @@ function createLabel(level) {
 export default {
     setup() {
         const data = reactive(createData(4));
-		const cascade = ref(true);
+        const cascade = ref(true);
         return {
             data,
-			cascade
+            cascade,
         };
     },
 };

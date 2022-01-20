@@ -1,36 +1,38 @@
 <template>
-<FDrawer
-    v-model:show="isShow"
-    title="Playground"
-    displayDirective="show"
-    @ok="isShow = false"
-    width="90%"
->
-    <Repl
-        :store="store"
-        :showImportMap="true"
-        :showCompileOutput="false"
-        :clearConsole="false"
-    />
-</FDrawer>
+    <FDrawer
+        v-model:show="isShow"
+        title="Playground"
+        displayDirective="show"
+        width="90%"
+        @ok="isShow = false"
+    >
+        <Repl
+            :store="store"
+            :showImportMap="true"
+            :showCompileOutput="false"
+            :clearConsole="false"
+        />
+    </FDrawer>
 </template>
 
 <script setup>
 import { version, nextTick, ref, watch } from 'vue';
-import {FDrawer} from '@fesjs/fes-design';
-import { Repl, ReplStore } from '@vue/repl'
-import '@vue/repl/style.css'
-import data from './demoCode.json'
+// eslint-disable-next-line import/no-unresolved
+import { FDrawer } from '@fesjs/fes-design';
+import { Repl, ReplStore } from '@vue/repl';
+// eslint-disable-next-line import/no-unresolved
+import '@vue/repl/style.css';
+import data from './demoCode.json';
 const mainFile = 'App.vue';
 const demoFile = 'demo.vue';
 
 const props = defineProps({
-  codeName: String
-})
+    codeName: String,
+});
 
 const store = new ReplStore({
-  defaultVueRuntimeURL: `https://unpkg.com/vue@${version}/dist/vue.esm-browser.js`
-})
+    defaultVueRuntimeURL: `https://unpkg.com/vue@${version}/dist/vue.esm-browser.js`,
+});
 
 const fesDesignSetup = `
 // 不要修改此文件!!!
@@ -68,41 +70,46 @@ function resolveSFCExample(demo) {
         [demoFile]: data[demo],
         'fes-design.js': fesDesignSetup,
         'import-map.json': JSON.stringify({
-          imports: {
-            'fes-design': 'https://unpkg.com/@fesjs/fes-design@latest/dist/fes-design.esm-browser.js',
-            'fes-icon': 'https://unpkg.com/@fesjs/fes-design@latest/dist/fes-design.icon-browser.js'
-          }
-        })
+            imports: {
+                'fes-design':
+                    'https://unpkg.com/@fesjs/fes-design@latest/dist/fes-design.esm-browser.js',
+                'fes-icon':
+                    'https://unpkg.com/@fesjs/fes-design@latest/dist/fes-design.icon-browser.js',
+            },
+        }),
     };
     return files;
 }
 
 function updateExample(fileName) {
-  store.setFiles(resolveSFCExample(fileName), mainFile).then(() => {
-      store.setActive(demoFile);
-  })
+    store.setFiles(resolveSFCExample(fileName), mainFile).then(() => {
+        store.setActive(demoFile);
+    });
 }
 
-watch(() => props.codeName, () => {
-    updateExample(props.codeName);
-}, {
-    immediate: true
-});
+watch(
+    () => props.codeName,
+    () => {
+        updateExample(props.codeName);
+    },
+    {
+        immediate: true,
+    },
+);
 
 const isShow = ref(true);
 const handleShow = (val) => {
-  isShow.value = val;
-}
+    isShow.value = val;
+};
 defineExpose({
-  isShow,
-  handleShow
-})
-
+    isShow,
+    handleShow,
+});
 </script>
 
 <style scoped>
 .vue-repl {
-  border-right: 1px solid var(--vt-c-divider-light);
-  height: calc(100vh - var(--vp-nav-height));
+    border-right: 1px solid var(--vt-c-divider-light);
+    height: calc(100vh - var(--vp-nav-height));
 }
 </style>

@@ -62,9 +62,9 @@ export default {
             handleDargStart,
             handleDargStart2,
             handleDargEnd,
-            handleDargEnd2
+            handleDargEnd2,
         };
-    }
+    },
 };
 </script>
 

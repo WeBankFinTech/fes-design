@@ -11,8 +11,8 @@ export default {
         const max = 10;
         return {
             min,
-            max
+            max,
         };
-    }
+    },
 };
 </script>

@@ -3,9 +3,9 @@
         <f-header inverted bordered fixed> Header </f-header>
         <f-layout embedded fixed style="top: 54px">
             <f-main>
-                    <div class="main-page">Main</div>
-                </f-main>
-                <f-footer> We Design ©2018 Created by MumbleFE </f-footer>
+                <div class="main-page">Main</div>
+            </f-main>
+            <f-footer> We Design ©2018 Created by MumbleFE </f-footer>
         </f-layout>
     </f-layout>
 </template>

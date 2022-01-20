@@ -12,10 +12,10 @@
             <template #icon> <ProductOutlined /> </template>Primary
         </FButton>
         <FButton type="text">
-            <template v-slot:icon> <ProductOutlined /> </template>Text
+            <template #icon> <ProductOutlined /> </template>Text
         </FButton>
         <FButton type="link">
-            <template v-slot:icon> <ProductOutlined /> </template>Link
+            <template #icon> <ProductOutlined /> </template>Link
         </FButton>
     </Space>
 </template>
