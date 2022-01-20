@@ -27,8 +27,8 @@ export default {
         };
 
         return {
-            search
+            search,
         };
-    }
+    },
 };
 </script>

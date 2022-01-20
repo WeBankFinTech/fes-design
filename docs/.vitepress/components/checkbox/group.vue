@@ -16,9 +16,9 @@
 import { ref } from 'vue';
 export default {
     setup() {
-        const arr = ref([])
+        const arr = ref([]);
         const handleChange = (value) => {
-            console.log("change:", value);
+            console.log('change:', value);
         };
         return {
             arr,

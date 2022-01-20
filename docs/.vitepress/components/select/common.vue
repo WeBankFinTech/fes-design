@@ -4,8 +4,9 @@
             v-for="(item, index) in optionList"
             :key="index"
             :value="item.value"
-            >{{ item.label }}</FOption
         >
+            {{ item.label }}
+        </FOption>
     </FSelect>
 </template>
 <script>

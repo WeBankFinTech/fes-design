@@ -5,6 +5,7 @@
 </template>
 
 <script>
+// eslint-disable-next-line import/no-unresolved
 import { FMessage } from '@fesjs/fes-design';
 export default {
     setup() {
@@ -15,13 +16,13 @@ export default {
                 afterClose() {
                     FMessage.destroy();
                     console.log('Message closed!');
-                }
+                },
             });
         }
 
         return {
-            handleMessageClose
+            handleMessageClose,
         };
-    }
+    },
 };
 </script>

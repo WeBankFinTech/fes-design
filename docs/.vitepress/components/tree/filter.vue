@@ -5,6 +5,7 @@
 </template>
 <script>
 import { ref, reactive, h, watch } from 'vue';
+// eslint-disable-next-line import/no-unresolved
 import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
 
 function createData(level = 1, baseKey = '', prefix, suffix) {
@@ -16,7 +17,7 @@ function createData(level = 1, baseKey = '', prefix, suffix) {
             value: key,
             children: createData(level - 1, key, prefix, suffix),
             prefix: prefix ? () => h(PictureOutlined) : null,
-            suffix: suffix ? () => h(PlusCircleOutlined) : null
+            suffix: suffix ? () => h(PlusCircleOutlined) : null,
         };
     });
 }
@@ -43,8 +44,8 @@ export default {
             data,
             filterText,
             refTree,
-            filterMethod
+            filterMethod,
         };
-    }
+    },
 };
 </script>

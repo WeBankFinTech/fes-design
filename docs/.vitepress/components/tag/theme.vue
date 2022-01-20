@@ -59,12 +59,12 @@ export default {
             { name: 'Success', type: 'success' },
             { name: 'Info', type: 'info' },
             { name: 'Warning', type: 'warning' },
-            { name: 'Danger', type: 'danger' }
+            { name: 'Danger', type: 'danger' },
         ];
         return {
-            effectTags
+            effectTags,
         };
-    }
+    },
 };
 </script>
 
