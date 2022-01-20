@@ -1,26 +1,30 @@
 <template>
     <Space>
         <FTag
-            :key="tag"
             v-for="tag in dynamicTags.state.tags"
+            :key="tag"
             closable
             @close="dynamicTags.handleClose(tag)"
         >
             {{ tag }}
         </FTag>
         <FInput
-            class="input-nef-tag"
-            ref="inputRef"
             v-show="dynamicTags.state.inputVisible"
+            ref="inputRef"
             v-model="dynamicTags.state.inputValue"
+            class="input-nef-tag"
             size="small"
             @keyup.enter="dynamicTags.handleInputConfirm"
             @blur="dynamicTags.handleInputConfirm"
         >
         </FInput>
-        <FButton v-show="!dynamicTags.state.inputVisible" class="button-nef-tag" @click="dynamicTags.showInput"
-            >+ New Tag</FButton
+        <FButton
+            v-show="!dynamicTags.state.inputVisible"
+            class="button-nef-tag"
+            @click="dynamicTags.showInput"
         >
+            + New Tag
+        </FButton>
     </Space>
 </template>
 
@@ -31,7 +35,7 @@ const useDynamicTags = (inputRef) => {
     const state = reactive({
         tags: ['标签一', '标签二', '标签三'],
         inputVisible: false,
-        inputValue: ''
+        inputValue: '',
     });
 
     const handleClose = (tag) => {
@@ -39,8 +43,8 @@ const useDynamicTags = (inputRef) => {
     };
     const showInput = async () => {
         state.inputVisible = true;
-        await nextTick()
-        inputRef.value?.focus()
+        await nextTick();
+        inputRef.value?.focus();
     };
     const handleInputConfirm = () => {
         let inputValue = state.inputValue;
@@ -60,15 +64,15 @@ const useDynamicTags = (inputRef) => {
 };
 export default {
     setup() {
-        const inputRef = ref(null)
+        const inputRef = ref(null);
         // 动态编辑标签
         const dynamicTags = useDynamicTags(inputRef);
 
         return {
             dynamicTags,
-            inputRef
+            inputRef,
         };
-    }
+    },
 };
 </script>
 

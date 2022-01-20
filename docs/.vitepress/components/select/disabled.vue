@@ -24,7 +24,13 @@
                 :label="item.label"
             ></FOption>
         </FSelect>
-        <FSelect v-model="value2" multiple disabled collapseTags :collapseTagsLimit="2">
+        <FSelect
+            v-model="value2"
+            multiple
+            disabled
+            collapseTags
+            :collapseTagsLimit="2"
+        >
             <FOption
                 v-for="(item, index) in optionList"
                 :key="index"
@@ -62,12 +68,12 @@ export default {
                 label: '江苏',
             },
         ]);
-        const value1 = ref("HuNan");
-        const value2 = ref(["HuNan", "HuBei", "ZheJiang", "GuangDong"]);
+        const value1 = ref('HuNan');
+        const value2 = ref(['HuNan', 'HuBei', 'ZheJiang', 'GuangDong']);
         return {
             optionList,
             value1,
-            value2
+            value2,
         };
     },
 };

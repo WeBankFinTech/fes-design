@@ -7,7 +7,7 @@
         每个月7号不能选
         <FDatePicker :disabledDate="disabledDate" />
         最大日期范围为7天
-        <FDatePicker type="daterange" maxRange="7D"  />
+        <FDatePicker type="daterange" maxRange="7D" />
         控制可选时间范围为：09:00:00 - 18:00:00
         <FDatePicker type="datetimerange" :disabledTime="disabledTime" />
     </Space>
@@ -19,7 +19,7 @@ export default {
         const disabledDate = (date) => {
             if (date.getDate() === 7) return true;
             return false;
-        }
+        };
         const disabledTime = (date, phase) => {
             return {
                 disabledHours: (hour) => {
@@ -27,14 +27,14 @@ export default {
                         return hour < 9;
                     }
                     return hour > 18;
-                }
-            }
-        }
+                },
+            };
+        };
 
         return {
             disabledDate,
-            disabledTime
-        }
+            disabledTime,
+        };
     },
-}
+};
 </script>

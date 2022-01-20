@@ -20,7 +20,12 @@
                 <FCascader :options="[]"></FCascader>
             </div>
             <Space class="gap">
-                <FPagination :total-count="1000" show-size-changer show-quick-jumper show-total></FPagination>
+                <FPagination
+                    :total-count="1000"
+                    show-size-changer
+                    show-quick-jumper
+                    show-total
+                ></FPagination>
             </Space>
             <Space class="gap">
                 <FTimePicker></FTimePicker>
@@ -35,7 +40,9 @@
                 <FDatePicker type="datetimerange" :control="true" />
             </Space>
             <Space class="gap">
-                <FUpload action="https://run.mocky.io/v3/2d9d9844-4a46-4145-8f57-07e13768f565" />
+                <FUpload
+                    action="https://run.mocky.io/v3/2d9d9844-4a46-4145-8f57-07e13768f565"
+                />
             </Space>
         </FConfigProvider>
     </div>
@@ -64,31 +71,32 @@
 </template>
 
 <script>
-    import { defineComponent, ref, watch } from 'vue';
-    import { zhCN, enUS } from '@fesjs/fes-design'
+import { defineComponent, ref, watch } from 'vue';
+// eslint-disable-next-line import/no-unresolved
+import { zhCN, enUS } from '@fesjs/fes-design';
 
-    const lang = ref(zhCN.name);
-    const locale = ref(zhCN);
+const lang = ref(zhCN.name);
+const locale = ref(zhCN);
 
-    watch(lang, () => {
-        if (!lang.value) return
-        if (lang.value === zhCN.name) {
-            locale.value = zhCN
-        } else {
-            locale.value = enUS
-        }
-    })
+watch(lang, () => {
+    if (!lang.value) return;
+    if (lang.value === zhCN.name) {
+        locale.value = zhCN;
+    } else {
+        locale.value = enUS;
+    }
+});
 
-    export default defineComponent({
-        setup() {
-            return {
-                enUS,
-                zhCN,
-                lang,
-                locale,
-            }
-        }
-    })
+export default defineComponent({
+    setup() {
+        return {
+            enUS,
+            zhCN,
+            lang,
+            locale,
+        };
+    },
+});
 </script>
 
 <style scoped>

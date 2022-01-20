@@ -1,5 +1,6 @@
 <template>
     <FRadioGroup v-model="size">
+        <FRadio value="xsmall">xsmall</FRadio>
         <FRadio value="small">small</FRadio>
         <FRadio value="middle">middle</FRadio>
         <FRadio value="large">large</FRadio>
@@ -24,5 +25,5 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-const size = ref('middle');
+const size = ref('small');
 </script>

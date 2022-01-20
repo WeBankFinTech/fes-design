@@ -16,8 +16,8 @@ export default {
             return hour === 1;
         };
         return {
-            disabledHours
+            disabledHours,
         };
-    }
+    },
 };
 </script>

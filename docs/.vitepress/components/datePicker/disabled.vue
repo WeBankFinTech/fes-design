@@ -4,5 +4,3 @@
         <FDatePicker type="daterange" disabled />
     </Space>
 </template>
-
-

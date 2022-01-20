@@ -34,7 +34,7 @@
         position: relative;
         display: flex;
         align-items: center;
-        padding: @padding-md @padding-md + @padding-xs;
+        padding: @padding-md calc(@padding-md + @padding-xs);
         color: var(--f-head-color);
         font-weight: @font-weight-medium;
         font-size: @font-size-head;
@@ -47,15 +47,15 @@
     }
 
     &-body {
-        padding: @padding-md @padding-md + @padding-xs;
+        padding: @padding-md calc(@padding-md + @padding-xs);
         color: var(--f-sub-head-color);
         font-size: var(--f-font-size-base);
     }
 
     &-footer {
         position: absolute;
-        bottom: @padding-md + @padding-xs;
-        left: @padding-md + @padding-xs;
+        bottom: calc(@padding-md + @padding-xs);
+        left: calc(@padding-md + @padding-xs);
         text-align: left;
         .btn-margin {
             margin-right: @padding-md;

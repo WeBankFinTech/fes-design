@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 
-import FTag from '../tag';
+import FTag from '../tag.vue';
 import getPrefixCls from '../../_util/getPrefixCls';
 
 const prefixCls = getPrefixCls('tag');
@@ -50,10 +50,20 @@ test('tag closable', async () => {
     expect(wrapper.find(`.${prefixCls}-type--default`).exists()).toBe(true);
     expect(wrapper.find(`.${prefixCls}-type--success`).exists()).toBe(true);
 
-    expect(wrapper.find(`.${prefixCls}-type--default .${prefixCls}__close`).exists()).toBe(false);
-    expect(wrapper.find(`.${prefixCls}-type--success .${prefixCls}__close`).exists()).toBe(true);
+    expect(
+        wrapper
+            .find(`.${prefixCls}-type--default .${prefixCls}__close`)
+            .exists(),
+    ).toBe(false);
+    expect(
+        wrapper
+            .find(`.${prefixCls}-type--success .${prefixCls}__close`)
+            .exists(),
+    ).toBe(true);
 
-    wrapper.find(`.${prefixCls}-type--success .${prefixCls}__close`).trigger('click');
+    wrapper
+        .find(`.${prefixCls}-type--success .${prefixCls}__close`)
+        .trigger('click');
 
     await nextTick();
 

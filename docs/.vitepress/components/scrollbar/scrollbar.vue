@@ -2,7 +2,7 @@
     <Space vertical>
         <FScrollbar height="320px" style="width: 100%">
             <ul class="scroll-ul">
-                <li v-for="item in vals">
+                <li v-for="(item, index) in vals" :key="index">
                     {{ item }}
                 </li>
             </ul>
@@ -19,9 +19,9 @@ export default {
             vals.value.push(i);
         }
         return {
-            vals
+            vals,
         };
-    }
+    },
 };
 </script>
 
@@ -30,7 +30,6 @@ export default {
     list-style-type: none;
     margin: 0;
     list-style: none;
-    
 }
 .scroll-ul > li {
     height: 36px;

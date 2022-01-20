@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // eslint-disable-next-line import/no-extraneous-dependencies
 const vueJsx = require('@vitejs/plugin-vue-jsx');
 const path = require('path');
 const { navbar, sidebar } = require('./configs');
-const {genComponentDoc} = require('./scripts/genComponentDoc');
-const baseConfig = require('@vue/theme/config')
-
+const { genComponentDoc } = require('./scripts/genComponentDoc');
+const baseConfig = require('@vue/theme/config');
 
 const ssrTransformCustomDir = () => ({
     props: [],
@@ -23,41 +23,34 @@ module.exports = {
     description: '微众银行中后台设计 Fes Design',
     vite: {
         define: {
-            __VUE_OPTIONS_API__: false
+            __VUE_OPTIONS_API__: false,
         },
         server: {
             watch: {
-                ignored: ['**/docs/.vitepress/components/**']
-            }
+                ignored: ['**/docs/.vitepress/components/**'],
+            },
         },
         optimizeDeps: {
-            exclude: ['@vue/repl']
+            exclude: ['@vue/repl'],
         },
         ssr: {
             // lodash-es 模块是 esm，ssr 渲染的时候编译成 cjs 的引入方式，会引发 nodejs 的模块加载异常错误
             noExternal: ['lodash-es'],
-            external: ['@vue/repl']
+            external: ['@vue/repl'],
         },
         resolve: {
-            extensions: [
-                '.mjs',
-                '.js',
-                '.ts',
-                '.jsx',
-                '.tsx',
-                '.json',
-                '.vue',
-            ],
+            extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
             alias: {
-                '@fesjs/fes-design': path.resolve(__dirname, '../../components'),
+                '@fesjs/fes-design': path.resolve(
+                    __dirname,
+                    '../../components',
+                ),
             },
         },
         json: {
-            stringify: true
+            stringify: true,
         },
-        plugins: [
-            vueJsx({}),
-        ],
+        plugins: [vueJsx({})],
     },
     vue: {
         template: {

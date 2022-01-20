@@ -5,12 +5,14 @@ import {
     defineComponent,
     ExtractPropTypes,
     PropType,
-    ref,
-    watch,
+    Ref,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { flatten, getSlot } from '../_util/vnode';
+import { TBaseTheme } from '../_theme/base';
+import { createKey } from '../_util/createKey';
+import { depx } from '../_util/utils';
 
 const prefixCls = getPrefixCls('space');
 
@@ -25,7 +27,7 @@ type Align =
 
 type Justify = 'start' | 'end' | 'center' | 'space-around' | 'space-between';
 
-type Size = 'small' | 'middle' | 'large';
+type Size = 'xsmall' | 'small' | 'middle' | 'large';
 
 const spaceProps = {
     align: String as PropType<Align>,
@@ -39,7 +41,7 @@ const spaceProps = {
         type: [String, Number, Array] as PropType<
             Size | number | [number, number]
         >,
-        default: 'middle',
+        default: 'small',
     },
     itemStyle: [String, Object] as PropType<string | CSSProperties>,
     wrap: {
@@ -50,74 +52,71 @@ const spaceProps = {
 
 export type SpaceProps = Partial<ExtractPropTypes<typeof spaceProps>>;
 
-const SIZE_MAP: Record<Size, number> = {
-    small: 8,
-    middle: 12,
-    large: 16,
-};
+const useMargin = (props: SpaceProps, themeRef: Ref<TBaseTheme>) => {
+    const margin = computed(() => {
+        const { size } = props;
+        let horizontal = 0;
+        let vertical = 0;
 
-const useMargin = (props: SpaceProps) => {
-    const horizontal = ref(0);
-    const vertical = ref(0);
+        if (Array.isArray(size)) {
+            horizontal = size[0];
+            vertical = size[1];
+        } else if (typeof size === 'number') {
+            horizontal = size;
+            vertical = size;
+        } else {
+            const currentSize = depx(
+                themeRef.value[createKey('padding', size)] ||
+                themeRef.value[createKey('padding', 'small')]
+            );
+            horizontal = currentSize;
+            vertical = currentSize;
+        }
 
-    watch(
-        () => props.size,
-        (size) => {
-            if (Array.isArray(size)) {
-                horizontal.value = size[0];
-                vertical.value = size[1];
-            } else if (typeof size === 'number') {
-                horizontal.value = size;
-                vertical.value = size;
-            } else {
-                const currentSize = SIZE_MAP[size] || SIZE_MAP.middle;
-                horizontal.value = currentSize;
-                vertical.value = currentSize;
-            }
-        },
-        {
-            immediate: true,
-            deep: true
-        },
-    );
-
-    const semiHorizontal = computed(() => horizontal.value / 2);
-    const semiVertical = computed(() => vertical.value / 2);
-
-    const horizontalMargin = computed(() => `${horizontal.value}px`);
-    const verticalMargin = computed(() => `${vertical.value}px`);
-    const semiHorizontalMargin = computed(() => `${semiHorizontal.value}px`);
-    const semiVerticalMargin = computed(() => `${semiVertical.value}px`);
+        return {
+            horizontal: `${horizontal}px`,
+            vertical: `${vertical}px`,
+            semiHorizontal: `${horizontal / 2}px`,
+            semiVertical: `${vertical / 2}px`,
+        };
+    });
 
     return {
-        horizontalMargin,
-        verticalMargin,
-        semiHorizontalMargin,
-        semiVerticalMargin,
+        margin,
     };
 };
 
 export default defineComponent({
     name: 'FSpace',
     components: {},
-    props: {
-        ...spaceProps,
-    },
-    setup(props, ctx) {
-        useTheme();
+    props: spaceProps,
+    setup(props) {
+        const { theme } = useTheme();
 
-        const { vertical, align, inline, justify, itemStyle, wrap } = props;
+        const { margin } = useMargin(props, theme);
+
+        return {
+            prefixCls,
+            margin,
+        };
+    },
+    render() {
         const {
-            horizontalMargin,
-            verticalMargin,
-            semiHorizontalMargin,
-            semiVerticalMargin,
-        } = useMargin(props);
-        const children = flatten(getSlot(ctx.slots));
+            vertical,
+            align,
+            inline,
+            justify,
+            itemStyle,
+            wrap,
+            prefixCls,
+            margin,
+        } = this;
+
+        const children = flatten(getSlot(this.$slots));
         const lastIndex = children.length - 1;
         const isJustifySpace = justify.startsWith('space-');
 
-        return () => (
+        return (
             <div
                 role="none"
                 class={`${prefixCls}`}
@@ -128,8 +127,8 @@ export default defineComponent({
                         ? 'flex-' + justify
                         : justify,
                     flexWrap: !wrap || vertical ? 'nowrap' : 'wrap',
-                    marginTop: vertical ? '' : `-${semiVerticalMargin.value}`,
-                    marginBottom: vertical ? '' : `-${semiVerticalMargin.value}`,
+                    marginTop: vertical ? '' : `-${margin.semiHorizontal}`,
+                    marginBottom: vertical ? '' : `-${margin.semiVertical}`,
                     alignItems: align,
                 }}
             >
@@ -145,7 +144,7 @@ export default defineComponent({
                                 ? {
                                       marginBottom:
                                           index !== lastIndex
-                                              ? verticalMargin.value
+                                              ? margin.vertical
                                               : '',
                                   }
                                 : {
@@ -153,18 +152,18 @@ export default defineComponent({
                                           ? justify === 'space-between' &&
                                             index === lastIndex
                                               ? ''
-                                              : semiHorizontalMargin.value
+                                              : margin.semiHorizontal
                                           : index !== lastIndex
-                                          ? horizontalMargin.value
+                                          ? margin.horizontal
                                           : '',
                                       marginLeft: isJustifySpace
                                           ? justify === 'space-between' &&
                                             index === 0
                                               ? ''
-                                              : semiHorizontalMargin.value
+                                              : margin.semiHorizontal
                                           : '',
-                                      paddingTop: semiVerticalMargin.value,
-                                      paddingBottom: semiVerticalMargin.value,
+                                      paddingTop: margin.semiVertical,
+                                      paddingBottom: margin.semiVertical,
                                   },
                         ]}
                     >
