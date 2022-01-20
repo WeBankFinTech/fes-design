@@ -5,8 +5,15 @@
         <FRadio value="parent">parent</FRadio>
         <FRadio value="child">child</FRadio>
     </FRadioGroup>
-	<br/>
-    <FSelectTree :data="data" multiple cascade :checkStrictly="checkStrictly" clearable> </FSelectTree>
+    <br />
+    <FSelectTree
+        :data="data"
+        multiple
+        cascade
+        :checkStrictly="checkStrictly"
+        clearable
+    >
+    </FSelectTree>
 </template>
 <script>
 import { reactive, ref } from 'vue';
@@ -35,10 +42,10 @@ function createLabel(level) {
 export default {
     setup() {
         const data = reactive(createData(4));
-		const checkStrictly = ref('all')
+        const checkStrictly = ref('all');
         return {
             data,
-			checkStrictly
+            checkStrictly,
         };
     },
 };

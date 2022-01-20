@@ -3,10 +3,10 @@
         <FInput
             ref="inputRef"
             v-model="inputValue"
+            placeholder="请输入"
             @keydown="handleKeydown"
             @input="handleInput"
             @change="handleChange"
-            placeholder="请输入"
         />
     </Space>
 </template>
@@ -35,8 +35,8 @@ export default {
             inputValue,
             handleKeydown,
             handleChange,
-            handleInput
+            handleInput,
         };
-    }
+    },
 };
 </script>

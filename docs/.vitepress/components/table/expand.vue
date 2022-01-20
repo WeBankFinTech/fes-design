@@ -1,6 +1,6 @@
 <template>
     <f-table :data="data" rowKey="date">
-        <f-table-column type="expand" v-slot="{ row }">
+        <f-table-column v-slot="{ row }" type="expand">
             <f-grid :gutter="[20, 20]" wrap>
                 <f-grid-item :span="12"> 省份：{{ row.province }} </f-grid-item>
                 <f-grid-item :span="12"> 市区：{{ row.city }} </f-grid-item>
@@ -15,19 +15,21 @@
 <script>
 export default {
     setup() {
-        const data = Array.from([1, 2, 3], (i)=> {
+        const data = Array.from([1, 2, 3], (i) => {
             return {
-                date: `2016-05-2016-05-2016-05-2016-05-2016-05-2016-05-2016-05-2016-05-${i < 10 ? '0' + i : i}`,
+                date: `2016-05-2016-05-2016-05-2016-05-2016-05-2016-05-2016-05-2016-05-${
+                    i < 10 ? '0' + i : i
+                }`,
                 name: '王小虎',
                 province: '上海',
                 city: '普陀区',
                 address: '上海市普陀区金沙江路 1518 弄',
                 zip: 200333,
-            }
-        })
+            };
+        });
         return {
-            data
-        }
+            data,
+        };
     },
-}
+};
 </script>

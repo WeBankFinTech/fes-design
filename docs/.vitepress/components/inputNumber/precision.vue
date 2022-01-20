@@ -9,8 +9,8 @@ export default {
     setup() {
         const precision = 2;
         return {
-            precision
+            precision,
         };
-    }
+    },
 };
 </script>

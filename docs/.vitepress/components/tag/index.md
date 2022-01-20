@@ -14,7 +14,7 @@ app.use(FTag);
 
 ### 基础用法
 
---COMMON
+--BASIC
 
 ### 可移除标签
 

@@ -1,10 +1,8 @@
 <template>
     <f-layout style="height: 400px">
         <f-header bordered fixed> Header </f-header>
-        <f-layout fixed style="top: 54px; bottom: 70px;">
-            <f-aside bordered fixed>
-                Aside
-            </f-aside>
+        <f-layout fixed style="top: 54px; bottom: 70px">
+            <f-aside bordered fixed> Aside </f-aside>
             <f-layout fixed style="left: 200px">
                 <f-main>
                     <f-table :data="data">
@@ -16,19 +14,25 @@
                             fixed
                         >
                         </f-table-column>
-                        <f-table-column prop="name" label="姓名" :width="150"></f-table-column>
+                        <f-table-column
+                            prop="name"
+                            label="姓名"
+                            :width="150"
+                        ></f-table-column>
                         <f-table-column
                             prop="province"
                             label="省份"
                             :width="150"
                         ></f-table-column>
-                        <f-table-column prop="city" label="市区" :width="150"> </f-table-column>
+                        <f-table-column prop="city" label="市区" :width="150">
+                        </f-table-column>
                         <f-table-column
                             prop="address"
                             label="地址"
                             :width="800"
                         ></f-table-column>
-                        <f-table-column prop="zip" label="邮编" :width="120"> </f-table-column>
+                        <f-table-column prop="zip" label="邮编" :width="120">
+                        </f-table-column>
                         <f-table-column
                             label="操作"
                             align="center"
@@ -59,26 +63,29 @@ export default {
                     province: '上海',
                     city: '普陀区',
                     address: '上海市普陀区金沙江路 1518 弄',
-                    zip: 200333
+                    zip: 200333,
                 };
-            })
+            }),
         );
-        const action = [{
-            label: '编辑',
-            func: (row)=> {
-                console.log(row)
-            }
-        },{
-            label: '删除',
-            func: (row)=> {
-                console.log(row)
-            }
-        }]
+        const action = [
+            {
+                label: '编辑',
+                func: (row) => {
+                    console.log(row);
+                },
+            },
+            {
+                label: '删除',
+                func: (row) => {
+                    console.log(row);
+                },
+            },
+        ];
         return {
             data,
-            action
+            action,
         };
-    }
+    },
 };
 </script>
 <style scoped>

@@ -18,19 +18,19 @@ const useCommonTags = () => {
         { name: 'Success', type: 'success' },
         { name: 'Info', type: 'info' },
         { name: 'Warning', type: 'warning' },
-        { name: 'Danger', type: 'danger' }
+        { name: 'Danger', type: 'danger' },
     ];
 
     return {
-        tags
+        tags,
     };
 };
 export default {
     setup() {
         const closableTags = useCommonTags();
         return {
-            closableTags
+            closableTags,
         };
-    }
+    },
 };
 </script>
