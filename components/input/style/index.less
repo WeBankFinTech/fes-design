@@ -30,6 +30,7 @@
         border: var(--f-border-base);
         border-radius: var(--f-border-radius-base);
         outline: 0;
+        transition: all @animation-duration-base @ease-base-in;
 
         &::placeholder {
             color: var(--f-text-color-caption);
@@ -39,9 +40,11 @@
         &:focus {
             z-index: 1;
             border-color: var(--f-primary-color);
+            transition: all @animation-duration-slow @ease-base-out;
         }
         &:focus {
             box-shadow: 0 0 0 2px var(--f-focus-shadow-color);
+            transition: all @animation-duration-slow @ease-base-out;
         }
 
         &[disabled] {

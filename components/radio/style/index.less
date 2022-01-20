@@ -39,12 +39,14 @@
     &.is-hover{
         .@{radio-prefix-cls}-inner {
             border-color: var(--f-primary-color);
+            transition: all @animation-duration-slow @ease-base-out;
         }
     }
     &.is-checked{
         .@{radio-prefix-cls}-inner {
             background: var(--f-primary-color);
             border-color: var(--f-primary-color);
+            transition: all @animation-duration-slow @ease-base-out;
             &::before {
                 .radio-inner()
             }
