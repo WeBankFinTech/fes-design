@@ -109,7 +109,18 @@ export default defineComponent({
                     {props.options.map((option) => renderOption(option))}
                 </Scrollbar>
             ) : (
-                <div class={`${props.prefixCls}-null`}>{props.emptyText}</div>
+                <div
+                    onMousedown={(e: Event) => {
+                        e.preventDefault();
+                    }}
+                    class={[
+                        `${props.prefixCls}-dropdown`,
+                        `${props.prefixCls}-null`,
+                    ]}
+                    style={props.containerStyle}
+                >
+                    {props.emptyText}
+                </div>
             );
     },
 });
