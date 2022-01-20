@@ -75,6 +75,23 @@
                 <FRadio value="2">女</FRadio>
             </FRadioGroup>
         </FFormItem>
+        <FFormItem label="级联单选" prop="singleCity">
+            <FCascader
+                v-model="modelForm.singleCity"
+                :options="cascaderOptions"
+                @change="changeHandler"
+            >
+            </FCascader>
+        </FFormItem>
+        <FFormItem label="级联多选" prop="multiCity">
+            <FCascader
+                v-model="modelForm.multiCity"
+                :options="cascaderOptions"
+                :multiple="true"
+                @change="changeHandler"
+            >
+            </FCascader>
+        </FFormItem>
         <FFormItem label="操作权限" prop="permission">
             <FCheckboxGroup
                 v-model="modelForm.permission"
@@ -161,6 +178,9 @@ export default {
                 weight: 100,
             },
             desc: '',
+
+            singleCity: '',
+            multiCity: [],
         });
         const validateContFun = (rule, value) => {
             return Boolean(value.startsWith(modelForm.name));
@@ -244,6 +264,17 @@ export default {
                     trigger: ['input', 'change'],
                 },
             ],
+            singleCity: [
+                { required: true, message: '请选择单选', trigger: 'change' },
+            ],
+            multiCity: [
+                {
+                    required: true,
+                    message: '请选择多选',
+                    trigger: 'change',
+                    type: 'array',
+                },
+            ],
         };
         const nameRules = [
             { required: true, message: '请输入姓名', trigger: 'blur' },
@@ -268,6 +299,60 @@ export default {
             {
                 value: 'JiangSu',
                 label: '江苏',
+            },
+        ];
+        const cascaderOptions = [
+            {
+                value: '110000',
+                label: '北京市',
+                children: [
+                    {
+                        value: '110100',
+                        label: '市辖区',
+                        children: [
+                            {
+                                value: '110101',
+                                label: '东城区东城区东城区东城区东城区东城区',
+                            },
+                            {
+                                value: '110102',
+                                label: '西城区',
+                            },
+                        ],
+                    },
+                    {
+                        value: '110200',
+                        label: '市辖县',
+                        children: [
+                            {
+                                value: '110228',
+                                label: '密云县',
+                            },
+                            {
+                                value: '110229',
+                                label: '延庆县',
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                value: '130000',
+                label: '河北省',
+                children: [
+                    {
+                        value: '130100',
+                        label: '石家庄市',
+                    },
+                    {
+                        value: '130200',
+                        label: '唐山市',
+                    },
+                ],
+            },
+            {
+                value: '140000',
+                label: '山西省',
             },
         ];
 
@@ -343,6 +428,7 @@ export default {
             resetHandler,
             descClickHandler,
             moreClickHandler,
+            cascaderOptions,
         };
     },
 };

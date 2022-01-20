@@ -33,10 +33,10 @@ export default defineComponent({
         const { layout } = inject(provideKey);
         // 计算出传入columns列的对应的宽度
         const _columns = computed(() => {
-            const widtListValue = layout.widthList.value;
+            const widthListValue = layout.widthList.value;
             return props.columns.map((column) => ({
                 ...column,
-                width: (widtListValue as any)[column.id],
+                width: (widthListValue as any)[column.id],
             }));
         });
 

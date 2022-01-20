@@ -210,7 +210,10 @@ export default defineComponent({
             const tabPanes = flatten(ctx.slots.default()).filter(
                 (vNode) => (vNode.type as any).name === 'FTabPane',
             );
-            updateCurrentValue(tabPanes[0]?.props?.value);
+            // 避免可能出现的bug https://github.com/vuejs/core/issues/5290
+            nextTick(()=>{
+                updateCurrentValue(tabPanes[0]?.props?.value);
+            })
         }
 
         return () => {

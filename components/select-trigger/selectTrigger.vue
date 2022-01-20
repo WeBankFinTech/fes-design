@@ -16,9 +16,9 @@
                             {{ labelTextRef }}
                         </span>
                     </Ellipsis>
-                    <span v-else :class="`${prefixCls}-label-placeholder`">
+                    <div v-else :class="`${prefixCls}-label-placeholder`">
                         {{ placeholder }}
-                    </span>
+                    </div>
                 </template>
                 <template v-else>
                     <input

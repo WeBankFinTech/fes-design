@@ -63,6 +63,7 @@
         flex-direction: row;
         flex-grow: 1;
         max-width: calc(100% - @padding-xs - @font-size-body - 2px);
+        min-height: @line-height-base;
         color: var(--f-text-color);
         &-item {
             display: flex;
@@ -81,7 +82,9 @@
             }
         }
         &-placeholder {
+            max-width: 100%;
             color: @select-placeholder-color;
+            .ellipsis();
         }
         &-input {
             width: 100%;

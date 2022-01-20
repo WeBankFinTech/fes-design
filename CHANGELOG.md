@@ -1,3 +1,17 @@
+## [0.2.4](https://github.com/WeBankFinTech/fes-design/compare/v0.2.3...v0.2.4) (2022-01-20)
+
+
+### Bug Fixes
+
+* form样式优化 ([a2c5e3b](https://github.com/WeBankFinTech/fes-design/commit/a2c5e3bd5fdda79a7281ee894b0dfc29363e54f6))
+* 修复radio/checkbox样式问题 ([99a4ef7](https://github.com/WeBankFinTech/fes-design/commit/99a4ef7f246fa842b9cc906b18c543d7d0935c05))
+* 修复select/table组件的样式问题 ([bee17fe](https://github.com/WeBankFinTech/fes-design/commit/bee17fe50dfcf9a662d4ca5655e02677e5955029))
+* 修复table样式 ([0c6f096](https://github.com/WeBankFinTech/fes-design/commit/0c6f09674104c5b4d6a0ec27528ad5443be31aa4))
+* 修复样式问题 ([2656b37](https://github.com/WeBankFinTech/fes-design/commit/2656b37f50295304249e73379c836e88e5dafe11))
+* 避免带来https://github.com/vuejs/core/issues/5290 问题 ([a6cc93e](https://github.com/WeBankFinTech/fes-design/commit/a6cc93eb4b18ae2a98a7a0e376c2983023ccbda6))
+
+
+
 ## [0.2.3](https://github.com/WeBankFinTech/fes-design/compare/v0.2.2...v0.2.3) (2022-01-18)
 
 
