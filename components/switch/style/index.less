@@ -53,14 +53,8 @@
             margin-left: @padding-xs;
         }
         &::after {
-            left: 100%;
-            margin-left: -2px;
+            left: calc(100% - 2px);
             transform: translateX(-100%);
-        }
-    }
-    &.is-animate {
-        &::after {
-            animation: switchWidthEffect 0.3s @ease-base-in;
         }
     }
     &.is-disabled {

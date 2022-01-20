@@ -42,12 +42,14 @@
     &.is-hover{
         .@{checkbox-prefix-cls}-inner {
             --f-checkbox-border-color: var(--f-primary-color);
+            transition: all @animation-duration-slow @ease-base-out;
         }
     }
     &.is-checked{
         .@{checkbox-prefix-cls}-inner {
             --f-checkbox-bg-color: var(--f-primary-color);
             --f-checkbox-border-color: var(--f-primary-color);
+            transition: all @animation-duration-slow @ease-base-out;
             &::before {
                 .checkbox-inner()
             }

@@ -7,12 +7,12 @@ import {
     onBeforeUnmount,
     getCurrentInstance,
     watch,
-    Fragment
+    Fragment,
+    Transition
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import Popper from '../popper/popper';
 import DownOutlined from '../icon/DownOutlined';
-import UpOutlined from '../icon/UpOutlined';
 import RightOutlined from '../icon/RightOutlined';
 import Ellipsis from '../ellipsis/ellipsis';
 import { COMPONENT_NAME } from './const';
@@ -121,23 +121,16 @@ export default defineComponent({
             return null;
         };
         const renderArrow = () => {
-            if (rootMenu.renderWithPopper.value) {
-                if (isFirstLevel.value) {
-                    return (
-                        <span class={`${prefixCls}-arrow`}>
-                            {isOpened.value ? <UpOutlined /> : <DownOutlined />}
-                        </span>
-                    );
-                }
+            if (rootMenu.renderWithPopper.value && !isFirstLevel.value) {
                 return (
-                    <span class={`${prefixCls}-arrow is-right`}>
+                    <span class={`${prefixCls}-arrow`}>
                         <RightOutlined />
                     </span>
                 );
             }
             return (
-                <span class={`${prefixCls}-arrow is-right`}>
-                    {isOpened.value ? <UpOutlined /> : <DownOutlined />}
+                <span class={[`${prefixCls}-arrow`, isOpened.value && 'is-opened' ]}>
+                    <DownOutlined />
                 </span>
             );
         };
@@ -175,7 +168,9 @@ export default defineComponent({
             return (
                 <>
                     {renderWrapper('click')}
-                    <div v-show={isOpened.value}>{renderDefault()}</div>
+                    <Transition name={'fes-slide-up'}>
+                        <div v-show={isOpened.value}>{renderDefault()}</div>
+                    </Transition>
                 </>
             );
         };
