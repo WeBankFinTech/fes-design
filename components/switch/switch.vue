@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onMounted, PropType } from 'vue';
+import { defineComponent, computed, onMounted, PropType, nextTick } from 'vue';
 import { isEqual, isFunction } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -62,8 +62,11 @@ export default defineComponent({
         const { validate } = useFormAdaptor();
         onMounted(() => {
             // 默认为未选中
-            if (currentValue.value === null) {
-                updateCurrentValue(props.inactiveValue);
+            if (currentValue.value === undefined) {
+                // 避免可能出现的bug https://github.com/vuejs/core/issues/5290
+                nextTick(() => {
+                    updateCurrentValue(props.inactiveValue);
+                });
             }
         });
 
