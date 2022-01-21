@@ -31,10 +31,10 @@ export default function playground(codeName) {
     }
     const container = document.createElement('div');
     vm = createVNode(ExampleRepl, {
-        codeName
+        codeName,
     });
     render(vm, container);
-    
+
     document.body.appendChild(container);
     return vm;
 }

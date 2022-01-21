@@ -5,7 +5,9 @@
                 <template #icon>
                     <AppstoreOutlined />
                 </template>
-                <template #label>我是标题我是标题我是标题我是标题我是标题</template>
+                <template #label>
+                    我是标题我是标题我是标题我是标题我是标题
+                </template>
                 <f-menu-group>
                     <template #label>华中地区</template>
                     <f-menu-item value="1.1">
@@ -25,16 +27,15 @@
                     </f-sub-menu>
                 </f-menu-group>
                 <f-menu-group>
-                    <template #label>
-                        华南地区
-                    </template>
+                    <template #label> 华南地区 </template>
                     <f-menu-item value="1.3" label="广东"></f-menu-item>
-                    <f-menu-item value="1.4" label="广西壮族自治区"></f-menu-item>
+                    <f-menu-item
+                        value="1.4"
+                        label="广西壮族自治区"
+                    ></f-menu-item>
                 </f-menu-group>
                 <f-menu-group>
-                    <template #label>
-                        华东地区
-                    </template>
+                    <template #label> 华东地区 </template>
                     <f-menu-item value="1.5" label="浙江"></f-menu-item>
                 </f-menu-group>
             </f-sub-menu>

@@ -1,6 +1,5 @@
 <template>
-    <FSelect>
-    </FSelect>
+    <FSelect></FSelect>
 </template>
 <style scoped>
 .fes-select {

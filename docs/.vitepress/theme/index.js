@@ -1,4 +1,5 @@
-import { VPTheme, VTBadge } from '@vue/theme'
+/* eslint-disable import/no-unresolved */
+import { VPTheme, VTBadge } from '@vue/theme';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import WeDesign from '../../../components/index';
@@ -18,8 +19,8 @@ import './global.less';
 
 export default Object.assign({}, VPTheme, {
     NotFound,
-    enhanceApp({app}) {
-        app.component('Badge', VTBadge)
+    enhanceApp({ app }) {
+        app.component('Badge', VTBadge);
         app.component('IconDoc', IconDoc);
         app.component('WIframe', WIframe);
         Object.keys(Icons).forEach((iconName) => {
@@ -27,10 +28,10 @@ export default Object.assign({}, VPTheme, {
         });
         app.use(WeDesign);
         app.component('ComponentDoc', ComponentDoc);
-        app.component('Space', Space)
+        app.component('Space', Space);
 
         app.provide('filter-headers', (headers) => {
             return headers;
-        })
-    }
+        });
+    },
 });

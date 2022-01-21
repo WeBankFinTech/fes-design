@@ -6,9 +6,9 @@
         <FRadio value="right">right</FRadio>
     </FRadioGroup>
     <FTabs :position="position" style="height: 300px">
-        <FTabPane v-for="i in 20" :name="'Tab ' + i" :value="i" :key="i"
-            ><div class="tab-content">Tab {{ i }}</div></FTabPane
-        >
+        <FTabPane v-for="i in 20" :key="i" :name="'Tab ' + i" :value="i">
+            <div class="tab-content">Tab {{ i }}</div>
+        </FTabPane>
         <template #prefix>Prefix</template>
         <template #suffix>Suffix</template>
     </FTabs>
@@ -20,15 +20,15 @@ export default {
     setup() {
         const position = ref('left');
         return {
-            position
+            position,
         };
-    }
+    },
 };
 </script>
 
 <style scoped>
-.tab-content{
-    background: #FFF;
+.tab-content {
+    background: #fff;
     line-height: 300px;
     text-align: center;
 }

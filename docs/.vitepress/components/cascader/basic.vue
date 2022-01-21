@@ -1,60 +1,33 @@
 <template>
-    <Space>
-        <FInput placeholder="请输入">
-            <template #prepend> https:// </template>
-        </FInput>
-
-        <FInput placeholder="请输入">
-            <template #append>
-                <FButton type="primary">搜索</FButton>
-            </template>
-        </FInput>
-
-        <FInput placeholder="请输入">
-            <template #prepend>
-                <FSelect v-model="a" style="width: 90px">
-                    <FOption :value="1">湖南</FOption>
-                    <FOption :value="2" label="湖北" disabled></FOption>
-                    <FOption
-                        :value="3"
-                        label="浙江浙江浙江浙江浙江浙江浙江浙江浙江"
-                    ></FOption>
-                    <FOption :value="4" label="广东"></FOption>
-                    <FOption :value="5" label="江苏"></FOption>
-                </FSelect>
-            </template>
-            <template #prefix> ¥ </template>
-            <template #suffix> RMB </template>
-            <template #append>
-                <FSelect v-model="a" style="width: 90px">
-                    <FOption :value="1">湖南</FOption>
-                    <FOption :value="2" label="湖北" disabled></FOption>
-                    <FOption
-                        :value="3"
-                        label="浙江浙江浙江浙江浙江浙江浙江浙江浙江"
-                    ></FOption>
-                    <FOption :value="4" label="广东"></FOption>
-                    <FOption :value="5" label="江苏"></FOption>
-                </FSelect>
-            </template>
-        </FInput>
-
-        <FInput placeholder="请输入">
-            <template #append>
-                <FCascader
-                    v-model="base.value1"
-                    :options="base.options"
-                    style="width: 90px"
-                    @change="base.handleChange"
-                >
-                </FCascader>
-            </template>
-        </FInput>
-    </Space>
+    <div class="text-tips">默认单选：</div>
+    <FCascader
+        v-model="base.value1"
+        :options="base.options"
+        @change="base.handleChange"
+    >
+    </FCascader>
+    <div class="text-tips">hover单选：</div>
+    <FCascader
+        v-model="base.value2"
+        :options="base.options"
+        :nodeConfig="{ expandTrigger: 'hover' }"
+        @change="base.handleChange"
+    >
+    </FCascader>
+    <div class="text-tips">单选不展示路径：</div>
+    <FCascader
+        v-model="base.valueEmitPath"
+        :options="base.options"
+        :showAllLevels="false"
+        :clearable="true"
+        :nodeConfig="{ emitPath: true }"
+        @change="base.handleChange"
+    >
+    </FCascader>
 </template>
 
 <script>
-import { defineComponent, reactive, ref, toRefs } from 'vue';
+import { defineComponent, reactive, toRefs } from 'vue';
 
 const options = [
     {
@@ -234,6 +207,7 @@ const options = [
 function handleChange(value) {
     console.log('Cascader || handleChange || value:', value);
 }
+
 // 基础用法
 const useBase = () => {
     const state = reactive({
@@ -249,15 +223,23 @@ const useBase = () => {
     };
 };
 
-export default {
+export default defineComponent({
     setup() {
         // 基础用法
         const base = useBase();
 
         return {
             base,
-            a: ref(),
         };
     },
-};
+});
 </script>
+
+<style scoped>
+.fes-cascader {
+    width: 200px;
+}
+.text-tips {
+    margin-top: 10px;
+}
+</style>

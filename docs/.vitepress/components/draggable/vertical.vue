@@ -15,9 +15,9 @@ export default {
     setup() {
         const list = ref([1, 2, 3, 4, 5]);
         return {
-            list
+            list,
         };
-    }
+    },
 };
 </script>
 

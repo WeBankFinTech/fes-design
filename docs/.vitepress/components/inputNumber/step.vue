@@ -17,8 +17,8 @@ export default {
         const step = 5;
         return {
             precision,
-            step
+            step,
         };
-    }
+    },
 };
 </script>

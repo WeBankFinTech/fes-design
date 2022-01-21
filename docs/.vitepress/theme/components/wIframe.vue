@@ -20,23 +20,23 @@ export default {
 <style lang="less" scoped>
 .iframe-wrapper {
     position: relative;
-    border-top: 2em solid rgba(230,230,230,.7);
+    border-top: 2em solid rgba(230, 230, 230, 0.7);
     border-radius: 3px 3px 0 0;
     box-shadow: 0 0.1em 0.5em 0 rgb(0 0 0 / 28%);
     box-sizing: border-box;
-    &::before{
+    &::before {
         position: absolute;
         top: -1.25em;
         left: 1em;
         display: block;
-        width: .5em;
-        height: .5em;
+        width: 0.5em;
+        height: 0.5em;
         background-color: #f44;
         border-radius: 50%;
         box-shadow: 0 0 0 2px #f44, 1.5em 0 0 2px #9b3, 3em 0 0 2px #fb5;
         content: '';
     }
-    &::after{
+    &::after {
         position: absolute;
         top: -1.6em;
         left: 5.5em;
@@ -47,7 +47,7 @@ export default {
         border-radius: 2px;
         content: '';
     }
-    .iframe{
+    .iframe {
         display: block;
         width: 100%;
         border: 0;
