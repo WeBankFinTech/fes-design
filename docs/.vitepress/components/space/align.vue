@@ -1,19 +1,15 @@
 <template>
-    <div class="space-wrapper">
-        <FSpace align="start">
-            text
-            <FButton>Button</FButton>
+    <FRadioGroup v-model="align">
+        <FRadio value="start">start</FRadio>
+        <FRadio value="center">center</FRadio>
+        <FRadio value="end">end</FRadio>
+        <FRadio value="baseline">baseline</FRadio>
+    </FRadioGroup>
 
-            <div class="box-wrapper">
-                <FSpace vertical>
-                    text
-                    <FButton>Button</FButton>
-                </FSpace>
-            </div>
-        </FSpace>
-    </div>
+    <FDivider></FDivider>
+
     <div class="space-wrapper">
-        <FSpace align="center">
+        <FSpace :align="align">
             text
             <FButton>Button</FButton>
 
@@ -27,9 +23,14 @@
     </div>
 </template>
 
+<script lang="ts" setup>
+import { ref } from 'vue';
+const align = ref('start');
+</script>
+
 <style scoped>
 .space-wrapper {
-    width: 250px;
+    width: 280px;
     margin-bottom: 20px;
     padding: 8px;
     border: 1px solid #ccc;
