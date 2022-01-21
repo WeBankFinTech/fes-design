@@ -29,6 +29,7 @@ export default (props: PopperProps, emit: any) => {
     const placement = ref(props.placement);
     const transitionVisible = ref(visible.value);
     watch(visible, (val) => {
+        // 关闭时直接关闭
         if (!val) {
             transitionVisible.value = val;
         }
@@ -37,9 +38,10 @@ export default (props: PopperProps, emit: any) => {
     let instance: ReturnType<typeof createPopper> | null;
 
     const updateInstance = () => {
-        transitionVisible.value = false;
-        instance.update().then(() => {
-            nextTick(() => {
+        // 需要在下一帧等copy渲染完毕，有大小体积之后再计算一次
+        nextTick(() => {
+            transitionVisible.value = false;
+            instance.update().then(() => {
                 transitionVisible.value = true;
             });
         });
