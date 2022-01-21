@@ -33,7 +33,7 @@
             }
             .@{step-prefix-cls}-tail {
                 position: absolute;
-                top: (@padding-xs + @step-symbol-size);
+                top: calc(@padding-xs + @step-symbol-size);
                 bottom: @padding-xs;
                 left: (@step-symbol-size / 2);
                 flex: none;
@@ -77,7 +77,7 @@
     }
     &-content {
         flex: 1;
-        margin-left: (@padding-xs / 2);
+        margin-left: calc(@padding-xs / 2);
     }
     &-title {
         display: flex;
@@ -93,7 +93,7 @@
     }
     &-description {
         width: 100%;
-        margin-top: (@padding-xs / 2);
+        margin-top: calc(@padding-xs / 2);
         font-size: @font-size-caption;
         line-height: calc(@font-size-caption * @line-height-base / var(--f-font-size-base));
     }

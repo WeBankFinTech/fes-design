@@ -35,17 +35,17 @@
         }
         &.is-inline {
             display: inline-flex;
-            line-height: @data-input-height-base;
             margin-left: @padding-lg;
             color: inherit;
+            line-height: @data-input-height-base;
             background-color: inherit;
             .@{tree-prefix-cls}-node-content {
-                padding: 0 (@padding-xs / 2);
+                padding: 0 calc(@padding-xs / 2);
                 color: var(--f-tree-node-content-wrapper-color);
                 background-color: var(--f-tree-node-content-wrapper-bg-color);
             }
             .@{tree-prefix-cls}-node-checkbox {
-                margin-right: (@padding-xs / 2);
+                margin-right: calc(@padding-xs / 2);
             }
             &.is-inline-first {
                 margin-left: 0;
@@ -53,8 +53,8 @@
         }
     }
     &-node-indent {
-        height: 0;
         width: @tree-indent;
+        height: 0;
     }
     &-node-switcher,
     &-node-checkbox {

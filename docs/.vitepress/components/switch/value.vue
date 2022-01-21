@@ -5,14 +5,14 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
     setup() {
-        const value = ref()
+        const value = ref();
         return {
-            value
-        }
+            value,
+        };
     },
-})
+});
 </script>

@@ -53,7 +53,7 @@
 .tooltip-wrapper .ml-100 {
     margin-left: 100px;
 }
-.tooltip-wrapper  .ml-20 {
+.tooltip-wrapper .ml-20 {
     margin-left: 20px;
 }
 .tooltip-wrapper .ml-340 {

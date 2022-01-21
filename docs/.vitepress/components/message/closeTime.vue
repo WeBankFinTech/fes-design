@@ -1,19 +1,20 @@
 <template>
     <Space>
-        <FButton @click="() => FMessage.info('该提示将在10s后关闭', 10)"
-            >自定义时长</FButton
-        >
+        <FButton @click="() => FMessage.info('该提示将在10s后关闭', 10)">
+            自定义时长
+        </FButton>
     </Space>
 </template>
 
 <script>
+// eslint-disable-next-line import/no-unresolved
 import { FMessage } from '@fesjs/fes-design';
 
 export default {
     setup() {
         return {
-            FMessage
+            FMessage,
         };
-    }
+    },
 };
 </script>

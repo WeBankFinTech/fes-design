@@ -22,9 +22,9 @@ export default {
 
         return {
             vmlist,
-            vmlist2
+            vmlist2,
         };
-    }
+    },
 };
 </script>
 

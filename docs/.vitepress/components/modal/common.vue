@@ -9,8 +9,8 @@
         <FModal
             v-model:show="show[0]"
             title="这里是标题"
-            @ok="show[0] = false"
             displayDirective="if"
+            @ok="show[0] = false"
         >
             <div>我是内容...</div>
             <div>我是内容...</div>
@@ -75,8 +75,8 @@ export default {
     setup() {
         const show = reactive([]);
         return {
-            show
+            show,
         };
-    }
+    },
 };
 </script>

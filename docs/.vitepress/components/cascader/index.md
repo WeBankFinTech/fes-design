@@ -14,7 +14,7 @@ app.use(FCascader);
 
 ### 基础用法（默认单选）
 
---COMMON
+--BASIC
 
 ### 基础多选
 

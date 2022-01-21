@@ -24,7 +24,7 @@
 import { ref } from 'vue';
 
 export default {
-    setup(){
+    setup() {
         const fileList = ref([
             {
                 uid: '1',
@@ -46,35 +46,35 @@ export default {
                 response: 'Server Error 500', // custom error message to show
                 url: 'http://www.baidu.com/zzz.png',
             },
-        ])
+        ]);
 
         const accept = ['image/*'];
         const change = (param) => {
-            console.log("change:", param)
-        }
+            console.log('change:', param);
+        };
         const remove = (param) => {
-            console.log("remove:", param)
-        }
+            console.log('remove:', param);
+        };
         const success = (param) => {
-            console.log("success:", param)
-        }
+            console.log('success:', param);
+        };
         const error = (param) => {
-            console.log("error:", param)
-        }
+            console.log('error:', param);
+        };
         const exceed = (param) => {
-            console.log("exceed:", param)
-        }
+            console.log('exceed:', param);
+        };
         const progress = (param) => {
-            console.log("progress:", param)
-        }
+            console.log('progress:', param);
+        };
         const beforeUpload = async (file) => {
-            console.log("file:", file)
-            if(file.size > 500 * 1024) {
-                console.log("超出5KB，无法上传！")
+            console.log('file:', file);
+            if (file.size > 500 * 1024) {
+                console.log('超出5KB，无法上传！');
                 return false;
             }
             return true;
-        }
+        };
         return {
             fileList,
             accept,
@@ -84,13 +84,13 @@ export default {
             error,
             exceed,
             progress,
-            beforeUpload
-        }
-    }
-}
+            beforeUpload,
+        };
+    },
+};
 </script>
 <style>
-.f-upload__tip{
+.f-upload__tip {
     font-size: 12px;
     margin-top: 7px;
     color: #93949b;
