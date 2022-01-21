@@ -24,6 +24,9 @@
     border-radius: var(--f-border-radius-base);
     outline: 0;
     transition: all @animation-duration-slow @ease-base-out;
+    &, * {
+        box-sizing: border-box;
+    }
     &:hover {
         --f-select-trigger-border-color: var(--f-primary-color);
         transition: all @animation-duration-base @ease-base-in;
