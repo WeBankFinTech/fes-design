@@ -1,12 +1,6 @@
 <template>
     <f-table :data="data">
-        <f-table-column
-            prop="date"
-            label="日期"
-            :width="150"
-            ellipsis
-            fixed
-        >
+        <f-table-column prop="date" label="日期" :width="150" ellipsis fixed>
         </f-table-column>
         <f-table-column prop="name" label="姓名" :width="150"></f-table-column>
         <f-table-column
@@ -44,25 +38,28 @@ export default {
                     province: '上海',
                     city: '普陀区',
                     address: '上海市普陀区金沙江路 1518 弄',
-                    zip: 200333
+                    zip: 200333,
                 };
-            })
+            }),
         );
-        const action = [{
-            label: '编辑',
-            func: (row)=> {
-                console.log(row)
-            }
-        },{
-            label: '删除',
-            func: (row)=> {
-                console.log(row)
-            }
-        }]
+        const action = [
+            {
+                label: '编辑',
+                func: (row) => {
+                    console.log(row);
+                },
+            },
+            {
+                label: '删除',
+                func: (row) => {
+                    console.log(row);
+                },
+            },
+        ];
         return {
             data,
-            action
+            action,
         };
-    }
+    },
 };
 </script>

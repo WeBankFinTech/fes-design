@@ -13,8 +13,8 @@
 </template>
 
 <style scoped>
-.tab-content{
-    background: #FFF;
+.tab-content {
+    background: #fff;
     line-height: 60px;
     text-align: center;
 }

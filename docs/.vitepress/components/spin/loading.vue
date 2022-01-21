@@ -1,6 +1,6 @@
 <template>
     <Space vertical>
-        <FSwitch class="demo-switch" v-model="show">
+        <FSwitch v-model="show" class="demo-switch">
             <template #active> 开 </template>
             <template #inactive> 关 </template>
         </FSwitch>
@@ -29,15 +29,15 @@ export default {
                 return {
                     date: `2016-05-${i < 10 ? '0' + i : i}`,
                     name: '王大虎',
-                    address: '上海市普陀区金沙江路 1516 弄'
+                    address: '上海市普陀区金沙江路 1516 弄',
                 };
-            })
+            }),
         );
         const show = ref(false);
         return {
             data,
-            show
+            show,
         };
-    }
+    },
 };
 </script>

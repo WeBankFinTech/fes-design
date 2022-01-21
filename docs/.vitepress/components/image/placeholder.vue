@@ -2,7 +2,9 @@
     <FImage style="width: 200px; height: 200px" :src="url">
         <template #placeholder>
             <div class="image-slot">
-                <div class="image-slot">Loading<span class="dot">...</span></div>
+                <div class="image-slot">
+                    Loading<span class="dot">...</span>
+                </div>
             </div>
         </template>
     </FImage>

@@ -18,9 +18,9 @@ export default {
         }, 1000);
 
         return {
-            vlist
+            vlist,
         };
-    }
+    },
 };
 </script>
 

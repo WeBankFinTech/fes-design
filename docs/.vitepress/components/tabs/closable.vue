@@ -1,13 +1,21 @@
 <template>
-    <FTabs type="card" addable v-model="activeTab" closable @close="handleCloseTab" @add="handleAddTab">
+    <FTabs
+        v-model="activeTab"
+        type="card"
+        addable
+        closable
+        @close="handleCloseTab"
+        @add="handleAddTab"
+    >
         <FTabPane
             v-for="(tab, index) in tabs"
             :key="index"
             :name="tab"
             :closable="tab !== '卫衣'"
             :value="index"
-            ><div class="tab-content">{{ tab }}</div></FTabPane
         >
+            <div class="tab-content">{{ tab }}</div>
+        </FTabPane>
     </FTabs>
 </template>
 
@@ -37,15 +45,15 @@ export default {
             tabs,
             activeTab,
             handleCloseTab,
-            handleAddTab
+            handleAddTab,
         };
-    }
+    },
 };
 </script>
 
 <style scoped>
-.tab-content{
-    background: #FFF;
+.tab-content {
+    background: #fff;
     line-height: 60px;
     text-align: center;
 }

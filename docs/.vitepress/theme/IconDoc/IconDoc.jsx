@@ -1,7 +1,6 @@
-
-
 import * as Icons from './icons';
-import { FMessage } from '@fesjs/fes-design'
+// eslint-disable-next-line import/no-unresolved
+import { FMessage } from '@fesjs/fes-design';
 
 const copyToClipboard = (content) => {
     const input = document.createElement('input');
@@ -14,7 +13,6 @@ const copyToClipboard = (content) => {
     document.body.removeChild(input);
     return false;
 };
-
 
 const IconItem = (props, { slots }) => {
     const copyIconCode = () => {
@@ -29,9 +27,10 @@ const IconItem = (props, { slots }) => {
     );
 };
 
-
 export default () => (
     <div class="icon-doc">
-        {Object.keys(Icons).map(key => (<IconItem name={key}>{Icons[key]()}</IconItem>))}
+        {Object.keys(Icons).map((key) => (
+            <IconItem name={key}>{Icons[key]()}</IconItem>
+        ))}
     </div>
 );

@@ -60,8 +60,8 @@ export default defineComponent({
     setup() {
         const inverted = ref(false);
         return {
-            inverted
+            inverted,
         };
-    }
+    },
 });
 </script>

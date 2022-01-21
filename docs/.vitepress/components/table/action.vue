@@ -20,28 +20,28 @@ export default {
                 return {
                     date: `2016-05-${i < 10 ? '0' + i : i}`,
                     name: '王小虎',
-                    address: '上海市普陀区金沙江路 1516 弄'
+                    address: '上海市普陀区金沙江路 1516 弄',
                 };
-            })
+            }),
         );
         const action = [
             {
                 label: '编辑',
                 func: (row) => {
                     console.log(row);
-                }
+                },
             },
             {
                 label: '删除',
                 func: (row) => {
                     console.log(row);
-                }
-            }
+                },
+            },
         ];
         return {
             data,
-            action
+            action,
         };
-    }
+    },
 };
 </script>

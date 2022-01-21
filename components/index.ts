@@ -40,6 +40,7 @@ import { FCarousel, FCarouselItem } from './carousel';
 import { FVirtualList } from './virtual-list';
 import { FDrawer } from './drawer';
 import { FSelectTree } from './select-tree';
+import { FSpace } from './space';
 
 export * from './locales';
 
@@ -98,6 +99,7 @@ const components = [
     FVirtualList,
     FDrawer,
     FSelectTree,
+    FSpace,
 ];
 const install = function (app: App) {
     components.forEach((component) => {
@@ -164,6 +166,7 @@ export {
     FVirtualList,
     FDrawer,
     FSelectTree,
+    FSpace,
 };
 export default {
     version,

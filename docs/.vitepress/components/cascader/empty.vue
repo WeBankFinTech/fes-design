@@ -1,35 +1,32 @@
 <template>
     <div>
-        <FCascader       
-            v-model="empty.value"
-            :options="empty.options">
-        </FCascader>
+        <FCascader v-model="empty.value" :options="empty.options"> </FCascader>
     </div>
 </template>
 
 <script>
-    import { defineComponent, reactive, toRefs } from 'vue';
-    
-    const useEmpty = () => {
-        const state = reactive({
-            value: '',
-        })
+import { defineComponent, reactive, toRefs } from 'vue';
+
+const useEmpty = () => {
+    const state = reactive({
+        value: '',
+    });
+
+    return {
+        ...toRefs(state),
+        options: [],
+    };
+};
+
+export default defineComponent({
+    setup() {
+        const empty = useEmpty();
 
         return {
-            ...toRefs(state),
-            options: [],
-        }
-    }
-
-    export default defineComponent({
-        setup() {
-            const empty = useEmpty()
-
-            return {
-                empty,
-            }
-        }
-    })
+            empty,
+        };
+    },
+});
 </script>
 
 <style scoped>

@@ -5,6 +5,7 @@
 </template>
 
 <script>
+// eslint-disable-next-line import/no-unresolved
 import { FModal } from '@fesjs/fes-design';
 
 export default {
@@ -14,7 +15,7 @@ export default {
             success: '成功消息',
             warning: '警告消息',
             error: '错误消息',
-            confirm: '确认对话'
+            confirm: '确认对话',
         };
         function showFModal(type) {
             const modal = FModal[type]({
@@ -38,12 +39,12 @@ export default {
                 onCancel() {
                     console.log('modal cancel');
                     return Promise.resolve();
-                }
+                },
             });
         }
         return {
-            showFModal
+            showFModal,
         };
-    }
+    },
 };
 </script>

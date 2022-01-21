@@ -27,6 +27,11 @@ export interface ThemeCommon {
     shadowRadiusSm: string;
 
     maskColor: string;
+
+    paddingLarge: string;
+    paddingMiddle: string;
+    paddingSmall: string;
+    paddingXSmall: string;
 }
 
 export interface Theme {
