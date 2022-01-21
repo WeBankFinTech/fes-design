@@ -33,7 +33,7 @@
         border: var(--f-border-width-base) var(--f-border-style-base) transparent;
         border-color: var(--f-checkbox-border-color);
         border-radius: var(--f-border-radius-sm);
-        transition: all @animation-duration-base @ease-base-in;
+        transition: all @animation-duration-slow @ease-base-out;
     }
     &-content{
         display: inline-block;
@@ -42,14 +42,14 @@
     &.is-hover{
         .@{checkbox-prefix-cls}-inner {
             --f-checkbox-border-color: var(--f-primary-color);
-            transition: all @animation-duration-slow @ease-base-out;
+            transition: all @animation-duration-base @ease-base-in;
         }
     }
     &.is-checked{
         .@{checkbox-prefix-cls}-inner {
             --f-checkbox-bg-color: var(--f-primary-color);
             --f-checkbox-border-color: var(--f-primary-color);
-            transition: all @animation-duration-slow @ease-base-out;
+            transition: all @animation-duration-base @ease-base-in;
             &::before {
                 .checkbox-inner()
             }

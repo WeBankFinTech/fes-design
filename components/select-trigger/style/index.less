@@ -23,15 +23,15 @@
     border-color: var(--f-select-trigger-border-color);
     border-radius: var(--f-border-radius-base);
     outline: 0;
-    transition: all @animation-duration-base @ease-base-in;
+    transition: all @animation-duration-slow @ease-base-out;
     &:hover {
         --f-select-trigger-border-color: var(--f-primary-color);
-        transition: all @animation-duration-slow @ease-base-out;
+        transition: all @animation-duration-base @ease-base-in;
     }
     &.is-active {
         --f-select-trigger-border-color: var(--f-primary-color);
         box-shadow: 0 0 0 2px var(--f-focus-shadow-color);
-        transition: all @animation-duration-slow @ease-base-out;
+        transition: all @animation-duration-base @ease-base-in;
     }
     &.is-disabled {
         --f-select-trigger-border-color: var(--f-border-color-base);

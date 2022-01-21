@@ -30,7 +30,7 @@
         background: var(--f-white);
         border: var(--f-border-base);
         border-radius: 100%;
-        transition: all @animation-duration-base @ease-base-in;
+        transition: all @animation-duration-slow @ease-base-out;
     }
     &-content{
         display: inline-block;
@@ -39,14 +39,14 @@
     &.is-hover{
         .@{radio-prefix-cls}-inner {
             border-color: var(--f-primary-color);
-            transition: all @animation-duration-slow @ease-base-out;
+            transition: all @animation-duration-base @ease-base-in;
         }
     }
     &.is-checked{
         .@{radio-prefix-cls}-inner {
             background: var(--f-primary-color);
             border-color: var(--f-primary-color);
-            transition: all @animation-duration-slow @ease-base-out;
+            transition: all @animation-duration-base @ease-base-in;
             &::before {
                 .radio-inner()
             }
