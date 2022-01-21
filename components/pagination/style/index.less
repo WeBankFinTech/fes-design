@@ -59,6 +59,7 @@
             --f-pager-item-height: @pagination-height-base;
             --f-pager-item-line-height: @pagination-pager-line-height-base;
             --f-pager-item-border-radius: var(--f-border-radius-base);
+            transition: all @animation-duration-slow @ease-base-out;
 
             .flex-box();
             justify-content: center;
@@ -79,12 +80,14 @@
                 --f-pager-item-color: var(--f-primary-color);
                 --f-pager-item-bg-color: var(--f-hover-color-ligh);
                 --f-pager-item-border-color: var(--f-primary-color);  
+                transition: all @animation-duration-base @ease-base-in;
             }
 
             &.is-active {
                 --f-pager-item-color: var(--f-white);
                 --f-pager-item-bg-color: var(--f-primary-color);
                 --f-pager-item-border-color: var(--f-primary-color);
+                transition: all @animation-duration-base @ease-base-in;
                 &:hover {
                     --f-pager-item-bg-color: var(--f-hover-color-base);
                     --f-pager-item-border-color: var(--f-hover-color-base); 

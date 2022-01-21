@@ -50,24 +50,28 @@
         line-height: @select-height;
         background-color: var(--f-cascader-node-bg-color);
         outline: none;
+        transition: background-color @animation-duration-slow @ease-base-out;
 
         &:hover, &:focus {
             --f-cascader-node-bg-color: @select-option-hover-color;
+            transition: background-color @animation-duration-fast @ease-base-in;
         }
 
         &.is-disabled {
             --f-cascader-node-color: var(--f-text-color-disabled);
             --f-cascader-node-bg-color: var(--f-width);
             cursor: not-allowed;
+            transition: background-color @animation-duration-fast @ease-base-in;
         }
         &.is-checked {
             --f-cascader-node-color: var(--f-primary-color);
             font-weight: @font-weight-medium;
+            transition: background-color @animation-duration-fast @ease-base-in;
         }
         &.in-active-path {
             --f-cascader-node-color: var(--f-primary-color);
             --f-cascader-node-bg-color: @select-option-hover-color;
-
+            transition: background-color @animation-duration-fast @ease-base-in;
             &.is-disabled {
                 opacity: 0.5;
             }

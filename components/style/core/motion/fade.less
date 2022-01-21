@@ -1,0 +1,17 @@
+
+.fade-motion() {
+    @name: ~'@{cls-prefix}-fade';
+    .@{name}-enter-from {
+        opacity: 0;
+    }
+    .@{name}-enter-active {
+        transition: opacity @animation-duration-base @ease-base-in;
+    }
+    .@{name}-leave-active {
+        transition: opacity @animation-duration-base @ease-base-in;
+    }
+    .@{name}-leave-to {
+        opacity: 0;
+    }
+}
+.fade-motion();

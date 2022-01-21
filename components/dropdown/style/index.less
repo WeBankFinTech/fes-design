@@ -34,7 +34,7 @@
         line-height: @dropdown-option-height;
         background: var(--f-white);
         cursor: pointer;
-        transition: all @animation-duration-base @ease-base-in;
+        transition: background-color @animation-duration-slow @ease-base-out;
         &-label {
             flex: auto;
         }
@@ -46,6 +46,7 @@
         }
         &:hover {
             background: @dropdown-option-hover-color;
+            transition: background-color @animation-duration-fast @ease-base-in;
         }
         &.is-disabled {
             color: var(--f-text-color-disabled);

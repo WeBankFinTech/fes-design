@@ -98,19 +98,20 @@
 
     // formItem 错误样式 
     .@{form-item-cls}.@{form-item-error} {
-        .@{form-item-error-cls} {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            padding-top: 5px;
-            color: var(--f-danger-color);
-            font-size: @form-size-error;
-            line-height: 1;
-        }
-        .wd-input-inner,
-        .wd-textarea-inner,
-        .wd-select-trigger {
+        .fes-input-inner,
+        .fes-textarea-inner,
+        .fes-select-trigger {
             border-color: var(--f-danger-color);
         }
     }
+}
+
+.@{form-item-error-cls} {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding-top: 5px;
+    color: var(--f-danger-color);
+    font-size: @form-size-error;
+    line-height: 1;
 }

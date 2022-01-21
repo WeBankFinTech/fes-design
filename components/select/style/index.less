@@ -45,7 +45,7 @@
         line-height: @select-height;
         background: var(--f-white);
         cursor: pointer;
-        transition: all @animation-duration-fast @ease-base-in;
+        transition: background-color @animation-duration-slow @ease-base-out;
         &-label {
             flex: auto;
         }
@@ -55,7 +55,7 @@
         }
         &:hover {
             background: @select-option-hover-color;
-            transition: all @animation-duration-slow @ease-base-out;
+            transition: background-color @animation-duration-fast @ease-base-in;
         }
         &.is-disabled {
             color: var(--f-text-color-disabled);
@@ -65,7 +65,7 @@
         &.is-checked {
             color: var(--f-primary-color);
             background: @select-option-hover-color;
-            transition: all @animation-duration-slow @ease-base-out;
+            transition: background-color @animation-duration-fast @ease-base-in;
         }
     }
 }

@@ -11,9 +11,11 @@
         </label>
         <div :class="`${prefixCls}-content`">
             <slot />
-            <div v-if="formItemShowMessage" :class="`${prefixCls}-error`">
-                {{ validateMessage }}
-            </div>
+            <Transition name="fes-fade">
+                <div v-if="formItemShowMessage" :class="`${prefixCls}-error`">
+                    {{ validateMessage }}
+                </div>
+            </Transition>
         </div>
     </div>
 </template>

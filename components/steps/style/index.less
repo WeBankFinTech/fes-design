@@ -58,6 +58,7 @@
     align-items: flex-start;
     overflow: hidden;
     vertical-align: top;
+    transition: all @animation-duration-base @ease-base-in;
     &-symbol {
         &-wrapper {
             --f-step-symbol-wrapper-color: inherit;
@@ -71,6 +72,7 @@
             border-color: var(--f-step-symbol-wrapper-border-color);
             border-radius: 50%;
             .square(@step-symbol-size);
+            transition: all @animation-duration-base @ease-base-in;
         }
     }
     &-content {
@@ -105,7 +107,6 @@
         .@{step-prefix-cls}-symbol {
             .@{step-prefix-cls}-symbol-wrapper {
                 --f-step-symbol-wrapper-color: var(--f-text-color-secondary);
-                // --f-step-symbol-wrapper-line-height: (@step-symbol-size - 2px);
                 --f-step-symbol-wrapper-border-color: var(--f-border-color-base);
             }
         }
@@ -114,9 +115,7 @@
         .@{step-prefix-cls}-symbol {
             .@{step-prefix-cls}-symbol-wrapper {
                 background: var(--f-primary-color);
-
                 --f-step-symbol-wrapper-color: var(--f-white);
-                // --f-step-symbol-wrapper-line-height: (@step-symbol-size - 2px);
                 --f-step-symbol-wrapper-border-color: var(--f-primary-color);
             }
         }
@@ -129,7 +128,6 @@
         .@{step-prefix-cls}-symbol {
             .@{step-prefix-cls}-symbol-wrapper {
                 --f-step-symbol-wrapper-color: var(--f-primary-color);
-                // --f-step-symbol-wrapper-line-height: (@step-symbol-size - 2px);
                 --f-step-symbol-wrapper-border-color: var(--f-primary-color);
             }
         }
@@ -142,7 +140,6 @@
         .@{step-prefix-cls}-symbol {
             .@{step-prefix-cls}-symbol-wrapper {
                 --f-step-symbol-wrapper-color: var(--f-danger-color);
-                // --f-step-symbol-wrapper-line-height: (@step-symbol-size - 2px);
                 --f-step-symbol-wrapper-border-color: var(--f-danger-color);
             }
         }
