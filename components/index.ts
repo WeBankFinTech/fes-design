@@ -24,7 +24,7 @@ import { FSelect, FOption } from './select';
 import { FSpin } from './spin';
 import { FSteps, FStep } from './steps';
 import { FSwitch } from './switch';
-import { FTable, FColumn } from './table';
+import { FTable, FTableColumn } from './table';
 import { FTabs, FTabPane } from './tabs';
 import { FTag } from './tag';
 import { FCascader } from './cascader';
@@ -78,7 +78,7 @@ const components = [
     FStep,
     FSwitch,
     FTable,
-    FColumn,
+    FTableColumn,
     FTabs,
     FTabPane,
     FTag,
@@ -144,7 +144,7 @@ export {
     FStep,
     FSwitch,
     FTable,
-    FColumn,
+    FTableColumn,
     FTabs,
     FTabPane,
     FTag,

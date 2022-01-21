@@ -8,6 +8,6 @@ type TableType = SFCWithInstall<typeof Table>;
 type ColumnType = SFCWithInstall<typeof Column>;
 
 export const FTable = withInstall<TableType>(Table as TableType, { Column });
-export const FColumn = withNoopInstall<ColumnType>(Column as ColumnType);
+export const FTableColumn = withNoopInstall<ColumnType>(Column as ColumnType);
 
 export default FTable;
