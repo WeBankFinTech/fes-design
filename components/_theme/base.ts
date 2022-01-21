@@ -31,7 +31,14 @@ const themeCommon = {
     shadowRadiusSm: '4px',
 
     maskColor: fade(fontColorBase, 0.45),
+
+    paddingLarge: '24px',
+    paddingMiddle: '16px',
+    paddingSmall: '12px',
+    paddingXsmall: '8px',
 };
+
+export type TBaseTheme = ReturnType<typeof baseTheme>;
 
 export const baseTheme = (themeOverrides: Partial<Theme> = {}) => {
     const base = Object.assign(themeCommon, themeOverrides.common);

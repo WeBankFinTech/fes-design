@@ -44,6 +44,10 @@ app.use(FSpace);
 
 --ALIGN
 
+### 内联元素
+
+--INLINE
+
 --CODE
 
 ## Space Props
@@ -54,7 +58,7 @@ app.use(FSpace);
 | inline    | 是否为行内元素                                                                                                 | boolean                            | false    |
 | itemStyle | 节点样式                                                                                                       | string / object                    | -        |
 | justify   | 水平排列方式，可选值为 `start` `end` `center` `space-around` `space-between` `start`                           | string                             | `start`  |
-| size      | 为数字或字符串时，是垂直和水平间距；为数组时，是 [垂直间距, 水平间距]，字符串可选值为 `small` `middle` `large` | string / number / [number, number] | `middle` |
+| size      | 为数字或字符串时，是垂直和水平间距；为数组时，是 [垂直间距, 水平间距]，字符串可选值为 `xsmall` `small` `middle` `large` | string / number / [number, number] | `small` |
 | vertical  | 是否垂直布局                                                                                                   | boolean                            | `false`  |
 | wrap      | 是否超出换行                                                                                                   | boolean                            | `true`   |
 

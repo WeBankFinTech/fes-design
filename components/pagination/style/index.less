@@ -19,12 +19,12 @@
 @pagination-pager-line-height-sm: @pagination-height-sm - 2;
 
 @pagination-normal-item-horizontal-margin-base: @padding-xs;
-@pagination-normal-item-horizontal-margin-sm: @padding-xs * 0.5;
+@pagination-normal-item-horizontal-margin-sm: calc(@padding-xs * 0.5);
 
-@pagination-large-item-horizontal-margin-base: @pagination-normal-item-horizontal-margin-base * 2;
-@pagination-large-item-horizontal-margin-sm: @pagination-normal-item-horizontal-margin-sm * 2;
+@pagination-large-item-horizontal-margin-base: calc(@pagination-normal-item-horizontal-margin-base * 2);
+@pagination-large-item-horizontal-margin-sm: calc(@pagination-normal-item-horizontal-margin-sm * 2);
 
-@pagination-text-item-horizontal-margin: @padding-xs * 0.5;
+@pagination-text-item-horizontal-margin: calc(@padding-xs * 0.5);
 
 @pagination-font-size-base: @font-size-body;
 @pagination-font-size-sm: @font-size-caption;

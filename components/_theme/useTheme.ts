@@ -1,27 +1,33 @@
-import { watch } from 'vue';
+import { Ref, ref, watch } from 'vue';
 import { createSharedComposable } from '@vueuse/core';
 
 import { getConfig } from '../config-provider';
 import { applyTheme } from './applyTheme';
+import { baseTheme, TBaseTheme } from './base';
 
 function _useTheme() {
     const config = getConfig();
+    const theme: Ref<TBaseTheme> = ref(baseTheme());
 
     watch(
         config,
         () => {
-            applyTheme(
+            const { theme: currentTheme } = applyTheme(
                 config.value.getContainer(),
                 config.value.theme,
                 config.value.themeOverrides,
             );
+            theme.value = currentTheme;
         },
         {
             immediate: true,
         },
     );
 
-    return config;
+    return {
+        config,
+        theme,
+    };
 }
 
 export const useTheme = createSharedComposable(_useTheme);
