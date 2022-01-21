@@ -10,6 +10,7 @@
             :getContainer="getContainer"
             :offset="4"
             :hideAfter="0"
+            :lazy="false"
         >
             <template #trigger>
                 <SelectTrigger

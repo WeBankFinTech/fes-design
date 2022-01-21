@@ -211,7 +211,7 @@ function handleChange(value) {
 // 基础用法
 const useBase = () => {
     const state = reactive({
-        value1: '',
+        value1: '110101',
         value2: '',
         valueEmitPath: [],
     });
