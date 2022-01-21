@@ -10,6 +10,7 @@
             :offset="4"
             :hideAfter="0"
             :disabled="disabled"
+            :lazy="false"
         >
             <template #trigger>
                 <SelectTrigger
