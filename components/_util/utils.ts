@@ -58,3 +58,14 @@ export const extractPropsDefaultValue = (props: { [key: string]: any }) => {
     });
     return defaultValue;
 };
+
+// 10px => 10
+export const depx = (value: string | number) => {
+    if (typeof value === 'string') {
+        if (value.endsWith('px')) {
+            return Number(value.slice(0, value.length - 2));
+        }
+        return Number(value);
+    }
+    return value;
+};
