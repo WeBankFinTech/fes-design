@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { version, nextTick, ref, watch } from 'vue';
+import { version, ref, watch } from 'vue';
 // eslint-disable-next-line import/no-unresolved
 import { FDrawer } from '@fesjs/fes-design';
 import { Repl, ReplStore } from '@vue/repl';
@@ -43,7 +43,7 @@ import * as Icons from 'fes-icon';
 export function loadStyle() {
   const hasLinks = document.querySelectorAll('link');
   for(let l of hasLinks) {
-    if (/fesDesign.min.css/.test(l.href)) return;
+    if (/fes-design.min.css/.test(l.href)) return;
   }
 
   const link = document.createElement('link')
