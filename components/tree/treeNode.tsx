@@ -1,4 +1,11 @@
-import { h, defineComponent, computed, ref, ExtractPropTypes, PropType } from 'vue';
+import {
+    h,
+    defineComponent,
+    computed,
+    ref,
+    ExtractPropTypes,
+    PropType,
+} from 'vue';
 import { isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import CaretDownOutlined from '../icon/CaretDownOutlined';
@@ -53,9 +60,7 @@ export default defineComponent({
             isFirst,
         } = useTreeNode(props);
 
-        const disabled = computed(() =>
-            props.disabled,
-        );
+        const disabled = computed(() => props.disabled);
         const selectable = computed(() =>
             isUndefined(props.selectable)
                 ? root.props.selectable
@@ -79,7 +84,7 @@ export default defineComponent({
 
         let isLoaded = false;
         const isLoading = ref(false);
-        const handleClickSwitcher = async (event: Event) => {
+        const handleClickSwitcher = async (event?: Event) => {
             const node = root.nodeList[props.value];
             if (
                 !isLoaded &&
@@ -101,20 +106,23 @@ export default defineComponent({
         };
         const handleClickContent = (event: Event) => {
             if (disabled.value) return;
+            // 默认 select 行为
             if (selectable.value) {
                 return root.selectNode(props.value, event);
             }
+            // 再 check 行为
             if (checkable.value) {
                 return root.checkNode(props.value, event);
+            }
+            // 再展开行为
+            if (!props.isLeaf) {
+                handleClickSwitcher(event)
             }
         };
         const handleClickCheckbox = (event: Event) => {
             if (disabled.value) return;
             if (checkable.value) {
                 return root.checkNode(props.value, event);
-            }
-            if (selectable.value) {
-                return root.selectNode(props.value, event);
             }
         };
         const handleStopClickPrefix = (event: Event) => {
@@ -125,7 +133,7 @@ export default defineComponent({
                 return [];
             }
             const arr = [];
-            let i = 1
+            let i = 1;
             while (i < props.level) {
                 arr.push(<span class={`${prefixCls}-indent`} />);
                 i++;
@@ -145,8 +153,9 @@ export default defineComponent({
                         <LoadingOutlined />
                     ) : (
                         <CaretDownOutlined
-                            class={`${prefixCls}-switcher-icon ${isExpanded.value ? 'is-expanded' : ''
-                                }`}
+                            class={`${prefixCls}-switcher-icon ${
+                                isExpanded.value ? 'is-expanded' : ''
+                            }`}
                         />
                     )}
                 </span>
