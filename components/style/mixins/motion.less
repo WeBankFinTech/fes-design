@@ -3,27 +3,14 @@
     animation-fill-mode: both;
 }
 
-.motion-common-leave(@duration: @animation-duration-base) {
-    animation-duration: @duration;
-    animation-fill-mode: both;
-}
-
 .make-motion(@className, @keyframeName, @duration: @animation-duration-base) {
-    .@{className}-enter-from {
-        .motion-common(@duration);
-        animation-play-state: paused;
-    }
     .@{className}-enter-active {
         .motion-common(@duration);
         animation-name: ~'@{keyframeName}In';
         animation-play-state: running;
     }
-    .@{className}-leave-from {
-        .motion-common-leave(@duration);
-        animation-play-state: paused;
-    }
     .@{className}-leave-active {
-        .motion-common-leave(@duration);
+        .motion-common(@duration);
         animation-name: ~'@{keyframeName}Out';
         animation-play-state: running;
         pointer-events: none;

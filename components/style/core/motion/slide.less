@@ -3,16 +3,15 @@
     .make-motion(@name, @keyframeName);
     .@{name}-enter-from {
         opacity: 0;
-        animation-timing-function: @ease-out-quint;
     }
     .@{name}-enter-active {
         animation-timing-function: @ease-out-quint;
     }
-    .@{name}-leave-from {
-        animation-timing-function: @ease-in-quint;
-    }
     .@{name}-leave-active {
         animation-timing-function: @ease-in-quint;
+    }
+    .@{name}-leave-to {
+        opacity: 0;
     }
 }
 
