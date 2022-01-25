@@ -186,7 +186,7 @@ const calculationNum = (type: ActionEnum) => {
         handleInputChange(tempValue.value);
     }
 
-    setCurrentValue(_calculationNum(currentValue.value, type));
+    setCurrentValue(_calculationNum(currentValue.value || 0, type));
 };
 </script>
 
