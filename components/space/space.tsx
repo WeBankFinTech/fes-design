@@ -126,10 +126,10 @@ export default defineComponent({
                     justifyContent: ['start', 'end'].includes(justify)
                         ? 'flex-' + justify
                         : justify,
+                    alignItems: align,
                     flexWrap: !wrap || vertical ? 'nowrap' : 'wrap',
                     marginTop: vertical ? '' : `-${margin.semiHorizontal}`,
                     marginBottom: vertical ? '' : `-${margin.semiVertical}`,
-                    alignItems: align,
                 }}
             >
                 {children.map((child, index) => (

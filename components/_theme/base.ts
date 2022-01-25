@@ -68,6 +68,7 @@ export const baseTheme = (themeOverrides: Partial<Theme> = {}) => {
         processingColor: tint(base.primaryColor, 0.4),
 
         disabledColorBase: tint(base.fontColorBase, 0.8),
+        disabledColorSecondary: tint(base.fontColorBase, 0.9),
         disabledColorLight: tint(base.fontColorBase, 0.97),
 
         headColor: base.fontColorBase,

@@ -69,3 +69,11 @@ export const depx = (value: string | number) => {
     }
     return value;
 };
+
+// 10 => 10px
+export const pxfy = (value: string | number) => {
+    if (value === undefined || value === null) return undefined;
+    if (typeof value === 'number') return `${value}px`;
+    if (value.endsWith('px')) return value;
+    return `${value}px`;
+};

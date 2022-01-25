@@ -41,6 +41,7 @@ import { FVirtualList } from './virtual-list';
 import { FDrawer } from './drawer';
 import { FSelectTree } from './select-tree';
 import { FSpace } from './space';
+import { FSkeleton } from './skeleton';
 
 export * from './locales';
 
@@ -100,6 +101,7 @@ const components = [
     FDrawer,
     FSelectTree,
     FSpace,
+    FSkeleton,
 ];
 const install = function (app: App) {
     components.forEach((component) => {
@@ -167,6 +169,7 @@ export {
     FDrawer,
     FSelectTree,
     FSpace,
+    FSkeleton,
 };
 export default {
     version,
