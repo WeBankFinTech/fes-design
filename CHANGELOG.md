@@ -1,3 +1,13 @@
+## [0.2.8](https://github.com/WeBankFinTech/fes-design/compare/v0.2.7...v0.2.8) (2022-01-25)
+
+
+### Bug Fixes
+
+* 修复radioGroup和checkboxGroup样式问题 ([6479367](https://github.com/WeBankFinTech/fes-design/commit/6479367797f8ed5d30e56bbb5d0c9a235efb9a09))
+* inputNumber未传入值时如果操作当0处理 ([47a10d8](https://github.com/WeBankFinTech/fes-design/commit/47a10d89eabc744ac8cfab52f01a69f58d658d86))
+
+
+
 ## [0.2.7](https://github.com/WeBankFinTech/fes-design/compare/v0.2.6...v0.2.7) (2022-01-24)
 
 
