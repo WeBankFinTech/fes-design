@@ -1,3 +1,14 @@
+## [0.2.7](https://github.com/WeBankFinTech/fes-design/compare/v0.2.6...v0.2.7) (2022-01-24)
+
+
+### Bug Fixes
+
+* 修复 date-picker change 事件不调用的问题 ([#36](https://github.com/WeBankFinTech/fes-design/issues/36)) ([ee5c809](https://github.com/WeBankFinTech/fes-design/commit/ee5c8095a71e30fde3b6b1e36c9094ba3ef84641))
+* cascader组件默认值选中 ([d340f14](https://github.com/WeBankFinTech/fes-design/commit/d340f141776a2ee8264c183750dd2f6804fc41d5))
+* selectTree组件默认值选中 ([8000fd8](https://github.com/WeBankFinTech/fes-design/commit/8000fd8b5eb9cf723b27d8b0277fb77b9c07342e))
+
+
+
 ## [0.2.6](https://github.com/WeBankFinTech/fes-design/compare/v0.2.5...v0.2.6) (2022-01-21)
 
 

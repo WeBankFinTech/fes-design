@@ -311,8 +311,8 @@ export default defineComponent({
         };
 
         const change = (val: number | number[] | null) => {
-            updateCurrentValue(val);
             handleChange(val);
+            updateCurrentValue(val);
             updatePopperOpen(false);
         };
 
