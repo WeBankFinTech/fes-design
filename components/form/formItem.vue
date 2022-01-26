@@ -11,11 +11,11 @@
         </label>
         <div :class="`${prefixCls}-content`">
             <slot />
-            <Transition name="fes-fade">
+            <transition name="fes-fade">
                 <div v-if="formItemShowMessage" :class="`${prefixCls}-error`">
                     {{ validateMessage }}
                 </div>
-            </Transition>
+            </transition>
         </div>
     </div>
 </template>
@@ -165,7 +165,6 @@ const validateRules = async (trigger = TRIGGER_TYPE_DEFAULT) => {
     if (!activeRules.length) return Promise.resolve();
 
     // 开始规则校验
-    setValidateInfo(VALIDATE_STATUS.VALIDATING);
     const descriptor: any = {};
     descriptor[props.prop] = activeRules;
     const validatorModel: any = {};
@@ -173,6 +172,7 @@ const validateRules = async (trigger = TRIGGER_TYPE_DEFAULT) => {
     const validator = new Schema(descriptor);
     try {
         await Promise.resolve(validator.validate(validatorModel));
+        setValidateInfo(VALIDATE_STATUS.SUCCESS);
     } catch (errObj: any) {
         if (errObj.errors) {
             const error = errObj.errors[0];
@@ -221,7 +221,13 @@ onBeforeUnmount(() => {
     removeField(props.prop);
 });
 
-provide(FORM_ITEM_INJECTION_KEY, { validate, setRuleDefaultType });
+provide(FORM_ITEM_INJECTION_KEY, {
+    validate,
+    setRuleDefaultType,
+    isError: computed(() => {
+        return validateStatus.value === VALIDATE_STATUS.ERROR;
+    }),
+});
 </script>
 
 <script lang="ts">

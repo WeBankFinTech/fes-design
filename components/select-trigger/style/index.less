@@ -36,6 +36,12 @@
         box-shadow: 0 0 0 2px var(--f-focus-shadow-color);
         transition: all @animation-duration-base @ease-base-in;
     }
+    &.is-error:not(.is-disabled) {
+        --f-select-trigger-border-color: var(--f-danger-color);
+        &.is-active {
+            box-shadow: 0 0 0 2px var(--f-focus-danger-shadow-color);
+        }
+    }
     &.is-disabled {
         --f-select-trigger-border-color: var(--f-border-color-base);
         background: @select-disabled-bg;

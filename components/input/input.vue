@@ -170,7 +170,7 @@ const emit = defineEmits<InputEmits>();
 
 const slots = useSlots();
 useTheme();
-const { validate } = useFormAdaptor();
+const { validate, isError } = useFormAdaptor();
 const inputRef = ref();
 const textareaRef = ref();
 const {
@@ -208,6 +208,7 @@ const classes = computed(() => [
     {
         'is-disabled': props.disabled,
         'is-hovering': hovering.value,
+        'is-error': isError.value,
         [`${prefixCls}-group`]: slots.prepend || slots.append,
         [`${prefixCls}-group-prepend`]: slots.prepend,
         [`${prefixCls}-group-append`]: slots.append,
