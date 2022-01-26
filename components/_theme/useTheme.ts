@@ -3,21 +3,21 @@ import { createSharedComposable } from '@vueuse/core';
 
 import { getConfig } from '../config-provider';
 import { applyTheme } from './applyTheme';
-import { baseTheme, TBaseTheme } from './base';
+import { baseTheme, TThemeVars } from './base';
 
 function _useTheme() {
     const config = getConfig();
-    const theme: Ref<TBaseTheme> = ref(baseTheme());
+    const themeVars: Ref<TThemeVars> = ref(baseTheme());
 
     watch(
         config,
         () => {
-            const { theme: currentTheme } = applyTheme(
+            const { themeVars: currentThemeVars } = applyTheme(
                 config.value.getContainer(),
                 config.value.theme,
                 config.value.themeOverrides,
             );
-            theme.value = currentTheme;
+            themeVars.value = currentThemeVars;
         },
         {
             immediate: true,
@@ -26,7 +26,7 @@ function _useTheme() {
 
     return {
         config,
-        theme,
+        themeVars,
     };
 }
 

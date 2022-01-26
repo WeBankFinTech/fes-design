@@ -181,6 +181,10 @@ module.exports = {
                         text: 'Spin 加载中',
                         link: '/zh/components/spin',
                     },
+                    {
+                        text: 'Skeleton 骨架屏',
+                        link: '/zh/components/skeleton',
+                    },
                 ],
             },
             {

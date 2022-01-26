@@ -40,3 +40,4 @@ import './carousel/style';
 import './virtual-list/style';
 import './drawer/style';
 import './select-tree/style';
+import './skeleton/style';
