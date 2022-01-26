@@ -1,4 +1,4 @@
-import { isNumber, isString } from 'lodash-es';
+import { isNull, isNumber, isString, isUndefined } from 'lodash-es';
 import type { CascaderNode } from '../cascader-panel/interface';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -61,7 +61,7 @@ export const extractPropsDefaultValue = (props: { [key: string]: any }) => {
 
 // 10px => 10
 export const depx = (value: string | number) => {
-    if (typeof value === 'string') {
+    if (isString(value)) {
         if (value.endsWith('px')) {
             return Number(value.slice(0, value.length - 2));
         }
@@ -72,8 +72,8 @@ export const depx = (value: string | number) => {
 
 // 10 => 10px
 export const pxfy = (value: string | number) => {
-    if (value === undefined || value === null) return undefined;
-    if (typeof value === 'number') return `${value}px`;
+    if (isUndefined(value) || isNull(value)) return undefined;
+    if (isNumber(value)) return `${value}px`;
     if (value.endsWith('px')) return value;
     return `${value}px`;
 };

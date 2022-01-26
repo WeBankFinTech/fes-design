@@ -52,14 +52,8 @@ export default defineComponent({
             const mergedHeight = circle ? height ?? width : height;
 
             return {
-                width:
-                    typeof mergedWidth === 'number'
-                        ? pxfy(mergedWidth)
-                        : mergedWidth,
-                height:
-                    typeof mergedHeight === 'number'
-                        ? pxfy(mergedHeight)
-                        : mergedHeight,
+                width: pxfy(mergedWidth),
+                height: pxfy(mergedHeight),
             };
         });
 
@@ -72,8 +66,8 @@ export default defineComponent({
                 circle && `is-circle`,
                 sharp && `is-sharp`,
                 round && `is-round`,
-                size && `size-${size}`,
-                animated && `animated`,
+                size && `is-size-${size}`,
+                animated && `is-animated`,
             ];
         });
 
