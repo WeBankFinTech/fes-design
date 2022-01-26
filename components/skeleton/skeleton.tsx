@@ -83,30 +83,28 @@ export default defineComponent({
         const slotDefault = $slots.default
             ? getSlot(this.$slots, 'default')
             : null;
-
-        const child = h(
-            'div',
-            mergeProps(
-                {
-                    class: classes,
-                    style,
-                },
-                $attrs,
-            ),
-            slotDefault,
+        const mergeAttrs = mergeProps(
+            {
+                class: classes,
+                style,
+            },
+            $attrs,
         );
 
-        if (repeat > 1) {
-            return (
-                <>
-                    {Array.apply(null, { length: repeat } as any).map((_) => [
-                        child,
-                        '\n',
-                    ])}
-                </>
-            );
-        }
+        const renderChild = () => (
+            <div class={mergeAttrs.class} style={mergeAttrs.style}>
+                {slotDefault}
+            </div>
+        );
 
-        return child;
+        return repeat <= 1 ? (
+            renderChild()
+        ) : (
+            <>
+                {Array.apply(null, { length: repeat } as any).map((_) => [
+                    renderChild(),
+                ])}
+            </>
+        );
     },
 });
