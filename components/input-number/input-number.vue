@@ -1,25 +1,5 @@
 <template>
     <div :class="classes" @dragstart.prevent>
-        <span
-            :class="[
-                `${prefixCls}-increase`,
-                { 'is-disabled': maxDisabled || disabled },
-            ]"
-            @mousedown.prevent
-            @click="calculationNum(ActionEnum.PLUS)"
-        >
-            <UpOutlined />
-        </span>
-        <span
-            :class="[
-                `${prefixCls}-decrease`,
-                { 'is-disabled': minDisabled || disabled },
-            ]"
-            @mousedown.prevent
-            @click="calculationNum(ActionEnum.REDUCE)"
-        >
-            <DownOutlined />
-        </span>
         <FInput
             :modelValue="displayValue"
             :disabled="disabled"
@@ -29,7 +9,41 @@
             @change="handleInputChange"
             @focus="(event: Event) => $emit('focus', event)"
             @blur="handleBlur"
-        />
+        >
+            <template v-if="$slots.prefix" #prefix>
+                <slot name="prefix"></slot>
+            </template>
+            <template #suffix>
+                <slot name="suffix"></slot>
+                <div
+                    :class="[
+                        `${prefixCls}-actions`,
+                        $slots.suffix && `${prefixCls}-actions-suffix`,
+                    ]"
+                >
+                    <span
+                        :class="[
+                            `${prefixCls}-actions-increase`,
+                            { 'is-disabled': maxDisabled || disabled },
+                        ]"
+                        @mousedown.prevent
+                        @click="calculationNum(ActionEnum.PLUS)"
+                    >
+                        <UpOutlined />
+                    </span>
+                    <span
+                        :class="[
+                            `${prefixCls}-actions-decrease`,
+                            { 'is-disabled': minDisabled || disabled },
+                        ]"
+                        @mousedown.prevent
+                        @click="calculationNum(ActionEnum.REDUCE)"
+                    >
+                        <DownOutlined />
+                    </span>
+                </div>
+            </template>
+        </FInput>
     </div>
 </template>
 
@@ -158,8 +172,9 @@ const handleInput = (value: string) => {
     tempValue.value = value;
 };
 const handleInputChange = (value: string | number) => {
-    if (!Number.isNaN(value)) {
-        setCurrentValue(value === '' ? null : Number(value));
+    const newVal = value === '' ? null : Number(value);
+    if (!Number.isNaN(newVal) || value === '') {
+        setCurrentValue(newVal === null ? newVal : Number(newVal));
     }
     tempValue.value = null;
 };
