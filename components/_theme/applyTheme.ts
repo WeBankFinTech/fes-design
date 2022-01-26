@@ -19,6 +19,6 @@ export function applyTheme(
     });
 
     return {
-        theme: _theme,
+        themeVars: _theme,
     };
 }

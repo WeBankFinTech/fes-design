@@ -38,7 +38,7 @@ const themeCommon = {
     paddingXsmall: '8px',
 };
 
-export type TBaseTheme = ReturnType<typeof baseTheme>;
+export type TThemeVars = ReturnType<typeof baseTheme>;
 
 export const baseTheme = (themeOverrides: Partial<Theme> = {}) => {
     const base = Object.assign(themeCommon, themeOverrides.common);

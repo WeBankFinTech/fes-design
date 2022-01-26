@@ -10,7 +10,7 @@ import {
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { flatten, getSlot } from '../_util/vnode';
-import { TBaseTheme } from '../_theme/base';
+import { TThemeVars } from '../_theme/base';
 import { createKey } from '../_util/createKey';
 import { depx } from '../_util/utils';
 
@@ -52,7 +52,7 @@ const spaceProps = {
 
 export type SpaceProps = Partial<ExtractPropTypes<typeof spaceProps>>;
 
-const useMargin = (props: SpaceProps, themeRef: Ref<TBaseTheme>) => {
+const useMargin = (props: SpaceProps, themeVarsRef: Ref<TThemeVars>) => {
     const margin = computed(() => {
         const { size } = props;
         let horizontal = 0;
@@ -66,8 +66,8 @@ const useMargin = (props: SpaceProps, themeRef: Ref<TBaseTheme>) => {
             vertical = size;
         } else {
             const currentSize = depx(
-                themeRef.value[createKey('padding', size)] ||
-                themeRef.value[createKey('padding', 'small')]
+                themeVarsRef.value[createKey('padding', size)] ||
+                themeVarsRef.value[createKey('padding', 'small')]
             );
             horizontal = currentSize;
             vertical = currentSize;
@@ -91,9 +91,9 @@ export default defineComponent({
     components: {},
     props: spaceProps,
     setup(props) {
-        const { theme } = useTheme();
+        const { themeVars } = useTheme();
 
-        const { margin } = useMargin(props, theme);
+        const { margin } = useMargin(props, themeVars);
 
         return {
             prefixCls,
