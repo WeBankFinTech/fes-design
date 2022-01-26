@@ -38,8 +38,8 @@ const fesDesignSetup = `
 // 不要修改此文件!!!
 import { getCurrentInstance } from 'vue';
 import Space from './space.vue';
-import FesDesign from 'fes-design';
-import * as Icons from 'fes-icon';
+import FesDesign from '@fesjs/fes-design';
+import * as Icons from '@fesjs/fes-design/icon';
 export function loadStyle() {
   const hasLinks = document.querySelectorAll('link');
   for(let l of hasLinks) {
@@ -71,9 +71,9 @@ function resolveSFCExample(demo) {
         'fes-design.js': fesDesignSetup,
         'import-map.json': JSON.stringify({
             imports: {
-                'fes-design':
+                '@fesjs/fes-design':
                     'https://unpkg.com/@fesjs/fes-design@latest/dist/fes-design.esm-browser.js',
-                'fes-icon':
+                '@fesjs/fes-design/icon':
                     'https://unpkg.com/@fesjs/fes-design@latest/dist/fes-design.icon-browser.js',
             },
         }),

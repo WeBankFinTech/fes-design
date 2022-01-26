@@ -13,7 +13,9 @@ test('input placeholder', () => {
             placeholder,
         },
     });
-    expect(wrapper.find(`.${prefixCls}-inner`).attributes('placeholder')).toBe(placeholder);
+    expect(wrapper.find(`.${prefixCls}-inner`).attributes('placeholder')).toBe(
+        placeholder,
+    );
     expect(() => wrapper.get(`.${textareaPrefixCls}`)).toThrowError();
 });
 
@@ -25,7 +27,9 @@ test('textarea placeholder and type', () => {
             placeholder,
         },
     });
-    expect(wrapper.find(`.${textareaPrefixCls}-inner`).attributes('placeholder')).toBe(placeholder);
+    expect(
+        wrapper.find(`.${textareaPrefixCls}-inner`).attributes('placeholder'),
+    ).toBe(placeholder);
     expect(() => wrapper.get(`.${prefixCls}`)).toThrowError();
 });
 
@@ -74,16 +78,4 @@ test('input showPassword', async () => {
     expect(wrapper.vm.showPwdSwitchIcon).toBe(false);
     await wrapper.setProps({ modelValue: 'password icon' });
     expect(wrapper.vm.showPwdSwitchIcon).toBe(true);
-});
-
-test('input showPassword clearable', async () => {
-    const wrapper = mount(Input, {
-        props: {
-            modelValue: 'hello clearable',
-            showPassword: true,
-            clearable: true,
-        },
-    });
-
-    expect(wrapper.find(`.${prefixCls}-with-password-clear`).exists()).toBe(true);
 });
