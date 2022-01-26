@@ -96,7 +96,7 @@ async function main() {
         for (const outputFile of emitOutput.getOutputFiles()) {
             const filePath = outputFile
                 .getFilePath()
-                .replace('/fes-design/types/components/', '/fes-design/types/');
+                .replace('/fes-design/types/components/', '/fes-design/es/');
 
             await fs.promises.mkdir(path.dirname(filePath), {
                 recursive: true,
