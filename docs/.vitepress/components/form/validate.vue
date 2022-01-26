@@ -7,14 +7,14 @@
         :rules="rules"
     >
         <FFormItem prop="name" :rules="nameRules">
-            <template #label><span>输入姓名(slot)</span></template>
+            <template #label><span>姓名(slot)</span></template>
             <FInput
                 v-model="modelForm.name"
                 placeholder="请输入"
                 @input="changeHandler"
             ></FInput>
         </FFormItem>
-        <FFormItem label="输入密码" prop="password">
+        <FFormItem label="密码" prop="password">
             <FInput
                 v-model="modelForm.password"
                 type="password"
@@ -31,6 +31,16 @@
                 placeholder="请再次输入密码"
                 @change="handleRePasswordChange"
             ></FInput>
+        </FFormItem>
+        <FFormItem
+            label="年龄"
+            prop="age"
+            :rules="[{ required: true, type: 'number', message: '请输入年龄' }]"
+        >
+            <FInputNumber
+                v-model="modelForm.age"
+                placeholder="请输入年龄"
+            ></FInputNumber>
         </FFormItem>
         <FFormItem label="地址单选" prop="sregion">
             <FSelect
@@ -233,7 +243,11 @@ export default {
                 { required: true, message: '请选择单选', trigger: 'change' },
             ],
             time: [
-                { required: true, message: '请选择时间', trigger: 'change' },
+                {
+                    required: true,
+                    message: '请选择时间',
+                    trigger: ['change', 'blur'],
+                },
             ],
             sex: [
                 {

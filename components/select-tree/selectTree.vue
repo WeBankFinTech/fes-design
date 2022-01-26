@@ -24,6 +24,7 @@
                     :filterable="filterable"
                     :collapseTags="collapseTags"
                     :collapseTagsLimit="collapseTagsLimit"
+                    :class="{ 'is-error': isError }"
                     @remove="handleRemove"
                     @clear="handleClear"
                     @focus="focus"
@@ -168,7 +169,7 @@ export default defineComponent({
     ],
     setup(props, { emit }) {
         useTheme();
-        const { validate } = useFormAdaptor(
+        const { validate, isError } = useFormAdaptor(
             computed(() => (props.multiple ? 'array' : 'string')),
         );
         const isOpened = ref(false);
@@ -362,6 +363,7 @@ export default defineComponent({
             onChangeNodeList,
             inputPlaceholder,
             listEmptyText,
+            isError,
         };
     },
 });

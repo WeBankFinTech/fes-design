@@ -24,7 +24,7 @@
             :modelValue="displayValue"
             :disabled="disabled"
             :placeholder="placeholder"
-            :class="`${prefixCls}-inner`"
+            :class="[`${prefixCls}-inner`]"
             @input="handleInput"
             @change="handleInputChange"
             @focus="(event: Event) => $emit('focus', event)"
@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, provide, ref } from 'vue';
 import { isNumber } from 'lodash-es';
 
 import { UpOutlined, DownOutlined } from '../icon';
@@ -43,6 +43,8 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import FInput from '../input/input.vue';
+import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
+import { noop } from '../_util/utils';
 
 const prefixCls = getPrefixCls('input-number');
 
@@ -79,7 +81,11 @@ const props = withDefaults(defineProps<InputNumberProps>(), {
 const emit = defineEmits<InputNumberEmits>();
 
 useTheme();
-const { validate } = useFormAdaptor('number');
+const { validate, isError } = useFormAdaptor('number');
+
+// 避免子组件重复
+provide(FORM_ITEM_INJECTION_KEY, { validate: noop, isError });
+
 const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
 const classes = computed(() =>
@@ -139,7 +145,6 @@ const setCurrentValue = (newVal: number) => {
     updateCurrentValue(newVal);
     emit('input', newVal);
     emit('change', newVal, oldVal);
-
     validate('input');
     validate('change');
 };
@@ -153,9 +158,8 @@ const handleInput = (value: string) => {
     tempValue.value = value;
 };
 const handleInputChange = (value: string | number) => {
-    const newVal = value === '' ? null : Number(value);
-    if (!Number.isNaN(newVal) || value === '') {
-        setCurrentValue(Number(newVal));
+    if (!Number.isNaN(value)) {
+        setCurrentValue(value === '' ? null : Number(value));
     }
     tempValue.value = null;
 };

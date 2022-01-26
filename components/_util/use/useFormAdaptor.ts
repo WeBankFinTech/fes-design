@@ -1,12 +1,16 @@
-import { inject, isRef, watch, Ref } from 'vue';
+import { inject, isRef, watch, ref, Ref } from 'vue';
 import { isString, isFunction } from 'lodash-es';
 import { noop } from '../utils';
 import { FORM_ITEM_INJECTION_KEY } from '../constants';
 
 export default (valueType?: string | Ref<string> | (() => string)) => {
-    const { validate, setRuleDefaultType } = inject(FORM_ITEM_INJECTION_KEY, {
-        validate: noop,
-    });
+    const { validate, isError, setRuleDefaultType } = inject(
+        FORM_ITEM_INJECTION_KEY,
+        {
+            validate: noop,
+            isError: ref(false),
+        },
+    );
 
     // 兼容非 form 模式
     if (setRuleDefaultType && valueType) {
@@ -29,5 +33,6 @@ export default (valueType?: string | Ref<string> | (() => string)) => {
 
     return {
         validate,
+        isError,
     };
 };
