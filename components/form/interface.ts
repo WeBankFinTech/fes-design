@@ -2,7 +2,7 @@ import { Ref } from 'vue';
 export interface FormItemInject {
     validate: (eventName: string) => void;
     setRuleDefaultType?: (ruleType: string) => void;
-    isError: Ref<boolean>;
+    isError?: Ref<boolean>;
 }
 
 export interface Field {

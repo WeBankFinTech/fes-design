@@ -2,7 +2,7 @@
   "name": "@fesjs/fes-design",
   "version": "0.2.8",
   "description": "fes-design for PC",
-  "main": "dist/fesDesign.js",
+  "main": "dist/fes-design.js",
   "module": "es/index.js",
   "scripts": {
     "prepare": "husky install",
@@ -20,7 +20,7 @@
     "build:style": "node scripts/build-style.js",
     "build:type": "node scripts/build-types.js",
     "build:icon": "node scripts/build-icon.js",
-    "build": "npm run build:type && npm run build:version && npm run build:esm && npm run build:esm-browser && npm run build:umd && npm run build:style && npm run build:icon",
+    "build": "npm run build:version && npm run build:esm && npm run build:type && cp -rf es/icon . && npm run build:esm-browser && npm run build:umd && npm run build:style && npm run build:icon",
     "release": "node scripts/release.js",
     "lint-staged": "lint-staged --allow-empty",
     "commitlint": "commitlint --config commitlint.config.js -e -V",
@@ -155,5 +155,5 @@
     "url": "https://github.com/WeBankFinTech/fes-design/issues"
   },
   "homepage": "https://github.com/WeBankFinTech/fes-design#readme",
-  "types": "./types"
+  "types": "./es/index.d.ts"
 }
