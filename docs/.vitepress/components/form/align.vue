@@ -44,3 +44,8 @@
     margin-top: 24px;
 }
 </style>
+<style scoped>
+.fes-form {
+    width: 600px;
+}
+</style>

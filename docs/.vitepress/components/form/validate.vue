@@ -113,26 +113,7 @@
                 <FCheckbox :value="4">view</FCheckbox>
             </FCheckboxGroup>
         </FFormItem>
-        <FFormItem prop="more" labelClass="more-label">
-            <template #label>
-                <span @click="moreClickHandler">
-                    <CheckCircleFilled />补充信息
-                </span>
-            </template>
-            <div class="row-container">
-                <div class="row-item">
-                    <FSelect></FSelect>
-                    <FInput></FInput>
-                    <PlusCircleOutlined />
-                </div>
-                <div class="row-item">
-                    <FSelect></FSelect>
-                    <FInput></FInput>
-                    <PlusCircleOutlined />
-                </div>
-            </div>
-        </FFormItem>
-        <FFormItem label="备注 slot" prop="desc">
+        <FFormItem label="备注 slot" labelClass="more-label" prop="desc">
             <template #label>
                 <span @click="descClickHandler">
                     <QuestionCircleFilled /> 备注(slot)
@@ -144,7 +125,21 @@
                 placeholder="请输入备注信息，以填入的【姓名】开头"
             ></FInput>
         </FFormItem>
-        <FFormItem>
+        <FFormItem label="类型选择" prop="type">
+            <FRadioGroup v-model="modelForm.type">
+                <FRadio :value="1">Admin</FRadio>
+                <FRadio :value="2">edit</FRadio>
+                <FRadio :value="3">run</FRadio>
+                <FRadio :value="4">view</FRadio>
+            </FRadioGroup>
+        </FFormItem>
+        <FFormItem label="admin详情" prop="typeDesc">
+            <FInput
+                v-model="modelForm.typeDesc"
+                placeholder="请输入Admin详情"
+            ></FInput>
+        </FFormItem>
+        <FFormItem label=" ">
             <FButton
                 type="primary"
                 style="margin-right: 20px"
@@ -165,7 +160,7 @@
 </template>
 
 <script>
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
 // eslint-disable-next-line import/no-unresolved
 import { FMessage } from '@fesjs/fes-design';
 
@@ -183,12 +178,7 @@ export default {
             sex: '2',
             show: true,
             permission: [],
-            more: {
-                height: 180,
-                weight: 100,
-            },
             desc: '',
-
             singleCity: '',
             multiCity: [],
         });
@@ -206,90 +196,114 @@ export default {
             return value === modelForm.password;
         };
 
-        const rules = {
-            name: [
-                {
-                    min: 3,
-                    max: 8,
-                    message: '姓名长度在 3 到 8 个字符',
-                    trigger: 'input',
-                },
-            ],
-            password: [
-                {
-                    required: true,
-                    message: '请输入密码',
-                    trigger: ['blur', 'input'],
-                },
-            ],
-            rePassword: [
-                {
-                    required: true,
-                    message: '请再次输入密码',
-                    trigger: ['input', 'blur'],
-                },
-                {
-                    validator: validatePasswordStartWith,
-                    message: '再次输入密码时，两次密码输入不一致',
-                    trigger: ['input'],
-                },
-                {
-                    validator: validatePasswordSame,
-                    message: '输入密码时，两次密码输入不一致',
-                    trigger: 'password-input',
-                },
-            ],
-            sregion: [
-                { required: true, message: '请选择单选', trigger: 'change' },
-            ],
-            time: [
-                {
-                    required: true,
-                    message: '请选择时间',
-                    trigger: ['change', 'blur'],
-                },
-            ],
-            sex: [
-                {
-                    required: true,
-                    message: '请选择性别',
-                    trigger: 'change',
-                },
-            ],
-            permission: [
-                {
-                    required: true,
-                    message: '请选择权限',
-                    trigger: 'change',
-                    type: 'array',
-                },
-            ],
-            desc: [
-                { required: true, message: '请备注内容', trigger: ['blur'] },
-                {
-                    min: 3,
-                    max: 8,
-                    message: '长度在 3 到 8 个字符',
-                    trigger: ['input'],
-                },
-                {
-                    validator: validateContFun,
-                    message: '请输入以【姓名】开头的备注信息',
-                    trigger: ['input', 'change'],
-                },
-            ],
-            singleCity: [
-                { required: true, message: '请选择单选', trigger: 'change' },
-            ],
-            multiCity: [
-                {
-                    required: true,
-                    message: '请选择多选',
-                    trigger: 'change',
-                    type: 'array',
-                },
-            ],
-        };
+        const rules = computed(() => {
+            return {
+                name: [
+                    {
+                        min: 3,
+                        max: 8,
+                        message: '姓名长度在 3 到 8 个字符',
+                        trigger: 'input',
+                    },
+                ],
+                password: [
+                    {
+                        required: true,
+                        message: '请输入密码',
+                        trigger: ['blur', 'input'],
+                    },
+                ],
+                rePassword: [
+                    {
+                        required: true,
+                        message: '请再次输入密码',
+                        trigger: ['input', 'blur'],
+                    },
+                    {
+                        validator: validatePasswordStartWith,
+                        message: '再次输入密码时，两次密码输入不一致',
+                        trigger: ['input'],
+                    },
+                    {
+                        validator: validatePasswordSame,
+                        message: '输入密码时，两次密码输入不一致',
+                        trigger: 'password-input',
+                    },
+                ],
+                sregion: [
+                    {
+                        required: true,
+                        message: '请选择单选',
+                        trigger: ['change', 'blur'],
+                    },
+                ],
+                mregion: [
+                    {
+                        required: true,
+                        type: 'array',
+                        message: '请选择多选',
+                        trigger: ['change', 'blur'],
+                    },
+                ],
+                time: [
+                    {
+                        required: true,
+                        message: '请选择时间',
+                        trigger: ['change', 'blur'],
+                    },
+                ],
+                sex: [
+                    {
+                        required: true,
+                        message: '请选择性别',
+                        trigger: 'change',
+                    },
+                ],
+                permission: [
+                    {
+                        required: true,
+                        message: '请选择权限',
+                        trigger: 'change',
+                        type: 'array',
+                    },
+                ],
+                desc: [
+                    {
+                        min: 3,
+                        max: 8,
+                        message: '长度在 3 到 8 个字符',
+                        trigger: ['input'],
+                    },
+                    {
+                        validator: validateContFun,
+                        message: '请输入以【姓名】开头的备注信息',
+                        trigger: ['input', 'change'],
+                    },
+                ],
+                singleCity: [
+                    {
+                        required: true,
+                        message: '请选择单选',
+                        trigger: ['change', 'blur'],
+                    },
+                ],
+                multiCity: [
+                    {
+                        required: true,
+                        message: '请选择多选',
+                        trigger: ['change', 'blur'],
+                        type: 'array',
+                    },
+                ],
+                typeDesc: [
+                    modelForm.type === 1 && {
+                        required: true,
+                        message: '请输入详情',
+                        trigger: ['change', 'blur'],
+                    },
+                ],
+            };
+        });
         const nameRules = [
             { required: true, message: '请输入姓名', trigger: 'blur' },
         ];
@@ -380,7 +394,7 @@ export default {
             }
         };
 
-        const handleRePasswordChange = (value) => {
+        const handleRePasswordChange = () => {
             rePasswordRef.value.validate('input');
         };
 
@@ -419,10 +433,6 @@ export default {
             WFormDomRef.value.resetFields();
         };
 
-        const moreClickHandler = () => {
-            FMessage.success({ content: '支持 labelClass 啦～' });
-        };
-
         const descClickHandler = () => {
             FMessage.success({ content: '你点击了备注<slot/>！' });
         };
@@ -441,13 +451,15 @@ export default {
             clearHandler,
             resetHandler,
             descClickHandler,
-            moreClickHandler,
             cascaderOptions,
         };
     },
 };
 </script>
-<style>
+<style scoped>
+.fes-form {
+    width: 600px;
+}
 .fes-form .fes-form-item-label.more-label {
     color: #9e9e9e;
 }

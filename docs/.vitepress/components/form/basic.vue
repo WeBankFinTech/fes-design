@@ -26,7 +26,7 @@
                 <FCheckbox :value="31 - 60">31-60</FCheckbox>
             </FCheckboxGroup>
         </FFormItem>
-        <FFormItem>
+        <FFormItem label=" ">
             <FButton type="primary">Submit</FButton>
         </FFormItem>
     </FForm>
@@ -61,3 +61,8 @@ export default {
     },
 };
 </script>
+<style scoped>
+.fes-form {
+    width: 600px;
+}
+</style>
