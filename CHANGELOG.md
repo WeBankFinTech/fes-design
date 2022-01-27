@@ -1,3 +1,19 @@
+## [0.2.9](https://github.com/WeBankFinTech/fes-design/compare/v0.2.8...v0.2.9) (2022-01-27)
+
+
+### Bug Fixes
+
+* side动画异常 ([3bb9981](https://github.com/WeBankFinTech/fes-design/commit/3bb9981117ee86ba36c676ee8f76a1112640db13))
+* 解决 eslint-plugin-import 无法识别 exports imports 问题 ([#41](https://github.com/WeBankFinTech/fes-design/issues/41)) ([5a51d9f](https://github.com/WeBankFinTech/fes-design/commit/5a51d9fdbd83fe16fe4c0d7f47b484a5d0d874c0))
+
+
+### Features
+
+* 优化 input prefix | suffix; 修复 input-number 部分问题 ([#40](https://github.com/WeBankFinTech/fes-design/issues/40)) ([9de27be](https://github.com/WeBankFinTech/fes-design/commit/9de27becec2f996278c103d6e5f86494772bee68))
+* 增加skeleton组件 ([#37](https://github.com/WeBankFinTech/fes-design/issues/37)) ([347e7c1](https://github.com/WeBankFinTech/fes-design/commit/347e7c122173c961be132d5b876b34899c122989))
+
+
+
 ## [0.2.8](https://github.com/WeBankFinTech/fes-design/compare/v0.2.7...v0.2.8) (2022-01-25)
 
 
