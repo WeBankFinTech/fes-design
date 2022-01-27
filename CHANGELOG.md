@@ -1,3 +1,17 @@
+## [0.2.10](https://github.com/WeBankFinTech/fes-design/compare/v0.2.9...v0.2.10) (2022-01-27)
+
+
+### Bug Fixes
+
+* 修复input样式问题 ([#42](https://github.com/WeBankFinTech/fes-design/issues/42)) ([2a4aeb3](https://github.com/WeBankFinTech/fes-design/commit/2a4aeb346be2f91ee8e55373b9f96e2270e1e1fd))
+
+
+### Features
+
+* 添加新图标 ([3b172cb](https://github.com/WeBankFinTech/fes-design/commit/3b172cb14f8d6f6cc39fc0ea0e91a0923fe049ff))
+
+
+
 ## [0.2.9](https://github.com/WeBankFinTech/fes-design/compare/v0.2.8...v0.2.9) (2022-01-27)
 
 
