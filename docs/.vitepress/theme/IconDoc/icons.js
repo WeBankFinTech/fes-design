@@ -17,6 +17,7 @@ export { default as CloseCircleFilled } from '../../../../components/icon/CloseC
 export { default as CloseCircleOutlined } from '../../../../components/icon/CloseCircleOutlined';
 export { default as CloseOutlined } from '../../../../components/icon/CloseOutlined';
 export { default as CloseSquareOutlined } from '../../../../components/icon/CloseSquareOutlined';
+export { default as ClusterOutlined } from '../../../../components/icon/ClusterOutlined';
 export { default as CommentOutlined } from '../../../../components/icon/CommentOutlined';
 export { default as DateOutlined } from '../../../../components/icon/DateOutlined';
 export { default as DeleteOutlined } from '../../../../components/icon/DeleteOutlined';
@@ -68,6 +69,7 @@ export { default as PlusSquareOutlined } from '../../../../components/icon/PlusS
 export { default as ProductOutlined } from '../../../../components/icon/ProductOutlined';
 export { default as QuestionCircleFilled } from '../../../../components/icon/QuestionCircleFilled';
 export { default as QuestionCircleOutlined } from '../../../../components/icon/QuestionCircleOutlined';
+export { default as QuitOutlined } from '../../../../components/icon/QuitOutlined';
 export { default as ReloadOutlined } from '../../../../components/icon/ReloadOutlined';
 export { default as RightCircleFilled } from '../../../../components/icon/RightCircleFilled';
 export { default as RightCircleOutlined } from '../../../../components/icon/RightCircleOutlined';
