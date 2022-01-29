@@ -40,6 +40,8 @@
                     @compositionstart="handleCompositionStart"
                     @compositionend="handleCompositionEnd"
                     @input="handleInput"
+                    @change="handleChange"
+                    @keydown.enter="handleChange"
                     @focus="handleFocus"
                     @blur="handleBlur"
                     @keydown="handleKeydown"
@@ -93,6 +95,7 @@
             @compositionstart="handleCompositionStart"
             @compositionend="handleCompositionEnd"
             @input="handleInput"
+            @change="handleChange"
             @focus="handleFocus"
             @blur="handleBlur"
             @keydown="handleKeydown"
@@ -237,8 +240,15 @@ export default defineComponent({
 
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
-        const handleChange = () => {
-            emit('change', currentValue.value);
+        const handleChange = (event: Event) => {
+            const { value } = event.target as HTMLInputElement;
+            emit('change', value);
+        };
+
+        const handleValueChange = (value: string | number) => {
+            updateCurrentValue(value);
+            emit('input', value);
+            // 对于 form 表单校验，Input 的 input 事件就是 change 事件
             validate('change');
         };
 
@@ -249,9 +259,8 @@ export default defineComponent({
             disabled,
             focused,
             hovering,
-            updateCurrentValue,
+            handleValueChange,
             emit,
-            handleChange,
         );
 
         const classes = computed(() => [
@@ -277,10 +286,7 @@ export default defineComponent({
         const handleInput = (event: Event) => {
             const { value } = event.target as HTMLInputElement;
             if (!isComposing.value) {
-                updateCurrentValue(value);
-                emit('input', value);
-                validate('input');
-                handleChange();
+                handleValueChange(value);
             }
         };
         const handleCompositionStart = () => {

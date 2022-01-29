@@ -6,8 +6,7 @@
             :placeholder="placeholder"
             :class="[`${prefixCls}-inner`]"
             @input="handleInput"
-            @change="handleInputChange"
-            @focus="(event: Event) => $emit('focus', event)"
+            @focus="(event) => $emit('focus', event)"
             @blur="handleBlur"
         >
             <template v-if="$slots.prefix" #prefix>
@@ -164,19 +163,20 @@ const setCurrentValue = (newVal: number) => {
 };
 
 const handleBlur = (e: Event) => {
+    if (tempValue.value) tempValue.value = null;
     emit('blur', e);
     validate('blur');
 };
 
 const handleInput = (value: string) => {
     tempValue.value = value;
-};
-const handleInputChange = (value: string | number) => {
     const newVal = value === '' ? null : Number(value);
     if (!Number.isNaN(newVal) || value === '') {
         setCurrentValue(newVal === null ? newVal : Number(newVal));
+        tempValue.value = null;
+    } else {
+        tempValue.value = value;
     }
-    tempValue.value = null;
 };
 
 const _calculationNum = (val: number, type: ActionEnum) => {
@@ -201,10 +201,7 @@ const maxDisabled = computed(
 
 const calculationNum = (type: ActionEnum) => {
     if (props.disabled || maxDisabled.value) return;
-    if (tempValue.value) {
-        handleInputChange(tempValue.value);
-    }
-
+    tempValue.value = null;
     setCurrentValue(_calculationNum(currentValue.value || 0, type));
 };
 </script>

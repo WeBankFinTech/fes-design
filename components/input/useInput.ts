@@ -1,9 +1,5 @@
 import { ref, computed, Ref } from 'vue';
-import type {
-    UpdateCurrentValue,
-    FormValidate,
-    BooleanRef,
-} from '../_util/interface';
+import type { FormValidate, BooleanRef } from '../_util/interface';
 
 import type { InputCurrentValue, InputEmits } from './interface';
 
@@ -42,9 +38,8 @@ export function useClear(
     disabled: BooleanRef,
     focused: BooleanRef,
     hovering: BooleanRef,
-    updateCurrentValue: UpdateCurrentValue,
+    handleValueChange: (val: string | number) => void,
     emit: InputEmits,
-    handleChange: () => void,
 ) {
     const showClear = computed(
         () =>
@@ -57,8 +52,7 @@ export function useClear(
 
     const clear = () => {
         if (currentValue.value !== '') {
-            updateCurrentValue('');
-            handleChange();
+            handleValueChange('');
         }
         emit('clear');
     };
