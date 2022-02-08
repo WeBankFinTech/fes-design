@@ -31,7 +31,10 @@ const optionListProps = {
 
 export default defineComponent({
     props: optionListProps,
-    setup(props) {
+     emits: [
+        'scroll'
+    ],
+    setup(props, {emit}) {
         const renderLabel = (
             option: SelectOption,
             isSelected: boolean,
@@ -87,8 +90,8 @@ export default defineComponent({
         return () =>
             props.options.length > 50 ? (
                 <VirtualList
-                    onMousedown={(e: Event) => {
-                        e.preventDefault();
+                    onScroll={(event: Event)=>{
+                        emit('scroll', event)
                     }}
                     dataSources={props.options}
                     dataKey={'value'}
@@ -100,8 +103,8 @@ export default defineComponent({
                 ></VirtualList>
             ) : props.options.length ? (
                 <Scrollbar
-                    onMousedown={(e: Event) => {
-                        e.preventDefault();
+                    onScroll={(event: Event)=>{
+                        emit('scroll', event)
                     }}
                     containerStyle={props.containerStyle}
                     containerClass={`${props.prefixCls}-dropdown`}
@@ -110,9 +113,6 @@ export default defineComponent({
                 </Scrollbar>
             ) : (
                 <div
-                    onMousedown={(e: Event) => {
-                        e.preventDefault();
-                    }}
                     class={[
                         `${props.prefixCls}-dropdown`,
                         `${props.prefixCls}-null`,

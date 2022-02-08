@@ -36,7 +36,7 @@ app.use(FScrollbar);
 
 | 事件名称 | 说明     | 回调参数                         |
 | -------- | -------- | -------------------------------- |
-| scroll   | 滚动事件 | 滚动距离({scollLeft, scrollTop}) |
+| scroll   | 滚动事件 | (event: Event) |
 
 ## Methods
 

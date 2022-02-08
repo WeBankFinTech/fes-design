@@ -4,13 +4,13 @@
             v-show="always || visible"
             ref="barRef"
             :class="[prefixCls, `is-${barMap.key}`]"
-            @mousedown.stop="clickTrackHandler"
+            @mousedown.stop.prevent="clickTrackHandler"
         >
             <div
                 ref="thumbRef"
                 :class="[`${prefixCls}-thumb`, cursorDown && `is-hovering`]"
                 :style="thumbStyle"
-                @mousedown="clickThumbHandler"
+                @mousedown.stop.prevent="clickThumbHandler"
             ></div>
         </div>
     </transition>

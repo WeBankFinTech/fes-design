@@ -1,5 +1,5 @@
 <template>
-    <FSelect v-model="arr" @change="handleChange">
+    <FSelect v-model="arr" @change="handleChange" @scroll="onScroll">
         <FOption
             v-for="(item, index) in optionList"
             :key="index"
@@ -41,10 +41,14 @@ export default {
         const handleChange = (value) => {
             console.log('change:', value);
         };
+        const onScroll = (e) => {
+            console.log(e);
+        };
         return {
             arr,
             optionList,
             handleChange,
+            onScroll,
         };
     },
 };

@@ -105,6 +105,7 @@ app.use(FSelect);
 | blur          | 当选择器失去焦点时触发                                                      | event                         |
 | focus         | 当选择器获得焦点时触发                                                      | event                         |
 | clear         | 点击清除按钮时触发                                                      | event                         |
+| scroll         | 滚动事件                                                      | event                         |
 
 ## Select Slots
 
