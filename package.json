@@ -38,6 +38,7 @@
   "files": [
     "dist",
     "es",
+    "icon",
     "scripts",
     "types"
   ],
