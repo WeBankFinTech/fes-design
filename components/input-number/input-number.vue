@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, provide, ref } from 'vue';
+import { computed, provide, ref, nextTick } from 'vue';
 import { isNumber } from 'lodash-es';
 
 import { UpOutlined, DownOutlined } from '../icon';
@@ -108,7 +108,6 @@ const classes = computed(() =>
 const tempValue = ref();
 const displayValue = computed(() => {
     if (tempValue.value != null) return tempValue.value;
-
     return currentValue.value;
 });
 
@@ -171,12 +170,13 @@ const handleBlur = (e: Event) => {
 const handleInput = (value: string) => {
     tempValue.value = value;
     const newVal = value === '' ? null : Number(value);
-    if (!Number.isNaN(newVal) || value === '') {
-        setCurrentValue(newVal === null ? newVal : Number(newVal));
-        tempValue.value = null;
-    } else {
-        tempValue.value = value;
-    }
+    // 在下一个 tick 处理 tempValue，避免无法重制 displayValue
+    nextTick(() => {
+        if (!Number.isNaN(newVal) || value === '') {
+            setCurrentValue(newVal === null ? newVal : Number(newVal));
+            tempValue.value = null;
+        }
+    });
 };
 
 const _calculationNum = (val: number, type: ActionEnum) => {
