@@ -34,8 +34,11 @@ import type { Position } from './interface';
 
 const prefixCls = getPrefixCls('tabs');
 const ADD_EVENT = 'add';
-
-function mapTabPane(tabPaneVNodes: VNode[] = [], tabValue: string | number) {
+function mapTabPane(
+    tabPaneVNodes: VNode[] = [],
+    tabValue: string | number,
+    tabPaneLazyCache: Record<string, boolean>,
+) {
     const children: VNode[] = [];
     tabPaneVNodes.forEach((vNode) => {
         const {
@@ -46,9 +49,14 @@ function mapTabPane(tabPaneVNodes: VNode[] = [], tabValue: string | number) {
         if (!vNode.key) vNode.key = value;
         if (!vNode.props.key) vNode.props.key = value;
         const show = value === tabValue;
-        const useVShow =
-            displayDirective === 'show' || _displayDirective === 'show';
-        if (useVShow) {
+        const directive = _displayDirective || displayDirective;
+        if (directive === 'show') {
+            children.push(withDirectives(vNode, [[vShow, show]]));
+        } else if (
+            directive === 'show:lazy' &&
+            (tabPaneLazyCache[value] || show)
+        ) {
+            tabPaneLazyCache[value] = true;
             children.push(withDirectives(vNode, [[vShow, show]]));
         } else if (show) {
             children.push(vNode);
@@ -92,6 +100,7 @@ export default defineComponent({
     emits: [UPDATE_MODEL_EVENT, CLOSE_EVENT, ADD_EVENT],
     setup(props, ctx) {
         useTheme();
+        const tabPaneLazyCache: Record<string, boolean> = {};
         const tabRefs = ref([]);
         const isScroll = ref(false);
         const [currentValue, updateCurrentValue] = useNormalModel(
@@ -310,7 +319,11 @@ export default defineComponent({
                                     : null
                             }
                         >
-                            {mapTabPane(children, currentValue.value)}
+                            {mapTabPane(
+                                children,
+                                currentValue.value,
+                                tabPaneLazyCache,
+                            )}
                         </TransitionGroup>
                     </div>
                 </div>
