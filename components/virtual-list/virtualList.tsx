@@ -13,6 +13,7 @@ import {
     createVNode,
     computed,
 } from 'vue';
+import { throttle } from 'lodash-es';
 import Virtual from './virtual';
 import { FVirtualListItem } from './listItem';
 import { VirtualProps } from './props';
@@ -26,7 +27,7 @@ import {
 enum SLOT_TYPE {
     HEADER = 'thead', // string value also use for aria role attribute
     FOOTER = 'tfoot',
-};
+}
 
 export default defineComponent({
     name: 'FVirtualList',
@@ -39,6 +40,8 @@ export default defineComponent({
         const rootRef = ref();
         const shepherdRef = ref();
         const rangeRef = ref(Object.create(null));
+
+        const scrollRef = ref();
 
         let virtual: Virtual = null;
 
@@ -155,14 +158,34 @@ export default defineComponent({
             installVirtual();
         };
 
+        let lastSize = getSizes();
+        const updateScrollBar = throttle(() => {
+            const nowSize = getSizes();
+            if (nowSize !== lastSize) {
+                lastSize = nowSize;
+                if (scrollRef.value) {
+                    scrollRef.value.update?.();
+                }
+            }
+        }, 10);
+
         // event called when each item mounted or size changed
         const onItemResized = (id: number | string, size: number) => {
-            virtual.saveSize(id, size);
-            emit(RESIZED_EVENT, id, size);
+            const sizes = virtual.sizes;
+            const oldSize = sizes.get(id);
+            if (oldSize !== size) {
+                virtual.saveSize(id, size);
+                emit(RESIZED_EVENT, id, size);
+                updateScrollBar();
+            }
         };
 
         // event called when slot mounted or size changed
-        const onSlotResized = (type: SLOT_TYPE, size: number, hasInit: boolean) => {
+        const onSlotResized = (
+            type: SLOT_TYPE,
+            size: number,
+            hasInit: boolean,
+        ) => {
             if (slots.header() || slots.footer()) {
                 if (type === SLOT_TYPE.HEADER) {
                     virtual.updateParam('slotHeaderSize', size);
@@ -177,7 +200,12 @@ export default defineComponent({
         };
 
         // emit event in special position
-        const emitEvent = (offset: number, clientSize: number, scrollSize: number, evt: Event) => {
+        const emitEvent = (
+            offset: number,
+            clientSize: number,
+            scrollSize: number,
+            evt: Event,
+        ) => {
             emit('scroll', evt, virtual.getRange());
 
             if (
@@ -253,10 +281,11 @@ export default defineComponent({
                                 scopedSlots: itemScopedSlots,
                                 style: itemStyle,
                                 onItemResized,
-                                class: `${itemClass}${itemClassAdd
-                                    ? ` ${itemClassAdd(index)}`
-                                    : ''
-                                    }`,
+                                class: `${itemClass}${
+                                    itemClassAdd
+                                        ? ` ${itemClassAdd(index)}`
+                                        : ''
+                                }`,
                             });
                             _slots.push(tempNode);
                         } else {
@@ -339,6 +368,7 @@ export default defineComponent({
             rootRef,
             shepherdRef,
             rangeRef,
+            scrollRef,
         };
     },
     render() {
@@ -399,6 +429,15 @@ export default defineComponent({
             ],
         );
 
-        return <FScrollbar onScroll={onScroll}>{tempVirtualVNode}</FScrollbar>;
+        return (
+            <FScrollbar
+                ref={(e: any) => {
+                    this.scrollRef = e;
+                }}
+                onScroll={onScroll}
+            >
+                {tempVirtualVNode}
+            </FScrollbar>
+        );
     },
 });

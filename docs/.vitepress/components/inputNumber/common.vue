@@ -1,6 +1,7 @@
 <template>
     <Space>
-        <FInputNumber v-model="val" :precision="0"></FInputNumber>
+        <FInputNumber v-model="val" :max="100" :precision="0"></FInputNumber>
+        {{ val }}
     </Space>
 </template>
 
@@ -9,7 +10,7 @@ import { ref } from 'vue';
 
 export default {
     setup() {
-        const val = ref();
+        const val = ref(10);
         return {
             val,
         };
