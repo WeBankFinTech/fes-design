@@ -122,7 +122,7 @@ export default defineComponent({
         const renderContentCopy = () => {
             if (visible.value && !transitionVisible.value) {
                 return contentStyle.value ? (
-                    <div style={contentStyle.value} />
+                    <div style={contentStyle.value} /> 
                 ) : (
                     <Content />
                 );

@@ -20,7 +20,10 @@
     --f-sub-menu-wrapper-color: inherit;
     --f-menu-item-color: var(--f-head-color);
     --f-menu-item-wrapper-color: inherit;
-
+    &, * {
+        box-sizing: border-box;
+    }
+    
     &.is-vertical,
     &.is-horizontal {
         .default();
@@ -39,7 +42,7 @@
                 width: 100%;
                 padding: 0 @padding-sm;
                 color: var(--f-sub-menu-wrapper-color);
-                transition: color @animation-duration-base @ease-base-in;
+                transition: all @animation-duration-slow @ease-base-out;
             }
             &-icon {
                 display: flex;
@@ -50,8 +53,8 @@
                 display: flex;
                 align-items: center;
                 margin-left: @padding-xs;
-                &.is-right {
-                    float: right;
+                &.is-opened {
+                    transform: rotate(180deg);
                 }
             }
             &-label {
@@ -76,12 +79,12 @@
                     }
                     > .@{menu-item-prefix-cls} {
                         > .@{menu-item-prefix-cls}-wrapper {
-                            padding-left: @padding-sm * 2;
+                            padding-left: calc(@padding-sm * 2);
                         }
                     }
                     > .@{sub-menu-prefix-cls} {
                         > .@{sub-menu-prefix-cls}-wrapper {
-                            padding-left: @padding-sm * 2;
+                            padding-left: calc(@padding-sm * 2);
                         }
                     }
                 }
@@ -90,7 +93,7 @@
             &.is-active {
                 > .@{sub-menu-prefix-cls}-wrapper {
                     --f-sub-menu-wrapper-color: var(--f-primary-color);
-                    transition: color @animation-duration-slow @ease-base-out;
+                    transition: all @animation-duration-base @ease-base-in;
                 }
             }
         }
@@ -105,7 +108,7 @@
                 width: 100%;
                 padding: 0 @padding-sm;
                 color: var(--f-menu-item-wrapper-color);
-                transition: color @animation-duration-base @ease-base-in;
+                transition: all @animation-duration-slow @ease-base-out;
             }
             &-icon {
                 display: flex;
@@ -120,7 +123,7 @@
             &.is-active {
                 > .@{menu-item-prefix-cls}-wrapper {
                     --f-menu-item-wrapper-color: var(--f-primary-color);
-                    transition: color @animation-duration-slow @ease-base-out;
+                    transition: all @animation-duration-base @ease-base-in;
                 }
             }
         }

@@ -16,30 +16,30 @@ export default {
         const optionList = reactive([
             {
                 value: 'HuNan',
-                label: '湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南'
+                label: '湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南',
             },
             {
                 value: 'HuBei',
                 label: '湖北',
-                disabled: true
+                disabled: true,
             },
             {
                 value: 'ZheJiang',
-                label: '浙江'
+                label: '浙江',
             },
             {
                 value: 'GuangDong',
-                label: '广东'
+                label: '广东',
             },
             {
                 value: 'JiangSu',
-                label: '江苏'
-            }
+                label: '江苏',
+            },
         ]);
         return {
-            optionList
+            optionList,
         };
-    }
+    },
 };
 </script>
 <style scoped>

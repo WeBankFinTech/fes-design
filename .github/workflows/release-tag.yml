@@ -12,12 +12,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@master
+      - name: Get the release version from the tag
+        shell: bash
+        if: env.RELEASE_VERSION == ''
+        run: |
+          echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+      - name: Generate Release Notes
+        run: |
+          ./.github/workflows/release-notes.mjs ${{ env.RELEASE_VERSION }}
+          cat notes-${{ env.RELEASE_VERSION }}.md
       - name: Create Release for Tag
         id: release_tag
-        uses: yyx990803/release-tag@master
+        uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          body: |
-            Please refer to [CHANGELOG.md](https://github.com/WeBankFinTech/fes-design/blob/main/CHANGELOG.md) for details.
+          body_path: notes-${{ env.RELEASE_VERSION }}.md

@@ -17,6 +17,9 @@
     overflow: hidden;
     background-color: var(--f-white);
     border-bottom: @table-border;
+    &, * {
+        box-sizing: border-box;
+    }
     .hidden-columns{
         display: none;
     }
@@ -32,7 +35,7 @@
     & &-header-wrapper {
         position: relative;
         z-index: 3;
-        &.is-scrolling{
+        &.is-scrolling-y {
             box-shadow: 0 1px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
         }
     }

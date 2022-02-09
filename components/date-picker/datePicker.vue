@@ -80,6 +80,7 @@ import {
     PropType,
     ExtractPropTypes,
     ComputedRef,
+    provide,
 } from 'vue';
 import RangeInput from './rangeInput.vue';
 import Calendars from './calendars.vue';
@@ -97,6 +98,8 @@ import { DATE_TYPE, COMMON_PROPS, RANGE_PROPS } from './const';
 import type { GetContainer } from '../_util/interface';
 import { useLocale } from '../config-provider/useLocale';
 import { isArray } from 'lodash-es';
+import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
+import { noop } from '../_util/utils';
 
 const prefixCls = getPrefixCls('date-picker');
 
@@ -272,9 +275,11 @@ export default defineComponent({
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
         const isRange = computed(() => DATE_TYPE[props.type].isRange);
-        const { validate } = useFormAdaptor(
+        const { validate, isError } = useFormAdaptor(
             computed(() => (isRange.value ? 'array' : 'number')),
         );
+        // 避免子组件重复
+        provide(FORM_ITEM_INJECTION_KEY, { validate: noop, isError });
 
         const { inputPlaceholder, rangePlaceholder } = usePlaceholder(
             props,
@@ -311,8 +316,8 @@ export default defineComponent({
         };
 
         const change = (val: number | number[] | null) => {
-            updateCurrentValue(val);
             handleChange(val);
+            updateCurrentValue(val);
             updatePopperOpen(false);
         };
 

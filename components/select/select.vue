@@ -10,7 +10,6 @@
             :offset="4"
             :hideAfter="0"
             :disabled="disabled"
-            :lazy="isLazy"
         >
             <template #trigger>
                 <SelectTrigger
@@ -24,6 +23,7 @@
                     :filterable="filterable || !!fetchData"
                     :collapseTags="collapseTags"
                     :collapseTagsLimit="collapseTagsLimit"
+                    :class="{ 'is-error': isError }"
                     @remove="onSelect"
                     @clear="handleClear"
                     @focus="focus"
@@ -32,9 +32,6 @@
                 />
             </template>
             <template #default>
-                <div ref="hiddenOptions" :class="`${prefixCls}-hidden-options`">
-                    <slot />
-                </div>
                 <OptionList
                     :options="filteredOptions"
                     :prefixCls="prefixCls"
@@ -45,6 +42,9 @@
                 />
             </template>
         </Popper>
+        <div ref="hiddenOptions" :class="`${prefixCls}-hidden-options`">
+            <slot />
+        </div>
     </div>
 </template>
 
@@ -60,7 +60,7 @@ import {
     CSSProperties,
     defineComponent,
 } from 'vue';
-import { debounce, isUndefined } from 'lodash-es';
+import { debounce } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel, useArrayModel } from '../_util/use/useModel';
@@ -96,9 +96,9 @@ export default defineComponent({
         'blur',
         'clear',
     ],
-    setup(props, { emit, slots }) {
+    setup(props, { emit }) {
         useTheme();
-        const { validate } = useFormAdaptor(
+        const { validate, isError } = useFormAdaptor(
             computed(() => (props.multiple ? 'array' : 'string')),
         );
         const isOpened = ref(false);
@@ -303,7 +303,7 @@ export default defineComponent({
             filteredOptions,
             listEmptyText,
             inputPlaceholder,
-            isLazy: isUndefined(slots.default),
+            isError,
         };
     },
 });

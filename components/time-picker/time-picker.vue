@@ -78,6 +78,7 @@ import {
     computed,
     PropType,
     ExtractPropTypes,
+    provide,
 } from 'vue';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
@@ -92,6 +93,8 @@ import FButton from '../button';
 
 import type { GetContainer } from '../_util/interface';
 import { useLocale } from '../config-provider/useLocale';
+import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
+import { noop } from '../_util/utils';
 
 const prefixCls = getPrefixCls('time-picker');
 
@@ -143,33 +146,6 @@ function validateTime(data: string, format: string) {
     if (times.length) return false;
     return true;
 }
-
-// type TimePickerProps = {
-//     modelValue?: string | string[] | number[];
-//     open?: boolean;
-//     appendToContainer?: boolean;
-//     getContainer?: () => HTMLElement;
-//     placeholder?: string;
-//     isRange?: boolean;
-//     disabled?: boolean;
-//     clearable?: boolean;
-//     format?: string;
-//     hourStep?: number;
-//     minuteStep?: number;
-//     secondStep?: number;
-//     control?: boolean;
-//     disabledHours?: (h: number) => boolean;
-//     disabledMinutes?: (h: number, m: number) => boolean;
-//     disabledSeconds?: (h: number, m: number, s: number) => boolean;
-// };
-
-// type TimePickerEmits = {
-//     (e: 'update:modelValue', value: string): void;
-//     (e: 'change', value: string): void;
-//     (e: 'update:open', value: boolean): void;
-//     (e: 'blur', event: Event): void;
-//     (e: 'focus', event: Event): void;
-// };
 
 const timePickerProps = {
     modelValue: {
@@ -259,7 +235,9 @@ export default defineComponent({
     emits: [UPDATE_MODEL_EVENT, 'update:open', 'change', 'blur', 'focus'],
     setup(props, { emit, slots }) {
         useTheme();
-        const { validate } = useFormAdaptor();
+        const { validate, isError } = useFormAdaptor();
+        // 避免子组件重复
+        provide(FORM_ITEM_INJECTION_KEY, { validate: noop, isError });
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
         const { isOpened, closePopper } = useOpen(props, emit);
         const classes = computed(() =>
@@ -329,6 +307,7 @@ export default defineComponent({
             emit('blur', event);
             validate('blur');
         };
+
         return {
             prefixCls,
             classes,

@@ -14,7 +14,7 @@ import type {
     CascaderMenu,
     OptionValue,
 } from './interface';
-import { CascaderPanelProps } from './props';
+import type { CascaderPanelProps } from './props';
 
 function useNodes(config: Ref<CascaderNodeConfig>, props: CascaderPanelProps) {
     const nodes = ref<CascaderNode[]>([]);

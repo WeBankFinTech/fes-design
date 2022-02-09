@@ -11,9 +11,11 @@
         </label>
         <div :class="`${prefixCls}-content`">
             <slot />
-            <div v-if="formItemShowMessage" :class="`${prefixCls}-error`">
-                {{ validateMessage }}
-            </div>
+            <transition name="fes-fade">
+                <div v-if="formItemShowMessage" :class="`${prefixCls}-error`">
+                    {{ validateMessage }}
+                </div>
+            </transition>
         </div>
     </div>
 </template>
@@ -32,7 +34,7 @@ import {
     VALIDATE_MESSAGE_DEFAULT,
 } from './const';
 import getPrefixCls from '../_util/getPrefixCls';
-import { FORMITEM_INJECTION_KEY } from '../_util/constants';
+import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
 import { wrapValidator, getNamePath, getPropByPath } from './utils';
 
 const prefixCls = getPrefixCls('form-item');
@@ -48,6 +50,7 @@ interface FormItemProps {
 
 const props = withDefaults(defineProps<FormItemProps>(), {
     rules: () => [],
+    showMessage: null,
 });
 
 const {
@@ -162,7 +165,6 @@ const validateRules = async (trigger = TRIGGER_TYPE_DEFAULT) => {
     if (!activeRules.length) return Promise.resolve();
 
     // 开始规则校验
-    setValidateInfo(VALIDATE_STATUS.VALIDATING);
     const descriptor: any = {};
     descriptor[props.prop] = activeRules;
     const validatorModel: any = {};
@@ -170,6 +172,7 @@ const validateRules = async (trigger = TRIGGER_TYPE_DEFAULT) => {
     const validator = new Schema(descriptor);
     try {
         await Promise.resolve(validator.validate(validatorModel));
+        setValidateInfo(VALIDATE_STATUS.SUCCESS);
     } catch (errObj: any) {
         if (errObj.errors) {
             const error = errObj.errors[0];
@@ -218,7 +221,13 @@ onBeforeUnmount(() => {
     removeField(props.prop);
 });
 
-provide(FORMITEM_INJECTION_KEY, { validate, setRuleDefaultType });
+provide(FORM_ITEM_INJECTION_KEY, {
+    validate,
+    setRuleDefaultType,
+    isError: computed(() => {
+        return validateStatus.value === VALIDATE_STATUS.ERROR;
+    }),
+});
 </script>
 
 <script lang="ts">

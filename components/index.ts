@@ -24,7 +24,7 @@ import { FSelect, FOption } from './select';
 import { FSpin } from './spin';
 import { FSteps, FStep } from './steps';
 import { FSwitch } from './switch';
-import { FTable, FColumn } from './table';
+import { FTable, FTableColumn } from './table';
 import { FTabs, FTabPane } from './tabs';
 import { FTag } from './tag';
 import { FCascader } from './cascader';
@@ -40,6 +40,8 @@ import { FCarousel, FCarouselItem } from './carousel';
 import { FVirtualList } from './virtual-list';
 import { FDrawer } from './drawer';
 import { FSelectTree } from './select-tree';
+import { FSpace } from './space';
+import { FSkeleton } from './skeleton';
 
 export * from './locales';
 
@@ -78,7 +80,7 @@ const components = [
     FStep,
     FSwitch,
     FTable,
-    FColumn,
+    FTableColumn,
     FTabs,
     FTabPane,
     FTag,
@@ -98,6 +100,8 @@ const components = [
     FVirtualList,
     FDrawer,
     FSelectTree,
+    FSpace,
+    FSkeleton,
 ];
 const install = function (app: App) {
     components.forEach((component) => {
@@ -144,7 +148,7 @@ export {
     FStep,
     FSwitch,
     FTable,
-    FColumn,
+    FTableColumn,
     FTabs,
     FTabPane,
     FTag,
@@ -164,6 +168,8 @@ export {
     FVirtualList,
     FDrawer,
     FSelectTree,
+    FSpace,
+    FSkeleton,
 };
 export default {
     version,

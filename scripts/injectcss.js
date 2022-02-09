@@ -11,7 +11,10 @@ function injectCss() {
                 const bundleItem = bundle[name];
                 if (name === 'index.js') {
                     const dir = path.dirname(bundleItem.facadeModuleId);
-                    if (fs.existsSync(path.join(dir, 'style'))) {
+                    if (
+                        fs.existsSync(path.join(dir, 'style')) &&
+                        !fs.existsSync(path.join(dir, 'style/themes'))
+                    ) {
                         bundleItem.code = `import './style';\n${bundleItem.code}`;
                     }
                 }

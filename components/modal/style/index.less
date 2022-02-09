@@ -29,7 +29,7 @@
             text-align: center;
 
             .@{modal-prefix-cls}-wrapper {
-                padding: @padding-md + @padding-xs @padding-md;;
+                padding: calc(@padding-md + @padding-xs) @padding-md;
             }
             
             .@{modal-prefix-cls}-header {
@@ -67,7 +67,7 @@
     
     &-wrapper {
         position: relative;
-        padding: @padding-md + @padding-xs;
+        padding: calc(@padding-md + @padding-xs);
         background: var(--f-body-bg-color);
         border-radius: var(--f-border-radius-base);
         box-shadow: @shadow-down;

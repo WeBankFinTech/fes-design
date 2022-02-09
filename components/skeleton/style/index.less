@@ -1,0 +1,69 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin.less';
+
+@skeleton-prefix-cls: ~'@{cls-prefix}-skeleton';
+
+@skeleton-transition-bezier: @ease-in-out;
+@skeleton-animation-bezier: @ease-in-out;
+@skeleton-animation-duration: 2s;
+@skeleton-color-start: var(--f-border-color-split);
+@skeleton-color-end: var(--f-border-color-disabled);
+
+.@{skeleton-prefix-cls} {
+    width: 100%;
+    height: 1em;
+    background-color: @skeleton-color-start;
+    border-radius: 0;
+    transition: background-color @animation-duration-slow @skeleton-transition-bezier;
+    animation: none;
+
+    &.is-text {
+        display: inline-block;
+        height: 1em;
+    }
+    &.is-sharp {
+        border-radius: var(--f-border-radius-base);
+    }
+    &.is-round {
+        border-radius: 4096px;
+    }
+    &.is-size-small {
+        height: 24px;
+    }
+    &.is-size-middle {
+        height: 32px;
+    }
+    &.is-size-large {
+        height: 40px;
+    }
+    &.is-circle {
+        border-radius: 50%;
+
+        &.is-size-small {
+            width: 24px;
+        }
+        &.is-size-middle {
+            width: 32px;
+        }
+        &.is-size-large {
+            width: 40px;
+        }
+    }
+    &.is-animated {
+        animation: @skeleton-animation-duration skeleton-loading infinite @skeleton-animation-bezier;
+    }
+
+    @keyframes skeleton-loading {
+        0% {
+            background-color: @skeleton-color-start;
+        }
+        60% {
+            background-color: @skeleton-color-end;
+        }
+        100% {
+            background-color: @skeleton-color-start;
+        }
+    }
+}
+

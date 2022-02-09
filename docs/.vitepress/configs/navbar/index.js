@@ -10,5 +10,5 @@ module.exports = {
             activeMatch: `/components/`,
             link: '/zh/components/button',
         },
-    ]
-}
+    ],
+};

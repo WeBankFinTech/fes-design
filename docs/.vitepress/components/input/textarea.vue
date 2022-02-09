@@ -2,9 +2,9 @@
     <Space>
         <FInput type="textarea" placeholder="请输入"></FInput>
         <FInput
+            v-model="autoSizeValue"
             type="textarea"
             style="margin-top: 20px"
-            v-model="autoSizeValue"
             :autosize="{ minRows: 2, maxRows: 5 }"
             placeholder="请输入"
         ></FInput>
@@ -25,8 +25,8 @@ export default {
     setup() {
         const autoSizeValue = ref();
         return {
-            autoSizeValue
+            autoSizeValue,
         };
-    }
+    },
 };
 </script>

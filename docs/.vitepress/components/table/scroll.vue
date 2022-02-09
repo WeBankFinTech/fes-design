@@ -6,7 +6,11 @@
             :width="150"
             fixed
         ></f-table-column>
-        <f-table-column prop="name" label="姓名姓名姓名姓名姓名姓名姓名姓名" :width="150"></f-table-column>
+        <f-table-column
+            prop="name"
+            label="姓名姓名姓名姓名姓名姓名姓名姓名"
+            :width="150"
+        ></f-table-column>
         <f-table-column
             prop="province"
             label="省份"
@@ -32,7 +36,7 @@
 import { reactive } from 'vue';
 export default {
     setup() {
-        const data = Array.from([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], (i)=> {
+        const data = Array.from([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], (i) => {
             return {
                 date: `2016-05-${i < 10 ? '0' + i : i}`,
                 name: '王小虎',
@@ -40,23 +44,26 @@ export default {
                 city: '普陀区',
                 address: '上海市普陀区金沙江路 1518 弄',
                 zip: 200333,
-            }
-        })
-        const action = [{
-            label: '编辑',
-            func: (row)=> {
-                console.log(row)
-            }
-        },{
-            label: '删除',
-            func: (row)=> {
-                console.log(row)
-            }
-        }]
+            };
+        });
+        const action = [
+            {
+                label: '编辑',
+                func: (row) => {
+                    console.log(row);
+                },
+            },
+            {
+                label: '删除',
+                func: (row) => {
+                    console.log(row);
+                },
+            },
+        ];
         return {
             data,
-            action
-        }
-    }
-}
+            action,
+        };
+    },
+};
 </script>

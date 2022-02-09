@@ -5,12 +5,12 @@ import VirtualList from '../virtual-list/virtualList';
 import CheckOutlined from '../icon/CheckOutlined';
 import { noop } from '../_util/utils';
 
-import type { SelectOption } from './interface'
+import type { SelectOption } from './interface';
 
 const optionListProps = {
     prefixCls: String,
     containerStyle: {
-        type: Object as PropType<CSSProperties>
+        type: Object as PropType<CSSProperties>,
     },
     options: {
         type: Array as PropType<SelectOption[]>,
@@ -32,7 +32,11 @@ const optionListProps = {
 export default defineComponent({
     props: optionListProps,
     setup(props) {
-        const renderLabel = (option: SelectOption, isSelected: boolean, prefixCls: string) => {
+        const renderLabel = (
+            option: SelectOption,
+            isSelected: boolean,
+            prefixCls: string,
+        ) => {
             if ((option as any).slots?.default) {
                 return (option as any).slots.default({ isSelected });
             }
@@ -77,21 +81,15 @@ export default defineComponent({
             );
         };
 
-        const renderList = () =>
-            props.options.length ? (
-                props.options.map((option) => renderOption(option))
-            ) : (
-                <div class={`${props.prefixCls}-null`}>{props.emptyText}</div>
-            );
-
-        const renderDefault = ({ source }: {
-            source: SelectOption
-        }) => renderOption(source);
+        const renderDefault = ({ source }: { source: SelectOption }) =>
+            renderOption(source);
 
         return () =>
             props.options.length > 50 ? (
                 <VirtualList
-                    onMousedown={(e: Event)=>{e.preventDefault()}}
+                    onMousedown={(e: Event) => {
+                        e.preventDefault();
+                    }}
                     dataSources={props.options}
                     dataKey={'value'}
                     estimateSize={32}
@@ -100,14 +98,29 @@ export default defineComponent({
                     class={`${props.prefixCls}-dropdown is-max-height`}
                     v-slots={{ default: renderDefault }}
                 ></VirtualList>
-            ) : (
+            ) : props.options.length ? (
                 <Scrollbar
-                    onMousedown={(e: Event)=>{e.preventDefault()}}
+                    onMousedown={(e: Event) => {
+                        e.preventDefault();
+                    }}
                     containerStyle={props.containerStyle}
                     containerClass={`${props.prefixCls}-dropdown`}
                 >
-                    {renderList()}
+                    {props.options.map((option) => renderOption(option))}
                 </Scrollbar>
+            ) : (
+                <div
+                    onMousedown={(e: Event) => {
+                        e.preventDefault();
+                    }}
+                    class={[
+                        `${props.prefixCls}-dropdown`,
+                        `${props.prefixCls}-null`,
+                    ]}
+                    style={props.containerStyle}
+                >
+                    {props.emptyText}
+                </div>
             );
     },
 });

@@ -1,8 +1,16 @@
 <template>
     <space>
         <FSelectTree v-model="value1" :data="data" disabled> </FSelectTree>
-        <FSelectTree v-model="value2" :data="data" multiple disabled> </FSelectTree>
-        <FSelectTree v-model="value2" :data="data" multiple disabled collapseTags> </FSelectTree>
+        <FSelectTree v-model="value2" :data="data" multiple disabled>
+        </FSelectTree>
+        <FSelectTree
+            v-model="value2"
+            :data="data"
+            multiple
+            disabled
+            collapseTags
+        >
+        </FSelectTree>
         <FSelectTree
             v-model="value2"
             :data="data"
@@ -41,12 +49,12 @@ function createLabel(level) {
 export default {
     setup() {
         const data = reactive(createData(4));
-        const value1 = ref("40");
-        const value2 = ref(["40", "41"]);
+        const value1 = ref('40');
+        const value2 = ref(['40', '41']);
         return {
             data,
             value1,
-            value2
+            value2,
         };
     },
 };

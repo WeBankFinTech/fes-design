@@ -2,7 +2,8 @@
     <div class="fit-demo">
         <div v-for="fit in fits" :key="fit" class="block">
             <span class="demonstration">{{ fit }}</span>
-            <FImage style="width: 100px; height: 100px" :src="url" :fit="fit"> </FImage>
+            <FImage style="width: 100px; height: 100px" :src="url" :fit="fit">
+            </FImage>
         </div>
     </div>
 </template>
@@ -12,9 +13,7 @@ import { ref } from 'vue';
 export default {
     setup() {
         const fits = ref(['fill', 'contain', 'cover', 'none', 'scale-down']);
-        const url = ref(
-            '/images/6.jpeg',
-        );
+        const url = ref('/images/6.jpeg');
         return {
             url,
             fits,
@@ -25,7 +24,6 @@ export default {
 <style>
 .fit-demo {
     display: flex;
-    
 }
 .fit-demo .block {
     width: 20%;
@@ -34,7 +32,6 @@ export default {
     justify-content: center;
     flex-direction: column;
     border-right: solid 1px #dcdfe6;
-    
 }
 .fit-demo .block:last-child {
     border-right: none;

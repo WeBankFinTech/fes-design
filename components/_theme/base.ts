@@ -31,7 +31,14 @@ const themeCommon = {
     shadowRadiusSm: '4px',
 
     maskColor: fade(fontColorBase, 0.45),
+
+    paddingLarge: '24px',
+    paddingMiddle: '16px',
+    paddingSmall: '12px',
+    paddingXsmall: '8px',
 };
+
+export type TThemeVars = ReturnType<typeof baseTheme>;
 
 export const baseTheme = (themeOverrides: Partial<Theme> = {}) => {
     const base = Object.assign(themeCommon, themeOverrides.common);
@@ -57,6 +64,7 @@ export const baseTheme = (themeOverrides: Partial<Theme> = {}) => {
         activeColor: shade(base.primaryColor, 0.06),
         focusColor: base.primaryColor,
         focusShadowColor: tint(base.primaryColor, 0.8),
+        focusDangerShadowColor: tint(base.dangerColor, 0.8),
 
         processingColor: tint(base.primaryColor, 0.4),
 

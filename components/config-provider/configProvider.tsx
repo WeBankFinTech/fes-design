@@ -12,7 +12,8 @@ import {
 import { isObject, isNil } from 'lodash-es';
 
 import { hasOwn } from '../_util/utils';
-import { CONFIG_PROVIDER_INJECTION_KEY, configProviderProps, TypeConfigProviderContext } from './const';
+import { CONFIG_PROVIDER_INJECTION_KEY, configProviderProps } from './const';
+import type { TypeConfigProviderContext } from './const';
 import { provideLocale } from './useLocale';
 
 const globalConfig = reactive<TypeConfigProviderContext>({

@@ -19,12 +19,12 @@
 @pagination-pager-line-height-sm: @pagination-height-sm - 2;
 
 @pagination-normal-item-horizontal-margin-base: @padding-xs;
-@pagination-normal-item-horizontal-margin-sm: @padding-xs * 0.5;
+@pagination-normal-item-horizontal-margin-sm: calc(@padding-xs * 0.5);
 
-@pagination-large-item-horizontal-margin-base: @pagination-normal-item-horizontal-margin-base * 2;
-@pagination-large-item-horizontal-margin-sm: @pagination-normal-item-horizontal-margin-sm * 2;
+@pagination-large-item-horizontal-margin-base: calc(@pagination-normal-item-horizontal-margin-base * 2);
+@pagination-large-item-horizontal-margin-sm: calc(@pagination-normal-item-horizontal-margin-sm * 2);
 
-@pagination-text-item-horizontal-margin: @padding-xs * 0.5;
+@pagination-text-item-horizontal-margin: calc(@padding-xs * 0.5);
 
 @pagination-font-size-base: @font-size-body;
 @pagination-font-size-sm: @font-size-caption;
@@ -59,6 +59,7 @@
             --f-pager-item-height: @pagination-height-base;
             --f-pager-item-line-height: @pagination-pager-line-height-base;
             --f-pager-item-border-radius: var(--f-border-radius-base);
+            transition: all @animation-duration-slow @ease-base-out;
 
             .flex-box();
             justify-content: center;
@@ -79,12 +80,14 @@
                 --f-pager-item-color: var(--f-primary-color);
                 --f-pager-item-bg-color: var(--f-hover-color-ligh);
                 --f-pager-item-border-color: var(--f-primary-color);  
+                transition: all @animation-duration-base @ease-base-in;
             }
 
             &.is-active {
                 --f-pager-item-color: var(--f-white);
                 --f-pager-item-bg-color: var(--f-primary-color);
                 --f-pager-item-border-color: var(--f-primary-color);
+                transition: all @animation-duration-base @ease-base-in;
                 &:hover {
                     --f-pager-item-bg-color: var(--f-hover-color-base);
                     --f-pager-item-border-color: var(--f-hover-color-base); 

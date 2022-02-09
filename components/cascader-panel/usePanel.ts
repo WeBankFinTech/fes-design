@@ -22,7 +22,7 @@ import type {
     CascaderPanelEmits,
     CascaderMenu,
 } from './interface';
-import { CascaderPanelProps } from './props';
+import type { CascaderPanelProps } from './props';
 
 function useUpdateNodes(
     props: CascaderPanelProps,

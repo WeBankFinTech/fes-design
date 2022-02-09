@@ -17,4 +17,8 @@ export function applyTheme(
             _theme[key as keyof typeof _theme],
         );
     });
+
+    return {
+        themeVars: _theme,
+    };
 }

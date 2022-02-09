@@ -10,6 +10,7 @@
             :getContainer="getContainer"
             :offset="4"
             :hideAfter="0"
+            :lazy="false"
         >
             <template #trigger>
                 <SelectTrigger
@@ -21,6 +22,7 @@
                     :placeholder="inputPlaceholder"
                     :collapseTags="collapseTags"
                     :collapseTagsLimit="collapseTagsLimit"
+                    :class="{ 'is-error': isError }"
                     @remove="handleRemove"
                     @clear="handleClear"
                     @focus="focus"
@@ -63,7 +65,7 @@ import { flatNodes } from '../_util/utils';
 
 import type { CascaderNode, OptionValue } from '../cascader-panel/interface';
 import type { SelectValue } from './interface';
-import { SelectOptionValue } from '../select-trigger/interface';
+import type { SelectOptionValue } from '../select-trigger/interface';
 import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('cascader');
@@ -91,7 +93,7 @@ export default defineComponent({
     ],
     setup(props, { emit }) {
         useTheme();
-        const { validate } = useFormAdaptor(
+        const { validate, isError } = useFormAdaptor(
             computed(() => (props.multiple ? 'array' : 'string')),
         );
         const isOpened = ref(false);
@@ -208,6 +210,7 @@ export default defineComponent({
             inputPlaceholder,
             focus,
             blur,
+            isError,
         };
     },
 });

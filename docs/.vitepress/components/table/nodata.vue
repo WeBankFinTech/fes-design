@@ -8,11 +8,11 @@
 <script>
 import { reactive } from 'vue';
 export default {
-    setup(){
+    setup() {
         const data = reactive([]);
         return {
-            data
-        }
-    }
-}
+            data,
+        };
+    },
+};
 </script>
