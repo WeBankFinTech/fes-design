@@ -124,19 +124,24 @@ export default defineComponent({
             );
             const allNodes = flatNodes(nodes);
 
+            let value: OptionValue | OptionValue[];
+            if (multiple) {
+                value = getMultiNodeValuesByCurrentValue(
+                    nodeConfig.emitPath,
+                    currentValue.value as OptionValue[],
+                );
+            } else {
+                value = getNodeValueByCurrentValue(
+                    nodeConfig.emitPath,
+                    currentValue.value as OptionValue,
+                );
+            }
+
             selectedNodes.value = allNodes.filter((node) => {
                 if (multiple) {
-                    const nodeValues = getMultiNodeValuesByCurrentValue(
-                        nodeConfig.emitPath,
-                        currentValue.value as OptionValue[],
-                    );
-                    return nodeValues.includes(node.value);
+                    return (value as OptionValue[]).includes(node.value);
                 } else {
-                    const nodeValue = getNodeValueByCurrentValue(
-                        nodeConfig.emitPath,
-                        currentValue.value as OptionValue,
-                    );
-                    return node.value === nodeValue;
+                    return node.value === value;
                 }
             });
         }
