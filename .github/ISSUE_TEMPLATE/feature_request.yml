@@ -1,0 +1,29 @@
+name: Feature request
+description: Suggest an idea for this project
+labels: enhancement
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Related problem
+      description: |
+        A clear and concise description of what the problem is. E.g. I'm always frustrated when [...]
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes: 
+      label: Solution
+      description: |
+        A clear and concise description of what you want to happen.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Considered alternatives
+      description: |
+        A clear and concise description of any alternative solutions or features you've considered.
+  - type: textarea
+    id: addition
+    attributes:
+      label: Additional context
+      placeholder: Add any other context about the problem here.

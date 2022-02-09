@@ -1,0 +1,53 @@
+name: Bug Report
+description: Create a report to help us improve
+labels: bug
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: |
+        A clear and concise description of what the bug is.
+        If applicable, add screenshots to help explain your problem.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: To Reproduce
+      description: |
+        Steps to reproduce the behavior:
+        1. 
+        2. 
+        3. 
+        4. 
+  - type: textarea
+    id: code
+    attributes: 
+      label: Input code
+      render: Typescript
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you expect to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: version
+    attributes:
+      label: Version
+      description: |
+         - OS: [e.g. iOS]
+         - Browser [e.g. chrome, safari]
+         - Version [e.g. 22]
+         - Node
+         - fes -V
+         - package.json
+    validations:
+      required: true
+  - type: textarea
+    id: addition
+    attributes:
+      label: Additional context
+      placeholder: Add any other context about the problem here.

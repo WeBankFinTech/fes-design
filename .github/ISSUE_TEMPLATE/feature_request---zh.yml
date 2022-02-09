@@ -1,0 +1,30 @@
+name: 新需求
+description: 如果您有好的想法/建议，请提给我们
+labels: enhancement
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: 相关的问题
+      description: |
+        简明扼要的描述你的需求、想法、建议
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes: 
+      label: 解决方案
+      description: |
+        简述你想要的解决方案
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 考虑过的替代方案
+      description: |
+        是否有替代方案、你看过的不错的参考方案、交互方案等
+  - type: textarea
+    id: addition
+    attributes:
+      label: 其它补充内容
+      placeholder: 任何和这个问题有关的额外内容
+
