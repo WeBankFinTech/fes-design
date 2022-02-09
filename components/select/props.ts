@@ -10,9 +10,6 @@ export const selectProps = {
         type: [String, Number, Array, Boolean, Object] as PropType<
             SelectValue | SelectValue[]
         >,
-        default() {
-            return '';
-        },
     },
     placeholder: {
         type: String,
@@ -61,12 +58,10 @@ export const selectProps = {
             return [];
         },
     },
-    fetchData: {
-        type: Function as PropType<
-            (inputText: string) => SelectOption[] | Promise<SelectOption[]>
-        >,
+    remote: {
+        type: Boolean,
+        default: false,
     },
-    isFetchInInitial: Boolean,
 } as const;
 
 export const selectPropsDefaultValue = extractPropsDefaultValue(selectProps);

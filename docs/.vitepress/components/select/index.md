@@ -42,16 +42,15 @@ app.use(FSelect);
 
 --LABEL
 
-### 可搜索
+### 可过滤
 
 可以利用搜索功能快速查找选项
 
 --FILTERABLE
 
-<br>
-远程搜索
+### 远程搜索
 
---SEARABLE
+--REMOTE
 
 ### 可清空
 
@@ -94,18 +93,22 @@ app.use(FSelect);
 | placeholder          | 当没有选择内容时的提示语                      | string                             | -                     |
 | modelValue / v-model | 选中的值                                      | number / string / boolean / object | -                     |
 | filterable           | 是否支持过滤选项                              | boolean                            | `false`               |
+| remote           | 是否远程搜索，当输入内容时触发`search`事件                              | boolean                            | `false`               |
+
+
 
 ## Select Events
 
 | 事件名称      | 说明                                                                         | 回调参数                      |
 | ------------- | ---------------------------------------------------------------------------- | ----------------------------- |
-| change        | 选择或者清除选中选项时触发                                                             | 目前选中的值                  |
-| visibleChange | 下拉框出现/隐藏时触发                                                        | 出现则为 true，隐藏则为 false |
+| change        | 选择或者清除选中选项时触发                                        | 目前选中的值                  |
+| visibleChange | 下拉框出现/隐藏时触发, 出现则为 true，隐藏则为 false                                | (visible: Boolean)  |
 | removeTag     | 取消选中时调用，参数为选中项的 value (或 key) 值，仅在 `multiple` 模式下生效 | 取消选中的值                  |
-| blur          | 当选择器失去焦点时触发                                                      | event                         |
-| focus         | 当选择器获得焦点时触发                                                      | event                         |
-| clear         | 点击清除按钮时触发                                                      | event                         |
-| scroll         | 滚动事件                                                      | event                         |
+| blur          | 当选择器失去焦点时触发                                                      | (event: Event)                           |
+| focus         | 当选择器获得焦点时触发                                                      | (event: Event)                           |
+| clear         | 点击清除按钮时触发                                                      | (event: Event)                           |
+| scroll         | 滚动事件                                                      | (event: Event)                         |
+| search         | 搜索事件                                                      | ( query: String)                         |
 
 ## Select Slots
 

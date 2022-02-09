@@ -32,6 +32,7 @@
                         :class="`${prefixCls}-label-input`"
                         @input="handleInput"
                         @compositionstart="handleCompositionStart"
+                        @compositionupdate="handelCompositionUpdate"
                         @compositionend="handleCompositionEnd"
                     />
                     <div
@@ -64,7 +65,11 @@
                     </Ellipsis>
                 </Tag>
                 <div
-                    v-if="unSelectedRef && !filterTextRef.length"
+                    v-if="
+                        unSelectedRef &&
+                        !filterTextRef.length &&
+                        !isComposingRef
+                    "
                     :class="[
                         `${prefixCls}-label-placeholder`,
                         `${prefixCls}-label-overlay`,
@@ -78,12 +83,11 @@
                     :value="filterTextRef"
                     :class="`${prefixCls}-label-input`"
                     :style="{
-                        width: filterTextRef.length
-                            ? `${filterTextRef.length * 14}px`
-                            : '1em',
+                        width: inputWidthRef,
                     }"
                     @compositionstart="handleCompositionStart"
                     @compositionend="handleCompositionEnd"
+                    @compositionupdate="handelCompositionUpdate"
                     @input="handleInput"
                 />
             </template>
@@ -156,30 +160,13 @@ export default defineComponent({
         const inputHoveringRef = ref(false);
         const inputRef = ref();
         const filterTextRef = ref('');
+        const isComposingRef = ref(false);
+        const compositionValueRef = ref('');
+        const isFocusRef = ref(false);
 
         const unSelectedRef = computed(
             () => props.selectedOptions.length === 0,
         );
-
-        const isFocus = ref(false);
-
-        const handleFocus = (event: Event) => {
-            if (props.disabled) return;
-            isFocus.value = true;
-            emit('focus', event);
-        };
-
-        const handleBlur = (event: Event) => {
-            if (props.disabled) return;
-            isFocus.value = false;
-            if (filterTextRef.value) {
-                filterTextRef.value = '';
-                emit('input', filterTextRef.value, {
-                    isClear: true,
-                });
-            }
-            emit('blur', event);
-        };
 
         const hasClearRef = computed(
             () =>
@@ -189,9 +176,14 @@ export default defineComponent({
                 inputHoveringRef.value,
         );
 
+        const inputWidthRef = computed(() => {
+            const totalText = filterTextRef.value + compositionValueRef.value;
+            return totalText.length ? `${totalText.length * 14}px` : '1em';
+        });
+
         const triggerClass = computed(() => ({
             [`${prefixCls}`]: true,
-            'is-active': props.isOpened || isFocus.value,
+            'is-active': props.isOpened || isFocusRef.value,
             'is-disabled': props.disabled,
             'is-multiple': props.multiple,
         }));
@@ -233,6 +225,24 @@ export default defineComponent({
             return tags;
         });
 
+        const handleFocus = (event: Event) => {
+            if (props.disabled) return;
+            isFocusRef.value = true;
+            emit('focus', event);
+        };
+
+        const handleBlur = (event: Event) => {
+            if (props.disabled) return;
+            isFocusRef.value = false;
+            if (filterTextRef.value) {
+                filterTextRef.value = '';
+                emit('input', filterTextRef.value, {
+                    isClear: true,
+                });
+            }
+            emit('blur', event);
+        };
+
         const handleRemove = (index: number) => {
             if (props.disabled) return;
             emit('remove', props.selectedOptions[index].value);
@@ -243,20 +253,27 @@ export default defineComponent({
             emit('clear');
         };
 
-        const isComposing = ref(false);
-
         const handleInput = (e: Event) => {
-            if (props.disabled || isComposing.value) return;
+            if (props.disabled || isComposingRef.value) return;
             filterTextRef.value = (e.target as HTMLInputElement).value;
             emit('input', filterTextRef.value);
         };
 
         const handleCompositionStart = () => {
-            isComposing.value = true;
+            isComposingRef.value = true;
+            compositionValueRef.value = '';
+        };
+        const handelCompositionUpdate = (event: Event) => {
+            if (isComposingRef.value) {
+                compositionValueRef.value = (
+                    event.target as HTMLInputElement
+                ).value;
+            }
         };
         const handleCompositionEnd = (event: Event) => {
-            if (isComposing.value) {
-                isComposing.value = false;
+            if (isComposingRef.value) {
+                compositionValueRef.value = '';
+                isComposingRef.value = false;
                 handleInput(event);
             }
         };
@@ -305,11 +322,15 @@ export default defineComponent({
             inputRef,
             filterTextRef,
             handleCompositionStart,
+            handelCompositionUpdate,
             handleCompositionEnd,
             handleInput,
             labelTextRef,
             multiLabelRef,
             handleMouseDown,
+            isComposingRef,
+            compositionValueRef,
+            inputWidthRef,
         };
     },
 });
