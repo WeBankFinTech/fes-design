@@ -8,7 +8,6 @@
     </FCascader>
     <div class="text-tips">hover单选：</div>
     <FCascader
-        v-model="base.value2"
         :options="base.options"
         :nodeConfig="{ expandTrigger: 'hover' }"
         @change="base.handleChange"

@@ -10,9 +10,6 @@ export const selectProps = {
         type: [String, Number, Array, Boolean, Object] as PropType<
             SelectValue | SelectValue[]
         >,
-        default() {
-            return '';
-        },
     },
     placeholder: {
         type: String,

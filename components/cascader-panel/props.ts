@@ -7,7 +7,13 @@ import { CHECK_STRATEGY } from './const';
 import type { CascaderNode, CascaderNodeConfig, NodeOption } from './interface';
 
 export const cascaderPanelProps = {
-    currentValue: [Number, String, Array] as PropType<SelectValue>,
+    currentValue: [
+        Number,
+        String,
+        Array,
+        Boolean,
+        Object,
+    ] as PropType<SelectValue>,
     options: {
         type: Array as PropType<NodeOption[]>,
         default: (): NodeOption[] => [],

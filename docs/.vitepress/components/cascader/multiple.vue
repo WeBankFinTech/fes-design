@@ -9,7 +9,6 @@
     </FCascader>
     <div class="text-tips">hover多选：</div>
     <FCascader
-        v-model="base.multiValue2"
         :options="base.options"
         :multiple="true"
         :nodeConfig="{ expandTrigger: 'hover' }"
