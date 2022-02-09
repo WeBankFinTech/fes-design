@@ -8,7 +8,6 @@
     </FCascader>
     <div class="text-tips">hover单选：</div>
     <FCascader
-        v-model="base.value2"
         :options="base.options"
         :nodeConfig="{ expandTrigger: 'hover' }"
         @change="base.handleChange"
@@ -213,7 +212,7 @@ const useBase = () => {
     const state = reactive({
         value1: '110101',
         value2: '',
-        valueEmitPath: [],
+        valueEmitPath: ['13000', '130200'],
     });
 
     return {

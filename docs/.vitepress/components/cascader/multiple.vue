@@ -9,7 +9,6 @@
     </FCascader>
     <div class="text-tips">hover多选：</div>
     <FCascader
-        v-model="base.multiValue2"
         :options="base.options"
         :multiple="true"
         :nodeConfig="{ expandTrigger: 'hover' }"
@@ -233,11 +232,15 @@ function handleChange(value) {
 // 基础用法
 const useBase = () => {
     const state = reactive({
-        multiValue1: [],
+        multiValue1: ['110101', '140000'],
         multiValue2: [],
         multiValue3: [],
         multiValue4: [],
-        multiValueEmitPath: [],
+        multiValueEmitPath: [
+            ['110000', '110100', '110101'],
+            ['130000', '130100'],
+            ['140000'],
+        ],
     });
 
     return {
