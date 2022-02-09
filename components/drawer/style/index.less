@@ -20,11 +20,12 @@
     &-container {
         .fixed-full();
         display: flex;
-        overflow: auto;
     }
     
     &-wrapper {
         position: relative;
+        display: flex;
+        flex-direction: column;
         background: var(--f-body-bg-color);
         border-radius: var(--f-border-radius-base);
         box-shadow: @shadow-down;
@@ -47,15 +48,15 @@
     }
 
     &-body {
+        flex: 1;
         padding: @padding-md calc(@padding-md + @padding-xs);
+        overflow: auto;
         color: var(--f-sub-head-color);
         font-size: var(--f-font-size-base);
     }
 
     &-footer {
-        position: absolute;
-        bottom: calc(@padding-md + @padding-xs);
-        left: calc(@padding-md + @padding-xs);
+        padding: calc(@padding-md + @padding-xs);
         text-align: left;
         .btn-margin {
             margin-right: @padding-md;
