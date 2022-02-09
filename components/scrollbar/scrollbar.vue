@@ -111,14 +111,11 @@ export default defineComponent({
             },
         ]);
 
-        const handleScroll = () => {
+        const handleScroll = (event: Event) => {
             onScroll();
             const containerRefValue = containerRef.value;
             if (containerRefValue) {
-                emit('scroll', {
-                    scrollTop: containerRefValue.scrollTop,
-                    scrollLeft: containerRefValue.scrollLeft,
-                });
+                emit('scroll', event, containerRefValue);
             }
         };
 

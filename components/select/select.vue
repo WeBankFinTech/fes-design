@@ -39,6 +39,8 @@
                     :isSelect="isSelect"
                     :onSelect="onSelect"
                     :emptyText="listEmptyText"
+                    @scroll="onScroll"
+                    @mousedown.prevent
                 />
             </template>
         </Popper>
@@ -95,6 +97,7 @@ export default defineComponent({
         'focus',
         'blur',
         'clear',
+        'scroll',
     ],
     setup(props, { emit }) {
         useTheme();
@@ -286,6 +289,10 @@ export default defineComponent({
             }
             return style;
         });
+
+        const onScroll = (e: Event) => {
+            emit('scroll', e);
+        };
         return {
             prefixCls,
             isOpened,
@@ -304,6 +311,7 @@ export default defineComponent({
             listEmptyText,
             inputPlaceholder,
             isError,
+            onScroll,
         };
     },
 });

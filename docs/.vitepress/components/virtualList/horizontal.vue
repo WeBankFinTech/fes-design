@@ -43,7 +43,7 @@ while (count--) {
 
 export default {
     name: 'Horizontal',
-    data() {
+    setup() {
         return {
             total: TOTAL_COUNT.toLocaleString(),
             items: DataItems,
