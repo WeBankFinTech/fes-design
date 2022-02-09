@@ -114,7 +114,7 @@ export const getCheckNodesByLeafCheckNodes = (
 
 export const getNode = (
     data: NodeOption,
-    config?: CascaderNodeConfig,
+    config: CascaderNodeConfig,
     parent?: CascaderNode,
 ): CascaderNode => {
     const { valueField, labelField, childrenField, disabledField } = config;
