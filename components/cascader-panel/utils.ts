@@ -117,8 +117,7 @@ export const getNode = (
     config?: CascaderNodeConfig,
     parent?: CascaderNode,
 ): CascaderNode => {
-    const { valueField, labelField, childrenField, disabledField } =
-        config || {};
+    const { valueField, labelField, childrenField, disabledField } = config;
 
     const childrenData = (data as any)[childrenField];
     const node: CascaderNode = {

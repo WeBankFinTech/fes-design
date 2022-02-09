@@ -213,7 +213,7 @@ const useBase = () => {
     const state = reactive({
         value1: '110101',
         value2: '',
-        valueEmitPath: [],
+        valueEmitPath: ['13000', '130200'],
     });
 
     return {

@@ -10,7 +10,7 @@
             :getContainer="getContainer"
             :offset="4"
             :hideAfter="0"
-            :lazy="false"
+            :lazy="true"
         >
             <template #trigger>
                 <SelectTrigger
@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, unref, watch, computed } from 'vue';
+import { defineComponent, ref, unref, watch, computed, onMounted } from 'vue';
 import { cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
@@ -67,6 +67,12 @@ import type { CascaderNode, OptionValue } from '../cascader-panel/interface';
 import type { SelectValue } from './interface';
 import type { SelectOptionValue } from '../select-trigger/interface';
 import { useLocale } from '../config-provider/useLocale';
+import {
+    getMultiNodeValuesByCurrentValue,
+    getNode,
+    getNodeValueByCurrentValue,
+} from '../cascader-panel/utils';
+import { DEFAULT_CONFIG } from '../cascader-panel/const';
 
 const prefixCls = getPrefixCls('cascader');
 
@@ -106,6 +112,40 @@ export default defineComponent({
             () => props.placeholder || t('cascader.placeholder'),
         );
 
+        // 初始化选中节点
+        function initSelectedNodes() {
+            const { options, nodeConfig, multiple } = props;
+            const mergeNodeConfig = {
+                ...DEFAULT_CONFIG,
+                ...nodeConfig,
+            };
+            const nodes = options.map((nodeData) =>
+                getNode(nodeData, mergeNodeConfig),
+            );
+            const allNodes = flatNodes(nodes);
+
+            selectedNodes.value = allNodes.filter((node) => {
+                if (multiple) {
+                    const nodeValues = getMultiNodeValuesByCurrentValue(
+                        nodeConfig.emitPath,
+                        currentValue.value as OptionValue[],
+                    );
+                    return nodeValues.includes(node.value);
+                } else {
+                    const nodeValue = getNodeValueByCurrentValue(
+                        nodeConfig.emitPath,
+                        currentValue.value as OptionValue,
+                    );
+                    return node.value === nodeValue;
+                }
+            });
+        }
+
+        // 由于 Panel 组件不会初始化渲染，所以这里需要做下初始化选中处理
+        onMounted(() => {
+            initSelectedNodes();
+        });
+
         watch(isOpened, () => {
             emit('visibleChange', unref(isOpened));
         });
@@ -136,7 +176,7 @@ export default defineComponent({
         const handleRemove = (value: SelectValue) => {
             if (props.disabled) return;
 
-            const { emitPath } = props.nodeConfig || {};
+            const { emitPath } = props.nodeConfig;
             let copyValue = cloneDeep(currentValue.value);
             const updateValues: SelectOptionValue[] = [];
 
