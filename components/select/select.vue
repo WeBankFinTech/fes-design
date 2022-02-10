@@ -201,41 +201,26 @@ export default defineComponent({
         };
 
         // select-trigger 选择项展示，只在 currentValue 改变时才改变
-        // 如果值存在但是options没了，则缓存下值
         const selectedOptionsRef = ref([]);
-        const cacheOptionsRef = ref([]);
         watch(
             [currentValue, optionsRef],
-            ([newValue, newOptions], [, oldOptions]) => {
+            ([newValue, newOptions]) => {
                 if (!newValue) return;
                 const getOption = (val: SelectValue) => {
                     let cacheOption;
                     if (newOptions && newOptions.length) {
-                        cacheOption = newOptions.filter(
+                        cacheOption = newOptions.find(
                             (option) => option.value === val,
-                        )[0];
+                        );
                         if (cacheOption) {
                             return cacheOption;
                         }
                     }
-                    if (oldOptions && oldOptions.length) {
-                        cacheOption = oldOptions.filter(
-                            (option) => option.value === val,
-                        )[0];
-                        if (cacheOption) {
-                            cacheOptionsRef.value = [
-                                ...cacheOptionsRef.value,
-                                cacheOption,
-                            ];
-                            return cacheOption;
-                        }
-                    }
-                    const list = cacheOptionsRef.value.filter(
+                    cacheOption = selectedOptionsRef.value.find(
                         (option) => option.value === val,
                     );
-                    // 后添加的优先
-                    if (list.length) {
-                        return list[list.length - 1];
+                    if (cacheOption) {
+                        return cacheOption;
                     }
                     return { value: val, label: val };
                 };
