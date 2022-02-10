@@ -1,3 +1,23 @@
+# [0.3.0](https://github.com/WeBankFinTech/fes-design/compare/v0.2.12...v0.3.0) (2022-02-10)
+
+
+### Bug Fixes
+
+* input number 设置 max 时，输入框内容重制问题 ([#44](https://github.com/WeBankFinTech/fes-design/issues/44)) ([194aab0](https://github.com/WeBankFinTech/fes-design/commit/194aab0870e3ab42b596c3a7a598d0b51a0d3347))
+* 一些bug修复 ([#45](https://github.com/WeBankFinTech/fes-design/issues/45)) ([0956fe5](https://github.com/WeBankFinTech/fes-design/commit/0956fe53a9725d9ed9dc84fb0a469e9079a69bec))
+
+
+### Features
+
+* tabs切换展示增加show:lazy 和  修复 drawer 滚动样式问题 ([3c79486](https://github.com/WeBankFinTech/fes-design/commit/3c7948606d0b860e61e4fa0c08e1428b1314bfb2))
+
+
+### Performance Improvements
+
+* cascader-panel支持懒加载 ([9221455](https://github.com/WeBankFinTech/fes-design/commit/922145538b421e90cfefdd440576b29203c0adc3))
+
+
+
 ## [0.2.12](https://github.com/WeBankFinTech/fes-design/compare/v0.2.11...v0.2.12) (2022-02-08)
 
 
