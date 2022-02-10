@@ -1,3 +1,12 @@
+## [0.3.1](https://github.com/WeBankFinTech/fes-design/compare/v0.3.0...v0.3.1) (2022-02-10)
+
+
+### Bug Fixes
+
+* 修复select选择选项后宽度被撑开的问题 ([16b4eb5](https://github.com/WeBankFinTech/fes-design/commit/16b4eb555ab5bff1aa196d369d95b9695ec38ae5))
+
+
+
 # [0.3.0](https://github.com/WeBankFinTech/fes-design/compare/v0.2.12...v0.3.0) (2022-02-10)
 
 
