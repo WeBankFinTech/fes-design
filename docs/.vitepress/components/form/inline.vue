@@ -28,11 +28,11 @@ export default {
             optionList: [
                 {
                     value: 'HuNan',
-                    label: '湖南',
+                    label: '湖南湖南湖南湖南湖南湖南湖南',
                 },
                 {
                     value: 'HuBei',
-                    label: '湖北',
+                    label: '湖北湖北湖北湖北湖北湖北湖北',
                 },
                 {
                     value: 'ZheJiang',

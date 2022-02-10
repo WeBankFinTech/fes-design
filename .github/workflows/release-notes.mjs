@@ -6,12 +6,12 @@ const log = readFileSync("./CHANGELOG.md", { encoding: "utf-8" }).split("\n");
 let result = "";
 let inScope = false;
 for (let i = 0; i < log.length; i++) {
-    if (log[i].startsWith(`## [${tag}`)) {
+    if (/^#+ \[/.test(log[i])) {
         inScope = true;
         result += log[i];
         continue;
     }
-    if (inScope && log[i].startsWith(`## [`)) {
+    if (inScope && /^#+ \[/.test(log[i])) {
         inScope = false;
         break;
     }
