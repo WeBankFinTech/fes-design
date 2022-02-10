@@ -104,6 +104,7 @@
     padding: 0;
     color: var(--f-text-color);
     background-color: var(--f-white);
+    flex-shrink: 0;
     &.is-inverted {
         color: @layout-inverted-font-color;
         background-color: @layout-inverted-background-color;
@@ -130,6 +131,7 @@
 }
 
 .@{footer-prefix-cls} {
+    flex-shrink: 0;
     color: var(--f-text-color);
     font-size: var(--f-font-size-base);
     &.is-embedded {
