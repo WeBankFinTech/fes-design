@@ -1,7 +1,7 @@
 <template>
     <div :class="prefixCls">
         <Popper
-            v-model="isOpened"
+            v-model="isOpenedRef"
             trigger="click"
             placement="bottom-start"
             :popperClass="`${prefixCls}-popper`"
@@ -14,13 +14,13 @@
             <template #trigger>
                 <SelectTrigger
                     ref="triggerRef"
-                    :selectedOptions="selectedOptions"
+                    :selectedOptions="selectedOptionsRef"
                     :disabled="disabled"
                     :clearable="clearable"
-                    :isOpened="isOpened"
+                    :isOpened="isOpenedRef"
                     :multiple="multiple"
                     :placeholder="inputPlaceholder"
-                    :filterable="filterable || !!fetchData"
+                    :filterable="filterable || remote"
                     :collapseTags="collapseTags"
                     :collapseTagsLimit="collapseTagsLimit"
                     :class="{ 'is-error': isError }"
@@ -62,7 +62,6 @@ import {
     CSSProperties,
     defineComponent,
 } from 'vue';
-import { debounce } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel, useArrayModel } from '../_util/use/useModel';
@@ -98,19 +97,20 @@ export default defineComponent({
         'blur',
         'clear',
         'scroll',
+        'search',
     ],
     setup(props, { emit }) {
         useTheme();
         const { validate, isError } = useFormAdaptor(
             computed(() => (props.multiple ? 'array' : 'string')),
         );
-        const isOpened = ref(false);
+        const isOpenedRef = ref(false);
         const [currentValue, updateCurrentValue] = props.multiple
             ? useArrayModel(props, emit)
             : useNormalModel(props, emit);
 
-        watch(isOpened, () => {
-            emit('visibleChange', unref(isOpened));
+        watch(isOpenedRef, () => {
+            emit('visibleChange', unref(isOpenedRef));
         });
 
         const handleChange = () => {
@@ -154,25 +154,17 @@ export default defineComponent({
             }
         };
 
-        const remoteOptions = ref([]);
-        const options = computed(() =>
-            remoteOptions.value.length
-                ? remoteOptions.value
-                : [...props.options, ...childOptions],
-        );
+        const optionsRef = computed(() => [...props.options, ...childOptions]);
 
         const filterText = ref('');
         const filteredOptions = computed(() => {
-            if (props.filterable && !props.fetchData && filterText.value) {
-                return options.value.filter((option) =>
+            if (!props.remote && props.filterable && filterText.value) {
+                return optionsRef.value.filter((option) =>
                     String(option.label).includes(filterText.value),
                 );
             }
-            return options.value;
+            return optionsRef.value;
         });
-        const getRemoteData = debounce(async () => {
-            remoteOptions.value = await props.fetchData(filterText.value);
-        }, 100);
 
         const isSelect = (value: SelectValue) => {
             const selectVal = unref(currentValue);
@@ -202,34 +194,43 @@ export default defineComponent({
                     }
                 }
             } else {
-                isOpened.value = false;
+                isOpenedRef.value = false;
             }
             updateCurrentValue(unref(value));
             handleChange();
         };
 
         // select-trigger 选择项展示，只在 currentValue 改变时才改变
-        const selectedOptions = ref([]);
-        const allOptions = computed(() => {
-            return [...props.options, ...childOptions, ...remoteOptions.value];
-        });
+        const selectedOptionsRef = ref([]);
         watch(
-            [currentValue, allOptions],
-            () => {
-                if (!props.multiple) {
-                    selectedOptions.value = allOptions.value.filter(
-                        (option) => option.value === currentValue.value,
+            [currentValue, optionsRef],
+            ([newValue, newOptions]) => {
+                if (!newValue) return;
+                const getOption = (val: SelectValue) => {
+                    let cacheOption;
+                    if (newOptions && newOptions.length) {
+                        cacheOption = newOptions.find(
+                            (option) => option.value === val,
+                        );
+                        if (cacheOption) {
+                            return cacheOption;
+                        }
+                    }
+                    cacheOption = selectedOptionsRef.value.find(
+                        (option) => option.value === val,
                     );
+                    if (cacheOption) {
+                        return cacheOption;
+                    }
+                    return { value: val, label: val };
+                };
+
+                if (!props.multiple) {
+                    selectedOptionsRef.value = [getOption(newValue)];
                 } else {
-                    selectedOptions.value = currentValue.value.map(
+                    selectedOptionsRef.value = newValue.map(
                         (value: SelectValue) => {
-                            const filteredOption = allOptions.value.filter(
-                                (option) => option.value === value,
-                            );
-                            if (filteredOption.length) {
-                                return filteredOption[0];
-                            }
-                            return { value };
+                            return getOption(value);
                         },
                     );
                 }
@@ -250,8 +251,8 @@ export default defineComponent({
         };
 
         const blur = (e: Event) => {
-            if (isOpened.value) {
-                isOpened.value = false;
+            if (isOpenedRef.value) {
+                isOpenedRef.value = false;
             }
             emit('blur', e);
             validate('blur');
@@ -264,9 +265,9 @@ export default defineComponent({
             },
         ) => {
             filterText.value = val;
-            // blur 自动清的 inputText 不触发 fetchData
-            if (props.fetchData && !extraInfo?.isClear) {
-                getRemoteData();
+            // blur 自动清的 inputText 不触发 search
+            if (props.remote && !extraInfo?.isClear) {
+                emit('search', val);
             }
         };
 
@@ -276,9 +277,6 @@ export default defineComponent({
         onMounted(() => {
             if (triggerRef.value) {
                 triggerWidth.value = triggerRef.value.$el.offsetWidth;
-            }
-            if (props.isFetchInInitial && props.fetchData) {
-                getRemoteData();
             }
         });
 
@@ -293,13 +291,14 @@ export default defineComponent({
         const onScroll = (e: Event) => {
             emit('scroll', e);
         };
+
         return {
             prefixCls,
-            isOpened,
+            isOpenedRef,
             currentValue,
             handleRemove: onSelect,
             handleClear,
-            selectedOptions,
+            selectedOptionsRef,
             focus,
             blur,
             handleFilterTextChange,
