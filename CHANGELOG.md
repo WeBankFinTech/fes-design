@@ -1,3 +1,14 @@
+## [0.3.2](https://github.com/WeBankFinTech/fes-design/compare/v0.3.1...v0.3.2) (2022-02-14)
+
+
+### Bug Fixes
+
+* 修复 input-number 加减 disbled 判断逻辑“ ([#52](https://github.com/WeBankFinTech/fes-design/issues/52)) ([5f501d8](https://github.com/WeBankFinTech/fes-design/commit/5f501d86b1e4d32016fcc9101833c3b1ed53baf7))
+* 修复layout当body内容过高导致header被压缩的问题 ([4fac929](https://github.com/WeBankFinTech/fes-design/commit/4fac929e9a71ab1904ceb77c2875b32fb57348dc))
+* ci ([#51](https://github.com/WeBankFinTech/fes-design/issues/51)) ([3886a4a](https://github.com/WeBankFinTech/fes-design/commit/3886a4a131d0cbfdd52e529f5f81c87fa9768499))
+
+
+
 ## [0.3.1](https://github.com/WeBankFinTech/fes-design/compare/v0.3.0...v0.3.1) (2022-02-10)
 
 
