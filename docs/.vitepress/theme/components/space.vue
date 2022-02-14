@@ -9,10 +9,9 @@ export default {
     props: {
         vertical: {
             type: Boolean,
-            default: false
-        }
+            default: false,
+        },
     },
-    setup() {}
 };
 </script>
 

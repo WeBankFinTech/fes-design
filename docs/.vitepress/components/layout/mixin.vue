@@ -1,10 +1,8 @@
 <template>
     <f-layout style="height: 400px">
         <f-header inverted bordered fixed> Header </f-header>
-        <f-layout fixed style="top: 54px;">
-            <f-aside>
-                Aside
-            </f-aside>
+        <f-layout fixed style="top: 54px">
+            <f-aside> Aside </f-aside>
             <f-layout embedded>
                 <f-main>
                     <div class="main-page">Main</div>

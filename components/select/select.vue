@@ -1,7 +1,7 @@
 <template>
     <div :class="prefixCls">
         <Popper
-            v-model="isOpened"
+            v-model="isOpenedRef"
             trigger="click"
             placement="bottom-start"
             :popperClass="`${prefixCls}-popper`"
@@ -14,16 +14,17 @@
             <template #trigger>
                 <SelectTrigger
                     ref="triggerRef"
-                    :selectedOptions="selectedOptions"
+                    :selectedOptions="selectedOptionsRef"
                     :disabled="disabled"
                     :clearable="clearable"
-                    :isOpened="isOpened"
+                    :isOpened="isOpenedRef"
                     :multiple="multiple"
-                    :placeholder="placeholder"
-                    :filterable="filterable"
+                    :placeholder="inputPlaceholder"
+                    :filterable="filterable || remote"
                     :collapseTags="collapseTags"
                     :collapseTagsLimit="collapseTagsLimit"
-                    @remove="handleRemove"
+                    :class="{ 'is-error': isError }"
+                    @remove="onSelect"
                     @clear="handleClear"
                     @focus="focus"
                     @blur="blur"
@@ -31,21 +32,26 @@
                 />
             </template>
             <template #default>
-                <Scrollbar
+                <OptionList
+                    :options="filteredOptions"
+                    :prefixCls="prefixCls"
                     :containerStyle="dropdownStyle"
-                    :containerClass="`${prefixCls}-dropdown`"
-                >
-                    <slot>
-                        <div :class="`${prefixCls}-null`">{{ emptyText }}</div>
-                    </slot>
-                </Scrollbar>
+                    :isSelect="isSelect"
+                    :onSelect="onSelect"
+                    :emptyText="listEmptyText"
+                    @scroll="onScroll"
+                    @mousedown.prevent
+                />
             </template>
         </Popper>
+        <div ref="hiddenOptions" :class="`${prefixCls}-hidden-options`">
+            <slot />
+        </div>
     </div>
 </template>
-<script>
+
+<script lang="ts">
 import {
-    defineComponent,
     ref,
     provide,
     unref,
@@ -53,6 +59,8 @@ import {
     watch,
     computed,
     onMounted,
+    CSSProperties,
+    defineComponent,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -61,9 +69,12 @@ import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
-import Scrollbar from '../scrollbar';
 import { key } from './const';
-import PROPS from './props';
+import OptionList from './optionList';
+import { selectProps } from './props';
+
+import type { SelectValue, OptionChildren } from './interface';
+import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('select');
 
@@ -71,11 +82,11 @@ export default defineComponent({
     name: 'FSelect',
     components: {
         Popper,
-        Scrollbar,
         SelectTrigger,
+        OptionList,
     },
     props: {
-        ...PROPS,
+        ...selectProps,
     },
     emits: [
         UPDATE_MODEL_EVENT,
@@ -85,40 +96,77 @@ export default defineComponent({
         'focus',
         'blur',
         'clear',
+        'scroll',
+        'search',
     ],
     setup(props, { emit }) {
         useTheme();
-        const { validate } = useFormAdaptor(
+        const { validate, isError } = useFormAdaptor(
             computed(() => (props.multiple ? 'array' : 'string')),
         );
-        const isOpened = ref(false);
+        const isOpenedRef = ref(false);
         const [currentValue, updateCurrentValue] = props.multiple
             ? useArrayModel(props, emit)
             : useNormalModel(props, emit);
-        const filterText = ref('');
 
-        watch(isOpened, () => {
-            emit('visibleChange', unref(isOpened));
+        watch(isOpenedRef, () => {
+            emit('visibleChange', unref(isOpenedRef));
         });
-        watch(currentValue, () => {
+
+        const handleChange = () => {
             emit(CHANGE_EVENT, unref(currentValue));
             validate(CHANGE_EVENT);
-        });
+        };
 
         const handleClear = () => {
-            const value = props.multiple ? [] : null;
-            updateCurrentValue(value);
+            const value: null | [] = props.multiple ? [] : null;
+            if (
+                props.multiple
+                    ? currentValue.value.length
+                    : currentValue.value !== null
+            ) {
+                updateCurrentValue(value);
+                handleChange();
+            }
             emit('clear');
         };
 
-        const options = reactive([]);
-        const addOption = (option) => {
-            if (!options.includes(option)) {
-                options.push(option);
+        const { t } = useLocale();
+        const inputPlaceholder = computed(
+            () => props.placeholder || t('select.placeholder'),
+        );
+        const listEmptyText = computed(
+            () => props.emptyText || t('select.emptyText'),
+        );
+
+        const childOptions = reactive([]);
+
+        const addOption = (option: OptionChildren) => {
+            if (!childOptions.includes(option)) {
+                childOptions.push(option);
             }
         };
 
-        const isSelect = (value) => {
+        const removeOption = (id: number | string) => {
+            const colIndex = childOptions.findIndex((item) => item.id === id);
+            if (colIndex !== -1) {
+                childOptions.splice(colIndex, 1);
+            }
+        };
+
+        const optionsRef = computed(() => [...props.options, ...childOptions]);
+
+        const filterText = ref('');
+        const filteredOptions = computed(() => {
+            if (!props.remote && props.filterable && filterText.value) {
+                return optionsRef.value.filter((option) =>
+                    String(option.label).includes(filterText.value),
+                );
+            }
+            return optionsRef.value;
+        });
+
+        const isSelect = (value: SelectValue) => {
             const selectVal = unref(currentValue);
             const optVal = unref(value);
             if (selectVal === null) {
@@ -130,7 +178,7 @@ export default defineComponent({
             return selectVal === optVal;
         };
 
-        const onSelect = (value) => {
+        const onSelect = (value: SelectValue) => {
             if (props.disabled) return;
             filterText.value = '';
             if (props.multiple) {
@@ -146,46 +194,81 @@ export default defineComponent({
                     }
                 }
             } else {
-                isOpened.value = false;
+                isOpenedRef.value = false;
             }
             updateCurrentValue(unref(value));
+            handleChange();
         };
 
-        // select-trigger 选择项展示
-        const selectedOptions = computed(() => {
-            const val = unref(currentValue);
-            if (!props.multiple) {
-                return options.filter((option) => option.value === val);
-            }
-            return val.map((value) => {
-                const filteredOption = options.filter(
-                    (option) => option.value === value,
-                );
-                if (filteredOption.length) {
-                    return filteredOption[0];
+        // select-trigger 选择项展示，只在 currentValue 改变时才改变
+        const selectedOptionsRef = ref([]);
+        watch(
+            [currentValue, optionsRef],
+            ([newValue, newOptions]) => {
+                if (!newValue) return;
+                const getOption = (val: SelectValue) => {
+                    let cacheOption;
+                    if (newOptions && newOptions.length) {
+                        cacheOption = newOptions.find(
+                            (option) => option.value === val,
+                        );
+                        if (cacheOption) {
+                            return cacheOption;
+                        }
+                    }
+                    cacheOption = selectedOptionsRef.value.find(
+                        (option) => option.value === val,
+                    );
+                    if (cacheOption) {
+                        return cacheOption;
+                    }
+                    return { value: val, label: val };
+                };
+
+                if (!props.multiple) {
+                    selectedOptionsRef.value = [getOption(newValue)];
+                } else {
+                    selectedOptionsRef.value = newValue.map(
+                        (value: SelectValue) => {
+                            return getOption(value);
+                        },
+                    );
                 }
-                return { value };
-            });
-        });
+            },
+            {
+                immediate: true,
+            },
+        );
 
         provide(key, {
-            onSelect,
-            isSelect,
             addOption,
-            filterText,
+            removeOption,
         });
 
-        const focus = (e) => {
+        const focus = (e: Event) => {
             emit('focus', e);
+            validate('focus');
         };
 
-        const blur = (e) => {
+        const blur = (e: Event) => {
+            if (isOpenedRef.value) {
+                isOpenedRef.value = false;
+            }
             emit('blur', e);
             validate('blur');
         };
 
-        const handleFilterTextChange = (val) => {
+        const handleFilterTextChange = (
+            val: string,
+            extraInfo?: {
+                isClear: boolean;
+            },
+        ) => {
             filterText.value = val;
+            // blur 自动清的 inputText 不触发 search
+            if (props.remote && !extraInfo?.isClear) {
+                emit('search', val);
+            }
         };
 
         const triggerRef = ref();
@@ -198,25 +281,36 @@ export default defineComponent({
         });
 
         const dropdownStyle = computed(() => {
-            const style = {};
+            const style: CSSProperties = {};
             if (triggerWidth.value) {
                 style['min-width'] = `${triggerWidth.value}px`;
             }
             return style;
         });
 
+        const onScroll = (e: Event) => {
+            emit('scroll', e);
+        };
+
         return {
             prefixCls,
-            isOpened,
+            isOpenedRef,
             currentValue,
             handleRemove: onSelect,
             handleClear,
-            selectedOptions,
+            selectedOptionsRef,
             focus,
             blur,
             handleFilterTextChange,
             triggerRef,
             dropdownStyle,
+            isSelect,
+            onSelect,
+            filteredOptions,
+            listEmptyText,
+            inputPlaceholder,
+            isError,
+            onScroll,
         };
     },
 });

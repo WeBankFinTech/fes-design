@@ -16,12 +16,14 @@
         margin-right: @padding-lg;
     }
     &.is-item-vertical {
-        display: block;
+        display: flex;
         margin-right: 0;
     }
     &-inner {
         position: relative;
         display: inline-block;
+        flex-shrink: 0;
+        box-sizing: border-box;
         width: 14px;
         height: 14px;
         line-height: 1;
@@ -29,7 +31,7 @@
         background: var(--f-white);
         border: var(--f-border-base);
         border-radius: 100%;
-        transition: all @animation-duration-base @ease-base-in;
+        transition: all @animation-duration-slow @ease-base-out;
     }
     &-content{
         display: inline-block;
@@ -38,12 +40,14 @@
     &.is-hover{
         .@{radio-prefix-cls}-inner {
             border-color: var(--f-primary-color);
+            transition: all @animation-duration-base @ease-base-in;
         }
     }
     &.is-checked{
         .@{radio-prefix-cls}-inner {
             background: var(--f-primary-color);
             border-color: var(--f-primary-color);
+            transition: all @animation-duration-base @ease-base-in;
             &::before {
                 .radio-inner()
             }

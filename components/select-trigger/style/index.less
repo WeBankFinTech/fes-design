@@ -16,19 +16,31 @@
     box-sizing: border-box;
     width: 100%;
     min-height: @select-height;
-    padding: (@padding-xs / 2) @padding-xs;
+    padding: calc(@padding-xs / 2) @padding-xs;
     line-height: @line-height-base;
     background-color: var(--f-white);
     border: var(--f-border-width-base) var(--f-border-style-base) transparent;
     border-color: var(--f-select-trigger-border-color);
     border-radius: var(--f-border-radius-base);
     outline: 0;
+    transition: all @animation-duration-slow @ease-base-out;
+    &, * {
+        box-sizing: border-box;
+    }
     &:hover {
         --f-select-trigger-border-color: var(--f-primary-color);
+        transition: all @animation-duration-base @ease-base-in;
     }
     &.is-active {
         --f-select-trigger-border-color: var(--f-primary-color);
         box-shadow: 0 0 0 2px var(--f-focus-shadow-color);
+        transition: all @animation-duration-base @ease-base-in;
+    }
+    &.is-error:not(.is-disabled) {
+        --f-select-trigger-border-color: var(--f-danger-color);
+        &.is-active {
+            box-shadow: 0 0 0 2px var(--f-focus-danger-shadow-color);
+        }
     }
     &.is-disabled {
         --f-select-trigger-border-color: var(--f-border-color-base);
@@ -45,7 +57,7 @@
         }
     }
     &.is-multiple {
-        padding: (@padding-xs / 2 - 1px) @padding-xs;
+        padding: calc((@padding-xs / 2 - 1px)) @padding-xs;
     }
     & &-icons {
         display: flex;
@@ -58,10 +70,13 @@
         }
     }
     & &-label {
+        position: relative;
         display: flex;
         flex-direction: row;
         flex-grow: 1;
+        width: 0; // flex优先被内容撑开，故设置width为0
         max-width: calc(100% - @padding-xs - @font-size-body - 2px);
+        min-height: @line-height-base;
         color: var(--f-text-color);
         &-item {
             display: flex;
@@ -71,22 +86,38 @@
         }
         &.is-multiple {
             flex-wrap: wrap;
-            gap: (@padding-xs / 2 - 1px) (@padding-xs / 2);
+            gap: calc(@padding-xs / 2 - 1px) calc(@padding-xs / 2);
+            .@{select-trigger-prefix-cls}-label-input {
+                width: 1em;
+            }
+            .@{select-trigger-prefix-cls}-label-overlay {
+                background: transparent;
+            }
         }
         &-placeholder {
-            flex: 1;
-            min-width: 40px;
             max-width: 100%;
-            overflow: hidden;
+            color: @select-placeholder-color;
+            .ellipsis();
         }
         &-input {
             width: 100%;
-            line-height: normal;
             border: none;
             outline: none;
             &::placeholder {
                 color: @select-placeholder-color;
             }
+        }
+        &-overlay {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            background: var(--f-white);
+            pointer-events: none;
         }
     }
 }

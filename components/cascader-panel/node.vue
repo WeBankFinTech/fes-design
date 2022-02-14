@@ -37,16 +37,29 @@
     </li>
 </template>
 
-<script>
-import { computed, defineComponent, inject, ref, watch } from 'vue';
+<script lang="ts">
+import { defineComponent, computed, inject, PropType, ref, watch } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
-import { CASCADER_PANEL_INJECTION_KEY } from './const';
+import { CASCADER_PANEL_INJECTION_KEY } from './props';
 import Checkbox from '../checkbox';
 import CheckOutlined from '../icon/CheckOutlined';
 import RightOutlined from '../icon/RightOutlined';
 import NodeContent from './nodeContent';
 
+import type { CascaderNode } from './interface';
+
 const prefixCls = getPrefixCls('cascader-node');
+
+const cascaderNodeProps = {
+    node: {
+        type: Object as PropType<CascaderNode>,
+        required: true,
+    },
+    menuId: {
+        type: String,
+        required: true,
+    },
+} as const;
 
 export default defineComponent({
     name: 'FCascaderNode',
@@ -56,17 +69,7 @@ export default defineComponent({
         NodeContent,
         RightOutlined,
     },
-    props: {
-        node: {
-            type: Object,
-            required: true,
-        },
-        menuId: {
-            type: String,
-            required: true,
-        },
-    },
-    emits: [],
+    props: cascaderNodeProps,
     setup(props) {
         const panel = inject(CASCADER_PANEL_INJECTION_KEY);
 
@@ -88,13 +91,13 @@ export default defineComponent({
          * 判断节点是否在当前的展开路径
          * 通过当前节点的 level 即可判断当前节点是否在展开路径节点中
          */
-        const isInPath = (expandingNode) => {
+        const isInPath = (expandingNode?: CascaderNode) => {
             const { level, nodeId } = props.node;
             return expandingNode?.pathNodes[level - 1]?.nodeId === nodeId;
         };
         const inExpandingPath = computed(() => isInPath(panel.expandingNode));
 
-        const doCheck = (checked) => {
+        const doCheck = (checked: boolean) => {
             const { node } = props;
             if (checked === node.checked) return;
             if (node.isDisabled) return;
@@ -112,7 +115,7 @@ export default defineComponent({
             handleExpand();
         };
 
-        const handleCheck = (checked) => {
+        const handleCheck = (checked: boolean) => {
             doCheck(checked);
             handleExpand();
         };

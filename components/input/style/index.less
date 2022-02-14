@@ -15,96 +15,82 @@
     width: 100%;
     vertical-align: middle;
     .text();
-    &-inner-wrapper {
-        position: relative;
-        display: inline;
-    }
     &-inner {
         position: relative;
+        display: inline-flex;
+        flex-direction: row;
         box-sizing: border-box;
         width: 100%;
         height: @input-height-base;
         padding: 0 8px; // FEATURE 变量抽离
+        border: var(--f-border-base);
+        background-color: var(--f-white);
+        border-radius: var(--f-border-radius-base);
+        transition: all @animation-duration-slow @ease-base-out;
+        &:hover {
+            border-color: var(--f-primary-color);
+        }
+        &-focus {
+            border-color: var(--f-primary-color);
+            box-shadow: 0 0 0 2px var(--f-focus-shadow-color);
+        }
+        &-disabled {
+            .disabled();
+        }
+    }
+    &.is-error {
+        .@{input-prefix-cls}-inner:not(.@{input-prefix-cls}-inner-disabled) {
+            border-color: var(--f-danger-color);   
+        }
+        .@{input-prefix-cls}-inner-focus:not(.@{input-prefix-cls}-inner-disabled) {
+            box-shadow: 0 0 0 2px var(--f-focus-danger-shadow-color);
+        }
+    }
+    &-inner-el {
+        position: relative;
+        box-sizing: border-box;
+        width: 100%;
         color: var(--f-text-color);
         font-size: inherit;
-        border: var(--f-border-base);
-        border-radius: var(--f-border-radius-base);
+        background-color: transparent;
+        border: 0;
         outline: 0;
 
         &::placeholder {
             color: var(--f-text-color-caption);
         }
-
-        &:hover,
-        &:focus {
-            z-index: 1;
-            border-color: var(--f-primary-color);
-        }
-        &:focus {
-            box-shadow: 0 0 0 2px var(--f-focus-shadow-color);
-        }
-
         &[disabled] {
             .disabled();
-        }
-    }
-    &.is-hovering {
-        .@{input-prefix-cls}-inner:not([disabled]) {
-            border-color: var(--f-primary-color);
-        }
-    }
-
-    &-with-password-clear {
-        .@{input-prefix-cls}-inner {
-            padding-right: 55px;
         }
     }
 
     &-prefix,
     &-suffix {
-        position: absolute;
         z-index: 1;
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 100%;
+        min-height: 100%;
         color: inherit;
-        transition: all 0.3s;
+        transition: all @animation-duration-slow;
         user-select: none;
-        .@{fes-icon-cls} {
+        > .@{fes-icon-cls} {
             color: var(--f-text-color-caption);
             vertical-align: middle;
         }
     }
-
     &-prefix {
-        top: 0;
-        left: 9px;
-    }
-
-    &-with-prefix {
-        .@{input-prefix-cls}-inner {
-            padding-left: 32px;
-        }
+        margin-right: 8px;
     }
 
     &-suffix {
-        top: 0;
-        right: 9px;
+        margin-left: 8px;
         vertical-align: bottom;
     }
     &-icon {
         padding-left: 8px;
-    }
-    &-with-suffix {
-        .@{input-prefix-cls}-inner {
-            padding-right: 32px;
-        }
-    }
-
-    &-with-password-clear {
-        .@{input-prefix-cls}-inner {
-            padding-right: 55px;
+        &:first-child {
+            padding-left: 0;
         }
     }
 
@@ -184,10 +170,22 @@
         }
     }
 
+    &.is-error {
+        .@{textarea-prefix-cls}-inner:not([disabled]) {
+            border-color: var(--f-danger-color);
+            &:focus {
+                box-shadow: 0 0 0 2px var(--f-focus-danger-shadow-color);
+            }
+        }
+    }
+
     &-count {
-        display: inline-block;
-        width: 100%;
+        position: absolute;
+        right: 8px;
+        bottom: 2px;
         color: var(--f-text-color-secondary);
+        font-size: @font-size-caption;
         text-align: right;
+        background-color: #fff;
     }
 }

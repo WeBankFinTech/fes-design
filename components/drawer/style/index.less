@@ -20,35 +20,43 @@
     &-container {
         .fixed-full();
         display: flex;
-        overflow: auto;
     }
     
     &-wrapper {
         position: relative;
+        display: flex;
+        flex-direction: column;
         background: var(--f-body-bg-color);
         border-radius: var(--f-border-radius-base);
         box-shadow: @shadow-down;
     }
     
     &-header {
+        position: relative;
         display: flex;
-        padding: @padding-md @padding-md + @padding-xs;
+        align-items: center;
+        padding: @padding-md calc(@padding-md + @padding-xs);
         color: var(--f-head-color);
         font-weight: @font-weight-medium;
         font-size: @font-size-head;
         border-bottom: var(--f-border-width-base) var(--f-border-style-base) var(--f-border-color-split);
+
+        .@{drawer-prefix-cls}-close {
+            top: auto;
+            line-height: 0;
+        }
     }
 
     &-body {
-        padding: @padding-md @padding-md + @padding-xs;
+        flex: 1;
+        padding: @padding-md calc(@padding-md + @padding-xs);
+        overflow: auto;
         color: var(--f-sub-head-color);
         font-size: var(--f-font-size-base);
     }
 
     &-footer {
-        position: absolute;
-        bottom: @padding-md + @padding-xs;
-        left: @padding-md + @padding-xs;
+        padding: calc(@padding-md + @padding-xs);
         text-align: left;
         .btn-margin {
             margin-right: @padding-md;

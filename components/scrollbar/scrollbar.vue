@@ -13,7 +13,7 @@
             <slot></slot>
         </div>
         <template v-if="!native">
-            <bar
+            <FBar
                 :scrollbarRef="[scrollbarRef]"
                 :containerRef="containerRef"
                 :move="thumbMoveX"
@@ -21,7 +21,7 @@
                 :size="sizeWidth"
                 :always="always"
             />
-            <bar
+            <FBar
                 :scrollbarRef="[scrollbarRef]"
                 :containerRef="containerRef"
                 :move="thumbMoveY"
@@ -34,47 +34,59 @@
     </div>
 </template>
 
-<script>
-import { computed, nextTick, onMounted, ref } from 'vue';
+<script lang="ts">
+import {
+    computed,
+    defineComponent,
+    nextTick,
+    onMounted,
+    ref,
+    CSSProperties,
+    PropType,
+    ExtractPropTypes,
+} from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { addUnit, requestAnimationFrame } from '../_util/utils';
 import useResize from '../_util/use/useResize';
-
-import Bar from './bar';
+import FBar from './bar.vue';
 
 import useScrollbar from './useScrollbar';
 
 const prefixCls = getPrefixCls('scrollbar');
 
-export default {
+const scrollbarProps = {
+    height: {
+        type: [Number, String] as PropType<number | string>,
+    },
+    maxHeight: {
+        type: [Number, String] as PropType<number | string>,
+    },
+    native: {
+        type: Boolean,
+        default: false,
+    },
+    containerClass: [Array, Object, String] as PropType<CSSProperties>,
+    containerStyle: [Array, Object, String] as PropType<CSSProperties>,
+    noresize: Boolean,
+    always: {
+        type: Boolean,
+        default: false,
+    },
+    minSize: {
+        type: Number,
+        default: 20,
+    },
+} as const;
+
+export type ScrollbarProps = Partial<ExtractPropTypes<typeof scrollbarProps>>;
+
+export default defineComponent({
     name: 'FScrollbar',
     components: {
-        Bar,
+        FBar,
     },
-    props: {
-        height: {
-            type: [Number, String],
-        },
-        maxHeight: {
-            type: [Number, String],
-        },
-        native: {
-            type: Boolean,
-            default: false,
-        },
-        containerClass: [Array, Object, String],
-        containerStyle: [Array, Object, String],
-        noresize: Boolean,
-        always: {
-            type: Boolean,
-            default: false,
-        },
-        minSize: {
-            type: Number,
-            default: 20,
-        },
-    },
+    props: scrollbarProps,
     emits: ['scroll'],
     setup(props, { emit }) {
         useTheme();
@@ -89,7 +101,7 @@ export default {
             sizeHeight,
             sizeWidth,
         } = useScrollbar(props);
-        const scrollbarRef = ref();
+        const scrollbarRef = ref<HTMLElement>();
 
         const style = computed(() => [
             props.containerStyle,
@@ -99,23 +111,16 @@ export default {
             },
         ]);
 
-        const handleScroll = () => {
+        const handleScroll = (event: Event) => {
             onScroll();
             const containerRefValue = containerRef.value;
             if (containerRefValue) {
-                emit('scroll', {
-                    scrollTop: containerRefValue.scrollTop,
-                    scrollLeft: containerRefValue.scrollLeft,
-                });
+                emit('scroll', event, containerRefValue);
             }
         };
 
         useResize(
-            computed(() =>
-                containerRef.value
-                    ? containerRef.value.firstElementChild
-                    : null,
-            ),
+            containerRef,
             onUpdate,
             computed(() => props.noresize),
         );
@@ -126,7 +131,11 @@ export default {
             }
         });
 
-        const move = (type, to, duration) => {
+        const move = (
+            type: 'scrollTop' | 'scrollLeft',
+            to: number,
+            duration: number,
+        ) => {
             if (!duration || duration <= 0) {
                 containerRef.value[type] = to;
                 return;
@@ -142,10 +151,10 @@ export default {
             });
         };
 
-        const setScrollTop = (val, duration) => {
+        const setScrollTop = (val: number, duration: number) => {
             move('scrollTop', val, duration);
         };
-        const setScrollLeft = (val, duration) => {
+        const setScrollLeft = (val: number, duration: number) => {
             move('scrollLeft', val, duration);
         };
 
@@ -166,5 +175,5 @@ export default {
             sizeWidth,
         };
     },
-};
+});
 </script>

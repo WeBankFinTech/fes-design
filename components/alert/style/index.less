@@ -41,11 +41,11 @@
     }
 
     &-close-padding {
-        padding-right: @padding-xs + 14px;
+        padding-right: calc(@padding-xs + 14px);
     }
 
     &-icon-padding {
-        padding-left: @padding-xs + 14px;
+        padding-left: calc(@padding-xs + 14px);
     }
 
 
@@ -91,16 +91,16 @@
         opacity: 0.45;
 
         &-padding-left {
-            padding-left: @padding-xs + 14px;
+            padding-left: calc(@padding-xs + 14px);
         }
 
         &-padding-right {
-            padding-left: @padding-xs + 14px;
+            padding-left: calc(@padding-xs + 14px);
         }
     }
       
     &-fade-expand-leave-active {
-        transition: all 0.3s ease-out;
+        transition: all @animation-duration-slow @ease-out;
     }
 
     &-fade-expand-leave-to {

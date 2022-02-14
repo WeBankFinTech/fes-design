@@ -10,52 +10,62 @@
     width: 130px;
     user-select: none;
 
-    &-increase,
-    &-decrease {
-        position: absolute;
-        right: 1px;
-        z-index: 2;
+    &-actions {
+        z-index: -1;
         display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 30px;
-        height: 16px;
-        color: var(--f-text-color-secondary);
-        font-size: 13px;
-        background-color: var(--f-component-bg-color);
-        cursor: pointer;
-
+        flex-direction: column;
+        margin-right: -8px;
+        &&-suffix {
+            margin-left: 8px;
+        }
         &:hover {
-            z-index: 3;
-            color: var(--f-primary-color);
-            background-color: var(--f-hover-color-light);
-            border-color: var(--f-primary-color);
+            &-increase, &-decrease {
+                border-color: var(transparent);
+            }
+        }
+        &-increase,
+        &-decrease {
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            width: 30px;
+            height: 15px;
+            color: var(--f-text-color-secondary);
+            font-size: 13px;
+            background-color: var(--f-component-bg-color);
+            cursor: pointer;
 
-            &
-            ~ .@{cls-prefix}-input:not(.is-disabled)
-            .@{cls-prefix}-input-inner {
+            &:hover {
+                z-index: 3;
+                color: var(--f-primary-color);
+                background-color: var(--f-hover-color-light);
                 border-color: var(--f-primary-color);
+            }
+
+            &.is-disabled {
+                color: var(--f-disabled-color-base);
+                background-color: var(--f-component-bg-color);
+                border-color: var(--f-border-color-disabled);
+                cursor: not-allowed;
+            }
+        }
+        &-increase {
+            border-bottom: var(--f-border-width-base) var(--f-border-style-base) transparent;
+            border-left: var(--f-border-base);
+            border-radius: 0 var(--f-border-radius-base) 0 0;
+            &.is-disabled {
+                border-bottom: 0;
             }
         }
 
-        &.is-disabled {
-            color: var(--f-disabled-color-base);
-            background-color: var(--f-component-bg-color);
-            border-color: var(--f-border-color-disabled);
-            cursor: not-allowed;
+        &-decrease {
+            border-top: var(--f-border-base);
+            border-left: var(--f-border-base);
+            border-radius: 0 0 var(--f-border-radius-base) 0;
         }
     }
-    &-increase {
-        top: 1px;
-        border-bottom: var(--f-border-base);
-        border-left: var(--f-border-base);
-        border-radius: 0 var(--f-border-radius-base) 0 0;
-    }
 
-    &-decrease {
-        bottom: 1px;
-        border-top: var(--f-border-base);
-        border-left: var(--f-border-base);
-        border-radius: 0 0 var(--f-border-radius-base) 0;
-    }
+    
 }

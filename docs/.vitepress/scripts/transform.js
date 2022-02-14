@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const fs = require('fs');
-const fse = require('fs-extra')
+const fse = require('fs-extra');
 
 function genComponent(dir, name) {
     const indexPath = path.join(dir, 'index.md');
@@ -13,21 +14,30 @@ function genComponent(dir, name) {
     for (const demoName of demos) {
         const fullPath = path.join(dir, demoName);
         if (fs.statSync(fullPath).isDirectory(fullPath)) {
-
-
             const codePath = path.join(fullPath, 'index.vue');
             const textPath = path.join(fullPath, 'index.md');
             const demoContent = [];
             if (fs.existsSync(textPath)) {
-                demoContent.push(fs.readFileSync(textPath, 'utf-8'))
+                demoContent.push(fs.readFileSync(textPath, 'utf-8'));
             }
 
             if (fs.existsSync(codePath)) {
-                fs.writeFileSync(fullPath + '.vue', fs.readFileSync(codePath, 'utf-8'))
-                demoContent.push(`--${demoName.toLocaleUpperCase()}`)
+                fs.writeFileSync(
+                    fullPath + '.vue',
+                    fs.readFileSync(codePath, 'utf-8'),
+                );
+                demoContent.push(`--${demoName.toLocaleUpperCase()}`);
             }
-            if (demoContent.length && fileContent.indexOf(`PREVIEW_${demoName.toLocaleUpperCase()}`) !== -1) {
-                fileContent = fileContent.replace(`PREVIEW_${demoName.toLocaleUpperCase()}`, demoContent.join('\n\n'))
+            if (
+                demoContent.length &&
+                fileContent.indexOf(
+                    `PREVIEW_${demoName.toLocaleUpperCase()}`,
+                ) !== -1
+            ) {
+                fileContent = fileContent.replace(
+                    `PREVIEW_${demoName.toLocaleUpperCase()}`,
+                    demoContent.join('\n\n'),
+                );
             } else {
                 demoMDStrs.push(...demoContent);
             }
@@ -36,17 +46,18 @@ function genComponent(dir, name) {
         }
     }
 
+    demoMDStrs.push('--CODE');
 
-    demoMDStrs.push('--CODE')
-    
-    fs.writeFileSync(indexPath, fileContent.replace('PREVIEW_CODE', demoMDStrs.join('\n\n')))
+    fs.writeFileSync(
+        indexPath,
+        fileContent.replace('PREVIEW_CODE', demoMDStrs.join('\n\n')),
+    );
 }
-
 
 function genComponents(src) {
     const components = fs.readdirSync(src);
     for (const name of components) {
-        genComponent(path.join(src, name), name)
+        genComponent(path.join(src, name), name);
     }
 }
 

@@ -1,8 +1,9 @@
 <template>
-    <FTree :data="data" :loadData="loadData" checkable remote></FTree>
+    <FTree :data="data" :loadData="loadData" checkable cascade remote></FTree>
 </template>
 <script>
 import { reactive, h } from 'vue';
+// eslint-disable-next-line import/no-unresolved
 import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
 
 function createData(level = 1, baseKey = '', prefix, suffix) {
@@ -14,7 +15,7 @@ function createData(level = 1, baseKey = '', prefix, suffix) {
             value: key,
             children: createData(level - 1, key, prefix, suffix),
             prefix: prefix ? () => h(PictureOutlined) : null,
-            suffix: suffix ? () => h(PlusCircleOutlined) : null
+            suffix: suffix ? () => h(PlusCircleOutlined) : null,
         };
     });
 }
@@ -32,24 +33,25 @@ export default {
         const loadData = (node) => {
             return new Promise((resolve) => {
                 setTimeout(() => {
-                    resolve([
+                    node.children = [
                         {
                             label: '1',
-                            value: node.value + '1'
+                            value: node.value + '1',
                         },
                         {
                             label: '2',
-                            value: node.value + '2'
-                        }
-                    ]);
+                            value: node.value + '2',
+                        },
+                    ];
+                    resolve();
                 }, 2000);
             });
         };
 
         return {
             loadData,
-            data
+            data,
         };
-    }
+    },
 };
 </script>

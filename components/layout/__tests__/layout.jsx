@@ -32,25 +32,6 @@ describe('Layout', () => {
         expect(wrapper.classes()).toStrictEqual([prefixCls, 'is-root']);
     });
 
-    test('when has header or footer, flex direction is vertical', async () => {
-        const wrapper = _mount(
-            {},
-            {
-                default: () => (
-                    <>
-                        <FHeader>FHeader</FHeader>
-                        <FMain>FMain</FMain>
-                        <FFooter>FFooter</FFooter>
-                    </>
-                ),
-            },
-        );
-        expect(wrapper.classes()).toStrictEqual([prefixCls, 'is-root']);
-        // 需要等待子组件渲染后才能确定用'is-vertical'
-        await nextTick();
-        expect(wrapper.classes()).toStrictEqual([prefixCls, 'is-vertical', 'is-root']);
-    });
-
     test('aside width', async () => {
         const width = '300px';
         const wrapper = _mount(

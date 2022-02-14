@@ -1,5 +1,5 @@
 <template>
-    <FSelectTree :data="[]"></FSelectTree>
+    <FSelectTree></FSelectTree>
 </template>
 <style scoped>
 .fes-select-tree {

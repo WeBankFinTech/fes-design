@@ -1,98 +1,69 @@
-<template>
-    <div
-        v-show="isShow"
-        ref="optionRef"
-        :class="classList"
-        @click="handleClick"
-    >
-        <slot :isChecked="isChecked">
-            <Ellipsis :triggerClass="`${prefixCls}-label`">
-                {{ label }}
-            </Ellipsis>
-            <CheckOutlined
-                v-if="isChecked"
-                :class="`${prefixCls}-checked-icon`"
-            />
-        </slot>
-    </div>
-</template>
-<script>
-import { computed, inject, onMounted, ref } from 'vue';
-import Ellipsis from '../ellipsis';
+<script lang="ts">
+import {
+    computed,
+    getCurrentInstance,
+    inject,
+    onBeforeMount,
+    onBeforeUnmount,
+    toRefs,
+    defineComponent,
+    PropType,
+    ExtractPropTypes,
+} from 'vue';
+import { isArray, isString } from 'lodash-es';
 import { key } from './const';
-import getPrefixCls from '../_util/getPrefixCls';
-import CheckOutlined from '../icon/CheckOutlined';
 
-const prefixCls = getPrefixCls('select-option');
+const optionProps = {
+    value: {
+        type: [String, Number, Boolean, Object] as PropType<
+            string | number | boolean | object
+        >,
+    },
+    label: String,
+    disabled: Boolean,
+} as const;
 
-export default {
+export type OptionProps = Partial<ExtractPropTypes<typeof optionProps>>;
+
+export default defineComponent({
     name: 'FOption',
-    components: {
-        CheckOutlined,
-        Ellipsis,
-    },
-    props: {
-        value: {
-            type: [String, Number, Boolean, Object],
-            required: true,
-        },
-        label: {
-            type: String,
-            default: null,
-        },
-        disabled: {
-            type: Boolean,
-            default: false,
-        },
-    },
-    setup(props) {
+    props: optionProps,
+    setup(props, ctx) {
         const parent = inject(key, null);
         if (!parent) {
-            return console.error(
-                '[FOption]: FOption 必须搭配 FSelect 组件使用！',
-            );
+            console.warn('[FOption]: FOption 必须搭配 FSelect 组件使用！');
         }
-        const { isSelect, onSelect, addOption, filterText } = parent;
+        const instance = getCurrentInstance();
 
-        const isShow = computed(
-            () => !filterText.value || props.label.includes(filterText.value),
-        );
+        const { addOption, removeOption } = parent;
 
-        const isChecked = computed(() => isSelect(props.value));
-
-        const classList = computed(() => {
-            const arr = [
-                prefixCls,
-                isChecked.value && 'is-checked',
-                props.disabled && 'is-disabled',
-            ];
-            return arr.filter(Boolean);
-        });
-
-        const optionRef = ref();
-
-        onMounted(() => {
-            const text = optionRef.value.innerText;
-            const option = { ...props };
-            if (!option.label && text) {
-                option.label = text;
+        // 当插槽只是string时，通过slot计算label
+        let label = '';
+        if (!props.label) {
+            const vNodes = ctx.slots.default();
+            if (
+                isArray(vNodes) &&
+                vNodes.length === 1 &&
+                isString(vNodes[0].children)
+            ) {
+                label = vNodes[0].children;
             }
+        }
+
+        onBeforeMount(() => {
+            const option = {
+                id: instance.uid,
+                ...toRefs(props),
+                slots: ctx.slots,
+            };
+            option.label = computed(() => label || props.label);
             addOption(option);
         });
 
-        const handleClick = () => {
-            if (props.disabled) return;
-            onSelect(props.value);
-        };
-
-        return {
-            isChecked,
-            prefixCls,
-            handleClick,
-            classList,
-            isShow,
-            optionRef,
-        };
+        onBeforeUnmount(() => {
+            removeOption(instance.uid);
+        });
+        return () => null;
     },
-};
+});
 </script>

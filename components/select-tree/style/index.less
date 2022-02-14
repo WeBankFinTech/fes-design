@@ -3,7 +3,7 @@
 
 @select-prefix-cls: ~'@{cls-prefix}-select-tree';
 @select-dropdown-max-height: 274px;
-@select-dropdown-min-width: 240px;
+@select-dropdown-min-width: 68px;
 @select-dropdown-max-width: 640px;
 @select-dropdown-padding: @padding-xs;
 
@@ -22,6 +22,9 @@
         max-width: @select-dropdown-max-width;
         max-height: @select-dropdown-max-height;
         padding: @select-dropdown-padding;
+        &.is-max-height {
+            height: @select-dropdown-max-height;
+        }
     }
     &-null {
         text-align: center;

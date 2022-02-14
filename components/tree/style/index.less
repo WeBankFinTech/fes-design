@@ -3,31 +3,16 @@
 @import './mixin';
 
 @tree-prefix-cls: ~'@{cls-prefix}-tree';
-@tree-indent: 14px;
+@tree-indent: 16px;
 @tree-switcher-width: 16px;
 @tree-selected-background-color: var(--f-hover-color-light);
 
 .@{tree-prefix-cls} {
     .default();
     .text();
+    position: relative;
+    overflow: auto;
     &-node {
-        &.is-selected {
-            >.@{tree-prefix-cls}-node-content-wrapper {
-                --f-tree-node-content-wrapper-color: var(--f-primary-color);
-                --f-tree-node-content-wrapper-bg-color: @tree-selected-background-color;
-            }
-        }
-        &.is-disabled {
-            >.@{tree-prefix-cls}-node-content-wrapper {
-                --f-tree-node-content-wrapper-color: var(--f-text-color-disabled);
-                --f-tree-node-content-wrapper-bg-color: var(--f-white);
-                cursor: not-allowed;
-            }
-        }
-    }
-    &-node-content-wrapper {
-        --f-tree-node-content-wrapper-color: inherit;
-        --f-tree-node-content-wrapper-bg-color: inherit;
         position: relative;
         display: flex;
         align-items: center;
@@ -39,9 +24,37 @@
             --f-tree-node-content-wrapper-color: var(--f-primary-color);
             --f-tree-node-content-wrapper-bg-color: @tree-selected-background-color;
         }
+        &.is-selected {
+            --f-tree-node-content-wrapper-color: var(--f-primary-color);
+            --f-tree-node-content-wrapper-bg-color: @tree-selected-background-color;
+        }
+        &.is-disabled {
+            --f-tree-node-content-wrapper-color: var(--f-text-color-disabled);
+            --f-tree-node-content-wrapper-bg-color: var(--f-white);
+            cursor: not-allowed;
+        }
+        &.is-inline {
+            display: inline-flex;
+            margin-left: @padding-lg;
+            color: inherit;
+            line-height: @data-input-height-base;
+            background-color: inherit;
+            .@{tree-prefix-cls}-node-content {
+                padding: 0 calc(@padding-xs / 2);
+                color: var(--f-tree-node-content-wrapper-color);
+                background-color: var(--f-tree-node-content-wrapper-bg-color);
+            }
+            .@{tree-prefix-cls}-node-checkbox {
+                margin-right: calc(@padding-xs / 2);
+            }
+            &.is-inline-first {
+                margin-left: 0;
+            }
+        }
     }
     &-node-indent {
         width: @tree-indent;
+        height: 0;
     }
     &-node-switcher,
     &-node-checkbox {
@@ -74,42 +87,6 @@
         }
         &-suffix {
             display: inline-flex;
-        }
-    }
-    &-node-children-wrapper {
-        display: flex;
-    }
-    &-node-children {
-        flex: 1;
-        &.is-inline {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0 @padding-lg;
-            .@{tree-prefix-cls}-node-indent,
-            .@{tree-prefix-cls}-node-switcher, {
-                display: none;
-            }
-            .@{tree-prefix-cls}-node-content-wrapper {
-                &:hover {
-                    --f-tree-node-content-wrapper-color: var(--f-primary-color);
-                    --f-tree-node-content-wrapper-bg-color: var(--f-white);
-                }
-            }
-            .@{tree-prefix-cls}-node {
-                &.is-selected {
-                    >.@{tree-prefix-cls}-node-content-wrapper {
-                        --f-tree-node-content-wrapper-color: var(--f-primary-color);
-                        --f-tree-node-content-wrapper-bg-color: var(--f-white);
-                    }
-                }
-                &.is-disabled {
-                    >.@{tree-prefix-cls}-node-content-wrapper {
-                        --f-tree-node-content-wrapper-color: var(--f-text-color-disabled);
-                        --f-tree-node-content-wrapper-bg-color: var(--f-white);
-                        cursor: not-allowed;
-                    }
-                }
-            }
         }
     }
 }

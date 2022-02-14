@@ -4,53 +4,81 @@
             v-show="always || visible"
             ref="barRef"
             :class="[prefixCls, `is-${barMap.key}`]"
-            @mousedown.stop="clickTrackHandler"
+            @mousedown.stop.prevent="clickTrackHandler"
         >
             <div
                 ref="thumbRef"
                 :class="[`${prefixCls}-thumb`, cursorDown && `is-hovering`]"
                 :style="thumbStyle"
-                @mousedown="clickThumbHandler"
+                @mousedown.stop.prevent="clickThumbHandler"
             ></div>
         </div>
     </transition>
 </template>
 
-<script>
-import { computed, defineComponent, ref, onMounted, nextTick } from 'vue';
+<script lang="ts">
+import {
+    computed,
+    ref,
+    onMounted,
+    nextTick,
+    CSSProperties,
+    defineComponent,
+    PropType,
+} from 'vue';
 import { useEventListener } from '@vueuse/core';
 import getPrefixCls from '../_util/getPrefixCls';
 import { BAR_MAP } from './const';
 
 const prefixCls = getPrefixCls('scrollbar-track');
 
-export function renderThumbStyle({ move, size, bar }) {
-    const style = {};
+function renderThumbStyle({
+    move,
+    size,
+    bar,
+}: {
+    move: number;
+    size: string;
+    bar: typeof BAR_MAP.vertical | typeof BAR_MAP.horizontal;
+}) {
+    const style: CSSProperties = {};
     const translate = `translate${bar.axis}(${move}%)`;
 
     style[bar.size] = size;
     style.transform = translate;
-    style.msTransform = translate;
-    style.webkitTransform = translate;
 
     return style;
 }
 
+// type BarProps = {
+//     vertical?: boolean;
+//     size: string;
+//     move: number;
+//     ratio: number;
+//     always: boolean;
+//     scrollbarRef: HTMLElement[];
+//     containerRef: HTMLElement;
+// };
+
+const barProps = {
+    vertical: Boolean,
+    size: String,
+    move: Number,
+    ratio: Number,
+    always: Boolean,
+    scrollbarRef: Array as PropType<HTMLElement[]>,
+    containerRef: Object as PropType<HTMLElement>,
+} as const;
+
 export default defineComponent({
-    props: {
-        vertical: Boolean,
-        size: String,
-        move: Number,
-        ratio: Number,
-        always: Boolean,
-        scrollbarRef: Array,
-        containerRef: Object,
-    },
+    name: 'FBar',
+    props: barProps,
     setup(props) {
-        const scrollbarRef = computed(() => props.scrollbarRef);
         const containerRef = computed(() => props.containerRef);
-        const barStore = ref({});
-        const barRef = ref();
+        const barStore = ref<{
+            [key: string]: number;
+        }>({});
+        const barRef = ref<HTMLElement>();
         const thumbRef = ref();
 
         const barMap = computed(
@@ -75,8 +103,8 @@ export default defineComponent({
 
         const cursorLeave = ref();
         const cursorDown = ref();
-        let onselectstartStore = null;
-        const mouseMoveDocumentHandler = (e) => {
+        let onselectstartStore: GlobalEventHandlers['onselectstart'] = null;
+        const mouseMoveDocumentHandler = (e: MouseEvent) => {
             if (cursorDown.value === false) return;
             const prevPage = barStore.value[barMap.value.axis];
 
@@ -97,7 +125,7 @@ export default defineComponent({
                 100;
         };
 
-        let docMouseMoveClose;
+        let docMouseMoveClose: () => void;
         const mouseUpDocumentHandler = () => {
             cursorDown.value = false;
             barStore.value[barMap.value.axis] = 0;
@@ -108,7 +136,7 @@ export default defineComponent({
             }
         };
 
-        const startDrag = (e) => {
+        const startDrag = (e: MouseEvent) => {
             e.stopImmediatePropagation();
             cursorDown.value = true;
             docMouseMoveClose = useEventListener(
@@ -132,7 +160,7 @@ export default defineComponent({
         };
         onMounted(() => {
             nextTick(() => {
-                scrollbarRef.value.forEach((item) => {
+                props.scrollbarRef.forEach((item) => {
                     useEventListener(
                         item,
                         'mouseenter',
@@ -152,10 +180,11 @@ export default defineComponent({
             });
         });
 
-        const clickTrackHandler = (e) => {
+        const clickTrackHandler = (e: MouseEvent) => {
             const offset = Math.abs(
-                e.target.getBoundingClientRect()[barMap.value.direction] -
-                    e[barMap.value.client],
+                (e.target as HTMLElement).getBoundingClientRect()[
+                    barMap.value.direction
+                ] - e[barMap.value.client],
             );
             const thumbHalf = thumbRef.value[barMap.value.offset] / 2;
             const thumbPositionPercentage =
@@ -167,7 +196,7 @@ export default defineComponent({
                 100;
         };
 
-        const clickThumbHandler = (e) => {
+        const clickThumbHandler = (e: MouseEvent) => {
             // prevent click event of middle and right button
             e.stopPropagation();
             if (e.ctrlKey || [1, 2].includes(e.button)) {
@@ -176,9 +205,9 @@ export default defineComponent({
             window.getSelection().removeAllRanges();
             startDrag(e);
             barStore.value[barMap.value.axis] =
-                e.currentTarget[barMap.value.offset] -
+                (e.currentTarget as HTMLElement)[barMap.value.offset] -
                 (e[barMap.value.client] -
-                    e.currentTarget.getBoundingClientRect()[
+                    (e.currentTarget as HTMLElement).getBoundingClientRect()[
                         barMap.value.direction
                     ]);
         };

@@ -11,88 +11,78 @@
         </span>
     </label>
 </template>
-<script>
+
+<script setup lang="ts">
 import { computed } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import useSelect from '../_util/use/useSelect';
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
 import { name, checkboxGroupKey } from '../checkbox-group/const';
 import { useTheme } from '../_theme/useTheme';
 
 const prefixCls = getPrefixCls('checkbox');
 
+type CheckboxProps = {
+    modelValue?: boolean;
+    value?: string | number | boolean;
+    label?: string | number;
+    disabled?: boolean;
+    indeterminate?: boolean;
+};
+
+const props = withDefaults(defineProps<CheckboxProps>(), {
+    modelValue: false,
+    disabled: false,
+    indeterminate: false,
+});
+
+type CheckboxEmits = {
+    (e: 'update:modelValue', value: boolean): void;
+    (e: 'change', value: boolean): void;
+};
+
+const emit = defineEmits<CheckboxEmits>();
+
+useTheme();
+const {
+    isGroup,
+    group,
+    hover,
+    checked,
+    disabled,
+    handleClick,
+    handleMouseOver,
+    handleMouseOut,
+} = useSelect({
+    props,
+    emit,
+    parent: { groupKey: checkboxGroupKey, name },
+});
+const wrapperClass = computed(() => {
+    const arr = [`${prefixCls}`];
+    if (checked.value) {
+        arr.push('is-checked');
+    }
+    if (disabled.value) {
+        arr.push('is-disabled');
+    }
+    if (hover.value) {
+        arr.push('is-hover');
+    }
+    if (isGroup) {
+        arr.push('is-item');
+        if (group?.props?.vertical) {
+            arr.push('is-item-vertical');
+        }
+    }
+    if (props.indeterminate) {
+        arr.push('is-indeterminate');
+    }
+    return arr;
+});
+</script>
+
+<script lang="ts">
 export default {
     name: 'FCheckbox',
-    componentName: 'FCheckbox',
-    props: {
-        modelValue: {
-            type: Boolean,
-            default: false,
-        },
-        value: {
-            type: [String, Number, Boolean],
-            default: null,
-        },
-        label: {
-            type: [String, Number, Boolean],
-            default: null,
-        },
-        disabled: {
-            type: Boolean,
-            default: false,
-        },
-        indeterminate: {
-            type: Boolean,
-            default: false,
-        },
-    },
-    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT],
-    setup(props, ctx) {
-        useTheme();
-        const {
-            isGroup,
-            group,
-            hover,
-            checked,
-            disabled,
-            handleClick,
-            handleMouseOver,
-            handleMouseOut,
-        } = useSelect({
-            props,
-            ctx,
-            parent: { groupKey: checkboxGroupKey, name },
-        });
-        const wrapperClass = computed(() => {
-            const arr = [`${prefixCls}`];
-            if (checked.value) {
-                arr.push('is-checked');
-            }
-            if (disabled.value) {
-                arr.push('is-disabled');
-            }
-            if (hover.value) {
-                arr.push('is-hover');
-            }
-            if (isGroup.value) {
-                arr.push('is-item');
-                if (group.props.vertical) {
-                    arr.push('is-item-vertical');
-                }
-            }
-            if (props.indeterminate) {
-                arr.push('is-indeterminate');
-            }
-            return arr;
-        });
-
-        return {
-            prefixCls,
-            wrapperClass,
-            handleClick,
-            handleMouseOver,
-            handleMouseOut,
-        };
-    },
 };
 </script>

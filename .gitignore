@@ -2,11 +2,16 @@
 node_modules
 *.log
 .cache
+.rollup.cache
 .temp
 dist
 es
 lib
+/icon
 package-lock.json
 yarn.lock
 docs/.vitepress/theme/components/demoCode.json
 docs/zh/components
+
+tsconfig.tsbuildinfo
+types

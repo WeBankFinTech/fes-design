@@ -10,6 +10,7 @@
             :offset="4"
             :hideAfter="0"
             :disabled="disabled"
+            :lazy="false"
         >
             <template #trigger>
                 <SelectTrigger
@@ -19,10 +20,11 @@
                     :clearable="clearable"
                     :isOpened="isOpened"
                     :multiple="multiple"
-                    :placeholder="placeholder"
+                    :placeholder="inputPlaceholder"
                     :filterable="filterable"
                     :collapseTags="collapseTags"
                     :collapseTagsLimit="collapseTagsLimit"
+                    :class="{ 'is-error': isError }"
                     @remove="handleRemove"
                     @clear="handleClear"
                     @focus="focus"
@@ -31,10 +33,7 @@
                 />
             </template>
             <template #default>
-                <Scrollbar
-                    :containerStyle="dropdownStyle"
-                    :containerClass="`${prefixCls}-dropdown`"
-                >
+                <template v-if="virtualList && !inline">
                     <Tree
                         v-show="data.length"
                         ref="refTree"
@@ -56,19 +55,73 @@
                         :inline="inline"
                         :remote="remote"
                         :loadData="loadData"
+                        virtualList
+                        :style="dropdownStyle"
+                        :class="`${prefixCls}-dropdown is-max-height`"
+                        @update:nodeList="onChangeNodeList"
                         @select="handleSelect"
                         @check="handleCheck"
+                        @mousedown.prevent
                     ></Tree>
-                    <div v-show="!data.length" :class="`${prefixCls}-null`">
-                        {{ emptyText }}
+                    <div
+                        v-show="!data.length"
+                        :class="`${prefixCls}-null`"
+                        @mousedown.prevent
+                    >
+                        {{ listEmptyText }}
                     </div>
-                </Scrollbar>
+                </template>
+                <template v-else>
+                    <Scrollbar
+                        :containerStyle="dropdownStyle"
+                        :containerClass="`${prefixCls}-dropdown`"
+                        @mousedown.prevent
+                    >
+                        <Tree
+                            v-show="data.length"
+                            ref="refTree"
+                            :selectedKeys="selectedKeys"
+                            :checkedKeys="checkedKeys"
+                            :data="data"
+                            :defaultExpandAll="defaultExpandAll"
+                            :expandedKeys="expandedKeys"
+                            :accordion="accordion"
+                            :selectable="treeSelectable"
+                            :checkable="treeCheckable"
+                            :checkStrictly="checkStrictly"
+                            :cascade="cascade"
+                            :multiple="multiple"
+                            :childrenField="childrenField"
+                            :valueField="valueField"
+                            :labelField="labelField"
+                            :filterMethod="filterMethod"
+                            :inline="inline"
+                            :remote="remote"
+                            :loadData="loadData"
+                            @update:nodeList="onChangeNodeList"
+                            @select="handleSelect"
+                            @check="handleCheck"
+                        ></Tree>
+                        <div v-show="!data.length" :class="`${prefixCls}-null`">
+                            {{ listEmptyText }}
+                        </div>
+                    </Scrollbar>
+                </template>
             </template>
         </Popper>
     </div>
 </template>
-<script>
-import { defineComponent, ref, unref, watch, computed, onMounted } from 'vue';
+
+<script lang="ts">
+import {
+    defineComponent,
+    ref,
+    unref,
+    watch,
+    computed,
+    onMounted,
+    CSSProperties,
+} from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel, useArrayModel } from '../_util/use/useModel';
@@ -76,11 +129,20 @@ import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
-import Tree from '../tree';
+import Tree from '../tree/tree';
 import Scrollbar from '../scrollbar';
-import SELECT_PROPS from '../select/props';
-import TREE_PROPS from '../tree/props';
-import useData from '../tree/useData';
+import { selectProps } from '../select/props';
+import { treeProps } from '../tree/props';
+import { getChildrenByValues, getParentByValues } from './helper';
+
+import type { SelectValue } from '../select/interface';
+import type {
+    TreeNodeList,
+    SelectParams,
+    CheckParams,
+    InnerTreeOption,
+} from '../tree/interface';
+import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('select-tree');
 
@@ -93,8 +155,8 @@ export default defineComponent({
         Scrollbar,
     },
     props: {
-        ...SELECT_PROPS,
-        ...TREE_PROPS,
+        ...selectProps,
+        ...treeProps,
     },
     emits: [
         UPDATE_MODEL_EVENT,
@@ -107,7 +169,7 @@ export default defineComponent({
     ],
     setup(props, { emit }) {
         useTheme();
-        const { validate } = useFormAdaptor(
+        const { validate, isError } = useFormAdaptor(
             computed(() => (props.multiple ? 'array' : 'string')),
         );
         const isOpened = ref(false);
@@ -116,16 +178,28 @@ export default defineComponent({
             : useNormalModel(props, emit);
         const filterText = ref('');
 
+        const { t } = useLocale();
+        const inputPlaceholder = computed(
+            () => props.placeholder || t('select.placeholder'),
+        );
+        const listEmptyText = computed(
+            () => props.emptyText || t('select.emptyText'),
+        );
+
         watch(isOpened, () => {
             emit('visibleChange', unref(isOpened));
         });
-        watch(currentValue, () => {
-            emit(CHANGE_EVENT, unref(currentValue));
-            validate(CHANGE_EVENT);
-        });
 
-        const { nodeList, getChildrenByValues, getParentByValues } =
-            useData(props);
+        const handleChange = () => {
+            emit(CHANGE_EVENT, currentValue.value);
+            validate(CHANGE_EVENT);
+        };
+
+        const nodeList = ref<TreeNodeList>({});
+
+        const onChangeNodeList = (data: TreeNodeList) => {
+            nodeList.value = data;
+        };
 
         const treeSelectable = computed(() => !props.multiple);
         const treeCheckable = computed(() => props.multiple);
@@ -143,10 +217,16 @@ export default defineComponent({
                     return currentValue.value;
                 }
                 if (props.checkStrictly === 'parent') {
-                    return getChildrenByValues(currentValue.value);
+                    return getChildrenByValues(
+                        nodeList.value,
+                        currentValue.value,
+                    );
                 }
                 if (props.checkStrictly === 'child') {
-                    return getParentByValues(currentValue.value);
+                    return getParentByValues(
+                        nodeList.value,
+                        currentValue.value,
+                    );
                 }
             }
             return [];
@@ -162,12 +242,19 @@ export default defineComponent({
         );
 
         const handleClear = () => {
-            const value = props.multiple ? [] : null;
-            updateCurrentValue(value);
+            const value: null | [] = props.multiple ? [] : null;
+            if (
+                props.multiple
+                    ? currentValue.value.length
+                    : currentValue.value !== null
+            ) {
+                updateCurrentValue(value);
+                handleChange();
+            }
             emit('clear');
         };
 
-        const handleSelect = (data) => {
+        const handleSelect = (data: SelectParams) => {
             if (props.disabled) return;
             filterText.value = '';
             if (!props.multiple) {
@@ -176,9 +263,10 @@ export default defineComponent({
             } else {
                 updateCurrentValue(data.selectedKeys);
             }
+            handleChange();
         };
 
-        const handleCheck = (data) => {
+        const handleCheck = (data: CheckParams) => {
             if (props.disabled) return;
             filterText.value = '';
             if (!props.multiple) {
@@ -187,9 +275,10 @@ export default defineComponent({
             } else {
                 updateCurrentValue(data.checkedKeys);
             }
+            handleChange();
         };
 
-        const handleRemove = (value) => {
+        const handleRemove = (value: SelectValue) => {
             if (!props.multiple) {
                 return;
             }
@@ -198,11 +287,12 @@ export default defineComponent({
                 emit('removeTag', value);
                 // arrayModel会自动添加或者删除
                 updateCurrentValue(value);
+                handleChange();
             }
         };
 
         const selectedOptions = computed(() =>
-            Object.values(nodeList).filter((option) => {
+            Object.values(nodeList.value).filter((option) => {
                 if (props.multiple) {
                     return currentValue.value.includes(option.value);
                 }
@@ -210,16 +300,20 @@ export default defineComponent({
             }),
         );
 
-        const focus = (e) => {
+        const focus = (e: Event) => {
             emit('focus', e);
+            validate('focus');
         };
 
-        const blur = (e) => {
+        const blur = (e: Event) => {
+            if (isOpened.value) {
+                isOpened.value = false;
+            }
             emit('blur', e);
             validate('blur');
         };
 
-        const handleFilterTextChange = (val) => {
+        const handleFilterTextChange = (val: string) => {
             filterText.value = val;
         };
 
@@ -227,7 +321,8 @@ export default defineComponent({
         watch(filterText, () => {
             refTree.value.filter(filterText.value);
         });
-        const filterMethod = (value, node) => node.label.indexOf(value) !== -1;
+        const filterMethod = (value: string, node: InnerTreeOption) =>
+            node.label.indexOf(value) !== -1;
 
         const triggerRef = ref();
         const triggerWidth = ref(0);
@@ -239,13 +334,12 @@ export default defineComponent({
         });
 
         const dropdownStyle = computed(() => {
-            const style = {};
+            const style: CSSProperties = {};
             if (triggerWidth.value) {
                 style['min-width'] = `${triggerWidth.value}px`;
             }
             return style;
         });
-
         return {
             prefixCls,
             isOpened,
@@ -266,6 +360,10 @@ export default defineComponent({
             filterMethod,
             triggerRef,
             dropdownStyle,
+            onChangeNodeList,
+            inputPlaceholder,
+            listEmptyText,
+            isError,
         };
     },
 });

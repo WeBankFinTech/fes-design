@@ -64,6 +64,11 @@ app.use(FTree);
 
 --FIX
 
+### 虚拟列表
+设置`virtualList`属性，处理大数据。
+
+--VIRTUALLIST
+
 --CODE
 
 ## Tree Props
@@ -88,6 +93,8 @@ app.use(FTree);
 | loadData              | 异步加载数据的回调函数                                                  | (node: TreeOption) => Promise\<void\>     | `null`     |
 | inline                | 底层节点是否横向排列                                                    | boolean                                   | `false`    |
 | filterMethod          | 类似Array.filter函数，筛选树节点（高亮）                                      | (filterText, node: TreeOption) => Boolean | `null`     |
+| virtualList                | 是否使用虚拟滚动，需要设置tree的高度，并且inline需要为false                                                    | boolean                                   | `false`    |
+
 
 ## Tree Events
 

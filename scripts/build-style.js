@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 const csso = require('csso');
 const fse = require('fs-extra');
 const path = require('path');
@@ -5,7 +7,7 @@ const path = require('path');
 const { compilerCss } = require('./compilerCss');
 const { OUTPUT_DIR } = require('./build-shard');
 
-const STYLE_SOURCE = path.join(__dirname, '../components/style.js');
+const STYLE_SOURCE = path.join(__dirname, '../components/style.ts');
 
 fse.mkdirsSync(OUTPUT_DIR);
 

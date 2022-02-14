@@ -43,6 +43,11 @@ app.use(FInputNumber);
 
 --STEP
 
+### 设置前置后置
+
+
+--prefixSuffix
+
 --CODE
 
 ## Props
@@ -57,7 +62,14 @@ app.use(FInputNumber);
 | placeholder | 输入框默认提示   | string  | -           |
 | precision   | 数值精度         | number  | -           |
 
-## events
+## Slots
+
+| 属性    | 说明                                |
+| ------- | ----------------------------------- |
+| prefix  | 前缀    |
+| suffix  | 后缀    |
+
+## Events
 
 | 事件名称 | 说明                        | 回调参数               |
 | :------- | :-------------------------- | :--------------------- |

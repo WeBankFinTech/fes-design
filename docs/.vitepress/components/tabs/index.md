@@ -33,12 +33,25 @@ app.use(FTabs);
 
 --WITHICON
 
+### 展示指令
+
+可以制定标签页展示的指令为 if 、 show 或者 show:lazy 。使用 show 的时候标签页内容不会随着切换重置。使用 show:lazy 的时候显示效果跟 show 一致，不过内容会进行延迟加载。
+
+--IFORSHOW
+
 
 ### 滚动
 
 可以左右、上下滑动，容纳更多标签。
 
 --WITHSCROLL
+
+### 前缀 & 后缀
+
+使用 prefix、suffix slot 来添加前后缀。
+
+--EXTEND
+
 ### 位置
 
 指定标签的位置，position = 'left' | 'top' | 'right' | 'bottom'
@@ -69,8 +82,9 @@ app.use(FTabs);
 | modelValue | 当前激活 tab 面板的 key                         | number / string | -       |
 | position   | 页签位置，可选值有`left` `top` `right` `bottom` | string          | `top`   |
 | type       | 页签的基本样式，可选`card` `line`               | string          | `line`  |
-| closable   | 页签是否可关闭                                  | boolean         | `false` |
-
+| closable   | 页签是否可关闭，type为`card`时可用               | boolean         | `false` |
+| closeMode | 关闭显示的方式，可选`hover` `visible` | string | `visible`
+| transition  | 自定义页签切换过渡TransitionGroup的动画名。默认是true，使用内置过渡动画 | string/boolean  | `true`   |
 ## Tabs Events
 
 | 事件名称 | 说明                 | 回调参数         |
@@ -82,6 +96,8 @@ app.use(FTabs);
 | 名称    | 说明             |
 | ------- | ---------------- |
 | default | TabPane 页签面板 |
+| prefix | tabs的前置内容 |
+| suffix | tabs的后置内容 |
 
 ## TabPane Props
 
@@ -91,7 +107,7 @@ app.use(FTabs);
 | name             | tab 的名称                                                                                       | string / number | -       |
 | disabled         | 是否禁用                                                                                         | boolean         | `false` |
 | closable         | 是否可关闭                                                                                       | boolean         | `false` |
-| displayDirective | 选择性渲染使用的指令，if 对应 v-if，show 对应 v-show，使用 show 的时候标签页状态切换后不会被重置 | string          | `if`    |
+| displayDirective | 选择渲染使用的指令为 if 、 show 或者 show:lazy。使用 show 的时候标签页内容不会随着切换重置。使用 show:lazy 的时候显示效果跟 show 一致，不过内容会进行延迟加载。 | string          | `if`    |
 
 ## Tabs Slots
 

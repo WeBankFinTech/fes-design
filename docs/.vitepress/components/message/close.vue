@@ -5,6 +5,7 @@
 </template>
 
 <script>
+// eslint-disable-next-line import/no-unresolved
 import { FMessage } from '@fesjs/fes-design';
 export default {
     setup() {
@@ -13,15 +14,15 @@ export default {
                 closable: true,
                 content: '可以手动关闭的消息！',
                 afterClose() {
-                    Message.destroy();
+                    FMessage.destroy();
                     console.log('Message closed!');
-                }
+                },
             });
         }
 
         return {
-            handleMessageClose
+            handleMessageClose,
         };
-    }
+    },
 };
 </script>

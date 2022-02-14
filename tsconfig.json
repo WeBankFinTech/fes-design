@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "strictNullChecks": false,
+        "jsx": "react",
+        "jsxFactory": "h",
+        "jsxFragmentFactory": "Fragment",
+        "module": "ES6",
+        "moduleResolution": "Node",
+        "declaration": true,
+        "declarationDir": "./types",
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "composite": true,
+        "target": "ES6",
+        "lib": [
+            "ESNext",
+            "DOM"
+        ]
+    },
+    "include": [
+        "global.d.ts",
+        "components/**/*.ts",
+        "components/**/*.tsx",
+        "components/**/*.vue"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

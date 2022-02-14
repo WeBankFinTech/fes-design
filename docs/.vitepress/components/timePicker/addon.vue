@@ -1,9 +1,9 @@
 <template>
     <Space>
         <FTimePicker
-            placeholder="请输入"
             v-model="currentTime"
             v-model:open="isOpen"
+            placeholder="请输入"
         >
             <template #addon="slotProps">
                 <div style="text-align: right; padding: 8px 12px">
@@ -11,8 +11,9 @@
                         type="primary"
                         size="small"
                         @click="confirm(slotProps.activeTime)"
-                        >happy时刻</FButton
                     >
+                        happy时刻
+                    </FButton>
                 </div>
             </template>
         </FTimePicker>
@@ -33,8 +34,8 @@ export default {
         return {
             currentTime,
             isOpen,
-            confirm
+            confirm,
         };
-    }
+    },
 };
 </script>

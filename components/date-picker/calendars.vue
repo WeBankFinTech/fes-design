@@ -8,7 +8,7 @@
                 :disabledDate="rangeDiabledDate"
                 :visible="visible"
                 :visibleRightArrow="false"
-                :rangePosition="LEFT_RANGE"
+                :rangePosition="RANGE_POSITION.LEFT"
                 :defaultDate="leftDefaultDate"
                 @change="updateTempCurrentValue"
                 @changeCurrentDate="changeCurrentDate"
@@ -20,7 +20,7 @@
                 :visibleLeftArrow="false"
                 :disabledTime="disabledTime"
                 :disabledDate="rangeDiabledDate"
-                :rangePosition="RIGHT_RANGE"
+                :rangePosition="RANGE_POSITION.RIGHT"
                 :defaultDate="rightDefaultDate"
                 @change="updateTempCurrentValue"
                 @changeCurrentDate="changeCurrentDate"
@@ -35,7 +35,7 @@
             :disabledDate="rangeDiabledDate"
             :rangePosition="activeRangePosition"
             :defaultDate="
-                activeRangePosition === LEFT_RANGE
+                activeRangePosition === RANGE_POSITION.LEFT
                     ? leftDefaultDate
                     : rightDefaultDate
             "
@@ -53,7 +53,7 @@
         <div v-if="visibleFooter" :class="`${prefixCls}-footer`">
             <div :class="`${prefixCls}-footer-inner`">
                 <WButton type="link" size="small" @click="selectCurrentTime">
-                    {{ currentDateType.currentText }}
+                    {{ currentText }}
                 </WButton>
                 <WButton
                     :disabled="confirmDisabled"
@@ -61,199 +61,72 @@
                     size="small"
                     @click="confirm"
                 >
-                    确定
+                    {{ t('datePicker.confirm') }}
                 </WButton>
             </div>
         </div>
     </div>
 </template>
 
-<script>
-import { ref, computed, watch } from 'vue';
+<script lang="ts">
+import {
+    ref,
+    computed,
+    watch,
+    defineComponent,
+    PropType,
+    ExtractPropTypes,
+} from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
-import Calendar from './calendar';
+import Calendar from './calendar.vue';
 import { useNormalModel } from '../_util/use/useModel';
 import WButton from '../button';
 import { contrastDate, getTimestampFromFormat } from './helper';
 import {
-    COMMON_PROPS,
-    CALENDARS_PROPS,
-    RANGE_PROPS,
     DATE_TYPE,
-    LEFT_RANGE,
-    RIGHT_RANGE,
+    RANGE_POSITION,
+    COMMON_PROPS,
+    RANGE_PROPS,
+    DATE_TYPE_CURRENT,
 } from './const';
+
+import { useRange } from './useRange';
+import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('calendars');
 
-const useRange = (props, tempCurrentValue, innerDisabledDate) => {
-    const isDateTimeRange = computed(
-        () => props.type === DATE_TYPE.datetimerange.name,
-    );
-    const isDateRange = computed(() => props.type === DATE_TYPE.daterange.name);
+const calendarsProps = {
+    visible: {
+        type: Boolean,
+        default: false,
+    },
+    disabledDate: {
+        type: Function as PropType<(date: Date) => boolean>,
+        default: () => false,
+    },
+    control: Boolean,
+    shortcuts: Object,
+    ...COMMON_PROPS,
+    ...RANGE_PROPS,
+} as const;
 
-    const activeRangePosition = ref(LEFT_RANGE);
-    const startDate = tempCurrentValue.value[0]
-        ? new Date(tempCurrentValue.value[0])
-        : new Date();
-    const leftDefaultDate = ref(startDate.getTime());
-    const rightDefaultDate = ref(
-        startDate.setMonth(startDate.getMonth() + 1, 1),
-    );
+export type CalendarsProps = Partial<ExtractPropTypes<typeof calendarsProps>>;
 
-    watch(
-        () => props.visible,
-        () => {
-            if (props.visible) {
-                leftDefaultDate.value =
-                    tempCurrentValue.value[0] || leftDefaultDate.value;
-            }
-        },
-    );
-
-    const changeCurrentDate = (timestamp) => {
-        const tempDate = new Date(timestamp);
-        if (activeRangePosition.value === LEFT_RANGE) {
-            rightDefaultDate.value = tempDate.setMonth(
-                tempDate.getMonth() + 1,
-                1,
-            );
-        } else {
-            leftDefaultDate.value = tempDate.setMonth(
-                tempDate.getMonth() - 1,
-                1,
-            );
-        }
-    };
-
-    const updateRangePosition = (val) => {
-        activeRangePosition.value = val;
-        if (isDateTimeRange.value && val === RIGHT_RANGE) {
-            rightDefaultDate.value = leftDefaultDate.value;
-        }
-    };
-
-    // disable 相关逻辑
-    const beyondTimeScope = (min, max, time, format) =>
-        contrastDate(time, min, format) === -1 ||
-        contrastDate(time, max, format) === 1;
-    const maxRangeDisabled = (date, format) => {
-        if (props.maxRange && tempCurrentValue.value) {
-            const [start, end] = tempCurrentValue.value;
-            if ((start && end) || !(start || end)) return false;
-
-            const arr = props.maxRange.match(/(\d*)([MDY])/);
-            const length = Number(arr[1]) - 1;
-            const type = arr[2];
-
-            let minDate;
-            let maxDate;
-
-            if (start) {
-                minDate = new Date(start);
-            }
-            if (end) {
-                maxDate = new Date(end);
-            }
-            if (type === 'D') {
-                if (minDate) {
-                    maxDate = new Date(minDate);
-                    maxDate.setDate(maxDate.getDate() + length);
-                } else {
-                    minDate = new Date(maxDate);
-                    minDate.setDate(minDate.getDate() - length);
-                }
-            } else if (type === 'M') {
-                if (minDate) {
-                    maxDate = new Date(minDate);
-                    maxDate.setMonth(maxDate.getMonth() + length, 1);
-                } else {
-                    minDate = new Date(maxDate);
-                    minDate.setMonth(maxDate.getMonth() - length, 1);
-                }
-            } else if (type === 'Y') {
-                if (minDate) {
-                    maxDate = new Date(minDate.getFullYear() - length, 0);
-                } else {
-                    minDate = new Date(maxDate.getFullYear() + length, 0);
-                }
-            }
-            return beyondTimeScope(minDate, maxDate, date, format);
-        }
-        return false;
-    };
-
-    const rangeDiabledDate = (date, format) => {
-        if (DATE_TYPE[props.type].isRange) {
-            if (
-                activeRangePosition.value === RIGHT_RANGE &&
-                tempCurrentValue.value[0] &&
-                contrastDate(
-                    date,
-                    new Date(tempCurrentValue.value[0]),
-                    format,
-                ) === -1
-            ) {
-                return true;
-            }
-
-            if (
-                activeRangePosition.value === LEFT_RANGE &&
-                tempCurrentValue.value[1] &&
-                !tempCurrentValue.value[0] &&
-                contrastDate(
-                    date,
-                    new Date(tempCurrentValue.value[1]),
-                    format,
-                ) === 1
-            ) {
-                return true;
-            }
-
-            if (maxRangeDisabled(date, format)) {
-                return true;
-            }
-        }
-        return innerDisabledDate(date, format);
-    };
-
-    return {
-        isDateRange,
-        isDateTimeRange,
-
-        leftDefaultDate,
-        rightDefaultDate,
-        changeCurrentDate,
-
-        activeRangePosition,
-        updateRangePosition,
-        rangeDiabledDate,
-    };
-};
-
-export default {
+export default defineComponent({
     name: 'FCalendars',
     components: {
         Calendar,
         WButton,
     },
-    props: {
-        visible: {
-            type: Boolean,
-            default: false,
-        },
-        ...COMMON_PROPS,
-        ...CALENDARS_PROPS,
-        ...RANGE_PROPS,
-    },
+    props: calendarsProps,
     emits: ['update:modelValue', 'tmpSelectedDateChange', 'change'],
     setup(props, { emit }) {
         const [selectedDates] = useNormalModel(props, emit);
-        const currentDateType = computed(() => DATE_TYPE[props.type] || {});
+        const currentDateType = computed(() => DATE_TYPE[props.type]);
 
-        const tempCurrentValue = ref([]);
+        const tempCurrentValue = ref<number[]>([]);
 
-        const innerDisabledDate = (date, format) => {
+        const innerDisabledDate = (date: Date, format: string) => {
             const min =
                 props.minDate &&
                 contrastDate(date, props.minDate, format) === -1;
@@ -262,6 +135,33 @@ export default {
                 contrastDate(date, props.maxDate, format) === 1;
             return min || max || props.disabledDate(date);
         };
+
+        const { t } = useLocale();
+
+        const currentText = computed(() => {
+            let currentText = '';
+            switch (currentDateType.value.currentText) {
+                case DATE_TYPE_CURRENT.now:
+                    currentText = t('datePicker.now');
+                    break;
+                case DATE_TYPE_CURRENT.today:
+                    currentText = t('datePicker.today');
+                    break;
+                case DATE_TYPE_CURRENT.currentYear:
+                    currentText = t('datePicker.currentYear');
+                    break;
+                case DATE_TYPE_CURRENT.currentMonth:
+                    currentText = t('datePicker.currentMonth');
+                    break;
+                case DATE_TYPE_CURRENT.currentQuarter:
+                    currentText = t('datePicker.currentQuarter');
+                    break;
+                default:
+                    currentText = t('datePicker.current');
+                    break;
+            }
+            return currentText;
+        });
 
         const {
             isDateRange,
@@ -283,7 +183,7 @@ export default {
                 );
             }
             if (props.type === DATE_TYPE.datetimerange.name) {
-                return !(activeRangePosition.value === LEFT_RANGE
+                return !(activeRangePosition.value === RANGE_POSITION.LEFT
                     ? tempCurrentValue.value[0]
                     : tempCurrentValue.value[1]);
             }
@@ -294,7 +194,7 @@ export default {
             selectedDates,
             () => {
                 if (DATE_TYPE[props.type].isRange) {
-                    updateRangePosition(LEFT_RANGE);
+                    updateRangePosition(RANGE_POSITION.LEFT);
                     tempCurrentValue.value = selectedDates.value || [];
                 } else {
                     tempCurrentValue.value = [selectedDates.value];
@@ -322,7 +222,7 @@ export default {
         const change = () => {
             if (isCompleteSelected()) {
                 if (DATE_TYPE[props.type].isRange) {
-                    updateRangePosition(LEFT_RANGE);
+                    updateRangePosition(RANGE_POSITION.LEFT);
                     emit('change', tempCurrentValue.value);
                 } else {
                     emit('change', tempCurrentValue.value[0]);
@@ -330,7 +230,7 @@ export default {
             }
         };
 
-        const updateTempCurrentValue = (val) => {
+        const updateTempCurrentValue = (val: number[]) => {
             tempCurrentValue.value = val;
 
             if (DATE_TYPE[props.type].isRange) {
@@ -341,7 +241,7 @@ export default {
 
             if (!visibleFooter.value) {
                 if (tempCurrentValue.value[0] && !tempCurrentValue.value[1]) {
-                    updateRangePosition(RIGHT_RANGE);
+                    updateRangePosition(RANGE_POSITION.RIGHT);
                 }
                 change();
             }
@@ -352,7 +252,7 @@ export default {
             () => {
                 if (!props.visible && !isCompleteSelected()) {
                     if (DATE_TYPE[props.type].isRange) {
-                        updateRangePosition(LEFT_RANGE);
+                        updateRangePosition(RANGE_POSITION.LEFT);
                     }
                     updateTempCurrentValue([]);
                 }
@@ -376,17 +276,16 @@ export default {
         const confirm = () => {
             if (
                 DATE_TYPE[props.type].isRange &&
-                activeRangePosition.value === LEFT_RANGE
+                activeRangePosition.value === RANGE_POSITION.LEFT
             ) {
-                updateRangePosition(RIGHT_RANGE);
+                updateRangePosition(RANGE_POSITION.RIGHT);
             } else if (isCompleteSelected()) {
                 change();
             }
         };
 
         return {
-            LEFT_RANGE,
-            RIGHT_RANGE,
+            RANGE_POSITION,
             prefixCls,
             tempCurrentValue,
             change,
@@ -411,7 +310,10 @@ export default {
 
             updateTempCurrentValue,
             confirm,
+
+            t,
+            currentText,
         };
     },
-};
+});
 </script>

@@ -5,7 +5,12 @@
         </FFormItem>
         <FFormItem label="选择城市">
             <FSelect clearable placeholder="请单选">
-                <FOption v-for="(item, index) in optionList" :key="index" :value="item.value" :label="item.label"></FOption>
+                <FOption
+                    v-for="(item, index) in optionList"
+                    :key="index"
+                    :value="item.value"
+                    :label="item.label"
+                ></FOption>
             </FSelect>
         </FFormItem>
         <FFormItem label="选择性别">
@@ -18,25 +23,31 @@
 </template>
 <script>
 export default {
-    setup(){
+    setup() {
         return {
-            optionList: [{
-                value: 'HuNan',
-                label: '湖南'
-            },{
-                value: 'HuBei',
-                label: '湖北',
-            },{
-                value: 'ZheJiang',
-                label: '浙江'
-            },{
-                value: 'GuangDong',
-                label: '广东'
-            },{
-                value: 'JiangSu',
-                label: '江苏'
-            }]
-        }
-    }
-}
+            optionList: [
+                {
+                    value: 'HuNan',
+                    label: '湖南湖南湖南湖南湖南湖南湖南',
+                },
+                {
+                    value: 'HuBei',
+                    label: '湖北湖北湖北湖北湖北湖北湖北',
+                },
+                {
+                    value: 'ZheJiang',
+                    label: '浙江',
+                },
+                {
+                    value: 'GuangDong',
+                    label: '广东',
+                },
+                {
+                    value: 'JiangSu',
+                    label: '江苏',
+                },
+            ],
+        };
+    },
+};
 </script>

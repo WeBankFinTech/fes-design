@@ -9,130 +9,128 @@
 @tab-active-color: var(--f-primary-color);
 @text-color-disabled: var(--f-text-color-disabled);
 
+.scroll-x-before {
+    &::before {
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+        width: 20px;
+        height: 100%;
+        box-shadow: inset 10px 0 8px -8px var(--f-border-color-base);
+    }
+}
+
+.scroll-x-after {
+    &::after {
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+        width: 20px;
+        height: 100%;
+        box-shadow: inset -10px 0 8px -8px var(--f-border-color-base);
+    }
+}
+
+.scroll-y-before {
+    &::before {
+        top: 0;
+        z-index: 1;
+        width: 100%;
+        height: 20px;
+        box-shadow: inset 0 10px 8px -8px var(--f-border-color-base);
+    }
+}
+
+.scroll-y-after {
+    &::after {
+        bottom: 0;
+        z-index: 1;
+        width: 100%;
+        height: 20px;
+        box-shadow: inset 0 -10px 8px -8px var(--f-border-color-base);
+    }
+}
+
 .@{tabs-prefix-cls} {
     display: flex;
-    flex-direction: column;
+    background: var(--f-white);
     .default();
     .text();
-    background: var(--f-white);
-
-    &-bottom {
-        flex-direction: column-reverse;
-    }
-
-    &-left {
-        flex-direction: row;
-    }
-
-    &-right {
-        flex-direction: row-reverse;
-    }
     
-    &-tab-wrapper {
+    &-nav {
         position: relative;
         display: flex;
-    }
 
-    &-scroll-x-bar {
-        position: absolute;
-        top: 0;
-        width: 1px;
-        height: 100%;
-        background: @tabs-border-color;
-
-        &-left {
-            left: 0;
-            box-shadow: 1px 0 4px 0 var(--f-text-color-caption);
+        &::before {
+            position: absolute;
+            background-color: @tabs-border-color;
+            content: "";
+            pointer-events: none;
         }
 
-        &-right {
-            right: 0;
-            box-shadow: -1px 0 4px 0 var(--f-text-color-caption);
-        }
-    }
-
-    &-scroll-y-bar {
-        position: absolute;
-        left: 0;
-        width: 100%;
-        height: 1px;
-        background: @tabs-border-color;
-
-        &-top {
-            top: 0;
-            box-shadow: 0 1px 4px var(--f-text-color-caption);
+        &-prefix,
+        &-suffix {
+            padding: 4px 16px;
         }
 
-        &-bottom {
-            bottom: 0;
-            box-shadow: 0 -1px 4px var(--f-text-color-caption);
+        &-suffix {
+            flex: 1;
+        }
+
+        &-wrapper {
+            position: relative;
+            overflow: hidden;
+            &::after,
+            &::before {
+                position: absolute;
+                content: "";
+                pointer-events: none;
+            }
+        }
+
+        &-scroll {
+            position: relative;
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            &::-webkit-scrollbar {
+                display: none;
+            }
+        }
+
+        &-bar {
+            position: absolute;
+            background: @tab-active-color;
+            transition: transform @animation-duration-slow;
         }
     }
-
-
-    &-scroll-right-bar {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 1px;
-        height: 100%;
-        background: @tabs-border-color;
-        box-shadow: 1px 0 1px 0 @tabs-border-color;
-    }
-
-    &-tab-nav {
-        position: relative;
-        display: flex;
-        flex-wrap: nowrap;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        &::-webkit-scrollbar {
-            display: none;
-        }
-    }
-
-    &-top &-tab-nav {
-        overflow-x: auto;
-        border-bottom: @tabs-border;
-    }
-    &-bottom &-tab-nav {
-        overflow-x: auto;
-        border-top: @tabs-border;
-    }
-    &-left &-tab-nav {
-        flex-direction: column;
-        overflow-y: auto;
-        border-right: @tabs-border;
-    }
-    &-right &-tab-nav {
-        flex-direction: column;
-        overflow-y: auto;
-        border-left: @tabs-border;
-    }
-
-    &-card &-tab-nav {
-        border: none;
-    }
-    
 
     &-tab {
         padding: 4px 16px;
         color: var(--f-font-color-base);
         font-size: var(--f-font-size-base);
         cursor: pointer;
+        transition: width,color,background @animation-duration-slow;
         user-select: none;
 
-        &:hover {
-            color: @tab-active-color;
-
+        &.hover {
             .@{tabs-prefix-cls}-tab-close {
-                width: 22px; // icon size + padding left
-                opacity: 1;
+                width: 0;
+                opacity: 0;
+            }
+            &:hover {    
+                .@{tabs-prefix-cls}-tab-close {
+                    width: 22px; // icon size + padding left
+                    opacity: 0.8;
+                }
             }
         }
+
 
         &-disabled {
             color: var(--f-text-color-disabled);
@@ -142,24 +140,6 @@
                 color: var(--f-text-color-disabled);
             }
         }
-        
-
-        &-pad {
-            flex: 0 0 4px;
-            border-bottom: @tabs-border;
-            border-bottom-color: @text-color-disabled;
-        }
-
-        &-card {
-            display: flex;
-            flex-wrap: nowrap;
-            background: var(--f-disabled-color-light);
-            border: @tabs-border;
-            border-color: @text-color-disabled;
-            border-top-left-radius: var(--f-border-radius-base);
-            border-top-right-radius: var(--f-border-radius-base);
-            transition: width @animation-duration-base;
-        }
 
         &-label {
             display: flex;
@@ -168,27 +148,238 @@
         }
 
         &-close {
+            display: flex;
+            align-items: center;
             box-sizing: border-box;
-            width: 0;
+            width: 22px;
+            overflow: hidden;
             color: var(--f-text-color-disabled);
             transform: translateX(8px);
-            opacity: 0;
+            opacity: 0.6;
             transition: all @animation-duration-slow;
+
+            &:hover {
+                opacity: 1;
+            }
         }
 
         &-active {
             color: @tab-active-color;
         }
+    }
 
-        &-card.@{tabs-prefix-cls}-tab-active {
-            background: none;
-            border-bottom: 0;
+    &-top {
+        flex-direction: column;
+        
+        .@{tabs-prefix-cls}-nav {
+            align-items: flex-end;
+
+            &::before {
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 1px;
+            }
+
+            &-scroll {
+                overflow-x: auto;
+            }
+            
+            &-wrapper--before {
+                .scroll-x-before()
+            }
+
+            &-wrapper--after {
+                .scroll-x-after()
+            }
+
+            &-bar {
+                bottom: 0;
+                left: 0;
+            }
         }
     }
-    &-left &-tab, &-right &-tab {
-        padding:  16px;
+
+    &-bottom {
+        flex-direction: column-reverse;
+
+        .@{tabs-prefix-cls}-nav {
+            align-items: flex-end;
+            &::before {
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 1px;
+            }
+
+            &-scroll {
+                overflow-x: auto;
+            }
+
+            &-wrapper--before {
+                .scroll-x-before()
+            }
+
+            &-wrapper--after {
+                .scroll-x-after()
+            }
+
+            &-bar {
+                top: 0;
+                left: 0;
+            }
+        }
+    }
+
+    &-left {
+        flex-direction: row;
+        .@{tabs-prefix-cls}-nav {
+            flex-direction: column;
+            align-items: flex-end;
+
+            &::before {
+                top: 0;
+                right: 0;
+                width: 1px;
+                height: 100%;
+            }
+
+            &-scroll {
+                flex-direction: column;
+                overflow-y: auto;
+            }
+
+            &-wrapper--before {
+                .scroll-y-before()
+            }
+
+            &-wrapper--after {
+                .scroll-y-after()
+            }
+
+            &-bar {
+                top: 0;
+                right: 0;
+            }
+
+            &-prefix,
+            &-suffix {
+                padding: 16px;
+            }
+        }
+
+        .@{tabs-prefix-cls}-tab {
+            padding: 16px;
+            text-align: right;
+
+            &-label {
+                justify-content: flex-end;
+            }
+
+        }
+    }
+
+    &-right {
+        flex-direction: row-reverse;
+        .@{tabs-prefix-cls}-nav {
+            flex-direction: column;
+            align-items: flex-start;
+
+            &::before {
+                top: 0;
+                left: 0;
+                width: 1px;
+                height: 100%;
+            }
+    
+            &-scroll {
+                flex-direction: column;
+                overflow-y: auto;
+            }
+
+            &-wrapper--before {
+                .scroll-y-before()
+            }
+
+            &-wrapper--after {
+                .scroll-y-after()
+            }
+
+            &-bar {
+                top: 0;
+                left: 0;
+            }
+
+            &-prefix,
+            &-suffix {
+                padding: 16px;
+            }
+        }
+
+        .@{tabs-prefix-cls}-tab {
+            padding: 16px;
+            text-align: left;
+
+            &-label {
+                justify-content: flex-start;
+            }
+
+        }
     }
     
+    &-card {
+        .@{tabs-prefix-cls}-nav {
+            &::before {
+                display: none;
+            }
+
+            &-prefix,
+            &-suffix {
+                border-bottom: @tabs-border;
+            }
+        }
+
+        .@{tabs-prefix-cls}-tab {
+            &-pad {
+                align-self: flex-end;
+                min-width: 4px;
+                border-bottom: @tabs-border;
+                // border-bottom-color: var(--f-border-color-base);
+            }
+
+            &-pad--last {
+                flex: 1;
+                align-self: flex-end;
+                border-bottom: @tabs-border;
+            }
+    
+            &-card {
+                display: flex;
+                flex-wrap: nowrap;
+                background: var(--f-disabled-color-light);
+                border: @tabs-border;
+                // border-color: var(--f-border-color-base);
+                border-top-left-radius: var(--f-border-radius-base);
+                border-top-right-radius: var(--f-border-radius-base);
+            }
+
+            &-active {
+                margin-bottom: 1px;
+                background: none;
+                border-bottom: 0;
+
+            }
+
+            &.addable {
+                align-items: center;
+                align-self: stretch;
+                padding: 8px;
+            }
+
+        }
+
+    }
+
     &-tab-pane-wrapper {
         flex: 1;
         overflow: hidden;
@@ -200,34 +391,12 @@
         width: 100%;
     }
 
-    &-bar {
-        position: absolute;
-        background: @tab-active-color;
-        transition: transform @animation-duration-slow;
-    }
-    &-top &-bar {
-        bottom: -1px;
-        left: 0;
-    }
-    &-bottom &-bar {
-        top: -1px;
-        left: 0;
-    }
-    &-left &-bar {
-        top: 0;
-        right: -1px;
-    }
-    &-right &-bar {
-        top: 0;
-        left: -1px;
-    }
-
     &-slide-fade-enter-active {
-        transition: all 0.3s ease-out;
+        transition: all @animation-duration-slow @ease-base-out;
     }
       
     &-slide-fade-leave-active {
-        transition: all 0.1s ease-out;
+        transition: all @animation-duration-fast @ease-base-out;
     }
     
     &-slide-fade-enter-from {

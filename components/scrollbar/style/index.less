@@ -66,11 +66,11 @@
 
 .@{scrollbar-track-cls}-fade {
     &-enter-active {
-        transition: opacity 340ms ease-out;
+        transition: opacity @animation-duration-slow @ease-base-out;
     }
 
     &-leave-active {
-        transition: opacity 120ms ease-out;
+        transition: opacity @animation-duration-fast @ease-base-out;
     }
 
     &-enter-from,

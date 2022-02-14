@@ -1,3 +1,271 @@
+## [0.3.1](https://github.com/WeBankFinTech/fes-design/compare/v0.3.0...v0.3.1) (2022-02-10)
+
+
+### Bug Fixes
+
+* 修复select选择选项后宽度被撑开的问题 ([16b4eb5](https://github.com/WeBankFinTech/fes-design/commit/16b4eb555ab5bff1aa196d369d95b9695ec38ae5))
+
+
+
+# [0.3.0](https://github.com/WeBankFinTech/fes-design/compare/v0.2.12...v0.3.0) (2022-02-10)
+
+
+### Bug Fixes
+
+* input number 设置 max 时，输入框内容重制问题 ([#44](https://github.com/WeBankFinTech/fes-design/issues/44)) ([194aab0](https://github.com/WeBankFinTech/fes-design/commit/194aab0870e3ab42b596c3a7a598d0b51a0d3347))
+* 一些bug修复 ([#45](https://github.com/WeBankFinTech/fes-design/issues/45)) ([0956fe5](https://github.com/WeBankFinTech/fes-design/commit/0956fe53a9725d9ed9dc84fb0a469e9079a69bec))
+
+
+### Features
+
+* tabs切换展示增加show:lazy 和  修复 drawer 滚动样式问题 ([3c79486](https://github.com/WeBankFinTech/fes-design/commit/3c7948606d0b860e61e4fa0c08e1428b1314bfb2))
+
+
+### Performance Improvements
+
+* cascader-panel支持懒加载 ([9221455](https://github.com/WeBankFinTech/fes-design/commit/922145538b421e90cfefdd440576b29203c0adc3))
+
+
+
+## [0.2.12](https://github.com/WeBankFinTech/fes-design/compare/v0.2.11...v0.2.12) (2022-02-08)
+
+
+### Bug Fixes
+
+* 解决 input change 行为变更引起的 input-number bug ([#43](https://github.com/WeBankFinTech/fes-design/issues/43)) ([7ece2c5](https://github.com/WeBankFinTech/fes-design/commit/7ece2c5986df7f51ed5975c499687e8c4d0433b3))
+* input 添加背景色 ([6b6288e](https://github.com/WeBankFinTech/fes-design/commit/6b6288e33888088baa40a291cb25685eb0ced371))
+
+
+
+## [0.2.11](https://github.com/WeBankFinTech/fes-design/compare/v0.2.9...v0.2.11) (2022-01-27)
+
+
+### Bug Fixes
+
+* 修复input样式问题 ([#42](https://github.com/WeBankFinTech/fes-design/issues/42)) ([2a4aeb3](https://github.com/WeBankFinTech/fes-design/commit/2a4aeb346be2f91ee8e55373b9f96e2270e1e1fd))
+
+
+### Features
+
+* 添加新图标 ([3b172cb](https://github.com/WeBankFinTech/fes-design/commit/3b172cb14f8d6f6cc39fc0ea0e91a0923fe049ff))
+
+
+
+## [0.2.10](https://github.com/WeBankFinTech/fes-design/compare/v0.2.9...v0.2.10) (2022-01-27)
+
+
+### Bug Fixes
+
+* 修复input样式问题 ([#42](https://github.com/WeBankFinTech/fes-design/issues/42)) ([2a4aeb3](https://github.com/WeBankFinTech/fes-design/commit/2a4aeb346be2f91ee8e55373b9f96e2270e1e1fd))
+
+
+### Features
+
+* 添加新图标 ([3b172cb](https://github.com/WeBankFinTech/fes-design/commit/3b172cb14f8d6f6cc39fc0ea0e91a0923fe049ff))
+
+
+
+## [0.2.9](https://github.com/WeBankFinTech/fes-design/compare/v0.2.8...v0.2.9) (2022-01-27)
+
+
+### Bug Fixes
+
+* side动画异常 ([3bb9981](https://github.com/WeBankFinTech/fes-design/commit/3bb9981117ee86ba36c676ee8f76a1112640db13))
+* 解决 eslint-plugin-import 无法识别 exports imports 问题 ([#41](https://github.com/WeBankFinTech/fes-design/issues/41)) ([5a51d9f](https://github.com/WeBankFinTech/fes-design/commit/5a51d9fdbd83fe16fe4c0d7f47b484a5d0d874c0))
+
+
+### Features
+
+* 优化 input prefix | suffix; 修复 input-number 部分问题 ([#40](https://github.com/WeBankFinTech/fes-design/issues/40)) ([9de27be](https://github.com/WeBankFinTech/fes-design/commit/9de27becec2f996278c103d6e5f86494772bee68))
+* 增加skeleton组件 ([#37](https://github.com/WeBankFinTech/fes-design/issues/37)) ([347e7c1](https://github.com/WeBankFinTech/fes-design/commit/347e7c122173c961be132d5b876b34899c122989))
+
+
+
+## [0.2.8](https://github.com/WeBankFinTech/fes-design/compare/v0.2.7...v0.2.8) (2022-01-25)
+
+
+### Bug Fixes
+
+* 修复radioGroup和checkboxGroup样式问题 ([6479367](https://github.com/WeBankFinTech/fes-design/commit/6479367797f8ed5d30e56bbb5d0c9a235efb9a09))
+* inputNumber未传入值时如果操作当0处理 ([47a10d8](https://github.com/WeBankFinTech/fes-design/commit/47a10d89eabc744ac8cfab52f01a69f58d658d86))
+
+
+
+## [0.2.7](https://github.com/WeBankFinTech/fes-design/compare/v0.2.6...v0.2.7) (2022-01-24)
+
+
+### Bug Fixes
+
+* 修复 date-picker change 事件不调用的问题 ([#36](https://github.com/WeBankFinTech/fes-design/issues/36)) ([ee5c809](https://github.com/WeBankFinTech/fes-design/commit/ee5c8095a71e30fde3b6b1e36c9094ba3ef84641))
+* cascader组件默认值选中 ([d340f14](https://github.com/WeBankFinTech/fes-design/commit/d340f141776a2ee8264c183750dd2f6804fc41d5))
+* selectTree组件默认值选中 ([8000fd8](https://github.com/WeBankFinTech/fes-design/commit/8000fd8b5eb9cf723b27d8b0277fb77b9c07342e))
+
+
+
+## [0.2.6](https://github.com/WeBankFinTech/fes-design/compare/v0.2.5...v0.2.6) (2022-01-21)
+
+
+### Bug Fixes
+
+* Menu等组件 添加border-box ([396627a](https://github.com/WeBankFinTech/fes-design/commit/396627abdf7156be8bff2a6e33d792c9850b5b00))
+* tableColumn导出名称改为FTableColumn ([ea20318](https://github.com/WeBankFinTech/fes-design/commit/ea203187f4272b9d7338868281d3dd6228229723))
+* 修复popper的arrow位置计算问题 ([4440d96](https://github.com/WeBankFinTech/fes-design/commit/4440d96efa6a6b34c007abd1f7a61df22f06085b))
+
+
+
+## [0.2.5](https://github.com/WeBankFinTech/fes-design/compare/v0.2.4...v0.2.5) (2022-01-21)
+
+
+### Features
+
+* 一些组件的动效 ([7c6f6cd](https://github.com/WeBankFinTech/fes-design/commit/7c6f6cdefe5fe1702c87f001ebc412d3666900af))
+* 一些组件的动效 ([8ca320b](https://github.com/WeBankFinTech/fes-design/commit/8ca320bcff583a1cb395b7f9bfcadae7ec5e941b))
+
+
+
+## [0.2.4](https://github.com/WeBankFinTech/fes-design/compare/v0.2.3...v0.2.4) (2022-01-20)
+
+
+### Bug Fixes
+
+* form样式优化 ([a2c5e3b](https://github.com/WeBankFinTech/fes-design/commit/a2c5e3bd5fdda79a7281ee894b0dfc29363e54f6))
+* 修复radio/checkbox样式问题 ([99a4ef7](https://github.com/WeBankFinTech/fes-design/commit/99a4ef7f246fa842b9cc906b18c543d7d0935c05))
+* 修复select/table组件的样式问题 ([bee17fe](https://github.com/WeBankFinTech/fes-design/commit/bee17fe50dfcf9a662d4ca5655e02677e5955029))
+* 修复table样式 ([0c6f096](https://github.com/WeBankFinTech/fes-design/commit/0c6f09674104c5b4d6a0ec27528ad5443be31aa4))
+* 修复样式问题 ([2656b37](https://github.com/WeBankFinTech/fes-design/commit/2656b37f50295304249e73379c836e88e5dafe11))
+* 避免带来https://github.com/vuejs/core/issues/5290 问题 ([a6cc93e](https://github.com/WeBankFinTech/fes-design/commit/a6cc93eb4b18ae2a98a7a0e376c2983023ccbda6))
+
+
+
+## [0.2.3](https://github.com/WeBankFinTech/fes-design/compare/v0.2.2...v0.2.3) (2022-01-18)
+
+
+### Bug Fixes
+
+* 编译 css 问题 ([869187b](https://github.com/WeBankFinTech/fes-design/commit/869187bfcc657738ee234badeacd7aa3805ac571))
+* 修复Form组件不显示错误信息 ([76a76f5](https://github.com/WeBankFinTech/fes-design/commit/76a76f58bc1e4fc9ea5d8579945b67a7c0f57abb))
+
+
+
+## [0.2.2](https://github.com/WeBankFinTech/fes-design/compare/v0.2.1...v0.2.2) (2022-01-17)
+
+
+### Bug Fixes
+
+* layout的trigger需要背景色遮挡 ([36cf7e4](https://github.com/WeBankFinTech/fes-design/commit/36cf7e48ff35646c98906210e387956307f55e8b))
+* modal、drawer、tabs ([a613c90](https://github.com/WeBankFinTech/fes-design/commit/a613c90c303adc9265a8b9edcbef75ca9551e57c))
+* select默认值无法显示 ([11ca23c](https://github.com/WeBankFinTech/fes-design/commit/11ca23c4bb4b31fc59b09214cb9eafbe5d64d3da))
+
+
+
+## [0.2.1](https://github.com/WeBankFinTech/fes-design/compare/v0.2.0...v0.2.1) (2022-01-12)
+
+
+### Bug Fixes
+
+* 修复 es 构建 ([28c3db0](https://github.com/WeBankFinTech/fes-design/commit/28c3db0253d9b206fd271e34962ef3a1f887c39d))
+
+
+
+# [0.2.0](https://github.com/WeBankFinTech/fes-design/compare/v0.1.10...v0.2.0) (2022-01-12)
+
+
+### Bug Fixes
+
+* 去掉无用代码 ([029cfd4](https://github.com/WeBankFinTech/fes-design/commit/029cfd40bc990f794f4ec18e6bf8209f833f46f6))
+* 修复 tabs 渲染问题 ([4bb9307](https://github.com/WeBankFinTech/fes-design/commit/4bb9307b9e6426328917f8d898d4cae63efe0749))
+* 修复样式问题 ([f204a01](https://github.com/WeBankFinTech/fes-design/commit/f204a01a5b16f911b3c43b3a020abc26d2e4c522))
+* 修复一些问题 ([8a02a9f](https://github.com/WeBankFinTech/fes-design/commit/8a02a9f02c0a549059e413987f633c6f0030cd50))
+* 修复转 ts 的问题 ([d6ec147](https://github.com/WeBankFinTech/fes-design/commit/d6ec14726c22eeeddc27e01e3fa9ee6a0a9a489d))
+* 修复layout中container未固定宽度和高度的样式问题 ([d5ca31d](https://github.com/WeBankFinTech/fes-design/commit/d5ca31d551407673c169e3cb6f23db3ecef10d92))
+* 修复popper箭头位置问题 ([0ef202c](https://github.com/WeBankFinTech/fes-design/commit/0ef202c2e2fde8e70e50c51edac47997fb06a48d))
+* 修复treebug ([41a2634](https://github.com/WeBankFinTech/fes-design/commit/41a26342417814ae56037767d918403c2d774e37))
+* 修复type问题 ([87d730f](https://github.com/WeBankFinTech/fes-design/commit/87d730f093290cf0901e54c001493a477148fc5e))
+* 样式问题 ([1f1a140](https://github.com/WeBankFinTech/fes-design/commit/1f1a140ae29c118691f87864c3d74a06507fddbd))
+* 样式问题 ([4bccb36](https://github.com/WeBankFinTech/fes-design/commit/4bccb3679459751a2b1da22b5b62af86ed0940f3))
+* cascader for ts ([b9a11d4](https://github.com/WeBankFinTech/fes-design/commit/b9a11d4defb8f4322de0bdb53b4fd9a985f2ba87))
+* cascader多选 ([3591316](https://github.com/WeBankFinTech/fes-design/commit/3591316aefdccbf25c7f6b823ed4aae456deded0))
+* Circular dependency for config-provider ([3c2a372](https://github.com/WeBankFinTech/fes-design/commit/3c2a372df4560e5f21c977618772080662972c1f))
+* getConfig可能存在非setup环境使用 ([0e59995](https://github.com/WeBankFinTech/fes-design/commit/0e5999539a7aab981c8c353bd088183dbd49fca2))
+* icon playground 问题 ([e10bc29](https://github.com/WeBankFinTech/fes-design/commit/e10bc293f1f28f4f1046c1b4b078807878b698b5))
+* playground icon 问题 ([8f9251d](https://github.com/WeBankFinTech/fes-design/commit/8f9251d055982fefdf1d25f82508e6a3fcfe31b6))
+* select文案展示 ([6352b52](https://github.com/WeBankFinTech/fes-design/commit/6352b529c2dde1f2d4ee74933a37a8529aacc80d))
+* tag样式 ([4fa4511](https://github.com/WeBankFinTech/fes-design/commit/4fa4511d71a95d133a70020131409d0908619d93))
+* tag组件样式 ([2db3adb](https://github.com/WeBankFinTech/fes-design/commit/2db3adba90ed70b1b0193b2903c3fd4146f8536f))
+* time-picker 构建问题 ([a8507ca](https://github.com/WeBankFinTech/fes-design/commit/a8507cad21bb4ad6e1af60ee1a642dcf1f6f4921))
+* ts for cascader ([83dd736](https://github.com/WeBankFinTech/fes-design/commit/83dd73681a5aacd81aa3d1596e6faa211e232858))
+* warn for cascader docs ([cc96269](https://github.com/WeBankFinTech/fes-design/commit/cc96269d97152abe4d848fd84c7201b3101b10c9))
+
+
+### Features
+
+* 国际化文档完善 ([73ad049](https://github.com/WeBankFinTech/fes-design/commit/73ad04903a7bd1797df474f88fd18e77eda18bb1))
+* 国际化支持 ([f97ff23](https://github.com/WeBankFinTech/fes-design/commit/f97ff23a38808644d5dbb07eb9fd381e6daf60a6))
+* 国际化支持 ([d31e7c2](https://github.com/WeBankFinTech/fes-design/commit/d31e7c27a449e318448e81bd9a044f1e583cd864))
+* 国际化支持 ([11d38a8](https://github.com/WeBankFinTech/fes-design/commit/11d38a8fd6789fae1a46f54d102a40c550a554d3))
+* 国际化支持 ([f200893](https://github.com/WeBankFinTech/fes-design/commit/f200893e0d945c3ef1fb607a64f52dd768f30321))
+* 优化 ts 构建 ([7053574](https://github.com/WeBankFinTech/fes-design/commit/705357436bbb179ddef48ac434c5ac8d3437743b))
+* **carousel:** 新增Carousel跑马灯组件 ([7412f6d](https://github.com/WeBankFinTech/fes-design/commit/7412f6dec6c9634ea2289916f72de68f6a5f048c))
+* Popper和menu动画 ([2642e9f](https://github.com/WeBankFinTech/fes-design/commit/2642e9fe05b24f1866cbb5ff977b9cfe2058756b))
+* select 添加远程搜索 ([0b15c5d](https://github.com/WeBankFinTech/fes-design/commit/0b15c5d70c20a8e20f49b751876daca642e602be))
+* tag优化 ([5d1ceba](https://github.com/WeBankFinTech/fes-design/commit/5d1ceba1460e253c79d6b17d3979dc83a7afccf9))
+
+
+
+## [0.1.10](https://github.com/WeBankFinTech/fes-design/compare/v0.1.9...v0.1.10) (2022-01-04)
+
+
+### Bug Fixes
+
+* 水平方向menu子菜单中菜单高度不正确 ([d14145a](https://github.com/WeBankFinTech/fes-design/commit/d14145a9d87442c0212f42f12f63e8d17b63fe8a))
+
+
+### Features
+
+* 新增图标 ([b4f692a](https://github.com/WeBankFinTech/fes-design/commit/b4f692a830864653f0d5b7a654eda0ece53649b1))
+
+
+
+## [0.1.9](https://github.com/WeBankFinTech/fes-design/compare/v0.1.8...v0.1.9) (2021-12-31)
+
+
+### Features
+
+* 虚拟列表监听item大小事件 ([212ac6d](https://github.com/WeBankFinTech/fes-design/commit/212ac6d9b2fd5a13d6cf0bf217440025702b2216))
+* select支持虚拟滚动 ([afeb90b](https://github.com/WeBankFinTech/fes-design/commit/afeb90b0edd69c6d46f371708e71f37089f0a721))
+* select支持options配置 ([f3f525a](https://github.com/WeBankFinTech/fes-design/commit/f3f525aa2321e8b1b9cf19123fd384a39c749304))
+* selectTree支持虚拟列表 ([#27](https://github.com/WeBankFinTech/fes-design/issues/27)) ([9409415](https://github.com/WeBankFinTech/fes-design/commit/94094151ddb6d4825b1d3cee365e9c00cca13f19))
+* tabs支持前后插槽 ([3f02d76](https://github.com/WeBankFinTech/fes-design/commit/3f02d76b024985dcc3b82db0f24e4c6adb63e9d8))
+* Tree 支持虚拟列表 ([#23](https://github.com/WeBankFinTech/fes-design/issues/23)) ([1cd0c87](https://github.com/WeBankFinTech/fes-design/commit/1cd0c876e6b9dbd9d4df23a2f33a88651d040b63))
+
+
+
+## [0.1.8](https://github.com/WeBankFinTech/fes-design/compare/v0.1.7...v0.1.8) (2021-12-29)
+
+
+### Features
+
+* table的列支持配置visible ([a1a32c5](https://github.com/WeBankFinTech/fes-design/commit/a1a32c5cae520f3a7404aeee69a9589e8e4c10bb))
+
+
+
+## [0.1.7](https://github.com/WeBankFinTech/fes-design/compare/v0.1.6...v0.1.7) (2021-12-28)
+
+
+### Bug Fixes
+
+* cascader单选清空 ([9d24ce4](https://github.com/WeBankFinTech/fes-design/commit/9d24ce4b2e49b4bf5d177b18c5f627ec17f24cfd))
+* cascader选中项关联删除 ([128fc14](https://github.com/WeBankFinTech/fes-design/commit/128fc1415acaa625ba3e8b1d0f38ab0b764b3d70))
+* tree 勾选策略为parent时,选中的节点判断不正确 ([f560281](https://github.com/WeBankFinTech/fes-design/commit/f560281e636be3c0fc0f3622f3e0b5120921609b))
+* 修复layout-container不撑开铺满的bug ([54df38f](https://github.com/WeBankFinTech/fes-design/commit/54df38f54e6bfa58667cba520440a1465c96a274))
+
+
+### Features
+
+* cascader支持关联选中 ([aa0ddc2](https://github.com/WeBankFinTech/fes-design/commit/aa0ddc2ce0feea3ffedca934ebb16ed368c3d931))
+
+
+
 ## [0.1.6](https://github.com/WeBankFinTech/fes-design/compare/v0.1.5...v0.1.6) (2021-12-28)
 
 

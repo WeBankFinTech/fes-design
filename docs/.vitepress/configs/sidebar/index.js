@@ -19,7 +19,7 @@ module.exports = {
                     {
                         text: 'Scrollbar 滚动条',
                         link: '/zh/components/scrollbar',
-                    }
+                    },
                 ],
             },
             {
@@ -37,7 +37,11 @@ module.exports = {
                         text: 'Grid 删格',
                         link: '/zh/components/grid',
                     },
-                ]
+                    {
+                        text: 'Space 间隔',
+                        link: '/zh/components/space',
+                    },
+                ],
             },
             {
                 text: '导航组件',
@@ -53,11 +57,12 @@ module.exports = {
                     {
                         text: 'Steps 步骤条',
                         link: '/zh/components/steps',
-                    },{
+                    },
+                    {
                         text: 'Pagination 分页',
                         link: '/zh/components/pagination',
-                    }
-                ]
+                    },
+                ],
             },
             {
                 text: '数据录入组件',
@@ -110,25 +115,16 @@ module.exports = {
                         text: 'Form 表单',
                         link: '/zh/components/form',
                     },
-                ]
+                ],
             },
             {
                 text: '数据展示组件',
                 items: [
                     {
-                        text: 'Table 表格',
-                        link: '/zh/components/table',
+                        text: 'Carousel 跑马灯',
+                        link: '/zh/components/carousel',
                     },
                     {
-                        text: 'Tabs 标签页',
-                        link: '/zh/components/tabs',
-                    },{
-                        text: 'Tag 标签',
-                        link: '/zh/components/tag',
-                    },{
-                        text: 'Tree 树形控件',
-                        link: '/zh/components/tree',
-                    },{
                         text: 'Draggable 拖拽',
                         link: '/zh/components/draggable',
                     },
@@ -137,10 +133,26 @@ module.exports = {
                         link: '/zh/components/image',
                     },
                     {
+                        text: 'Table 表格',
+                        link: '/zh/components/table',
+                    },
+                    {
+                        text: 'Tabs 标签页',
+                        link: '/zh/components/tabs',
+                    },
+                    {
+                        text: 'Tag 标签',
+                        link: '/zh/components/tag',
+                    },
+                    {
+                        text: 'Tree 树形控件',
+                        link: '/zh/components/tree',
+                    },
+                    {
                         text: 'VirtualList 虚拟列表',
                         link: '/zh/components/virtualList',
-                    }
-                ]
+                    },
+                ],
             },
             {
                 text: '反馈组件',
@@ -156,17 +168,24 @@ module.exports = {
                     {
                         text: 'Tooltip 文字提示',
                         link: '/zh/components/tooltip',
-                    },{
+                    },
+                    {
                         text: 'Message 全局提示',
                         link: '/zh/components/message',
-                    },{
+                    },
+                    {
                         text: 'Modal 对话框',
                         link: '/zh/components/modal',
-                    },{
+                    },
+                    {
                         text: 'Spin 加载中',
                         link: '/zh/components/spin',
-                    }
-                ]
+                    },
+                    {
+                        text: 'Skeleton 骨架屏',
+                        link: '/zh/components/skeleton',
+                    },
+                ],
             },
             {
                 text: '其他组件',
@@ -174,9 +193,9 @@ module.exports = {
                     {
                         text: 'ConfigProvider 全局化配置',
                         link: '/zh/components/configProvider',
-                    }
-                ]
-            }
+                    },
+                ],
+            },
         ],
         '/zh/guide/': [
             {
@@ -184,14 +203,14 @@ module.exports = {
                 items: [
                     {
                         text: '指引',
-                        link: '/zh/guide/quick-start'
+                        link: '/zh/guide/quick-start',
                     },
                     {
                         text: '主题',
-                        link: '/zh/guide/theme'
-                    }
-                ]
+                        link: '/zh/guide/theme',
+                    },
+                ],
             },
-        ]
-    }
-}
+        ],
+    },
+};

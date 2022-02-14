@@ -44,6 +44,11 @@ app.use(FSelectTree);
 
 --DISABLED
 
+### 虚拟列表
+设置`virtualList`属性，处理大数据。
+--VIRTUALLIST
+
+
 ### 无数据
 
 --NODATA
@@ -78,6 +83,7 @@ app.use(FSelectTree);
 | remote                | 是否异步获取选项，和 `onLoad` 配合                                      | boolean                                   | `false`    |
 | loadData              | 异步加载数据的回调函数                                                  | (node: TreeOption) => Promise\<void\>     | `null`     |
 | inline                | 底层节点是否横向排列                                                    | boolean                                   | `false`    |
+| virtualList                | 是否使用虚拟滚动，inline需要为false                                                    | boolean                                   | `false`    |
 
 ## SelectTree Events
 
@@ -86,9 +92,9 @@ app.use(FSelectTree);
 | change        | 选中的值发生变化                                                             | 目前选中的值                  |
 | visibleChange | 下拉框出现/隐藏时触发                                                        | 出现则为 true，隐藏则为 false |
 | removeTag     | 取消选中时调用，参数为选中项的 value (或 key) 值，仅在 `multiple` 模式下生效 | 取消选中的值                  |
-| blur          | 当 input 失去焦点时触发                                                      | event                         |
-| focus         | 当 input 获得焦点时触发                                                      | event                         |
-
+| blur          | 当选择器失去焦点时触发                                                      | event                         |
+| focus         | 当选择器获得焦点时触发                                                      | event                         |
+| clear         | 点击清除按钮时触发                                                      | event                         |
 
 ## SelectTree Methods
 
