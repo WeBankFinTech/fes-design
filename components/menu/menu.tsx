@@ -32,7 +32,7 @@ export default defineComponent({
 
         const clickMenuItem = (value: string) => {
             updateCurrentValue(value);
-            emit('select', { value });
+            emit('select', value);
             // 当水平时，默认是hover，当垂直收起时也是hover
             if (renderWithPopper.value) {
                 children.forEach((item) => {

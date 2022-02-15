@@ -34,12 +34,12 @@ export default defineComponent({
 
         const onClickIndicator = (index: Number, event: MouseEvent) => {
             event.stopPropagation();
-            emit(INDICATOR_MOUSE_EVENT, index, event);
+            emit(INDICATOR_MOUSE_EVENT, event, index);
         };
 
         const onHoverIndicator = (index: Number, event: MouseEvent) => {
             if (props.trigger === 'hover' && index !== props.activeIndex) {
-                emit(INDICATOR_MOUSE_EVENT, index, event);
+                emit(INDICATOR_MOUSE_EVENT, event, index);
             }
         };
 
@@ -50,23 +50,27 @@ export default defineComponent({
 
         return () => (
             <ul class={indicatorsClass.value}>
-                {slideChildren.value.map((item: CarouselItemData, index: number) => (
-                    <li
-                        key={index}
-                        class={[
-                            `${prefixCls}-indicator`,
-                            `${prefixCls}-indicator-${props.indicatorType}`,
-                            props.activeIndex === index ? 'is-active' : '',
-                        ]}
-                        onMouseenter={(e) => throttledIndicatorHover(index, e)}
-                        onClick={(e) => onClickIndicator(index, e)}
-                    >
-                        <button
-                            type="button"
-                            class={`${prefixCls}-indicator-btn`}
-                        ></button>
-                    </li>
-                ))}
+                {slideChildren.value.map(
+                    (item: CarouselItemData, index: number) => (
+                        <li
+                            key={index}
+                            class={[
+                                `${prefixCls}-indicator`,
+                                `${prefixCls}-indicator-${props.indicatorType}`,
+                                props.activeIndex === index ? 'is-active' : '',
+                            ]}
+                            onMouseenter={(e) =>
+                                throttledIndicatorHover(index, e)
+                            }
+                            onClick={(e) => onClickIndicator(index, e)}
+                        >
+                            <button
+                                type="button"
+                                class={`${prefixCls}-indicator-btn`}
+                            ></button>
+                        </li>
+                    ),
+                )}
             </ul>
         );
     },

@@ -133,7 +133,7 @@ export default ({
             selectableData.value.forEach(push);
             isAllSelected.value = true;
         }
-        ctx.emit('selectAll', { selection });
+        ctx.emit('selectAll', selection);
     };
 
     const clearSelect = () => {

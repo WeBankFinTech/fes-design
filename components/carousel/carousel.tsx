@@ -116,7 +116,7 @@ export default defineComponent({
         };
 
         // 操作指示器 (click / hover)
-        const onOperateIndicator = (index: number) => {
+        const onOperateIndicator = (e: MouseEvent, index: number) => {
             activeIndex.value = index;
         };
 
