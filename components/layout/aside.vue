@@ -1,10 +1,11 @@
 <template>
     <aside :class="classList" :style="style">
-        <slot></slot>
+        <div :class="`${prefixCls}-aside-wrapper`">
+            <slot></slot>
+        </div>
         <div
             v-if="collapsible && showTrigger"
             :class="`${prefixCls}-aside-trigger`"
-            :style="style"
             @click="handleTrigger"
         >
             <template v-if="asidePlacement === 'left'">
