@@ -1,3 +1,13 @@
+## [0.3.3](https://github.com/WeBankFinTech/fes-design/compare/v0.3.2...v0.3.3) (2022-02-16)
+
+
+### Bug Fixes
+
+* 修复select当设置filterable和disable时样式问题 ([#54](https://github.com/WeBankFinTech/fes-design/issues/54)) ([f28708a](https://github.com/WeBankFinTech/fes-design/commit/f28708ac082d1c17f41e648766fa7478a7a0dc13))
+* 修复window下layout组件收起时出现滚动条的问题 ([#55](https://github.com/WeBankFinTech/fes-design/issues/55)) ([7bf05e5](https://github.com/WeBankFinTech/fes-design/commit/7bf05e55c719d05c7a63d5bf3afbc96d0c153547))
+
+
+
 ## [0.3.2](https://github.com/WeBankFinTech/fes-design/compare/v0.3.1...v0.3.2) (2022-02-14)
 
 
