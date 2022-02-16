@@ -17,6 +17,7 @@
     position: relative;
     flex: auto;
     box-sizing: border-box;
+    transition: all @animation-duration-base;
     >.@{layout-prefix-cls}-container {
         display: flex;
         flex-wrap: nowrap;
@@ -130,6 +131,7 @@
     flex: auto;
     color: var(--f-text-color);
     font-size: var(--f-font-size-base);
+    transition: all @animation-duration-base;
     &.is-embedded {
         background: var(--f-component-bg-color);
     }
