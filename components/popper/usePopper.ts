@@ -13,9 +13,33 @@ import type { Modifier, ModifierArguments } from '@popperjs/core';
 import { useNormalModel } from '../_util/use/useModel';
 import popupManager from '../_util/popupManager';
 import getElementFromRef from '../_util/getElementFromRef';
+import { addClass, removeClass } from '../_util/dom';
 
 import type { PopperProps } from './props';
 import type { VirtualRect, Placement, Popper } from './interface';
+
+const getTransitionName = (placement: string, enter = true) => {
+    const MAP = {
+        bottom: 'up',
+        top: 'down',
+        left: 'right',
+        right: 'left',
+    } as const;
+    return `fes-slide-${MAP[placement.split('-')[0] as keyof typeof MAP]}-${
+        enter ? 'enter' : 'leave'
+    }-active`;
+};
+
+const animate = (el: HTMLElement, placement: string, enter = true) => {
+    const className = getTransitionName(placement, enter);
+    addClass(el, className);
+    el.addEventListener('animationend', () => {
+        removeClass(el, className);
+    });
+    el.addEventListener('animationcancel', () => {
+        removeClass(el, className);
+    });
+};
 
 export default (props: PopperProps, emit: any) => {
     const [visible, updateVisible] = useNormalModel(props, emit);
@@ -27,23 +51,32 @@ export default (props: PopperProps, emit: any) => {
         zIndex: popupManager.nextZIndex(),
     });
     const placement = ref(props.placement);
+
     const transitionVisible = ref(visible.value);
-    watch(visible, (val) => {
-        // 关闭时直接关闭
-        if (!val) {
-            transitionVisible.value = val;
+
+    watch(visible, () => {
+        if (visible.value) {
+            transitionVisible.value = visible.value;
+        } else {
+            const $wrapper = popperRef.value.children[0] as HTMLElement;
+            $wrapper.addEventListener(
+                'animationend',
+                () => {
+                    transitionVisible.value = visible.value;
+                },
+                {
+                    once: true,
+                },
+            );
         }
     });
 
     let instance: ReturnType<typeof createPopper> | null;
 
     const updateInstance = () => {
-        // 需要在下一帧等copy渲染完毕，有大小体积之后再计算一次
-        nextTick(() => {
-            transitionVisible.value = false;
-            instance.update().then(() => {
-                transitionVisible.value = true;
-            });
+        instance.update().then(() => {
+            const $wrapper = popperRef.value.children[0] as HTMLElement;
+            animate($wrapper, placement.value);
         });
     };
 
@@ -125,7 +158,11 @@ export default (props: PopperProps, emit: any) => {
 
     const update = () => {
         if (props.disabled) return;
-        if (!visible.value) return;
+        if (!visible.value) {
+            const $wrapper = popperRef.value.children[0] as HTMLElement;
+            animate($wrapper, placement.value, false);
+            return;
+        }
         popperStyle.zIndex = popupManager.nextZIndex();
         if (instance) {
             updateInstance();

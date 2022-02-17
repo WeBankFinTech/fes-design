@@ -42,14 +42,13 @@ export default defineComponent({
         const {
             visible,
             updateVisible,
-            transitionVisible,
             triggerRef,
             popperRef,
             arrowRef,
             update,
             popperStyle,
             updateVirtualRect,
-            placement,
+            transitionVisible,
         } = usePopper(props, emit);
         const disabledWatch = computed(() => props.disabled || !visible.value);
         useClickOutSide(
@@ -74,19 +73,6 @@ export default defineComponent({
             [prefixCls, props.popperClass].filter(Boolean).join(' '),
         );
 
-        const transitionName = computed(() => {
-            const placementValue = placement.value;
-            const MAP = {
-                bottom: 'up',
-                top: 'down',
-                left: 'right',
-                right: 'left',
-            } as const;
-            return `fes-slide-${
-                MAP[placementValue.split('-')[0] as keyof typeof MAP]
-            }`;
-        });
-
         const renderTrigger = () => {
             const vNode = getFirstValidNode(slots.trigger!?.(), 1);
             if (vNode) {
@@ -105,31 +91,6 @@ export default defineComponent({
             );
         };
 
-        const contentRef = ref();
-        const contentStyle = ref();
-
-        watch(transitionVisible, () => {
-            if (transitionVisible.value) {
-                nextTick(() => {
-                    contentStyle.value = {
-                        width: contentRef.value.offsetWidth + 'px',
-                        height: contentRef.value.offsetHeight + 'px',
-                    };
-                });
-            }
-        });
-
-        const renderContentCopy = () => {
-            if (visible.value && !transitionVisible.value) {
-                return contentStyle.value ? (
-                    <div style={contentStyle.value} /> 
-                ) : (
-                    <Content />
-                );
-            }
-            return null;
-        };
-
         return () => (
             <Fragment>
                 {renderTrigger()}
@@ -145,14 +106,9 @@ export default defineComponent({
                         role={'tooltip'}
                         onMouseenter={onPopperMouseEnter}
                         onMouseleave={onPopperMouseLeave}
+                        v-show={transitionVisible.value}
                     >
-                        {renderContentCopy()}
-                        <Transition name={transitionName.value}>
-                            <Content
-                                ref={contentRef}
-                                v-show={transitionVisible.value}
-                            />
-                        </Transition>
+                            <Content />
                     </div>
                 </LazyTeleport>
             </Fragment>

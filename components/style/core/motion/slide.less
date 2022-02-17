@@ -1,9 +1,6 @@
 .slide-motion(@className, @keyframeName) {
     @name: ~'@{cls-prefix}-@{className}';
     .make-motion(@name, @keyframeName);
-    .@{name}-enter-from {
-        opacity: 0;
-    }
     .@{name}-enter-active {
         animation-timing-function: @ease-out-quint;
     }
