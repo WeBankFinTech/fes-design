@@ -1,12 +1,13 @@
 import { computed, watch, ref, Ref } from 'vue';
 
-import { contrastDate } from './helper';
+import { contrastDate, parseDate } from './helper';
 import { DATE_TYPE, SELECTED_STATUS, RANGE_POSITION } from './const';
 
 import type { CalendarsProps } from './calendars.vue';
 
 export const useSelectStatus = (props: CalendarsProps) => {
     const selectedStatus = ref<SELECTED_STATUS>(0);
+    const lastSelectedPosition = ref<RANGE_POSITION>();
 
     watch(
         () => props.modelValue,
@@ -22,7 +23,8 @@ export const useSelectStatus = (props: CalendarsProps) => {
         },
     );
 
-    const selectedDay = () => {
+    const selectedDay = (position: RANGE_POSITION) => {
+        lastSelectedPosition.value = position;
         switch (selectedStatus.value) {
             case SELECTED_STATUS.EMPTY:
                 selectedStatus.value = SELECTED_STATUS.ONE;
@@ -42,6 +44,7 @@ export const useSelectStatus = (props: CalendarsProps) => {
     return {
         selectedStatus,
         selectedDay,
+        lastSelectedPosition,
     };
 };
 
@@ -49,6 +52,8 @@ export const useRange = (
     props: CalendarsProps,
     tempCurrentValue: Ref<number[]>,
     innerDisabledDate: (date: Date, format: string) => boolean | undefined,
+    selectedStatus: Ref<SELECTED_STATUS>,
+    lastSelectedPosition: Ref<RANGE_POSITION>,
 ) => {
     const isDateRange = computed(() => DATE_TYPE[props.type].isRange);
 
@@ -63,9 +68,32 @@ export const useRange = (
     watch(
         () => props.visible,
         () => {
-            if (props.visible) {
-                leftDefaultDate.value =
-                    tempCurrentValue.value[0] || leftDefaultDate.value;
+            if (props.visible && tempCurrentValue.value.length) {
+                const leftDate = parseDate(tempCurrentValue.value[0]);
+                const rightDate = parseDate(tempCurrentValue.value[1]);
+                if (
+                    leftDate.year === rightDate.year &&
+                    leftDate.month === rightDate.month
+                ) {
+                    if (lastSelectedPosition.value === RANGE_POSITION.LEFT) {
+                        const date = new Date(tempCurrentValue.value[0]);
+                        leftDefaultDate.value = tempCurrentValue.value[0];
+                        rightDefaultDate.value = date.setMonth(
+                            date.getMonth() + 1,
+                            1,
+                        );
+                    } else {
+                        const date = new Date(tempCurrentValue.value[1]);
+                        rightDefaultDate.value = tempCurrentValue.value[1];
+                        leftDefaultDate.value = date.setMonth(
+                            date.getMonth() - 1,
+                            1,
+                        );
+                    }
+                } else {
+                    leftDefaultDate.value = tempCurrentValue.value[0];
+                    rightDefaultDate.value = tempCurrentValue.value[1];
+                }
             }
         },
     );
@@ -102,50 +130,34 @@ export const useRange = (
         contrastDate(time, min, format) === -1 ||
         contrastDate(time, max, format) === 1;
     const maxRangeDisabled = (date: Date, format: string) => {
-        if (props.maxRange && tempCurrentValue.value) {
-            const [start, end] = tempCurrentValue.value;
-            if ((start && end) || !(start || end)) return false;
-
+        if (props.maxRange && selectedStatus.value === SELECTED_STATUS.ONE) {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const arr = props.maxRange.match(/(\d*)([MDY])/)!;
             const length = Number(arr[1]) - 1;
             const type = arr[2];
 
-            let minDate: Date | null = null;
-            let maxDate: Date | null = null;
-
-            if (start) {
-                minDate = new Date(start);
-            }
-            if (end) {
-                maxDate = new Date(end);
-            }
+            const dateFlag = new Date(tempCurrentValue.value[0]);
+            let minDate: Date;
+            let maxDate: Date;
 
             if (type === 'D') {
-                if (minDate) {
-                    maxDate = new Date(minDate);
-                    maxDate.setDate(maxDate.getDate() + length);
-                } else if (maxDate) {
-                    minDate = new Date(maxDate);
-                    minDate.setDate(minDate.getDate() - length);
-                }
+                minDate = new Date(dateFlag);
+                maxDate = new Date(dateFlag);
+                minDate.setDate(minDate.getDate() - length);
+                maxDate.setDate(maxDate.getDate() + length);
             } else if (type === 'M') {
-                if (minDate) {
-                    maxDate = new Date(minDate);
-                    maxDate.setMonth(maxDate.getMonth() + length, 1);
-                } else if (maxDate) {
-                    minDate = new Date(maxDate);
-                    minDate.setMonth(maxDate.getMonth() - length, 1);
-                }
+                minDate = new Date(dateFlag);
+                maxDate = new Date(dateFlag);
+                minDate.setMonth(minDate.getMonth() - length, 1);
+                maxDate.setMonth(maxDate.getMonth() + length, 1);
             } else if (type === 'Y') {
-                if (minDate) {
-                    maxDate = new Date(minDate.getFullYear() - length, 0);
-                } else if (maxDate) {
-                    minDate = new Date(maxDate.getFullYear() + length, 0);
-                }
+                minDate = new Date(dateFlag.getFullYear() + length, 0);
+                maxDate = new Date(dateFlag.getFullYear() - length, 0);
             }
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            return beyondTimeScope(minDate!, maxDate!, date, format);
+            if (!(minDate || maxDate)) {
+                return false;
+            }
+            return beyondTimeScope(minDate, maxDate, date, format);
         }
         return false;
     };

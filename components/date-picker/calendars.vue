@@ -11,7 +11,7 @@
                     :defaultDate="leftDefaultDate"
                     :selectedStatus="selectedStatus"
                     @change="updateTempCurrentValue"
-                    @selectedDay="selectedDay"
+                    @selectedDay="selectedDay(RANGE_POSITION.LEFT)"
                     @changeCurrentDate="
                         (timestamp) =>
                             changeCurrentDate(timestamp, RANGE_POSITION.LEFT)
@@ -26,7 +26,7 @@
                     :defaultDate="rightDefaultDate"
                     :selectedStatus="selectedStatus"
                     @change="updateTempCurrentValue"
-                    @selectedDay="selectedDay"
+                    @selectedDay="selectedDay(RANGE_POSITION.RIGHT)"
                     @changeCurrentDate="
                         (timestamp) =>
                             changeCurrentDate(timestamp, RANGE_POSITION.RIGHT)
@@ -172,6 +172,8 @@ export default defineComponent({
             return currentText;
         });
 
+        const { selectedStatus, selectedDay, lastSelectedPosition } =
+            useSelectStatus(props);
         const {
             isDateRange,
 
@@ -179,8 +181,13 @@ export default defineComponent({
             rightDefaultDate,
             changeCurrentDate,
             rangeDiabledDate,
-        } = useRange(props, tempCurrentValue, innerDisabledDate);
-        const { selectedStatus, selectedDay } = useSelectStatus(props);
+        } = useRange(
+            props,
+            tempCurrentValue,
+            innerDisabledDate,
+            selectedStatus,
+            lastSelectedPosition,
+        );
 
         const confirmDisabled = computed(() => {
             if (DATE_TYPE[props.type].isRange) {

@@ -21,9 +21,10 @@ export default {
             return false;
         };
         const disabledTime = (date, phase) => {
+            // phase: left | right
             return {
                 disabledHours: (hour) => {
-                    if (phase === 'start') {
+                    if (phase === 'left') {
                         return hour < 9;
                     }
                     return hour > 18;
