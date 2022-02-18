@@ -18,7 +18,8 @@
                 :placeholder="rangePlaceholder"
                 :clearable="clearable"
                 :disabled="disabled"
-                @focus="(e) => $emit('focus', e)"
+                :innerIsFocus="inputIsFocus"
+                @focus="handleFocus"
                 @blur="handleBlur"
                 @clear="clear"
                 @click="isOpened = true"
@@ -32,14 +33,15 @@
                     <DateOutlined v-else />
                 </template>
             </RangeInput>
-            <WInput
+            <InputInner
                 v-else
-                ref="inputRef"
                 v-model="dateText"
                 :placeholder="inputPlaceholder"
                 :disabled="disabled"
                 :clearable="clearable"
-                @focus="(e) => $emit('focus', e)"
+                :innerIsFocus="inputIsFocus"
+                readonly
+                @focus="handleFocus"
                 @blur="handleBlur"
                 @clear="clear"
                 @click="isOpened = true"
@@ -48,7 +50,7 @@
                     <slot v-if="$slots.suffixIcon" name="suffixIcon"></slot>
                     <DateOutlined v-else />
                 </template>
-            </WInput>
+            </InputInner>
         </template>
         <template #default>
             <calendars
@@ -64,7 +66,6 @@
                 :disabledTime="disabledTime"
                 @change="change"
                 @tmpSelectedDateChange="tmpSelectedDateChange"
-                @mousedown.prevent
             />
         </template>
     </Popper>
@@ -82,9 +83,10 @@ import {
     ComputedRef,
     provide,
 } from 'vue';
+import { isArray } from 'lodash-es';
 import RangeInput from './rangeInput.vue';
 import Calendars from './calendars.vue';
-import WInput from '../input';
+import InputInner from '../input/inputInner.vue';
 import Popper from '../popper';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import { useNormalModel } from '../_util/use/useModel';
@@ -97,7 +99,6 @@ import { DATE_TYPE, COMMON_PROPS, RANGE_PROPS } from './const';
 
 import type { GetContainer } from '../_util/interface';
 import { useLocale } from '../config-provider/useLocale';
-import { isArray } from 'lodash-es';
 import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
 import { noop } from '../_util/utils';
 
@@ -126,7 +127,6 @@ const datePickerProps = {
     getContainer: {
         type: Function as PropType<GetContainer>,
     },
-    format: String,
     popperClass: String,
     control: Boolean,
     shortcuts: Object,
@@ -252,7 +252,7 @@ export default defineComponent({
     name: 'FDatePicker',
     components: {
         Calendars,
-        WInput,
+        InputInner,
         Popper,
         DateOutlined,
         RangeInput,
@@ -321,13 +321,31 @@ export default defineComponent({
             updatePopperOpen(false);
         };
 
-        const handleBlur = (e: Event) => {
-            updatePopperOpen(false);
-            emit('blur', e);
-            validate('blur');
-            // 重置输入框内容
-            resetDateText();
+        const inputIsFocus = ref(false);
+        const handleFocus = (e: Event) => {
+            inputIsFocus.value = true;
+            emit('focus', e);
         };
+        let cacheEvent: Event = null;
+        const checkBlur = () => {
+            if (!isOpened.value && cacheEvent) {
+                updatePopperOpen(false);
+                emit('blur', cacheEvent);
+                validate('blur');
+                // 重置输入框内容
+                resetDateText();
+                cacheEvent = null;
+                inputIsFocus.value = false;
+            }
+        };
+        const handleBlur = (e: Event) => {
+            cacheEvent = e;
+            checkBlur();
+        };
+        watch(isOpened, () => {
+            checkBlur();
+        });
+
         return {
             prefixCls,
             isOpened,
@@ -339,6 +357,8 @@ export default defineComponent({
 
             clear,
             change,
+            inputIsFocus,
+            handleFocus,
             handleBlur,
 
             tmpSelectedDateChange,

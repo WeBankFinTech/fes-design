@@ -1,7 +1,7 @@
 <template>
     <FScrollbar ref="scrollbarRef" :height="visibleHeight" noresize>
         <ul
-            ref="root"
+            ref="rootRefEl"
             :class="`${prefixCls}-content-item`"
             :style="style"
             @mousedown.prevent
@@ -70,7 +70,7 @@ export default defineComponent({
     props: pickerItemProps,
     emits: ['change'],
     setup(props, { emit }) {
-        const root = ref<HTMLElement>();
+        const rootRefEl = ref<HTMLElement>();
         const itemHeight = 24;
         const scrollbarRef = ref();
         const selectedIndex = computed(() => {
@@ -83,7 +83,7 @@ export default defineComponent({
         });
         const scrollToSelected = (duration: number) => {
             // move to selected ite
-            const rootDom = root.value;
+            const rootDom = rootRefEl.value;
             if (!rootDom) {
                 return;
             }
@@ -105,7 +105,7 @@ export default defineComponent({
             () => {
                 if (props.visible) {
                     nextTick(() => {
-                        scrollbarRef.value.update();
+                        // scrollbarRef.value.update();
                         scrollToSelected(0);
                     });
                 }
@@ -118,7 +118,7 @@ export default defineComponent({
 
         const scrollToView = (duration: number) => {
             const index = props.focus;
-            const rootDom = root.value;
+            const rootDom = rootRefEl.value;
             if (!rootDom || index < 0) {
                 return;
             }
@@ -169,7 +169,7 @@ export default defineComponent({
             style,
             scrollbarRef,
             prefixCls,
-            root,
+            rootRefEl,
             selectedIndex,
             selectedTime,
         };

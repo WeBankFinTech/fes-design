@@ -1,21 +1,57 @@
 import { computed, watch, ref, Ref } from 'vue';
 
 import { contrastDate } from './helper';
-import { DATE_TYPE, RANGE_POSITION } from './const';
+import { DATE_TYPE, SELECTED_STATUS, RANGE_POSITION } from './const';
 
 import type { CalendarsProps } from './calendars.vue';
+
+export const useSelectStatus = (props: CalendarsProps) => {
+    const selectedStatus = ref<SELECTED_STATUS>(0);
+
+    watch(
+        () => props.modelValue,
+        () => {
+            if (Array.isArray(props.modelValue)) {
+                selectedStatus.value = props.modelValue.length
+                    ? SELECTED_STATUS.TWO
+                    : SELECTED_STATUS.EMPTY;
+            }
+        },
+        {
+            immediate: true,
+        },
+    );
+
+    const selectedDay = () => {
+        switch (selectedStatus.value) {
+            case SELECTED_STATUS.EMPTY:
+                selectedStatus.value = SELECTED_STATUS.ONE;
+                break;
+            case SELECTED_STATUS.ONE:
+                selectedStatus.value = SELECTED_STATUS.TWO;
+                break;
+            case SELECTED_STATUS.TWO:
+                selectedStatus.value = SELECTED_STATUS.ONE;
+                break;
+            default:
+                selectedStatus.value = SELECTED_STATUS.EMPTY;
+                break;
+        }
+    };
+
+    return {
+        selectedStatus,
+        selectedDay,
+    };
+};
 
 export const useRange = (
     props: CalendarsProps,
     tempCurrentValue: Ref<number[]>,
     innerDisabledDate: (date: Date, format: string) => boolean | undefined,
 ) => {
-    const isDateTimeRange = computed(
-        () => props.type === DATE_TYPE.datetimerange.name,
-    );
-    const isDateRange = computed(() => props.type === DATE_TYPE.daterange.name);
+    const isDateRange = computed(() => DATE_TYPE[props.type].isRange);
 
-    const activeRangePosition = ref(RANGE_POSITION.LEFT);
     const startDate = tempCurrentValue.value[0]
         ? new Date(tempCurrentValue.value[0])
         : new Date();
@@ -34,25 +70,25 @@ export const useRange = (
         },
     );
 
-    const changeCurrentDate = (timestamp: number) => {
-        const tempDate = new Date(timestamp);
-        if (activeRangePosition.value === RANGE_POSITION.LEFT) {
-            rightDefaultDate.value = tempDate.setMonth(
-                tempDate.getMonth() + 1,
-                1,
-            );
-        } else {
-            leftDefaultDate.value = tempDate.setMonth(
-                tempDate.getMonth() - 1,
-                1,
-            );
-        }
-    };
-
-    const updateRangePosition = (val: RANGE_POSITION) => {
-        activeRangePosition.value = val;
-        if (isDateTimeRange.value && val === RANGE_POSITION.RIGHT) {
-            rightDefaultDate.value = leftDefaultDate.value;
+    const changeCurrentDate = (timestamp: number, position: RANGE_POSITION) => {
+        if (position === RANGE_POSITION.LEFT) {
+            leftDefaultDate.value = timestamp;
+            if (timestamp > rightDefaultDate.value) {
+                const tempDate = new Date(timestamp);
+                rightDefaultDate.value = tempDate.setMonth(
+                    tempDate.getMonth() + 1,
+                    1,
+                );
+            }
+        } else if (position === RANGE_POSITION.RIGHT) {
+            rightDefaultDate.value = timestamp;
+            if (timestamp < leftDefaultDate.value) {
+                const tempDate = new Date(timestamp);
+                leftDefaultDate.value = tempDate.setMonth(
+                    tempDate.getMonth() - 1,
+                    1,
+                );
+            }
         }
     };
 
@@ -116,31 +152,6 @@ export const useRange = (
 
     const rangeDiabledDate = (date: Date, format: string) => {
         if (DATE_TYPE[props.type].isRange) {
-            if (
-                activeRangePosition.value === RANGE_POSITION.RIGHT &&
-                tempCurrentValue.value[0] &&
-                contrastDate(
-                    date,
-                    new Date(tempCurrentValue.value[0]),
-                    format,
-                ) === -1
-            ) {
-                return true;
-            }
-
-            if (
-                activeRangePosition.value === RANGE_POSITION.LEFT &&
-                tempCurrentValue.value[1] &&
-                !tempCurrentValue.value[0] &&
-                contrastDate(
-                    date,
-                    new Date(tempCurrentValue.value[1]),
-                    format,
-                ) === 1
-            ) {
-                return true;
-            }
-
             if (maxRangeDisabled(date, format)) {
                 return true;
             }
@@ -150,14 +161,11 @@ export const useRange = (
 
     return {
         isDateRange,
-        isDateTimeRange,
 
         leftDefaultDate,
         rightDefaultDate,
         changeCurrentDate,
 
-        activeRangePosition,
-        updateRangePosition,
         rangeDiabledDate,
     };
 };

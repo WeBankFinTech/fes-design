@@ -1,13 +1,15 @@
 <template>
     <Space>
+        文本输入
         <FInput type="textarea" placeholder="请输入"></FInput>
+        <span>最小2行/最大5行</span>
         <FInput
             v-model="autoSizeValue"
             type="textarea"
-            style="margin-top: 20px"
             :autosize="{ minRows: 2, maxRows: 5 }"
             placeholder="请输入"
         ></FInput>
+        禁用
         <FInput
             style="margin-top: 20px"
             type="textarea"

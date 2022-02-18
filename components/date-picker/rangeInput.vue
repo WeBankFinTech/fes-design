@@ -1,6 +1,10 @@
 <template>
     <span
-        :class="[prefixCls, disabled && 'is-disabled']"
+        :class="[
+            prefixCls,
+            disabled && 'is-disabled',
+            innerIsFocus && 'is-foused',
+        ]"
         tabindex="0"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
@@ -47,6 +51,7 @@ type RangeInputProps = {
     clearable?: boolean;
     disabled?: boolean;
     placeholder?: string | string[];
+    innerIsFocus?: boolean;
 };
 
 type RangeInputEmits = {

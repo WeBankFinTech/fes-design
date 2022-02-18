@@ -11,7 +11,7 @@
         :offset="4"
     >
         <template #trigger>
-            <FInput
+            <InputInner
                 v-if="!isRange"
                 :class="classes"
                 :modelValue="tempValue || displayValue"
@@ -24,10 +24,10 @@
                 @focus="(event) => $emit('focus', event)"
                 @blur="handleBlur"
             >
-                <template #suffix>
+                <template v-if="showSuffix" #suffix>
                     <ClockCircleOutlined />
                 </template>
-            </FInput>
+            </InputInner>
         </template>
         <template #default>
             <div :class="`${prefixCls}-dropdown`" @mousedown.prevent>
@@ -78,6 +78,7 @@ import {
     computed,
     PropType,
     ExtractPropTypes,
+    CSSProperties,
     provide,
 } from 'vue';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
@@ -86,7 +87,7 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { useTheme } from '../_theme/useTheme';
 import TimeSelect from './time-select.vue';
-import FInput from '../input/input.vue';
+import InputInner from '../input/inputInner.vue';
 import { ClockCircleOutlined } from '../icon';
 import Popper from '../popper';
 import FButton from '../button';
@@ -205,6 +206,13 @@ const timePickerProps = {
         type: Boolean,
         default: true,
     },
+    showSuffix: {
+        type: Boolean,
+        default: true,
+    },
+    inputClass: {
+        type: [String, Object, Array] as PropType<CSSProperties>,
+    },
 } as const;
 
 type TimePickerProps = Partial<ExtractPropTypes<typeof timePickerProps>>;
@@ -226,7 +234,7 @@ export default defineComponent({
     name: 'FTimePicker',
     components: {
         TimeSelect,
-        FInput,
+        InputInner,
         Popper,
         ClockCircleOutlined,
         FButton,
@@ -241,7 +249,11 @@ export default defineComponent({
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
         const { isOpened, closePopper } = useOpen(props, emit);
         const classes = computed(() =>
-            [prefixCls, props.disabled && 'is-disabled'].filter(Boolean),
+            [
+                prefixCls,
+                props.disabled && 'is-disabled',
+                props.inputClass,
+            ].filter(Boolean),
         );
 
         const showControl = computed(() => props.control || slots.addon);
@@ -260,8 +272,8 @@ export default defineComponent({
         );
 
         const setCurrentValue = (val: string) => {
-            updateCurrentValue(val);
             if (val !== currentValue.value) {
+                updateCurrentValue(val);
                 emit('change', val);
                 validate('change');
             }

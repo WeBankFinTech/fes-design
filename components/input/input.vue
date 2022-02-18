@@ -5,75 +5,31 @@
             <div v-if="$slots.prepend" :class="`${prefixCls}-prepend`">
                 <slot name="prepend"></slot>
             </div>
-            <span
-                ref="wrapperElRef"
-                :class="[
-                    `${prefixCls}-inner`,
-                    focused && `${prefixCls}-inner-focus`,
-                    disabled && `${prefixCls}-inner-disabled`,
-                ]"
-                :tabindex="!disabled ? 0 : undefined"
-                @mousedown="handleMousedown"
+            <InputInner
+                ref="inputRef"
+                :modelValue="currentValue"
+                :type="type"
+                :placeholder="placeholder"
+                :readonly="readonly"
+                :disabled="disabled"
+                :clearable="clearable"
+                :maxlength="maxlength"
+                :showPassword="showPassword"
+                :inputStyle="inputStyle"
+                :autocomplete="autocomplete"
+                @input="handleInput"
+                @change="handleChange"
+                @focus="handleFocus"
+                @blur="handleBlur"
+                @keydown="handleKeydown"
             >
-                <!-- 前置内容 -->
-                <span v-if="$slots.prefix" :class="`${prefixCls}-prefix`">
+                <template v-if="$slots.prefix" #prefix>
                     <slot name="prefix"></slot>
-                </span>
-                <input
-                    ref="inputRef"
-                    :tabindex="!disabled ? -1 : undefined"
-                    :value="currentValue"
-                    :maxlength="maxlength"
-                    :type="
-                        showPassword
-                            ? passwordVisible
-                                ? 'text'
-                                : 'password'
-                            : type
-                    "
-                    :readonly="readonly"
-                    :disabled="disabled"
-                    :placeholder="placeholder"
-                    :autocomplete="autocomplete"
-                    :style="inputStyle"
-                    :class="`${prefixCls}-inner-el`"
-                    @compositionstart="handleCompositionStart"
-                    @compositionend="handleCompositionEnd"
-                    @input="handleInput"
-                    @change="handleChange"
-                    @keydown.enter="handleChange"
-                    @focus="handleFocus"
-                    @blur="handleBlur"
-                    @keydown="handleKeydown"
-                />
-                <!-- 后置内容 -->
-                <span
-                    v-if="suffixVisible"
-                    :class="`${prefixCls}-suffix`"
-                    @mousedown.prevent
-                >
-                    <template v-if="!showClear && !showPwdSwitchIcon">
-                        <slot name="suffix"></slot>
-                    </template>
-                    <CloseCircleFilled
-                        v-if="showClear"
-                        :class="`${prefixCls}-icon`"
-                        @click.stop="clear"
-                    />
-                    <template v-if="showPwdSwitchIcon">
-                        <EyeOutlined
-                            v-if="passwordVisible"
-                            :class="`${prefixCls}-icon`"
-                            @click.stop="handlePasswordVisible"
-                        />
-                        <EyeInvisibleOutlined
-                            v-else
-                            :class="`${prefixCls}-icon`"
-                            @click.stop="handlePasswordVisible"
-                        />
-                    </template>
-                </span>
-            </span>
+                </template>
+                <template v-if="$slots.suffix" #suffix>
+                    <slot name="suffix"></slot>
+                </template>
+            </InputInner>
 
             <div v-if="$slots.append" :class="`${prefixCls}-append`">
                 <slot name="append"></slot>
@@ -95,7 +51,7 @@
             @compositionstart="handleCompositionStart"
             @compositionend="handleCompositionEnd"
             @input="handleInput"
-            @change="handleChange"
+            @change="handleTextareaChange"
             @focus="handleFocus"
             @blur="handleBlur"
             @keydown="handleKeydown"
@@ -113,7 +69,6 @@
 <script lang="ts">
 import {
     computed,
-    toRefs,
     ref,
     shallowRef,
     watch,
@@ -121,22 +76,21 @@ import {
     onMounted,
     defineComponent,
     PropType,
+    ExtractPropTypes,
+    Ref,
 } from 'vue';
 
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
-import { EyeOutlined, EyeInvisibleOutlined, CloseCircleFilled } from '../icon';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel } from '../_util/use/useModel';
 import calcTextareaHeight from './calcTextareaHeight';
-import {
-    usePassword,
-    useClear,
-    useFocus,
-    useMouse,
-    useWordLimit,
-} from './useInput';
+import InputInner from './inputInner.vue';
+import { commonInputProps } from './props';
+import { useFocus, useInput, useMouse } from './useInput';
+
+import type { InputValue } from './interface';
 
 const prefixCls = getPrefixCls('input');
 const textareaPrefixCls = getPrefixCls('textarea');
@@ -147,31 +101,7 @@ export interface Autosize {
 }
 
 const inputProps = {
-    modelValue: {
-        type: [Number, String] as PropType<number | string>,
-    },
-    type: {
-        type: String,
-        default: 'text',
-    },
-    placeholder: {
-        type: String,
-    },
-    readonly: {
-        type: Boolean,
-        default: false,
-    },
-    disabled: {
-        type: Boolean,
-        default: false,
-    },
-    clearable: {
-        type: Boolean,
-        default: false,
-    },
-    maxlength: {
-        type: Number,
-    },
+    ...commonInputProps,
     rows: {
         type: Number,
         default: 2,
@@ -180,33 +110,34 @@ const inputProps = {
         type: Boolean,
         default: false,
     },
-    showPassword: {
-        type: Boolean,
-        default: false,
-    },
-    inputStyle: {
-        type: Object,
-        default: () => ({}),
-    },
     autosize: {
         type: [Boolean, Object] as PropType<boolean | Autosize>,
         default: false,
-    },
-    autocomplete: {
-        type: String,
-        default: 'off',
     },
     resize: String as PropType<
         'none' | 'both' | 'horizontal' | 'vertical' | 'block' | 'inline'
     >,
 } as const;
 
+type InputProps = Partial<ExtractPropTypes<typeof inputProps>>;
+
+export function useWordLimit(currentValue: Ref<InputValue>, props: InputProps) {
+    const isWordLimitVisible = computed(
+        () => props.showWordLimit && props.maxlength && !props.disabled,
+    );
+    const textLength = computed(
+        () => currentValue.value?.toString().length || 0,
+    );
+    return {
+        isWordLimitVisible,
+        textLength,
+    };
+}
+
 export default defineComponent({
     name: 'FInput',
     components: {
-        EyeOutlined,
-        EyeInvisibleOutlined,
-        CloseCircleFilled,
+        InputInner,
     },
     props: inputProps,
     emits: [
@@ -223,26 +154,20 @@ export default defineComponent({
     setup(props, { slots, emit }) {
         useTheme();
         const { validate, isError } = useFormAdaptor();
-        const wrapperElRef = ref<HTMLElement>();
         const inputRef = ref();
         const textareaRef = ref();
 
-        const {
-            showPassword,
-            clearable,
-            disabled,
-            readonly,
-            showWordLimit,
-            maxlength,
-        } = toRefs(props);
-        const { focused, handleFocus, handleBlur } = useFocus(emit, validate);
-        const { hovering, onMouseLeave, onMouseEnter } = useMouse(emit);
+        const { handleFocus, handleBlur } = useFocus(emit, validate);
+        const { onMouseLeave, onMouseEnter } = useMouse(emit);
 
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
-        const handleChange = (event: Event) => {
-            const { value } = event.target as HTMLInputElement;
+        const handleChange = (value: InputValue) => {
             emit('change', value);
+        };
+        const handleTextareaChange = (event: Event) => {
+            const { value } = event.target as HTMLInputElement;
+            handleChange(value);
         };
 
         const handleValueChange = (value: string | number) => {
@@ -252,17 +177,6 @@ export default defineComponent({
             validate('change');
         };
 
-        const { showClear, clear } = useClear(
-            currentValue,
-            clearable,
-            readonly,
-            disabled,
-            focused,
-            hovering,
-            handleValueChange,
-            emit,
-        );
-
         const classes = computed(() => [
             props.type === 'textarea' ? textareaPrefixCls : prefixCls,
             {
@@ -270,34 +184,8 @@ export default defineComponent({
                 [`${prefixCls}-group`]: slots.prepend || slots.append,
                 [`${prefixCls}-group-prepend`]: slots.prepend,
                 [`${prefixCls}-group-append`]: slots.append,
-                [`${prefixCls}-with-prefix`]: slots.prefix,
-                [`${prefixCls}-with-suffix`]:
-                    slots.suffix || props.showPassword || props.clearable,
-                [`${prefixCls}-with-password-clear`]:
-                    props.showPassword && props.clearable,
             },
         ]);
-
-        const suffixVisible = computed(
-            () => slots.suffix || props.showPassword || props.clearable,
-        );
-
-        const isComposing = ref(false);
-        const handleInput = (event: Event) => {
-            const { value } = event.target as HTMLInputElement;
-            if (!isComposing.value) {
-                handleValueChange(value);
-            }
-        };
-        const handleCompositionStart = () => {
-            isComposing.value = true;
-        };
-        const handleCompositionEnd = (event: Event) => {
-            if (isComposing.value) {
-                isComposing.value = false;
-                handleInput(event);
-            }
-        };
 
         const textareaCalcStyle = shallowRef(props.inputStyle);
         const textareaStyle = computed(() => ({
@@ -339,16 +227,6 @@ export default defineComponent({
         const handleKeydown = (e: KeyboardEvent) => {
             emit('keydown', e);
         };
-        const handleMousedown = (e: MouseEvent) => {
-            if (props.disabled) return;
-            const { tagName } = e.target as HTMLElement;
-            if (tagName !== 'INPUT' && tagName !== 'TEXTAREA') {
-                e.preventDefault();
-                if (!focused.value) {
-                    handleFocus(e);
-                }
-            }
-        };
 
         const currentInput = computed(() =>
             props.type === 'textarea' ? textareaRef.value : inputRef.value,
@@ -362,7 +240,6 @@ export default defineComponent({
         };
 
         return {
-            wrapperElRef,
             inputRef,
             textareaRef,
             prefixCls,
@@ -370,40 +247,25 @@ export default defineComponent({
             classes,
             currentValue,
 
-            suffixVisible,
+            ...useInput(handleValueChange),
 
-            focused,
             handleFocus,
             handleBlur,
 
             focus,
             blur,
 
-            handleMousedown,
-            handleCompositionStart,
-            handleCompositionEnd,
-            handleInput,
+            handleTextareaChange,
             handleChange,
             handleKeydown,
 
             onMouseLeave,
             onMouseEnter,
 
-            showClear,
-            clear,
-
             textareaStyle,
             resizeTextarea,
 
-            ...usePassword(
-                currentValue,
-                showPassword,
-                readonly,
-                disabled,
-                focused,
-            ),
-
-            ...useWordLimit(currentValue, showWordLimit, maxlength, disabled),
+            ...useWordLimit(currentValue, props),
         };
     },
 });

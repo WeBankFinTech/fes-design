@@ -1,7 +1,8 @@
 import type { Ref } from 'vue';
 import type { VModelEvent } from '../_util/interface';
 
-export type InputCurrentValue = Ref<number | string>;
+export type InputValue = number | string;
+export type InputCurrentValue = Ref<InputValue>;
 
 export type InputEmits = {
     (e: VModelEvent, value: string): void;

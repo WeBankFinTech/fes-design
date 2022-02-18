@@ -16,7 +16,9 @@
 @date-border-split: var(--f-border-width-base) var(--f-border-style-base) var(--f-border-color-split);
 
 .@{calendars-prefix-cls} {
+    display: flex;
     .text();
+
     &-daterange {
         display: flex;
         flex-direction: row;
@@ -31,13 +33,28 @@
             }
         }
     }
+
+    &-shortcuts {
+        overflow-y: auto;
+        border-left: @date-border-split;
+        > li {
+            padding: 0 16px;
+            line-height: 32px;
+            text-align: center;
+            cursor: pointer;
+            &:hover {
+                color: var(--f-primary-color);
+                background-color: var(--f-hover-color-light);
+            }
+        }
+    }
 }
 
 @calendar-prefix-cls: ~'@{cls-prefix}-calendar';
 
 .@{calendar-prefix-cls} {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     color: var(--f-text-color);
     font-size: @font-size-caption;
     background: var(--f-white);
@@ -226,15 +243,16 @@
         border-bottom: @date-border-split;
     }
 
-    &-time {
-        border-left: @date-border-split;
-        &-head {
-            height: 41px;
-            font-weight: @font-weight-semibold;
-            font-size: var(--f-font-size-base);
-            line-height: 41px;
+    &-input {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 10px 10px 4px;
+        &-date, &-time {
+            width: 107px;
+            height: 24px;
             text-align: center;
-            border-bottom: @date-border-split;
+            border-radius: var(--f-border-radius-sm);
         }
     }
 }
@@ -255,11 +273,11 @@
     border: var(--f-border-base);
     border-radius: var(--f-border-radius-base);
 
-    &:focus-within {
+    &:focus-within, &.is-foused {
         box-shadow: 0 0 0 2px var(--f-focus-shadow-color);
     }
 
-    &:hover,&:focus-within {
+    &:hover,&:focus-within, &.is-foused {
         border-color: var(--f-primary-color);
     }
 
