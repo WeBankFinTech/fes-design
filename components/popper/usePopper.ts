@@ -7,6 +7,8 @@ import {
     watch,
     reactive,
     nextTick,
+    computed,
+    Ref,
 } from 'vue';
 import { createPopper } from '@popperjs/core';
 import type { Modifier, ModifierArguments } from '@popperjs/core';
@@ -51,23 +53,39 @@ export default (props: PopperProps, emit: any) => {
         zIndex: popupManager.nextZIndex(),
     });
     const placement = ref(props.placement);
-
     const transitionVisible = ref(visible.value);
+
+    const popperContentRef: Ref<HTMLElement> = computed(() => {
+        if (popperRef.value) {
+            return popperRef.value.children[0] as HTMLElement;
+        }
+        return null;
+    });
 
     watch(visible, () => {
         if (visible.value) {
             transitionVisible.value = visible.value;
         } else {
-            const $wrapper = popperRef.value.children[0] as HTMLElement;
-            $wrapper.addEventListener(
-                'animationend',
-                () => {
-                    transitionVisible.value = visible.value;
-                },
-                {
-                    once: true,
-                },
-            );
+            if (popperContentRef.value) {
+                popperContentRef.value.addEventListener(
+                    'animationend',
+                    () => {
+                        transitionVisible.value = visible.value;
+                    },
+                    {
+                        once: true,
+                    },
+                );
+                popperContentRef.value.addEventListener(
+                    'animationcancel',
+                    () => {
+                        transitionVisible.value = visible.value;
+                    },
+                    {
+                        once: true,
+                    },
+                );
+            }
         }
     });
 
@@ -75,8 +93,10 @@ export default (props: PopperProps, emit: any) => {
 
     const updateInstance = () => {
         instance.update().then(() => {
-            const $wrapper = popperRef.value.children[0] as HTMLElement;
-            animate($wrapper, placement.value);
+            // 展开动画效果
+            if (popperContentRef.value) {
+                animate(popperContentRef.value, placement.value);
+            }
         });
     };
 
@@ -159,8 +179,10 @@ export default (props: PopperProps, emit: any) => {
     const update = () => {
         if (props.disabled) return;
         if (!visible.value) {
-            const $wrapper = popperRef.value.children[0] as HTMLElement;
-            animate($wrapper, placement.value, false);
+            // 收起动画效果
+            if (popperContentRef.value) {
+                animate(popperContentRef.value, placement.value, false);
+            }
             return;
         }
         popperStyle.zIndex = popupManager.nextZIndex();
