@@ -17,7 +17,7 @@
     position: relative;
     flex: auto;
     box-sizing: border-box;
-    transition: all @animation-duration-base;
+    transition: width @animation-duration-base;
     >.@{layout-prefix-cls}-container {
         display: flex;
         flex-wrap: nowrap;
@@ -38,6 +38,7 @@
         right: 0;
         top: 0;
         bottom: 0;
+        transition: left @animation-duration-base, right @animation-duration-base;
     }
 }
 
@@ -131,7 +132,7 @@
     flex: auto;
     color: var(--f-text-color);
     font-size: var(--f-font-size-base);
-    transition: all @animation-duration-base;
+    transition: width @animation-duration-base;
     &.is-embedded {
         background: var(--f-component-bg-color);
     }
