@@ -9,10 +9,12 @@
         :hideAfter="0"
         placement="bottom-start"
         :offset="4"
+        @update:modelValue="handlePopperVisible"
     >
         <template #trigger>
             <RangeInput
                 v-if="isRange"
+                ref="inputRangeRefEL"
                 :type="type"
                 :selectedDates="visibleValue"
                 :placeholder="rangePlaceholder"
@@ -35,6 +37,7 @@
             </RangeInput>
             <InputInner
                 v-else
+                ref="inputRefEl"
                 v-model="dateText"
                 :placeholder="inputPlaceholder"
                 :disabled="disabled"
@@ -54,6 +57,7 @@
         </template>
         <template #default>
             <calendars
+                ref="calendarsRef"
                 :visible="isOpened"
                 :modelValue="currentValue"
                 :type="type"
@@ -81,6 +85,7 @@ import {
     PropType,
     ExtractPropTypes,
     ComputedRef,
+    ComponentPublicInstance,
     provide,
 } from 'vue';
 import { isArray } from 'lodash-es';
@@ -273,8 +278,17 @@ export default defineComponent({
             prop: 'open',
         });
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
-
         const isRange = computed(() => DATE_TYPE[props.type].isRange);
+        const inputRefEl = ref<HTMLElement>();
+        const inputRangeRefEL = ref<HTMLElement>();
+        const calendarsRef = ref<ComponentPublicInstance>();
+        const activeInputRefEL = computed(() => {
+            if (isRange.value) {
+                return inputRangeRefEL.value;
+            }
+            return inputRefEl.value;
+        });
+
         const { validate, isError } = useFormAdaptor(
             computed(() => (isRange.value ? 'array' : 'number')),
         );
@@ -318,18 +332,24 @@ export default defineComponent({
         const change = (val: number | number[] | null) => {
             handleChange(val);
             updateCurrentValue(val);
+
+            // 选择完后重新聚焦
+            // TODO 如果有取消按钮，取消之后也应该重新聚焦
+            activeInputRefEL.value.focus();
             updatePopperOpen(false);
         };
 
         const inputIsFocus = ref(false);
         const handleFocus = (e: Event) => {
-            inputIsFocus.value = true;
-            emit('focus', e);
+            // 防止重复聚焦
+            if (!inputIsFocus.value) {
+                inputIsFocus.value = true;
+                emit('focus', e);
+            }
         };
         let cacheEvent: Event = null;
         const checkBlur = () => {
             if (!isOpened.value && cacheEvent) {
-                updatePopperOpen(false);
                 emit('blur', cacheEvent);
                 validate('blur');
                 // 重置输入框内容
@@ -338,13 +358,27 @@ export default defineComponent({
                 inputIsFocus.value = false;
             }
         };
-        const handleBlur = (e: Event) => {
+        const handleBlur = (e: FocusEvent) => {
             cacheEvent = e;
-            checkBlur();
+            // 非弹窗内容点击导致的失焦，进行 blur 的校验
+            if (!calendarsRef.value.$el.contains(e.relatedTarget)) {
+                isOpened.value && updatePopperOpen(false);
+                checkBlur();
+            }
         };
+
         watch(isOpened, () => {
-            checkBlur();
+            if (!isOpened.value) {
+                // 重置临时输入
+                tmpSelectedDateChange(null);
+            }
         });
+
+        const handlePopperVisible = (val: boolean) => {
+            if (val === false) {
+                checkBlur();
+            }
+        };
 
         return {
             prefixCls,
@@ -364,6 +398,12 @@ export default defineComponent({
             tmpSelectedDateChange,
             inputPlaceholder,
             rangePlaceholder,
+
+            handlePopperVisible,
+
+            inputRefEl,
+            inputRangeRefEL,
+            calendarsRef,
         };
     },
 });

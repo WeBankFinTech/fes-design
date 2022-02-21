@@ -19,7 +19,7 @@
                 @change="changeTime"
             />
         </div>
-        <div :class="`${prefixCls}-head`">
+        <div :class="`${prefixCls}-head`" @mousedown.prevent>
             <div :class="`${prefixCls}-head-left`">
                 <DoubleLeftOutlined
                     :class="`${prefixCls}-icon`"
@@ -52,7 +52,7 @@
                 />
             </div>
         </div>
-        <div :class="`${prefixCls}-body`">
+        <div :class="`${prefixCls}-body`" @mousedown.prevent>
             <div v-if="isDaySelect" :class="`${prefixCls}-days`">
                 <span
                     v-for="weekName in weekNames"

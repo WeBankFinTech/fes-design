@@ -197,30 +197,6 @@ export default defineComponent({
             return !tempCurrentValue.value[0];
         });
 
-        watch(
-            selectedDates,
-            () => {
-                if (DATE_TYPE[props.type].isRange) {
-                    tempCurrentValue.value = selectedDates.value || [];
-                } else {
-                    tempCurrentValue.value = [selectedDates.value];
-                }
-            },
-            {
-                immediate: true,
-            },
-        );
-
-        const isCompleteSelected = () => {
-            if (DATE_TYPE[props.type].isRange) {
-                return (
-                    tempCurrentValue.value.length === 2 &&
-                    tempCurrentValue.value.every((item) => item)
-                );
-            }
-            return !!tempCurrentValue.value[0];
-        };
-
         const visibleFooter = computed(
             () =>
                 props.control ||
@@ -229,12 +205,10 @@ export default defineComponent({
         );
 
         const change = () => {
-            if (isCompleteSelected()) {
-                if (DATE_TYPE[props.type].isRange) {
-                    emit('change', tempCurrentValue.value);
-                } else {
-                    emit('change', tempCurrentValue.value[0]);
-                }
+            if (DATE_TYPE[props.type].isRange) {
+                emit('change', tempCurrentValue.value);
+            } else {
+                emit('change', tempCurrentValue.value[0]);
             }
         };
 
@@ -252,11 +226,19 @@ export default defineComponent({
             }
         };
 
+        const handleTempCurrentValue = () => {
+            if (DATE_TYPE[props.type].isRange) {
+                tempCurrentValue.value = selectedDates.value || [];
+            } else {
+                tempCurrentValue.value = [selectedDates.value];
+            }
+        };
+        watch(selectedDates, handleTempCurrentValue);
         watch(
             () => props.visible,
             () => {
-                if (!props.visible && !isCompleteSelected()) {
-                    updateTempCurrentValue([]);
+                if (props.visible) {
+                    handleTempCurrentValue();
                 }
             },
         );
@@ -276,9 +258,7 @@ export default defineComponent({
         };
 
         const confirm = () => {
-            if (isCompleteSelected()) {
-                change();
-            }
+            change();
         };
 
         const handleShortcut = (val: any) => {
