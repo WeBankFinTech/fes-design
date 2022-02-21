@@ -2,9 +2,11 @@
  * item component, we need to know their size change at any time
  */
 
-import { defineComponent, ref, createVNode, h } from 'vue';
+import { defineComponent, ref, cloneVNode, onMounted } from 'vue';
 import { ItemProps } from './props';
 import useResize from '../_util/use/useResize';
+import { getFirstValidNode } from '../_util/vnode';
+import getElementFromRef from '../_util/getElementFromRef';
 
 // wrapping for item
 export const FVirtualListItem = defineComponent({
@@ -20,46 +22,26 @@ export const FVirtualListItem = defineComponent({
             (attrs as any).onItemResized(props.uniqueKey, s);
         };
 
-        useResize(itemRef, dispatchSizeChange);
+        onMounted(() => {
+            useResize(itemRef, dispatchSizeChange);
+        });
 
         return {
             itemRef,
         };
     },
     render() {
-        const {
-            tag,
-            extraProps = {},
-            index,
-            source,
-            scopedSlots = {},
-            uniqueKey,
-            slotComponent,
-        } = this;
+        const { index, source, slotComponent } = this;
 
-        const _props = {
-            ...extraProps,
-            source,
-            index,
-        };
-
-        return h(
-            tag,
+        const vNode = getFirstValidNode(slotComponent({ index, source }), 1);
+        return cloneVNode(
+            vNode,
             {
-                key: uniqueKey,
-                role: 'listItem',
                 ref: (el) => {
-                    if (el) this.itemRef = el;
+                    if (el) this.itemRef = getElementFromRef(el);
                 },
             },
-            [
-                createVNode(slotComponent, {
-                    source,
-                    index,
-                    scope: _props,
-                    slots: scopedSlots,
-                }),
-            ],
+            true,
         );
     },
 });

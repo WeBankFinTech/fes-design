@@ -250,12 +250,6 @@ export default defineComponent({
                 const {
                     dataSources,
                     dataKey,
-                    itemClass,
-                    itemTag,
-                    itemStyle,
-                    extraProps,
-                    itemScopedSlots,
-                    itemClassAdd,
                 } = props;
                 const slotComponent = slots && slots.default;
                 for (let index = start; index <= end; index++) {
@@ -270,22 +264,13 @@ export default defineComponent({
                             typeof uniqueKey === 'number'
                         ) {
                             const tempNode = createVNode(FVirtualListItem, {
+                                key: uniqueKey, 
                                 index,
-                                key: index, // Vue3采用Key变更刷新，最省事
-                                tag: itemTag,
                                 horizontal: isHorizontal,
                                 uniqueKey,
                                 source: dataSource,
-                                extraProps,
                                 slotComponent,
-                                scopedSlots: itemScopedSlots,
-                                style: itemStyle,
                                 onItemResized,
-                                class: `${itemClass}${
-                                    itemClassAdd
-                                        ? ` ${itemClassAdd(index)}`
-                                        : ''
-                                }`,
                             });
                             _slots.push(tempNode);
                         } else {

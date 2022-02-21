@@ -48,12 +48,6 @@ app.use(FVirtualList);
       <td>您期望虚拟列表在真实 dom 中保持渲染的项目数量。 </td>
     </tr>
     <tr>
-      <td><code>extraProps</code></td>
-      <td>Object</td>
-      <td>{}</td>
-      <td>分配给组件一些不在<code>dataSources</code>中的属性. 注意: <code>index</code> 和 <code>source</code> 都被内部占用了.</td>
-    </tr>
-    <tr>
       <td><code>estimateSize</code></td>
       <td>Number</td>
       <td>50</td>
@@ -136,36 +130,6 @@ app.use(FVirtualList);
       <td>Object</td>
       <td>{}</td>
       <td>列表包裹元素内联样式。</td>
-    </tr>
-    <tr>
-      <td><code>itemTag</code></td>
-      <td>String</td>
-      <td>div</td>
-      <td>项目包裹元素名称。</td>
-    </tr>
-    <tr>
-      <td><code>itemClass</code></td>
-      <td>String</td>
-      <td></td>
-      <td>项目包裹元素类名。</td>
-    </tr>
-    <tr>
-      <td><code>itemClassAdd</code></td>
-      <td>Function</td>
-      <td></td>
-      <td>一个函数，您可以将额外的类（字符串）返回给项包装器元素， 参数 <code>(index)</code>。</td>
-    </tr>
-    <tr>
-      <td><code>itemStyle</code></td>
-      <td>Object</td>
-      <td>{}</td>
-      <td>项目包裹元素内联样式。</td>
-    </tr>
-    <tr>
-      <td><code>itemScopedSlots</code></td>
-      <td>Object</td>
-      <td>{}</td>
-      <td>Item组件的 slot。</td>
     </tr>
   </table>
 

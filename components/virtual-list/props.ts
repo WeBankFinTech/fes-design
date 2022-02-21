@@ -2,7 +2,7 @@
  * props declaration for default, item and slot component
  */
 
-import { PropType, VNodeChild } from 'vue';
+import { PropType, VNode } from 'vue';
 
 export const VirtualProps = {
     dataKey: {
@@ -115,31 +115,16 @@ export const ItemProps = {
     index: {
         type: Number,
     },
-    event: {
-        type: String,
-    },
-    tag: {
-        type: String,
-    },
     horizontal: {
         type: Boolean,
     },
     source: {
         type: [Object, String, Number] as PropType<object | string | number>,
     },
-    component: {
-        type: [Object, Function] as PropType<object | (() => VNodeChild)>,
-    },
     slotComponent: {
-        type: Function as PropType<() => VNodeChild>,
+        type: Function as PropType<(param: object) => VNode>,
     },
     uniqueKey: {
         type: [String, Number] as PropType<string | number>,
-    },
-    extraProps: {
-        type: Object,
-    },
-    scopedSlots: {
-        type: Object,
     },
 } as const;
