@@ -31,7 +31,8 @@
         font-size: var(--f-font-size-base);
         line-height: @line-height-base;
         background-color: @menu-light-background-color;
-
+        width: 100%;
+        
         .@{sub-menu-prefix-cls} {
             position: relative;
             color: var(--f-sub-menu-color);
@@ -246,6 +247,7 @@
 }
 
 .@{menu-prefix-cls}.is-vertical {
+    transition: width @animation-duration-base;
     .@{sub-menu-prefix-cls} {
         &-wrapper {
             height: @menu-item-height + @line-height-base;
