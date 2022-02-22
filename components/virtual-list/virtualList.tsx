@@ -406,7 +406,6 @@ export default defineComponent({
                     wrapTag,
                     {
                         class: wrapClass,
-                        role: 'group',
                         style: wrapperStyle,
                     },
                     this.getRenderSlots(),

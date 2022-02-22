@@ -70,45 +70,6 @@ export const VirtualProps = {
     wrapStyle: {
         type: Object,
     },
-    itemTag: {
-        type: String,
-        default: 'div',
-    },
-    itemClass: {
-        type: String,
-        default: '',
-    },
-    itemClassAdd: {
-        type: Function,
-    },
-    itemStyle: {
-        type: Object,
-    },
-    headerTag: {
-        type: String,
-        default: 'div',
-    },
-    headerClass: {
-        type: String,
-        default: '',
-    },
-    headerStyle: {
-        type: Object,
-    },
-    footerTag: {
-        type: String,
-        default: 'div',
-    },
-    footerClass: {
-        type: String,
-        default: '',
-    },
-    footerStyle: {
-        type: Object,
-    },
-    itemScopedSlots: {
-        type: Object,
-    },
 } as const;
 
 export const ItemProps = {
