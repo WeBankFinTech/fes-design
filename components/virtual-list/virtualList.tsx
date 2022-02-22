@@ -243,51 +243,48 @@ export default defineComponent({
         // get the real render slots based on range data
         // in-place patch strategy will try to reuse components as possible
         // so those components that are reused will not trigger lifecycle mounted
-        const getRenderSlots = () => {
-            const _slots = [];
+        const getRenderItems = () => {
+            const itemVnodes = [];
             const { start, end } = rangeRef.value;
-            try {
-                const {
-                    dataSources,
-                    dataKey,
-                } = props;
-                const slotComponent = slots && slots.default;
-                for (let index = start; index <= end; index++) {
-                    const dataSource = dataSources[index];
-                    if (dataSource) {
-                        const uniqueKey =
-                            typeof dataKey === 'function'
-                                ? dataKey(dataSource)
-                                : (dataSource as any)[dataKey];
-                        if (
-                            typeof uniqueKey === 'string' ||
-                            typeof uniqueKey === 'number'
-                        ) {
-                            const tempNode = createVNode(FVirtualListItem, {
-                                key: uniqueKey, 
+            const { dataSources, dataKey } = props;
+            for (let index = start; index <= end; index++) {
+                const dataSource = dataSources[index];
+                if (dataSource) {
+                    const uniqueKey =
+                        typeof dataKey === 'function'
+                            ? dataKey(dataSource)
+                            : (dataSource as any)[dataKey];
+                    if (
+                        typeof uniqueKey === 'string' ||
+                        typeof uniqueKey === 'number'
+                    ) {
+                        const tempNode = createVNode(
+                            FVirtualListItem,
+                            {
+                                key: uniqueKey,
                                 index,
                                 horizontal: isHorizontal,
                                 uniqueKey,
                                 source: dataSource,
-                                slotComponent,
                                 onItemResized,
-                            });
-                            _slots.push(tempNode);
-                        } else {
-                            console.warn(
-                                `Cannot get the data-key '${dataKey}' from data-sources.`,
-                            );
-                        }
+                            },
+                            {
+                                default: slots.default,
+                            },
+                        );
+                        itemVnodes.push(tempNode);
                     } else {
                         console.warn(
-                            `Cannot get the index '${index}' from data-sources.`,
+                            `Cannot get the data-key '${dataKey}' from data-sources.`,
                         );
                     }
+                } else {
+                    console.warn(
+                        `Cannot get the index '${index}' from data-sources.`,
+                    );
                 }
-                return _slots;
-            } catch (e) {
-                console.warn(e);
             }
+            return itemVnodes;
         };
 
         watch(
@@ -345,7 +342,7 @@ export default defineComponent({
             getClientSize,
             getScrollSize,
             onScroll,
-            getRenderSlots,
+            getRenderItems,
             onItemResized,
             onSlotResized,
             fullHeight,
@@ -408,7 +405,7 @@ export default defineComponent({
                         class: wrapClass,
                         style: wrapperStyle,
                     },
-                    this.getRenderSlots(),
+                    this.getRenderItems(),
                 ),
             ],
         );

@@ -2,7 +2,7 @@
  * props declaration for default, item and slot component
  */
 
-import { PropType, VNode } from 'vue';
+import { PropType } from 'vue';
 
 export const VirtualProps = {
     dataKey: {
@@ -81,9 +81,6 @@ export const ItemProps = {
     },
     source: {
         type: [Object, String, Number] as PropType<object | string | number>,
-    },
-    slotComponent: {
-        type: Function as PropType<(param: object) => VNode>,
     },
     uniqueKey: {
         type: [String, Number] as PropType<string | number>,
