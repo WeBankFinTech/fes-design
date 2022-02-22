@@ -2,7 +2,7 @@
  * item component, we need to know their size change at any time
  */
 
-import { defineComponent, ref, cloneVNode, onMounted } from 'vue';
+import { defineComponent, ref, cloneVNode } from 'vue';
 import { ItemProps } from './props';
 import useResize from '../_util/use/useResize';
 import { getFirstValidNode } from '../_util/vnode';
@@ -14,26 +14,24 @@ export const FVirtualListItem = defineComponent({
     props: ItemProps,
     setup(props, { attrs }) {
         const itemRef = ref();
-        const shapeKey = props.horizontal ? 'offsetWidth' : 'offsetHeight';
 
         // tell parent current size identify by unqiue key
         const dispatchSizeChange = () => {
+            const shapeKey = props.horizontal ? 'offsetWidth' : 'offsetHeight';
             const s = itemRef.value ? itemRef.value[shapeKey] : 0;
             (attrs as any).onItemResized(props.uniqueKey, s);
         };
 
-        onMounted(() => {
-            useResize(itemRef, dispatchSizeChange);
-        });
+        useResize(itemRef, dispatchSizeChange);
 
         return {
             itemRef,
         };
     },
     render() {
-        const { index, source, slotComponent } = this;
+        const { index, source, $slots } = this;
 
-        const vNode = getFirstValidNode(slotComponent({ index, source }), 1);
+        const vNode = getFirstValidNode($slots.default({ index, source }), 1);
         return cloneVNode(
             vNode,
             {
