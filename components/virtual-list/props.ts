@@ -2,7 +2,7 @@
  * props declaration for default, item and slot component
  */
 
-import { PropType, VNodeChild } from 'vue';
+import { PropType, VNode } from 'vue';
 
 export const VirtualProps = {
     dataKey: {
@@ -70,56 +70,11 @@ export const VirtualProps = {
     wrapStyle: {
         type: Object,
     },
-    itemTag: {
-        type: String,
-        default: 'div',
-    },
-    itemClass: {
-        type: String,
-        default: '',
-    },
-    itemClassAdd: {
-        type: Function,
-    },
-    itemStyle: {
-        type: Object,
-    },
-    headerTag: {
-        type: String,
-        default: 'div',
-    },
-    headerClass: {
-        type: String,
-        default: '',
-    },
-    headerStyle: {
-        type: Object,
-    },
-    footerTag: {
-        type: String,
-        default: 'div',
-    },
-    footerClass: {
-        type: String,
-        default: '',
-    },
-    footerStyle: {
-        type: Object,
-    },
-    itemScopedSlots: {
-        type: Object,
-    },
 } as const;
 
 export const ItemProps = {
     index: {
         type: Number,
-    },
-    event: {
-        type: String,
-    },
-    tag: {
-        type: String,
     },
     horizontal: {
         type: Boolean,
@@ -127,19 +82,10 @@ export const ItemProps = {
     source: {
         type: [Object, String, Number] as PropType<object | string | number>,
     },
-    component: {
-        type: [Object, Function] as PropType<object | (() => VNodeChild)>,
-    },
     slotComponent: {
-        type: Function as PropType<() => VNodeChild>,
+        type: Function as PropType<(param: object) => VNode>,
     },
     uniqueKey: {
         type: [String, Number] as PropType<string | number>,
-    },
-    extraProps: {
-        type: Object,
-    },
-    scopedSlots: {
-        type: Object,
     },
 } as const;
