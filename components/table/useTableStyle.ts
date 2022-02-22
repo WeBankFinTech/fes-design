@@ -106,27 +106,27 @@ export default ({
         row: RowType;
         rowIndex: number;
     }) => {
-        let defaultClass = '';
+        let defaultClass = [`${prefixCls}-row`];
         const rowClassName = props.rowClassName;
         if (expandColumn.value) {
-            defaultClass = isExpandOpened({ row }) ? 'is-opened' : '';
+            defaultClass.push(isExpandOpened({ row }) && ' is-opened');
         }
         if (isString(rowClassName)) {
-            return `${rowClassName} ${defaultClass}`;
-        }
-        if (isFunction(rowClassName)) {
+            defaultClass = defaultClass.concat(rowClassName.split(' '));
+        } else if (isFunction(rowClassName)) {
             const res = rowClassName({ row, rowIndex });
             if (isString(res)) {
-                return `${res} ${defaultClass}`;
+                defaultClass = defaultClass.concat(res.split(' '));
             }
             if (isArray(res)) {
-                return [...res, defaultClass];
+                defaultClass = [...res, ...defaultClass];
             }
             if (isPlainObject(res)) {
-                return {
-                    ...res,
-                    [defaultClass]: true,
-                };
+                Object.keys(res).forEach((key) => {
+                    if (res[key as keyof typeof res]) {
+                        defaultClass.push(key);
+                    }
+                });
             }
         }
         return defaultClass;

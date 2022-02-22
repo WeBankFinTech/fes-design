@@ -82,10 +82,10 @@ export default defineComponent({
                     </Fragment>
                 ))
             ) : (
-                <tr>
+                <tr class={`${prefixCls}-row`}>
                     <td
                         colspan={props.columns.length}
-                        class={`${prefixCls}-cell ${prefixCls}-no-data`}
+                        class={`${prefixCls}-td ${prefixCls}-cell ${prefixCls}-no-data`}
                     >
                         {props.emptyText}
                     </td>
