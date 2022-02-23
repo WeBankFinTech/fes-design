@@ -103,6 +103,7 @@ app.use(FTable);
 | rowKey       | 行数据的 Key，用来优化 Table 的渲染                                           | function(row) / String                           | -      | -          |
 | showHeader   | 是否展示表头                                                                  | boolean                                          | -      | `true`     |
 | spanMethod   | 合并行或列的计算方法                                                          | function({ row, column, rowIndex, columnIndex }) | -      | -          |
+| virtualScroll   | 是否启动虚拟滚动，当启用时不支持展开行                                                     | boolean | -      |      false     |
 
 ## FTable Slots
 
