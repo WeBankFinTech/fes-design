@@ -1,5 +1,5 @@
 <template>
-    <f-table :height="250" :data="data">
+    <f-table :height="250" rowKey="date" virtualScroll :data="data">
         <f-table-column prop="date" label="日期"></f-table-column>
         <f-table-column prop="name" label="姓名"></f-table-column>
         <f-table-column prop="address" label="地址"></f-table-column>
@@ -22,7 +22,7 @@ const createData = (n) => {
 
 export default {
     setup() {
-        const data = reactive(createData(10));
+        const data = reactive(createData(1000));
         return {
             data,
         };

@@ -1,5 +1,4 @@
 import { h, defineComponent, nextTick, watch, PropType, ExtractPropTypes, SetupContext } from 'vue';
-import { isUndefined } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
 import useScrollbar from '../scrollbar/useScrollbar';
 import FBar from '../scrollbar/bar.vue';
@@ -41,6 +40,10 @@ const tableProps = {
         rowIndex: number
     }) => object))>,
     height: Number,
+    virtualScroll: {
+        type: Boolean,
+        default: false
+    }
 } as const;
 
 export type TableProps = Partial<ExtractPropTypes<typeof tableProps>>;
@@ -71,7 +74,6 @@ export default defineComponent({
             clearSelect,
             wrapperRef,
             wrapperClass,
-            columns,
             headerWrapperRef,
             bodyWrapperRef,
             layout,
@@ -122,10 +124,6 @@ export default defineComponent({
                 </div>
                 <Table
                     onRef={handleTableRef}
-                    showHeader={props.showHeader}
-                    columns={columns.value}
-                    composed={!isUndefined(props.height)}
-                    emptyText={props.emptyText}
                     onScroll={(e: Event) => {
                         syncPosition();
                         onScroll();

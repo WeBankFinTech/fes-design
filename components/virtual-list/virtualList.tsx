@@ -244,7 +244,7 @@ export default defineComponent({
         // in-place patch strategy will try to reuse components as possible
         // so those components that are reused will not trigger lifecycle mounted
         const getRenderItems = () => {
-            const itemVnodes = [];
+            const itemVNodes = [];
             const { start, end } = rangeRef.value;
             const { dataSources, dataKey } = props;
             for (let index = start; index <= end; index++) {
@@ -272,7 +272,7 @@ export default defineComponent({
                                 default: slots.default,
                             },
                         );
-                        itemVnodes.push(tempNode);
+                        itemVNodes.push(tempNode);
                     } else {
                         console.warn(
                             `Cannot get the data-key '${dataKey}' from data-sources.`,
@@ -284,7 +284,7 @@ export default defineComponent({
                     );
                 }
             }
-            return itemVnodes;
+            return itemVNodes;
         };
 
         watch(
@@ -363,6 +363,7 @@ export default defineComponent({
             wrapStyle,
             onScroll,
             fullHeight,
+            renderItemList,
         } = this;
 
         // wrap style
@@ -405,7 +406,9 @@ export default defineComponent({
                         class: wrapClass,
                         style: wrapperStyle,
                     },
-                    this.getRenderItems(),
+                    renderItemList
+                        ? renderItemList(this.getRenderItems())
+                        : this.getRenderItems(),
                 ),
             ],
         );

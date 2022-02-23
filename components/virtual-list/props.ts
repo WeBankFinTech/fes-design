@@ -2,20 +2,17 @@
  * props declaration for default, item and slot component
  */
 
-import { PropType } from 'vue';
+import { PropType, VNode } from 'vue';
 
 export const VirtualProps = {
     dataKey: {
         type: [String, Function] as PropType<
-            | string
-            | ((
-                  dataSource: object | number | string,
-              ) => number | string | object)
+            string | ((dataSource: Record<string, any>) => string | number)
         >,
         required: true,
     },
     dataSources: {
-        type: Array as PropType<(number | string | object)[]>,
+        type: Array as PropType<Record<string, any>[]>,
         required: true,
     },
 
@@ -69,6 +66,9 @@ export const VirtualProps = {
     },
     wrapStyle: {
         type: Object,
+    },
+    renderItemList: {
+        type: Function as PropType<(itemVNodes: VNode[]) => VNode[]>,
     },
 } as const;
 

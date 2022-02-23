@@ -1,31 +1,13 @@
-import { h, defineComponent, inject, Fragment, PropType } from 'vue';
+import { h, defineComponent, inject, Fragment, computed } from 'vue';
+import { isUndefined } from 'lodash-es';
 import Mousewheel from '../../_util/directives/mousewheel';
 import { provideKey } from '../const';
 import Table from './table';
-
-import type { ColumnInst } from '../column.vue';
+import VirtualTable from './virtualTable';
 
 export default defineComponent({
-    components: {
-        Table,
-    },
     directives: {
         mousewheel: Mousewheel,
-    },
-    props: {
-        showHeader: {
-            type: Boolean,
-        },
-        columns: {
-            type: Array as PropType<ColumnInst[]>,
-            required: true,
-        },
-        composed: {
-            type: Boolean,
-        },
-        emptyText: {
-            type: String,
-        },
     },
     emits: ['ref', 'scroll', 'mousewheelHeader'],
     setup(props, { emit }) {
@@ -37,10 +19,27 @@ export default defineComponent({
             bodyWrapperClass,
             bodyWrapperStyle,
             bodyStyle,
+            columns,
+            rootProps,
         } = inject(provideKey);
+
+        // 计算出传入columns列的对应的宽度
+        const columnsRef = computed(() => {
+            const widthListValue = layout.widthList.value;
+            return columns.value.map((column) => ({
+                ...column,
+                width: (widthListValue as any)[column.id],
+            }));
+        });
+
+        // 是否两个table
+        const composed = computed(() => {
+            return !isUndefined(rootProps.height);
+        });
+
         return () => (
             <>
-                {props.composed && props.showHeader && (
+                {composed.value && rootProps.showHeader && (
                     <div
                         ref={(ele) => {
                             emit('ref', { header: ele });
@@ -53,34 +52,39 @@ export default defineComponent({
                         <Table
                             class={`${prefixCls}-header`}
                             style={headerStyle.value}
-                            columns={props.columns}
+                            columns={columnsRef.value}
                             hasHeader={true}
                             hasBody={false}
-                            emptyText={props.emptyText}
                         />
                     </div>
                 )}
-                <div
-                    ref={(ele) => {
-                        emit('ref', { body: ele });
-                    }}
-                    class={bodyWrapperClass.value}
-                    style={bodyWrapperStyle.value}
-                    onScroll={(e) => {
-                        if (layout.isScrollX.value || layout.isScrollY.value) {
-                            emit('scroll', e);
-                        }
-                    }}
-                >
-                    <Table
-                        class={`${prefixCls}-body`}
-                        style={bodyStyle.value}
-                        columns={props.columns}
-                        hasHeader={!props.composed && props.showHeader}
-                        hasBody={true}
-                        emptyText={props.emptyText}
-                    />
-                </div>
+                {rootProps.virtualScroll ? (
+                    <VirtualTable columns={columnsRef.value}/>
+                ) : (
+                    <div
+                        ref={(ele) => {
+                            emit('ref', { body: ele });
+                        }}
+                        class={bodyWrapperClass.value}
+                        style={bodyWrapperStyle.value}
+                        onScroll={(e) => {
+                            if (
+                                layout.isScrollX.value ||
+                                layout.isScrollY.value
+                            ) {
+                                emit('scroll', e);
+                            }
+                        }}
+                    >
+                        <Table
+                            class={`${prefixCls}-body`}
+                            style={bodyStyle.value}
+                            columns={columnsRef.value}
+                            hasHeader={!composed.value && rootProps.showHeader}
+                            hasBody={true}
+                        />
+                    </div>
+                )}
             </>
         );
     },

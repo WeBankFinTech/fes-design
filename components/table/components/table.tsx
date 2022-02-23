@@ -1,17 +1,12 @@
-import { h, computed, defineComponent, inject, PropType } from 'vue';
+import { h, defineComponent, inject, PropType } from 'vue';
 import { provideKey } from '../const';
 import Colgroup from './colgroup';
 import Header from './header';
-import Body from './body';
+import Tr from './tr';
 
 import type { ColumnInst } from '../column.vue';
 
 export default defineComponent({
-    components: {
-        Colgroup,
-        Header,
-        Body,
-    },
     props: {
         hasHeader: {
             type: Boolean,
@@ -25,27 +20,30 @@ export default defineComponent({
             type: Array as PropType<ColumnInst[]>,
             required: true,
         },
-        emptyText: {
-            type: String,
-        },
     },
     setup(props) {
-        const { layout } = inject(provideKey);
-        // 计算出传入columns列的对应的宽度
-        const _columns = computed(() => {
-            const widthListValue = layout.widthList.value;
-            return props.columns.map((column) => ({
-                ...column,
-                width: (widthListValue as any)[column.id],
-            }));
-        });
+        const { showData, getRowKey } = inject(provideKey);
+        
+        const renderBodyTrList = () =>
+            showData.value.length ? (
+                showData.value.map((row: object, rowIndex: number) => (
+                    <Tr
+                        row={row}
+                        rowIndex={rowIndex}
+                        columns={props.columns}
+                        key={(getRowKey({ row }) || rowIndex) as any}
+                    />
+                ))
+            ) : (
+                <Tr columns={props.columns} />
+            );
 
         return () => (
             <table cellspacing="0" cellpadding="0">
-                <Colgroup columns={_columns.value} />
+                <Colgroup columns={props.columns} />
                 {props.hasHeader && <Header />}
                 {props.hasBody && (
-                    <Body emptyText={props.emptyText} columns={props.columns} />
+                    <tbody>{renderBodyTrList()}</tbody>
                 )}
             </table>
         );
