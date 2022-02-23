@@ -30,6 +30,7 @@ export default ({
     const wrapperRef = ref<HTMLElement>(null);
     const headerWrapperRef = ref(null);
     const bodyWrapperRef = ref(null);
+    const scrollbarRef = ref(null);
 
     const wrapperClass = computed(() =>
         [
@@ -258,8 +259,8 @@ export default ({
     };
 
     // 同步两个table的位移
-    const syncPosition = throttle(() => {
-        const $bodyWrapper = bodyWrapperRef.value;
+    const syncPosition = throttle((e: Event) => {
+        const $bodyWrapper = e.target as HTMLElement;
         if (!$bodyWrapper) return;
         const { scrollLeft, scrollTop, offsetWidth, scrollWidth } =
             $bodyWrapper;
@@ -282,7 +283,9 @@ export default ({
         const { pixelX, pixelY } = data;
         if (Math.abs(pixelX) >= Math.abs(pixelY)) {
             e.preventDefault();
-            bodyWrapperRef.value.scrollLeft += data.pixelX;
+            if (scrollbarRef.value) {
+                scrollbarRef.value.containerRef.scrollLeft += data.pixelX;
+            }
         }
     };
 
@@ -306,5 +309,6 @@ export default ({
         handleHeaderMousewheel,
         headerWrapperClass,
         bodyWrapperClass,
+        scrollbarRef,
     };
 };

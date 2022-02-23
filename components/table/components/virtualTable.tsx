@@ -14,8 +14,14 @@ export default defineComponent({
         },
     },
     setup(props, { emit }) {
-        const { showData, rootProps, bodyWrapperClass, bodyWrapperStyle, bodyStyle, prefixCls } =
-            inject(provideKey);
+        const {
+            showData,
+            rootProps,
+            layout,
+            prefixCls,
+            bodyWrapperRef,
+            bodyWrapperClass,
+        } = inject(provideKey);
 
         const renderDefault = ({
             source,
@@ -46,15 +52,22 @@ export default defineComponent({
         return () => {
             return (
                 <VirtualList
+                    ref={(el: any) => {
+                        if (el) {
+                            bodyWrapperRef.value = el.$el;
+                        }
+                    }}
                     onScroll={(event: Event) => {
                         emit('scroll', event);
                     }}
                     dataSources={showData.value}
                     dataKey={rootProps.rowKey}
-                    estimateSize={64}
+                    estimateSize={54}
                     keeps={20}
+                    class={bodyWrapperClass.value}
+                    style={{ height: `${layout.bodyHeight.value}px` }}
                     wrapTag={'table'}
-                    style={{height: 200+'px'}}
+                    wrapClass={`${prefixCls}-body`}
                     renderItemList={renderItemList}
                     v-slots={{ default: renderDefault }}
                 />
