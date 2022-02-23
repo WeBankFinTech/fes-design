@@ -17,7 +17,7 @@ export default ({
     ctx: SetupContext;
     showData: Ref<object[]>;
     columns: Ref<ColumnInst[]>;
-    getRowKey: ({ row }: { row: RowType }) => string | RowType;
+    getRowKey: ({ row }: { row: RowType }) => string | number | RowType;
 }) => {
     // 选择器列唯一
     const selectionColumn = computed(() => {

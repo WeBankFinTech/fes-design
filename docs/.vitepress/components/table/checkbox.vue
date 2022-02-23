@@ -10,7 +10,7 @@
     </f-table>
     <div class="buttons">
         <f-button @click="toggleSelection(data[0])">切换第一行</f-button>
-        <f-button @click="toggleSelection">取消选择</f-button>
+        <f-button @click="toggleSelection(null)">取消选择</f-button>
     </div>
 </template>
 <script>

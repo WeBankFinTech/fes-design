@@ -1,4 +1,12 @@
-import { h, defineComponent, computed, PropType, ExtractPropTypes, SetupContext } from 'vue';
+import {
+    h,
+    defineComponent,
+    computed,
+    PropType,
+    ExtractPropTypes,
+    SetupContext,
+    watch,
+} from 'vue';
 import { isUndefined } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
 import { TABLE_NAME, SIZE } from './const';
@@ -32,19 +40,25 @@ const tableProps = {
         default: 'normal',
     },
     spanMethod: Function,
-    rowClassName: [Function, String] as PropType<string | (({ row, rowIndex }: {
-        row: RowType,
-        rowIndex: number
-    }) => string | string[] | object)>,
-    rowStyle: [Function, Object] as PropType<object | ((({ row, rowIndex }: {
-        row: RowType,
-        rowIndex: number
-    }) => object))>,
+    rowClassName: [Function, String] as PropType<
+        | string
+        | (({
+              row,
+              rowIndex,
+          }: {
+              row: RowType;
+              rowIndex: number;
+          }) => string | string[] | object)
+    >,
+    rowStyle: [Function, Object] as PropType<
+        | object
+        | (({ row, rowIndex }: { row: RowType; rowIndex: number }) => object)
+    >,
     height: Number,
     virtualScroll: {
         type: Boolean,
-        default: false
-    }
+        default: false,
+    },
 } as const;
 
 export type TableProps = Partial<ExtractPropTypes<typeof tableProps>>;
@@ -72,7 +86,7 @@ export default defineComponent({
             wrapperClass,
             layout,
             columns,
-            rootProps
+            rootProps,
         } = useTable(props, ctx);
 
         ctx.expose &&
@@ -96,11 +110,18 @@ export default defineComponent({
             return !isUndefined(rootProps.height);
         });
 
+        watch(()=> props.virtualScroll, () => {
+            if (props.virtualScroll && !props.rowKey) {
+                console.warn(
+                    `[${TABLE_NAME}]: 当使用虚拟滚动时，请设置rowKey!`,
+                );
+            }
+        }, {
+            immediate: true
+        });
+
         return () => (
-            <div
-                ref={wrapperRef}
-                class={wrapperClass.value}
-            >
+            <div ref={wrapperRef} class={wrapperClass.value}>
                 <div ref="hiddenColumns" class="hidden-columns">
                     {ctx.slots?.default()}
                 </div>

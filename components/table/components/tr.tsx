@@ -60,7 +60,6 @@ export default defineComponent({
                         }}
                     ></Td>
                 ))
-                .filter(Boolean);
 
         const renderTr = () => {
             const { row, rowIndex } = props;
