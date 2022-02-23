@@ -13,7 +13,7 @@ export default defineComponent({
             required: true,
         },
     },
-    setup(props, { emit }) {
+    setup(props) {
         const {
             showData,
             rootProps,
@@ -21,6 +21,9 @@ export default defineComponent({
             prefixCls,
             bodyWrapperRef,
             bodyWrapperClass,
+            bodyStyle,
+            syncPosition,
+            scrollbarRef,
         } = inject(provideKey);
 
         const renderDefault = ({
@@ -45,8 +48,14 @@ export default defineComponent({
                 createVNode(Colgroup, {
                     columns: props.columns,
                 }),
-                createVNode('tbody', {}, itemVNodes),
+                createVNode('tbody', {}, itemVNodes.length ? itemVNodes : [<Tr columns={props.columns} />] ),
             ];
+        };
+
+        const onScroll = (e: Event) => {
+            if (layout.isScrollX.value || layout.isScrollY.value) {
+                syncPosition(e);
+            }
         };
 
         return () => {
@@ -54,12 +63,11 @@ export default defineComponent({
                 <VirtualList
                     ref={(el: any) => {
                         if (el) {
+                            scrollbarRef.value = el.scrollRef;
                             bodyWrapperRef.value = el.$el;
                         }
                     }}
-                    onScroll={(event: Event) => {
-                        emit('scroll', event);
-                    }}
+                    onScroll={onScroll}
                     dataSources={showData.value}
                     dataKey={rootProps.rowKey}
                     estimateSize={54}
@@ -68,6 +76,7 @@ export default defineComponent({
                     style={{ height: `${layout.bodyHeight.value}px` }}
                     wrapTag={'table'}
                     wrapClass={`${prefixCls}-body`}
+                    wrapStyle={bodyStyle.value}
                     renderItemList={renderItemList}
                     v-slots={{ default: renderDefault }}
                 />

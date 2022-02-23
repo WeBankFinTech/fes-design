@@ -66,6 +66,7 @@ app.use(FTable);
 --TEMPLATE
 
 ### 虚拟滚动
+1W行数据也不会卡~
 
 --VIRTUAL 
 
