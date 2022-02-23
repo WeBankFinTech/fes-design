@@ -62,6 +62,23 @@ export default defineComponent({
                 ))
                 .filter(Boolean);
 
+        const renderTr = () => {
+            const { row, rowIndex } = props;
+            return (
+                <tr
+                    class={getRowClassName({ row, rowIndex })}
+                    style={{
+                        ...getRowStyle({ row, rowIndex }),
+                    }}
+                    onClick={($event) => {
+                        handleRowClick({ row, rowIndex }, $event);
+                    }}
+                >
+                    {renderTdList(row, rowIndex)}
+                </tr>
+            );
+        };
+
         return () => {
             const { row, rowIndex, expanded } = props;
             if (!row) {
@@ -76,24 +93,11 @@ export default defineComponent({
                     </tr>
                 );
             }
-            const renderTr = () => {
-                return (
-                    <tr
-                        class={getRowClassName({ row, rowIndex })}
-                        style={{
-                            ...getRowStyle({ row, rowIndex }),
-                        }}
-                        onClick={($event) => {
-                            handleRowClick({ row, rowIndex }, $event);
-                        }}
-                    >
-                        {renderTdList(row, rowIndex)}
-                    </tr>
-                );
-            };
+
             if (!expanded) {
                 return renderTr();
             }
+
             return (
                 <Fragment>
                     {renderTr()}
