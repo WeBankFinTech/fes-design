@@ -26,6 +26,7 @@
                     @click="yearToPre"
                 />
                 <LeftOutlined
+                    v-show="visibleLeftSingleArrow"
                     :class="`${prefixCls}-icon`"
                     @click="monthToPre"
                 />
@@ -43,6 +44,7 @@
             </div>
             <div :class="`${prefixCls}-head-right`">
                 <RightOutlined
+                    v-show="visibleRightSingleArrow"
                     :class="`${prefixCls}-icon`"
                     @click="monthToNext"
                 />
@@ -387,6 +389,19 @@ export default defineComponent({
                 `${prefixCls}-date-disabled`,
             ) === -1;
 
+        const visibleLeftSingleArrow = computed(
+            () =>
+                !isYearSelect.value &&
+                !isMonthSelect.value &&
+                !isQuarterSelect.value,
+        );
+        const visibleRightSingleArrow = computed(
+            () =>
+                !isYearSelect.value &&
+                !isMonthSelect.value &&
+                !isQuarterSelect.value,
+        );
+
         return {
             prefixCls,
             currentDate,
@@ -431,6 +446,9 @@ export default defineComponent({
             yearToNext,
 
             t,
+
+            visibleLeftSingleArrow,
+            visibleRightSingleArrow,
         };
     },
 });

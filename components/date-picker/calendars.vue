@@ -245,6 +245,7 @@ export default defineComponent({
 
         const selectCurrentTime = () => {
             if (DATE_TYPE[props.type].isRange) {
+                // FEATURE：时间范围的没想清楚怎么处理，后续优化
                 const format = DATE_TYPE[props.type].format;
                 updateTempCurrentValue([
                     getTimestampFromFormat(null, format),
@@ -254,6 +255,7 @@ export default defineComponent({
                 updateTempCurrentValue([
                     getTimestampFromFormat(null, DATE_TYPE[props.type].format),
                 ]);
+                change();
             }
         };
 
