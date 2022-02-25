@@ -14,7 +14,7 @@ export default ({
     props: TableProps;
     ctx: SetupContext;
     columns: Ref<ColumnInst[]>;
-    getRowKey: ({ row }: { row: RowType }) => string | RowType;
+    getRowKey: ({ row }: { row: RowType }) => string | number | RowType;
 }) => {
     // 展开列唯一
     const expandColumn = computed(() => {

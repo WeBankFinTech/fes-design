@@ -1,11 +1,19 @@
-import { h, defineComponent, nextTick, watch, PropType, ExtractPropTypes, SetupContext } from 'vue';
+import {
+    h,
+    defineComponent,
+    computed,
+    PropType,
+    ExtractPropTypes,
+    SetupContext,
+    watch,
+} from 'vue';
 import { isUndefined } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
-import useScrollbar from '../scrollbar/useScrollbar';
-import FBar from '../scrollbar/bar.vue';
 import { TABLE_NAME, SIZE } from './const';
 import useTable from './useTable';
-import Table from './components/composeTable';
+import HeaderTable from './components/headerTable';
+import BodyTable from './components/bodyTable';
+import VirtualTable from './components/virtualTable';
 
 import type { RowType, RowKey } from './interface';
 
@@ -32,25 +40,31 @@ const tableProps = {
         default: 'normal',
     },
     spanMethod: Function,
-    rowClassName: [Function, String] as PropType<string | (({ row, rowIndex }: {
-        row: RowType,
-        rowIndex: number
-    }) => string | string[] | object)>,
-    rowStyle: [Function, Object] as PropType<object | ((({ row, rowIndex }: {
-        row: RowType,
-        rowIndex: number
-    }) => object))>,
+    rowClassName: [Function, String] as PropType<
+        | string
+        | (({
+              row,
+              rowIndex,
+          }: {
+              row: RowType;
+              rowIndex: number;
+          }) => string | string[] | object)
+    >,
+    rowStyle: [Function, Object] as PropType<
+        | object
+        | (({ row, rowIndex }: { row: RowType; rowIndex: number }) => object)
+    >,
     height: Number,
+    virtualScroll: {
+        type: Boolean,
+        default: false,
+    },
 } as const;
 
 export type TableProps = Partial<ExtractPropTypes<typeof tableProps>>;
 
 export default defineComponent({
     name: TABLE_NAME,
-    components: {
-        Table,
-        FBar,
-    },
     props: tableProps,
     emits: [
         'cellClick',
@@ -65,18 +79,14 @@ export default defineComponent({
     setup(props, ctx: SetupContext) {
         useTheme();
         const {
-            prefixCls,
             handleSelect,
             handleSelectAll,
             clearSelect,
             wrapperRef,
             wrapperClass,
-            columns,
-            headerWrapperRef,
-            bodyWrapperRef,
             layout,
-            syncPosition,
-            handleHeaderMousewheel,
+            columns,
+            rootProps,
         } = useTable(props, ctx);
 
         ctx.expose &&
@@ -86,72 +96,47 @@ export default defineComponent({
                 clearSelection: clearSelect,
             });
 
-        const {
-            onUpdate,
-            onScroll,
-            containerRef,
-            ratioX,
-            ratioY,
-            thumbMoveX,
-            thumbMoveY,
-            sizeHeight,
-            sizeWidth,
-        } = useScrollbar({ minSize: 20 });
-
-        watch([layout.bodyHeight, layout.isScrollX, layout.isScrollY], () => {
-            nextTick(onUpdate);
+        // 计算出传入columns列的对应的宽度
+        const columnsRef = computed(() => {
+            const widthListValue = layout.widthList.value;
+            return columns.value.map((column) => ({
+                ...column,
+                width: (widthListValue as any)[column.id],
+            }));
         });
 
-        const handleTableRef = (elObject: any) => {
-            if (!headerWrapperRef.value && elObject.header) {
-                headerWrapperRef.value = elObject.header;
+        // 是否两个table
+        const composed = computed(() => {
+            return !isUndefined(rootProps.height);
+        });
+
+        watch(()=> props.virtualScroll, () => {
+            if (props.virtualScroll && !props.rowKey) {
+                console.warn(
+                    `[${TABLE_NAME}]: 当使用虚拟滚动时，请设置rowKey!`,
+                );
             }
-            if (!bodyWrapperRef.value && elObject.body) {
-                bodyWrapperRef.value = elObject.body;
-                containerRef.value = elObject.body;
-            }
-        };
+        }, {
+            immediate: true
+        });
 
         return () => (
-            <div
-                ref={wrapperRef}
-                class={wrapperClass.value}
-            >
+            <div ref={wrapperRef} class={wrapperClass.value}>
                 <div ref="hiddenColumns" class="hidden-columns">
                     {ctx.slots?.default()}
                 </div>
-                <Table
-                    onRef={handleTableRef}
-                    showHeader={props.showHeader}
-                    columns={columns.value}
-                    composed={!isUndefined(props.height)}
-                    emptyText={props.emptyText}
-                    onScroll={(e: Event) => {
-                        syncPosition();
-                        onScroll();
-                    }}
-                    onMousewheelHeader={handleHeaderMousewheel}
+                <HeaderTable
+                    composed={composed.value}
+                    columns={columnsRef.value}
                 />
-                <FBar
-                    class={`${prefixCls}-scrollbar`}
-                    scrollbarRef={[wrapperRef.value]}
-                    containerRef={containerRef.value}
-                    move={thumbMoveX.value}
-                    ratio={ratioX.value}
-                    size={sizeWidth.value}
-                    always={false}
-                />
-                <FBar
-                    class={`${prefixCls}-scrollbar`}
-                    scrollbarRef={[wrapperRef.value]}
-                    containerRef={containerRef.value}
-                    move={thumbMoveY.value}
-                    ratio={ratioY.value}
-                    size={sizeHeight.value}
-                    vertical
-                    always={false}
-                    style={{ top: `${layout.headerHeight.value + 2}px` }}
-                />
+                {rootProps.virtualScroll ? (
+                    <VirtualTable columns={columnsRef.value} />
+                ) : (
+                    <BodyTable
+                        composed={composed.value}
+                        columns={columnsRef.value}
+                    />
+                )}
             </div>
         );
     },
