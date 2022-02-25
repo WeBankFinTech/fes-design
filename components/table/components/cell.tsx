@@ -59,7 +59,6 @@ export default defineComponent({
                                 action.func(row);
                             }}
                         >
-                            {' '}
                             {action.label}
                         </Button>
                     ))}
