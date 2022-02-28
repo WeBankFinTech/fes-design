@@ -1,3 +1,21 @@
+## [0.3.4](https://github.com/WeBankFinTech/fes-design/compare/v0.3.3...v0.3.4) (2022-02-28)
+
+
+### Bug Fixes
+
+* 当select组件达到限制个数时无法再点击选项 ([#58](https://github.com/WeBankFinTech/fes-design/issues/58)) ([d8c8128](https://github.com/WeBankFinTech/fes-design/commit/d8c8128deaf49667262bda4f098666ba674768e7))
+* 修复虚拟列表组件bug ([e06be4b](https://github.com/WeBankFinTech/fes-design/commit/e06be4b3e88aeaadeadba1270f82b3444d34ff1e))
+* 优化layout去掉一些不必要的动画 ([9d921cd](https://github.com/WeBankFinTech/fes-design/commit/9d921cd836a7ec246e4f48b33043f8f770ce4167))
+* space组件import ([#62](https://github.com/WeBankFinTech/fes-design/issues/62)) ([a4ca974](https://github.com/WeBankFinTech/fes-design/commit/a4ca97407a03c8020af493656fe284d72f0001d0))
+
+
+### Features
+
+* menu宽度变化增加过渡效果 ([ab8bfcf](https://github.com/WeBankFinTech/fes-design/commit/ab8bfcf36e47a685408d15265d9f6f13516d30d7))
+* table支持虚拟滚动，处理大数据 ([#60](https://github.com/WeBankFinTech/fes-design/issues/60)) ([297ef8e](https://github.com/WeBankFinTech/fes-design/commit/297ef8e07e4c2956a58511f724ea8afe2f08d2f7))
+
+
+
 ## [0.3.3](https://github.com/WeBankFinTech/fes-design/compare/v0.3.2...v0.3.3) (2022-02-16)
 
 
