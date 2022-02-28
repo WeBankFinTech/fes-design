@@ -12,7 +12,7 @@
             v-show="dynamicTags.state.inputVisible"
             ref="inputRef"
             v-model="dynamicTags.state.inputValue"
-            class="input-nef-tag"
+            class="input-tag"
             size="small"
             @keyup.enter="dynamicTags.handleInputConfirm"
             @blur="dynamicTags.handleInputConfirm"
@@ -20,7 +20,7 @@
         </FInput>
         <FButton
             v-show="!dynamicTags.state.inputVisible"
-            class="button-nef-tag"
+            class="button-tag"
             @click="dynamicTags.showInput"
         >
             + New Tag
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { reactive, nextTick, ref, onMounted } from 'vue';
+import { reactive, nextTick, ref } from 'vue';
 
 const useDynamicTags = (inputRef) => {
     const state = reactive({
@@ -77,11 +77,9 @@ export default {
 </script>
 
 <style scoped>
-.button-nef-tag {
+.input-tag,
+.button-tag {
     margin-left: 10px;
-}
-.input-nef-tag {
     width: 100px;
-    margin-left: 10px;
 }
 </style>
