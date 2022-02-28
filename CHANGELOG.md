@@ -1,3 +1,24 @@
+## [0.3.3](https://github.com/WeBankFinTech/fes-design/compare/v0.3.2...v0.3.3) (2022-02-16)
+
+
+### Bug Fixes
+
+* 修复select当设置filterable和disable时样式问题 ([#54](https://github.com/WeBankFinTech/fes-design/issues/54)) ([f28708a](https://github.com/WeBankFinTech/fes-design/commit/f28708ac082d1c17f41e648766fa7478a7a0dc13))
+* 修复window下layout组件收起时出现滚动条的问题 ([#55](https://github.com/WeBankFinTech/fes-design/issues/55)) ([7bf05e5](https://github.com/WeBankFinTech/fes-design/commit/7bf05e55c719d05c7a63d5bf3afbc96d0c153547))
+
+
+
+## [0.3.2](https://github.com/WeBankFinTech/fes-design/compare/v0.3.1...v0.3.2) (2022-02-14)
+
+
+### Bug Fixes
+
+* 修复 input-number 加减 disbled 判断逻辑“ ([#52](https://github.com/WeBankFinTech/fes-design/issues/52)) ([5f501d8](https://github.com/WeBankFinTech/fes-design/commit/5f501d86b1e4d32016fcc9101833c3b1ed53baf7))
+* 修复layout当body内容过高导致header被压缩的问题 ([4fac929](https://github.com/WeBankFinTech/fes-design/commit/4fac929e9a71ab1904ceb77c2875b32fb57348dc))
+* ci ([#51](https://github.com/WeBankFinTech/fes-design/issues/51)) ([3886a4a](https://github.com/WeBankFinTech/fes-design/commit/3886a4a131d0cbfdd52e529f5f81c87fa9768499))
+
+
+
 ## [0.3.1](https://github.com/WeBankFinTech/fes-design/compare/v0.3.0...v0.3.1) (2022-02-10)
 
 

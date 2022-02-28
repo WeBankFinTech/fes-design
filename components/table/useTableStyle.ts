@@ -30,6 +30,7 @@ export default ({
     const wrapperRef = ref<HTMLElement>(null);
     const headerWrapperRef = ref(null);
     const bodyWrapperRef = ref(null);
+    const scrollbarRef = ref(null);
 
     const wrapperClass = computed(() =>
         [
@@ -106,27 +107,27 @@ export default ({
         row: RowType;
         rowIndex: number;
     }) => {
-        let defaultClass = '';
+        let defaultClass = [`${prefixCls}-row`];
         const rowClassName = props.rowClassName;
         if (expandColumn.value) {
-            defaultClass = isExpandOpened({ row }) ? 'is-opened' : '';
+            defaultClass.push(isExpandOpened({ row }) && ' is-opened');
         }
         if (isString(rowClassName)) {
-            return `${rowClassName} ${defaultClass}`;
-        }
-        if (isFunction(rowClassName)) {
+            defaultClass = defaultClass.concat(rowClassName.split(' '));
+        } else if (isFunction(rowClassName)) {
             const res = rowClassName({ row, rowIndex });
             if (isString(res)) {
-                return `${res} ${defaultClass}`;
+                defaultClass = defaultClass.concat(res.split(' '));
             }
             if (isArray(res)) {
-                return [...res, defaultClass];
+                defaultClass = [...res, ...defaultClass];
             }
             if (isPlainObject(res)) {
-                return {
-                    ...res,
-                    [defaultClass]: true,
-                };
+                Object.keys(res).forEach((key) => {
+                    if (res[key as keyof typeof res]) {
+                        defaultClass.push(key);
+                    }
+                });
             }
         }
         return defaultClass;
@@ -258,8 +259,8 @@ export default ({
     };
 
     // 同步两个table的位移
-    const syncPosition = throttle(() => {
-        const $bodyWrapper = bodyWrapperRef.value;
+    const syncPosition = throttle((e: Event) => {
+        const $bodyWrapper = e.target as HTMLElement;
         if (!$bodyWrapper) return;
         const { scrollLeft, scrollTop, offsetWidth, scrollWidth } =
             $bodyWrapper;
@@ -282,7 +283,9 @@ export default ({
         const { pixelX, pixelY } = data;
         if (Math.abs(pixelX) >= Math.abs(pixelY)) {
             e.preventDefault();
-            bodyWrapperRef.value.scrollLeft += data.pixelX;
+            if (scrollbarRef.value) {
+                scrollbarRef.value.containerRef.scrollLeft += data.pixelX;
+            }
         }
     };
 
@@ -306,5 +309,6 @@ export default ({
         handleHeaderMousewheel,
         headerWrapperClass,
         bodyWrapperClass,
+        scrollbarRef,
     };
 };

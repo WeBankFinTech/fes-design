@@ -52,6 +52,7 @@ export default defineComponent({
                         columnIndex,
                     })}
                     class={[
+                        `${prefixCls}-td`,
                         ...getCellClass({ column }),
                         ...getCustomCellClass({
                             row,
@@ -82,7 +83,7 @@ export default defineComponent({
                     )}
                     {column.props.type === 'expand' && (
                         <CaretDownOutlined
-                            class={`${prefixCls}-expand`}
+                            class={`${prefixCls}-expand-icon`}
                             onClick={() => {
                                 handleExpand({ row });
                             }}

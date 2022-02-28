@@ -2,9 +2,11 @@
  * item component, we need to know their size change at any time
  */
 
-import { defineComponent, ref, createVNode, h } from 'vue';
+import { defineComponent, ref, cloneVNode } from 'vue';
 import { ItemProps } from './props';
 import useResize from '../_util/use/useResize';
+import { getFirstValidNode } from '../_util/vnode';
+import getElementFromRef from '../_util/getElementFromRef';
 
 // wrapping for item
 export const FVirtualListItem = defineComponent({
@@ -12,10 +14,10 @@ export const FVirtualListItem = defineComponent({
     props: ItemProps,
     setup(props, { attrs }) {
         const itemRef = ref();
-        const shapeKey = props.horizontal ? 'offsetWidth' : 'offsetHeight';
 
         // tell parent current size identify by unqiue key
         const dispatchSizeChange = () => {
+            const shapeKey = props.horizontal ? 'offsetWidth' : 'offsetHeight';
             const s = itemRef.value ? itemRef.value[shapeKey] : 0;
             (attrs as any).onItemResized(props.uniqueKey, s);
         };
@@ -27,39 +29,17 @@ export const FVirtualListItem = defineComponent({
         };
     },
     render() {
-        const {
-            tag,
-            extraProps = {},
-            index,
-            source,
-            scopedSlots = {},
-            uniqueKey,
-            slotComponent,
-        } = this;
+        const { index, source, $slots } = this;
 
-        const _props = {
-            ...extraProps,
-            source,
-            index,
-        };
-
-        return h(
-            tag,
+        const vNode = getFirstValidNode($slots.default({ index, source }), 1);
+        return cloneVNode(
+            vNode,
             {
-                key: uniqueKey,
-                role: 'listItem',
                 ref: (el) => {
-                    if (el) this.itemRef = el;
+                    if (el) this.itemRef = getElementFromRef(el);
                 },
             },
-            [
-                createVNode(slotComponent, {
-                    source,
-                    index,
-                    scope: _props,
-                    slots: scopedSlots,
-                }),
-            ],
+            true,
         );
     },
 });

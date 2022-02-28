@@ -22,8 +22,8 @@ export default defineComponent({
         const { row, rowIndex, column, length } = props;
         if (column?.slots?.default) {
             return () => (
-                <tr class={`${prefixCls}-expand-tr`}>
-                    <td colspan={length} class={`${prefixCls}-expand-td`}>
+                <tr class={`${prefixCls}-row`}>
+                    <td colspan={length} class={`${prefixCls}-td ${prefixCls}-cell`}>
                         {column.slots.default({
                             row,
                             rowIndex,

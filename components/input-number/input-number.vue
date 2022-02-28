@@ -200,7 +200,12 @@ const maxDisabled = computed(
 );
 
 const calculationNum = (type: ActionEnum) => {
-    if (props.disabled || maxDisabled.value) return;
+    if (
+        props.disabled ||
+        (maxDisabled.value && type === ActionEnum.PLUS) ||
+        (minDisabled.value && type === ActionEnum.REDUCE)
+    )
+        return;
     tempValue.value = null;
     setCurrentValue(_calculationNum(currentValue.value || 0, type));
 };

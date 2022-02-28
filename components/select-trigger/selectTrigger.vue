@@ -30,6 +30,7 @@
                                 : ''
                         "
                         :class="`${prefixCls}-label-input`"
+                        :disabled="disabled"
                         @input="handleInput"
                         @compositionstart="handleCompositionStart"
                         @compositionupdate="handelCompositionUpdate"
@@ -85,6 +86,7 @@
                     :style="{
                         width: inputWidthRef,
                     }"
+                    :disabled="disabled"
                     @compositionstart="handleCompositionStart"
                     @compositionend="handleCompositionEnd"
                     @compositionupdate="handelCompositionUpdate"

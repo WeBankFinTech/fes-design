@@ -38,6 +38,7 @@
                     :containerStyle="dropdownStyle"
                     :isSelect="isSelect"
                     :onSelect="onSelect"
+                    :isLimit="isLimitRef"
                     :emptyText="listEmptyText"
                     @scroll="onScroll"
                     @mousedown.prevent
@@ -178,6 +179,14 @@ export default defineComponent({
             return selectVal === optVal;
         };
 
+        const isLimitRef = computed(() => {
+            const selectVal = unref(currentValue);
+            return (
+                props.multipleLimit > 0 &&
+                props.multipleLimit === selectVal.length
+            );
+        });
+
         const onSelect = (value: SelectValue) => {
             if (props.disabled) return;
             filterText.value = '';
@@ -185,13 +194,7 @@ export default defineComponent({
                 if (isSelect(value)) {
                     emit('removeTag', value);
                 } else {
-                    const selectVal = unref(currentValue);
-                    if (
-                        props.multipleLimit > 0 &&
-                        props.multipleLimit === selectVal.length
-                    ) {
-                        return;
-                    }
+                    if (isLimitRef.value) return;
                 }
             } else {
                 isOpenedRef.value = false;
@@ -311,6 +314,7 @@ export default defineComponent({
             inputPlaceholder,
             isError,
             onScroll,
+            isLimitRef,
         };
     },
 });

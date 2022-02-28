@@ -26,6 +26,9 @@ const optionListProps = {
         type: Function,
         default: noop,
     },
+    isLimit: {
+        type: Boolean,
+    },
     emptyText: String,
 } as const;
 
@@ -67,7 +70,7 @@ export default defineComponent({
             const classList = [
                 prefixCls,
                 isSelected && 'is-checked',
-                option.disabled && 'is-disabled',
+                option.disabled  || (!isSelected && props.isLimit) && 'is-disabled',
             ].filter(Boolean);
             return (
                 <div

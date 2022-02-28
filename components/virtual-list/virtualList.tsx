@@ -243,66 +243,48 @@ export default defineComponent({
         // get the real render slots based on range data
         // in-place patch strategy will try to reuse components as possible
         // so those components that are reused will not trigger lifecycle mounted
-        const getRenderSlots = () => {
-            const _slots = [];
+        const getRenderItems = () => {
+            const itemVNodes = [];
             const { start, end } = rangeRef.value;
-            try {
-                const {
-                    dataSources,
-                    dataKey,
-                    itemClass,
-                    itemTag,
-                    itemStyle,
-                    extraProps,
-                    itemScopedSlots,
-                    itemClassAdd,
-                } = props;
-                const slotComponent = slots && slots.default;
-                for (let index = start; index <= end; index++) {
-                    const dataSource = dataSources[index];
-                    if (dataSource) {
-                        const uniqueKey =
-                            typeof dataKey === 'function'
-                                ? dataKey(dataSource)
-                                : (dataSource as any)[dataKey];
-                        if (
-                            typeof uniqueKey === 'string' ||
-                            typeof uniqueKey === 'number'
-                        ) {
-                            const tempNode = createVNode(FVirtualListItem, {
+            const { dataSources, dataKey } = props;
+            for (let index = start; index <= end; index++) {
+                const dataSource = dataSources[index];
+                if (dataSource) {
+                    const uniqueKey =
+                        typeof dataKey === 'function'
+                            ? dataKey(dataSource)
+                            : (dataSource as any)[dataKey];
+                    if (
+                        typeof uniqueKey === 'string' ||
+                        typeof uniqueKey === 'number'
+                    ) {
+                        const tempNode = createVNode(
+                            FVirtualListItem,
+                            {
+                                key: uniqueKey,
                                 index,
-                                key: index, // Vue3采用Key变更刷新，最省事
-                                tag: itemTag,
                                 horizontal: isHorizontal,
                                 uniqueKey,
                                 source: dataSource,
-                                extraProps,
-                                slotComponent,
-                                scopedSlots: itemScopedSlots,
-                                style: itemStyle,
                                 onItemResized,
-                                class: `${itemClass}${
-                                    itemClassAdd
-                                        ? ` ${itemClassAdd(index)}`
-                                        : ''
-                                }`,
-                            });
-                            _slots.push(tempNode);
-                        } else {
-                            console.warn(
-                                `Cannot get the data-key '${dataKey}' from data-sources.`,
-                            );
-                        }
+                            },
+                            {
+                                default: slots.default,
+                            },
+                        );
+                        itemVNodes.push(tempNode);
                     } else {
                         console.warn(
-                            `Cannot get the index '${index}' from data-sources.`,
+                            `Cannot get the data-key '${dataKey}' from data-sources.`,
                         );
                     }
+                } else {
+                    console.warn(
+                        `Cannot get the index '${index}' from data-sources.`,
+                    );
                 }
-                return _slots;
-            } catch (e) {
-                console.warn(e);
             }
+            return itemVNodes;
         };
 
         watch(
@@ -360,7 +342,7 @@ export default defineComponent({
             getClientSize,
             getScrollSize,
             onScroll,
-            getRenderSlots,
+            getRenderItems,
             onItemResized,
             onSlotResized,
             fullHeight,
@@ -381,6 +363,7 @@ export default defineComponent({
             wrapStyle,
             onScroll,
             fullHeight,
+            renderItemList,
         } = this;
 
         // wrap style
@@ -421,10 +404,11 @@ export default defineComponent({
                     wrapTag,
                     {
                         class: wrapClass,
-                        role: 'group',
                         style: wrapperStyle,
                     },
-                    this.getRenderSlots(),
+                    renderItemList
+                        ? renderItemList(this.getRenderItems())
+                        : this.getRenderItems(),
                 ),
             ],
         );

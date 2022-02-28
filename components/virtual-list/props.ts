@@ -2,20 +2,17 @@
  * props declaration for default, item and slot component
  */
 
-import { PropType, VNodeChild } from 'vue';
+import { PropType, VNode } from 'vue';
 
 export const VirtualProps = {
     dataKey: {
         type: [String, Function] as PropType<
-            | string
-            | ((
-                  dataSource: object | number | string,
-              ) => number | string | object)
+            string | ((dataSource: Record<string, any>) => string | number)
         >,
         required: true,
     },
     dataSources: {
-        type: Array as PropType<(number | string | object)[]>,
+        type: Array as PropType<Record<string, any>[]>,
         required: true,
     },
 
@@ -70,44 +67,8 @@ export const VirtualProps = {
     wrapStyle: {
         type: Object,
     },
-    itemTag: {
-        type: String,
-        default: 'div',
-    },
-    itemClass: {
-        type: String,
-        default: '',
-    },
-    itemClassAdd: {
-        type: Function,
-    },
-    itemStyle: {
-        type: Object,
-    },
-    headerTag: {
-        type: String,
-        default: 'div',
-    },
-    headerClass: {
-        type: String,
-        default: '',
-    },
-    headerStyle: {
-        type: Object,
-    },
-    footerTag: {
-        type: String,
-        default: 'div',
-    },
-    footerClass: {
-        type: String,
-        default: '',
-    },
-    footerStyle: {
-        type: Object,
-    },
-    itemScopedSlots: {
-        type: Object,
+    renderItemList: {
+        type: Function as PropType<(itemVNodes: VNode[]) => VNode[]>,
     },
 } as const;
 
@@ -115,31 +76,13 @@ export const ItemProps = {
     index: {
         type: Number,
     },
-    event: {
-        type: String,
-    },
-    tag: {
-        type: String,
-    },
     horizontal: {
         type: Boolean,
     },
     source: {
         type: [Object, String, Number] as PropType<object | string | number>,
     },
-    component: {
-        type: [Object, Function] as PropType<object | (() => VNodeChild)>,
-    },
-    slotComponent: {
-        type: Function as PropType<() => VNodeChild>,
-    },
     uniqueKey: {
         type: [String, Number] as PropType<string | number>,
-    },
-    extraProps: {
-        type: Object,
-    },
-    scopedSlots: {
-        type: Object,
     },
 } as const;

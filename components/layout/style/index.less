@@ -17,6 +17,7 @@
     position: relative;
     flex: auto;
     box-sizing: border-box;
+    transition: width @animation-duration-base;
     >.@{layout-prefix-cls}-container {
         display: flex;
         flex-wrap: nowrap;
@@ -37,33 +38,31 @@
         right: 0;
         top: 0;
         bottom: 0;
+        transition: left @animation-duration-base, right @animation-duration-base;
     }
 }
 
 .@{aside-prefix-cls} {
     position: relative;
     flex-shrink: 0;
-    overflow: auto;
     color: var(--f-text-color);
-    transition: all @animation-duration-base;
+    transition: width @animation-duration-base;
     &.is-fixed {
         position: absolute;
         top: 0;
         bottom: 0;
-        overflow: auto;
         &.is-placement-left {
             left: 0;
         }
         &.is-placement-right {
             right: 0;
         }
-        .@{aside-prefix-cls}-trigger {
-            position: absolute;
-        }
     }
     &.is-has-trigger {
         z-index: @zindex-affix;
-        padding-bottom: @aside-trigger-height;
+        .@{aside-prefix-cls}-wrapper {
+            padding-bottom: @aside-trigger-height;
+        }
     }
     &.is-inverted {
         color: @layout-inverted-font-color;
@@ -81,8 +80,15 @@
     &.is-collapsed {
         overflow: visible;
     }
+    &-wrapper {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        overflow: auto;
+        z-index: 1;
+    }
     &-trigger {
-        position: fixed;
+        position: absolute;
         bottom: 0;
         left: 0;
         width: 100%;
@@ -93,6 +99,7 @@
         border-top: var(--f-border-width-base) var(--f-border-style-base)
             var(--f-border-color-split);
         background-color: var(--f-white);
+        z-index: 2;
     }
 }
 
@@ -125,6 +132,7 @@
     flex: auto;
     color: var(--f-text-color);
     font-size: var(--f-font-size-base);
+    transition: width @animation-duration-base;
     &.is-embedded {
         background: var(--f-component-bg-color);
     }

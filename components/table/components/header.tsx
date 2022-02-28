@@ -15,6 +15,7 @@ export default defineComponent({
             isAllSelected,
             selection,
             handleSelectAll,
+            prefixCls
         } = inject(provideKey);
         const renderThList = (row: ColumnInst[]) =>
             row
@@ -23,7 +24,7 @@ export default defineComponent({
                         key={column.id}
                         colspan={column.colSpan}
                         rowspan={column.rowSpan}
-                        class={getCellClass({ column })}
+                        class={[`${prefixCls}-th`, ...getCellClass({ column })] }
                         style={getCustomCellStyle({ column })}
                         onClick={($event) => {
                             handleHeaderClick({ column }, $event);
@@ -47,7 +48,7 @@ export default defineComponent({
 
         const renderTrList = () =>
             headerRows.value.map((row, rowIndex) => (
-                <tr key={rowIndex}>{renderThList(row)}</tr>
+                <tr class={`${prefixCls}-row`} key={rowIndex}>{renderThList(row)}</tr>
             ));
 
         return () => <thead>{renderTrList()}</thead>;
