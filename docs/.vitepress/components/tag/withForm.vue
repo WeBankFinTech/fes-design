@@ -47,6 +47,8 @@ const useDynamicTags = (inputRef) => {
             '标签七',
             '标签八',
             '标签九',
+            '标签十',
+            '标签十一',
         ],
         inputVisible: false,
         inputValue: '',
