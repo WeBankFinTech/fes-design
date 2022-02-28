@@ -22,7 +22,7 @@ export interface TableInst
         ReturnType<typeof useTableExpand>,
         ReturnType<typeof useTableStyle> {
     rootProps: TableProps;
-    getRowKey: ({ row }: { row: RowType }) => string | RowType;
+    getRowKey: ({ row }: { row: RowType }) => string | number | RowType;
     getCellValue: typeof getCellValue;
     tableId: string;
     showData: Ref<object[]>;
