@@ -126,7 +126,7 @@ import TimePicker from '../time-picker/time-picker.vue';
 import InputInner from '../input/inputInner.vue';
 import getPrefixCls from '../_util/getPrefixCls';
 
-import { timeFormat, transformDateToTimestamp } from './helper';
+import { timeFormat, parseDate, transformDateToTimestamp } from './helper';
 import {
     RANGE_POSITION,
     COMMON_PROPS,
@@ -171,7 +171,7 @@ const calendarProps = {
         type: String as PropType<RANGE_POSITION>,
     },
     modelValue: Array as PropType<number[]>,
-    defaultDate: Number,
+    activeDate: Number,
     selectedStatus: Number as PropType<SELECTED_STATUS>,
     disabledDate: {
         type: Function as PropType<
@@ -187,6 +187,7 @@ function useDateInput(
     selectedDates: Ref<DateObj[]>,
     updateSelectedDates: UpdateSelectedDates,
     activeIndex: Ref<number>,
+    updateCurrentDate: (date: Partial<DateObj>) => void,
 ) {
     const inputDate = ref<string>();
     let cacheValidInputDate = '';
@@ -222,6 +223,7 @@ function useDateInput(
         inputDate.value = val;
         if (!Number.isNaN(d.getTime())) {
             cacheValidInputDate = val;
+            updateCurrentDate(parseDate(d));
             updateSelectedDates(
                 {
                     ...selectedDates.value[activeIndex.value],
@@ -257,7 +259,7 @@ export default defineComponent({
         TimePicker,
     },
     props: calendarProps,
-    emits: ['change', 'changeCurrentDate', 'selectedDay'],
+    emits: ['change', 'selectedDay', 'update:activeDate'],
     setup(props, { emit }) {
         const { currentDate, updateCurrentDate } = useCurrentDate(props, emit);
 
@@ -281,6 +283,7 @@ export default defineComponent({
                 selectedDates,
                 updateSelectedDates,
                 activeIndex,
+                updateCurrentDate,
             );
 
         const { years, yearStart, yearEnd, selectYear, isYearSelect, yearCls } =

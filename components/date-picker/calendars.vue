@@ -8,11 +8,11 @@
                     :disabledTime="disabledTime"
                     :disabledDate="rangeDiabledDate"
                     :rangePosition="RANGE_POSITION.LEFT"
-                    :defaultDate="leftDefaultDate"
+                    :activeDate="leftActiveDate"
                     :selectedStatus="selectedStatus"
                     @change="updateTempCurrentValue"
                     @selectedDay="selectedDay(RANGE_POSITION.LEFT)"
-                    @changeCurrentDate="
+                    @update:activeDate="
                         (timestamp) =>
                             changeCurrentDate(timestamp, RANGE_POSITION.LEFT)
                     "
@@ -23,11 +23,11 @@
                     :disabledTime="disabledTime"
                     :disabledDate="rangeDiabledDate"
                     :rangePosition="RANGE_POSITION.RIGHT"
-                    :defaultDate="rightDefaultDate"
+                    :activeDate="rightActiveDate"
                     :selectedStatus="selectedStatus"
                     @change="updateTempCurrentValue"
                     @selectedDay="selectedDay(RANGE_POSITION.RIGHT)"
-                    @changeCurrentDate="
+                    @update:activeDate="
                         (timestamp) =>
                             changeCurrentDate(timestamp, RANGE_POSITION.RIGHT)
                     "
@@ -35,6 +35,7 @@
             </div>
             <Calendar
                 v-else
+                v-model:activeDate="defaultActiveDate"
                 :modelValue="tempCurrentValue"
                 :type="type"
                 :disabledTime="disabledTime"
@@ -177,10 +178,11 @@ export default defineComponent({
         const {
             isDateRange,
 
-            leftDefaultDate,
-            rightDefaultDate,
+            leftActiveDate,
+            rightActiveDate,
             changeCurrentDate,
             rangeDiabledDate,
+            resetActiveDate,
         } = useRange(
             props,
             tempCurrentValue,
@@ -230,16 +232,29 @@ export default defineComponent({
             if (DATE_TYPE[props.type].isRange) {
                 tempCurrentValue.value = selectedDates.value || [];
             } else {
-                tempCurrentValue.value = [selectedDates.value];
+                tempCurrentValue.value = selectedDates.value
+                    ? [selectedDates.value]
+                    : [];
             }
         };
         watch(selectedDates, handleTempCurrentValue);
+        const defaultActiveDate = ref(Date.now());
         watch(
             () => props.visible,
             () => {
                 if (props.visible) {
                     handleTempCurrentValue();
+                    if (tempCurrentValue.value.length) {
+                        if (isDateRange.value) {
+                            resetActiveDate();
+                        } else {
+                            defaultActiveDate.value = tempCurrentValue.value[0];
+                        }
+                    }
                 }
+            },
+            {
+                immediate: true,
             },
         );
 
@@ -284,8 +299,8 @@ export default defineComponent({
             currentDateType,
 
             isDateRange,
-            leftDefaultDate,
-            rightDefaultDate,
+            leftActiveDate,
+            rightActiveDate,
             changeCurrentDate,
 
             visibleFooter,
@@ -305,6 +320,7 @@ export default defineComponent({
             t,
             currentText,
             handleShortcut,
+            defaultActiveDate,
         };
     },
 });

@@ -24,7 +24,6 @@ export type UpdateSelectedDates = (
 
 export type CalendarEmits = {
     (e: 'change', val: number[]): void;
-    (e: 'changeCurrentDate', val: number): void;
 };
 
 export type DayItem = {

@@ -13,7 +13,7 @@ import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
     setup() {
-        const currentDate = ref(Date.now());
+        const currentDate = ref(Date.now() + 31 * 24 * 60 * 60 * 1000);
         const change = () => {
             console.log('change:', currentDate.value);
         };

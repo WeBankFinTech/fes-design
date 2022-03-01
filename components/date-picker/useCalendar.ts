@@ -1,6 +1,7 @@
 import { watch, watchEffect, ref, reactive, computed, Ref } from 'vue';
 import { isNil } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
+import { useNormalModel } from '../_util/use/useModel';
 
 import { DATE_TYPE, SELECTED_STATUS, YEAR_COUNT } from './const';
 import {
@@ -25,23 +26,18 @@ const WEEK_NAMES = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 type UpdateCurrentDate = (date: Partial<DateObj>) => void;
 
 export const useCurrentDate = (props: CalendarProps, emit: CalendarEmits) => {
-    let cacheCurrentTimestamp = props.defaultDate;
-    const currentDate = reactive(parseDate(props.defaultDate));
+    const currentDate = reactive(parseDate(props.activeDate));
+    const [innerActiveDate, updateActiveDate] = useNormalModel(props, emit, {
+        prop: 'activeDate',
+    });
     const updateCurrentDate: UpdateCurrentDate = (date: Partial<DateObj>) => {
         Object.assign(currentDate, date);
-        cacheCurrentTimestamp = transformDateToTimestamp(currentDate);
-        emit('changeCurrentDate', cacheCurrentTimestamp);
+        updateActiveDate(transformDateToTimestamp(currentDate));
     };
 
-    watch(
-        () => props.defaultDate,
-        () => {
-            if (cacheCurrentTimestamp !== props.defaultDate) {
-                cacheCurrentTimestamp = props.defaultDate;
-                Object.assign(currentDate, parseDate(props.defaultDate));
-            }
-        },
-    );
+    watch(innerActiveDate, () => {
+        Object.assign(currentDate, parseDate(innerActiveDate.value));
+    });
 
     return {
         currentDate,
