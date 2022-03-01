@@ -36,6 +36,10 @@ app.use(FCascader);
 
 --DISABLED
 
+### 异步选项
+
+--ASYNCOPTIONS
+
 --CODE
 
 ## Cascader Props
