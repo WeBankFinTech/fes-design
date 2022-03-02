@@ -9,16 +9,19 @@
         :hideAfter="0"
         placement="bottom-start"
         :offset="4"
+        @update:modelValue="handlePopperVisible"
     >
         <template #trigger>
             <RangeInput
                 v-if="isRange"
+                ref="inputRangeRefEL"
                 :type="type"
                 :selectedDates="visibleValue"
                 :placeholder="rangePlaceholder"
                 :clearable="clearable"
                 :disabled="disabled"
-                @focus="(e) => $emit('focus', e)"
+                :innerIsFocus="inputIsFocus"
+                @focus="handleFocus"
                 @blur="handleBlur"
                 @clear="clear"
                 @click="isOpened = true"
@@ -32,14 +35,16 @@
                     <DateOutlined v-else />
                 </template>
             </RangeInput>
-            <WInput
+            <InputInner
                 v-else
-                ref="inputRef"
+                ref="inputRefEl"
                 v-model="dateText"
                 :placeholder="inputPlaceholder"
                 :disabled="disabled"
                 :clearable="clearable"
-                @focus="(e) => $emit('focus', e)"
+                :innerIsFocus="inputIsFocus"
+                readonly
+                @focus="handleFocus"
                 @blur="handleBlur"
                 @clear="clear"
                 @click="isOpened = true"
@@ -48,10 +53,11 @@
                     <slot v-if="$slots.suffixIcon" name="suffixIcon"></slot>
                     <DateOutlined v-else />
                 </template>
-            </WInput>
+            </InputInner>
         </template>
         <template #default>
             <calendars
+                ref="calendarsRef"
                 :visible="isOpened"
                 :modelValue="currentValue"
                 :type="type"
@@ -64,7 +70,6 @@
                 :disabledTime="disabledTime"
                 @change="change"
                 @tmpSelectedDateChange="tmpSelectedDateChange"
-                @mousedown.prevent
             />
         </template>
     </Popper>
@@ -80,11 +85,13 @@ import {
     PropType,
     ExtractPropTypes,
     ComputedRef,
+    ComponentPublicInstance,
     provide,
 } from 'vue';
+import { isArray } from 'lodash-es';
 import RangeInput from './rangeInput.vue';
 import Calendars from './calendars.vue';
-import WInput from '../input';
+import InputInner from '../input/inputInner.vue';
 import Popper from '../popper';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import { useNormalModel } from '../_util/use/useModel';
@@ -97,7 +104,6 @@ import { DATE_TYPE, COMMON_PROPS, RANGE_PROPS } from './const';
 
 import type { GetContainer } from '../_util/interface';
 import { useLocale } from '../config-provider/useLocale';
-import { isArray } from 'lodash-es';
 import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
 import { noop } from '../_util/utils';
 
@@ -126,7 +132,6 @@ const datePickerProps = {
     getContainer: {
         type: Function as PropType<GetContainer>,
     },
-    format: String,
     popperClass: String,
     control: Boolean,
     shortcuts: Object,
@@ -252,7 +257,7 @@ export default defineComponent({
     name: 'FDatePicker',
     components: {
         Calendars,
-        WInput,
+        InputInner,
         Popper,
         DateOutlined,
         RangeInput,
@@ -273,8 +278,17 @@ export default defineComponent({
             prop: 'open',
         });
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
-
         const isRange = computed(() => DATE_TYPE[props.type].isRange);
+        const inputRefEl = ref<HTMLElement>();
+        const inputRangeRefEL = ref<HTMLElement>();
+        const calendarsRef = ref<ComponentPublicInstance>();
+        const activeInputRefEL = computed(() => {
+            if (isRange.value) {
+                return inputRangeRefEL.value;
+            }
+            return inputRefEl.value;
+        });
+
         const { validate, isError } = useFormAdaptor(
             computed(() => (isRange.value ? 'array' : 'number')),
         );
@@ -318,16 +332,54 @@ export default defineComponent({
         const change = (val: number | number[] | null) => {
             handleChange(val);
             updateCurrentValue(val);
+
+            // 选择完后重新聚焦
+            // TODO 如果有取消按钮，取消之后也应该重新聚焦
+            activeInputRefEL.value.focus();
             updatePopperOpen(false);
         };
 
-        const handleBlur = (e: Event) => {
-            updatePopperOpen(false);
-            emit('blur', e);
-            validate('blur');
-            // 重置输入框内容
-            resetDateText();
+        const inputIsFocus = ref(false);
+        const handleFocus = (e: Event) => {
+            // 防止重复聚焦
+            if (!inputIsFocus.value) {
+                inputIsFocus.value = true;
+                emit('focus', e);
+            }
         };
+        let cacheEvent: Event = null;
+        const checkBlur = () => {
+            if (!isOpened.value && cacheEvent) {
+                emit('blur', cacheEvent);
+                validate('blur');
+                // 重置输入框内容
+                resetDateText();
+                cacheEvent = null;
+                inputIsFocus.value = false;
+            }
+        };
+        const handleBlur = (e: FocusEvent) => {
+            cacheEvent = e;
+            // 非弹窗内容点击导致的失焦，进行 blur 的校验
+            if (!calendarsRef.value.$el.contains(e.relatedTarget)) {
+                isOpened.value && updatePopperOpen(false);
+                checkBlur();
+            }
+        };
+
+        watch(isOpened, () => {
+            if (!isOpened.value) {
+                // 重置临时输入
+                tmpSelectedDateChange(null);
+            }
+        });
+
+        const handlePopperVisible = (val: boolean) => {
+            if (val === false) {
+                checkBlur();
+            }
+        };
+
         return {
             prefixCls,
             isOpened,
@@ -339,11 +391,19 @@ export default defineComponent({
 
             clear,
             change,
+            inputIsFocus,
+            handleFocus,
             handleBlur,
 
             tmpSelectedDateChange,
             inputPlaceholder,
             rangePlaceholder,
+
+            handlePopperVisible,
+
+            inputRefEl,
+            inputRangeRefEL,
+            calendarsRef,
         };
     },
 });

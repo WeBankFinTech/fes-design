@@ -1,4 +1,4 @@
-import { DATE_TYPE, RANGE_POSITION } from './const';
+import { DATE_TYPE } from './const';
 
 export type DatePickerType = keyof typeof DATE_TYPE;
 
@@ -16,9 +16,17 @@ export type ParticalDateObj = Partial<Omit<DateObj, 'year'>> & {
     year: number;
 };
 
+export type UpdateSelectedDates = (
+    date: Partial<DateObj>,
+    index: number,
+    option?: {
+        isTime?: boolean;
+        isDateInput?: boolean;
+    },
+) => void;
+
 export type CalendarEmits = {
     (e: 'change', val: number[]): void;
-    (e: 'changeCurrentDate', val: number): void;
 };
 
 export type DayItem = {

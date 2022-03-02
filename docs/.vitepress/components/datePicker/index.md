@@ -28,6 +28,10 @@ app.use(DatePicker);
 
 --disabled
 
+### 快捷选项
+
+--shortcuts
+
 ### 带确定按钮
 
 --control
@@ -57,7 +61,6 @@ app.use(DatePicker);
 | clearable         | 是否显示清除按钮                                                            | boolean           | `true`                |
 | format            | 日期格式：YYYY-MM-DD HH:mm:ss，根据不同的 type 类型，会有不同的默认展示格式 | string            | -                     |
 | disabled          | 禁用                                                                        | boolean           | `false`               |
-| open              | 面版是否打开，可以使用 v-model:open 实现数据的双向绑定                      | boolean           | `false`               |
 | popperClass       | 弹窗样式                                                                    | string            | -                     |
 | appendToContainer | 弹窗内容是否添加到指定的 DOM 元素                                           | boolean           | `true`                |
 | getContainer      | 指定下拉选项挂载的 HTML 节点                                                | () => HTMLElement | `() => document.body` |

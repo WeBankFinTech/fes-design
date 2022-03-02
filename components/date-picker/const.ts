@@ -25,14 +25,14 @@ export const DATE_TYPE = {
     },
     daterange: {
         name: 'daterange',
-        currentText: DATE_TYPE_CURRENT.today,
+        currentText: '',
         isRange: true,
         format: 'YYYY-MM-DD',
         hasTime: false,
     },
     datetimerange: {
         name: 'datetimerange',
-        currentText: DATE_TYPE_CURRENT.now,
+        currentText: '',
         isRange: true,
         hasTime: true,
         format: 'YYYY-MM-DD HH:mm:ss',
@@ -65,6 +65,12 @@ export enum RANGE_POSITION {
     RIGHT = 'right',
 }
 
+export enum SELECTED_STATUS {
+    EMPTY,
+    ONE,
+    TWO,
+}
+
 export const YEAR_COUNT = 16;
 
 export type DatePickerType = keyof typeof DATE_TYPE;
@@ -73,6 +79,7 @@ export const COMMON_PROPS = {
     modelValue: {
         type: [Array, Number] as PropType<number | number[]>,
     },
+    format: String,
     type: {
         type: String as PropType<DatePickerType>,
         default: DATE_TYPE.date.name,

@@ -1,70 +1,81 @@
 <template>
-    <div :class="[prefixCls]">
-        <div v-if="isDateRange" :class="`${prefixCls}-daterange`">
+    <div :class="prefixCls">
+        <div>
+            <div v-if="isDateRange" :class="`${prefixCls}-daterange`">
+                <Calendar
+                    :modelValue="tempCurrentValue"
+                    :type="type"
+                    :disabledTime="disabledTime"
+                    :disabledDate="rangeDiabledDate"
+                    :rangePosition="RANGE_POSITION.LEFT"
+                    :activeDate="leftActiveDate"
+                    :selectedStatus="selectedStatus"
+                    @change="updateTempCurrentValue"
+                    @selectedDay="selectedDay(RANGE_POSITION.LEFT)"
+                    @update:activeDate="
+                        (timestamp) =>
+                            changeCurrentDate(timestamp, RANGE_POSITION.LEFT)
+                    "
+                />
+                <Calendar
+                    :modelValue="tempCurrentValue"
+                    :type="type"
+                    :disabledTime="disabledTime"
+                    :disabledDate="rangeDiabledDate"
+                    :rangePosition="RANGE_POSITION.RIGHT"
+                    :activeDate="rightActiveDate"
+                    :selectedStatus="selectedStatus"
+                    @change="updateTempCurrentValue"
+                    @selectedDay="selectedDay(RANGE_POSITION.RIGHT)"
+                    @update:activeDate="
+                        (timestamp) =>
+                            changeCurrentDate(timestamp, RANGE_POSITION.RIGHT)
+                    "
+                />
+            </div>
             <Calendar
+                v-else
+                v-model:activeDate="defaultActiveDate"
                 :modelValue="tempCurrentValue"
                 :type="type"
                 :disabledTime="disabledTime"
-                :disabledDate="rangeDiabledDate"
-                :visible="visible"
-                :visibleRightArrow="false"
-                :rangePosition="RANGE_POSITION.LEFT"
-                :defaultDate="leftDefaultDate"
+                :disabledDate="innerDisabledDate"
                 @change="updateTempCurrentValue"
-                @changeCurrentDate="changeCurrentDate"
             />
-            <Calendar
-                :modelValue="tempCurrentValue"
-                :type="type"
-                :visible="visible"
-                :visibleLeftArrow="false"
-                :disabledTime="disabledTime"
-                :disabledDate="rangeDiabledDate"
-                :rangePosition="RANGE_POSITION.RIGHT"
-                :defaultDate="rightDefaultDate"
-                @change="updateTempCurrentValue"
-                @changeCurrentDate="changeCurrentDate"
-            />
-        </div>
-        <Calendar
-            v-else-if="isDateTimeRange"
-            :modelValue="tempCurrentValue"
-            :type="type"
-            :visible="visible"
-            :disabledTime="disabledTime"
-            :disabledDate="rangeDiabledDate"
-            :rangePosition="activeRangePosition"
-            :defaultDate="
-                activeRangePosition === RANGE_POSITION.LEFT
-                    ? leftDefaultDate
-                    : rightDefaultDate
-            "
-            @change="updateTempCurrentValue"
-        />
-        <Calendar
-            v-else
-            :modelValue="tempCurrentValue"
-            :type="type"
-            :visible="visible"
-            :disabledTime="disabledTime"
-            :disabledDate="innerDisabledDate"
-            @change="updateTempCurrentValue"
-        />
-        <div v-if="visibleFooter" :class="`${prefixCls}-footer`">
-            <div :class="`${prefixCls}-footer-inner`">
-                <WButton type="link" size="small" @click="selectCurrentTime">
-                    {{ currentText }}
-                </WButton>
-                <WButton
-                    :disabled="confirmDisabled"
-                    type="primary"
-                    size="small"
-                    @click="confirm"
-                >
-                    {{ t('datePicker.confirm') }}
-                </WButton>
+            <div v-if="visibleFooter" :class="`${prefixCls}-footer`">
+                <div :class="`${prefixCls}-footer-inner`">
+                    <FButton
+                        v-if="currentText"
+                        type="link"
+                        size="small"
+                        @click="selectCurrentTime"
+                    >
+                        {{ currentText }}
+                    </FButton>
+                    <FButton
+                        :disabled="confirmDisabled"
+                        type="primary"
+                        size="small"
+                        @click="confirm"
+                    >
+                        {{ t('datePicker.confirm') }}
+                    </FButton>
+                </div>
             </div>
         </div>
+        <ul
+            v-if="shortcuts && Object.keys(shortcuts).length"
+            :class="`${prefixCls}-shortcuts`"
+            @mousedown.prevent
+        >
+            <li
+                v-for="(val, name) in shortcuts"
+                :key="name"
+                @click="handleShortcut(val)"
+            >
+                {{ name }}
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -77,10 +88,11 @@ import {
     PropType,
     ExtractPropTypes,
 } from 'vue';
+import { isFunction, isArray, isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import Calendar from './calendar.vue';
 import { useNormalModel } from '../_util/use/useModel';
-import WButton from '../button';
+import FButton from '../button';
 import { contrastDate, getTimestampFromFormat } from './helper';
 import {
     DATE_TYPE,
@@ -90,12 +102,14 @@ import {
     DATE_TYPE_CURRENT,
 } from './const';
 
-import { useRange } from './useRange';
+import { useRange, useSelectStatus } from './useRange';
 import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('calendars');
 
 const calendarsProps = {
+    ...COMMON_PROPS,
+    ...RANGE_PROPS,
     visible: {
         type: Boolean,
         default: false,
@@ -106,8 +120,6 @@ const calendarsProps = {
     },
     control: Boolean,
     shortcuts: Object,
-    ...COMMON_PROPS,
-    ...RANGE_PROPS,
 } as const;
 
 export type CalendarsProps = Partial<ExtractPropTypes<typeof calendarsProps>>;
@@ -116,7 +128,7 @@ export default defineComponent({
     name: 'FCalendars',
     components: {
         Calendar,
-        WButton,
+        FButton,
     },
     props: calendarsProps,
     emits: ['update:modelValue', 'tmpSelectedDateChange', 'change'],
@@ -157,76 +169,49 @@ export default defineComponent({
                     currentText = t('datePicker.currentQuarter');
                     break;
                 default:
-                    currentText = t('datePicker.current');
                     break;
             }
             return currentText;
         });
 
+        const { selectedStatus, selectedDay, lastSelectedPosition } =
+            useSelectStatus(props);
         const {
             isDateRange,
-            isDateTimeRange,
 
-            leftDefaultDate,
-            rightDefaultDate,
+            leftActiveDate,
+            rightActiveDate,
             changeCurrentDate,
-
-            activeRangePosition,
-            updateRangePosition,
             rangeDiabledDate,
-        } = useRange(props, tempCurrentValue, innerDisabledDate);
+            resetActiveDate,
+        } = useRange(
+            props,
+            tempCurrentValue,
+            innerDisabledDate,
+            selectedStatus,
+            lastSelectedPosition,
+        );
 
         const confirmDisabled = computed(() => {
-            if (props.type === DATE_TYPE.daterange.name) {
-                return !(
-                    tempCurrentValue.value[0] && tempCurrentValue.value[1]
-                );
+            if (DATE_TYPE[props.type].isRange) {
+                return !tempCurrentValue.value.length;
             }
-            if (props.type === DATE_TYPE.datetimerange.name) {
-                return !(activeRangePosition.value === RANGE_POSITION.LEFT
-                    ? tempCurrentValue.value[0]
-                    : tempCurrentValue.value[1]);
-            }
+
             return !tempCurrentValue.value[0];
         });
 
-        watch(
-            selectedDates,
-            () => {
-                if (DATE_TYPE[props.type].isRange) {
-                    updateRangePosition(RANGE_POSITION.LEFT);
-                    tempCurrentValue.value = selectedDates.value || [];
-                } else {
-                    tempCurrentValue.value = [selectedDates.value];
-                }
-            },
-            {
-                immediate: true,
-            },
-        );
-
-        const isCompleteSelected = () => {
-            if (DATE_TYPE[props.type].isRange) {
-                return (
-                    tempCurrentValue.value.length === 2 &&
-                    tempCurrentValue.value.every((item) => item)
-                );
-            }
-            return !!tempCurrentValue.value[0];
-        };
-
         const visibleFooter = computed(
-            () => props.control || DATE_TYPE[props.type].hasTime,
+            () =>
+                props.control ||
+                DATE_TYPE[props.type].isRange ||
+                DATE_TYPE[props.type].hasTime,
         );
 
         const change = () => {
-            if (isCompleteSelected()) {
-                if (DATE_TYPE[props.type].isRange) {
-                    updateRangePosition(RANGE_POSITION.LEFT);
-                    emit('change', tempCurrentValue.value);
-                } else {
-                    emit('change', tempCurrentValue.value[0]);
-                }
+            if (DATE_TYPE[props.type].isRange) {
+                emit('change', tempCurrentValue.value);
+            } else {
+                emit('change', tempCurrentValue.value[0]);
             }
         };
 
@@ -240,27 +225,43 @@ export default defineComponent({
             }
 
             if (!visibleFooter.value) {
-                if (tempCurrentValue.value[0] && !tempCurrentValue.value[1]) {
-                    updateRangePosition(RANGE_POSITION.RIGHT);
-                }
                 change();
             }
         };
 
+        const handleTempCurrentValue = () => {
+            if (DATE_TYPE[props.type].isRange) {
+                tempCurrentValue.value = selectedDates.value || [];
+            } else {
+                tempCurrentValue.value = selectedDates.value
+                    ? [selectedDates.value]
+                    : [];
+            }
+        };
+        watch(selectedDates, handleTempCurrentValue);
+        const defaultActiveDate = ref(Date.now());
         watch(
             () => props.visible,
             () => {
-                if (!props.visible && !isCompleteSelected()) {
-                    if (DATE_TYPE[props.type].isRange) {
-                        updateRangePosition(RANGE_POSITION.LEFT);
+                if (props.visible) {
+                    handleTempCurrentValue();
+                    if (tempCurrentValue.value.length) {
+                        if (isDateRange.value) {
+                            resetActiveDate();
+                        } else {
+                            defaultActiveDate.value = tempCurrentValue.value[0];
+                        }
                     }
-                    updateTempCurrentValue([]);
                 }
+            },
+            {
+                immediate: true,
             },
         );
 
         const selectCurrentTime = () => {
             if (DATE_TYPE[props.type].isRange) {
+                // FEATURE：时间范围的没想清楚怎么处理，后续优化
                 const format = DATE_TYPE[props.type].format;
                 updateTempCurrentValue([
                     getTimestampFromFormat(null, format),
@@ -270,18 +271,24 @@ export default defineComponent({
                 updateTempCurrentValue([
                     getTimestampFromFormat(null, DATE_TYPE[props.type].format),
                 ]);
+                change();
             }
         };
 
         const confirm = () => {
-            if (
-                DATE_TYPE[props.type].isRange &&
-                activeRangePosition.value === RANGE_POSITION.LEFT
-            ) {
-                updateRangePosition(RANGE_POSITION.RIGHT);
-            } else if (isCompleteSelected()) {
-                change();
+            change();
+        };
+
+        const handleShortcut = (val: any) => {
+            if (isFunction(val)) {
+                val = val();
             }
+            if (isArray(val)) {
+                tempCurrentValue.value = val;
+            } else if (isNumber(val)) {
+                tempCurrentValue.value = [val];
+            }
+            change();
         };
 
         return {
@@ -293,12 +300,9 @@ export default defineComponent({
             currentDateType,
 
             isDateRange,
-            leftDefaultDate,
-            rightDefaultDate,
+            leftActiveDate,
+            rightActiveDate,
             changeCurrentDate,
-
-            isDateTimeRange,
-            activeRangePosition,
 
             visibleFooter,
             selectCurrentTime,
@@ -308,11 +312,16 @@ export default defineComponent({
 
             rangeDiabledDate,
 
+            selectedStatus,
+            selectedDay,
+
             updateTempCurrentValue,
             confirm,
 
             t,
             currentText,
+            handleShortcut,
+            defaultActiveDate,
         };
     },
 });

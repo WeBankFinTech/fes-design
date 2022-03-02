@@ -64,24 +64,6 @@ function formatTime(
     return formatData;
 }
 
-// type TimeSelectProps = {
-//     visible?: boolean;
-//     modelValue?: string;
-//     format?: string;
-//     hourStep?: number;
-//     minuteStep?: number;
-//     secondStep?: number;
-//     disabledHours?: (h: number) => boolean;
-//     disabledMinutes?: (h: number, m: number) => boolean;
-//     disabledSeconds?: (h: number, m: number, s: number) => boolean;
-//     visibleCount?: number;
-// };
-
-// type TimeSelectEmits = {
-//     (e: VModelEvent, value: string): void;
-//     (e: ChangeEvent, value: string): void;
-// };
-
 export interface SelectedTime {
     hour: string | null;
     minute: string | null;

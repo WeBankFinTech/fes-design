@@ -16,7 +16,7 @@ export const useNormalModel = (
 ): [WritableComputedRef<any>, (val: any) => void] => {
     const usingProp = config?.prop ?? 'modelValue';
     const currentValue = ref(props[usingProp]);
-    const updateCurrentValue = (value: any) => {
+    const pureUpdateCurrentValue = (value: any) => {
         if (
             value === currentValue.value ||
             (config.isEqual && isEqual(value, currentValue.value))
@@ -24,14 +24,16 @@ export const useNormalModel = (
             return;
         }
         currentValue.value = value;
-        // TODO 这种用 ts 不知道怎么写
+    };
+    const updateCurrentValue = (value: any) => {
+        pureUpdateCurrentValue(value);
         emit(`update:${usingProp}`, value);
     };
 
     watch(
         () => props[usingProp],
         (val) => {
-            updateCurrentValue(val);
+            pureUpdateCurrentValue(val);
         },
     );
 

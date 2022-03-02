@@ -30,6 +30,7 @@
 }
 
 .@{popper-prefix-cls}-wrapper {
+    position: absolute; // 防止不是插入到 body 的时候影响所在容器布局
     &[data-popper-placement^='top'] > .@{popper-prefix-cls} > .@{popper-prefix-cls}-arrow {
         bottom: -3px;
     }

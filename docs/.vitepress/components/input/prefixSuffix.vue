@@ -13,8 +13,8 @@
         </FInput>
 
         <FInput placeholder="请输入">
-            <template #prefix> ¥ </template>
-            <template #suffix> RMB </template>
+            <template #prefix> count ( </template>
+            <template #suffix> ) </template>
         </FInput>
     </Space>
 </template>
