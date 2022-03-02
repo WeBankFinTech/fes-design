@@ -1,26 +1,22 @@
 <template>
     <div class="text-tips">默认单选：</div>
-    <FCascader
-        v-model="base.value1"
-        :options="base.options"
-        @change="base.handleChange"
-    >
+    <FCascader v-model="value1" :options="options" @change="handleChange">
     </FCascader>
     <div class="text-tips">hover单选：</div>
     <FCascader
-        :options="base.options"
+        :options="options"
         :nodeConfig="{ expandTrigger: 'hover' }"
-        @change="base.handleChange"
+        @change="handleChange"
     >
     </FCascader>
     <div class="text-tips">单选不展示路径：</div>
     <FCascader
-        v-model="base.valueEmitPath"
-        :options="base.options"
+        v-model="valueEmitPath"
+        :options="options"
         :showAllLevels="false"
         :clearable="true"
         :nodeConfig="{ emitPath: true }"
-        @change="base.handleChange"
+        @change="handleChange"
     >
     </FCascader>
 </template>
@@ -207,28 +203,17 @@ function handleChange(value) {
     console.log('Cascader || handleChange || value:', value);
 }
 
-// 基础用法
-const useBase = () => {
-    const state = reactive({
-        value1: '110101',
-        value2: '',
-        valueEmitPath: ['13000', '130200'],
-    });
-
-    return {
-        ...toRefs(state),
-        options,
-        handleChange,
-    };
-};
-
 export default defineComponent({
     setup() {
-        // 基础用法
-        const base = useBase();
+        const state = reactive({
+            value1: '110101',
+            valueEmitPath: ['13000', '130200'],
+        });
 
         return {
-            base,
+            ...toRefs(state),
+            options,
+            handleChange,
         };
     },
 });

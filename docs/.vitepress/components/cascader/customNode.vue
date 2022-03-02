@@ -1,5 +1,5 @@
 <template>
-    <FCascader :options="customNode.options">
+    <FCascader :options="options">
         <template #default="{ node, data }">
             <span>{{ data.label }}</span>
             <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
@@ -153,19 +153,10 @@ const options = [
     },
 ];
 
-const useCustomNode = () => {
-    return {
-        options,
-    };
-};
-
 export default defineComponent({
     setup() {
-        // 自定义节点内容
-        const customNode = useCustomNode();
-
         return {
-            customNode,
+            options,
         };
     },
 });
