@@ -1,28 +1,28 @@
 <template>
     <div class="text-tips">默认(child)：</div>
     <FCascader
-        v-model="base.multiValue1"
-        :options="base.options"
+        v-model="multiValue1"
+        :options="options"
         :multiple="true"
-        @change="base.handleChange"
+        @change="handleChange"
     >
     </FCascader>
     <div class="text-tips">parent：</div>
     <FCascader
-        v-model="base.multiValue2"
-        :options="base.options"
+        v-model="multiValue2"
+        :options="options"
         :multiple="true"
         checkStrictly="parent"
-        @change="base.handleChange"
+        @change="handleChange"
     >
     </FCascader>
     <div class="text-tips">all：</div>
     <FCascader
-        v-model="base.multiValue3"
-        :options="base.options"
+        v-model="multiValue3"
+        :options="options"
         :multiple="true"
         checkStrictly="all"
-        @change="base.handleChange"
+        @change="handleChange"
     >
     </FCascader>
 </template>
@@ -209,28 +209,18 @@ function handleChange(value) {
     console.log('Cascader || handleChange || value:', value);
 }
 
-// 基础用法
-const useBase = () => {
-    const state = reactive({
-        multiValue1: [],
-        multiValue2: [],
-        multiValue3: [],
-    });
-
-    return {
-        ...toRefs(state),
-        options,
-        handleChange,
-    };
-};
-
 export default defineComponent({
     setup() {
-        // 基础用法
-        const base = useBase();
+        const state = reactive({
+            multiValue1: [],
+            multiValue2: [],
+            multiValue3: [],
+        });
 
         return {
-            base,
+            ...toRefs(state),
+            options,
+            handleChange,
         };
     },
 });
