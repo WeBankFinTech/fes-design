@@ -66,6 +66,7 @@
         <ul
             v-if="shortcuts && Object.keys(shortcuts).length"
             :class="`${prefixCls}-shortcuts`"
+            @mousedown.prevent
         >
             <li
                 v-for="(val, name) in shortcuts"

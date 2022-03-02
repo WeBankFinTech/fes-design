@@ -19,7 +19,10 @@ export type ParticalDateObj = Partial<Omit<DateObj, 'year'>> & {
 export type UpdateSelectedDates = (
     date: Partial<DateObj>,
     index: number,
-    isTime?: boolean,
+    option?: {
+        isTime?: boolean;
+        isDateInput?: boolean;
+    },
 ) => void;
 
 export type CalendarEmits = {

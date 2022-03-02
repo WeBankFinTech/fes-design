@@ -50,22 +50,33 @@ export const useSelectedDates = (
     emit: (event: 'selectedDay' | 'change', ...args: any[]) => void,
 ) => {
     const selectedDates = ref<DateObj[]>([]);
+    const updateRangeSelectedDates = (date: DateObj) => {
+        if (
+            transformDateToTimestamp(selectedDates.value[0]) >
+            transformDateToTimestamp(date)
+        ) {
+            selectedDates.value.splice(0, 1, date);
+        } else {
+            selectedDates.value.splice(1, 1, date);
+        }
+    };
     const updateSelectedDates: UpdateSelectedDates = (
-        date: Partial<DateObj>,
-        index: number,
-        isTime,
+        date,
+        index,
+        option = {},
     ) => {
+        console.log(date, index);
         const newDate = Object.assign({}, selectedDates.value[index], date);
         if (
             DATE_TYPE[props.type].isRange &&
-            isTime &&
+            (option.isTime || option.isDateInput) &&
             props.selectedStatus === SELECTED_STATUS.TWO
         ) {
-            selectedDates.value.splice(index, 1, newDate);
+            updateRangeSelectedDates(newDate);
         } else if (
             DATE_TYPE[props.type].isRange &&
             (!selectedDates.value.length ||
-                (props.selectedStatus === SELECTED_STATUS.TWO && !isTime))
+                props.selectedStatus === SELECTED_STATUS.TWO)
         ) {
             selectedDates.value = [newDate, { ...newDate }];
             emit('selectedDay');
@@ -73,14 +84,7 @@ export const useSelectedDates = (
             emit('selectedDay');
             selectedDates.value = [newDate];
         } else {
-            if (
-                transformDateToTimestamp(selectedDates.value[0]) >
-                transformDateToTimestamp(newDate)
-            ) {
-                selectedDates.value.splice(0, 1, newDate);
-            } else {
-                selectedDates.value.splice(1, 1, newDate);
-            }
+            updateRangeSelectedDates(newDate);
             emit('selectedDay');
         }
 
@@ -540,7 +544,9 @@ export const useTime = (
                     day: date.getDate(),
                 });
             }
-            updateSelectedDates(selectedDate, activeIndex.value, true);
+            updateSelectedDates(selectedDate, activeIndex.value, {
+                isTime: true,
+            });
         }
     };
 

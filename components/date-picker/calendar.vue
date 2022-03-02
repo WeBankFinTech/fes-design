@@ -221,7 +221,7 @@ function useDateInput(
     const handleDateInput = (val: string) => {
         const d = new Date(val);
         inputDate.value = val;
-        if (!Number.isNaN(d.getTime())) {
+        if (/^\d{4}-\d{1,2}-\d{1,2}$/.test(val) && !Number.isNaN(d.getTime())) {
             cacheValidInputDate = val;
             updateCurrentDate(parseDate(d));
             updateSelectedDates(
@@ -232,6 +232,9 @@ function useDateInput(
                     day: d.getDate(),
                 },
                 activeIndex.value,
+                {
+                    isDateInput: true,
+                },
             );
         }
     };
