@@ -155,7 +155,15 @@ export default defineComponent({
             }
         };
 
-        const optionsRef = computed(() => [...props.options, ...childOptions]);
+        const optionsRef = computed(() =>
+            [...props.options, ...childOptions].map((option) => {
+                return {
+                    ...option,
+                    value: option[props.valueField],
+                    label: option[props.labelField],
+                };
+            }),
+        );
 
         const filterText = ref('');
         const filteredOptions = computed(() => {
