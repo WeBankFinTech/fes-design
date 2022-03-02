@@ -20,6 +20,10 @@ app.use(FCascader);
 
 --MULTIPLE
 
+### 异步选项
+
+--ASYNCOPTIONS
+
 ### 关联多选
 
 --CHECKSTRICTLY
@@ -36,9 +40,6 @@ app.use(FCascader);
 
 --DISABLED
 
-### 异步选项
-
---ASYNCOPTIONS
 
 --CODE
 

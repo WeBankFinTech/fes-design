@@ -147,19 +147,17 @@ export default defineComponent({
         }
 
         // 由于 Panel 组件不会初始化渲染，所以这里需要做下初始化选中处理
-        onMounted(() => {
-            // 兼容 options 异步的情况
-            watch(
-                () => props.options,
-                () => {
-                    initSelectedNodes();
-                },
-                {
-                    deep: true,
-                    immediate: true,
-                },
-            );
-        });
+        // 兼容 options 异步的情况
+        watch(
+            () => props.options,
+            () => {
+                initSelectedNodes();
+            },
+            {
+                deep: true,
+                immediate: true,
+            },
+        );
 
         watch(isOpened, () => {
             emit('visibleChange', unref(isOpened));
