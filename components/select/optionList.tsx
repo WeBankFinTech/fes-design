@@ -70,7 +70,7 @@ export default defineComponent({
             const classList = [
                 prefixCls,
                 isSelected && 'is-checked',
-                option.disabled  || (!isSelected && props.isLimit) && 'is-disabled',
+                (option.disabled || (!isSelected && props.isLimit)) && 'is-disabled',
             ].filter(Boolean);
             return (
                 <div
