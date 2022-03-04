@@ -1,7 +1,6 @@
-import { isNumber, isNil } from 'lodash-es';
+import { isNumber } from 'lodash-es';
 
-import { DATE_TYPE } from './const';
-import type { DateObj, ParticalDateObj, DatePickerType } from './interface';
+import type { ParticalDateObj } from './interface';
 
 export const isEmptyValue = (val: any) => {
     if (!val) return true;
@@ -62,24 +61,6 @@ export const contrastDate = (
     if (t1 > t2) return 1;
     if (t1 === t2) return 0;
     return -1;
-};
-
-export const isCompeleteSelected = (
-    selectedDate?: DateObj,
-    type?: DatePickerType,
-) => {
-    if (!selectedDate || !type) return false;
-    if (DATE_TYPE[type].hasTime) {
-        return (
-            selectedDate?.day &&
-            !(
-                isNil(selectedDate.hour) &&
-                isNil(selectedDate.minute) &&
-                isNil(selectedDate.second)
-            )
-        );
-    }
-    return !!selectedDate;
 };
 
 export const parseDate = (date?: number | Date) => {

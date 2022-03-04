@@ -155,7 +155,15 @@ export default defineComponent({
             }
         };
 
-        const optionsRef = computed(() => [...props.options, ...childOptions]);
+        const optionsRef = computed(() =>
+            [...props.options, ...childOptions].map((option) => {
+                return {
+                    ...option,
+                    value: option[props.valueField],
+                    label: option[props.labelField],
+                };
+            }),
+        );
 
         const filterText = ref('');
         const filteredOptions = computed(() => {
@@ -208,7 +216,6 @@ export default defineComponent({
         watch(
             [currentValue, optionsRef],
             ([newValue, newOptions]) => {
-                if (!newValue) return;
                 const getOption = (val: SelectValue) => {
                     let cacheOption;
                     if (newOptions && newOptions.length) {
@@ -225,17 +232,18 @@ export default defineComponent({
                     if (cacheOption) {
                         return cacheOption;
                     }
-                    return { value: val, label: val };
+                    return val ? { value: val, label: val } : null;
                 };
 
                 if (!props.multiple) {
-                    selectedOptionsRef.value = [getOption(newValue)];
+                    const option = getOption(newValue);
+                    selectedOptionsRef.value = option ? [option] : [];
                 } else {
-                    selectedOptionsRef.value = newValue.map(
-                        (value: SelectValue) => {
+                    selectedOptionsRef.value = newValue
+                        .map((value: SelectValue) => {
                             return getOption(value);
-                        },
-                    );
+                        })
+                        .filter(Boolean);
                 }
             },
             {

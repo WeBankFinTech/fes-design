@@ -4,15 +4,17 @@
 
 import { PropType, VNode } from 'vue';
 
+export type DataSource = any;
+
 export const VirtualProps = {
     dataKey: {
         type: [String, Function] as PropType<
-            string | ((dataSource: Record<string, any>) => string | number)
+            string | ((dataSource: DataSource) => string | number)
         >,
         required: true,
     },
     dataSources: {
-        type: Array as PropType<Record<string, any>[]>,
+        type: Array as PropType<DataSource[]>,
         required: true,
     },
 
@@ -80,7 +82,7 @@ export const ItemProps = {
         type: Boolean,
     },
     source: {
-        type: [Object, String, Number] as PropType<object | string | number>,
+        type: [Object, String, Number] as PropType<DataSource>,
     },
     uniqueKey: {
         type: [String, Number] as PropType<string | number>,

@@ -1,6 +1,8 @@
 @import '../../style/themes/index';
 @import '../../style/mixins/index';
 @import './mixin.less';
+@import './inputInner.less';
+
 
 @input-prefix-cls: ~'@{cls-prefix}-input';
 @textarea-prefix-cls: ~'@{cls-prefix}-textarea';
@@ -15,85 +17,15 @@
     width: 100%;
     vertical-align: middle;
     .text();
-    &-inner {
-        position: relative;
-        display: inline-flex;
-        flex-direction: row;
-        box-sizing: border-box;
-        width: 100%;
-        height: @input-height-base;
-        padding: 0 8px; // FEATURE 变量抽离
-        border: var(--f-border-base);
-        background-color: var(--f-white);
-        border-radius: var(--f-border-radius-base);
-        transition: all @animation-duration-slow @ease-base-out;
-        &:hover {
-            border-color: var(--f-primary-color);
-        }
-        &-focus {
-            border-color: var(--f-primary-color);
-            box-shadow: 0 0 0 2px var(--f-focus-shadow-color);
-        }
-        &-disabled {
-            .disabled();
-        }
-    }
     &.is-error {
         .@{input-prefix-cls}-inner:not(.@{input-prefix-cls}-inner-disabled) {
             border-color: var(--f-danger-color);   
         }
         .@{input-prefix-cls}-inner-focus:not(.@{input-prefix-cls}-inner-disabled) {
+            border-color: var(--f-danger-color);
             box-shadow: 0 0 0 2px var(--f-focus-danger-shadow-color);
         }
     }
-    &-inner-el {
-        position: relative;
-        box-sizing: border-box;
-        width: 100%;
-        color: var(--f-text-color);
-        font-size: inherit;
-        background-color: transparent;
-        border: 0;
-        outline: 0;
-
-        &::placeholder {
-            color: var(--f-text-color-caption);
-        }
-        &[disabled] {
-            .disabled();
-        }
-    }
-
-    &-prefix,
-    &-suffix {
-        z-index: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 100%;
-        color: inherit;
-        transition: all @animation-duration-slow;
-        user-select: none;
-        > .@{fes-icon-cls} {
-            color: var(--f-text-color-caption);
-            vertical-align: middle;
-        }
-    }
-    &-prefix {
-        margin-right: 8px;
-    }
-
-    &-suffix {
-        margin-left: 8px;
-        vertical-align: bottom;
-    }
-    &-icon {
-        padding-left: 8px;
-        &:first-child {
-            padding-left: 0;
-        }
-    }
-
     &-prepend {
         .group();
         .group-prepend();

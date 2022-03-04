@@ -1,5 +1,11 @@
 <template>
-    <FSelect filterable :options="optionList"> </FSelect>
+    <FSelect
+        filterable
+        valueField="key"
+        labelField="name"
+        :options="optionList"
+    >
+    </FSelect>
 </template>
 <script>
 import { reactive } from 'vue';
@@ -11,8 +17,8 @@ let count = TOTAL_COUNT;
 while (count--) {
     const index = TOTAL_COUNT - count;
     DataItems.push({
-        label: index,
-        value: index,
+        name: index,
+        key: index,
     });
 }
 

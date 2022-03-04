@@ -1,18 +1,23 @@
 import { watch, watchEffect, ref, reactive, computed, Ref } from 'vue';
 import { isNil } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
+import { useNormalModel } from '../_util/use/useModel';
 
-import { DATE_TYPE, RANGE_POSITION, YEAR_COUNT } from './const';
+import { DATE_TYPE, SELECTED_STATUS, YEAR_COUNT } from './const';
 import {
     parseDate,
     timeFormat,
     contrastDate,
     transformDateToTimestamp,
-    isCompeleteSelected,
 } from './helper';
 
 import type { CalendarProps } from './calendar.vue';
-import type { DateObj, CalendarEmits, DayItem } from './interface';
+import type {
+    DateObj,
+    CalendarEmits,
+    DayItem,
+    UpdateSelectedDates,
+} from './interface';
 import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('calendar');
@@ -21,19 +26,18 @@ const WEEK_NAMES = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 type UpdateCurrentDate = (date: Partial<DateObj>) => void;
 
 export const useCurrentDate = (props: CalendarProps, emit: CalendarEmits) => {
-    const currentDate = reactive(parseDate(props.defaultDate));
+    const currentDate = reactive(parseDate(props.activeDate));
+    const [innerActiveDate, updateActiveDate] = useNormalModel(props, emit, {
+        prop: 'activeDate',
+    });
     const updateCurrentDate: UpdateCurrentDate = (date: Partial<DateObj>) => {
         Object.assign(currentDate, date);
-
-        emit('changeCurrentDate', transformDateToTimestamp(currentDate));
+        updateActiveDate(transformDateToTimestamp(currentDate));
     };
 
-    watch(
-        () => props.defaultDate,
-        () => {
-            Object.assign(currentDate, parseDate(props.defaultDate));
-        },
-    );
+    watch(innerActiveDate, () => {
+        Object.assign(currentDate, parseDate(innerActiveDate.value));
+    });
 
     return {
         currentDate,
@@ -41,45 +45,56 @@ export const useCurrentDate = (props: CalendarProps, emit: CalendarEmits) => {
     };
 };
 
-type UpdateSelectedDates = (
-    date: Partial<DateObj>,
-    index: number,
-    isTime?: boolean,
-) => void;
-
-export const useSelectedDates = (props: CalendarProps, emit: CalendarEmits) => {
-    const selectedDates = ref<(DateObj | null)[]>([]);
+export const useSelectedDates = (
+    props: CalendarProps,
+    emit: (event: 'selectedDay' | 'change', ...args: any[]) => void,
+) => {
+    const selectedDates = ref<DateObj[]>([]);
+    const updateRangeSelectedDates = (date: DateObj) => {
+        if (
+            transformDateToTimestamp(selectedDates.value[0]) >
+            transformDateToTimestamp(date)
+        ) {
+            selectedDates.value.splice(0, 1, date);
+        } else {
+            selectedDates.value.splice(1, 1, date);
+        }
+    };
     const updateSelectedDates: UpdateSelectedDates = (
-        date: Partial<DateObj>,
-        index: number,
-        isTime?: boolean,
+        date,
+        index,
+        option = {},
     ) => {
+        console.log(date, index);
         const newDate = Object.assign({}, selectedDates.value[index], date);
         if (
-            !isTime &&
-            ((selectedDates.value[index] &&
-                props.type === DATE_TYPE.daterange.name) ||
-                (props.type === DATE_TYPE.datetimerange.name &&
-                    props.rangePosition === RANGE_POSITION.LEFT &&
-                    selectedDates.value[1]))
+            DATE_TYPE[props.type].isRange &&
+            (option.isTime || option.isDateInput) &&
+            props.selectedStatus === SELECTED_STATUS.TWO
         ) {
-            selectedDates.value = [];
-            selectedDates.value[index] = newDate;
+            updateRangeSelectedDates(newDate);
+        } else if (
+            DATE_TYPE[props.type].isRange &&
+            (!selectedDates.value.length ||
+                props.selectedStatus === SELECTED_STATUS.TWO)
+        ) {
+            selectedDates.value = [newDate, { ...newDate }];
+            emit('selectedDay');
+        } else if (!DATE_TYPE[props.type].isRange) {
+            emit('selectedDay');
+            selectedDates.value = [newDate];
         } else {
-            selectedDates.value.splice(index, 1, newDate);
+            updateRangeSelectedDates(newDate);
+            emit('selectedDay');
         }
 
-        if (isCompeleteSelected(selectedDates.value[index], props.type)) {
-            if (DATE_TYPE[props.type].isRange) {
-                emit('change', [
-                    transformDateToTimestamp(selectedDates.value[0]),
-                    transformDateToTimestamp(selectedDates.value[1], true),
-                ]);
-            } else {
-                emit('change', [
-                    transformDateToTimestamp(selectedDates.value[0]),
-                ]);
-            }
+        if (DATE_TYPE[props.type].isRange) {
+            emit('change', [
+                transformDateToTimestamp(selectedDates.value[0]),
+                transformDateToTimestamp(selectedDates.value[1], true),
+            ]);
+        } else {
+            emit('change', [transformDateToTimestamp(selectedDates.value[0])]);
         }
     };
 
@@ -350,7 +365,7 @@ export function useDay(
             new Date(transformDateToTimestamp(selectedDates.value[1])),
     );
     const completeRangeSelected = computed(
-        () => startDate.value && endDate.value,
+        () => props.selectedStatus === SELECTED_STATUS.TWO,
     );
     // 样式计算
     const inRangeDate = (date: Date, format: string) => {
@@ -504,7 +519,7 @@ export const useTime = (
     const hasTime = computed(() => DATE_TYPE[props.type].hasTime);
     const currentTime = ref('');
     watch(
-        [selectedDates, activeIndex],
+        [selectedDates],
         () => {
             currentTime.value = transformDateToTime(
                 selectedDates.value[activeIndex.value],
@@ -515,13 +530,23 @@ export const useTime = (
         },
     );
 
-    const changeTime = (t: string) => {
-        if (t) {
-            updateSelectedDates(
-                transformTimeToDate(t),
-                activeIndex.value,
-                true,
-            );
+    const changeTime = (time: string) => {
+        if (time) {
+            const selectedDate = {
+                ...selectedDates.value[activeIndex.value],
+                ...transformTimeToDate(time),
+            };
+            if (!selectedDates.value[activeIndex.value]?.year) {
+                const date = new Date();
+                Object.assign(selectedDate, {
+                    year: date.getFullYear(),
+                    month: date.getMonth(),
+                    day: date.getDate(),
+                });
+            }
+            updateSelectedDates(selectedDate, activeIndex.value, {
+                isTime: true,
+            });
         }
     };
 

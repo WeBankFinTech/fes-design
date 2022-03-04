@@ -1,67 +1,7 @@
-import { ref, computed, Ref } from 'vue';
-import type { FormValidate, BooleanRef } from '../_util/interface';
+import { ref } from 'vue';
+import type { FormValidate } from '../_util/interface';
 
-import type { InputCurrentValue, InputEmits } from './interface';
-
-export function usePassword(
-    currentValue: InputCurrentValue,
-    showPassword: BooleanRef,
-    readonly: BooleanRef,
-    disabled: BooleanRef,
-    focused: BooleanRef,
-) {
-    const passwordVisible = ref(false);
-
-    const handlePasswordVisible = () => {
-        passwordVisible.value = !passwordVisible.value;
-    };
-
-    const showPwdSwitchIcon = computed(
-        () =>
-            showPassword.value &&
-            !readonly.value &&
-            !disabled.value &&
-            (currentValue.value != null || focused.value),
-    );
-
-    return {
-        passwordVisible,
-        handlePasswordVisible,
-        showPwdSwitchIcon,
-    };
-}
-
-export function useClear(
-    currentValue: InputCurrentValue,
-    clearable: BooleanRef,
-    readonly: BooleanRef,
-    disabled: BooleanRef,
-    focused: BooleanRef,
-    hovering: BooleanRef,
-    handleValueChange: (val: string | number) => void,
-    emit: InputEmits,
-) {
-    const showClear = computed(
-        () =>
-            clearable.value &&
-            !readonly.value &&
-            !disabled.value &&
-            currentValue.value &&
-            (focused.value || hovering.value),
-    );
-
-    const clear = () => {
-        if (currentValue.value !== '') {
-            handleValueChange('');
-        }
-        emit('clear');
-    };
-
-    return {
-        showClear,
-        clear,
-    };
-}
+import type { InputValue, InputEmits } from './interface';
 
 export function useFocus(emit: InputEmits, validate: FormValidate) {
     const focused = ref(false);
@@ -84,7 +24,9 @@ export function useFocus(emit: InputEmits, validate: FormValidate) {
     };
 }
 
-export function useMouse(emit: InputEmits) {
+export function useMouse(
+    emit: (event: 'mouseleave' | 'mouseenter', e: Event) => void,
+) {
     const hovering = ref(false);
     const onMouseLeave = (e: MouseEvent) => {
         hovering.value = false;
@@ -103,20 +45,31 @@ export function useMouse(emit: InputEmits) {
     };
 }
 
-export function useWordLimit(
-    currentValue: InputCurrentValue,
-    showWordLimit: BooleanRef,
-    maxlength: Ref<number>,
-    disabled: BooleanRef,
-) {
-    const isWordLimitVisible = computed(
-        () => showWordLimit.value && maxlength.value && !disabled.value,
-    );
-    const textLength = computed(
-        () => currentValue.value?.toString().length || 0,
-    );
+export function useInput(updateValue: (val: InputValue) => void) {
+    const isComposing = ref(false);
+    const handleInput = (event: Event | InputValue) => {
+        if (!isComposing.value) {
+            if (event instanceof Event) {
+                const { value } = event.target as HTMLInputElement;
+                updateValue(value);
+            } else {
+                updateValue(event);
+            }
+        }
+    };
+    const handleCompositionStart = () => {
+        isComposing.value = true;
+    };
+    const handleCompositionEnd = (event: Event) => {
+        if (isComposing.value) {
+            isComposing.value = false;
+            handleInput(event);
+        }
+    };
+
     return {
-        isWordLimitVisible,
-        textLength,
+        handleInput,
+        handleCompositionStart,
+        handleCompositionEnd,
     };
 }

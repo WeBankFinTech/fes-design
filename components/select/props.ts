@@ -62,6 +62,14 @@ export const selectProps = {
         type: Boolean,
         default: false,
     },
+    valueField: {
+        type: String,
+        default: 'value',
+    },
+    labelField: {
+        type: String,
+        default: 'label',
+    },
 } as const;
 
 export const selectPropsDefaultValue = extractPropsDefaultValue(selectProps);
