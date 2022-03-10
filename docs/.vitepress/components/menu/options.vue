@@ -1,5 +1,5 @@
 <template>
-    <f-menu :options="options"></f-menu>
+    <f-menu v-model="value" :options="options"></f-menu>
 </template>
 <script>
 import { ref, h } from 'vue';
@@ -7,6 +7,8 @@ import { ref, h } from 'vue';
 import { AppstoreOutlined } from '@fesjs/fes-design/icon';
 export default {
     setup() {
+        const value = ref(2);
+
         const options = [
             {
                 label: () => '我是子菜单',
@@ -57,7 +59,7 @@ export default {
             },
             {
                 label: '人群管理',
-                value: '2',
+                value: 2,
             },
             {
                 label: '资源管理',
@@ -65,6 +67,7 @@ export default {
             },
         ];
         return {
+            value,
             options,
         };
     },

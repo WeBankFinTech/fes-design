@@ -1,7 +1,7 @@
 import type { Ref, VNodeChild } from 'vue';
 
 export interface MenuOption {
-    value: string;
+    value: string | number;
     label: string | (() => VNodeChild);
     icon: () => VNodeChild;
     children: MenuOption[];
@@ -10,7 +10,7 @@ export interface MenuOption {
 
 export interface MenuItemType {
     uid: string;
-    value: string;
+    value: string | number;
     type: string;
     children: MenuItemType[];
     isOpened: Ref<boolean>;
