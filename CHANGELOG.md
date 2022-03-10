@@ -1,3 +1,19 @@
+## [0.3.5](https://github.com/WeBankFinTech/fes-design/compare/v0.3.4...v0.3.5) (2022-03-10)
+
+
+### Bug Fixes
+
+* 修复 small button radius 问题 ([#65](https://github.com/WeBankFinTech/fes-design/issues/65)) ([7a3d4ba](https://github.com/WeBankFinTech/fes-design/commit/7a3d4ba6696dabc2df3653dc2c379eb591852f7e))
+* 修复类型错误 ([b8fb686](https://github.com/WeBankFinTech/fes-design/commit/b8fb686a831a8c06f57da73126c6ed7d1f8346d8))
+* Select没值时不更新label问题和 cascader支持异步options ([cfeddec](https://github.com/WeBankFinTech/fes-design/commit/cfeddec27804197b8b90659a94979f58d5a5d55f))
+
+
+### Features
+
+* select支持配置valueLabel ([#64](https://github.com/WeBankFinTech/fes-design/issues/64)) ([63ca6a8](https://github.com/WeBankFinTech/fes-design/commit/63ca6a85ba62495f84486bea551119e625defc91))
+
+
+
 ## [0.3.4](https://github.com/WeBankFinTech/fes-design/compare/v0.3.3...v0.3.4) (2022-02-28)
 
 
