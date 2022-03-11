@@ -6,6 +6,7 @@
         <FButton class="ml-10" @click="show[3] = true">没有遮罩</FButton>
         <FButton class="ml-10" @click="show[4] = true">内容居中</FButton>
         <FButton class="ml-10" @click="show[6] = true">全屏</FButton>
+        <FButton class="ml-10" @click="show[7] = true">垂直居中</FButton>
         <FModal
             v-model:show="show[0]"
             title="这里是标题"
@@ -60,6 +61,17 @@
             title="这里是标题"
             full-screen
             @ok="show[6] = false"
+        >
+            <div>我是内容...</div>
+            <div>我是内容...</div>
+            <div>我是内容...</div>
+        </FModal>
+
+        <FModal
+            v-model:show="show[7]"
+            title="这里是标题"
+            vertical-center
+            @ok="show[7] = false"
         >
             <div>我是内容...</div>
             <div>我是内容...</div>

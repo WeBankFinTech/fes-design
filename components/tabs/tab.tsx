@@ -20,7 +20,7 @@ export default defineComponent({
 
         const mergeClosable = computed(() => {
             if (!isCard.value) return;
-            return props.closable != null ? props.closable : closableRef.value;
+            return typeof props.closable === 'boolean' ? props.closable : closableRef.value;
         });
 
         function handleClick() {

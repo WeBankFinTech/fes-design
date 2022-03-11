@@ -9,7 +9,10 @@ export const tabProps = {
     },
     name: [String, Number] as PropType<string | number>,
     disabled: Boolean,
-    closable: Boolean,
+    closable: {
+        type: Boolean as PropType<boolean | undefined>,
+        default: null as null,
+    },
     displayDirective: {
         type: String as PropType<'if' | 'show'>,
         default: 'if',
@@ -33,15 +36,17 @@ export function computeTabBarStyle(tabEl: Element, pos: Position = 'top') {
         case 'right':
             style.width = '2px';
             style.height = `${currRect.height}px`;
-            style.transform = `translate(0px, ${currRect.top - firstRect.top
-                }px)`;
+            style.transform = `translate(0px, ${
+                currRect.top - firstRect.top
+            }px)`;
             break;
         case 'top':
         case 'bottom':
             style.width = `${currRect.width}px`;
             style.height = '2px';
-            style.transform = `translate(${currRect.left - firstRect.left
-                }px, 0px)`;
+            style.transform = `translate(${
+                currRect.left - firstRect.left
+            }px, 0px)`;
             break;
         default:
     }

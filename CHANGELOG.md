@@ -1,3 +1,18 @@
+## [0.3.6](https://github.com/WeBankFinTech/fes-design/compare/v0.3.5...v0.3.6) (2022-03-11)
+
+
+### Bug Fixes
+
+* tabs closable ([#66](https://github.com/WeBankFinTech/fes-design/issues/66)) ([5b7fb31](https://github.com/WeBankFinTech/fes-design/commit/5b7fb316417b96cef16d8bfc87248b5e783da2fa))
+
+
+### Features
+
+* 组件menu的model支持类型Number ([#68](https://github.com/WeBankFinTech/fes-design/issues/68)) ([5a97901](https://github.com/WeBankFinTech/fes-design/commit/5a97901c842c2b68f1aa2e9a833333d28d01bc28))
+* modal 新增垂直居中 ([#67](https://github.com/WeBankFinTech/fes-design/issues/67)) ([0f24ada](https://github.com/WeBankFinTech/fes-design/commit/0f24ada1108f0fb721b411e15c37cf7177668533))
+
+
+
 ## [0.3.5](https://github.com/WeBankFinTech/fes-design/compare/v0.3.4...v0.3.5) (2022-03-10)
 
 
