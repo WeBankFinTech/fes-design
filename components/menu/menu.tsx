@@ -119,7 +119,7 @@ export default defineComponent({
 
         const render = () => {
             if (props.options.length === 0) {
-                return slots.default();
+                return slots.default?.();
             }
             return renderChildren(props.options);
         };
