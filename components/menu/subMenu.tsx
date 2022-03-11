@@ -27,7 +27,7 @@ export default defineComponent({
     },
     props: {
         value: {
-            type: String,
+            type: [String, Number],
             default: null,
         },
         label: String,
