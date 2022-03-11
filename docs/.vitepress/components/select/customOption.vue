@@ -1,15 +1,23 @@
 <template>
-    <FSelect>
-        <FOption
-            v-for="(item, index) in optionList"
-            :key="index"
-            :value="item.value"
-            :label="item.label"
-        >
-            <FEllipsis>{{ item.label }}</FEllipsis>
-            <span>{{ item.value }}</span>
-        </FOption>
-    </FSelect>
+    <FSpace>
+        <FSelect>
+            <FOption
+                v-for="(item, index) in optionList"
+                :key="index"
+                :value="item.value"
+                :label="item.label"
+            >
+                <FEllipsis>{{ item.label }}</FEllipsis>
+                <span>{{ item.value }}</span>
+            </FOption>
+        </FSelect>
+
+        <FSelect :options="optionList">
+            <template #option="{ label, value }">
+                {{ value }} - {{ label.slice(0, 2) }}
+            </template>
+        </FSelect>
+    </FSpace>
 </template>
 <script>
 import { reactive } from 'vue';

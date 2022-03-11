@@ -18,6 +18,24 @@ app.use(FSelect);
 
 --COMMON
 
+### 配置方式
+
+通过配置`options`直接生成选项，当数据量大于 `50` 时使用 `VirtualList`组件实现虚拟列表，性能更优。
+
+--OPTIONS
+
+### 自定义模板
+
+可以自定义备选项模板，`FOption`子组件是针对每一项单独配置，而 `slots.option` 插槽则是通用配置。
+
+--CUSTOMOPTION
+
+### 可清空
+
+包含清空按钮，可将选择器清空为初始状态
+
+--CLEARABLE
+
 ### 禁用选项
 
 禁止选择某一项
@@ -36,12 +54,6 @@ app.use(FSelect);
 
 --LIMIT
 
-### 自定义模板
-
-可以自定义备选项模板
-
---LABEL
-
 ### 可过滤
 
 可以利用搜索功能快速查找选项
@@ -52,30 +64,24 @@ app.use(FSelect);
 
 --REMOTE
 
-### 可清空
-
-包含清空按钮，可将选择器清空为初始状态
-
---CLEARABLE
-
 ### 禁用状态
 
 选择器不可用状态
 
 --DISABLED
 
-
-### 配置方式
-
-通过配置`options`直接生成选项，当数据量大于 `50` 时使用 `VirtualList`组件实现虚拟列表，性能更优。
-
---OPTIONS
-
 ### 无数据
 
 --NODATA
 
+
+### 控制回填内容
+
+--LABELFIELD
+
 --CODE
+
+
 
 ## Select Props
 
@@ -97,7 +103,7 @@ app.use(FSelect);
 | options           | 选项配置                            | array\<Option\>                            | `[]`               |
 | valueField    | 替代 `Option` 中的 `value` 字段名                                                              | string  | `value`    |
 | labelField    | 替代 `Option` 中的 `label` 字段名                                                              | string  | `label`    |
-
+| optionLabelField    | 配置选中选项显示的字段名                                                    | string  | `label`    |
 
 ## Select Events
 
@@ -118,6 +124,7 @@ app.use(FSelect);
 | ------- | --------------- |
 | default | option 组件列表 |
 | empty   | 无选项的内容    |
+| option   | 自定义 `Option` 内容    |
 
 ## Select Methods
 

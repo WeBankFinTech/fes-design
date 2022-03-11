@@ -40,6 +40,7 @@
                     :onSelect="onSelect"
                     :isLimit="isLimitRef"
                     :emptyText="listEmptyText"
+                    :renderOption="$slots.option"
                     @scroll="onScroll"
                     @mousedown.prevent
                 />
@@ -219,9 +220,14 @@ export default defineComponent({
                 const getOption = (val: SelectValue) => {
                     let cacheOption;
                     if (newOptions && newOptions.length) {
-                        cacheOption = newOptions.find(
-                            (option) => option.value === val,
-                        );
+                        cacheOption = newOptions
+                            .map((option) => {
+                                return {
+                                    ...option,
+                                    label: option[props.optionLabelField],
+                                };
+                            })
+                            .find((option) => option.value === val);
                         if (cacheOption) {
                             return cacheOption;
                         }

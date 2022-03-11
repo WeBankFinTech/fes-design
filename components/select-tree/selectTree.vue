@@ -292,12 +292,19 @@ export default defineComponent({
         };
 
         const selectedOptions = computed(() =>
-            Object.values(nodeList.value).filter((option) => {
-                if (props.multiple) {
-                    return currentValue.value.includes(option.value);
-                }
-                return [currentValue.value].includes(option.value);
-            }),
+            Object.values(nodeList.value)
+                .filter((option) => {
+                    if (props.multiple) {
+                        return currentValue.value.includes(option.value);
+                    }
+                    return [currentValue.value].includes(option.value);
+                })
+                .map((option) => {
+                    return {
+                        ...option,
+                        label: `${option[props.optionLabelField]}`,
+                    };
+                }),
         );
 
         const focus = (e: Event) => {
