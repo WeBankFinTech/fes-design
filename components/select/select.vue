@@ -207,9 +207,10 @@ export default defineComponent({
                     if (isLimitRef.value) return;
                 }
             } else {
+                // 体验更好
                 setTimeout(() => {
                     filterText.value = '';
-                }, 1000);
+                }, 400);
                 isOpenedRef.value = false;
             }
             updateCurrentValue(unref(value));
