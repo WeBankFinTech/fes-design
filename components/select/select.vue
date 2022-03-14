@@ -63,6 +63,7 @@ import {
     onMounted,
     CSSProperties,
     defineComponent,
+    nextTick,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -198,14 +199,17 @@ export default defineComponent({
 
         const onSelect = (value: SelectValue) => {
             if (props.disabled) return;
-            filterText.value = '';
             if (props.multiple) {
+                filterText.value = '';
                 if (isSelect(value)) {
                     emit('removeTag', value);
                 } else {
                     if (isLimitRef.value) return;
                 }
             } else {
+                setTimeout(() => {
+                    filterText.value = '';
+                }, 1000);
                 isOpenedRef.value = false;
             }
             updateCurrentValue(unref(value));
@@ -222,10 +226,13 @@ export default defineComponent({
                     if (newOptions && newOptions.length) {
                         cacheOption = newOptions
                             .map((option) => {
-                                return {
-                                    ...option,
-                                    label: option[props.optionLabelField],
-                                };
+                                if (props.optionLabelField) {
+                                    return {
+                                        ...option,
+                                        label: option[props.optionLabelField],
+                                    };
+                                }
+                                return option;
                             })
                             .find((option) => option.value === val);
                         if (cacheOption) {

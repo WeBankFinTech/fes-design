@@ -300,10 +300,13 @@ export default defineComponent({
                     return [currentValue.value].includes(option.value);
                 })
                 .map((option) => {
-                    return {
-                        ...option,
-                        label: `${option[props.optionLabelField]}`,
-                    };
+                    if (props.optionLabelField) {
+                        return {
+                            ...option,
+                            label: option[props.optionLabelField],
+                        };
+                    }
+                    return option;
                 }),
         );
 
