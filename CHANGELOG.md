@@ -1,3 +1,17 @@
+## [0.3.7](https://github.com/WeBankFinTech/fes-design/compare/v0.3.6...v0.3.7) (2022-03-14)
+
+
+### Bug Fixes
+
+* menu支持异步options ([#71](https://github.com/WeBankFinTech/fes-design/issues/71)) ([941ce15](https://github.com/WeBankFinTech/fes-design/commit/941ce15b7450bb0b7fb3ec23c9f8a0a0632129f7))
+
+
+### Features
+
+* select提供选项定制和回显内容定制 ([#69](https://github.com/WeBankFinTech/fes-design/issues/69)) ([cbc9c45](https://github.com/WeBankFinTech/fes-design/commit/cbc9c4541f92b89092bebe33cfe24e2c25c2e233))
+
+
+
 ## [0.3.6](https://github.com/WeBankFinTech/fes-design/compare/v0.3.5...v0.3.6) (2022-03-11)
 
 
