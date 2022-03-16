@@ -1,3 +1,12 @@
+## [0.3.8](https://github.com/WeBankFinTech/fes-design/compare/v0.3.7...v0.3.8) (2022-03-16)
+
+
+### Bug Fixes
+
+* 修复 upload 组件上文文件问题 ([#72](https://github.com/WeBankFinTech/fes-design/issues/72)) ([3bc9bb6](https://github.com/WeBankFinTech/fes-design/commit/3bc9bb6e418d1c2a464f0cf242a8b7e9aaf2fd95))
+
+
+
 ## [0.3.7](https://github.com/WeBankFinTech/fes-design/compare/v0.3.6...v0.3.7) (2022-03-14)
 
 
