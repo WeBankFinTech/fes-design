@@ -30,6 +30,7 @@ const optionListProps = {
         type: Boolean,
     },
     emptyText: String,
+    renderOption: Function
 } as const;
 
 export default defineComponent({
@@ -45,6 +46,9 @@ export default defineComponent({
         ) => {
             if ((option as any).slots?.default) {
                 return (option as any).slots.default({ isSelected });
+            }
+            if (props.renderOption) {
+                return props.renderOption({...option, isSelected});
             }
             if (option.label) {
                 return (

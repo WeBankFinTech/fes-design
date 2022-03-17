@@ -1,3 +1,57 @@
+## [0.3.8](https://github.com/WeBankFinTech/fes-design/compare/v0.3.7...v0.3.8) (2022-03-16)
+
+
+### Bug Fixes
+
+* 修复 upload 组件上文文件问题 ([#72](https://github.com/WeBankFinTech/fes-design/issues/72)) ([3bc9bb6](https://github.com/WeBankFinTech/fes-design/commit/3bc9bb6e418d1c2a464f0cf242a8b7e9aaf2fd95))
+
+
+
+## [0.3.7](https://github.com/WeBankFinTech/fes-design/compare/v0.3.6...v0.3.7) (2022-03-14)
+
+
+### Bug Fixes
+
+* menu支持异步options ([#71](https://github.com/WeBankFinTech/fes-design/issues/71)) ([941ce15](https://github.com/WeBankFinTech/fes-design/commit/941ce15b7450bb0b7fb3ec23c9f8a0a0632129f7))
+
+
+### Features
+
+* select提供选项定制和回显内容定制 ([#69](https://github.com/WeBankFinTech/fes-design/issues/69)) ([cbc9c45](https://github.com/WeBankFinTech/fes-design/commit/cbc9c4541f92b89092bebe33cfe24e2c25c2e233))
+
+
+
+## [0.3.6](https://github.com/WeBankFinTech/fes-design/compare/v0.3.5...v0.3.6) (2022-03-11)
+
+
+### Bug Fixes
+
+* tabs closable ([#66](https://github.com/WeBankFinTech/fes-design/issues/66)) ([5b7fb31](https://github.com/WeBankFinTech/fes-design/commit/5b7fb316417b96cef16d8bfc87248b5e783da2fa))
+
+
+### Features
+
+* 组件menu的model支持类型Number ([#68](https://github.com/WeBankFinTech/fes-design/issues/68)) ([5a97901](https://github.com/WeBankFinTech/fes-design/commit/5a97901c842c2b68f1aa2e9a833333d28d01bc28))
+* modal 新增垂直居中 ([#67](https://github.com/WeBankFinTech/fes-design/issues/67)) ([0f24ada](https://github.com/WeBankFinTech/fes-design/commit/0f24ada1108f0fb721b411e15c37cf7177668533))
+
+
+
+## [0.3.5](https://github.com/WeBankFinTech/fes-design/compare/v0.3.4...v0.3.5) (2022-03-10)
+
+
+### Bug Fixes
+
+* 修复 small button radius 问题 ([#65](https://github.com/WeBankFinTech/fes-design/issues/65)) ([7a3d4ba](https://github.com/WeBankFinTech/fes-design/commit/7a3d4ba6696dabc2df3653dc2c379eb591852f7e))
+* 修复类型错误 ([b8fb686](https://github.com/WeBankFinTech/fes-design/commit/b8fb686a831a8c06f57da73126c6ed7d1f8346d8))
+* Select没值时不更新label问题和 cascader支持异步options ([cfeddec](https://github.com/WeBankFinTech/fes-design/commit/cfeddec27804197b8b90659a94979f58d5a5d55f))
+
+
+### Features
+
+* select支持配置valueLabel ([#64](https://github.com/WeBankFinTech/fes-design/issues/64)) ([63ca6a8](https://github.com/WeBankFinTech/fes-design/commit/63ca6a85ba62495f84486bea551119e625defc91))
+
+
+
 ## [0.3.4](https://github.com/WeBankFinTech/fes-design/compare/v0.3.3...v0.3.4) (2022-02-28)
 
 

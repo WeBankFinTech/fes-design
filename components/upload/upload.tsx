@@ -72,7 +72,7 @@ export default defineComponent({
     emits: ['change', 'remove', 'success', 'error', 'progress', 'exceed'],
     setup(props, ctx) {
         useTheme();
-        const { uploadFiles } = useUpload(props, ctx);
+        const { uploadFiles } = useUpload(props, ctx.emit);
         const getFileList = () => {
             if (!props.showFileList) {
                 return null;
@@ -86,15 +86,15 @@ export default defineComponent({
         return () => {
             return (
                 <>
-                    {
-                        ctx.slots.default ? (
-                            <Trigger>
-                                {ctx.slots.default?.({ uploadFiles: uploadFiles.value })}
-                            </Trigger>
-                        ) : (
-                            <Trigger />
-                        )
-                    }
+                    {ctx.slots.default ? (
+                        <Trigger>
+                            {ctx.slots.default?.({
+                                uploadFiles: uploadFiles.value,
+                            })}
+                        </Trigger>
+                    ) : (
+                        <Trigger />
+                    )}
                     {ctx.slots.tip?.()}
                     {getFileList()}
                 </>

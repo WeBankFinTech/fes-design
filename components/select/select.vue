@@ -40,6 +40,7 @@
                     :onSelect="onSelect"
                     :isLimit="isLimitRef"
                     :emptyText="listEmptyText"
+                    :renderOption="$slots.option"
                     @scroll="onScroll"
                     @mousedown.prevent
                 />
@@ -62,6 +63,7 @@ import {
     onMounted,
     CSSProperties,
     defineComponent,
+    nextTick,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -197,14 +199,18 @@ export default defineComponent({
 
         const onSelect = (value: SelectValue) => {
             if (props.disabled) return;
-            filterText.value = '';
             if (props.multiple) {
+                filterText.value = '';
                 if (isSelect(value)) {
                     emit('removeTag', value);
                 } else {
                     if (isLimitRef.value) return;
                 }
             } else {
+                // 体验更好
+                setTimeout(() => {
+                    filterText.value = '';
+                }, 400);
                 isOpenedRef.value = false;
             }
             updateCurrentValue(unref(value));
@@ -219,9 +225,17 @@ export default defineComponent({
                 const getOption = (val: SelectValue) => {
                     let cacheOption;
                     if (newOptions && newOptions.length) {
-                        cacheOption = newOptions.find(
-                            (option) => option.value === val,
-                        );
+                        cacheOption = newOptions
+                            .map((option) => {
+                                if (props.optionLabelField) {
+                                    return {
+                                        ...option,
+                                        label: option[props.optionLabelField],
+                                    };
+                                }
+                                return option;
+                            })
+                            .find((option) => option.value === val);
                         if (cacheOption) {
                             return cacheOption;
                         }

@@ -16,7 +16,7 @@ export const MENU_KEY = Symbol('FMenu');
 export const MENU_PROPS = {
     // 当前选中的值
     modelValue: {
-        type: String,
+        type: [String, Number],
     },
     // 垂直或者水平
     mode: {

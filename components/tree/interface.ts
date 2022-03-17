@@ -12,6 +12,7 @@ export interface TreeOption {
     isLeaf?: boolean;
     prefix?: string | (() => VNodeChild);
     suffix?: string | (() => VNodeChild);
+    [key: string]: any;
 }
 
 export interface InnerTreeOption extends TreeOption {

@@ -55,6 +55,7 @@ app.use(FModal);
 | cancelText       | 取消按钮文字                                                                   | String            | 取消                  |
 | width            | 宽度                                                                           | String/Number     | 520                   |
 | top              | 距离顶部                                                                       | String/Number     | 50                    |
+| verticalCenter | 垂直居中 | Boolean | false |
 | center           | 标题、内容、按钮居中                                                           | Boolean           | `false`               |
 | fullScreen       | 全屏显示                                                                       | Boolean           | `false`               |
 | contentClass     | 可用于设置内容的类名                                                           | String            | -                     |
@@ -104,6 +105,7 @@ app.use(FModal);
 | onCancel | 点击遮罩层或右上角叉或取消按钮的回调 | Function | - |
 | width | 宽度 | String/Number | 400 |
 | top | 距离顶部 | String/Number | 50 |
+| verticalCenter | 垂直居中 | Boolean | false |
 | center | 标题、内容、按钮居中 | Boolean | false |
 | fullScreen | 全屏显示 | Boolean | `false` |
 | contentClass | 可用于设置内容的类名 | String | - |

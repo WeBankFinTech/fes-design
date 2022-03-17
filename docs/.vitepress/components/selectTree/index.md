@@ -48,6 +48,9 @@ app.use(FSelectTree);
 设置`virtualList`属性，处理大数据。
 --VIRTUALLIST
 
+### 控制回填内容
+
+--LABELFIELD
 
 ### 无数据
 
@@ -80,6 +83,7 @@ app.use(FSelectTree);
 | childrenField         | 替代 `TreeOption` 中的 `children` 字段名                                | string                                    | `children` |
 | valueField            | 替代 `TreeOption` 中的 `value` 字段名                                   | string                                    | `value`    |
 | labelField            | 替代 `TreeOption` 中的 `label` 字段名                                   | string                                    | `label`    |
+| optionLabelField    | 配置选中选项显示的字段名，不传时跟`labelField`一致                                                      | string  | -    |
 | remote                | 是否异步获取选项，和 `onLoad` 配合                                      | boolean                                   | `false`    |
 | loadData              | 异步加载数据的回调函数                                                  | (node: TreeOption) => Promise\<void\>     | `null`     |
 | inline                | 底层节点是否横向排列                                                    | boolean                                   | `false`    |
