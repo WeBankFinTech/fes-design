@@ -51,7 +51,7 @@ const removeField = (formItemProp: string) => {
 };
 
 const validateFields = async (
-    fieldProps?: array,
+    fieldProps?: string[],
     trigger = TRIGGER_TYPE_DEFAULT,
 ) => {
     if (!props.model)
@@ -98,10 +98,10 @@ const validateFields = async (
 };
 
 /** 表单校验
- *    fieldProp { String }    指定校验字段的 props
+ *    fieldProps { string[] }    指定校验字段的 props 数组
  *    return    { Promise }   校验结果
  */
-const validate = (fieldProp = []) => validateFields(fieldProp);
+const validate = (fieldProps = []) => validateFields(fieldProps);
 
 // 移除表单项的校验结果
 const clearValidate = () => {

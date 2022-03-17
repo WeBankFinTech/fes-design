@@ -38,7 +38,7 @@
             display: inline-flex;
             flex-shrink: 0; // 解决问题: 整体宽度不够时 label 被压缩
             align-items: center;
-            justify-content: left;
+            justify-content: flex-start;
             height: @form-item-height;
             margin-right: @form-item-label-mr;
         }
@@ -52,7 +52,7 @@
     }
     // 对齐方式: 右对齐 
     .@{form-item-cls}-right .@{form-item-label-cls} {
-        justify-content: right;
+        justify-content: flex-end;
     }
     // 对齐方式: 顶部对齐
     .@{form-item-cls}-top {
