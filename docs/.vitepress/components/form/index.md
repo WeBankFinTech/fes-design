@@ -53,8 +53,7 @@ Form 组件提供表单验证的功能，通过 rules 属性传入约定的验�
 
 | 方法名称 | 说明 | 参数 |
 | ------------- | ------------- | ------------- |
-| validate  | 对整个表单进行校验，返回一个 promise。校验失败时，返回 `valid`、`values`、`errorFields` 信息，其中 `valid` 表示校验结果，`values` 表示包含未校验通过的字段，`errorFields` 表示错误信息 | `() => Promise()` |
-| validateField  | 对部分表单字段进行校验，返回一个 promise。校验失败时，返回信息同 `validate`。  | `(prop: string) => Promise` |
+| validate  | 对整体表单、部分表单（传入`props`数组）进行校验，返回一个 promise。校验失败时，返回 `valid`、`values`、`errorFields` 信息，其中 `valid` 表示校验结果，`values` 表示包含未校验通过的字段，`errorFields` 表示错误信息 | `(props: []) => Promise()` |
 | clearValidate | 移除表单项的校验结果 | - |
 | resetFields | 对整个表单进行重置，将所有字段值重置为初始值并移除校验结果 | - |
 
