@@ -417,14 +417,6 @@ export default {
              *      console.log('表单验证失败: ', error);
              * }
              */
-
-            /** 验证表单指定字段: validateField()
-             * try {
-             *      await WFormDomRef.value.validateField('name');
-             * } catch (error) {
-             *      console.log('表单项验证失败: ', error);
-             * }
-             */
         };
         const clearHandler = () => {
             WFormDomRef.value.clearValidate();
