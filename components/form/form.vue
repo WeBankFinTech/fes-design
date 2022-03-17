@@ -51,19 +51,20 @@ const removeField = (formItemProp: string) => {
 };
 
 const validateFields = async (
-    fieldProps?: string,
+    fieldProps?: array,
     trigger = TRIGGER_TYPE_DEFAULT,
 ) => {
     if (!props.model)
         return Promise.reject(
             'Form `model` is required for resetFields to work.',
         );
-    const specifyProps = !!fieldProps; // 是否指定 prop: validateField() 调用会指定; validate() 调用不会指定
+    const specifyPropsFlag: boolean = Boolean(fieldProps.length); // 是否指定prop: 【部分】表单字段校验调用会指定; 【整个】表单校验调用则不会指定
 
     const promiseList: Promise<any>[] = []; // 原始校验结果
     Object.values(formFields).forEach((formField) => {
         if (!formField.rules.length) return; // Skip if without rule
-        if (specifyProps && formField.prop !== fieldProps) return; // Skip if Specify prop but not equal
+
+        if (specifyPropsFlag && !fieldProps.includes(formField.prop)) return; // Skip if Specify prop but not include
 
         const promise = formField.validateRules(trigger);
         promiseList.push(
@@ -96,19 +97,11 @@ const validateFields = async (
     }
 };
 
-/** 对部分表单字段进行校验
+/** 表单校验
  *    fieldProp { String }    指定校验字段的 props
- *    trigger   { Object }    指定 trigger, 该表单项指定 trigger 相关的规则都会使用; 不指定 trigger, 直接用表单项的所有规则
  *    return    { Promise }   校验结果
  */
-const validateField = (fieldProp = '', trigger = TRIGGER_TYPE_DEFAULT) => {
-    if (!fieldProp)
-        return Promise.reject('`prop` is required for validateField to work.');
-    return validateFields(fieldProp, trigger);
-};
-
-// 对整个表单进行校验，返回一个 promise
-const validate = () => validateFields();
+const validate = (fieldProp = []) => validateFields(fieldProp);
 
 // 移除表单项的校验结果
 const clearValidate = () => {
@@ -136,7 +129,6 @@ provide(provideKey, {
     ...toRefs(props),
     addField,
     removeField,
-    validateField,
 });
 
 defineExpose({
