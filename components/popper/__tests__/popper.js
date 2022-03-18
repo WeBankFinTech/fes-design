@@ -4,9 +4,7 @@ import * as popperExports from '@popperjs/core';
 import FPopper from '../popper';
 import PopupManager from '../../_util/popupManager';
 
-
 jest.useFakeTimers();
-
 
 const TEST_TRIGGER = 'test-trigger';
 const AXIOM = 'Rem is the best girl';
@@ -20,16 +18,18 @@ const BLUR_EVENT = 'blur';
 
 const Wrapped = (props, { slots }) => h('div', h(FPopper, props, slots));
 
-const _mount = (props, slots = {}) => mount(Wrapped, {
-    props,
-    slots: {
-        trigger: () => h('div', {
-            class: TEST_TRIGGER,
-        }),
-        ...slots,
-    },
-    attachTo: 'body',
-});
+const _mount = (props, slots = {}) =>
+    mount(Wrapped, {
+        props,
+        slots: {
+            trigger: () =>
+                h('div', {
+                    class: TEST_TRIGGER,
+                }),
+            ...slots,
+        },
+        attachTo: 'body',
+    });
 
 const isHide = (wrapper) => {
     expect(wrapper.find(SELECTOR).attributes('style')).toContain(DISPLAY_NONE);
@@ -61,11 +61,14 @@ describe('Popper', () => {
     });
 
     test('render test', () => {
-        const wrapper = _mount({
-            appendToContainer: false,
-        }, {
-            default: () => AXIOM,
-        });
+        const wrapper = _mount(
+            {
+                appendToContainer: false,
+            },
+            {
+                default: () => AXIOM,
+            },
+        );
 
         expect(wrapper.text()).toEqual(AXIOM);
     });
@@ -208,8 +211,7 @@ describe('Popper', () => {
         isHide(wrapper);
     });
 
-    test('should work with focus trigger', async () => {
-    });
+    test('should work with focus trigger', async () => {});
 
     test('should throw error when there is no trigger', async () => {
         const errorHandler = jest.fn();
