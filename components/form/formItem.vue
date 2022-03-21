@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import { provide, ref, inject, computed, onBeforeUnmount, nextTick } from 'vue';
 import Schema from 'async-validator';
-import { isArray, cloneDeep } from 'lodash-es';
+import { isArray, cloneDeep, get, set } from 'lodash-es';
 import { addUnit } from '../_util/utils';
 import {
     provideKey,
@@ -35,7 +35,7 @@ import {
 } from './const';
 import getPrefixCls from '../_util/getPrefixCls';
 import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
-import { wrapValidator, getNamePath, getPropByPath } from './utils';
+import { wrapValidator } from './utils';
 
 const prefixCls = getPrefixCls('form-item');
 
@@ -64,15 +64,17 @@ const {
     removeField,
 } = inject(provideKey);
 
-const namePath = computed(() => getNamePath(props.prop));
 const fieldValue = computed(() => {
     if (!model.value || !props.prop) return;
-    return getPropByPath(model.value, namePath.value, true).v;
+    return get(model.value, props.prop);
 });
 const initialValue = ref(cloneDeep(fieldValue.value));
-const formItemRules = computed(() =>
-    [].concat(props.rules || []).concat(rules?.value?.[props.prop] || []),
-);
+const formItemRules = computed(() => {
+    const _rules = []
+        .concat(props.rules || [])
+        .concat(get(rules?.value, props.prop) || []);
+    return _rules;
+});
 
 /** 规则校验结果逻辑: 仅存最后一条校验规则的逻辑
  *      存在问题: 如果同时触发两个规则 A|B，规则 A 先触发校验且不通过，接着规则 B 触发校验且通过，规则 A 结果会不展示
@@ -170,6 +172,7 @@ const validateRules = async (trigger = TRIGGER_TYPE_DEFAULT) => {
     const validatorModel: any = {};
     validatorModel[props.prop] = fieldValue.value;
     const validator = new Schema(descriptor);
+
     try {
         await Promise.resolve(validator.validate(validatorModel));
         setValidateInfo(VALIDATE_STATUS.SUCCESS);
@@ -197,12 +200,8 @@ const resetField = () => {
     validateDisabled.value = true; // 在表单重置行为，不应触发校验
 
     // reset initialValue
-    const prop = getPropByPath(model.value || {}, namePath.value, true);
-    if (Array.isArray(fieldValue.value)) {
-        prop.o[prop.k] = [].concat(initialValue.value);
-    } else {
-        prop.o[prop.k] = initialValue.value;
-    }
+    set(model.value, props.prop, initialValue.value);
+
     // reset validateDisabled after onFieldChange triggered
     nextTick(() => {
         validateDisabled.value = false;
