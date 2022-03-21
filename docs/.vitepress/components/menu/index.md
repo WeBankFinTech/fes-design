@@ -68,7 +68,7 @@ app.use(FMenu);
 
 | 事件名称 | 说明           | 回调参数          |
 | -------- | -------------- | ----------------- |
-| select   | 选中菜单时触发 | ({index}) => void |
+| select   | 选中菜单时触发 | (value) => void |
 
 ## SubMenu Props
 

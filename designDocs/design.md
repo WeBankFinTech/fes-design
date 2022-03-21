@@ -55,17 +55,20 @@
 
 * 事称
   * click: 点击事件
-  * change: 变更事件
+  * change: 变更事件
   * blur: 失去焦点
   * focus: 获取焦点
   * clear: 清理事件
-  * visible-change: 下拉框出现/隐藏时触发
-  * remove-tag: 多选模式下移除单项
+  * visibleChange: 下拉框出现/隐藏时触发
+  * removeTag: 多选模式下移除单项
   * close: 关闭事件
+包装的鼠标事件、键盘事件等DOM基础事件参数需event、两个参数用“,”，三个参数以上用对象
+
+
 * 变量名称
   * xxxRef、xxxValue
-* 组件名称：wd-
-* bem 前缀： wd-
+* 组件名称：f-
+* bem 前缀： fes-
   * 状态类直接使用 .[类名].[is-active | is-hover] 实现
 * 内边距 ｜ 外边距
   * 普通输入框高度
