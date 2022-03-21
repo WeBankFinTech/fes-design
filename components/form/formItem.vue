@@ -227,6 +227,10 @@ provide(FORM_ITEM_INJECTION_KEY, {
         return validateStatus.value === VALIDATE_STATUS.ERROR;
     }),
 });
+
+defineExpose({
+    validate,
+});
 </script>
 
 <script lang="ts">
