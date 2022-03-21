@@ -174,6 +174,7 @@ export default defineComponent({
             updateCurrentValue(value);
             emit('input', value);
             // 对于 form 表单校验，Input 的 input 事件就是 change 事件
+            validate('input');
             validate('change');
         };
 
