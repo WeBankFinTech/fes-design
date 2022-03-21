@@ -1,11 +1,9 @@
 import { mount } from '@vue/test-utils';
-import {
-    ref, nextTick, h, defineComponent,
-} from 'vue';
-import FDraggable from '../draggable';
+import { ref, nextTick, h, defineComponent } from 'vue';
+import FDraggable from '../draggable.vue';
 import vDrag from '../directive';
 
-const slotsRender = props => h('div', {}, props.item);
+const slotsRender = (props) => h('div', {}, props.item);
 
 function getDirectiveComp(listRef, opt = {}) {
     return defineComponent({
@@ -13,8 +11,12 @@ function getDirectiveComp(listRef, opt = {}) {
             drag: vDrag,
         },
         render() {
-            const children = listRef.value.map(item => <li>{item}</li>);
-            return opt.droppable ? <ul v-drag={[listRef, ['droppable']]}>{children}</ul> : <ul v-drag={listRef}>{children}</ul>;
+            const children = listRef.value.map((item) => <li>{item}</li>);
+            return opt.droppable ? (
+                <ul v-drag={[listRef, ['droppable']]}>{children}</ul>
+            ) : (
+                <ul v-drag={listRef}>{children}</ul>
+            );
         },
     });
 }
@@ -36,7 +38,9 @@ describe('Draggable', () => {
         expect(children[0].attributes('draggable')).toBe('true');
         await children[1].trigger('dragover');
         await children[1].trigger('dragend');
-        expect(wrapper.emitted()['update:modelValue'][0].join(',')).toBe('2,1,3,4,5');
+        expect(wrapper.emitted()['update:modelValue'][0].join(',')).toBe(
+            '2,1,3,4,5',
+        );
         // expect(list.value.join(',')).toBe('2,1,3,4,5');
     });
 
@@ -89,8 +93,12 @@ describe('Draggable', () => {
         await children2[1].trigger('dragover');
         await children[1].trigger('dragend');
         await nextTick();
-        expect(wrapper.emitted()['update:modelValue'][0].join(',')).toBe('2,3,4');
-        expect(wrapper2.emitted()['update:modelValue'][0].join(',')).toBe('5,1,6,7');
+        expect(wrapper.emitted()['update:modelValue'][0].join(',')).toBe(
+            '2,3,4',
+        );
+        expect(wrapper2.emitted()['update:modelValue'][0].join(',')).toBe(
+            '5,1,6,7',
+        );
         // expect(list.value.join(',')).toBe('2,3,4');
         // expect(list2.value.join(',')).toBe('5,1,6,7');
     });
@@ -107,7 +115,6 @@ describe('Draggable', () => {
         await children[1].trigger('dragend');
         expect(list.value.join(',')).toBe('2,1,3,4,5');
     });
-
 
     test('v-drag droppable', async () => {
         const list = ref([1, 2, 3, 4]);

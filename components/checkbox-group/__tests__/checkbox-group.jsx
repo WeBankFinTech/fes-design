@@ -4,7 +4,7 @@ import Checkbox from '../../checkbox/checkbox.vue';
 
 const TRIGGER_CLASS = 'trigger';
 
-const _mount = (props, slots = {}) =>
+const _mount = (props = {}, slots = {}) =>
     mount(CheckboxGroup, {
         props,
         slots: {
