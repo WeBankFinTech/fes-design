@@ -6,10 +6,10 @@
         :model="modelForm"
         :rules="rules"
     >
-        <FFormItem prop="name" :rules="nameRules">
+        <FFormItem prop="obj.name" :rules="nameRules">
             <template #label><span>姓名(slot)</span></template>
             <FInput
-                v-model="modelForm.name"
+                v-model="modelForm.obj.name"
                 placeholder="请输入"
                 @input="changeHandler"
             ></FInput>
@@ -169,7 +169,9 @@ export default {
         const WFormDomRef = ref(null);
         const rePasswordRef = ref(null);
         const modelForm = reactive({
-            name: '',
+            obj: {
+                name: '',
+            },
             password: '',
             rePassword: '',
             sregion: '',
@@ -198,31 +200,33 @@ export default {
 
         const rules = computed(() => {
             return {
-                name: [
-                    {
-                        min: 3,
-                        max: 8,
-                        message: '姓名长度在 3 到 8 个字符',
-                        trigger: 'input',
-                    },
-                ],
+                obj: {
+                    name: [
+                        {
+                            min: 3,
+                            max: 8,
+                            message: '姓名长度在 3 到 8 个字符',
+                            trigger: 'change',
+                        },
+                    ],
+                },
                 password: [
                     {
                         required: true,
                         message: '请输入密码',
-                        trigger: ['blur', 'input'],
+                        trigger: ['blur', 'change'],
                     },
                 ],
                 rePassword: [
                     {
                         required: true,
                         message: '请再次输入密码',
-                        trigger: ['input', 'blur'],
+                        trigger: ['change', 'blur'],
                     },
                     {
                         validator: validatePasswordStartWith,
                         message: '再次输入密码时，两次密码输入不一致',
-                        trigger: ['input'],
+                        trigger: ['change'],
                     },
                     {
                         validator: validatePasswordSame,
@@ -272,12 +276,12 @@ export default {
                         min: 3,
                         max: 8,
                         message: '长度在 3 到 8 个字符',
-                        trigger: ['input'],
+                        trigger: ['change'],
                     },
                     {
                         validator: validateContFun,
                         message: '请输入以【姓名】开头的备注信息',
-                        trigger: ['input', 'change'],
+                        trigger: ['change', 'change'],
                     },
                 ],
                 singleCity: [
