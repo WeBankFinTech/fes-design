@@ -1,3 +1,18 @@
+## [0.3.10](https://github.com/WeBankFinTech/fes-design/compare/v0.3.9...v0.3.10) (2022-03-21)
+
+
+### Bug Fixes
+
+* 暴露 formItem 的 validate 事件 ([67982d2](https://github.com/WeBankFinTech/fes-design/commit/67982d284f68904a0e1d292af63b0acf05aa5a9c))
+* input触发表单的input事件 ([a57bb51](https://github.com/WeBankFinTech/fes-design/commit/a57bb5119026192554c5eda8d863e3a3681e9c8f))
+
+
+### Features
+
+* prop支持属性选择 ([60f21f2](https://github.com/WeBankFinTech/fes-design/commit/60f21f22f6d3998a29545724626930cb4d3c98ad))
+
+
+
 ## [0.3.9](https://github.com/WeBankFinTech/fes-design/compare/v0.3.8...v0.3.9) (2022-03-18)
 
 
