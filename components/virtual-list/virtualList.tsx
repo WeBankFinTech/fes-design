@@ -364,6 +364,7 @@ export default defineComponent({
             onScroll,
             fullHeight,
             renderItemList,
+            shadow
         } = this;
 
         // wrap style
@@ -419,6 +420,7 @@ export default defineComponent({
                     this.scrollRef = e;
                 }}
                 onScroll={onScroll}
+                shadow={shadow}
             >
                 {tempVirtualVNode}
             </FScrollbar>

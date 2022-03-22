@@ -72,6 +72,12 @@ export const VirtualProps = {
     renderItemList: {
         type: Function as PropType<(itemVNodes: VNode[]) => VNode[]>,
     },
+    shadow: {
+        type: [Boolean, Object] as PropType<
+            boolean | { x: boolean; y: boolean }
+        >,
+        default: false,
+    },
 } as const;
 
 export const ItemProps = {
