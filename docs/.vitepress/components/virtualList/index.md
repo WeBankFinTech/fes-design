@@ -131,6 +131,13 @@ app.use(FVirtualList);
       <td>{}</td>
       <td>列表包裹元素内联样式。</td>
     </tr>
+    <tr>
+      <td><code>shadow</code></td>
+      <td>boolean /  { x: boolean, y: boolean }   </td>
+      <td>false</td>
+      <td>显示待滚动区域阴影。</td>
+    </tr>
+
   </table>
 
 ### 公共方法
