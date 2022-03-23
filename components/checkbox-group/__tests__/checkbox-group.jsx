@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import CheckboxGroup from '../checkbox-group.vue';
-import Checkbox from '../../checkbox/checkbox.vue';
+import Checkbox from '../../checkbox';
 
 const TRIGGER_CLASS = 'trigger';
 
