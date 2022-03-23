@@ -6,13 +6,20 @@
         :model="modelForm"
         :rules="rules"
     >
-        <FFormItem prop="name" :rules="nameRules">
+        <FFormItem prop="name">
             <template #label><span>姓名(slot)</span></template>
-            <FInput
-                v-model="modelForm.name"
-                placeholder="请输入"
-                @input="changeHandler"
-            ></FInput>
+            <FSpace>
+                <FInput
+                    v-model="modelForm.name.first"
+                    placeholder="请输入first name"
+                    @input="changeHandler"
+                ></FInput>
+                <FInput
+                    v-model="modelForm.name.last"
+                    placeholder="请输入last name"
+                    @input="changeHandler"
+                ></FInput>
+            </FSpace>
         </FFormItem>
         <FFormItem label="密码" prop="password">
             <FInput
@@ -102,17 +109,6 @@
             >
             </FCascader>
         </FFormItem>
-        <FFormItem label="操作权限" prop="permission">
-            <FCheckboxGroup
-                v-model="modelForm.permission"
-                @change="changeHandler"
-            >
-                <FCheckbox :value="1">Admin</FCheckbox>
-                <FCheckbox :value="2">edit</FCheckbox>
-                <FCheckbox :value="3">run</FCheckbox>
-                <FCheckbox :value="4">view</FCheckbox>
-            </FCheckboxGroup>
-        </FFormItem>
         <FFormItem label="备注 slot" labelClass="more-label" prop="desc">
             <template #label>
                 <span @click="descClickHandler">
@@ -139,6 +135,22 @@
                 placeholder="请输入Admin详情"
             ></FInput>
         </FFormItem>
+        <FFormItem
+            v-for="(item, index) in modelForm.rules"
+            :key="index"
+            :label="item.label"
+            :prop="`rules[${index}].value`"
+            :rules="[{ required: index % 2 !== 0, message: '请输入' }]"
+        >
+            <FSpace>
+                <FInput
+                    v-model="modelForm.rules[index].value"
+                    placeholder="请输入Admin详情"
+                ></FInput>
+                <PlusSquareOutlined @click="addItem" />
+            </FSpace>
+        </FFormItem>
+
         <FFormItem label=" ">
             <FButton
                 type="primary"
@@ -169,7 +181,10 @@ export default {
         const WFormDomRef = ref(null);
         const rePasswordRef = ref(null);
         const modelForm = reactive({
-            name: '',
+            name: {
+                first: '',
+                last: '',
+            },
             password: '',
             rePassword: '',
             sregion: '',
@@ -181,10 +196,18 @@ export default {
             desc: '',
             singleCity: '',
             multiCity: [],
+            rules: [
+                {
+                    label: '选项1',
+                    value: '',
+                },
+            ],
         });
+
         const validateContFun = (rule, value) => {
             return Boolean(value.startsWith(modelForm.name));
         };
+
         const validatePasswordStartWith = (rule, value) => {
             return Boolean(
                 modelForm.password &&
@@ -192,37 +215,52 @@ export default {
                     modelForm.password.length >= value.length,
             );
         };
+
         const validatePasswordSame = (rule, value) => {
             return value === modelForm.password;
         };
 
         const rules = computed(() => {
             return {
-                name: [
-                    {
-                        min: 3,
-                        max: 8,
-                        message: '姓名长度在 3 到 8 个字符',
-                        trigger: 'input',
+                name: {
+                    type: 'object',
+                    required: true,
+                    fields: {
+                        first: {
+                            type: 'string',
+                            required: true,
+                            min: 3,
+                            max: 8,
+                            message: 'first姓名长度在 3 到 8 个字符',
+                            trigger: 'change',
+                        },
+                        last: {
+                            type: 'string',
+                            required: true,
+                            min: 3,
+                            max: 8,
+                            message: 'last姓名长度在 3 到 8 个字符',
+                            trigger: 'change',
+                        },
                     },
-                ],
+                },
                 password: [
                     {
                         required: true,
                         message: '请输入密码',
-                        trigger: ['blur', 'input'],
+                        trigger: ['blur', 'change'],
                     },
                 ],
                 rePassword: [
                     {
                         required: true,
                         message: '请再次输入密码',
-                        trigger: ['input', 'blur'],
+                        trigger: ['change', 'blur'],
                     },
                     {
                         validator: validatePasswordStartWith,
                         message: '再次输入密码时，两次密码输入不一致',
-                        trigger: ['input'],
+                        trigger: ['change'],
                     },
                     {
                         validator: validatePasswordSame,
@@ -272,12 +310,12 @@ export default {
                         min: 3,
                         max: 8,
                         message: '长度在 3 到 8 个字符',
-                        trigger: ['input'],
+                        trigger: ['change'],
                     },
                     {
                         validator: validateContFun,
                         message: '请输入以【姓名】开头的备注信息',
-                        trigger: ['input', 'change'],
+                        trigger: ['change'],
                     },
                 ],
                 singleCity: [
@@ -304,9 +342,7 @@ export default {
                 ],
             };
         });
-        const nameRules = [
-            { required: true, message: '请输入姓名', trigger: 'blur' },
-        ];
+
         const optionList = [
             {
                 value: 'HuNan',
@@ -417,14 +453,6 @@ export default {
              *      console.log('表单验证失败: ', error);
              * }
              */
-
-            /** 验证表单指定字段: validateField()
-             * try {
-             *      await WFormDomRef.value.validateField('name');
-             * } catch (error) {
-             *      console.log('表单项验证失败: ', error);
-             * }
-             */
         };
         const clearHandler = () => {
             WFormDomRef.value.clearValidate();
@@ -437,12 +465,18 @@ export default {
             FMessage.success({ content: '你点击了备注<slot/>！' });
         };
 
+        const addItem = () => {
+            modelForm.rules.push({
+                label: `选项${modelForm.rules.length + 1}`,
+                value: '',
+            });
+        };
+
         return {
             WFormDomRef,
             rePasswordRef,
             modelForm,
             rules,
-            nameRules,
             optionList,
             changeHandler,
             handlePasswordInput,
@@ -452,6 +486,7 @@ export default {
             resetHandler,
             descClickHandler,
             cascaderOptions,
+            addItem,
         };
     },
 };
