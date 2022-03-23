@@ -3,6 +3,7 @@
  */
 
 import { PropType, VNode } from 'vue';
+import { COMMON_PROPS } from '../scrollbar/const';
 
 export type DataSource = any;
 
@@ -72,6 +73,7 @@ export const VirtualProps = {
     renderItemList: {
         type: Function as PropType<(itemVNodes: VNode[]) => VNode[]>,
     },
+    ...COMMON_PROPS,
 } as const;
 
 export const ItemProps = {

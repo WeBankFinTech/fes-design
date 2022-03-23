@@ -31,6 +31,7 @@ export default defineComponent({
             getRowKey,
             syncPosition,
             scrollbarRef,
+            hasFixedColumn
         } = inject(provideKey);
 
         const renderBodyTrList = () =>
@@ -80,6 +81,10 @@ export default defineComponent({
                         }}
                         class={bodyWrapperClass.value}
                         style={bodyWrapperStyle.value}
+                        shadow={{
+                            x: hasFixedColumn.value,
+                            y: true
+                        }}
                         onScroll={onScroll}
                     >
                         {renderTable()}

@@ -16,7 +16,6 @@
     .text();
     overflow: hidden;
     background-color: var(--f-white);
-    border-bottom: @table-border;
     &, * {
         box-sizing: border-box;
     }
@@ -30,13 +29,6 @@
         scrollbar-width: none;
         &::-webkit-scrollbar {
             display: none;
-        }
-    }
-    & &-header-wrapper {
-        position: relative;
-        z-index: 3;
-        &.is-scrolling-y {
-            box-shadow: 0 1px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
         }
     }
     & &-header-wrapper,
@@ -53,9 +45,6 @@
                 box-shadow: 1px 2px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
             }
         }
-    }
-    & &-scrollbar {
-        z-index: 4;
     }
     & &-header,
     & &-body{
@@ -185,8 +174,5 @@
         transform: rotate(-90deg);
         cursor: pointer;
         transition: all @animation-duration-base @ease-in-out;
-    }
-    .fes-scrollbar-track {
-        z-index: 100;
     }
 }

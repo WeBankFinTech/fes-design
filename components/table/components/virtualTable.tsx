@@ -24,6 +24,7 @@ export default defineComponent({
             bodyStyle,
             syncPosition,
             scrollbarRef,
+            hasFixedColumn
         } = inject(provideKey);
 
         const renderDefault = ({
@@ -66,6 +67,10 @@ export default defineComponent({
                             scrollbarRef.value = el.scrollRef;
                             bodyWrapperRef.value = el.$el;
                         }
+                    }}
+                    shadow={{
+                        x: hasFixedColumn.value,
+                        y: true
                     }}
                     onScroll={onScroll}
                     dataSources={showData.value}

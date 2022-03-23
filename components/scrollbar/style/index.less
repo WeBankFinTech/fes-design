@@ -7,15 +7,30 @@
 @scrollbar-width: 4px;
 @scrollbar-bg: var(--f-scrollbar-bg-color);
 @scrollbar-active-bg: var(--f-scrollbar-active-color);
+@scrollbar-shadow-size: 4px;
 
 .@{scrollbar-prefix-cls} {
     position: relative;
     height: 100%;
     overflow: hidden;
+    .@{scrollbar-prefix-cls}-shadow-top {
+        .shadow(@scrollbar-shadow-size, 'top')
+    }
+    .@{scrollbar-prefix-cls}-shadow-bottom {
+        .shadow(@scrollbar-shadow-size, 'bottom')
+    }
+    .@{scrollbar-prefix-cls}-shadow-left {
+        .shadow(@scrollbar-shadow-size, 'left')
+    }
+    .@{scrollbar-prefix-cls}-shadow-right {
+        .shadow(@scrollbar-shadow-size, 'right')
+    }
     &-container {
+        position: relative;
         height: 100%;
         overflow: auto;
         overscroll-behavior: contain;
+        z-index: 0;
     }
     &-hidden-native-bar {
         scrollbar-width: none;
