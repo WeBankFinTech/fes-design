@@ -29,19 +29,19 @@
         </template>
         <div
             v-if="shadowRef.x && scrollX && scrollXRatio < 1"
-            :class="`${prefixCls}-x-start`"
+            :class="`${prefixCls}-shadow-right`"
         ></div>
         <div
             v-if="shadowRef.x && scrollX && scrollXRatio > 0"
-            :class="`${prefixCls}-x-end`"
+            :class="`${prefixCls}-shadow-left`"
         ></div>
         <div
             v-if="shadowRef.y && scrollY && scrollYRatio < 1"
-            :class="`${prefixCls}-y-start`"
+            :class="`${prefixCls}-shadow-bottom`"
         ></div>
         <div
             v-if="shadowRef.y && scrollY && scrollYRatio > 0"
-            :class="`${prefixCls}-y-end`"
+            :class="`${prefixCls}-shadow-top`"
         ></div>
     </div>
 </template>
@@ -62,8 +62,8 @@ import { useTheme } from '../_theme/useTheme';
 import { addUnit, requestAnimationFrame } from '../_util/utils';
 import useResize from '../_util/use/useResize';
 import FBar from './bar.vue';
-
 import useScrollbar from './useScrollbar';
+import { COMMON_PROPS } from './const';
 
 const prefixCls = getPrefixCls('scrollbar');
 
@@ -89,12 +89,7 @@ const scrollbarProps = {
         type: Number,
         default: 20,
     },
-    shadow: {
-        type: [Boolean, Object] as PropType<
-            boolean | { x: boolean; y: boolean }
-        >,
-        default: false,
-    },
+    ...COMMON_PROPS,
 } as const;
 
 export type ScrollbarProps = Partial<ExtractPropTypes<typeof scrollbarProps>>;
@@ -143,18 +138,13 @@ export default defineComponent({
             },
         ]);
 
-        const wrapperClassRef = computed(() => {
-            return [prefixCls];
-        });
+        const wrapperClassRef = computed(() => [prefixCls]);
 
-        const containerClassRef = computed(() => {
-            const arr = [
-                `${prefixCls}-container`,
-                props.containerClass,
-                !props.native && `${prefixCls}-hidden-native-bar`,
-            ];
-            return arr;
-        });
+        const containerClassRef = computed(() => [
+            `${prefixCls}-container`,
+            props.containerClass,
+            !props.native && `${prefixCls}-hidden-native-bar`,
+        ]);
 
         const handleScroll = (event: Event) => {
             onScroll();

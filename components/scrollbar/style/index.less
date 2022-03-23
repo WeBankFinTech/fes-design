@@ -7,60 +7,30 @@
 @scrollbar-width: 4px;
 @scrollbar-bg: var(--f-scrollbar-bg-color);
 @scrollbar-active-bg: var(--f-scrollbar-active-color);
-@scrollbar-shadow-width: 4px;
+@scrollbar-shadow-size: 4px;
 
 .@{scrollbar-prefix-cls} {
     position: relative;
     height: 100%;
     overflow: hidden;
-    .@{scrollbar-prefix-cls}-y-start {
-        position: absolute;
-        z-index: 1;
-        left: 0;
-        bottom: -@scrollbar-shadow-width;
-        display: block;
-        content: "";
-        width: 100%;
-        height: @scrollbar-shadow-width;
-        box-shadow: 0 -1px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
+    .@{scrollbar-prefix-cls}-shadow-top {
+        .shadow(@scrollbar-shadow-size, 'top')
     }
-    .@{scrollbar-prefix-cls}-y-end {
-        position: absolute;
-        z-index: 1;
-        left: 0;
-        top: -@scrollbar-shadow-width;
-        display: block;
-        content: "";
-        width: 100%;
-        height: @scrollbar-shadow-width;
-        box-shadow: 0 1px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
+    .@{scrollbar-prefix-cls}-shadow-bottom {
+        .shadow(@scrollbar-shadow-size, 'bottom')
     }
-    .@{scrollbar-prefix-cls}-x-start {
-        position: absolute;
-        z-index: 1;
-        right: -@scrollbar-shadow-width;
-        top: 0;
-        display: block;
-        content: "";
-        width: @scrollbar-shadow-width;
-        height: 100%;
-        box-shadow: -1px 0px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
+    .@{scrollbar-prefix-cls}-shadow-left {
+        .shadow(@scrollbar-shadow-size, 'left')
     }
-    .@{scrollbar-prefix-cls}-x-end {
-        position: absolute;
-        z-index: 1;
-        left: -@scrollbar-shadow-width;
-        top: 0;
-        display: block;
-        content: "";
-        height: 100%;
-        width: @scrollbar-shadow-width;
-        box-shadow: 1px 0px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
+    .@{scrollbar-prefix-cls}-shadow-right {
+        .shadow(@scrollbar-shadow-size, 'right')
     }
     &-container {
+        position: relative;
         height: 100%;
         overflow: auto;
         overscroll-behavior: contain;
+        z-index: 0;
     }
     &-hidden-native-bar {
         scrollbar-width: none;
