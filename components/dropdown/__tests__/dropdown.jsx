@@ -1,23 +1,12 @@
 import { mount } from '@vue/test-utils';
-import * as popperExports from '@popperjs/core';
 import Dropdown from '../dropdown.tsx';
-import getPrefixCls from '../../_util/getPrefixCls';
 
-const prefixCls = getPrefixCls('dropdown');
-
-const SELECTOR = '.fes-popper-wrapper';
-const MOUSE_ENTER_EVENT = 'mouseenter';
-const MOUSE_LEAVE_EVENT = 'mouseleave';
-const CLICK_EVENT = 'click';
-const FOCUS_EVENT = 'focus';
-const BLUR_EVENT = 'blur';
-const TEST_TRIGGER = 'trigger';
+const POPPER_CONTAINER_SELECTOR = '.fes-popper-wrapper';
 
 const OPTIONS = [
     {
         value: '1',
         label: '删除',
-        disabled: true,
     },
     {
         value: '2',
@@ -37,55 +26,139 @@ const OPTIONS = [
     },
 ];
 
-jest.useFakeTimers();
-
-const popperMock = jest
-    .spyOn(popperExports, 'createPopper')
-    .mockImplementation(() => ({
-        update: jest.fn(),
-        forceUpdate: jest.fn(),
-        setOptions: jest.fn(),
-        destroy: jest.fn(),
-        state: null,
-    }));
-
 const _mount = (props = {}) =>
     mount(Dropdown, {
         props,
         slots: {
-            default: () => <div class={TEST_TRIGGER}>下拉菜单</div>,
+            default: () => <div class="test-trigger">下拉菜单</div>,
         },
         attachTo: 'body',
     });
 
-const isHide = (wrapper) => {
-    expect(wrapper.find(SELECTOR).attributes('style')).toContain(DISPLAY_NONE);
-};
-
-const isShow = (wrapper) => {
-    expect(wrapper.find(SELECTOR).attributes('style')).not.toContain(
-        DISPLAY_NONE,
-    );
-};
-
 describe('Dropdown', () => {
-    afterAll(() => {
-        popperMock.mockReset();
-    });
-
-    beforeEach(() => {
-        popperMock.mockClear();
-    });
-
-    test('Dropdown default', async () => {
+    test('Dropdown appendToContainer', async () => {
+        expect(document.body.innerHTML).toBe('');
         const wrapper = _mount({
             options: OPTIONS,
         });
-        isHide(wrapper);
-        const $trigger = wrapper.find(`.${TEST_TRIGGER}`);
-        await $trigger.trigger(MOUSE_ENTER_EVENT);
-        isShow(wrapper);
-        await $trigger.trigger(MOUSE_LEAVE_EVENT);
-        isHide(wrapper);
+        await wrapper.find('.test-trigger').trigger('mouseenter');
+        expect(wrapper.find(POPPER_CONTAINER_SELECTOR).exists()).toBe(false);
+        expect(
+            document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML,
+        ).not.toBe('');
+
+        await wrapper.setProps({
+            appendToContainer: false,
+        });
+        expect(wrapper.find(POPPER_CONTAINER_SELECTOR).exists()).toBe(true);
+    });
+
+    test('Dropdown lazy', async () => {
+        const wrapper = _mount({
+            options: OPTIONS,
+            appendToContainer: false,
+        });
+        expect(wrapper.find('.fes-dropdown-option').exists()).toBe(false);
+        await wrapper.setProps({
+            lazy: false,
+        });
+        expect(wrapper.find('.fes-dropdown-option').exists()).toBe(true);
+    });
+
+    test('Dropdown event', async () => {
+        const wrapper = _mount({
+            options: [
+                {
+                    value: '1',
+                    label: '删除',
+                },
+            ],
+            appendToContainer: false,
+        });
+        await wrapper.find('.test-trigger').trigger('mouseenter');
+        await wrapper.find('.fes-dropdown-option').trigger('click');
+        expect(wrapper.emitted()).toHaveProperty('click');
+        expect(wrapper.emitted().click[0]).toEqual(['1']);
+    });
+
+    test('Dropdown valueField labelField', async () => {
+        const wrapper = _mount({
+            options: [
+                {
+                    v: '1',
+                    t: '删除',
+                },
+            ],
+            valueField: 'v',
+            labelField: 't',
+            appendToContainer: false,
+        });
+        await wrapper.find('.test-trigger').trigger('mouseenter');
+        await wrapper.find('.fes-dropdown-option').trigger('click');
+        expect(wrapper.emitted()).toHaveProperty('click');
+        expect(wrapper.emitted().click[0]).toEqual(['1']);
+        expect(wrapper.find('.fes-dropdown-option').text()).toBe('删除');
+    });
+
+    test('Dropdown disabled', async () => {
+        const wrapper = _mount({
+            options: [
+                {
+                    value: '1',
+                    label: '删除',
+                },
+            ],
+            disabled: true,
+            appendToContainer: false,
+        });
+        await wrapper.find('.test-trigger').trigger('mouseenter');
+        expect(wrapper.find('.fes-dropdown-option').exists()).toBe(false);
+    });
+
+    test('DropDown item disabled', async () => {
+        const wrapper = _mount({
+            options: [
+                {
+                    value: '1',
+                    label: '删除',
+                    disabled: true,
+                },
+            ],
+            appendToContainer: false,
+        });
+        await wrapper.find('.test-trigger').trigger('mouseenter');
+        expect(wrapper.find('.fes-dropdown-option').exists()).toBe(true);
+        await wrapper.find('.fes-dropdown-option').trigger('click');
+        expect(wrapper.emitted()).not.toHaveProperty('click');
+    });
+
+    test('DropDown trigger click', async () => {
+        const wrapper = _mount({
+            options: OPTIONS,
+            trigger: 'click',
+            appendToContainer: false,
+        });
+        await wrapper.find('.test-trigger').trigger('click');
+        expect(wrapper.find('.fes-dropdown-option').exists()).toBe(true);
+    });
+
+    test('DropDown trigger focus', async () => {
+        const wrapper = _mount({
+            options: OPTIONS,
+            trigger: 'focus',
+            appendToContainer: false,
+        });
+        await wrapper.find('.test-trigger').trigger('focus');
+        expect(wrapper.find('.fes-dropdown-option').exists()).toBe(true);
+    });
+
+    test('DropDown trigger contextmenu', async () => {
+        const wrapper = _mount({
+            options: OPTIONS,
+            trigger: 'contextmenu',
+            appendToContainer: false,
+        });
+        await wrapper.find('.test-trigger').trigger('contextmenu');
+        expect(wrapper.find('.fes-dropdown-option').exists()).toBe(true);
     });
 });
