@@ -63,7 +63,6 @@ import {
     onMounted,
     CSSProperties,
     defineComponent,
-    nextTick,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -112,8 +111,14 @@ export default defineComponent({
             ? useArrayModel(props, emit)
             : useNormalModel(props, emit);
 
+        const triggerRef = ref();
+        const triggerWidth = ref(0);
+
         watch(isOpenedRef, () => {
             emit('visibleChange', unref(isOpenedRef));
+            if (isOpenedRef.value && triggerRef.value) {
+                triggerWidth.value = triggerRef.value.$el.offsetWidth;
+            }
         });
 
         const handleChange = () => {
@@ -295,9 +300,6 @@ export default defineComponent({
                 emit('search', val);
             }
         };
-
-        const triggerRef = ref();
-        const triggerWidth = ref(0);
 
         onMounted(() => {
             if (triggerRef.value) {
