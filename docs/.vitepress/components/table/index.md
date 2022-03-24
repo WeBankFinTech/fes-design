@@ -121,7 +121,7 @@ app.use(FTable);
 | rowClick        | 当某一行被点击时会触发该事件                 | object({row, event})                    |
 | select           | 当用户手动勾选数据行的 Checkbox 时触发的事件 | object({ selection, row, checked})      |
 | selectAll       | 当用户手动勾选全选 Checkbox 时触发的事件     | object({ selection, checked })          |
-| selectionChange | 当选择项发生变化时会触发该事件               | object({ selection })                   |
+| selectionChange | 当选择项发生变化时会触发该事件               | selection                   |
 
 ## FTable Methods
 
