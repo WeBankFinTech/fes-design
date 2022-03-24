@@ -2,9 +2,7 @@
     "compilerOptions": {
         "strict": true,
         "strictNullChecks": false,
-        "jsx": "react",
-        "jsxFactory": "h",
-        "jsxFragmentFactory": "Fragment",
+        "jsx": "preserve",
         "module": "ES6",
         "moduleResolution": "Node",
         "declaration": true,
@@ -13,6 +11,9 @@
         "forceConsistentCasingInFileNames": true,
         "composite": true,
         "target": "ES6",
+        "types": [
+            "jest"
+        ],
         "lib": [
             "ESNext",
             "DOM"

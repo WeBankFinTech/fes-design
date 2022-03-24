@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 const fs = require('fs-extra');
 const esModules = ['lodash-es'].map((pkg) => {
     if (fs.pathExistsSync('node_modules/.pnpm')) {
@@ -8,11 +9,12 @@ const esModules = ['lodash-es'].map((pkg) => {
 });
 
 module.exports = {
-    // globals: {
-    //     'ts-jest': {
-    //         babelConfig: true,
-    //     },
-    // },
+    globals: {
+        __DEV__: true,
+        'ts-jest': {
+            babelConfig: true,
+        },
+    },
 
     // Automatically clear mock calls and instances between every test
     clearMocks: true,
@@ -28,11 +30,6 @@ module.exports = {
 
     // A list of reporter names that Jest uses when writing coverage reports
     coverageReporters: ['text', 'lcov'],
-
-    // A set of global variables that need to be available in all test environments
-    globals: {
-        __DEV__: true,
-    },
 
     // An array of directory names to be searched recursively up from the requiring module's location
     moduleDirectories: ['node_modules'],
