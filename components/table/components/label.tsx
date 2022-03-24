@@ -11,7 +11,7 @@ export default defineComponent({
     },
     setup(props) {
         const renderHeader = () =>
-            props.column?.slots?.header?.(props) ||
+            props.column?.slots?.header?.(props) ??
             props.column?.props?.label;
         return () => <Fragment>{renderHeader()}</Fragment>;
     },
