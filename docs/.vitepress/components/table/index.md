@@ -95,14 +95,14 @@ app.use(FTable);
 | 属性         | 说明                                                                          | 类型                                             | 可选值 | 默认值     |
 | ------------ | ----------------------------------------------------------------------------- | ------------------------------------------------ | ------ | ---------- |
 | bordered     | 是否展示列边框                                                                | boolean                                          | -      | `false`    |
-| rowClassName | 行的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。 | function({row, rowIndex}) / string               | -      | -          |
-| rowStyle     | 行的 style 的回调方法，也可以使用一个固定的 Object 为所有行设置一样的 Style。 | function({row, rowIndex}) / object               | -      | -          |
+| rowClassName | 行的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。 | *({row, rowIndex})=> (string \| array \| object)  / string*             | -      | -          |
+| rowStyle     | 行的 style 的回调方法，也可以使用一个固定的 Object 为所有行设置一样的 Style。 | ({row, rowIndex})=> object / object               | -      | -          |
 | data         | 数据                                                                          | array                                            | -      | `[]`       |
 | emptyText    | 空数据时显示的文本内容，也可以通过 #empty 设置                                | string                                           | -      | `暂无数据` |
-| height       | table 的高度，如果内容过多超出时则表头固定，内容滚动                          | Number                                           | -      | -          |
-| rowKey       | 行数据的 Key，用来优化 Table 的渲染                                           | function(row) / String                           | -      | -          |
+| height       | table 的高度，如果内容过多超出时则表头固定，内容滚动                          | number                                           | -      | -          |
+| rowKey       | 行数据的 Key，用来优化 Table 的渲染                                           | (row)=> string / string                           | -      | -          |
 | showHeader   | 是否展示表头                                                                  | boolean                                          | -      | `true`     |
-| spanMethod   | 合并行或列的计算方法                                                          | function({ row, column, rowIndex, columnIndex }) | -      | -          |
+| spanMethod   | 合并行或列的计算方法                           |  *({ row, column, rowIndex, columnIndex }) => { rowspan: string, colspan: string }*| -      | -          |
 | virtualScroll   | 是否启动虚拟滚动，当启用时不支持展开行                                                     | boolean | -      |      false     |
 
 ## FTable Slots
@@ -115,20 +115,20 @@ app.use(FTable);
 
 | 事件名称         | 说明                                         | 回调参数                        |
 | ---------------- | -------------------------------------------- | ------------------------------- |
-| cellClick       | 当某个单元格被点击时会触发该事件             | object({row, column, cellValue, event})  |
-| expandChange    | 当用户对某一行展开或者关闭的时候会触发该事件 | object({ row })                        |
-| headerClick     | 当某一列的表头被点击时会触发该事件           | object({column, event})               |
-| rowClick        | 当某一行被点击时会触发该事件                 | object({row, event})                    |
-| select           | 当用户手动勾选数据行的 Checkbox 时触发的事件 | object({ selection, row, checked})      |
-| selectAll       | 当用户手动勾选全选 Checkbox 时触发的事件     | object({ selection, checked })          |
-| selectionChange | 当选择项发生变化时会触发该事件               | object({ selection })                   |
+| cellClick       | 当某个单元格被点击时会触发该事件             | ({row, column, cellValue, event})=> void |
+| expandChange    | 当用户对某一行展开或者关闭的时候会触发该事件 |  ({ row })=> void                        |
+| headerClick     | 当某一列的表头被点击时会触发该事件           | ({column, event}) => void               |
+| rowClick        | 当某一行被点击时会触发该事件                 | ({row, event}) => void                   |
+| select           | 当用户手动勾选数据行的 Checkbox 时触发的事件 | ({ selection, row, checked})=> void      |
+| selectAll       | 当用户手动勾选全选 Checkbox 时触发的事件     | ({ selection, checked }) => void          |
+| selectionChange | 当选择项发生变化时会触发该事件               | (selection) => void                   |
 
 ## FTable Methods
 
 | 名称               | 说明                               | 参数  |
 | ------------------ | ---------------------------------- | ----- |
 | clearSelection     | 用于多选表格，清空用户的选择       | -     |
-| toggleRoFSelection | 用于多选表格，切换某一行的选中状态 | {row} |
+| toggleRowSelection | 用于多选表格，切换某一行的选中状态 | *{row}* |
 | toggleAllSelection | 用于多选表格，切换全选和全不选     | -     |
 
 ## FTableColumn Props
@@ -137,14 +137,14 @@ app.use(FTable);
 | ------------ | ------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | --------------------- | ------- |
 | action       | 操作                                                                                  | array / object                                                       | -                     | -       |
 | align        | 对齐方式                                                                              | string                                                               | left / center / right | `left`  |
-| colClassName | 列的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。         | function({ row, column, rowIndex, columnIndex, cellValue }) / string | -                     | -       |
-| colStyle     | 列的 style 的回调方法，也可以使用一个固定的 Object 为所有行设置一样的 Style。         | function({ row, column, rowIndex, columnIndex, cellValue }) / object | -                     | -       |
+| colClassName | 列的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。         | *({ row, column, rowIndex, columnIndex, cellValue })=> ( object \| array \| string)  / string* | -                     | -       |
+| colStyle     | 列的 style 的回调方法，也可以使用一个固定的 Object 为所有行设置一样的 Style。         | *({ row, column, rowIndex, columnIndex, cellValue }) => object / object* | -                     | -       |
 | fixed        | 列是否固定在左侧或者右侧，true 表示固定在左侧                                         | string / boolean                                                     | true / left / right   | -       |
-| formatter    | 用来格式化内容                                                                        | function({row, column, rowIndex, columnIndex, cellValue})            | -                     | -       |
+| formatter    | 用来格式化内容                                                                        | ({row, column, rowIndex, columnIndex, cellValue}) => any            | -                     | -       |
 | label        | 列的标题，也可以使用 `#header` 自定义                                                 | string                                                               | -                     | -       |
 | minWidth     | 列最小的宽度，如果容器宽度够大，则会自适应补偿                                        | string                                                               | -                     | -       |
 | prop         | 列内容的字段名                                                                        | string                                                               | -                     | -       |
-| selectable   | 仅对 type=selection 的列有效，Function 的返回值用来决定这一行的 CheckBox 是否可以勾选 | function({row, rowIndex})                                            | -                     | -       |
+| selectable   | 仅对 type=selection 的列有效，Function 的返回值用来决定这一行的 CheckBox 是否可以勾选 | ({row, rowIndex}) => boolean                                            | -                     | -       |
 | type         | 列的类型，如果设置为`selection`则显示选择器，如果设置为`expand`则显示一个展开按钮     | string                                                               | selection / expand    | `false` |
 | width        | 对应列的宽度，优先级大于 minWidth                                                     | string                                                               | -                     | -       |
 | ellipsis     | 设置宽度后，如果文本溢出后出现省略号                                                  | boolean                                                              | -                     | `false`   |
@@ -154,5 +154,5 @@ app.use(FTable);
 
 | 名称    | 说明                                                                     | 参数 |
 | ------- | ------------------------------------------------------------------------ |   ------- |
-| default | 自定义列的内容 | object({ row, column, rowIndex, columnIndex, cellValue }） |
-| header  | 自定义表头的内容                         | object({ column, columnIndex } ) |
+| default | 自定义列的内容 | *{ row, column, rowIndex, columnIndex, cellValue }* |
+| header  | 自定义表头的内容                         | *{ column, columnIndex }*  |

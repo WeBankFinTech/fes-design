@@ -10,9 +10,9 @@ export default defineComponent({
         columnIndex: Number,
     },
     setup(props) {
-        const column = props.column;
         const renderHeader = () =>
-            column?.slots?.header?.(props) || column?.props?.label || '';
+            props.column?.slots?.header?.(props) ??
+            props.column?.props?.label;
         return () => <Fragment>{renderHeader()}</Fragment>;
     },
 });
