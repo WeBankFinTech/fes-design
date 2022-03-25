@@ -5,8 +5,8 @@
         labelField="name"
         :options="optionList"
     >
-        <template #action>
-            <div class="action">如果你点开了这个例子，可能你需要它</div>
+        <template #addon>
+            <div class="addon">如果你点开了这个例子，可能你需要它</div>
         </template>
     </FSelect>
 </template>

@@ -46,11 +46,11 @@
                     @mousedown.prevent
                 />
                 <div
-                    v-if="$slots.action"
-                    :class="`${prefixCls}-action`"
+                    v-if="$slots.addon"
+                    :class="`${prefixCls}-addon`"
                     @mousedown.prevent
                 >
-                    <slot name="action" />
+                    <slot name="addon" />
                 </div>
             </template>
         </Popper>

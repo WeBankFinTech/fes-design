@@ -110,7 +110,7 @@ app.use(FSelectTree);
 
 | 名称    | 说明            | 参数 |
 | ------- | --------------- | --------------- |
-| tag   | 自定义 `Tag` 内容    | *{ option: TreeOption, handleClose: ()=> void }*  |
+| tag   | 控制标签的渲染，自定义选中选项在选择框如何展示    | *{ option: TreeOption, handleClose: ()=> void }*  |
 
 
 ## TreeOption props

@@ -1,4 +1,4 @@
-import { h, defineComponent, VNodeChild, PropType } from 'vue';
+import { defineComponent, VNodeChild, PropType } from 'vue';
 
 import { SelectOption, RenderTagParam } from './interface'
 
@@ -10,11 +10,11 @@ export default defineComponent({
     },
     emits: ['close'],
     setup(props, {emit, slots}) {
+        const handleClose = ()=>{
+            emit('close')
+        }
         return () => {
             const { option, renderTag } = props;
-            const handleClose = ()=>{
-                emit('close')
-            }
             if(renderTag) {
                 return renderTag({option, handleClose})
             }

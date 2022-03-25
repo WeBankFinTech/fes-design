@@ -79,9 +79,10 @@ app.use(FSelect);
 
 --TAG
 
-### 操作插槽
+### 底部插槽
+如果你点开了这个例子，可能你需要它
 
---ACTION
+--ADDON
 
 --CODE
 
@@ -128,7 +129,8 @@ app.use(FSelect);
 | default | option 组件列表 | -  |
 | empty   | 无选项的内容    | - |
 | option   | 自定义 `Option` 内容    | *{ value, label, disabled, isSelected }* |
-| tag   | 自定义 `Tag` 内容    | *{ option: Option, handleClose: ()=> void }*  |
+| tag   | 控制标签的渲染，自定义选中选项在选择框如何展示    | *{ option: Option, handleClose: ()=> void }*  |
+| addon | 弹框底部显示自定义的内容  | -  |
 
 ## Select Methods
 
