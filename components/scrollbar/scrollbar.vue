@@ -1,12 +1,8 @@
 <template>
-    <div ref="scrollbarRef" :class="prefixCls">
+    <div ref="scrollbarRef" :class="wrapperClassRef">
         <div
             ref="containerRef"
-            :class="[
-                `${prefixCls}-container`,
-                containerClass,
-                !native && `${prefixCls}-hidden-native-bar`,
-            ]"
+            :class="containerClassRef"
             :style="style"
             @scroll="handleScroll"
         >
@@ -31,6 +27,22 @@
                 :always="always"
             />
         </template>
+        <div
+            v-if="shadowRef.x && scrollX && scrollXRatio < 1"
+            :class="`${prefixCls}-shadow-right`"
+        ></div>
+        <div
+            v-if="shadowRef.x && scrollX && scrollXRatio > 0"
+            :class="`${prefixCls}-shadow-left`"
+        ></div>
+        <div
+            v-if="shadowRef.y && scrollY && scrollYRatio < 1"
+            :class="`${prefixCls}-shadow-bottom`"
+        ></div>
+        <div
+            v-if="shadowRef.y && scrollY && scrollYRatio > 0"
+            :class="`${prefixCls}-shadow-top`"
+        ></div>
     </div>
 </template>
 
@@ -50,8 +62,8 @@ import { useTheme } from '../_theme/useTheme';
 import { addUnit, requestAnimationFrame } from '../_util/utils';
 import useResize from '../_util/use/useResize';
 import FBar from './bar.vue';
-
 import useScrollbar from './useScrollbar';
+import { COMMON_PROPS } from './const';
 
 const prefixCls = getPrefixCls('scrollbar');
 
@@ -67,7 +79,7 @@ const scrollbarProps = {
         default: false,
     },
     containerClass: [Array, Object, String] as PropType<CSSProperties>,
-    containerStyle: [Array, Object, String] as PropType<CSSProperties>,
+    containerStyle: Object as PropType<CSSProperties>,
     noresize: Boolean,
     always: {
         type: Boolean,
@@ -77,6 +89,7 @@ const scrollbarProps = {
         type: Number,
         default: 20,
     },
+    ...COMMON_PROPS,
 } as const;
 
 export type ScrollbarProps = Partial<ExtractPropTypes<typeof scrollbarProps>>;
@@ -100,8 +113,22 @@ export default defineComponent({
             thumbMoveY,
             sizeHeight,
             sizeWidth,
+            scrollX,
+            scrollXRatio,
+            scrollY,
+            scrollYRatio,
         } = useScrollbar(props);
         const scrollbarRef = ref<HTMLElement>();
+
+        const shadowRef = computed(() => {
+            if (typeof props.shadow === 'boolean') {
+                return {
+                    x: props.shadow,
+                    y: props.shadow,
+                };
+            }
+            return props.shadow;
+        });
 
         const style = computed(() => [
             props.containerStyle,
@@ -109,6 +136,14 @@ export default defineComponent({
                 height: addUnit(props.height),
                 maxHeight: addUnit(props.maxHeight),
             },
+        ]);
+
+        const wrapperClassRef = computed(() => [prefixCls]);
+
+        const containerClassRef = computed(() => [
+            `${prefixCls}-container`,
+            props.containerClass,
+            !props.native && `${prefixCls}-hidden-native-bar`,
         ]);
 
         const handleScroll = (event: Event) => {
@@ -121,7 +156,10 @@ export default defineComponent({
 
         useResize(
             containerRef,
-            onUpdate,
+            () => {
+                onUpdate();
+                onScroll();
+            },
             computed(() => props.noresize),
         );
 
@@ -129,6 +167,7 @@ export default defineComponent({
             if (!props.native) {
                 nextTick(onUpdate);
             }
+            onScroll();
         });
 
         const move = (
@@ -173,6 +212,13 @@ export default defineComponent({
             ratioY,
             sizeHeight,
             sizeWidth,
+            wrapperClassRef,
+            containerClassRef,
+            scrollX,
+            scrollXRatio,
+            scrollY,
+            scrollYRatio,
+            shadowRef,
         };
     },
 });

@@ -31,6 +31,7 @@ app.use(FScrollbar);
 | noresize       | 不响应容器尺寸变化，如果容器尺寸不变，最好设置它可以优化性能 | boolean             | `false` |
 | always         | 总是显示滚动条                                               | boolean             | `false` |
 | minSize        | 滚动条滑块的最小尺寸                                         | number              | `20`    |
+| shadow        | 显示待滚动区域阴影                                         |  boolean /  `{ x: boolean, y: boolean }`              | `false`    |
 
 ## Events
 

@@ -1,3 +1,18 @@
+## [0.3.11](https://github.com/WeBankFinTech/fes-design/compare/v0.3.10...v0.3.11) (2022-03-24)
+
+
+### Bug Fixes
+
+* 修复select下拉选项宽度问题 ([#81](https://github.com/WeBankFinTech/fes-design/issues/81)) ([e27420c](https://github.com/WeBankFinTech/fes-design/commit/e27420c01aec14df153446dfe3f9749233063521))
+* 修复table渲染问题 ([#78](https://github.com/WeBankFinTech/fes-design/issues/78)) ([41b3da6](https://github.com/WeBankFinTech/fes-design/commit/41b3da64912e36841666a9b74537fb8c08c25e55))
+
+
+### Features
+
+* table不只在fixed时滚动阴影 ([#77](https://github.com/WeBankFinTech/fes-design/issues/77)) ([2e5cf95](https://github.com/WeBankFinTech/fes-design/commit/2e5cf958e7a494c6d24242b5da0a6b40d3465013))
+
+
+
 ## [0.3.10](https://github.com/WeBankFinTech/fes-design/compare/v0.3.9...v0.3.10) (2022-03-21)
 
 

@@ -19,20 +19,25 @@ export default defineComponent({
     },
     setup(props) {
         const { prefixCls } = inject(provideKey);
-        const { row, rowIndex, column, length } = props;
-        if (column?.slots?.default) {
-            return () => (
-                <tr class={`${prefixCls}-row`}>
-                    <td colspan={length} class={`${prefixCls}-td ${prefixCls}-cell`}>
-                        {column.slots.default({
-                            row,
-                            rowIndex,
-                            column,
-                        })}
-                    </td>
-                </tr>
-            );
-        }
-        return null;
+        return () => {
+            const { row, rowIndex, column, length } = props;
+            if (column?.slots?.default) {
+                return (
+                    <tr class={`${prefixCls}-row`}>
+                        <td
+                            colspan={length}
+                            class={`${prefixCls}-td ${prefixCls}-cell`}
+                        >
+                            {column.slots.default({
+                                row,
+                                rowIndex,
+                                column,
+                            })}
+                        </td>
+                    </tr>
+                );
+            }
+            return null;
+        };
     },
 });

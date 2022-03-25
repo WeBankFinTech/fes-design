@@ -29,6 +29,7 @@ export default {
 .scroll-ul {
     list-style-type: none;
     margin: 0;
+    padding: 0;
     list-style: none;
 }
 .scroll-ul > li {

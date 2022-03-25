@@ -52,14 +52,10 @@ export default ({
 
     const scrollState = reactive({
         x: 'left',
-        y: false,
     });
 
     const headerWrapperClass = computed(() => {
         const arr = [`${prefixCls}-header-wrapper`];
-        if (scrollState.y) {
-            arr.push('is-scrolling-y');
-        }
         if (scrollState.x) {
             arr.push(`is-scrolling-x-${scrollState.x}`);
         }
@@ -262,8 +258,7 @@ export default ({
     const syncPosition = throttle((e: Event) => {
         const $bodyWrapper = e.target as HTMLElement;
         if (!$bodyWrapper) return;
-        const { scrollLeft, scrollTop, offsetWidth, scrollWidth } =
-            $bodyWrapper;
+        const { scrollLeft, offsetWidth, scrollWidth } = $bodyWrapper;
         const $headerWrapper = headerWrapperRef.value;
         if ($headerWrapper) {
             $headerWrapper.scrollLeft = scrollLeft;
@@ -276,7 +271,6 @@ export default ({
         } else {
             scrollState.x = 'middle';
         }
-        scrollState.y = scrollTop > 0;
     }, 10);
 
     const handleHeaderMousewheel = (e: Event, data: any) => {

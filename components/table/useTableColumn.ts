@@ -27,10 +27,17 @@ export default function useColumn() {
     // 列配置
     const columns = computed(() => getColumns(visibleColumns.value));
 
+    const hasFixedColumn = computed(() =>
+        columns.value.every((column) => {
+            return !column.fixLeft && !column.fixRight;
+        }),
+    );
+
     return {
         addColumn,
         removeColumn,
         headerRows,
         columns,
+        hasFixedColumn,
     };
 }

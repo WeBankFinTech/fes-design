@@ -10,6 +10,10 @@ export default (props: ScrollbarProps) => {
     const thumbMoveY = ref(0);
     const sizeHeight = ref('0');
     const sizeWidth = ref('0');
+    const scrollX = ref(false);
+    const scrollXRatio = ref(0);
+    const scrollY = ref(false);
+    const scrollYRatio = ref(0);
 
     const GAP = 4;
 
@@ -45,15 +49,27 @@ export default (props: ScrollbarProps) => {
             const offsetWidth = containerRefValue.offsetWidth - GAP;
 
             // 滚动条滚动比例
-            // = (offsetHeight - H) / H
-            // = (scrollHeight - offsetHeight) / offsetHeight
-            // = scrollTop / offsetHeight
             thumbMoveY.value =
                 ((containerRefValue.scrollTop * 100) / offsetHeight) *
                 ratioY.value;
             thumbMoveX.value =
                 ((containerRefValue.scrollLeft * 100) / offsetWidth) *
                 ratioX.value;
+
+            scrollY.value =
+                containerRefValue.scrollHeight > containerRefValue.offsetHeight;
+
+            scrollYRatio.value =
+                containerRefValue.scrollTop /
+                (containerRefValue.scrollHeight -
+                    containerRefValue.offsetHeight);
+
+            scrollX.value =
+                containerRefValue.scrollWidth > containerRefValue.offsetWidth;
+
+            scrollXRatio.value =
+                containerRefValue.scrollLeft /
+                (containerRefValue.scrollWidth - containerRefValue.offsetWidth);
         }
     };
 
@@ -67,5 +83,9 @@ export default (props: ScrollbarProps) => {
         thumbMoveY,
         sizeHeight,
         sizeWidth,
+        scrollX,
+        scrollXRatio,
+        scrollY,
+        scrollYRatio,
     };
 };
