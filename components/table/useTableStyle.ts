@@ -1,11 +1,5 @@
 import { computed, ref, reactive, Ref, CSSProperties } from 'vue';
-import {
-    isString,
-    isFunction,
-    isPlainObject,
-    throttle,
-    isArray,
-} from 'lodash-es';
+import { isFunction, isPlainObject, throttle } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { getCellValue } from './helper';
 import useTableLayout from './useTableLayout';
@@ -103,29 +97,16 @@ export default ({
         row: RowType;
         rowIndex: number;
     }) => {
-        let defaultClass = [`${prefixCls}-row`];
+        const defaultClass = [`${prefixCls}-row`];
         const rowClassName = props.rowClassName;
         if (expandColumn.value) {
             defaultClass.push(isExpandOpened({ row }) && ' is-opened');
         }
-        if (isString(rowClassName)) {
-            defaultClass = defaultClass.concat(rowClassName.split(' '));
-        } else if (isFunction(rowClassName)) {
-            const res = rowClassName({ row, rowIndex });
-            if (isString(res)) {
-                defaultClass = defaultClass.concat(res.split(' '));
-            }
-            if (isArray(res)) {
-                defaultClass = [...res, ...defaultClass];
-            }
-            if (isPlainObject(res)) {
-                Object.keys(res).forEach((key) => {
-                    if (res[key as keyof typeof res]) {
-                        defaultClass.push(key);
-                    }
-                });
-            }
-        }
+        defaultClass.push(
+            typeof rowClassName === 'function'
+                ? rowClassName({ row, rowIndex })
+                : rowClassName,
+        );
         return defaultClass;
     };
 
@@ -169,22 +150,17 @@ export default ({
     }) => {
         const colClassName = column.props.colClassName;
         const cellValue = getCellValue(row, column);
-        const arr = [];
-        if (isString(colClassName)) {
-            arr.push(colClassName);
-        }
-        if (isFunction(colClassName)) {
-            arr.push(
-                colClassName({
-                    row,
-                    column,
-                    rowIndex,
-                    columnIndex,
-                    cellValue,
-                }) || '',
-            );
-        }
-        return arr;
+        return [
+            typeof colClassName === 'function'
+                ? colClassName({
+                      row,
+                      column,
+                      rowIndex,
+                      columnIndex,
+                      cellValue,
+                  })
+                : colClassName,
+        ];
     };
 
     const getCustomCellStyle = ({

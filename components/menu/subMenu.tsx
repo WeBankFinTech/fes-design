@@ -8,7 +8,7 @@ import {
     getCurrentInstance,
     watch,
     Fragment,
-    Transition
+    Transition,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import Popper from '../popper/popper';
@@ -109,7 +109,11 @@ export default defineComponent({
             }
         });
         const renderTitle = () => {
-            return <Ellipsis triggerClass={`${prefixCls}-label`}>{slots.label?.() || props.label}</Ellipsis>;
+            return (
+                <Ellipsis class={`${prefixCls}-label`}>
+                    {slots.label?.() || props.label}
+                </Ellipsis>
+            );
         };
         const renderIcon = () => {
             if (slots.icon) {
@@ -129,7 +133,12 @@ export default defineComponent({
                 );
             }
             return (
-                <span class={[`${prefixCls}-arrow`, isOpened.value && 'is-opened' ]}>
+                <span
+                    class={[
+                        `${prefixCls}-arrow`,
+                        isOpened.value && 'is-opened',
+                    ]}
+                >
                     <DownOutlined />
                 </span>
             );

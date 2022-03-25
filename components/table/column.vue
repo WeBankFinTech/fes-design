@@ -36,8 +36,10 @@ const columnProps = {
     },
     width: Number,
     minWidth: Number,
-    colClassName: [Function, String] as PropType<
+    colClassName: [Function, String, Array, Object] as PropType<
         | string
+        | []
+        | object
         | (({
               row,
               column,
@@ -50,7 +52,7 @@ const columnProps = {
               rowIndex: number;
               columnIndex: number;
               cellValue: any;
-          }) => string)
+          }) => string | [] | object)
     >,
     colStyle: [Function, Object] as PropType<
         | object

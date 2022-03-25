@@ -95,8 +95,8 @@ app.use(FTable);
 | 属性         | 说明                                                                          | 类型                                             | 可选值 | 默认值     |
 | ------------ | ----------------------------------------------------------------------------- | ------------------------------------------------ | ------ | ---------- |
 | bordered     | 是否展示列边框                                                                | boolean                                          | -      | `false`    |
-| rowClassName | 行的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。 | *({row, rowIndex})=> (string \| array \| object)  / string*             | -      | -          |
-| rowStyle     | 行的 style 的回调方法，也可以使用一个固定的 Object 为所有行设置一样的 Style。 | ({row, rowIndex})=> object / object               | -      | -          |
+| rowClassName | 行的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。 | *string \| object \| array \| ({ row, column, rowIndex, columnIndex, cellValue })=> ( object \| array \| string )*  | -      | -          |
+| rowStyle     | 行的 style 的回调方法，也可以使用一个固定的 Object 为所有行设置一样的 Style。 | *object \| ({row, rowIndex})=> object*               | -      | -          |
 | data         | 数据                                                                          | array                                            | -      | `[]`       |
 | emptyText    | 空数据时显示的文本内容，也可以通过 #empty 设置                                | string                                           | -      | `暂无数据` |
 | height       | table 的高度，如果内容过多超出时则表头固定，内容滚动                          | number                                           | -      | -          |
@@ -137,8 +137,8 @@ app.use(FTable);
 | ------------ | ------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | --------------------- | ------- |
 | action       | 操作                                                                                  | array / object                                                       | -                     | -       |
 | align        | 对齐方式                                                                              | string                                                               | left / center / right | `left`  |
-| colClassName | 列的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。         | *({ row, column, rowIndex, columnIndex, cellValue })=> ( object \| array \| string)  / string* | -                     | -       |
-| colStyle     | 列的 style 的回调方法，也可以使用一个固定的 Object 为所有行设置一样的 Style。         | *({ row, column, rowIndex, columnIndex, cellValue }) => object / object* | -                     | -       |
+| colClassName | 列的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。         | *string \| object \| array \| ({ row, column, rowIndex, columnIndex, cellValue })=> ( object \| array \| string )* | -                     | -       |
+| colStyle     | 列的 style 的回调方法，也可以使用一个固定的 Object 为所有行设置一样的 Style。         | *object \| ({ row, column, rowIndex, columnIndex, cellValue }) => object* | -                     | -       |
 | fixed        | 列是否固定在左侧或者右侧，true 表示固定在左侧                                         | string / boolean                                                     | true / left / right   | -       |
 | formatter    | 用来格式化内容                                                                        | ({row, column, rowIndex, columnIndex, cellValue}) => any            | -                     | -       |
 | label        | 列的标题，也可以使用 `#header` 自定义                                                 | string                                                               | -                     | -       |
