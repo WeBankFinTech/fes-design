@@ -25,6 +25,7 @@
                     :collapseTags="collapseTags"
                     :collapseTagsLimit="collapseTagsLimit"
                     :class="{ 'is-error': isError }"
+                    :renderTag="$slots.tag"
                     @remove="handleRemove"
                     @clear="handleClear"
                     @focus="focus"
@@ -292,22 +293,12 @@ export default defineComponent({
         };
 
         const selectedOptions = computed(() =>
-            Object.values(nodeList.value)
-                .filter((option) => {
-                    if (props.multiple) {
-                        return currentValue.value.includes(option.value);
-                    }
-                    return [currentValue.value].includes(option.value);
-                })
-                .map((option) => {
-                    if (props.optionLabelField) {
-                        return {
-                            ...option,
-                            label: option[props.optionLabelField],
-                        };
-                    }
-                    return option;
-                }),
+            Object.values(nodeList.value).filter((option) => {
+                if (props.multiple) {
+                    return currentValue.value.includes(option.value);
+                }
+                return [currentValue.value].includes(option.value);
+            }),
         );
 
         const focus = (e: Event) => {

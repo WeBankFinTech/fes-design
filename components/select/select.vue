@@ -24,6 +24,7 @@
                     :collapseTags="collapseTags"
                     :collapseTagsLimit="collapseTagsLimit"
                     :class="{ 'is-error': isError }"
+                    :renderTag="$slots.tag"
                     @remove="onSelect"
                     @clear="handleClear"
                     @focus="focus"
@@ -44,6 +45,13 @@
                     @scroll="onScroll"
                     @mousedown.prevent
                 />
+                <div
+                    v-if="$slots.action"
+                    :class="`${prefixCls}-action`"
+                    @mousedown.prevent
+                >
+                    <slot name="action" />
+                </div>
             </template>
         </Popper>
         <div ref="hiddenOptions" :class="`${prefixCls}-hidden-options`">
@@ -230,17 +238,9 @@ export default defineComponent({
                 const getOption = (val: SelectValue) => {
                     let cacheOption;
                     if (newOptions && newOptions.length) {
-                        cacheOption = newOptions
-                            .map((option) => {
-                                if (props.optionLabelField) {
-                                    return {
-                                        ...option,
-                                        label: option[props.optionLabelField],
-                                    };
-                                }
-                                return option;
-                            })
-                            .find((option) => option.value === val);
+                        cacheOption = newOptions.find(
+                            (option) => option.value === val,
+                        );
                         if (cacheOption) {
                             return cacheOption;
                         }

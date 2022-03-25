@@ -1,6 +1,11 @@
 export type SelectOptionValue = string | number | boolean | object;
 
 export interface SelectOption {
-    value: string | number | boolean | object;
+    value: SelectOptionValue;
     label: string | number;
+}
+
+export interface RenderTagParam {
+    option: SelectOption;
+    handleClose: () => void;
 }
