@@ -70,7 +70,6 @@ export const selectProps = {
         type: String,
         default: 'label',
     },
-    optionLabelField: String,
 } as const;
 
 export const selectPropsDefaultValue = extractPropsDefaultValue(selectProps);

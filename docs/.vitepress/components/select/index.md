@@ -20,7 +20,7 @@ app.use(FSelect);
 
 ### 配置方式
 
-通过配置`options`直接生成选项，当数据量大于 `50` 时使用 `VirtualList`组件实现虚拟列表，性能更优。
+通过配置`options`直接生成选项，当数据量大于 `50` 时使用 `VirtualList`组件实现虚拟列表，性能更优。所以其实推荐用配置`options`直接生成选项！！
 
 --OPTIONS
 
@@ -77,7 +77,12 @@ app.use(FSelect);
 
 ### 控制回填内容
 
---LABELFIELD
+--TAG
+
+### 底部插槽
+如果你点开了这个例子，可能你需要它
+
+--ADDON
 
 --CODE
 
@@ -103,7 +108,6 @@ app.use(FSelect);
 | options           | 选项配置                            | array\<Option\>                            | `[]`               |
 | valueField    | 替代 `Option` 中的 `value` 字段名                                                              | string  | `value`    |
 | labelField    | 替代 `Option` 中的 `label` 字段名                                                              | string  | `label`    |
-| optionLabelField    | 配置选中选项显示的字段名，不传时跟`labelField`一致                                              | string  | -    |
 
 ## Select Events
 
@@ -120,11 +124,13 @@ app.use(FSelect);
 
 ## Select Slots
 
-| 名称    | 说明            |
-| ------- | --------------- |
-| default | option 组件列表 |
-| empty   | 无选项的内容    |
-| option   | 自定义 `Option` 内容    |
+| 名称    | 说明            | 参数 |
+| ------- | --------------- | --------------- |
+| default | option 组件列表 | -  |
+| empty   | 无选项的内容    | - |
+| option   | 自定义 `Option` 内容    | *{ value, label, disabled, isSelected }* |
+| tag   | 控制标签的渲染，自定义选中选项在选择框如何展示    | *{ option: Option, handleClose: ()=> void }*  |
+| addon | 弹框底部显示自定义的内容  | -  |
 
 ## Select Methods
 

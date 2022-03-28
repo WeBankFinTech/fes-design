@@ -83,7 +83,6 @@ app.use(FSelectTree);
 | childrenField         | 替代 `TreeOption` 中的 `children` 字段名                                | string                                    | `children` |
 | valueField            | 替代 `TreeOption` 中的 `value` 字段名                                   | string                                    | `value`    |
 | labelField            | 替代 `TreeOption` 中的 `label` 字段名                                   | string                                    | `label`    |
-| optionLabelField    | 配置选中选项显示的字段名，不传时跟`labelField`一致                                                      | string  | -    |
 | remote                | 是否异步获取选项，和 `onLoad` 配合                                      | boolean                                   | `false`    |
 | loadData              | 异步加载数据的回调函数                                                  | (node: TreeOption) => Promise\<void\>     | `null`     |
 | inline                | 底层节点是否横向排列                                                    | boolean                                   | `false`    |
@@ -107,6 +106,12 @@ app.use(FSelectTree);
 | blur  | 取消焦点 |
 | focus | 获取焦点 |
 
+## SelectTree Slots
+
+| 名称    | 说明            | 参数 |
+| ------- | --------------- | --------------- |
+| tag   | 控制标签的渲染，自定义选中选项在选择框如何展示    | *{ option: TreeOption, handleClose: ()=> void }*  |
+
 
 ## TreeOption props
 
@@ -121,3 +126,4 @@ app.use(FSelectTree);
 | isLeaf?           | 节点是否是叶节点，在 remote 模式下是必须的             | boolean                     | `false` |
 | prefix?           | 节点的前缀                                             | string / (() => VNodeChild) | `null`  |
 | suffix?           | 节点的后缀                                             | string / (() => VNodeChild) | `null`  |
+

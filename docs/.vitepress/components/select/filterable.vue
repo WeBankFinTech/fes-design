@@ -8,7 +8,7 @@
                 :label="item.label"
             ></FOption>
         </FSelect>
-        <FSelect filterable multiple>
+        <FSelect filterable multiple @blur="blur">
             <FOption
                 v-for="(item, index) in optionList"
                 :key="index"
@@ -78,8 +78,12 @@ export default {
                 label: '8',
             },
         ]);
+        const blur = () => {
+            console.log('blur');
+        };
         return {
             optionList,
+            blur,
         };
     },
 };
