@@ -59,7 +59,10 @@ export default defineComponent({
             };
         }
 
-        function handleConfirmCB(name: typeof OK_EVENT | typeof CANCEL_EVENT, event: MouseEvent) {
+        function handleConfirmCB(
+            name: typeof OK_EVENT | typeof CANCEL_EVENT,
+            event: MouseEvent,
+        ) {
             updateCurrentValue(false);
             ctx.emit(name, event);
         }
@@ -74,8 +77,8 @@ export default defineComponent({
             }
             if (isConfirm || isPopover) {
                 const mergeOpt = {
-                    ...props.confirmOption,
                     ...defaultConfirmOption,
+                    ...props.confirmOption,
                 };
                 const contentClass = [
                     `${prefixCls}-modal-body`,
@@ -88,8 +91,9 @@ export default defineComponent({
                     <>
                         {title && (
                             <div
-                                class={`${prefixCls}-modal-header ${isConfirm && 'is-confirm'
-                                    }`}
+                                class={`${prefixCls}-modal-header ${
+                                    isConfirm && 'is-confirm'
+                                }`}
                             >
                                 {isConfirm && (
                                     <div class={`${prefixCls}-modal-icon`}>
@@ -130,7 +134,9 @@ export default defineComponent({
 
         return () => {
             const _props = { ...props };
-            tooltipPropKeys.forEach((key) => delete _props[key as keyof typeof toolTipProps]);
+            tooltipPropKeys.forEach(
+                (key) => delete _props[key as keyof typeof toolTipProps],
+            );
             if (props.mode === 'confirm') {
                 // confirm模式下，只能点击触发
                 _props.trigger = 'click';
