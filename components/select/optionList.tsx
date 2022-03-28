@@ -53,7 +53,7 @@ export default defineComponent({
             if (option.label) {
                 return (
                     <>
-                        <Ellipsis triggerClass={`${prefixCls}-label`}>
+                        <Ellipsis class={`${prefixCls}-label`}>
                             {option.label}
                         </Ellipsis>
                         {isSelected && (

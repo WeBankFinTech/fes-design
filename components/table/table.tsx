@@ -40,15 +40,17 @@ const tableProps = {
         default: 'normal',
     },
     spanMethod: Function,
-    rowClassName: [Function, String] as PropType<
+    rowClassName: [Function, String, Array, Object] as PropType<
         | string
+        | []
+        | object
         | (({
               row,
               rowIndex,
           }: {
               row: RowType;
               rowIndex: number;
-          }) => string | string[] | object)
+          }) => string | [] | object)
     >,
     rowStyle: [Function, Object] as PropType<
         | object

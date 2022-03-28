@@ -64,7 +64,11 @@ export default defineComponent({
             rootMenu.clickMenuItem(props.value);
         };
         const renderTitle = () => {
-            return <Ellipsis triggerClass={`${prefixCls}-label`}>{slots.label?.() || props.label}</Ellipsis>;
+            return (
+                <Ellipsis class={`${prefixCls}-label`}>
+                    {slots.label?.() || props.label}
+                </Ellipsis>
+            );
         };
         const renderIcon = () => {
             if (slots.icon) {
