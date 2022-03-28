@@ -2,6 +2,7 @@
     <Space>
         <FTooltip
             mode="confirm"
+            :confirmOption="{ okText: 'OK' }"
             @ok="() => handleConfirm('确定')"
             @cancel="() => handleConfirm('取消')"
         >
