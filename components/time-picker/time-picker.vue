@@ -211,7 +211,7 @@ const timePickerProps = {
         default: true,
     },
     inputClass: {
-        type: [String, Object, Array] as PropType<CSSProperties>,
+        type: [String, Object, Array] as PropType<string | object | []>,
     },
 } as const;
 
