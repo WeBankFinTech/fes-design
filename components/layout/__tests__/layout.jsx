@@ -132,9 +132,6 @@ describe('Layout', () => {
         );
         let trigger = wrapper.find(`.${prefixCls}-aside-trigger`);
         expect(trigger.exists()).toBe(true);
-        expect(trigger.attributes('style')).toContain('width: 200px;');
-        await trigger.trigger('click');
-        expect(trigger.attributes('style')).toContain('width: 48px;');
         wrapper = _mount(
             {},
             {
@@ -159,20 +156,4 @@ describe('Layout', () => {
         trigger = wrapper.find(`.${prefixCls}-aside-trigger`);
         expect(trigger.exists()).toBe(false);
     });
-
-    // test('header fixed', async () => {
-    //     const wrapper = _mount(
-    //         {},
-    //         {
-    //             default: () => (
-    //                 <>
-    //                     <FHeader fixed>FHeader</FHeader>
-    //                     <FMain>FMain</FMain>
-    //                     <FFooter>FFooter</FFooter>
-    //                 </>
-    //             ),
-    //         },
-    //     );
-    //     console.log(wrapper.html());
-    // });
 });
