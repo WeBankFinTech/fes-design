@@ -11,11 +11,17 @@
         <div :class="[`${prefixCls}-label`, multiple && 'is-multiple']">
             <template v-if="!multiple">
                 <template v-if="!filterable">
-                    <Ellipsis v-if="!unSelectedRef">
-                        <span :class="`${prefixCls}-label-text`">
-                            {{ labelTextRef }}
-                        </span>
-                    </Ellipsis>
+                    <RenderTag
+                        v-if="!unSelectedRef"
+                        :renderTag="renderTag"
+                        :option="selectedOptions[0]"
+                    >
+                        <Ellipsis>
+                            <span :class="`${prefixCls}-label-text`">
+                                {{ labelTextRef }}
+                            </span>
+                        </Ellipsis>
+                    </RenderTag>
                     <div v-else :class="`${prefixCls}-label-placeholder`">
                         {{ placeholder }}
                     </div>
@@ -40,36 +46,46 @@
                         v-if="!(unSelectedRef || isOpened)"
                         :class="`${prefixCls}-label-overlay`"
                     >
-                        <Ellipsis>
-                            <span :class="`${prefixCls}-label-text`">
-                                {{ labelTextRef }}
-                            </span>
-                        </Ellipsis>
+                        <RenderTag
+                            :renderTag="renderTag"
+                            :option="selectedOptions[0]"
+                        >
+                            <Ellipsis>
+                                <span :class="`${prefixCls}-label-text`">
+                                    {{ labelTextRef }}
+                                </span>
+                            </Ellipsis>
+                        </RenderTag>
                     </div>
                 </template>
             </template>
             <template v-else>
-                <Tag
+                <RenderTag
                     v-for="(tag, index) in multiLabelRef"
                     :key="index"
-                    type="info"
-                    size="small"
-                    :closable="tag.closable"
-                    :class="`${prefixCls}-label-item`"
+                    :renderTag="renderTag"
+                    :option="tag"
                     @close="handleRemove(index)"
-                    @mousedown.prevent
                 >
-                    <Ellipsis>
-                        <span :class="`${prefixCls}-label-text`">
-                            {{ tag.label }}
-                        </span>
-                    </Ellipsis>
-                </Tag>
+                    <Tag
+                        type="info"
+                        size="small"
+                        :closable="tag.closable"
+                        :class="`${prefixCls}-label-item`"
+                        @close="handleRemove(index)"
+                    >
+                        <Ellipsis>
+                            <span :class="`${prefixCls}-label-text`">
+                                {{ tag.label }}
+                            </span>
+                        </Ellipsis>
+                    </Tag>
+                </RenderTag>
                 <div
                     v-if="
                         unSelectedRef &&
-                        !filterTextRef.length &&
-                        !isComposingRef
+                            !filterTextRef.length &&
+                            !isComposingRef
                     "
                     :class="[
                         `${prefixCls}-label-placeholder`,
@@ -114,7 +130,15 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent, PropType, watch, nextTick } from 'vue';
+import {
+    ref,
+    computed,
+    defineComponent,
+    PropType,
+    watch,
+    nextTick,
+    VNodeChild,
+} from 'vue';
 import { isEqual } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -123,8 +147,9 @@ import Tag from '../tag/tag.vue';
 import UpOutlined from '../icon/UpOutlined';
 import DownOutlined from '../icon/DownOutlined';
 import CloseCircleFilled from '../icon/CloseCircleFilled';
+import RenderTag from './renderTag';
 
-import type { SelectOption } from './interface';
+import type { SelectOption, RenderTagParam } from './interface';
 
 const prefixCls = getPrefixCls('select-trigger');
 
@@ -143,6 +168,7 @@ const selectTriggerProps = {
     placeholder: String,
     collapseTags: Boolean,
     collapseTagsLimit: Number,
+    renderTag: Function as PropType<(option: RenderTagParam) => VNodeChild>,
 } as const;
 
 export default defineComponent({
@@ -153,6 +179,7 @@ export default defineComponent({
         UpOutlined,
         DownOutlined,
         CloseCircleFilled,
+        RenderTag,
     },
     props: selectTriggerProps,
     emits: ['remove', 'clear', 'focus', 'blur', 'input'],
@@ -193,14 +220,18 @@ export default defineComponent({
         const genTag = (option: SelectOption) => {
             const { label, value } = option;
             return {
-                label: label || value || '',
+                value: value,
+                label: label ?? value ?? '',
                 closable: !props.disabled,
             };
         };
 
         const labelTextRef = computed(() => {
             const options = props.selectedOptions;
-            return options.length > 0 ? `${options[0].label}` || '' : '';
+            if (options.length) {
+                return `${options[0].label || ''}`;
+            }
+            return '';
         });
 
         const multiLabelRef = computed(() => {
@@ -216,6 +247,8 @@ export default defineComponent({
 
                 if (restCount > 0) {
                     tags.push({
+                        isCollapsed: true,
+                        value: null,
                         label: `+ ${restCount}`,
                         closable: false,
                     });

@@ -1,5 +1,23 @@
 <template>
-    <FSelect :options="optionList" optionLabelField="x"></FSelect>
+    <FSpace>
+        <FSelect :options="optionList">
+            <template #tag="{ option }">
+                {{ option.value }}-{{ option.label }}
+            </template>
+        </FSelect>
+        <FSelect multiple :options="optionList">
+            <template #tag="{ option, handleClose }">
+                <FTag
+                    type="info"
+                    size="small"
+                    :closable="option.closable"
+                    @close="handleClose"
+                >
+                    {{ option.value }}-{{ option.label }}
+                </FTag>
+            </template>
+        </FSelect>
+    </FSpace>
 </template>
 <script>
 import { reactive } from 'vue';

@@ -1,5 +1,9 @@
 <template>
-    <FSelectTree :data="data" optionLabelField="x"></FSelectTree>
+    <FSelectTree :data="data">
+        <template #tag="{ option }">
+            {{ option.value }}-{{ option.label }}
+        </template>
+    </FSelectTree>
 </template>
 <script>
 import { reactive } from 'vue';
