@@ -4,13 +4,13 @@
 
 点击具体 icon 可直接复制代码。
 
-```js
+```vue
 <template>
     <CloseCircleFilled />
 </template>
 
 <script setup>
-import {CloseCircleFilled} from '@fesjs/fes-design/icon';
+import { CloseCircleFilled } from '@fesjs/fes-design/icon';
 </script>
 ```
 
