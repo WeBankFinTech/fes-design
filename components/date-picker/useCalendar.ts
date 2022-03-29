@@ -65,7 +65,6 @@ export const useSelectedDates = (
         index,
         option = {},
     ) => {
-        console.log(date, index);
         const newDate = Object.assign({}, selectedDates.value[index], date);
         if (
             DATE_TYPE[props.type].isRange &&
@@ -210,6 +209,7 @@ export function useMonth(
             {
                 year: currentDate.year,
                 month,
+                day: 1,
             },
             activeIndex.value,
         );
