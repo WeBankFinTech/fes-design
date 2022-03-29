@@ -1,4 +1,4 @@
-import { h, defineComponent, computed, ref, onMounted, PropType } from 'vue';
+import { h, defineComponent, computed, ref, onMounted, PropType, CSSProperties } from 'vue';
 import { isObject } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import Tooltip from '../tooltip/tooltip';
@@ -17,11 +17,9 @@ const ellipsisProps = {
             showAfter: 500,
         },
     },
-    triggerClass: {
-        type: String,
-    },
+    class: [String, Array, Object] as PropType<string | object | []>,
     style: {
-        type: Object,
+        type: Object as PropType<CSSProperties>,
         default() {
             return {};
         },
@@ -37,63 +35,65 @@ export default defineComponent({
     setup(props, { slots }) {
         useTheme();
         const triggerRef = ref<HTMLElement>();
-        const overflowVisible = ref(false);
-        const classList = computed(() =>
-            [prefixCls, props.triggerClass, props.line > 1 && 'is-line-clamp']
+        const overflowVisibleRef = ref(false);
+        const classListRef = computed(() =>
+            [prefixCls, props.class, props.line > 1 && 'is-line-clamp']
                 .filter(Boolean)
-                .join(' '),
         );
-        const style = computed(() => {
+        const styleRef = computed(() => {
             const _style = props.style;
             if (props.line > 1) {
                 _style['-webkit-line-clamp'] = props.line;
             }
             return _style;
         });
-        const tooltipDisabled = computed(
-            () => overflowVisible.value || props.tooltip === false,
+        const tooltipDisabledRef = computed(
+            () => overflowVisibleRef.value || props.tooltip === false,
         );
-        // 元素可能是隐藏的，当hover时需要重新计算下
-        const handleDisabled = () => {
-            const { value: trigger } = triggerRef;
-            if (!trigger) return;
-            if (props.line > 1) {
-                overflowVisible.value =
-                    trigger.scrollHeight <= trigger.offsetHeight;
-            } else {
-                overflowVisible.value =
-                    trigger.scrollWidth <= trigger.offsetWidth;
-            }
-        };
-        onMounted(handleDisabled);
-        const toolTipSlots = () => ({
-            content: slots.default,
-        });
-        const toolTipProps = computed(() => {
+        const toolTipPropsRef = computed(() => {
             if (isObject(props.tooltip)) {
                 return props.tooltip;
             }
             return {};
         });
+
+        // 元素可能是隐藏的，当hover时需要重新计算下
+        const handleDisabled = () => {
+            const { value: trigger } = triggerRef;
+            if (!trigger) return;
+            if (props.line > 1) {
+                overflowVisibleRef.value =
+                    trigger.scrollHeight <= trigger.offsetHeight;
+            } else {
+                overflowVisibleRef.value =
+                    trigger.scrollWidth <= trigger.offsetWidth;
+            }
+        };
+
+        onMounted(handleDisabled);
+        
         const renderTrigger = () => (
             <span
                 ref={triggerRef}
-                class={classList.value}
-                style={style.value}
+                class={classListRef.value}
+                style={styleRef.value}
                 onMouseenter={handleDisabled}
             >
                 {slots.default?.()}
             </span>
         );
+
         return () => {
-            if (tooltipDisabled.value) {
+            if (tooltipDisabledRef.value) {
                 return renderTrigger();
             }
             return (
                 <Tooltip
                     placement="top"
-                    {...toolTipProps.value}
-                    v-slots={toolTipSlots()}
+                    {...toolTipPropsRef.value}
+                    v-slots={{
+                        content: slots.default,
+                    }}
                 >
                     {renderTrigger()}
                 </Tooltip>

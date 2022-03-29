@@ -78,7 +78,7 @@ const scrollbarProps = {
         type: Boolean,
         default: false,
     },
-    containerClass: [Array, Object, String] as PropType<CSSProperties>,
+    containerClass: [Array, Object, String] as PropType<string | object | []>,
     containerStyle: Object as PropType<CSSProperties>,
     noresize: Boolean,
     always: {

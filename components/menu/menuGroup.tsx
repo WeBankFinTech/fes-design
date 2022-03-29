@@ -54,12 +54,14 @@ export default defineComponent({
             parentMenu.removeChild(subMenu);
         });
         const renderTitle = () => {
-            return (<Ellipsis
-                triggerClass={`${prefixCls}-label`}
-                style={paddingStyle.value}
-            >
-                {slots.label?.() || props.label}
-            </Ellipsis>);
+            return (
+                <Ellipsis
+                    class={`${prefixCls}-label`}
+                    style={paddingStyle.value}
+                >
+                    {slots.label?.() || props.label}
+                </Ellipsis>
+            );
         };
         return () => (
             <div class={prefixCls}>
