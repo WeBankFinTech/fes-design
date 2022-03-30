@@ -119,7 +119,7 @@ export const getNode = (
 ): CascaderNode => {
     const { valueField, labelField, childrenField, disabledField } = config;
 
-    const childrenData = (data as any)[childrenField];
+    const childrenData = data[childrenField as 'children'];
     const node: CascaderNode = {
         checked: false,
         indeterminate: false,
@@ -127,16 +127,16 @@ export const getNode = (
         parent,
         nodeId: generateId(),
         level: parent ? parent.level + 1 : 1,
-        value: (data as any)[valueField],
-        label: (data as any)[labelField],
+        value: data[valueField as 'value'],
+        label: data[labelField as 'label'],
         pathNodes: [],
         pathValues: [],
         pathLabels: [],
         childrenData: childrenData,
         children: [],
         isDisabled:
-            !!(data as any)[disabledField] || parent
-                ? !!(parent.data as any)[disabledField]
+            !!data[disabledField as 'disabled'] || parent
+                ? !!parent.data[disabledField as 'disabled']
                 : false,
         isLeaf: false,
         elem: null,
