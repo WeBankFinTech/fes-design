@@ -1,12 +1,12 @@
 import { Ref, ref, watch } from 'vue';
 import { createSharedComposable } from '@vueuse/core';
 
-import { getConfig } from '../config-provider';
+import { useConfig } from '../config-provider';
 import { applyTheme } from './applyTheme';
 import { baseTheme, TThemeVars } from './base';
 
 function _useTheme() {
-    const config = getConfig();
+    const config = useConfig();
     const themeVars: Ref<TThemeVars> = ref(baseTheme());
 
     watch(

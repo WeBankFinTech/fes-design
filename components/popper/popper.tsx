@@ -20,7 +20,7 @@ import { useTheme } from '../_theme/useTheme';
 import useTrigger from './useTrigger';
 import usePopper from './usePopper';
 
-import { getConfig } from '../config-provider';
+import { useConfig } from '../config-provider';
 
 import { popperProps } from './props';
 
@@ -35,7 +35,7 @@ export default defineComponent({
         if (!slots.trigger) {
             throw new Error('[FPopper]: Trigger must be provided');
         }
-        const config = getConfig();
+        const config = useConfig();
         const getContainer = computed(
             () => props.getContainer || config.value.getContainer,
         );

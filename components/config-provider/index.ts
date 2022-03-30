@@ -10,4 +10,4 @@ export const FConfigProvider = withInstall<ConfigProviderType>(
 
 export default FConfigProvider;
 
-export { setConfig, getConfig } from './configProvider';
+export { useConfig } from './configProvider';

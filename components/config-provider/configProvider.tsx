@@ -20,16 +20,16 @@ const globalConfig = reactive<TypeConfigProviderContext>({
     getContainer: () => document.body,
 });
 
-// 全局设置
-export const setConfig = (data: TypeConfigProviderContext) => {
-    if (isObject(data)) {
-        Object.keys(data).forEach((prop) => {
-            if (!isNil(data[prop as keyof typeof data])) {
-                (globalConfig as any)[prop] = data[prop as keyof typeof data];
-            }
-        });
-    }
-};
+// // 全局设置
+// export const setConfig = (data: TypeConfigProviderContext) => {
+//     if (isObject(data)) {
+//         Object.keys(data).forEach((prop) => {
+//             if (!isNil(data[prop as keyof typeof data])) {
+//                 (globalConfig as any)[prop] = data[prop as keyof typeof data];
+//             }
+//         });
+//     }
+// };
 
 // 局部设置，仅子组件生效
 const setProvideConfig = (data: TypeConfigProviderContext) => {
@@ -54,13 +54,13 @@ const setProvideConfig = (data: TypeConfigProviderContext) => {
  *      </config-provider>
  *  </config-provider>
  */
-export function getConfig<K extends keyof TypeConfigProviderContext>(
+export function useConfig<K extends keyof TypeConfigProviderContext>(
     key: K,
 ): Ref<TypeConfigProviderContext[K]>;
 
-export function getConfig(): ComputedRef<TypeConfigProviderContext>;
+export function useConfig(): ComputedRef<TypeConfigProviderContext>;
 
-export function getConfig(key?: keyof TypeConfigProviderContext) {
+export function useConfig(key?: keyof TypeConfigProviderContext) {
     // 当不在vue实例使用时
     const vm = getCurrentInstance();
     if (!vm) {
@@ -93,7 +93,7 @@ export default defineComponent({
         // 兼容子组件局部设置
         setProvideConfig(props);
 
-        provideLocale(props, getConfig());
+        provideLocale(props, useConfig());
 
         return () => slots.default?.();
     },
