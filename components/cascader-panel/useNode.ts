@@ -1,7 +1,6 @@
 import { ref, computed, watch, Ref } from 'vue';
 import { flatNodes } from '../_util/utils';
 import {
-    generateId,
     getMultiNodeValuesByCurrentValue,
     getNode,
     getNodeByValue,
@@ -32,7 +31,7 @@ function useNodes(config: Ref<CascaderNodeConfig>, props: CascaderPanelProps) {
             menus.value = [
                 {
                     nodes: nodes.value,
-                    menuId: `${generateId()}`, // 随机生成 menuId，以便重新渲染
+                    menuId: `menuId_root`, // 根菜单，固定即可
                 },
             ];
         },

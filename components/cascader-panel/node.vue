@@ -3,7 +3,10 @@
         :id="`${menuId}-${node.nodeId}`"
         ref="elemRef"
         role="menuitem"
-        :tabindex="node.isDisabled ? null : -1"
+        :aria-haspopup="!isLeaf"
+        :aria-owns="isLeaf ? null : menuId"
+        :aria-expanded="inExpandingPath"
+        :tabindex="node.isDisabled ? undefined : -1"
         :class="[
             prefixCls,
             node.checked && 'is-checked',

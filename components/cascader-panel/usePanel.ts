@@ -11,7 +11,6 @@ import {
     getMenuNodeByElem,
     getMenuIndexByElem,
     checkNodeElem,
-    generateId,
     getCheckNodesByLeafCheckNodes,
 } from './utils';
 
@@ -93,7 +92,7 @@ function useExpandNode(
             newExpandingNode = node;
             newMenus.push({
                 nodes: node.children,
-                menuId: `${generateId()}`, // 随机生成 menuId，以便重新渲染
+                menuId: `menuId_${node.nodeId}`, // 以便切换父级节点的时候，展开菜单重新渲染
             });
         }
 

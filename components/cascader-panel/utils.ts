@@ -13,9 +13,11 @@ import type {
 /**
  * Generate unique ID
  * Maybe replace with [uuid](https://www.npmjs.com/package/uuid)
+ *
+ * 注：为了使得options改变的情况下生成的menuId和nodeId一致，所以这个方法废弃
  */
-export const generateId = () =>
-    `${Math.random().toString(16).slice(2).toUpperCase()}`;
+// export const generateId = () =>
+//     `${Math.random().toString(16).slice(2).toUpperCase()}`;
 
 export const calculatePathNodes = (node: CascaderNode) => {
     const nodes = [node];
@@ -125,7 +127,7 @@ export const getNode = (
         indeterminate: false,
         data: data || {},
         parent,
-        nodeId: generateId(),
+        nodeId: `nodeId_${data[valueField as 'value']}`,
         level: parent ? parent.level + 1 : 1,
         value: data[valueField as 'value'],
         label: data[labelField as 'label'],
@@ -190,9 +192,11 @@ export const getMultiNodeValuesByCurrentValue = (
 ) => {
     const nodeValues: OptionValue[] = [];
     if (!Array.isArray(currentValue)) {
-        console.warn(
-            'currentValue类型不符预期，multiple为true的情况下，currentValue应该为数组格式',
-        );
+        // 若设置的有值，则校验提示
+        currentValue &&
+            console.warn(
+                'currentValue类型不符预期，multiple为true的情况下，currentValue应该为数组格式',
+            );
     } else {
         currentValue.forEach((value) => {
             const nodeValue = getNodeValueByCurrentValue(emitPath, value);

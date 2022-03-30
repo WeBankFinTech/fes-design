@@ -42,6 +42,9 @@ export const cascaderPanelProps = {
     emptyText: {
         type: String,
     },
+    loadData: {
+        type: Function as PropType<(node: NodeOption) => Promise<any>>,
+    },
 } as const;
 
 export const cascaderPanelPropsDefaultValue =
