@@ -41,9 +41,9 @@ export default defineComponent({
                 .filter(Boolean)
         );
         const styleRef = computed(() => {
-            const _style = props.style;
+            const _style : CSSProperties = props.style;
             if (props.line > 1) {
-                _style['-webkit-line-clamp'] = props.line;
+                _style['-webkit-line-clamp'] = Number(props.line);
             }
             return _style;
         });
@@ -92,7 +92,7 @@ export default defineComponent({
                     placement="top"
                     {...toolTipPropsRef.value}
                     v-slots={{
-                        content: slots.default,
+                        content: slots.tooltip ?? slots.default,
                     }}
                 >
                     {renderTrigger()}
