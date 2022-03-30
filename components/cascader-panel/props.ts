@@ -42,8 +42,12 @@ export const cascaderPanelProps = {
     emptyText: {
         type: String,
     },
+    remote: {
+        type: Boolean,
+        default: false,
+    },
     loadData: {
-        type: Function as PropType<(node: NodeOption) => Promise<any>>,
+        type: Function as PropType<(node: NodeOption) => Promise<NodeOption[]>>,
     },
 } as const;
 
@@ -65,6 +69,7 @@ export interface CascaderPanelInst {
     }) => VNodeChild;
     expandingNode: CascaderNode;
     handleExpandNode: (node: CascaderNode, silent?: boolean) => void;
+    handleLoadNode: (node: CascaderNode) => Promise<void>;
     handleCheckChange: (node: CascaderNode, checked?: boolean) => void;
     setNodeElem: (node: CascaderNode, elem: HTMLElement) => void;
 }

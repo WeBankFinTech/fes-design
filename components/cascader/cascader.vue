@@ -37,6 +37,8 @@
                     :multiple="multiple"
                     :nodeConfig="nodeConfig"
                     :render-label="$slots.default"
+                    :remote="remote"
+                    :loadData="loadData"
                     :handleUpdateSelectedNodes="handleUpdateSelectedNodes"
                     @expandChange="handleExpandChange"
                     @checkChange="handleCheckChange"
@@ -120,7 +122,7 @@ export default defineComponent({
                 ...nodeConfig,
             };
             const nodes = options.map((nodeData) =>
-                getNode(nodeData, mergeNodeConfig),
+                getNode(nodeData, mergeNodeConfig, props),
             );
             const allNodes = flatNodes(nodes);
 

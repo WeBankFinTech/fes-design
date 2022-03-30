@@ -25,6 +25,7 @@ export interface NodeOption {
     label?: string;
     children?: CascaderOption[];
     disabled?: boolean;
+    isLeaf?: boolean;
 }
 export interface CascaderNode {
     checked: boolean;
@@ -43,6 +44,8 @@ export interface CascaderNode {
     isDisabled: boolean;
     isLeaf: boolean;
     elem: HTMLElement | null;
+    loaded: boolean;
+    loading: boolean;
 }
 
 export interface CascaderMenu {

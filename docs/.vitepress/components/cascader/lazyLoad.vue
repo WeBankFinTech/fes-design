@@ -1,54 +1,62 @@
 <template>
-    <div class="text-tips">默认多选：</div>
-    <FCascader
-        v-model="multiValue1"
-        :options="options"
-        :multiple="true"
-        @change="handleChange"
-    >
-    </FCascader>
-    <div class="text-tips">hover多选：</div>
-    <FCascader
-        :options="options"
-        :multiple="true"
-        :nodeConfig="{ expandTrigger: 'hover' }"
-        @change="handleChange"
-    >
-    </FCascader>
-    <div class="text-tips">折叠选中项（默认1项起）：</div>
-    <FCascader
-        v-model="multiValue3"
-        :options="options"
-        :multiple="true"
-        collapseTags
-        @change="handleChange"
-    >
-    </FCascader>
-    <div class="text-tips">折叠选中项（2项起）：</div>
-    <FCascader
-        v-model="multiValue4"
-        :options="options"
-        :multiple="true"
-        collapseTags
-        :collapseTagsLimit="2"
-        @change="handleChange"
-    >
-    </FCascader>
-    <div class="text-tips">多选不展示路径：</div>
-    <FCascader
-        v-model="multiValueEmitPath"
-        :options="options"
-        :multiple="true"
-        :showAllLevels="false"
-        :clearable="true"
-        :nodeConfig="{ emitPath: true }"
-        @change="handleChange"
-    >
-    </FCascader>
+    <FSpin :show="loading" description="加载中">
+        <div class="text-tips">单选：</div>
+        <FCascader
+            v-model="state.value"
+            :options="state.options1"
+            @change="handleChange"
+        >
+        </FCascader>
+        <div class="text-tips">hover单选：</div>
+        <FCascader
+            :options="state.options2"
+            :nodeConfig="{ expandTrigger: 'hover' }"
+            @change="handleChange"
+        >
+        </FCascader>
+        <div class="text-tips">单选不展示路径：</div>
+        <FCascader
+            v-model="state.valueEmitPath"
+            :options="state.options3"
+            :showAllLevels="false"
+            :clearable="true"
+            :nodeConfig="{ emitPath: true }"
+            @change="handleChange"
+        >
+        </FCascader>
+
+        <div class="text-tips">默认多选：</div>
+        <FCascader
+            v-model="state.multiValue"
+            :options="state.multiOptions1"
+            :multiple="true"
+            @change="handleChange"
+        >
+        </FCascader>
+        <div class="text-tips">hover多选：</div>
+        <FCascader
+            :options="state.multiOptions2"
+            :multiple="true"
+            :nodeConfig="{ expandTrigger: 'hover' }"
+            @change="handleChange"
+        >
+        </FCascader>
+        <div class="text-tips">多选不展示路径：</div>
+        <FCascader
+            v-model="state.multiValueEmitPath"
+            :options="state.multiOptions3"
+            :multiple="true"
+            :showAllLevels="false"
+            :clearable="true"
+            :nodeConfig="{ emitPath: true }"
+            @change="handleChange"
+        >
+        </FCascader>
+    </FSpin>
 </template>
 
 <script>
-import { defineComponent, reactive, toRefs } from 'vue';
+import { defineComponent, reactive, ref } from 'vue';
 
 const options = [
     {
@@ -229,24 +237,65 @@ function handleChange(value) {
     console.log('Cascader || handleChange || value:', value);
 }
 
+function loadData(node) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            // 返回第一级数据
+            if (!node) {
+                return resolve(
+                    options.map((item) => {
+                        return {
+                            value: item.value,
+                            label: item.label,
+                        };
+                    }),
+                );
+            }
+        }, 2000);
+    });
+}
+
+const loading = ref(false);
+
+async function initData(state) {
+    loading.value = true;
+
+    const initOptions = await loadData();
+    state.options1 = initOptions;
+    state.options3 = initOptions;
+    state.multiOptions1 = initOptions;
+    state.multiOptions2 = initOptions;
+    state.multiOptions3 = initOptions;
+
+    loading.value = false;
+}
+
 export default defineComponent({
     setup() {
         const state = reactive({
-            multiValue1: ['110101', '140000'],
-            multiValue2: [],
-            multiValue3: [],
-            multiValue4: [],
+            value: '110101',
+            valueEmitPath: ['13000', '130200', '140000'],
+            options1: [],
+            options2: [],
+            options3: [],
+
+            multiValue: ['110101', '140000'],
             multiValueEmitPath: [
                 ['110000', '110100', '110101'],
                 ['130000', '130100'],
                 ['140000'],
             ],
+            multiOptions1: [],
+            multiOptions2: [],
+            multiOptions3: [],
         });
 
+        initData(state);
+
         return {
-            ...toRefs(state),
-            options,
+            state,
             handleChange,
+            loading,
         };
     },
 });

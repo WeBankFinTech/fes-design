@@ -1,6 +1,12 @@
 <template>
-    <FCascader v-model="value1" :options="asyncOptions" @change="handleChange">
-    </FCascader>
+    <FSpin :show="loading" description="加载中">
+        <FCascader
+            v-model="value1"
+            :options="asyncOptions"
+            @change="handleChange"
+        >
+        </FCascader>
+    </FSpin>
 </template>
 
 <script>
@@ -59,14 +65,19 @@ async function loadAsyncOptions() {
 
 export default defineComponent({
     setup() {
+        const loading = ref(false);
+
         const state = reactive({
             value1: '110101',
             valueEmitPath: ['13000', '130200'],
         });
 
         onMounted(async () => {
+            loading.value = true;
             asyncOptions.value = await loadAsyncOptions();
+            loading.value = false;
 
+            // for deep 监听验证
             setTimeout(() => {
                 asyncOptions.value[0].children[0].children[0].label =
                     '东城区东城区东城区东城区东城区东城区';
@@ -77,6 +88,7 @@ export default defineComponent({
             ...toRefs(state),
             asyncOptions,
             handleChange,
+            loading,
         };
     },
 });

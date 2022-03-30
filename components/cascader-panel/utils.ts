@@ -9,6 +9,7 @@ import type {
     OptionValue,
     CascaderMenu,
 } from './interface';
+import { CascaderPanelProps } from './props';
 
 /**
  * Generate unique ID
@@ -117,6 +118,7 @@ export const getCheckNodesByLeafCheckNodes = (
 export const getNode = (
     data: NodeOption,
     config: CascaderNodeConfig,
+    props: CascaderPanelProps,
     parent?: CascaderNode,
 ): CascaderNode => {
     const { valueField, labelField, childrenField, disabledField } = config;
@@ -142,6 +144,8 @@ export const getNode = (
                 : false,
         isLeaf: false,
         elem: null,
+        loaded: false,
+        loading: false,
     };
 
     const pathNodes = calculatePathNodes(node);
@@ -149,10 +153,24 @@ export const getNode = (
     node.pathValues = pathNodes.map((item) => item.value);
     node.pathLabels = pathNodes.map((item) => item.label);
     const children = (childrenData || []).map((child: NodeOption) =>
-        getNode(child, config, node),
+        getNode(child, config, props, node),
     );
     node.children = children;
-    node.isLeaf = children.length < 1;
+
+    // 初始化是否是叶子节点信息
+    if (props.remote && !data.isLeaf) {
+        node.isLeaf = true;
+
+        // 根据 children.length 判断是否加载完毕
+        if (children.length > 1) {
+            node.loaded = true;
+        } else {
+            node.loaded = false;
+        }
+    } else {
+        node.isLeaf = children.length < 1;
+        node.loaded = true;
+    }
 
     return node;
 };
@@ -175,9 +193,11 @@ export const getNodeValueByCurrentValue = (
         if (Array.isArray(value)) {
             nodeValue = (value.length && value[value.length - 1]) || '';
         } else {
-            console.warn(
-                'value类型不符预期，emitPath为true的情况下，value应该为数组格式',
-            );
+            // 若设置的有值，则校验提示
+            value &&
+                console.warn(
+                    'value类型不符预期，emitPath为true的情况下，value应该为数组格式',
+                );
         }
     } else {
         nodeValue = value;

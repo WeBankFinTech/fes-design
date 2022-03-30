@@ -26,7 +26,7 @@ function useNodes(config: Ref<CascaderNodeConfig>, props: CascaderPanelProps) {
         [() => config.value, () => props.options],
         () => {
             nodes.value = (props.options || []).map((nodeData) =>
-                getNode(nodeData, config.value),
+                getNode(nodeData, config.value, props, null),
             );
             menus.value = [
                 {

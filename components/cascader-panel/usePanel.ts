@@ -276,6 +276,22 @@ function useKeyDown(
     };
 }
 
+function useLoadNode(props: CascaderPanelProps) {
+    const handleLoadNode = async (node: CascaderNode) => {
+        const { loadData } = props;
+
+        node.loading = true;
+        const childrenData = await loadData(node.data);
+        node.loading = false;
+
+        console.log('xxxx', props.options, childrenData, node);
+    };
+
+    return {
+        handleLoadNode,
+    };
+}
+
 export default (
     config: Ref<CascaderNodeConfig>,
     props: CascaderPanelProps,
@@ -309,6 +325,8 @@ export default (
 
     const { handleKeyDown } = useKeyDown(config, emit, menus);
 
+    const { handleLoadNode } = useLoadNode(props);
+
     return {
         menus,
         setNodeElem,
@@ -316,5 +334,6 @@ export default (
         handleExpandNode,
         handleCheckChange,
         handleKeyDown,
+        handleLoadNode,
     };
 };

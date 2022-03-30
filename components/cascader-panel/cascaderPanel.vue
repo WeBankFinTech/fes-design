@@ -60,6 +60,7 @@ export default defineComponent({
             handleExpandNode,
             handleCheckChange,
             handleKeyDown,
+            handleLoadNode,
         } = usePanel(config, props, emit);
 
         provide(
@@ -73,6 +74,7 @@ export default defineComponent({
                 expandingNode,
                 handleExpandNode,
                 handleCheckChange,
+                handleLoadNode,
                 setNodeElem,
             }),
         );

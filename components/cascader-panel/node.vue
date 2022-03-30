@@ -32,7 +32,16 @@
 
         <!-- postfix -->
         <template v-if="!isLeaf">
-            <RightOutlined :class="`${prefixCls}-icon-arrow`"></RightOutlined>
+            <template v-if="node.loading">
+                <LoadingOutlined
+                    :class="`${prefixCls}-icon-loading`"
+                ></LoadingOutlined>
+            </template>
+            <template v-else>
+                <RightOutlined
+                    :class="`${prefixCls}-icon-arrow`"
+                ></RightOutlined>
+            </template>
         </template>
         <template v-else-if="!multiple && node.checked">
             <CheckOutlined :class="`${prefixCls}-icon-check`"></CheckOutlined>
@@ -41,12 +50,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, inject, PropType, ref, watch } from 'vue';
+import {
+    defineComponent,
+    computed,
+    inject,
+    PropType,
+    ref,
+    watch,
+    nextTick,
+} from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { CASCADER_PANEL_INJECTION_KEY } from './props';
 import Checkbox from '../checkbox';
 import CheckOutlined from '../icon/CheckOutlined';
 import RightOutlined from '../icon/RightOutlined';
+import LoadingOutlined from '../icon/LoadingOutlined';
 import NodeContent from './nodeContent';
 
 import type { CascaderNode } from './interface';
@@ -71,6 +89,7 @@ export default defineComponent({
         CheckOutlined,
         NodeContent,
         RightOutlined,
+        LoadingOutlined,
     },
     props: cascaderNodeProps,
     setup(props) {
@@ -107,10 +126,23 @@ export default defineComponent({
             panel.handleCheckChange(node, checked);
         };
 
+        const doLoad = async () => {
+            await panel.handleLoadNode(props.node);
+            await nextTick(); // 等待数据状态更新
+            if (!isLeaf.value) {
+                handleExpand();
+            }
+        };
+
         // 叶子节点也执行展开方法，以便跨级展开的时候更新菜单列表
         const handleExpand = () => {
-            if (inExpandingPath.value) return;
-            panel.handleExpandNode(props.node);
+            if (inExpandingPath.value || props.node.loading) return;
+
+            if (props.node.loaded) {
+                panel.handleExpandNode(props.node);
+            } else {
+                doLoad();
+            }
         };
 
         const handleHoverExpand = () => {
