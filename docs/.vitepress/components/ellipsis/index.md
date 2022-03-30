@@ -12,13 +12,15 @@ app.use(FEllipsis);
 
 ### 基础用法
 
-
 --COMMON
 
 ### 最大行数
 
-
 --LINE
+
+### 定制 Tooltip 内容
+
+--TOOLTIP
 
 --CODE
 
