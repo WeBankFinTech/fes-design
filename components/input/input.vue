@@ -197,7 +197,7 @@ export default defineComponent({
         const resizeTextarea = () => {
             const { type, autosize } = props;
 
-            if (type !== 'textarea') return;
+            if (type !== 'textarea' || !textareaRef.value) return;
 
             if (autosize) {
                 let minRows: number;

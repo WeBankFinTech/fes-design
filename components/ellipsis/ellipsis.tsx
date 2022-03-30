@@ -1,4 +1,4 @@
-import { h, defineComponent, computed, ref, onMounted, PropType, CSSProperties } from 'vue';
+import { defineComponent, computed, ref, onMounted, PropType, CSSProperties } from 'vue';
 import { isObject } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import Tooltip from '../tooltip/tooltip';
@@ -92,7 +92,7 @@ export default defineComponent({
                     placement="top"
                     {...toolTipPropsRef.value}
                     v-slots={{
-                        content: slots.default,
+                        content: slots.tooltip ?? slots.default,
                     }}
                 >
                     {renderTrigger()}

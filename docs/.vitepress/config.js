@@ -67,6 +67,12 @@ module.exports = {
     themeConfig: {
         highlight: baseConfig.highlight,
         logo: `${BASE_URL}images/fes-logo.svg`,
+        socialLinks: [
+            {
+                icon: 'github',
+                link: 'https://github.com/WeBankFinTech/fes-design',
+            },
+        ],
         nav: navbar.zh,
         sidebar: sidebar.zh,
     },
