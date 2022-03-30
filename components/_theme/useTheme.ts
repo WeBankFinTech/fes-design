@@ -13,9 +13,9 @@ function _useTheme() {
         config,
         () => {
             const { themeVars: currentThemeVars } = applyTheme(
-                config.value.getContainer(),
-                config.value.theme,
-                config.value.themeOverrides,
+                config.getContainer?.value(),
+                config.theme?.value,
+                config.themeOverrides?.value,
             );
             themeVars.value = currentThemeVars;
         },

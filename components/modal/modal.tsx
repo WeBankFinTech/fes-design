@@ -112,7 +112,7 @@ const Modal = defineComponent({
         );
         const config = useConfig();
         const getContainer = computed(
-            () => props.getContainer || config.value.getContainer,
+            () => props.getContainer || config.getContainer?.value,
         );
 
         const { t } = useLocale();
