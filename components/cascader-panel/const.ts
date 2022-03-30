@@ -1,3 +1,5 @@
+import { OptionValue } from './interface';
+
 export enum EXPAND_TRIGGER {
     CLICK = 'click',
     HOVER = 'hover',
@@ -27,3 +29,6 @@ export enum CHECK_STRATEGY {
     PARENT = 'parent',
     CHILD = 'child',
 }
+
+// 如果不设置 v-modal，则取到的值为 false，所以增加这种场景的判断
+export const VALUE_UNDEFINED = (<unknown>false) as OptionValue | OptionValue[];

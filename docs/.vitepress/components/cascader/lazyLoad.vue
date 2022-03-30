@@ -262,6 +262,7 @@ async function initData(state) {
 
     const initOptions = await loadData();
     state.options1 = initOptions;
+    state.options2 = initOptions;
     state.options3 = initOptions;
     state.multiOptions1 = initOptions;
     state.multiOptions2 = initOptions;

@@ -1,11 +1,6 @@
 import { ref, computed, watch, Ref } from 'vue';
 import { flatNodes } from '../_util/utils';
-import {
-    getMultiNodeValuesByCurrentValue,
-    getNode,
-    getNodeByValue,
-    getNodeValueByCurrentValue,
-} from './utils';
+import { getNode, getNodeByValue, getNodeValueByCurrentValue } from './utils';
 
 import type {
     CascaderNode,
@@ -68,30 +63,26 @@ function useSelectedNodes(
         const { currentValue, multiple } = props;
         const currentSelectedNodes = [];
 
-        /**
-         * 单选
-         */
-        if (!multiple) {
-            const nodeValue = getNodeValueByCurrentValue(
-                emitPath,
-                currentValue as OptionValue,
-            );
+        const nodeValue = getNodeValueByCurrentValue(
+            multiple,
+            emitPath,
+            currentValue as OptionValue | OptionValue[],
+        );
 
-            const node = getNodeByValue(allNodes.value, nodeValue);
+        // 单选
+        if (!multiple) {
+            const node = getNodeByValue(
+                allNodes.value,
+                nodeValue as OptionValue,
+            );
 
             if (node) {
                 currentSelectedNodes.push(node);
             }
         } else {
-            /**
-             * 多选
-             */
-            const nodeValues = getMultiNodeValuesByCurrentValue(
-                emitPath,
-                currentValue as OptionValue[],
-            );
+            // 多选
             allNodes.value.forEach((item) => {
-                if (nodeValues.includes(item.value)) {
+                if ((nodeValue as OptionValue[]).includes(item.value)) {
                     currentSelectedNodes.push(item);
                 }
             });

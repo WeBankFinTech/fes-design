@@ -10,7 +10,7 @@
             :getContainer="getContainer"
             :offset="4"
             :hideAfter="0"
-            :lazy="true"
+            :lazy="false"
         >
             <template #trigger>
                 <SelectTrigger
@@ -69,12 +69,7 @@ import type { CascaderNode, OptionValue } from '../cascader-panel/interface';
 import type { SelectValue } from './interface';
 import type { SelectOptionValue } from '../select-trigger/interface';
 import { useLocale } from '../config-provider/useLocale';
-import {
-    getMultiNodeValuesByCurrentValue,
-    getNode,
-    getNodeValueByCurrentValue,
-} from '../cascader-panel/utils';
-import { DEFAULT_CONFIG } from '../cascader-panel/const';
+import { getNodeValueByCurrentValue } from '../cascader-panel/utils';
 
 const prefixCls = getPrefixCls('cascader');
 
@@ -105,7 +100,7 @@ export default defineComponent({
             computed(() => (props.multiple ? 'array' : 'string')),
         );
         const isOpened = ref(false);
-        const selectedNodes = ref([]);
+        const selectedNodes = ref<CascaderNode[]>([]);
 
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
@@ -114,52 +109,82 @@ export default defineComponent({
             () => props.placeholder || t('cascader.placeholder'),
         );
 
-        // 初始化选中节点
-        function initSelectedNodes() {
-            const { options, nodeConfig, multiple } = props;
-            const mergeNodeConfig = {
-                ...DEFAULT_CONFIG,
-                ...nodeConfig,
-            };
-            const nodes = options.map((nodeData) =>
-                getNode(nodeData, mergeNodeConfig, props),
-            );
-            const allNodes = flatNodes(nodes);
+        // 兼容没有匹配到节点情况
+        const noMatchedNodes = computed(() => {
+            const nodes: any[] = [];
+            const { nodeConfig, multiple } = props;
 
-            let value: OptionValue | OptionValue[];
+            const nodeValue = getNodeValueByCurrentValue(
+                multiple,
+                nodeConfig.emitPath,
+                currentValue.value,
+            );
+
+            const pushNodesByValue = (value: OptionValue) => {
+                if (!selectedNodes.value.find((node) => node.value === value)) {
+                    const label = `${value}`;
+                    nodes.push({
+                        value,
+                        label,
+                        pathLabels: [label],
+                        pathNodes: [],
+                    });
+                }
+            };
+
             if (multiple) {
-                value = getMultiNodeValuesByCurrentValue(
-                    nodeConfig.emitPath,
-                    currentValue.value as OptionValue[],
-                );
+                (nodeValue as OptionValue[]).forEach((value) => {
+                    pushNodesByValue(value);
+                });
             } else {
-                value = getNodeValueByCurrentValue(
-                    nodeConfig.emitPath,
-                    currentValue.value as OptionValue,
-                );
+                pushNodesByValue(nodeValue as OptionValue);
             }
 
-            selectedNodes.value = allNodes.filter((node) => {
-                if (multiple) {
-                    return (value as OptionValue[]).includes(node.value);
-                } else {
-                    return node.value === value;
-                }
-            });
-        }
+            return nodes;
+        });
 
+        // 初始化选中节点
+        // function initSelectedNodes() {
+        //     const { options, nodeConfig, multiple } = props;
+        //     const mergeNodeConfig = {
+        //         ...DEFAULT_CONFIG,
+        //         ...nodeConfig,
+        //     };
+        //     const nodes = options.map((nodeData) =>
+        //         getNode(nodeData, mergeNodeConfig, props),
+        //     );
+        //     const allNodes = flatNodes(nodes);
+
+        //     const nodeValue = getNodeValueByCurrentValue(
+        //         multiple,
+        //         nodeConfig.emitPath,
+        //         currentValue.value,
+        //     );
+
+        //     selectedNodes.value = allNodes.filter((node) => {
+        //         if (multiple) {
+        //             return (nodeValue as OptionValue[]).includes(node.value);
+        //         } else {
+        //             return node.value === nodeValue;
+        //         }
+        //     });
+        // }
+
+        // 1. 由于 删除操作 的时候也要考虑 关联选中 情况，若 异步加载panel 的话，会有重复处理的情况，所以这里去掉 异步加载 的逻辑
+        // 2. 若数据量较大的情况，建议异步加载节点的方式处理
+        //
         // 由于 Panel 组件不会初始化渲染，所以这里需要做下初始化选中处理
         // 兼容 options 异步的情况
-        watch(
-            () => props.options,
-            () => {
-                initSelectedNodes();
-            },
-            {
-                deep: true,
-                immediate: true,
-            },
-        );
+        // watch(
+        //     () => props.options,
+        //     () => {
+        //         initSelectedNodes();
+        //     },
+        //     {
+        //         deep: true,
+        //         immediate: true,
+        //     },
+        // );
 
         watch(isOpened, () => {
             emit('visibleChange', unref(isOpened));
@@ -194,13 +219,27 @@ export default defineComponent({
             const { emitPath } = props.nodeConfig;
             let copyValue = cloneDeep(currentValue.value);
             const updateValues: SelectOptionValue[] = [];
+            let removeValues: SelectOptionValue[] = [];
 
             const currentNode = selectedNodes.value.find(
                 (node) => node.value === value,
             );
-            const removeValues = []
-                .concat(currentNode.pathNodes, flatNodes(currentNode.children))
-                .map((node) => node.value);
+            // 兼容没有匹配到节点情况的处理
+            if (currentNode) {
+                removeValues = []
+                    .concat(
+                        currentNode.pathNodes,
+                        flatNodes(currentNode.children),
+                    )
+                    .map((node) => node.value);
+            } else {
+                const currentNoMatchedNode = noMatchedNodes.value.find(
+                    (node) => node.value === value,
+                );
+                if (currentNoMatchedNode) {
+                    removeValues = [currentNoMatchedNode.value];
+                }
+            }
 
             copyValue.forEach((item: OptionValue | OptionValue[]) => {
                 let itemValue: OptionValue = item as OptionValue;
@@ -232,12 +271,14 @@ export default defineComponent({
             selectedNodes.value = value;
         };
         const selectedOptions = computed(() =>
-            selectedNodes.value.map((selectedNode) => ({
-                value: selectedNode.value,
-                label: props.showAllLevels
-                    ? selectedNode.pathLabels.join(props.separator)
-                    : selectedNode.label,
-            })),
+            []
+                .concat(noMatchedNodes.value, selectedNodes.value)
+                .map((node) => ({
+                    value: node.value,
+                    label: props.showAllLevels
+                        ? node.pathLabels.join(props.separator)
+                        : node.label,
+                })),
         );
         const focus = (e: Event) => {
             emit('focus', e);

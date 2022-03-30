@@ -1,5 +1,5 @@
 import getPrefixCls from '../_util/getPrefixCls';
-import { CHECK_STRATEGY } from './const';
+import { CHECK_STRATEGY, VALUE_UNDEFINED } from './const';
 import { flatNodes } from '../_util/utils';
 
 import type {
@@ -183,8 +183,28 @@ export const getValueByOption = (
     node: CascaderNode,
 ) => (config.emitPath ? node.pathValues : node.value);
 
-// 获取单节点值
 export const getNodeValueByCurrentValue = (
+    multiple: boolean,
+    emitPath: boolean,
+    currentValue: OptionValue | OptionValue[],
+) => {
+    // 单选
+    if (!multiple) {
+        return getSingleNodeValueByCurrentValue(
+            emitPath,
+            currentValue as OptionValue,
+        );
+    } else {
+        // 多选
+        return getMultiNodeValuesByCurrentValue(
+            emitPath,
+            currentValue as OptionValue[],
+        );
+    }
+};
+
+// 获取单节点值
+export const getSingleNodeValueByCurrentValue = (
     emitPath: boolean,
     value: OptionValue,
 ) => {
@@ -194,13 +214,13 @@ export const getNodeValueByCurrentValue = (
             nodeValue = (value.length && value[value.length - 1]) || '';
         } else {
             // 若设置的有值，则校验提示
-            value &&
+            value !== VALUE_UNDEFINED &&
                 console.warn(
                     'value类型不符预期，emitPath为true的情况下，value应该为数组格式',
                 );
         }
     } else {
-        nodeValue = value;
+        nodeValue = value === VALUE_UNDEFINED ? '' : value;
     }
     return nodeValue;
 };
@@ -213,13 +233,13 @@ export const getMultiNodeValuesByCurrentValue = (
     const nodeValues: OptionValue[] = [];
     if (!Array.isArray(currentValue)) {
         // 若设置的有值，则校验提示
-        currentValue &&
+        currentValue !== VALUE_UNDEFINED &&
             console.warn(
                 'currentValue类型不符预期，multiple为true的情况下，currentValue应该为数组格式',
             );
     } else {
         currentValue.forEach((value) => {
-            const nodeValue = getNodeValueByCurrentValue(emitPath, value);
+            const nodeValue = getSingleNodeValueByCurrentValue(emitPath, value);
             if (nodeValue) {
                 nodeValues.push(nodeValue);
             }
