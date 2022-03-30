@@ -15,7 +15,7 @@ import type {
  * Maybe replace with [uuid](https://www.npmjs.com/package/uuid)
  */
 export const generateId = () =>
-    `${Math.random().toString(16).substr(2).toUpperCase()}`;
+    `${Math.random().toString(16).slice(2).toUpperCase()}`;
 
 export const calculatePathNodes = (node: CascaderNode) => {
     const nodes = [node];
