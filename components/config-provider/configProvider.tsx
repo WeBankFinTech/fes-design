@@ -9,7 +9,7 @@ import {
 } from 'vue';
 
 import { CONFIG_PROVIDER_INJECTION_KEY, configProviderProps } from './const';
-import type { TypeConfigProviderContext } from './const';
+import type { ConfigProviderContextType } from './const';
 
 export function useConfig() {
     // 当不在vue实例使用时
@@ -17,7 +17,7 @@ export function useConfig() {
     if (!vm) {
         return {};
     }
-    const providerConfig: ToRefs<TypeConfigProviderContext> = inject(
+    const providerConfig: ToRefs<ConfigProviderContextType> = inject(
         CONFIG_PROVIDER_INJECTION_KEY,
         {},
     );

@@ -1,6 +1,6 @@
 import { computed, inject, unref } from 'vue';
 import { CONFIG_PROVIDER_INJECTION_KEY } from './const';
-import type { TypeTranslator, TypeTranslatorOption } from './const';
+import type { TranslatorType, TranslatorOptionType } from './const';
 import { zhCN } from '../locales';
 import type { TypeLanguage } from '../locales';
 import type { MaybeRef } from '@vueuse/core';
@@ -8,7 +8,7 @@ import { get } from 'lodash-es';
 
 const translate = (
     path: string,
-    option: undefined | TypeTranslatorOption,
+    option: undefined | TranslatorOptionType,
     locale: TypeLanguage,
 ): string =>
     (get(locale, path, path) as string).replace(
@@ -17,7 +17,7 @@ const translate = (
     );
 
 const buildTranslator =
-    (locale: MaybeRef<TypeLanguage>): TypeTranslator =>
+    (locale: MaybeRef<TypeLanguage>): TranslatorType =>
     (path, option) =>
         translate(path, option, unref(locale));
 

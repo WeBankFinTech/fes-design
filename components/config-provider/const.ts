@@ -9,17 +9,17 @@ import type { TypeLanguage } from '../locales';
 import type { Theme } from '../_theme/interface';
 import type { GetContainer } from '../_util/interface';
 
-export type TypeTranslatorOption = Record<string, string | number>;
+export type TranslatorOptionType = Record<string, string | number>;
 
-export type TypeTranslator = (
+export type TranslatorType = (
     path: string,
-    option?: TypeTranslatorOption,
+    option?: TranslatorOptionType,
 ) => string;
 
-export type TypeLocaleContext = {
+export type LocaleContextType = {
     locale: Ref<TypeLanguage>;
     lang: Ref<string>;
-    t: TypeTranslator;
+    t: TranslatorType;
 };
 
 export const configProviderProps = {
@@ -29,10 +29,10 @@ export const configProviderProps = {
     themeOverrides: Object as PropType<Partial<Theme>>,
 } as const;
 
-export type TypeConfigProviderContext = ExtractPropTypes<
+export type ConfigProviderContextType = ExtractPropTypes<
     typeof configProviderProps
 >;
 
 export const CONFIG_PROVIDER_INJECTION_KEY: InjectionKey<
-    ToRefs<TypeConfigProviderContext>
+    ToRefs<ConfigProviderContextType>
 > = Symbol('ConfigProvider');

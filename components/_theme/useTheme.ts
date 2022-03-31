@@ -10,7 +10,7 @@ function _useTheme() {
     const themeVars: Ref<TThemeVars> = ref(baseTheme());
 
     watch(
-        config,
+        [config.getContainer, config.theme, config.themeOverrides],
         () => {
             const { themeVars: currentThemeVars } = applyTheme(
                 config.getContainer?.value(),
