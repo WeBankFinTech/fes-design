@@ -1,5 +1,4 @@
 import { ref, watch, Ref } from 'vue';
-import { flatNodes } from '../_util/utils';
 import { CHECK_STRATEGY, EVENT_CODE, EXPAND_TRIGGER } from './const';
 import useNode from './useNode';
 import {
@@ -12,6 +11,7 @@ import {
     getMenuIndexByElem,
     checkNodeElem,
     getCheckNodesByLeafCheckNodes,
+    flatNodes,
 } from './utils';
 
 import type {
@@ -20,8 +20,10 @@ import type {
     OptionValue,
     CascaderPanelEmits,
     CascaderMenu,
+    CascaderOption,
 } from './interface';
 import type { CascaderPanelProps } from './props';
+import { cloneDeep, isFunction } from 'lodash';
 
 function useUpdateNodes(
     props: CascaderPanelProps,
@@ -279,12 +281,15 @@ function useKeyDown(
 function useLoadNode(props: CascaderPanelProps) {
     const handleLoadNode = async (node: CascaderNode) => {
         const { loadData } = props;
+        if (!isFunction(loadData)) {
+            throw new Error('remote 模式下，loadData 不可为空');
+        }
 
         node.loading = true;
-        const childrenData = await loadData(node.data);
+        const childrenData = await loadData(cloneDeep(node.data));
         node.loading = false;
 
-        console.log('xxxx', props.options, childrenData, node);
+        node.data.children = childrenData as CascaderOption[];
     };
 
     return {

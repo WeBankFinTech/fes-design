@@ -4,7 +4,7 @@ import { CascaderNode, OptionValue } from '../cascader-panel/interface';
 import { CascaderPanelProps } from '../cascader-panel/props';
 import { SelectOptionValue } from '../select-trigger/interface';
 import { SelectProps } from '../select/props';
-import { flatNodes } from '../_util/utils';
+import { flatNodes } from '../cascader-panel/utils';
 import { SelectValue, CascaderEmits } from './interface';
 import { NoMatchedNodesType } from './useNoMatchedNodes';
 

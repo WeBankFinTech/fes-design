@@ -99,6 +99,7 @@ export default defineComponent({
         const isDisabled = computed(() => props.node.isDisabled);
         const multiple = computed(() => panel.multiple);
         const isHoverMenu = computed(() => panel.isHoverMenu);
+        const hasChildren = computed(() => props.node.children.length > 0);
 
         const elemRef = ref(null);
 
@@ -130,7 +131,14 @@ export default defineComponent({
             await panel.handleLoadNode(props.node);
             await nextTick(); // 等待数据状态更新
             if (!isLeaf.value) {
-                handleExpand();
+                if (hasChildren.value) {
+                    handleExpand();
+                } else {
+                    console.warn(
+                        '获取子节点列表为空，请检查节点 isLeaf 属性是否正确 || node:',
+                        props.node.data,
+                    );
+                }
             }
         };
 

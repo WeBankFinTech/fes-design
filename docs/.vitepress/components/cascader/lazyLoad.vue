@@ -4,6 +4,8 @@
         <FCascader
             v-model="state.value"
             :options="state.options1"
+            :remote="true"
+            :loadData="loadData"
             @change="handleChange"
         >
         </FCascader>
@@ -11,6 +13,8 @@
         <FCascader
             :options="state.options2"
             :nodeConfig="{ expandTrigger: 'hover' }"
+            :remote="true"
+            :loadData="loadData"
             @change="handleChange"
         >
         </FCascader>
@@ -19,6 +23,8 @@
             v-model="state.valueEmitPath"
             :options="state.options3"
             :nodeConfig="{ emitPath: true }"
+            :remote="true"
+            :loadData="loadData"
             @change="handleChange"
         >
         </FCascader>
@@ -28,6 +34,8 @@
             v-model="state.multiValue"
             :options="state.multiOptions1"
             :multiple="true"
+            :remote="true"
+            :loadData="loadData"
             @change="handleChange"
         >
         </FCascader>
@@ -35,6 +43,8 @@
         <FCascader
             :options="state.multiOptions2"
             :multiple="true"
+            :remote="true"
+            :loadData="loadData"
             :nodeConfig="{ expandTrigger: 'hover' }"
             @change="handleChange"
         >
@@ -44,6 +54,8 @@
             v-model="state.multiValueEmitPath"
             :options="state.multiOptions3"
             :multiple="true"
+            :remote="true"
+            :loadData="loadData"
             :nodeConfig="{ emitPath: true }"
             @change="handleChange"
         >
@@ -53,6 +65,7 @@
 
 <script>
 import { defineComponent, reactive, ref } from 'vue';
+import { cloneDeep } from 'lodash';
 
 const options = [
     {
@@ -233,18 +246,46 @@ function handleChange(value) {
     console.log('Cascader || handleChange || value:', value);
 }
 
+function getFlatOptions(nodes) {
+    return nodes.reduce((res, node) => {
+        if (!node.children || node.children.length < 1) {
+            res.push(node);
+        } else {
+            res.push(node);
+            res = res.concat(getFlatOptions(node.children));
+        }
+        return res;
+    }, []);
+}
+
+const flatOptions = getFlatOptions(options);
+
 function loadData(node) {
     return new Promise((resolve) => {
         setTimeout(() => {
             // 返回第一级数据
             if (!node) {
                 return resolve(
-                    options.map((item) => {
+                    options.map((node) => {
                         return {
-                            value: item.value,
-                            label: item.label,
+                            value: node.value,
+                            label: node.label,
+                            isLeaf: node?.children?.length > 0 ? false : true, // 此项必不可少，否则当叶子节点处理
                         };
                     }),
+                );
+            } else {
+                return resolve(
+                    flatOptions
+                        .find((option) => option.value === node.value)
+                        ?.children?.map((node) => {
+                            return {
+                                value: node.value,
+                                label: node.label,
+                                isLeaf:
+                                    node?.children?.length > 0 ? false : true, // 此项必不可少，否则当叶子节点处理
+                            };
+                        }) || [],
                 );
             }
         }, 2000);
@@ -257,12 +298,12 @@ async function initData(state) {
     loading.value = true;
 
     const initOptions = await loadData();
-    state.options1 = initOptions;
-    state.options2 = initOptions;
-    state.options3 = initOptions;
-    state.multiOptions1 = initOptions;
-    state.multiOptions2 = initOptions;
-    state.multiOptions3 = initOptions;
+    state.options1 = cloneDeep(initOptions);
+    state.options2 = cloneDeep(initOptions);
+    state.options3 = cloneDeep(initOptions);
+    state.multiOptions1 = cloneDeep(initOptions);
+    state.multiOptions2 = cloneDeep(initOptions);
+    state.multiOptions3 = cloneDeep(initOptions);
 
     loading.value = false;
 }
@@ -293,6 +334,7 @@ export default defineComponent({
             state,
             handleChange,
             loading,
+            loadData,
         };
     },
 });

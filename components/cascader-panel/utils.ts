@@ -1,6 +1,5 @@
 import getPrefixCls from '../_util/getPrefixCls';
 import { CHECK_STRATEGY } from './const';
-import { flatNodes } from '../_util/utils';
 
 import type {
     NodeOption,
@@ -10,7 +9,7 @@ import type {
     CascaderMenu,
 } from './interface';
 import { CascaderPanelProps } from './props';
-import { isArray } from 'lodash';
+import { isArray, isBoolean } from 'lodash';
 
 /**
  * Generate unique ID
@@ -159,8 +158,8 @@ export const getNode = (
     node.children = children;
 
     // 初始化是否是叶子节点信息
-    if (props.remote && !data.isLeaf) {
-        node.isLeaf = true;
+    if (props.remote && isBoolean(data.isLeaf)) {
+        node.isLeaf = data.isLeaf;
 
         // 根据 children.length 判断是否加载完毕
         if (children.length > 1) {
@@ -308,3 +307,14 @@ export const checkNodeElem = (node: CascaderNode) => {
         node.elem.click();
     }
 };
+
+export const flatNodes = (nodes: CascaderNode[] = [], leafOnly = false) =>
+    nodes.reduce((res: CascaderNode[], node) => {
+        if (node.isLeaf) {
+            res.push(node);
+        } else {
+            !leafOnly && res.push(node);
+            res = res.concat(flatNodes(node.children, leafOnly));
+        }
+        return res;
+    }, []);

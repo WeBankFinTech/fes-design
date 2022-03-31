@@ -16,9 +16,6 @@ export default defineComponent({
     },
     setup(props) {
         const panel = inject(CASCADER_PANEL_INJECTION_KEY);
-        const { node } = props;
-        const { data, label } = node;
-        const { renderLabelFn } = panel;
 
         const classes = computed(() => ({
             [prefixCls]: true,
@@ -27,7 +24,7 @@ export default defineComponent({
 
         return () => (
             <span class={classes.value}>
-                {renderLabelFn ? renderLabelFn({ node, data }) : label}
+                {panel.renderLabelFn ? panel.renderLabelFn({ node: props.node, data: props.node.data }) : props.node.label}
             </span>
         );
     },
