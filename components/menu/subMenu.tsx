@@ -178,7 +178,7 @@ export default defineComponent({
                 <>
                     {renderWrapper('click')}
                     <Transition name={'fes-slide-up'}>
-                        <div v-show={isOpened.value}>{renderDefault()}</div>
+                        <div v-show={isOpened.value} class={`${prefixCls}-children`}>{renderDefault()}</div>
                     </Transition>
                 </>
             );

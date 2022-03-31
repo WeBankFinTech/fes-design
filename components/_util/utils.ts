@@ -7,10 +7,27 @@ import type { CascaderNode } from '../cascader-panel/interface';
 export const noop = () => {};
 export const noopInNoop = () => noop;
 
-export const sleep = (time: number) =>
-    new Promise((resolve) => {
-        setTimeout(resolve, time);
+export async function sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
     });
+}
+
+export function asyncExpect(fn: () => void, timeout: number) {
+    return new Promise<void>((resolve) => {
+        if (typeof timeout === 'number') {
+            setTimeout(() => {
+                fn();
+                resolve();
+            }, timeout);
+        } else {
+            nextTick(() => {
+                fn();
+                resolve();
+            });
+        }
+    });
+}
 
 // in order to test transitions, we need to use
 // await rAF() after firing transition events.

@@ -83,10 +83,9 @@ export default defineComponent({
                 prefixCls,
                 `is-${props.mode}`,
                 props.inverted && 'is-inverted',
-                props.collapsed && 'is-collapsed',
+                props.mode === 'vertical' && props.collapsed && 'is-collapsed',
             ]
                 .filter(Boolean)
-                .join(' '),
         );
 
         const renderChildren = (arr: MenuOption[]) =>

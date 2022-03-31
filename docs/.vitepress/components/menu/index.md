@@ -49,6 +49,8 @@ app.use(FMenu);
 ### 反色
 显示反色主题。
 
+--INVERTED
+
 --CODE
 
 ## Menu Props
@@ -90,7 +92,7 @@ app.use(FMenu);
 | ----- | -------------- | ------ | ------ |
 | label | 分组菜单的标题 | string | `-`    |
 
-## MenuItem Slots
+## MenuGroup Slots
 
 | 属性  | 说明                                    |
 | ----- | --------------------------------------- |
