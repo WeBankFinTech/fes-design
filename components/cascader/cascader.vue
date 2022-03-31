@@ -111,7 +111,12 @@ export default defineComponent({
 
         // 兼容没有匹配到节点情况
         const noMatchedNodes = computed(() => {
-            const nodes: any[] = [];
+            const nodes: {
+                value: OptionValue;
+                label: string;
+                pathLabels: string[];
+                pathNodes: [];
+            }[] = [];
             const { nodeConfig, multiple } = props;
 
             const nodeValue = getNodeValueByCurrentValue(
@@ -121,7 +126,10 @@ export default defineComponent({
             );
 
             const pushNodesByValue = (value: OptionValue) => {
-                if (!selectedNodes.value.find((node) => node.value === value)) {
+                if (
+                    value &&
+                    !selectedNodes.value.find((node) => node.value === value)
+                ) {
                     const label = `${value}`;
                     nodes.push({
                         value,
@@ -142,49 +150,6 @@ export default defineComponent({
 
             return nodes;
         });
-
-        // 初始化选中节点
-        // function initSelectedNodes() {
-        //     const { options, nodeConfig, multiple } = props;
-        //     const mergeNodeConfig = {
-        //         ...DEFAULT_CONFIG,
-        //         ...nodeConfig,
-        //     };
-        //     const nodes = options.map((nodeData) =>
-        //         getNode(nodeData, mergeNodeConfig, props),
-        //     );
-        //     const allNodes = flatNodes(nodes);
-
-        //     const nodeValue = getNodeValueByCurrentValue(
-        //         multiple,
-        //         nodeConfig.emitPath,
-        //         currentValue.value,
-        //     );
-
-        //     selectedNodes.value = allNodes.filter((node) => {
-        //         if (multiple) {
-        //             return (nodeValue as OptionValue[]).includes(node.value);
-        //         } else {
-        //             return node.value === nodeValue;
-        //         }
-        //     });
-        // }
-
-        // 1. 由于 删除操作 的时候也要考虑 关联选中 情况，若 异步加载panel 的话，会有重复处理的情况，所以这里去掉 异步加载 的逻辑
-        // 2. 若数据量较大的情况，建议异步加载节点的方式处理
-        //
-        // 由于 Panel 组件不会初始化渲染，所以这里需要做下初始化选中处理
-        // 兼容 options 异步的情况
-        // watch(
-        //     () => props.options,
-        //     () => {
-        //         initSelectedNodes();
-        //     },
-        //     {
-        //         deep: true,
-        //         immediate: true,
-        //     },
-        // );
 
         watch(isOpened, () => {
             emit('visibleChange', unref(isOpened));
