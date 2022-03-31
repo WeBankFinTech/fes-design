@@ -1,5 +1,5 @@
 import getPrefixCls from '../_util/getPrefixCls';
-import { CHECK_STRATEGY, VALUE_UNDEFINED } from './const';
+import { CHECK_STRATEGY } from './const';
 import { flatNodes } from '../_util/utils';
 
 import type {
@@ -214,13 +214,13 @@ export const getSingleNodeValueByCurrentValue = (
             nodeValue = (value.length && value[value.length - 1]) || '';
         } else {
             // 若设置的有值，则校验提示
-            value !== VALUE_UNDEFINED &&
+            value &&
                 console.warn(
                     'value类型不符预期，emitPath为true的情况下，value应该为数组格式',
                 );
         }
     } else {
-        nodeValue = value === VALUE_UNDEFINED ? '' : value;
+        nodeValue = value ?? '';
     }
     return nodeValue;
 };
@@ -233,7 +233,7 @@ export const getMultiNodeValuesByCurrentValue = (
     const nodeValues: OptionValue[] = [];
     if (!Array.isArray(currentValue)) {
         // 若设置的有值，则校验提示
-        currentValue !== VALUE_UNDEFINED &&
+        currentValue &&
             console.warn(
                 'currentValue类型不符预期，multiple为true的情况下，currentValue应该为数组格式',
             );
