@@ -1,47 +1,11 @@
-import {
-    onMounted,
-    onBeforeUnmount,
-    onActivated,
-    onDeactivated,
-    ref,
-    watch,
-    reactive,
-    nextTick,
-    computed,
-    Ref,
-} from 'vue';
-import { createPopper } from '@popperjs/core';
-import type { Modifier, ModifierArguments } from '@popperjs/core';
+import { onMounted, onActivated, ref, watch, reactive, nextTick } from 'vue';
+import { computePosition, offset, flip, arrow } from '@floating-ui/dom';
 import { useNormalModel } from '../_util/use/useModel';
 import popupManager from '../_util/popupManager';
 import getElementFromRef from '../_util/getElementFromRef';
-import { addClass, removeClass } from '../_util/dom';
 
 import type { PopperProps } from './props';
-import type { VirtualRect, Placement, Popper } from './interface';
-
-const getTransitionName = (placement: string, enter = true) => {
-    const MAP = {
-        bottom: 'up',
-        top: 'down',
-        left: 'right',
-        right: 'left',
-    } as const;
-    return `fes-slide-${MAP[placement.split('-')[0] as keyof typeof MAP]}-${
-        enter ? 'enter' : 'leave'
-    }-active`;
-};
-
-const animate = (el: HTMLElement, placement: string, enter = true) => {
-    const className = getTransitionName(placement, enter);
-    addClass(el, className);
-    el.addEventListener('animationend', () => {
-        removeClass(el, className);
-    });
-    el.addEventListener('animationcancel', () => {
-        removeClass(el, className);
-    });
-};
+import type { VirtualRect } from './interface';
 
 export default (props: PopperProps, emit: any) => {
     const [visible, updateVisible] = useNormalModel(props, emit);
@@ -53,58 +17,26 @@ export default (props: PopperProps, emit: any) => {
         zIndex: popupManager.nextZIndex(),
     });
     const placement = ref(props.placement);
-    const transitionVisible = ref(visible.value);
 
-    const popperContentRef: Ref<HTMLElement> = computed(() => {
-        if (popperRef.value) {
-            return popperRef.value.children[0] as HTMLElement;
-        }
-        return null;
-    });
+    const transitionVisible = ref(visible.value);
 
     watch(visible, () => {
         if (visible.value) {
-            transitionVisible.value = visible.value;
+            // 当一次创建时，需要延后更新，不然不触发Transition
+            nextTick(() => {
+                transitionVisible.value = visible.value;
+            });
         } else {
-            if (popperContentRef.value) {
-                popperContentRef.value.addEventListener(
-                    'animationend',
-                    () => {
-                        transitionVisible.value = visible.value;
-                    },
-                    {
-                        once: true,
-                    },
-                );
-                popperContentRef.value.addEventListener(
-                    'animationcancel',
-                    () => {
-                        transitionVisible.value = visible.value;
-                    },
-                    {
-                        once: true,
-                    },
-                );
-            }
+            transitionVisible.value = visible.value;
         }
     });
 
-    let instance: ReturnType<typeof createPopper> | null;
-
-    const updateInstance = () => {
-        instance.update().then(() => {
-            // 展开动画效果
-            if (popperContentRef.value) {
-                animate(popperContentRef.value, placement.value);
-            }
-        });
-    };
-
-    const initializePopper = () => {
+    const computePopper = () => {
         if (props.disabled) return;
         if (!visible.value) return;
+        popperStyle.zIndex = popupManager.nextZIndex();
         nextTick(() => {
-            const triggerElement = virtualRect.value
+            const triggerEl = virtualRect.value
                 ? {
                       getBoundingClientRect: () =>
                           virtualRect.value && {
@@ -118,96 +50,59 @@ export default (props: PopperProps, emit: any) => {
                       contextElement: getElementFromRef(triggerRef.value),
                   }
                 : getElementFromRef(triggerRef.value);
-            const modifiers: Partial<Modifier<string, object>>[] = [
-                {
-                    name: 'offset',
-                    options: {
-                        offset: [0, props.offset],
-                    },
-                },
-                {
-                    name: 'collectPlacement',
-                    enabled: true,
-                    phase: 'main',
-                    fn({ state }: ModifierArguments<object>) {
-                        placement.value = state.placement;
-                    },
-                },
-            ];
-            if (props.arrow) {
-                modifiers.push({
-                    name: 'arrow',
-                    options: {
-                        element: arrowRef.value,
-                        padding: ({
-                            popper,
-                            placement,
-                        }: {
-                            popper: Popper;
-                            placement: Placement;
-                        }) => {
-                            const offset = 16;
-                            if (placement.endsWith('end')) {
-                                return {
-                                    left: popper.width - offset,
-                                    top: popper.height - offset,
-                                };
-                            }
-                            if (placement.endsWith('start')) {
-                                return {
-                                    right: popper.width - offset,
-                                    bottom: popper.height - offset,
-                                };
-                            }
-                            return 0;
-                        },
-                    },
+            const popperEl = popperRef.value;
+            computePosition(triggerEl, popperEl, {
+                placement: props.placement,
+                middleware: [
+                    offset(props.offset),
+                    flip(),
+                    props.arrow && arrow({ element: arrowRef.value }),
+                ].filter(Boolean),
+            }).then((state) => {
+                // 当方向改变时，动画需要重新执行
+                if (placement.value !== state.placement) {
+                    transitionVisible.value = false;
+                    nextTick(() => {
+                        transitionVisible.value = true;
+                    });
+                }
+                placement.value = state.placement;
+
+                Object.assign(popperEl.style, {
+                    left: `${state.x}px`,
+                    top: `${state.y}px`,
                 });
-            }
-            instance = createPopper(
-                triggerElement,
-                popperRef.value as HTMLElement,
-                {
-                    placement: props.placement,
-                    modifiers,
-                },
-            );
-            updateInstance();
+
+                if (props.arrow) {
+                    // Accessing the data
+                    const { x: arrowX, y: arrowY } = state.middlewareData.arrow;
+
+                    const staticSide = {
+                        top: 'bottom',
+                        right: 'left',
+                        bottom: 'top',
+                        left: 'right',
+                    }[state.placement.split('-')[0]];
+
+                    Object.assign(arrowRef.value.style, {
+                        left: arrowX != null ? `${arrowX}px` : '',
+                        top: arrowY != null ? `${arrowY}px` : '',
+                        right: '',
+                        bottom: '',
+                        [staticSide]: '-3px',
+                    });
+                }
+            });
         });
-    };
-
-    const update = () => {
-        if (props.disabled) return;
-        if (!visible.value) {
-            // 收起动画效果
-            if (popperContentRef.value) {
-                animate(popperContentRef.value, placement.value, false);
-            }
-            return;
-        }
-        popperStyle.zIndex = popupManager.nextZIndex();
-        if (instance) {
-            updateInstance();
-        } else {
-            initializePopper();
-        }
-    };
-
-    const detachPopper = () => {
-        instance?.destroy?.();
-        instance = null;
     };
 
     const updateVirtualRect = (value: VirtualRect | null) => {
         virtualRect.value = value;
     };
 
-    watch(visible, update);
-    watch(virtualRect, initializePopper);
-    onMounted(initializePopper);
-    onBeforeUnmount(detachPopper);
-    onActivated(initializePopper);
-    onDeactivated(detachPopper);
+    watch(virtualRect, computePopper);
+    onMounted(computePopper);
+    onActivated(computePopper);
 
     return {
         visible,
@@ -215,10 +110,8 @@ export default (props: PopperProps, emit: any) => {
         triggerRef,
         popperRef,
         arrowRef,
-        initializePopper,
-        detachPopper,
         popperStyle,
-        update,
+        computePopper,
         updateVirtualRect,
         placement,
         transitionVisible,
