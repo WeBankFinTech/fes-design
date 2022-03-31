@@ -18,8 +18,6 @@
         <FCascader
             v-model="state.valueEmitPath"
             :options="state.options3"
-            :showAllLevels="false"
-            :clearable="true"
             :nodeConfig="{ emitPath: true }"
             @change="handleChange"
         >
@@ -46,8 +44,6 @@
             v-model="state.multiValueEmitPath"
             :options="state.multiOptions3"
             :multiple="true"
-            :showAllLevels="false"
-            :clearable="true"
             :nodeConfig="{ emitPath: true }"
             @change="handleChange"
         >

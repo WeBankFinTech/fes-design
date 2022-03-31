@@ -212,9 +212,9 @@ function handleChange(value) {
 export default defineComponent({
     setup() {
         const state = reactive({
-            multiValue1: [],
-            multiValue2: [],
-            multiValue3: [],
+            multiValue1: ['110228', '110229'],
+            multiValue2: ['110200'],
+            multiValue3: ['110200', '110228', '110229'],
         });
 
         return {

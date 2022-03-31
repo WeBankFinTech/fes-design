@@ -10,6 +10,7 @@ import type {
     CascaderMenu,
 } from './interface';
 import { CascaderPanelProps } from './props';
+import { isArray } from 'lodash';
 
 /**
  * Generate unique ID
@@ -210,7 +211,7 @@ export const getSingleNodeValueByCurrentValue = (
 ) => {
     let nodeValue: OptionValue;
     if (emitPath) {
-        if (Array.isArray(value)) {
+        if (isArray(value)) {
             nodeValue = (value.length && value[value.length - 1]) || '';
         } else {
             // 若设置的有值，则校验提示
@@ -231,7 +232,7 @@ export const getMultiNodeValuesByCurrentValue = (
     currentValue: OptionValue[],
 ) => {
     const nodeValues: OptionValue[] = [];
-    if (!Array.isArray(currentValue)) {
+    if (!isArray(currentValue)) {
         // 若设置的有值，则校验提示
         currentValue &&
             console.warn(

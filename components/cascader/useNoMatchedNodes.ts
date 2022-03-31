@@ -2,13 +2,13 @@ import type { SelectProps } from '../select/props';
 import type { CascaderPanelProps } from '../cascader-panel/props';
 import { computed, Ref } from 'vue';
 import { CascaderNode, OptionValue } from '../cascader-panel/interface';
-import { getNodeValueByCurrentValue } from '../cascader-panel/utils';
+import { getSingleNodeValueByCurrentValue } from '../cascader-panel/utils';
+import { isArray } from 'lodash';
 
 export type NoMatchedNodesType = {
     value: OptionValue;
     label: string;
-    pathLabels: string[];
-    pathNodes: [];
+    pathLabels: OptionValue[];
 };
 
 export function useNoMatchedNodes(
@@ -21,33 +21,55 @@ export function useNoMatchedNodes(
         const nodes: NoMatchedNodesType[] = [];
         const { nodeConfig, multiple } = props;
 
-        const nodeValue = getNodeValueByCurrentValue(
-            multiple,
-            nodeConfig.emitPath,
-            currentValue.value,
-        );
+        if (!currentValue.value) {
+            return nodes;
+        }
 
-        const pushNodesByValue = (value: OptionValue) => {
+        const pushNodesByValue = (
+            nodeValue: OptionValue,
+            pathLabels: OptionValue[],
+        ) => {
             if (
-                value &&
-                !selectedNodes.value.find((node) => node.value === value)
+                nodeValue &&
+                !selectedNodes.value.find((node) => node.value === nodeValue)
             ) {
-                const label = `${value}`;
                 nodes.push({
-                    value,
-                    label,
-                    pathLabels: [label],
-                    pathNodes: [],
+                    value: nodeValue,
+                    label: `${nodeValue}`,
+                    pathLabels,
                 });
             }
         };
 
-        if (multiple) {
-            (nodeValue as OptionValue[]).forEach((value) => {
-                pushNodesByValue(value);
-            });
+        // props.showAllLevels 且 nodeConfig.emitPath 情况下，支持不识别的节点路径展示
+        const handleNode = (itemValue: OptionValue) => {
+            const nodeValue = getSingleNodeValueByCurrentValue(
+                nodeConfig.emitPath,
+                itemValue as OptionValue,
+            );
+
+            const pathLabels = itemValue
+                ? nodeConfig.emitPath && isArray(itemValue)
+                    ? itemValue
+                    : [itemValue]
+                : [];
+
+            pushNodesByValue(
+                nodeValue as OptionValue,
+                pathLabels as OptionValue[],
+            );
+        };
+
+        // 单选
+        if (!multiple) {
+            handleNode(currentValue.value as OptionValue);
         } else {
-            pushNodesByValue(nodeValue as OptionValue);
+            // 多选
+            if (isArray(currentValue.value)) {
+                currentValue.value.forEach((itemValue) => {
+                    handleNode(itemValue as OptionValue);
+                });
+            }
         }
 
         return nodes;
