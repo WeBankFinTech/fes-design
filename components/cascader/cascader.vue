@@ -52,7 +52,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, unref, watch, computed } from 'vue';
-import { cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
@@ -61,15 +60,16 @@ import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
 import CascaderPanel from '../cascader-panel';
-import { selectProps } from '../select/props';
-import { cascaderPanelProps } from '../cascader-panel/props';
-import { flatNodes } from '../_util/utils';
+import { SelectProps, selectProps } from '../select/props';
+import {
+    CascaderPanelProps,
+    cascaderPanelProps,
+} from '../cascader-panel/props';
 
 import type { CascaderNode, OptionValue } from '../cascader-panel/interface';
-import type { SelectValue } from './interface';
-import type { SelectOptionValue } from '../select-trigger/interface';
 import { useLocale } from '../config-provider/useLocale';
-import { getNodeValueByCurrentValue } from '../cascader-panel/utils';
+import { useNoMatchedNodes } from './useNoMatchedNodes';
+import { useMultiRemove } from './useMultiRemove';
 
 const prefixCls = getPrefixCls('cascader');
 
@@ -110,46 +110,11 @@ export default defineComponent({
         );
 
         // 兼容没有匹配到节点情况
-        const noMatchedNodes = computed(() => {
-            const nodes: {
-                value: OptionValue;
-                label: string;
-                pathLabels: string[];
-                pathNodes: [];
-            }[] = [];
-            const { nodeConfig, multiple } = props;
-
-            const nodeValue = getNodeValueByCurrentValue(
-                multiple,
-                nodeConfig.emitPath,
-                currentValue.value,
-            );
-
-            const pushNodesByValue = (value: OptionValue) => {
-                if (
-                    value &&
-                    !selectedNodes.value.find((node) => node.value === value)
-                ) {
-                    const label = `${value}`;
-                    nodes.push({
-                        value,
-                        label,
-                        pathLabels: [label],
-                        pathNodes: [],
-                    });
-                }
-            };
-
-            if (multiple) {
-                (nodeValue as OptionValue[]).forEach((value) => {
-                    pushNodesByValue(value);
-                });
-            } else {
-                pushNodesByValue(nodeValue as OptionValue);
-            }
-
-            return nodes;
-        });
+        const { noMatchedNodes } = useNoMatchedNodes(
+            props as SelectProps & CascaderPanelProps,
+            currentValue,
+            selectedNodes,
+        );
 
         watch(isOpened, () => {
             emit('visibleChange', unref(isOpened));
@@ -171,57 +136,18 @@ export default defineComponent({
             }
             emit('clear');
         };
-        /**
-         * 多选才会有删除事件，所有仅考虑数组情况即可
-         *
-         * 若为 checkStrictly = all 情况，则：
-         * 1. 若删除的为父节点，需要把子节点的值一起删除
-         * 2. 若删除的为子节点，需要把父节点的值一起删除
-         */
-        const handleRemove = (value: SelectValue) => {
-            if (props.disabled) return;
 
-            const { emitPath } = props.nodeConfig;
-            let copyValue = cloneDeep(currentValue.value);
-            const updateValues: SelectOptionValue[] = [];
-            let removeValues: SelectOptionValue[] = [];
+        // 多选才会有删除事件，所有仅考虑数组情况即可
+        const { handleRemove } = useMultiRemove(
+            props as SelectProps & CascaderPanelProps,
+            currentValue,
+            selectedNodes,
+            noMatchedNodes,
+            updateCurrentValue,
+            emit,
+            handleChange,
+        );
 
-            const currentNode = selectedNodes.value.find(
-                (node) => node.value === value,
-            );
-            // 兼容没有匹配到节点情况的处理
-            if (currentNode) {
-                removeValues = []
-                    .concat(
-                        currentNode.pathNodes,
-                        flatNodes(currentNode.children),
-                    )
-                    .map((node) => node.value);
-            } else {
-                const currentNoMatchedNode = noMatchedNodes.value.find(
-                    (node) => node.value === value,
-                );
-                if (currentNoMatchedNode) {
-                    removeValues = [currentNoMatchedNode.value];
-                }
-            }
-
-            copyValue.forEach((item: OptionValue | OptionValue[]) => {
-                let itemValue: OptionValue = item as OptionValue;
-                if (emitPath) {
-                    itemValue = (item as OptionValue[])[
-                        (item as OptionValue[]).length - 1
-                    ];
-                }
-                if (!removeValues.includes(itemValue)) {
-                    updateValues.push(item);
-                }
-            });
-
-            updateCurrentValue(updateValues);
-            emit('removeTag', value as OptionValue);
-            handleChange();
-        };
         const handleExpandChange = (value: OptionValue[]) => {
             emit('expandChange', value);
         };
