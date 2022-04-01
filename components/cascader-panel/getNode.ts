@@ -76,4 +76,20 @@ export class Node {
             return !(isArray(childrenData) && childrenData.length);
         }
     }
+
+    // 挂载子节点
+    appendChild(childData: CascaderOption) {
+        const { childrenData, children, config, props } = this;
+        const node = new Node(childData, config, props, this);
+
+        if (Array.isArray(childrenData)) {
+            childrenData.push(childData);
+        } else {
+            this.childrenData = [childData];
+        }
+
+        children.push(node);
+
+        return node;
+    }
 }

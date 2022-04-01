@@ -54,6 +54,18 @@
             v-model="state.multiValueEmitPath"
             :options="state.multiOptions3"
             :multiple="true"
+            :showAllLevels="false"
+            :remote="true"
+            :loadData="loadData"
+            :nodeConfig="{ emitPath: true }"
+            @change="handleChange"
+        >
+        </FCascader>
+        <div class="text-tips">多选展示路径：</div>
+        <FCascader
+            v-model="state.multiValueEmitPath2"
+            :options="state.multiOptions4"
+            :multiple="true"
             :remote="true"
             :loadData="loadData"
             :nodeConfig="{ emitPath: true }"
@@ -304,6 +316,7 @@ async function initData(state) {
     state.multiOptions1 = cloneDeep(initOptions);
     state.multiOptions2 = cloneDeep(initOptions);
     state.multiOptions3 = cloneDeep(initOptions);
+    state.multiOptions4 = cloneDeep(initOptions);
 
     loading.value = false;
 }
@@ -317,8 +330,13 @@ export default defineComponent({
             options2: [],
             options3: [],
 
-            multiValue: ['110101', '140000'],
+            multiValue: ['110101', '110228', '110229', '140000'],
             multiValueEmitPath: [
+                ['110000', '110100', '110101'],
+                ['130000', '130100'],
+                ['140000'],
+            ],
+            multiValueEmitPath2: [
                 ['110000', '110100', '110101'],
                 ['130000', '130100'],
                 ['140000'],
@@ -326,6 +344,7 @@ export default defineComponent({
             multiOptions1: [],
             multiOptions2: [],
             multiOptions3: [],
+            multiOptions4: [],
         });
 
         initData(state);

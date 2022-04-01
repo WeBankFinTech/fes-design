@@ -24,7 +24,7 @@ import type {
 import type { CascaderNode } from './getNode';
 
 import type { CascaderPanelProps } from './props';
-import { cloneDeep, isFunction } from 'lodash';
+import { cloneDeep, isArray, isFunction } from 'lodash';
 
 function useUpdateNodes(
     props: CascaderPanelProps,
@@ -279,7 +279,13 @@ function useKeyDown(
     };
 }
 
-function useLoadNode(props: CascaderPanelProps) {
+function useLoadNode(
+    props: CascaderPanelProps,
+    appendNodes: (
+        nodeDataList: CascaderOption[],
+        parentNode?: CascaderNode,
+    ) => void,
+) {
     const handleLoadNode = async (node: CascaderNode) => {
         const { loadData } = props;
         if (!isFunction(loadData)) {
@@ -291,8 +297,15 @@ function useLoadNode(props: CascaderPanelProps) {
         node.loading = false;
         node.loaded = true;
 
-        // TODO: 更新 node 节点列表
-        node.data.children = childrenData as CascaderOption[];
+        // 挂载子节点列表
+        if (isArray(childrenData)) {
+            appendNodes(childrenData as CascaderOption[], node);
+        } else {
+            console.error(
+                '返回子节点数据格式异常 || childrenData:',
+                childrenData,
+            );
+        }
     };
 
     return {
@@ -312,6 +325,7 @@ export default (
         setNodeElem,
         selectedNodes,
         updateMenus,
+        appendNodes,
     } = useNode(config, props);
 
     useUpdateNodes(props, selectedNodes, allNodes);
@@ -333,7 +347,7 @@ export default (
 
     const { handleKeyDown } = useKeyDown(config, emit, menus);
 
-    const { handleLoadNode } = useLoadNode(props);
+    const { handleLoadNode } = useLoadNode(props, appendNodes);
 
     return {
         menus,

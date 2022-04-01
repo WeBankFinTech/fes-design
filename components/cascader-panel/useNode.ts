@@ -6,6 +6,7 @@ import type {
     CascaderNodeConfig,
     CascaderMenu,
     OptionValue,
+    CascaderOption,
 } from './interface';
 import type { CascaderNode } from './getNode';
 
@@ -59,6 +60,7 @@ function useSelectedNodes(
     props: CascaderPanelProps,
     allNodes: Ref<CascaderNode[]>,
 ) {
+    // 若节点列表更新，则节点选中状态也根据 currentValue 更新
     const selectedNodes = computed(() => {
         const { emitPath } = config.value;
         const { currentValue, multiple } = props;
@@ -97,6 +99,32 @@ function useSelectedNodes(
     };
 }
 
+function useAppendNodes(
+    nodes: Ref<CascaderNode[]>,
+    config: Ref<CascaderNodeConfig>,
+    props: CascaderPanelProps,
+) {
+    function appendNode(nodeData: CascaderOption, parentNode?: CascaderNode) {
+        const node = parentNode
+            ? parentNode.appendChild(nodeData)
+            : new Node(nodeData, config.value, props, null);
+
+        // 兼容初始加载的情况
+        if (!parentNode) nodes.value.push(node);
+    }
+
+    function appendNodes(
+        nodeDataList: CascaderOption[],
+        parentNode?: CascaderNode,
+    ) {
+        nodeDataList.forEach((nodeData) => appendNode(nodeData, parentNode));
+    }
+
+    return {
+        appendNodes,
+    };
+}
+
 export default (config: Ref<CascaderNodeConfig>, props: CascaderPanelProps) => {
     const { nodes, menus, allNodes, leafNodes, updateMenus } = useNodes(
         config,
@@ -104,6 +132,8 @@ export default (config: Ref<CascaderNodeConfig>, props: CascaderPanelProps) => {
     );
 
     const { selectedNodes } = useSelectedNodes(config, props, allNodes);
+
+    const { appendNodes } = useAppendNodes(nodes, config, props);
 
     return {
         nodes,
@@ -113,5 +143,6 @@ export default (config: Ref<CascaderNodeConfig>, props: CascaderPanelProps) => {
         setNodeElem,
         selectedNodes,
         updateMenus,
+        appendNodes,
     };
 };
