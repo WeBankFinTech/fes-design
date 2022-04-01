@@ -19,12 +19,12 @@
     >
         <!-- prefix -->
         <template v-if="multiple">
+            <!-- 由于 Checkbox 不支持手动处理选中状态，所以改为 click 事件监听处理 -->
             <Tooltip
                 v-if="node.isNeedLazyLoad"
                 placement="top-start"
                 :content="loadingRequiredMessage"
             >
-                <!-- 由于 Checkbox 不支持手动处理选中状态，所以改为 click 事件监听处理 -->
                 <Checkbox
                     :model-value="node.checked"
                     :indeterminate="node.indeterminate"
