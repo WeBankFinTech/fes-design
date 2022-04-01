@@ -109,8 +109,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.16.3",
+    "@floating-ui/dom": "^0.4.2",
     "@juggle/resize-observer": "^3.3.1",
-    "@popperjs/core": "^2.4.0",
     "@types/lodash-es": "^4.17.5",
     "@types/normalize-wheel": "^1.0.0",
     "@vue/shared": "^3.2.19",
