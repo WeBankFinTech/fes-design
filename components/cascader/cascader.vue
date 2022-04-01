@@ -35,7 +35,7 @@
                     :checkStrictly="checkStrictly"
                     :options="options"
                     :multiple="multiple"
-                    :nodeConfig="nodeConfig"
+                    :nodeConfig="currentNodeConfig"
                     :render-label="$slots.default"
                     :remote="remote"
                     :loadData="loadData"
@@ -102,6 +102,12 @@ export default defineComponent({
         const selectedNodes = ref<CascaderNode[]>([]);
 
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
+
+        // 避免多个组件设置项的影响
+        const [currentNodeConfig] = useNormalModel(props, emit, {
+            prop: 'nodeConfig',
+            isEqual: true,
+        });
 
         const { t } = useLocale();
         const inputPlaceholder = computed(
@@ -186,6 +192,7 @@ export default defineComponent({
             prefixCls,
             isOpened,
             currentValue,
+            currentNodeConfig,
             selectedOptions,
             handleRemove,
             handleClear,
