@@ -4,6 +4,7 @@ import {
     Fragment,
     cloneVNode,
     computed,
+    Transition,
 } from 'vue';
 import LazyTeleport from '../_util/lazyTeleport';
 import getPrefixCls from '../_util/getPrefixCls';
