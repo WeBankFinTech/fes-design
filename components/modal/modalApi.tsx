@@ -23,7 +23,6 @@ interface ModalConfig {
 type VNodeProperty = 'title' | 'content' | 'footer';
 
 const forceProps = {
-    closable: false,
     maskClosable: false,
     forGlobal: true,
     displayDirective: 'if',
@@ -43,6 +42,7 @@ function create(type: ModalType, config: ModalConfig) {
     } = {
         width: 400,
         show: true,
+        closable: false,
     };
     let cbFuncEnd = false;
 
@@ -60,22 +60,27 @@ function create(type: ModalType, config: ModalConfig) {
         render(<Modal {...props} v-slots={slots} />, div);
     }
 
-    async function handleCallBack(event: MouseEvent, cbFunc?: (event: MouseEvent) => void | Promise<any>) {
+    async function handleCallBack(
+        event: MouseEvent,
+        cbFunc?: (event: MouseEvent) => void | Promise<any>,
+    ) {
         if (cbFuncEnd) return;
         cbFuncEnd = true;
         try {
             if (isFunction(cbFunc)) await cbFunc(event);
             mergeProps.show = false;
             renderModal();
-        } catch (error) { }
+        } catch (error) {}
         cbFuncEnd = false;
     }
 
     function updateProps(options: ModalConfig) {
         // 更新 props
         Object.assign(mergeProps, options || {});
-        mergeProps.onOk = (event: MouseEvent) => handleCallBack(event, options.onOk);
-        mergeProps.onCancel = (event: MouseEvent) => handleCallBack(event, options.onCancel);
+        mergeProps.onOk = (event: MouseEvent) =>
+            handleCallBack(event, options.onOk);
+        mergeProps.onCancel = (event: MouseEvent) =>
+            handleCallBack(event, options.onCancel);
 
         // 更新 slots
         ['title', 'content', 'footer'].forEach((key) => {
