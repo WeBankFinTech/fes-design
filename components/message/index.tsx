@@ -2,7 +2,6 @@ import { h, reactive, Component } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { createManager } from '../_util/noticeManager';
 import Alert from '../alert/alert';
-import { getConfig } from '../config-provider';
 import PopupManager from '../_util/popupManager';
 
 import type { Notice, NoticeManagerInst } from '../_util/noticeManager';
@@ -27,10 +26,7 @@ type Options = {
 
 const defaultConfig = {
     duration: 3,
-    getContainer: () => {
-        const config = getConfig();
-        return config.value.getContainer();
-    },
+    getContainer: () => document.body,
     top: '24px',
     colorful: false,
 };
