@@ -288,7 +288,9 @@ function useLoadNode(props: CascaderPanelProps) {
         node.loading = true;
         const childrenData = await loadData(cloneDeep(node.data));
         node.loading = false;
+        node.loaded = true;
 
+        // TODO: 更新 node 节点列表
         node.data.children = childrenData as CascaderOption[];
     };
 

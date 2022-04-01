@@ -1,5 +1,7 @@
 import { EXPAND_TRIGGER } from './const';
 
+export type Nullable<T> = null | T;
+
 export type OptionValue = string | number;
 export type CascaderNodePathValue = OptionValue[];
 
@@ -32,7 +34,7 @@ export interface CascaderNode {
     indeterminate: boolean;
     data: NodeOption;
     parent?: CascaderNode;
-    nodeId: string;
+    nodeId: number;
     level: number;
     value: OptionValue;
     label: string;
@@ -43,7 +45,7 @@ export interface CascaderNode {
     children: CascaderNode[];
     isDisabled: boolean;
     isLeaf: boolean;
-    elem: HTMLElement | null;
+    elem: Nullable<HTMLElement>;
     loaded: boolean;
     loading: boolean;
 }

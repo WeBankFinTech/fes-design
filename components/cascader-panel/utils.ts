@@ -2,14 +2,12 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { CHECK_STRATEGY } from './const';
 
 import type {
-    NodeOption,
     CascaderNode,
     CascaderNodeConfig,
     OptionValue,
     CascaderMenu,
 } from './interface';
-import { CascaderPanelProps } from './props';
-import { isArray, isBoolean } from 'lodash';
+import { isArray } from 'lodash';
 
 /**
  * Generate unique ID
@@ -113,66 +111,6 @@ export const getCheckNodesByLeafCheckNodes = (
         }
         return true;
     });
-};
-
-export const getNode = (
-    data: NodeOption,
-    config: CascaderNodeConfig,
-    props: CascaderPanelProps,
-    parent?: CascaderNode,
-): CascaderNode => {
-    const { valueField, labelField, childrenField, disabledField } = config;
-
-    const childrenData = data[childrenField as 'children'];
-    const node: CascaderNode = {
-        checked: false,
-        indeterminate: false,
-        data: data || {},
-        parent,
-        nodeId: `nodeId_${data[valueField as 'value']}`,
-        level: parent ? parent.level + 1 : 1,
-        value: data[valueField as 'value'],
-        label: data[labelField as 'label'],
-        pathNodes: [],
-        pathValues: [],
-        pathLabels: [],
-        childrenData: childrenData,
-        children: [],
-        isDisabled:
-            !!data[disabledField as 'disabled'] || parent
-                ? !!parent.data[disabledField as 'disabled']
-                : false,
-        isLeaf: false,
-        elem: null,
-        loaded: false,
-        loading: false,
-    };
-
-    const pathNodes = calculatePathNodes(node);
-    node.pathNodes = pathNodes;
-    node.pathValues = pathNodes.map((item) => item.value);
-    node.pathLabels = pathNodes.map((item) => item.label);
-    const children = (childrenData || []).map((child: NodeOption) =>
-        getNode(child, config, props, node),
-    );
-    node.children = children;
-
-    // 初始化是否是叶子节点信息
-    if (props.remote && isBoolean(data.isLeaf)) {
-        node.isLeaf = data.isLeaf;
-
-        // 根据 children.length 判断是否加载完毕
-        if (children.length > 1) {
-            node.loaded = true;
-        } else {
-            node.loaded = false;
-        }
-    } else {
-        node.isLeaf = children.length < 1;
-        node.loaded = true;
-    }
-
-    return node;
 };
 
 export const getNodeByValue = (allNodes: CascaderNode[], value: OptionValue) =>
