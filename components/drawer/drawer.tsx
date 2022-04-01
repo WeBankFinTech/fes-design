@@ -18,7 +18,7 @@ import FButton from '../button/button';
 import { CloseOutlined } from '../icon';
 import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
-import { getConfig } from '../config-provider';
+import { useConfig } from '../config-provider';
 import { useTheme } from '../_theme/useTheme';
 
 const prefixCls = getPrefixCls('drawer');
@@ -96,9 +96,9 @@ const Drawer = defineComponent({
             },
             { immediate: true },
         );
-        const config = getConfig();
+        const config = useConfig();
         const getContainer = computed(
-            () => props.getContainer || config.value.getContainer,
+            () => props.getContainer || config.getContainer?.value,
         );
 
         function handleCancel(event: MouseEvent) {

@@ -1,0 +1,33 @@
+
+.fade-in-height-expand-motion() {
+    @name: ~'@{cls-prefix}-fade-in-height-expand';
+    .@{name}-leave-from,
+    .@{name}-enter-to {
+        opacity: 1;
+    }
+    .@{name}-enter-from,
+    .@{name}-leave-to {
+        opacity: 0;
+    }
+    .@{name}-enter-active {
+        overflow: hidden;
+        transition: 
+            max-height @animation-duration-base @ease-base-out,
+            opacity @animation-duration-base @ease-base-out,
+            margin-top @animation-duration-base @ease-base-out,
+            margin-bottom @animation-duration-base @ease-base-out,
+            padding-top @animation-duration-base @ease-base-out,
+            padding-bottom @animation-duration-base @ease-base-out;
+    }
+    .@{name}-leave-active {
+        overflow: hidden;
+        transition: 
+            max-height @animation-duration-base @ease-base-in,
+            opacity @animation-duration-base @ease-base-in,
+            margin-top @animation-duration-base @ease-base-in,
+            margin-bottom @animation-duration-base @ease-base-in,
+            padding-top @animation-duration-base @ease-base-in,
+            padding-bottom @animation-duration-base @ease-base-in;
+    }
+}
+.fade-in-height-expand-motion();

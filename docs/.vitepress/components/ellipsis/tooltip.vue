@@ -4,7 +4,7 @@
         百万富翁 摸爬滚打<br />黑暗好像 一颗巨石 按在胸口
         <template #tooltip>
             <div style="width: 200px; text-align: center">
-                <h>《静夜思》</h>
+                <h1>《静夜思》</h1>
                 <p>床前明月光，疑是地上霜。</p>
                 <p>举头望明月，低头思故乡。</p>
             </div>

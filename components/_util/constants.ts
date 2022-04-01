@@ -18,9 +18,6 @@ export const LOAD_EVENT = 'load';
 export const TABS_INJECTION_KEY = Symbol('tabs');
 
 export const PLACEMENT = [
-    'auto',
-    'auto-start',
-    'auto-end',
     'top',
     'top-start',
     'top-end',

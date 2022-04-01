@@ -1,8 +1,5 @@
 <template>
     <space>
-        <FDropdown placement="auto" :options="options">
-            <FButton>auto</FButton>
-        </FDropdown>
         <FDropdown placement="top" :options="options">
             <FButton>top</FButton>
         </FDropdown>
