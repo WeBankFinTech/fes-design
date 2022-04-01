@@ -1,6 +1,6 @@
 import { ref, computed, watch, Ref } from 'vue';
 import { getNodeByValue, getNodeValueByCurrentValue, flatNodes } from './utils';
-import { getNode } from './getNode';
+import { Node } from './getNode';
 
 import type {
     CascaderNodeConfig,
@@ -21,8 +21,8 @@ function useNodes(config: Ref<CascaderNodeConfig>, props: CascaderPanelProps) {
     watch(
         [() => config.value, () => props.options],
         () => {
-            nodes.value = (props.options || []).map((nodeData) =>
-                getNode(nodeData, config.value, props, null),
+            nodes.value = (props.options || []).map(
+                (nodeData) => new Node(nodeData, config.value, props, null),
             );
             menus.value = [
                 {

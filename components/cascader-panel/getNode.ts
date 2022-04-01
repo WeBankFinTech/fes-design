@@ -14,16 +14,7 @@ let nodeId = 0;
 
 export type CascaderNode = Node;
 
-export const getNode = (
-    data: NodeOption,
-    config: CascaderNodeConfig,
-    props: CascaderPanelProps,
-    parent?: CascaderNode,
-): CascaderNode => {
-    return new Node(data, config, props, parent);
-};
-
-export default class Node {
+export class Node {
     readonly nodeId: number = nodeId++;
     readonly level: number;
     readonly value: OptionValue;
@@ -60,8 +51,8 @@ export default class Node {
         this.pathValues = pathNodes.map((item) => item.value);
         this.pathLabels = pathNodes.map((item) => item.label);
 
-        this.children = (childrenData || []).map((child: NodeOption) =>
-            getNode(child, config, props, this),
+        this.children = (childrenData || []).map(
+            (child: NodeOption) => new Node(child, config, props, this),
         );
 
         this.loaded = !props.remote || this.isLeaf || !isEmpty(childrenData);
