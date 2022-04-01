@@ -13,7 +13,9 @@ describe('FAlert', () => {
             },
         });
         await nextTick();
-        expect(wrapper.find(`.${prefixCls}-info`).text()).toBe('常规信息提示内容');
+        expect(wrapper.find(`.${prefixCls}-info`).text()).toBe(
+            '常规信息提示内容',
+        );
     });
 
     test('FAlert closable', async () => {
@@ -24,7 +26,9 @@ describe('FAlert', () => {
             },
         });
         await nextTick();
-        await wrapper.find(`.${prefixCls}-head-right-close span`).trigger('click');
+        await wrapper
+            .find(`.${prefixCls}-head-right-close span`)
+            .trigger('click');
         expect(wrapper.findAll(`.${prefixCls}-info`).length).toBe(0);
     });
 });

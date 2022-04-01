@@ -48,16 +48,26 @@ test('pagination props totalCount', async () => {
             totalCount,
         },
     });
-    expect(wrapper.find(`.${prefixCls}-total`).text()).toBe(`共${totalCount}条`);
+    expect(wrapper.find(`.${prefixCls}-total`).text()).toBe(
+        `共${totalCount}条`,
+    );
     totalCount += 1;
     wrapper.setProps({ totalCount });
     await nextTick();
-    expect(wrapper.find(`.${prefixCls}-total`).text()).toBe(`共${totalCount}条`);
+    expect(wrapper.find(`.${prefixCls}-total`).text()).toBe(
+        `共${totalCount}条`,
+    );
 });
 
 // ---------------- pagination showQuickJumper showSizeChanger showTotal small simple props -------------------
 
-[{ prop: 'showQuickJumper', className: `.${prefixCls}-jumper` }, { prop: 'showSizeChanger', className: `.${prefixCls}-size` }, { prop: 'showTotal', className: `.${prefixCls}-total` }, { prop: 'small', className: `.${prefixCls}-small` }, { prop: 'simple', className: `.${prefixCls}-simpler` }].forEach((item) => {
+[
+    { prop: 'showQuickJumper', className: `.${prefixCls}-jumper` },
+    { prop: 'showSizeChanger', className: `.${prefixCls}-size` },
+    { prop: 'showTotal', className: `.${prefixCls}-total` },
+    { prop: 'small', className: `.${prefixCls}-small` },
+    { prop: 'simple', className: `.${prefixCls}-simpler` },
+].forEach((item) => {
     test(`pagination props ${item.prop}`, async () => {
         const wrapper = mount(Pagination);
         expect(wrapper.find(item.className).exists()).toBe(false);
@@ -99,7 +109,9 @@ test('pagination pager last button click', async () => {
 
     lastBtn.trigger('click');
     await nextTick();
-    expect(wrapper.find(`.${prefixCls}-pager .is-active`).text()).toBe(`${currentPage}`);
+    expect(wrapper.find(`.${prefixCls}-pager .is-active`).text()).toBe(
+        `${currentPage}`,
+    );
 
     currentPage += 1;
     wrapper.setProps({ currentPage });
@@ -107,7 +119,9 @@ test('pagination pager last button click', async () => {
     expect(lastBtn.classes('is-disabled')).toBe(false);
     lastBtn.trigger('click');
     await nextTick();
-    expect(wrapper.find(`.${prefixCls}-pager .is-active`).text()).toBe(`${currentPage - 1}`);
+    expect(wrapper.find(`.${prefixCls}-pager .is-active`).text()).toBe(
+        `${currentPage - 1}`,
+    );
     expect(wrapper.emitted()['update:currentPage'].length).toBe(2);
 });
 
@@ -120,7 +134,9 @@ test('pagination pager next button click', async () => {
     expect(nextBtn.classes('is-disabled')).toBe(false);
     nextBtn.trigger('click');
     await nextTick();
-    expect(wrapper.find(`.${prefixCls}-pager .is-active`).text()).toBe(`${currentPage + 1}`);
+    expect(wrapper.find(`.${prefixCls}-pager .is-active`).text()).toBe(
+        `${currentPage + 1}`,
+    );
     expect(wrapper.emitted()['update:currentPage'].length).toBe(1);
     currentPage = 20;
     wrapper.setProps({ currentPage });
@@ -147,16 +163,28 @@ test('pagination pager next button click', async () => {
 test('pagination pager next button click', async () => {
     let currentPage = 1;
     const wrapper = getWrapper(currentPage);
-    expect(wrapper.findAll(`.${prefixCls}-pager > div`)[2].classes('is-double-jump')).toBe(false);
+    expect(
+        wrapper
+            .findAll(`.${prefixCls}-pager > div`)[2]
+            .classes('is-double-jump'),
+    ).toBe(false);
     currentPage = 10;
     wrapper.setProps({ currentPage });
     await nextTick();
-    expect(wrapper.findAll(`.${prefixCls}-pager > div`)[2].classes('is-double-jump')).toBe(true);
-    expect(wrapper.find(`.${prefixCls}-pager .is-active`).text()).toBe(`${currentPage}`);
+    expect(
+        wrapper
+            .findAll(`.${prefixCls}-pager > div`)[2]
+            .classes('is-double-jump'),
+    ).toBe(true);
+    expect(wrapper.find(`.${prefixCls}-pager .is-active`).text()).toBe(
+        `${currentPage}`,
+    );
     wrapper.findAll(`.${prefixCls}-pager > div`)[2].trigger('click');
     expect(wrapper.emitted()['update:currentPage'].length).toBe(1);
     await nextTick();
-    expect(wrapper.find(`.${prefixCls}-pager .is-active`).text()).toBe(`${currentPage - 5}`);
+    expect(wrapper.find(`.${prefixCls}-pager .is-active`).text()).toBe(
+        `${currentPage - 5}`,
+    );
     expect(wrapper.emitted()['update:currentPage'].length).toBe(2);
 });
 
@@ -165,10 +193,18 @@ test('pagination pager next button click', async () => {
 test('pagination pager next button click', async () => {
     const currentPage = 1;
     const wrapper = getWrapper(currentPage);
-    expect(wrapper.find(`.${prefixCls}-pager .is-active`).text()).toBe(`${currentPage}`);
-    wrapper.findAll(`.${prefixCls}-pager > div`)[wrapper.findAll(`.${prefixCls}-pager > div`).length - 3].trigger('click');
+    expect(wrapper.find(`.${prefixCls}-pager .is-active`).text()).toBe(
+        `${currentPage}`,
+    );
+    wrapper
+        .findAll(`.${prefixCls}-pager > div`)
+        [wrapper.findAll(`.${prefixCls}-pager > div`).length - 3].trigger(
+            'click',
+        );
     await nextTick();
-    expect(wrapper.find(`.${prefixCls}-pager .is-active`).text()).toBe(`${currentPage + 5}`);
+    expect(wrapper.find(`.${prefixCls}-pager .is-active`).text()).toBe(
+        `${currentPage + 5}`,
+    );
     expect(wrapper.emitted()['update:currentPage'].length).toBe(1);
 });
 
@@ -263,13 +299,17 @@ test('pagination jumper', async () => {
     inp.setValue(jumperVal);
     inp.trigger('blur');
     await nextTick();
-    expect(wrapper.find(`.${prefixCls}-pager .is-active`).text()).toBe(`${jumperVal}`);
+    expect(wrapper.find(`.${prefixCls}-pager .is-active`).text()).toBe(
+        `${jumperVal}`,
+    );
     expect(wrapper.emitted()['update:currentPage'].length).toBe(1);
     jumperVal += totalCount;
     inp.setValue(jumperVal);
     inp.trigger('blur');
     await nextTick();
-    expect(wrapper.find(`.${prefixCls}-pager .is-active`).text()).toBe(`${totalCount}`);
+    expect(wrapper.find(`.${prefixCls}-pager .is-active`).text()).toBe(
+        `${totalCount}`,
+    );
     expect(wrapper.emitted()['update:currentPage'].length).toBe(2);
     jumperVal = 0;
     inp.setValue(jumperVal);
@@ -301,12 +341,16 @@ test('pagination jumper', async () => {
     });
 
     await nextTick();
-    expect(wrapper.find(`.${prefixCls}-size .${prefixClsEllipsis}`).text()).toBe(`${pageSize} 条/页`);
+    expect(
+        wrapper.find(`.${prefixCls}-size .${prefixClsEllipsis}`).text(),
+    ).toBe(`${pageSize} 条/页`);
 
     pageSize = 100;
     wrapper.setProps({
         pageSize,
     });
     await nextTick();
-    expect(wrapper.find(`.${prefixCls}-size .${prefixClsEllipsis}`).text()).toBe(`${pageSize} 条/页`);
+    expect(
+        wrapper.find(`.${prefixCls}-size .${prefixClsEllipsis}`).text(),
+    ).toBe(`${pageSize} 条/页`);
 });
