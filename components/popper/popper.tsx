@@ -46,7 +46,6 @@ export default defineComponent({
             popperStyle,
             updateVirtualRect,
             placement,
-            transitionVisible,
         } = usePopper(props, emit);
         const disabledWatch = computed(() => props.disabled || !visible.value);
         useClickOutSide(
@@ -120,9 +119,10 @@ export default defineComponent({
                     >
                         <Transition
                             name={transitionName.value}
+                            appear
                             onBeforeEnter={computePopper}
                         >
-                            <Content v-show={transitionVisible.value} />
+                            <Content v-show={visible.value} />
                         </Transition>
                     </div>
                 </LazyTeleport>

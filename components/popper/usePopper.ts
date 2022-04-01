@@ -18,19 +18,6 @@ export default (props: PopperProps, emit: any) => {
     });
     const placement = ref(props.placement);
 
-    const transitionVisible = ref(visible.value);
-
-    watch(visible, () => {
-        if (visible.value) {
-            // 当一次创建时，需要延后更新，不然不触发Transition
-            nextTick(() => {
-                transitionVisible.value = visible.value;
-            });
-        } else {
-            transitionVisible.value = visible.value;
-        }
-    });
-
     const computePopper = () => {
         if (props.disabled) return;
         if (!visible.value) return;
@@ -61,9 +48,9 @@ export default (props: PopperProps, emit: any) => {
             }).then((state) => {
                 // 当方向改变时，动画需要重新执行
                 if (placement.value !== state.placement) {
-                    transitionVisible.value = false;
+                    updateVisible(false);
                     nextTick(() => {
-                        transitionVisible.value = true;
+                        updateVisible(true);
                     });
                 }
                 placement.value = state.placement;
@@ -114,6 +101,5 @@ export default (props: PopperProps, emit: any) => {
         computePopper,
         updateVirtualRect,
         placement,
-        transitionVisible,
     };
 };
