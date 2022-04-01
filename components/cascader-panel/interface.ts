@@ -1,4 +1,5 @@
 import { EXPAND_TRIGGER } from './const';
+import type { CascaderNode } from './getNode';
 
 export type Nullable<T> = null | T;
 
@@ -29,26 +30,26 @@ export interface NodeOption {
     disabled?: boolean;
     isLeaf?: boolean;
 }
-export interface CascaderNode {
-    checked: boolean;
-    indeterminate: boolean;
-    data: NodeOption;
-    parent?: CascaderNode;
-    nodeId: number;
-    level: number;
-    value: OptionValue;
-    label: string;
-    pathNodes: CascaderNode[];
-    pathValues: CascaderNodePathValue;
-    pathLabels: string[];
-    childrenData: CascaderOption[] | undefined;
-    children: CascaderNode[];
-    isDisabled: boolean;
-    isLeaf: boolean;
-    elem: Nullable<HTMLElement>;
-    loaded: boolean;
-    loading: boolean;
-}
+// export interface CascaderNode {
+//     checked: boolean;
+//     indeterminate: boolean;
+//     data: NodeOption;
+//     parent?: CascaderNode;
+//     nodeId: number;
+//     level: number;
+//     value: OptionValue;
+//     label: string;
+//     pathNodes: CascaderNode[];
+//     pathValues: CascaderNodePathValue;
+//     pathLabels: string[];
+//     childrenData: CascaderOption[] | undefined;
+//     children: CascaderNode[];
+//     isDisabled: boolean;
+//     isLeaf: boolean;
+//     elem: Nullable<HTMLElement>;
+//     loaded: boolean;
+//     loading: boolean;
+// }
 
 export interface CascaderMenu {
     nodes: CascaderNode[];

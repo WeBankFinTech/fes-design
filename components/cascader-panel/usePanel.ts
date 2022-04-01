@@ -15,13 +15,14 @@ import {
 } from './utils';
 
 import type {
-    CascaderNode,
     CascaderNodeConfig,
     OptionValue,
     CascaderPanelEmits,
     CascaderMenu,
     CascaderOption,
 } from './interface';
+import type { CascaderNode } from './getNode';
+
 import type { CascaderPanelProps } from './props';
 import { cloneDeep, isFunction } from 'lodash';
 

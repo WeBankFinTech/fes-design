@@ -1,6 +1,8 @@
 import { cloneDeep } from 'lodash';
 import { Ref } from 'vue';
-import type { CascaderNode, OptionValue } from '../cascader-panel/interface';
+import type { OptionValue } from '../cascader-panel/interface';
+import type { CascaderNode } from '../cascader-panel/getNode';
+
 import type { CascaderPanelProps } from '../cascader-panel/props';
 import { SelectOptionValue } from '../select-trigger/interface';
 import { SelectProps } from '../select/props';

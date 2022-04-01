@@ -2,11 +2,12 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { CHECK_STRATEGY } from './const';
 
 import type {
-    CascaderNode,
     CascaderNodeConfig,
     OptionValue,
     CascaderMenu,
 } from './interface';
+import type { CascaderNode } from './getNode';
+
 import { isArray } from 'lodash';
 
 /**

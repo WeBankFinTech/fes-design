@@ -64,10 +64,11 @@ import { SelectProps, selectProps } from '../select/props';
 import type { CascaderPanelProps } from '../cascader-panel/props';
 import { cascaderPanelProps } from '../cascader-panel/props';
 
-import type { CascaderNode, OptionValue } from '../cascader-panel/interface';
+import type { OptionValue } from '../cascader-panel/interface';
 import { useLocale } from '../config-provider/useLocale';
 import { useNoMatchedNodes } from './useNoMatchedNodes';
 import { useMultiRemove } from './useMultiRemove';
+import type { CascaderNode } from '../cascader-panel/getNode';
 
 const prefixCls = getPrefixCls('cascader');
 

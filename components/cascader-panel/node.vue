@@ -67,7 +67,7 @@ import RightOutlined from '../icon/RightOutlined';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import NodeContent from './nodeContent';
 
-import type { CascaderNode } from './interface';
+import type { CascaderNode } from './getNode';
 
 const prefixCls = getPrefixCls('cascader-node');
 

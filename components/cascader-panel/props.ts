@@ -4,7 +4,8 @@ import type { SelectValue } from '../cascader/interface';
 import { extractPropsDefaultValue } from '../_util/utils';
 import { CHECK_STRATEGY } from './const';
 
-import type { CascaderNode, CascaderNodeConfig, NodeOption } from './interface';
+import type { CascaderNodeConfig, NodeOption } from './interface';
+import type { CascaderNode } from './getNode';
 
 export const cascaderPanelProps = {
     currentValue: [

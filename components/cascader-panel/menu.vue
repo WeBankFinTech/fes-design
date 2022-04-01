@@ -24,7 +24,7 @@ import CascaderNodeComp from './node.vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { CASCADER_PANEL_INJECTION_KEY } from './props';
 
-import type { CascaderNode } from './interface';
+import type { CascaderNode } from './getNode';
 
 const prefixCls = getPrefixCls('cascader-menu');
 

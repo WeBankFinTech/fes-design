@@ -3,11 +3,12 @@ import { getNodeByValue, getNodeValueByCurrentValue, flatNodes } from './utils';
 import { getNode } from './getNode';
 
 import type {
-    CascaderNode,
     CascaderNodeConfig,
     CascaderMenu,
     OptionValue,
 } from './interface';
+import type { CascaderNode } from './getNode';
+
 import type { CascaderPanelProps } from './props';
 
 function useNodes(config: Ref<CascaderNodeConfig>, props: CascaderPanelProps) {

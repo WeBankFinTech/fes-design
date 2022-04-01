@@ -1,6 +1,5 @@
 import { isArray, isBoolean, isEmpty } from 'lodash';
 import type {
-    CascaderNode,
     NodeOption,
     OptionValue,
     Nullable,
@@ -12,6 +11,8 @@ import type { CascaderPanelProps } from './props';
 import { calculatePathNodes } from './utils';
 
 let nodeId = 0;
+
+export type CascaderNode = Node;
 
 export const getNode = (
     data: NodeOption,
