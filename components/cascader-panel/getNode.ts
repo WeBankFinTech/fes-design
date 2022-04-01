@@ -1,4 +1,4 @@
-import { isArray, isBoolean, isEmpty } from 'lodash';
+import { isArray, isBoolean, isEmpty } from 'lodash-es';
 import type {
     NodeOption,
     OptionValue,

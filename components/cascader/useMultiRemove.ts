@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash-es';
 import { Ref } from 'vue';
 import type { OptionValue } from '../cascader-panel/interface';
 import type { CascaderNode } from '../cascader-panel/getNode';

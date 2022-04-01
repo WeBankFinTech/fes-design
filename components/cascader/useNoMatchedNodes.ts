@@ -5,7 +5,7 @@ import type { OptionValue } from '../cascader-panel/interface';
 import type { CascaderNode } from '../cascader-panel/getNode';
 
 import { getSingleNodeValueByCurrentValue } from '../cascader-panel/utils';
-import { isArray } from 'lodash';
+import { isArray } from 'lodash-es';
 
 export type NoMatchedNodesType = {
     value: OptionValue;

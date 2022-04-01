@@ -24,7 +24,7 @@ import type {
 import type { CascaderNode } from './getNode';
 
 import type { CascaderPanelProps } from './props';
-import { cloneDeep, isArray, isFunction } from 'lodash';
+import { cloneDeep, isArray, isFunction } from 'lodash-es';
 
 function useUpdateNodes(
     props: CascaderPanelProps,

@@ -8,7 +8,7 @@ import type {
 } from './interface';
 import type { CascaderNode } from './getNode';
 
-import { isArray } from 'lodash';
+import { isArray } from 'lodash-es';
 
 /**
  * Generate unique ID

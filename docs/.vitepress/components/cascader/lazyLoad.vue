@@ -77,7 +77,7 @@
 
 <script>
 import { defineComponent, reactive, ref } from 'vue';
-import { cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash-es';
 
 const options = [
     {
