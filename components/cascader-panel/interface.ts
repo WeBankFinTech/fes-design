@@ -30,26 +30,6 @@ export interface NodeOption {
     disabled?: boolean;
     isLeaf?: boolean;
 }
-// export interface CascaderNode {
-//     checked: boolean;
-//     indeterminate: boolean;
-//     data: NodeOption;
-//     parent?: CascaderNode;
-//     nodeId: number;
-//     level: number;
-//     value: OptionValue;
-//     label: string;
-//     pathNodes: CascaderNode[];
-//     pathValues: CascaderNodePathValue;
-//     pathLabels: string[];
-//     childrenData: CascaderOption[] | undefined;
-//     children: CascaderNode[];
-//     isDisabled: boolean;
-//     isLeaf: boolean;
-//     elem: Nullable<HTMLElement>;
-//     loaded: boolean;
-//     loading: boolean;
-// }
 
 export interface CascaderMenu {
     nodes: CascaderNode[];
@@ -59,5 +39,6 @@ export interface CascaderMenu {
 export type CascaderPanelEmits = {
     (e: 'expandChange', value: OptionValue[]): void;
     (e: 'checkChange', value: OptionValue | OptionValue[]): void;
+    (e: 'update:selectedNodes', value: CascaderNode[]): void;
     (e: 'close'): void;
 };

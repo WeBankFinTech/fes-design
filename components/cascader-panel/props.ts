@@ -25,9 +25,6 @@ export const cascaderPanelProps = {
         default: () => ({}),
     },
     renderLabel: Function as PropType<() => VNodeChild>,
-    handleUpdateSelectedNodes: Function as PropType<
-        (selectedNodes: CascaderNode[]) => void
-    >,
     showAllLevels: {
         type: Boolean,
         default: true,

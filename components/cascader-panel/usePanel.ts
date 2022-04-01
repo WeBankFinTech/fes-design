@@ -28,6 +28,7 @@ import { cloneDeep, isArray, isFunction } from 'lodash';
 
 function useUpdateNodes(
     props: CascaderPanelProps,
+    emit: CascaderPanelEmits,
     selectedNodes: Ref<CascaderNode[]>,
     allNodes: Ref<CascaderNode[]>,
 ) {
@@ -42,7 +43,7 @@ function useUpdateNodes(
     const doUpdateNodes = () => {
         clearCheckedNodes();
 
-        const { multiple, handleUpdateSelectedNodes, checkStrictly } = props;
+        const { multiple, checkStrictly } = props;
 
         selectedNodes.value.forEach((node) => {
             node.checked = true;
@@ -59,14 +60,13 @@ function useUpdateNodes(
                 updateChildNodesCheckState(selectedNodes.value);
             }
         }
-
-        handleUpdateSelectedNodes(selectedNodes.value);
     };
 
     watch(
         () => selectedNodes.value,
         () => {
             doUpdateNodes();
+            emit('update:selectedNodes', selectedNodes.value);
         },
         {
             deep: false, // 避免递归处理
@@ -328,7 +328,7 @@ export default (
         appendNodes,
     } = useNode(config, props);
 
-    useUpdateNodes(props, selectedNodes, allNodes);
+    useUpdateNodes(props, emit, selectedNodes, allNodes);
 
     const { handleExpandNode, expandingNode } = useExpandNode(
         menus,

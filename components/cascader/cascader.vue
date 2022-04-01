@@ -39,7 +39,7 @@
                     :render-label="$slots.default"
                     :remote="remote"
                     :loadData="loadData"
-                    :handleUpdateSelectedNodes="handleUpdateSelectedNodes"
+                    @update:selectedNodes="handleUpdateSelectedNodes"
                     @expandChange="handleExpandChange"
                     @checkChange="handleCheckChange"
                     @close="handlePanelClose"

@@ -31,7 +31,7 @@ export default defineComponent({
     props: {
         ...cascaderPanelProps,
     },
-    emits: ['expandChange', 'checkChange', 'close'],
+    emits: ['expandChange', 'checkChange', 'close', 'update:selectedNodes'],
     setup(props, { emit, slots }) {
         useTheme();
         const renderLabelFn = computed(
