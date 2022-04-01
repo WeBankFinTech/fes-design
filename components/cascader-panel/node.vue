@@ -18,14 +18,30 @@
         @click="handleClick"
     >
         <!-- prefix -->
-        <Checkbox
-            v-if="multiple"
-            :model-value="node.checked"
-            :indeterminate="node.indeterminate"
-            :disabled="isDisabled"
-            @click.stop
-            @change="handleCheck"
-        />
+        <template v-if="multiple">
+            <Tooltip
+                v-if="node.isNeedLazyLoad"
+                placement="top-start"
+                :content="loadingRequiredMessage"
+            >
+                <!-- 由于 Checkbox 不支持手动处理选中状态，所以改为 click 事件监听处理 -->
+                <Checkbox
+                    :model-value="node.checked"
+                    :indeterminate="node.indeterminate"
+                    :disabled="true"
+                    @click.stop="handleSelectClick"
+                />
+            </Tooltip>
+
+            <Checkbox
+                v-else
+                :model-value="node.checked"
+                :indeterminate="node.indeterminate"
+                :disabled="isDisabled"
+                @click.stop
+                @change="handleSelectCheck"
+            />
+        </template>
 
         <!-- content -->
         <NodeContent :node="node" />
@@ -62,12 +78,14 @@ import {
 import getPrefixCls from '../_util/getPrefixCls';
 import { CASCADER_PANEL_INJECTION_KEY } from './props';
 import Checkbox from '../checkbox';
+import Tooltip from '../tooltip';
 import CheckOutlined from '../icon/CheckOutlined';
 import RightOutlined from '../icon/RightOutlined';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import NodeContent from './nodeContent';
 
 import type { CascaderNode } from './getNode';
+import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('cascader-node');
 
@@ -90,15 +108,23 @@ export default defineComponent({
         NodeContent,
         RightOutlined,
         LoadingOutlined,
+        Tooltip,
     },
     props: cascaderNodeProps,
     setup(props) {
         const panel = inject(CASCADER_PANEL_INJECTION_KEY);
+        const { t } = useLocale();
 
         const isLeaf = computed(() => props.node.isLeaf);
         const isDisabled = computed(() => props.node.isDisabled);
         const multiple = computed(() => panel.multiple);
         const isHoverMenu = computed(() => panel.isHoverMenu);
+
+        const loadingRequiredMessage = computed(() =>
+            t('cascader.loadingRequiredMessage', {
+                label: props.node.label,
+            }),
+        );
 
         const elemRef = ref(null);
 
@@ -169,6 +195,17 @@ export default defineComponent({
             }
         };
 
+        const handleSelectClick = () => {
+            // 自动加载子节点列表
+            if (!props.node.loaded) {
+                doLoad();
+            }
+        };
+
+        const handleSelectCheck = (checked: boolean) => {
+            handleCheck(checked);
+        };
+
         return {
             elemRef,
             prefixCls,
@@ -177,8 +214,10 @@ export default defineComponent({
             multiple,
             inExpandingPath,
             handleClick,
-            handleCheck,
+            handleSelectClick,
+            handleSelectCheck,
             handleHoverExpand,
+            loadingRequiredMessage,
         };
     },
 });

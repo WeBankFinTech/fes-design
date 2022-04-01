@@ -77,6 +77,14 @@ export class Node {
         }
     }
 
+    get isChildLoaded(): boolean {
+        return this.loaded && this.children.every((node) => node.isChildLoaded);
+    }
+
+    get isNeedLazyLoad(): boolean {
+        return !this.loaded || !this.isChildLoaded;
+    }
+
     // 挂载子节点
     appendChild(childData: CascaderOption) {
         const { childrenData, children, config, props } = this;
