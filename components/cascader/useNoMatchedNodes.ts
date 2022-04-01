@@ -1,7 +1,7 @@
 import type { SelectProps } from '../select/props';
 import type { CascaderPanelProps } from '../cascader-panel/props';
 import { computed, Ref } from 'vue';
-import { CascaderNode, OptionValue } from '../cascader-panel/interface';
+import type { CascaderNode, OptionValue } from '../cascader-panel/interface';
 import { getSingleNodeValueByCurrentValue } from '../cascader-panel/utils';
 import { isArray } from 'lodash';
 

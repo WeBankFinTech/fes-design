@@ -1,5 +1,5 @@
 import { isArray, isBoolean, isEmpty } from 'lodash';
-import {
+import type {
     CascaderNode,
     NodeOption,
     OptionValue,
@@ -8,7 +8,7 @@ import {
     CascaderOption,
     CascaderNodeConfig,
 } from './interface';
-import { CascaderPanelProps } from './props';
+import type { CascaderPanelProps } from './props';
 import { calculatePathNodes } from './utils';
 
 let nodeId = 0;

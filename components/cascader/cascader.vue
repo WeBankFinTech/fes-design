@@ -61,10 +61,8 @@ import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
 import CascaderPanel from '../cascader-panel';
 import { SelectProps, selectProps } from '../select/props';
-import {
-    CascaderPanelProps,
-    cascaderPanelProps,
-} from '../cascader-panel/props';
+import type { CascaderPanelProps } from '../cascader-panel/props';
+import { cascaderPanelProps } from '../cascader-panel/props';
 
 import type { CascaderNode, OptionValue } from '../cascader-panel/interface';
 import { useLocale } from '../config-provider/useLocale';

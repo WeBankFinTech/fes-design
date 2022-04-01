@@ -1,5 +1,3 @@
-import { OptionValue } from './interface';
-
 export enum EXPAND_TRIGGER {
     CLICK = 'click',
     HOVER = 'hover',

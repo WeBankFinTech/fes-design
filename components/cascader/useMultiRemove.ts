@@ -1,12 +1,12 @@
 import { cloneDeep } from 'lodash';
 import { Ref } from 'vue';
-import { CascaderNode, OptionValue } from '../cascader-panel/interface';
-import { CascaderPanelProps } from '../cascader-panel/props';
+import type { CascaderNode, OptionValue } from '../cascader-panel/interface';
+import type { CascaderPanelProps } from '../cascader-panel/props';
 import { SelectOptionValue } from '../select-trigger/interface';
 import { SelectProps } from '../select/props';
 import { flatNodes } from '../cascader-panel/utils';
-import { SelectValue, CascaderEmits } from './interface';
-import { NoMatchedNodesType } from './useNoMatchedNodes';
+import type { SelectValue, CascaderEmits } from './interface';
+import type { NoMatchedNodesType } from './useNoMatchedNodes';
 
 /**
  * 多选才会有删除事件，所有仅考虑数组情况即可

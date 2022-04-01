@@ -1,6 +1,6 @@
 import { ref, computed, watch, Ref } from 'vue';
 import { getNodeByValue, getNodeValueByCurrentValue, flatNodes } from './utils';
-import { getNode } from './node';
+import { getNode } from './getNode';
 
 import type {
     CascaderNode,
