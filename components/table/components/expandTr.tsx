@@ -26,7 +26,7 @@ export default defineComponent({
                     <tr class={`${prefixCls}-row`}>
                         <td
                             colspan={length}
-                            class={`${prefixCls}-td ${prefixCls}-cell`}
+                            class={`${prefixCls}-td ${prefixCls}-cell ${prefixCls}-expanded-cell`}
                         >
                             {column.slots.default({
                                 row,

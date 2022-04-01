@@ -12,7 +12,6 @@ specifiers:
   '@commitlint/config-conventional': ^13.1.0
   '@floating-ui/dom': ^0.4.2
   '@juggle/resize-observer': ^3.3.1
-  '@popperjs/core': ^2.4.0
   '@rollup/plugin-babel': ^5.3.0
   '@rollup/plugin-commonjs': ^21.0.1
   '@rollup/plugin-json': ^4.1.0
@@ -79,7 +78,6 @@ dependencies:
   '@babel/runtime': 7.16.3
   '@floating-ui/dom': 0.4.2
   '@juggle/resize-observer': 3.3.1
-  '@popperjs/core': 2.11.0
   '@types/lodash-es': 4.17.5
   '@types/normalize-wheel': 1.0.0
   '@vue/shared': 3.2.24
@@ -2213,10 +2211,6 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
     dev: true
-
-  /@popperjs/core/2.11.0:
-    resolution: {integrity: sha512-zrsUxjLOKAzdewIDRWy9nsV1GQsKBCWaGwsZQlCgr6/q+vjyZhFgqedLfFBuI9anTPEUT4APq9Mu0SZBTzIcGQ==, tarball: '@popperjs/core/download/@popperjs/core-2.11.0.tgz'}
-    dev: false
 
   /@rollup/plugin-babel/5.3.0_@babel+core@7.16.0+rollup@2.60.2:
     resolution: {integrity: sha1-nLHFFG3daklorZbyCcUMYvkvmHk=, tarball: '@rollup/plugin-babel/download/@rollup/plugin-babel-5.3.0.tgz?cache=0&sync_timestamp=1636338113224&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40rollup%2Fplugin-babel%2Fdownload%2F%40rollup%2Fplugin-babel-5.3.0.tgz'}
