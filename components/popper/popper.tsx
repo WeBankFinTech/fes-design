@@ -41,10 +41,10 @@ export default defineComponent({
             triggerRef,
             popperRef,
             arrowRef,
-            update,
+            computePopper,
             popperStyle,
             updateVirtualRect,
-            transitionVisible,
+            placement,
         } = usePopper(props, emit);
         const disabledWatch = computed(() => props.disabled || !visible.value);
         useClickOutSide(
@@ -56,7 +56,7 @@ export default defineComponent({
         );
         useResize(
             computed(() => getElementFromRef(triggerRef.value)),
-            update,
+            computePopper,
             disabledWatch,
         );
         const { events, onPopperMouseEnter, onPopperMouseLeave } = useTrigger(
@@ -87,6 +87,19 @@ export default defineComponent({
             );
         };
 
+        const transitionName = computed(() => {
+            const placementValue = placement.value;
+            const MAP = {
+                bottom: 'up',
+                top: 'down',
+                left: 'right',
+                right: 'left',
+            } as const;
+            return `fes-slide-${
+                MAP[placementValue.split('-')[0] as keyof typeof MAP]
+            }`;
+        });
+
         return () => (
             <Fragment>
                 {renderTrigger()}
@@ -102,9 +115,14 @@ export default defineComponent({
                         role={'tooltip'}
                         onMouseenter={onPopperMouseEnter}
                         onMouseleave={onPopperMouseLeave}
-                        v-show={transitionVisible.value}
                     >
-                            <Content />
+                        <Transition
+                            name={transitionName.value}
+                            appear
+                            onBeforeEnter={computePopper}
+                        >
+                            <Content v-show={visible.value} />
+                        </Transition>
                     </div>
                 </LazyTeleport>
             </Fragment>

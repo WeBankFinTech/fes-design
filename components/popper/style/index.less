@@ -31,17 +31,5 @@
 
 .@{popper-prefix-cls}-wrapper {
     position: absolute; // 防止不是插入到 body 的时候影响所在容器布局
-    &[data-popper-placement^='top'] > .@{popper-prefix-cls} > .@{popper-prefix-cls}-arrow {
-        bottom: -3px;
-    }
-    &[data-popper-placement^='bottom'] > .@{popper-prefix-cls} > .@{popper-prefix-cls}-arrow {
-        top: -3px;
-    }
-    &[data-popper-placement^='left'] > .@{popper-prefix-cls} > .@{popper-prefix-cls}-arrow {
-        right: -3px;
-    }
-    &[data-popper-placement^='right'] > .@{popper-prefix-cls} > .@{popper-prefix-cls}-arrow {
-        left: -3px;
-    }
 }
 
