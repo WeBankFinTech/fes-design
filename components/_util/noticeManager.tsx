@@ -24,24 +24,22 @@ function genUid() {
     return `notice_manager_${now}_${seed++}`;
 }
 
-
 export interface Notice {
     key?: string;
     afterRemove?: () => void;
     duration: number;
     style: CSSProperties;
-    children: VNode | (() => VNodeChild)
+    children: VNode | (() => VNodeChild);
 }
-
 
 interface NotificationInst {
     remove: (key: string) => void;
-    append: (notice: Notice) => Notice
+    append: (notice: Notice) => Notice;
 }
 
 export interface NoticeManagerInst {
     remove: (key: string) => void;
-    append: (notice: Notice) => Notice
+    append: (notice: Notice) => Notice;
     destroy: () => void;
     exited: () => boolean;
 }
@@ -59,7 +57,7 @@ const Notification = defineComponent({
             const notice = notices.value[index];
             if (notice) {
                 notices.value.splice(index, 1);
-                notice.afterRemove && notice.afterRemove();
+                notice.afterRemove?.();
             }
         }
 
@@ -94,13 +92,10 @@ const Notification = defineComponent({
             </div>
         ));
         return (
-            <TransitionGroup
-                name={transitionName}
-                tag="div"
-            >
+            <TransitionGroup name={transitionName} tag="div">
                 {children}
             </TransitionGroup>
-        )
+        );
     },
 });
 

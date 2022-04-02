@@ -111,6 +111,7 @@ const Modal = defineComponent({
             { immediate: true },
         );
         const config = getConfig();
+        debugger;
         const getContainer = computed(
             () => props.getContainer || config.value.getContainer,
         );
@@ -189,7 +190,11 @@ const Modal = defineComponent({
             if (props.fullScreen) return {};
             return {
                 width: isNumber(props.width) ? `${props.width}px` : props.width,
-                marginTop: props.verticalCenter ? 0 : isNumber(props.top) ? `${props.top}px` : props.top,
+                marginTop: props.verticalCenter
+                    ? 0
+                    : isNumber(props.top)
+                    ? `${props.top}px`
+                    : props.top,
             };
         });
 
@@ -221,7 +226,8 @@ const Modal = defineComponent({
                                 class={{
                                     [`${prefixCls}-container`]: true,
                                     [`${prefixCls}-center`]: props.center,
-                                    [`${prefixCls}-vertical-center`]: props.verticalCenter,
+                                    [`${prefixCls}-vertical-center`]:
+                                        props.verticalCenter,
                                     [`${prefixCls}-fullscreen`]:
                                         props.fullScreen,
                                     [`${prefixCls}-global`]: props.forGlobal,
