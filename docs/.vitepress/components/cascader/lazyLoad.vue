@@ -3,6 +3,7 @@
     <FCascader
         v-model="state.value"
         :options="state.options1"
+        :nodeConfig="{ emitPath: true }"
         :remote="true"
         :loadData="loadData"
         @change="handleChange"
@@ -11,7 +12,7 @@
     <div class="text-tips">hover单选：</div>
     <FCascader
         :options="state.options2"
-        :nodeConfig="{ expandTrigger: 'hover' }"
+        :nodeConfig="{ emitPath: true, expandTrigger: 'hover' }"
         :remote="true"
         :loadData="loadData"
         @change="handleChange"
@@ -24,6 +25,7 @@
         :nodeConfig="{ emitPath: true }"
         :remote="true"
         :loadData="loadData"
+        :showAllLevels="false"
         @change="handleChange"
     >
     </FCascader>
@@ -32,6 +34,7 @@
     <FCascader
         v-model="state.multiValue"
         :options="state.multiOptions1"
+        :nodeConfig="{ emitPath: true }"
         :multiple="true"
         :remote="true"
         :loadData="loadData"
@@ -44,7 +47,7 @@
         :multiple="true"
         :remote="true"
         :loadData="loadData"
-        :nodeConfig="{ expandTrigger: 'hover' }"
+        :nodeConfig="{ emitPath: true, expandTrigger: 'hover' }"
         @change="handleChange"
     >
     </FCascader>
@@ -54,17 +57,6 @@
         :options="state.multiOptions3"
         :multiple="true"
         :showAllLevels="false"
-        :remote="true"
-        :loadData="loadData"
-        :nodeConfig="{ emitPath: true }"
-        @change="handleChange"
-    >
-    </FCascader>
-    <div class="text-tips">多选展示路径：</div>
-    <FCascader
-        v-model="state.multiValueEmitPath2"
-        :options="state.multiOptions4"
-        :multiple="true"
         :remote="true"
         :loadData="loadData"
         :nodeConfig="{ emitPath: true }"
@@ -196,19 +188,18 @@ function loadData(node) {
 export default defineComponent({
     setup() {
         const state = reactive({
-            value: '110101',
-            valueEmitPath: ['13000', '130200', '140000'],
+            value: ['110000', '110100', '110101'],
+            valueEmitPath: ['110000', '110100', '110101'],
             options1: [],
             options2: [],
             options3: [],
 
-            multiValue: ['110101', '110228', '110229', '140000'],
-            multiValueEmitPath: [
+            multiValue: [
                 ['110000', '110100', '110101'],
                 ['130000', '130100'],
                 ['140000'],
             ],
-            multiValueEmitPath2: [
+            multiValueEmitPath: [
                 ['110000', '110100', '110101'],
                 ['130000', '130100'],
                 ['140000'],
@@ -216,7 +207,6 @@ export default defineComponent({
             multiOptions1: [],
             multiOptions2: [],
             multiOptions3: [],
-            multiOptions4: [],
         });
 
         return {

@@ -154,7 +154,10 @@ export default defineComponent({
 
         const doLoad = async () => {
             await panel.handleLoadNode(props.node);
-            await nextTick(); // 等待数据状态更新
+
+            await nextTick(); // 等待节点状态更新
+
+            // TODO: 兼容同时 load 多个节点的情况
             if (!isLeaf.value) {
                 handleExpand();
             }

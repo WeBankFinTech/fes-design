@@ -12,8 +12,6 @@ app.use(FCascader);
 
 ## 代码演示
 
-
-
 ### 基础用法（默认单选）
 
 --BASIC
@@ -46,7 +44,6 @@ app.use(FCascader);
 
 --DISABLED
 
-
 --CODE
 
 ## Cascader Props
@@ -67,7 +64,7 @@ app.use(FCascader);
 | appendToContainer    | 弹窗内容是否添加到指定的 DOM 元素                                                                                                                                       | boolean                                     | `true`                |
 | getContainer         | 指定下拉选项挂载的 HTML 节点                                                                                                                                            | () => HTMLElement                           | `() => document.body` |
 | checkStrictly        | 设置勾选策略来指定勾选回调返回的值，`all` 表示回调函数值为全部选中节点；`parent` 表示回调函数值为父节点（当父节点下所有子节点都选中时）；`child` 表示回调函数值为子节点 | string                                      | `child`               |
-| remote               | 是否异步获取选项，和 `loadData` 配合使用                                                                                                                                | boolean                                     | `false`               |
+| remote               | 是否异步获取选项，和 `loadData` 配合使用。                                                                                                                              | boolean                                     | `false`               |
 | loadData             | 异步加载数据的回调函数                                                                                                                                                  | (node: NodeOption) => Promise<NodeOption[]> | -                     |
 
 ## Cascader Events
@@ -98,14 +95,14 @@ app.use(FCascader);
 
 ## NodeConfig Props
 
-| 参数          | 说明                                                                                               | 类型    | 默认值     |
-| ------------- | -------------------------------------------------------------------------------------------------- | ------- | ---------- |
-| expandTrigger | 次级菜单的展开方式，可选值为`click`,`hover`                                                        | string  | `click`    |
-| emitPath      | 在选中节点改变时，是否返回由该节点所在的各级菜单的值所组成的数组，若设置 false，则只返回该节点的值 | boolean | `false`    |
-| valueField    | 替代 `NodeOption` 中的 `value` 字段名                                                              | string  | `value`    |
-| labelField    | 替代 `NodeOption` 中的 `label` 字段名                                                              | string  | `label`    |
-| childrenField | 替代 `NodeOption` 中的 `children` 字段名                                                           | string  | `children` |
-| disabledField | 替代 `NodeOption` 中的 `disabled` 字段名                                                           | string  | `disabled` |
+| 参数          | 说明                                                                                                                                                  | 类型    | 默认值     |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ---------- |
+| expandTrigger | 次级菜单的展开方式，可选值为`click`,`hover`                                                                                                           | string  | `click`    |
+| emitPath      | 在选中节点改变时，是否返回由该节点所在的各级菜单的值所组成的数组，若设置 false，则只返回该节点的值。若 `Cascader.remote` 为 true，则此项自动为 true，以初始化选中项展示。 | boolean | `false`    |
+| valueField    | 替代 `NodeOption` 中的 `value` 字段名                                                                                                                 | string  | `value`    |
+| labelField    | 替代 `NodeOption` 中的 `label` 字段名                                                                                                                 | string  | `label`    |
+| childrenField | 替代 `NodeOption` 中的 `children` 字段名                                                                                                              | string  | `children` |
+| disabledField | 替代 `NodeOption` 中的 `disabled` 字段名                                                                                                              | string  | `disabled` |
 
 ## NodeOption Props
 

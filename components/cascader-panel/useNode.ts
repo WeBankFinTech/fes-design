@@ -168,6 +168,56 @@ function useSelectedNodes(
     };
 }
 
+function useInitLoadNode(
+    config: Ref<CascaderNodeConfig>,
+    props: CascaderPanelProps,
+    allNodes: Ref<CascaderNode[]>,
+    initialLoaded: Ref<boolean>,
+    handleLoadNode: (node: CascaderNode) => Promise<void>,
+) {
+    function flattenValues(nodeValues: OptionValue[] | OptionValue[][]) {
+        let values: OptionValue[] = [];
+        nodeValues.forEach((value) => (values = values.concat(value)));
+        return values;
+    }
+
+    const syncLoadNode = () => {
+        const nodeValues = flattenValues(
+            props.currentValue as OptionValue[] | OptionValue[][],
+        );
+        const needLoadNodes = (nodeValues as OptionValue[])
+            .map((value) => getNodeByValue(allNodes.value, value))
+            .filter((node) => !!node && !node.loaded && !node.loading);
+
+        // 继续递归处理
+        if (needLoadNodes.length) {
+            needLoadNodes.forEach(async (node) => {
+                await handleLoadNode(node);
+                syncLoadNode();
+            });
+        }
+    };
+
+    watch(
+        initialLoaded,
+        () => {
+            if (
+                !initialLoaded.value ||
+                !props.remote ||
+                isEmpty(props.currentValue)
+            ) {
+                return;
+            }
+
+            syncLoadNode();
+        },
+        {
+            deep: true,
+            immediate: true,
+        },
+    );
+}
+
 export default (config: Ref<CascaderNodeConfig>, props: CascaderPanelProps) => {
     const {
         nodes,
@@ -180,6 +230,8 @@ export default (config: Ref<CascaderNodeConfig>, props: CascaderPanelProps) => {
     } = useNodesAndMenu(config, props);
 
     const { selectedNodes } = useSelectedNodes(config, props, allNodes);
+
+    useInitLoadNode(config, props, allNodes, initialLoaded, handleLoadNode);
 
     return {
         nodes,

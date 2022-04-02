@@ -39,10 +39,21 @@ export default defineComponent({
         );
         const currentMultiple = computed(() => props.multiple);
 
-        const config = computed<CascaderNodeConfig>(() => ({
-            ...DEFAULT_CONFIG,
-            ...props.nodeConfig,
-        }));
+        const config = computed<CascaderNodeConfig>(() => {
+            const mergeConfig = {
+                ...DEFAULT_CONFIG,
+                ...props.nodeConfig,
+            };
+
+            if (props.remote && !mergeConfig.emitPath) {
+                console.warn(
+                    'remote 模式下，NodeConfig.emitPath 自动设置为true，以初始化选中项',
+                );
+                mergeConfig.emitPath = true;
+            }
+
+            return mergeConfig;
+        });
 
         const isHoverMenu = computed(
             () => config.value.expandTrigger === EXPAND_TRIGGER.HOVER,
