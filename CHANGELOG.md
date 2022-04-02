@@ -1,3 +1,22 @@
+# [0.4.0](https://github.com/WeBankFinTech/fes-design/compare/v0.3.12...v0.4.0) (2022-03-29)
+
+
+
+## [0.3.12](https://github.com/WeBankFinTech/fes-design/compare/v0.3.11...v0.3.12) (2022-03-29)
+
+
+### Bug Fixes
+
+* datePicker 夸月选择问题 ([#86](https://github.com/WeBankFinTech/fes-design/issues/86)) ([9959b8e](https://github.com/WeBankFinTech/fes-design/commit/9959b8e1a8c5e975c6827d7d908e08298fd65675))
+* tooltip confirmOption ([#85](https://github.com/WeBankFinTech/fes-design/issues/85)) ([4ff779b](https://github.com/WeBankFinTech/fes-design/commit/4ff779b60d1b95d9ce9239dd25fd3ad5816b5860))
+
+
+### Features
+
+* Select组件添加renderTag实现自由定制tag内容, 添加操作插槽 ([#83](https://github.com/WeBankFinTech/fes-design/issues/83)) ([c5eac7f](https://github.com/WeBankFinTech/fes-design/commit/c5eac7f31e455bcebb83d093563fb3347878815d))
+
+
+
 ## [0.3.11](https://github.com/WeBankFinTech/fes-design/compare/v0.3.10...v0.3.11) (2022-03-24)
 
 

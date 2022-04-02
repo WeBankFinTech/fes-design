@@ -13,12 +13,6 @@ app.use(FConfigProvider);
 
 ## 组件使用
 
-### Props 方式配置
-
-此配置优先级高于 API 方式。
-
-#### 1. 弹窗挂载的 DOM 节点
-
 ```vue
 <template>
     <f-config-provider :getContainer="getContainer">
@@ -32,24 +26,12 @@ const getContainer = () => {
 };
 </script>
 ```
-
 ### 2. 切换语言
 
 --changeLocale
 
 --CODE
 
-### API 方式配置
-
-```js
-import { FConfigProvider } from '@fesjs/fes-design';
-
-FConfigProvider.setConfig({
-    getContainer: () => {
-        return document.body;
-    },
-});
-```
 
 ## Props
 
@@ -57,3 +39,4 @@ FConfigProvider.setConfig({
 | ------------ | ---------------------------------------------------------------------------------------------------------------- | ----------------- | --------------------- |
 | getContainer | 指定弹窗挂载的 DOM 节点                                                                                          | () => HTMLElement | `() => document.body` |
 | locale       | 语言包配置，已支持语言包可到[这里](https://github.com/WeBankFinTech/fes-design/tree/main/components/locales)查看 | object            | 中文                  |
+| themeOverrides       | 主题覆盖的css选项 | object            | -                  |

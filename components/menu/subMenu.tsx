@@ -8,9 +8,9 @@ import {
     getCurrentInstance,
     watch,
     Fragment,
-    Transition
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
+import FadeInExpandTransition from '../_util/components/fadeInExpandTransition';
 import Popper from '../popper/popper';
 import DownOutlined from '../icon/DownOutlined';
 import RightOutlined from '../icon/RightOutlined';
@@ -24,6 +24,7 @@ export default defineComponent({
     name: COMPONENT_NAME.SUB_MENU,
     components: {
         Ellipsis,
+        FadeInExpandTransition
     },
     props: {
         value: {
@@ -109,7 +110,11 @@ export default defineComponent({
             }
         });
         const renderTitle = () => {
-            return <Ellipsis triggerClass={`${prefixCls}-label`}>{slots.label?.() || props.label}</Ellipsis>;
+            return (
+                <Ellipsis class={`${prefixCls}-label`}>
+                    {slots.label?.() || props.label}
+                </Ellipsis>
+            );
         };
         const renderIcon = () => {
             if (slots.icon) {
@@ -129,7 +134,12 @@ export default defineComponent({
                 );
             }
             return (
-                <span class={[`${prefixCls}-arrow`, isOpened.value && 'is-opened' ]}>
+                <span
+                    class={[
+                        `${prefixCls}-arrow`,
+                        isOpened.value && 'is-opened',
+                    ]}
+                >
                     <DownOutlined />
                 </span>
             );
@@ -168,9 +178,9 @@ export default defineComponent({
             return (
                 <>
                     {renderWrapper('click')}
-                    <Transition name={'fes-slide-up'}>
-                        <div v-show={isOpened.value}>{renderDefault()}</div>
-                    </Transition>
+                    <FadeInExpandTransition>
+                        <div v-show={isOpened.value} class={`${prefixCls}-children`}>{renderDefault()}</div>
+                    </FadeInExpandTransition>
                 </>
             );
         };

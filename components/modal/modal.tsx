@@ -20,7 +20,7 @@ import { useTheme } from '../_theme/useTheme';
 import { iconComponentMap } from '../_util/noticeManager';
 import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
-import { getConfig } from '../config-provider';
+import { useConfig } from '../config-provider';
 import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('modal');
@@ -110,10 +110,9 @@ const Modal = defineComponent({
             },
             { immediate: true },
         );
-        const config = getConfig();
-        debugger;
+        const config = useConfig();
         const getContainer = computed(
-            () => props.getContainer || config.value.getContainer,
+            () => props.getContainer || config.getContainer?.value,
         );
 
         const { t } = useLocale();
