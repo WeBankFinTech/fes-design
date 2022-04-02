@@ -58,6 +58,7 @@ export type CascaderPanelProps = Partial<
 
 export interface CascaderPanelInst {
     emptyText: string;
+    initialLoaded: boolean;
     config: CascaderNodeConfig;
     multiple: boolean;
     isHoverMenu: boolean;

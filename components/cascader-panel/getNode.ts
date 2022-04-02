@@ -36,6 +36,7 @@ export class Node {
         readonly config: CascaderNodeConfig,
         readonly props: CascaderPanelProps,
         readonly parent?: CascaderNode,
+        readonly root = false,
     ) {
         const { valueField, labelField, childrenField } = config;
 

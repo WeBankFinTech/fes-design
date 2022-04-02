@@ -1,83 +1,80 @@
 <template>
-    <FSpin :show="loading" description="加载中">
-        <div class="text-tips">单选：</div>
-        <FCascader
-            v-model="state.value"
-            :options="state.options1"
-            :remote="true"
-            :loadData="loadData"
-            @change="handleChange"
-        >
-        </FCascader>
-        <div class="text-tips">hover单选：</div>
-        <FCascader
-            :options="state.options2"
-            :nodeConfig="{ expandTrigger: 'hover' }"
-            :remote="true"
-            :loadData="loadData"
-            @change="handleChange"
-        >
-        </FCascader>
-        <div class="text-tips">单选不展示路径：</div>
-        <FCascader
-            v-model="state.valueEmitPath"
-            :options="state.options3"
-            :nodeConfig="{ emitPath: true }"
-            :remote="true"
-            :loadData="loadData"
-            @change="handleChange"
-        >
-        </FCascader>
+    <div class="text-tips">单选：</div>
+    <FCascader
+        v-model="state.value"
+        :options="state.options1"
+        :remote="true"
+        :loadData="loadData"
+        @change="handleChange"
+    >
+    </FCascader>
+    <div class="text-tips">hover单选：</div>
+    <FCascader
+        :options="state.options2"
+        :nodeConfig="{ expandTrigger: 'hover' }"
+        :remote="true"
+        :loadData="loadData"
+        @change="handleChange"
+    >
+    </FCascader>
+    <div class="text-tips">单选不展示路径：</div>
+    <FCascader
+        v-model="state.valueEmitPath"
+        :options="state.options3"
+        :nodeConfig="{ emitPath: true }"
+        :remote="true"
+        :loadData="loadData"
+        @change="handleChange"
+    >
+    </FCascader>
 
-        <div class="text-tips">默认多选：</div>
-        <FCascader
-            v-model="state.multiValue"
-            :options="state.multiOptions1"
-            :multiple="true"
-            :remote="true"
-            :loadData="loadData"
-            @change="handleChange"
-        >
-        </FCascader>
-        <div class="text-tips">hover多选：</div>
-        <FCascader
-            :options="state.multiOptions2"
-            :multiple="true"
-            :remote="true"
-            :loadData="loadData"
-            :nodeConfig="{ expandTrigger: 'hover' }"
-            @change="handleChange"
-        >
-        </FCascader>
-        <div class="text-tips">多选不展示路径：</div>
-        <FCascader
-            v-model="state.multiValueEmitPath"
-            :options="state.multiOptions3"
-            :multiple="true"
-            :showAllLevels="false"
-            :remote="true"
-            :loadData="loadData"
-            :nodeConfig="{ emitPath: true }"
-            @change="handleChange"
-        >
-        </FCascader>
-        <div class="text-tips">多选展示路径：</div>
-        <FCascader
-            v-model="state.multiValueEmitPath2"
-            :options="state.multiOptions4"
-            :multiple="true"
-            :remote="true"
-            :loadData="loadData"
-            :nodeConfig="{ emitPath: true }"
-            @change="handleChange"
-        >
-        </FCascader>
-    </FSpin>
+    <div class="text-tips">默认多选：</div>
+    <FCascader
+        v-model="state.multiValue"
+        :options="state.multiOptions1"
+        :multiple="true"
+        :remote="true"
+        :loadData="loadData"
+        @change="handleChange"
+    >
+    </FCascader>
+    <div class="text-tips">hover多选：</div>
+    <FCascader
+        :options="state.multiOptions2"
+        :multiple="true"
+        :remote="true"
+        :loadData="loadData"
+        :nodeConfig="{ expandTrigger: 'hover' }"
+        @change="handleChange"
+    >
+    </FCascader>
+    <div class="text-tips">多选不展示路径：</div>
+    <FCascader
+        v-model="state.multiValueEmitPath"
+        :options="state.multiOptions3"
+        :multiple="true"
+        :showAllLevels="false"
+        :remote="true"
+        :loadData="loadData"
+        :nodeConfig="{ emitPath: true }"
+        @change="handleChange"
+    >
+    </FCascader>
+    <div class="text-tips">多选展示路径：</div>
+    <FCascader
+        v-model="state.multiValueEmitPath2"
+        :options="state.multiOptions4"
+        :multiple="true"
+        :remote="true"
+        :loadData="loadData"
+        :nodeConfig="{ emitPath: true }"
+        @change="handleChange"
+    >
+    </FCascader>
 </template>
 
 <script>
-import { defineComponent, reactive, ref } from 'vue';
-import { cloneDeep } from 'lodash-es';
+import { defineComponent, reactive } from 'vue';
 
 const options = [
     {
@@ -196,23 +193,6 @@ function loadData(node) {
     });
 }
 
-const loading = ref(false);
-
-async function initData(state) {
-    loading.value = true;
-
-    const initOptions = await loadData();
-    state.options1 = cloneDeep(initOptions);
-    state.options2 = cloneDeep(initOptions);
-    state.options3 = cloneDeep(initOptions);
-    state.multiOptions1 = cloneDeep(initOptions);
-    state.multiOptions2 = cloneDeep(initOptions);
-    state.multiOptions3 = cloneDeep(initOptions);
-    state.multiOptions4 = cloneDeep(initOptions);
-
-    loading.value = false;
-}
-
 export default defineComponent({
     setup() {
         const state = reactive({
@@ -239,12 +219,9 @@ export default defineComponent({
             multiOptions4: [],
         });
 
-        initData(state);
-
         return {
             state,
             handleChange,
-            loading,
             loadData,
         };
     },

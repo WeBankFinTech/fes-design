@@ -61,12 +61,14 @@ export default defineComponent({
             handleCheckChange,
             handleKeyDown,
             handleLoadNode,
+            initialLoaded,
         } = usePanel(config, props, emit);
 
         provide(
             CASCADER_PANEL_INJECTION_KEY,
             reactive({
                 emptyText: listEmptyText,
+                initialLoaded,
                 config,
                 multiple: currentMultiple,
                 isHoverMenu,

@@ -19,12 +19,10 @@ import type {
     OptionValue,
     CascaderPanelEmits,
     CascaderMenu,
-    CascaderOption,
 } from './interface';
 import type { CascaderNode } from './getNode';
 
 import type { CascaderPanelProps } from './props';
-import { cloneDeep, isArray, isFunction } from 'lodash-es';
 
 function useUpdateNodes(
     props: CascaderPanelProps,
@@ -279,40 +277,6 @@ function useKeyDown(
     };
 }
 
-function useLoadNode(
-    props: CascaderPanelProps,
-    appendNodes: (
-        nodeDataList: CascaderOption[],
-        parentNode?: CascaderNode,
-    ) => void,
-) {
-    const handleLoadNode = async (node: CascaderNode) => {
-        const { loadData } = props;
-        if (!isFunction(loadData)) {
-            throw new Error('remote 模式下，loadData 不可为空');
-        }
-
-        node.loading = true;
-        const childrenData = await loadData(cloneDeep(node.data));
-        node.loading = false;
-        node.loaded = true;
-
-        // 挂载子节点列表
-        if (isArray(childrenData)) {
-            appendNodes(childrenData as CascaderOption[], node);
-        } else {
-            console.error(
-                '返回子节点数据格式异常 || childrenData:',
-                childrenData,
-            );
-        }
-    };
-
-    return {
-        handleLoadNode,
-    };
-}
-
 export default (
     config: Ref<CascaderNodeConfig>,
     props: CascaderPanelProps,
@@ -325,7 +289,8 @@ export default (
         setNodeElem,
         selectedNodes,
         updateMenus,
-        appendNodes,
+        handleLoadNode,
+        initialLoaded,
     } = useNode(config, props);
 
     useUpdateNodes(props, emit, selectedNodes, allNodes);
@@ -347,8 +312,6 @@ export default (
 
     const { handleKeyDown } = useKeyDown(config, emit, menus);
 
-    const { handleLoadNode } = useLoadNode(props, appendNodes);
-
     return {
         menus,
         setNodeElem,
@@ -357,5 +320,6 @@ export default (
         handleCheckChange,
         handleKeyDown,
         handleLoadNode,
+        initialLoaded,
     };
 };

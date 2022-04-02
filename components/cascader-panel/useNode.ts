@@ -11,26 +11,93 @@ import type {
 import type { CascaderNode } from './getNode';
 
 import type { CascaderPanelProps } from './props';
+import { isEmpty, isFunction, cloneDeep, isArray } from 'lodash-es';
 
-function useNodes(config: Ref<CascaderNodeConfig>, props: CascaderPanelProps) {
+function useNodesAndMenu(
+    config: Ref<CascaderNodeConfig>,
+    props: CascaderPanelProps,
+) {
     const nodes = ref<CascaderNode[]>([]);
     const menus = ref<CascaderMenu[]>([]);
+    const initialLoaded = ref(true);
 
     const allNodes = computed(() => flatNodes(nodes.value));
     const leafNodes = computed(() => flatNodes(nodes.value, true));
 
-    watch(
-        [() => config.value, () => props.options],
-        () => {
-            nodes.value = (props.options || []).map(
-                (nodeData) => new Node(nodeData, config.value, props, null),
+    function _appendNode(nodeData: CascaderOption, parentNode?: CascaderNode) {
+        // 兼容初始加载的情况
+        if (!parentNode) {
+            nodes.value.push(new Node(nodeData, config.value, props, null));
+        } else {
+            parentNode.appendChild(nodeData);
+        }
+    }
+
+    function _appendNodes(
+        nodeDataList: CascaderOption[],
+        parentNode?: CascaderNode,
+    ) {
+        nodeDataList.forEach((nodeData) => _appendNode(nodeData, parentNode));
+    }
+
+    const handleLoadNode = async (node: CascaderNode) => {
+        const { loadData } = props;
+        if (!isFunction(loadData)) {
+            throw new Error('remote 模式下，loadData 不可为空');
+        }
+
+        const parent = node.root ? null : node;
+
+        node.loading = true;
+        const childrenData = await loadData(
+            parent ? cloneDeep(parent.data) : null,
+        );
+        node.loading = false;
+        node.loaded = true;
+
+        // 挂载子节点列表
+        if (isArray(childrenData)) {
+            _appendNodes(childrenData as CascaderOption[], parent);
+        } else {
+            console.error(
+                '返回子节点数据格式异常 || childrenData:',
+                childrenData,
             );
+        }
+    };
+
+    // 初始化节点列表和菜单
+    const initNodesAndMenu = async () => {
+        nodes.value = (props.options || []).map(
+            (nodeData) => new Node(nodeData, config.value, props, null),
+        );
+        menus.value = [
+            {
+                nodes: nodes.value,
+                menuId: `menuId_root`, // 根菜单，固定即可
+            },
+        ];
+
+        // 若为异步加载且初始选项为空
+        if (props.remote && isEmpty(props.options)) {
+            initialLoaded.value = false;
+
+            await handleLoadNode(new Node({}, config.value, props, null, true));
             menus.value = [
                 {
                     nodes: nodes.value,
                     menuId: `menuId_root`, // 根菜单，固定即可
                 },
             ];
+
+            initialLoaded.value = true;
+        }
+    };
+
+    watch(
+        [() => config.value, () => props.options],
+        () => {
+            initNodesAndMenu();
         },
         {
             deep: true,
@@ -48,6 +115,8 @@ function useNodes(config: Ref<CascaderNodeConfig>, props: CascaderPanelProps) {
         allNodes,
         leafNodes,
         updateMenus,
+        handleLoadNode,
+        initialLoaded,
     };
 }
 
@@ -99,41 +168,18 @@ function useSelectedNodes(
     };
 }
 
-function useAppendNodes(
-    nodes: Ref<CascaderNode[]>,
-    config: Ref<CascaderNodeConfig>,
-    props: CascaderPanelProps,
-) {
-    function appendNode(nodeData: CascaderOption, parentNode?: CascaderNode) {
-        const node = parentNode
-            ? parentNode.appendChild(nodeData)
-            : new Node(nodeData, config.value, props, null);
-
-        // 兼容初始加载的情况
-        if (!parentNode) nodes.value.push(node);
-    }
-
-    function appendNodes(
-        nodeDataList: CascaderOption[],
-        parentNode?: CascaderNode,
-    ) {
-        nodeDataList.forEach((nodeData) => appendNode(nodeData, parentNode));
-    }
-
-    return {
-        appendNodes,
-    };
-}
-
 export default (config: Ref<CascaderNodeConfig>, props: CascaderPanelProps) => {
-    const { nodes, menus, allNodes, leafNodes, updateMenus } = useNodes(
-        config,
-        props,
-    );
+    const {
+        nodes,
+        menus,
+        allNodes,
+        leafNodes,
+        updateMenus,
+        handleLoadNode,
+        initialLoaded,
+    } = useNodesAndMenu(config, props);
 
     const { selectedNodes } = useSelectedNodes(config, props, allNodes);
-
-    const { appendNodes } = useAppendNodes(nodes, config, props);
 
     return {
         nodes,
@@ -143,6 +189,7 @@ export default (config: Ref<CascaderNodeConfig>, props: CascaderPanelProps) => {
         setNodeElem,
         selectedNodes,
         updateMenus,
-        appendNodes,
+        handleLoadNode,
+        initialLoaded,
     };
 };
