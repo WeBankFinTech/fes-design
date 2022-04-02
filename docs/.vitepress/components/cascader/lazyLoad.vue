@@ -198,11 +198,13 @@ export default defineComponent({
                 ['110000', '110100', '110101'],
                 ['130000', '130100'],
                 ['140000'],
+                ['not-exsit-1', 'not-exsit-2'],
             ],
             multiValueEmitPath: [
                 ['110000', '110100', '110101'],
                 ['130000', '130100'],
                 ['140000'],
+                ['not-exsit-1', 'not-exsit-2'],
             ],
             multiOptions1: [],
             multiOptions2: [],
