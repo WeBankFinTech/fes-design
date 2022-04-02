@@ -67,7 +67,9 @@ export interface CascaderPanelInst {
         data: NodeOption;
     }) => VNodeChild;
     expandingNode: CascaderNode;
-    handleExpandNode: (node: CascaderNode, silent?: boolean) => void;
+    handleExpandNode: (node: CascaderNode) => void;
+    toExpandNode: CascaderNode;
+    updateToExpandNode: (node: CascaderNode) => void;
     handleLoadNode: (node: CascaderNode) => Promise<void>;
     handleCheckChange: (node: CascaderNode, checked?: boolean) => void;
     setNodeElem: (node: CascaderNode, elem: HTMLElement) => void;

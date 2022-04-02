@@ -78,9 +78,15 @@ function useExpandNode(
     emit: CascaderPanelEmits,
     updateMenus: (menus: CascaderMenu[]) => void,
 ) {
+    // 展开节点 - 加载子节点完毕后展开后设置；待展开节点 - 点击展开，不管是否加载子节点完毕都设置；
+    const toExpandNode = ref(null);
     const expandingNode = ref(null);
 
-    const handleExpandNode = (node: CascaderNode, silent = false) => {
+    const updateToExpandNode = (node: CascaderNode) => {
+        toExpandNode.value = node;
+    };
+
+    const handleExpandNode = (node: CascaderNode) => {
         const { level } = node;
         const newMenus = menus.value.slice(0, level);
         let newExpandingNode;
@@ -104,7 +110,7 @@ function useExpandNode(
         ) {
             expandingNode.value = node;
             updateMenus(newMenus);
-            !silent && emit('expandChange', node?.pathValues || []);
+            emit('expandChange', node?.pathValues || []);
         } else if (!newExpandingNode) {
             // 若无展开节点，如第一级就是叶子节点
             expandingNode.value = null;
@@ -115,6 +121,8 @@ function useExpandNode(
     return {
         handleExpandNode,
         expandingNode,
+        toExpandNode,
+        updateToExpandNode,
     };
 }
 
@@ -295,11 +303,12 @@ export default (
 
     useUpdateNodes(props, emit, selectedNodes, allNodes);
 
-    const { handleExpandNode, expandingNode } = useExpandNode(
-        menus,
-        emit,
-        updateMenus,
-    );
+    const {
+        handleExpandNode,
+        expandingNode,
+        toExpandNode,
+        updateToExpandNode,
+    } = useExpandNode(menus, emit, updateMenus);
 
     const { handleCheckChange } = useCheckChange(
         config,
@@ -317,6 +326,8 @@ export default (
         setNodeElem,
         expandingNode,
         handleExpandNode,
+        toExpandNode,
+        updateToExpandNode,
         handleCheckChange,
         handleKeyDown,
         handleLoadNode,

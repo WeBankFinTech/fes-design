@@ -139,11 +139,12 @@ export default defineComponent({
          * 判断节点是否在当前的展开路径
          * 通过当前节点的 level 即可判断当前节点是否在展开路径节点中
          */
-        const isInPath = (expandingNode?: CascaderNode) => {
+        const isInPath = (node?: CascaderNode) => {
             const { level, nodeId } = props.node;
-            return expandingNode?.pathNodes[level - 1]?.nodeId === nodeId;
+            return node?.pathNodes[level - 1]?.nodeId === nodeId;
         };
         const inExpandingPath = computed(() => isInPath(panel.expandingNode));
+        const isCurrentToExpand = computed(() => isInPath(panel.toExpandNode));
 
         const doCheck = (checked: boolean) => {
             const { node } = props;
@@ -157,14 +158,15 @@ export default defineComponent({
 
             await nextTick(); // 等待节点状态更新
 
-            // TODO: 兼容同时 load 多个节点的情况
-            if (!isLeaf.value) {
+            // 兼容同时点击 load 多个节点的情况
+            if (!isLeaf.value && isCurrentToExpand.value) {
                 handleExpand();
             }
         };
 
         // 叶子节点也执行展开方法，以便跨级展开的时候更新菜单列表
         const handleExpand = () => {
+            panel.updateToExpandNode(props.node);
             if (inExpandingPath.value || props.node.loading) return;
 
             if (props.node.loaded) {

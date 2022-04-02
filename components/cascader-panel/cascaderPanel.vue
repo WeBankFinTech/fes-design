@@ -46,8 +46,8 @@ export default defineComponent({
             };
 
             if (props.remote && !mergeConfig.emitPath) {
-                console.warn(
-                    'remote 模式下，NodeConfig.emitPath 自动设置为true，以初始化选中项',
+                console.error(
+                    'remote 模式下，NodeConfig.emitPath 需设置为true，以便初始化展示选中项',
                 );
                 mergeConfig.emitPath = true;
             }
@@ -69,6 +69,8 @@ export default defineComponent({
             setNodeElem,
             expandingNode,
             handleExpandNode,
+            toExpandNode,
+            updateToExpandNode,
             handleCheckChange,
             handleKeyDown,
             handleLoadNode,
@@ -86,6 +88,8 @@ export default defineComponent({
                 renderLabelFn,
                 expandingNode,
                 handleExpandNode,
+                toExpandNode,
+                updateToExpandNode,
                 handleCheckChange,
                 handleLoadNode,
                 setNodeElem,
