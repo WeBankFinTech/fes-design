@@ -161,11 +161,17 @@
     &.is-size-normal {
         .@{table-prefix}-cell {
             padding: @padding-md;
+            &.@{table-prefix}-expanded-cell {
+                padding: 0;
+            }
         }
     }
     &.is-size-small {
         .@{table-prefix}-cell {
             padding: @padding-xs;
+            &.@{table-prefix}-expanded-cell {
+                padding: 0;
+            }
         }
     }
     .@{table-prefix}-expand-icon {

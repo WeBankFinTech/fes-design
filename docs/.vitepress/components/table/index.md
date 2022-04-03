@@ -128,8 +128,9 @@ app.use(FTable);
 | 名称               | 说明                               | 参数  |
 | ------------------ | ---------------------------------- | ----- |
 | clearSelection     | 用于多选表格，清空用户的选择       | -     |
-| toggleRowSelection | 用于多选表格，切换某一行的选中状态 | *{row}* |
+| toggleRowSelection | 用于多选表格，切换某一行的选中状态 | *toggleRowSelection({row})* |
 | toggleAllSelection | 用于多选表格，切换全选和全不选     | -     |
+| toggleRowExpend | 用于控制某行的展开隐藏     | *toggleRowExpend({row})*    | 
 
 ## FTableColumn Props
 

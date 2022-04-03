@@ -40,7 +40,7 @@ export default ({
         return expandOpenedList.includes(rowKey);
     };
 
-    const handleExpand = ({ row }: { row: RowType }) => {
+    const toggleRowExpend = ({ row }: { row: RowType }) => {
         const rowKey = getRowKey({ row });
         const index = expandOpenedList.indexOf(rowKey);
         if (index !== -1) {
@@ -48,11 +48,18 @@ export default ({
         } else {
             expandOpenedList.push(rowKey);
         }
-        ctx.emit('expandChange', { row, expanded: !index });
+        return index === -1;
     };
+
+    const handleExpand = ({ row }: { row: RowType }) => {
+        const expanded = toggleRowExpend({ row });
+        ctx.emit('expandChange', { row, expanded });
+    };
+
     return {
         expandColumn,
         isExpandOpened,
+        toggleRowExpend,
         handleExpand,
     };
 };
