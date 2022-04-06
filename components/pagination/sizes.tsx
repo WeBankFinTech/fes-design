@@ -23,6 +23,10 @@ const pagerSizeProps = {
 export default defineComponent({
     name: COMPONENT_NAME.PAGINATION_SIZES,
     props: pagerSizeProps,
+    components: {
+        FSelect,
+        FOption
+    },
     emits: [UPDATE_MODEL_EVENT],
     setup(props, { emit }) {
         const [pageSize] = useNormalModel(props, emit);

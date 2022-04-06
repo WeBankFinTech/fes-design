@@ -110,7 +110,10 @@ export default defineComponent({
             totalPage.value = Math.ceil(totalCount.value / pageSize.value);
         });
         watch(currentPage, () => {
-            emit(CHANGE_EVENT, currentPage.value);
+            emit(CHANGE_EVENT, currentPage.value, pageSize.value);
+        });
+        watch(pageSize, () => {
+            emit(CHANGE_EVENT, currentPage.value, pageSize.value);
         });
         watch(pageSize, () => {
             totalPage.value = Math.ceil(totalCount.value / pageSize.value);
