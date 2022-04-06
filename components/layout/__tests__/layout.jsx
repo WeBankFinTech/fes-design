@@ -1,19 +1,17 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
-import {
-    FLayout, FHeader, FMain, FAside, FFooter,
-} from '../index';
+import { FLayout, FHeader, FMain, FAside, FFooter } from '../index';
 
 import getPrefixCls from '../../_util/getPrefixCls';
 
 const prefixCls = getPrefixCls('layout');
 
-
-const _mount = (props, slots = {}) => mount(FLayout, {
-    attachTo: document.body,
-    props,
-    slots,
-});
+const _mount = (props, slots = {}) =>
+    mount(FLayout, {
+        attachTo: document.body,
+        props,
+        slots,
+    });
 
 describe('Layout', () => {
     test('default flex direction is row', async () => {
@@ -49,7 +47,9 @@ describe('Layout', () => {
                 ),
             },
         );
-        expect(wrapper.find(`.${prefixCls}-aside`).attributes('style')).toContain(`width: ${width};`);
+        expect(
+            wrapper.find(`.${prefixCls}-aside`).attributes('style'),
+        ).toContain(`width: ${width};`);
     });
 
     test('aside fixed', async () => {
@@ -68,7 +68,9 @@ describe('Layout', () => {
                 ),
             },
         );
-        expect(wrapper.find(`.${prefixCls}-aside`).classes()).toContain('is-fixed');
+        expect(wrapper.find(`.${prefixCls}-aside`).classes()).toContain(
+            'is-fixed',
+        );
     });
 
     test('aside placement', async () => {
@@ -87,7 +89,9 @@ describe('Layout', () => {
                 ),
             },
         );
-        expect(wrapper.find(`.${prefixCls}-aside`).classes()).toContain('is-placement-left');
+        expect(wrapper.find(`.${prefixCls}-aside`).classes()).toContain(
+            'is-placement-left',
+        );
         wrapper = _mount(
             {},
             {
@@ -103,7 +107,9 @@ describe('Layout', () => {
                 ),
             },
         );
-        expect(wrapper.find(`.${prefixCls}-aside`).classes()).toContain('is-placement-right');
+        expect(wrapper.find(`.${prefixCls}-aside`).classes()).toContain(
+            'is-placement-right',
+        );
     });
 
     test('aside trigger', async () => {
@@ -112,7 +118,9 @@ describe('Layout', () => {
             {
                 default: () => (
                     <>
-                        <FAside collapsible collapsed={false}>FAside</FAside>
+                        <FAside collapsible collapsed={false}>
+                            FAside
+                        </FAside>
                         <FLayout>
                             <FHeader>FHeader</FHeader>
                             <FMain>FMain</FMain>
@@ -124,15 +132,18 @@ describe('Layout', () => {
         );
         let trigger = wrapper.find(`.${prefixCls}-aside-trigger`);
         expect(trigger.exists()).toBe(true);
-        expect(trigger.attributes('style')).toContain('width: 200px;');
-        await trigger.trigger('click');
-        expect(trigger.attributes('style')).toContain('width: 48px;');
         wrapper = _mount(
             {},
             {
                 default: () => (
                     <>
-                        <FAside showTrigger={false} collapsible collapsed={false}>FAside</FAside>
+                        <FAside
+                            showTrigger={false}
+                            collapsible
+                            collapsed={false}
+                        >
+                            FAside
+                        </FAside>
                         <FLayout>
                             <FHeader>FHeader</FHeader>
                             <FMain>FMain</FMain>
@@ -145,20 +156,4 @@ describe('Layout', () => {
         trigger = wrapper.find(`.${prefixCls}-aside-trigger`);
         expect(trigger.exists()).toBe(false);
     });
-
-    // test('header fixed', async () => {
-    //     const wrapper = _mount(
-    //         {},
-    //         {
-    //             default: () => (
-    //                 <>
-    //                     <FHeader fixed>FHeader</FHeader>
-    //                     <FMain>FMain</FMain>
-    //                     <FFooter>FFooter</FFooter>
-    //                 </>
-    //             ),
-    //         },
-    //     );
-    //     console.log(wrapper.html());
-    // });
 });

@@ -1,4 +1,4 @@
-import { h, defineComponent, computed, ref, onMounted, PropType, CSSProperties } from 'vue';
+import { defineComponent, computed, ref, onMounted, PropType, CSSProperties } from 'vue';
 import { isObject } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import Tooltip from '../tooltip/tooltip';
@@ -35,20 +35,21 @@ export default defineComponent({
     setup(props, { slots }) {
         useTheme();
         const triggerRef = ref<HTMLElement>();
-        const overflowVisibleRef = ref(false);
+        const noEllipsisRef = ref(false);
         const classListRef = computed(() =>
-            [prefixCls, props.class, props.line > 1 && 'is-line-clamp']
-                .filter(Boolean)
+            [prefixCls, props.class, props.line > 1 && 'is-line-clamp'].filter(
+                Boolean,
+            ),
         );
         const styleRef = computed(() => {
-            const _style : CSSProperties = props.style;
-            if (props.line > 1) {
-                _style['-webkit-line-clamp'] = Number(props.line);
-            }
-            return _style;
+            return [
+                props.style,
+                !noEllipsisRef.value && { 'text-overflow': 'ellipsis' },
+                props.line > 1 && { '-webkit-line-clamp': props.line },
+            ];
         });
-        const tooltipDisabledRef = computed(
-            () => overflowVisibleRef.value || props.tooltip === false,
+        const isTooltipDisabledRef = computed(
+            () => noEllipsisRef.value || props.tooltip === false,
         );
         const toolTipPropsRef = computed(() => {
             if (isObject(props.tooltip)) {
@@ -62,16 +63,15 @@ export default defineComponent({
             const { value: trigger } = triggerRef;
             if (!trigger) return;
             if (props.line > 1) {
-                overflowVisibleRef.value =
+                noEllipsisRef.value =
                     trigger.scrollHeight <= trigger.offsetHeight;
             } else {
-                overflowVisibleRef.value =
+                noEllipsisRef.value =
                     trigger.scrollWidth <= trigger.offsetWidth;
             }
         };
 
         onMounted(handleDisabled);
-        
         const renderTrigger = () => (
             <span
                 ref={triggerRef}
@@ -84,7 +84,7 @@ export default defineComponent({
         );
 
         return () => {
-            if (tooltipDisabledRef.value) {
+            if (isTooltipDisabledRef.value) {
                 return renderTrigger();
             }
             return (

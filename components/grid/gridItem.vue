@@ -50,7 +50,6 @@ const classList = computed(() =>
         props.offset && `${prefixCls}-offset-${props.offset}`,
         props.pull && `${prefixCls}-pull-${props.pull}`,
         props.push && `${prefixCls}-push-${props.push}`,
-        props.order && `${prefixCls}-order-${props.order}`,
         `${prefixCls}-${props.span}`,
     ].filter(Boolean),
 );
@@ -62,6 +61,9 @@ const style = computed(() => {
     if (rowProps.gutterX?.value) {
         _style['padding-left'] = `${rowProps.gutterX.value / 2}px`;
         _style['padding-right'] = `${rowProps.gutterX.value / 2}px`;
+    }
+    if (props.order) {
+        _style['order'] = props.order;
     }
     return _style;
 });

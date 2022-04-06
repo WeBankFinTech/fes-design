@@ -1,3 +1,5 @@
+import { nextTick } from 'vue';
+
 import { isNull, isNumber, isString, isUndefined } from 'lodash-es';
 import type { CascaderNode } from '../cascader-panel/interface';
 
@@ -5,10 +7,40 @@ import type { CascaderNode } from '../cascader-panel/interface';
 export const noop = () => {};
 export const noopInNoop = () => noop;
 
-export const sleep = (time: number) =>
-    new Promise((resolve) => {
-        setTimeout(resolve, time);
+export async function sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
     });
+}
+
+export function asyncExpect(fn: () => void, timeout: number) {
+    return new Promise<void>((resolve) => {
+        if (typeof timeout === 'number') {
+            setTimeout(() => {
+                fn();
+                resolve();
+            }, timeout);
+        } else {
+            nextTick(() => {
+                fn();
+                resolve();
+            });
+        }
+    });
+}
+
+// in order to test transitions, we need to use
+// await rAF() after firing transition events.
+export const rAF = async () => {
+    return new Promise((resolve) => {
+        requestAnimationFrame(() => {
+            requestAnimationFrame(async () => {
+                resolve(null);
+                await nextTick();
+            });
+        });
+    });
+};
 
 export const hasOwn = (val: object, key: string) =>
     Object.hasOwnProperty.call(val, key);

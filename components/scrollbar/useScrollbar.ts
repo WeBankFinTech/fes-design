@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import { addUnit } from '../_util/utils';
-import type { ScrollbarProps } from './scrollbar.vue';
+import type { ScrollbarProps } from './const';
 
 export default (props: ScrollbarProps) => {
     const containerRef = ref<HTMLElement>();

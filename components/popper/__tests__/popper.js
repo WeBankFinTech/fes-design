@@ -1,17 +1,14 @@
 import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
-import * as popperExports from '@popperjs/core';
 import FPopper from '../popper';
 import PopupManager from '../../_util/popupManager';
-
-
-jest.useFakeTimers();
-
+import { sleep } from '../../_util/utils';
 
 const TEST_TRIGGER = 'test-trigger';
 const AXIOM = 'Rem is the best girl';
-const SELECTOR = '.fes-popper';
-const DISPLAY_NONE = 'display: none';
+const WRAPPER_CLASS = '.fes-popper-wrapper';
+const CONTENT_CLASS = '.fes-popper';
+const ARROW_CLASS = '.fes-popper';
 const MOUSE_ENTER_EVENT = 'mouseenter';
 const MOUSE_LEAVE_EVENT = 'mouseleave';
 const CLICK_EVENT = 'click';
@@ -20,221 +17,152 @@ const BLUR_EVENT = 'blur';
 
 const Wrapped = (props, { slots }) => h('div', h(FPopper, props, slots));
 
-const _mount = (props, slots = {}) => mount(Wrapped, {
-    props,
-    slots: {
-        trigger: () => h('div', {
-            class: TEST_TRIGGER,
-        }),
-        ...slots,
-    },
-    attachTo: 'body',
-});
-
-const isHide = (wrapper) => {
-    expect(wrapper.find(SELECTOR).attributes('style')).toContain(DISPLAY_NONE);
-};
-
-const isShow = (wrapper) => {
-    expect(wrapper.find(SELECTOR).attributes('style')).not.toContain(
-        DISPLAY_NONE,
-    );
-};
-
-const popperMock = jest
-    .spyOn(popperExports, 'createPopper')
-    .mockImplementation(() => ({
-        update: jest.fn(),
-        forceUpdate: jest.fn(),
-        setOptions: jest.fn(),
-        destroy: jest.fn(),
-        state: null,
-    }));
+const _mount = (props, slots = {}) =>
+    mount(Wrapped, {
+        props,
+        slots: {
+            trigger: () =>
+                h('div', {
+                    class: TEST_TRIGGER,
+                }),
+            ...slots,
+        },
+        attachTo: 'body',
+    });
 
 describe('Popper', () => {
-    afterAll(() => {
-        popperMock.mockReset();
-    });
-
-    beforeEach(() => {
-        popperMock.mockClear();
-    });
-
-    test('render test', () => {
-        const wrapper = _mount({
-            appendToContainer: false,
-        }, {
-            default: () => AXIOM,
-        });
+    test('render default', async () => {
+        const wrapper = _mount(
+            {
+                lazy: false,
+                appendToContainer: false,
+            },
+            {
+                default: () => AXIOM,
+            },
+        );
 
         expect(wrapper.text()).toEqual(AXIOM);
     });
 
-    test('append to body', () => {
-        let wrapper = _mount();
-        expect(wrapper.find(SELECTOR).exists()).toBe(false);
+    test('append to body', async () => {
+        const wrapper = _mount({
+            lazy: false,
+        });
 
-        wrapper = _mount({
+        expect(wrapper.find(WRAPPER_CLASS).exists()).toBe(false);
+
+        await wrapper.setProps({
             appendToContainer: false,
         });
 
-        expect(wrapper.find(SELECTOR).exists()).toBe(true);
+        expect(wrapper.find(WRAPPER_CLASS).exists()).toBe(true);
     });
 
     test('popper z-index should be dynamical', () => {
         const wrapper = _mount({
+            lazy: false,
             appendToContainer: false,
         });
 
         expect(
             Number.parseInt(
-                window.getComputedStyle(wrapper.find(SELECTOR).element).zIndex,
+                window.getComputedStyle(wrapper.find(WRAPPER_CLASS).element)
+                    .zIndex,
             ),
         ).toBeLessThanOrEqual(PopupManager.zIndex);
     });
 
-    test('should show popper when mouse entered and hide when popper left', async () => {
+    test('should show popper when mouse entered and hide when popper leave', async () => {
         const wrapper = _mount({
+            lazy: false,
             appendToContainer: false,
-            hideAfter: 0,
         });
-
-        isHide(wrapper);
+        expect(wrapper.find(CONTENT_CLASS).isVisible()).toBe(false);
         const $trigger = wrapper.find(`.${TEST_TRIGGER}`);
         await $trigger.trigger(MOUSE_ENTER_EVENT);
-        isShow(wrapper);
+        await nextTick();
+        expect(wrapper.find(CONTENT_CLASS).isVisible()).toBe(true);
         await $trigger.trigger(MOUSE_LEAVE_EVENT);
-        isHide(wrapper);
+        // 消失时存在动画，需要等待动画结束才隐藏
+        await sleep(300);
+        expect(wrapper.find(CONTENT_CLASS).isVisible()).toBe(false);
     });
 
-    test('should be able to manual open', async () => {
+    test('trigger click', async () => {
+        const wrapper = _mount({
+            trigger: 'click',
+            lazy: false,
+            appendToContainer: false,
+        });
+        expect(wrapper.find(CONTENT_CLASS).isVisible()).toBe(false);
+        const $trigger = wrapper.find(`.${TEST_TRIGGER}`);
+        await $trigger.trigger(CLICK_EVENT);
+        await nextTick();
+        expect(wrapper.find(CONTENT_CLASS).isVisible()).toBe(true);
+        await $trigger.trigger(CLICK_EVENT);
+        // 消失时存在动画，需要等待动画结束才隐藏
+        await sleep(300);
+        expect(wrapper.find(CONTENT_CLASS).isVisible()).toBe(false);
+    });
+
+    test('trigger focus', async () => {
+        const wrapper = _mount({
+            trigger: 'focus',
+            lazy: false,
+            appendToContainer: false,
+        });
+        expect(wrapper.find(CONTENT_CLASS).isVisible()).toBe(false);
+        const $trigger = wrapper.find(`.${TEST_TRIGGER}`);
+        await $trigger.trigger(FOCUS_EVENT);
+        await nextTick();
+        expect(wrapper.find(CONTENT_CLASS).isVisible()).toBe(true);
+        await $trigger.trigger(BLUR_EVENT);
+        // 消失时存在动画，需要等待动画结束才隐藏
+        await sleep(300);
+        expect(wrapper.find(CONTENT_CLASS).isVisible()).toBe(false);
+    });
+
+    test('render lazy', async () => {
         const wrapper = _mount({
             appendToContainer: false,
-            modelValue: false,
         });
-        isHide(wrapper);
+        expect(wrapper.find(WRAPPER_CLASS).exists()).toBe(false);
         await wrapper.setProps({
-            modelValue: true,
+            lazy: false,
         });
-        isShow(wrapper);
+        expect(wrapper.find(WRAPPER_CLASS).exists()).toBe(true);
     });
 
-    test('should disable popper to popup', async () => {
+    test('disabled', async () => {
         const wrapper = _mount({
+            lazy: false,
+            appendToContainer: false,
             disabled: true,
-            appendToContainer: false,
         });
-
-        const $trigger = wrapper.find(`.${TEST_TRIGGER}`);
-        isHide(wrapper);
-        await $trigger.trigger(MOUSE_ENTER_EVENT);
-        isHide(wrapper);
-        await wrapper.setProps({
-            disabled: false,
-        });
-        await $trigger.trigger(MOUSE_ENTER_EVENT);
-        isShow(wrapper);
-    });
-
-    test('should hide after hide after is given', async () => {
-        const wrapper = _mount({
-            hideAfter: 200,
-            appendToContainer: false,
-        });
+        expect(wrapper.find(CONTENT_CLASS).isVisible()).toBe(false);
         const $trigger = wrapper.find(`.${TEST_TRIGGER}`);
         await $trigger.trigger(MOUSE_ENTER_EVENT);
-        isShow(wrapper);
-
-        await $trigger.trigger(MOUSE_LEAVE_EVENT);
-        jest.runOnlyPendingTimers();
         await nextTick();
-        isHide(wrapper);
+        expect(wrapper.find(CONTENT_CLASS).isVisible()).toBe(false);
     });
 
-    test('should work with click trigger', async () => {
+    test('popperClass', async () => {
+        const popperClass = 'test';
         const wrapper = _mount({
-            trigger: CLICK_EVENT,
+            lazy: false,
             appendToContainer: false,
-            hideAfter: 0,
+            popperClass: popperClass,
         });
-        await nextTick();
-
-        const trigger = wrapper.find(`.${TEST_TRIGGER}`);
-        isHide(wrapper);
-        // for now triggering event on element via DOMWrapper is not available so we need to apply
-        // old way
-        await trigger.trigger(CLICK_EVENT);
-
-        isShow(wrapper);
-
-        await trigger.trigger(MOUSE_LEAVE_EVENT);
-        isShow(wrapper);
-
-        await wrapper.find(SELECTOR).trigger(MOUSE_LEAVE_EVENT);
-        isShow(wrapper);
-
-        await trigger.trigger(BLUR_EVENT);
-        isShow(wrapper);
-
-        await trigger.trigger(CLICK_EVENT);
-        isHide(wrapper);
+        expect(wrapper.find(CONTENT_CLASS).classes(popperClass)).toBe(true);
     });
 
-    test('should work with hover trigger', async () => {
+    test('arrow', async () => {
         const wrapper = _mount({
-            trigger: 'hover',
+            lazy: false,
             appendToContainer: false,
-            hideAfter: 0,
+            arrow: true,
         });
-        await nextTick();
-
-        const trigger = wrapper.find(`.${TEST_TRIGGER}`);
-        isHide(wrapper);
-        // for now triggering event on element via DOMWrapper is not available so we need to apply
-        // old way
-        await trigger.trigger(MOUSE_ENTER_EVENT);
-        isShow(wrapper);
-
-        await trigger.trigger(BLUR_EVENT);
-        isShow(wrapper);
-
-        await trigger.trigger(MOUSE_LEAVE_EVENT);
-        isHide(wrapper);
-
-        await trigger.trigger(FOCUS_EVENT);
-        isHide(wrapper);
-
-        await trigger.trigger(CLICK_EVENT);
-        isHide(wrapper);
+        expect(wrapper.find(ARROW_CLASS).exists()).toBe(true);
     });
-
-    test('should work with focus trigger', async () => {
-    });
-
-    test('should throw error when there is no trigger', async () => {
-        const errorHandler = jest.fn();
-        mount(Wrapped, {
-            slots: {
-                trigger: null,
-            },
-            global: {
-                config: {
-                    errorHandler(err) {
-                        errorHandler(err);
-                    },
-                    warnHandler() {
-                        // suppress warning
-                    },
-                },
-            },
-        });
-        expect(errorHandler).toHaveBeenCalledTimes(1);
-    });
-
-    // test('popperClass', async () => {
-    //     const wrapper = _mount({
-    //         popperClass: 'popper-class',
-    //     });
-    //     expect(wrapper.find('.popper-class').exists()).toBe(true);
-    // });
 });
