@@ -116,7 +116,7 @@ app.use(FTable);
 | 事件名称         | 说明                                         | 回调参数                        |
 | ---------------- | -------------------------------------------- | ------------------------------- |
 | cellClick       | 当某个单元格被点击时会触发该事件             | ({row, column, cellValue, event})=> void |
-| expandChange    | 当用户对某一行展开或者关闭的时候会触发该事件 |  ({ row })=> void                        |
+| expandChange    | 当用户对某一行展开或者关闭的时候会触发该事件 |  ({ row, expanded })=> void                        |
 | headerClick     | 当某一列的表头被点击时会触发该事件           | ({column, event}) => void               |
 | rowClick        | 当某一行被点击时会触发该事件                 | ({row, event}) => void                   |
 | select           | 当用户手动勾选数据行的 Checkbox 时触发的事件 | ({ selection, row, checked})=> void      |
