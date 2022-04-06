@@ -48,21 +48,35 @@ function useNodesAndMenu(
 
         const parent = node.root ? null : node;
 
-        node.loading = true;
-        const childrenData = await loadData(
-            parent ? cloneDeep(parent.data) : null,
-        );
-        node.loading = false;
-        node.loaded = true;
+        try {
+            node.loading = true;
 
-        // 挂载子节点列表
-        if (isArray(childrenData)) {
-            _appendNodes(childrenData as CascaderOption[], parent);
-        } else {
-            console.error(
-                '返回子节点数据格式异常 || childrenData:',
-                childrenData,
+            const childrenData = await loadData(
+                parent ? cloneDeep(parent.data) : null,
             );
+
+            // 挂载子节点列表
+            if (isArray(childrenData)) {
+                _appendNodes(childrenData as CascaderOption[], parent);
+            } else {
+                console.error(
+                    '返回子节点数据格式异常 || parent: ',
+                    parent,
+                    ' || childrenData:',
+                    childrenData,
+                );
+            }
+        } catch (err) {
+            console.error(
+                '加载子节点列表失败 || parent: ',
+                parent,
+                ' || err:',
+                err,
+            );
+        } finally {
+            node.loading = false;
+            // 避免死循环
+            node.loaded = true;
         }
     };
 
