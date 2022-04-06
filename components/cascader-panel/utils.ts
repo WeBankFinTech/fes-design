@@ -150,7 +150,7 @@ export const getSingleNodeValueByCurrentValue = (
     let nodeValue: OptionValue;
     if (emitPath) {
         if (isArray(value)) {
-            nodeValue = (value.length && value[value.length - 1]) || '';
+            nodeValue = (value.length && value[value.length - 1]) ?? '';
         } else {
             // 若设置的有值，则校验提示
             value &&
