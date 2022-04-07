@@ -127,11 +127,11 @@
     &-jumper {
         .flex-box();
         white-space: nowrap;
-        &-item, .@{prefix-cls}-input {
+        &-item, .@{prefix-cls}-input-inner {
             margin-right: @pagination-text-item-horizontal-margin;
             line-height: @pagination-height-base;
         }
-        .@{prefix-cls}-input {
+        .@{prefix-cls}-input-inner {
             width: @pagination-big-btn-width-base;
         }
         &-item {
@@ -207,15 +207,13 @@
         }
     }
     .@{pagination-prefix-cls}-jumper {
-        &-item, .@{prefix-cls}-input {
+        &-item, .@{prefix-cls}-input-inner {
             line-height: @pagination-height-sm;
         }
-        .@{prefix-cls}-input {
+        .@{prefix-cls}-input-inner {
             width: @pagination-big-btn-width-sm;
             font-size: @pagination-font-size-sm;
-            &-inner {
-                height: @pagination-height-sm;
-            }
+            height: @pagination-height-sm;
         }
     }
     .@{pagination-prefix-cls}-total {
