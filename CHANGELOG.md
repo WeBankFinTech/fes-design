@@ -1,3 +1,14 @@
+## [0.4.1](https://github.com/WeBankFinTech/fes-design/compare/v0.4.0...v0.4.1) (2022-04-07)
+
+
+### Features
+
+* ellipsis新增定制Tooltip功能 ([#90](https://github.com/WeBankFinTech/fes-design/issues/90)) ([0a70dab](https://github.com/WeBankFinTech/fes-design/commit/0a70dabb97a19cdd7a0afe1410b378c0a1f516de))
+* modal confirm 开放 closable ([5c04bcd](https://github.com/WeBankFinTech/fes-design/commit/5c04bcddd494f3f02da710af1d47d1969da28125))
+* Table组件提供API 展开关闭行([#96](https://github.com/WeBankFinTech/fes-design/issues/96)) ([81ead27](https://github.com/WeBankFinTech/fes-design/commit/81ead273691c27db88bc3c5038b3d8a3574527a3))
+
+
+
 # [0.4.0](https://github.com/WeBankFinTech/fes-design/compare/v0.3.12...v0.4.0) (2022-03-29)
 
 
