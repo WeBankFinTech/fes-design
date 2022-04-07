@@ -9,6 +9,7 @@ import {
     CSSProperties,
     VNodeChild,
     VNode,
+    cloneVNode,
 } from 'vue';
 import {
     InfoCircleFilled,
@@ -17,6 +18,7 @@ import {
     ExclamationCircleFilled,
 } from '../icon';
 import { useTheme } from '../_theme/useTheme';
+import { getFirstValidNode } from './vnode';
 
 let seed = 0;
 const now = Date.now();
@@ -84,13 +86,14 @@ const Notification = defineComponent({
     },
     render() {
         const { notices, transitionName } = this;
-        const children = notices.map((notice) => (
-            <div key={notice.key}>
-                {typeof notice.children === 'function'
+        const children = notices.map((notice) => {
+            let vNode =
+                typeof notice.children === 'function'
                     ? notice.children()
-                    : notice.children}
-            </div>
-        ));
+                    : notice.children;
+            vNode = getFirstValidNode(vNode as VNode);
+            if (vNode) return cloneVNode(vNode, { key: notice.key });
+        });
         return (
             <TransitionGroup name={transitionName} tag="div">
                 {children}
