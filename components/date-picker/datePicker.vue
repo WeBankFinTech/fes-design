@@ -4,7 +4,7 @@
         :disabled="disabled"
         :appendToContainer="appendToContainer"
         :getContainer="getContainer"
-        :popperClass="popperClass"
+        :popperClass="[popperClass, `${prefixCls}-popper`]"
         trigger="click"
         :hideAfter="0"
         placement="bottom-start"
