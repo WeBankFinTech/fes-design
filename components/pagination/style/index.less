@@ -2,7 +2,6 @@
 @import '../../style/mixins/index';
 @import './mixin.less';
 
-@prefix-cls: ~'@{cls-prefix}';
 @pagination-prefix-cls: ~'@{cls-prefix}-pagination';
 
 @pager-border-color: var(--f-border-color-base);
@@ -127,11 +126,11 @@
     &-jumper {
         .flex-box();
         white-space: nowrap;
-        &-item, .@{prefix-cls}-input-inner {
+        &-item, &-input {
             margin-right: @pagination-text-item-horizontal-margin;
             line-height: @pagination-height-base;
         }
-        .@{prefix-cls}-input-inner {
+        &-input {
             width: @pagination-big-btn-width-base;
         }
         &-item {
@@ -197,8 +196,8 @@
     }
     .@{pagination-prefix-cls}-size {
         width: @pagination-size-min-width-sm;
-        .@{prefix-cls}-select {
-            &-trigger {
+        &-select {
+            > div {
                 min-height: @pagination-height-sm;
                 padding-top: 0;
                 padding-bottom: 0;
@@ -207,10 +206,10 @@
         }
     }
     .@{pagination-prefix-cls}-jumper {
-        &-item, .@{prefix-cls}-input-inner {
+        &-item, &-input {
             line-height: @pagination-height-sm;
         }
-        .@{prefix-cls}-input-inner {
+        &-input {
             width: @pagination-big-btn-width-sm;
             font-size: @pagination-font-size-sm;
             height: @pagination-height-sm;

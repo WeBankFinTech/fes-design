@@ -40,6 +40,7 @@ export default defineComponent({
             <div class={`${prefixCls}-jumper`}>
                 <span class={`${prefixCls}-jumper-item`}>{t('pagination.goto')}</span>
                 <InputInner
+                    class={`${prefixCls}-jumper-input`}
                     v-model={current.value}
                     placeholder=""
                     onChange={handleChange}

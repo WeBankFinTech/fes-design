@@ -42,7 +42,12 @@ export default defineComponent({
 
         return () => (
             <div class={`${prefixCls}-size`}>
-                <FSelect v-model={pageSize.value}>{renderOptions()}</FSelect>
+                <FSelect
+                    class={`${prefixCls}-size-select`}
+                    v-model={pageSize.value}
+                >
+                    {renderOptions()}
+                </FSelect>
             </div>
         );
     },
