@@ -6,7 +6,6 @@
             (focused || innerIsFocus) && `${prefixCls}-focus`,
             disabled && `${prefixCls}-disabled`,
         ]"
-        :tabindex="!disabled ? 0 : undefined"
         @mousedown="handleMousedown"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
@@ -17,7 +16,7 @@
         </span>
         <input
             ref="inputRefEl"
-            :tabindex="!disabled ? -1 : undefined"
+            :tabindex="!disabled ? 0 : undefined"
             :value="currentValue"
             :maxlength="maxlength"
             :type="
