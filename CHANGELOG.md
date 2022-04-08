@@ -1,3 +1,20 @@
+## [0.4.2](https://github.com/WeBankFinTech/fes-design/compare/v0.4.1...v0.4.2) (2022-04-08)
+
+
+### Bug Fixes
+
+* 表单 inline 不换行问题 ([#106](https://github.com/WeBankFinTech/fes-design/issues/106)) ([ffd1536](https://github.com/WeBankFinTech/fes-design/commit/ffd1536b1f24b4ec61ff30e7e7ff14e23a05b843))
+* 修复date-picker圆角问题 + 修复 input tab 选中问题 ([#105](https://github.com/WeBankFinTech/fes-design/issues/105)) ([2fc9459](https://github.com/WeBankFinTech/fes-design/commit/2fc945949f32590a0055d354d629287c247c6f38))
+* message center ([be038c9](https://github.com/WeBankFinTech/fes-design/commit/be038c9a4a3c8eb6a6a8f81b2000609a145937ca))
+* Pagination 组件引入 select 样式，change 事件监听 pageSize ([5e88daa](https://github.com/WeBankFinTech/fes-design/commit/5e88daa46cb3ad9534cc997c55b037eac2365b9f))
+
+
+### Features
+
+* popper的popperClass支持obect和array ([#104](https://github.com/WeBankFinTech/fes-design/issues/104)) ([dc7122c](https://github.com/WeBankFinTech/fes-design/commit/dc7122c884bf7649409617f605eb68c60b42aaad))
+
+
+
 ## [0.4.1](https://github.com/WeBankFinTech/fes-design/compare/v0.4.0...v0.4.1) (2022-04-07)
 
 
