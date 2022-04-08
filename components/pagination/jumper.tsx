@@ -1,7 +1,7 @@
 import { h, defineComponent, toRefs, ref } from 'vue';
 
 import getPrefixCls from '../_util/getPrefixCls';
-import FInput from '../input/input.vue';
+import InputInner from '../input/inputInner.vue';
 import { COMPONENT_NAME } from './const';
 import { useLocale } from '../config-provider/useLocale';
 
@@ -10,7 +10,7 @@ const prefixCls = getPrefixCls('pagination');
 export default defineComponent({
     name: COMPONENT_NAME.PAGINATION_JUMPER,
     components: {
-        FInput,
+        InputInner
     },
     props: {
         total: {
@@ -39,11 +39,12 @@ export default defineComponent({
         return () => (
             <div class={`${prefixCls}-jumper`}>
                 <span class={`${prefixCls}-jumper-item`}>{t('pagination.goto')}</span>
-                <FInput
+                <InputInner
+                    class={`${prefixCls}-jumper-input`}
                     v-model={current.value}
                     placeholder=""
                     onChange={handleChange}
-                ></FInput>
+                ></InputInner>
                 <span class={`${prefixCls}-jumper-item`}>{t('pagination.pageClassifier')}</span>
             </div>
         );

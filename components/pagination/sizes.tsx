@@ -23,6 +23,10 @@ const pagerSizeProps = {
 export default defineComponent({
     name: COMPONENT_NAME.PAGINATION_SIZES,
     props: pagerSizeProps,
+    components: {
+        FSelect,
+        FOption
+    },
     emits: [UPDATE_MODEL_EVENT],
     setup(props, { emit }) {
         const [pageSize] = useNormalModel(props, emit);
@@ -38,7 +42,12 @@ export default defineComponent({
 
         return () => (
             <div class={`${prefixCls}-size`}>
-                <FSelect v-model={pageSize.value}>{renderOptions()}</FSelect>
+                <FSelect
+                    class={`${prefixCls}-size-select`}
+                    v-model={pageSize.value}
+                >
+                    {renderOptions()}
+                </FSelect>
             </div>
         );
     },
