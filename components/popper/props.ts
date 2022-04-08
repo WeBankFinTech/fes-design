@@ -30,10 +30,7 @@ export const popperProps = {
         type: Boolean,
         default: true,
     },
-    popperClass: {
-        type: String,
-        default: '',
-    },
+    popperClass: [String, Array, Object] as PropType<string | [] | object>,
     showAfter: {
         type: Number,
         default: 0,
