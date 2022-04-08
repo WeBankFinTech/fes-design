@@ -20,9 +20,8 @@ type Options = {
     content?: string;
     afterClose?: () => void;
     closable?: boolean;
-    icon?: () => Component
+    icon?: () => Component;
 };
-
 
 const defaultConfig = {
     duration: 3,
@@ -78,27 +77,34 @@ async function create({
     };
     item = messageInstance.append({
         afterRemove: afterClose,
-        duration: duration != null && duration >= 0 ? duration : mergeConfig.duration,
+        duration:
+            duration != null && duration >= 0 ? duration : mergeConfig.duration,
         style: {
             zIndex: PopupManager.nextZIndex(),
         },
         children: (
-            <Alert
-                class={classNames}
-                type={type}
-                message={contentIsFunc ? '' : content}
-                showIcon
-                closable={closable}
-                onClose={handleCloseClick}
-                v-slots={scopedSlots}
-            />
+            <div class={`${prefixCls}-item`}>
+                <Alert
+                    class={classNames}
+                    type={type}
+                    message={contentIsFunc ? '' : content}
+                    showIcon
+                    closable={closable}
+                    onClose={handleCloseClick}
+                    v-slots={scopedSlots}
+                />
+            </div>
         ),
     });
 }
 
 // function message(type: MessageType, content: string, duration?: number): void;
 // function message(type: MessageType, options: Options): void;
-function message(type: MessageType, options: string | Partial<Options>, duration?: number): void {
+function message(
+    type: MessageType,
+    options: string | Partial<Options>,
+    duration?: number,
+): void {
     const params: Partial<Options> = { type };
     if (typeof options === 'string') {
         params.content = options;
@@ -106,7 +112,7 @@ function message(type: MessageType, options: string | Partial<Options>, duration
     } else {
         Object.assign(params, options);
     }
-    create(params)
+    create(params);
 }
 
 export default {
@@ -118,11 +124,16 @@ export default {
             };
         }
     },
-    info: (content: string | Partial<Options>, duration?: number) => message('info', content, duration),
-    success: (content: string | Partial<Options>, duration?: number) => message('success', content, duration),
-    warning: (content: string | Partial<Options>, duration?: number) => message('warning', content, duration),
-    warn: (content: string | Partial<Options>, duration?: number) => message('warning', content, duration),
-    error: (content: string | Partial<Options>, duration?: number) => message('error', content, duration),
+    info: (content: string | Partial<Options>, duration?: number) =>
+        message('info', content, duration),
+    success: (content: string | Partial<Options>, duration?: number) =>
+        message('success', content, duration),
+    warning: (content: string | Partial<Options>, duration?: number) =>
+        message('warning', content, duration),
+    warn: (content: string | Partial<Options>, duration?: number) =>
+        message('warning', content, duration),
+    error: (content: string | Partial<Options>, duration?: number) =>
+        message('error', content, duration),
     destroy() {
         messageInstance && messageInstance.destroy();
         messageInstance = null;

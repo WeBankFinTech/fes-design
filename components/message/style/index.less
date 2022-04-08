@@ -8,15 +8,25 @@
 .@{message-prefix-cls}-wrapper {
     position: fixed;
     top: 24px;
-    left: 50%;
+    left: 0;
     z-index: @zindex-message;
+    width: 100%;
+    pointer-events: none;
     .default();
     .text();
 
     .@{message-prefix-cls} {
-        width: 100%;
+        max-width: 90vw;
         margin-bottom: 20px;
+        text-align: center;
         box-shadow: @shadow-down;
+        pointer-events: auto;
+
+        &-item {
+            display: flex;
+            justify-content: center;
+            pointer-events: none;
+        }
         
         &-no-colorful {
             background-color: var(--f-body-bg-color);
