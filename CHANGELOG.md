@@ -1,3 +1,12 @@
+## [0.4.3](https://github.com/WeBankFinTech/fes-design/compare/v0.4.2...v0.4.3) (2022-04-11)
+
+
+### Bug Fixes
+
+* 快速跳转样式被覆盖问题 ([#109](https://github.com/WeBankFinTech/fes-design/issues/109)) ([e3bad59](https://github.com/WeBankFinTech/fes-design/commit/e3bad5987047a1986f7fec977c5daf7ed0c8e52c))
+
+
+
 ## [0.4.2](https://github.com/WeBankFinTech/fes-design/compare/v0.4.1...v0.4.2) (2022-04-08)
 
 
