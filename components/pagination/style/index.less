@@ -126,12 +126,9 @@
     &-jumper {
         .flex-box();
         white-space: nowrap;
-        &-item, &-input {
+        &-item {
             margin-right: @pagination-text-item-horizontal-margin;
             line-height: @pagination-height-base;
-        }
-        &-input {
-            width: @pagination-big-btn-width-base;
         }
         &-item {
             &:last-child {
@@ -173,6 +170,14 @@
     }
 }
 
+.@{pagination-prefix-cls} {
+    .@{pagination-prefix-cls}-jumper-input {
+        margin-right: @pagination-text-item-horizontal-margin;
+        line-height: @pagination-height-base;
+        width: @pagination-big-btn-width-base;
+    }
+}
+
 .@{pagination-prefix-cls}-small {
     font-size: @pagination-font-size-sm;
     .@{pagination-prefix-cls}-pager, .@{pagination-prefix-cls}-size, .@{pagination-prefix-cls}-jumper, .@{pagination-prefix-cls}-total {
@@ -206,13 +211,8 @@
         }
     }
     .@{pagination-prefix-cls}-jumper {
-        &-item, &-input {
+        &-item {
             line-height: @pagination-height-sm;
-        }
-        &-input {
-            width: @pagination-big-btn-width-sm;
-            font-size: @pagination-font-size-sm;
-            height: @pagination-height-sm;
         }
     }
     .@{pagination-prefix-cls}-total {
@@ -235,5 +235,14 @@
                 width: @pagination-big-btn-width-sm;
             }
         }
+    }
+}
+
+.@{pagination-prefix-cls}-small {
+    .@{pagination-prefix-cls}-jumper-input {
+        line-height: @pagination-height-sm;
+        width: @pagination-big-btn-width-sm;
+        font-size: @pagination-font-size-sm;
+        height: @pagination-height-sm;
     }
 }
