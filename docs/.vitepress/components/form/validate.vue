@@ -445,7 +445,15 @@ export default {
                     console.log('表单验证失败: ', error);
                 });
 
-            /** await 调用
+            /** validate 脱离 rules 自定义时机、规则校验。三个参数如下：
+             *      fieldProps: 指定 prop【此种用法只能传一个 prop】
+             *      trigger: 指定 trigger 类型
+             *      customizeRule: 自定义规则，此规则的 trigger 集合必须包含第二个参数的 trigger 类型
+             *  
+             *      WFormDomRef.value.validate('name', 'input', [{ required: true, message: '请输入姓名', trigger: ['input'] }]);
+             */
+
+             /** await 调用
              * try {
              *      const result = await WFormDomRef.value.validate();
              *      console.log('表单验证成功: ', result);

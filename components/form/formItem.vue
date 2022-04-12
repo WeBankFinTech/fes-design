@@ -121,7 +121,7 @@ let ruleDefaultType = RULE_TYPE_DEFAULT;
 const setRuleDefaultType = (val = RULE_TYPE_DEFAULT) => {
     ruleDefaultType = val;
 };
-const validateRules = async (trigger = TRIGGER_TYPE_DEFAULT) => {
+const validateRules = async (trigger = TRIGGER_TYPE_DEFAULT, customizeRule = []) => {    
     if (validateDisabled.value) {
         validateDisabled.value = false;
         return;
@@ -143,9 +143,12 @@ const validateRules = async (trigger = TRIGGER_TYPE_DEFAULT) => {
                       ? rule.trigger.includes(trigger)
                       : rule.trigger === trigger),
           );
+    
+    // 合并 triggersRules 和传入的自定义 customizeRule
+    const composeRules = [...triggersRules, ...customizeRule];
 
     // 处理 rule 规则里面是自定义 validator
-    const activeRules = triggersRules.map((rule) => {
+    const activeRules = composeRules.map((rule) => {
         const shallowClonedRule = Object.assign({}, rule);
         if (shallowClonedRule.validator) {
             shallowClonedRule.validator = wrapValidator(

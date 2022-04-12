@@ -53,7 +53,8 @@ const removeField = (formItemProp: string) => {
 const validateFields = async (
     fieldProps?: string[],
     trigger = TRIGGER_TYPE_DEFAULT,
-) => {
+    customizeRule = []
+) => {    
     if (!props.model)
         return Promise.reject(
             'Form `model` is required for resetFields to work.',
@@ -62,11 +63,12 @@ const validateFields = async (
 
     const promiseList: Promise<any>[] = []; // 原始校验结果
     Object.values(formFields).forEach((formField) => {
-        if (!formField.rules.length) return; // Skip if without rule
 
         if (specifyPropsFlag && !fieldProps.includes(formField.prop)) return; // Skip if Specify prop but not include
 
-        const promise = formField.validateRules(trigger);
+        if (!formField.rules.length && !customizeRule.length) return; // Skip if without formField.rules or customizeRule
+
+        const promise = formField.validateRules(trigger, customizeRule);
         promiseList.push(
             promise
                 .then(() => ({ name: formField.prop, errors: [] }))
@@ -98,10 +100,12 @@ const validateFields = async (
 };
 
 /** 表单校验
- *    fieldProps { string[] }    指定校验字段的 props 数组
- *    return    { Promise }   校验结果
+ *    fieldProps { string|string[] }  指定校验字段的 props (数组)
+ *    trigger { string }  指定校验字段的 trigger 类型
+ *    customizeRule { Object[] }  指定校验字段的自定义规则
+ *    return    { Promise }    校验结果
  */
-const validate = (fieldProps = []) => validateFields(fieldProps);
+const validate = (fieldProps = [], trigger = TRIGGER_TYPE_DEFAULT, customizeRule = []) => validateFields(fieldProps, trigger, customizeRule);
 
 // 移除表单项的校验结果
 const clearValidate = () => {
