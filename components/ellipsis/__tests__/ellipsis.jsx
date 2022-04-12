@@ -1,9 +1,6 @@
 import { mount } from '@vue/test-utils';
 import FEllipsis from '../ellipsis.tsx';
-import { sleep } from '../../_util/utils';
-
 import getPrefixCls from '../../_util/getPrefixCls';
-import { nextTick } from 'vue';
 
 const prefixCls = getPrefixCls('ellipsis');
 

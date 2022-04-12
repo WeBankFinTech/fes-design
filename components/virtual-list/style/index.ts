@@ -1,2 +1,3 @@
-import '../../scrollbar/style/index.less';
+import '../../style/index.less';
+import '../../scrollbar/style';
 import './index.less';

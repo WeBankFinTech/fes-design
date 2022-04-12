@@ -1,7 +1,7 @@
 import '../../style/index.less';
 import './index.less';
-import '../../select-trigger/style/index.less';
-import '../../scrollbar/style/index.less';
-import '../../popper/style/index.less';
-import '../../ellipsis/style/index.less';
-import '../../virtual-list/style/index.less';
+import '../../select-trigger/style';
+import '../../scrollbar/style';
+import '../../popper/style';
+import '../../ellipsis/style';
+import '../../virtual-list/style';

@@ -1,6 +1,6 @@
 import '../../style/index.less';
 import './index.less';
-import '../../button/style/index.less';
-import '../../ellipsis/style/index.less';
-import '../../checkbox/style/index.less';
-import '../../scrollbar/style/index.less';
+import '../../button/style';
+import '../../ellipsis/style';
+import '../../checkbox/style';
+import '../../scrollbar/style';
