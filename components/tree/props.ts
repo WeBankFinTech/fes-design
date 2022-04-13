@@ -89,6 +89,10 @@ export const treeProps = {
         type: Boolean,
         default: false,
     },
+    cancelable: {
+        type: Boolean,
+        default: true,
+    },
 } as const;
 
 export const treePropsDefaultValue = extractPropsDefaultValue(treeProps);
