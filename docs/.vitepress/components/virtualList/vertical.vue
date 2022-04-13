@@ -6,9 +6,8 @@
             :dataKey="'id'"
             :dataSources="items"
             :estimateSize="80"
-            :itemClass="'list-item-dynamic'"
         >
-            <template #="{ source }">
+            <template #default="{ source }">
                 <div class="item-inner">
                     <div class="head">
                         <span># {{ source.index }}</span>
@@ -22,7 +21,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 // The Climb (From Miley Cyrus)
 const sentence3 = [
     'BFC(Block formatting context)直译为"块级格式化上下文"。它是一个独立的渲染区域，只有Block-level box参与， 它规定了内部的Block-level Box如何布局，并且与这个区域外部毫不相干。',
@@ -59,13 +58,7 @@ while (count--) {
 export default {
     name: 'Vertical',
     setup() {
-        const virtualList = ref({});
-        onMounted(() => {
-            setTimeout(() => {
-                const size = virtualList.value.getScrollSize();
-                //   console.log(size, 'size');
-            }, 3000);
-        });
+        const virtualList = ref(null);
         return {
             virtualList,
             total: TOTAL_COUNT.toLocaleString(),
