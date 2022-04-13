@@ -60,7 +60,6 @@
                         :locale="zhCN"
                         :getContainer="getContainer"
                     >
-                        <FModal :show="true"></FModal>
                         <FCascader></FCascader>
                         <Space>
                             <FConfigProvider :locale="enUS">
@@ -95,9 +94,11 @@ export default defineComponent({
     setup() {
         const componentsRef = ref(null);
         const getContainer = () => {
+            console.log(componentsRef.value);
             return componentsRef.value;
         };
         return {
+            componentsRef,
             getContainer,
             enUS,
             zhCN,

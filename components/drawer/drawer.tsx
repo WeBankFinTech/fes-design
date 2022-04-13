@@ -175,7 +175,7 @@ const Drawer = defineComponent({
         );
 
         return () => (
-            <Teleport to={getContainer.value?.()}>
+            <Teleport disabled={!getContainer.value?.()} to={getContainer.value?.()}>
                 <div class={`${prefixCls} ${prefixCls}-${props.placement}`}>
                     <Transition name={`${prefixCls}-mask-fade`}>
                         {props.mask && showDom.value && (
