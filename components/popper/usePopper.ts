@@ -38,7 +38,6 @@ export default (props: PopperProps, emit: any) => {
                   }
                 : getElementFromRef(triggerRef.value);
             const popperEl = popperRef.value;
-            console.log('props.placement:', props.placement);
             computePosition(triggerEl, popperEl, {
                 placement: props.placement,
                 middleware: [
