@@ -9,7 +9,7 @@ import useData from './useData';
 import useState from './useState';
 import { treeProps, TREE_PROVIDE_KEY } from './props';
 
-import type { InnerTreeOption, TreeNodeKey } from './interface'
+import type { InnerTreeOption, TreeNodeKey } from './interface';
 
 const prefixCls = getPrefixCls('tree');
 
@@ -77,20 +77,20 @@ export default defineComponent({
         });
 
         const selectNode = (val: TreeNodeKey, event: Event) => {
-            const node = nodeList[val];
-            const values = cloneDeep(currentSelectedKeys.value);
             if (!props.selectable) {
                 return;
             }
+            const node = nodeList[val];
+            const values = cloneDeep(currentSelectedKeys.value);
             const index = values.indexOf(val);
             if (props.multiple) {
                 if (index !== -1) {
-                    values.splice(index, 1);
+                    props.cancelable && values.splice(index, 1);
                 } else {
                     values.push(val);
                 }
             } else if (index !== -1) {
-                values.splice(index, 1);
+                props.cancelable && values.splice(index, 1);
             } else {
                 values[0] = val;
             }
@@ -148,7 +148,11 @@ export default defineComponent({
                 })
                 : arr;
         }
-        function handleChildren(arr: TreeNodeKey[], children: InnerTreeOption[], isAdd: boolean) {
+        function handleChildren(
+            arr: TreeNodeKey[],
+            children: InnerTreeOption[],
+            isAdd: boolean,
+        ) {
             children &&
                 children.forEach((child) => {
                     const index = arr.indexOf(child.value);
@@ -164,7 +168,11 @@ export default defineComponent({
                     }
                 });
         }
-        function handleParent(arr: TreeNodeKey[], indexPath: TreeNodeKey[], isAdd: boolean) {
+        function handleParent(
+            arr: TreeNodeKey[],
+            indexPath: TreeNodeKey[],
+            isAdd: boolean,
+        ) {
             let len = indexPath.length - 2;
             for (len; len >= 0; len--) {
                 const parent = nodeList[indexPath[len]];
@@ -241,7 +249,7 @@ export default defineComponent({
         const renderNode = (value: TreeNodeKey) => {
             const node = nodeList[value];
             const itemSlots: {
-                [key: string]: () => VNodeChild | string
+                [key: string]: () => VNodeChild | string;
             } = {};
             if (isFunction(node.prefix)) {
                 itemSlots.prefix = node.prefix;
@@ -270,17 +278,19 @@ export default defineComponent({
             );
         };
 
-        const renderChildren = (arr: TreeNodeKey[]) => arr.map((value) => renderNode(value));
+        const renderChildren = (arr: TreeNodeKey[]) =>
+            arr.map((value) => renderNode(value));
 
-        const renderDefault = ({ source }: {
-            source: TreeNodeKey
-        }) => renderNode(source);
+        const renderDefault = ({ source }: { source: TreeNodeKey }) =>
+            renderNode(source);
 
         return () =>
             props.virtualList && !props.inline ? (
                 <VirtualList
                     dataSources={currentData.value}
-                    dataKey={(source: TreeNodeKey) => { return source }}
+                    dataKey={(source: TreeNodeKey) => {
+                        return source;
+                    }}
                     estimateSize={32}
                     keeps={14}
                     class={prefixCls}
