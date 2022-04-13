@@ -1,4 +1,11 @@
-import { defineComponent, computed, ref, onMounted, PropType, CSSProperties } from 'vue';
+import {
+    defineComponent,
+    computed,
+    ref,
+    onMounted,
+    PropType,
+    CSSProperties,
+} from 'vue';
 import { isObject } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import Tooltip from '../tooltip/tooltip';
@@ -44,8 +51,9 @@ export default defineComponent({
         const styleRef = computed(() => {
             return [
                 props.style,
-                !noEllipsisRef.value && { 'text-overflow': 'ellipsis' },
-                props.line > 1 && { '-webkit-line-clamp': props.line },
+                !noEllipsisRef.value && props.line > 1
+                    ? { '-webkit-line-clamp': props.line }
+                    : { 'text-overflow': 'ellipsis', 'white-space': 'nowrap' },
             ];
         });
         const isTooltipDisabledRef = computed(

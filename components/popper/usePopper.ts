@@ -1,5 +1,5 @@
 import { onMounted, onActivated, ref, watch, reactive, nextTick } from 'vue';
-import { computePosition, offset, flip, arrow } from '@floating-ui/dom';
+import { computePosition, offset, shift, flip, arrow } from '@floating-ui/dom';
 import { useNormalModel } from '../_util/use/useModel';
 import popupManager from '../_util/popupManager';
 import getElementFromRef from '../_util/getElementFromRef';
@@ -42,7 +42,10 @@ export default (props: PopperProps, emit: any) => {
                 placement: props.placement,
                 middleware: [
                     offset(props.offset),
+                    // 当位置不够时切换到对面方向
                     flip(),
+                    // 当无法完全显示时，自动调整主轴位置
+                    shift(),
                     props.arrow && arrow({ element: arrowRef.value }),
                 ].filter(Boolean),
             }).then((state) => {

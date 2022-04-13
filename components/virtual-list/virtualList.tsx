@@ -364,11 +364,13 @@ export default defineComponent({
             onScroll,
             fullHeight,
             renderItemList,
-            shadow
+            shadow,
         } = this;
 
         // wrap style
         const horizontalStyle = {
+            display: 'flex',
+            'flex-direction': 'row',
             position: 'absolute',
             bottom: 0,
             top: 0,
@@ -388,8 +390,16 @@ export default defineComponent({
             : extraStyle;
         // root style
         const rootStyle = isHorizontal
-            ? { position: 'relative', width: `${fullHeight}px` }
-            : { position: 'relative', height: `${fullHeight}px` };
+            ? {
+                  position: 'relative',
+                  width: `${fullHeight}px`,
+                  height: '100%',
+              }
+            : {
+                  position: 'relative',
+                  height: `${fullHeight}px`,
+                  width: '100%',
+              };
 
         const tempVirtualVNode = createVNode(
             rootTag,

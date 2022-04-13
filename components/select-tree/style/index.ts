@@ -1,6 +1,6 @@
-import '../../style/index.less';
+import '../../style';
+import '../../select-trigger/style';
+import '../../popper/style';
+import '../../tree/style';
+import '../../scrollbar/style';
 import './index.less';
-import '../../select-trigger/style/index.less';
-import '../../popper/style/index.less';
-import '../../tree/style/index.less';
-import '../../scrollbar/style/index.less';
