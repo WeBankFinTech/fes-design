@@ -21,6 +21,7 @@
                 :clearable="clearable"
                 :disabled="disabled"
                 :innerIsFocus="inputIsFocus"
+                :style="style"
                 @focus="handleFocus"
                 @blur="handleBlur"
                 @clear="clear"
@@ -43,6 +44,7 @@
                 :disabled="disabled"
                 :clearable="clearable"
                 :innerIsFocus="inputIsFocus"
+                :style="style"
                 readonly
                 @focus="handleFocus"
                 @blur="handleBlur"
@@ -87,6 +89,7 @@ import {
     ComputedRef,
     ComponentPublicInstance,
     provide,
+    CSSProperties,
 } from 'vue';
 import { isArray } from 'lodash-es';
 import RangeInput from './rangeInput.vue';
@@ -132,7 +135,10 @@ const datePickerProps = {
     getContainer: {
         type: Function as PropType<GetContainer>,
     },
-    popperClass: String,
+    style: {
+        type: [String, Object, Array] as PropType<string | CSSProperties>,
+    },
+    popperClass: [String, Array, Object] as PropType<string | [] | object>,
     control: Boolean,
     shortcuts: Object,
     disabledDate: Function as PropType<(date: Date) => boolean>,

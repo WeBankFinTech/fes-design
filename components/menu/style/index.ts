@@ -1,3 +1,3 @@
-import '../../style/index.less';
+import '../../style';
+import '../../ellipsis/style';
 import './index.less';
-import '../../ellipsis/style/index.less';

@@ -1,3 +1,3 @@
-import '../../style/index.less';
+import '../../style';
+import '../../popper/style';
 import './index.less';
-import '../../popper/style/index.less';

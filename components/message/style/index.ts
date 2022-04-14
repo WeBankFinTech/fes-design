@@ -1,3 +1,3 @@
-import '../../style/index.less';
-import './index.less';
+import '../../style';
 import '../../alert/style';
+import './index.less';

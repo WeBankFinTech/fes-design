@@ -1,6 +1,6 @@
 {
   "name": "@fesjs/fes-design",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "fes-design for PC",
   "main": "dist/fes-design.js",
   "module": "es/index.js",

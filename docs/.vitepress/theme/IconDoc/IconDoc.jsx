@@ -7,10 +7,10 @@ const copyToClipboard = (content) => {
     document.body.appendChild(input);
     input.setAttribute('value', content);
     input.select();
+    document.body.removeChild(input);
     if (document.execCommand('copy')) {
         return true;
     }
-    document.body.removeChild(input);
     return false;
 };
 
