@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { provide, toRefs, computed, defineComponent } from 'vue';
+import { provide, toRefs, computed, defineComponent, PropType } from 'vue';
 import {
     provideKey,
     FORM_LAYOUT,
@@ -38,21 +38,23 @@ const formProps = {
         type: Boolean,
         default: true,
     },
-    labelWidth: String | Number,
+    labelWidth: [String, Number] as PropType<string | number>,
     labelClass: String,
 } as const;
-
 
 export default defineComponent({
     name: FORM_NAME,
     props: formProps,
-    setup(props, { slots, emit }) {
+    setup(props) {
         useTheme();
 
         const formFields: {
             [key: string]: Field;
         } = {};
-        const formClass = computed(() => [prefixCls, `${prefixCls}-${props.layout}`]);
+        const formClass = computed(() => [
+            prefixCls,
+            `${prefixCls}-${props.layout}`,
+        ]);
 
         const addField = (formItemProp: string, formItemContext: Field) => {
             formItemProp && (formFields[formItemProp] = formItemContext);
@@ -68,12 +70,13 @@ export default defineComponent({
                 return Promise.reject(
                     'Form `model` is required for resetFields to work.',
                 );
-            const specifyPropsFlag: boolean = Boolean(fieldProps.length); // 是否指定prop: 【部分】表单字段校验调用会指定; 【整个】表单校验调用则不会指定
+            const specifyPropsFlag = Boolean(fieldProps.length); // 是否指定prop: 【部分】表单字段校验调用会指定; 【整个】表单校验调用则不会指定
             const promiseList: Promise<any>[] = []; // 原始校验结果
 
             Object.values(formFields).forEach((formField) => {
                 console.log('formField', formField.prop, formField);
-                if (specifyPropsFlag && !fieldProps.includes(formField.prop)) return; // Skip if Specify prop but not include
+                if (specifyPropsFlag && !fieldProps.includes(formField.prop))
+                    return; // Skip if Specify prop but not include
 
                 const promise = formField.validateRules(trigger);
                 promiseList.push(
@@ -110,7 +113,8 @@ export default defineComponent({
          *    fieldProps { string[] }    指定校验字段的 props 数组
          *    return    { Promise }   校验结果
          */
-        const validate = (fieldProps = []) => validateFields(fieldProps);
+        const validate = (fieldProps: string[] = []) =>
+            validateFields(fieldProps);
 
         /** 移除表单项的校验结果 */
         const clearValidate = () => {
@@ -147,6 +151,6 @@ export default defineComponent({
             clearValidate,
             resetFields,
         };
-    }
-})
+    },
+});
 </script>

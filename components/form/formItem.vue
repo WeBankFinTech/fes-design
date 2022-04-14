@@ -21,7 +21,16 @@
 </template>
 
 <script lang="ts">
-import { provide, ref, inject, computed, onBeforeUnmount, nextTick, defineComponent } from 'vue';
+import {
+    provide,
+    ref,
+    inject,
+    computed,
+    onBeforeUnmount,
+    nextTick,
+    defineComponent,
+    PropType,
+} from 'vue';
 import Schema from 'async-validator';
 import { isArray, cloneDeep, get, set } from 'lodash-es';
 import { addUnit } from '../_util/utils';
@@ -43,24 +52,25 @@ const prefixCls = getPrefixCls('form-item');
 const formItemProps = {
     prop: String,
     label: String,
-    labelWidth: String | Number,
+    labelWidth: [String, Number] as PropType<string | number>,
     labelClass: String,
     showMessage: {
-        type: Boolean,
-        default: () => (null),
+        type: Boolean as PropType<boolean | null>,
+        default: null as boolean,
     },
     rules: {
-        type: Array,
-        default: () => ([]),
+        type: Array as PropType<any[]>,
+        default: () => {
+            return [] as any[];
+        },
     },
 } as const;
-
 
 export default defineComponent({
     name: FORM_ITEM_NAME,
     props: formItemProps,
 
-    setup(props, { slots, emit }) {
+    setup(props) {
         const {
             model,
             rules,
@@ -100,7 +110,9 @@ export default defineComponent({
         /** 错误展示逻辑: 就近原则【formItem 权重更高】  */
         const formItemShowMessage = computed(
             () =>
-                (props.showMessage === null ? showMessage.value : props.showMessage) &&
+                (props.showMessage === null
+                    ? showMessage.value
+                    : props.showMessage) &&
                 validateStatus.value === VALIDATE_STATUS.ERROR,
         );
         const formItemRequired = computed(
@@ -118,7 +130,9 @@ export default defineComponent({
             ].filter(Boolean),
         );
         const formItemLabelClass = computed(() =>
-            [`${prefixCls}-label`, labelClass.value, props.labelClass].filter(Boolean),
+            [`${prefixCls}-label`, labelClass.value, props.labelClass].filter(
+                Boolean,
+            ),
         );
         const formItemLabelStyle = computed(() => ({
             width: addUnit(props.labelWidth || labelWidth.value),
@@ -145,12 +159,12 @@ export default defineComponent({
             const triggersRules = !trigger
                 ? formItemRules.value
                 : formItemRules.value.filter(
-                    (rule) =>
-                        !rule.trigger ||
-                        (isArray(rule.trigger)
-                            ? rule.trigger.includes(trigger)
-                            : rule.trigger === trigger),
-                );
+                      (rule) =>
+                          !rule.trigger ||
+                          (isArray(rule.trigger)
+                              ? rule.trigger.includes(trigger)
+                              : rule.trigger === trigger),
+                  );
 
             // 处理 rule 规则里面是自定义 validator
             const activeRules = triggersRules.map((rule) => {
@@ -189,7 +203,9 @@ export default defineComponent({
                 if (errObj.errors) {
                     const error = errObj.errors[0];
                     setValidateInfo(VALIDATE_STATUS.ERROR, error.message);
-                    return Promise.reject([{ ...error, message: error.message }]);
+                    return Promise.reject([
+                        { ...error, message: error.message },
+                    ]);
                 }
             }
         };
@@ -197,7 +213,6 @@ export default defineComponent({
         // 验证表单项
         const validate = async (trigger = TRIGGER_TYPE_DEFAULT) => {
             try {
-                console.log('formItemRules validate', props.prop, formItemRules.value);
                 await validateRules(trigger);
             } catch (err) {}
         };
@@ -250,6 +265,6 @@ export default defineComponent({
             validate,
             clearValidate,
         };
-    }
-})
+    },
+});
 </script>
