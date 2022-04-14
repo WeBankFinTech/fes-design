@@ -13,7 +13,7 @@ const ssrTransformCustomDir = () => ({
 
 genComponentDoc();
 
-const BASE_URL = process.env.NODE_ENV === 'production' ? '/' : '/';
+const BASE_URL = process.env.NODE_ENV === 'production' ? '/fes-design' : '/';
 
 module.exports = {
     base: BASE_URL,
