@@ -1,3 +1,18 @@
+## [0.4.4](https://github.com/WeBankFinTech/fes-design/compare/v0.4.3...v0.4.4) (2022-04-14)
+
+
+### Bug Fixes
+
+* ellipsis 多行问题 + 部分样式覆盖问题 ([#111](https://github.com/WeBankFinTech/fes-design/issues/111)) ([931405c](https://github.com/WeBankFinTech/fes-design/commit/931405c736cfcfa035ef893bfd0f013cb791f9f3))
+
+
+### Features
+
+* date-picker 支持 style ([#113](https://github.com/WeBankFinTech/fes-design/issues/113)) ([cd7b8ab](https://github.com/WeBankFinTech/fes-design/commit/cd7b8abeaac79ccef95bc9a1c32c5c97f17dfef9))
+* Tree增加cancelable配置是否可以取消选中 ([#112](https://github.com/WeBankFinTech/fes-design/issues/112)) ([be77e07](https://github.com/WeBankFinTech/fes-design/commit/be77e07ec3c67073f50eb41b36eafade11c6abb7))
+
+
+
 ## [0.4.3](https://github.com/WeBankFinTech/fes-design/compare/v0.4.2...v0.4.3) (2022-04-11)
 
 
