@@ -5,7 +5,6 @@ footer: false
 returnToTop: false
 ---
 
-
 <ClientOnly>
   <section id="hero">
     <div class="descrition">
