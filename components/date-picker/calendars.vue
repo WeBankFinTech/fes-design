@@ -1,7 +1,7 @@
 <template>
     <div :class="prefixCls">
         <div>
-            <div v-if="isDateRange" :class="`${prefixCls}-daterange`">
+            <div v-if="pickerRef.isRange" :class="`${prefixCls}-daterange`">
                 <Calendar
                     :modelValue="tempCurrentValue"
                     :type="type"
@@ -94,16 +94,11 @@ import Calendar from './calendar.vue';
 import { useNormalModel } from '../_util/use/useModel';
 import FButton from '../button';
 import { contrastDate, getTimestampFromFormat } from './helper';
-import {
-    DATE_TYPE,
-    RANGE_POSITION,
-    COMMON_PROPS,
-    RANGE_PROPS,
-    DATE_TYPE_CURRENT,
-} from './const';
+import { RANGE_POSITION, COMMON_PROPS, RANGE_PROPS } from './const';
 
 import { useRange, useSelectStatus } from './useRange';
 import { useLocale } from '../config-provider/useLocale';
+import { pickerFactory } from './pickerHander';
 
 const prefixCls = getPrefixCls('calendars');
 
@@ -134,7 +129,10 @@ export default defineComponent({
     emits: ['update:modelValue', 'tmpSelectedDateChange', 'change'],
     setup(props, { emit }) {
         const [selectedDates] = useNormalModel(props, emit);
-        const currentDateType = computed(() => DATE_TYPE[props.type]);
+
+        const pickerRef = computed(() => {
+            return pickerFactory(props.type);
+        });
 
         const tempCurrentValue = ref<number[]>([]);
 
@@ -151,34 +149,13 @@ export default defineComponent({
         const { t } = useLocale();
 
         const currentText = computed(() => {
-            let currentText = '';
-            switch (currentDateType.value.currentText) {
-                case DATE_TYPE_CURRENT.now:
-                    currentText = t('datePicker.now');
-                    break;
-                case DATE_TYPE_CURRENT.today:
-                    currentText = t('datePicker.today');
-                    break;
-                case DATE_TYPE_CURRENT.currentYear:
-                    currentText = t('datePicker.currentYear');
-                    break;
-                case DATE_TYPE_CURRENT.currentMonth:
-                    currentText = t('datePicker.currentMonth');
-                    break;
-                case DATE_TYPE_CURRENT.currentQuarter:
-                    currentText = t('datePicker.currentQuarter');
-                    break;
-                default:
-                    break;
-            }
-            return currentText;
+            const confirmLang = pickerRef.value.confirmLang;
+            return confirmLang ? t(confirmLang) : '';
         });
 
         const { selectedStatus, selectedDay, lastSelectedPosition } =
             useSelectStatus(props);
         const {
-            isDateRange,
-
             leftActiveDate,
             rightActiveDate,
             changeCurrentDate,
@@ -193,7 +170,7 @@ export default defineComponent({
         );
 
         const confirmDisabled = computed(() => {
-            if (DATE_TYPE[props.type].isRange) {
+            if (pickerRef.value.isRange) {
                 return !tempCurrentValue.value.length;
             }
 
@@ -203,12 +180,12 @@ export default defineComponent({
         const visibleFooter = computed(
             () =>
                 props.control ||
-                DATE_TYPE[props.type].isRange ||
-                DATE_TYPE[props.type].hasTime,
+                pickerRef.value.isRange ||
+                pickerRef.value.hasTime,
         );
 
         const change = () => {
-            if (DATE_TYPE[props.type].isRange) {
+            if (pickerRef.value.isRange) {
                 emit('change', tempCurrentValue.value);
             } else {
                 emit('change', tempCurrentValue.value[0]);
@@ -218,7 +195,7 @@ export default defineComponent({
         const updateTempCurrentValue = (val: number[]) => {
             tempCurrentValue.value = val;
 
-            if (DATE_TYPE[props.type].isRange) {
+            if (pickerRef.value.isRange) {
                 emit('tmpSelectedDateChange', tempCurrentValue.value);
             } else {
                 emit('tmpSelectedDateChange', tempCurrentValue.value[0]);
@@ -230,7 +207,7 @@ export default defineComponent({
         };
 
         const handleTempCurrentValue = () => {
-            if (DATE_TYPE[props.type].isRange) {
+            if (pickerRef.value.isRange) {
                 tempCurrentValue.value = selectedDates.value || [];
             } else {
                 tempCurrentValue.value = selectedDates.value
@@ -246,7 +223,7 @@ export default defineComponent({
                 if (props.visible) {
                     handleTempCurrentValue();
                     if (tempCurrentValue.value.length) {
-                        if (isDateRange.value) {
+                        if (pickerRef.value.isRange) {
                             resetActiveDate();
                         } else {
                             defaultActiveDate.value = tempCurrentValue.value[0];
@@ -260,16 +237,16 @@ export default defineComponent({
         );
 
         const selectCurrentTime = () => {
-            if (DATE_TYPE[props.type].isRange) {
+            if (pickerRef.value.isRange) {
                 // FEATURE：时间范围的没想清楚怎么处理，后续优化
-                const format = DATE_TYPE[props.type].format;
+                const format = pickerRef.value.format;
                 updateTempCurrentValue([
                     getTimestampFromFormat(null, format),
                     getTimestampFromFormat(null, format, true),
                 ]);
             } else {
                 updateTempCurrentValue([
-                    getTimestampFromFormat(null, DATE_TYPE[props.type].format),
+                    getTimestampFromFormat(null, pickerRef.value.format),
                 ]);
                 change();
             }
@@ -297,9 +274,8 @@ export default defineComponent({
             tempCurrentValue,
             change,
 
-            currentDateType,
+            pickerRef,
 
-            isDateRange,
             leftActiveDate,
             rightActiveDate,
             changeCurrentDate,

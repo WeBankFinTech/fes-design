@@ -1,7 +1,7 @@
-import { computed, watch, ref, Ref } from 'vue';
+import { watch, ref, Ref } from 'vue';
 
 import { contrastDate, parseDate, getTimestampFromFormat } from './helper';
-import { DATE_TYPE, SELECTED_STATUS, RANGE_POSITION } from './const';
+import { SELECTED_STATUS, RANGE_POSITION } from './const';
 
 import type { CalendarsProps } from './calendars.vue';
 
@@ -55,8 +55,6 @@ export const useRange = (
     selectedStatus: Ref<SELECTED_STATUS>,
     lastSelectedPosition: Ref<RANGE_POSITION>,
 ) => {
-    const isDateRange = computed(() => DATE_TYPE[props.type].isRange);
-
     const leftActiveDate = ref(
         getTimestampFromFormat(
             tempCurrentValue.value[0] && new Date(tempCurrentValue.value[0]),
@@ -153,17 +151,13 @@ export const useRange = (
     };
 
     const rangeDiabledDate = (date: Date, format: string) => {
-        if (isDateRange.value) {
-            if (maxRangeDisabled(date, format)) {
-                return true;
-            }
+        if (maxRangeDisabled(date, format)) {
+            return true;
         }
         return innerDisabledDate(date, format);
     };
 
     return {
-        isDateRange,
-
         leftActiveDate,
         rightActiveDate,
         changeCurrentDate,

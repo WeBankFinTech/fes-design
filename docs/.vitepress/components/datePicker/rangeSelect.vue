@@ -7,6 +7,6 @@
         >
             <template #separator> 至 </template>
         </FDatePicker>
-        <FDatePicker type="datetimerange" />
+        <FDatePicker type="datetimerange" clearable />
     </Space>
 </template>
