@@ -21,24 +21,6 @@
                 ></FInput>
             </FSpace>
         </FFormItem>
-        <FFormItem label="密码" prop="password">
-            <FInput
-                v-model="modelForm.password"
-                type="password"
-                showPassword
-                placeholder="请输入密码"
-                @input="handlePasswordInput"
-            ></FInput>
-        </FFormItem>
-        <FFormItem ref="rePasswordRef" label="再次输入" prop="rePassword">
-            <FInput
-                v-model="modelForm.rePassword"
-                type="password"
-                showPassword
-                placeholder="请再次输入密码"
-                @change="handleRePasswordChange"
-            ></FInput>
-        </FFormItem>
         <FFormItem
             label="年龄"
             prop="age"
@@ -121,36 +103,6 @@
                 placeholder="请输入备注信息，以填入的【姓名】开头"
             ></FInput>
         </FFormItem>
-        <FFormItem label="类型选择" prop="type">
-            <FRadioGroup v-model="modelForm.type">
-                <FRadio :value="1">Admin</FRadio>
-                <FRadio :value="2">edit</FRadio>
-                <FRadio :value="3">run</FRadio>
-                <FRadio :value="4">view</FRadio>
-            </FRadioGroup>
-        </FFormItem>
-        <FFormItem label="admin详情" prop="typeDesc">
-            <FInput
-                v-model="modelForm.typeDesc"
-                placeholder="请输入Admin详情"
-            ></FInput>
-        </FFormItem>
-        <FFormItem
-            v-for="(item, index) in modelForm.rules"
-            :key="index"
-            :label="item.label"
-            :prop="`rules[${index}].value`"
-            :rules="[{ required: index % 2 !== 0, message: '请输入' }]"
-        >
-            <FSpace>
-                <FInput
-                    v-model="modelForm.rules[index].value"
-                    placeholder="请输入Admin详情"
-                ></FInput>
-                <PlusSquareOutlined @click="addItem" />
-            </FSpace>
-        </FFormItem>
-
         <FFormItem label=" ">
             <FButton
                 type="primary"
@@ -179,14 +131,11 @@ import { FMessage } from '@fesjs/fes-design';
 export default {
     setup() {
         const WFormDomRef = ref(null);
-        const rePasswordRef = ref(null);
         const modelForm = reactive({
             name: {
                 first: '',
                 last: '',
             },
-            password: '',
-            rePassword: '',
             sregion: '',
             mregion: ['HuNan', 'HuBei'],
             time: '',
@@ -196,30 +145,12 @@ export default {
             desc: '',
             singleCity: '',
             multiCity: [],
-            rules: [
-                {
-                    label: '选项1',
-                    value: '',
-                },
-            ],
         });
 
         const validateContFun = (rule, value) => {
-            return Boolean(value.startsWith(modelForm.name));
+            return Boolean(value.startsWith(modelForm.name.first));
         };
-
-        const validatePasswordStartWith = (rule, value) => {
-            return Boolean(
-                modelForm.password &&
-                    modelForm.password.startsWith(value) &&
-                    modelForm.password.length >= value.length,
-            );
-        };
-
-        const validatePasswordSame = (rule, value) => {
-            return value === modelForm.password;
-        };
-
+    
         const rules = computed(() => {
             return {
                 name: {
@@ -244,30 +175,6 @@ export default {
                         },
                     },
                 },
-                password: [
-                    {
-                        required: true,
-                        message: '请输入密码',
-                        trigger: ['blur', 'change'],
-                    },
-                ],
-                rePassword: [
-                    {
-                        required: true,
-                        message: '请再次输入密码',
-                        trigger: ['change', 'blur'],
-                    },
-                    {
-                        validator: validatePasswordStartWith,
-                        message: '再次输入密码时，两次密码输入不一致',
-                        trigger: ['change'],
-                    },
-                    {
-                        validator: validatePasswordSame,
-                        message: '输入密码时，两次密码输入不一致',
-                        trigger: 'password-input',
-                    },
-                ],
                 sregion: [
                     {
                         required: true,
@@ -332,14 +239,7 @@ export default {
                         trigger: ['change', 'blur'],
                         type: 'array',
                     },
-                ],
-                typeDesc: [
-                    modelForm.type === 1 && {
-                        required: true,
-                        message: '请输入详情',
-                        trigger: ['change', 'blur'],
-                    },
-                ],
+                ]
             };
         });
 
@@ -424,21 +324,11 @@ export default {
             console.log('value', value);
         };
 
-        const handlePasswordInput = () => {
-            if (modelForm.rePassword) {
-                rePasswordRef.value.validate('password-input');
-            }
-        };
-
-        const handleRePasswordChange = () => {
-            rePasswordRef.value.validate('input');
-        };
-
         const submitHandler = async () => {
             WFormDomRef.value
                 .validate()
                 .then((result) => {
-                    console.log('表单验证成功: ', result);
+                    console.log('表单验证成功~');
                     WFormDomRef.value.resetFields();
                 })
                 .catch((error) => {
@@ -465,28 +355,17 @@ export default {
             FMessage.success({ content: '你点击了备注<slot/>！' });
         };
 
-        const addItem = () => {
-            modelForm.rules.push({
-                label: `选项${modelForm.rules.length + 1}`,
-                value: '',
-            });
-        };
-
         return {
             WFormDomRef,
-            rePasswordRef,
             modelForm,
             rules,
             optionList,
             changeHandler,
-            handlePasswordInput,
-            handleRePasswordChange,
             submitHandler,
             clearHandler,
             resetHandler,
             descClickHandler,
             cascaderOptions,
-            addItem,
         };
     },
 };
