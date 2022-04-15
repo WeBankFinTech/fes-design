@@ -212,15 +212,6 @@ export default {
 .fes-form {
     width: 600px;
 }
-/* .fes-form .fes-form-item-label.more-label {
-    color: #9e9e9e;
-}
-.row-container {
-    width: 100%;
-}
-.row-item {
-    display: flex;
-} */
 .complex-validate-item {
     margin: 10px 0 20px 60px;
     color: rgb(136 136 136)

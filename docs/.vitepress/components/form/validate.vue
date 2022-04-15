@@ -103,23 +103,6 @@
                 placeholder="请输入备注信息，以填入的【姓名】开头"
             ></FInput>
         </FFormItem>
-<!-- 
-        <FFormItem label="类型选择" prop="type">
-            <FRadioGroup v-model="modelForm.type">
-                <FRadio :value="1">Admin</FRadio>
-                <FRadio :value="2">edit</FRadio>
-                <FRadio :value="3">run</FRadio>
-                <FRadio :value="4">view</FRadio>
-            </FRadioGroup>
-        </FFormItem>
-        <FFormItem label="admin详情" prop="typeDesc">
-            <FInput
-                v-model="modelForm.typeDesc"
-                placeholder="请输入Admin详情"
-            ></FInput>
-        </FFormItem>
-         -->
-
         <FFormItem label=" ">
             <FButton
                 type="primary"
@@ -165,7 +148,7 @@ export default {
         });
 
         const validateContFun = (rule, value) => {
-            return Boolean(value.startsWith(modelForm.name));
+            return Boolean(value.startsWith(modelForm.name.first));
         };
     
         const rules = computed(() => {

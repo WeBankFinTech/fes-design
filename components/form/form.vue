@@ -74,7 +74,6 @@ export default defineComponent({
             const promiseList: Promise<any>[] = []; // 原始校验结果
 
             Object.values(formFields).forEach((formField) => {
-                console.log('formField', formField.prop, formField);
                 if (specifyPropsFlag && !fieldProps.includes(formField.prop))
                     return; // Skip if Specify prop but not include
 
@@ -113,8 +112,7 @@ export default defineComponent({
          *    fieldProps { string[] }    指定校验字段的 props 数组
          *    return    { Promise }   校验结果
          */
-        const validate = (fieldProps: string[] = []) =>
-            validateFields(fieldProps);
+        const validate = (fieldProps: string[] = []) => validateFields(fieldProps);
 
         /** 移除表单项的校验结果 */
         const clearValidate = () => {

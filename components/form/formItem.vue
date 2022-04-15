@@ -186,7 +186,7 @@ export default defineComponent({
                 }
                 return shallowClonedRule;
             });
-            console.log('activeRules.length', props.prop, activeRules.length);
+            
             if (!activeRules.length) return Promise.resolve();
 
             // 开始规则校验
