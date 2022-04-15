@@ -19,7 +19,7 @@
     .text();
     &.is-error {
         .@{input-prefix-cls}-inner:not(.@{input-prefix-cls}-inner-disabled) {
-            border-color: var(--f-danger-color);   
+            border-color: var(--f-danger-color);
         }
         .@{input-prefix-cls}-inner-focus:not(.@{input-prefix-cls}-inner-disabled) {
             border-color: var(--f-danger-color);
@@ -69,7 +69,8 @@
     width: 100%;
     font-size: var(--f-font-size-base);
     vertical-align: bottom;
-
+    .default();
+    .text();
     &-inner {
         display: block;
         box-sizing: border-box;
