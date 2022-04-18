@@ -161,13 +161,14 @@ export default defineComponent({
             changeCurrentDate,
             rangeDiabledDate,
             resetActiveDate,
-        } = useRange(
+        } = useRange({
             props,
             tempCurrentValue,
             innerDisabledDate,
             selectedStatus,
             lastSelectedPosition,
-        );
+            picker: pickerRef,
+        });
 
         const confirmDisabled = computed(() => {
             if (pickerRef.value.isRange) {

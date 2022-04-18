@@ -2,6 +2,7 @@ import { watch, ref, Ref } from 'vue';
 
 import { contrastDate, parseDate, getTimestampFromFormat } from './helper';
 import { SELECTED_STATUS, RANGE_POSITION } from './const';
+import { Picker } from './pickerHander';
 
 import type { CalendarsProps } from './calendars.vue';
 
@@ -48,17 +49,25 @@ export const useSelectStatus = (props: CalendarsProps) => {
     };
 };
 
-export const useRange = (
-    props: CalendarsProps,
-    tempCurrentValue: Ref<number[]>,
-    innerDisabledDate: (date: Date, format: string) => boolean | undefined,
-    selectedStatus: Ref<SELECTED_STATUS>,
-    lastSelectedPosition: Ref<RANGE_POSITION>,
-) => {
+export const useRange = ({
+    props,
+    tempCurrentValue,
+    innerDisabledDate,
+    selectedStatus,
+    lastSelectedPosition,
+    picker,
+}: {
+    props: CalendarsProps;
+    tempCurrentValue: Ref<number[]>;
+    innerDisabledDate: (date: Date, format: string) => boolean | undefined;
+    selectedStatus: Ref<SELECTED_STATUS>;
+    lastSelectedPosition: Ref<RANGE_POSITION>;
+    picker: Ref<Picker>;
+}) => {
     const leftActiveDate = ref(
         getTimestampFromFormat(
             tempCurrentValue.value[0] && new Date(tempCurrentValue.value[0]),
-            props.format,
+            picker.value.format,
         ),
     );
     const endDate = new Date(leftActiveDate.value);
