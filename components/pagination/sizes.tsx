@@ -18,6 +18,9 @@ const pagerSizeProps = {
     pageSizeOption: {
         type: Array as PropType<number[]>
     },
+    change: {
+        type: Function,
+    },
 } as const;
 
 export default defineComponent({
@@ -31,6 +34,9 @@ export default defineComponent({
     setup(props, { emit }) {
         const [pageSize] = useNormalModel(props, emit);
         const { t } = useLocale()
+        const change = () => {
+            props.change();
+        }
         const renderOptions = () =>
             props.pageSizeOption && props.pageSizeOption.map((item) => (
                 <FOption
@@ -45,6 +51,7 @@ export default defineComponent({
                 <FSelect
                     class={`${prefixCls}-size-select`}
                     v-model={pageSize.value}
+                    onChange={change}
                 >
                     {renderOptions()}
                 </FSelect>

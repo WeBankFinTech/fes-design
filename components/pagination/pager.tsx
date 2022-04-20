@@ -30,6 +30,10 @@ export default defineComponent({
             type: Number,
             default: 0,
         },
+        change: {
+            type: Function,
+            default: null,
+        },
     },
     emits: [UPDATE_MODEL_EVENT],
     setup(props, { emit }) {
@@ -77,7 +81,11 @@ export default defineComponent({
             } else {
                 temp = cur;
             }
+            if (currentPage.value === temp) {
+                return;
+            }
             updateCurrentPage(temp);
+            props.change();
         };
 
         const getClassList = (cur: number) =>
@@ -157,6 +165,7 @@ export default defineComponent({
         watch(total, () => {
             if (total.value > 0 && total.value < currentPage.value) {
                 updateCurrentPage(total.value);
+                props.change();
             }
         });
         return () => (
