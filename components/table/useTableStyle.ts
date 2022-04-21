@@ -15,7 +15,9 @@ export default ({
     columns,
     expandColumn,
     isExpandOpened,
+    showData,
 }: {
+    showData: Ref<object[]>;
     props: TableProps;
     columns: Ref<ColumnInst[]>;
     expandColumn: Ref<ColumnInst>;
@@ -42,6 +44,7 @@ export default ({
         bodyWrapperRef,
         props,
         columns,
+        showData,
     });
 
     const scrollState = reactive({

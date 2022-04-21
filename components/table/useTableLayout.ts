@@ -15,7 +15,9 @@ export default function useTableLayout({
     headerWrapperRef,
     bodyWrapperRef,
     columns,
+    showData,
 }: {
+    showData: Ref<object[]>;
     props: TableProps;
     wrapperRef: Ref<HTMLElement>;
     headerWrapperRef: Ref<HTMLElement>;
@@ -150,6 +152,7 @@ export default function useTableLayout({
                 wrapperRef,
                 bodyWrapperRef,
                 headerWrapperRef,
+                () => showData.value.length,
             ],
             () => {
                 // 假如宽度发生变化，则需要等待渲染后再计算
