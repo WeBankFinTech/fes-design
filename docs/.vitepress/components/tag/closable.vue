@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace>
         <FTag
             v-for="tag in closableTags.tags"
             :key="tag.name"
@@ -8,7 +8,7 @@
         >
             {{ tag.name }}
         </FTag>
-    </Space>
+    </FSpace>
 </template>
 
 <script>
