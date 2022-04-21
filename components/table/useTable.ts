@@ -44,6 +44,7 @@ export default (props: TableProps, ctx: SetupContext) => {
         columns: columnState.columns,
         expandColumn: expandState.expandColumn,
         isExpandOpened: expandState.isExpandOpened,
+        showData,
     });
 
     const selectState = useTableSelect({
