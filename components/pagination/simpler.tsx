@@ -23,6 +23,10 @@ export default defineComponent({
             type: Number,
             default: 0,
         },
+        change: {
+            type: Function,
+            default: null,
+        },
     },
     emits: [UPDATE_MODEL_EVENT],
     setup(props, { emit }) {
@@ -39,11 +43,13 @@ export default defineComponent({
                 temp = cur;
             }
             updateCurrentPage(temp);
+            props.change();
         };
 
         watch(total, () => {
             if (total.value > 0 && total.value < currentPage.value) {
                 updateCurrentPage(total.value);
+                props.change();
             }
         });
 

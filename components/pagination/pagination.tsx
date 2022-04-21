@@ -56,16 +56,35 @@ export default defineComponent({
             return res;
         });
 
+        let timer: ReturnType<typeof setTimeout>;
+
+        const changeEvent = () => {
+            clearTimeout(timer);
+            timer = setTimeout(()=>{
+                emit(CHANGE_EVENT, currentPage.value, pageSize.value);
+            })
+        }
+
         const changeCurrentPage = (cur: number) => {
             updateCurrentPage(cur);
+            changeEvent();
         };
+
+        const changePageSize = () => {
+            changeEvent();
+            emit('pageSizeChange', pageSize.value);
+        }
 
         const renderSimpler = () => {
             if (!simple.value) {
                 return null;
             }
             return (
-                <Simpler v-model={currentPage.value} total={totalPage.value} />
+                <Simpler 
+                    v-model={currentPage.value} 
+                    total={totalPage.value} 
+                    change={changeEvent}
+                />
             );
         };
 
@@ -74,7 +93,11 @@ export default defineComponent({
                 return null;
             }
             return (
-                <Pager v-model={currentPage.value} total={totalPage.value} />
+                <Pager 
+                    v-model={currentPage.value} 
+                    total={totalPage.value} 
+                    change={changeEvent}
+                />
             );
         };
 
@@ -86,6 +109,7 @@ export default defineComponent({
                 <Sizes
                     v-model={pageSize.value}
                     page-size-option={sizeOption.value}
+                    change={changePageSize}
                 />
             );
         };
@@ -95,7 +119,10 @@ export default defineComponent({
                 return null;
             }
             return (
-                <Jumper total={totalPage.value} change={changeCurrentPage} />
+                <Jumper 
+                    total={totalPage.value} 
+                    change={changeCurrentPage} 
+                />
             );
         };
 
@@ -106,31 +133,12 @@ export default defineComponent({
             return <Total total={totalCount.value} />;
         };
 
-        let timer: ReturnType<typeof setTimeout>;
-
-        const changeEvent = () => {
-            timer = setTimeout(()=>{
-                emit(CHANGE_EVENT, currentPage.value, pageSize.value);
-            })
-        }
-        
-        watch(currentPage, () => {
-            clearTimeout(timer);
-            changeEvent();
-        });
-
-        watch(pageSize, () => {
-            clearTimeout(timer);
-            changeEvent();
-        });
-
         watch(totalCount, () => {
             totalPage.value = Math.ceil(totalCount.value / pageSize.value);
         });
 
         watch(pageSize, () => {
             totalPage.value = Math.ceil(totalCount.value / pageSize.value);
-            emit('pageSizeChange', pageSize.value);
         });
 
         return () => (
