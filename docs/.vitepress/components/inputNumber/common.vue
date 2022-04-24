@@ -1,6 +1,6 @@
 <template>
     <Space>
-        <FInputNumber v-model="val" :max="100" :precision="0"></FInputNumber>
+        <FInputNumber v-model="val" :max="100"></FInputNumber>
         {{ val }}
     </Space>
 </template>
