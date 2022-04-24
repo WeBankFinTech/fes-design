@@ -237,7 +237,10 @@ function useDateInput({
             cacheValidInputDate = val;
             const otherDate = selectedDates.value[(currentIndex.value + 1) % 2];
             // 在同一面板，不更新 current date
-            if (!(otherDate.year === d.year && otherDate.month === d.month)) {
+            if (
+                otherDate &&
+                !(otherDate.year === d.year && otherDate.month === d.month)
+            ) {
                 updateCurrentDate(d);
             }
             updateSelectedDates(
