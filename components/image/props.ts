@@ -11,8 +11,8 @@ export interface PreviewInst {
         size: { width: number; height: number },
     ) => () => void;
     setShowPreview?: (val: boolean) => void;
-    next: () => void;
-    prev: () => void;
+    next?: () => void;
+    prev?: () => void;
 }
 
 export const PREVIEW_PROVIDE_KEY: InjectionKey<PreviewInst> =
