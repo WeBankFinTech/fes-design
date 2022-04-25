@@ -65,5 +65,5 @@ app.use(FPagination);
 
 | 事件名称 | 说明             | 回调参数        |
 | -------- | ---------------- | --------------- |
-| change    | 页码改变的回调，参数是改变后的页码及每页条数 | (currentPage, pageSize) => void |
-| pageSizeChange    | 页码改变的回调，参数是改变后的页码及每页条数 | (pageSize) => void |
+| change    | currentPage 或 pageSize 改变的回调，参数是改变后的页码及每页条数 | (currentPage, pageSize) => void |
+| pageSizeChange    | pageSize 改变的回调，参数是改变后的每页条数 | (pageSize) => void |
