@@ -6,25 +6,30 @@
                 <span>加载中</span>
             </div>
         </slot>
+
         <slot v-else-if="isLoadError" name="error">
             <div :class="`${prefixCls}__error`">
                 <PictureFailOutlined />
                 <span>加载失败</span>
             </div>
         </slot>
-        <img
-            v-else
-            :class="`${prefixCls}__inner`"
-            :src="src"
-            :style="imageStyle"
-            v-bind="imgCommonProps"
-            @click="clickHandler"
-        />
+
+        <div v-else :class="`${prefixCls}__inner`" @click="clickHandler">
+            <slot>
+                <img
+                    :src="src"
+                    :class="`${prefixCls}__inner-image`"
+                    :style="imageStyle"
+                    v-bind="imgCommonProps"
+                />
+            </slot>
+        </div>
 
         <template v-if="isShowPreview">
             <preview
                 :src="src"
                 :name="name"
+                :size="imageSize"
                 :hide-on-click-modal="hideOnClickModal"
                 @close="closeViewer"
             >
@@ -43,6 +48,7 @@ import {
     defineComponent,
     PropType,
     onUnmounted,
+    reactive,
 } from 'vue';
 import { useEventListener, useThrottleFn } from '@vueuse/core';
 import { isString } from 'lodash-es';
@@ -124,6 +130,11 @@ export default defineComponent({
             usemap,
         };
 
+        const imageSize = reactive({
+            height: 0,
+            width: 0,
+        });
+
         const { isGroup, setShowPreview, setCurrent, registerImage } = inject(
             PREVIEW_PROVIDE_KEY,
             {
@@ -166,7 +177,9 @@ export default defineComponent({
             return styleObj;
         });
 
-        const handleLoaded = (e: Event) => {
+        const handleLoaded = (e: Event, img: HTMLImageElement) => {
+            imageSize.width = img.width;
+            imageSize.height = img.height;
             loading.value = false;
             isLoadError.value = false;
             emit(LOAD_EVENT, e);
@@ -182,7 +195,7 @@ export default defineComponent({
             if (!loading.value) return;
 
             const img = new Image();
-            img.addEventListener('load', (e) => handleLoaded(e));
+            img.addEventListener('load', (e) => handleLoaded(e, img));
             img.addEventListener('error', handleError);
 
             img.src = props.src;
@@ -248,7 +261,12 @@ export default defineComponent({
             () => {
                 unRegister();
                 if (canGroupPreview.value) {
-                    unRegister = registerImage(currentId.value, props.src);
+                    unRegister = registerImage(
+                        currentId.value,
+                        props.src,
+                        props.name,
+                        imageSize,
+                    );
                 }
             },
             { immediate: true },
@@ -271,6 +289,7 @@ export default defineComponent({
             prefixCls,
             isLoadError,
             loading,
+            imageSize,
         };
     },
 });

@@ -31,6 +31,7 @@ const themeCommon = {
     shadowRadiusSm: '4px',
 
     maskColor: fade(fontColorBase, 0.45),
+    maskDarkColor: fade(fontColorBase, 0.9),
 
     paddingLarge: '24px',
     paddingMiddle: '16px',

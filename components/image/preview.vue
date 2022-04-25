@@ -1,6 +1,11 @@
 <template>
     <teleport to="body">
-        <div v-show="show" :class="`${prefixCls}`" :style="{ zIndex }">
+        <div
+            v-show="show"
+            :class="`${prefixCls}`"
+            :style="{ zIndex }"
+            @click.self="hideOnClickModal && handleClose()"
+        >
             <!-- close -->
             <div
                 :class="[`${prefixCls}__close`, `${prefixCls}__btn`]"
@@ -26,6 +31,9 @@
                 <RightOutlined />
             </div>
 
+            <div v-if="name" :class="`${prefixCls}__name`">
+                {{ `${name}(${size.width}x${size.height})` }}
+            </div>
             <!-- toolBar -->
             <div :class="`${prefixCls}__toolBar`">
                 <SearchMinusOutlined
@@ -55,12 +63,12 @@
             </div>
 
             <!-- canvas -->
-            <div
-                :class="[`${prefixCls}__canvas`, `${prefixCls}__mask`]"
-                @click.self="hideOnClickModal && handleClose()"
-            >
-                <img ref="img" :src="src" :style="previewStyle" />
-            </div>
+            <img
+                ref="img"
+                :class="[`${prefixCls}__canvas`]"
+                :src="src"
+                :style="previewStyle"
+            />
         </div>
     </teleport>
 </template>
@@ -74,7 +82,7 @@ import {
     onMounted,
     onUnmounted,
     defineComponent,
-    reactive,
+    PropType,
 } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -108,6 +116,7 @@ const previewProps = {
         type: String,
         default: '',
     },
+    size: Object as PropType<{ width: number; height: number }>,
     name: String,
 } as const;
 
@@ -131,21 +140,13 @@ export default defineComponent({
             scale: 1,
             rotateDeg: 0,
         });
-        const { isGroup, setCurrent, previewUrls, curIndex } = inject(
-            PREVIEW_PROVIDE_KEY,
-            {
-                curIndex: ref(0),
-                isGroup: ref(false),
-                setCurrent: noop,
-                previewUrls: reactive<Record<number, string>>({}),
-            },
-        );
+        const { isGroup, next, prev } = inject(PREVIEW_PROVIDE_KEY, {
+            isGroup: ref(false),
+            next: noop,
+            prev: noop,
+        });
 
         const mousewheelEvent = isFirefox() ? 'DOMMouseScroll' : 'mousewheel';
-        const previewUrlsKeys: any = computed(() => Object.keys(previewUrls));
-        const currentPreviewIndex = computed(() =>
-            previewUrlsKeys.value.indexOf(String(curIndex.value)),
-        );
 
         const previewStyle = computed(() => {
             const { scale, rotateDeg } = transform.value;
@@ -156,40 +157,6 @@ export default defineComponent({
 
             return style;
         });
-
-        const prev = () => {
-            if (currentPreviewIndex.value > 0) {
-                String(currentPreviewIndex.value - 1);
-                setCurrent(
-                    previewUrlsKeys.value[
-                        String(currentPreviewIndex.value - 1)
-                    ],
-                );
-            } else {
-                setCurrent(
-                    previewUrlsKeys.value[
-                        previewUrlsKeys.value.length -
-                            currentPreviewIndex.value -
-                            1
-                    ],
-                );
-            }
-        };
-        const next = () => {
-            if (currentPreviewIndex.value < previewUrlsKeys.value.length - 1) {
-                setCurrent(
-                    previewUrlsKeys.value[currentPreviewIndex.value + 1],
-                );
-            } else {
-                setCurrent(
-                    previewUrlsKeys.value[
-                        previewUrlsKeys.value.length -
-                            currentPreviewIndex.value -
-                            1
-                    ],
-                );
-            }
-        };
 
         const handleActions = (action: string, option?: object) => {
             const { zoomRate, rotateDeg } = {
@@ -219,6 +186,7 @@ export default defineComponent({
                 default:
             }
         };
+
         const reset = () => {
             transform.value = {
                 scale: 1,
