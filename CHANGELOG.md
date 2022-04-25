@@ -1,3 +1,21 @@
+## [0.4.5](https://github.com/WeBankFinTech/fes-design/compare/v0.4.4...v0.4.5) (2022-04-25)
+
+
+### Bug Fixes
+
+* 修复设置height但是因为数据延迟获得而不滚动问题 ([#123](https://github.com/WeBankFinTech/fes-design/issues/123)) ([5bfb55e](https://github.com/WeBankFinTech/fes-design/commit/5bfb55e83ef57c2c129c3f5857f90a23cf652739))
+* 修复boxsizing问题 ([#127](https://github.com/WeBankFinTech/fes-design/issues/127)) ([2980f69](https://github.com/WeBankFinTech/fes-design/commit/2980f694a01a6cce4b00ad4b27d708cff3d9892d))
+* 修复inline-form样式问题 ([a32da49](https://github.com/WeBankFinTech/fes-design/commit/a32da49b073d3588bd4a70ea2bc8d9e3e3b000c1))
+* input 无法输入小数 + icon docs 复制 + Modal ts 问题 ([#124](https://github.com/WeBankFinTech/fes-design/issues/124)) ([c664faf](https://github.com/WeBankFinTech/fes-design/commit/c664faf21b0ead208abffc1f59cecacef4bf776f))
+* input和select样式问题 ([4f57e5d](https://github.com/WeBankFinTech/fes-design/commit/4f57e5dd47cd65e1e45af5a9deb92d96ca5efe6c))
+
+
+### Features
+
+* image支持下载 & 当配置name时展示name ([f6eb08f](https://github.com/WeBankFinTech/fes-design/commit/f6eb08f1fdbeb2c1072c7ef2f09e9ae1f93f8202))
+
+
+
 ## [0.4.4](https://github.com/WeBankFinTech/fes-design/compare/v0.4.3...v0.4.4) (2022-04-14)
 
 
