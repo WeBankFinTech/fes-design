@@ -37,7 +37,7 @@ const tableProps = {
     },
     size: {
         type: String as PropType<typeof SIZE[number]>,
-        default: 'normal',
+        default: 'middle',
     },
     spanMethod: Function,
     rowClassName: [Function, String, Array, Object] as PropType<
