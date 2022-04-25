@@ -104,6 +104,8 @@ app.use(FTable);
 | showHeader   | 是否展示表头                                                                  | boolean                                          | -      | `true`     |
 | spanMethod   | 合并行或列的计算方法                           |  *({ row, column, rowIndex, columnIndex }) => { rowspan: string, colspan: string }*| -      | -          |
 | virtualScroll   | 是否启动虚拟滚动，当启用时不支持展开行                                                     | boolean | -      |      false     |
+| size   | table的间距大小, 可选有'middle'、'small'                                             | string | -      |      'middle'     |
+
 
 ## FTable Slots
 

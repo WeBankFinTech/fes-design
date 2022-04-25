@@ -1,66 +1,68 @@
-<!--
- * @Author: your name
- * @Date: 2022-01-03 16:15:57
- * @LastEditTime: 2022-01-03 17:45:15
- * @LastEditors: Please set LastEditors
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: /fes-design/components/image/preview.vue
--->
 <template>
-    <div class="aa" :class="`${prefixCls}`" :style="{ zIndex }">
-        <!-- close -->
-        <div
-            :class="[`${prefixCls}__close`, `${prefixCls}__btn`]"
-            @click="handleClose"
-        >
-            <CloseOutlined />
-        </div>
+    <teleport to="body">
+        <div v-show="show" :class="`${prefixCls}`" :style="{ zIndex }">
+            <!-- close -->
+            <div
+                :class="[`${prefixCls}__close`, `${prefixCls}__btn`]"
+                @click="handleClose"
+            >
+                <CloseOutlined />
+            </div>
 
-        <!-- arrow -->
-        <div
-            v-if="isGroup"
-            :class="[`${prefixCls}__arrow-left`, `${prefixCls}__btn`]"
-            @click="prev"
-        >
-            <LeftOutlined />
-        </div>
+            <!-- arrow -->
+            <div
+                v-if="isGroup"
+                :class="[`${prefixCls}__arrow-left`, `${prefixCls}__btn`]"
+                @click="prev"
+            >
+                <LeftOutlined />
+            </div>
 
-        <div
-            v-if="isGroup"
-            :class="[`${prefixCls}__arrow-right`, `${prefixCls}__btn`]"
-            @click="next"
-        >
-            <RightOutlined />
-        </div>
+            <div
+                v-if="isGroup"
+                :class="[`${prefixCls}__arrow-right`, `${prefixCls}__btn`]"
+                @click="next"
+            >
+                <RightOutlined />
+            </div>
 
-        <!-- toolBar -->
-        <div :class="`${prefixCls}__toolBar`">
-            <SearchMinusOutlined
-                :class="`${prefixCls}-zoom-out`"
-                @click="handleActions('zoomOut')"
-            />
-            <SearchPlusOutlined
-                :class="`${prefixCls}-zoom-in`"
-                @click="handleActions('zoomIn')"
-            />
-            <RotateLeftOutlined
-                :class="`${prefixCls}-rotate-left`"
-                @click="handleActions('rotateLeft')"
-            />
-            <ReloadOutlined
-                :class="`${prefixCls}-rotate-right`"
-                @click="handleActions('rotateRight')"
-            />
-        </div>
+            <!-- toolBar -->
+            <div :class="`${prefixCls}__toolBar`">
+                <SearchMinusOutlined
+                    :class="`${prefixCls}-zoom-out`"
+                    @click="handleActions('zoomOut')"
+                />
+                <SearchPlusOutlined
+                    :class="`${prefixCls}-zoom-in`"
+                    @click="handleActions('zoomIn')"
+                />
+                <a
+                    :download="name || Date.now()"
+                    :href="src"
+                    target="_blank"
+                    :class="`${prefixCls}-download`"
+                >
+                    <DownloadOutlined />
+                </a>
+                <RotateLeftOutlined
+                    :class="`${prefixCls}-rotate-left`"
+                    @click="handleActions('rotateLeft')"
+                />
+                <ReloadOutlined
+                    :class="`${prefixCls}-rotate-right`"
+                    @click="handleActions('rotateRight')"
+                />
+            </div>
 
-        <!-- canvas -->
-        <div
-            :class="[`${prefixCls}__canvas`, `${prefixCls}__mask`]"
-            @click.self="hideOnClickModal && handleClose()"
-        >
-            <img ref="img" :src="src" :style="previewStyle" />
+            <!-- canvas -->
+            <div
+                :class="[`${prefixCls}__canvas`, `${prefixCls}__mask`]"
+                @click.self="hideOnClickModal && handleClose()"
+            >
+                <img ref="img" :src="src" :style="previewStyle" />
+            </div>
         </div>
-    </div>
+    </teleport>
 </template>
 
 <script lang="ts">
@@ -86,6 +88,7 @@ import {
     RotateLeftOutlined,
     SearchPlusOutlined,
     SearchMinusOutlined,
+    DownloadOutlined,
 } from '../icon';
 import { CLOSE_EVENT } from '../_util/constants';
 import { PREVIEW_PROVIDE_KEY } from './props';
@@ -93,6 +96,10 @@ import { PREVIEW_PROVIDE_KEY } from './props';
 const prefixCls = getPrefixCls('preview');
 
 const previewProps = {
+    show: {
+        type: Boolean,
+        default: true,
+    },
     hideOnClickModal: {
         type: Boolean,
         default: false,
@@ -101,6 +108,7 @@ const previewProps = {
         type: String,
         default: '',
     },
+    name: String,
 } as const;
 
 export default defineComponent({
@@ -113,6 +121,7 @@ export default defineComponent({
         RotateLeftOutlined,
         SearchPlusOutlined,
         SearchMinusOutlined,
+        DownloadOutlined,
     },
     props: previewProps,
     emits: [CLOSE_EVENT],
@@ -132,7 +141,6 @@ export default defineComponent({
             },
         );
 
-        let clearScrollListener: () => void;
         const mousewheelEvent = isFirefox() ? 'DOMMouseScroll' : 'mousewheel';
         const previewUrlsKeys: any = computed(() => Object.keys(previewUrls));
         const currentPreviewIndex = computed(() =>
@@ -148,10 +156,6 @@ export default defineComponent({
 
             return style;
         });
-        const handleClose = () => {
-            clearScrollListener && clearScrollListener();
-            emit(CLOSE_EVENT);
-        };
 
         const prev = () => {
             if (currentPreviewIndex.value > 0) {
@@ -222,7 +226,8 @@ export default defineComponent({
             };
         };
 
-        const handleScroll = (e: WheelEvent) =>
+        const handleScroll = (e: WheelEvent) => {
+            e.stopPropagation();
             window.requestAnimationFrame(() => {
                 const delta = e.deltaY ? e.deltaY : e.detail;
                 if (delta < 0) {
@@ -235,13 +240,20 @@ export default defineComponent({
                     });
                 }
             });
+        };
 
+        let clearScrollListener: () => void;
         const addMouseListener = () => {
             clearScrollListener = useEventListener(
                 document,
                 mousewheelEvent,
                 handleScroll,
             );
+        };
+
+        const handleClose = () => {
+            clearScrollListener && clearScrollListener();
+            emit(CLOSE_EVENT);
         };
 
         watch(
@@ -254,6 +266,7 @@ export default defineComponent({
         onMounted(() => {
             addMouseListener();
         });
+
         onUnmounted(() => {
             clearScrollListener && clearScrollListener();
         });

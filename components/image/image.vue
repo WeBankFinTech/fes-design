@@ -1,13 +1,5 @@
-<!--
- * @Author: tgsx
- * @Date: 2022-01-03 16:15:57
- * @LastEditTime: 2022-01-03 17:51:14
- * @LastEditors: Please set LastEditors
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: /fes-design/components/image/image.vue
--->
 <template>
-    <div ref="container" :style="containerStyle">
+    <div ref="container" :class="prefixCls">
         <slot v-if="loading" name="placeholder">
             <div :class="`${prefixCls}__placeholder`">
                 <PictureOutlined />
@@ -29,15 +21,15 @@
             @click="clickHandler"
         />
 
-        <teleport v-show="preview" to="body">
+        <template v-if="isShowPreview">
             <preview
-                v-if="isShowPreview"
                 :src="src"
+                :name="name"
                 :hide-on-click-modal="hideOnClickModal"
                 @close="closeViewer"
             >
             </preview>
-        </teleport>
+        </template>
     </div>
 </template>
 <script lang="ts">
@@ -50,6 +42,7 @@ import {
     ImgHTMLAttributes,
     defineComponent,
     PropType,
+    onUnmounted,
 } from 'vue';
 import { useEventListener, useThrottleFn } from '@vueuse/core';
 import { isString } from 'lodash-es';
@@ -62,7 +55,7 @@ import { useTheme } from '../_theme/useTheme';
 import { PREVIEW_PROVIDE_KEY } from './props';
 import Preview from './preview.vue';
 
-import type { CSSProperties, StyleValue } from 'vue';
+import type { CSSProperties } from 'vue';
 
 const prefixCls = getPrefixCls('img');
 
@@ -82,6 +75,7 @@ export default defineComponent({
             type: String,
             default: '',
         },
+        name: String,
         preview: {
             type: Boolean,
             default: false,
@@ -107,7 +101,6 @@ export default defineComponent({
         const loading = ref(true);
         const isLoadError = ref(false);
         const container = ref(null);
-        let clearScrollListener = noop;
         const isShowPreview = ref(false);
         const currentId = ref(curIndex++);
 
@@ -130,6 +123,7 @@ export default defineComponent({
             srcset,
             usemap,
         };
+
         const { isGroup, setShowPreview, setCurrent, registerImage } = inject(
             PREVIEW_PROVIDE_KEY,
             {
@@ -139,10 +133,13 @@ export default defineComponent({
                 registerImage: noopInNoop,
             },
         );
-        const canPreview = computed(
-            () => (props.preview || isGroup.value) && !isLoadError.value,
+
+        const canPreview = computed(() => props.preview && !isLoadError.value);
+
+        const canGroupPreview = computed(
+            () => isGroup.value && !isLoadError.value,
         );
-        const containerStyle = computed(() => attrs.style as StyleValue);
+
         const _scrollContainer = computed(() => {
             let dom: any;
             const _container = props.scrollContainer;
@@ -156,22 +153,25 @@ export default defineComponent({
             }
             return dom;
         });
+
         const imageStyle = computed<CSSProperties>(() => {
             const { fit } = props;
             const styleObj: CSSProperties = { objectFit: 'fill', cursor: '' };
             if (fit) {
                 styleObj.objectFit = fit;
             }
-            if (canPreview.value) {
+            if (canPreview.value || canGroupPreview.value) {
                 styleObj.cursor = 'pointer';
             }
             return styleObj;
         });
+
         const handleLoaded = (e: Event) => {
             loading.value = false;
             isLoadError.value = false;
             emit(LOAD_EVENT, e);
         };
+
         const handleError = (e: Event) => {
             loading.value = false;
             isLoadError.value = true;
@@ -195,6 +195,7 @@ export default defineComponent({
             }
         }, 200);
 
+        let clearScrollListener = noop;
         async function addLazyLoadListener() {
             await nextTick();
             clearScrollListener && clearScrollListener();
@@ -210,11 +211,10 @@ export default defineComponent({
         }
 
         function clickHandler() {
-            if ((!props.preview && isGroup) || !canPreview.value) return;
-            if (isGroup.value) {
+            if (canGroupPreview.value) {
                 setCurrent(currentId.value);
                 setShowPreview(true);
-            } else {
+            } else if (canPreview.value) {
                 // prevent body scroll
                 prevOverflow = document.body.style.overflow;
                 document.body.style.overflow = 'hidden';
@@ -223,16 +223,11 @@ export default defineComponent({
         }
 
         function closeViewer() {
-            if (isGroup.value) {
-                setShowPreview(false);
-            } else {
-                document.body.style.overflow = prevOverflow;
-                isShowPreview.value = false;
-            }
+            document.body.style.overflow = prevOverflow;
+            isShowPreview.value = false;
             emit(CLOSE_EVENT);
         }
 
-        let unRegister = noop;
         watch(
             () => props.src,
             (_src) => {
@@ -247,26 +242,30 @@ export default defineComponent({
             { immediate: true },
         );
 
+        let unRegister = noop;
         watch(
-            [() => props.src, canPreview],
+            [() => props.src, canGroupPreview],
             () => {
                 unRegister();
-                if (!isGroup.value) return;
-
-                if (canPreview.value) {
+                if (canGroupPreview.value) {
                     unRegister = registerImage(currentId.value, props.src);
                 }
             },
             { immediate: true },
         );
+
+        onUnmounted(() => {
+            unRegister && unRegister();
+            clearScrollListener && clearScrollListener();
+        });
+
         return {
             width,
             height,
             imgCommonProps,
             imageStyle,
-            containerStyle,
-            clickHandler,
             isShowPreview,
+            clickHandler,
             closeViewer,
             container,
             prefixCls,
