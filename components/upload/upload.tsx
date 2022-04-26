@@ -79,7 +79,8 @@ export default defineComponent({
             }
             const fileListSlots = ctx.slots.fileList;
             if (!fileListSlots) {
-                return <FileList />;
+                const file = ctx.slots.file;
+                return <FileList v-slots={{ file }} />;
             }
             return fileListSlots({ uploadFiles: uploadFiles.value });
         };
