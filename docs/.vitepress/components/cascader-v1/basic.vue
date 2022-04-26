@@ -1,50 +1,24 @@
 <template>
-    <div class="text-tips">默认多选：</div>
-    <FCascader
-        v-model="multiValue1"
+    <div class="text-tips">默认单选：</div>
+    <FCascaderV1 v-model="value1" :options="options" @change="handleChange">
+    </FCascaderV1>
+    <div class="text-tips">hover单选：</div>
+    <FCascaderV1
         :options="options"
-        :multiple="true"
-        @change="handleChange"
-    >
-    </FCascader>
-    <div class="text-tips">hover多选：</div>
-    <FCascader
-        :options="options"
-        :multiple="true"
         :nodeConfig="{ expandTrigger: 'hover' }"
         @change="handleChange"
     >
-    </FCascader>
-    <div class="text-tips">折叠选中项（默认1项起）：</div>
-    <FCascader
-        v-model="multiValue3"
+    </FCascaderV1>
+    <div class="text-tips">单选不展示路径：</div>
+    <FCascaderV1
+        v-model="valueEmitPath"
         :options="options"
-        :multiple="true"
-        collapseTags
-        @change="handleChange"
-    >
-    </FCascader>
-    <div class="text-tips">折叠选中项（2项起）：</div>
-    <FCascader
-        v-model="multiValue4"
-        :options="options"
-        :multiple="true"
-        collapseTags
-        :collapseTagsLimit="2"
-        @change="handleChange"
-    >
-    </FCascader>
-    <div class="text-tips">多选不展示路径：</div>
-    <FCascader
-        v-model="multiValueEmitPath"
-        :options="options"
-        :multiple="true"
         :showAllLevels="false"
         :clearable="true"
         :nodeConfig="{ emitPath: true }"
         @change="handleChange"
     >
-    </FCascader>
+    </FCascaderV1>
 </template>
 
 <script>
@@ -232,15 +206,8 @@ function handleChange(value) {
 export default defineComponent({
     setup() {
         const state = reactive({
-            multiValue1: ['110101', '140000'],
-            multiValue2: [],
-            multiValue3: [],
-            multiValue4: [],
-            multiValueEmitPath: [
-                ['110000', '110100', '110101'],
-                ['130000', '130100'],
-                ['140000'],
-            ],
+            value1: '110101',
+            valueEmitPath: ['13000', '130200'],
         });
 
         return {

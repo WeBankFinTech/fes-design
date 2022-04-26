@@ -75,21 +75,21 @@
             </FRadioGroup>
         </FFormItem>
         <FFormItem label="级联单选" prop="singleCity">
-            <FCascader
+            <FCascaderV1
                 v-model="modelForm.singleCity"
                 :options="cascaderOptions"
                 @change="changeHandler"
             >
-            </FCascader>
+            </FCascaderV1>
         </FFormItem>
         <FFormItem label="级联多选" prop="multiCity">
-            <FCascader
+            <FCascaderV1
                 v-model="modelForm.multiCity"
                 :options="cascaderOptions"
                 :multiple="true"
                 @change="changeHandler"
             >
-            </FCascader>
+            </FCascaderV1>
         </FFormItem>
         <FFormItem label="备注 slot" labelClass="more-label" prop="desc">
             <template #label>
@@ -150,7 +150,7 @@ export default {
         const validateContFun = (rule, value) => {
             return Boolean(value.startsWith(modelForm.name.first));
         };
-    
+
         const rules = computed(() => {
             return {
                 name: {
@@ -239,7 +239,7 @@ export default {
                         trigger: ['change', 'blur'],
                         type: 'array',
                     },
-                ]
+                ],
             };
         });
 

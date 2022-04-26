@@ -73,7 +73,7 @@ import type { CascaderNode } from '../cascader-panel/getNode';
 const prefixCls = getPrefixCls('cascader');
 
 export default defineComponent({
-    name: 'FCascader',
+    name: 'FCascaderV1',
     components: {
         Popper,
         SelectTrigger,

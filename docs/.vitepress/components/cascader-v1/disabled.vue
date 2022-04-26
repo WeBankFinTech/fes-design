@@ -1,25 +1,26 @@
 <template>
     <div class="text-tips">单选：</div>
-    <FCascader v-model="value" :disabled="true" :options="options"> </FCascader>
+    <FCascaderV1 v-model="value" :disabled="true" :options="options">
+    </FCascaderV1>
     <div class="text-tips">多选：</div>
-    <FCascader
+    <FCascaderV1
         v-model="multipleValue"
         :multiple="true"
         :disabled="true"
         :options="options"
     >
-    </FCascader>
+    </FCascaderV1>
     <div class="text-tips">折叠选中项（默认1项起）：</div>
-    <FCascader
+    <FCascaderV1
         v-model="multipleValue"
         :multiple="true"
         :disabled="true"
         collapseTags
         :options="options"
     >
-    </FCascader>
+    </FCascaderV1>
     <div class="text-tips">折叠选中项（2项起）：</div>
-    <FCascader
+    <FCascaderV1
         v-model="multipleValue"
         :multiple="true"
         :disabled="true"
@@ -27,7 +28,7 @@
         :collapseTagsLimit="2"
         :options="options"
     >
-    </FCascader>
+    </FCascaderV1>
 </template>
 
 <script>

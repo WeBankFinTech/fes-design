@@ -41,13 +41,13 @@
 
         <FInput placeholder="请输入">
             <template #append>
-                <FCascader
+                <FCascaderV1
                     v-model="base.value1"
                     :options="base.options"
                     style="width: 90px"
                     @change="base.handleChange"
                 >
-                </FCascader>
+                </FCascaderV1>
             </template>
         </FInput>
     </Space>

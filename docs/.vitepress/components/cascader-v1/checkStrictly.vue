@@ -1,30 +1,30 @@
 <template>
     <div class="text-tips">默认(child)：</div>
-    <FCascader
+    <FCascaderV1
         v-model="multiValue1"
         :options="options"
         :multiple="true"
         @change="handleChange"
     >
-    </FCascader>
+    </FCascaderV1>
     <div class="text-tips">parent：</div>
-    <FCascader
+    <FCascaderV1
         v-model="multiValue2"
         :options="options"
         :multiple="true"
         checkStrictly="parent"
         @change="handleChange"
     >
-    </FCascader>
+    </FCascaderV1>
     <div class="text-tips">all：</div>
-    <FCascader
+    <FCascaderV1
         v-model="multiValue3"
         :options="options"
         :multiple="true"
         checkStrictly="all"
         @change="handleChange"
     >
-    </FCascader>
+    </FCascaderV1>
 </template>
 
 <script>

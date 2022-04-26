@@ -104,8 +104,8 @@ module.exports = {
                         link: '/zh/components/upload',
                     },
                     {
-                        text: 'Cascader 级联选择',
-                        link: '/zh/components/cascader',
+                        text: 'CascaderV1 级联选择',
+                        link: '/zh/components/cascader-v1',
                     },
                     {
                         text: 'SelectTree 树形选择器',

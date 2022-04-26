@@ -1,6 +1,6 @@
 <template>
     <div>
-        <FCascader v-model="value" :options="options"> </FCascader>
+        <FCascaderV1 v-model="value" :options="options"> </FCascaderV1>
     </div>
 </template>
 

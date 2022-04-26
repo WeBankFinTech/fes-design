@@ -3,7 +3,7 @@
         <span>默认语言:</span>
     </div>
     <div class="components">
-        <FCascader></FCascader>
+        <FCascaderV1></FCascaderV1>
     </div>
     <FDivider></FDivider>
 
@@ -17,7 +17,7 @@
     <div class="components">
         <FConfigProvider :locale="locale">
             <div class="gap">
-                <FCascader></FCascader>
+                <FCascaderV1></FCascaderV1>
             </div>
             <Space class="gap">
                 <FPagination
@@ -54,16 +54,16 @@
     <div ref="componentsRef" class="components">
         <Space>
             <FConfigProvider :locale="enUS">
-                <FCascader></FCascader>
+                <FCascaderV1></FCascaderV1>
                 <Space>
                     <FConfigProvider
                         :locale="zhCN"
                         :getContainer="getContainer"
                     >
-                        <FCascader></FCascader>
+                        <FCascaderV1></FCascaderV1>
                         <Space>
                             <FConfigProvider :locale="enUS">
-                                <FCascader></FCascader>
+                                <FCascaderV1></FCascaderV1>
                             </FConfigProvider>
                         </Space>
                     </FConfigProvider>

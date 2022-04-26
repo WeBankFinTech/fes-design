@@ -1,6 +1,6 @@
 <template>
     <div class="text-tips">单选：</div>
-    <FCascader
+    <FCascaderV1
         v-model="state.value"
         :options="state.options1"
         :nodeConfig="{ emitPath: true }"
@@ -8,18 +8,18 @@
         :loadData="loadData"
         @change="handleChange"
     >
-    </FCascader>
+    </FCascaderV1>
     <div class="text-tips">hover单选：</div>
-    <FCascader
+    <FCascaderV1
         :options="state.options2"
         :nodeConfig="{ emitPath: true, expandTrigger: 'hover' }"
         :remote="true"
         :loadData="loadData"
         @change="handleChange"
     >
-    </FCascader>
+    </FCascaderV1>
     <div class="text-tips">单选不展示路径：</div>
-    <FCascader
+    <FCascaderV1
         v-model="state.valueEmitPath"
         :options="state.options3"
         :nodeConfig="{ emitPath: true }"
@@ -28,10 +28,10 @@
         :showAllLevels="false"
         @change="handleChange"
     >
-    </FCascader>
+    </FCascaderV1>
 
     <div class="text-tips">默认多选：</div>
-    <FCascader
+    <FCascaderV1
         v-model="state.multiValue"
         :options="state.multiOptions1"
         :nodeConfig="{ emitPath: true }"
@@ -40,9 +40,9 @@
         :loadData="loadData"
         @change="handleChange"
     >
-    </FCascader>
+    </FCascaderV1>
     <div class="text-tips">hover多选：</div>
-    <FCascader
+    <FCascaderV1
         :options="state.multiOptions2"
         :multiple="true"
         :remote="true"
@@ -50,9 +50,9 @@
         :nodeConfig="{ emitPath: true, expandTrigger: 'hover' }"
         @change="handleChange"
     >
-    </FCascader>
+    </FCascaderV1>
     <div class="text-tips">多选不展示路径：</div>
-    <FCascader
+    <FCascaderV1
         v-model="state.multiValueEmitPath"
         :options="state.multiOptions3"
         :multiple="true"
@@ -62,7 +62,7 @@
         :nodeConfig="{ emitPath: true }"
         @change="handleChange"
     >
-    </FCascader>
+    </FCascaderV1>
 </template>
 
 <script>

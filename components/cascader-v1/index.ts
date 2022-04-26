@@ -4,6 +4,6 @@ import Cascader from './cascader.vue';
 import type { SFCWithInstall } from '../_util/interface';
 
 type CascaderType = SFCWithInstall<typeof Cascader>;
-export const FCascader = withInstall<CascaderType>(Cascader as CascaderType);
+export const FCascaderV1 = withInstall<CascaderType>(Cascader as CascaderType);
 
-export default FCascader;
+export default FCascaderV1;

@@ -1,11 +1,11 @@
 <template>
     <FSpin :show="loading" description="加载中">
-        <FCascader
+        <FCascaderV1
             v-model="value1"
             :options="asyncOptions"
             @change="handleChange"
         >
-        </FCascader>
+        </FCascaderV1>
     </FSpin>
 </template>
 

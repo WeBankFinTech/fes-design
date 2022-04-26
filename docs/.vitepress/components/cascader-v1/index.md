@@ -1,13 +1,13 @@
-# Cascader 级联选择器
+# CascaderV1 级联选择器
 
 当一个数据集合有清晰的层级结构时，可通过级联选择器逐级查看并选择。
 
 ## 组件注册
 
 ```js
-import { FCascader } from '@fesjs/fes-design';
+import { FCascaderV1 } from '@fesjs/fes-design';
 
-app.use(FCascader);
+app.use(FCascaderV1);
 ```
 
 ## 代码演示
