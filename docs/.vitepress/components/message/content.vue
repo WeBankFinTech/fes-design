@@ -13,11 +13,11 @@ import { BellOffOutlined } from '../../../theme/IconDoc/icons.js';
 export default {
     setup() {
         const wrapRef = ref(null);
-        FMessage.config({
-            getContainer() {
-                return wrapRef.value.$el;
-            },
-        });
+        // FMessage.config({
+        //     getContainer() {
+        //         return wrapRef.value.$el;
+        //     },
+        // });
         function handleCustomContent() {
             FMessage.info({
                 content: () =>

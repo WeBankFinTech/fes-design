@@ -1,18 +1,15 @@
-/*
- * @Author: your name
- * @Date: 2022-01-03 16:15:57
- * @LastEditTime: 2022-01-03 17:22:17
- * @LastEditors: Please set LastEditors
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: /fes-design/components/image/preview-group.tsx
- */
-import type { Ref } from 'vue';
-import { h, ref, reactive, provide, defineComponent } from 'vue';
+import { h, computed, ref, reactive, provide, defineComponent } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import Preview from './preview.vue';
 import { PREVIEW_PROVIDE_KEY } from './props';
 
 let prevOverflow = '';
+
+type UrlType = {
+    url: string;
+    name: string | undefined;
+    size: {width: number; height: number}
+}
 
 export default defineComponent({
     name: 'FPreviewGroup',
@@ -24,15 +21,24 @@ export default defineComponent({
     },
     setup(props, { slots }) {
         useTheme();
-        const previewUrls = reactive<Record<number, string>>({});
+        const previewUrls = reactive<Record<number, UrlType>>({});
         const curIndex = ref();
         const isGroup = ref(true);
         const isShowPreview = ref(false);
         const setCurrent = (val: number) => {
             curIndex.value = val;
         };
-        const registerImage = (id: number, url: string) => {
-            previewUrls[id] = url;
+        const previewUrlsKeys: any = computed(() => Object.keys(previewUrls));
+        const currentPreviewIndex = computed(() =>
+            previewUrlsKeys.value.indexOf(String(curIndex.value)),
+        );
+        
+        const registerImage = (id: number, url: string, name: string | undefined, size: {width: number; height: number}) => {
+            previewUrls[id] = {
+                url,
+                name,
+                size,
+            };
 
             return () => {
                 delete previewUrls[id];
@@ -49,37 +55,64 @@ export default defineComponent({
             document.body.style.overflow = prevOverflow;
             isShowPreview.value = false;
         };
-        
-        type PreviewGroupContext = {
-            isGroup?: Ref<boolean | undefined>;
-            previewUrls: Record<number, string>;
-            curIndex: Ref<number>;
-            setCurrent: (val: number) => void;
-            setShowPreview: () => void;
-            registerImage: (id: number, url: string) => () => void;
+
+        const next = ()=>{
+            if (currentPreviewIndex.value < previewUrlsKeys.value.length - 1) {
+                setCurrent(
+                    previewUrlsKeys.value[currentPreviewIndex.value + 1],
+                );
+            } else {
+                setCurrent(
+                    previewUrlsKeys.value[
+                        previewUrlsKeys.value.length -
+                            currentPreviewIndex.value -
+                            1
+                    ],
+                );
+            }
         }
 
-        let provideParams = {
+        const prev = ()=>{
+            if (currentPreviewIndex.value > 0) {
+                setCurrent(
+                    previewUrlsKeys.value[
+                        String(currentPreviewIndex.value - 1)
+                    ],
+                );
+            } else {
+                setCurrent(
+                    previewUrlsKeys.value[
+                        previewUrlsKeys.value.length -
+                            currentPreviewIndex.value -
+                            1
+                    ],
+                );
+            }
+        }
+
+        provide(PREVIEW_PROVIDE_KEY, {
             isGroup,
-            previewUrls,
+            prev,
+            next,
             registerImage,
             curIndex,
             setCurrent,
             setShowPreview,
-        };
-        provide(PREVIEW_PROVIDE_KEY, provideParams);
+        });
 
         return () => (
-            <div>
+            <>
                 {slots.default?.()}
                 {isShowPreview.value && (
                     <Preview
-                        src={previewUrls[curIndex.value]}
+                        src={previewUrls[curIndex.value].url}
+                        name={previewUrls[curIndex.value].name}
+                        size={previewUrls[curIndex.value].size}
                         hideOnClickModal={props.hideOnClickModal}
                         onClose={closeViewer}
                     ></Preview>
                 )}
-            </div>
+            </>
         );
     },
 });

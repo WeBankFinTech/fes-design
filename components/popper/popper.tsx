@@ -67,7 +67,7 @@ export default defineComponent({
             updateVirtualRect,
         );
         const popperClass = computed(() =>
-            [prefixCls, props.popperClass].filter(Boolean).join(' '),
+            [prefixCls, props.popperClass].filter(Boolean),
         );
 
         const renderTrigger = () => {

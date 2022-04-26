@@ -17,6 +17,11 @@ app.use(FScrollbar);
 
 --SCROLLBAR
 
+### 横向滚动
+
+
+--ROW
+
 --CODE
 
 ## Props

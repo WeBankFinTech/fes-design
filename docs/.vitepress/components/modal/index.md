@@ -14,27 +14,23 @@ app.use(FModal);
 
 ### 基础用法
 
-
 --COMMON
 
 ### 确认对话框
 
 使用 `confirm()` 可以快捷地弹出确认框。
 
-
 --CONFIRM
 
 ### 信息反馈
 
-各种类型的信息提示，只提供一个按钮用于关闭。
-
+各种类型的信息提示
 
 --FEEDBACK
 
 ### 自定义页脚
 
 通过 slot `footer`可以自定义页脚内容
-
 
 --FOOTER
 
@@ -55,7 +51,7 @@ app.use(FModal);
 | cancelText       | 取消按钮文字                                                                   | String            | 取消                  |
 | width            | 宽度                                                                           | String/Number     | 520                   |
 | top              | 距离顶部                                                                       | String/Number     | 50                    |
-| verticalCenter | 垂直居中 | Boolean | false |
+| verticalCenter   | 垂直居中                                                                       | Boolean           | false                 |
 | center           | 标题、内容、按钮居中                                                           | Boolean           | `false`               |
 | fullScreen       | 全屏显示                                                                       | Boolean           | `false`               |
 | contentClass     | 可用于设置内容的类名                                                           | String            | -                     |
@@ -118,7 +114,7 @@ const modal = Modal.info();
 
 modal.update({
     title: '修改的标题',
-    content: '修改的内容'
+    content: '修改的内容',
 });
 
 modal.destroy();

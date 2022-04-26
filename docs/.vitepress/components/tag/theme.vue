@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace>
         <div class="tag-group">
             <span class="tag-group__title">默认：</span>
             <FTag
@@ -47,7 +47,7 @@
                 {{ item.name }}
             </FTag>
         </div>
-    </Space>
+    </FSpace>
 </template>
 
 <script>

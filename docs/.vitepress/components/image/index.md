@@ -52,8 +52,9 @@ app.use(FPreviewGroup);
 | preview  | 预览参数，为 false 时禁用	 | boolean  | `false` |
 | fit  | 确定图片如何适应容器框，同原生 `object-fit`	 | string  | `fill / contain / cover / none / scale-down` |
 | lazy  | 是否开启懒加载 | boolean  | `-` |
-| hide-on-click-modal  | 是否可以通过点击遮罩层关闭预览	 | 	boolean | `false` |
-| scroll-container  | 开启懒加载后，监听 scroll 事件的容器 | string / HTMLElement  | `-` |
+| hideOnClickModal  | 是否可以通过点击遮罩层关闭预览	 | 	boolean | `false` |
+| scrollContainer  | 开启懒加载后，监听 scroll 事件的容器 | string / HTMLElement  | `-` |
+| name  | 当配置名称时，预览会展示此名称 | string   | `-` |
 
 ## Image Events
 
@@ -73,7 +74,7 @@ app.use(FPreviewGroup);
 
 | 属性 | 说明 | 类型 | 默认值  |
 | ------------- | ------------- | ------------- | ------------- |
-| hide-on-click-modal  | 是否可以通过点击遮罩层关闭预览	 | 	boolean | `false` |
+| hideOnClickModal  | 是否可以通过点击遮罩层关闭预览	 | 	boolean | `false` |
 
 
 ## ImageGroup Events

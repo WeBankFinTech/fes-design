@@ -37,7 +37,7 @@ const tableProps = {
     },
     size: {
         type: String as PropType<typeof SIZE[number]>,
-        default: 'normal',
+        default: 'middle',
     },
     spanMethod: Function,
     rowClassName: [Function, String, Array, Object] as PropType<
@@ -89,13 +89,15 @@ export default defineComponent({
             layout,
             columns,
             rootProps,
+            toggleRowExpend,
         } = useTable(props, ctx);
-
+        
         ctx.expose &&
             ctx.expose({
                 toggleRowSelection: handleSelect,
                 toggleAllSelection: handleSelectAll,
                 clearSelection: clearSelect,
+                toggleRowExpend
             });
 
         // 计算出传入columns列的对应的宽度

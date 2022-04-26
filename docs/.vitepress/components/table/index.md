@@ -104,6 +104,8 @@ app.use(FTable);
 | showHeader   | 是否展示表头                                                                  | boolean                                          | -      | `true`     |
 | spanMethod   | 合并行或列的计算方法                           |  *({ row, column, rowIndex, columnIndex }) => { rowspan: string, colspan: string }*| -      | -          |
 | virtualScroll   | 是否启动虚拟滚动，当启用时不支持展开行                                                     | boolean | -      |      false     |
+| size   | table的间距大小, 可选有'middle'、'small'                                             | string | -      |      'middle'     |
+
 
 ## FTable Slots
 
@@ -116,7 +118,7 @@ app.use(FTable);
 | 事件名称         | 说明                                         | 回调参数                        |
 | ---------------- | -------------------------------------------- | ------------------------------- |
 | cellClick       | 当某个单元格被点击时会触发该事件             | ({row, column, cellValue, event})=> void |
-| expandChange    | 当用户对某一行展开或者关闭的时候会触发该事件 |  ({ row })=> void                        |
+| expandChange    | 当用户对某一行展开或者关闭的时候会触发该事件 |  ({ row, expanded })=> void                        |
 | headerClick     | 当某一列的表头被点击时会触发该事件           | ({column, event}) => void               |
 | rowClick        | 当某一行被点击时会触发该事件                 | ({row, event}) => void                   |
 | select           | 当用户手动勾选数据行的 Checkbox 时触发的事件 | ({ selection, row, checked})=> void      |
@@ -128,8 +130,9 @@ app.use(FTable);
 | 名称               | 说明                               | 参数  |
 | ------------------ | ---------------------------------- | ----- |
 | clearSelection     | 用于多选表格，清空用户的选择       | -     |
-| toggleRowSelection | 用于多选表格，切换某一行的选中状态 | *{row}* |
+| toggleRowSelection | 用于多选表格，切换某一行的选中状态 | *toggleRowSelection({row})* |
 | toggleAllSelection | 用于多选表格，切换全选和全不选     | -     |
+| toggleRowExpend | 用于控制某行的展开隐藏     | *toggleRowExpend({row})*    | 
 
 ## FTableColumn Props
 

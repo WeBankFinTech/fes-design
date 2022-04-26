@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace>
         <FTag
             v-for="tag in dynamicTags.state.tags"
             :key="tag"
@@ -14,7 +14,6 @@
             v-model="dynamicTags.state.inputValue"
             class="input-tag"
             size="small"
-            @keyup.enter="dynamicTags.handleInputConfirm"
             @blur="dynamicTags.handleInputConfirm"
         >
         </FInput>
@@ -25,7 +24,7 @@
         >
             + New Tag
         </FButton>
-    </Space>
+    </FSpace>
 </template>
 
 <script>
@@ -79,7 +78,9 @@ export default {
 <style scoped>
 .input-tag,
 .button-tag {
-    margin-left: 10px;
     width: 100px;
+}
+.button-tag {
+    margin-left: -12px;
 }
 </style>

@@ -1,4 +1,4 @@
-import { PropType } from 'vue';
+import { PropType, CSSProperties, ExtractPropTypes } from 'vue';
 
 export const PROVIDE_KEY = Symbol('scrollbar');
 export const CONTAINER_PROVIDE_KEY = Symbol('scrollbar-container');
@@ -34,3 +34,30 @@ export const COMMON_PROPS = {
         default: false,
     },
 };
+
+export const scrollbarProps = {
+    height: {
+        type: [Number, String] as PropType<number | string>,
+    },
+    maxHeight: {
+        type: [Number, String] as PropType<number | string>,
+    },
+    native: {
+        type: Boolean,
+        default: false,
+    },
+    containerClass: [Array, Object, String] as PropType<string | object | []>,
+    containerStyle: Object as PropType<CSSProperties>,
+    noresize: Boolean,
+    always: {
+        type: Boolean,
+        default: false,
+    },
+    minSize: {
+        type: Number,
+        default: 20,
+    },
+    ...COMMON_PROPS,
+} as const;
+
+export type ScrollbarProps = Partial<ExtractPropTypes<typeof scrollbarProps>>;

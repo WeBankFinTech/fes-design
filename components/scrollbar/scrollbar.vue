@@ -47,52 +47,16 @@
 </template>
 
 <script lang="ts">
-import {
-    computed,
-    defineComponent,
-    nextTick,
-    onMounted,
-    ref,
-    CSSProperties,
-    PropType,
-    ExtractPropTypes,
-} from 'vue';
+import { computed, defineComponent, nextTick, onMounted, ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { addUnit, requestAnimationFrame } from '../_util/utils';
 import useResize from '../_util/use/useResize';
 import FBar from './bar.vue';
 import useScrollbar from './useScrollbar';
-import { COMMON_PROPS } from './const';
+import { scrollbarProps } from './const';
 
 const prefixCls = getPrefixCls('scrollbar');
-
-const scrollbarProps = {
-    height: {
-        type: [Number, String] as PropType<number | string>,
-    },
-    maxHeight: {
-        type: [Number, String] as PropType<number | string>,
-    },
-    native: {
-        type: Boolean,
-        default: false,
-    },
-    containerClass: [Array, Object, String] as PropType<string | object | []>,
-    containerStyle: Object as PropType<CSSProperties>,
-    noresize: Boolean,
-    always: {
-        type: Boolean,
-        default: false,
-    },
-    minSize: {
-        type: Number,
-        default: 20,
-    },
-    ...COMMON_PROPS,
-} as const;
-
-export type ScrollbarProps = Partial<ExtractPropTypes<typeof scrollbarProps>>;
 
 export default defineComponent({
     name: 'FScrollbar',

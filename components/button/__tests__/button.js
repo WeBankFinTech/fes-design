@@ -1,5 +1,4 @@
 import { mount } from '@vue/test-utils';
-
 import Button from '../button';
 import getPrefixCls from '../../_util/getPrefixCls';
 import { sleep } from '../../_util/utils';
@@ -16,7 +15,16 @@ function getTypeWrapper(type) {
     });
 }
 
-['default', 'primary', 'link', 'text', 'info', 'success', 'warning', 'danger'].forEach((type) => {
+[
+    'default',
+    'primary',
+    'link',
+    'text',
+    'info',
+    'success',
+    'warning',
+    'danger',
+].forEach((type) => {
     test(`button type ${type}`, () => {
         const wrapper = getTypeWrapper(type);
         const className = `${prefixCls}-type-${type}`;
@@ -78,8 +86,7 @@ test('button loading', () => {
 
 test('button loading async', async () => {
     const wrapper = mount(Button, {
-        props: {
-        },
+        props: {},
     });
     const className = `.${prefixCls}-loading-icon`;
     expect(wrapper.find(className).exists()).toBe(false);
@@ -91,13 +98,13 @@ test('button loading async', async () => {
     expect(wrapper.classes('is-loading')).toBe(true);
 });
 
-
 // ---------------- button throttle -------------------
 
 test('button throttle 300', async () => {
     const Counter = {
         components: { Button },
-        template: '<Button @click="handleClick" :throttle="300">Increment</Button>',
+        template:
+            '<Button @click="handleClick" :throttle="300">Increment</Button>',
         data() {
             return {
                 count: 0,
@@ -113,17 +120,14 @@ test('button throttle 300', async () => {
 
     const wrapper = mount(Counter);
 
-    wrapper.find('button').trigger('click');
-    wrapper.find('button').trigger('click');
-    await sleep(10);
-    expect(wrapper.classes('is-loading')).toBe(true);
+    await wrapper.find('button').trigger('click');
+    await wrapper.find('button').trigger('click');
     await sleep(400);
-    wrapper.find('button').trigger('click');
+    await wrapper.find('button').trigger('click');
 
     const incrementEvent = wrapper.emitted('increment');
     expect(incrementEvent).toHaveLength(2);
 
     expect(incrementEvent[0]).toEqual([1]);
     expect(incrementEvent[1]).toEqual([2]);
-    expect(wrapper.classes('is-loading')).toBe(false);
 });

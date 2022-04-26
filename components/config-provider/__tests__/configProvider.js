@@ -1,3 +1,1 @@
-test('ConfigProvider', () => {
-
-});
+test('ConfigProvider', () => {});

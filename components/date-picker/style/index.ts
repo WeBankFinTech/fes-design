@@ -1,7 +1,6 @@
-import '../../style/index.less';
-import './index.less';
-
+import '../../style';
 import '../../popper/style';
-import '../../input/style/inputInner.less';
 import '../../button/style';
 import '../../time-picker/style';
+import '../../input/style/inputInner.less';
+import './index.less';

@@ -51,12 +51,15 @@
     <div class="title">
         <div>嵌套配置:</div>
     </div>
-    <div class="components">
+    <div ref="componentsRef" class="components">
         <Space>
             <FConfigProvider :locale="enUS">
                 <FCascader></FCascader>
                 <Space>
-                    <FConfigProvider :locale="zhCN">
+                    <FConfigProvider
+                        :locale="zhCN"
+                        :getContainer="getContainer"
+                    >
                         <FCascader></FCascader>
                         <Space>
                             <FConfigProvider :locale="enUS">
@@ -89,7 +92,14 @@ watch(lang, () => {
 
 export default defineComponent({
     setup() {
+        const componentsRef = ref(null);
+        const getContainer = () => {
+            console.log(componentsRef.value);
+            return componentsRef.value;
+        };
         return {
+            componentsRef,
+            getContainer,
             enUS,
             zhCN,
             lang,

@@ -13,6 +13,16 @@
                 ></FOption>
             </FSelect>
         </FFormItem>
+        <FFormItem label="选择城市">
+            <FSelect clearable placeholder="请单选">
+                <FOption
+                    v-for="(item, index) in optionList"
+                    :key="index"
+                    :value="item.value"
+                    :label="item.label"
+                ></FOption>
+            </FSelect>
+        </FFormItem>
         <FFormItem label="选择性别">
             <FRadioGroup>
                 <FRadio :value="1">男</FRadio>

@@ -8,6 +8,7 @@ const copyToClipboard = (content) => {
     input.setAttribute('value', content);
     input.select();
     if (document.execCommand('copy')) {
+        document.body.removeChild(input);
         return true;
     }
     document.body.removeChild(input);

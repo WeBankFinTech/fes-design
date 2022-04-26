@@ -8,7 +8,8 @@ Object.keys(Api).forEach((key) => {
     Modal[key] = Api[key as keyof typeof Api];
 });
 
-type ModalType = SFCWithInstall<typeof Modal>;
+type ModalType = SFCWithInstall<typeof Modal> & typeof Api;
+
 export const FModal = withInstall<ModalType>(Modal as ModalType);
 
 export default FModal;

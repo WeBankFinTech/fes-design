@@ -48,6 +48,10 @@ Tag 组件提供了三个不同的主题。
 
 --WITHFORM
 
+### 超长省略
+
+--TOOLTIP
+
 --CODE
 
 ## Tag Props

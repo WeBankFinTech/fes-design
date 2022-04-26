@@ -32,6 +32,11 @@ Form 组件提供表单验证的功能，通过 rules 属性传入约定的验�
 
 --VALIDATE
 
+### 复杂表单验证
+复杂表单校验场景：自定义规则、联动校验、动态组件单个选项/整体校验。
+
+--COMPLEXVALIDATE
+
 --CODE
 
 
@@ -62,7 +67,7 @@ Form 组件提供表单验证的功能，通过 rules 属性传入约定的验�
 | 属性 | 说明 | 类型 | 默认值  |
 | ------------- | ------------- | ------------- | ------------- |
 | prop | 表单域 `model` 字段，在使用 `validate`、`resetFields` 方法的情况下，该属性是必填的 | string | - |
-| rules | 表单项验证规则，可查看`Form-Item Rule Type` | object | - |
+| rules | 表单项验证规则，可查看`Form-Item Rule Type` | Array | - |
 | label | 标签文本 | string | - |
 | labelWidth  | 表单项标签的宽度 | string(100px)、number(100) | - |
 | labelClass  | 表单项标签自定义 class | string | - |
@@ -78,11 +83,12 @@ Form 组件提供表单验证的功能，通过 rules 属性传入约定的验�
 
 ## Form-Item Rule Type
 以下并不是规则的全部用法，如果你想了解更多的用法，请参考 <a href="https://github.com/yiminghe/async-validator" target="blank">async-validator </a>。
-| 属性 | 说明 | 类型 |
-| ------------- | ------------- | ------------- |
-| trigger | 触发方式。`blur`、`change` 等 | string、Array |
-| required | 是否必填 | boolean |
-| message | 校验失败时展示的信息 | string |
-| min | 最小长度 | number |
-| max | 最大长度 | number |
-| validator | 自定义校验 | function(rule, value) |
+| 属性 | 说明 | 类型 | 默认值 |
+| ------------- | ------------- | ------------- | ------------- |
+| trigger | 校验触发的时机 | string、Array | - |
+| required | 是否必填 | boolean | false |
+| message | 校验失败时展示的信息 | string | - |
+| type | 内建校验类型，<a href="https://github.com/yiminghe/async-validator#type" target="blank">可选项</a> 【注意: 非`string`类型都需要指明type】 | string | 'string' |
+| min | 最小长度 | number | - |
+| max | 最大长度 | number | - |
+| validator | 自定义校验【注意，<a href="https://github.com/ant-design/ant-design/issues/5155" target="blank">callback 必须被调用】</a> | function(rule, value, callback) | - |

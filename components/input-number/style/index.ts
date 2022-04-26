@@ -1,4 +1,3 @@
-import '../../style/index.less';
+import '../../style';
+import '../../input/style/inputInner.less';
 import './index.less';
-
-import '../../input/style';

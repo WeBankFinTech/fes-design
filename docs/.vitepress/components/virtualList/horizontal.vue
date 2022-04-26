@@ -5,14 +5,12 @@
             :dataKey="'id'"
             :dataSources="items"
             :estimateSize="110"
-            :direction="'horizontal'"
-            :wrapClass="'wrapper'"
-            :itemClass="'list-item-horizontal'"
+            direction="horizontal"
         >
-            <template #="{ source }">
+            <template #default="{ source }">
                 <div
                     class="item-inner-horizontal"
-                    v-bind:style="{ width: source.size + 'px' }"
+                    :style="{ width: source.size + 'px' }"
                 >
                     <div class="index"># {{ source.index }}</div>
                     <div class="size">{{ source.size }}</div>
@@ -63,14 +61,6 @@ export default {
     height: 120px;
     overflow-x: auto;
     display: flex;
-}
-.list-horizontal .wrapper {
-    display: flex;
-    flex-direction: row;
-}
-.list-horizontal .list-item-horizontal {
-    border-right: 2px solid rgb(255, 255, 255);
-    background: rgba(83, 132, 255, 0.06) none repeat scroll 0% 0%;
 }
 .item-inner-horizontal {
     display: flex;
