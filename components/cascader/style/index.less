@@ -33,24 +33,6 @@
             --f-cascader-node-content-wrapper-bg-color: var(--f-white);
             cursor: not-allowed;
         }
-        &.is-inline {
-            display: inline-flex;
-            margin-left: @padding-lg;
-            color: inherit;
-            line-height: @data-input-height-base;
-            background-color: inherit;
-            .@{cascader-prefix-cls}-node-content {
-                padding: 0 calc(@padding-xs / 2);
-                color: var(--f-cascader-node-content-wrapper-color);
-                background-color: var(--f-cascader-node-content-wrapper-bg-color);
-            }
-            .@{cascader-prefix-cls}-node-checkbox {
-                margin-right: calc(@padding-xs / 2);
-            }
-            &.is-inline-first {
-                margin-left: 0;
-            }
-        }
     }
     &-node-indent {
         width: @cascader-indent;

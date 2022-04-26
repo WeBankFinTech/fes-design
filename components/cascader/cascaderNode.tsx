@@ -56,8 +56,6 @@ export default defineComponent({
             isSelected,
             isChecked,
             isIndeterminate,
-            isInline,
-            isFirst,
         } = useCascaderNode(props);
 
         const disabled = computed(() => props.disabled);
@@ -77,8 +75,6 @@ export default defineComponent({
                 prefixCls,
                 disabled.value && 'is-disabled',
                 isSelected.value && 'is-selected',
-                isInline.value && 'is-inline',
-                isFirst.value && 'is-inline-first',
             ].filter(Boolean),
         );
 
@@ -129,9 +125,6 @@ export default defineComponent({
             event.stopPropagation();
         };
         const renderIndent = () => {
-            if (isInline.value && !isFirst.value) {
-                return [];
-            }
             const arr = [];
             let i = 1;
             while (i < props.level) {

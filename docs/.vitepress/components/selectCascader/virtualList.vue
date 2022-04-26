@@ -1,9 +1,5 @@
 <template>
-    <FSelectCascader
-        :data="data"
-        virtualList
-        defaultExpandAll
-    ></FSelectCascader>
+    <FSelectCascader :data="data" virtualList></FSelectCascader>
 </template>
 <script>
 import { reactive } from 'vue';

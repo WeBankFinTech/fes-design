@@ -21,7 +21,6 @@
                     :isOpened="isOpened"
                     :multiple="multiple"
                     :placeholder="inputPlaceholder"
-                    :filterable="filterable"
                     :collapseTags="collapseTags"
                     :collapseTagsLimit="collapseTagsLimit"
                     :class="{ 'is-error': isError }"
@@ -30,20 +29,17 @@
                     @clear="handleClear"
                     @focus="focus"
                     @blur="blur"
-                    @input="handleFilterTextChange"
                 />
             </template>
             <template #default>
-                <template v-if="virtualList && !inline">
+                <template v-if="virtualList">
                     <Cascader
                         v-show="data.length"
                         ref="refCascader"
                         :selectedKeys="selectedKeys"
                         :checkedKeys="checkedKeys"
                         :data="data"
-                        :defaultExpandAll="defaultExpandAll"
                         :expandedKeys="expandedKeys"
-                        :accordion="accordion"
                         :selectable="cascaderSelectable"
                         :checkable="cascaderCheckable"
                         :checkStrictly="checkStrictly"
@@ -52,8 +48,6 @@
                         :childrenField="childrenField"
                         :valueField="valueField"
                         :labelField="labelField"
-                        :filterMethod="filterMethod"
-                        :inline="inline"
                         :remote="remote"
                         :loadData="loadData"
                         virtualList
@@ -84,9 +78,7 @@
                             :selectedKeys="selectedKeys"
                             :checkedKeys="checkedKeys"
                             :data="data"
-                            :defaultExpandAll="defaultExpandAll"
                             :expandedKeys="expandedKeys"
-                            :accordion="accordion"
                             :selectable="cascaderSelectable"
                             :checkable="cascaderCheckable"
                             :checkStrictly="checkStrictly"
@@ -95,15 +87,17 @@
                             :childrenField="childrenField"
                             :valueField="valueField"
                             :labelField="labelField"
-                            :filterMethod="filterMethod"
-                            :inline="inline"
                             :remote="remote"
                             :loadData="loadData"
                             @update:nodeList="onChangeNodeList"
                             @select="handleSelect"
                             @check="handleCheck"
                         ></Cascader>
-                        <div v-show="!data.length" :class="`${prefixCls}-null`">
+                        <div
+                            v-show="!data.length"
+                            :class="`${prefixCls}-null`"
+                            @mousedown.prevent
+                        >
                             {{ listEmptyText }}
                         </div>
                     </Scrollbar>
@@ -177,7 +171,6 @@ export default defineComponent({
         const [currentValue, updateCurrentValue] = props.multiple
             ? useArrayModel(props, emit)
             : useNormalModel(props, emit);
-        const filterText = ref('');
 
         const { t } = useLocale();
         const inputPlaceholder = computed(
@@ -257,7 +250,6 @@ export default defineComponent({
 
         const handleSelect = (data: SelectParams) => {
             if (props.disabled) return;
-            filterText.value = '';
             if (!props.multiple) {
                 updateCurrentValue(data.selectedKeys[0]);
                 isOpened.value = false;
@@ -269,7 +261,6 @@ export default defineComponent({
 
         const handleCheck = (data: CheckParams) => {
             if (props.disabled) return;
-            filterText.value = '';
             if (!props.multiple) {
                 updateCurrentValue(data.checkedKeys[0]);
                 isOpened.value = false;
@@ -314,16 +305,7 @@ export default defineComponent({
             validate('blur');
         };
 
-        const handleFilterTextChange = (val: string) => {
-            filterText.value = val;
-        };
-
         const refCascader = ref(null);
-        watch(filterText, () => {
-            refCascader.value.filter(filterText.value);
-        });
-        const filterMethod = (value: string, node: InnerCascaderOption) =>
-            node.label.indexOf(value) !== -1;
 
         const triggerRef = ref();
         const triggerWidth = ref(0);
@@ -350,7 +332,6 @@ export default defineComponent({
             selectedOptions,
             focus,
             blur,
-            handleFilterTextChange,
             cascaderSelectable,
             selectedKeys,
             cascaderCheckable,
@@ -358,7 +339,6 @@ export default defineComponent({
             handleCheck,
             checkedKeys,
             refCascader,
-            filterMethod,
             triggerRef,
             dropdownStyle,
             onChangeNodeList,

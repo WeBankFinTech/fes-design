@@ -1,5 +1,4 @@
 import { useNormalModel } from '../_util/use/useModel';
-import useFilter from './useFilter';
 
 import type { CascaderOption, CascaderNodeKey } from './interface';
 import type { CascaderProps } from './props';
@@ -22,8 +21,6 @@ export default (props: CascaderProps, { emit }: { emit: any }) => {
         emit,
         { prop: 'selectedKeys', isEqual: true },
     );
-
-    const { filter, hiddenKeys, filteredExpandedKeys } = useFilter(props);
 
     const hasSelected = (value: CascaderNodeKey) =>
         currentSelectedKeys.value.includes(value);
@@ -52,9 +49,6 @@ export default (props: CascaderProps, { emit }: { emit: any }) => {
         updateCheckedKeys,
         currentSelectedKeys,
         updateSelectedKeys,
-        filter,
-        hiddenKeys,
-        filteredExpandedKeys,
         hasSelected,
         hasChecked,
         hasIndeterminate,

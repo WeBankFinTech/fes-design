@@ -10,23 +10,17 @@ import type { CascaderProps } from './props';
 
 export default ({
     props,
-    filteredExpandedKeys,
     currentExpandedKeys,
-    hiddenKeys,
 }: {
     props: CascaderProps;
-    filteredExpandedKeys: CascaderNodeKey[];
     currentExpandedKeys: Ref<CascaderNodeKey[]>;
-    hiddenKeys: CascaderNodeKey[];
 }) => {
     const nodeList = reactive<CascaderNodeList>({});
 
     const transformData = ref([]);
 
-    watch([filteredExpandedKeys, currentExpandedKeys, transformData], () => {
-        const expandedKeys = filteredExpandedKeys.length
-            ? filteredExpandedKeys
-            : currentExpandedKeys.value;
+    watch([currentExpandedKeys, transformData], () => {
+        const expandedKeys = currentExpandedKeys.value;
         // 缓存每个节点的展开状态，性能更优
         transformData.value.forEach((key) => {
             const node = nodeList[key];
@@ -36,9 +30,6 @@ export default ({
 
     const currentData = computed(() =>
         transformData.value.filter((value) => {
-            if (hiddenKeys.includes(value)) {
-                return false;
-            }
             const node = nodeList[value];
             const isRoot = node.indexPath.length === 1;
             if (isRoot) {

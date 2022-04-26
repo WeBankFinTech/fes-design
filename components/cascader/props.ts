@@ -15,19 +15,11 @@ export const cascaderProps = {
             return [];
         },
     },
-    defaultExpandAll: {
-        type: Boolean,
-        default: false,
-    },
     expandedKeys: {
         type: Array as PropType<CascaderNodeKey[]>,
         default(): CascaderNodeKey[] {
             return [];
         },
-    },
-    accordion: {
-        type: Boolean,
-        default: false,
     },
     selectable: {
         type: Boolean,
@@ -80,15 +72,6 @@ export const cascaderProps = {
     loadData: {
         type: Function as PropType<(node: CascaderOption) => Promise<any>>,
     },
-    filterMethod: {
-        type: Function as PropType<
-            (filterText: string, node: CascaderOption) => boolean
-        >,
-    },
-    inline: {
-        type: Boolean,
-        default: false,
-    },
     virtualList: {
         type: Boolean,
         default: false,
@@ -117,4 +100,5 @@ export interface CascaderInst {
     };
 }
 
-export const CASCADER_PROVIDE_KEY: InjectionKey<CascaderInst> = Symbol('FCascader');
+export const CASCADER_PROVIDE_KEY: InjectionKey<CascaderInst> =
+    Symbol('FCascader');

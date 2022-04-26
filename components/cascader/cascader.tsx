@@ -38,18 +38,13 @@ export default defineComponent({
             updateCheckedKeys,
             currentSelectedKeys,
             updateSelectedKeys,
-            filter,
-            hiddenKeys,
-            filteredExpandedKeys,
             hasSelected,
             hasChecked,
             hasIndeterminate,
         } = useState(props, { emit });
 
-        const { nodeList, currentData, transformData } = useData({
+        const { nodeList, currentData } = useData({
             props,
-            hiddenKeys,
-            filteredExpandedKeys,
             currentExpandedKeys,
         });
 
@@ -62,19 +57,6 @@ export default defineComponent({
                 immediate: true,
             },
         );
-
-        onMounted(() => {
-            if (
-                props.defaultExpandAll &&
-                currentExpandedKeys.value.length === 0
-            ) {
-                updateExpandedKeys(
-                    transformData.value.filter(
-                        (value) => !nodeList[value].isLeaf,
-                    ),
-                );
-            }
-        });
 
         const selectNode = (val: CascaderNodeKey, event: Event) => {
             if (!props.selectable) {
@@ -105,17 +87,14 @@ export default defineComponent({
 
         const expandNode = (val: CascaderNodeKey, event: Event) => {
             const node = nodeList[val];
-            let values: CascaderNodeKey[] = cloneDeep(currentExpandedKeys.value);
+            let values: CascaderNodeKey[] = cloneDeep(
+                currentExpandedKeys.value,
+            );
             const index = values.indexOf(val);
             // 已经展开
             if (index !== -1) {
                 values.splice(index, 1);
             } else {
-                if (props.accordion) {
-                    values = values.filter((item) =>
-                        node.indexPath.includes(item),
-                    );
-                }
                 values.push(val);
             }
             updateExpandedKeys(values);
@@ -130,22 +109,22 @@ export default defineComponent({
         function getCheckedKeys(arr: CascaderNodeKey[]) {
             return props.cascade
                 ? arr.filter((key) => {
-                    const node = nodeList[key];
-                    if (props.checkStrictly === CHECK_STRATEGY.ALL) {
-                        return true;
-                    }
-                    if (props.checkStrictly === CHECK_STRATEGY.PARENT) {
-                        return (
-                            node.indexPath.filter((path) =>
-                                arr.includes(path),
-                            ).length === 1
-                        );
-                    }
-                    if (props.checkStrictly === CHECK_STRATEGY.CHILD) {
-                        return node.isLeaf;
-                    }
-                    return true;
-                })
+                      const node = nodeList[key];
+                      if (props.checkStrictly === CHECK_STRATEGY.ALL) {
+                          return true;
+                      }
+                      if (props.checkStrictly === CHECK_STRATEGY.PARENT) {
+                          return (
+                              node.indexPath.filter((path) =>
+                                  arr.includes(path),
+                              ).length === 1
+                          );
+                      }
+                      if (props.checkStrictly === CHECK_STRATEGY.CHILD) {
+                          return node.isLeaf;
+                      }
+                      return true;
+                  })
                 : arr;
         }
         function handleChildren(
@@ -231,7 +210,6 @@ export default defineComponent({
                 selectNode,
                 expandNode,
                 checkNode,
-                filter,
             });
         }
 
@@ -285,7 +263,7 @@ export default defineComponent({
             renderNode(source);
 
         return () =>
-            props.virtualList && !props.inline ? (
+            props.virtualList ? (
                 <VirtualList
                     dataSources={currentData.value}
                     dataKey={(source: CascaderNodeKey) => {
