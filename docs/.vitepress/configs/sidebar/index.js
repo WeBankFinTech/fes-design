@@ -112,6 +112,10 @@ module.exports = {
                         link: '/zh/components/selectTree',
                     },
                     {
+                        text: 'SelectCascader 级联选择器',
+                        link: '/zh/components/selectCascader',
+                    },
+                    {
                         text: 'Form 表单',
                         link: '/zh/components/form',
                     },

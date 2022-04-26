@@ -42,6 +42,8 @@ import { FDrawer } from './drawer';
 import { FSelectTree } from './select-tree';
 import { FSpace } from './space';
 import { FSkeleton } from './skeleton';
+import { FCascader } from './cascader';
+import { FSelectCascader } from './select-cascader';
 
 export * from './locales';
 
@@ -102,6 +104,8 @@ const components = [
     FSelectTree,
     FSpace,
     FSkeleton,
+    FCascader,
+    FSelectCascader,
 ];
 const install = function (app: App) {
     components.forEach((component) => {
@@ -170,6 +174,8 @@ export {
     FSelectTree,
     FSpace,
     FSkeleton,
+    FCascader,
+    FSelectCascader,
 };
 export default {
     version,
