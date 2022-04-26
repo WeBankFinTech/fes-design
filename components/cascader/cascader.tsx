@@ -1,4 +1,4 @@
-import { h, defineComponent, provide, onMounted, watch, VNodeChild } from 'vue';
+import { defineComponent, provide, watch, VNodeChild } from 'vue';
 import { isFunction, isString, cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -258,14 +258,10 @@ export default defineComponent({
         const renderChildren = (arr: CascaderNodeKey[]) =>
             arr.map((value) => renderNode(value));
 
-        const renderDefault = ({ source }: { source: CascaderNodeKey }) =>
-            renderNode(source);
-
-        return () =>
-            (
-                <div class={prefixCls} role="cascader">
-                    {renderChildren(currentData.value)}
-                </div>
-            );
+        return () => (
+            <div class={prefixCls} role="cascader">
+                {renderChildren(currentData.value)}
+            </div>
+        );
     },
 });
