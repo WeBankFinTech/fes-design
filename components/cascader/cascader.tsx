@@ -2,7 +2,6 @@ import { h, defineComponent, provide, onMounted, watch, VNodeChild } from 'vue';
 import { isFunction, isString, cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
-import VirtualList from '../virtual-list/virtualList';
 import CascaderNode from './cascaderNode';
 import { COMPONENT_NAME, CHECK_STRATEGY } from './const';
 import useData from './useData';
@@ -67,12 +66,12 @@ export default defineComponent({
             const index = values.indexOf(val);
             if (props.multiple) {
                 if (index !== -1) {
-                    props.cancelable && values.splice(index, 1);
+                    values.splice(index, 1);
                 } else {
                     values.push(val);
                 }
             } else if (index !== -1) {
-                props.cancelable && values.splice(index, 1);
+                values.splice(index, 1);
             } else {
                 values[0] = val;
             }
@@ -263,18 +262,7 @@ export default defineComponent({
             renderNode(source);
 
         return () =>
-            props.virtualList ? (
-                <VirtualList
-                    dataSources={currentData.value}
-                    dataKey={(source: CascaderNodeKey) => {
-                        return source;
-                    }}
-                    estimateSize={32}
-                    keeps={14}
-                    class={prefixCls}
-                    v-slots={{ default: renderDefault }}
-                />
-            ) : (
+            (
                 <div class={prefixCls} role="cascader">
                     {renderChildren(currentData.value)}
                 </div>

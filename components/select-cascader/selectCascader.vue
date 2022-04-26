@@ -32,7 +32,11 @@
                 />
             </template>
             <template #default>
-                <template v-if="virtualList">
+                <Scrollbar
+                    :containerStyle="dropdownStyle"
+                    :containerClass="`${prefixCls}-dropdown`"
+                    @mousedown.prevent
+                >
                     <Cascader
                         v-show="data.length"
                         ref="refCascader"
@@ -50,13 +54,9 @@
                         :labelField="labelField"
                         :remote="remote"
                         :loadData="loadData"
-                        virtualList
-                        :style="dropdownStyle"
-                        :class="`${prefixCls}-dropdown is-max-height`"
                         @update:nodeList="onChangeNodeList"
                         @select="handleSelect"
                         @check="handleCheck"
-                        @mousedown.prevent
                     ></Cascader>
                     <div
                         v-show="!data.length"
@@ -65,43 +65,7 @@
                     >
                         {{ listEmptyText }}
                     </div>
-                </template>
-                <template v-else>
-                    <Scrollbar
-                        :containerStyle="dropdownStyle"
-                        :containerClass="`${prefixCls}-dropdown`"
-                        @mousedown.prevent
-                    >
-                        <Cascader
-                            v-show="data.length"
-                            ref="refCascader"
-                            :selectedKeys="selectedKeys"
-                            :checkedKeys="checkedKeys"
-                            :data="data"
-                            :expandedKeys="expandedKeys"
-                            :selectable="cascaderSelectable"
-                            :checkable="cascaderCheckable"
-                            :checkStrictly="checkStrictly"
-                            :cascade="cascade"
-                            :multiple="multiple"
-                            :childrenField="childrenField"
-                            :valueField="valueField"
-                            :labelField="labelField"
-                            :remote="remote"
-                            :loadData="loadData"
-                            @update:nodeList="onChangeNodeList"
-                            @select="handleSelect"
-                            @check="handleCheck"
-                        ></Cascader>
-                        <div
-                            v-show="!data.length"
-                            :class="`${prefixCls}-null`"
-                            @mousedown.prevent
-                        >
-                            {{ listEmptyText }}
-                        </div>
-                    </Scrollbar>
-                </template>
+                </Scrollbar>
             </template>
         </Popper>
     </div>
@@ -135,7 +99,6 @@ import type {
     CascaderNodeList,
     SelectParams,
     CheckParams,
-    InnerCascaderOption,
 } from '../cascader/interface';
 import { useLocale } from '../config-provider/useLocale';
 

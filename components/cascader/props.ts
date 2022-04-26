@@ -72,14 +72,6 @@ export const cascaderProps = {
     loadData: {
         type: Function as PropType<(node: CascaderOption) => Promise<any>>,
     },
-    virtualList: {
-        type: Boolean,
-        default: false,
-    },
-    cancelable: {
-        type: Boolean,
-        default: true,
-    },
 } as const;
 
 export const cascaderPropsDefaultValue =

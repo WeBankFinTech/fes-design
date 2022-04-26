@@ -36,11 +36,6 @@ app.use(FSelectCascader);
 
 --DISABLED
 
-### 虚拟列表
-
-设置`virtualList`属性，处理大数据。
---VIRTUALLIST
-
 ### 控制回填内容
 
 --LABELFIELD
@@ -75,7 +70,6 @@ app.use(FSelectCascader);
 | labelField            | 替代 `CascaderOption` 中的 `label` 字段名                                                                                                                               | string                                    | `label`               |
 | remote                | 是否异步获取选项，和 `onLoad` 配合                                                                                                                                      | boolean                                   | `false`               |
 | loadData              | 异步加载数据的回调函数                                                                                                                                                  | (node: CascaderOption) => Promise\<void\> | `null`                |
-| virtualList           | 是否使用虚拟滚动                                                                                                                                                        | boolean                                   | `false`               |
 
 ## SelectCascader Events
 
