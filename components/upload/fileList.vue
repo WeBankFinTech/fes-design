@@ -6,8 +6,10 @@
             :class="[`${prefixCls}-list-item`, `is-${file.status}`]"
         >
             <div :class="`${prefixCls}-list-name-wrapper`">
-                <FileOutlined />
-                <div :class="`${prefixCls}-list-name`">{{ file.name }}</div>
+                <slot name="file" :file="file">
+                    <FileOutlined />
+                    <div :class="`${prefixCls}-list-name`">{{ file.name }}</div>
+                </slot>
                 <div
                     v-if="file.status === 'uploading'"
                     :class="`${prefixCls}-list-progress`"
