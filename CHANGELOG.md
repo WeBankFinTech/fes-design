@@ -1,3 +1,18 @@
+## [0.4.6](https://github.com/WeBankFinTech/fes-design/compare/v0.4.5...v0.4.6) (2022-04-27)
+
+
+### Bug Fixes
+
+* 修复image的download为白色 ([4c0256b](https://github.com/WeBankFinTech/fes-design/commit/4c0256bd755a74e27fe1e667b209586f16818398))
+* 修复ts提示问题 ([a2551f3](https://github.com/WeBankFinTech/fes-design/commit/a2551f34dfa2daf89a47b8a54ad04831c4049fc3))
+
+
+### Features
+
+* upload 添加 file slot ([#129](https://github.com/WeBankFinTech/fes-design/issues/129)) ([7e1ec84](https://github.com/WeBankFinTech/fes-design/commit/7e1ec8489e048ae8f59c46d1a67f41ab6546a0ec))
+
+
+
 ## [0.4.5](https://github.com/WeBankFinTech/fes-design/compare/v0.4.4...v0.4.5) (2022-04-25)
 
 
