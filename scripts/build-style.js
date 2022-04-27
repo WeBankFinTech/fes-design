@@ -7,7 +7,7 @@ const path = require('path');
 const { compilerCss } = require('./compilerCss');
 const { OUTPUT_DIR } = require('./build-shard');
 
-const STYLE_SOURCE = path.join(__dirname, '../components/style.ts');
+const STYLE_SOURCE = path.join(__dirname, '../components/_style.ts');
 
 fse.mkdirsSync(OUTPUT_DIR);
 
