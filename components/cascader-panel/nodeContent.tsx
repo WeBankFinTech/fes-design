@@ -4,7 +4,7 @@ import { CASCADER_PANEL_INJECTION_KEY } from './props';
 
 import type { CascaderNode } from './getNode';
 
-const prefixCls = getPrefixCls('cascader-node-content');
+const prefixCls = getPrefixCls('cascader-v1-node-content');
 
 export default defineComponent({
     name: 'NodeContent',

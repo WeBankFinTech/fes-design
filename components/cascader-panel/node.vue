@@ -87,7 +87,7 @@ import NodeContent from './nodeContent';
 import type { CascaderNode } from './getNode';
 import { useLocale } from '../config-provider/useLocale';
 
-const prefixCls = getPrefixCls('cascader-node');
+const prefixCls = getPrefixCls('cascader-v1-node');
 
 const cascaderNodeProps = {
     node: {

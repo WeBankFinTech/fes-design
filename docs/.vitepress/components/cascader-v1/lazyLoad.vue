@@ -221,7 +221,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.fes-cascader {
+.fes-cascader-v1 {
     width: 200px;
 }
 .text-tips {

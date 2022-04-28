@@ -70,7 +70,7 @@ import { useNoMatchedNodes } from './useNoMatchedNodes';
 import { useMultiRemove } from './useMultiRemove';
 import type { CascaderNode } from '../cascader-panel/getNode';
 
-const prefixCls = getPrefixCls('cascader');
+const prefixCls = getPrefixCls('cascader-v1');
 
 export default defineComponent({
     name: 'FCascaderV1',

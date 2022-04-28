@@ -30,7 +30,7 @@ import Spin from '../spin';
 
 import type { CascaderNode } from './getNode';
 
-const prefixCls = getPrefixCls('cascader-menu');
+const prefixCls = getPrefixCls('cascader-v1-menu');
 
 const cascaderMenuProps = {
     nodes: {

@@ -21,7 +21,7 @@ import { cascaderPanelProps, CASCADER_PANEL_INJECTION_KEY } from './props';
 import type { CascaderNodeConfig } from './interface';
 import { useLocale } from '../config-provider/useLocale';
 
-const prefixCls = getPrefixCls('cascader-panel');
+const prefixCls = getPrefixCls('cascader-v1-panel');
 
 export default defineComponent({
     name: 'FCascaderPanel',
