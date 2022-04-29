@@ -68,10 +68,19 @@ export default defineComponent({
             () => props.emptyText || t('select.emptyText'),
         );
 
+        const updateExpandedKeysBySelectOrCheck = (val: CascaderNodeKey) => {
+            const node = nodeList[val];
+            updateExpandedKeys(
+                node.indexPath.slice(0, node.indexPath.length - 1),
+            );
+        };
+
         const selectNode = (val: CascaderNodeKey, event: Event) => {
             if (!props.selectable) {
                 return;
             }
+            updateExpandedKeysBySelectOrCheck(val);
+
             const node = nodeList[val];
             const values = cloneDeep(currentSelectedKeys.value);
             const index = values.indexOf(val);
@@ -97,15 +106,7 @@ export default defineComponent({
 
         const expandNode = (val: CascaderNodeKey, event: Event) => {
             const node = nodeList[val];
-            let values: CascaderNodeKey[] = cloneDeep(
-                currentExpandedKeys.value,
-            );
-            const index = values.indexOf(val);
-            // 已经展开，忽略处理
-            if (index !== -1) {
-                return;
-            }
-            values = [...node.indexPath];
+            const values = [...node.indexPath];
             updateExpandedKeys(values);
             emit('expand', {
                 expandedKeys: values,
@@ -181,6 +182,8 @@ export default defineComponent({
             }
         }
         const checkNode = (val: CascaderNodeKey, event: Event) => {
+            updateExpandedKeysBySelectOrCheck(val);
+
             const node = nodeList[val];
             const { isLeaf, children, indexPath } = node;
             const values = cloneDeep(currentCheckedKeys.value);
