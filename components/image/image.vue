@@ -30,6 +30,7 @@
                 :src="src"
                 :name="name"
                 :size="imageSize"
+                :download="download"
                 :hide-on-click-modal="hideOnClickModal"
                 @close="closeViewer"
             >
@@ -57,6 +58,7 @@ import { PictureOutlined, PictureFailOutlined } from '../icon';
 import { isHtmlElement, getScrollContainer, isInContainer } from '../_util/dom';
 import { noop, noopInNoop } from '../_util/utils';
 import { CLOSE_EVENT, LOAD_EVENT, ERROR_EVENT } from '../_util/constants';
+import download from '../_util/download';
 import { useTheme } from '../_theme/useTheme';
 import { PREVIEW_PROVIDE_KEY } from './props';
 import Preview from './preview.vue';
@@ -100,6 +102,10 @@ export default defineComponent({
             default: false,
         },
         scrollContainer: [String, Object] as PropType<string | HTMLElement>,
+        download: {
+            type: Boolean,
+            default: false,
+        },
     },
     emits: [ERROR_EVENT, LOAD_EVENT, CLOSE_EVENT],
     setup(props, { attrs, emit }) {
@@ -171,7 +177,7 @@ export default defineComponent({
             if (fit) {
                 styleObj.objectFit = fit;
             }
-            if (canPreview.value || canGroupPreview.value) {
+            if (props.download || canPreview.value || canGroupPreview.value) {
                 styleObj.cursor = 'pointer';
             }
             return styleObj;
@@ -232,6 +238,12 @@ export default defineComponent({
                 prevOverflow = document.body.style.overflow;
                 document.body.style.overflow = 'hidden';
                 isShowPreview.value = true;
+            } else if (props.download) {
+                // 下载
+                download({
+                    href: props.src,
+                    name: props.name,
+                });
             }
         }
 
@@ -261,12 +273,13 @@ export default defineComponent({
             () => {
                 unRegister();
                 if (canGroupPreview.value) {
-                    unRegister = registerImage(
-                        currentId.value,
-                        props.src,
-                        props.name,
-                        imageSize,
-                    );
+                    unRegister = registerImage({
+                        id: currentId.value,
+                        url: props.src,
+                        name: props.name,
+                        size: imageSize,
+                        download: props.download,
+                    });
                 }
             },
             { immediate: true },
