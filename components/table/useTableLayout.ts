@@ -1,5 +1,5 @@
-import { nextTick, ref, watch, Ref } from 'vue';
-import { debounce, isEqual } from 'lodash-es';
+import { nextTick, ref, watch, Ref, onActivated, onDeactivated } from 'vue';
+import { isEqual } from 'lodash-es';
 import useResize from '../_util/use/useResize';
 
 import type { TableProps } from './table';
@@ -30,6 +30,7 @@ export default function useTableLayout({
     const isScrollY = ref(false);
     const headerHeight = ref(0);
     const bodyHeight = ref(0);
+    const initRef = ref(false);
 
     const handlerHeight = () => {
         // 需要在宽度分配完，重新渲染后，此时table已经按照期望正常渲染，此时的高度才是最终高度
@@ -126,18 +127,24 @@ export default function useTableLayout({
             if (!isEqual(newWidthList, widthList.value)) {
                 widthList.value = newWidthList;
             }
+            nextTick(() => {
+                initRef.value = true;
+            });
         }
     };
 
+    const watchResizeDisableRef = ref(false);
+
+    onDeactivated(() => {
+        watchResizeDisableRef.value = true;
+    });
+
+    onActivated(() => {
+        watchResizeDisableRef.value = false;
+    });
+
     // 检测Table宽度变化
-    useResize(
-        wrapperRef,
-        debounce(() => {
-            nextTick(() => {
-                handlerWidth();
-            });
-        }, 100),
-    );
+    useResize(wrapperRef, handlerWidth, watchResizeDisableRef);
 
     watch([columns, () => props.bordered, wrapperRef], handlerWidth);
 
@@ -171,5 +178,6 @@ export default function useTableLayout({
         bodyHeight,
         isScrollX,
         isScrollY,
+        initRef,
     };
 }
