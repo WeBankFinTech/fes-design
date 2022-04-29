@@ -44,7 +44,7 @@ export default defineComponent({
             updateSelectedKeys,
             hasSelected,
             hasChecked,
-            hasIndeterminate,
+            hasLoaded,
         } = useState(props, { emit });
 
         const { nodeList, getMenuNodes, menuKeys } = useData({
@@ -236,7 +236,7 @@ export default defineComponent({
             checkNode,
             hasSelected,
             hasChecked,
-            hasIndeterminate,
+            hasLoaded,
             nodeList,
         });
 

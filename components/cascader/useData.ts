@@ -44,10 +44,9 @@ export default ({
                 })
                 .map((value) => nodeList[value]);
         } else {
-            const childrenValues = nodeList[key].children.map(
-                (node) => node.value,
+            nodes = nodeList[key].childrenValues.map(
+                (value) => nodeList[value],
             );
-            nodes = childrenValues.map((value) => nodeList[value]);
         }
 
         return nodes;
@@ -81,6 +80,9 @@ export default ({
         copy.indexPath = [...indexPath, value];
         copy.level = level;
         copy.hasChildren = hasChildren;
+        copy.childrenValues = hasChildren
+            ? children?.map((node) => node.value)
+            : [];
         return copy;
     };
 

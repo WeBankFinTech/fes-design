@@ -32,11 +32,15 @@ export default {
                     node.children = [
                         {
                             label: '1',
-                            value: node.value + '1',
+                            value: `${node.value}-1`,
+                            isLeaf:
+                                node.value.split('-').length > 1 ? true : false,
                         },
                         {
                             label: '2',
-                            value: node.value + '2',
+                            value: `${node.value}-2`,
+                            isLeaf:
+                                node.value.split('-').length > 1 ? true : false,
                         },
                     ];
                     resolve();

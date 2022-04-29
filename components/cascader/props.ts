@@ -93,7 +93,7 @@ export interface CascaderInst {
     checkNode: (value: CascaderNodeKey, event: Event) => void;
     hasSelected: (value: CascaderNodeKey) => boolean;
     hasChecked: (value: CascaderNodeKey) => boolean;
-    hasIndeterminate: (node: InnerCascaderOption) => boolean;
+    hasLoaded: (node: InnerCascaderOption) => boolean;
     nodeList: {
         [key: string]: InnerCascaderOption;
     };

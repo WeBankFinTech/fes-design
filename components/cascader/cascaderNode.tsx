@@ -14,6 +14,8 @@ import Checkbox from '../checkbox/checkbox.vue';
 import { COMPONENT_NAME } from './const';
 import useCascaderNode from './useCascaderNode';
 import Ellipsis from '../ellipsis';
+import Tooltip from '../tooltip';
+import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('cascader-node');
 
@@ -53,8 +55,15 @@ export default defineComponent({
     name: COMPONENT_NAME.CASCADER_NODE,
     props: cascaderNodeProps,
     setup(props, { slots }) {
-        const { root, isExpanded, isSelected, isChecked, isIndeterminate } =
-            useCascaderNode(props);
+        const {
+            root,
+            isExpanded,
+            isSelected,
+            isChecked,
+            isIndeterminate,
+            isLoaded,
+            isCheckNeedLoad,
+        } = useCascaderNode(props);
 
         const disabled = computed(() => props.disabled);
         const selectable = computed(() =>
@@ -78,22 +87,23 @@ export default defineComponent({
             ].filter(Boolean),
         );
 
-        let isLoaded = false;
+        const { t } = useLocale();
+        const loadingRequiredMessage = computed(() =>
+            t('cascader.loadingRequiredMessage', {
+                label: props.label,
+            }),
+        );
+
         const isLoading = ref(false);
         const handleClickSwitcher = async (event?: Event) => {
             if (isLoading.value) {
                 return;
             }
             const node = root.nodeList[props.value];
-            if (
-                !isLoaded &&
-                root.props.loadData &&
-                (!node.children || node.children.length === 0)
-            ) {
+            if (!isLoaded.value) {
                 isLoading.value = true;
                 try {
                     await root.props.loadData(node.origin);
-                    isLoaded = true;
                     root.expandNode(props.value, event);
                 } catch (e) {
                     console.error(e);
@@ -150,12 +160,25 @@ export default defineComponent({
             if (root.props.checkable) {
                 return (
                     <span class={`${prefixCls}-checkbox`}>
-                        <Checkbox
-                            indeterminate={isIndeterminate.value}
-                            modelValue={isChecked.value}
-                            onClick={handleClickCheckbox}
-                            disabled={props.disabled}
-                        />
+                        {isCheckNeedLoad.value ? (
+                            <Tooltip
+                                placement="top-start"
+                                content={loadingRequiredMessage.value}
+                            >
+                                <Checkbox
+                                    indeterminate={isIndeterminate.value}
+                                    modelValue={isChecked.value}
+                                    disabled={true}
+                                />
+                            </Tooltip>
+                        ) : (
+                            <Checkbox
+                                indeterminate={isIndeterminate.value}
+                                modelValue={isChecked.value}
+                                onClick={handleClickCheckbox}
+                                disabled={props.disabled}
+                            />
+                        )}
                     </span>
                 );
             }
@@ -190,17 +213,14 @@ export default defineComponent({
                 role="cascader-node"
             >
                 {renderCheckbox()}
-
                 <span
                     class={`${prefixCls}-content`}
                     onClick={handleClickContent}
                 >
                     {renderPrefix()}
-
                     <span class={`${prefixCls}-content-label`}>
                         <Ellipsis>{props.label}</Ellipsis>
                     </span>
-
                     {renderSuffix()}
                 </span>
                 {renderSwitcher()}

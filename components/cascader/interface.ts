@@ -21,6 +21,7 @@ export interface InnerCascaderOption extends CascaderOption {
     hasChildren?: boolean;
     indexPath?: CascaderNodeKey[];
     children?: InnerCascaderOption[];
+    childrenValues?: CascaderNodeKey[];
     isExpanded?: boolean;
 }
 

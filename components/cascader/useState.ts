@@ -1,6 +1,6 @@
 import { useNormalModel } from '../_util/use/useModel';
 
-import type { CascaderOption, CascaderNodeKey } from './interface';
+import type { InnerCascaderOption, CascaderNodeKey } from './interface';
 import type { CascaderProps } from './props';
 
 export default (props: CascaderProps, { emit }: { emit: any }) => {
@@ -22,24 +22,20 @@ export default (props: CascaderProps, { emit }: { emit: any }) => {
         { prop: 'selectedKeys', isEqual: true },
     );
 
-    const hasSelected = (value: CascaderNodeKey) =>
+    const hasSelected = (value: CascaderNodeKey): boolean =>
         currentSelectedKeys.value.includes(value);
     const hasChecked = (value: CascaderNodeKey): boolean =>
         currentCheckedKeys.value.includes(value);
-    const hasIndeterminate = (node: CascaderOption): boolean => {
-        if (hasChecked(node.value)) {
+    const hasLoaded = (node: InnerCascaderOption): boolean => {
+        if (
+            !node.isLeaf &&
+            props.remote &&
+            props.loadData &&
+            !node.hasChildren
+        ) {
             return false;
         }
-        if (node.isLeaf) {
-            return false;
-        }
-        return (
-            props.cascade &&
-            Array.isArray(node.children) &&
-            node.children.some(
-                (item) => hasChecked(item.value) || hasIndeterminate(item),
-            )
-        );
+        return true;
     };
 
     return {
@@ -51,6 +47,6 @@ export default (props: CascaderProps, { emit }: { emit: any }) => {
         updateSelectedKeys,
         hasSelected,
         hasChecked,
-        hasIndeterminate,
+        hasLoaded,
     };
 };
