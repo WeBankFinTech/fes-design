@@ -190,18 +190,19 @@ export default defineComponent({
                 role="cascader-node"
             >
                 {renderCheckbox()}
-                <Ellipsis>
-                    <span
-                        class={`${prefixCls}-content`}
-                        onClick={handleClickContent}
-                    >
-                        {renderPrefix()}
-                        <span class={`${prefixCls}-content-label`}>
-                            {props.label}
-                        </span>
-                        {renderSuffix()}
+
+                <span
+                    class={`${prefixCls}-content`}
+                    onClick={handleClickContent}
+                >
+                    {renderPrefix()}
+
+                    <span class={`${prefixCls}-content-label`}>
+                        <Ellipsis>{props.label}</Ellipsis>
                     </span>
-                </Ellipsis>
+
+                    {renderSuffix()}
+                </span>
                 {renderSwitcher()}
             </div>
         );

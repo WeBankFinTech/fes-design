@@ -64,7 +64,7 @@ app.use(FCascader);
 
 --VIRTUALLIST
 
-### 过长文字
+### 文字超长溢出
 
 --LONGLABEL
 

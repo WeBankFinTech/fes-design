@@ -75,21 +75,21 @@
             </FRadioGroup>
         </FFormItem>
         <FFormItem label="级联单选" prop="singleCity">
-            <FCascaderV1
+            <FSelectCascader
                 v-model="modelForm.singleCity"
-                :options="cascaderOptions"
+                :data="cascaderOptions"
                 @change="changeHandler"
             >
-            </FCascaderV1>
+            </FSelectCascader>
         </FFormItem>
         <FFormItem label="级联多选" prop="multiCity">
-            <FCascaderV1
+            <FSelectCascader
                 v-model="modelForm.multiCity"
-                :options="cascaderOptions"
+                :data="cascaderOptions"
                 :multiple="true"
                 @change="changeHandler"
             >
-            </FCascaderV1>
+            </FSelectCascader>
         </FFormItem>
         <FFormItem label="备注 slot" labelClass="more-label" prop="desc">
             <template #label>

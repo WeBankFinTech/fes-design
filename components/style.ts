@@ -33,7 +33,6 @@ import './divider/style';
 import './ellipsis/style';
 import './dropdown/style';
 import './spin/style';
-import './cascader-v1/style';
 import './config-provider/style';
 import './image/style';
 import './carousel/style';

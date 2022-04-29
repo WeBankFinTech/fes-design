@@ -27,7 +27,6 @@ import { FSwitch } from './switch';
 import { FTable, FTableColumn } from './table';
 import { FTabs, FTabPane } from './tabs';
 import { FTag } from './tag';
-import { FCascaderV1 } from './cascader-v1';
 import { FTimePicker } from './time-picker';
 import { FDatePicker } from './date-picker';
 import { FTooltip } from './tooltip';
@@ -86,7 +85,6 @@ const components = [
     FTabs,
     FTabPane,
     FTag,
-    FCascaderV1,
     FTimePicker,
     FDatePicker,
     FTooltip,
@@ -156,7 +154,6 @@ export {
     FTabs,
     FTabPane,
     FTag,
-    FCascaderV1,
     FTimePicker,
     FDatePicker,
     FTooltip,
