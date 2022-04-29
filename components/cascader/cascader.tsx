@@ -1,4 +1,4 @@
-import { defineComponent, provide, watch, VNodeChild } from 'vue';
+import { defineComponent, provide, watch, VNodeChild, computed } from 'vue';
 import { isFunction, isString, cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -14,6 +14,7 @@ import type {
     CascaderNodeKey,
     CascaderMenu,
 } from './interface';
+import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('cascader');
 
@@ -60,6 +61,11 @@ export default defineComponent({
             {
                 immediate: true,
             },
+        );
+
+        const { t } = useLocale();
+        const listEmptyText = computed(
+            () => props.emptyText || t('select.emptyText'),
         );
 
         const selectNode = (val: CascaderNodeKey, event: Event) => {
@@ -267,7 +273,13 @@ export default defineComponent({
                     key={menu.key}
                 >
                     <div class={`${prefixCls}-menu`} role="cascader-menu">
-                        {renderNodes(menu.nodes)}
+                        {menu.nodes.length ? (
+                            renderNodes(menu.nodes)
+                        ) : (
+                            <div class={`${prefixCls}-null`}>
+                                {listEmptyText.value}
+                            </div>
+                        )}
                     </div>
                 </Scrollbar>
             );

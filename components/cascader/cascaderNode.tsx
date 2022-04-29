@@ -183,7 +183,7 @@ export default defineComponent({
             );
         };
         return () => (
-            <div class={classList.value} data-value={props.value} role="cascader-menu-node">
+            <div class={classList.value} data-value={props.value} role="cascader-node">
                 {renderCheckbox()}
                 <span
                     class={`${prefixCls}-content`}

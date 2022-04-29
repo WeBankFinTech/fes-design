@@ -33,11 +33,11 @@
             </template>
             <template #default>
                 <Cascader
-                    v-show="data.length"
                     ref="refCascader"
                     :selectedKeys="selectedKeys"
                     :checkedKeys="checkedKeys"
                     :data="data"
+                    :emptyText="emptyText"
                     :expandedKeys="expandedKeys"
                     :selectable="cascaderSelectable"
                     :checkable="cascaderCheckable"
@@ -54,13 +54,6 @@
                     @check="handleCheck"
                     @mousedown.prevent
                 ></Cascader>
-                <div
-                    v-show="!data.length"
-                    :class="`${prefixCls}-null`"
-                    @mousedown.prevent
-                >
-                    {{ listEmptyText }}
-                </div>
             </template>
         </Popper>
     </div>
@@ -123,9 +116,6 @@ export default defineComponent({
         const { t } = useLocale();
         const inputPlaceholder = computed(
             () => props.placeholder || t('select.placeholder'),
-        );
-        const listEmptyText = computed(
-            () => props.emptyText || t('select.emptyText'),
         );
 
         watch(isOpened, () => {
@@ -283,7 +273,6 @@ export default defineComponent({
             triggerRef,
             onChangeNodeList,
             inputPlaceholder,
-            listEmptyText,
             isError,
         };
     },

@@ -15,6 +15,9 @@ export const cascaderProps = {
             return [];
         },
     },
+    emptyText: {
+        type: String,
+    },
     expandedKeys: {
         type: Array as PropType<CascaderNodeKey[]>,
         default(): CascaderNodeKey[] {
