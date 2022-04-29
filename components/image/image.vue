@@ -177,7 +177,7 @@ export default defineComponent({
             if (fit) {
                 styleObj.objectFit = fit;
             }
-            if (canPreview.value || canGroupPreview.value) {
+            if (props.download || canPreview.value || canGroupPreview.value) {
                 styleObj.cursor = 'pointer';
             }
             return styleObj;
