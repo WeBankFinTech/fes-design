@@ -83,7 +83,7 @@ export default ({
         copy.value = value;
         copy.label = label;
         copy.isLeaf = isLeaf;
-        // 处理indexPath
+        // 处理 indexPath
         copy.indexPath = [...indexPath, value];
         copy.level = level;
         copy.hasChildren = hasChildren;

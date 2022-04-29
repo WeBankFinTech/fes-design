@@ -40,12 +40,14 @@
         background-color: var(--f-cascader-node-content-wrapper-bg-color);
         cursor: pointer;
         &:hover {
+            --f-cascader-node-content-wrapper-bg-color: @cascader-selected-background-color;
+        }
+        &.is-expanded {
             --f-cascader-node-content-wrapper-color: var(--f-primary-color);
             --f-cascader-node-content-wrapper-bg-color: @cascader-selected-background-color;
         }
-        &.is-selected {
+        &.is-selected, &.is-checked {
             --f-cascader-node-content-wrapper-color: var(--f-primary-color);
-            --f-cascader-node-content-wrapper-bg-color: @cascader-selected-background-color;
         }
         &.is-disabled {
             --f-cascader-node-content-wrapper-color: var(

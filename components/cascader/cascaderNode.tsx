@@ -10,6 +10,7 @@ import { isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import RightOutlined from '../icon/RightOutlined';
+import CheckOutlined from '../icon/CheckOutlined';
 import Checkbox from '../checkbox/checkbox.vue';
 import { COMPONENT_NAME } from './const';
 import useCascaderNode from './useCascaderNode';
@@ -44,19 +45,16 @@ const cascaderNodeProps = {
     },
 } as const;
 
-export type CascaderNodeProps = Partial<ExtractPropTypes<typeof cascaderNodeProps>>;
+export type CascaderNodeProps = Partial<
+    ExtractPropTypes<typeof cascaderNodeProps>
+>;
 
 export default defineComponent({
     name: COMPONENT_NAME.CASCADER_NODE,
     props: cascaderNodeProps,
     setup(props, { slots }) {
-        const {
-            root,
-            isExpanded,
-            isSelected,
-            isChecked,
-            isIndeterminate,
-        } = useCascaderNode(props);
+        const { root, isExpanded, isSelected, isChecked, isIndeterminate } =
+            useCascaderNode(props);
 
         const disabled = computed(() => props.disabled);
         const selectable = computed(() =>
@@ -74,13 +72,18 @@ export default defineComponent({
             [
                 prefixCls,
                 disabled.value && 'is-disabled',
+                isExpanded.value && 'is-expanded',
                 isSelected.value && 'is-selected',
+                isChecked.value && 'is-checked'
             ].filter(Boolean),
         );
 
         let isLoaded = false;
         const isLoading = ref(false);
         const handleClickSwitcher = async (event?: Event) => {
+            if (isLoading.value) {
+                return;
+            }
             const node = root.nodeList[props.value];
             if (
                 !isLoaded &&
@@ -112,7 +115,7 @@ export default defineComponent({
             }
             // 再展开行为
             if (!props.isLeaf) {
-                handleClickSwitcher(event)
+                handleClickSwitcher(event);
             }
         };
         const handleClickCheckbox = (event: Event) => {
@@ -126,22 +129,20 @@ export default defineComponent({
         };
         const renderSwitcher = () => {
             if (props.isLeaf) {
-                return <span class={`${prefixCls}-switcher`} />;
+                return (
+                    <span class={`${prefixCls}-switcher`}>
+                        {!root.props.checkable && isSelected.value ? (
+                            <CheckOutlined />
+                        ) : null}
+                    </span>
+                );
             }
             return (
                 <span
                     class={`${prefixCls}-switcher`}
                     onClick={handleClickSwitcher}
                 >
-                    {isLoading.value ? (
-                        <LoadingOutlined />
-                    ) : (
-                        <RightOutlined
-                            class={`${prefixCls}-switcher-icon ${
-                                isExpanded.value ? 'is-expanded' : ''
-                            }`}
-                        />
-                    )}
+                    {isLoading.value ? <LoadingOutlined /> : <RightOutlined />}
                 </span>
             );
         };
@@ -183,7 +184,11 @@ export default defineComponent({
             );
         };
         return () => (
-            <div class={classList.value} data-value={props.value} role="cascader-node">
+            <div
+                class={classList.value}
+                data-value={props.value}
+                role="cascader-node"
+            >
                 {renderCheckbox()}
                 <span
                     class={`${prefixCls}-content`}
