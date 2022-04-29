@@ -24,6 +24,7 @@
     border-radius: var(--f-border-radius-base);
     outline: 0;
     transition: all @animation-duration-slow @ease-base-out;
+    cursor: pointer;
     &, * {
         box-sizing: border-box;
     }
@@ -81,6 +82,7 @@
         max-width: calc(100% - @padding-xs - @font-size-body - 2px);
         min-height: @line-height-base;
         color: var(--f-text-color);
+        cursor: pointer;
         &-item {
             display: flex;
             align-items: center;
@@ -107,6 +109,7 @@
             width: 100%;
             border: none;
             outline: none;
+            cursor: pointer;
             &::placeholder {
                 color: @select-placeholder-color;
             }
