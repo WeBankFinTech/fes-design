@@ -5,8 +5,10 @@ import type {
     InnerCascaderOption,
     CascaderNodeKey,
     CascaderNodeList,
+    CascaderMenu,
 } from './interface';
 import type { CascaderProps } from './props';
+import { ROOT_MENU_KEY } from './const';
 
 export default ({
     props,
@@ -28,26 +30,34 @@ export default ({
         });
     });
 
-    const currentData = computed(() =>
-        transformData.value.filter((value) => {
-            const node = nodeList[value];
-            const isRoot = node.indexPath.length === 1;
-            if (isRoot) {
-                return true;
-            }
-            const indexPath = node.indexPath;
-            const len = indexPath.length;
-            let index = 0;
-            while (index < len - 1) {
-                const parentNode = nodeList[indexPath[index]];
-                if (!parentNode.isExpanded) {
-                    return false;
-                }
-                index += 1;
-            }
-            return true;
-        }),
-    );
+    const rootMenu = computed<CascaderMenu>(() => {
+        const nodes = transformData.value
+            .filter((value) => {
+                const node = nodeList[value];
+                return node.indexPath.length === 1;
+            })
+            .map((value) => nodeList[value]);
+
+        return {
+            key: ROOT_MENU_KEY,
+            nodes: nodes,
+        };
+    });
+
+    const currentData = computed<CascaderMenu[]>(() => {
+        const expandedKeys = currentExpandedKeys.value;
+        const expandedMenus = expandedKeys.map((key) => {
+            const childrenValues = nodeList[key].children.map(
+                (node) => node.value,
+            );
+            return {
+                key,
+                nodes: childrenValues.map((value) => nodeList[value]),
+            };
+        });
+
+        return [].concat(rootMenu.value, expandedMenus);
+    });
 
     const transformNode = (
         item: InnerCascaderOption,
@@ -55,10 +65,9 @@ export default ({
         level: number,
     ) => {
         const copy = { ...item };
-        // TODO 有没更好的写法？
-        const value = (copy as any)[props.valueField];
-        const label = (copy as any)[props.labelField];
-        const children = (copy as any)[props.childrenField];
+        const value = copy[props.valueField as 'value'];
+        const label = copy[props.labelField as 'label'];
+        const children = copy[props.childrenField as 'children'];
         const hasChildren = !!(Array.isArray(children) && children.length);
         let isLeaf;
         if (!isNil(copy.isLeaf)) {

@@ -8,8 +8,8 @@ import {
 } from 'vue';
 import { isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
-import CaretDownOutlined from '../icon/CaretDownOutlined';
 import LoadingOutlined from '../icon/LoadingOutlined';
+import RightOutlined from '../icon/RightOutlined';
 import Checkbox from '../checkbox/checkbox.vue';
 import { COMPONENT_NAME } from './const';
 import useCascaderNode from './useCascaderNode';
@@ -124,15 +124,6 @@ export default defineComponent({
         const handleStopClickPrefix = (event: Event) => {
             event.stopPropagation();
         };
-        const renderIndent = () => {
-            const arr = [];
-            let i = 1;
-            while (i < props.level) {
-                arr.push(<span class={`${prefixCls}-indent`} />);
-                i++;
-            }
-            return arr;
-        };
         const renderSwitcher = () => {
             if (props.isLeaf) {
                 return <span class={`${prefixCls}-switcher`} />;
@@ -145,7 +136,7 @@ export default defineComponent({
                     {isLoading.value ? (
                         <LoadingOutlined />
                     ) : (
-                        <CaretDownOutlined
+                        <RightOutlined
                             class={`${prefixCls}-switcher-icon ${
                                 isExpanded.value ? 'is-expanded' : ''
                             }`}
@@ -192,9 +183,7 @@ export default defineComponent({
             );
         };
         return () => (
-            <div class={classList.value} data-value={props.value}>
-                {renderIndent()}
-                {renderSwitcher()}
+            <div class={classList.value} data-value={props.value} role="cascader-menu-node">
                 {renderCheckbox()}
                 <span
                     class={`${prefixCls}-content`}
@@ -206,6 +195,7 @@ export default defineComponent({
                     </span>
                     {renderSuffix()}
                 </span>
+                {renderSwitcher()}
             </div>
         );
     },

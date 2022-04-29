@@ -2,10 +2,6 @@
 @import '../../style/mixins/index';
 
 @select-prefix-cls: ~'@{cls-prefix}-select-cascader';
-@select-dropdown-max-height: 274px;
-@select-dropdown-min-width: 68px;
-@select-dropdown-max-width: 640px;
-@select-dropdown-padding: @padding-xs;
 
 .@{select-prefix-cls} {
     position: relative;
@@ -16,15 +12,6 @@
     &-popper {
         .text();
         background: var(--f-white);
-    }
-    &-dropdown {
-        min-width: @select-dropdown-min-width;
-        max-width: @select-dropdown-max-width;
-        max-height: @select-dropdown-max-height;
-        padding: @select-dropdown-padding;
-        &.is-max-height {
-            height: @select-dropdown-max-height;
-        }
     }
     &-null {
         text-align: center;

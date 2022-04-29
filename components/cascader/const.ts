@@ -8,3 +8,5 @@ export enum CHECK_STRATEGY {
     PARENT = 'parent',
     CHILD = 'child',
 }
+
+export const ROOT_MENU_KEY = 'root';

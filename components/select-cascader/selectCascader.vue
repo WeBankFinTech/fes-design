@@ -32,55 +32,42 @@
                 />
             </template>
             <template #default>
-                <Scrollbar
-                    :containerStyle="dropdownStyle"
-                    :containerClass="`${prefixCls}-dropdown`"
+                <Cascader
+                    v-show="data.length"
+                    ref="refCascader"
+                    :selectedKeys="selectedKeys"
+                    :checkedKeys="checkedKeys"
+                    :data="data"
+                    :expandedKeys="expandedKeys"
+                    :selectable="cascaderSelectable"
+                    :checkable="cascaderCheckable"
+                    :checkStrictly="checkStrictly"
+                    :cascade="cascade"
+                    :multiple="multiple"
+                    :childrenField="childrenField"
+                    :valueField="valueField"
+                    :labelField="labelField"
+                    :remote="remote"
+                    :loadData="loadData"
+                    @update:nodeList="onChangeNodeList"
+                    @select="handleSelect"
+                    @check="handleCheck"
+                    @mousedown.prevent
+                ></Cascader>
+                <div
+                    v-show="!data.length"
+                    :class="`${prefixCls}-null`"
                     @mousedown.prevent
                 >
-                    <Cascader
-                        v-show="data.length"
-                        ref="refCascader"
-                        :selectedKeys="selectedKeys"
-                        :checkedKeys="checkedKeys"
-                        :data="data"
-                        :expandedKeys="expandedKeys"
-                        :selectable="cascaderSelectable"
-                        :checkable="cascaderCheckable"
-                        :checkStrictly="checkStrictly"
-                        :cascade="cascade"
-                        :multiple="multiple"
-                        :childrenField="childrenField"
-                        :valueField="valueField"
-                        :labelField="labelField"
-                        :remote="remote"
-                        :loadData="loadData"
-                        @update:nodeList="onChangeNodeList"
-                        @select="handleSelect"
-                        @check="handleCheck"
-                    ></Cascader>
-                    <div
-                        v-show="!data.length"
-                        :class="`${prefixCls}-null`"
-                        @mousedown.prevent
-                    >
-                        {{ listEmptyText }}
-                    </div>
-                </Scrollbar>
+                    {{ listEmptyText }}
+                </div>
             </template>
         </Popper>
     </div>
 </template>
 
 <script lang="ts">
-import {
-    defineComponent,
-    ref,
-    unref,
-    watch,
-    computed,
-    onMounted,
-    CSSProperties,
-} from 'vue';
+import { defineComponent, ref, unref, watch, computed, onMounted } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel, useArrayModel } from '../_util/use/useModel';
@@ -89,7 +76,6 @@ import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
 import Cascader from '../cascader/cascader';
-import Scrollbar from '../scrollbar';
 import { selectProps } from '../select/props';
 import { cascaderProps } from '../cascader/props';
 import { getChildrenByValues, getParentByValues } from './helper';
@@ -110,7 +96,6 @@ export default defineComponent({
         Popper,
         SelectTrigger,
         Cascader,
-        Scrollbar,
     },
     props: {
         ...selectProps,
@@ -279,13 +264,6 @@ export default defineComponent({
             }
         });
 
-        const dropdownStyle = computed(() => {
-            const style: CSSProperties = {};
-            if (triggerWidth.value) {
-                style['min-width'] = `${triggerWidth.value}px`;
-            }
-            return style;
-        });
         return {
             prefixCls,
             isOpened,
@@ -303,7 +281,6 @@ export default defineComponent({
             checkedKeys,
             refCascader,
             triggerRef,
-            dropdownStyle,
             onChangeNodeList,
             inputPlaceholder,
             listEmptyText,

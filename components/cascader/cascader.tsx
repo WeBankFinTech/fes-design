@@ -7,8 +7,13 @@ import { COMPONENT_NAME, CHECK_STRATEGY } from './const';
 import useData from './useData';
 import useState from './useState';
 import { cascaderProps, CASCADER_PROVIDE_KEY } from './props';
+import Scrollbar from '../scrollbar';
 
-import type { InnerCascaderOption, CascaderNodeKey } from './interface';
+import type {
+    InnerCascaderOption,
+    CascaderNodeKey,
+    CascaderMenu,
+} from './interface';
 
 const prefixCls = getPrefixCls('cascader');
 
@@ -90,18 +95,17 @@ export default defineComponent({
                 currentExpandedKeys.value,
             );
             const index = values.indexOf(val);
-            // 已经展开
+            // 已经展开，忽略处理
             if (index !== -1) {
-                values.splice(index, 1);
-            } else {
-                values.push(val);
+                return;
             }
+            values = [...node.indexPath];
             updateExpandedKeys(values);
             emit('expand', {
                 expandedKeys: values,
                 event,
                 node,
-                expanded: values.includes(val),
+                expanded: true,
             });
         };
 
@@ -223,8 +227,7 @@ export default defineComponent({
             nodeList,
         });
 
-        const renderNode = (value: CascaderNodeKey) => {
-            const node = nodeList[value];
+        const renderNode = (node: InnerCascaderOption) => {
             const itemSlots: {
                 [key: string]: () => VNodeChild | string;
             } = {};
@@ -254,13 +257,27 @@ export default defineComponent({
                 ></CascaderNode>
             );
         };
+        const renderNodes = (nodes: InnerCascaderOption[]) =>
+            nodes.map((node) => renderNode(node));
 
-        const renderChildren = (arr: CascaderNodeKey[]) =>
-            arr.map((value) => renderNode(value));
+        const renderMenu = (menu: CascaderMenu) => {
+            return (
+                <Scrollbar
+                    containerClass={`${prefixCls}-dropdown`}
+                    key={menu.key}
+                >
+                    <div class={`${prefixCls}-menu`} role="cascader-menu">
+                        {renderNodes(menu.nodes)}
+                    </div>
+                </Scrollbar>
+            );
+        };
+        const renderMenus = (arr: CascaderMenu[]) =>
+            arr.map((menu) => renderMenu(menu));
 
         return () => (
             <div class={prefixCls} role="cascader">
-                {renderChildren(currentData.value)}
+                {renderMenus(currentData.value)}
             </div>
         );
     },
