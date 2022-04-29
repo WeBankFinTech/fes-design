@@ -16,6 +16,7 @@ import getElementFromRef from '../_util/getElementFromRef';
 import { useTheme } from '../_theme/useTheme';
 import useTrigger from './useTrigger';
 import usePopper from './usePopper';
+import useScroll from './useScroll';
 
 import { useConfig } from '../config-provider';
 
@@ -47,6 +48,18 @@ export default defineComponent({
             updateVirtualRect,
             placement,
         } = usePopper(props, emit);
+
+        useScroll(
+            computed(() => getElementFromRef(triggerRef.value)),
+            (e: Event) => {
+                // 不挂载在container上
+                if (!props.appendToContainer) return;
+                if (!visible.value) return;
+                if (e.target === getContainer.value?.()) return;
+                computePopper();
+            },
+        );
+
         const disabledWatch = computed(() => props.disabled || !visible.value);
         useClickOutSide(
             [triggerRef, popperRef],
