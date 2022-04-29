@@ -68,30 +68,35 @@ export default defineComponent({
             () => props.emptyText || t('select.emptyText'),
         );
 
-        const updateExpandedKeysBySelectOrCheck = (val: CascaderNodeKey) => {
+        const updateExpandedKeysBySelectOrCheck = (val: CascaderNodeKey, event: Event) => {
             const node = nodeList[val];
-            updateExpandedKeys(
-                node.indexPath.slice(0, node.indexPath.length - 1),
-            );
+            const values = node.indexPath.slice(0, node.indexPath.length - 1);
+            updateExpandedKeys(values);
+            emit('expand', {
+                expandedKeys: values,
+                event,
+                node,
+                expanded: values.includes(val),
+            });
         };
 
         const selectNode = (val: CascaderNodeKey, event: Event) => {
             if (!props.selectable) {
                 return;
             }
-            updateExpandedKeysBySelectOrCheck(val);
+            updateExpandedKeysBySelectOrCheck(val, event);
 
             const node = nodeList[val];
             const values = cloneDeep(currentSelectedKeys.value);
             const index = values.indexOf(val);
             if (props.multiple) {
                 if (index !== -1) {
-                    values.splice(index, 1);
+                    props.cancelable && values.splice(index, 1);
                 } else {
                     values.push(val);
                 }
             } else if (index !== -1) {
-                values.splice(index, 1);
+                props.cancelable && values.splice(index, 1);
             } else {
                 values[0] = val;
             }
@@ -112,7 +117,7 @@ export default defineComponent({
                 expandedKeys: values,
                 event,
                 node,
-                expanded: true,
+                expanded: values.includes(val),
             });
         };
 
@@ -182,7 +187,7 @@ export default defineComponent({
             }
         }
         const checkNode = (val: CascaderNodeKey, event: Event) => {
-            updateExpandedKeysBySelectOrCheck(val);
+            updateExpandedKeysBySelectOrCheck(val, event);
 
             const node = nodeList[val];
             const { isLeaf, children, indexPath } = node;

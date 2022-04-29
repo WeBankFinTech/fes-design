@@ -153,6 +153,10 @@ module.exports = {
                         link: '/zh/components/tree',
                     },
                     {
+                        text: 'Cascader 级联控件',
+                        link: '/zh/components/cascader',
+                    },
+                    {
                         text: 'VirtualList 虚拟列表',
                         link: '/zh/components/virtualList',
                     },

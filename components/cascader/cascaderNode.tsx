@@ -1,5 +1,4 @@
 import {
-    h,
     defineComponent,
     computed,
     ref,
@@ -14,6 +13,7 @@ import CheckOutlined from '../icon/CheckOutlined';
 import Checkbox from '../checkbox/checkbox.vue';
 import { COMPONENT_NAME } from './const';
 import useCascaderNode from './useCascaderNode';
+import Ellipsis from '../ellipsis';
 
 const prefixCls = getPrefixCls('cascader-node');
 
@@ -74,7 +74,7 @@ export default defineComponent({
                 disabled.value && 'is-disabled',
                 isExpanded.value && 'is-expanded',
                 isSelected.value && 'is-selected',
-                isChecked.value && 'is-checked'
+                isChecked.value && 'is-checked',
             ].filter(Boolean),
         );
 
@@ -190,16 +190,18 @@ export default defineComponent({
                 role="cascader-node"
             >
                 {renderCheckbox()}
-                <span
-                    class={`${prefixCls}-content`}
-                    onClick={handleClickContent}
-                >
-                    {renderPrefix()}
-                    <span class={`${prefixCls}-content-label`}>
-                        {props.label}
+                <Ellipsis>
+                    <span
+                        class={`${prefixCls}-content`}
+                        onClick={handleClickContent}
+                    >
+                        {renderPrefix()}
+                        <span class={`${prefixCls}-content-label`}>
+                            {props.label}
+                        </span>
+                        {renderSuffix()}
                     </span>
-                    {renderSuffix()}
-                </span>
+                </Ellipsis>
                 {renderSwitcher()}
             </div>
         );

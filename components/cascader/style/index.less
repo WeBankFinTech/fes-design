@@ -1,6 +1,6 @@
 @import '../../style/themes/index.less';
 @import '../../style/mixins/index.less';
-@import './mixin';
+@import './mixin.less';
 
 @cascader-prefix-cls: ~'@{cls-prefix}-cascader';
 @cascader-selected-background-color: var(--f-hover-color-light);
@@ -39,10 +39,9 @@
         background-color: var(--f-cascader-node-content-wrapper-bg-color);
         cursor: pointer;
         &:hover {
-            --f-cascader-node-content-wrapper-bg-color: @cascader-selected-background-color;
+            --f-cascader-node-content-wrapper-color: var(--f-primary-color);
         }
         &.is-expanded {
-            --f-cascader-node-content-wrapper-color: var(--f-primary-color);
             --f-cascader-node-content-wrapper-bg-color: @cascader-selected-background-color;
         }
         &.is-selected, &.is-checked {
@@ -80,6 +79,7 @@
         }
         &-label {
             flex-grow: 1;
+            max-width: calc(@select-dropdown-max-width - @data-input-height-base);
         }
         &-suffix {
             display: inline-flex;

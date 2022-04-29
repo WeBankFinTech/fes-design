@@ -36,7 +36,7 @@ export const cascaderProps = {
     },
     cascade: {
         type: Boolean,
-        default: false,
+        default: true,
     },
     checkable: {
         type: Boolean,
@@ -74,6 +74,10 @@ export const cascaderProps = {
     },
     loadData: {
         type: Function as PropType<(node: CascaderOption) => Promise<any>>,
+    },
+    cancelable: {
+        type: Boolean,
+        default: true,
     },
 } as const;
 
