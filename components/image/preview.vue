@@ -45,6 +45,7 @@
                     @click="handleActions('zoomIn')"
                 />
                 <a
+                    v-if="download"
                     :download="name || Date.now()"
                     :href="src"
                     target="_blank"
@@ -115,6 +116,10 @@ const previewProps = {
     src: {
         type: String,
         default: '',
+    },
+    download: {
+        type: Boolean,
+        default: false,
     },
     size: Object as PropType<{ width: number; height: number }>,
     name: String,
