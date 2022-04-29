@@ -41,8 +41,3 @@ export interface SelectParams extends CascaderEventParams {
 export interface CheckParams extends CascaderEventParams {
     checkedKeys: CascaderNodeKey[];
 }
-
-export interface CascaderMenu {
-    key: CascaderNodeKey;
-    nodes: InnerCascaderOption[];
-}

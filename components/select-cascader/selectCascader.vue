@@ -215,7 +215,7 @@ export default defineComponent({
             const findIndex = currentValue.value.indexOf(value);
             if (findIndex !== -1) {
                 emit('removeTag', value);
-                // arrayModel会自动添加或者删除
+                // useArrayModel 会自动添加或者删除
                 updateCurrentValue(value);
                 handleChange();
             }

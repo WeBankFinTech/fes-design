@@ -12,7 +12,6 @@ import Scrollbar from '../scrollbar';
 import type {
     InnerCascaderOption,
     CascaderNodeKey,
-    CascaderMenu,
 } from './interface';
 import { useLocale } from '../config-provider/useLocale';
 
@@ -48,7 +47,7 @@ export default defineComponent({
             hasIndeterminate,
         } = useState(props, { emit });
 
-        const { nodeList, currentData } = useData({
+        const { nodeList, getMenuNodes, menuKeys } = useData({
             props,
             currentExpandedKeys,
         });
@@ -274,15 +273,17 @@ export default defineComponent({
         const renderNodes = (nodes: InnerCascaderOption[]) =>
             nodes.map((node) => renderNode(node));
 
-        const renderMenu = (menu: CascaderMenu) => {
+        const renderMenu = (key: CascaderNodeKey) => {
+            const nodes = getMenuNodes(key)
+
             return (
                 <Scrollbar
                     containerClass={`${prefixCls}-dropdown`}
-                    key={menu.key}
+                    key={key}
                 >
                     <div class={`${prefixCls}-menu`} role="cascader-menu">
-                        {menu.nodes.length ? (
-                            renderNodes(menu.nodes)
+                        {nodes.length ? (
+                            renderNodes(nodes)
                         ) : (
                             <div class={`${prefixCls}-null`}>
                                 {listEmptyText.value}
@@ -292,12 +293,12 @@ export default defineComponent({
                 </Scrollbar>
             );
         };
-        const renderMenus = (arr: CascaderMenu[]) =>
-            arr.map((menu) => renderMenu(menu));
+        const renderMenus = (arr: CascaderNodeKey[]) =>
+            arr.map((key) => renderMenu(key));
 
         return () => (
             <div class={prefixCls} role="cascader">
-                {renderMenus(currentData.value)}
+                {renderMenus(menuKeys.value)}
             </div>
         );
     },

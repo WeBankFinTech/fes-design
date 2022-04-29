@@ -5,7 +5,6 @@ import type {
     InnerCascaderOption,
     CascaderNodeKey,
     CascaderNodeList,
-    CascaderMenu,
 } from './interface';
 import type { CascaderProps } from './props';
 import { ROOT_MENU_KEY } from './const';
@@ -30,34 +29,29 @@ export default ({
         });
     });
 
-    const rootMenu = computed<CascaderMenu>(() => {
-        const nodes = transformData.value
-            .filter((value) => {
-                const node = nodeList[value];
-                return node.indexPath.length === 1;
-            })
-            .map((value) => nodeList[value]);
-
-        return {
-            key: ROOT_MENU_KEY,
-            nodes: nodes,
-        };
+    const menuKeys = computed(() => {
+        return [].concat(ROOT_MENU_KEY, currentExpandedKeys.value);
     });
 
-    const currentData = computed<CascaderMenu[]>(() => {
-        const expandedKeys = currentExpandedKeys.value;
-        const expandedMenus = expandedKeys.map((key) => {
+    const getMenuNodes = (key: CascaderNodeKey) => {
+        let nodes: InnerCascaderOption[];
+
+        if (key === ROOT_MENU_KEY) {
+            nodes = transformData.value
+                .filter((value) => {
+                    const node = nodeList[value];
+                    return node.indexPath.length === 1;
+                })
+                .map((value) => nodeList[value]);
+        } else {
             const childrenValues = nodeList[key].children.map(
                 (node) => node.value,
             );
-            return {
-                key,
-                nodes: childrenValues.map((value) => nodeList[value]),
-            };
-        });
+            nodes = childrenValues.map((value) => nodeList[value]);
+        }
 
-        return [].concat(rootMenu.value, expandedMenus);
-    });
+        return nodes;
+    };
 
     const transformNode = (
         item: InnerCascaderOption,
@@ -122,6 +116,7 @@ export default ({
     return {
         nodeList,
         transformData,
-        currentData,
+        getMenuNodes,
+        menuKeys,
     };
 };
