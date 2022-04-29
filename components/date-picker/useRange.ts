@@ -1,7 +1,8 @@
-import { computed, watch, ref, Ref } from 'vue';
+import { watch, ref, Ref } from 'vue';
 
 import { contrastDate, parseDate, getTimestampFromFormat } from './helper';
-import { DATE_TYPE, SELECTED_STATUS, RANGE_POSITION } from './const';
+import { SELECTED_STATUS, RANGE_POSITION } from './const';
+import { Picker } from './pickerHander';
 
 import type { CalendarsProps } from './calendars.vue';
 
@@ -48,19 +49,25 @@ export const useSelectStatus = (props: CalendarsProps) => {
     };
 };
 
-export const useRange = (
-    props: CalendarsProps,
-    tempCurrentValue: Ref<number[]>,
-    innerDisabledDate: (date: Date, format: string) => boolean | undefined,
-    selectedStatus: Ref<SELECTED_STATUS>,
-    lastSelectedPosition: Ref<RANGE_POSITION>,
-) => {
-    const isDateRange = computed(() => DATE_TYPE[props.type].isRange);
-
+export const useRange = ({
+    props,
+    tempCurrentValue,
+    innerDisabledDate,
+    selectedStatus,
+    lastSelectedPosition,
+    picker,
+}: {
+    props: CalendarsProps;
+    tempCurrentValue: Ref<number[]>;
+    innerDisabledDate: (date: Date, format: string) => boolean | undefined;
+    selectedStatus: Ref<SELECTED_STATUS>;
+    lastSelectedPosition: Ref<RANGE_POSITION>;
+    picker: Ref<Picker>;
+}) => {
     const leftActiveDate = ref(
         getTimestampFromFormat(
             tempCurrentValue.value[0] && new Date(tempCurrentValue.value[0]),
-            props.format,
+            picker.value.format,
         ),
     );
     const endDate = new Date(leftActiveDate.value);
@@ -153,17 +160,13 @@ export const useRange = (
     };
 
     const rangeDiabledDate = (date: Date, format: string) => {
-        if (isDateRange.value) {
-            if (maxRangeDisabled(date, format)) {
-                return true;
-            }
+        if (maxRangeDisabled(date, format)) {
+            return true;
         }
         return innerDisabledDate(date, format);
     };
 
     return {
-        isDateRange,
-
         leftActiveDate,
         rightActiveDate,
         changeCurrentDate,

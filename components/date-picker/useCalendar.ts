@@ -2,8 +2,9 @@ import { watch, watchEffect, ref, reactive, computed, Ref } from 'vue';
 import { isNil } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
+import { Picker, PickerType } from './pickerHander';
 
-import { DATE_TYPE, SELECTED_STATUS, YEAR_COUNT } from './const';
+import { SELECTED_STATUS, YEAR_COUNT } from './const';
 import {
     parseDate,
     timeFormat,
@@ -48,16 +49,22 @@ export const useCurrentDate = (props: CalendarProps, emit: CalendarEmits) => {
 export const useSelectedDates = (
     props: CalendarProps,
     emit: (event: 'selectedDay' | 'change', ...args: any[]) => void,
+    picker: Ref<Picker>,
 ) => {
     const selectedDates = ref<DateObj[]>([]);
-    const updateRangeSelectedDates = (date: DateObj) => {
+    const updateRangeSelectedDates = (date: DateObj, index: number) => {
+        console.log(index);
         if (
-            transformDateToTimestamp(selectedDates.value[0]) >
-            transformDateToTimestamp(date)
+            (index === 0 &&
+                transformDateToTimestamp(date) >
+                    transformDateToTimestamp(selectedDates.value[1])) ||
+            (index === 1 &&
+                transformDateToTimestamp(date) <
+                    transformDateToTimestamp(selectedDates.value[0]))
         ) {
-            selectedDates.value.splice(0, 1, date);
+            selectedDates.value = [date, { ...date }];
         } else {
-            selectedDates.value.splice(1, 1, date);
+            selectedDates.value.splice(index, 1, date);
         }
     };
     const updateSelectedDates: UpdateSelectedDates = (
@@ -67,27 +74,34 @@ export const useSelectedDates = (
     ) => {
         const newDate = Object.assign({}, selectedDates.value[index], date);
         if (
-            DATE_TYPE[props.type].isRange &&
+            picker.value.isRange &&
             (option.isTime || option.isDateInput) &&
             props.selectedStatus === SELECTED_STATUS.TWO
         ) {
-            updateRangeSelectedDates(newDate);
+            updateRangeSelectedDates(newDate, index);
         } else if (
-            DATE_TYPE[props.type].isRange &&
+            picker.value.isRange &&
             (!selectedDates.value.length ||
                 props.selectedStatus === SELECTED_STATUS.TWO)
         ) {
             selectedDates.value = [newDate, { ...newDate }];
             emit('selectedDay');
-        } else if (!DATE_TYPE[props.type].isRange) {
+        } else if (!picker.value.isRange) {
             emit('selectedDay');
             selectedDates.value = [newDate];
         } else {
-            updateRangeSelectedDates(newDate);
+            if (
+                transformDateToTimestamp(selectedDates.value[0]) >
+                transformDateToTimestamp(newDate)
+            ) {
+                selectedDates.value.splice(0, 1, newDate);
+            } else {
+                selectedDates.value.splice(1, 1, newDate);
+            }
             emit('selectedDay');
         }
 
-        if (DATE_TYPE[props.type].isRange) {
+        if (picker.value.isRange) {
             emit('change', [
                 transformDateToTimestamp(selectedDates.value[0]),
                 transformDateToTimestamp(selectedDates.value[1], true),
@@ -116,18 +130,25 @@ export const useSelectedDates = (
     };
 };
 
-export function useYear(
-    props: CalendarProps,
-    selectedDates: Ref<DateObj[]>,
-    updateSelectedDates: UpdateSelectedDates,
-    activeIndex: Ref<number>,
-    currentDate: DateObj,
-    updateCurrentDate: UpdateCurrentDate,
-) {
+export function useYear({
+    props,
+    selectedDates,
+    updateSelectedDates,
+    activeIndex,
+    currentDate,
+    updateCurrentDate,
+}: {
+    props: CalendarProps;
+    selectedDates: Ref<DateObj[]>;
+    updateSelectedDates: UpdateSelectedDates;
+    activeIndex: Ref<number>;
+    currentDate: DateObj;
+    updateCurrentDate: UpdateCurrentDate;
+}) {
     const isYearSelect = ref(false);
     // 年份相关
     watchEffect(() => {
-        if (props.type === DATE_TYPE.year.name) {
+        if (props.type === PickerType.year) {
             isYearSelect.value = true;
         }
     });
@@ -162,7 +183,7 @@ export function useYear(
     };
 
     const isSelectedYear = (year: number) => {
-        if (props.type === DATE_TYPE.year.name) {
+        if (props.type === PickerType.year) {
             return !!selectedDates.value.find((item) => item?.year === year);
         }
         return false;
@@ -185,24 +206,31 @@ export function useYear(
     };
 }
 
-export function useMonth(
-    props: CalendarProps,
-    selectedDates: Ref<DateObj[]>,
-    updateSelectedDates: UpdateSelectedDates,
-    activeIndex: Ref<number>,
-    currentDate: DateObj,
-    updateCurrentDate: UpdateCurrentDate,
-) {
+export function useMonth({
+    props,
+    selectedDates,
+    updateSelectedDates,
+    activeIndex,
+    currentDate,
+    updateCurrentDate,
+}: {
+    props: CalendarProps;
+    selectedDates: Ref<DateObj[]>;
+    updateSelectedDates: UpdateSelectedDates;
+    activeIndex: Ref<number>;
+    currentDate: DateObj;
+    updateCurrentDate: UpdateCurrentDate;
+}) {
     // 月份相关
     const format = 'YYYY-MM';
     const isMonthSelect = ref(false);
     watchEffect(() => {
-        if (props.type === DATE_TYPE.month.name) {
+        if (props.type === PickerType.month) {
             isMonthSelect.value = true;
         }
     });
     const selectMonth = (month: number) => {
-        if (props.type !== DATE_TYPE.month.name) {
+        if (props.type !== PickerType.month) {
             isMonthSelect.value = false;
         }
         updateSelectedDates(
@@ -248,7 +276,7 @@ export function useMonth(
         return props.disabledDate && props.disabledDate(date, format);
     };
     const isSelectedMonth = (month: number) => {
-        if (props.type === DATE_TYPE.month.name) {
+        if (props.type === PickerType.month) {
             return !!selectedDates.value.find(
                 (item) =>
                     item &&
@@ -275,13 +303,17 @@ export function useMonth(
     };
 }
 
-export function useDay(
-    props: CalendarProps,
-    selectedDates: Ref<DateObj[]>,
-    updateSelectedDates: UpdateSelectedDates,
-    activeIndex: Ref<number>,
-    currentDate: DateObj,
-) {
+export function useDay({
+    props,
+    selectedDates,
+    currentDate,
+    picker,
+}: {
+    props: CalendarProps;
+    selectedDates: Ref<DateObj[]>;
+    currentDate: DateObj;
+    picker: Ref<Picker>;
+}) {
     const { t } = useLocale();
 
     // TODO 英文一个星期的第一天是 周日
@@ -295,11 +327,11 @@ export function useDay(
     });
     const isDaySelect = computed(() =>
         [
-            DATE_TYPE.date.name,
-            DATE_TYPE.datetime.name,
-            DATE_TYPE.daterange.name,
-            DATE_TYPE.datetimerange.name,
-        ].includes(props.type as any),
+            PickerType.date,
+            PickerType.datetime,
+            PickerType.daterange,
+            PickerType.datetimerange,
+        ].includes(props.type),
     );
 
     const days = computed(() => {
@@ -369,7 +401,7 @@ export function useDay(
     );
     // 样式计算
     const inRangeDate = (date: Date, format: string) => {
-        if (DATE_TYPE[props.type].isRange && startDate.value && endDate.value) {
+        if (picker.value.isRange && startDate.value && endDate.value) {
             const isIn =
                 contrastDate(date, startDate.value, format) === 1 &&
                 contrastDate(date, endDate.value, format) === -1;
@@ -390,11 +422,11 @@ export function useDay(
                 props.disabledDate && props.disabledDate(date, format),
             [`${prefixCls}-date-selected`]: selectedIndex !== -1,
             'is-start':
-                DATE_TYPE[props.type].isRange &&
+                picker.value.isRange &&
                 completeRangeSelected.value &&
                 selectedIndex === 0,
             'is-end':
-                DATE_TYPE[props.type].isRange &&
+                picker.value.isRange &&
                 completeRangeSelected.value &&
                 (selectedIndex === 1 ||
                     isSelected(selectedDates.value[1], item)),
@@ -419,9 +451,7 @@ export const useQuarter = (
     activeIndex: Ref<number>,
     currentDate: DateObj,
 ) => {
-    const isQuarterSelect = computed(
-        () => props.type === DATE_TYPE.quarter.name,
-    );
+    const isQuarterSelect = computed(() => props.type === PickerType.quarter);
 
     type QuarterItem = {
         name: string;
@@ -510,13 +540,19 @@ const transformTimeToDate = (timeStr: string) => {
     };
 };
 
-export const useTime = (
-    props: CalendarProps,
-    selectedDates: Ref<DateObj[]>,
-    updateSelectedDates: UpdateSelectedDates,
-    activeIndex: Ref<number>,
-) => {
-    const hasTime = computed(() => DATE_TYPE[props.type].hasTime);
+export const useTime = ({
+    props,
+    selectedDates,
+    updateSelectedDates,
+    activeIndex,
+    picker,
+}: {
+    props: CalendarProps;
+    selectedDates: Ref<DateObj[]>;
+    updateSelectedDates: UpdateSelectedDates;
+    activeIndex: Ref<number>;
+    picker: Ref<Picker>;
+}) => {
     const currentTime = ref('');
     watch(
         [selectedDates],
@@ -552,7 +588,7 @@ export const useTime = (
 
     const innerDisabledTime = computed(() => {
         if (!props.disabledTime) return null;
-        if (DATE_TYPE[props.type].isRange) {
+        if (picker.value.isRange) {
             return props.disabledTime(
                 new Date(
                     transformDateToTimestamp(
@@ -574,7 +610,6 @@ export const useTime = (
     return {
         currentTime,
         changeTime,
-        hasTime,
         innerDisabledTime,
     };
 };

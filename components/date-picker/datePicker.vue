@@ -9,15 +9,16 @@
         :hideAfter="0"
         placement="bottom-start"
         :offset="4"
+        onlyShowTrigger
         @update:modelValue="handlePopperVisible"
     >
         <template #trigger>
             <RangeInput
-                v-if="isRange"
+                v-if="pickerRef.isRange"
                 ref="inputRangeRefEL"
-                :type="type"
+                :format="pickerRef.format"
                 :selectedDates="visibleValue"
-                :placeholder="rangePlaceholder"
+                :placeholder="rangePlaceHolder"
                 :clearable="clearable"
                 :disabled="disabled"
                 :innerIsFocus="inputIsFocus"
@@ -25,7 +26,6 @@
                 @focus="handleFocus"
                 @blur="handleBlur"
                 @clear="clear"
-                @click="isOpened = true"
             >
                 <template #separator>
                     <slot v-if="$slots.separator" name="separator"></slot>
@@ -39,17 +39,16 @@
             <InputInner
                 v-else
                 ref="inputRefEl"
-                v-model="dateText"
-                :placeholder="inputPlaceholder"
+                :modelValue="dateText"
+                :placeholder="singlePlaceHolder"
                 :disabled="disabled"
                 :clearable="clearable"
                 :innerIsFocus="inputIsFocus"
                 :style="style"
-                readonly
                 @focus="handleFocus"
-                @blur="handleBlur"
+                @input="handleDateInput"
+                @blur="handleDateInputBlur"
                 @clear="clear"
-                @click="isOpened = true"
             >
                 <template #suffix>
                     <slot v-if="$slots.suffixIcon" name="suffixIcon"></slot>
@@ -91,7 +90,6 @@ import {
     provide,
     CSSProperties,
 } from 'vue';
-import { isArray } from 'lodash-es';
 import RangeInput from './rangeInput.vue';
 import Calendars from './calendars.vue';
 import InputInner from '../input/inputInner.vue';
@@ -102,13 +100,14 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { DateOutlined, SwapRightOutlined } from '../icon';
 
-import { isEmptyValue, timeFormat } from './helper';
-import { DATE_TYPE, COMMON_PROPS, RANGE_PROPS } from './const';
+import { isEmptyValue, timeFormat, getTimestampFromFormat } from './helper';
+import { COMMON_PROPS, RANGE_PROPS } from './const';
 
 import type { GetContainer } from '../_util/interface';
 import { useLocale } from '../config-provider/useLocale';
 import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
 import { noop } from '../_util/utils';
+import { pickerFactory, Picker } from './pickerHander';
 
 const prefixCls = getPrefixCls('date-picker');
 
@@ -161,101 +160,85 @@ const useTmpSelectedDates = () => {
 
 export type DatePickerProps = Partial<ExtractPropTypes<typeof datePickerProps>>;
 
-const useInput = (props: DatePickerProps, visibleValue: Ref<number>) => {
-    const dateText = ref();
+const useInput = ({
+    visibleValue,
+    picker,
+    updateCurrentValue,
+}: {
+    visibleValue: Ref<number>;
+    picker: ComputedRef<Picker>;
+    updateCurrentValue: (val: any) => void;
+}) => {
+    const dateText = ref<string>();
+    let cacheValidInputDate = '';
 
     const getFormatDate = () => {
         if (isEmptyValue(visibleValue.value)) {
             return '';
         }
-        if (!DATE_TYPE[props.type].isRange) {
-            return timeFormat(visibleValue.value, DATE_TYPE[props.type].format);
+        if (!picker.value.isRange) {
+            return timeFormat(visibleValue.value, picker.value.format);
         }
         return '';
     };
     const resetDateText = () => {
         dateText.value = getFormatDate();
+        cacheValidInputDate = dateText.value;
     };
     watch(visibleValue, resetDateText, {
         immediate: true,
     });
 
+    const handleDateInput = (val: string) => {
+        dateText.value = val;
+        console.log(val, picker.value.isEffectiveDate(val));
+        if (picker.value.isEffectiveDate(val)) {
+            cacheValidInputDate = val;
+            updateCurrentValue(
+                getTimestampFromFormat(
+                    picker.value.getDateFromStr(val),
+                    picker.value.format,
+                ),
+            );
+        }
+    };
+    const handleDateInputBlur = () => {
+        if (dateText.value !== cacheValidInputDate && cacheValidInputDate) {
+            dateText.value = cacheValidInputDate;
+        }
+    };
+
     return {
         resetDateText,
         dateText,
+        handleDateInput,
+        handleDateInputBlur,
     };
 };
 
 const usePlaceholder = (
     props: DatePickerProps,
-    isRange: ComputedRef<boolean>,
+    picker: ComputedRef<Picker>,
 ) => {
     const { t } = useLocale();
-    const rangePlaceholder = computed(() => {
-        let placeholder: string[] = [];
-        if (!isRange.value) {
-            return placeholder;
-        }
-        if (props.placeholder) {
-            return isArray(props.placeholder)
-                ? props.placeholder
-                : [props.placeholder, props.placeholder];
-        }
 
-        switch (props.type) {
-            case DATE_TYPE.daterange.name:
-                placeholder = [
-                    t('datePicker.selectStartDate'),
-                    t('datePicker.selectEndDate'),
-                ];
-                break;
-            case DATE_TYPE.datetimerange.name:
-                placeholder = [
-                    t('datePicker.selectStartDateTime'),
-                    t('datePicker.selectEndDateTime'),
-                ];
-                break;
-            default:
-                placeholder = [t('datePicker.select'), t('datePicker.select')];
-                break;
+    const rangePlaceHolder = computed(() => {
+        if (props.placeholder) return props.placeholder;
+        const placeholderLang = picker.value.placeholderLang;
+        if (Array.isArray(placeholderLang)) {
+            return placeholderLang.map((item) => t(item));
         }
-        return placeholder;
+        return t(placeholderLang);
     });
 
-    const inputPlaceholder = computed(() => {
-        let placeholder = '';
-        if (isRange.value) {
-            return placeholder;
-        }
-        if (props.placeholder) {
-            return props.placeholder as string;
-        }
-        switch (props.type) {
-            case DATE_TYPE.year.name:
-                placeholder = t('datePicker.selectYear');
-                break;
-            case DATE_TYPE.month.name:
-                placeholder = t('datePicker.selectMonth');
-                break;
-            case DATE_TYPE.quarter.name:
-                placeholder = t('datePicker.selectQuarter');
-                break;
-            case DATE_TYPE.date.name:
-                placeholder = t('datePicker.selectDate');
-                break;
-            case DATE_TYPE.datetime.name:
-                placeholder = t('datePicker.selectDateTime');
-                break;
-            default:
-                placeholder = t('datePicker.select');
-                break;
-        }
-        return placeholder;
+    const singlePlaceHolder = computed(() => {
+        if (props.placeholder) return props.placeholder as string;
+        return t(picker.value.placeholderLang as string);
     });
 
     return {
-        inputPlaceholder,
-        rangePlaceholder,
+        rangePlaceHolder,
+        singlePlaceHolder,
     };
 };
 
@@ -284,26 +267,28 @@ export default defineComponent({
             prop: 'open',
         });
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
-        const isRange = computed(() => DATE_TYPE[props.type].isRange);
+        const pickerRef = computed(() => {
+            return pickerFactory(props.type);
+        });
         const inputRefEl = ref<HTMLElement>();
         const inputRangeRefEL = ref<HTMLElement>();
         const calendarsRef = ref<ComponentPublicInstance>();
         const activeInputRefEL = computed(() => {
-            if (isRange.value) {
+            if (pickerRef.value.isRange) {
                 return inputRangeRefEL.value;
             }
             return inputRefEl.value;
         });
 
         const { validate, isError } = useFormAdaptor(
-            computed(() => (isRange.value ? 'array' : 'number')),
+            computed(() => (pickerRef.value.isRange ? 'array' : 'number')),
         );
         // 避免子组件重复
         provide(FORM_ITEM_INJECTION_KEY, { validate: noop, isError });
 
-        const { inputPlaceholder, rangePlaceholder } = usePlaceholder(
+        const { rangePlaceHolder, singlePlaceHolder } = usePlaceholder(
             props,
-            isRange,
+            pickerRef,
         );
 
         const { tmpSelectedDates, tmpSelectedDateChange } =
@@ -318,26 +303,34 @@ export default defineComponent({
             return currentValue.value;
         });
 
-        const { resetDateText, dateText } = useInput(props, visibleValue);
+        const {
+            resetDateText,
+            dateText,
+            handleDateInput,
+            handleDateInputBlur,
+        } = useInput({
+            visibleValue,
+            updateCurrentValue,
+            picker: pickerRef,
+        });
 
         const handleChange = (val: number | number[] | null) => {
             if (val !== currentValue.value) {
+                updateCurrentValue(val);
                 emit('change', val);
                 validate('change');
             }
         };
         // 事件
         const clear = () => {
-            const initValue: [] | null = isRange.value ? [] : null;
+            const initValue: [] | null = pickerRef.value.isRange ? [] : null;
             tmpSelectedDateChange(initValue);
-            updateCurrentValue(initValue);
-            emit('clear');
             handleChange(initValue);
+            emit('clear');
         };
 
         const change = (val: number | number[] | null) => {
             handleChange(val);
-            updateCurrentValue(val);
 
             // 选择完后重新聚焦
             // TODO 如果有取消按钮，取消之后也应该重新聚焦
@@ -393,7 +386,12 @@ export default defineComponent({
             visibleValue,
 
             dateText,
-            isRange,
+            handleDateInput,
+            handleDateInputBlur: (event: FocusEvent) => {
+                handleDateInputBlur();
+                handleBlur(event);
+            },
+            pickerRef,
 
             clear,
             change,
@@ -402,8 +400,8 @@ export default defineComponent({
             handleBlur,
 
             tmpSelectedDateChange,
-            inputPlaceholder,
-            rangePlaceholder,
+            rangePlaceHolder,
+            singlePlaceHolder,
 
             handlePopperVisible,
 

@@ -1,7 +1,3 @@
-import { DATE_TYPE } from './const';
-
-export type DatePickerType = keyof typeof DATE_TYPE;
-
 export type DateObj = {
     year: number;
     month: number;

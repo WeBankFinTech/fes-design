@@ -40,13 +40,12 @@ import { isArray } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { CloseCircleFilled } from '../icon';
 
-import { DATE_TYPE } from './const';
 import { isEmptyValue, timeFormat } from './helper';
 
 const prefixCls = getPrefixCls('range-input');
 
 const rangeInputProps = {
-    type: String as PropType<keyof typeof DATE_TYPE>,
+    format: String,
     selectedDates: {
         type: Array as PropType<number[]>,
         default: () => [] as number[],
@@ -100,7 +99,7 @@ export default defineComponent({
             if (isEmptyValue(props.selectedDates)) {
                 return [];
             }
-            const format = DATE_TYPE[props.type].format;
+            const format = props.format;
             return [
                 timeFormat(props.selectedDates[0], format),
                 timeFormat(props.selectedDates[1], format),
