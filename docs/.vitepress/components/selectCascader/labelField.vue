@@ -10,12 +10,14 @@
 
     <FDivider></FDivider>
 
-    <FSelectCascader :data="data">
+    <FSelectCascader v-model="value" :data="data">
         <template #tag="{ option }">
             <template v-if="shwoAllLevels">
                 {{ option.labelPath.join(' / ') }}
             </template>
-            <template v-else> {{ option.value }}-{{ option.label }} </template>
+            <template v-else-if="option.value">
+                {{ option.value }}-{{ option.label }}
+            </template>
         </template>
     </FSelectCascader>
 </template>
@@ -48,9 +50,11 @@ export default {
     setup() {
         const data = reactive(createData(4));
         const shwoAllLevels = ref(true);
+        const value = ref('');
         return {
             data,
             shwoAllLevels,
+            value,
         };
     },
 };
