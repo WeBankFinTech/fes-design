@@ -229,7 +229,7 @@ export default defineComponent({
                 : [currentValue.value];
 
             // 支持未匹配项展示
-            return values.map((curValue) => {
+            return values.filter(Boolean).map((curValue) => {
                 const { value, label, indexPath, labelPath } = nodeList.value[
                     curValue
                 ] || {
