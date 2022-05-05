@@ -6,11 +6,21 @@
                 <FRadio :value="false">否</FRadio>
             </FRadioGroup>
         </FFormItem>
+        <FFormItem label="展开次级菜单：">
+            <FRadioGroup v-model="expandTrigger">
+                <FRadio value="click">click(默认)</FRadio>
+                <FRadio value="hover">hover</FRadio>
+            </FRadioGroup>
+        </FFormItem>
     </FForm>
 
     <FDivider></FDivider>
 
-    <FCascader :data="data" :cancelable="cancelable"></FCascader>
+    <FCascader
+        :data="data"
+        :cancelable="cancelable"
+        :expandTrigger="expandTrigger"
+    ></FCascader>
 </template>
 <script>
 import { reactive, ref } from 'vue';
@@ -38,9 +48,11 @@ export default {
     setup() {
         const data = reactive(createData(4));
         const cancelable = ref(true);
+        const expandTrigger = ref('hover');
         return {
             data,
             cancelable,
+            expandTrigger,
         };
     },
 };

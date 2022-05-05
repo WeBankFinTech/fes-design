@@ -53,6 +53,11 @@
             );
             --f-cascader-node-content-wrapper-bg-color: var(--f-white);
             cursor: not-allowed;
+            &.is-selected, &.is-checked {
+                --f-cascader-node-content-wrapper-color: var(
+                    --f-text-color-disabled
+                );
+            }
         }
     }
     &-node-switcher,
@@ -67,7 +72,14 @@
     &-node-switcher {
         width: @data-input-height-base;
         height: @data-input-height-base;
+        color: var(--f-cascader-node-content-wrapper-color);
         font-size: @font-size-head;
+        &.is-disabled {
+            cursor: pointer;
+        }
+        &:hover {
+            --f-cascader-node-content-wrapper-color: var(--f-primary-color);
+        }
     }
     &-node-content {
         display: flex;

@@ -11,7 +11,7 @@ import LoadingOutlined from '../icon/LoadingOutlined';
 import RightOutlined from '../icon/RightOutlined';
 import CheckOutlined from '../icon/CheckOutlined';
 import Checkbox from '../checkbox/checkbox.vue';
-import { COMPONENT_NAME } from './const';
+import { COMPONENT_NAME, EXPAND_TRIGGER } from './const';
 import useCascaderNode from './useCascaderNode';
 import Ellipsis from '../ellipsis';
 import Tooltip from '../tooltip';
@@ -95,7 +95,7 @@ export default defineComponent({
         );
 
         const isLoading = ref(false);
-        const handleClickSwitcher = async (event?: Event) => {
+        const handleClickSwitcher = async (event: Event) => {
             if (isLoading.value) {
                 return;
             }
@@ -112,6 +112,12 @@ export default defineComponent({
             } else {
                 root.expandNode(props.value, event);
             }
+        };
+        const handleHoverSwitcher = (event: Event) => {
+            if (root.props.expandTrigger !== EXPAND_TRIGGER.HOVER) {
+                return;
+            }
+            handleClickSwitcher(event);
         };
         const handleClickContent = (event: Event) => {
             if (disabled.value) return;
@@ -138,9 +144,14 @@ export default defineComponent({
             event.stopPropagation();
         };
         const renderSwitcher = () => {
+            const currentClassList = [
+                `${prefixCls}-switcher`,
+                disabled.value && 'is-disabled',
+            ].filter(Boolean);
+
             if (props.isLeaf) {
                 return (
-                    <span class={`${prefixCls}-switcher`}>
+                    <span class={currentClassList}>
                         {!root.props.checkable && isSelected.value ? (
                             <CheckOutlined />
                         ) : null}
@@ -149,8 +160,9 @@ export default defineComponent({
             }
             return (
                 <span
-                    class={`${prefixCls}-switcher`}
+                    class={currentClassList}
                     onClick={handleClickSwitcher}
+                    onMouseenter={handleHoverSwitcher}
                 >
                     {isLoading.value ? <LoadingOutlined /> : <RightOutlined />}
                 </span>

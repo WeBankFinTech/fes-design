@@ -10,3 +10,8 @@ export enum CHECK_STRATEGY {
 }
 
 export const ROOT_MENU_KEY = 'root';
+
+export const EXPAND_TRIGGER = {
+    CLICK: 'click',
+    HOVER: 'hover',
+};

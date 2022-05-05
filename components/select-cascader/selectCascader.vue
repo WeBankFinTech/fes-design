@@ -49,6 +49,7 @@
                     :labelField="labelField"
                     :remote="remote"
                     :loadData="loadData"
+                    :expandTrigger="expandTrigger"
                     @update:nodeList="onChangeNodeList"
                     @select="handleSelect"
                     @check="handleCheck"

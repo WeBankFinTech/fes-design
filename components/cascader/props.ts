@@ -1,5 +1,5 @@
 import type { ExtractPropTypes, PropType, InjectionKey } from 'vue';
-import { CHECK_STRATEGY } from './const';
+import { CHECK_STRATEGY, EXPAND_TRIGGER } from './const';
 import { extractPropsDefaultValue } from '../_util/utils';
 
 import type {
@@ -78,6 +78,10 @@ export const cascaderProps = {
     cancelable: {
         type: Boolean,
         default: true,
+    },
+    expandTrigger: {
+        type: String,
+        default: EXPAND_TRIGGER.CLICK,
     },
 } as const;
 

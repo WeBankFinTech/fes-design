@@ -90,6 +90,7 @@ app.use(FCascader);
 | labelField            | 替代 `CascaderOption` 中的 `label` 字段名                                                                                                                                | string                                    | `label`    |
 | remote                | 是否异步获取选项，和 `loadData` 配合                                                                                                                                     | boolean                                   | `false`    |
 | loadData              | 异步加载数据的回调函数                                                                                                                                                   | (node: CascaderOption) => Promise\<void\> | `null`     |
+| expandTrigger         | 次级菜单的展开方式，可选值为`click`,`hover`                                                                                                                              | string                                    | `click`    |
 
 ## Cascader Events
 

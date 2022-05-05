@@ -9,10 +9,7 @@ import useState from './useState';
 import { cascaderProps, CASCADER_PROVIDE_KEY } from './props';
 import Scrollbar from '../scrollbar';
 
-import type {
-    InnerCascaderOption,
-    CascaderNodeKey,
-} from './interface';
+import type { InnerCascaderOption, CascaderNodeKey } from './interface';
 import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('cascader');
@@ -67,9 +64,15 @@ export default defineComponent({
             () => props.emptyText || t('select.emptyText'),
         );
 
-        const updateExpandedKeysBySelectOrCheck = (val: CascaderNodeKey, event: Event) => {
+        const updateExpandedKeysBySelectOrCheck = (
+            val: CascaderNodeKey,
+            event: Event,
+        ) => {
             const node = nodeList[val];
             const values = node.indexPath.slice(0, node.indexPath.length - 1);
+            if (node.hasChildren) {
+                values.push(node.value);
+            }
             updateExpandedKeys(values);
             emit('expand', {
                 expandedKeys: values,
@@ -274,13 +277,10 @@ export default defineComponent({
             nodes.map((node) => renderNode(node));
 
         const renderMenu = (key: CascaderNodeKey) => {
-            const nodes = getMenuNodes(key)
+            const nodes = getMenuNodes(key);
 
             return (
-                <Scrollbar
-                    containerClass={`${prefixCls}-dropdown`}
-                    key={key}
-                >
+                <Scrollbar containerClass={`${prefixCls}-dropdown`} key={key}>
                     <div class={`${prefixCls}-menu`} role="cascader-menu">
                         {nodes.length ? (
                             renderNodes(nodes)
