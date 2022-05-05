@@ -79,6 +79,7 @@ import type {
     CascaderNodeList,
     SelectParams,
     CheckParams,
+    CascaderNodeKey,
 } from '../cascader/interface';
 import { useLocale } from '../config-provider/useLocale';
 
@@ -222,14 +223,29 @@ export default defineComponent({
             }
         };
 
-        const selectedOptions = computed(() =>
-            Object.values(nodeList.value).filter((option) => {
-                if (props.multiple) {
-                    return currentValue.value.includes(option.value);
-                }
-                return [currentValue.value].includes(option.value);
-            }),
-        );
+        const selectedOptions = computed(() => {
+            const values: CascaderNodeKey[] = props.multiple
+                ? currentValue.value
+                : [currentValue.value];
+
+            // 支持未匹配项展示
+            return values.map((curValue) => {
+                const { value, label, indexPath, labelPath } = nodeList.value[
+                    curValue
+                ] || {
+                    value: curValue,
+                    label: curValue,
+                    indexPath: [] as CascaderNodeKey[],
+                    labelPath: [] as string[],
+                };
+                return {
+                    value,
+                    label,
+                    indexPath,
+                    labelPath,
+                };
+            });
+        });
 
         const focus = (e: Event) => {
             emit('focus', e);

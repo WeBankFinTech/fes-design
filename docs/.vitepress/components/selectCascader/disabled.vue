@@ -20,8 +20,19 @@
     <FSpace>
         <FSelectCascader v-model="value1" :data="data" disabled>
         </FSelectCascader>
+        <FSelectCascader v-model="value2" :data="data" disabled>
+        </FSelectCascader>
         <FSelectCascader
-            v-model="value2"
+            v-model="value3"
+            :data="data"
+            multiple
+            disabled
+            :collapseTags="collapseTags"
+            :collapseTagsLimit="collapseTagsLimit"
+        >
+        </FSelectCascader>
+        <FSelectCascader
+            v-model="value4"
             :data="data"
             multiple
             disabled
@@ -59,13 +70,17 @@ export default {
     setup() {
         const data = reactive(createData(4));
         const value1 = ref('40');
-        const value2 = ref(['40', '41', '4030']);
+        const value2 = ref('999999'); // 含未匹配项
+        const value3 = ref(['40', '41', '4030']);
+        const value4 = ref(['40', '41', '999999']); // 含未匹配项
         const collapseTags = ref(true);
         const collapseTagsLimit = ref(1);
         return {
             data,
             value1,
             value2,
+            value3,
+            value4,
             collapseTags,
             collapseTagsLimit,
         };
