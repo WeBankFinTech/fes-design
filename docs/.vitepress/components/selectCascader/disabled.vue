@@ -1,24 +1,32 @@
 <template>
+    <FForm :labelWidth="160">
+        <FFormItem label="多选是否折叠展示：">
+            <FRadioGroup v-model="collapseTags">
+                <FRadio :value="false">false(默认)</FRadio>
+                <FRadio :value="true">true</FRadio>
+            </FRadioGroup>
+        </FFormItem>
+        <FFormItem v-if="collapseTags" label="折叠项限制：">
+            <FRadioGroup v-model="collapseTagsLimit">
+                <FRadio :value="1">1(默认)</FRadio>
+                <FRadio :value="2">2</FRadio>
+                <FRadio :value="3">3</FRadio>
+            </FRadioGroup>
+        </FFormItem>
+    </FForm>
+
+    <FDivider></FDivider>
+
     <FSpace>
         <FSelectCascader v-model="value1" :data="data" disabled>
         </FSelectCascader>
-        <FSelectCascader v-model="value2" :data="data" multiple disabled>
-        </FSelectCascader>
         <FSelectCascader
             v-model="value2"
             :data="data"
             multiple
             disabled
-            collapseTags
-        >
-        </FSelectCascader>
-        <FSelectCascader
-            v-model="value2"
-            :data="data"
-            multiple
-            disabled
-            collapseTags
-            :collapseTagsLimit="2"
+            :collapseTags="collapseTags"
+            :collapseTagsLimit="collapseTagsLimit"
         >
         </FSelectCascader>
     </FSpace>
@@ -51,11 +59,15 @@ export default {
     setup() {
         const data = reactive(createData(4));
         const value1 = ref('40');
-        const value2 = ref(['40', '41']);
+        const value2 = ref(['40', '41', '4030']);
+        const collapseTags = ref(true);
+        const collapseTagsLimit = ref(1);
         return {
             data,
             value1,
             value2,
+            collapseTags,
+            collapseTagsLimit,
         };
     },
 };

@@ -1,11 +1,16 @@
 <template>
-    勾选策略：
-    <FRadioGroup v-model="checkStrictly">
-        <FRadio value="all">all</FRadio>
-        <FRadio value="parent">parent</FRadio>
-        <FRadio value="child">child</FRadio>
-    </FRadioGroup>
-    <br />
+    <FForm :labelWidth="160">
+        <FFormItem label="勾选策略：">
+            <FRadioGroup v-model="checkStrictly">
+                <FRadio value="all">all</FRadio>
+                <FRadio value="parent">parent</FRadio>
+                <FRadio value="child">child</FRadio>
+            </FRadioGroup>
+        </FFormItem>
+    </FForm>
+
+    <FDivider></FDivider>
+
     <FSelectCascader
         :data="data"
         multiple

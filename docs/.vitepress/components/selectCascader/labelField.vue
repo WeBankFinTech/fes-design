@@ -1,12 +1,26 @@
 <template>
+    <FForm :labelWidth="160">
+        <FFormItem label="是否展示路径：">
+            <FRadioGroup v-model="shwoAllLevels">
+                <FRadio :value="true">true</FRadio>
+                <FRadio :value="false">false</FRadio>
+            </FRadioGroup>
+        </FFormItem>
+    </FForm>
+
+    <FDivider></FDivider>
+
     <FSelectCascader :data="data">
         <template #tag="{ option }">
-            {{ option.value }}-{{ option.label }}
+            <template v-if="shwoAllLevels">
+                {{ option.labelPath.join(' / ') }}
+            </template>
+            <template v-else> {{ option.value }}-{{ option.label }} </template>
         </template>
     </FSelectCascader>
 </template>
 <script>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 function createData(level = 1, baseKey = '', prefix = null, suffix = null) {
     if (!level) return undefined;
@@ -33,8 +47,10 @@ function createLabel(level) {
 export default {
     setup() {
         const data = reactive(createData(4));
+        const shwoAllLevels = ref(true);
         return {
             data,
+            shwoAllLevels,
         };
     },
 };
