@@ -226,7 +226,9 @@ export default defineComponent({
         const selectedOptions = computed(() => {
             const values: CascaderNodeKey[] = props.multiple
                 ? currentValue.value
-                : [currentValue.value];
+                : currentValue.value !== null
+                ? [currentValue.value]
+                : [];
 
             // 支持未匹配项展示
             return values.map((curValue) => {

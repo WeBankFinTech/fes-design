@@ -15,8 +15,8 @@
             <template v-if="shwoAllLevels">
                 {{ option.labelPath.join(' / ') }}
             </template>
-            <template v-else-if="option.value">
-                {{ option.value }}-{{ option.label }}
+            <template v-else>
+                {{ option.value ? `${option.value} - ${option.label}` : '' }}
             </template>
         </template>
     </FSelectCascader>
@@ -50,7 +50,7 @@ export default {
     setup() {
         const data = reactive(createData(4));
         const shwoAllLevels = ref(true);
-        const value = ref('');
+        const value = ref(null);
         return {
             data,
             shwoAllLevels,
