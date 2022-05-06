@@ -1,7 +1,12 @@
 import { useNormalModel } from '../_util/use/useModel';
 
-import type { InnerCascaderOption, CascaderNodeKey } from './interface';
+import type {
+    InnerCascaderOption,
+    CascaderNodeKey,
+    CascaderNodeList,
+} from './interface';
 import type { CascaderProps } from './props';
+import { getChildrenByKeys } from '../select-cascader/helper';
 
 export default (props: CascaderProps, { emit }: { emit: any }) => {
     const [currentExpandedKeys, updateExpandedKeys] = useNormalModel(
@@ -37,6 +42,14 @@ export default (props: CascaderProps, { emit }: { emit: any }) => {
         }
         return true;
     };
+    const hasCheckLoaded = (
+        value: CascaderNodeKey,
+        nodeList: CascaderNodeList,
+    ): boolean => {
+        return getChildrenByKeys(nodeList, [value]).every((key) =>
+            hasLoaded(nodeList[key]),
+        );
+    };
 
     return {
         currentExpandedKeys,
@@ -48,5 +61,6 @@ export default (props: CascaderProps, { emit }: { emit: any }) => {
         hasSelected,
         hasChecked,
         hasLoaded,
+        hasCheckLoaded,
     };
 };

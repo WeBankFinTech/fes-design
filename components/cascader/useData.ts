@@ -126,7 +126,6 @@ export default ({
 
     return {
         nodeList,
-        transformData,
         getMenuNodes,
         menuKeys,
     };

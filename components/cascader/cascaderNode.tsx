@@ -62,7 +62,7 @@ export default defineComponent({
             isChecked,
             isIndeterminate,
             isLoaded,
-            isCheckNeedLoad,
+            isCheckLoaded,
         } = useCascaderNode(props);
 
         const disabled = computed(() => props.disabled);
@@ -126,7 +126,7 @@ export default defineComponent({
                 return root.selectNode(props.value, event);
             }
             // 再 check 行为
-            if (checkable.value) {
+            if (checkable.value && isCheckLoaded.value) {
                 return root.checkNode(props.value, event);
             }
             // 再展开行为
@@ -136,7 +136,7 @@ export default defineComponent({
         };
         const handleClickCheckbox = (event: Event) => {
             if (disabled.value) return;
-            if (checkable.value) {
+            if (checkable.value && isCheckLoaded.value) {
                 return root.checkNode(props.value, event);
             }
         };
@@ -152,7 +152,7 @@ export default defineComponent({
             if (props.isLeaf) {
                 return (
                     <span class={currentClassList}>
-                        {!root.props.checkable && isSelected.value ? (
+                        {!checkable.value && isSelected.value ? (
                             <CheckOutlined />
                         ) : null}
                     </span>
@@ -169,10 +169,17 @@ export default defineComponent({
             );
         };
         const renderCheckbox = () => {
-            if (root.props.checkable) {
+            if (checkable.value) {
                 return (
                     <span class={`${prefixCls}-checkbox`}>
-                        {isCheckNeedLoad.value ? (
+                        {isCheckLoaded.value ? (
+                            <Checkbox
+                                indeterminate={isIndeterminate.value}
+                                modelValue={isChecked.value}
+                                onClick={handleClickCheckbox}
+                                disabled={props.disabled}
+                            />
+                        ) : (
                             <Tooltip
                                 placement="top-start"
                                 content={loadingRequiredMessage.value}
@@ -183,13 +190,6 @@ export default defineComponent({
                                     disabled={true}
                                 />
                             </Tooltip>
-                        ) : (
-                            <Checkbox
-                                indeterminate={isIndeterminate.value}
-                                modelValue={isChecked.value}
-                                onClick={handleClickCheckbox}
-                                disabled={props.disabled}
-                            />
                         )}
                     </span>
                 );

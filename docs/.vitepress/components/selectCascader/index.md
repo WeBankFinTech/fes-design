@@ -30,9 +30,15 @@ app.use(FSelectCascader);
 
 --MULTIPLE
 
-### modelValue 返回节点菜单路径值
+### emitPath 返回节点菜单路径
+
+适用于异步加载初始化展示的场景。
 
 --EMITPATH
+
+### 异步加载
+
+--ASYNC
 
 ### 禁用状态
 
@@ -71,7 +77,7 @@ app.use(FSelectCascader);
 | childrenField         | 替代 `CascaderOption` 中的 `children` 字段名                                                                                                                            | string                                    | `children`            |
 | valueField            | 替代 `CascaderOption` 中的 `value` 字段名                                                                                                                               | string                                    | `value`               |
 | labelField            | 替代 `CascaderOption` 中的 `label` 字段名                                                                                                                               | string                                    | `label`               |
-| remote                | 是否异步获取选项，和 `onLoad` 配合                                                                                                                                      | boolean                                   | `false`               |
+| remote                | 是否异步获取选项，和 `loadData` 配合                                                                                                                                    | boolean                                   | `false`               |
 | loadData              | 异步加载数据的回调函数                                                                                                                                                  | (node: CascaderOption) => Promise\<void\> | `null`                |
 | expandTrigger         | 次级菜单的展开方式，可选值为`click`,`hover`                                                                                                                             | string                                    | `click`               |
 | emitPath              | `modelValue` 是否返回选中节点所在的各级菜单的值所组成的数组，若设置 false，则只返回该节点的值。                                                                         | boolean                                   | `false`               |
@@ -96,9 +102,9 @@ app.use(FSelectCascader);
 
 ## SelectCascader Slots
 
-| 名称 | 说明                                           | 参数                                                 |
-| ---- | ---------------------------------------------- | ---------------------------------------------------- |
-| tag  | 控制标签的渲染，自定义选中选项在选择框如何展示 | _{ option: CascaderOption, handleClose: ()=> void }_ |
+| 名称 | 说明                                           | 参数                                               |
+| ---- | ---------------------------------------------- | -------------------------------------------------- |
+| tag  | 控制标签的渲染，自定义选中选项在选择框如何展示 | _{ option: CascaderNode, handleClose: ()=> void }_ |
 
 ## CascaderOption props
 
@@ -113,3 +119,12 @@ app.use(FSelectCascader);
 | isLeaf?     | 节点是否是叶节点，在 remote 模式下是必须的             | boolean                     | `false` |
 | prefix?     | 节点的前缀                                             | string / (() => VNodeChild) | `null`  |
 | suffix?     | 节点的后缀                                             | string / (() => VNodeChild) | `null`  |
+
+## CascaderNode props
+
+| 属性      | 说明                                      | 类型            | 默认值   |
+| --------- | ----------------------------------------- | --------------- | -------- | 
+| value     | 同 `CascaderOption` 中的 `value` 字段     | string / number | `-`      |
+| label     | 同 `CascaderOption` 中的 `label` 字段     | string          | `-`      |
+| indexPath | 节点所在的各级菜单的 `value` 所组成的数组 | Array<string \| number> | `[]` |
+| labelPath | 节点所在的各级菜单的 `label` 所组成的数组 | Array<string\> | `[]`     |

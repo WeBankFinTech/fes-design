@@ -1,5 +1,29 @@
 <template>
-    <FCascader :data="data" :loadData="loadData" checkable remote></FCascader>
+    <FForm :labelWidth="160">
+        <FFormItem label="单选：">
+            <FSelectCascader
+                :data="data1"
+                :loadData="loadData"
+                clearable
+                remote
+                emitPath
+                @change="handleChange"
+            ></FSelectCascader>
+        </FFormItem>
+        <FFormItem label="多选：">
+            <FSelectCascader
+                :data="data2"
+                :loadData="loadData"
+                multiple
+                cascade
+                checkStrictly="parent"
+                clearable
+                remote
+                emitPath
+                @change="handleChange"
+            ></FSelectCascader>
+        </FFormItem>
+    </FForm>
 </template>
 <script>
 import { reactive } from 'vue';
@@ -25,19 +49,20 @@ function createLabel(level) {
 
 export default {
     setup() {
-        const data = reactive(createData(2));
+        const data1 = reactive(createData(2));
+        const data2 = reactive(createData(2));
         const loadData = (node) => {
             return new Promise((resolve) => {
                 setTimeout(() => {
                     node.children = [
                         {
-                            label: `${node.value}-1`,
+                            label: `${node.label}1`,
                             value: `${node.value}-1`,
                             isLeaf:
                                 node.value.split('-').length > 1 ? true : false,
                         },
                         {
-                            label: `${node.value}-2`,
+                            label: `${node.label}2`,
                             value: `${node.value}-2`,
                             isLeaf:
                                 node.value.split('-').length > 1 ? true : false,
@@ -48,10 +73,21 @@ export default {
             });
         };
 
+        const handleChange = (value) => {
+            console.log('value:', value);
+        };
+
         return {
             loadData,
-            data,
+            data1,
+            data2,
+            handleChange,
         };
     },
 };
 </script>
+<style scoped>
+.fes-select-cascader {
+    width: 200px;
+}
+</style>

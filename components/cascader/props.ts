@@ -6,6 +6,7 @@ import type {
     CascaderOption,
     CascaderNodeKey,
     InnerCascaderOption,
+    CascaderNodeList,
 } from './interface';
 
 export const cascaderProps = {
@@ -102,6 +103,10 @@ export interface CascaderInst {
     hasSelected: (value: CascaderNodeKey) => boolean;
     hasChecked: (value: CascaderNodeKey) => boolean;
     hasLoaded: (node: InnerCascaderOption) => boolean;
+    hasCheckLoaded: (
+        value: CascaderNodeKey,
+        nodeList: CascaderNodeList,
+    ) => boolean;
     nodeList: {
         [key: string]: InnerCascaderOption;
     };

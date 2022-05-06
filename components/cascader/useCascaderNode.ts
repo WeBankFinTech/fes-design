@@ -2,7 +2,7 @@ import { inject, computed } from 'vue';
 import { CASCADER_PROVIDE_KEY } from './props';
 
 import type { CascaderNodeProps } from './cascaderNode';
-import { CascaderNodeKey, InnerCascaderOption } from './interface';
+import { InnerCascaderOption } from './interface';
 
 export default (props: CascaderNodeProps) => {
     const root = inject(CASCADER_PROVIDE_KEY);
@@ -15,13 +15,8 @@ export default (props: CascaderNodeProps) => {
         return root.hasLoaded(root.nodeList[props.value]);
     });
 
-    const hasChildLoaded = (value: CascaderNodeKey): boolean => {
-        return root.nodeList[value].childrenValues.every((childValue) =>
-            root.hasLoaded(root.nodeList[childValue]),
-        );
-    };
-    const isCheckNeedLoad = computed(
-        () => !isLoaded.value || !hasChildLoaded(props.value),
+    const isCheckLoaded = computed(() =>
+        root.hasCheckLoaded(props.value, root.nodeList),
     );
 
     const hasIndeterminate = (node: InnerCascaderOption): boolean => {
@@ -52,6 +47,6 @@ export default (props: CascaderNodeProps) => {
         isChecked,
         isIndeterminate,
         isLoaded,
-        isCheckNeedLoad,
+        isCheckLoaded,
     };
 };

@@ -42,6 +42,7 @@ export default defineComponent({
             hasSelected,
             hasChecked,
             hasLoaded,
+            hasCheckLoaded,
         } = useState(props, { emit });
 
         const { nodeList, getMenuNodes, menuKeys } = useData({
@@ -240,6 +241,7 @@ export default defineComponent({
             hasSelected,
             hasChecked,
             hasLoaded,
+            hasCheckLoaded,
             nodeList,
         });
 
