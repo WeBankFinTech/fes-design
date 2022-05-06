@@ -1,17 +1,19 @@
 import { isArray } from 'lodash-es';
 
 import type { CascaderNodeList, CascaderNodeKey } from '../cascader/interface';
+import { CascaderProps } from '../cascader/props';
 
-export const getChildrenByValues = (
+// 根据父节点获取关联选中的子节点
+export const getChildrenByKeys = (
     nodeList: CascaderNodeList,
-    values: CascaderNodeKey[] = [],
+    keys: CascaderNodeKey[] = [],
 ) => {
-    let arr = [...values];
-    values.forEach((value) => {
+    let arr = [...keys];
+    keys.forEach((value) => {
         const node = nodeList[value];
         if (isArray(node.children)) {
             arr = arr.concat(
-                getChildrenByValues(
+                getChildrenByKeys(
                     nodeList,
                     node.children.map((child) => child.value),
                 ),
@@ -21,12 +23,13 @@ export const getChildrenByValues = (
     return arr;
 };
 
-export const getParentByValues = (
+// 根据子节点获取关联选中的父节点
+export const getParentByKeys = (
     nodeList: CascaderNodeList,
-    values: CascaderNodeKey[] = [],
+    keys: CascaderNodeKey[] = [],
 ) => {
     const res: Record<string, CascaderNodeKey[]> = {};
-    values.forEach((value) => {
+    keys.forEach((value) => {
         const node = nodeList[value];
         if (!res[node.level]) {
             res[node.level] = [];
@@ -64,4 +67,53 @@ export const getParentByValues = (
         arr = arr.concat(levelValues);
     });
     return arr;
+};
+
+export const getCurrentValueByKeys = (
+    nodeList: CascaderNodeList,
+    keys: CascaderNodeKey[] = [],
+    props: CascaderProps,
+) => {
+    const value: null | [] = props.multiple || props.emitPath ? [] : null;
+
+    if (!keys.length) {
+        return value;
+    }
+    if (props.multiple) {
+        // 保持层级顺序不变
+        return Object.keys(nodeList)
+            .filter((key) => keys.includes(key))
+            .map((key) =>
+                props.emitPath ? [...nodeList[key].indexPath] : key,
+            );
+    } else {
+        return props.emitPath ? [...nodeList[keys[0]].indexPath] : keys[0];
+    }
+};
+
+export const getKeysByCurrentValue = (
+    currentValue: CascaderNodeKey | CascaderNodeKey[] | CascaderNodeKey[][],
+    props: CascaderProps,
+) => {
+    const keys: CascaderNodeKey[] = [];
+    if (currentValue === null) {
+        return keys;
+    }
+    if (props.multiple) {
+        return (currentValue as CascaderNodeKey[] | CascaderNodeKey[][]).map(
+            (value) => {
+                if (props.emitPath && isArray(value)) {
+                    return value[value.length - 1];
+                } else {
+                    return value;
+                }
+            },
+        );
+    } else {
+        if (props.emitPath && isArray(currentValue)) {
+            return currentValue.slice(currentValue.length - 1);
+        } else {
+            return [currentValue];
+        }
+    }
 };

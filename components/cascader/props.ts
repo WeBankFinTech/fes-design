@@ -83,6 +83,10 @@ export const cascaderProps = {
         type: String,
         default: EXPAND_TRIGGER.CLICK,
     },
+    emitPath: {
+        type: Boolean,
+        default: false,
+    },
 } as const;
 
 export const cascaderPropsDefaultValue =

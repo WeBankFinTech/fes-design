@@ -30,6 +30,10 @@ app.use(FSelectCascader);
 
 --MULTIPLE
 
+### modelValue 返回节点菜单路径值
+
+--EMITPATH
+
 ### 禁用状态
 
 选择器不可用状态
@@ -50,6 +54,8 @@ app.use(FSelectCascader);
 
 | 属性                  | 说明                                                                                                                                                                    | 类型                                      | 默认值                |
 | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- | --------------------- |
+| modelValue / v-model  | 选中的值                                                                                                                                                                | number / string / boolean / object        | -                     |
+| data                  | 展示数据                                                                                                                                                                | Array\<CascaderOption\>                   | `[]`                  |
 | appendToContainer     | 弹窗内容是否添加到指定的 DOM 元素                                                                                                                                       | boolean                                   | `true`                |
 | clearable             | 是否显示清除按钮                                                                                                                                                        | boolean                                   | `false`               |
 | disabled              | 是否禁用                                                                                                                                                                | boolean                                   | `false`               |
@@ -59,8 +65,6 @@ app.use(FSelectCascader);
 | getContainer          | 指定下拉选项挂载的 HTML 节点                                                                                                                                            | () => HTMLElement                         | `() => document.body` |
 | multiple              | 是否多选                                                                                                                                                                | boolean                                   | `false`               |
 | placeholder           | 当没有选择内容时的提示语                                                                                                                                                | string                                    | -                     |
-| modelValue / v-model  | 选中的值                                                                                                                                                                | number / string / boolean / object        | -                     |
-| data                  | 展示数据                                                                                                                                                                | Array\<CascaderOption\>                   | `[]`                  |
 | expandedKeys(v-model) | 展开的节点的 key 的数组                                                                                                                                                 | Array<string \| number>                   | `[]`                  |
 | cascade               | `checkable` 状态下节点选择完全受控（父子节点选中状态关联）                                                                                                              | boolean                                   | `false`               |
 | checkStrictly         | 设置勾选策略来指定勾选回调返回的值，`all` 表示回调函数值为全部选中节点；`parent` 表示回调函数值为父节点（当父节点下所有子节点都选中时）；`child` 表示回调函数值为子节点 | string                                    | `all`                 |
@@ -70,6 +74,7 @@ app.use(FSelectCascader);
 | remote                | 是否异步获取选项，和 `onLoad` 配合                                                                                                                                      | boolean                                   | `false`               |
 | loadData              | 异步加载数据的回调函数                                                                                                                                                  | (node: CascaderOption) => Promise\<void\> | `null`                |
 | expandTrigger         | 次级菜单的展开方式，可选值为`click`,`hover`                                                                                                                             | string                                    | `click`               |
+| emitPath              | `modelValue` 是否返回选中节点所在的各级菜单的值所组成的数组，若设置 false，则只返回该节点的值。                                                                         | boolean                                   | `false`               |
 
 ## SelectCascader Events
 

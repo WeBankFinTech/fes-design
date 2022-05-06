@@ -72,7 +72,12 @@ import SelectTrigger from '../select-trigger';
 import Cascader from '../cascader/cascader';
 import { selectProps } from '../select/props';
 import { cascaderProps } from '../cascader/props';
-import { getChildrenByValues, getParentByValues } from './helper';
+import {
+    getChildrenByKeys,
+    getParentByKeys,
+    getCurrentValueByKeys,
+    getKeysByCurrentValue,
+} from './helper';
 
 import type { SelectValue } from '../select/interface';
 import type {
@@ -82,6 +87,7 @@ import type {
     CascaderNodeKey,
 } from '../cascader/interface';
 import { useLocale } from '../config-provider/useLocale';
+import { CHECK_STRATEGY } from '../cascader/const';
 
 const prefixCls = getPrefixCls('select-cascader');
 
@@ -139,27 +145,28 @@ export default defineComponent({
         const cascaderCheckable = computed(() => props.multiple);
         const selectedKeys = computed(() => {
             if (!props.multiple)
-                return currentValue.value ? [currentValue.value] : [];
+                return getKeysByCurrentValue(currentValue.value, props);
             return [];
         });
         const checkedKeys = computed(() => {
             if (props.multiple) {
+                const keys = getKeysByCurrentValue(currentValue.value, props);
                 if (!props.cascade) {
-                    return currentValue.value;
+                    return keys;
                 }
-                if (props.checkStrictly === 'all') {
-                    return currentValue.value;
+                if (props.checkStrictly === CHECK_STRATEGY.ALL) {
+                    return keys;
                 }
-                if (props.checkStrictly === 'parent') {
-                    return getChildrenByValues(
+                if (props.checkStrictly === CHECK_STRATEGY.PARENT) {
+                    return getChildrenByKeys(
                         nodeList.value,
-                        currentValue.value,
+                        keys as CascaderNodeKey[],
                     );
                 }
-                if (props.checkStrictly === 'child') {
-                    return getParentByValues(
+                if (props.checkStrictly === CHECK_STRATEGY.CHILD) {
+                    return getParentByKeys(
                         nodeList.value,
-                        currentValue.value,
+                        keys as CascaderNodeKey[],
                     );
                 }
             }
@@ -171,16 +178,30 @@ export default defineComponent({
             () => {
                 if (props.multiple && props.cascade) {
                     updateCurrentValue([]);
+                    handleChange();
                 }
             },
         );
 
+        watch(
+            () => props.emitPath,
+            () => {
+                const value: null | [] =
+                    props.multiple || props.emitPath ? [] : null;
+
+                updateCurrentValue(value);
+                handleChange();
+            },
+        );
+
         const handleClear = () => {
-            const value: null | [] = props.multiple ? [] : null;
+            const value: null | [] =
+                props.multiple || props.emitPath ? [] : null;
+
             if (
                 props.multiple
-                    ? currentValue.value.length
-                    : currentValue.value !== null
+                    ? checkedKeys.value.length
+                    : selectedKeys.value.length
             ) {
                 updateCurrentValue(value);
                 handleChange();
@@ -191,22 +212,22 @@ export default defineComponent({
         const handleSelect = (data: SelectParams) => {
             if (props.disabled) return;
             if (!props.multiple) {
-                updateCurrentValue(data.selectedKeys[0]);
                 isOpened.value = false;
-            } else {
-                updateCurrentValue(data.selectedKeys);
             }
+            updateCurrentValue(
+                getCurrentValueByKeys(nodeList.value, data.selectedKeys, props),
+            );
             handleChange();
         };
 
         const handleCheck = (data: CheckParams) => {
             if (props.disabled) return;
             if (!props.multiple) {
-                updateCurrentValue(data.checkedKeys[0]);
                 isOpened.value = false;
-            } else {
-                updateCurrentValue(data.checkedKeys);
             }
+            updateCurrentValue(
+                getCurrentValueByKeys(nodeList.value, data.checkedKeys, props),
+            );
             handleChange();
         };
 
@@ -214,39 +235,46 @@ export default defineComponent({
             if (!props.multiple) {
                 return;
             }
-            const findIndex = currentValue.value.indexOf(value);
+
+            const values = getKeysByCurrentValue(currentValue.value, props);
+            const findIndex = (values as CascaderNodeKey[]).indexOf(
+                value as CascaderNodeKey,
+            );
             if (findIndex !== -1) {
                 emit('removeTag', value);
-                // useArrayModel 会自动添加或者删除
-                updateCurrentValue(value);
+                values.splice(findIndex, 1);
+                updateCurrentValue(
+                    getCurrentValueByKeys(
+                        nodeList.value,
+                        values as CascaderNodeKey[],
+                        props,
+                    ),
+                );
                 handleChange();
             }
         };
 
         const selectedOptions = computed(() => {
-            const values: CascaderNodeKey[] = props.multiple
-                ? currentValue.value
-                : currentValue.value !== null
-                ? [currentValue.value]
-                : [];
+            const values = getKeysByCurrentValue(currentValue.value, props);
 
             // 支持未匹配项展示
-            return values.map((curValue) => {
-                const { value, label, indexPath, labelPath } = nodeList.value[
-                    curValue
-                ] || {
-                    value: curValue,
-                    label: curValue,
-                    indexPath: [] as CascaderNodeKey[],
-                    labelPath: [] as string[],
-                };
-                return {
-                    value,
-                    label,
-                    indexPath,
-                    labelPath,
-                };
-            });
+            return (values as CascaderNodeKey[])
+                .filter(Boolean)
+                .map((curValue) => {
+                    const { value, label, indexPath, labelPath } = nodeList
+                        .value[curValue] || {
+                        value: curValue,
+                        label: curValue,
+                        indexPath: [] as CascaderNodeKey[],
+                        labelPath: [] as string[],
+                    };
+                    return {
+                        value,
+                        label,
+                        indexPath,
+                        labelPath,
+                    };
+                });
         });
 
         const focus = (e: Event) => {

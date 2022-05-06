@@ -22,6 +22,8 @@
         </FSelectCascader>
         <FSelectCascader v-model="value2" :data="data" disabled>
         </FSelectCascader>
+    </FSpace>
+    <FSpace>
         <FSelectCascader
             v-model="value3"
             :data="data"
@@ -72,7 +74,7 @@ export default {
         const value1 = ref('40');
         const value2 = ref('999999'); // 含未匹配项
         const value3 = ref(['40', '41', '4030']);
-        const value4 = ref(['40', '41', '999999']); // 含未匹配项
+        const value4 = ref(['999999', '40', '41']); // 含未匹配项
         const collapseTags = ref(true);
         const collapseTagsLimit = ref(1);
         return {
