@@ -2,6 +2,7 @@
     <FForm :labelWidth="160">
         <FFormItem label="单选：">
             <FSelectCascader
+                v-model="value1"
                 :data="data1"
                 :loadData="loadData"
                 clearable
@@ -12,6 +13,7 @@
         </FFormItem>
         <FFormItem label="多选：">
             <FSelectCascader
+                v-model="value2"
                 :data="data2"
                 :loadData="loadData"
                 multiple
@@ -26,7 +28,7 @@
     </FForm>
 </template>
 <script>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 function createData(level = 1, baseKey = '') {
     if (!level) return undefined;
@@ -77,11 +79,19 @@ export default {
             console.log('value:', value);
         };
 
+        const value1 = ref(['20', '2010', '2010-1', '2010-1-1']);
+        const value2 = ref([
+            ['40', '4030', '403020', '40302010'],
+            ['20', '2010', '2010-1', '2010-1-1'],
+        ]);
+
         return {
             loadData,
             data1,
             data2,
             handleChange,
+            value1,
+            value2,
         };
     },
 };

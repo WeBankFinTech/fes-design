@@ -60,8 +60,8 @@ function createLabel(level) {
 export default {
     setup() {
         const data = reactive(createData(4));
-        const value1 = ref(null);
-        const value2 = ref(null);
+        const value1 = ref(['40', '4030']);
+        const value2 = ref([['40', '4030', '403020', '40302010']]);
         const emitPath = ref(true);
         return {
             data,

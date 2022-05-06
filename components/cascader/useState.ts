@@ -32,7 +32,9 @@ export default (props: CascaderProps, { emit }: { emit: any }) => {
     const hasChecked = (value: CascaderNodeKey): boolean =>
         currentCheckedKeys.value.includes(value);
     const hasLoaded = (node: InnerCascaderOption): boolean => {
+        // 兼容异步加载，未匹配到节点的情况
         if (
+            node &&
             !node.isLeaf &&
             props.remote &&
             props.loadData &&
@@ -42,6 +44,7 @@ export default (props: CascaderProps, { emit }: { emit: any }) => {
         }
         return true;
     };
+    // 选中需要判断子节点是否全部加载完毕
     const hasCheckLoaded = (
         value: CascaderNodeKey,
         nodeList: CascaderNodeList,

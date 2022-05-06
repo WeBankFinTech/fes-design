@@ -242,6 +242,7 @@ export default defineComponent({
             );
             if (findIndex !== -1) {
                 emit('removeTag', value);
+                // TODO: 删除的时候需要考虑关联情况
                 values.splice(findIndex, 1);
                 updateCurrentValue(
                     getCurrentValueByKeys(

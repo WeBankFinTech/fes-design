@@ -11,7 +11,8 @@ export const getChildrenByKeys = (
     let arr = [...keys];
     keys.forEach((value) => {
         const node = nodeList[value];
-        if (isArray(node.children)) {
+        // 兼容未匹配到节点的情况
+        if (node && isArray(node.children)) {
             arr = arr.concat(
                 getChildrenByKeys(
                     nodeList,
@@ -80,12 +81,20 @@ export const getCurrentValueByKeys = (
         return value;
     }
     if (props.multiple) {
+        const nodeValues = Object.keys(nodeList);
+        // 兼容异步加载，未匹配到节点的情况
+        const notMatchedKeys = keys.filter(
+            (key) => !(nodeValues as CascaderNodeKey[]).includes(key),
+        );
         // 保持层级顺序不变
-        return Object.keys(nodeList)
-            .filter((key) => keys.includes(key))
-            .map((key) =>
-                props.emitPath ? [...nodeList[key].indexPath] : key,
-            );
+        return [].concat(
+            notMatchedKeys,
+            nodeValues
+                .filter((key) => keys.includes(key))
+                .map((key) =>
+                    props.emitPath ? [...nodeList[key].indexPath] : key,
+                ),
+        );
     } else {
         return props.emitPath ? [...nodeList[keys[0]].indexPath] : keys[0];
     }

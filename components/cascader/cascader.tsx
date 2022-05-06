@@ -128,6 +128,10 @@ export default defineComponent({
             return props.cascade
                 ? arr.filter((key) => {
                       const node = nodeList[key];
+                      // 兼容异步加载，未匹配到节点的情况
+                      if (!node){
+                          return true
+                      }
                       if (props.checkStrictly === CHECK_STRATEGY.ALL) {
                           return true;
                       }
