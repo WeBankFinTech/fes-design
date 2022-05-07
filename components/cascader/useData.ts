@@ -1,5 +1,5 @@
 import { ref, reactive, watch, computed, Ref } from 'vue';
-import { isNil } from 'lodash-es';
+import { isArray, isEmpty, isNil } from 'lodash-es';
 
 import type {
     InnerCascaderOption,
@@ -19,6 +19,7 @@ export default ({
     const nodeList = reactive<CascaderNodeList>({});
 
     const transformData = ref([]);
+    const initialLoaded = ref(true);
 
     watch([currentExpandedKeys, transformData], () => {
         const expandedKeys = currentExpandedKeys.value;
@@ -115,9 +116,19 @@ export default ({
 
     watch(
         [() => props.data],
-        () => {
-            // TODO: 初始化加载
-            transformData.value = flatNodes(props.data);
+        async () => {
+            // 初始化加载，仅支持 props.data 为响应式空数组的场景
+            if (props.remote && props.loadData && isEmpty(props.data)) {
+                initialLoaded.value = false;
+
+                const children = await props.loadData(null);
+                isArray(children) &&
+                    children.forEach((item) => props.data.push(item));
+
+                initialLoaded.value = true;
+            } else {
+                transformData.value = flatNodes(props.data);
+            }
         },
         {
             immediate: true,
@@ -131,5 +142,6 @@ export default ({
         nodeList,
         getMenuNodes,
         menuKeys,
+        initialLoaded,
     };
 };

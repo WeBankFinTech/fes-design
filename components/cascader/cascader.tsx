@@ -8,6 +8,7 @@ import useData from './useData';
 import useState from './useState';
 import { cascaderProps, CASCADER_PROVIDE_KEY } from './props';
 import Scrollbar from '../scrollbar';
+import LoadingOutlined from '../icon/LoadingOutlined';
 
 import type { InnerCascaderOption, CascaderNodeKey } from './interface';
 import { useLocale } from '../config-provider/useLocale';
@@ -45,7 +46,7 @@ export default defineComponent({
             hasCheckLoaded,
         } = useState(props, { emit });
 
-        const { nodeList, getMenuNodes, menuKeys } = useData({
+        const { nodeList, getMenuNodes, menuKeys, initialLoaded } = useData({
             props,
             currentExpandedKeys,
         });
@@ -129,8 +130,8 @@ export default defineComponent({
                 ? arr.filter((key) => {
                       const node = nodeList[key];
                       // 兼容异步加载，未匹配到节点的情况
-                      if (!node){
-                          return true
+                      if (!node) {
+                          return true;
                       }
                       if (props.checkStrictly === CHECK_STRATEGY.ALL) {
                           return true;
@@ -290,9 +291,13 @@ export default defineComponent({
                     <div class={`${prefixCls}-menu`} role="cascader-menu">
                         {nodes.length ? (
                             renderNodes(nodes)
-                        ) : (
+                        ) : initialLoaded.value ? (
                             <div class={`${prefixCls}-null`}>
                                 {listEmptyText.value}
+                            </div>
+                        ) : (
+                            <div class={`${prefixCls}-loading`}>
+                                <LoadingOutlined />
                             </div>
                         )}
                     </div>

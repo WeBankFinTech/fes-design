@@ -31,13 +31,13 @@ export default {
                 setTimeout(() => {
                     const children = [
                         {
-                            label: `${node.value}-1`,
+                            label: `${node.label}1`,
                             value: `${node.value}-1`,
                             isLeaf:
                                 node.value.split('-').length > 1 ? true : false,
                         },
                         {
-                            label: `${node.value}-2`,
+                            label: `${node.label}2`,
                             value: `${node.value}-2`,
                             isLeaf:
                                 node.value.split('-').length > 1 ? true : false,
