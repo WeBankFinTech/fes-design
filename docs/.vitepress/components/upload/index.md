@@ -13,8 +13,8 @@ app.use(FUpload);
 ## 代码演示
 
 ### 通用用法
---COMMON
 
+--COMMON
 
 ### 自定义上传的触发器
 
@@ -28,8 +28,11 @@ app.use(FUpload);
 
 --DISABLED
 
---CODE
+### 预览上传文件
 
+--previewUpload
+
+--CODE
 
 ## Upload Props
 
@@ -69,3 +72,4 @@ app.use(FUpload);
 | default  | 触发文件选择框的内容, 参数为 { uploadFiles } |
 | tip      | 提示说明文字                                 |
 | fileList | 自定义文件的展示, 参数为 { uploadFiles }     |
+| file     | 自定义上传后的文件展示, 参数为 { file }      |

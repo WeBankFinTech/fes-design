@@ -1,14 +1,9 @@
 <template>
     <space>
         <FCheckboxGroup v-model="arr" @change="handleChange">
-            <FCheckbox :value="1">1</FCheckbox>
-            <FCheckbox :value="2">22</FCheckbox>
-            <FCheckbox :value="3">333</FCheckbox>
-        </FCheckboxGroup>
-        <FCheckboxGroup disabled>
-            <FCheckbox :value="1">1</FCheckbox>
-            <FCheckbox :value="2">22</FCheckbox>
-            <FCheckbox :value="3">333</FCheckbox>
+            <FCheckbox v-for="i in len" :key="i" :value="i">
+                {{ i }}
+            </FCheckbox>
         </FCheckboxGroup>
     </space>
 </template>
@@ -16,11 +11,13 @@
 import { ref } from 'vue';
 export default {
     setup() {
+        const len = 30;
         const arr = ref([]);
         const handleChange = (value) => {
             console.log('change:', value);
         };
         return {
+            len,
             arr,
             handleChange,
         };

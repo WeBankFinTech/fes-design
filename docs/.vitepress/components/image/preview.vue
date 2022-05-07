@@ -5,6 +5,7 @@
             :src="url"
             fit="contain"
             preview
+            download
             hide-on-click-modal
             name="我是图片"
         >

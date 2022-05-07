@@ -1,6 +1,6 @@
 <template>
     <div :class="prefixCls">
-        <div v-if="hasTime" :class="`${prefixCls}-input`">
+        <div v-if="pickerRef.hasTime" :class="`${prefixCls}-input`">
             <InputInner
                 :modelValue="inputDate"
                 :class="`${prefixCls}-input-date`"
@@ -126,11 +126,15 @@ import TimePicker from '../time-picker/time-picker.vue';
 import InputInner from '../input/inputInner.vue';
 import getPrefixCls from '../_util/getPrefixCls';
 
-import { timeFormat, parseDate, transformDateToTimestamp } from './helper';
+import {
+    timeFormat,
+    parseDate,
+    transformDateToTimestamp,
+    isEffectiveDate,
+} from './helper';
 import {
     RANGE_POSITION,
     COMMON_PROPS,
-    DATE_TYPE,
     YEAR_COUNT,
     SELECTED_STATUS,
 } from './const';
@@ -147,6 +151,7 @@ import {
 
 import type { DayItem, DateObj, UpdateSelectedDates } from './interface';
 import { useLocale } from '../config-provider/useLocale';
+import { pickerFactory, Picker } from './pickerHander';
 
 const prefixCls = getPrefixCls('calendar');
 
@@ -182,36 +187,43 @@ const calendarProps = {
 
 export type CalendarProps = Partial<ExtractPropTypes<typeof calendarProps>>;
 
-function useDateInput(
-    props: CalendarProps,
-    selectedDates: Ref<DateObj[]>,
-    updateSelectedDates: UpdateSelectedDates,
-    activeIndex: Ref<number>,
-    updateCurrentDate: (date: Partial<DateObj>) => void,
-) {
+function useDateInput({
+    props,
+    selectedDates,
+    updateSelectedDates,
+    updateCurrentDate,
+    picker,
+}: {
+    props: CalendarProps;
+    selectedDates: Ref<DateObj[]>;
+    updateSelectedDates: UpdateSelectedDates;
+    updateCurrentDate: (date: Partial<DateObj>) => void;
+    picker: Ref<Picker>;
+}) {
     const inputDate = ref<string>();
     let cacheValidInputDate = '';
+    const currentIndex = computed(() => {
+        if (
+            picker.value.isRange &&
+            props.rangePosition === RANGE_POSITION.RIGHT
+        ) {
+            return 1;
+        }
+        return 0;
+    });
     const getDateStr = (i: number) => {
         return selectedDates.value[i]
             ? timeFormat(
                   transformDateToTimestamp(selectedDates.value[i]),
-                  props.format,
+                  'YYYY-MM-DD',
               )
             : '';
     };
     watch(
         selectedDates,
         () => {
-            if (
-                DATE_TYPE[props.type].isRange &&
-                props.rangePosition === RANGE_POSITION.RIGHT
-            ) {
-                cacheValidInputDate = getDateStr(1);
-                inputDate.value = cacheValidInputDate;
-            } else {
-                cacheValidInputDate = getDateStr(0);
-                inputDate.value = cacheValidInputDate;
-            }
+            cacheValidInputDate = getDateStr(currentIndex.value);
+            inputDate.value = cacheValidInputDate;
         },
         {
             immediate: true,
@@ -219,19 +231,26 @@ function useDateInput(
     );
 
     const handleDateInput = (val: string) => {
-        const d = new Date(val);
         inputDate.value = val;
-        if (/^\d{4}-\d{1,2}-\d{1,2}$/.test(val) && !Number.isNaN(d.getTime())) {
+        if (isEffectiveDate(val)) {
+            const d = parseDate(new Date(val));
             cacheValidInputDate = val;
-            updateCurrentDate(parseDate(d));
+            const otherDate = selectedDates.value[(currentIndex.value + 1) % 2];
+            // 在同一面板，不更新 current date
+            if (
+                otherDate &&
+                !(otherDate.year === d.year && otherDate.month === d.month)
+            ) {
+                updateCurrentDate(d);
+            }
             updateSelectedDates(
                 {
-                    ...selectedDates.value[activeIndex.value],
-                    year: d.getFullYear(),
-                    month: d.getMonth(),
-                    day: d.getDate(),
+                    ...selectedDates.value[currentIndex.value],
+                    year: d.year,
+                    month: d.month,
+                    day: d.day,
                 },
-                activeIndex.value,
+                currentIndex.value,
                 {
                     isDateInput: true,
                 },
@@ -264,40 +283,44 @@ export default defineComponent({
     props: calendarProps,
     emits: ['change', 'selectedDay', 'update:activeDate'],
     setup(props, { emit }) {
+        const pickerRef = computed(() => {
+            return pickerFactory(props.type);
+        });
         const { currentDate, updateCurrentDate } = useCurrentDate(props, emit);
 
         const { selectedDates, updateSelectedDates } = useSelectedDates(
             props,
             emit,
+            pickerRef,
         );
 
         const { t } = useLocale();
 
         const activeIndex = computed(() => {
-            if (DATE_TYPE[props.type].isRange) {
+            if (pickerRef.value.isRange) {
                 return props.rangePosition === RANGE_POSITION.LEFT ? 0 : 1;
             }
             return 0;
         });
 
         const { inputDate, handleDateInput, handleDateInputBlur } =
-            useDateInput(
+            useDateInput({
                 props,
                 selectedDates,
                 updateSelectedDates,
-                activeIndex,
                 updateCurrentDate,
-            );
+                picker: pickerRef,
+            });
 
         const { years, yearStart, yearEnd, selectYear, isYearSelect, yearCls } =
-            useYear(
+            useYear({
                 props,
                 selectedDates,
                 updateSelectedDates,
                 activeIndex,
                 currentDate,
                 updateCurrentDate,
-            );
+            });
 
         const {
             isMonthSelect,
@@ -305,22 +328,21 @@ export default defineComponent({
             monthToNext,
             monthToPre,
             monthCls,
-        } = useMonth(
+        } = useMonth({
             props,
             selectedDates,
             updateSelectedDates,
             activeIndex,
             currentDate,
             updateCurrentDate,
-        );
+        });
 
-        const { days, isDaySelect, weekNames, dayCls } = useDay(
+        const { days, isDaySelect, weekNames, dayCls } = useDay({
             props,
             selectedDates,
-            updateSelectedDates,
-            activeIndex,
             currentDate,
-        );
+            picker: pickerRef,
+        });
 
         const { isQuarterSelect, quarterList, selectQuarter, quarterCls } =
             useQuarter(
@@ -331,12 +353,13 @@ export default defineComponent({
                 currentDate,
             );
 
-        const { hasTime, currentTime, changeTime, innerDisabledTime } = useTime(
+        const { currentTime, changeTime, innerDisabledTime } = useTime({
             props,
             selectedDates,
             updateSelectedDates,
             activeIndex,
-        );
+            picker: pickerRef,
+        });
 
         const selecteDay = (info: DayItem) => {
             info.next && monthToNext();
@@ -347,7 +370,7 @@ export default defineComponent({
                 second?: number;
             } = {};
             if (
-                DATE_TYPE[props.type].hasTime &&
+                pickerRef.value.hasTime &&
                 !selectedDates.value[activeIndex.value]?.hour
             ) {
                 const date = new Date();
@@ -410,6 +433,7 @@ export default defineComponent({
 
         return {
             prefixCls,
+            pickerRef,
             currentDate,
             MONTHS_NAMES,
 
@@ -443,7 +467,6 @@ export default defineComponent({
             isNotDisabled,
             selecteDay,
 
-            hasTime,
             currentTime,
             changeTime,
             innerDisabledTime,

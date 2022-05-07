@@ -17,12 +17,11 @@ export default defineComponent({
             type: Number,
             default: 0,
         },
-        change: {
-            type: Function,
-            default: null,
-        },
     },
-    setup(props) {
+    emits: [
+        'change'
+    ],
+    setup(props, { emit }) {
         const current = ref();
         const { total } = toRefs(props);
         const handleChange = (val: string) => {
@@ -33,7 +32,7 @@ export default defineComponent({
             const currentPage =
                 cur < 1 ? 1 : cur > total.value ? total.value : cur;
             current.value = currentPage;
-            props.change(currentPage);
+            emit('change', currentPage);
         };
         const { t } = useLocale()
         return () => (

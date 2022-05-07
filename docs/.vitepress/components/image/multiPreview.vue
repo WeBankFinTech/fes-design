@@ -6,6 +6,7 @@
                 fit="contain"
                 src="/images/1.jpeg"
                 preview
+                download
             ></FImage>
             <FImage
                 style="width: 200px; height: 200px"

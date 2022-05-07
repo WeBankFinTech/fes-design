@@ -80,12 +80,14 @@ export function transformDateToTimestamp(
     isFullMax = false,
 ) {
     if (!date) return null;
+    // 将季度转换为月份
+    const month = date.month ?? (date.quarter ? (date.quarter - 1) * 3 : null);
     if (isFullMax) {
         const month = date.month ?? 11;
         const maxDay = new Date(date.year, month + 1, 0).getDate();
         return new Date(
             date.year,
-            date.month ?? 11,
+            month ?? 11,
             date.day ?? maxDay,
             date.hour ?? 23,
             date.minute ?? 59,
@@ -95,7 +97,7 @@ export function transformDateToTimestamp(
     }
     return new Date(
         date.year,
-        date.month ?? 0,
+        month ?? 0,
         date.day ?? 1,
         date.hour ?? 0,
         date.minute ?? 0,
@@ -143,3 +145,9 @@ export const getTimestampFromFormat = (
 
     return transformDateToTimestamp(dateObj, isFullMax);
 };
+
+const DATE_REG = /^\d{4}-\d{1,2}-\d{1,2}$/;
+
+export function isEffectiveDate(val: string) {
+    return DATE_REG.test(val) && !Number.isNaN(new Date(val).getTime());
+}

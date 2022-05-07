@@ -1,14 +1,14 @@
-import { onBeforeUnmount, watch, ref, Ref } from 'vue';
+import { onBeforeUnmount, watch, ref, Ref, onMounted, nextTick } from 'vue';
 import { ResizeObserver } from '@juggle/resize-observer';
 
 export default (
     triggerRef: Ref<HTMLElement>,
     callback?: () => void,
-    disabledRef?: boolean | Ref<boolean>,
+    disabled?: boolean | Ref<boolean>,
 ) => {
-    const _disabledRef = ref(disabledRef);
+    const disabledRef = ref(disabled);
     const handleResize = () => {
-        if (_disabledRef.value) {
+        if (disabledRef.value) {
             return;
         }
         callback && callback();
@@ -16,13 +16,30 @@ export default (
 
     const ro = new ResizeObserver(handleResize);
 
-    watch(triggerRef, ($trigger, $oldTrigger) => {
-        if ($oldTrigger) {
-            ro.unobserve($oldTrigger);
+    let observedDom: HTMLElement = null;
+
+    const handle = (dom: HTMLElement) => {
+        if (observedDom) {
+            ro.unobserve(observedDom);
         }
-        if ($trigger) {
-            ro.observe($trigger);
+        if (dom) {
+            ro.observe(dom);
+            observedDom = dom;
         }
+    };
+
+    onMounted(() => {
+        watch(
+            triggerRef,
+            () => {
+                nextTick(() => {
+                    handle(triggerRef.value);
+                });
+            },
+            {
+                immediate: true,
+            },
+        );
     });
 
     onBeforeUnmount(() => {

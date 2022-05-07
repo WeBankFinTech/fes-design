@@ -78,7 +78,6 @@ import {
     computed,
     PropType,
     ExtractPropTypes,
-    CSSProperties,
     provide,
 } from 'vue';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
@@ -292,7 +291,6 @@ export default defineComponent({
             }
         });
 
-        // const inputactiveTime
         const handleInput = (val: string) => {
             tempValue.value = val;
         };

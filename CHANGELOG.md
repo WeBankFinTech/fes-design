@@ -1,3 +1,37 @@
+## [0.4.7](https://github.com/WeBankFinTech/fes-design/compare/v0.4.6...v0.4.7) (2022-05-05)
+
+
+### Bug Fixes
+
+* CheckboxGroup和RadioGroup默认可换行 ([#133](https://github.com/WeBankFinTech/fes-design/issues/133)) ([2df2b76](https://github.com/WeBankFinTech/fes-design/commit/2df2b7630af31f6b37ff57c45c55d1a0883284fa))
+* Pagination 手动设置 currentPage、pageSize 不触发相应事件 ([#128](https://github.com/WeBankFinTech/fes-design/issues/128)) ([99bff1e](https://github.com/WeBankFinTech/fes-design/commit/99bff1efafde4cdf2823566e24b3cbf05231f69c))
+* Select等组件鼠标样式 ([#135](https://github.com/WeBankFinTech/fes-design/issues/135)) ([5877200](https://github.com/WeBankFinTech/fes-design/commit/58772003e8ae691a101d80f1dfe5ed76f1c83e84))
+* 修复Select等组件的弹出层不跟随滚动 ([#136](https://github.com/WeBankFinTech/fes-design/issues/136)) ([699d2ac](https://github.com/WeBankFinTech/fes-design/commit/699d2acbd15b98c98aa13737de010a02ae8aca13))
+
+
+### Features
+
+*  Table组件在没计算出宽度前不渲染,避免导致撑开页面 & 优化keepalive下resize的逻辑 ([#132](https://github.com/WeBankFinTech/fes-design/issues/132)) ([5f2f703](https://github.com/WeBankFinTech/fes-design/commit/5f2f7030e4c2b9b96682a5281748aee623fa5df0))
+* date-picker 支持输入日期 ([#119](https://github.com/WeBankFinTech/fes-design/issues/119)) ([f278f4a](https://github.com/WeBankFinTech/fes-design/commit/f278f4a9ea3c0bb860df22df0930ed09779d86c1))
+* Image支持配置下载 ([#134](https://github.com/WeBankFinTech/fes-design/issues/134)) ([958dd01](https://github.com/WeBankFinTech/fes-design/commit/958dd01bec5e60d08e0c9f16cd61f11195a0d2f6))
+
+
+
+## [0.4.6](https://github.com/WeBankFinTech/fes-design/compare/v0.4.5...v0.4.6) (2022-04-27)
+
+
+### Bug Fixes
+
+* 修复image的download为白色 ([4c0256b](https://github.com/WeBankFinTech/fes-design/commit/4c0256bd755a74e27fe1e667b209586f16818398))
+* 修复ts提示问题 ([a2551f3](https://github.com/WeBankFinTech/fes-design/commit/a2551f34dfa2daf89a47b8a54ad04831c4049fc3))
+
+
+### Features
+
+* upload 添加 file slot ([#129](https://github.com/WeBankFinTech/fes-design/issues/129)) ([7e1ec84](https://github.com/WeBankFinTech/fes-design/commit/7e1ec8489e048ae8f59c46d1a67f41ab6546a0ec))
+
+
+
 ## [0.4.5](https://github.com/WeBankFinTech/fes-design/compare/v0.4.4...v0.4.5) (2022-04-25)
 
 

@@ -46,6 +46,9 @@ export const popperProps = {
         type: Boolean,
         default: true,
     },
+    onlyShowTrigger: {
+        type: Boolean,
+    },
 } as const;
 
 export type PopperProps = Partial<ExtractPropTypes<typeof popperProps>>;

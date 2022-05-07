@@ -1,15 +1,9 @@
 import { h, computed, ref, reactive, provide, defineComponent } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import Preview from './preview.vue';
-import { PREVIEW_PROVIDE_KEY } from './props';
+import { PREVIEW_PROVIDE_KEY, PreviewImageType } from './props';
 
 let prevOverflow = '';
-
-type UrlType = {
-    url: string;
-    name: string | undefined;
-    size: {width: number; height: number}
-}
 
 export default defineComponent({
     name: 'FPreviewGroup',
@@ -21,7 +15,7 @@ export default defineComponent({
     },
     setup(props, { slots }) {
         useTheme();
-        const previewUrls = reactive<Record<number, UrlType>>({});
+        const previewUrls = reactive<Record<number, PreviewImageType>>({});
         const curIndex = ref();
         const isGroup = ref(true);
         const isShowPreview = ref(false);
@@ -32,16 +26,12 @@ export default defineComponent({
         const currentPreviewIndex = computed(() =>
             previewUrlsKeys.value.indexOf(String(curIndex.value)),
         );
-        
-        const registerImage = (id: number, url: string, name: string | undefined, size: {width: number; height: number}) => {
-            previewUrls[id] = {
-                url,
-                name,
-                size,
-            };
+
+        const registerImage = (param: PreviewImageType) => {
+            previewUrls[param.id] = param;
 
             return () => {
-                delete previewUrls[id];
+                delete previewUrls[param.id];
             };
         };
 
@@ -56,7 +46,7 @@ export default defineComponent({
             isShowPreview.value = false;
         };
 
-        const next = ()=>{
+        const next = () => {
             if (currentPreviewIndex.value < previewUrlsKeys.value.length - 1) {
                 setCurrent(
                     previewUrlsKeys.value[currentPreviewIndex.value + 1],
@@ -70,9 +60,9 @@ export default defineComponent({
                     ],
                 );
             }
-        }
+        };
 
-        const prev = ()=>{
+        const prev = () => {
             if (currentPreviewIndex.value > 0) {
                 setCurrent(
                     previewUrlsKeys.value[
@@ -88,7 +78,7 @@ export default defineComponent({
                     ],
                 );
             }
-        }
+        };
 
         provide(PREVIEW_PROVIDE_KEY, {
             isGroup,
@@ -108,6 +98,7 @@ export default defineComponent({
                         src={previewUrls[curIndex.value].url}
                         name={previewUrls[curIndex.value].name}
                         size={previewUrls[curIndex.value].size}
+                        download={previewUrls[curIndex.value].download}
                         hideOnClickModal={props.hideOnClickModal}
                         onClose={closeViewer}
                     ></Preview>

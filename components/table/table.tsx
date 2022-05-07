@@ -130,13 +130,15 @@ export default defineComponent({
                     {ctx.slots?.default()}
                 </div>
                 <HeaderTable
+                    v-show={layout.initRef.value}
                     composed={composed.value}
                     columns={columnsRef.value}
                 />
                 {rootProps.virtualScroll ? (
-                    <VirtualTable columns={columnsRef.value} />
+                    <VirtualTable v-show={layout.initRef.value} columns={columnsRef.value} />
                 ) : (
                     <BodyTable
+                        v-show={layout.initRef.value}
                         composed={composed.value}
                         columns={columnsRef.value}
                     />

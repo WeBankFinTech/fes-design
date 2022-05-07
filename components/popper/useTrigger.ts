@@ -53,7 +53,7 @@ export default function useTrigger(
     };
 
     const toggleState = () => {
-        if (visible.value) {
+        if (visible.value && !props.onlyShowTrigger) {
             hide();
         } else {
             show();

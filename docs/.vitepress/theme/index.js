@@ -3,7 +3,7 @@ import { VPTheme, VTBadge } from '@vue/theme';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import WeDesign from '../../../components/index';
-import '../../../components/style';
+import '../../../components/_style';
 
 import * as Icons from './IconDoc/icons';
 import IconDoc from './IconDoc/IconDoc';

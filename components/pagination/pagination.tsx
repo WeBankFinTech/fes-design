@@ -1,6 +1,7 @@
 import { h, defineComponent, computed, toRefs, watch, ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
+import useSpecialModel from './useSpecialModel';
 import { CHANGE_EVENT } from '../_util/constants';
 import Simpler from './simpler';
 import Pager from './pager';
@@ -28,12 +29,31 @@ export default defineComponent({
         'update:pageSize',
     ],
     setup(props, { emit }) {
-        const [currentPage, updateCurrentPage] = useNormalModel(props, emit, {
+
+        let timer: ReturnType<typeof setTimeout>;
+        const changeEvent = () => {
+            clearTimeout(timer);
+            timer = setTimeout(()=>{
+                emit(CHANGE_EVENT, currentPage.value, pageSize.value);
+            })
+        }
+
+        let pageSizeTimer: ReturnType<typeof setTimeout>;
+        const pageSizeChangeEvent = () => {
+            changeEvent();
+            clearTimeout(pageSizeTimer);
+            pageSizeTimer = setTimeout(()=>{
+                emit('pageSizeChange', pageSize.value);
+            })
+        }
+
+        const [currentPage, updateCurrentPage] = useSpecialModel(props, emit, {
             prop: 'currentPage',
-        });
-        const [pageSize] = useNormalModel(props, emit, {
+        }, changeEvent);
+        const [pageSize] = useSpecialModel(props, emit, {
             prop: 'pageSize',
-        });
+        }, pageSizeChangeEvent);
+
         const {
             small,
             pageSizeOption,
@@ -55,10 +75,6 @@ export default defineComponent({
             res.sort((x, y) => x - y);
             return res;
         });
-
-        const changeCurrentPage = (cur: number) => {
-            updateCurrentPage(cur);
-        };
 
         const renderSimpler = () => {
             if (!simple.value) {
@@ -95,7 +111,7 @@ export default defineComponent({
                 return null;
             }
             return (
-                <Jumper total={totalPage.value} change={changeCurrentPage} />
+                <Jumper total={totalPage.value} onChange={updateCurrentPage} />
             );
         };
 
@@ -106,31 +122,12 @@ export default defineComponent({
             return <Total total={totalCount.value} />;
         };
 
-        let timer: ReturnType<typeof setTimeout>;
-
-        const changeEvent = () => {
-            timer = setTimeout(()=>{
-                emit(CHANGE_EVENT, currentPage.value, pageSize.value);
-            })
-        }
-        
-        watch(currentPage, () => {
-            clearTimeout(timer);
-            changeEvent();
-        });
-
-        watch(pageSize, () => {
-            clearTimeout(timer);
-            changeEvent();
-        });
-
         watch(totalCount, () => {
             totalPage.value = Math.ceil(totalCount.value / pageSize.value);
         });
 
         watch(pageSize, () => {
             totalPage.value = Math.ceil(totalCount.value / pageSize.value);
-            emit('pageSizeChange', pageSize.value);
         });
 
         return () => (
