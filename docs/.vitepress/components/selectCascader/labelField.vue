@@ -12,12 +12,16 @@
 
     <FSelectCascader v-model="value" :data="data">
         <template #tag="{ option }">
-            <template v-if="shwoAllLevels">
-                {{ option.labelPath.join(' / ') }}
-            </template>
-            <template v-else>
-                {{ option.value ? `${option.value} - ${option.label}` : '' }}
-            </template>
+            <FEllipsis>
+                <template v-if="shwoAllLevels">
+                    {{ option.labelPath.join(' / ') }}
+                </template>
+                <template v-else>
+                    {{
+                        option.value ? `${option.value} - ${option.label}` : ''
+                    }}
+                </template>
+            </FEllipsis>
         </template>
     </FSelectCascader>
 </template>
