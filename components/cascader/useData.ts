@@ -147,6 +147,7 @@ export default ({
             .filter(
                 (node) =>
                     !!node &&
+                    !node.isLeaf &&
                     !node.hasChildren &&
                     !loadedKeys.includes(node.value),
             );
