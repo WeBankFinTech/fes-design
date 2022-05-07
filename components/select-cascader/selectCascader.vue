@@ -73,12 +73,13 @@ import SelectTrigger from '../select-trigger';
 import Cascader from '../cascader/cascader';
 import { selectProps } from '../select/props';
 import { cascaderProps } from '../cascader/props';
+import { getCurrentValueByKeys, getKeysByCurrentValue } from './helper';
 import {
     getCascadeChildrenByKeys,
     getCascadeParentByKeys,
-    getCurrentValueByKeys,
-    getKeysByCurrentValue,
-} from './helper';
+    handleParent,
+    handleChildren,
+} from '../cascader/helper';
 
 import type { SelectValue } from '../select/interface';
 import type {
@@ -200,16 +201,13 @@ export default defineComponent({
             },
         );
 
-        watch(
-            () => props.emitPath,
-            () => {
-                const value: null | [] =
-                    props.multiple || props.emitPath ? [] : null;
+        watch([() => props.emitPath, () => props.cascade], () => {
+            const value: null | [] =
+                props.multiple || props.emitPath ? [] : null;
 
-                updateCurrentValue(value);
-                handleChange();
-            },
-        );
+            updateCurrentValue(value);
+            handleChange();
+        });
 
         const handleClear = () => {
             const value: null | [] =
@@ -259,8 +257,31 @@ export default defineComponent({
             );
             if (findIndex !== -1) {
                 emit('removeTag', value);
-                // TODO: 删除的时候需要考虑关联情况
-                values.splice(findIndex, 1);
+
+                // 兼容关联场景
+                if (!props.cascade) {
+                    values.splice(findIndex, 1);
+                } else {
+                    const { isLeaf, children, indexPath } =
+                        nodeList.value[value as CascaderNodeKey];
+
+                    values.splice(findIndex, 1);
+
+                    handleParent(
+                        values as CascaderNodeKey[],
+                        indexPath,
+                        false,
+                        nodeList.value,
+                    );
+                    if (!isLeaf) {
+                        handleChildren(
+                            values as CascaderNodeKey[],
+                            children,
+                            false,
+                        );
+                    }
+                }
+
                 updateCurrentValue(
                     getCurrentValueByKeys(
                         nodeList.value,

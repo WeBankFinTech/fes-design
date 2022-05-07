@@ -6,7 +6,7 @@ import type {
     CascaderNodeList,
 } from './interface';
 import type { CascaderProps } from './props';
-import { getCascadeChildrenByKeys } from '../select-cascader/helper';
+import { getCascadeChildrenByKeys } from './helper';
 
 export default (props: CascaderProps, { emit }: { emit: any }) => {
     const [currentExpandedKeys, updateExpandedKeys] = useNormalModel(

@@ -1,6 +1,12 @@
 <template>
     <FForm :labelWidth="160">
-        <FFormItem label="勾选策略：">
+        <FFormItem label="父子关联：">
+            <FRadioGroup v-model="cascade">
+                <FRadio :value="true">是(默认)</FRadio>
+                <FRadio :value="false">否</FRadio>
+            </FRadioGroup>
+        </FFormItem>
+        <FFormItem v-if="cascade" label="勾选策略：">
             <FRadioGroup v-model="checkStrictly">
                 <FRadio value="all">all</FRadio>
                 <FRadio value="parent">parent</FRadio>
@@ -14,7 +20,7 @@
     <FSelectCascader
         :data="data"
         multiple
-        cascade
+        :cascade="cascade"
         :checkStrictly="checkStrictly"
         clearable
     >
@@ -47,9 +53,11 @@ function createLabel(level) {
 export default {
     setup() {
         const data = reactive(createData(4));
+        const cascade = ref(true);
         const checkStrictly = ref('all');
         return {
             data,
+            cascade,
             checkStrictly,
         };
     },
