@@ -116,6 +116,7 @@ export default ({
     watch(
         [() => props.data],
         () => {
+            // TODO: 初始化加载
             transformData.value = flatNodes(props.data);
         },
         {
@@ -123,6 +124,8 @@ export default ({
             deep: true,
         },
     );
+
+    // TODO: 初始化加载完毕后，syncLoadNode
 
     return {
         nodeList,

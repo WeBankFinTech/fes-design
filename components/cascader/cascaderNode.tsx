@@ -103,7 +103,10 @@ export default defineComponent({
             if (!isLoaded.value) {
                 isLoading.value = true;
                 try {
-                    await root.props.loadData(node.origin);
+                    const children = await root.props.loadData({
+                        ...node.origin,
+                    });
+                    node.origin.children = children;
                     root.expandNode(props.value, event);
                 } catch (e) {
                     console.error(e);

@@ -29,7 +29,7 @@ export default {
         const loadData = (node) => {
             return new Promise((resolve) => {
                 setTimeout(() => {
-                    node.children = [
+                    const children = [
                         {
                             label: `${node.value}-1`,
                             value: `${node.value}-1`,
@@ -43,7 +43,7 @@ export default {
                                 node.value.split('-').length > 1 ? true : false,
                         },
                     ];
-                    resolve();
+                    resolve(children);
                 }, 2000);
             });
         };
