@@ -90,6 +90,12 @@ export const cascaderProps = {
         type: Boolean,
         default: false,
     },
+    initLoadKeys: {
+        type: Array as PropType<CascaderNodeKey[]>,
+        default(): CascaderNodeKey[] {
+            return [];
+        },
+    },
 } as const;
 
 export const cascaderPropsDefaultValue =

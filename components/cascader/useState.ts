@@ -6,7 +6,7 @@ import type {
     CascaderNodeList,
 } from './interface';
 import type { CascaderProps } from './props';
-import { getChildrenByKeys } from '../select-cascader/helper';
+import { getCascadeChildrenByKeys } from '../select-cascader/helper';
 
 export default (props: CascaderProps, { emit }: { emit: any }) => {
     const [currentExpandedKeys, updateExpandedKeys] = useNormalModel(
@@ -49,7 +49,7 @@ export default (props: CascaderProps, { emit }: { emit: any }) => {
         value: CascaderNodeKey,
         nodeList: CascaderNodeList,
     ): boolean => {
-        return getChildrenByKeys(nodeList, [value]).every((key) =>
+        return getCascadeChildrenByKeys(nodeList, [value]).every((key) =>
             hasLoaded(nodeList[key]),
         );
     };

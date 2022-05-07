@@ -1,4 +1,4 @@
-import { ref, reactive, watch, computed, Ref } from 'vue';
+import { ref, reactive, watch, computed, Ref, nextTick } from 'vue';
 import { isArray, isEmpty, isNil } from 'lodash-es';
 
 import type {
@@ -115,15 +115,20 @@ export default ({
         }, []);
 
     watch(
-        [() => props.data],
+        () => props.data,
         async () => {
             // 初始化加载，仅支持 props.data 为响应式空数组的场景
             if (props.remote && props.loadData && isEmpty(props.data)) {
                 initialLoaded.value = false;
 
-                const children = await props.loadData(null);
-                isArray(children) &&
-                    children.forEach((item) => props.data.push(item));
+                try {
+                    const children = await props.loadData(null);
+                    isArray(children) &&
+                        children.forEach((item) => props.data.push(item));
+                    await nextTick();
+                } catch (e) {
+                    console.error(e);
+                }
 
                 initialLoaded.value = true;
             } else {
@@ -136,7 +141,43 @@ export default ({
         },
     );
 
-    // TODO: 初始化加载完毕后，syncLoadNode
+    const syncLoadNode = async (loadedKeys: CascaderNodeKey[] = []) => {
+        const needLoadNodes = props.initLoadKeys
+            .map((key) => nodeList[key])
+            .filter(
+                (node) =>
+                    !!node &&
+                    !node.hasChildren &&
+                    !loadedKeys.includes(node.value),
+            );
+
+        // 继续递归处理
+        if (needLoadNodes.length) {
+            needLoadNodes.forEach(async (node) => {
+                try {
+                    const children = await props.loadData({
+                        ...node.origin,
+                    });
+                    isArray(children) && (node.origin.children = children);
+                    await nextTick();
+                } catch (e) {
+                    console.error(e);
+                }
+                loadedKeys.push(node.value);
+                syncLoadNode(loadedKeys);
+            });
+        }
+    };
+
+    watch(initialLoaded, () => {
+        if (!initialLoaded.value) {
+            return;
+        }
+        if (!(props.remote && props.loadData)) {
+            return;
+        }
+        syncLoadNode();
+    });
 
     return {
         nodeList,

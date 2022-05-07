@@ -25,24 +25,33 @@ function createLabel(level) {
 
 export default {
     setup() {
-        const data = reactive(createData(2));
+        const data = reactive([]);
         const loadData = (node) => {
             return new Promise((resolve) => {
                 setTimeout(() => {
-                    const children = [
-                        {
-                            label: `${node.label}1`,
-                            value: `${node.value}-1`,
-                            isLeaf:
-                                node.value.split('-').length > 1 ? true : false,
-                        },
-                        {
-                            label: `${node.label}2`,
-                            value: `${node.value}-2`,
-                            isLeaf:
-                                node.value.split('-').length > 1 ? true : false,
-                        },
-                    ];
+                    let children = [];
+                    if (node) {
+                        children = [
+                            {
+                                label: `${node.label}1`,
+                                value: `${node.value}-1`,
+                                isLeaf:
+                                    node.value.split('-').length > 1
+                                        ? true
+                                        : false,
+                            },
+                            {
+                                label: `${node.label}2`,
+                                value: `${node.value}-2`,
+                                isLeaf:
+                                    node.value.split('-').length > 1
+                                        ? true
+                                        : false,
+                            },
+                        ];
+                    } else {
+                        children = createData(2);
+                    }
                     resolve(children);
                 }, 2000);
             });

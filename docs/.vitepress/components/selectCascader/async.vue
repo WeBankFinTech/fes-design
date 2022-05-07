@@ -11,6 +11,7 @@
                 @change="handleChange"
             ></FSelectCascader>
         </FFormItem>
+        <FFormItem label="modelValue：">{{ value1 }}</FFormItem>
         <FFormItem label="多选：">
             <FSelectCascader
                 v-model="value2"
@@ -25,6 +26,7 @@
                 @change="handleChange"
             ></FSelectCascader>
         </FFormItem>
+        <FFormItem label="modelValue：">{{ value2 }}</FFormItem>
     </FForm>
 </template>
 <script>
@@ -90,8 +92,8 @@ export default {
 
         const value1 = ref(['20', '2010', '2010-1', '2010-1-1']);
         const value2 = ref([
-            ['40', '4030', '403020', '40302010'],
             ['20', '2010', '2010-1', '2010-1-1'],
+            ['20', '2111'],
         ]);
 
         return {

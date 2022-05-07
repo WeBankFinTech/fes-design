@@ -36,6 +36,7 @@
                     ref="refCascader"
                     :selectedKeys="selectedKeys"
                     :checkedKeys="checkedKeys"
+                    :initLoadKeys="initLoadKeys"
                     :data="data"
                     :emptyText="emptyText"
                     :expandedKeys="expandedKeys"
@@ -73,8 +74,8 @@ import Cascader from '../cascader/cascader';
 import { selectProps } from '../select/props';
 import { cascaderProps } from '../cascader/props';
 import {
-    getChildrenByKeys,
-    getParentByKeys,
+    getCascadeChildrenByKeys,
+    getCascadeParentByKeys,
     getCurrentValueByKeys,
     getKeysByCurrentValue,
 } from './helper';
@@ -88,6 +89,7 @@ import type {
 } from '../cascader/interface';
 import { useLocale } from '../config-provider/useLocale';
 import { CHECK_STRATEGY } from '../cascader/const';
+import { isArray } from 'lodash-es';
 
 const prefixCls = getPrefixCls('select-cascader');
 
@@ -158,19 +160,34 @@ export default defineComponent({
                     return keys;
                 }
                 if (props.checkStrictly === CHECK_STRATEGY.PARENT) {
-                    return getChildrenByKeys(
+                    return getCascadeChildrenByKeys(
                         nodeList.value,
                         keys as CascaderNodeKey[],
                     );
                 }
                 if (props.checkStrictly === CHECK_STRATEGY.CHILD) {
-                    return getParentByKeys(
+                    return getCascadeParentByKeys(
                         nodeList.value,
                         keys as CascaderNodeKey[],
                     );
                 }
             }
             return [];
+        });
+        const initLoadKeys = computed(() => {
+            let keys: CascaderNodeKey[] = [];
+            if (!(props.remote && props.loadData)) {
+                return keys;
+            }
+            if (!props.emitPath) {
+                return keys;
+            }
+            if (!isArray(currentValue.value)) {
+                return keys;
+            }
+            currentValue.value.forEach((value) => (keys = keys.concat(value)));
+            keys = Array.from(new Set(keys)); // 去重处理
+            return keys;
         });
 
         watch(
@@ -258,7 +275,7 @@ export default defineComponent({
         const selectedOptions = computed(() => {
             const values = getKeysByCurrentValue(currentValue.value, props);
 
-            // 支持未匹配项展示
+            // 兼容异步加载，未匹配到节点的情况
             return (values as CascaderNodeKey[])
                 .filter(Boolean)
                 .map((curValue) => {
@@ -322,6 +339,7 @@ export default defineComponent({
             onChangeNodeList,
             inputPlaceholder,
             isError,
+            initLoadKeys,
         };
     },
 });

@@ -5,7 +5,7 @@ import {
     ExtractPropTypes,
     PropType,
 } from 'vue';
-import { isUndefined } from 'lodash-es';
+import { isArray, isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import RightOutlined from '../icon/RightOutlined';
@@ -106,8 +106,10 @@ export default defineComponent({
                     const children = await root.props.loadData({
                         ...node.origin,
                     });
-                    node.origin.children = children;
-                    root.expandNode(props.value, event);
+                    if (isArray(children)) {
+                        node.origin.children = children;
+                        root.expandNode(props.value, event);
+                    }
                 } catch (e) {
                     console.error(e);
                 }

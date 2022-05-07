@@ -4,17 +4,17 @@ import type { CascaderNodeList, CascaderNodeKey } from '../cascader/interface';
 import { CascaderProps } from '../cascader/props';
 
 // 根据父节点获取关联选中的子节点
-export const getChildrenByKeys = (
+export const getCascadeChildrenByKeys = (
     nodeList: CascaderNodeList,
     keys: CascaderNodeKey[] = [],
 ) => {
     let arr = [...keys];
     keys.forEach((value) => {
         const node = nodeList[value];
-        // 兼容未匹配到节点的情况
+        // 兼容异步加载，未匹配到节点的情况
         if (node && isArray(node.children)) {
             arr = arr.concat(
-                getChildrenByKeys(
+                getCascadeChildrenByKeys(
                     nodeList,
                     node.children.map((child) => child.value),
                 ),
@@ -25,7 +25,7 @@ export const getChildrenByKeys = (
 };
 
 // 根据子节点获取关联选中的父节点
-export const getParentByKeys = (
+export const getCascadeParentByKeys = (
     nodeList: CascaderNodeList,
     keys: CascaderNodeKey[] = [],
 ) => {

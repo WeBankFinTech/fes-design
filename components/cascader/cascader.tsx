@@ -131,7 +131,7 @@ export default defineComponent({
                       const node = nodeList[key];
                       // 兼容异步加载，未匹配到节点的情况
                       if (!node) {
-                          return true;
+                          return false; // 清除未匹配到的选中项
                       }
                       if (props.checkStrictly === CHECK_STRATEGY.ALL) {
                           return true;
