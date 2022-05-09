@@ -1,8 +1,29 @@
 <template>
-    <FSelectCascader :data="data"></FSelectCascader>
+    <FForm :labelWidth="160">
+        <FFormItem label="展开次级菜单：">
+            <FRadioGroup v-model="expandTrigger">
+                <FRadio value="click">click(默认)</FRadio>
+                <FRadio value="hover">hover</FRadio>
+            </FRadioGroup>
+        </FFormItem>
+        <FFormItem label="父节点可选中：">
+            <FRadioGroup v-model="checkStrictly">
+                <FRadio value="all">是</FRadio>
+                <FRadio value="">否</FRadio>
+            </FRadioGroup>
+        </FFormItem>
+    </FForm>
+
+    <FDivider></FDivider>
+
+    <FSelectCascader
+        :data="data"
+        :expandTrigger="expandTrigger"
+        :checkStrictly="checkStrictly"
+    ></FSelectCascader>
 </template>
 <script>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 function createData(level = 1, baseKey = '', prefix = null, suffix = null) {
     if (!level) return undefined;
@@ -28,8 +49,12 @@ function createLabel(level) {
 export default {
     setup() {
         const data = reactive(createData(4));
+        const expandTrigger = ref('click');
+        const checkStrictly = ref('');
         return {
             data,
+            expandTrigger,
+            checkStrictly,
         };
     },
 };

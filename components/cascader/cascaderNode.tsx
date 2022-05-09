@@ -11,7 +11,8 @@ import LoadingOutlined from '../icon/LoadingOutlined';
 import RightOutlined from '../icon/RightOutlined';
 import CheckOutlined from '../icon/CheckOutlined';
 import Checkbox from '../checkbox/checkbox.vue';
-import { COMPONENT_NAME, EXPAND_TRIGGER } from './const';
+import Radio from '../radio/radio.vue';
+import { CHECK_STRATEGY, COMPONENT_NAME, EXPAND_TRIGGER } from './const';
 import useCascaderNode from './useCascaderNode';
 import Ellipsis from '../ellipsis';
 import Tooltip from '../tooltip';
@@ -155,6 +156,13 @@ export default defineComponent({
                 return root.checkNode(props.value, event);
             }
         };
+        const handleClickRadio = (event: Event) => {
+            if (disabled.value) return;
+            // 仅 select 行为
+            if (selectable.value) {
+                return root.selectNode(props.value, event);
+            }
+        };
         const handleStopClickPrefix = (event: Event) => {
             event.stopPropagation();
         };
@@ -211,6 +219,23 @@ export default defineComponent({
             }
             return null;
         };
+        const renderRadio = () => {
+            if (
+                selectable.value &&
+                root.props.checkStrictly === CHECK_STRATEGY.ALL
+            ) {
+                return (
+                    <span class={`${prefixCls}-radio`}>
+                        <Radio
+                            modelValue={isSelected.value}
+                            onClick={handleClickRadio}
+                            disabled={props.disabled}
+                        />
+                    </span>
+                );
+            }
+            return null;
+        };
         const renderPrefix = () => {
             if (!slots.prefix) return null;
             return (
@@ -240,6 +265,7 @@ export default defineComponent({
                 role="cascader-node"
             >
                 {renderCheckbox()}
+                {renderRadio()}
                 <span
                     class={`${prefixCls}-content`}
                     onClick={handleClickContent}

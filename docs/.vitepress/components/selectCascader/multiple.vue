@@ -13,6 +13,12 @@
                 <FRadio value="child">child(默认)</FRadio>
             </FRadioGroup>
         </FFormItem>
+        <FFormItem label="展开次级菜单：">
+            <FRadioGroup v-model="expandTrigger">
+                <FRadio value="click">click(默认)</FRadio>
+                <FRadio value="hover">hover</FRadio>
+            </FRadioGroup>
+        </FFormItem>
     </FForm>
 
     <FDivider></FDivider>
@@ -22,6 +28,7 @@
         multiple
         :cascade="cascade"
         :checkStrictly="checkStrictly"
+        :expandTrigger="expandTrigger"
         clearable
     >
     </FSelectCascader>
@@ -55,10 +62,12 @@ export default {
         const data = reactive(createData(4));
         const cascade = ref(true);
         const checkStrictly = ref('child');
+        const expandTrigger = ref('click');
         return {
             data,
             cascade,
             checkStrictly,
+            expandTrigger,
         };
     },
 };
