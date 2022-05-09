@@ -29,6 +29,12 @@
                 <FRadio :value="2">女</FRadio>
             </FRadioGroup>
         </FFormItem>
+        <FFormItem label="选择性别">
+            <FRadioGroup>
+                <FRadio :value="1">男</FRadio>
+                <FRadio :value="2">女</FRadio>
+            </FRadioGroup>
+        </FFormItem>
     </FForm>
 </template>
 <script>

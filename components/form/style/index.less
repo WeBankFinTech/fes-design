@@ -69,17 +69,17 @@
 
 // 表单布局: inline
 .@{form-cls}-inline {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: (@form-item-margin/2);
+    align-items: center;
     width: 100%;
     box-sizing: border-box;
-    margin: 0 -(@form-item-margin/2);
+    margin-bottom: @form-item-margin;
     .@{form-item-cls} {
         box-sizing: border-box;
         align-items: center;
-        flex: 0 0 25%;
-        max-width: 25%;
-        padding: 0 (@form-item-margin / 2);
+        margin: 0;
     }
 }
 
