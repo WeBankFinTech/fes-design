@@ -45,7 +45,7 @@ export const cascaderProps = {
     },
     checkStrictly: {
         type: String as PropType<CHECK_STRATEGY>,
-        default: 'all',
+        default: CHECK_STRATEGY.CHILD,
     },
     checkedKeys: {
         type: Array as PropType<CascaderNodeKey[]>,

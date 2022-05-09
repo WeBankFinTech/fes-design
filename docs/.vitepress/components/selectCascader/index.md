@@ -75,7 +75,7 @@ app.use(FSelectCascader);
 | placeholder           | 当没有选择内容时的提示语                                                                                                                                                | string                                                        | -                     |
 | expandedKeys(v-model) | 展开的节点的 key 的数组                                                                                                                                                 | Array<string \| number>                                       | `[]`                  |
 | cascade               | `checkable` 状态下节点选择完全受控（父子节点选中状态关联）                                                                                                              | boolean                                                       | `false`               |
-| checkStrictly         | 设置勾选策略来指定勾选回调返回的值，`all` 表示回调函数值为全部选中节点；`parent` 表示回调函数值为父节点（当父节点下所有子节点都选中时）；`child` 表示回调函数值为子节点 | string                                                        | `all`                 |
+| checkStrictly         | 设置勾选策略来指定勾选回调返回的值，`all` 表示回调函数值为全部选中节点；`parent` 表示回调函数值为父节点（当父节点下所有子节点都选中时）；`child` 表示回调函数值为子节点 | string                                                        | `child`               |
 | childrenField         | 替代 `CascaderOption` 中的 `children` 字段名                                                                                                                            | string                                                        | `children`            |
 | valueField            | 替代 `CascaderOption` 中的 `value` 字段名                                                                                                                               | string                                                        | `value`               |
 | labelField            | 替代 `CascaderOption` 中的 `label` 字段名                                                                                                                               | string                                                        | `label`               |
@@ -124,9 +124,8 @@ app.use(FSelectCascader);
 
 ## CascaderNode props
 
-| 属性      | 说明                                      | 类型                    | 默认值 |
-| --------- | ----------------------------------------- | ----------------------- | ------ |
-| value     | 同 `CascaderOption` 中的 `value` 字段     | string / number         | `-`    |
-| label     | 同 `CascaderOption` 中的 `label` 字段     | string                  | `-`    |
-| indexPath | 节点所在的各级菜单的 `value` 所组成的数组 | Array<string \| number> | `[]`   |
-| labelPath | 节点所在的各级菜单的 `label` 所组成的数组 | Array<string\>          | `[]`   |
+| 属性  | 说明                                                 | 类型                                                | 默认值 |
+| ----- | ---------------------------------------------------- | --------------------------------------------------- | ------ |
+| value | 同 `CascaderOption` 中的 `value` 字段                | string / number                                     | `-`    |
+| label | 同 `CascaderOption` 中的 `label` 字段                | string                                              | `-`    |
+| path  | 节点所在的各级菜单的 `value` 和 `label` 所组成的数组 | Array\<{ value: string \| number, label: string }\> | `[]`   |

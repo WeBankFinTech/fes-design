@@ -3,6 +3,7 @@ import { isArray, isEmpty, isNil } from 'lodash-es';
 
 import type {
     InnerCascaderOption,
+    CascaderOption,
     CascaderNodeKey,
     CascaderNodeList,
 } from './interface';
@@ -57,7 +58,7 @@ export default ({
         item: InnerCascaderOption,
         indexPath: CascaderNodeKey[],
         level: number,
-        labelPath: string[],
+        path: CascaderOption[] = [],
     ) => {
         const copy = { ...item };
         const value = copy[props.valueField as 'value'];
@@ -80,8 +81,14 @@ export default ({
         copy.isLeaf = isLeaf;
         // 处理 indexPath
         copy.indexPath = [...indexPath, value];
-        // 处理 labelPath
-        copy.labelPath = [...labelPath, label];
+        // 处理 path
+        copy.path = [
+            ...path,
+            {
+                value,
+                label,
+            },
+        ];
         copy.level = level;
         copy.hasChildren = hasChildren;
         copy.childrenValues = hasChildren
@@ -94,10 +101,10 @@ export default ({
         nodes: InnerCascaderOption[] = [],
         indexPath: CascaderNodeKey[] = [],
         level = 1,
-        labelPath: string[] = [],
+        path: CascaderOption[] = [],
     ) =>
         nodes.reduce((res, node) => {
-            const copy = transformNode(node, indexPath, level, labelPath);
+            const copy = transformNode(node, indexPath, level, path);
             // 扁平化
             nodeList[copy.value] = copy;
             res.push(copy.value);
@@ -107,7 +114,7 @@ export default ({
                         copy.children,
                         copy.indexPath,
                         level + 1,
-                        copy.labelPath,
+                        copy.path,
                     ),
                 );
             }

@@ -298,18 +298,15 @@ export default defineComponent({
             return (values as CascaderNodeKey[])
                 .filter(Boolean)
                 .map((curValue) => {
-                    const { value, label, indexPath, labelPath } = nodeList
-                        .value[curValue] || {
+                    const { value, label, path } = nodeList.value[curValue] || {
                         value: curValue,
                         label: curValue,
-                        indexPath: [] as CascaderNodeKey[],
-                        labelPath: [] as string[],
+                        path: [],
                     };
                     return {
                         value,
                         label,
-                        indexPath,
-                        labelPath,
+                        path,
                     };
                 });
         });

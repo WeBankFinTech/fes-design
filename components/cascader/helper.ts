@@ -35,10 +35,13 @@ export const getCascadeParentByKeys = (
     const res: Record<string, CascaderNodeKey[]> = {};
     keys.forEach((value) => {
         const node = nodeList[value];
-        if (!res[node.level]) {
-            res[node.level] = [];
+        // 兼容异步加载，未匹配到节点的情况
+        if (node) {
+            if (!res[node.level]) {
+                res[node.level] = [];
+            }
+            res[node.level].push(node.value);
         }
-        res[node.level].push(node.value);
     });
     const levels = Object.keys(res).map((key) => Number(key));
     const maxLevel = levels[levels.length - 1];

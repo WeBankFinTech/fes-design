@@ -10,7 +10,7 @@
             <FRadioGroup v-model="checkStrictly">
                 <FRadio value="all">all</FRadio>
                 <FRadio value="parent">parent</FRadio>
-                <FRadio value="child">child</FRadio>
+                <FRadio value="child">child(默认)</FRadio>
             </FRadioGroup>
         </FFormItem>
     </FForm>
@@ -54,7 +54,7 @@ export default {
     setup() {
         const data = reactive(createData(4));
         const cascade = ref(true);
-        const checkStrictly = ref('all');
+        const checkStrictly = ref('child');
         return {
             data,
             cascade,

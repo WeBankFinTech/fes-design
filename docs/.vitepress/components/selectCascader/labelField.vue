@@ -6,15 +6,25 @@
                 <FRadio :value="false">false</FRadio>
             </FRadioGroup>
         </FFormItem>
+        <FFormItem label="是否多选：">
+            <FRadioGroup v-model="multiple">
+                <FRadio :value="true">true</FRadio>
+                <FRadio :value="false">false</FRadio>
+            </FRadioGroup>
+        </FFormItem>
     </FForm>
 
     <FDivider></FDivider>
 
-    <FSelectCascader v-model="value" :data="data">
+    <FSelectCascader v-if="!multiple" :data="data">
         <template #tag="{ option }">
             <FEllipsis>
                 <template v-if="shwoAllLevels">
-                    {{ option.labelPath.join(' / ') }}
+                    {{
+                        option.path
+                            .map((item) => `${item.value}-${item.label}`)
+                            .join(' / ')
+                    }}
                 </template>
                 <template v-else>
                     {{
@@ -22,6 +32,28 @@
                     }}
                 </template>
             </FEllipsis>
+        </template>
+    </FSelectCascader>
+    <FSelectCascader v-else :data="data" multiple>
+        <template #tag="{ option }">
+            <FTag type="info" size="small">
+                <FEllipsis>
+                    <template v-if="shwoAllLevels">
+                        {{
+                            option.path
+                                .map((item) => `${item.value}-${item.label}`)
+                                .join(' / ')
+                        }}
+                    </template>
+                    <template v-else>
+                        {{
+                            option.value
+                                ? `${option.value} - ${option.label}`
+                                : ''
+                        }}
+                    </template>
+                </FEllipsis>
+            </FTag>
         </template>
     </FSelectCascader>
 </template>
@@ -54,11 +86,11 @@ export default {
     setup() {
         const data = reactive(createData(4));
         const shwoAllLevels = ref(true);
-        const value = ref(null);
+        const multiple = ref(true);
         return {
             data,
             shwoAllLevels,
-            value,
+            multiple,
         };
     },
 };
