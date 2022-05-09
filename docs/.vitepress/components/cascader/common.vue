@@ -12,6 +12,12 @@
                 <FRadio value="hover">hover</FRadio>
             </FRadioGroup>
         </FFormItem>
+        <FFormItem label="父节点可选中：">
+            <FRadioGroup v-model="checkStrictly">
+                <FRadio value="all">是</FRadio>
+                <FRadio value="">否(默认)</FRadio>
+            </FRadioGroup>
+        </FFormItem>
     </FForm>
 
     <FDivider></FDivider>
@@ -20,6 +26,7 @@
         :data="data"
         :cancelable="cancelable"
         :expandTrigger="expandTrigger"
+        :checkStrictly="checkStrictly"
     ></FCascader>
 </template>
 <script>
@@ -49,10 +56,12 @@ export default {
         const data = reactive(createData(4));
         const cancelable = ref(true);
         const expandTrigger = ref('hover');
+        const checkStrictly = ref('');
         return {
             data,
             cancelable,
             expandTrigger,
+            checkStrictly,
         };
     },
 };

@@ -19,6 +19,12 @@
                 <FRadio value="hover">hover</FRadio>
             </FRadioGroup>
         </FFormItem>
+        <FFormItem label="是否展示路径：">
+            <FRadioGroup v-model="showPath">
+                <FRadio :value="true">是</FRadio>
+                <FRadio :value="false">否(默认)</FRadio>
+            </FRadioGroup>
+        </FFormItem>
     </FForm>
 
     <FDivider></FDivider>
@@ -29,6 +35,7 @@
         :cascade="cascade"
         :checkStrictly="checkStrictly"
         :expandTrigger="expandTrigger"
+        :showPath="showPath"
         clearable
     >
     </FSelectCascader>
@@ -63,11 +70,13 @@ export default {
         const cascade = ref(true);
         const checkStrictly = ref('child');
         const expandTrigger = ref('click');
+        const showPath = ref(false);
         return {
             data,
             cascade,
             checkStrictly,
             expandTrigger,
+            showPath,
         };
     },
 };

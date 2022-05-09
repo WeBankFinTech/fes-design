@@ -9,7 +9,13 @@
         <FFormItem label="父节点可选中：">
             <FRadioGroup v-model="checkStrictly">
                 <FRadio value="all">是</FRadio>
-                <FRadio value="">否</FRadio>
+                <FRadio value="">否(默认)</FRadio>
+            </FRadioGroup>
+        </FFormItem>
+        <FFormItem label="是否展示路径：">
+            <FRadioGroup v-model="showPath">
+                <FRadio :value="true">是</FRadio>
+                <FRadio :value="false">否(默认)</FRadio>
             </FRadioGroup>
         </FFormItem>
     </FForm>
@@ -20,6 +26,7 @@
         :data="data"
         :expandTrigger="expandTrigger"
         :checkStrictly="checkStrictly"
+        :showPath="showPath"
     ></FSelectCascader>
 </template>
 <script>
@@ -51,10 +58,12 @@ export default {
         const data = reactive(createData(4));
         const expandTrigger = ref('click');
         const checkStrictly = ref('');
+        const showPath = ref(false);
         return {
             data,
             expandTrigger,
             checkStrictly,
+            showPath,
         };
     },
 };

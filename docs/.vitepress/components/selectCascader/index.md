@@ -83,6 +83,7 @@ app.use(FSelectCascader);
 | loadData              | 异步加载数据的回调函数                                                                                                                                                                                                    | (node: null \| CascaderOption) => Promise\<CascaderOption[]\> | -                     |
 | expandTrigger         | 次级菜单的展开方式，可选值为`click`,`hover`                                                                                                                                                                               | string                                                        | `click`               |
 | emitPath              | `modelValue` 是否返回选中节点所在的各级菜单的值所组成的数组，若设置 false，则只返回该节点的值。                                                                                                                           | boolean                                                       | `false`               |
+| showPath              | 是否在选择器中显示选项路径                                                                                                                                                                                                | boolean                                                       | `false`               |
 
 ## SelectCascader Events
 

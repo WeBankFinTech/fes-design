@@ -1,15 +1,15 @@
 <template>
     <FForm :labelWidth="160">
         <FFormItem label="是否展示路径：">
-            <FRadioGroup v-model="shwoAllLevels">
-                <FRadio :value="true">true</FRadio>
-                <FRadio :value="false">false</FRadio>
+            <FRadioGroup v-model="showPath">
+                <FRadio :value="true">是</FRadio>
+                <FRadio :value="false">否</FRadio>
             </FRadioGroup>
         </FFormItem>
         <FFormItem label="是否多选：">
             <FRadioGroup v-model="multiple">
-                <FRadio :value="true">true</FRadio>
-                <FRadio :value="false">false</FRadio>
+                <FRadio :value="true">是</FRadio>
+                <FRadio :value="false">否</FRadio>
             </FRadioGroup>
         </FFormItem>
     </FForm>
@@ -19,7 +19,7 @@
     <FSelectCascader v-if="!multiple" :data="data">
         <template #tag="{ option }">
             <FEllipsis>
-                <template v-if="shwoAllLevels">
+                <template v-if="showPath">
                     {{
                         option.path
                             .map((item) => `${item.value}-${item.label}`)
@@ -38,7 +38,7 @@
         <template #tag="{ option }">
             <FTag type="info" size="small">
                 <FEllipsis>
-                    <template v-if="shwoAllLevels">
+                    <template v-if="showPath">
                         {{
                             option.path
                                 .map((item) => `${item.value}-${item.label}`)
@@ -85,11 +85,11 @@ function createLabel(level) {
 export default {
     setup() {
         const data = reactive(createData(4));
-        const shwoAllLevels = ref(true);
+        const showPath = ref(true);
         const multiple = ref(true);
         return {
             data,
-            shwoAllLevels,
+            showPath,
             multiple,
         };
     },

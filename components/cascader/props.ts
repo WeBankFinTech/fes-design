@@ -96,6 +96,10 @@ export const cascaderProps = {
             return [];
         },
     },
+    showPath: {
+        type: Boolean,
+        default: false,
+    },
 } as const;
 
 export const cascaderPropsDefaultValue =

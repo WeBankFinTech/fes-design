@@ -85,6 +85,7 @@ import type {
     SelectParams,
     CheckParams,
     CascaderNodeKey,
+    CascaderOption,
 } from '../cascader/interface';
 import { useLocale } from '../config-provider/useLocale';
 import { CHECK_STRATEGY } from '../cascader/const';
@@ -303,9 +304,14 @@ export default defineComponent({
                         label: curValue,
                         path: [],
                     };
+                    const formatLabel = props.showPath
+                        ? (path as CascaderOption[])
+                              .map((item) => `${item.label}`)
+                              .join(' / ')
+                        : label;
                     return {
                         value,
-                        label,
+                        label: formatLabel,
                         path,
                     };
                 });
