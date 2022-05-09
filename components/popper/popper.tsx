@@ -49,18 +49,18 @@ export default defineComponent({
             placement,
         } = usePopper(props, emit);
 
+        const disabledWatch = computed(() => props.disabled || !visible.value);
+
         useScroll(
             computed(() => getElementFromRef(triggerRef.value)),
             (e: Event) => {
+                if (disabledWatch.value) return;
                 // 不挂载在container上
                 if (!props.appendToContainer) return;
-                if (!visible.value) return;
                 if (e.target === getContainer.value?.()) return;
                 computePopper();
             },
         );
-
-        const disabledWatch = computed(() => props.disabled || !visible.value);
         useClickOutSide(
             [triggerRef, popperRef],
             () => {
@@ -70,6 +70,11 @@ export default defineComponent({
         );
         useResize(
             computed(() => getElementFromRef(triggerRef.value)),
+            computePopper,
+            disabledWatch,
+        );
+        useResize(
+            computed(() => getElementFromRef(popperRef.value)),
             computePopper,
             disabledWatch,
         );
