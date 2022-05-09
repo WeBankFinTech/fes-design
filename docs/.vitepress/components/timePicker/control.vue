@@ -1,8 +1,8 @@
 <template>
     <space>
         <FTimePicker
+            v-model="time"
             placeholder="请输入"
-            modelValue="22:22:22"
             :disabledHours="disabledHours"
             :control="false"
         ></FTimePicker>
@@ -10,12 +10,19 @@
 </template>
 
 <script>
+import { watch, ref } from 'vue';
+
 export default {
     setup() {
+        const time = ref('22:22:22');
         const disabledHours = (hour) => {
             return hour === 1;
         };
+        watch(time, () => {
+            console.log(time.value);
+        });
         return {
+            time,
             disabledHours,
         };
     },

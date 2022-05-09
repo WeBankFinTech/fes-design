@@ -120,6 +120,7 @@
     "@vueuse/core": "^6.7.5",
     "async-validator": "^4.0.1",
     "csstype": "^3.0.10",
+    "date-fns": "^2.28.0",
     "lodash-es": "^4.17.21",
     "normalize-wheel": "^1.0.1",
     "stickybits": "^3.7.9"

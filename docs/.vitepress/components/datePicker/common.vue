@@ -4,7 +4,13 @@
         <FDatePicker type="month" placeholder="选择月份" />
         <FDatePicker type="year" placeholder="选择年份" />
         <FDatePicker type="quarter" placeholder="选择季度" />
-        <FDatePicker type="datetime" placeholder="时间日期选择" />
+        <FDatePicker
+            type="datetime"
+            :hourStep="2"
+            :minuteStep="2"
+            :secondStep="2"
+            placeholder="时间日期选择"
+        />
     </Space>
 </template>
 

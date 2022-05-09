@@ -40,6 +40,7 @@ specifiers:
   csso: ^4.2.0
   csstype: ^3.0.10
   cz-conventional-changelog: ^3.3.0
+  date-fns: ^2.28.0
   enquirer: ^2.3.6
   escape-html: ^1.0.3
   execa: ^4.0.2
@@ -87,6 +88,7 @@ dependencies:
   '@vueuse/core': 6.9.2_vue@3.2.24
   async-validator: 4.0.7
   csstype: 3.0.10
+  date-fns: 2.28.0
   lodash-es: 4.17.21
   normalize-wheel: 1.0.1
   stickybits: 3.7.9
@@ -4231,6 +4233,11 @@ packages:
       whatwg-mimetype: 2.3.0
       whatwg-url: 8.7.0
     dev: true
+
+  /date-fns/2.28.0:
+    resolution: {integrity: sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==}
+    engines: {node: '>=0.11'}
+    dev: false
 
   /dateformat/3.0.3:
     resolution: {integrity: sha1-puN0maTZqc+F71hyBE1ikByYia4=, tarball: dateformat/download/dateformat-3.0.3.tgz}
