@@ -9,18 +9,18 @@
         :getContainer="getContainer"
         :hideAfter="0"
         :offset="4"
+        onlyShowTrigger
     >
         <template #trigger>
             <InputInner
                 v-if="!isRange"
                 :class="classes"
-                :modelValue="tempValue || displayValue"
+                :modelValue="displayValue"
                 :placeholder="inputPlaceholder"
                 :disabled="disabled"
                 :clearable="clearable"
                 @clear="clear"
                 @input="handleInput"
-                @change="handleChange"
                 @focus="(event) => $emit('focus', event)"
                 @blur="handleBlur"
             >
@@ -33,7 +33,7 @@
             <div :class="`${prefixCls}-dropdown`" @mousedown.prevent>
                 <TimeSelect
                     :visible="isOpened"
-                    :modelValue="displayValue"
+                    :modelValue="currentValue"
                     :format="format"
                     :hour-step="hourStep"
                     :minute-step="minuteStep"
@@ -114,18 +114,13 @@ const getCurrentTime = (format: string) => {
         .join(':');
 };
 
-function validator(
-    val: string | undefined,
-    cellFormat: string,
-    format: string,
-    max: number,
-) {
+function validator(val: string | undefined, cellFormat: string, max: number) {
     if (!val) return false;
     if (
         val.length > 3 ||
         !/^\d{1,2}$/.test(val) ||
         Number(val) > max ||
-        (format.indexOf(cellFormat) === -1 && val.startsWith('0'))
+        val.length < cellFormat.length
     ) {
         return false;
     }
@@ -134,16 +129,19 @@ function validator(
 
 function validateTime(data: string, format: string) {
     const times = data.split(':');
-    if (/H/.test(format)) {
-        if (!validator(times.shift(), 'HH', format, 23)) return false;
+    const cellFormats = format.split(':');
+    if (times.length !== cellFormats.length) {
+        return false;
     }
-    if (/m/.test(format)) {
-        if (!validator(times.shift(), 'mm', format, 59)) return false;
+
+    for (let i = 0; i < cellFormats.length; ++i) {
+        const cellFormat = cellFormats[i];
+        if (/[Hh]/.test(cellFormat)) {
+            if (!validator(times.shift(), cellFormat, 23)) return false;
+        } else {
+            if (!validator(times.shift(), cellFormat, 59)) return false;
+        }
     }
-    if (/s/.test(format)) {
-        if (!validator(times.shift(), 'ss', format, 59)) return false;
-    }
-    if (times.length) return false;
     return true;
 }
 
@@ -258,12 +256,6 @@ export default defineComponent({
         const showControl = computed(() => props.control || slots.addon);
 
         const tempValue = ref();
-        const displayValue = computed(() => {
-            if (props.isRange) {
-                return currentValue.value || [];
-            }
-            return currentValue.value || '';
-        });
 
         const { t } = useLocale();
         const inputPlaceholder = computed(
@@ -286,21 +278,16 @@ export default defineComponent({
             activeTime.value = val;
         };
         watch(isOpened, () => {
-            if (!isOpened.value && !showControl.value && activeTime.value) {
+            if (!isOpened.value && activeTime.value) {
                 setCurrentValue(activeTime.value);
             }
         });
 
         const handleInput = (val: string) => {
             tempValue.value = val;
-        };
-        const handleChange = (val: string) => {
             if (validateTime(val, props.format)) {
                 setCurrentValue(val);
-            } else {
-                setCurrentValue(currentValue.value);
             }
-            tempValue.value = null;
         };
 
         const setCurrentTime = () => {
@@ -312,10 +299,22 @@ export default defineComponent({
             closePopper();
         };
 
+        const displayValue = computed(() => {
+            if (props.isRange) {
+                return currentValue.value || [];
+            }
+            return (
+                tempValue.value || activeTime.value || currentValue.value || ''
+            );
+        });
+
         const handleBlur = (event: Event) => {
             closePopper();
             emit('blur', event);
             validate('blur');
+
+            // 重置手动输入值
+            tempValue.value = null;
         };
 
         return {
@@ -323,11 +322,11 @@ export default defineComponent({
             classes,
             displayValue,
             isOpened,
+            currentValue,
 
             tempValue,
 
             handleInput,
-            handleChange,
             handleBlur,
             clear,
             changeTime,

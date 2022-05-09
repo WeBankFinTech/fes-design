@@ -43,6 +43,9 @@ export const COMMON_PROPS = {
         >,
         default: () => false,
     },
+    hourStep: Number,
+    minuteStep: Number,
+    secondStep: Number,
 };
 
 export const CALENDARS_PROPS = {

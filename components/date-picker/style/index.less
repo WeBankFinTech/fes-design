@@ -271,7 +271,7 @@
     align-items: center;
     box-sizing: border-box;
     width: 100%;
-    min-width: 264px;
+    max-width: 100%;
     height: @data-input-height-base;
     padding: 5px 9px;
     font-size: var(--f-font-size-base);
@@ -305,6 +305,7 @@
 
     &-inner {
         flex: 1;
+        min-width: 0;
         border: 0;
         outline: none;
         // TODO 一期先不支持输入
