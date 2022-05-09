@@ -14,7 +14,6 @@
         >
             <template #trigger>
                 <SelectTrigger
-                    ref="triggerRef"
                     :selectedOptions="selectedOptions"
                     :disabled="disabled"
                     :clearable="clearable"
@@ -33,7 +32,6 @@
             </template>
             <template #default>
                 <Cascader
-                    ref="refCascader"
                     :selectedKeys="selectedKeys"
                     :checkedKeys="checkedKeys"
                     :initLoadKeys="initLoadKeys"
@@ -62,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, unref, watch, computed, onMounted } from 'vue';
+import { defineComponent, ref, unref, watch, computed } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel, useArrayModel } from '../_util/use/useModel';
@@ -329,17 +327,6 @@ export default defineComponent({
             validate('blur');
         };
 
-        const refCascader = ref(null);
-
-        const triggerRef = ref();
-        const triggerWidth = ref(0);
-
-        onMounted(() => {
-            if (triggerRef.value) {
-                triggerWidth.value = triggerRef.value.$el.offsetWidth;
-            }
-        });
-
         return {
             prefixCls,
             isOpened,
@@ -355,8 +342,6 @@ export default defineComponent({
             handleSelect,
             handleCheck,
             checkedKeys,
-            refCascader,
-            triggerRef,
             onChangeNodeList,
             inputPlaceholder,
             isError,

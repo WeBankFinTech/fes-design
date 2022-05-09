@@ -125,8 +125,13 @@ export default defineComponent({
             handleClickSwitcher(event);
         };
         const handleClickContent = (event: Event) => {
+            // 若为非叶子节点，则直接展开操作
+            if (!props.isLeaf) {
+                return handleClickSwitcher(event);
+            }
+
             if (disabled.value) return;
-            // 默认 select 行为
+            // 再 select 行为
             if (selectable.value) {
                 return root.selectNode(props.value, event);
             }
@@ -134,9 +139,14 @@ export default defineComponent({
             if (checkable.value && isCheckLoaded.value) {
                 return root.checkNode(props.value, event);
             }
-            // 再展开行为
+        };
+        const handleHoverContent = (event: Event) => {
+            if (root.props.expandTrigger !== EXPAND_TRIGGER.HOVER) {
+                return;
+            }
+            // 若为非叶子节点，则直接展开操作
             if (!props.isLeaf) {
-                handleClickSwitcher(event);
+                return handleClickSwitcher(event);
             }
         };
         const handleClickCheckbox = (event: Event) => {
@@ -233,6 +243,7 @@ export default defineComponent({
                 <span
                     class={`${prefixCls}-content`}
                     onClick={handleClickContent}
+                    onMouseenter={handleHoverContent}
                 >
                     {renderPrefix()}
                     <span class={`${prefixCls}-content-label`}>
