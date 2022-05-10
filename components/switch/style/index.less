@@ -4,6 +4,7 @@
 
 @switch-prefix: ~'@{cls-prefix}-switch';
 @switch-inner-prefix: ~'@{cls-prefix}-switch-inner';
+@switch-loading-prefix: ~'@{cls-prefix}-switch-loading';
 @switch-height: 24px;
 @switch-small-height: 16px;
 @switch-inactive-color: var(--f-border-color-base);
@@ -44,6 +45,15 @@
         color: var(--f-white);
         font-size: var(--f-font-size-base);
     }
+    .@{switch-loading-prefix} {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        color: var(--f-font-color-base);
+        font-size: @switch-height - 12px;
+        z-index: 1;
+    }
+    
     &.is-checked {
         padding-right: @switch-height;
         padding-left: 0;
@@ -51,6 +61,11 @@
         .@{switch-inner-prefix} {
             margin-right: 2px;
             margin-left: @padding-xs;
+        }
+        .@{switch-loading-prefix} {
+            left: auto;
+            right: 6px;
+            color: var(--f-primary-color);
         }
         &::after {
             left: calc(100% - 2px);
@@ -74,8 +89,16 @@
         .@{switch-inner-prefix} {
             font-size: @font-size-caption;
         }
+        .@{switch-loading-prefix} {
+            top: 4px;
+            left: 4px;
+            font-size: @switch-small-height - 8px;
+        }
         &.is-checked {
             padding-right: @switch-small-height;
+            .@{switch-loading-prefix} {
+                right: 4px;
+            }
         }
     }
 }

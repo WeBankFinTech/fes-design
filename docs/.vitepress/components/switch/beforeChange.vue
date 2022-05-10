@@ -5,7 +5,11 @@
 export default {
     setup() {
         const beforeChange = () => {
-            return window.confirm('真的真的真的切换吗?');
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(true);
+                }, 2000);
+            });
         };
         return {
             beforeChange,
