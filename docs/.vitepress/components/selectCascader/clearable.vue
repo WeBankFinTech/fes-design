@@ -1,28 +1,19 @@
 <template>
-    <FForm :labelWidth="160">
-        <FFormItem label="可选中多个节点：">
-            <FRadioGroup v-model="multiple">
-                <FRadio :value="false">否(默认)</FRadio>
-                <FRadio :value="true">是</FRadio>
-            </FRadioGroup>
-        </FFormItem>
-    </FForm>
-
-    <FDivider></FDivider>
-
-    <FCascader :data="data" :multiple="multiple"></FCascader>
+    <FSelectCascader :data="data" clearable></FSelectCascader>
 </template>
 <script>
-import { reactive, ref } from 'vue';
+import { reactive } from 'vue';
 
-function createData(level = 1, baseKey = '') {
+function createData(level = 1, baseKey = '', prefix = null, suffix = null) {
     if (!level) return undefined;
     return Array.apply(null, { length: 2 }).map((_, index) => {
         const key = '' + baseKey + level + index;
         return {
             label: createLabel(level),
             value: key,
-            children: createData(level - 1, key),
+            children: createData(level - 1, key, prefix, suffix),
+            prefix: prefix ? () => h(PictureOutlined) : null,
+            suffix: suffix ? () => h(PlusCircleOutlined) : null,
         };
     });
 }
@@ -37,11 +28,14 @@ function createLabel(level) {
 export default {
     setup() {
         const data = reactive(createData(4));
-        const multiple = ref(true);
         return {
             data,
-            multiple,
         };
     },
 };
 </script>
+<style scoped>
+.fes-select-cascader {
+    width: 200px;
+}
+</style>

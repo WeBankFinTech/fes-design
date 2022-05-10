@@ -1,0 +1,16 @@
+@import '../../style/themes/index.less';
+@import '../../style/mixins/index.less';
+
+@select-prefix-cls: ~'@{cls-prefix}-select-cascader';
+
+.@{select-prefix-cls} {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    vertical-align: middle;
+    .text();
+    &-popper {
+        .text();
+        background: var(--f-white);
+    }
+}

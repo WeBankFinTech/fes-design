@@ -6,8 +6,7 @@ export default {
         placeholder: '请选择',
     },
     cascader: {
-        emptyText: '暂无数据',
-        placeholder: '请选择',
+        loadingRequiredMessage: '加载全部 {label} 的子节点后才可选中',
     },
     pagination: {
         goto: '跳至 第',

@@ -1,16 +1,21 @@
 <template>
     <FForm :labelWidth="160">
-        <FFormItem label="可选中多个节点：">
-            <FRadioGroup v-model="multiple">
-                <FRadio :value="false">否(默认)</FRadio>
-                <FRadio :value="true">是</FRadio>
+        <FFormItem label="父子关联：">
+            <FRadioGroup v-model="cascade">
+                <FRadio :value="true">是(默认)</FRadio>
+                <FRadio :value="false">否</FRadio>
             </FRadioGroup>
         </FFormItem>
     </FForm>
 
     <FDivider></FDivider>
 
-    <FCascader :data="data" :multiple="multiple"></FCascader>
+    <FCascader
+        :data="data"
+        checkable
+        :cascade="cascade"
+        :selectable="false"
+    ></FCascader>
 </template>
 <script>
 import { reactive, ref } from 'vue';
@@ -37,10 +42,10 @@ function createLabel(level) {
 export default {
     setup() {
         const data = reactive(createData(4));
-        const multiple = ref(true);
+        const cascade = ref(true);
         return {
             data,
-            multiple,
+            cascade,
         };
     },
 };

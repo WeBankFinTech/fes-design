@@ -3,7 +3,7 @@
         <span>默认语言:</span>
     </div>
     <div class="components">
-        <FCascader></FCascader>
+        <FSelectCascader></FSelectCascader>
     </div>
     <FDivider></FDivider>
 
@@ -17,7 +17,7 @@
     <div class="components">
         <FConfigProvider :locale="locale">
             <div class="gap">
-                <FCascader></FCascader>
+                <FSelectCascader></FSelectCascader>
             </div>
             <Space class="gap">
                 <FPagination
@@ -52,24 +52,29 @@
         <div>嵌套配置:</div>
     </div>
     <div ref="componentsRef" class="components">
-        <Space>
-            <FConfigProvider :locale="enUS">
-                <FCascader></FCascader>
-                <Space>
-                    <FConfigProvider
-                        :locale="zhCN"
-                        :getContainer="getContainer"
-                    >
-                        <FCascader></FCascader>
-                        <Space>
-                            <FConfigProvider :locale="enUS">
-                                <FCascader></FCascader>
-                            </FConfigProvider>
-                        </Space>
-                    </FConfigProvider>
-                </Space>
-            </FConfigProvider>
-        </Space>
+        <FGrid>
+            <!-- 最外层英文 -->
+            <FGridItem :span="24">
+                <FConfigProvider :locale="enUS">
+                    <FSelectCascader></FSelectCascader>
+                    <!-- 中间层中文 -->
+                    <FGridItem :span="16">
+                        <FConfigProvider
+                            :locale="zhCN"
+                            :getContainer="getContainer"
+                        >
+                            <FSelectCascader></FSelectCascader>
+                            <!-- 最内层英文 -->
+                            <FGridItem :span="8">
+                                <FConfigProvider :locale="enUS">
+                                    <FSelectCascader> </FSelectCascader>
+                                </FConfigProvider>
+                            </FGridItem>
+                        </FConfigProvider>
+                    </FGridItem>
+                </FConfigProvider>
+            </FGridItem>
+        </FGrid>
     </div>
 </template>
 

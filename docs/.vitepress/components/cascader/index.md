@@ -1,6 +1,6 @@
-# Cascader 级联选择器
+# Cascader 级联控件
 
-当一个数据集合有清晰的层级结构时，可通过级联选择器逐级查看并选择。
+文件夹、组织架构、生物分类、国家地区等等，世间万物的大多数结构都是树形结构。使用级联控件可以清晰展现其中的层级关系，并具有展开收起选择等交互功能。
 
 ## 组件注册
 
@@ -12,98 +12,111 @@ app.use(FCascader);
 
 ## 代码演示
 
-### 基础用法（默认单选）
+### 基础用法
 
---BASIC
+基础的树形结构展示。
 
-### 基础多选
+--COMMON
+
+#### 可选择多个节点
+
+可以选择多个节点。
 
 --MULTIPLE
 
-### 异步选项
+### 可勾选
 
---ASYNCOPTIONS
+适用于需要选择层级时使用。
 
-### 关联多选
+--CHECKABLE
 
---CHECKSTRICTLY
+#### 默认展开 + 默认选中 + 默认勾选
 
-### 空选项
+> 默认配置并不会做校验处理，比如`cascade = true`的时候，默认仅勾选父节点，子节点并不会自动勾选。
 
---EMPTY
+-   通过`expandedKeys`配置默认展开节点；
+-   通过`selectedKeys`配置默认选择节点；
+-   通过`checkedKeys`配置默认勾选节点；
 
-### 自定义节点内容
+--DEFAULT
 
---CUSTOMNODE
+#### 禁用节点
 
-### 禁用状态
+无法被选中和点击。
 
---DISABLED
+--ITEMDISABLED
 
+### 异步加载
+
+点击展开节点时加载子选项。
+
+--ASYNC
+
+### 前缀与后缀
+
+放一些附加展示或操作。
+
+--FIX
+
+### 虚拟滚动条
+
+自动开启，兼容大数据处理场景。
+
+--VIRTUALLIST
+
+### 文字超长溢出
+
+--LONGLABEL
 
 --CODE
 
 ## Cascader Props
 
-| 参数                 | 说明                                                                                                                                                                    | 类型                | 默认值                |
-| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | --------------------- |
-| modelValue / v-model | 选中项绑定值                                                                                                                                                            | -                   | -                     |
-| options              | 可选项数据源，键名可通过 nodeConfig 属性配置                                                                                                                            | Array\<NodeOption\> | -                     |
-| nodeConfig           | 菜单选择配置选项，具体见下表 `NodeConfig Props`                                                                                                                         | object              | -                     |
-| placeholder          | 输入框占位文本                                                                                                                                                          | string              | `请选择`              |
-| disabled             | 是否禁用                                                                                                                                                                | boolean             | `false`               |
-| clearable            | 是否支持清空选项                                                                                                                                                        | boolean             | `false`               |
-| collapseTags         | 多选时选中项是否折叠展示                                                                                                                                                | boolean             | `false`               |
-| collapseTagsLimit    | 多选时选中项超出限制个数后才会折叠                                                                                                                                      | number              | 1                     |
-| multiple             | 是否多选                                                                                                                                                                | boolean             | `false`               |
-| showAllLevels        | 输入框中是否显示选中值的完整路径                                                                                                                                        | boolean             | `true`                |
-| separator            | 选项分隔符                                                                                                                                                              | string              | `/`                   |
-| appendToContainer    | 弹窗内容是否添加到指定的 DOM 元素                                                                                                                                       | boolean             | `true`                |
-| getContainer         | 指定下拉选项挂载的 HTML 节点                                                                                                                                            | () => HTMLElement   | `() => document.body` |
-| checkStrictly        | 设置勾选策略来指定勾选回调返回的值，`all` 表示回调函数值为全部选中节点；`parent` 表示回调函数值为父节点（当父节点下所有子节点都选中时）；`child` 表示回调函数值为子节点 | string              | `child`               |
+| 属性                  | 说明                                                                                                                                                                                                                      | 类型                                                          | 默认值     |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ---------- |
+| data                  | 展示数据                                                                                                                                                                                                                  | Array\<CascaderOption\>                                       | `[]`       |
+| expandedKeys(v-model) | 展开的节点的 key 的数组                                                                                                                                                                                                   | Array<string \| number>                                       | `[]`       |
+| selectable            | 是否可选中节点                                                                                                                                                                                                            | boolean                                                       | `true`     |
+| selectedKeys(v-model) | 设置选中的节点                                                                                                                                                                                                            | Array<string \| number>                                       | `[]`       |
+| multiple              | 是否能选中多个节点                                                                                                                                                                                                        | boolean                                                       | `false`    |
+| cancelable            | 选中后是否可以再次点击取消选中                                                                                                                                                                                            | boolean                                                       | `true`     |
+| checkable             | 是否显示 `Checkbox` 选择框                                                                                                                                                                                                | boolean                                                       | `false`    |
+| cascade               | 当勾选选择框时，父子节点的选择框勾选状态是否关联，相互影响                                                                                                                                                                | boolean                                                       | `true`     |
+| checkStrictly         | 设置勾选策略来指定勾选回调返回的值。多选时，`all` 表示回调函数值为全部选中节点；`parent` 表示回调函数值为父节点（当父节点下所有子节点都选中时）；`child` 表示回调函数值为子节点。单选时，`all` 表示回调函数值可为父节点。 | string                                                        | `child`    |
+| checkedKeys(v-model)  | 勾选节点 key 的数组                                                                                                                                                                                                       | Array<string \| number>                                       | `[]`       |
+| childrenField         | 替代 `CascaderOption` 中的 `children` 字段名                                                                                                                                                                              | string                                                        | `children` |
+| valueField            | 替代 `CascaderOption` 中的 `value` 字段名                                                                                                                                                                                 | string                                                        | `value`    |
+| labelField            | 替代 `CascaderOption` 中的 `label` 字段名                                                                                                                                                                                 | string                                                        | `label`    |
+| remote                | 是否异步获取选项，和 `loadData` 配合                                                                                                                                                                                      | boolean                                                       | `false`    |
+| loadData              | 异步加载数据的回调函数                                                                                                                                                                                                    | (node: null \| CascaderOption) => Promise\<CascaderOption[]\> | -          |
+| expandTrigger         | 次级菜单的展开方式，可选值为 `click`,`hover`                                                                                                                                                                              | string                                                        | `click`    |
 
 ## Cascader Events
 
-| 事件名称      | 说明                          | 回调参数                      |
-| ------------- | ----------------------------- | ----------------------------- |
-| change        | 当选中节点变化时触发          | 选中节点的值                  |
-| expandChange  | 当展开节点发生变化时触发      | 各父级选项值组成的数组        |
-| clear         | 清除值的时候触发              | (event: Event)                |
-| visibleChange | 下拉框出现/隐藏时触发         | 出现则为 true，隐藏则为 false |
-| removeTag     | 在多选模式下，移除 Tag 时触发 | 移除的 Tag 对应的节点的值     |
-| blur          | 当级联选择器失去焦点时触发                                                      | event                         |
-| focus         | 当级联选择器获得焦点时触发                                                      | event                         |
+| 事件名称 | 说明                     | 回调参数                                          |
+| -------- | ------------------------ | ------------------------------------------------- |
+| check    | 点击节点中的选择框时触发 | ({ checkedKeys, node, event, checked }) => void   |
+| expand   | 展开、收起节点时触发     | ({ expandedKeys, node, event, expanded }) => void |
+| select   | 点击节点内容时触发       | ({ selectedKeys, node, event, selected }) => void |
 
 ## Cascader Methods
 
-| 方法名          | 说明           | 参数                                        |
-| --------------- | -------------- | ------------------------------------------- |
-| getCheckedNodes | 获取选中的节点 | (leafOnly) 是否只是叶子节点，默认值为 false |
-| blur  | 取消焦点 | - |
-| focus | 获取焦点 | - |
+| 方法名称   | 说明       | 参数    |
+| ---------- | ---------- | ------- |
+| selectNode | 选中节点   | (value) |
+| expandNode | 展开树节点 | (value) |
+| checkNode  | check 节点 | (value) |
 
-## Cascader Slots
+## CascaderOption props
 
-| 名称    | 说明                                                                            |
-| ------- | ------------------------------------------------------------------------------- |
-| default | 自定义备选项的节点内容，参数为 { node, data }，分别为当前节点的 Node 对象和数据 |
-
-## NodeConfig Props
-
-| 参数          | 说明                                                                                               | 类型    | 默认值     |
-| ------------- | -------------------------------------------------------------------------------------------------- | ------- | ---------- |
-| expandTrigger | 次级菜单的展开方式，可选值为`click`,`hover`                                                        | string  | `click`    |
-| emitPath      | 在选中节点改变时，是否返回由该节点所在的各级菜单的值所组成的数组，若设置 false，则只返回该节点的值 | boolean | `false`    |
-| valueField    | 替代 `NodeOption` 中的 `value` 字段名                                                              | string  | `value`    |
-| labelField    | 替代 `NodeOption` 中的 `label` 字段名                                                              | string  | `label`    |
-| childrenField | 替代 `NodeOption` 中的 `children` 字段名                                                           | string  | `children` |
-| disabledField | 替代 `NodeOption` 中的 `disabled` 字段名                                                           | string  | `disabled` |
-
-## NodeOption Props
-
-| 参数     | 说明                                                   | 类型            | 默认值  |
-| -------- | ------------------------------------------------------ | --------------- | ------- |
-| value    | 节点的 `key`，需要唯一，可使用 `valueField` 修改字段名 | string / number | -       |
-| label    | 节点的内容，可使用 `labelField` 修改字段名             | string          | -       |
-| children | 节点的子节点，可使用 `childrenField` 修改字段名        | NodeOption[]    | `[]`    |
-| disabled | 是否禁用节点，可使用 `disabledField` 修改字段名        | boolean         | `false` |
+| 属性        | 说明                                                   | 类型                        | 默认值  |
+| ----------- | ------------------------------------------------------ | --------------------------- | ------- |
+| value       | 节点的 `key`，需要唯一，可使用 `valueField` 修改字段名 | string / number             | `-`     |
+| label       | 节点的内容，可使用 `labelField` 修改字段名             | string                      | `-`     |
+| children?   | 节点的子节点                                           | CascaderOption[]            | `[]`    |
+| disabled?   | 是否禁用节点， 默认为`Cascader`组件的`disabled`        | boolean                     | `-`     |
+| selectable? | 是否禁用选中节点，默认为`Cascader`组件的`selectable`   | boolean                     | `-`     |
+| checkable?  | 是否禁用勾选节点，默认为`Cascader`组件的`checkable`    | boolean                     | `-`     |
+| isLeaf?     | 节点是否是叶节点，在 remote 模式下是必须的             | boolean                     | `false` |
+| prefix?     | 节点的前缀                                             | string / (() => VNodeChild) | `null`  |
+| suffix?     | 节点的后缀                                             | string / (() => VNodeChild) | `null`  |

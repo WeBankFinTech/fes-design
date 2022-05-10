@@ -84,8 +84,8 @@
                 <div
                     v-if="
                         unSelectedRef &&
-                            !filterTextRef.length &&
-                            !isComposingRef
+                        !filterTextRef.length &&
+                        !isComposingRef
                     "
                     :class="[
                         `${prefixCls}-label-placeholder`,
@@ -220,7 +220,7 @@ export default defineComponent({
         const genTag = (option: SelectOption) => {
             const { label, value } = option;
             return {
-                value: value,
+                ...option,
                 label: label ?? value ?? '',
                 closable: !props.disabled,
             };
