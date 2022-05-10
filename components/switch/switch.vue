@@ -104,15 +104,14 @@ export default defineComponent({
                     const confirm = await props.beforeChange(
                         currentValue.value,
                     );
+                    loadingRef.value = false;
                     if (confirm === false) {
-                        loadingRef.value = false;
                         return;
                     }
                 } catch (e) {
                     loadingRef.value = false;
                     return;
                 }
-                loadingRef.value = false;
             }
             updateCurrentValue(
                 activeRef.value ? props.inactiveValue : props.activeValue,
