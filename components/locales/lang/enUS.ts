@@ -6,8 +6,8 @@ export default {
         placeholder: 'Select',
     },
     cascader: {
-        emptyText: 'No Data',
-        placeholder: 'Select',
+        loadingRequiredMessage:
+            "Please load all {label}'s descendants before checking it.",
     },
     pagination: {
         goto: 'Go to',

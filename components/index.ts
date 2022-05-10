@@ -27,7 +27,6 @@ import { FSwitch } from './switch';
 import { FTable, FTableColumn } from './table';
 import { FTabs, FTabPane } from './tabs';
 import { FTag } from './tag';
-import { FCascader } from './cascader';
 import { FTimePicker } from './time-picker';
 import { FDatePicker } from './date-picker';
 import { FTooltip } from './tooltip';
@@ -42,6 +41,8 @@ import { FDrawer } from './drawer';
 import { FSelectTree } from './select-tree';
 import { FSpace } from './space';
 import { FSkeleton } from './skeleton';
+import { FCascader } from './cascader';
+import { FSelectCascader } from './select-cascader';
 
 export * from './locales';
 
@@ -84,7 +85,6 @@ const components = [
     FTabs,
     FTabPane,
     FTag,
-    FCascader,
     FTimePicker,
     FDatePicker,
     FTooltip,
@@ -102,6 +102,8 @@ const components = [
     FSelectTree,
     FSpace,
     FSkeleton,
+    FCascader,
+    FSelectCascader,
 ];
 const install = function (app: App) {
     components.forEach((component) => {
@@ -152,7 +154,6 @@ export {
     FTabs,
     FTabPane,
     FTag,
-    FCascader,
     FTimePicker,
     FDatePicker,
     FTooltip,
@@ -170,6 +171,8 @@ export {
     FSelectTree,
     FSpace,
     FSkeleton,
+    FCascader,
+    FSelectCascader,
 };
 export default {
     version,

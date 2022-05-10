@@ -1,26 +1,19 @@
 <template>
-    <FForm :labelWidth="160">
-        <FFormItem label="可选中多个节点：">
-            <FRadioGroup v-model="multiple">
-                <FRadio :value="false">否(默认)</FRadio>
-                <FRadio :value="true">是</FRadio>
-            </FRadioGroup>
-        </FFormItem>
-    </FForm>
-
-    <FDivider></FDivider>
-
-    <FCascader :data="data" :multiple="multiple"></FCascader>
+    <FCascader :data="data"></FCascader>
 </template>
 <script>
 import { reactive, ref } from 'vue';
+
+function repeatString(str, n) {
+    return new Array(n + 1).join(str);
+}
 
 function createData(level = 1, baseKey = '') {
     if (!level) return undefined;
     return Array.apply(null, { length: 2 }).map((_, index) => {
         const key = '' + baseKey + level + index;
         return {
-            label: createLabel(level),
+            label: repeatString(createLabel(level), 10),
             value: key,
             children: createData(level - 1, key),
         };
@@ -37,10 +30,10 @@ function createLabel(level) {
 export default {
     setup() {
         const data = reactive(createData(4));
-        const multiple = ref(true);
+        const cancelable = ref(true);
         return {
             data,
-            multiple,
+            cancelable,
         };
     },
 };

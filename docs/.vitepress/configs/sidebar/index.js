@@ -104,12 +104,12 @@ module.exports = {
                         link: '/zh/components/upload',
                     },
                     {
-                        text: 'Cascader 级联选择',
-                        link: '/zh/components/cascader',
-                    },
-                    {
                         text: 'SelectTree 树形选择器',
                         link: '/zh/components/selectTree',
+                    },
+                    {
+                        text: 'SelectCascader 级联选择器',
+                        link: '/zh/components/selectCascader',
                     },
                     {
                         text: 'Form 表单',
@@ -147,6 +147,10 @@ module.exports = {
                     {
                         text: 'Tree 树形控件',
                         link: '/zh/components/tree',
+                    },
+                    {
+                        text: 'Cascader 级联控件',
+                        link: '/zh/components/cascader',
                     },
                     {
                         text: 'VirtualList 虚拟列表',

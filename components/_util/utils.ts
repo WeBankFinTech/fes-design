@@ -1,7 +1,6 @@
 import { nextTick } from 'vue';
 
 import { isNull, isNumber, isString, isUndefined } from 'lodash-es';
-import type { CascaderNode } from '../cascader-panel/interface';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = () => {};
@@ -67,17 +66,6 @@ export const requestAnimationFrame = (() => {
 })();
 
 export const isFirefox = () => !!window.navigator.userAgent.match(/firefox/i);
-
-export const flatNodes = (nodes: CascaderNode[] = [], leafOnly = false) =>
-    nodes.reduce((res: CascaderNode[], node) => {
-        if (node.isLeaf) {
-            res.push(node);
-        } else {
-            !leafOnly && res.push(node);
-            res = res.concat(flatNodes(node.children, leafOnly));
-        }
-        return res;
-    }, []);
 
 export const extractPropsDefaultValue = (props: { [key: string]: any }) => {
     const defaultValue: {

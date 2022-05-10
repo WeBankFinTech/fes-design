@@ -1,5 +1,5 @@
 import { withInstall } from '../_util/withInstall';
-import Cascader from './cascader.vue';
+import Cascader from './cascader';
 
 import type { SFCWithInstall } from '../_util/interface';
 
