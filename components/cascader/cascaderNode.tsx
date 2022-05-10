@@ -221,6 +221,7 @@ export default defineComponent({
         };
         const renderRadio = () => {
             if (
+                !checkable.value &&
                 selectable.value &&
                 root.props.checkStrictly === CHECK_STRATEGY.ALL
             ) {
