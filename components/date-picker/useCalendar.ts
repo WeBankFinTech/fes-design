@@ -53,7 +53,6 @@ export const useSelectedDates = (
 ) => {
     const selectedDates = ref<DateObj[]>([]);
     const updateRangeSelectedDates = (date: DateObj, index: number) => {
-        console.log(index);
         if (
             (index === 0 &&
                 transformDateToTimestamp(date) >

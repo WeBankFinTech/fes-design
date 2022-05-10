@@ -194,7 +194,6 @@ const useInput = ({
 
     const handleDateInput = (val: string) => {
         dateText.value = val;
-        console.log(val, picker.value.isEffectiveDate(val));
         if (picker.value.isEffectiveDate(val)) {
             cacheValidInputDate = val;
             updateCurrentValue(
