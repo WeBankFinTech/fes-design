@@ -26,8 +26,14 @@
                 <template v-if="$slots.prefix" #prefix>
                     <slot name="prefix"></slot>
                 </template>
-                <template v-if="$slots.suffix" #suffix>
+                <template v-if="$slots.suffix || isWordLimitVisible" #suffix>
                     <slot name="suffix"></slot>
+                    <span
+                        v-if="isWordLimitVisible"
+                        :class="`${prefixCls}-count`"
+                    >
+                        {{ textLength }}/{{ maxlength }}
+                    </span>
                 </template>
             </InputInner>
 
