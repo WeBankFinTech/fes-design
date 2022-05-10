@@ -1,20 +1,29 @@
 <template>
     <div :class="wrapperClass" @click="toggle">
         <span :class="`${prefixCls}-inner`">
-            <slot v-if="actived" name="active"></slot>
-            <slot v-if="inactived" name="inactive"></slot>
+            <slot v-if="activeRef" name="active"></slot>
+            <slot v-if="inactiveRef" name="inactive"></slot>
         </span>
+        <LoadingOutlined v-if="loadingRef" :class="`${prefixCls}-loading`" />
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onMounted, PropType, nextTick } from 'vue';
+import {
+    defineComponent,
+    computed,
+    onMounted,
+    PropType,
+    nextTick,
+    ref,
+} from 'vue';
 import { isEqual, isFunction } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
+import LoadingOutlined from '../icon/LoadingOutlined';
 
 const prefixCls = getPrefixCls('switch');
 
@@ -48,6 +57,9 @@ const switchProps = {
 
 export default defineComponent({
     name: 'FSwitch',
+    components: {
+        LoadingOutlined,
+    },
     props: switchProps,
     setup(props, ctx) {
         useTheme();
@@ -70,28 +82,39 @@ export default defineComponent({
             }
         });
 
+        const loadingRef = ref(false);
+
         const handleChange = () => {
             ctx.emit(CHANGE_EVENT, currentValue.value);
             validate(CHANGE_EVENT);
         };
 
-        const actived = computed(() =>
+        const activeRef = computed(() =>
             isEqual(currentValue.value, props.activeValue),
         );
-        const inactived = computed(() =>
+        const inactiveRef = computed(() =>
             isEqual(currentValue.value, props.inactiveValue),
         );
 
         const toggle = async () => {
             if (props.disabled) return;
             if (isFunction(props.beforeChange)) {
-                const confirm = await props.beforeChange(currentValue.value);
-                if (!confirm) {
+                loadingRef.value = true;
+                try {
+                    const confirm = await props.beforeChange(
+                        currentValue.value,
+                    );
+                    loadingRef.value = false;
+                    if (confirm === false) {
+                        return;
+                    }
+                } catch (e) {
+                    loadingRef.value = false;
                     return;
                 }
             }
             updateCurrentValue(
-                actived.value ? props.inactiveValue : props.activeValue,
+                activeRef.value ? props.inactiveValue : props.activeValue,
             );
             handleChange();
         };
@@ -99,7 +122,7 @@ export default defineComponent({
             [
                 prefixCls,
                 props.size && `${prefixCls}-size-${props.size}`,
-                actived.value && 'is-checked',
+                activeRef.value && 'is-checked',
                 props.disabled && 'is-disabled',
             ].filter(Boolean),
         );
@@ -107,8 +130,9 @@ export default defineComponent({
             prefixCls,
             wrapperClass,
             toggle,
-            actived,
-            inactived,
+            activeRef,
+            inactiveRef,
+            loadingRef,
         };
     },
 });

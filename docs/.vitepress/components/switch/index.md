@@ -28,7 +28,7 @@ app.use(FSwitch);
 
 --DISABLED
 
-### 阻止切换
+### 切换前判断
 
 --BEFORECHANGE
 
