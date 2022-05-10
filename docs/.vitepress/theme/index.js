@@ -1,5 +1,6 @@
 /* eslint-disable import/no-unresolved */
-import { VPTheme, VTBadge } from '@vue/theme';
+import { VPTheme } from '../vueTheme/index';
+import { h } from 'vue';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import WeDesign from '../../../components/index';
@@ -20,7 +21,6 @@ import './global.less';
 export default Object.assign({}, VPTheme, {
     NotFound,
     enhanceApp({ app }) {
-        app.component('Badge', VTBadge);
         app.component('IconDoc', IconDoc);
         app.component('WIframe', WIframe);
         Object.keys(Icons).forEach((iconName) => {

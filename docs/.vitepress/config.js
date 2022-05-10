@@ -4,7 +4,7 @@ const vueJsx = require('@vitejs/plugin-vue-jsx');
 const path = require('path');
 const { navbar, sidebar } = require('./configs');
 const { genComponentDoc } = require('./scripts/genComponentDoc');
-const baseConfig = require('@vue/theme/config');
+const baseConfig = require('./vueTheme/vitepress/config/baseConfig');
 
 const ssrTransformCustomDir = () => ({
     props: [],
@@ -65,7 +65,8 @@ module.exports = {
         },
     },
     themeConfig: {
-        highlight: baseConfig.highlight,
+        appearance: false,
+        title: 'Fes Design',
         logo: `${BASE_URL}images/fes-logo.svg`,
         socialLinks: [
             {
