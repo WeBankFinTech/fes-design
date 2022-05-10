@@ -8,6 +8,7 @@
             @input="handleInput"
             @change="handleChange"
         />
+        <FInput placeholder="请输入" :maxlength="100" showWordLimit />
     </Space>
 </template>
 
