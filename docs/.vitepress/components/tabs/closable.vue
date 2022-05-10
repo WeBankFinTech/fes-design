@@ -6,6 +6,7 @@
         closable
         @close="handleCloseTab"
         @add="handleAddTab"
+        @change="handleChangeTab"
     >
         <FTabPane
             v-for="(tab, index) in tabs"
@@ -41,11 +42,15 @@ export default {
             tabs.push('New Tab' + (tabs.length + 1));
             activeTab.value = tabs.length - 1;
         }
+        const handleChangeTab = (key) => {
+            console.log(key);
+        };
         return {
             tabs,
             activeTab,
             handleCloseTab,
             handleAddTab,
+            handleChangeTab,
         };
     },
 };

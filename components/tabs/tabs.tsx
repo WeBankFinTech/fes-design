@@ -17,6 +17,7 @@ import {
 } from 'vue';
 import {
     CLOSE_EVENT,
+    CHANGE_EVENT,
     TABS_INJECTION_KEY,
     UPDATE_MODEL_EVENT,
 } from '../_util/constants';
@@ -97,7 +98,7 @@ export default defineComponent({
             default: true,
         },
     },
-    emits: [UPDATE_MODEL_EVENT, CLOSE_EVENT, ADD_EVENT],
+    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, CLOSE_EVENT, ADD_EVENT],
     setup(props, ctx) {
         useTheme();
         const tabPaneLazyCache: Record<string, boolean> = {};
@@ -134,6 +135,7 @@ export default defineComponent({
 
         function handleTabClick(key: string | number) {
             updateCurrentValue(key);
+            ctx.emit(CHANGE_EVENT, key);
         }
 
         function handleAddClick(event: Event) {
@@ -220,9 +222,9 @@ export default defineComponent({
                 (vNode) => (vNode.type as any).name === 'FTabPane',
             );
             // 避免可能出现的bug https://github.com/vuejs/core/issues/5290
-            nextTick(()=>{
+            nextTick(() => {
                 updateCurrentValue(tabPanes[0]?.props?.value);
-            })
+            });
         }
 
         return () => {
