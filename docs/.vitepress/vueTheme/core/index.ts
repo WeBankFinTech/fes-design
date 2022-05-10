@@ -1,6 +1,3 @@
-export * from './types/menu';
-export * from './types/socialLink';
-
 export { default as VTIconAlignJustify } from './components/icons/VTIconAlignJustify.vue';
 export { default as VTIconAlignLeft } from './components/icons/VTIconAlignLeft.vue';
 export { default as VTIconAlignRight } from './components/icons/VTIconAlignRight.vue';
