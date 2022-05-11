@@ -95,6 +95,15 @@ export const useRange = ({
         }
     };
 
+    // watch(
+    //     () => props.modelValue,
+    //     () => {
+    //         if (picker.value.isRange) {
+    //             resetActiveDate();
+    //         }
+    //     },
+    // );
+
     const changeCurrentDate = (timestamp: number, position: RANGE_POSITION) => {
         if (position === RANGE_POSITION.LEFT) {
             leftActiveDate.value = timestamp;
@@ -138,6 +147,7 @@ export const useRange = ({
             let maxDate: Date;
 
             if (type === 'D') {
+                // FEATURE: 后续采取 unicode token 标准(https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table)，用 d
                 minDate = new Date(dateFlag);
                 maxDate = new Date(dateFlag);
                 minDate.setDate(minDate.getDate() - length);
@@ -148,6 +158,7 @@ export const useRange = ({
                 minDate.setMonth(minDate.getMonth() - length, 1);
                 maxDate.setMonth(maxDate.getMonth() + length, 1);
             } else if (type === 'Y') {
+                // FEATURE: 后续采取 unicode token 标准，用 y
                 minDate = new Date(dateFlag.getFullYear() + length, 0);
                 maxDate = new Date(dateFlag.getFullYear() - length, 0);
             }

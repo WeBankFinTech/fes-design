@@ -119,6 +119,7 @@ import {
     ExtractPropTypes,
     Ref,
 } from 'vue';
+import { isValid, format } from 'date-fns';
 import {
     LeftOutlined,
     RightOutlined,
@@ -129,12 +130,7 @@ import TimePicker from '../time-picker/time-picker.vue';
 import InputInner from '../input/inputInner.vue';
 import getPrefixCls from '../_util/getPrefixCls';
 
-import {
-    timeFormat,
-    parseDate,
-    transformDateToTimestamp,
-    isEffectiveDate,
-} from './helper';
+import { parseDate, strictParse, transformDateToTimestamp } from './helper';
 import {
     RANGE_POSITION,
     COMMON_PROPS,
@@ -216,9 +212,9 @@ function useDateInput({
     });
     const getDateStr = (i: number) => {
         return selectedDates.value[i]
-            ? timeFormat(
+            ? format(
                   transformDateToTimestamp(selectedDates.value[i]),
-                  'YYYY-MM-DD',
+                  'yyyy-MM-dd',
               )
             : '';
     };
@@ -235,23 +231,27 @@ function useDateInput({
 
     const handleDateInput = (val: string) => {
         inputDate.value = val;
-        if (isEffectiveDate(val)) {
-            const d = parseDate(new Date(val));
+        const date = strictParse(val, 'yyyy-MM-dd', new Date());
+        if (isValid(date)) {
+            const dateObj = parseDate(date);
             cacheValidInputDate = val;
             const otherDate = selectedDates.value[(currentIndex.value + 1) % 2];
             // 在同一面板，不更新 current date
             if (
                 otherDate &&
-                !(otherDate.year === d.year && otherDate.month === d.month)
+                !(
+                    otherDate.year === dateObj.year &&
+                    otherDate.month === dateObj.month
+                )
             ) {
-                updateCurrentDate(d);
+                updateCurrentDate(dateObj);
             }
             updateSelectedDates(
                 {
                     ...selectedDates.value[currentIndex.value],
-                    year: d.year,
-                    month: d.month,
-                    day: d.day,
+                    year: dateObj.year,
+                    month: dateObj.month,
+                    day: dateObj.day,
                 },
                 currentIndex.value,
                 {

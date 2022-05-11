@@ -16,13 +16,14 @@
             <RangeInput
                 v-if="pickerRef.isRange"
                 ref="inputRangeRefEL"
-                :format="pickerRef.format"
+                :format="format || pickerRef.format"
                 :selectedDates="visibleValue"
                 :placeholder="rangePlaceHolder"
                 :clearable="clearable"
                 :disabled="disabled"
                 :innerIsFocus="inputIsFocus"
                 :style="style"
+                :changeSeletedDates="changeDateByInput"
                 @focus="handleFocus"
                 @blur="handleBlur"
                 @clear="clear"
@@ -72,7 +73,7 @@
                 :secondStep="secondStep"
                 :disabledDate="disabledDate"
                 :disabledTime="disabledTime"
-                @change="change"
+                @change="changeDateBycalendars"
                 @tmpSelectedDateChange="tmpSelectedDateChange"
             />
         </template>
@@ -93,6 +94,8 @@ import {
     provide,
     CSSProperties,
 } from 'vue';
+import { format, isValid } from 'date-fns';
+import { isEqual } from 'lodash-es';
 import RangeInput from './rangeInput.vue';
 import Calendars from './calendars.vue';
 import InputInner from '../input/inputInner.vue';
@@ -103,7 +106,7 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { DateOutlined, SwapRightOutlined } from '../icon';
 
-import { isEmptyValue, timeFormat, getTimestampFromFormat } from './helper';
+import { isEmptyValue, strictParse } from './helper';
 import { COMMON_PROPS, RANGE_PROPS } from './const';
 
 import type { GetContainer } from '../_util/interface';
@@ -164,13 +167,15 @@ const useTmpSelectedDates = () => {
 export type DatePickerProps = Partial<ExtractPropTypes<typeof datePickerProps>>;
 
 const useInput = ({
+    props,
     visibleValue,
     picker,
-    updateCurrentValue,
+    changeDateByInput,
 }: {
+    props: DatePickerProps;
     visibleValue: Ref<number>;
     picker: ComputedRef<Picker>;
-    updateCurrentValue: (val: any) => void;
+    changeDateByInput: (val: any) => void;
 }) => {
     const dateText = ref<string>();
     let cacheValidInputDate = '';
@@ -180,7 +185,10 @@ const useInput = ({
             return '';
         }
         if (!picker.value.isRange) {
-            return timeFormat(visibleValue.value, picker.value.format);
+            return format(
+                visibleValue.value,
+                props.format || picker.value.format,
+            );
         }
         return '';
     };
@@ -194,14 +202,14 @@ const useInput = ({
 
     const handleDateInput = (val: string) => {
         dateText.value = val;
-        if (picker.value.isEffectiveDate(val)) {
+        const date = strictParse(
+            val,
+            props.format || picker.value.format,
+            new Date(),
+        );
+        if (isValid(date)) {
             cacheValidInputDate = val;
-            updateCurrentValue(
-                getTimestampFromFormat(
-                    picker.value.getDateFromStr(val),
-                    picker.value.format,
-                ),
-            );
+            changeDateByInput(date.getTime());
         }
     };
     const handleDateInputBlur = () => {
@@ -269,6 +277,10 @@ export default defineComponent({
             prop: 'open',
         });
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
+        /**
+         * props.format 是最终给用户展示的格式，不必和 picker.value.format 一致
+         * picker.value.format 用于内部处理
+         */
         const pickerRef = computed(() => {
             return pickerFactory(props.type);
         });
@@ -305,24 +317,32 @@ export default defineComponent({
             return currentValue.value;
         });
 
+        const handleChange = (val: number | number[] | null) => {
+            if (!isEqual(val, currentValue.value)) {
+                updateCurrentValue(val);
+                emit('change', val);
+                validate('change');
+            }
+        };
+
+        // 输入框里的变更，直接更新 currentValue
+        const changeDateByInput = (val: number | number[]) => {
+            tmpSelectedDateChange(null);
+            handleChange(val);
+        };
+
         const {
             resetDateText,
             dateText,
             handleDateInput,
             handleDateInputBlur,
         } = useInput({
+            props,
             visibleValue,
-            updateCurrentValue,
+            changeDateByInput,
             picker: pickerRef,
         });
 
-        const handleChange = (val: number | number[] | null) => {
-            if (val !== currentValue.value) {
-                updateCurrentValue(val);
-                emit('change', val);
-                validate('change');
-            }
-        };
         // 事件
         const clear = () => {
             const initValue: [] | null = pickerRef.value.isRange ? [] : null;
@@ -331,7 +351,7 @@ export default defineComponent({
             emit('clear');
         };
 
-        const change = (val: number | number[] | null) => {
+        const changeDateBycalendars = (val: number | number[] | null) => {
             handleChange(val);
 
             // 选择完后重新聚焦
@@ -395,8 +415,10 @@ export default defineComponent({
             },
             pickerRef,
 
+            changeDateByInput,
+
             clear,
-            change,
+            changeDateBycalendars,
             inputIsFocus,
             handleFocus,
             handleBlur,

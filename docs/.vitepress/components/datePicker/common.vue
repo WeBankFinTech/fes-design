@@ -1,6 +1,11 @@
 <template>
     <Space>
-        <FDatePicker v-model="currentDate" clearable @change="change" />
+        <FDatePicker
+            v-model="currentDate"
+            format="yyyy/MM/dd"
+            clearable
+            @change="change"
+        />
         <FDatePicker type="month" placeholder="选择月份" />
         <FDatePicker type="year" placeholder="选择年份" />
         <FDatePicker type="quarter" placeholder="选择季度" />

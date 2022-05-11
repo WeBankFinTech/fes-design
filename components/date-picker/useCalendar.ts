@@ -40,6 +40,15 @@ export const useCurrentDate = (props: CalendarProps, emit: CalendarEmits) => {
         Object.assign(currentDate, parseDate(innerActiveDate.value));
     });
 
+    watch(
+        () => props.modelValue,
+        () => {
+            if (props.modelValue && !props.rangePosition) {
+                updateCurrentDate(parseDate(props.modelValue[0]));
+            }
+        },
+    );
+
     return {
         currentDate,
         updateCurrentDate,
@@ -178,7 +187,7 @@ export function useYear({
 
     const disabled = (year: number) => {
         const date = new Date(year, 0);
-        return props.disabledDate && props.disabledDate(date, 'YYYY');
+        return props.disabledDate && props.disabledDate(date, 'yyyy');
     };
 
     const isSelectedYear = (year: number) => {
@@ -221,7 +230,7 @@ export function useMonth({
     updateCurrentDate: UpdateCurrentDate;
 }) {
     // 月份相关
-    const format = 'YYYY-MM';
+    const format = 'yyyy-MM';
     const isMonthSelect = ref(false);
     watchEffect(() => {
         if (props.type === PickerType.month) {
@@ -410,7 +419,7 @@ export function useDay({
     };
 
     const dayCls = (item: DayItem) => {
-        const format = 'YYYY-MM-DD';
+        const format = 'yyyy-MM-dd';
         const { year, month } = item;
         const date = new Date(year, month, item.day);
         const selectedIndex = findSelectedIndex(item);

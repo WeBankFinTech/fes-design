@@ -14,18 +14,22 @@
     >
         <input
             :class="`${prefixCls}-inner`"
-            :value="dateTexts[0]"
+            :value="leftInputText"
             :placeholder="innerPlaceHolder[0]"
-            readonly
+            @compositionstart="onLeftCompositionStart"
+            @compositionend="onLeftCompositionEnd"
+            @input="onLeftInput"
         />
         <span :class="`${prefixCls}-separator`">
             <slot name="separator"></slot>
         </span>
         <input
             :class="`${prefixCls}-inner`"
-            :value="dateTexts[1]"
+            :value="rightInputText"
             :placeholder="innerPlaceHolder[1]"
-            readonly
+            @compositionstart="onRightCompositionStart"
+            @compositionend="onRightCompositionEnd"
+            @input="onRightInput"
         />
         <span :class="`${prefixCls}-suffix`" @mousedown.prevent>
             <CloseCircleFilled v-if="showClear" @click.stop="clear" />
@@ -35,21 +39,29 @@
 </template>
 
 <script lang="ts">
-import { computed, ref, defineComponent, PropType } from 'vue';
+import {
+    computed,
+    watch,
+    ref,
+    defineComponent,
+    PropType,
+    ExtractPropTypes,
+} from 'vue';
 import { isArray } from 'lodash-es';
+import { parse, format, isValid } from 'date-fns';
 import getPrefixCls from '../_util/getPrefixCls';
+import { useInput } from '../_util/use/useInput';
 import { CloseCircleFilled } from '../icon';
-
-import { isEmptyValue, timeFormat } from './helper';
+import { isEmptyValue } from './helper';
 
 const prefixCls = getPrefixCls('range-input');
 
 const rangeInputProps = {
-    format: String,
+    format: String as PropType<string>,
     selectedDates: {
         type: Array as PropType<number[]>,
-        default: () => [] as number[],
     },
+    changeSeletedDates: Function as PropType<(val: number | number[]) => void>,
     separator: String,
     clearable: Boolean,
     disabled: {
@@ -59,6 +71,8 @@ const rangeInputProps = {
     placeholder: [String, Array] as PropType<string | string[]>,
     innerIsFocus: Boolean,
 } as const;
+
+type RangeInputProps = Partial<ExtractPropTypes<typeof rangeInputProps>>;
 
 function useMouse(
     emit: (event: 'mouseleave' | 'mouseenter', ...args: any[]) => void,
@@ -81,6 +95,72 @@ function useMouse(
     };
 }
 
+function useRangeInput(props: RangeInputProps, position: number) {
+    const inputText = ref();
+    watch(
+        () => props.selectedDates,
+        () => {
+            inputText.value = isEmptyValue(props.selectedDates)
+                ? ''
+                : format(props.selectedDates[position], props.format);
+        },
+        {
+            immediate: true,
+        },
+    );
+    const updateInputText = (val: string) => {
+        inputText.value = val;
+        const date = parse(val, props.format, new Date());
+        if (isValid(date)) {
+            // update selectedDates
+            const dates = [...props.selectedDates];
+            dates[position] = date.getTime();
+            props.changeSeletedDates(dates);
+        }
+    };
+    const { handleInput, handleCompositionStart, handleCompositionEnd } =
+        useInput(updateInputText);
+
+    return {
+        inputText,
+        handleInput,
+        handleCompositionStart,
+        handleCompositionEnd,
+    };
+}
+
+function useLeftInput(props: RangeInputProps) {
+    const {
+        inputText,
+        handleInput,
+        handleCompositionStart,
+        handleCompositionEnd,
+    } = useRangeInput(props, 0);
+
+    return {
+        leftInputText: inputText,
+        onLeftInput: handleInput,
+        onLeftCompositionStart: handleCompositionStart,
+        onLeftCompositionEnd: handleCompositionEnd,
+    };
+}
+
+function useRightInput(props: RangeInputProps) {
+    const {
+        inputText,
+        handleInput,
+        handleCompositionStart,
+        handleCompositionEnd,
+    } = useRangeInput(props, 1);
+
+    return {
+        rightInputText: inputText,
+        onRightInput: handleInput,
+        onRightCompositionStart: handleCompositionStart,
+        onRightCompositionEnd: handleCompositionEnd,
+    };
+}
+
 export default defineComponent({
     components: {
         CloseCircleFilled,
@@ -95,18 +175,21 @@ export default defineComponent({
                 : [props.placeholder, props.placeholder],
         );
 
-        const dateTexts = computed(() => {
-            if (isEmptyValue(props.selectedDates)) {
-                return [];
-            }
-            const format = props.format;
-            return [
-                timeFormat(props.selectedDates[0], format),
-                timeFormat(props.selectedDates[1], format),
-            ];
-        });
-
         const { hovering, onMouseLeave, onMouseEnter } = useMouse(emit);
+
+        const {
+            leftInputText,
+            onLeftInput,
+            onLeftCompositionStart,
+            onLeftCompositionEnd,
+        } = useLeftInput(props);
+
+        const {
+            rightInputText,
+            onRightInput,
+            onRightCompositionStart,
+            onRightCompositionEnd,
+        } = useRightInput(props);
 
         const showClear = computed(
             () =>
@@ -134,10 +217,18 @@ export default defineComponent({
             prefixCls,
             innerPlaceHolder,
 
+            leftInputText,
+            onLeftInput,
+            onLeftCompositionStart,
+            onLeftCompositionEnd,
+
+            rightInputText,
+            onRightInput,
+            onRightCompositionStart,
+            onRightCompositionEnd,
+
             focus,
             blur,
-
-            dateTexts,
 
             onMouseLeave,
             onMouseEnter,
