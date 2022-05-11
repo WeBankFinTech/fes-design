@@ -102,7 +102,11 @@ export default defineComponent({
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
         const classes = computed(() =>
-            [`${prefixCls}`, props.disabled && 'is-disabled'].filter(Boolean),
+            [
+                `${prefixCls}`,
+                props.disabled && 'is-disabled',
+                isError.value && 'is-error',
+            ].filter(Boolean),
         );
 
         const tempValue = ref();
