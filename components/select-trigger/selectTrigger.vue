@@ -229,7 +229,7 @@ export default defineComponent({
         const labelTextRef = computed(() => {
             const options = props.selectedOptions;
             if (options.length) {
-                return `${options[0].label || ''}`;
+                return `${options[0].label ?? options[0].value ?? ''}`;
             }
             return '';
         });
