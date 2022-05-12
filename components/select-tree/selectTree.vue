@@ -131,7 +131,7 @@ import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
 import Tree from '../tree/tree';
-import Scrollbar from '../scrollbar';
+import Scrollbar from '../scrollbar/scrollbar.vue';
 import { selectProps } from '../select/props';
 import { treeProps } from '../tree/props';
 import { getChildrenByValues, getParentByValues } from './helper';

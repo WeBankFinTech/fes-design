@@ -108,12 +108,6 @@ app.use(FVirtualList);
       <td>发出<code>tobottom</code> 事件的阈值, 注意多个调用。</td>
     </tr>
     <tr>
-      <td><code>rootTag</code></td>
-      <td>String</td>
-      <td>div</td>
-      <td>根节点的名称。</td>
-    </tr>
-    <tr>
       <td><code>wrapTag</code></td>
       <td>String</td>
       <td>div</td>
