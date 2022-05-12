@@ -113,7 +113,7 @@ import type { GetContainer } from '../_util/interface';
 import { useLocale } from '../config-provider/useLocale';
 import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
 import { noop } from '../_util/utils';
-import { pickerFactory, Picker } from './pickerHander';
+import { pickerFactory, Picker } from './pickerHandler';
 
 const prefixCls = getPrefixCls('date-picker');
 
@@ -353,7 +353,6 @@ export default defineComponent({
 
         const changeDateBycalendars = (val: number | number[] | null) => {
             handleChange(val);
-
             // 选择完后重新聚焦
             // TODO 如果有取消按钮，取消之后也应该重新聚焦
             activeInputRefEL.value.focus();

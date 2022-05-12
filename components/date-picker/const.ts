@@ -1,5 +1,5 @@
 import type { PropType } from 'vue';
-import { PickerType } from './pickerHander';
+import { PickerType } from './pickerHandler';
 
 export enum RANGE_POSITION {
     LEFT = 'left',

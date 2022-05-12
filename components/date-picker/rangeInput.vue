@@ -9,8 +9,8 @@
         :tabindex="disabled ? null : 0"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
-        @focus="(e) => $emit('focus', e)"
-        @blur="(e) => $emit('blur', e)"
+        @focus="onFocus"
+        @blur="onBlur"
     >
         <input
             :class="`${prefixCls}-inner`"
@@ -19,6 +19,8 @@
             @compositionstart="onLeftCompositionStart"
             @compositionend="onLeftCompositionEnd"
             @input="onLeftInput"
+            @focus="onFocus"
+            @blur="onBlur"
         />
         <span :class="`${prefixCls}-separator`">
             <slot name="separator"></slot>
@@ -30,6 +32,8 @@
             @compositionstart="onRightCompositionStart"
             @compositionend="onRightCompositionEnd"
             @input="onRightInput"
+            @focus="onFocus"
+            @blur="onBlur"
         />
         <span :class="`${prefixCls}-suffix`" @mousedown.prevent>
             <CloseCircleFilled v-if="showClear" @click.stop="clear" />
@@ -46,13 +50,15 @@ import {
     defineComponent,
     PropType,
     ExtractPropTypes,
+    nextTick,
 } from 'vue';
 import { isArray } from 'lodash-es';
-import { parse, format, isValid } from 'date-fns';
+import { format, isValid } from 'date-fns';
+
 import getPrefixCls from '../_util/getPrefixCls';
 import { useInput } from '../_util/use/useInput';
 import { CloseCircleFilled } from '../icon';
-import { isEmptyValue } from './helper';
+import { isEmptyValue, strictParse } from './helper';
 
 const prefixCls = getPrefixCls('range-input');
 
@@ -110,7 +116,7 @@ function useRangeInput(props: RangeInputProps, position: number) {
     );
     const updateInputText = (val: string) => {
         inputText.value = val;
-        const date = parse(val, props.format, new Date());
+        const date = strictParse(val, props.format, new Date());
         if (isValid(date)) {
             // update selectedDates
             const dates = [...props.selectedDates];
@@ -161,6 +167,48 @@ function useRightInput(props: RangeInputProps) {
     };
 }
 
+function useFocusBlur(
+    props: RangeInputProps,
+    emit: (event: 'focus' | 'blur', ...args: any[]) => void,
+) {
+    const isFocus = ref(false);
+
+    let againFocusFlag = false;
+
+    watch(
+        () => props.innerIsFocus,
+        () => {
+            if (props.innerIsFocus) {
+                isFocus.value = true;
+            }
+        },
+    );
+
+    const onFocus = (e: FocusEvent) => {
+        againFocusFlag = true;
+        if (!isFocus.value) {
+            isFocus.value = true;
+            emit('focus', e);
+        }
+    };
+
+    const onBlur = (e: FocusEvent) => {
+        // 延迟 blur，防止 focus 内部的 input 触发 blur
+        nextTick(() => {
+            if (isFocus.value && !againFocusFlag) {
+                isFocus.value = false;
+                emit('blur', e);
+            }
+            againFocusFlag = false;
+        });
+    };
+
+    return {
+        onFocus,
+        onBlur,
+    };
+}
+
 export default defineComponent({
     components: {
         CloseCircleFilled,
@@ -203,6 +251,8 @@ export default defineComponent({
             emit('clear');
         };
 
+        const { onFocus, onBlur } = useFocusBlur(props, emit);
+
         const focus = () => {
             if (!props.disabled) {
                 inputRangeRefEl.value.focus();
@@ -226,6 +276,9 @@ export default defineComponent({
             onRightInput,
             onRightCompositionStart,
             onRightCompositionEnd,
+
+            onFocus,
+            onBlur,
 
             focus,
             blur,

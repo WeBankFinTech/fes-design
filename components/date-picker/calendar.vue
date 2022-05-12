@@ -70,7 +70,7 @@
                     v-for="(item, i) in days"
                     :key="i"
                     :class="dayCls(item)"
-                    @click="isNotDisabled($event) && selecteDay(item)"
+                    @click="isNotDisabled($event) && selectedDay(item)"
                 >
                     {{ item.day }}
                 </span>
@@ -150,7 +150,7 @@ import {
 
 import type { DayItem, DateObj, UpdateSelectedDates } from './interface';
 import { useLocale } from '../config-provider/useLocale';
-import { pickerFactory, Picker } from './pickerHander';
+import { pickerFactory, Picker } from './pickerHandler';
 
 const prefixCls = getPrefixCls('calendar');
 
@@ -364,7 +364,7 @@ export default defineComponent({
             picker: pickerRef,
         });
 
-        const selecteDay = (info: DayItem) => {
+        const selectedDay = (info: DayItem) => {
             info.next && monthToNext();
             info.pre && monthToPre();
             const time: {
@@ -468,7 +468,7 @@ export default defineComponent({
             monthToNext,
             monthToPre,
             isNotDisabled,
-            selecteDay,
+            selectedDay,
 
             currentTime,
             changeTime,
