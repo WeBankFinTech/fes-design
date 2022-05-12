@@ -145,11 +145,11 @@ app.use(FTable);
 | fixed        | 列是否固定在左侧或者右侧，true 表示固定在左侧                                         | string / boolean                                                     | true / left / right   | -       |
 | formatter    | 用来格式化内容                                                                        | ({row, column, rowIndex, columnIndex, cellValue}) => any            | -                     | -       |
 | label        | 列的标题，也可以使用 `#header` 自定义                                                 | string                                                               | -                     | -       |
-| minWidth     | 列最小的宽度，如果容器宽度够大，则会自适应补偿                                        | string                                                               | -                     | -       |
+| minWidth     | 列最小的宽度，如果容器宽度够大，则会自适应补偿                                        | number                                                               | -                     | -       |
 | prop         | 列内容的字段名                                                                        | string                                                               | -                     | -       |
 | selectable   | 仅对 type=selection 的列有效，Function 的返回值用来决定这一行的 CheckBox 是否可以勾选 | ({row, rowIndex}) => boolean                                            | -                     | -       |
 | type         | 列的类型，如果设置为`selection`则显示选择器，如果设置为`expand`则显示一个展开按钮     | string                                                               | selection / expand    | `false` |
-| width        | 对应列的宽度，优先级大于 minWidth                                                     | string                                                               | -                     | -       |
+| width        | 对应列的宽度，优先级大于 minWidth                                                     | number                                                               | -                     | -       |
 | ellipsis     | 设置宽度后，如果文本溢出后出现省略号                                                  | boolean                                                              | -                     | `false`   |
 | visible     | 是否显示列                                                  | boolean                                                              | -                     | `true`   |
 
