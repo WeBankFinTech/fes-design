@@ -5,6 +5,7 @@
             prefixCls,
             (focused || innerIsFocus) && `${prefixCls}-focus`,
             disabled && `${prefixCls}-disabled`,
+            innerIsError && `${prefixCls}-error`,
         ]"
         @mousedown="handleMousedown"
         @mouseenter="onMouseEnter"
@@ -82,10 +83,8 @@ import type { InputValue } from './interface';
 const inputInnerProps = {
     ...commonInputProps,
     // 内部使用，处理页面存在多个 input focus 样式场景
-    innerIsFocus: {
-        type: Boolean,
-        default: false,
-    },
+    innerIsFocus: Boolean,
+    innerIsError: Boolean,
 } as const;
 
 const prefixCls = getPrefixCls('input-inner');

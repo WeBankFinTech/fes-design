@@ -10,16 +10,6 @@
     display: inline-block;
     width: 130px;
     user-select: none;
-    
-    &.is-error {
-        .@{input-prefix-cls}-inner:not(.@{input-prefix-cls}-inner-disabled) {
-            border-color: var(--f-danger-color);
-        }
-        .@{input-prefix-cls}-inner-focus:not(.@{input-prefix-cls}-inner-disabled) {
-            border-color: var(--f-danger-color);
-            box-shadow: 0 0 0 2px var(--f-focus-danger-shadow-color);
-        }
-    }
 
     &-actions {
         z-index: -1;

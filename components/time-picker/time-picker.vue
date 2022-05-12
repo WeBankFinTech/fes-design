@@ -19,6 +19,7 @@
                 :placeholder="inputPlaceholder"
                 :disabled="disabled"
                 :clearable="clearable"
+                :innerIsError="isError"
                 @clear="clear"
                 @input="handleInput"
                 @focus="(event) => $emit('focus', event)"
@@ -319,6 +320,7 @@ export default defineComponent({
 
         return {
             prefixCls,
+            isError,
             classes,
             displayValue,
             isOpened,

@@ -5,6 +5,7 @@
             :disabled="disabled"
             :placeholder="placeholder"
             :class="[`${prefixCls}-inner`]"
+            :innerIsError="isError"
             @input="handleInput"
             @focus="(event) => $emit('focus', event)"
             @blur="handleBlur"
@@ -102,11 +103,7 @@ export default defineComponent({
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
         const classes = computed(() =>
-            [
-                `${prefixCls}`,
-                props.disabled && 'is-disabled',
-                isError.value && 'is-error',
-            ].filter(Boolean),
+            [`${prefixCls}`, props.disabled && 'is-disabled'].filter(Boolean),
         );
 
         const tempValue = ref();
@@ -225,6 +222,7 @@ export default defineComponent({
 
         return {
             prefixCls,
+            isError,
             ActionEnum,
 
             classes,
