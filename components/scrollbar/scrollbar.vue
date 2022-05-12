@@ -6,7 +6,13 @@
             :style="style"
             @scroll="handleScroll"
         >
-            <slot></slot>
+            <div
+                ref="contentRef"
+                :class="`${prefixCls}-content`"
+                :style="contentStyle"
+            >
+                <slot></slot>
+            </div>
         </div>
         <template v-if="!native">
             <FBar
@@ -16,6 +22,7 @@
                 :ratio="ratioX"
                 :size="sizeWidth"
                 :always="always"
+                :style="horizontalRatioStyle"
             />
             <FBar
                 :scrollbarRef="[scrollbarRef]"
@@ -25,6 +32,7 @@
                 :size="sizeHeight"
                 vertical
                 :always="always"
+                :style="verticalRatioStyle"
             />
         </template>
         <div
@@ -84,6 +92,8 @@ export default defineComponent({
         } = useScrollbar(props);
         const scrollbarRef = ref<HTMLElement>();
 
+        const contentRef = ref<HTMLElement>();
+
         const shadowRef = computed(() => {
             if (typeof props.shadow === 'boolean') {
                 return {
@@ -119,7 +129,7 @@ export default defineComponent({
         };
 
         useResize(
-            containerRef,
+            contentRef,
             () => {
                 onUpdate();
                 onScroll();
@@ -164,6 +174,7 @@ export default defineComponent({
         return {
             scrollbarRef,
             containerRef,
+            contentRef,
             style,
             prefixCls,
             setScrollTop,

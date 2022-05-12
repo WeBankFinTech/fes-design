@@ -235,7 +235,6 @@ export default defineComponent({
             ) {
                 return;
             }
-
             virtual.handleScroll(offset);
             emitEvent(offset, clientSize, scrollSize, evt);
         };
@@ -357,7 +356,6 @@ export default defineComponent({
         const { padFront, padBehind } = this.rangeRef;
         const {
             isHorizontal,
-            rootTag,
             wrapTag,
             wrapClass,
             wrapStyle,
@@ -402,35 +400,25 @@ export default defineComponent({
               };
 
         const tempVirtualVNode = createVNode(
-            rootTag,
+            wrapTag,
             {
-                style: rootStyle,
-                ref: ((el: Element) => {
-                    if (el) this.rootRef = el.parentElement;
-                }) as any,
+                class: wrapClass,
+                style: wrapperStyle,
             },
-            [
-                // 主列表
-                createVNode(
-                    wrapTag,
-                    {
-                        class: wrapClass,
-                        style: wrapperStyle,
-                    },
-                    renderItemList
-                        ? renderItemList(this.getRenderItems())
-                        : this.getRenderItems(),
-                ),
-            ],
+            renderItemList
+                ? renderItemList(this.getRenderItems())
+                : this.getRenderItems(),
         );
 
         return (
             <FScrollbar
                 ref={(e: any) => {
                     this.scrollRef = e;
+                    this.rootRef = e?.containerRef;
                 }}
                 onScroll={onScroll}
                 shadow={shadow}
+                contentStyle={rootStyle}
             >
                 {tempVirtualVNode}
             </FScrollbar>

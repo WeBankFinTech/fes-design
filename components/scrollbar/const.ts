@@ -47,7 +47,10 @@ export const scrollbarProps = {
         default: false,
     },
     containerClass: [Array, Object, String] as PropType<string | object | []>,
-    containerStyle: Object as PropType<CSSProperties>,
+    containerStyle: [String, Object] as PropType<string | CSSProperties>,
+    contentStyle: [String, Object] as PropType<string | CSSProperties>,
+    horizontalRatioStyle: [String, Object] as PropType<string | CSSProperties>,
+    verticalRatioStyle: [String, Object] as PropType<string | CSSProperties>,
     noresize: Boolean,
     always: {
         type: Boolean,

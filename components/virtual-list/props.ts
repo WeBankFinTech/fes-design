@@ -55,10 +55,6 @@ export const VirtualProps = {
         type: Boolean,
         default: false,
     },
-    rootTag: {
-        type: String,
-        default: 'div',
-    },
     wrapTag: {
         type: String,
         default: 'div',

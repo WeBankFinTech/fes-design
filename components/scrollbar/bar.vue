@@ -50,16 +50,6 @@ function renderThumbStyle({
     return style;
 }
 
-// type BarProps = {
-//     vertical?: boolean;
-//     size: string;
-//     move: number;
-//     ratio: number;
-//     always: boolean;
-//     scrollbarRef: HTMLElement[];
-//     containerRef: HTMLElement;
-// };
-
 const barProps = {
     vertical: Boolean,
     size: String,
