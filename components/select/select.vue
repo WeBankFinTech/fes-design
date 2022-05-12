@@ -251,7 +251,7 @@ export default defineComponent({
                     if (cacheOption) {
                         return cacheOption;
                     }
-                    return val ? { value: val, label: '' } : null;
+                    return val ? { value: val, label: null } : null;
                 };
 
                 if (!props.multiple) {
