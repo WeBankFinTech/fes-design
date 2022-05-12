@@ -191,6 +191,9 @@ export function useDraggable(
         }
     }
     watch(containerRef, init, { immediate: true });
+    watch(propsRef, () => {
+        updateSettingStyle();
+    });
 
     function resetDragTarget() {
         dragTarget.el = null;
