@@ -5,6 +5,7 @@
             :disabled="disabled"
             :placeholder="placeholder"
             :class="[`${prefixCls}-inner`]"
+            :innerIsError="isError"
             @input="handleInput"
             @focus="(event) => $emit('focus', event)"
             @blur="handleBlur"
@@ -221,6 +222,7 @@ export default defineComponent({
 
         return {
             prefixCls,
+            isError,
             ActionEnum,
 
             classes,

@@ -29,6 +29,16 @@
         .disabled();
     }
 
+    &&-error {
+        &:not(.@{input-inner-prefix-cls}-disabled) {
+            border-color: var(--f-danger-color);
+        }
+        &.@{input-inner-prefix-cls}-focus {
+            border-color: var(--f-danger-color);
+            box-shadow: 0 0 0 2px var(--f-focus-danger-shadow-color);
+        }
+    }
+
     &-el {
         position: relative;
         box-sizing: border-box;

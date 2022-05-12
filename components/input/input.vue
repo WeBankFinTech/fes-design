@@ -17,6 +17,7 @@
                 :showPassword="showPassword"
                 :inputStyle="inputStyle"
                 :autocomplete="autocomplete"
+                :innerIsError="isError"
                 @input="handleInput"
                 @change="handleChange"
                 @focus="handleFocus"
@@ -247,6 +248,7 @@ export default defineComponent({
         };
 
         return {
+            isError,
             inputRef,
             textareaRef,
             prefixCls,
