@@ -107,7 +107,7 @@ import { RANGE_POSITION, COMMON_PROPS, RANGE_PROPS } from './const';
 
 import { useRange, useSelectStatus } from './useRange';
 import { useLocale } from '../config-provider/useLocale';
-import { pickerFactory } from './pickerHander';
+import { pickerFactory } from './pickerHandler';
 
 const prefixCls = getPrefixCls('calendars');
 

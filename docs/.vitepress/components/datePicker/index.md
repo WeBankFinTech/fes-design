@@ -58,15 +58,15 @@ app.use(DatePicker);
 
 ### DatePicker 类型 Props
 
-| 属性              | 说明                                                                        | 类型              | 默认值                |
-| ----------------- | --------------------------------------------------------------------------- | ----------------- | --------------------- |
-| placeholder       | 占位内容，数组为选择日期范围时使用                                          | string/Array      | -                     |
-| clearable         | 是否显示清除按钮                                                            | boolean           | `true`                |
-| format            | 日期格式：YYYY-MM-DD HH:mm:ss，根据不同的 type 类型，会有不同的默认展示格式 | string            | -                     |
-| disabled          | 禁用                                                                        | boolean           | `false`               |
-| popperClass       | 弹窗样式                                                                    | string            | -                     |
-| appendToContainer | 弹窗内容是否添加到指定的 DOM 元素                                           | boolean           | `true`                |
-| getContainer      | 指定下拉选项挂载的 HTML 节点                                                | () => HTMLElement | `() => document.body` |
+| 属性              | 说明                                                                                                                     | 类型              | 默认值                |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------ | ----------------- | --------------------- |
+| placeholder       | 占位内容，数组为选择日期范围时使用                                                                                       | string/Array      | -                     |
+| clearable         | 是否显示清除按钮                                                                                                         | boolean           | `true`                |
+| format            | 展示格式，具体配置可查[format](https://date-fns.org/v2.28.0/docs/format)，根据不同的 type 类型，会有不同的默认展示格式。 | string            | -                     |
+| disabled          | 禁用                                                                                                                     | boolean           | `false`               |
+| popperClass       | 弹窗样式                                                                                                                 | string            | -                     |
+| appendToContainer | 弹窗内容是否添加到指定的 DOM 元素                                                                                        | boolean           | `true`                |
+| getContainer      | 指定下拉选项挂载的 HTML 节点                                                                                             | () => HTMLElement | `() => document.body` |
 
 ## Slots
 

@@ -1,6 +1,19 @@
+import { parse, format, isValid } from 'date-fns';
 import { isNumber } from 'lodash-es';
 
 import type { ParticalDateObj } from './interface';
+
+// TODO 国际化
+export function strictParse(
+    string: string,
+    pattern: string,
+    backup: Date,
+): Date {
+    const result = parse(string, pattern, backup);
+    if (!isValid(result)) return result;
+    else if (format(result, pattern) === string) return result;
+    else return new Date(NaN);
+}
 
 export const isEmptyValue = (val: any) => {
     if (!val) return true;
@@ -10,9 +23,10 @@ export const isEmptyValue = (val: any) => {
     return false;
 };
 
+// FEATURE 以后时间相关的功能，都基于 date-fns 实现
 function timeFormat(date: null, format: string): null;
 function timeFormat(date: number | Date, format: string): string;
-function timeFormat(date: number | Date | null, format = 'YYYY-MM-DD') {
+function timeFormat(date: number | Date | null, format = 'yyyy-MM-dd') {
     if (!date) return null;
     if (isNumber(date)) {
         date = new Date(date);
@@ -27,12 +41,12 @@ function timeFormat(date: number | Date | null, format = 'YYYY-MM-DD') {
     const milliseconds = date.getMilliseconds();
     const dd = (t: number) => `0${t}`.slice(-2);
     const map = {
-        YYYY: year,
+        yyyy: year,
         MM: dd(month + 1),
         MMMM: `${month + 1}月`,
         M: month + 1,
-        DD: dd(day),
-        D: day,
+        dd: dd(day),
+        d: day,
         HH: dd(hours24),
         H: hours24,
         hh: dd(hours),
@@ -44,7 +58,7 @@ function timeFormat(date: number | Date | null, format = 'YYYY-MM-DD') {
         S: milliseconds,
         Q: `Q${Math.floor(month / 3) + 1}`,
     } as const;
-    return format.replace(/Y+|M+|D+|H+|h+|m+|s+|S+|Q/g, (str) =>
+    return format.replace(/y+|M+|d+|H+|h+|m+|s+|S+|Q/g, (str) =>
         String(map[str as keyof typeof map]),
     );
 }
@@ -54,7 +68,7 @@ export { timeFormat };
 export const contrastDate = (
     date1: number | Date,
     date2: number | Date,
-    format = 'YYYY-MM-DD HH:mm:ss',
+    format = 'yyyy-MM-dd HH:mm:ss',
 ) => {
     const t1 = timeFormat(date1, format);
     const t2 = timeFormat(date2, format);
@@ -145,9 +159,3 @@ export const getTimestampFromFormat = (
 
     return transformDateToTimestamp(dateObj, isFullMax);
 };
-
-const DATE_REG = /^\d{4}-\d{1,2}-\d{1,2}$/;
-
-export function isEffectiveDate(val: string) {
-    return DATE_REG.test(val) && !Number.isNaN(new Date(val).getTime());
-}

@@ -2,7 +2,7 @@ import { watch, watchEffect, ref, reactive, computed, Ref } from 'vue';
 import { isNil } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
-import { Picker, PickerType } from './pickerHander';
+import { Picker, PickerType } from './pickerHandler';
 
 import { SELECTED_STATUS, YEAR_COUNT } from './const';
 import {
@@ -40,6 +40,15 @@ export const useCurrentDate = (props: CalendarProps, emit: CalendarEmits) => {
         Object.assign(currentDate, parseDate(innerActiveDate.value));
     });
 
+    watch(
+        () => props.modelValue,
+        () => {
+            if (props.modelValue && !props.rangePosition) {
+                updateCurrentDate(parseDate(props.modelValue[0]));
+            }
+        },
+    );
+
     return {
         currentDate,
         updateCurrentDate,
@@ -53,7 +62,6 @@ export const useSelectedDates = (
 ) => {
     const selectedDates = ref<DateObj[]>([]);
     const updateRangeSelectedDates = (date: DateObj, index: number) => {
-        console.log(index);
         if (
             (index === 0 &&
                 transformDateToTimestamp(date) >
@@ -179,7 +187,7 @@ export function useYear({
 
     const disabled = (year: number) => {
         const date = new Date(year, 0);
-        return props.disabledDate && props.disabledDate(date, 'YYYY');
+        return props.disabledDate && props.disabledDate(date, 'yyyy');
     };
 
     const isSelectedYear = (year: number) => {
@@ -222,7 +230,7 @@ export function useMonth({
     updateCurrentDate: UpdateCurrentDate;
 }) {
     // 月份相关
-    const format = 'YYYY-MM';
+    const format = 'yyyy-MM';
     const isMonthSelect = ref(false);
     watchEffect(() => {
         if (props.type === PickerType.month) {
@@ -411,7 +419,7 @@ export function useDay({
     };
 
     const dayCls = (item: DayItem) => {
-        const format = 'YYYY-MM-DD';
+        const format = 'yyyy-MM-dd';
         const { year, month } = item;
         const date = new Date(year, month, item.day);
         const selectedIndex = findSelectedIndex(item);

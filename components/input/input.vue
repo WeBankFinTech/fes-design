@@ -95,7 +95,8 @@ import { useNormalModel } from '../_util/use/useModel';
 import calcTextareaHeight from './calcTextareaHeight';
 import InputInner from './inputInner.vue';
 import { commonInputProps } from './props';
-import { useFocus, useInput, useMouse } from './useInput';
+import { useInput } from '../_util/use/useInput';
+import { useFocus, useMouse } from './useInput';
 
 import type { InputValue } from './interface';
 
@@ -177,7 +178,7 @@ export default defineComponent({
             handleChange(value);
         };
 
-        const handleValueChange = (value: string | number) => {
+        const handleValueChange = (value: string) => {
             updateCurrentValue(value);
             emit('input', value);
             // 对于 form 表单校验，Input 的 input 事件就是 change 事件

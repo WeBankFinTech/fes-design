@@ -75,7 +75,8 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 
-import { useInput, useMouse } from './useInput';
+import { useInput } from '../_util/use/useInput';
+import { useMouse } from './useInput';
 import { commonInputProps } from './props';
 
 import type { InputValue } from './interface';
@@ -122,7 +123,7 @@ export function useClear(
     props: InputInnerProps,
     focused: Ref<boolean>,
     hovering: Ref<boolean>,
-    handleValueChange: (val: InputValue) => void,
+    handleValueChange: (val: string) => void,
     emit: (event: 'clear') => void,
 ) {
     const showClear = computed(
@@ -173,7 +174,7 @@ export default defineComponent({
             () => slots.suffix || props.showPassword || props.clearable,
         );
 
-        const handleValueChange = (value: string | number) => {
+        const handleValueChange = (value: string) => {
             updateCurrentValue(value);
             emit('input', value);
         };
