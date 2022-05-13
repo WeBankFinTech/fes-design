@@ -92,11 +92,16 @@ export default {
             console.log('value:', value);
         };
 
-        const value1 = ref(['20', '2010', '2010-1', '2010-1-1']);
+        const value1 = ref([]);
         const value2 = ref([
             ['20', '2010', '2010-1', '2010-1-1'],
             ['20', '2111'],
         ]);
+
+        // 异步设置初始值
+        setTimeout(() => {
+            value1.value = ['20', '2010', '2010-1', '2010-1-1'];
+        }, 2000);
 
         return {
             loadData,
