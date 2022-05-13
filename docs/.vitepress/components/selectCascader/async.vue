@@ -53,12 +53,13 @@ function createLabel(level) {
 
 export default {
     setup() {
-        const data1 = reactive([]);
+        const data1 = reactive(createData(2));
         const data2 = reactive([]);
         const loadData = (node) => {
             return new Promise((resolve) => {
                 setTimeout(() => {
                     let children = [];
+                    // 非第一级
                     if (node) {
                         children = [
                             {
@@ -79,6 +80,7 @@ export default {
                             },
                         ];
                     } else {
+                        // 第一级
                         children = createData(2);
                     }
                     resolve(children);
