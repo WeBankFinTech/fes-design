@@ -1,3 +1,27 @@
+# [0.5.0](https://github.com/WeBankFinTech/fes-design/compare/v0.4.7...v0.5.0) (2022-05-13)
+
+
+### Bug Fixes
+
+* 当popper弹窗大小改变时,需要更新位置 ([#138](https://github.com/WeBankFinTech/fes-design/issues/138)) ([42affea](https://github.com/WeBankFinTech/fes-design/commit/42affea7e6fe30e872d0021302c5251fc201d7f8))
+* Date-picker range 选择，输入框宽度优化 + datetime 支持hourStep minuteStep secondStep + timepicker 交互优化 ([#140](https://github.com/WeBankFinTech/fes-design/issues/140)) ([a973b43](https://github.com/WeBankFinTech/fes-design/commit/a973b43ab74547edd2fa83c35be00ef06316e6bf))
+* dragable 动态插入值，不能拖拽问题 ([#146](https://github.com/WeBankFinTech/fes-design/issues/146)) ([a3c9f89](https://github.com/WeBankFinTech/fes-design/commit/a3c9f89fc974e344d7155d278f831d63627f4689))
+* Form组件的inline模式下row-gap在78存在兼容性问题,改为grid实现 ([#141](https://github.com/WeBankFinTech/fes-design/issues/141)) ([3c9ac12](https://github.com/WeBankFinTech/fes-design/commit/3c9ac12ac9b62d5384482d926cc351203f00f012))
+* input-number 修复 form 校验不通过时，边框变红问题 ([#148](https://github.com/WeBankFinTech/fes-design/issues/148)) ([a3b602c](https://github.com/WeBankFinTech/fes-design/commit/a3b602c1cfdc1b4c77e5905914eb02bc3be6042c))
+* scrollbar能监听内容大小更新 &  去掉z-index ([#151](https://github.com/WeBankFinTech/fes-design/issues/151)) ([3f676cb](https://github.com/WeBankFinTech/fes-design/commit/3f676cb7cce7a17ae4c613ee349a0c62f3dac7bc))
+* Select当只有option只有value时,可自定义内容展示，默认展示 value ([#149](https://github.com/WeBankFinTech/fes-design/issues/149)) ([d7879c1](https://github.com/WeBankFinTech/fes-design/commit/d7879c134ad842508c2cee29369e6d87904aeff4))
+* Table组件修复因为fixed导致表头和列不一致的问题 ([#150](https://github.com/WeBankFinTech/fes-design/issues/150)) ([9935f2d](https://github.com/WeBankFinTech/fes-design/commit/9935f2db12cf3052e1981c1263b9c5263fe153c5))
+* upload的close按钮居中 ([#139](https://github.com/WeBankFinTech/fes-design/issues/139)) ([9754f63](https://github.com/WeBankFinTech/fes-design/commit/9754f635dc2eea12c041e832de976815dd461f68))
+
+
+### Features
+
+* Date picker range 支持输入 + 自定义 format ([#147](https://github.com/WeBankFinTech/fes-design/issues/147)) ([e737fb0](https://github.com/WeBankFinTech/fes-design/commit/e737fb05c9d2b7383877ba322b9b1ec28dbf3866))
+* input[text] 支持 showWordLimit ([#145](https://github.com/WeBankFinTech/fes-design/issues/145)) ([9249db8](https://github.com/WeBankFinTech/fes-design/commit/9249db87eabe18e5f76595f519cdc633bf3596e9))
+* tabs 添加 change 事件 ([#142](https://github.com/WeBankFinTech/fes-design/issues/142)) ([003ec6e](https://github.com/WeBankFinTech/fes-design/commit/003ec6e2888fb120864b3d1a630cba465f7c8fdb))
+
+
+
 ## [0.4.7](https://github.com/WeBankFinTech/fes-design/compare/v0.4.6...v0.4.7) (2022-05-05)
 
 
