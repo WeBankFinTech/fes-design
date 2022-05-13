@@ -1,3 +1,12 @@
+## [0.5.1](https://github.com/WeBankFinTech/fes-design/compare/v0.5.0...v0.5.1) (2022-05-13)
+
+
+### Bug Fixes
+
+* cascader组件初始化加载节点 ([#152](https://github.com/WeBankFinTech/fes-design/issues/152)) ([2b597e7](https://github.com/WeBankFinTech/fes-design/commit/2b597e79b3e6852e0890481ff18d0311d2bc3a89))
+
+
+
 # [0.5.0](https://github.com/WeBankFinTech/fes-design/compare/v0.4.7...v0.5.0) (2022-05-13)
 
 ### Breaks
