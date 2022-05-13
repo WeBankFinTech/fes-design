@@ -177,15 +177,21 @@ export default ({
         }
     };
 
-    watch(initialLoaded, () => {
-        if (!initialLoaded.value) {
-            return;
-        }
-        if (!(props.remote && props.loadData)) {
-            return;
-        }
-        syncLoadNode();
-    });
+    watch(
+        initialLoaded,
+        () => {
+            if (!initialLoaded.value) {
+                return;
+            }
+            if (!(props.remote && props.loadData)) {
+                return;
+            }
+            syncLoadNode();
+        },
+        {
+            immediate: true,
+        },
+    );
 
     return {
         nodeList,
