@@ -1,5 +1,9 @@
 # [0.5.0](https://github.com/WeBankFinTech/fes-design/compare/v0.4.7...v0.5.0) (2022-05-13)
 
+### Breaks
+
+* 重构Cascader组件，改为使用SelectCascader组件
+* 去掉VirtualList组件的 rootTag 属性
 
 ### Bug Fixes
 
@@ -19,6 +23,9 @@
 * Date picker range 支持输入 + 自定义 format ([#147](https://github.com/WeBankFinTech/fes-design/issues/147)) ([e737fb0](https://github.com/WeBankFinTech/fes-design/commit/e737fb05c9d2b7383877ba322b9b1ec28dbf3866))
 * input[text] 支持 showWordLimit ([#145](https://github.com/WeBankFinTech/fes-design/issues/145)) ([9249db8](https://github.com/WeBankFinTech/fes-design/commit/9249db87eabe18e5f76595f519cdc633bf3596e9))
 * tabs 添加 change 事件 ([#142](https://github.com/WeBankFinTech/fes-design/issues/142)) ([003ec6e](https://github.com/WeBankFinTech/fes-design/commit/003ec6e2888fb120864b3d1a630cba465f7c8fdb))
+* Scrollbar增加contentStyle、horizontalRatioStyle、verticalRatioStyle配置
+
+
 
 
 
