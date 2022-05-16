@@ -178,7 +178,7 @@ export default ({
     };
 
     watch(
-        initialLoaded,
+        [initialLoaded, () => props.initLoadKeys],
         () => {
             if (!initialLoaded.value) {
                 return;
