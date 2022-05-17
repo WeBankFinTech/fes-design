@@ -137,7 +137,7 @@ export const getTimestampFromFormat = (
         dateObj.month = date.getMonth();
     }
 
-    if (/D/.test(format)) {
+    if (/d/.test(format)) {
         dateObj.day = date.getDate();
     }
 
