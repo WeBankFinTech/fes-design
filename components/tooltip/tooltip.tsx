@@ -1,4 +1,4 @@
-import { h, Fragment, defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, CSSProperties } from 'vue';
 import Popper from '../popper/popper';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -40,6 +40,10 @@ export default defineComponent({
             type: Boolean,
             default: true,
         },
+        style: {
+            type: [String, Object, Array] as PropType<string | CSSProperties>,
+        },
+        class: [String, Array, Object] as PropType<string | [] | object>,
         offset: {
             type: Number,
             default: 8,
@@ -73,7 +77,11 @@ export default defineComponent({
             const isConfirm = props.mode === 'confirm';
             const isPopover = props.mode === 'popover';
             if (props.mode === 'text') {
-                return content;
+                return (
+                    <div style={props.style} class={props.class}>
+                        {content}
+                    </div>
+                );
             }
             if (isConfirm || isPopover) {
                 const mergeOpt = {
@@ -84,6 +92,7 @@ export default defineComponent({
                     `${prefixCls}-modal-body`,
                     isConfirm && 'is-confirm',
                     title && 'has-header',
+                    props.class,
                 ]
                     .filter(Boolean)
                     .join(' ');
@@ -103,7 +112,11 @@ export default defineComponent({
                                 {title}
                             </div>
                         )}
-                        {content && <div class={contentClass}>{content}</div>}
+                        {content && (
+                            <div class={contentClass} style={props.style}>
+                                {content}
+                            </div>
+                        )}
                         {isConfirm && (
                             <>
                                 <FButton

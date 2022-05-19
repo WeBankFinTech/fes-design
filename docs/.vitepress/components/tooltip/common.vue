@@ -1,6 +1,10 @@
 <template>
     <div class="tooltip-wrapper">
-        <FTooltip content="top-start" placement="top-start">
+        <FTooltip
+            content="top-start：这是限制了最大宽度的 top-start "
+            placement="top-start"
+            style="max-width: 200px"
+        >
             <FButton class="w-100 ml-100">top-start</FButton>
         </FTooltip>
         <FTooltip content="top" placement="top">
