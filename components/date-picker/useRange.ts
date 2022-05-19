@@ -24,6 +24,18 @@ export const useSelectStatus = (props: CalendarsProps) => {
         },
     );
 
+    watch(
+        () => props.visible,
+        () => {
+            if (
+                !props.visible &&
+                selectedStatus.value === SELECTED_STATUS.ONE
+            ) {
+                selectedStatus.value = SELECTED_STATUS.EMPTY;
+            }
+        },
+    );
+
     const selectedDay = (position: RANGE_POSITION) => {
         lastSelectedPosition.value = position;
         switch (selectedStatus.value) {
@@ -94,15 +106,6 @@ export const useRange = ({
             rightActiveDate.value = tempCurrentValue.value[1];
         }
     };
-
-    // watch(
-    //     () => props.modelValue,
-    //     () => {
-    //         if (picker.value.isRange) {
-    //             resetActiveDate();
-    //         }
-    //     },
-    // );
 
     const changeCurrentDate = (timestamp: number, position: RANGE_POSITION) => {
         if (position === RANGE_POSITION.LEFT) {
