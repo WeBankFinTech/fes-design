@@ -185,10 +185,11 @@ function useFocusBlur(
     );
 
     const onFocus = (e: FocusEvent) => {
-        againFocusFlag = true;
         if (!isFocus.value) {
             isFocus.value = true;
             emit('focus', e);
+        } else {
+            againFocusFlag = true;
         }
     };
 
@@ -199,7 +200,6 @@ function useFocusBlur(
                 isFocus.value = false;
                 emit('blur', e);
             }
-            againFocusFlag = false;
         });
     };
 
