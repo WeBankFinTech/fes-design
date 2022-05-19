@@ -1,3 +1,15 @@
+## [0.5.2](https://github.com/WeBankFinTech/fes-design/compare/v0.5.1...v0.5.2) (2022-05-19)
+
+
+### Bug Fixes
+
+* component cascader load ([#153](https://github.com/WeBankFinTech/fes-design/issues/153)) ([f688a0f](https://github.com/WeBankFinTech/fes-design/commit/f688a0fdaf6e180ab30614b8dcea13000928d391))
+* datePicker 聚焦问题 + range disabled 问题 ([#157](https://github.com/WeBankFinTech/fes-design/issues/157)) ([e658ce3](https://github.com/WeBankFinTech/fes-design/commit/e658ce387ef0b9edf40ee525cace4165d04e5f81))
+* datePicker confirm 日期错误 ([#156](https://github.com/WeBankFinTech/fes-design/issues/156)) ([375a6af](https://github.com/WeBankFinTech/fes-design/commit/375a6afe93d12ed1911c8296de7f2dfd25da9377))
+* FDrawer | FModal 关闭 icon 颜色加深 ([#155](https://github.com/WeBankFinTech/fes-design/issues/155)) ([9f8198e](https://github.com/WeBankFinTech/fes-design/commit/9f8198eb9c8f108ecae9dcd83f118330ad14093c))
+
+
+
 ## [0.5.1](https://github.com/WeBankFinTech/fes-design/compare/v0.5.0...v0.5.1) (2022-05-13)
 
 
