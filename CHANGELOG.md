@@ -1,3 +1,12 @@
+## [0.5.4](https://github.com/WeBankFinTech/fes-design/compare/v0.5.3...v0.5.4) (2022-05-20)
+
+
+### Bug Fixes
+
+* **draggable:** wait for dom updated when props changed ([#160](https://github.com/WeBankFinTech/fes-design/issues/160)) ([d52deed](https://github.com/WeBankFinTech/fes-design/commit/d52deedeb51fb21fa40a7a5596ac7e88f8175de6))
+
+
+
 ## [0.5.3](https://github.com/WeBankFinTech/fes-design/compare/v0.5.2...v0.5.3) (2022-05-20)
 
 
