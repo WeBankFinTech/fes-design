@@ -263,21 +263,25 @@ export default defineComponent({
             () => props.placeholder || t('timePicker.placeholder'),
         );
 
+        const activeTime = ref();
+        const changeTime = (val: string) => {
+            tempValue.value = '';
+            activeTime.value = val;
+        };
+
         const setCurrentValue = (val: string) => {
             if (val !== currentValue.value) {
+                tempValue.value = '';
                 updateCurrentValue(val);
                 emit('change', val);
                 validate('change');
+                activeTime.value = val;
             }
         };
         const clear = () => {
             setCurrentValue('');
         };
 
-        const activeTime = ref();
-        const changeTime = (val: string) => {
-            activeTime.value = val;
-        };
         watch(isOpened, () => {
             if (!isOpened.value && activeTime.value) {
                 setCurrentValue(activeTime.value);
@@ -296,7 +300,6 @@ export default defineComponent({
             closePopper();
         };
         const confirmChangeTime = () => {
-            setCurrentValue(activeTime.value);
             closePopper();
         };
 
