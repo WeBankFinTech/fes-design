@@ -71,7 +71,11 @@ import SelectTrigger from '../select-trigger';
 import Cascader from '../cascader/cascader';
 import { selectProps } from '../select/props';
 import { cascaderProps } from '../cascader/props';
-import { getCurrentValueByKeys, getKeysByCurrentValue } from './helper';
+import {
+    getCurrentValueByKeys,
+    getKeysByCurrentValue,
+    getNotMatchedPathByKey,
+} from './helper';
 import {
     getCascadeChildrenByKeys,
     getCascadeParentByKeys,
@@ -302,7 +306,11 @@ export default defineComponent({
                     const { value, label, path } = nodeList.value[curValue] || {
                         value: curValue,
                         label: curValue,
-                        path: [],
+                        path: getNotMatchedPathByKey(
+                            currentValue.value,
+                            props,
+                            curValue,
+                        ),
                     };
                     const formatLabel = props.showPath
                         ? (path as CascaderOption[])
