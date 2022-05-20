@@ -129,23 +129,19 @@ export const getNotMatchedPathByKey = (
     return path;
 };
 
-export const getExpandedKeysByCurrentValue = (
-    currentValue: CascaderNodeKey | CascaderNodeKey[] | CascaderNodeKey[][],
-    props: CascaderProps,
+export const getExpandedKeysBySelectedKeys = (
+    nodeList: CascaderNodeList,
+    selectedKeys: CascaderNodeKey[] = [],
 ) => {
-    const keys: CascaderNodeKey[] = [];
-
-    if (props.multiple) {
-        return keys;
+    const selectedNode = (selectedKeys[0] && nodeList[selectedKeys[0]]) || null;
+    if (selectedNode) {
+        return [
+            ...selectedNode.indexPath.slice(
+                0,
+                selectedNode.indexPath.length - 1,
+            ),
+        ];
+    } else {
+        return [];
     }
-    if (!props.emitPath) {
-        return keys;
-    }
-    if (!isArray(currentValue)) {
-        return keys;
-    }
-    if (currentValue.length < 2) {
-        return keys;
-    }
-    return [...currentValue.slice(0, currentValue.length - 1)];
 };

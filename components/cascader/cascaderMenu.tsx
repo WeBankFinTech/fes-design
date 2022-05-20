@@ -6,8 +6,9 @@ import { COMPONENT_NAME } from './const';
 import useCascaderMenu from './useCascaderMenu';
 import { InnerCascaderOption } from './interface';
 import CascaderNode from './cascaderNode';
+import Scrollbar from '../scrollbar';
 
-const prefixCls = getPrefixCls('cascader');
+const prefixCls = getPrefixCls('cascader-menu');
 
 const cascaderMenuProps = {
     menuKey: {
@@ -62,17 +63,24 @@ export default defineComponent({
             nodes.map((node) => renderNode(node));
 
         return () => (
-            <div class={`${prefixCls}-menu`} role="cascader-menu">
-                {menuNodes.value.length ? (
-                    renderNodes(menuNodes.value)
-                ) : props.initialLoaded ? (
-                    <div class={`${prefixCls}-null`}>{props.listEmptyText}</div>
-                ) : (
-                    <div class={`${prefixCls}-loading`}>
-                        <LoadingOutlined />
-                    </div>
-                )}
-            </div>
+            <Scrollbar
+                containerClass={`${prefixCls}-dropdown`}
+                key={props.menuKey}
+            >
+                <div class={`${prefixCls}`} role="cascader-menu">
+                    {menuNodes.value.length ? (
+                        renderNodes(menuNodes.value)
+                    ) : props.initialLoaded ? (
+                        <div class={`${prefixCls}-null`}>
+                            {props.listEmptyText}
+                        </div>
+                    ) : (
+                        <div class={`${prefixCls}-loading`}>
+                            <LoadingOutlined />
+                        </div>
+                    )}
+                </div>
+            </Scrollbar>
         );
     },
 });

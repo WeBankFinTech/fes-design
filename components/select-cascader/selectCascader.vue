@@ -75,7 +75,7 @@ import {
     getCurrentValueByKeys,
     getKeysByCurrentValue,
     getNotMatchedPathByKey,
-    getExpandedKeysByCurrentValue,
+    getExpandedKeysBySelectedKeys,
 } from './helper';
 import {
     getCascadeChildrenByKeys,
@@ -158,7 +158,10 @@ export default defineComponent({
         });
         const expandedKeys = computed(() => {
             if (!props.multiple) {
-                return getExpandedKeysByCurrentValue(currentValue.value, props);
+                return getExpandedKeysBySelectedKeys(
+                    nodeList.value,
+                    selectedKeys.value as CascaderNodeKey[],
+                );
             }
             return [];
         });

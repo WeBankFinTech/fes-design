@@ -7,7 +7,6 @@ import { COMPONENT_NAME, CHECK_STRATEGY } from './const';
 import useData from './useData';
 import useState from './useState';
 import { cascaderProps, CASCADER_PROVIDE_KEY } from './props';
-import Scrollbar from '../scrollbar';
 import { handleParent, handleChildren } from './helper';
 
 import type { CascaderNodeKey } from './interface';
@@ -210,13 +209,11 @@ export default defineComponent({
 
         const renderMenu = (key: CascaderNodeKey) => {
             return (
-                <Scrollbar containerClass={`${prefixCls}-dropdown`} key={key}>
-                    <CascaderMenu
-                        menuKey={key}
-                        initialLoaded={initialLoaded.value}
-                        listEmptyText={listEmptyText.value}
-                    ></CascaderMenu>
-                </Scrollbar>
+                <CascaderMenu
+                    menuKey={key}
+                    initialLoaded={initialLoaded.value}
+                    listEmptyText={listEmptyText.value}
+                ></CascaderMenu>
             );
         };
         const renderMenus = (arr: CascaderNodeKey[]) =>
