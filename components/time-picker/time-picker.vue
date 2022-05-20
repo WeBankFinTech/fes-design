@@ -265,6 +265,7 @@ export default defineComponent({
 
         const activeTime = ref();
         const changeTime = (val: string) => {
+            tempValue.value = '';
             activeTime.value = val;
         };
 
