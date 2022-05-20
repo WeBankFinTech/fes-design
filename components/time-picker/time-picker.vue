@@ -269,12 +269,12 @@ export default defineComponent({
         };
 
         const setCurrentValue = (val: string) => {
-            tempValue.value = '';
-            activeTime.value = '';
             if (val !== currentValue.value) {
+                tempValue.value = '';
                 updateCurrentValue(val);
                 emit('change', val);
                 validate('change');
+                activeTime.value = val;
             }
         };
         const clear = () => {
