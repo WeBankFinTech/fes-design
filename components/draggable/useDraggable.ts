@@ -192,7 +192,9 @@ export function useDraggable(
     }
     watch(containerRef, init, { immediate: true });
     watch(propsRef, () => {
-        updateSettingStyle();
+        nextTick(() => {
+            updateSettingStyle();
+        });
     });
 
     function resetDragTarget() {
