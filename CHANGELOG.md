@@ -1,3 +1,12 @@
+## [0.5.3](https://github.com/WeBankFinTech/fes-design/compare/v0.5.2...v0.5.3) (2022-05-20)
+
+
+### Bug Fixes
+
+* time-picker 选 此刻 无法生效问题 ([#159](https://github.com/WeBankFinTech/fes-design/issues/159)) ([2e07b3f](https://github.com/WeBankFinTech/fes-design/commit/2e07b3feb6c632c895b85eefe0a67479fd645a44))
+
+
+
 ## [0.5.2](https://github.com/WeBankFinTech/fes-design/compare/v0.5.1...v0.5.2) (2022-05-19)
 
 
