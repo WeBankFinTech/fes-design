@@ -79,7 +79,6 @@ export default defineComponent({
             }
         };
 
-        onMounted(handleDisabled);
         const renderTrigger = () => (
             <span
                 ref={triggerRef}

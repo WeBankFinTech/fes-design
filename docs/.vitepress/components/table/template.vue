@@ -6,7 +6,11 @@
         <f-table-column v-slot="{ row }" prop="name" label="姓名">
             <f-tag>{{ row.name }}</f-tag>
         </f-table-column>
-        <f-table-column prop="address" label="地址"></f-table-column>
+        <f-table-column v-slot="{ row }" prop="address" label="地址">
+            <FEllipsis :line="2">
+                {{row.address}}
+            </FEllipsis>
+        </f-table-column>
         <f-table-column label="操作">
             <f-button>编辑</f-button>
         </f-table-column>
@@ -21,7 +25,7 @@ export default {
                 return {
                     date: `2016-05-${i < 10 ? '0' + i : i}`,
                     name: '王小虎',
-                    address: '上海市普陀区金沙江路 1516 弄',
+                    address: '上海市普陀区金沙江路 1516 弄-上海市普陀区金沙江路 1516 弄-上海市普陀区金沙江路 1516 弄',
                 };
             }),
         );
