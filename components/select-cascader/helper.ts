@@ -128,3 +128,24 @@ export const getNotMatchedPathByKey = (
 
     return path;
 };
+
+export const getExpandedKeysByCurrentValue = (
+    currentValue: CascaderNodeKey | CascaderNodeKey[] | CascaderNodeKey[][],
+    props: CascaderProps,
+) => {
+    const keys: CascaderNodeKey[] = [];
+
+    if (props.multiple) {
+        return keys;
+    }
+    if (!props.emitPath) {
+        return keys;
+    }
+    if (!isArray(currentValue)) {
+        return keys;
+    }
+    if (currentValue.length < 2) {
+        return keys;
+    }
+    return [...currentValue.slice(0, currentValue.length - 1)];
+};

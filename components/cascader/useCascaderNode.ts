@@ -8,6 +8,9 @@ export default (props: CascaderNodeProps) => {
     const root = inject(CASCADER_PROVIDE_KEY);
 
     const isExpanded = computed(() => root.nodeList[props.value].isExpanded);
+    const isInitLoading = computed(
+        () => root.nodeList[props.value].isInitLoading,
+    );
     const isSelected = computed(() => root.hasSelected(props.value));
     const isChecked = computed(() => root.hasChecked(props.value));
 
@@ -43,6 +46,7 @@ export default (props: CascaderNodeProps) => {
     return {
         root,
         isExpanded,
+        isInitLoading,
         isSelected,
         isChecked,
         isIndeterminate,

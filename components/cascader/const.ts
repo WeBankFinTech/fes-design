@@ -1,5 +1,6 @@
 export const COMPONENT_NAME = {
     CASCADER: 'FCascader',
+    CASCADER_MENU: 'FCascaderMenu',
     CASCADER_NODE: 'FCascaderNode',
 };
 

@@ -75,6 +75,7 @@ import {
     getCurrentValueByKeys,
     getKeysByCurrentValue,
     getNotMatchedPathByKey,
+    getExpandedKeysByCurrentValue,
 } from './helper';
 import {
     getCascadeChildrenByKeys,
@@ -150,8 +151,15 @@ export default defineComponent({
         const cascaderSelectable = computed(() => !props.multiple);
         const cascaderCheckable = computed(() => props.multiple);
         const selectedKeys = computed(() => {
-            if (!props.multiple)
+            if (!props.multiple) {
                 return getKeysByCurrentValue(currentValue.value, props);
+            }
+            return [];
+        });
+        const expandedKeys = computed(() => {
+            if (!props.multiple) {
+                return getExpandedKeysByCurrentValue(currentValue.value, props);
+            }
             return [];
         });
         const checkedKeys = computed(() => {
@@ -349,6 +357,7 @@ export default defineComponent({
             blur,
             cascaderSelectable,
             selectedKeys,
+            expandedKeys,
             cascaderCheckable,
             handleSelect,
             handleCheck,
