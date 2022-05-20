@@ -150,7 +150,7 @@ export default defineComponent({
                   })
                 : arr;
         }
-        
+
         const checkNode = (val: CascaderNodeKey, event: Event) => {
             updateExpandedKeysBySelectOrCheck(val, event);
 

@@ -188,7 +188,11 @@ export default defineComponent({
                     onClick={handleClickSwitcher}
                     onMouseenter={handleHoverSwitcher}
                 >
-                    {isInitLoading.value || isLoading.value ? <LoadingOutlined /> : <RightOutlined />}
+                    {isInitLoading.value || isLoading.value ? (
+                        <LoadingOutlined />
+                    ) : (
+                        <RightOutlined />
+                    )}
                 </span>
             );
         };
