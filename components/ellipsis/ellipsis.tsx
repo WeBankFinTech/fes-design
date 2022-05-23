@@ -1,11 +1,4 @@
-import {
-    defineComponent,
-    computed,
-    ref,
-    onMounted,
-    PropType,
-    CSSProperties,
-} from 'vue';
+import { defineComponent, computed, ref, PropType, CSSProperties } from 'vue';
 import { isObject } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import Tooltip from '../tooltip/tooltip';
@@ -26,7 +19,7 @@ const ellipsisProps = {
     },
     class: [String, Array, Object] as PropType<string | object | []>,
     style: {
-        type: Object as PropType<CSSProperties>,
+        type: [String, Array, Object] as PropType<string | CSSProperties>,
         default() {
             return {};
         },
@@ -79,7 +72,6 @@ export default defineComponent({
             }
         };
 
-        onMounted(handleDisabled);
         const renderTrigger = () => (
             <span
                 ref={triggerRef}
