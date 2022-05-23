@@ -1,17 +1,15 @@
 import { defineComponent, provide, watch, VNodeChild, computed } from 'vue';
-import { isFunction, isString, cloneDeep } from 'lodash-es';
+import { cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
-import CascaderNode from './cascaderNode';
+import CascaderMenu from './cascaderMenu';
 import { COMPONENT_NAME, CHECK_STRATEGY } from './const';
 import useData from './useData';
 import useState from './useState';
 import { cascaderProps, CASCADER_PROVIDE_KEY } from './props';
-import Scrollbar from '../scrollbar';
-import LoadingOutlined from '../icon/LoadingOutlined';
 import { handleParent, handleChildren } from './helper';
 
-import type { InnerCascaderOption, CascaderNodeKey } from './interface';
+import type { CascaderNodeKey } from './interface';
 import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('cascader');
@@ -47,7 +45,7 @@ export default defineComponent({
             hasCheckLoaded,
         } = useState(props, { emit });
 
-        const { nodeList, getMenuNodes, menuKeys, initialLoaded } = useData({
+        const { transformData, nodeList, menuKeys, initialLoaded } = useData({
             props,
             currentExpandedKeys,
         });
@@ -151,7 +149,7 @@ export default defineComponent({
                   })
                 : arr;
         }
-        
+
         const checkNode = (val: CascaderNodeKey, event: Event) => {
             updateExpandedKeysBySelectOrCheck(val, event);
 
@@ -205,61 +203,17 @@ export default defineComponent({
             hasChecked,
             hasLoaded,
             hasCheckLoaded,
+            transformData,
             nodeList,
         });
 
-        const renderNode = (node: InnerCascaderOption) => {
-            const itemSlots: {
-                [key: string]: () => VNodeChild | string;
-            } = {};
-            if (isFunction(node.prefix)) {
-                itemSlots.prefix = node.prefix;
-            }
-            if (isString(node.prefix)) {
-                itemSlots.prefix = () => node.prefix as string;
-            }
-            if (isFunction(node.suffix)) {
-                itemSlots.suffix = node.suffix;
-            }
-            if (isString(node.suffix)) {
-                itemSlots.suffix = () => node.suffix as string;
-            }
-            return (
-                <CascaderNode
-                    key={node.value}
-                    level={node.level}
-                    value={node.value}
-                    label={node.label}
-                    disabled={node.disabled}
-                    selectable={node.selectable}
-                    checkable={node.checkable}
-                    isLeaf={node.isLeaf}
-                    v-slots={itemSlots}
-                ></CascaderNode>
-            );
-        };
-        const renderNodes = (nodes: InnerCascaderOption[]) =>
-            nodes.map((node) => renderNode(node));
-
         const renderMenu = (key: CascaderNodeKey) => {
-            const nodes = getMenuNodes(key);
-
             return (
-                <Scrollbar containerClass={`${prefixCls}-dropdown`} key={key}>
-                    <div class={`${prefixCls}-menu`} role="cascader-menu">
-                        {nodes.length ? (
-                            renderNodes(nodes)
-                        ) : initialLoaded.value ? (
-                            <div class={`${prefixCls}-null`}>
-                                {listEmptyText.value}
-                            </div>
-                        ) : (
-                            <div class={`${prefixCls}-loading`}>
-                                <LoadingOutlined />
-                            </div>
-                        )}
-                    </div>
-                </Scrollbar>
+                <CascaderMenu
+                    menuKey={key}
+                    initialLoaded={initialLoaded.value}
+                    listEmptyText={listEmptyText.value}
+                ></CascaderMenu>
             );
         };
         const renderMenus = (arr: CascaderNodeKey[]) =>

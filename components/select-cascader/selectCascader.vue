@@ -71,7 +71,12 @@ import SelectTrigger from '../select-trigger';
 import Cascader from '../cascader/cascader';
 import { selectProps } from '../select/props';
 import { cascaderProps } from '../cascader/props';
-import { getCurrentValueByKeys, getKeysByCurrentValue } from './helper';
+import {
+    getCurrentValueByKeys,
+    getKeysByCurrentValue,
+    getNotMatchedPathByKey,
+    getExpandedKeysBySelectedKeys,
+} from './helper';
 import {
     getCascadeChildrenByKeys,
     getCascadeParentByKeys,
@@ -146,8 +151,18 @@ export default defineComponent({
         const cascaderSelectable = computed(() => !props.multiple);
         const cascaderCheckable = computed(() => props.multiple);
         const selectedKeys = computed(() => {
-            if (!props.multiple)
+            if (!props.multiple) {
                 return getKeysByCurrentValue(currentValue.value, props);
+            }
+            return [];
+        });
+        const expandedKeys = computed(() => {
+            if (!props.multiple) {
+                return getExpandedKeysBySelectedKeys(
+                    nodeList.value,
+                    selectedKeys.value as CascaderNodeKey[],
+                );
+            }
             return [];
         });
         const checkedKeys = computed(() => {
@@ -302,7 +317,11 @@ export default defineComponent({
                     const { value, label, path } = nodeList.value[curValue] || {
                         value: curValue,
                         label: curValue,
-                        path: [],
+                        path: getNotMatchedPathByKey(
+                            currentValue.value,
+                            props,
+                            curValue,
+                        ),
                     };
                     const formatLabel = props.showPath
                         ? (path as CascaderOption[])
@@ -341,6 +360,7 @@ export default defineComponent({
             blur,
             cascaderSelectable,
             selectedKeys,
+            expandedKeys,
             cascaderCheckable,
             handleSelect,
             handleCheck,

@@ -1,4 +1,4 @@
-import type { ExtractPropTypes, PropType, InjectionKey } from 'vue';
+import type { ExtractPropTypes, PropType, InjectionKey, Ref } from 'vue';
 import { CHECK_STRATEGY, EXPAND_TRIGGER } from './const';
 import { extractPropsDefaultValue } from '../_util/utils';
 
@@ -119,6 +119,7 @@ export interface CascaderInst {
         value: CascaderNodeKey,
         nodeList: CascaderNodeList,
     ) => boolean;
+    transformData: Ref<CascaderNodeKey[]>;
     nodeList: {
         [key: string]: InnerCascaderOption;
     };

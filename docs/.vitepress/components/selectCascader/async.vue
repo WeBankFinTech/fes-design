@@ -8,6 +8,7 @@
                 clearable
                 remote
                 emitPath
+                showPath
                 @change="handleChange"
             ></FSelectCascader>
         </FFormItem>

@@ -19,40 +19,27 @@ export default ({
 }) => {
     const nodeList = reactive<CascaderNodeList>({});
 
-    const transformData = ref([]);
+    const transformData = ref<CascaderNodeKey[]>([]);
     const initialLoaded = ref(true);
+    const initLoadingKeys = ref<CascaderNodeKey[]>([]);
 
-    watch([currentExpandedKeys, transformData], () => {
-        const expandedKeys = currentExpandedKeys.value;
-        // 缓存每个节点的展开状态，性能更优
+    watch([currentExpandedKeys, transformData, initLoadingKeys], () => {
+        // 缓存每个节点的状态，性能更优
         transformData.value.forEach((key) => {
             const node = nodeList[key];
-            node.isExpanded = expandedKeys.includes(key);
+            node.isExpanded = currentExpandedKeys.value.includes(key);
+            node.isInitLoading = initLoadingKeys.value.includes(key);
         });
     });
 
     const menuKeys = computed(() => {
-        return [].concat(ROOT_MENU_KEY, currentExpandedKeys.value);
+        return [].concat(
+            ROOT_MENU_KEY,
+            currentExpandedKeys.value.filter((value) => {
+                return nodeList[value]?.hasChildren;
+            }),
+        );
     });
-
-    const getMenuNodes = (key: CascaderNodeKey) => {
-        let nodes: InnerCascaderOption[];
-
-        if (key === ROOT_MENU_KEY) {
-            nodes = transformData.value
-                .filter((value) => {
-                    const node = nodeList[value];
-                    return node.indexPath.length === 1;
-                })
-                .map((value) => nodeList[value]);
-        } else {
-            nodes = nodeList[key].childrenValues.map(
-                (value) => nodeList[value],
-            );
-        }
-
-        return nodes;
-    };
 
     const transformNode = (
         item: InnerCascaderOption,
@@ -156,21 +143,27 @@ export default ({
                     !!node &&
                     !node.isLeaf &&
                     !node.hasChildren &&
-                    !loadedKeys.includes(node.value),
+                    !loadedKeys.includes(node.value), // 避免因为加载失败而死循环
             );
 
         // 继续递归处理
         if (needLoadNodes.length) {
             needLoadNodes.forEach(async (node) => {
+                initLoadingKeys.value.push(node.value);
+
                 try {
                     const children = await props.loadData({
-                        ...node.origin,
+                        ...node.origin, // 避免直接操作原生对象
                     });
                     isArray(children) && (node.origin.children = children);
                     await nextTick();
                 } catch (e) {
                     console.error(e);
                 }
+
+                initLoadingKeys.value = initLoadingKeys.value.filter(
+                    (value) => value !== node.value,
+                );
                 loadedKeys.push(node.value);
                 syncLoadNode(loadedKeys);
             });
@@ -194,8 +187,8 @@ export default ({
     );
 
     return {
+        transformData,
         nodeList,
-        getMenuNodes,
         menuKeys,
         initialLoaded,
     };

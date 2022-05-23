@@ -1,6 +1,10 @@
 import { isArray } from 'lodash-es';
 
-import type { CascaderNodeList, CascaderNodeKey } from '../cascader/interface';
+import type {
+    CascaderNodeList,
+    CascaderNodeKey,
+    CascaderOption,
+} from '../cascader/interface';
 import { CascaderProps } from '../cascader/props';
 
 export const getCurrentValueByKeys = (
@@ -57,5 +61,87 @@ export const getKeysByCurrentValue = (
         } else {
             return [currentValue];
         }
+    }
+};
+
+export const getNotMatchedPathByKey = (
+    currentValue: CascaderNodeKey | CascaderNodeKey[] | CascaderNodeKey[][],
+    props: CascaderProps,
+    key: CascaderNodeKey,
+) => {
+    let path: CascaderOption[] = [];
+    if (currentValue === null) {
+        return path;
+    }
+    if (props.multiple) {
+        const keyIndex = (
+            currentValue as CascaderNodeKey[] | CascaderNodeKey[][]
+        ).findIndex((value) => {
+            if (props.emitPath && isArray(value)) {
+                return value.includes(key);
+            } else {
+                return value === key;
+            }
+        });
+        if (keyIndex > -1) {
+            const keyValue = (
+                currentValue as CascaderNodeKey[] | CascaderNodeKey[][]
+            )[keyIndex];
+
+            if (props.emitPath && isArray(keyValue)) {
+                path = (keyValue as CascaderNodeKey[]).map((value) => {
+                    return {
+                        value,
+                        label: value as string,
+                    };
+                });
+            } else {
+                path = [
+                    {
+                        value: keyValue as CascaderNodeKey,
+                        label: keyValue as string,
+                    },
+                ];
+            }
+        }
+    } else {
+        if (props.emitPath && isArray(currentValue)) {
+            if ((currentValue as CascaderNodeKey[]).includes(key)) {
+                path = (currentValue as CascaderNodeKey[]).map((value) => {
+                    return {
+                        value,
+                        label: value as string,
+                    };
+                });
+            }
+        } else {
+            if (key === currentValue) {
+                path = [
+                    {
+                        value: currentValue as CascaderNodeKey,
+                        label: currentValue as string,
+                    },
+                ];
+            }
+        }
+    }
+
+    return path;
+};
+
+export const getExpandedKeysBySelectedKeys = (
+    nodeList: CascaderNodeList,
+    selectedKeys: CascaderNodeKey[] = [],
+) => {
+    const selectedNode = (selectedKeys[0] && nodeList[selectedKeys[0]]) || null;
+    if (selectedNode) {
+        return [
+            ...selectedNode.indexPath.slice(
+                0,
+                selectedNode.indexPath.length - 1,
+            ),
+        ];
+    } else {
+        return [];
     }
 };

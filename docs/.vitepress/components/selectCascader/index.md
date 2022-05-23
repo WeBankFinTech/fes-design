@@ -32,7 +32,7 @@ app.use(FSelectCascader);
 
 ### emitPath 返回节点菜单路径
 
-适用于异步加载初始化展示的场景。
+适用于异步加载初始化展示等场景。
 
 --EMITPATH
 

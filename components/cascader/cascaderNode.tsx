@@ -59,6 +59,7 @@ export default defineComponent({
         const {
             root,
             isExpanded,
+            isInitLoading,
             isSelected,
             isChecked,
             isIndeterminate,
@@ -97,7 +98,7 @@ export default defineComponent({
 
         const isLoading = ref(false);
         const handleClickSwitcher = async (event: Event) => {
-            if (isLoading.value) {
+            if (isInitLoading.value || isLoading.value) {
                 return;
             }
             const node = root.nodeList[props.value];
@@ -187,7 +188,11 @@ export default defineComponent({
                     onClick={handleClickSwitcher}
                     onMouseenter={handleHoverSwitcher}
                 >
-                    {isLoading.value ? <LoadingOutlined /> : <RightOutlined />}
+                    {isInitLoading.value || isLoading.value ? (
+                        <LoadingOutlined />
+                    ) : (
+                        <RightOutlined />
+                    )}
                 </span>
             );
         };
