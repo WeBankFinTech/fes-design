@@ -1,3 +1,13 @@
+## [0.5.5](https://github.com/WeBankFinTech/fes-design/compare/v0.5.4...v0.5.5) (2022-05-23)
+
+
+### Bug Fixes
+
+* Ellipsis未渲染完毕时计算出是不tooltip,而实际上是需要tooltip ([#162](https://github.com/WeBankFinTech/fes-design/issues/162)) ([000af71](https://github.com/WeBankFinTech/fes-design/commit/000af71f1d80a9c6c358720eb76a98038c3411de))
+* FSelectCascader 兼容 showPath 时未匹配到值的初始化展示 ([#161](https://github.com/WeBankFinTech/fes-design/issues/161)) ([85e6fdc](https://github.com/WeBankFinTech/fes-design/commit/85e6fdc3cfc0aec116cdebe278f6466b7e179341))
+
+
+
 ## [0.5.4](https://github.com/WeBankFinTech/fes-design/compare/v0.5.3...v0.5.4) (2022-05-20)
 
 
