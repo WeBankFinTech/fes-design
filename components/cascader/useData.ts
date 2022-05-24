@@ -36,7 +36,7 @@ export default ({
         return [].concat(
             ROOT_MENU_KEY,
             currentExpandedKeys.value.filter((value) => {
-                return nodeList[value]?.hasChildren;
+                return nodeList[value];
             }),
         );
     });
