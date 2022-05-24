@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace vertical>
         <FDatePicker type="daterange" clearable />
         <FDatePicker
             type="daterange"
@@ -8,5 +8,5 @@
             <template #separator> 至 </template>
         </FDatePicker>
         <FDatePicker type="datetimerange" clearable />
-    </Space>
+    </FSpace>
 </template>

@@ -1,5 +1,5 @@
 <template>
-    <space>
+    <FSpace>
         <FDropdown placement="top" :options="options">
             <FButton>top</FButton>
         </FDropdown>
@@ -12,7 +12,7 @@
         <FDropdown placement="right" :options="options">
             <FButton>right</FButton>
         </FDropdown>
-    </space>
+    </FSpace>
 </template>
 <script>
 import { h } from 'vue';

@@ -1,10 +1,10 @@
 <template>
-    <Space>
+    <FSpace>
         <FButton @click="showFModal('info')">info</FButton>
         <FButton class="ml-10" @click="showFModal('success')">success</FButton>
         <FButton class="ml-10" @click="showFModal('warning')">warning</FButton>
         <FButton class="ml-10" @click="showFModal('error')">error</FButton>
-    </Space>
+    </FSpace>
 </template>
 
 <script>
@@ -29,7 +29,7 @@ export default {
                 onOk() {
                     console.log('modal ok');
                     if (type === 'confirm') {
-                        return new Promise((resolve) => {
+                        return new Promise(() => {
                             modal.update({ okText: '1s后自动关闭' });
                             setTimeout(() => {
                                 modal.destroy();

@@ -1,8 +1,8 @@
 <template>
-    <Space>
+    <FSpace>
         <FInputNumber v-model="val" :max="100"></FInputNumber>
         {{ val }}
-    </Space>
+    </FSpace>
 </template>
 
 <script>

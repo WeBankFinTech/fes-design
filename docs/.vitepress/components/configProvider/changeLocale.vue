@@ -19,18 +19,18 @@
             <div class="gap">
                 <FSelectCascader></FSelectCascader>
             </div>
-            <Space class="gap">
+            <FSpace class="gap">
                 <FPagination
                     :total-count="1000"
                     show-size-changer
                     show-quick-jumper
                     show-total
                 ></FPagination>
-            </Space>
-            <Space class="gap">
+            </FSpace>
+            <FSpace class="gap">
                 <FTimePicker></FTimePicker>
-            </Space>
-            <Space class="gap">
+            </FSpace>
+            <FSpace class="gap">
                 <FDatePicker :control="true" />
                 <FDatePicker type="month" :control="true" />
                 <FDatePicker type="year" :control="true" />
@@ -38,12 +38,12 @@
                 <FDatePicker type="datetime" :control="true" />
                 <FDatePicker type="daterange" :control="true" />
                 <FDatePicker type="datetimerange" :control="true" />
-            </Space>
-            <Space class="gap">
+            </FSpace>
+            <FSpace class="gap">
                 <FUpload
                     action="https://run.mocky.io/v3/2d9d9844-4a46-4145-8f57-07e13768f565"
                 />
-            </Space>
+            </FSpace>
         </FConfigProvider>
     </div>
     <FDivider></FDivider>

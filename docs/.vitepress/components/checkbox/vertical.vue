@@ -1,5 +1,5 @@
 <template>
-    <space>
+    <FSpace>
         <FCheckboxGroup vertical>
             <FCheckbox :value="1">1</FCheckbox>
             <FCheckbox :value="2">22</FCheckbox>
@@ -10,5 +10,5 @@
             <FCheckbox :value="2">22</FCheckbox>
             <FCheckbox :value="3">333</FCheckbox>
         </FCheckboxGroup>
-    </space>
+    </FSpace>
 </template>

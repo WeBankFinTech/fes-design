@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace vertical>
         <FInput placeholder="请输入">
             <template #prepend> https:// </template>
         </FInput>
@@ -50,7 +50,7 @@
                 </FSelectCascader>
             </template>
         </FInput>
-    </Space>
+    </FSpace>
 </template>
 
 <script>

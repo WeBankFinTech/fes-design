@@ -1,5 +1,5 @@
 <template>
-    <space>
+    <FSpace>
         <FSelect v-model="value1" disabled>
             <FOption
                 v-for="(item, index) in optionList"
@@ -38,7 +38,7 @@
                 :label="item.label"
             ></FOption>
         </FSelect>
-    </space>
+    </FSpace>
 </template>
 <script>
 import { reactive, ref } from 'vue';

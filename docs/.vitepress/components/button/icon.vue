@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace>
         <FButton type="primary" :loading="true">
             <template #icon>
                 <ProductOutlined />
@@ -17,5 +17,5 @@
         <FButton type="link">
             <template #icon> <ProductOutlined /> </template>Link
         </FButton>
-    </Space>
+    </FSpace>
 </template>

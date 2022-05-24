@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace vertical>
         <FTimePicker
             v-model="currentTime"
             v-model:open="isOpen"
@@ -17,7 +17,7 @@
                 </div>
             </template>
         </FTimePicker>
-    </Space>
+    </FSpace>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace>
         <FSpin />
-    </Space>
+    </FSpace>
 </template>

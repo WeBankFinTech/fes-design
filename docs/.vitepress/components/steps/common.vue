@@ -23,10 +23,10 @@
         />
     </FSteps>
 
-    <Space>
+    <FSpace>
         <FButton @click="pre">上一步</FButton>
         <FButton @click="next">下一步</FButton>
-    </Space>
+    </FSpace>
 </template>
 <script>
 import { ref } from 'vue';

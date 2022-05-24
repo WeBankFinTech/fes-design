@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace>
         <FAlert
             showIcon
             closable
@@ -28,5 +28,5 @@
             message="错误表达提示内容"
             description="辅助信息提示内容辅助信息提示内容辅助信息提示内容辅助信息提示内容辅助信息提示内容辅助"
         />
-    </Space>
+    </FSpace>
 </template>

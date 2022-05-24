@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace vertical>
         <FDatePicker
             v-model="currentDate"
             format="yyyy/MM/dd"
@@ -16,7 +16,7 @@
             :secondStep="2"
             placeholder="时间日期选择"
         />
-    </Space>
+    </FSpace>
 </template>
 
 <script>

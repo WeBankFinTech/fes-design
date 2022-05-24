@@ -1,5 +1,5 @@
 <template>
-    <Space vertical>
+    <FSpace vertical>
         <FScrollbar style="width: 100%">
             <ul class="scroll-ul">
                 <li v-for="(item, index) in vals" :key="index">
@@ -7,7 +7,7 @@
                 </li>
             </ul>
         </FScrollbar>
-    </Space>
+    </FSpace>
 </template>
 
 <script>

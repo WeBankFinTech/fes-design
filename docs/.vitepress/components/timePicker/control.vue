@@ -1,12 +1,12 @@
 <template>
-    <space>
+    <FSpace vertical>
         <FTimePicker
             v-model="time"
             placeholder="请输入"
             :disabledHours="disabledHours"
             :control="false"
         ></FTimePicker>
-    </space>
+    </FSpace>
 </template>
 
 <script>
