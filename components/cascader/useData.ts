@@ -36,7 +36,8 @@ export default ({
         return [].concat(
             ROOT_MENU_KEY,
             currentExpandedKeys.value.filter((value) => {
-                return nodeList[value]?.hasChildren;
+                // 已加载且非叶子节点
+                return nodeList[value] && !nodeList[value].isLeaf;
             }),
         );
     });
