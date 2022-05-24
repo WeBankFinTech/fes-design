@@ -4,6 +4,7 @@ import {
     ref,
     ExtractPropTypes,
     PropType,
+    nextTick,
 } from 'vue';
 import { isArray, isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -110,6 +111,9 @@ export default defineComponent({
                     });
                     if (isArray(children)) {
                         node.origin.children = children;
+
+                        // 当前操作节点信息重新生成后再继续展开操作
+                        await nextTick();
                         root.expandNode(props.value, event);
                     }
                 } catch (e) {
