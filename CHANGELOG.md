@@ -1,3 +1,12 @@
+## [0.5.6](https://github.com/WeBankFinTech/fes-design/compare/v0.5.5...v0.5.6) (2022-05-24)
+
+
+### Bug Fixes
+
+* 异步加载兼容无子节点的场景 ([#163](https://github.com/WeBankFinTech/fes-design/issues/163)) ([97d7402](https://github.com/WeBankFinTech/fes-design/commit/97d74029083d20135683192e0034530328bb0ce1))
+
+
+
 ## [0.5.5](https://github.com/WeBankFinTech/fes-design/compare/v0.5.4...v0.5.5) (2022-05-23)
 
 
