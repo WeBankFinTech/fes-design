@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace vertical>
         <FInput
             ref="inputRef"
             v-model="inputValue"
@@ -9,7 +9,7 @@
             @change="handleChange"
         />
         <FInput placeholder="请输入" :maxlength="100" showWordLimit />
-    </Space>
+    </FSpace>
 </template>
 
 <script>

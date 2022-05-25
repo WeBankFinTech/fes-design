@@ -1,8 +1,8 @@
 <template>
-    <space>
+    <FSpace>
         <FSelectTree :data="data" filterable></FSelectTree>
         <FSelectTree :data="data" filterable multiple></FSelectTree>
-    </space>
+    </FSpace>
 </template>
 <script>
 import { reactive } from 'vue';

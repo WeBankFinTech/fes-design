@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace>
         <FButton
             v-for="(label, value) in typeMap"
             :key="value"
@@ -7,7 +7,7 @@
         >
             {{ label }}
         </FButton>
-    </Space>
+    </FSpace>
 </template>
 
 <script>

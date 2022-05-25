@@ -1,6 +1,6 @@
 <template>
-    <space>
+    <FSpace>
         <FSwitch></FSwitch>
         <FSwitch size="small"></FSwitch>
-    </space>
+    </FSpace>
 </template>

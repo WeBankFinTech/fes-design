@@ -1,7 +1,7 @@
 <template>
-    <Space>
+    <FSpace>
         <FButton @click="showFModal('confirm')">confirm</FButton>
-    </Space>
+    </FSpace>
 </template>
 
 <script>
@@ -26,7 +26,7 @@ export default {
                 onOk() {
                     console.log('modal ok');
                     if (type === 'confirm') {
-                        return new Promise((resolve) => {
+                        return new Promise(() => {
                             modal.update({ okText: '2s后自动关闭' });
                             setTimeout(() => {
                                 modal.destroy();

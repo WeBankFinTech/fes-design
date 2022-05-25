@@ -1,5 +1,5 @@
 <template>
-    <Space vertical>
+    <FSpace vertical>
         <f-switch v-model="inverted">
             <template #active> 深色 </template>
             <template #inactive> 浅色 </template>
@@ -51,7 +51,7 @@
                 <template #label>资源管理</template>
             </f-menu-item>
         </f-menu>
-    </Space>
+    </FSpace>
 </template>
 <script>
 import { defineComponent, ref } from 'vue';

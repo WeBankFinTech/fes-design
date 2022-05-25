@@ -1,5 +1,5 @@
 <template>
-    <space>
+    <FSpace>
         <FDropdown trigger="hover" :options="options">
             <FButton>hover</FButton>
         </FDropdown>
@@ -12,7 +12,7 @@
         <FDropdown trigger="contextmenu" :options="options">
             <FButton style="width: 200px">contextmenu</FButton>
         </FDropdown>
-    </space>
+    </FSpace>
 </template>
 <script>
 import { h } from 'vue';

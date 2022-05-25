@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace vertical>
         <FTimePicker placeholder="请输入" format="HH:mm"></FTimePicker>
-    </Space>
+    </FSpace>
 </template>

@@ -1,11 +1,11 @@
 <template>
-    <space>
+    <FSpace>
         <FCheckboxGroup v-model="arr" @change="handleChange">
             <FCheckbox v-for="i in len" :key="i" :value="i">
                 {{ i }}
             </FCheckbox>
         </FCheckboxGroup>
-    </space>
+    </FSpace>
 </template>
 <script>
 import { ref } from 'vue';

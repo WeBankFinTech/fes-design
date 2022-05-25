@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace>
         <FButton @click="show[0] = true">点我</FButton>
         <FButton class="ml-10" @click="show[1] = true">没有标题</FButton>
         <FButton class="ml-10" @click="show[2] = true">不显示关闭</FButton>
@@ -52,7 +52,7 @@
             <div>我是内容...</div>
             <div>我是内容...</div>
         </FDrawer>
-    </Space>
+    </FSpace>
 </template>
 
 <script>

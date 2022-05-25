@@ -1,7 +1,7 @@
 <template>
-    <Space ref="wrapRef">
+    <FSpace ref="wrapRef">
         <FButton @click="handleCustomContent">自定义内容</FButton>
-    </Space>
+    </FSpace>
 </template>
 
 <script lang="jsx">

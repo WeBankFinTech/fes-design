@@ -1,7 +1,7 @@
 <template>
-    <Space>
+    <FSpace>
         <FButton @click="handleMessageClose">可关闭</FButton>
-    </Space>
+    </FSpace>
 </template>
 
 <script>

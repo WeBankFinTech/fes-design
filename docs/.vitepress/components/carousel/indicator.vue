@@ -1,5 +1,5 @@
 <template>
-    <Space class="carousel-demo">
+    <FSpace vertical class="carousel-demo">
         <FCarousel height="240px" indicator-type="dot">
             <FCarouselItem>
                 <img
@@ -22,8 +22,8 @@
                 />
             </FCarouselItem>
         </FCarousel>
-    </Space>
-    <Space class="carousel-demo demo-gap">
+    </FSpace>
+    <FSpace vertical class="carousel-demo demo-gap">
         <FCarousel height="240px" indicator-position="outside">
             <FCarouselItem>
                 <img
@@ -46,7 +46,7 @@
                 />
             </FCarouselItem>
         </FCarousel>
-    </Space>
+    </FSpace>
 </template>
 
 <style scope>

@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace>
         <FTooltip
             mode="confirm"
             :confirmOption="{ okText: 'OK' }"
@@ -11,7 +11,7 @@
                 <div style="width: 200px">是否删除当前内容</div>
             </template>
         </FTooltip>
-    </Space>
+    </FSpace>
 </template>
 
 <script>
