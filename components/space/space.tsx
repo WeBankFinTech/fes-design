@@ -10,7 +10,7 @@ import {
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { flatten, getSlot } from '../_util/vnode';
-import { TThemeVars } from '../_theme/base';
+import type { TThemeVars } from '../_theme/base';
 import { createKey } from '../_util/createKey';
 import { depx } from '../_util/utils';
 
@@ -67,7 +67,7 @@ const useMargin = (props: SpaceProps, themeVarsRef: Ref<TThemeVars>) => {
         } else {
             const currentSize = depx(
                 themeVarsRef.value[createKey('padding', size)] ||
-                themeVarsRef.value[createKey('padding', 'small')]
+                    themeVarsRef.value[createKey('padding', 'small')],
             );
             horizontal = currentSize;
             vertical = currentSize;

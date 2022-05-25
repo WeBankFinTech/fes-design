@@ -3,7 +3,8 @@ import { createSharedComposable } from '@vueuse/core';
 
 import { useConfig } from '../config-provider';
 import { applyTheme } from './applyTheme';
-import { baseTheme, TThemeVars } from './base';
+import { baseTheme } from './base';
+import type { TThemeVars } from './base';
 
 function _useTheme() {
     const config = useConfig();

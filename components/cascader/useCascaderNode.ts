@@ -2,7 +2,7 @@ import { inject, computed } from 'vue';
 import { CASCADER_PROVIDE_KEY } from './props';
 
 import type { CascaderNodeProps } from './cascaderNode';
-import { InnerCascaderOption } from './interface';
+import type { InnerCascaderOption } from './interface';
 
 export default (props: CascaderNodeProps) => {
     const root = inject(CASCADER_PROVIDE_KEY);

@@ -150,7 +150,8 @@ import {
 
 import type { DayItem, DateObj, UpdateSelectedDates } from './interface';
 import { useLocale } from '../config-provider/useLocale';
-import { pickerFactory, Picker } from './pickerHandler';
+import { pickerFactory } from './pickerHandler';
+import type { Picker } from './pickerHandler';
 
 const prefixCls = getPrefixCls('calendar');
 

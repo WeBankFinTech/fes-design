@@ -4,7 +4,7 @@ import getPrefixCls from '../_util/getPrefixCls';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import { COMPONENT_NAME } from './const';
 import useCascaderMenu from './useCascaderMenu';
-import { InnerCascaderOption } from './interface';
+import type { InnerCascaderOption } from './interface';
 import CascaderNode from './cascaderNode';
 import Scrollbar from '../scrollbar';
 

@@ -2,7 +2,8 @@ import { watch, watchEffect, ref, reactive, computed, Ref } from 'vue';
 import { isNil } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
-import { Picker, PickerType } from './pickerHandler';
+import { PickerType } from './pickerHandler';
+import type { Picker } from './pickerHandler';
 
 import { SELECTED_STATUS, YEAR_COUNT } from './const';
 import {
