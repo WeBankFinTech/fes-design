@@ -1,3 +1,12 @@
+## [0.5.7](https://github.com/WeBankFinTech/fes-design/compare/v0.5.6...v0.5.7) (2022-05-25)
+
+
+### Features
+
+* Image预览图片大小不会超过可视区域 ([#166](https://github.com/WeBankFinTech/fes-design/issues/166)) ([d7d67da](https://github.com/WeBankFinTech/fes-design/commit/d7d67dac42edc4e70becc4e17f37880aa9995204))
+
+
+
 ## [0.5.6](https://github.com/WeBankFinTech/fes-design/compare/v0.5.5...v0.5.6) (2022-05-24)
 
 
