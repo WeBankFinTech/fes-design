@@ -1,5 +1,5 @@
 <template>
-    <Space vertical>
+    <FSpace vertical>
         <FSwitch v-model="show" class="demo-switch">
             <template #active> 开 </template>
             <template #inactive> 关 </template>
@@ -16,7 +16,7 @@
                 <f-table-column prop="address" label="地址"></f-table-column>
             </f-table>
         </FSpin>
-    </Space>
+    </FSpace>
 </template>
 
 <script>

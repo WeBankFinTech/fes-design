@@ -1,12 +1,12 @@
 <template>
-    <Space>
+    <FSpace>
         <FInputNumber>
             <template #prefix>¥</template>
         </FInputNumber>
         <FInputNumber>
             <template #suffix>%</template>
         </FInputNumber>
-    </Space>
+    </FSpace>
 </template>
 
 <script lang="ts">

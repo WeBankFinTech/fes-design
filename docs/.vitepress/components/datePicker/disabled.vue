@@ -1,6 +1,6 @@
 <template>
-    <Space>
+    <FSpace vertical>
         <FDatePicker disabled />
         <FDatePicker type="daterange" disabled />
-    </Space>
+    </FSpace>
 </template>

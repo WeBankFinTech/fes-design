@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace vertical>
         <FInput clearable placeholder="请输入"></FInput>
         <FInput
             type="password"
@@ -7,5 +7,5 @@
             showPassword
             placeholder="请输入"
         ></FInput>
-    </Space>
+    </FSpace>
 </template>

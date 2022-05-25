@@ -1,12 +1,12 @@
 <template>
-    <Space>
+    <FSpace>
         <FRadioGroup v-model="placement">
             <FRadio value="top">top</FRadio>
             <FRadio value="bottom">bottom</FRadio>
             <FRadio value="left">left</FRadio>
             <FRadio value="right">right</FRadio>
         </FRadioGroup>
-    </Space>
+    </FSpace>
     <FButton style="margin-top: 20px" @click="open">打开抽屉</FButton>
     <FDrawer
         v-model:show="show"

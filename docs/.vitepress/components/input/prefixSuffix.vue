@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace vertical>
         <FInput placeholder="请输入">
             <template #suffix>
                 <SearchOutlined @click="search" />
@@ -16,7 +16,7 @@
             <template #prefix> count ( </template>
             <template #suffix> ) </template>
         </FInput>
-    </Space>
+    </FSpace>
 </template>
 
 <script>

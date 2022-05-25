@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace vertical>
         <FTimePicker modelValue="22:22:22" placeholder="请输入"></FTimePicker>
-    </Space>
+    </FSpace>
 </template>

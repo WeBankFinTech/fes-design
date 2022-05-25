@@ -1,7 +1,7 @@
 <template>
-    <Space>
+    <FSpace>
         <FInputNumber :precision="precision"></FInputNumber>
-    </Space>
+    </FSpace>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace vertical>
         <FDatePicker
             v-model="currentDate"
             :shortcuts="shortcuts"
@@ -12,7 +12,7 @@
             placeholder="时间日期选择"
         />
         <FDatePicker :shortcuts="rangeShortcuts" type="datetimerange" />
-    </Space>
+    </FSpace>
 </template>
 
 <script>

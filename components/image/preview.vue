@@ -84,6 +84,7 @@ import {
     onUnmounted,
     defineComponent,
     PropType,
+    CSSProperties,
 } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -140,6 +141,8 @@ export default defineComponent({
     props: previewProps,
     emits: [CLOSE_EVENT],
     setup(props, { emit }) {
+        const clientHeight = document.documentElement.clientHeight;
+        const clientWidth = document.documentElement.clientWidth;
         const zIndex = ref(PopupManager.nextZIndex());
         const transform = ref({
             scale: 1,
@@ -155,10 +158,25 @@ export default defineComponent({
 
         const previewStyle = computed(() => {
             const { scale, rotateDeg } = transform.value;
-            const style = {
+            const style: CSSProperties = {
                 transform: `scale(${scale}) rotate(${rotateDeg}deg)`,
                 transition: 'transform .3s',
             };
+            if (
+                props.size.height > clientHeight ||
+                props.size.width > clientWidth
+            ) {
+                if (
+                    props.size.height / props.size.width >=
+                    clientHeight / clientWidth
+                ) {
+                    style.height = `${clientHeight}px`;
+                    style.width = 'auto';
+                } else {
+                    style.width = `${clientWidth}px`;
+                    style.height = 'auto';
+                }
+            }
 
             return style;
         });

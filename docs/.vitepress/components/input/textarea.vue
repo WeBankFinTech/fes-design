@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace vertical>
         文本输入
         <FInput type="textarea" placeholder="请输入"></FInput>
         <span>最小2行/最大5行</span>
@@ -17,7 +17,7 @@
             disabled
             placeholder="请输入"
         ></FInput>
-    </Space>
+    </FSpace>
 </template>
 
 <script>

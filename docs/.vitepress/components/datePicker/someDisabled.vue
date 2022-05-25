@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace vertical>
         最大日期为今天
         <FDatePicker :maxDate="new Date()" />
         最小日期为今天
@@ -10,7 +10,7 @@
         <FDatePicker type="daterange" maxRange="7D" />
         控制可选时间范围为：09:00:00 - 18:00:00
         <FDatePicker type="datetimerange" :disabledTime="disabledTime" />
-    </Space>
+    </FSpace>
 </template>
 
 <script>

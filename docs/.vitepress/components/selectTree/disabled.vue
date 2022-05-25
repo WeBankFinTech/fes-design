@@ -1,5 +1,5 @@
 <template>
-    <space>
+    <FSpace>
         <FSelectTree v-model="value1" :data="data" disabled> </FSelectTree>
         <FSelectTree v-model="value2" :data="data" multiple disabled>
         </FSelectTree>
@@ -20,7 +20,7 @@
             :collapseTagsLimit="2"
         >
         </FSelectTree>
-    </space>
+    </FSpace>
 </template>
 <script>
 import { reactive, ref } from 'vue';

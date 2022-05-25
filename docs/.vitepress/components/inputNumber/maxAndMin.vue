@@ -1,7 +1,7 @@
 <template>
-    <Space>
+    <FSpace>
         <FInputNumber :min="min" :max="max"></FInputNumber>
-    </Space>
+    </FSpace>
 </template>
 
 <script>

@@ -1,7 +1,7 @@
 <template>
-    <Space>
+    <FSpace>
         <FSpin size="small" />
         <FSpin size="middle" />
         <FSpin size="large" />
-    </Space>
+    </FSpace>
 </template>

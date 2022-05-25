@@ -1,5 +1,5 @@
 <template>
-    <Space>
+    <FSpace>
         <FTooltip mode="popover">
             <FButton>查看更多</FButton>
             <template #content>
@@ -9,5 +9,5 @@
             </template>
             <template #title> 我是标题 </template>
         </FTooltip>
-    </Space>
+    </FSpace>
 </template>
