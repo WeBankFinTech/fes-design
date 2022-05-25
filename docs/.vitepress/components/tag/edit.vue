@@ -8,22 +8,20 @@
         >
             {{ tag }}
         </FTag>
-        <FInput
-            v-show="dynamicTags.state.inputVisible"
-            ref="inputRef"
-            v-model="dynamicTags.state.inputValue"
-            class="input-tag"
-            size="small"
-            @blur="dynamicTags.handleInputConfirm"
-        >
-        </FInput>
-        <FButton
-            v-show="!dynamicTags.state.inputVisible"
-            class="button-tag"
-            @click="dynamicTags.showInput"
-        >
-            + New Tag
-        </FButton>
+        <div>
+            <FInput
+                v-if="dynamicTags.state.inputVisible"
+                ref="inputRef"
+                v-model="dynamicTags.state.inputValue"
+                class="input-tag"
+                size="small"
+                @blur="dynamicTags.handleInputConfirm"
+            >
+            </FInput>
+            <FButton v-else class="button-tag" @click="dynamicTags.showInput">
+                + New Tag
+            </FButton>
+        </div>
     </FSpace>
 </template>
 
@@ -79,8 +77,5 @@ export default {
 .input-tag,
 .button-tag {
     width: 100px;
-}
-.button-tag {
-    margin-left: -12px;
 }
 </style>

@@ -9,7 +9,7 @@ import {
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
-import { flatten, getSlot } from '../_util/vnode';
+import { flatten, getSlot, isValidElementNode } from '../_util/vnode';
 import { TThemeVars } from '../_theme/base';
 import { createKey } from '../_util/createKey';
 import { depx } from '../_util/utils';
@@ -67,7 +67,7 @@ const useMargin = (props: SpaceProps, themeVarsRef: Ref<TThemeVars>) => {
         } else {
             const currentSize = depx(
                 themeVarsRef.value[createKey('padding', size)] ||
-                themeVarsRef.value[createKey('padding', 'small')]
+                    themeVarsRef.value[createKey('padding', 'small')],
             );
             horizontal = currentSize;
             vertical = currentSize;
@@ -112,7 +112,9 @@ export default defineComponent({
             margin,
         } = this;
 
-        const children = flatten(getSlot(this.$slots));
+        const children = flatten(getSlot(this.$slots)).filter((node) =>
+            isValidElementNode(node),
+        );
         const lastIndex = children.length - 1;
         const isJustifySpace = justify.startsWith('space-');
 
