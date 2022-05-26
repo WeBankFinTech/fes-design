@@ -113,7 +113,8 @@ import type { GetContainer } from '../_util/interface';
 import { useLocale } from '../config-provider/useLocale';
 import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
 import { noop } from '../_util/utils';
-import { pickerFactory, Picker } from './pickerHandler';
+import { pickerFactory } from './pickerHandler';
+import type { Picker } from './pickerHandler';
 
 const prefixCls = getPrefixCls('date-picker');
 

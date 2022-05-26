@@ -21,82 +21,57 @@
     </div>
 </template>
 
-<script setup lang="ts">
-import { computed, ref } from 'vue';
+<script lang="ts">
+import { computed, defineComponent } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import CloseCircleFilled from '../icon/CloseCircleFilled';
 import CloseCircleOutlined from '../icon/CloseCircleOutlined';
+import { tagProps } from './props';
+import { CLOSE_EVENT } from '../_util/constants';
+import { useHover } from './useHover';
 
 const prefixCls = getPrefixCls('tag');
 
-interface TagProps {
-    type?: 'default' | 'success' | 'info' | 'warning' | 'danger';
-    closable?: boolean;
-    backgroundColor?: string;
-    size?: 'small' | 'middle' | 'large';
-    effect?: 'dark' | 'light' | 'plain';
-}
-
-type TagEmits = {
-    (e: 'close', event: Event): void;
-    (e: 'click', event: Event): void;
-};
-
-const props = withDefaults(defineProps<TagProps>(), {
-    type: 'default',
-    closable: false,
-    size: 'middle',
-    effect: 'light',
-});
-
-const emit = defineEmits<TagEmits>();
-
-useTheme();
-const { type, size, effect } = props;
-
-/**
- * computed
- */
-const classes = computed(() => ({
-    [prefixCls]: true,
-    [`${prefixCls}-type--${type}`]: type,
-    [`${prefixCls}-size--${size}`]: size,
-    [`${prefixCls}-effect--${effect}`]: effect,
-}));
-
-/**
- * methods
- */
-const handleClose = (event: Event) => {
-    emit('close', event);
-};
-
-const handleClick = (event: Event) => {
-    emit('click', event);
-};
-
-function useHover() {
-    const isHover = ref(false);
-
-    const mouseCloseOver = () => {
-        isHover.value = true;
-    };
-    const mouseCloseLeave = () => {
-        isHover.value = false;
-    };
-
-    return {
-        isHover,
-        mouseCloseOver,
-        mouseCloseLeave,
-    };
-}
-const { isHover, mouseCloseOver, mouseCloseLeave } = useHover();
-</script>
-
-<script lang="ts">
-export default {
+export default defineComponent({
     name: 'FTag',
-};
+    components: {
+        CloseCircleFilled,
+        CloseCircleOutlined,
+    },
+    props: {
+        ...tagProps,
+    },
+    emits: ['click', CLOSE_EVENT],
+    setup(props, { emit }) {
+        useTheme();
+
+        const classes = computed(() => ({
+            [prefixCls]: true,
+            [`${prefixCls}-type--${props.type}`]: props.type,
+            [`${prefixCls}-size--${props.size}`]: props.size,
+            [`${prefixCls}-effect--${props.effect}`]: props.effect,
+        }));
+
+        const handleClose = (event: Event) => {
+            emit(CLOSE_EVENT, event);
+        };
+
+        const handleClick = (event: Event) => {
+            emit('click', event);
+        };
+
+        const { isHover, mouseCloseOver, mouseCloseLeave } = useHover();
+
+        return {
+            prefixCls,
+            classes,
+            handleClose,
+            handleClick,
+            isHover,
+            mouseCloseOver,
+            mouseCloseLeave,
+        };
+    },
+});
 </script>

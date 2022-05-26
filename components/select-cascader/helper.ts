@@ -5,7 +5,7 @@ import type {
     CascaderNodeKey,
     CascaderOption,
 } from '../cascader/interface';
-import { CascaderProps } from '../cascader/props';
+import type { CascaderProps } from '../cascader/props';
 
 export const getCurrentValueByKeys = (
     nodeList: CascaderNodeList,

@@ -19,12 +19,8 @@ import {
 import { isPlainObject, isArray, isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
-import {
-    COMPONENT_NAME,
-    LAYOUT_PROVIDE_KEY,
-    layoutProps,
-    LayoutChild,
-} from './const';
+import { COMPONENT_NAME, LAYOUT_PROVIDE_KEY, layoutProps } from './const';
+import type { LayoutChild } from './const';
 
 const prefixCls = getPrefixCls('layout');
 

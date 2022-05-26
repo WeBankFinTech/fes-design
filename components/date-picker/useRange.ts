@@ -2,7 +2,7 @@ import { watch, ref, Ref } from 'vue';
 
 import { contrastDate, parseDate, getTimestampFromFormat } from './helper';
 import { SELECTED_STATUS, RANGE_POSITION } from './const';
-import { Picker } from './pickerHandler';
+import type { Picker } from './pickerHandler';
 
 import type { CalendarsProps } from './calendars.vue';
 

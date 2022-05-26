@@ -2,7 +2,7 @@ import { inject, computed } from 'vue';
 import { CASCADER_PROVIDE_KEY } from './props';
 
 import type { CascaderMenuProps } from './cascaderMenu';
-import { InnerCascaderOption } from './interface';
+import type { InnerCascaderOption } from './interface';
 import { ROOT_MENU_KEY } from './const';
 
 export default (props: CascaderMenuProps) => {
