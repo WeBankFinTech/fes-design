@@ -45,7 +45,7 @@ export default defineComponent({
             prefixCls: string,
         ) => {
             if ((option as any).slots?.default) {
-                return (option as any).slots.default({ isSelected });
+                return (option as any).slots.default({...option, isSelected });
             }
             if (props.renderOption) {
                 return props.renderOption({...option, isSelected});
