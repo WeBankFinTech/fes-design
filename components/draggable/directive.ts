@@ -3,30 +3,19 @@ import { useDraggable } from './useDraggable';
 
 import type { FObjectDirective } from '../_util/interface';
 
-const dragMap = reactive<{
-    [key: string]: {
-        props: {
-            list: never[];
-            droppable: boolean;
-            disabled: boolean;
-        };
-        drag?: any; // TODO Ref 和 ReturnType 不能一起工作？
-    };
-}>({});
-
 export default {
     name: 'drag',
     mounted(el: HTMLElement, binding) {
-        const key = `drag_${Date.now()}_${Math.round(10000 * Math.random())}`;
-        dragMap[key] = {
+        const fesDrag = reactive({
             props: {
                 list: binding.value || [],
                 droppable: binding.modifiers.droppable,
                 disabled: binding.modifiers.disabled,
             },
-        };
+            drag: null,
+        });
         const containerRef = ref(el);
-        const propsRef = computed(() => dragMap[key].props);
+        const propsRef = computed(() => fesDrag.props);
         const drag = useDraggable(containerRef, propsRef);
         el.addEventListener('mousedown', drag.handleSelectDrag);
         el.addEventListener('dragover', drag.handleDragover);
@@ -35,7 +24,7 @@ export default {
         el.addEventListener('dragend', drag.handleDragEnd);
         el.addEventListener('transitionend', drag.handleTransitionEnd);
 
-        dragMap[key].drag = drag;
+        fesDrag.drag = drag;
 
         watch(
             () => drag.settings,
@@ -57,20 +46,20 @@ export default {
             },
             { deep: true },
         );
-        el.setAttribute('data-drag-key', key);
+        (binding.instance as any).__fes_drag = fesDrag;
     },
     updated(el: HTMLElement, binding) {
-        const key = el.getAttribute('data-drag-key');
-        if (!key) return;
-        dragMap[key].props = {
+        const fesDrag = (binding.instance as any).__fes_drag;
+        if (!fesDrag) return;
+        fesDrag.props = {
             list: binding.value || [],
             droppable: binding.modifiers.droppable,
             disabled: binding.modifiers.disabled,
         };
     },
-    beforeUnmount(el) {
-        const key = el.getAttribute('data-drag-key');
-        const drag = dragMap[key].drag;
+    beforeUnmount(el, binding) {
+        const fesDrag = (binding.instance as any).__fes_drag;
+        const drag = fesDrag?.drag;
         if (drag) {
             el.removeEventListener('mousedown', drag.handleSelectDrag);
             el.removeEventListener('dragover', drag.handleDragover);
@@ -79,6 +68,5 @@ export default {
             el.removeEventListener('dragend', drag.handleDragEnd);
             el.removeEventListener('transitionend', drag.handleTransitionEnd);
         }
-        delete dragMap[key];
     },
 } as FObjectDirective;
