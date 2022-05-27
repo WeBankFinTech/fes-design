@@ -12,7 +12,7 @@ returnToTop: false
       <h3>微众银行中后台设计 Fes Design</h3>
     </div>
     <p class="actions">
-      <a class="get-started" :href="withBase('/zh/components/button.html')">快速开始</a>
+      <a class="get-started" :href="withBase('/zh/guide/quick-start.html')">快速开始</a>
     </p>
   </section>
 </ClientOnly>
