@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="tsx">
 import {
     computed,
     getCurrentInstance,
@@ -9,8 +9,8 @@ import {
     defineComponent,
     PropType,
     ExtractPropTypes,
+    ref,
 } from 'vue';
-import { isArray, isString } from 'lodash-es';
 import { key } from './const';
 
 const optionProps = {
@@ -37,18 +37,7 @@ export default defineComponent({
 
         const { addOption, removeOption } = parent;
 
-        // 当插槽只是string时，通过slot计算label
-        let label = '';
-        if (!props.label) {
-            const vNodes = ctx.slots.default();
-            if (
-                isArray(vNodes) &&
-                vNodes.length === 1 &&
-                isString(vNodes[0].children)
-            ) {
-                label = vNodes[0].children;
-            }
-        }
+        const optionRef = ref<HTMLElement>();
 
         onBeforeMount(() => {
             const option = {
@@ -56,14 +45,24 @@ export default defineComponent({
                 ...toRefs(props),
                 slots: ctx.slots,
             };
-            option.label = computed(() => label || props.label);
+            option.label = computed(() => {
+                if (props.label) {
+                    return props.label;
+                }
+                const el = optionRef.value;
+                //TODO: 检测 text 变更
+                return el?.textContent || '';
+            });
             addOption(option);
         });
 
         onBeforeUnmount(() => {
             removeOption(instance.uid);
         });
-        return () => null;
+
+        return () => {
+            return <span ref={optionRef}>{ctx.slots.default?.()}</span>;
+        };
     },
 });
 </script>
