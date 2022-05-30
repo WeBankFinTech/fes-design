@@ -1,3 +1,15 @@
+## [0.5.8](https://github.com/WeBankFinTech/fes-design/compare/v0.5.7...v0.5.8) (2022-05-30)
+
+
+### Bug Fixes
+
+*  Select修复slot 不在render中执行的问题 ([#167](https://github.com/WeBankFinTech/fes-design/issues/167)) ([3d97700](https://github.com/WeBankFinTech/fes-design/commit/3d9770024adaf6f69b97c1dd1d36101d14c7071c))
+* date-picker 时间初始化问题 ([#170](https://github.com/WeBankFinTech/fes-design/issues/170)) ([78b9eee](https://github.com/WeBankFinTech/fes-design/commit/78b9eee07a7a1fb655bda7a5e016a6736b6104cf))
+* dragable 指令引发 vue 组件渲染异常 ([#168](https://github.com/WeBankFinTech/fes-design/issues/168)) ([1f0713e](https://github.com/WeBankFinTech/fes-design/commit/1f0713ecd0df88c5e7b2b6d379cbb0b2a95245ff))
+* tabPane为空时正常显示 ([#169](https://github.com/WeBankFinTech/fes-design/issues/169)) ([fbd9b7f](https://github.com/WeBankFinTech/fes-design/commit/fbd9b7f9727d99c789e35678c58b13351fe94d84))
+
+
+
 ## [0.5.7](https://github.com/WeBankFinTech/fes-design/compare/v0.5.6...v0.5.7) (2022-05-25)
 
 
