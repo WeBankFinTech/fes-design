@@ -173,7 +173,7 @@ export const useRange = ({
         return false;
     };
 
-    const rangeDiabledDate = (date: Date, format: string) => {
+    const rangeDisabledDate = (date: Date, format: string) => {
         if (maxRangeDisabled(date, format)) {
             return true;
         }
@@ -185,7 +185,7 @@ export const useRange = ({
         rightActiveDate,
         changeCurrentDate,
 
-        rangeDiabledDate,
+        rangeDisabledDate,
         resetActiveDate,
     };
 };

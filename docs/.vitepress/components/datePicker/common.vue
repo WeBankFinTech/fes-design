@@ -16,6 +16,7 @@
             :minuteStep="2"
             :secondStep="2"
             placeholder="时间日期选择"
+            defaultTime="00:00:00"
         />
     </FSpace>
 </template>
@@ -30,7 +31,7 @@ export default defineComponent({
             console.log('change:', currentDate.value);
         };
 
-        const datetime = ref(1656604800000);
+        const datetime = ref();
 
         return {
             currentDate,

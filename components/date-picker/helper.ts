@@ -159,3 +159,12 @@ export const getTimestampFromFormat = (
 
     return transformDateToTimestamp(dateObj, isFullMax);
 };
+
+export const transformTimeToDate = (timeStr: string) => {
+    const times = timeStr.split(':');
+    return {
+        hour: Number(times[0]),
+        minute: Number(times[1]),
+        second: Number(times[2]),
+    };
+};

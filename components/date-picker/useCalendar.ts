@@ -11,6 +11,7 @@ import {
     timeFormat,
     contrastDate,
     transformDateToTimestamp,
+    transformTimeToDate,
 } from './helper';
 
 import type { CalendarProps } from './calendar.vue';
@@ -538,15 +539,6 @@ const transformDateToTime = (selectedDate: DateObj) => {
         times.push(`${selectedDate.second}`.padStart(2, '0'));
     }
     return times.join(':');
-};
-
-const transformTimeToDate = (timeStr: string) => {
-    const times = timeStr.split(':');
-    return {
-        hour: Number(times[0]),
-        minute: Number(times[1]),
-        second: Number(times[2]),
-    };
 };
 
 export const useTime = ({

@@ -73,6 +73,7 @@
                 :secondStep="secondStep"
                 :disabledDate="disabledDate"
                 :disabledTime="disabledTime"
+                :defaultTime="defaultTime"
                 @change="changeDateBycalendars"
                 @tmpSelectedDateChange="tmpSelectedDateChange"
             />

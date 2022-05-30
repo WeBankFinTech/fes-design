@@ -130,7 +130,12 @@ import TimePicker from '../time-picker/time-picker.vue';
 import InputInner from '../input/inputInner.vue';
 import getPrefixCls from '../_util/getPrefixCls';
 
-import { parseDate, strictParse, transformDateToTimestamp } from './helper';
+import {
+    parseDate,
+    strictParse,
+    transformDateToTimestamp,
+    transformTimeToDate,
+} from './helper';
 import {
     RANGE_POSITION,
     COMMON_PROPS,
@@ -183,6 +188,7 @@ const calendarProps = {
             (date: Date, format: string) => boolean | undefined
         >,
     },
+    defaultTime: String,
 } as const;
 
 export type CalendarProps = Partial<ExtractPropTypes<typeof calendarProps>>;
@@ -377,10 +383,15 @@ export default defineComponent({
                 pickerRef.value.hasTime &&
                 selectedDates.value[activeIndex.value]?.hour == null
             ) {
-                const date = new Date();
-                time.hour = date.getHours();
-                time.minute = date.getMinutes();
-                time.second = date.getSeconds();
+                if (props.defaultTime) {
+                    Object.assign(time, transformTimeToDate(props.defaultTime));
+                } else {
+                    const date = new Date();
+
+                    time.hour = date.getHours();
+                    time.minute = date.getMinutes();
+                    time.second = date.getSeconds();
+                }
             }
 
             updateSelectedDates(
