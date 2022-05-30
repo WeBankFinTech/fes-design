@@ -7,6 +7,10 @@
         >
             <template #separator> 至 </template>
         </FDatePicker>
-        <FDatePicker type="datetimerange" clearable />
+        <FDatePicker
+            type="datetimerange"
+            :defaultTime="['00:00:00', '23:59:59']"
+            clearable
+        />
     </FSpace>
 </template>

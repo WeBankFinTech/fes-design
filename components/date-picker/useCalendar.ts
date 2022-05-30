@@ -5,13 +5,14 @@ import { useNormalModel } from '../_util/use/useModel';
 import { PickerType } from './pickerHandler';
 import type { Picker } from './pickerHandler';
 
-import { SELECTED_STATUS, YEAR_COUNT } from './const';
+import { RANGE_POSITION, SELECTED_STATUS, YEAR_COUNT } from './const';
 import {
     parseDate,
     timeFormat,
     contrastDate,
     transformDateToTimestamp,
     transformTimeToDate,
+    getDefaultTime,
 } from './helper';
 
 import type { CalendarProps } from './calendar.vue';
@@ -94,7 +95,23 @@ export const useSelectedDates = (
             (!selectedDates.value.length ||
                 props.selectedStatus === SELECTED_STATUS.TWO)
         ) {
-            selectedDates.value = [newDate, { ...newDate }];
+            const otherDate = { ...newDate };
+            if (props.defaultTime) {
+                Object.assign(
+                    otherDate,
+                    getDefaultTime(
+                        props.defaultTime,
+                        props.rangePosition === RANGE_POSITION.LEFT
+                            ? RANGE_POSITION.RIGHT
+                            : RANGE_POSITION.LEFT,
+                    ),
+                );
+            }
+            if (props.rangePosition === RANGE_POSITION.LEFT) {
+                selectedDates.value = [newDate, otherDate];
+            } else {
+                selectedDates.value = [otherDate, newDate];
+            }
             emit('selectedDay');
         } else if (!picker.value.isRange) {
             emit('selectedDay');

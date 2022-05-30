@@ -2,6 +2,7 @@ import { parse, format, isValid } from 'date-fns';
 import { isNumber } from 'lodash-es';
 
 import type { ParticalDateObj } from './interface';
+import { RANGE_POSITION } from './const';
 
 // TODO 国际化
 export function strictParse(
@@ -167,4 +168,32 @@ export const transformTimeToDate = (timeStr: string) => {
         minute: Number(times[1]),
         second: Number(times[2]),
     };
+};
+
+export const getDefaultTime = (
+    defaultTime?: string | string[],
+    rangePosition?: RANGE_POSITION,
+) => {
+    const time: {
+        hour?: number;
+        minute?: number;
+        second?: number;
+    } = {};
+    if (typeof defaultTime === 'string') {
+        Object.assign(time, transformTimeToDate(defaultTime));
+    } else if (Array.isArray(defaultTime)) {
+        if (rangePosition === RANGE_POSITION.LEFT) {
+            Object.assign(time, transformTimeToDate(defaultTime[0]));
+        } else {
+            Object.assign(time, transformTimeToDate(defaultTime[1]));
+        }
+    } else {
+        const date = new Date();
+
+        time.hour = date.getHours();
+        time.minute = date.getMinutes();
+        time.second = date.getSeconds();
+    }
+
+    return time;
 };

@@ -134,7 +134,7 @@ import {
     parseDate,
     strictParse,
     transformDateToTimestamp,
-    transformTimeToDate,
+    getDefaultTime,
 } from './helper';
 import {
     RANGE_POSITION,
@@ -188,7 +188,6 @@ const calendarProps = {
             (date: Date, format: string) => boolean | undefined
         >,
     },
-    defaultTime: String,
 } as const;
 
 export type CalendarProps = Partial<ExtractPropTypes<typeof calendarProps>>;
@@ -374,24 +373,12 @@ export default defineComponent({
         const selectedDay = (info: DayItem) => {
             info.next && monthToNext();
             info.pre && monthToPre();
-            const time: {
-                hour?: number;
-                minute?: number;
-                second?: number;
-            } = {};
+            let time;
             if (
                 pickerRef.value.hasTime &&
                 selectedDates.value[activeIndex.value]?.hour == null
             ) {
-                if (props.defaultTime) {
-                    Object.assign(time, transformTimeToDate(props.defaultTime));
-                } else {
-                    const date = new Date();
-
-                    time.hour = date.getHours();
-                    time.minute = date.getMinutes();
-                    time.second = date.getSeconds();
-                }
+                time = getDefaultTime(props.defaultTime, props.rangePosition);
             }
 
             updateSelectedDates(
