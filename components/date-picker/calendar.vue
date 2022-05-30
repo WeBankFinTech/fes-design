@@ -375,7 +375,7 @@ export default defineComponent({
             } = {};
             if (
                 pickerRef.value.hasTime &&
-                !selectedDates.value[activeIndex.value]?.hour
+                selectedDates.value[activeIndex.value]?.hour == null
             ) {
                 const date = new Date();
                 time.hour = date.getHours();

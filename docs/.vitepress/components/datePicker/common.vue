@@ -10,6 +10,7 @@
         <FDatePicker type="year" placeholder="选择年份" />
         <FDatePicker type="quarter" placeholder="选择季度" />
         <FDatePicker
+            v-model="datetime"
             type="datetime"
             :hourStep="2"
             :minuteStep="2"
@@ -29,9 +30,12 @@ export default defineComponent({
             console.log('change:', currentDate.value);
         };
 
+        const datetime = ref(1656604800000);
+
         return {
             currentDate,
             change,
+            datetime,
         };
     },
 });
