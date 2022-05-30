@@ -262,7 +262,7 @@ export default defineComponent({
                                 ref={tabNavRef}
                             >
                                 {children.map((vNode, index) => {
-                                    const tabSlot = (vNode.children as any).tab;
+                                    const tabSlot = (vNode.children as any)?.tab;
                                     return (
                                         <>
                                             {index > 0 && isCard.value && (
