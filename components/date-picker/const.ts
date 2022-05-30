@@ -20,7 +20,7 @@ export const COMMON_PROPS = {
     },
     format: String,
     type: {
-        type: String as PropType<PickerType>,
+        type: String as PropType<keyof typeof PickerType>,
         default: PickerType.date,
     },
     minDate: {
