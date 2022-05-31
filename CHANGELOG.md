@@ -1,3 +1,17 @@
+## [0.5.9](https://github.com/WeBankFinTech/fes-design/compare/v0.5.8...v0.5.9) (2022-05-31)
+
+
+### Bug Fixes
+
+* **datepicker:** type ([#171](https://github.com/WeBankFinTech/fes-design/issues/171)) ([0e5788c](https://github.com/WeBankFinTech/fes-design/commit/0e5788c7d947b6f64295fd0904961f8865024cc1))
+
+
+### Features
+
+* date-picker 添加 defaultTime ([#172](https://github.com/WeBankFinTech/fes-design/issues/172)) ([2eca7be](https://github.com/WeBankFinTech/fes-design/commit/2eca7bed12ea63316011eac1eee354fe9f11b7d3))
+
+
+
 ## [0.5.8](https://github.com/WeBankFinTech/fes-design/compare/v0.5.7...v0.5.8) (2022-05-30)
 
 
