@@ -6,13 +6,14 @@
                     :modelValue="tempCurrentValue"
                     :type="type"
                     :disabledTime="disabledTime"
-                    :disabledDate="rangeDiabledDate"
+                    :disabledDate="rangeDisabledDate"
                     :rangePosition="RANGE_POSITION.LEFT"
                     :activeDate="leftActiveDate"
                     :selectedStatus="selectedStatus"
                     :hourStep="hourStep"
                     :minuteStep="minuteStep"
                     :secondStep="secondStep"
+                    :defaultTime="defaultTime"
                     @change="updateTempCurrentValue"
                     @selectedDay="selectedDay(RANGE_POSITION.LEFT)"
                     @update:activeDate="
@@ -24,13 +25,14 @@
                     :modelValue="tempCurrentValue"
                     :type="type"
                     :disabledTime="disabledTime"
-                    :disabledDate="rangeDiabledDate"
+                    :disabledDate="rangeDisabledDate"
                     :rangePosition="RANGE_POSITION.RIGHT"
                     :activeDate="rightActiveDate"
                     :selectedStatus="selectedStatus"
                     :hourStep="hourStep"
                     :minuteStep="minuteStep"
                     :secondStep="secondStep"
+                    :defaultTime="defaultTime"
                     @change="updateTempCurrentValue"
                     @selectedDay="selectedDay(RANGE_POSITION.RIGHT)"
                     @update:activeDate="
@@ -49,6 +51,7 @@
                 :hourStep="hourStep"
                 :minuteStep="minuteStep"
                 :secondStep="secondStep"
+                :defaultTime="defaultTime"
                 @change="updateTempCurrentValue"
             />
             <div v-if="visibleFooter" :class="`${prefixCls}-footer`">
@@ -168,7 +171,7 @@ export default defineComponent({
             leftActiveDate,
             rightActiveDate,
             changeCurrentDate,
-            rangeDiabledDate,
+            rangeDisabledDate,
             resetActiveDate,
         } = useRange({
             props,
@@ -296,7 +299,7 @@ export default defineComponent({
 
             innerDisabledDate,
 
-            rangeDiabledDate,
+            rangeDisabledDate,
 
             selectedStatus,
             selectedDay,

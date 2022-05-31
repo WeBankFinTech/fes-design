@@ -130,7 +130,12 @@ import TimePicker from '../time-picker/time-picker.vue';
 import InputInner from '../input/inputInner.vue';
 import getPrefixCls from '../_util/getPrefixCls';
 
-import { parseDate, strictParse, transformDateToTimestamp } from './helper';
+import {
+    parseDate,
+    strictParse,
+    transformDateToTimestamp,
+    getDefaultTime,
+} from './helper';
 import {
     RANGE_POSITION,
     COMMON_PROPS,
@@ -368,19 +373,12 @@ export default defineComponent({
         const selectedDay = (info: DayItem) => {
             info.next && monthToNext();
             info.pre && monthToPre();
-            const time: {
-                hour?: number;
-                minute?: number;
-                second?: number;
-            } = {};
+            let time;
             if (
                 pickerRef.value.hasTime &&
                 selectedDates.value[activeIndex.value]?.hour == null
             ) {
-                const date = new Date();
-                time.hour = date.getHours();
-                time.minute = date.getMinutes();
-                time.second = date.getSeconds();
+                time = getDefaultTime(props.defaultTime, props.rangePosition);
             }
 
             updateSelectedDates(

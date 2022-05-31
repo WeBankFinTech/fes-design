@@ -55,6 +55,7 @@ app.use(DatePicker);
 | hourStep     | 小时选项间隔                                                                           | number                                                                                                           | `1`       |
 | minuteStep   | 分钟选项间隔                                                                           | number                                                                                                           | `1`       |
 | secondStep   | 秒钟选项间隔                                                                           | number                                                                                                           | `1`       |
+| defaultTime  | 选中日期后默认具体时刻，非时间范围 string；时间范围 string[]，格式: '12:00:00'         | string/string[]                                                                                                  | -         |
 
 ### DatePicker 类型 Props
 
