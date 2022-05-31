@@ -162,6 +162,12 @@ export const getTimestampFromFormat = (
 };
 
 export const transformTimeToDate = (timeStr: string) => {
+    if (!/^\d{1,2}:\d{1,2}:\d{1,2}$/.test(timeStr)) {
+        console.warn(
+            `[fes-date-picker] defaultTime format expect: HH:mm:ss，now is ${timeStr}`,
+        );
+        timeStr = '00:00:00';
+    }
     const times = timeStr.split(':');
     return {
         hour: Number(times[0]),
