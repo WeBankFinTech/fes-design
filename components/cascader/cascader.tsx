@@ -71,10 +71,8 @@ export default defineComponent({
             event: Event,
         ) => {
             const node = nodeList[val];
-            const values = node.indexPath.slice(0, node.indexPath.length - 1);
-            if (node.hasChildren) {
-                values.push(node.value);
-            }
+            // 叶子节点也包含在内，以便操作反馈
+            const values = [...node.indexPath]
             updateExpandedKeys(values);
             emit('expand', {
                 expandedKeys: values,
