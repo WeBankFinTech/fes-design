@@ -53,6 +53,18 @@ export default (props: CascaderProps, { emit }: { emit: any }) => {
             hasLoaded(nodeList[key]),
         );
     };
+    // 当前节点是否在选中节点的路径中
+    const hasActive = (
+        value: CascaderNodeKey,
+        nodeList: CascaderNodeList,
+    ): boolean => {
+        return (
+            !hasSelected(value) &&
+            (currentSelectedKeys.value as CascaderNodeKey[]).some((key) => {
+                return nodeList[key]?.indexPath.includes(value);
+            })
+        );
+    };
 
     return {
         currentExpandedKeys,
@@ -65,5 +77,6 @@ export default (props: CascaderProps, { emit }: { emit: any }) => {
         hasChecked,
         hasLoaded,
         hasCheckLoaded,
+        hasActive,
     };
 };

@@ -21,6 +21,7 @@ export default (props: CascaderNodeProps) => {
     const isCheckLoaded = computed(() =>
         root.hasCheckLoaded(props.value, root.nodeList),
     );
+    const isActive = computed(() => root.hasActive(props.value, root.nodeList));
 
     const hasIndeterminate = (node: InnerCascaderOption): boolean => {
         if (root.hasChecked(node.value)) {
@@ -52,5 +53,6 @@ export default (props: CascaderNodeProps) => {
         isIndeterminate,
         isLoaded,
         isCheckLoaded,
+        isActive,
     };
 };

@@ -119,6 +119,7 @@ export interface CascaderInst {
         value: CascaderNodeKey,
         nodeList: CascaderNodeList,
     ) => boolean;
+    hasActive: (value: CascaderNodeKey, nodeList: CascaderNodeList) => boolean;
     transformData: Ref<CascaderNodeKey[]>;
     nodeList: {
         [key: string]: InnerCascaderOption;

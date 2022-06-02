@@ -43,6 +43,7 @@ export default defineComponent({
             hasChecked,
             hasLoaded,
             hasCheckLoaded,
+            hasActive,
         } = useState(props, { emit });
 
         const { transformData, nodeList, menuKeys, initialLoaded } = useData({
@@ -203,6 +204,7 @@ export default defineComponent({
             hasChecked,
             hasLoaded,
             hasCheckLoaded,
+            hasActive,
             transformData,
             nodeList,
         });
