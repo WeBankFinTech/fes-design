@@ -13,6 +13,7 @@
     .text();
     position: relative;
     display: flex;
+
     &-menu {
         position: relative;
         box-sizing: border-box;
@@ -22,15 +23,18 @@
         border-right: var(--f-border-width-base) var(--f-border-style-base)
             var(--f-border-color-split);
     }
+    &-menu-scrollbar{
+        width: auto;
+    }
     &-menu-dropdown {
         max-height: @select-dropdown-max-height;
         padding: @padding-xs 0;
     }
-
     &-menu-null,
     &-menu-loading {
         text-align: center;
     }
+
     &-node {
         position: relative;
         display: flex;
@@ -92,15 +96,14 @@
         display: flex;
         flex-grow: 1;
         align-items: center;
+        width: calc(100% - @data-input-height-base);
         &-prefix {
             display: inline-flex;
             margin-right: @padding-xs;
         }
         &-label {
             flex-grow: 1;
-            max-width: calc(
-                @select-dropdown-max-width - @data-input-height-base
-            );
+            overflow: hidden;
         }
         &-suffix {
             display: inline-flex;

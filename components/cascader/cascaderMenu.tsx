@@ -64,6 +64,7 @@ export default defineComponent({
 
         return () => (
             <Scrollbar
+                class={`${prefixCls}-scrollbar`}
                 containerClass={`${prefixCls}-dropdown`}
                 key={props.menuKey}
             >
