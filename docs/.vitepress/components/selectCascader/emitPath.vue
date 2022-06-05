@@ -14,7 +14,7 @@
         <FFormItem label="单选：">
             <FSelectCascader
                 v-model="value1"
-                :data="data"
+                :data="data.options"
                 clearable
                 :emitPath="emitPath"
             ></FSelectCascader>
@@ -23,7 +23,7 @@
         <FFormItem label="多选：">
             <FSelectCascader
                 v-model="value2"
-                :data="data"
+                :data="data.options"
                 multiple
                 cascade
                 clearable
@@ -38,7 +38,7 @@ import { reactive, ref } from 'vue';
 
 function createData(level = 1, baseKey = '', prefix = null, suffix = null) {
     if (!level) return undefined;
-    return Array.apply(null, { length: 2 }).map((_, index) => {
+    return Array.apply(null, { length: 15 }).map((_, index) => {
         const key = '' + baseKey + level + index;
         return {
             label: createLabel(level),
@@ -59,10 +59,21 @@ function createLabel(level) {
 
 export default {
     setup() {
-        const data = reactive(createData(4));
-        const value1 = ref(['40', '4030']);
-        const value2 = ref([['40', '4030', '403020', '40302010']]);
+        const data = reactive({
+            options: [],
+        });
+
+        const value1 = ref(['213', '213114']);
+        const value2 = ref([
+            ['213', '213113'],
+            ['213', '213114'],
+        ]);
         const emitPath = ref(true);
+
+        setTimeout(() => {
+            data.options = createData(2);
+        }, 1000);
+
         return {
             data,
             value1,

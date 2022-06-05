@@ -49,6 +49,7 @@
                     :remote="remote"
                     :loadData="loadData"
                     :expandTrigger="expandTrigger"
+                    :isOpened="isOpened"
                     @update:nodeList="onChangeNodeList"
                     @select="handleSelect"
                     @check="handleCheck"

@@ -120,3 +120,27 @@ export function handleParent(
         }
     }
 }
+
+export function scrollIntoParentView(
+    element: HTMLElement,
+    parent?: HTMLElement,
+) {
+    parent = parent || element.parentElement;
+    if (!parent) {
+        return;
+    }
+
+    // offsetParent may not be parent.
+    const elementToParent = element.offsetTop - parent.offsetTop;
+
+    if (elementToParent - parent.scrollTop < 0) {
+        parent.scrollTo({ top: elementToParent });
+    } else if (
+        elementToParent + element.offsetHeight - parent.scrollTop >
+        parent.offsetHeight
+    ) {
+        parent.scrollTo({
+            top: elementToParent + element.offsetHeight - parent.offsetHeight,
+        });
+    }
+}

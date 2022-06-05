@@ -100,6 +100,10 @@ export const cascaderProps = {
         type: Boolean,
         default: false,
     },
+    isOpened: {
+        type: Boolean,
+        default: true,
+    },
 } as const;
 
 export const cascaderPropsDefaultValue =
