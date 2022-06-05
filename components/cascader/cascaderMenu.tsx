@@ -78,36 +78,38 @@ export default defineComponent({
         const renderNodes = (nodes: InnerCascaderOption[]) =>
             nodes.map((node) => renderNode(node));
 
+        // 将第一个选中元素自动滚动到可见区域
+        const doScrollNode = async () => {
+            await nextTick();
+
+            if (!isCascaderOpened.value || !menuScrollNode.value) {
+                return;
+            }
+
+            const scrollbarEl = getElementFromRef(
+                scrollbarRef.value,
+            ) as HTMLElement;
+            const scrollbarContainerEl =
+                scrollbarEl?.querySelector<HTMLElement>(
+                    `.${scrollbarContainerClass}`,
+                );
+            const activeNodeEl =
+                scrollbarContainerEl?.querySelector<HTMLElement>(
+                    // matches unescaped double quotes
+                    `.${nodePrefixCls}[data-value="${menuScrollNode.value.value}"]`,
+                );
+
+            if (activeNodeEl) {
+                scrollIntoParentView(activeNodeEl, scrollbarContainerEl);
+            }
+        };
+
         onMounted(() => {
-            // 监听当前 menu 展示状态，将第一个选中元素自动滚动到可见区域
+            // 监听当前 menu 展示状态
             watch(
                 [isCascaderOpened, () => props.menuKey],
-                async () => {
-                    await nextTick();
-
-                    if (!isCascaderOpened.value || !menuScrollNode.value) {
-                        return;
-                    }
-
-                    const scrollbarEl = getElementFromRef(
-                        scrollbarRef.value,
-                    ) as HTMLElement;
-                    const scrollbarContainerEl =
-                        scrollbarEl?.querySelector<HTMLElement>(
-                            `.${scrollbarContainerClass}`,
-                        );
-                    const activeNodeEl =
-                        scrollbarContainerEl?.querySelector<HTMLElement>(
-                            // matches unescaped double quotes
-                            `.${nodePrefixCls}[data-value="${menuScrollNode.value.value}"]`,
-                        );
-
-                    if (activeNodeEl) {
-                        scrollIntoParentView(
-                            activeNodeEl,
-                            scrollbarContainerEl,
-                        );
-                    }
+                () => {
+                    doScrollNode();
                 },
                 {
                     flush: 'post',
