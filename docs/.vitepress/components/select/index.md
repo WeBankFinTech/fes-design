@@ -88,25 +88,25 @@ app.use(FSelect);
 
 ## Select Props
 
-| 属性                 | 说明                                          | 类型                               | 默认值                |
-| -------------------- | --------------------------------------------- | ---------------------------------- | --------------------- |
-| appendToContainer    | 弹窗内容是否添加到指定的 DOM 元素             | boolean                            | `true`                |
-| clearable            | 是否显示清除按钮                              | boolean                            | `false`               |
-| disabled             | 是否禁用                                      | boolean                            | `false`               |
-| collapseTags         | 多选时选中项是否折叠展示                      | boolean                            | `false`               |
-| collapseTagsLimit    | 多选时选中项超出限制个数后才会折叠            | number                             | 1                     |
-| tagBordered          | 多选时，选中项展示是否有边框                  | boolean                            | `false`               |
-| emptyText            | 选项为空时显示的文字，也可以使用#empty 设置   | string                             | `无数据`              |
-| getContainer         | 指定下拉选项挂载的 HTML 节点                  | () => HTMLElement                  | `() => document.body` |
-| multiple             | 是否多选                                      | boolean                            | `false`               |
-| multipleLimit        | 多选时用户最多可以选择的项目数，为 0 则不限制 | number                             | `0`                   |
-| placeholder          | 当没有选择内容时的提示语                      | string                             | -                     |
-| modelValue / v-model | 选中的值                                      | number / string / boolean / object | -                     |
-| filterable           | 是否支持过滤选项                              | boolean                            | `false`               |
-| remote               | 是否远程搜索，当输入内容时触发`search`事件    | boolean                            | `false`               |
-| options              | 选项配置                                      | array\<Option\>                    | `[]`                  |
-| valueField           | 替代 `Option` 中的 `value` 字段名             | string                             | `value`               |
-| labelField           | 替代 `Option` 中的 `label` 字段名             | string                             | `label`               |
+| 属性                 | 说明                                                          | 类型                               | 默认值                |
+| -------------------- | ------------------------------------------------------------- | ---------------------------------- | --------------------- |
+| appendToContainer    | 弹窗内容是否添加到指定的 DOM 元素                             | boolean                            | `true`                |
+| clearable            | 是否显示清除按钮                                              | boolean                            | `false`               |
+| disabled             | 是否禁用                                                      | boolean                            | `false`               |
+| collapseTags         | 多选时选中项是否折叠展示                                      | boolean                            | `false`               |
+| collapseTagsLimit    | 多选时选中项超出限制个数后才会折叠                            | number                             | 1                     |
+| tagBordered          | 多选时，选中项展示是否有边框（disabled 为 true 时强制有边框） | boolean                            | `false`               |
+| emptyText            | 选项为空时显示的文字，也可以使用#empty 设置                   | string                             | `无数据`              |
+| getContainer         | 指定下拉选项挂载的 HTML 节点                                  | () => HTMLElement                  | `() => document.body` |
+| multiple             | 是否多选                                                      | boolean                            | `false`               |
+| multipleLimit        | 多选时用户最多可以选择的项目数，为 0 则不限制                 | number                             | `0`                   |
+| placeholder          | 当没有选择内容时的提示语                                      | string                             | -                     |
+| modelValue / v-model | 选中的值                                                      | number / string / boolean / object | -                     |
+| filterable           | 是否支持过滤选项                                              | boolean                            | `false`               |
+| remote               | 是否远程搜索，当输入内容时触发`search`事件                    | boolean                            | `false`               |
+| options              | 选项配置                                                      | array\<Option\>                    | `[]`                  |
+| valueField           | 替代 `Option` 中的 `value` 字段名                             | string                             | `value`               |
+| labelField           | 替代 `Option` 中的 `label` 字段名                             | string                             | `label`               |
 
 ## Select Events
 

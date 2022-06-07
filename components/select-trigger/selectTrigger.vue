@@ -72,7 +72,7 @@
                         size="small"
                         :closable="tag.closable"
                         :class="`${prefixCls}-label-item`"
-                        :bordered="isTagBordered"
+                        :bordered="hasTagBordered"
                         @close="handleRemove(index)"
                     >
                         <Ellipsis>
@@ -265,7 +265,7 @@ export default defineComponent({
             return tags;
         });
 
-        const isTagBordered = computed(() => {
+        const hasTagBordered = computed(() => {
             return props.disabled || props.tagBordered;
         });
 
@@ -375,7 +375,7 @@ export default defineComponent({
             isComposingRef,
             compositionValueRef,
             inputWidthRef,
-            isTagBordered,
+            hasTagBordered,
         };
     },
 });
