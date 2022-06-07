@@ -1,24 +1,35 @@
 <template>
-    <div class="text-tips">不折叠选中项（默认）：</div>
-    <FSelect multiple clearable>
-        <FOption
-            v-for="(item, index) in optionList"
-            :key="index"
-            :value="item.value"
-            :label="item.label"
-        ></FOption>
-    </FSelect>
-    <div class="text-tips">折叠选中项（默认1项起）：</div>
-    <FSelect multiple clearable collapseTags>
-        <FOption
-            v-for="(item, index) in optionList"
-            :key="index"
-            :value="item.value"
-            :label="item.label"
-        ></FOption>
-    </FSelect>
-    <div class="text-tips">折叠选中项（2项起）：</div>
-    <FSelect multiple clearable collapseTags :collapseTagsLimit="2">
+    <FForm :labelWidth="200">
+        <FFormItem label="选中项展示是否有边框：">
+            <FRadioGroup v-model="tagBordered">
+                <FRadio :value="false">false(默认)</FRadio>
+                <FRadio :value="true">true</FRadio>
+            </FRadioGroup>
+        </FFormItem>
+        <FFormItem label="多选是否折叠展示：">
+            <FRadioGroup v-model="collapseTags">
+                <FRadio :value="false">false(默认)</FRadio>
+                <FRadio :value="true">true</FRadio>
+            </FRadioGroup>
+        </FFormItem>
+        <FFormItem v-if="collapseTags" label="折叠项限制：">
+            <FRadioGroup v-model="collapseTagsLimit">
+                <FRadio :value="1">1(默认)</FRadio>
+                <FRadio :value="2">2</FRadio>
+                <FRadio :value="3">3</FRadio>
+            </FRadioGroup>
+        </FFormItem>
+    </FForm>
+
+    <FDivider></FDivider>
+
+    <FSelect
+        multiple
+        clearable
+        :tagBordered="tagBordered"
+        :collapseTags="collapseTags"
+        :collapseTagsLimit="collapseTagsLimit"
+    >
         <FOption
             v-for="(item, index) in optionList"
             :key="index"
@@ -28,7 +39,7 @@
     </FSelect>
 </template>
 <script>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 export default {
     setup() {
@@ -55,8 +66,16 @@ export default {
                 label: '江苏',
             },
         ]);
+
+        const tagBordered = ref(false);
+        const collapseTags = ref(true);
+        const collapseTagsLimit = ref(1);
+
         return {
             optionList,
+            tagBordered,
+            collapseTags,
+            collapseTagsLimit,
         };
     },
 };

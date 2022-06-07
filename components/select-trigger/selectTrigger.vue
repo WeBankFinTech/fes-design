@@ -72,6 +72,7 @@
                         size="small"
                         :closable="tag.closable"
                         :class="`${prefixCls}-label-item`"
+                        :bordered="isTagBordered"
                         @close="handleRemove(index)"
                     >
                         <Ellipsis>
@@ -169,6 +170,10 @@ const selectTriggerProps = {
     collapseTags: Boolean,
     collapseTagsLimit: Number,
     renderTag: Function as PropType<(option: RenderTagParam) => VNodeChild>,
+    tagBordered: {
+        type: Boolean,
+        default: false,
+    },
 } as const;
 
 export default defineComponent({
@@ -258,6 +263,10 @@ export default defineComponent({
             }
 
             return tags;
+        });
+
+        const isTagBordered = computed(() => {
+            return props.disabled || props.tagBordered;
         });
 
         const handleFocus = (event: Event) => {
@@ -366,6 +375,7 @@ export default defineComponent({
             isComposingRef,
             compositionValueRef,
             inputWidthRef,
+            isTagBordered,
         };
     },
 });

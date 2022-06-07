@@ -74,19 +74,17 @@ app.use(FSelect);
 
 --NODATA
 
-
 ### 控制回填内容
 
 --TAG
 
 ### 底部插槽
+
 如果你点开了这个例子，可能你需要它
 
 --ADDON
 
 --CODE
-
-
 
 ## Select Props
 
@@ -97,6 +95,7 @@ app.use(FSelect);
 | disabled             | 是否禁用                                      | boolean                            | `false`               |
 | collapseTags         | 多选时选中项是否折叠展示                      | boolean                            | `false`               |
 | collapseTagsLimit    | 多选时选中项超出限制个数后才会折叠            | number                             | 1                     |
+| tagBordered          | 多选时，选中项展示是否有边框                  | boolean                            | `false`               |
 | emptyText            | 选项为空时显示的文字，也可以使用#empty 设置   | string                             | `无数据`              |
 | getContainer         | 指定下拉选项挂载的 HTML 节点                  | () => HTMLElement                  | `() => document.body` |
 | multiple             | 是否多选                                      | boolean                            | `false`               |
@@ -104,33 +103,33 @@ app.use(FSelect);
 | placeholder          | 当没有选择内容时的提示语                      | string                             | -                     |
 | modelValue / v-model | 选中的值                                      | number / string / boolean / object | -                     |
 | filterable           | 是否支持过滤选项                              | boolean                            | `false`               |
-| remote           | 是否远程搜索，当输入内容时触发`search`事件                              | boolean                            | `false`               |
-| options           | 选项配置                            | array\<Option\>                            | `[]`               |
-| valueField    | 替代 `Option` 中的 `value` 字段名                                                              | string  | `value`    |
-| labelField    | 替代 `Option` 中的 `label` 字段名                                                              | string  | `label`    |
+| remote               | 是否远程搜索，当输入内容时触发`search`事件    | boolean                            | `false`               |
+| options              | 选项配置                                      | array\<Option\>                    | `[]`                  |
+| valueField           | 替代 `Option` 中的 `value` 字段名             | string                             | `value`               |
+| labelField           | 替代 `Option` 中的 `label` 字段名             | string                             | `label`               |
 
 ## Select Events
 
-| 事件名称      | 说明                                                                         | 回调参数                      |
-| ------------- | ---------------------------------------------------------------------------- | ----------------------------- |
-| change        | 选择或者清除选中选项时触发                                        | 目前选中的值                  |
-| visibleChange | 下拉框出现/隐藏时触发, 出现则为 true，隐藏则为 false                                | (visible: Boolean)  |
-| removeTag     | 取消选中时调用，参数为选中项的 value (或 key) 值，仅在 `multiple` 模式下生效 | 取消选中的值                  |
-| blur          | 当选择器失去焦点时触发                                                      | (event: Event)                           |
-| focus         | 当选择器获得焦点时触发                                                      | (event: Event)                           |
-| clear         | 点击清除按钮时触发                                                      | (event: Event)                           |
-| scroll         | 滚动事件                                                      | (event: Event)                         |
-| search         | 搜索事件                                                      | ( query: String)                         |
+| 事件名称      | 说明                                                                         | 回调参数           |
+| ------------- | ---------------------------------------------------------------------------- | ------------------ |
+| change        | 选择或者清除选中选项时触发                                                   | 目前选中的值       |
+| visibleChange | 下拉框出现/隐藏时触发, 出现则为 true，隐藏则为 false                         | (visible: Boolean) |
+| removeTag     | 取消选中时调用，参数为选中项的 value (或 key) 值，仅在 `multiple` 模式下生效 | 取消选中的值       |
+| blur          | 当选择器失去焦点时触发                                                       | (event: Event)     |
+| focus         | 当选择器获得焦点时触发                                                       | (event: Event)     |
+| clear         | 点击清除按钮时触发                                                           | (event: Event)     |
+| scroll        | 滚动事件                                                                     | (event: Event)     |
+| search        | 搜索事件                                                                     | ( query: String)   |
 
 ## Select Slots
 
-| 名称    | 说明            | 参数 |
-| ------- | --------------- | --------------- |
-| default | option 组件列表 | -  |
-| empty   | 无选项的内容    | - |
-| option   | 自定义 `Option` 内容    | *{ value, label, disabled, isSelected }* |
-| tag   | 控制标签的渲染，自定义选中选项在选择框如何展示    | *{ option: Option, handleClose: ()=> void }*  |
-| addon | 弹框底部显示自定义的内容  | -  |
+| 名称    | 说明                                           | 参数                                         |
+| ------- | ---------------------------------------------- | -------------------------------------------- |
+| default | option 组件列表                                | -                                            |
+| empty   | 无选项的内容                                   | -                                            |
+| option  | 自定义 `Option` 内容                           | _{ value, label, disabled, isSelected }_     |
+| tag     | 控制标签的渲染，自定义选中选项在选择框如何展示 | _{ option: Option, handleClose: ()=> void }_ |
+| addon   | 弹框底部显示自定义的内容                       | -                                            |
 
 ## Select Methods
 

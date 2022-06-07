@@ -64,13 +64,17 @@
     vertical-align: middle;
     background: var(--f-tag-bg-color);
     border: var(--f-border-width-base) var(--f-border-style-base) transparent;
-    border-color: var(--f-tag-border-color);
+    border-color: transparent;
     border-radius: var(--f-tag-border-radius);
     outline: none;
     cursor: default;
     transition: all @animation-duration-slow @ease-in-out;
     user-select: none;
     touch-action: manipulation;
+
+    &.is-bordered {
+        border-color: var(--f-tag-border-color);
+    }
 
     &__close {
         margin-left: 4px;

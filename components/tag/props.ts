@@ -23,4 +23,8 @@ export const tagProps = {
         type: String as PropType<Effect>,
         default: 'light',
     },
+    bordered: {
+        type: Boolean,
+        default: true,
+    },
 } as const;

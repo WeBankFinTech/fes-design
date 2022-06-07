@@ -51,6 +51,7 @@ export default defineComponent({
             [`${prefixCls}-type--${props.type}`]: props.type,
             [`${prefixCls}-size--${props.size}`]: props.size,
             [`${prefixCls}-effect--${props.effect}`]: props.effect,
+            'is-bordered': props.bordered,
         }));
 
         const handleClose = (event: Event) => {
