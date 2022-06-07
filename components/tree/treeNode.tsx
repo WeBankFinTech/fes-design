@@ -42,6 +42,10 @@ const treeNodeProps = {
         type: Number,
         default: 0,
     },
+    draggable: {
+        type: Boolean,
+        default: false,
+    },
 } as const;
 
 export type TreeNodeProps = Partial<ExtractPropTypes<typeof treeNodeProps>>;
@@ -79,6 +83,7 @@ export default defineComponent({
                 isSelected.value && 'is-selected',
                 isInline.value && 'is-inline',
                 isFirst.value && 'is-inline-first',
+                root.overInfo.value?.node.value === props.value && `is-over-${root.overInfo.value.position}`
             ].filter(Boolean),
         );
 
@@ -116,7 +121,7 @@ export default defineComponent({
             }
             // 再展开行为
             if (!props.isLeaf) {
-                handleClickSwitcher(event)
+                handleClickSwitcher(event);
             }
         };
         const handleClickCheckbox = (event: Event) => {
@@ -199,7 +204,29 @@ export default defineComponent({
             );
         };
         return () => (
-            <div class={classList.value} data-value={props.value}>
+            <div
+                class={classList.value}
+                data-value={props.value}
+                draggable={props.draggable}
+                onDragstart={(event: DragEvent) => {
+                    root.handleDragstart(props.value, event);
+                }}
+                onDragenter={(event: DragEvent) => {
+                    root.handleDragenter(props.value, event);
+                }}
+                onDragover={(event: DragEvent) => {
+                    root.handleDragover(props.value, event);
+                }}
+                onDragleave={(event: DragEvent) => {
+                    root.handleDragleave(props.value, event);
+                }}
+                onDragend={(event: DragEvent) => {
+                    root.handleDragend(props.value, event);
+                }}
+                onDrop={(event: DragEvent) => {
+                    root.handleDrop(props.value, event);
+                }}
+            >
                 {renderIndent()}
                 {renderSwitcher()}
                 {renderCheckbox()}

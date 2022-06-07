@@ -21,7 +21,6 @@
         background-color: var(--f-tree-node-content-wrapper-bg-color);
         cursor: pointer;
         &:hover {
-            --f-tree-node-content-wrapper-color: var(--f-primary-color);
             --f-tree-node-content-wrapper-bg-color: @tree-selected-background-color;
         }
         &.is-selected {
@@ -32,6 +31,28 @@
             --f-tree-node-content-wrapper-color: var(--f-text-color-disabled);
             --f-tree-node-content-wrapper-bg-color: var(--f-white);
             cursor: not-allowed;
+        }
+        &.is-over-before {
+            &::before {
+                content: " ";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 1px;
+                background: var(--f-primary-color);
+            }
+        }
+        &.is-over-after {
+            &::after {
+                content: " ";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 1px;
+                background: var(--f-primary-color);
+            }
         }
         &.is-inline {
             display: inline-flex;

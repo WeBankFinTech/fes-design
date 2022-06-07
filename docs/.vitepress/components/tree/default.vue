@@ -4,6 +4,7 @@
         v-model:expandedKeys="expandedKeys"
         v-model:checkedKeys="checkedKeys"
         :data="data"
+        draggable
         checkable
     ></FTree>
 </template>

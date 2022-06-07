@@ -1,8 +1,13 @@
-import type { ExtractPropTypes, PropType, InjectionKey } from 'vue';
+import type { ExtractPropTypes, PropType, InjectionKey, Ref } from 'vue';
 import { CHECK_STRATEGY } from './const';
 import { extractPropsDefaultValue } from '../_util/utils';
 
-import type { TreeOption, TreeNodeKey, InnerTreeOption } from './interface';
+import type {
+    TreeOption,
+    TreeNodeKey,
+    InnerTreeOption,
+    DropPosition,
+} from './interface';
 
 export const treeProps = {
     data: {
@@ -93,6 +98,10 @@ export const treeProps = {
         type: Boolean,
         default: true,
     },
+    draggable: {
+        type: Boolean,
+        default: false,
+    },
 } as const;
 
 export const treePropsDefaultValue = extractPropsDefaultValue(treeProps);
@@ -110,6 +119,13 @@ export interface TreeInst {
     nodeList: {
         [key: string]: InnerTreeOption;
     };
+    handleDragstart: (value: TreeNodeKey, event: DragEvent) => void;
+    handleDragenter: (value: TreeNodeKey, event: DragEvent) => void;
+    handleDragover: (value: TreeNodeKey, event: DragEvent) => void;
+    handleDragleave: (value: TreeNodeKey, event: DragEvent) => void;
+    handleDragend: (value: TreeNodeKey, event: DragEvent) => void;
+    handleDrop: (value: TreeNodeKey, event: DragEvent) => void;
+    overInfo: Ref<{ node: InnerTreeOption; position: DropPosition }>;
 }
 
 export const TREE_PROVIDE_KEY: InjectionKey<TreeInst> = Symbol('FTree');
