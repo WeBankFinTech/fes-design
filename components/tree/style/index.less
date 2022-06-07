@@ -32,28 +32,6 @@
             --f-tree-node-content-wrapper-bg-color: var(--f-white);
             cursor: not-allowed;
         }
-        &.is-over-before {
-            &::before {
-                content: " ";
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 1px;
-                background: var(--f-primary-color);
-            }
-        }
-        &.is-over-after {
-            &::after {
-                content: " ";
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                height: 1px;
-                background: var(--f-primary-color);
-            }
-        }
         &.is-inline {
             display: inline-flex;
             margin-left: @padding-lg;
@@ -109,5 +87,12 @@
         &-suffix {
             display: inline-flex;
         }
+    }
+    &-node-drag-over {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: var(--f-primary-color);
     }
 }

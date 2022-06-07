@@ -125,7 +125,10 @@ export interface TreeInst {
     handleDragleave: (value: TreeNodeKey, event: DragEvent) => void;
     handleDragend: (value: TreeNodeKey, event: DragEvent) => void;
     handleDrop: (value: TreeNodeKey, event: DragEvent) => void;
-    overInfo: Ref<{ node: InnerTreeOption; position: DropPosition }>;
+    dragOverInfo: Ref<{
+        node: InnerTreeOption;
+        position: DropPosition;
+    }>;
 }
 
 export const TREE_PROVIDE_KEY: InjectionKey<TreeInst> = Symbol('FTree');

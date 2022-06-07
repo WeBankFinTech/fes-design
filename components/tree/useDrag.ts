@@ -19,37 +19,43 @@ export default ({
     expandNode: (value: TreeNodeKey, event: Event) => void;
 }) => {
     let dragNode: InnerTreeOption | null;
-    const overInfo = ref<{ node: InnerTreeOption; position: DropPosition }>();
-
     let overBeginTimeMap: { [propName: TreeNodeKey]: number } = {};
+    const dragOverInfo = ref<{
+        node: InnerTreeOption;
+        position: DropPosition;
+    }>();
+
+    function resetDragState(): void {
+        dragNode = null;
+        overBeginTimeMap = {};
+        dragOverInfo.value = null;
+    }
 
     const handleDragstart = (value: TreeNodeKey, event: DragEvent) => {
         const node = nodeList[value];
-        console.log('dragstart:', node, event);
         dragNode = node;
         emit('dragstart', { node, event });
     };
 
     const handleDragend = (value: TreeNodeKey, event: DragEvent) => {
-        dragNode = null;
-        overBeginTimeMap = {};
-        overInfo.value = null;
+        resetDragState();
         const node = nodeList[value];
-        console.log('dragend:', node, event);
         emit('dragend', { node, event });
     };
 
     const handleDragenter = (value: TreeNodeKey, event: DragEvent) => {
         if (!dragNode) return;
         const node = nodeList[value];
+        if (!node) return;
         if (node.indexPath.includes(dragNode.value)) return;
-        console.log('dragenter:', node, event);
         emit('dragenter', { node, event });
     };
 
     const handleDragover = (value: TreeNodeKey, event: DragEvent) => {
         event.preventDefault();
+        if (!dragNode) return;
         const node = nodeList[value];
+        if (!node) return;
         if (node.indexPath.includes(dragNode.value)) return;
         emit('dragover', { node, event });
         // 悬浮1s以上展开节点
@@ -79,24 +85,29 @@ export default ({
         } else {
             mousePosition = 'after';
         }
-        overInfo.value = {
+        dragOverInfo.value = {
             node: node,
             position: mousePosition,
         };
     };
 
     const handleDragleave = (value: TreeNodeKey, event: DragEvent) => {
+        if (!dragNode) return;
         const node = nodeList[value];
+        if (!node) return;
         if (node.indexPath.includes(dragNode.value)) return;
-        console.log('dragleave:', node, event);
         emit('dragleave', { node, event });
     };
 
     const handleDrop = (value: TreeNodeKey, event: DragEvent) => {
+        if (!dragNode) return;
         const node = nodeList[value];
+        if (!node) return;
         if (node.indexPath.includes(dragNode.value)) return;
-        console.log('drop:', node, dragNode);
-        emit('drop', { node, dragNode, event });
+        if (!dragOverInfo.value) {
+            return;
+        }
+        emit('drop', { ...dragOverInfo.value, dragNode, event });
     };
 
     return {
@@ -106,6 +117,6 @@ export default ({
         handleDragleave,
         handleDragend,
         handleDrop,
-        overInfo,
+        dragOverInfo,
     };
 };

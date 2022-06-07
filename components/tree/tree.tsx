@@ -92,7 +92,7 @@ export default defineComponent({
             handleDragleave,
             handleDragend,
             handleDrop,
-            overInfo
+            dragOverInfo
         } = useDrag({ nodeList, emit, expandNode });
 
         watch(
@@ -268,7 +268,7 @@ export default defineComponent({
             handleDragleave,
             handleDragend,
             handleDrop,
-            overInfo
+            dragOverInfo
         });
 
         const renderNode = (value: TreeNodeKey) => {
