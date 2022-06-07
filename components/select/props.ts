@@ -70,6 +70,10 @@ export const selectProps = {
         type: String,
         default: 'label',
     },
+    tagBordered: {
+        type: Boolean,
+        default: false,
+    },
 } as const;
 
 export const selectPropsDefaultValue = extractPropsDefaultValue(selectProps);

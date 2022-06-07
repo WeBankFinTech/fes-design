@@ -63,6 +63,7 @@ Tag 组件提供了三个不同的主题。
 | backgroundColor | 背景色                                                      | string  | —         |
 | size            | 尺寸，可选值为 `small` `middle` `large`                     | string  | `middle`  |
 | effect          | 主题，可选值为 `dark` `light` `plain`                       | string  | `light`   |
+| bordered        | 是否有边框                                                  | boolean | `true`    |
 
 ## Tag Slots
 

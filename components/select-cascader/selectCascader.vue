@@ -22,6 +22,7 @@
                     :placeholder="inputPlaceholder"
                     :collapseTags="collapseTags"
                     :collapseTagsLimit="collapseTagsLimit"
+                    :tagBordered="tagBordered"
                     :class="{ 'is-error': isError }"
                     :renderTag="$slots.tag"
                     @remove="handleRemove"
