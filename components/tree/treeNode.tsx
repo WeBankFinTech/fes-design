@@ -219,7 +219,7 @@ export default defineComponent({
                 class={classList.value}
                 style={style.value}
                 data-value={props.value}
-                draggable={props.draggable && !isInline.value}
+                draggable={props.draggable}
                 onDragstart={(event: DragEvent) => {
                     root.handleDragstart(props.value, event);
                 }}

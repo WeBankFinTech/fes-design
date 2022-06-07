@@ -299,7 +299,7 @@ export default defineComponent({
                     checkable={node.checkable}
                     isLeaf={node.isLeaf}
                     v-slots={itemSlots}
-                    draggable={props.draggable}
+                    draggable={props.draggable && !props.inline && !node.disabled}
                 ></TreeNode>
             );
         };
