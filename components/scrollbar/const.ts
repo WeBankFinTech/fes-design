@@ -51,6 +51,7 @@ export const scrollbarProps = {
     contentStyle: [String, Object] as PropType<string | CSSProperties>,
     horizontalRatioStyle: [String, Object] as PropType<string | CSSProperties>,
     verticalRatioStyle: [String, Object] as PropType<string | CSSProperties>,
+    shadowStyle: [String, Object] as PropType<string | CSSProperties>,
     noresize: Boolean,
     always: {
         type: Boolean,

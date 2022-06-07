@@ -83,6 +83,7 @@ export default defineComponent({
                         style={bodyWrapperStyle.value}
                         horizontalRatioStyle={{ zIndex: 3 }}
                         verticalRatioStyle={{ zIndex: 3 }}
+                        shadowStyle={{ zIndex: 3 }}
                         shadow={{
                             x: hasFixedColumn.value,
                             y: true,
