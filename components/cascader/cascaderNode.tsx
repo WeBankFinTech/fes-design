@@ -66,6 +66,7 @@ export default defineComponent({
             isIndeterminate,
             isLoaded,
             isCheckLoaded,
+            isActive,
         } = useCascaderNode(props);
 
         const disabled = computed(() => props.disabled);
@@ -87,6 +88,7 @@ export default defineComponent({
                 isExpanded.value && 'is-expanded',
                 isSelected.value && 'is-selected',
                 isChecked.value && 'is-checked',
+                isActive.value && 'is-active',
             ].filter(Boolean),
         );
 

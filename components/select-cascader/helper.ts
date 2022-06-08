@@ -135,12 +135,8 @@ export const getExpandedKeysBySelectedKeys = (
 ) => {
     const selectedNode = (selectedKeys[0] && nodeList[selectedKeys[0]]) || null;
     if (selectedNode) {
-        return [
-            ...selectedNode.indexPath.slice(
-                0,
-                selectedNode.indexPath.length - 1,
-            ),
-        ];
+        // 叶子节点也包含在内，以便操作反馈
+        return [...selectedNode.indexPath];
     } else {
         return [];
     }

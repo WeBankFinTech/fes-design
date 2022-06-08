@@ -100,6 +100,10 @@ export const cascaderProps = {
         type: Boolean,
         default: false,
     },
+    isOpened: {
+        type: Boolean,
+        default: true,
+    },
 } as const;
 
 export const cascaderPropsDefaultValue =
@@ -119,6 +123,7 @@ export interface CascaderInst {
         value: CascaderNodeKey,
         nodeList: CascaderNodeList,
     ) => boolean;
+    hasActive: (value: CascaderNodeKey, nodeList: CascaderNodeList) => boolean;
     transformData: Ref<CascaderNodeKey[]>;
     nodeList: {
         [key: string]: InnerCascaderOption;

@@ -28,7 +28,26 @@ export default (props: CascaderMenuProps) => {
         return nodes;
     });
 
+    const isCascaderOpened = computed(() => root.props.isOpened);
+
+    const menuScrollNode = computed(() => {
+        return menuNodes.value.find((node) => {
+            if (root.props.selectable) {
+                return (
+                    root.hasActive(node.value, root.nodeList) ||
+                    root.hasSelected(node.value)
+                );
+            }
+            if (root.props.checkable) {
+                return root.hasChecked(node.value);
+            }
+            return false;
+        });
+    });
+
     return {
         menuNodes,
+        isCascaderOpened,
+        menuScrollNode,
     };
 };

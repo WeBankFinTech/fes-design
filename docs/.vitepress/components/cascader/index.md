@@ -58,12 +58,6 @@ app.use(FCascader);
 
 --FIX
 
-### 虚拟滚动条
-
-自动开启，兼容大数据处理场景。
-
---VIRTUALLIST
-
 ### 文字超长溢出
 
 --LONGLABEL

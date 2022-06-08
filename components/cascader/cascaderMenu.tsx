@@ -1,4 +1,13 @@
-import { defineComponent, ExtractPropTypes, PropType, VNodeChild } from 'vue';
+import {
+    defineComponent,
+    ExtractPropTypes,
+    nextTick,
+    onMounted,
+    PropType,
+    ref,
+    VNodeChild,
+    watch,
+} from 'vue';
 import { isFunction, isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import LoadingOutlined from '../icon/LoadingOutlined';
@@ -7,8 +16,12 @@ import useCascaderMenu from './useCascaderMenu';
 import type { InnerCascaderOption } from './interface';
 import CascaderNode from './cascaderNode';
 import Scrollbar from '../scrollbar';
+import getElementFromRef from '../_util/getElementFromRef';
+import { scrollIntoParentView } from './helper';
 
 const prefixCls = getPrefixCls('cascader-menu');
+const scrollbarContainerClass = `${prefixCls}-dropdown`;
+const nodePrefixCls = getPrefixCls('cascader-node');
 
 const cascaderMenuProps = {
     menuKey: {
@@ -27,7 +40,10 @@ export default defineComponent({
     name: COMPONENT_NAME.CASCADER_MENU,
     props: cascaderMenuProps,
     setup(props) {
-        const { menuNodes } = useCascaderMenu(props);
+        const scrollbarRef = ref<HTMLElement>(null);
+
+        const { menuNodes, isCascaderOpened, menuScrollNode } =
+            useCascaderMenu(props);
 
         const renderNode = (node: InnerCascaderOption) => {
             const itemSlots: {
@@ -62,9 +78,51 @@ export default defineComponent({
         const renderNodes = (nodes: InnerCascaderOption[]) =>
             nodes.map((node) => renderNode(node));
 
+        // 将第一个选中元素自动滚动到可见区域
+        const doScrollNode = async () => {
+            await nextTick();
+
+            if (!isCascaderOpened.value || !menuScrollNode.value) {
+                return;
+            }
+
+            const scrollbarEl = getElementFromRef(
+                scrollbarRef.value,
+            ) as HTMLElement;
+            const scrollbarContainerEl =
+                scrollbarEl?.querySelector<HTMLElement>(
+                    `.${scrollbarContainerClass}`,
+                );
+            const activeNodeEl =
+                scrollbarContainerEl?.querySelector<HTMLElement>(
+                    // matches unescaped double quotes
+                    `.${nodePrefixCls}[data-value="${menuScrollNode.value.value}"]`,
+                );
+
+            if (activeNodeEl) {
+                scrollIntoParentView(activeNodeEl, scrollbarContainerEl);
+            }
+        };
+
+        onMounted(() => {
+            // 监听当前 menu 展示状态
+            watch(
+                [isCascaderOpened, () => props.menuKey],
+                () => {
+                    doScrollNode();
+                },
+                {
+                    flush: 'post',
+                    immediate: true,
+                },
+            );
+        });
+
         return () => (
             <Scrollbar
-                containerClass={`${prefixCls}-dropdown`}
+                ref={scrollbarRef}
+                class={`${prefixCls}-scrollbar`}
+                containerClass={scrollbarContainerClass}
                 key={props.menuKey}
             >
                 <div class={`${prefixCls}`} role="cascader-menu">
