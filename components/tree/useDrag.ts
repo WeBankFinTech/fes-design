@@ -43,20 +43,24 @@ export default ({
         emit('dragend', { node, event });
     };
 
-    const handleDragenter = (value: TreeNodeKey, event: DragEvent) => {
+    function getTargetNode(value: TreeNodeKey) {
         if (!dragNode) return;
         const node = nodeList[value];
         if (!node) return;
         if (node.indexPath.includes(dragNode.value)) return;
+        return node;
+    }
+
+    const handleDragenter = (value: TreeNodeKey, event: DragEvent) => {
+        const node = getTargetNode(value);
+        if (!node) return;
         emit('dragenter', { node, event });
     };
 
     const handleDragover = (value: TreeNodeKey, event: DragEvent) => {
         event.preventDefault();
-        if (!dragNode) return;
-        const node = nodeList[value];
+        const node = getTargetNode(value);
         if (!node) return;
-        if (node.indexPath.includes(dragNode.value)) return;
         emit('dragover', { node, event });
         // 悬浮1s以上展开节点
         if (!overBeginTimeMap[value]) {
@@ -92,18 +96,14 @@ export default ({
     };
 
     const handleDragleave = (value: TreeNodeKey, event: DragEvent) => {
-        if (!dragNode) return;
-        const node = nodeList[value];
+        const node = getTargetNode(value);
         if (!node) return;
-        if (node.indexPath.includes(dragNode.value)) return;
         emit('dragleave', { node, event });
     };
 
     const handleDrop = (value: TreeNodeKey, event: DragEvent) => {
-        if (!dragNode) return;
-        const node = nodeList[value];
+        const node = getTargetNode(value);
         if (!node) return;
-        if (node.indexPath.includes(dragNode.value)) return;
         if (!dragOverInfo.value) {
             return;
         }
