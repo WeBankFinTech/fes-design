@@ -37,8 +37,8 @@ app.use(FEllipsis);
 | 属性    | 说明                                                                       | 类型             | 默认值 |
 | ------- | -------------------------------------------------------------------------- | ---------------- | ------ |
 | line    | 超出几行后省略                                                            | string / number  | `1`    |
-| tooltip | 当文本隐藏时，通过`Tooltip`组件展示全部内容，默认延迟0.5s。 如果`tooltip`为 false，则禁止 | string | `-` |
-| content | 文本内容 | boolean / object | `{showAfter: 500}` |
+| tooltip | 当文本隐藏时，通过`Tooltip`组件展示全部内容，默认延迟0.5s。 如果`tooltip`为 false，则禁止 | boolean / object | `{showAfter: 500}` |
+| content | 文本内容 | string | `-` |
 
 ## Ellipsis Slots
 
