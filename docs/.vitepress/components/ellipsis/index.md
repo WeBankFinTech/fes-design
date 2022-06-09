@@ -37,11 +37,12 @@ app.use(FEllipsis);
 | 属性    | 说明                                                                       | 类型             | 默认值 |
 | ------- | -------------------------------------------------------------------------- | ---------------- | ------ |
 | line    | 超出几行后省略                                                            | string / number  | `1`    |
-| tooltip | 当文本隐藏时，通过`Tooltip`组件展示全部内容，默认延迟0.5s。 如果`tooltip`为 false，则禁止 | boolean / object | `{showAfter: 500}` |
+| tooltip | 当文本隐藏时，通过`Tooltip`组件展示全部内容，默认延迟0.5s。 如果`tooltip`为 false，则禁止 | string | `-` |
+| content | 文本内容 | boolean / object | `{showAfter: 500}` |
 
 ## Ellipsis Slots
 
 | 名称    | 说明             |
 | ------- | ---------------- |
-| default | 文本             |
+| default | 文本内容，当使用插槽时无法监听内容变化而更新省略组件，推荐使用content属性            |
 | tooltip | 自定义的 tooltip |
