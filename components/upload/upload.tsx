@@ -1,4 +1,4 @@
-import { h, Fragment, defineComponent, PropType, ExtractPropTypes } from 'vue';
+import { h, defineComponent, PropType, ExtractPropTypes } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import Trigger from './trigger.vue';
 import FileList from './fileList.vue';
@@ -72,7 +72,7 @@ export default defineComponent({
     emits: ['change', 'remove', 'success', 'error', 'progress', 'exceed'],
     setup(props, ctx) {
         useTheme();
-        const { uploadFiles } = useUpload(props, ctx.emit);
+        const { uploadFiles, isDragger } = useUpload(props, ctx.emit);
         const getFileList = () => {
             if (!props.showFileList) {
                 return null;
@@ -88,13 +88,13 @@ export default defineComponent({
             return (
                 <>
                     {ctx.slots.default ? (
-                        <Trigger>
+                        <Trigger class={isDragger.value && 'is-dragger'}>
                             {ctx.slots.default?.({
                                 uploadFiles: uploadFiles.value,
                             })}
                         </Trigger>
                     ) : (
-                        <Trigger />
+                        <Trigger class={isDragger.value && 'is-dragger'} />
                     )}
                     {ctx.slots.tip?.()}
                     {getFileList()}

@@ -20,6 +20,10 @@ app.use(FUpload);
 
 --DEFAULT
 
+### 拖拽上传
+
+--DRAG
+
 ### 自定义文件列表的显示
 
 --FILELIST

@@ -23,6 +23,7 @@ function getFile(rawFile: UploadFile, uploadFiles: UploadFile[]) {
 }
 
 export default (props: UploadProps, emit: any) => {
+    const isDragger = ref(false);
     const inputRef = ref();
     const uploadFiles = ref([]);
     const requestList = ref<{
@@ -257,6 +258,7 @@ export default (props: UploadProps, emit: any) => {
         onRemove,
         onUploadFiles,
         inputRef,
+        isDragger,
     });
 
     watch(
@@ -283,5 +285,6 @@ export default (props: UploadProps, emit: any) => {
 
     return {
         uploadFiles,
+        isDragger,
     };
 };

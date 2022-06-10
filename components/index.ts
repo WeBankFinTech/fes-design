@@ -31,7 +31,7 @@ import { FTimePicker } from './time-picker';
 import { FDatePicker } from './date-picker';
 import { FTooltip } from './tooltip';
 import { FTree } from './tree';
-import { FUpload } from './upload';
+import { FUpload, FUploadDragger } from './upload';
 import { FPagination } from './pagination';
 import { FImage, FPreviewGroup } from './image';
 import { FForm, FFormItem } from './form';
@@ -90,6 +90,7 @@ const components = [
     FTooltip,
     FTree,
     FUpload,
+    FUploadDragger,
     FPagination,
     FImage,
     FPreviewGroup,
@@ -159,6 +160,7 @@ export {
     FTooltip,
     FTree,
     FUpload,
+    FUploadDragger,
     FPagination,
     FImage,
     FPreviewGroup,
