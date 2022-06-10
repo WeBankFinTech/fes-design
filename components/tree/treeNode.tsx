@@ -151,7 +151,7 @@ export default defineComponent({
                 } else if (dragOverInfo?.position === 'after') {
                     style['bottom'] = '2px';
                 }
-                style['left'] = `${props.level * INDENT}px`;
+                style['left'] = `${props.level * INDENT + 9}px`;
                 return <div class={`${prefixCls}-drag-over`} style={style} />;
             }
             return null;

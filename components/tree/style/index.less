@@ -94,5 +94,17 @@
         right: 0;
         height: 1px;
         background: var(--f-primary-color);
+        &::before{
+            content: "";
+            position: absolute;
+            display: block;
+            left: -5px;
+            top: -2px;
+            height: 4px;
+            width: 4px;
+            border-radius: 50%;
+            border: 1px solid var(--f-primary-color);
+            z-index: 1;
+        }
     }
 }

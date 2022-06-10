@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { onUnmounted, ref } from 'vue';
 import type {
     InnerTreeOption,
     TreeNodeKey,
@@ -24,6 +24,13 @@ export default ({
         node: InnerTreeOption;
         position: DropPosition;
     }>();
+    let timer: number;
+
+    onUnmounted(() => {
+        if (timer) {
+            clearTimeout(timer);
+        }
+    });
 
     function resetDragState(): void {
         dragNode = null;
@@ -57,10 +64,19 @@ export default ({
         emit('dragenter', { node, event });
     };
 
+    const handleDragleave = (value: TreeNodeKey, event: DragEvent) => {
+        const node = getTargetNode(value);
+        if (!node) return;
+        emit('dragleave', { node, event });
+    };
+
     const handleDragover = (value: TreeNodeKey, event: DragEvent) => {
         event.preventDefault();
         const node = getTargetNode(value);
-        if (!node) return;
+        if (!node) {
+            dragOverInfo.value = null;
+            return;
+        }
         emit('dragover', { node, event });
         // 悬浮1s以上展开节点
         if (!overBeginTimeMap[value]) {
@@ -93,12 +109,15 @@ export default ({
             node: node,
             position: mousePosition,
         };
-    };
-
-    const handleDragleave = (value: TreeNodeKey, event: DragEvent) => {
-        const node = getTargetNode(value);
-        if (!node) return;
-        emit('dragleave', { node, event });
+        // 300毫秒后没有后续则表示已经移出
+        if (timer) {
+            clearTimeout(timer);
+        }
+        timer = setTimeout(() => {
+            if (dragOverInfo.value?.node === node) {
+                dragOverInfo.value = null;
+            }
+        }, 300);
     };
 
     const handleDrop = (value: TreeNodeKey, event: DragEvent) => {
