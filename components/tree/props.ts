@@ -49,8 +49,10 @@ export const treeProps = {
         default: false,
     },
     checkStrictly: {
-        type: String as PropType<CHECK_STRATEGY>,
-        default: 'all',
+        type: String as PropType<
+            typeof CHECK_STRATEGY[keyof typeof CHECK_STRATEGY]
+        >,
+        default: CHECK_STRATEGY.ALL,
     },
     checkedKeys: {
         type: Array as PropType<TreeNodeKey[]>,

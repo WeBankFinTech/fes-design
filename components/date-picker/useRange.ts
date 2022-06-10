@@ -6,9 +6,11 @@ import type { Picker } from './pickerHandler';
 
 import type { CalendarsProps } from './calendars.vue';
 
+type RANGE_POSITION_VALUES = typeof RANGE_POSITION[keyof typeof RANGE_POSITION];
+
 export const useSelectStatus = (props: CalendarsProps) => {
     const selectedStatus = ref<SELECTED_STATUS>(0);
-    const lastSelectedPosition = ref<RANGE_POSITION>();
+    const lastSelectedPosition = ref<RANGE_POSITION_VALUES>();
 
     watch(
         () => props.modelValue,
@@ -36,7 +38,7 @@ export const useSelectStatus = (props: CalendarsProps) => {
         },
     );
 
-    const selectedDay = (position: RANGE_POSITION) => {
+    const selectedDay = (position: RANGE_POSITION_VALUES) => {
         lastSelectedPosition.value = position;
         switch (selectedStatus.value) {
             case SELECTED_STATUS.EMPTY:
@@ -73,7 +75,7 @@ export const useRange = ({
     tempCurrentValue: Ref<number[]>;
     innerDisabledDate: (date: Date, format: string) => boolean | undefined;
     selectedStatus: Ref<SELECTED_STATUS>;
-    lastSelectedPosition: Ref<RANGE_POSITION>;
+    lastSelectedPosition: Ref<RANGE_POSITION_VALUES>;
     picker: Ref<Picker>;
 }) => {
     const leftActiveDate = ref(
@@ -107,7 +109,10 @@ export const useRange = ({
         }
     };
 
-    const changeCurrentDate = (timestamp: number, position: RANGE_POSITION) => {
+    const changeCurrentDate = (
+        timestamp: number,
+        position: RANGE_POSITION_VALUES,
+    ) => {
         if (position === RANGE_POSITION.LEFT) {
             leftActiveDate.value = timestamp;
             if (timestamp >= rightActiveDate.value) {

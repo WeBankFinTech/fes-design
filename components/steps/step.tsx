@@ -13,7 +13,6 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { COMPONENT_NAME, STATUS, PROVIDE_KEY } from './const';
 import { CloseOutlined, CheckOutlined } from '../icon';
 
-
 const prefixCls = getPrefixCls('step');
 
 const stepProps = {
@@ -24,7 +23,7 @@ const stepProps = {
         type: String,
     },
     status: {
-        type: String as PropType<STATUS>
+        type: String as PropType<typeof STATUS[keyof typeof STATUS]>,
     },
 } as const;
 
@@ -68,8 +67,9 @@ export default defineComponent({
                     index.value ===
                     parentDom.children.length - 1 + parent.props.initial!;
                 if (lastChild) {
-                    _style['max-width'] = `${(1 / parentDom.children.length) * 100
-                        }%`;
+                    _style['max-width'] = `${
+                        (1 / parentDom.children.length) * 100
+                    }%`;
                 }
             }
             return _style;

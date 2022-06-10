@@ -1,5 +1,5 @@
 import type { ToRefs, VNodeChild, Ref } from 'vue';
-import type { OptionProps } from './option.vue';
+import type { OptionProps } from './option';
 
 export type SelectValue = string | number | boolean | object;
 

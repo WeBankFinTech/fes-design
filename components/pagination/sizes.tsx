@@ -4,7 +4,7 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import FSelect from '../select/select.vue';
-import FOption from '../select/option.vue';
+import FOption from '../select/option';
 import { COMPONENT_NAME } from './const';
 import { useLocale } from '../config-provider/useLocale';
 
@@ -16,7 +16,7 @@ const pagerSizeProps = {
         default: 10,
     },
     pageSizeOption: {
-        type: Array as PropType<number[]>
+        type: Array as PropType<number[]>,
     },
 } as const;
 
@@ -25,14 +25,15 @@ export default defineComponent({
     props: pagerSizeProps,
     components: {
         FSelect,
-        FOption
+        FOption,
     },
     emits: [UPDATE_MODEL_EVENT],
     setup(props, { emit }) {
         const [pageSize] = useNormalModel(props, emit);
-        const { t } = useLocale()
+        const { t } = useLocale();
         const renderOptions = () =>
-            props.pageSizeOption && props.pageSizeOption.map((item) => (
+            props.pageSizeOption &&
+            props.pageSizeOption.map((item) => (
                 <FOption
                     key={item}
                     value={item}

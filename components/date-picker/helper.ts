@@ -178,7 +178,7 @@ export const transformTimeToDate = (timeStr: string) => {
 
 export const getDefaultTime = (
     defaultTime?: string | string[],
-    rangePosition?: RANGE_POSITION,
+    rangePosition?: typeof RANGE_POSITION[keyof typeof RANGE_POSITION],
 ) => {
     const time: {
         hour?: number;

@@ -8,12 +8,12 @@ export const COMPONENT_NAME = {
     STEP: 'FStep',
 };
 
-export enum STATUS {
-    WAIT = 'wait',
-    PROCESS = 'process',
-    FINISH = 'finish',
-    ERROR = 'error',
-}
+export const STATUS = {
+    WAIT: 'wait',
+    PROCESS: 'process',
+    FINISH: 'finish',
+    ERROR: 'error',
+} as const;
 
 // 类型
 export const TYPE = ['default', 'navigation'] as const;

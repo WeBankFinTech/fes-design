@@ -27,11 +27,13 @@ const formProps = {
         default: () => ({}),
     },
     layout: {
-        type: String,
+        type: String as PropType<typeof FORM_LAYOUT[keyof typeof FORM_LAYOUT]>,
         default: FORM_LAYOUT.HORIZONTAL,
     },
     labelPosition: {
-        type: String,
+        type: String as PropType<
+            typeof LABEL_POSITION[keyof typeof LABEL_POSITION]
+        >,
         default: LABEL_POSITION.LEFT,
     },
     showMessage: {
@@ -112,7 +114,8 @@ export default defineComponent({
          *    fieldProps { string[] }    指定校验字段的 props 数组
          *    return    { Promise }   校验结果
          */
-        const validate = (fieldProps: string[] = []) => validateFields(fieldProps);
+        const validate = (fieldProps: string[] = []) =>
+            validateFields(fieldProps);
 
         /** 移除表单项的校验结果 */
         const clearValidate = () => {

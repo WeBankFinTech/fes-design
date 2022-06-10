@@ -1,9 +1,16 @@
-import { h, computed, provide, defineComponent, ref, PropType, ExtractPropTypes } from 'vue';
+import {
+    h,
+    computed,
+    provide,
+    defineComponent,
+    ref,
+    PropType,
+    ExtractPropTypes,
+} from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { useTheme } from '../_theme/useTheme';
 import { PROVIDE_KEY, COMPONENT_NAME, STATUS, TYPE } from './const';
-
 
 const prefixCls = getPrefixCls('steps');
 
@@ -12,12 +19,12 @@ const stepsProps = {
         type: Number,
     },
     status: {
-        type: String as PropType<STATUS>,
+        type: String as PropType<typeof STATUS[keyof typeof STATUS]>,
         default: 'process',
     },
     type: {
         type: String as PropType<typeof TYPE[number]>,
-        default: 'default'
+        default: 'default',
     },
     vertical: {
         type: Boolean,

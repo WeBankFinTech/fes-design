@@ -1,6 +1,6 @@
 import { withInstall, withNoopInstall } from '../_util/withInstall';
 import Select from './select.vue';
-import Option from './option.vue';
+import Option from './option';
 
 import type { SFCWithInstall } from '../_util/interface';
 

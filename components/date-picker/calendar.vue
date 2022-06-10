@@ -178,7 +178,9 @@ const MONTHS_NAMES = [
 const calendarProps = {
     ...COMMON_PROPS,
     rangePosition: {
-        type: String as PropType<RANGE_POSITION>,
+        type: String as PropType<
+            typeof RANGE_POSITION[keyof typeof RANGE_POSITION]
+        >,
     },
     modelValue: Array as PropType<number[]>,
     activeDate: Number,

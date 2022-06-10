@@ -2,16 +2,16 @@ export const provideKey = Symbol('FForm');
 
 export const FORM_NAME = 'FForm';
 export const FORM_ITEM_NAME = 'FFormItem';
-export enum FORM_LAYOUT {
-    HORIZONTAL = 'horizontal',
-    INLINE = 'inline',
-}
+export const FORM_LAYOUT = {
+    HORIZONTAL: 'horizontal',
+    INLINEL: 'inline',
+} as const;
 
-export enum LABEL_POSITION {
-    LEFT = 'left',
-    RIGHT = 'right',
-    TOP = 'top',
-}
+export const LABEL_POSITION = {
+    LEFT: 'left',
+    RIGHT: 'right',
+    TOP: 'top',
+} as const;
 
 export const VALIDATE_STATUS = {
     DEFAULT: '',
