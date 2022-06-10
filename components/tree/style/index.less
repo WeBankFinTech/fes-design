@@ -21,7 +21,6 @@
         background-color: var(--f-tree-node-content-wrapper-bg-color);
         cursor: pointer;
         &:hover {
-            --f-tree-node-content-wrapper-color: var(--f-primary-color);
             --f-tree-node-content-wrapper-bg-color: @tree-selected-background-color;
         }
         &.is-selected {
@@ -78,6 +77,7 @@
         display: flex;
         flex-grow: 1;
         align-items: center;
+        height: @data-input-height-base;
         &-prefix {
             display: inline-flex;
             margin-right: @padding-xs;
@@ -87,6 +87,25 @@
         }
         &-suffix {
             display: inline-flex;
+        }
+    }
+    &-node-drag-over {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: var(--f-primary-color);
+        &::before{
+            content: "";
+            position: absolute;
+            display: block;
+            left: -5px;
+            top: -2px;
+            height: 4px;
+            width: 4px;
+            border-radius: 50%;
+            border: 1px solid var(--f-primary-color);
+            z-index: 1;
         }
     }
 }

@@ -18,6 +18,12 @@ app.use(FTree);
 
 --COMMON
 
+### 虚拟列表
+设置`virtualList`属性，处理大数据。
+
+--VIRTUALLIST
+
+
 #### 叶子节点一行展示
 
 --INLINE
@@ -64,12 +70,13 @@ app.use(FTree);
 
 --FIX
 
-### 虚拟列表
-设置`virtualList`属性，处理大数据。
 
---VIRTUALLIST
+### 拖拽
+
+--DRAG
 
 --CODE
+
 
 ## Tree Props
 
@@ -95,6 +102,8 @@ app.use(FTree);
 | filterMethod          | 类似Array.filter函数，筛选树节点（高亮）                                      | (filterText, node: TreeOption) => Boolean | `null`     |
 | virtualList                | 是否使用虚拟滚动，需要设置tree的高度，并且inline需要为false                                                    | boolean                                   | `false`    |
 | accordion             | 手风琴模式，是否保持同级节点中只有一个节点展开                          | boolean                                   | `false`    |
+| draggable             | 是否拖拽，`inline`需要为false                           | boolean                                   | `false`    |
+
 
 ## Tree Events
 
@@ -103,6 +112,12 @@ app.use(FTree);
 | check    | 点击节点中的选择框时触发      | ({ checkedKeys, node, event, checked }) => void   |
 | expand   | 展开、收起节点时触发 | ({ expandedKeys, node, event, expanded }) => void |
 | select   | 点击节点内容时触发      | ({ selectedKeys, node, event, selected }) => void |
+| dragstart   |   开始拖拽时调用    | ({ node: TreeOption, event: DragEvent }) => void |
+| dragend   |   dragend 时触发时调用    | ({ node: TreeOption, event: DragEvent }) => void |
+| dragenter   |   dragenter 时触发时调用    | ({ node: TreeOption, event: DragEvent }) => void |
+| dragleave   |   dragleave 时触发时调用    | ({ node: TreeOption, event: DragEvent }) => void |
+| dragover   |   dragover 时触发时调用    | ({ node: TreeOption, event: DragEvent }) => void |
+| drop   |   drop 时触发时调用    | ({ node: TreeOption, dragNode: TreeOption, position: 'before' \| 'after', event: DragEvent }) => void |
 
 ## Tree Methods
 

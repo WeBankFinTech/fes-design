@@ -41,3 +41,5 @@ export interface SelectParams extends TreeEventParams {
 export interface CheckParams extends TreeEventParams {
     checkedKeys: TreeNodeKey[];
 }
+
+export type DropPosition = 'before' | 'inside' | 'after';

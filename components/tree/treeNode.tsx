@@ -5,13 +5,14 @@ import {
     ref,
     ExtractPropTypes,
     PropType,
+    CSSProperties,
 } from 'vue';
 import { isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import CaretDownOutlined from '../icon/CaretDownOutlined';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import Checkbox from '../checkbox/checkbox.vue';
-import { COMPONENT_NAME } from './const';
+import { COMPONENT_NAME, INDENT } from './const';
 import useTreeNode from './useTreeNode';
 
 const prefixCls = getPrefixCls('tree-node');
@@ -41,6 +42,10 @@ const treeNodeProps = {
     level: {
         type: Number,
         default: 0,
+    },
+    draggable: {
+        type: Boolean,
+        default: false,
     },
 } as const;
 
@@ -82,6 +87,15 @@ export default defineComponent({
             ].filter(Boolean),
         );
 
+        const style = computed(() => {
+            if (isInline.value && !isFirst.value) {
+                return {};
+            }
+            return {
+                paddingLeft: `${(props.level - 1) * INDENT}px`,
+            };
+        });
+
         let isLoaded = false;
         const isLoading = ref(false);
         const handleClickSwitcher = async (event?: Event) => {
@@ -116,7 +130,7 @@ export default defineComponent({
             }
             // 再展开行为
             if (!props.isLeaf) {
-                handleClickSwitcher(event)
+                handleClickSwitcher(event);
             }
         };
         const handleClickCheckbox = (event: Event) => {
@@ -128,17 +142,19 @@ export default defineComponent({
         const handleStopClickPrefix = (event: Event) => {
             event.stopPropagation();
         };
-        const renderIndent = () => {
-            if (isInline.value && !isFirst.value) {
-                return [];
+        const renderDrag = () => {
+            const dragOverInfo = root.dragOverInfo.value;
+            if (dragOverInfo?.node.value === props.value) {
+                const style: CSSProperties = {};
+                if (dragOverInfo?.position === 'before') {
+                    style['top'] = '2px';
+                } else if (dragOverInfo?.position === 'after') {
+                    style['bottom'] = '2px';
+                }
+                style['left'] = `${props.level * INDENT + 9}px`;
+                return <div class={`${prefixCls}-drag-over`} style={style} />;
             }
-            const arr = [];
-            let i = 1;
-            while (i < props.level) {
-                arr.push(<span class={`${prefixCls}-indent`} />);
-                i++;
-            }
-            return arr;
+            return null;
         };
         const renderSwitcher = () => {
             if (props.isLeaf) {
@@ -199,8 +215,31 @@ export default defineComponent({
             );
         };
         return () => (
-            <div class={classList.value} data-value={props.value}>
-                {renderIndent()}
+            <div
+                class={classList.value}
+                style={style.value}
+                data-value={props.value}
+                draggable={props.draggable}
+                onDragstart={(event: DragEvent) => {
+                    root.handleDragstart(props.value, event);
+                }}
+                onDragenter={(event: DragEvent) => {
+                    root.handleDragenter(props.value, event);
+                }}
+                onDragover={(event: DragEvent) => {
+                    root.handleDragover(props.value, event);
+                }}
+                onDragleave={(event: DragEvent) => {
+                    root.handleDragleave(props.value, event);
+                }}
+                onDragend={(event: DragEvent) => {
+                    root.handleDragend(props.value, event);
+                }}
+                onDrop={(event: DragEvent) => {
+                    root.handleDrop(props.value, event);
+                }}
+            >
+                {renderDrag()}
                 {renderSwitcher()}
                 {renderCheckbox()}
                 <span

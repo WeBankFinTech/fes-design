@@ -7,6 +7,8 @@ import TreeNode from './treeNode';
 import { COMPONENT_NAME, CHECK_STRATEGY } from './const';
 import useData from './useData';
 import useState from './useState';
+import useDrag from './useDrag';
+
 import { treeProps, TREE_PROVIDE_KEY } from './props';
 
 import type { InnerTreeOption, TreeNodeKey } from './interface';
@@ -27,6 +29,12 @@ export default defineComponent({
         'expand',
         'load',
         'select',
+        'dragstart',
+        'dragenter',
+        'dragover',
+        'dragleave',
+        'dragend',
+        'drop',
     ],
     setup(props, { emit, expose }) {
         useTheme();
@@ -52,6 +60,40 @@ export default defineComponent({
             filteredExpandedKeys,
             currentExpandedKeys,
         });
+
+        const expandNode = (val: TreeNodeKey, event: Event) => {
+            const node = nodeList[val];
+            let values: TreeNodeKey[] = cloneDeep(currentExpandedKeys.value);
+            const index = values.indexOf(val);
+            // 已经展开
+            if (index !== -1) {
+                values.splice(index, 1);
+            } else {
+                if (props.accordion) {
+                    values = values.filter((item) =>
+                        node.indexPath.includes(item),
+                    );
+                }
+                values.push(val);
+            }
+            updateExpandedKeys(values);
+            emit('expand', {
+                expandedKeys: values,
+                event,
+                node,
+                expanded: values.includes(val),
+            });
+        };
+
+        const {
+            handleDragstart,
+            handleDragenter,
+            handleDragover,
+            handleDragleave,
+            handleDragend,
+            handleDrop,
+            dragOverInfo
+        } = useDrag({ nodeList, emit, expandNode });
 
         watch(
             nodeList,
@@ -103,49 +145,25 @@ export default defineComponent({
             });
         };
 
-        const expandNode = (val: TreeNodeKey, event: Event) => {
-            const node = nodeList[val];
-            let values: TreeNodeKey[] = cloneDeep(currentExpandedKeys.value);
-            const index = values.indexOf(val);
-            // 已经展开
-            if (index !== -1) {
-                values.splice(index, 1);
-            } else {
-                if (props.accordion) {
-                    values = values.filter((item) =>
-                        node.indexPath.includes(item),
-                    );
-                }
-                values.push(val);
-            }
-            updateExpandedKeys(values);
-            emit('expand', {
-                expandedKeys: values,
-                event,
-                node,
-                expanded: values.includes(val),
-            });
-        };
-
         function getCheckedKeys(arr: TreeNodeKey[]) {
             return props.cascade
                 ? arr.filter((key) => {
-                    const node = nodeList[key];
-                    if (props.checkStrictly === CHECK_STRATEGY.ALL) {
-                        return true;
-                    }
-                    if (props.checkStrictly === CHECK_STRATEGY.PARENT) {
-                        return (
-                            node.indexPath.filter((path) =>
-                                arr.includes(path),
-                            ).length === 1
-                        );
-                    }
-                    if (props.checkStrictly === CHECK_STRATEGY.CHILD) {
-                        return node.isLeaf;
-                    }
-                    return true;
-                })
+                      const node = nodeList[key];
+                      if (props.checkStrictly === CHECK_STRATEGY.ALL) {
+                          return true;
+                      }
+                      if (props.checkStrictly === CHECK_STRATEGY.PARENT) {
+                          return (
+                              node.indexPath.filter((path) =>
+                                  arr.includes(path),
+                              ).length === 1
+                          );
+                      }
+                      if (props.checkStrictly === CHECK_STRATEGY.CHILD) {
+                          return node.isLeaf;
+                      }
+                      return true;
+                  })
                 : arr;
         }
         function handleChildren(
@@ -244,6 +262,13 @@ export default defineComponent({
             hasChecked,
             hasIndeterminate,
             nodeList,
+            handleDragstart,
+            handleDragenter,
+            handleDragover,
+            handleDragleave,
+            handleDragend,
+            handleDrop,
+            dragOverInfo
         });
 
         const renderNode = (value: TreeNodeKey) => {
@@ -274,6 +299,7 @@ export default defineComponent({
                     checkable={node.checkable}
                     isLeaf={node.isLeaf}
                     v-slots={itemSlots}
+                    draggable={props.draggable && !props.inline && !node.disabled}
                 ></TreeNode>
             );
         };
