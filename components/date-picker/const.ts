@@ -1,10 +1,10 @@
 import type { PropType } from 'vue';
 import { PickerType } from './pickerHandler';
 
-export enum RANGE_POSITION {
-    LEFT = 'left',
-    RIGHT = 'right',
-}
+export const RANGE_POSITION = {
+    LEFT: 'left',
+    RIGHT: 'right',
+} as const;
 
 export enum SELECTED_STATUS {
     EMPTY,
@@ -37,7 +37,7 @@ export const COMMON_PROPS = {
         type: Function as PropType<
             (
                 date: Date,
-                rangePosition?: RANGE_POSITION,
+                rangePosition?: typeof RANGE_POSITION[keyof typeof RANGE_POSITION],
                 value?: Date | Date[],
             ) => boolean
         >,

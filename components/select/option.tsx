@@ -1,4 +1,3 @@
-<script lang="tsx">
 import {
     computed,
     getCurrentInstance,
@@ -65,4 +64,3 @@ export default defineComponent({
         };
     },
 });
-</script>

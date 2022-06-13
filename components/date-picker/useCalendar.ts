@@ -358,7 +358,7 @@ export function useDay({
             PickerType.datetime,
             PickerType.daterange,
             PickerType.datetimerange,
-        ].includes(props.type),
+        ].some((type) => props.type === type),
     );
 
     const days = computed(() => {

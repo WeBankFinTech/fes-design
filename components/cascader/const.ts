@@ -4,11 +4,11 @@ export const COMPONENT_NAME = {
     CASCADER_NODE: 'FCascaderNode',
 };
 
-export enum CHECK_STRATEGY {
-    ALL = 'all',
-    PARENT = 'parent',
-    CHILD = 'child',
-}
+export const CHECK_STRATEGY = {
+    ALL: 'all',
+    PARENT: 'parent',
+    CHILD: 'child',
+} as const;
 
 export const ROOT_MENU_KEY = 'root';
 

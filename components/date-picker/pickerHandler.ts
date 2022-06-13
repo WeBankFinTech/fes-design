@@ -1,12 +1,12 @@
-export enum PickerType {
-    date = 'date',
-    datetime = 'datetime',
-    daterange = 'daterange',
-    datetimerange = 'datetimerange',
-    year = 'year',
-    month = 'month',
-    quarter = 'quarter',
-}
+export const PickerType = {
+    date: 'date',
+    datetime: 'datetime',
+    daterange: 'daterange',
+    datetimerange: 'datetimerange',
+    year: 'year',
+    month: 'month',
+    quarter: 'quarter',
+} as const;
 
 export interface Picker {
     name: string;
