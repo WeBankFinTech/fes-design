@@ -13,7 +13,7 @@
         @exceed="exceed"
         @progress="progress"
     >
-        <FUploadDragger />
+        <FUploadDragger> 点击或者拖拽文件到此区域 </FUploadDragger>
     </FUpload>
 </template>
 <script>
