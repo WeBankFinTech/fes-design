@@ -41,30 +41,34 @@ export default defineComponent({
             return [
                 `${prefixCls}-dragger`,
                 isHovering.value && 'is-hovering',
+                disabled.value && 'is-disabled'
             ].filter(Boolean);
         });
 
         const handleEnter = (event: DragEvent) => {
+            if (disabled.value) return;
             // 阻止事件的默认行为
             event.preventDefault();
             isHovering.value = true;
         };
 
         const handleLeave = (event: DragEvent) => {
+            if (disabled.value) return;
             // 阻止事件的默认行为
             event.preventDefault();
             isHovering.value = false;
         };
 
         const handleOver = (event: DragEvent) => {
+            if (disabled.value) return;
             // 阻止事件的默认行为
             event.preventDefault();
         };
 
         const handleDrop = (event: DragEvent) => {
+            if (disabled.value) return;
             // 阻止事件的默认行为
             event.preventDefault();
-            if (disabled.value) return;
             isHovering.value = false;
             let postFiles = Array.from(event.dataTransfer.files);
             if (!postFiles.length) return;

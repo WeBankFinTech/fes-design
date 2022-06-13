@@ -122,8 +122,7 @@ export default (props: UploadProps, emit: any) => {
         const uploadFilesValue = uploadFiles.value;
         const file = getFile(rawFile, uploadFilesValue);
         if (!file) return;
-        file.status = 'fail';
-        uploadFilesValue.splice(uploadFilesValue.indexOf(file), 1);
+        file.status = 'error';
         emit('error', { error, file, fileList: uploadFilesValue });
         emit('change', { file, fileList: uploadFilesValue });
     }
@@ -160,7 +159,7 @@ export default (props: UploadProps, emit: any) => {
     const post = (rawFile: UploadFile) => {
         if (!props.action) {
             onRemove(rawFile);
-            console.error('[Upload] 需配置action地址，才能执行上传');
+            console.error('[FUpload] 需配置action地址，才能执行上传');
             return;
         }
         const { uid } = rawFile;
