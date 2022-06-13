@@ -8,6 +8,8 @@ import {
 } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import { key } from './const';
+import { matchType } from './utils';
+import FMessage from '../message';
 
 const uploadDraggerProps = {} as const;
 
@@ -22,7 +24,14 @@ export default defineComponent({
     setup(props, ctx) {
         useTheme();
 
-        const { prefixCls, onUploadFiles, isDragger } = inject(key);
+        const {
+            prefixCls,
+            onUploadFiles,
+            isDragger,
+            accept,
+            multiple,
+            disabled,
+        } = inject(key);
 
         isDragger.value = true;
 
@@ -48,15 +57,27 @@ export default defineComponent({
         };
 
         const handleOver = (event: DragEvent) => {
-             // 阻止事件的默认行为
-             event.preventDefault();
-        }
+            // 阻止事件的默认行为
+            event.preventDefault();
+        };
 
         const handleDrop = (event: DragEvent) => {
             // 阻止事件的默认行为
             event.preventDefault();
+            if (disabled.value) return;
             isHovering.value = false;
-            onUploadFiles(event.dataTransfer.files)
+            let postFiles = Array.from(event.dataTransfer.files);
+            if (!postFiles.length) return;
+            if (!multiple.value) {
+                postFiles = postFiles.slice(0, 1);
+            }
+            const filterFiles = postFiles.filter((file) => {
+                return matchType(file.name, file.type, accept.value);
+            });
+            if (filterFiles.length !== postFiles.length) {
+                FMessage.error("上传文件格式不正确！")
+            }
+            onUploadFiles(filterFiles);
         };
 
         return () => {

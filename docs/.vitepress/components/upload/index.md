@@ -21,6 +21,7 @@ app.use(FUpload);
 --DEFAULT
 
 ### 拖拽上传
+当自定义上传触发器使用`FUploadDragger`时开启拖拽上传。
 
 --DRAG
 
@@ -46,7 +47,6 @@ app.use(FUpload);
 | action                         | 上传的地址                                                                                            | string                   | -       |
 | beforeUpload                   | 上传文件之前的钩子，参数为上传的文件，若返回 false 或者返回 Promise 且被 reject，则停止上传           | function(file)           | -       |
 | beforeRemove                   | 删除文件之前的钩子，参数为上传的文件和文件列表，若返回 false 或者返回 Promise 且被 reject，则停止删除 | function(file, fileList) | -       |
-| drag (第一期不支持)            | 是否启用拖拽上传                                                                                      | boolean                  | `false` |
 | disabled                       | 是否禁用                                                                                              | boolean                  | `false` |
 | data                           | 上传接口附带的数据                                                                                    | object                   | `{}`    |
 | fileList                       | 上传的文件列表, 例如: [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}]。                      | array                    | `[]`    |
