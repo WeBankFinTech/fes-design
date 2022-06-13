@@ -13,7 +13,7 @@ export default ({
 }) => {
     const nodeList = reactive<TreeNodeList>({});
 
-    const transformData = ref([]);
+    const transformData = ref<TreeNodeKey[]>([]);
 
     const { filter, filteredExpandedKeys, filteredKeys, isSearchingRef } =
         useFilter(props, nodeList);
@@ -23,7 +23,10 @@ export default ({
             ? filteredExpandedKeys.value
             : currentExpandedKeys.value;
         // 缓存每个节点的展开状态，性能更优
-        transformData.value.forEach((key) => {
+        (isSearchingRef.value
+            ? filteredKeys.value
+            : transformData.value
+        ).forEach((key) => {
             const node = nodeList[key];
             node.isExpanded = expandedKeys.includes(key);
         });

@@ -12,7 +12,7 @@ app.use(FSelectTree);
 
 ## 代码演示
 
-<!-- ### 基础用法
+### 基础用法
 
 适用广泛的基础单选
 
@@ -28,7 +28,7 @@ app.use(FSelectTree);
 
 适用性较广的基础多选，用 `Tag` 展示已选项
 
---MULTIPLE -->
+--MULTIPLE
 
 ### 可搜索
 
@@ -36,7 +36,7 @@ app.use(FSelectTree);
 
 --FILTERABLE
 
-<!-- ### 禁用状态
+### 禁用状态
 
 选择器不可用状态
 
@@ -53,7 +53,7 @@ app.use(FSelectTree);
 
 ### 无数据
 
---NODATA -->
+--NODATA
 
 --CODE
 
