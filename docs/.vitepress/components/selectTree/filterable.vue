@@ -1,7 +1,7 @@
 <template>
     <FSpace>
         <FSelectTree :data="data" filterable virtualList></FSelectTree>
-        <!-- <FSelectTree :data="data" filterable multiple></FSelectTree> -->
+        <FSelectTree :data="data" filterable multiple virtualList></FSelectTree>
     </FSpace>
 </template>
 <script>
@@ -9,7 +9,7 @@ import { reactive } from 'vue';
 
 function createData(level = 4, baseKey = '') {
     if (!level) return undefined;
-    return Array.apply(null, { length: 15 - level }).map((_, index) => {
+    return Array.apply(null, { length: 10 - level }).map((_, index) => {
         const key = '' + baseKey + level + index;
         return {
             label: createLabel(level),
