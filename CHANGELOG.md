@@ -1,3 +1,21 @@
+## [0.5.10](https://github.com/WeBankFinTech/fes-design/compare/v0.5.9...v0.5.10) (2022-06-13)
+
+
+### Bug Fixes
+
+* grid组件gutter样式 ([#175](https://github.com/WeBankFinTech/fes-design/issues/175)) ([9349c78](https://github.com/WeBankFinTech/fes-design/commit/9349c78ae2b0138a6f5e3cde3ca740e6af1b79ac))
+* 修复table滚动时shadow 样式被固定列覆盖问题 ([#174](https://github.com/WeBankFinTech/fes-design/issues/174)) ([f58b7b8](https://github.com/WeBankFinTech/fes-design/commit/f58b7b8eb3353d595fd6e4869fe2bd12ec467545))
+* 将 enum 属性改成字符串，避免使用组件时类型提示异常 ([#180](https://github.com/WeBankFinTech/fes-design/issues/180)) ([9b8385e](https://github.com/WeBankFinTech/fes-design/commit/9b8385e11e1bc00e5279aebce3d2734d15c66512))
+
+
+### Features
+
+* Ellipsis添加content属性，能文本变化从而更新省略 ([#178](https://github.com/WeBankFinTech/fes-design/issues/178)) ([98332cc](https://github.com/WeBankFinTech/fes-design/commit/98332cc3b1e3e5df0dcc1bb793eecddf824e294b))
+* tag支持bordered配置项及多选项展示样式优化 ([#176](https://github.com/WeBankFinTech/fes-design/issues/176)) ([cee3a7d](https://github.com/WeBankFinTech/fes-design/commit/cee3a7d02ed93582cb0b25a616085a2e91088ce2))
+* Tree支持拖拽 ([#177](https://github.com/WeBankFinTech/fes-design/issues/177)) ([e47a232](https://github.com/WeBankFinTech/fes-design/commit/e47a232d2ef6177ee908b65a4555e0e84a0fd685))
+
+
+
 ## [0.5.9](https://github.com/WeBankFinTech/fes-design/compare/v0.5.8...v0.5.9) (2022-05-31)
 
 
