@@ -1,5 +1,4 @@
 import { useNormalModel } from '../_util/use/useModel';
-import useFilter from './useFilter';
 
 import type { TreeOption, TreeNodeKey } from './interface';
 import type { TreeProps } from './props';
@@ -22,8 +21,6 @@ export default (props: TreeProps, { emit }: { emit: any }) => {
         emit,
         { prop: 'selectedKeys', isEqual: true },
     );
-
-    const { filter, hiddenKeys, filteredExpandedKeys } = useFilter(props);
 
     const hasSelected = (value: TreeNodeKey) =>
         currentSelectedKeys.value.includes(value);
@@ -52,9 +49,6 @@ export default (props: TreeProps, { emit }: { emit: any }) => {
         updateCheckedKeys,
         currentSelectedKeys,
         updateSelectedKeys,
-        filter,
-        hiddenKeys,
-        filteredExpandedKeys,
         hasSelected,
         hasChecked,
         hasIndeterminate,

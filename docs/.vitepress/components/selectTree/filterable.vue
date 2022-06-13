@@ -1,22 +1,20 @@
 <template>
     <FSpace>
-        <FSelectTree :data="data" filterable></FSelectTree>
-        <FSelectTree :data="data" filterable multiple></FSelectTree>
+        <FSelectTree :data="data" filterable virtualList></FSelectTree>
+        <!-- <FSelectTree :data="data" filterable multiple></FSelectTree> -->
     </FSpace>
 </template>
 <script>
 import { reactive } from 'vue';
 
-function createData(level = 1, baseKey = '', prefix, suffix) {
+function createData(level = 4, baseKey = '') {
     if (!level) return undefined;
-    return Array.apply(null, { length: 2 }).map((_, index) => {
+    return Array.apply(null, { length: 15 - level }).map((_, index) => {
         const key = '' + baseKey + level + index;
         return {
             label: createLabel(level),
             value: key,
-            children: createData(level - 1, key, prefix, suffix),
-            prefix: prefix ? () => h(PictureOutlined) : null,
-            suffix: suffix ? () => h(PlusCircleOutlined) : null,
+            children: createData(level - 1, key),
         };
     });
 }

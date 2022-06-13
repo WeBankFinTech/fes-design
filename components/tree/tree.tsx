@@ -46,18 +46,13 @@ export default defineComponent({
             updateCheckedKeys,
             currentSelectedKeys,
             updateSelectedKeys,
-            filter,
-            hiddenKeys,
-            filteredExpandedKeys,
             hasSelected,
             hasChecked,
             hasIndeterminate,
         } = useState(props, { emit });
 
-        const { nodeList, currentData, transformData } = useData({
+        const { nodeList, currentData, transformData, filter } = useData({
             props,
-            hiddenKeys,
-            filteredExpandedKeys,
             currentExpandedKeys,
         });
 
@@ -92,7 +87,7 @@ export default defineComponent({
             handleDragleave,
             handleDragend,
             handleDrop,
-            dragOverInfo
+            dragOverInfo,
         } = useDrag({ nodeList, emit, expandNode });
 
         watch(
@@ -268,7 +263,7 @@ export default defineComponent({
             handleDragleave,
             handleDragend,
             handleDrop,
-            dragOverInfo
+            dragOverInfo,
         });
 
         const renderNode = (value: TreeNodeKey) => {
@@ -299,7 +294,9 @@ export default defineComponent({
                     checkable={node.checkable}
                     isLeaf={node.isLeaf}
                     v-slots={itemSlots}
-                    draggable={props.draggable && !props.inline && !node.disabled}
+                    draggable={
+                        props.draggable && !props.inline && !node.disabled
+                    }
                 ></TreeNode>
             );
         };

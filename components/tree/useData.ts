@@ -1,27 +1,26 @@
 import { ref, reactive, watch, computed, Ref } from 'vue';
 import { isNil } from 'lodash-es';
-
+import useFilter from './useFilter';
 import type { InnerTreeOption, TreeNodeKey, TreeNodeList } from './interface';
 import type { TreeProps } from './props';
 
 export default ({
     props,
-    filteredExpandedKeys,
     currentExpandedKeys,
-    hiddenKeys,
 }: {
     props: TreeProps;
-    filteredExpandedKeys: TreeNodeKey[];
     currentExpandedKeys: Ref<TreeNodeKey[]>;
-    hiddenKeys: TreeNodeKey[];
 }) => {
     const nodeList = reactive<TreeNodeList>({});
 
     const transformData = ref([]);
 
+    const { filter, filteredExpandedKeys, filteredKeys, isSearchingRef } =
+        useFilter(props, nodeList);
+
     watch([filteredExpandedKeys, currentExpandedKeys, transformData], () => {
-        const expandedKeys = filteredExpandedKeys.length
-            ? filteredExpandedKeys
+        const expandedKeys = isSearchingRef.value
+            ? filteredExpandedKeys.value
             : currentExpandedKeys.value;
         // 缓存每个节点的展开状态，性能更优
         transformData.value.forEach((key) => {
@@ -31,27 +30,26 @@ export default ({
     });
 
     const currentData = computed(() =>
-        transformData.value.filter((value) => {
-            if (hiddenKeys.includes(value)) {
-                return false;
-            }
-            const node = nodeList[value];
-            const isRoot = node.indexPath.length === 1;
-            if (isRoot) {
-                return true;
-            }
-            const indexPath = node.indexPath;
-            const len = indexPath.length;
-            let index = 0;
-            while (index < len - 1) {
-                const parentNode = nodeList[indexPath[index]];
-                if (!parentNode.isExpanded) {
-                    return false;
-                }
-                index += 1;
-            }
-            return true;
-        }),
+        isSearchingRef.value
+            ? filteredKeys.value
+            : transformData.value.filter((value) => {
+                  const node = nodeList[value];
+                  const isRoot = node.indexPath.length === 1;
+                  if (isRoot) {
+                      return true;
+                  }
+                  const indexPath = node.indexPath;
+                  const len = indexPath.length;
+                  let index = 0;
+                  while (index < len - 1) {
+                      const parentNode = nodeList[indexPath[index]];
+                      if (!parentNode.isExpanded) {
+                          return false;
+                      }
+                      index += 1;
+                  }
+                  return true;
+              }),
     );
 
     const transformNode = (
@@ -119,5 +117,6 @@ export default ({
         nodeList,
         transformData,
         currentData,
+        filter,
     };
 };

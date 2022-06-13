@@ -1,64 +1,55 @@
-import { reactive } from 'vue';
+import { ref } from 'vue';
 import { isFunction } from 'lodash-es';
 
-import type { TreeOption, TreeNodeKey } from './interface';
+import type { TreeNodeKey, TreeNodeList, InnerTreeOption } from './interface';
 import type { TreeProps } from './props';
 
-export default (props: TreeProps) => {
-    const hiddenKeys = reactive([]);
-    const filteredExpandedKeys = reactive<TreeNodeKey[]>([]);
+export default (props: TreeProps, nodeList: TreeNodeList) => {
+    const filteredKeys = ref<TreeNodeKey[]>([]);
+    const filteredExpandedKeys = ref<TreeNodeKey[]>([]);
+    const isSearchingRef = ref(false);
 
     const filter = (filterText: string) => {
         const filterMethod = props.filterMethod;
         if (!isFunction(filterMethod)) {
             return;
         }
-        filteredExpandedKeys.length = 0;
-        hiddenKeys.length = 0;
-        const family: TreeOption[] = [];
-        const expandKeySet = new Set<TreeNodeKey>();
-        function traverse(nodes: TreeOption[]) {
-            nodes.forEach((node) => {
-                family.push(node);
+        function traverse() {
+            const _filteredExpandedKeys: TreeNodeKey[] = [];
+            const _filteredKeys: TreeNodeKey[] = [];
+            Object.keys(nodeList).forEach((key) => {
+                const node: InnerTreeOption = nodeList[key];
                 if (filterMethod(filterText, node)) {
-                    family.forEach((member) => {
-                        expandKeySet.add(member.value);
-                    });
-                } else if (node.isLeaf) {
-                    hiddenKeys.push(node.value);
-                }
-                const children = node.children;
-                if (children) {
-                    traverse(children);
-                }
-                if (!node.isLeaf) {
-                    if (!expandKeySet.has(node.value)) {
-                        if (!children) {
-                            hiddenKeys.push(node.value);
-                        } else if (
-                            children.every(
-                                (childNode) =>
-                                    !expandKeySet.has(childNode.value),
-                            )
-                        ) {
-                            hiddenKeys.push(node.value);
+                    _filteredKeys.push(key);
+                    const parentKeys = node.indexPath.slice(
+                        0,
+                        node.isLeaf
+                            ? node.indexPath.length - 1
+                            : node.indexPath.length,
+                    );
+                    parentKeys.forEach((_key) => {
+                        if (!_filteredExpandedKeys.includes(_key)) {
+                            _filteredExpandedKeys.push(_key);
                         }
-                    }
+                        if (!_filteredKeys.includes(_key)) {
+                            _filteredKeys.push(_key);
+                        }
+                    });
                 }
-                family.pop();
             });
+            filteredExpandedKeys.value = _filteredExpandedKeys;
+            filteredKeys.value = _filteredKeys;
         }
         if (filterText) {
-            traverse(props.data);
-            expandKeySet.forEach((key) => {
-                filteredExpandedKeys.push(key);
-            });
+            traverse();
         }
+        isSearchingRef.value = filterText ? true : false;
     };
 
     return {
-        hiddenKeys,
+        filteredKeys,
         filteredExpandedKeys,
         filter,
+        isSearchingRef,
     };
 };
