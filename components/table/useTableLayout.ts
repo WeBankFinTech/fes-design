@@ -33,23 +33,25 @@ export default function useTableLayout({
     const initRef = ref(false);
 
     const handlerHeight = () => {
-        // 需要在宽度分配完，重新渲染后，此时table已经按照期望正常渲染，此时的高度才是最终高度
-        const $wrapper = wrapperRef.value;
-        const $bodyWrapper = bodyWrapperRef.value;
-        if ($wrapper && $bodyWrapper && props.height) {
-            const $headerWrapper = props.showHeader
-                ? headerWrapperRef.value
-                : { offsetHeight: 0 };
-            const headerWrapperHeight = $headerWrapper.offsetHeight;
-            // 减去wrapperRef的border-bottom
-            const remainBodyHeight = props.height - headerWrapperHeight - 1;
-            bodyHeight.value = remainBodyHeight;
-            const bodyWrapperHeight = $bodyWrapper.offsetHeight;
-            if (remainBodyHeight < bodyWrapperHeight) {
-                isScrollY.value = true;
+        setTimeout(() => {
+            // 需要在宽度分配完，重新渲染后，此时table已经按照期望正常渲染，此时的高度才是最终高度
+            const $wrapper = wrapperRef.value;
+            const $bodyWrapper = bodyWrapperRef.value;
+            if ($wrapper && $bodyWrapper && props.height) {
+                const $headerWrapper = props.showHeader
+                    ? headerWrapperRef.value
+                    : { offsetHeight: 0 };
+                const headerWrapperHeight = $headerWrapper.offsetHeight;
+                // 减去wrapperRef的border-bottom
+                const remainBodyHeight = props.height - headerWrapperHeight - 1;
+                bodyHeight.value = remainBodyHeight;
+                const bodyWrapperHeight = $bodyWrapper.offsetHeight;
+                if (remainBodyHeight < bodyWrapperHeight) {
+                    isScrollY.value = true;
+                }
+                headerHeight.value = headerWrapperHeight;
             }
-            headerHeight.value = headerWrapperHeight;
-        }
+        }, 0);
     };
 
     const handlerWidth = () => {
@@ -66,7 +68,7 @@ export default function useTableLayout({
                 width?: number;
                 minWidth?: number;
             };
-            const _widthList: WidthItem[] = [];
+            const newWidthList: Record<string, WidthItem> = {};
             columns.value.forEach((column) => {
                 const widthObj: WidthItem = {
                     id: column.id,
@@ -91,38 +93,15 @@ export default function useTableLayout({
                 } else {
                     bodyMinWidth += min;
                 }
-                _widthList.push(widthObj);
+                newWidthList[column.id] = widthObj;
             });
-            const needAddWidthColumns = _widthList.filter(
-                (column) => !column.width,
-            );
-            // 如果不够，则需要补宽度
             if (bodyMinWidth < wrapperWidth) {
+                isScrollX.value = false;
                 bodyWidth.value = wrapperWidth;
-                const surplus =
-                    (wrapperWidth - bodyMinWidth) % needAddWidthColumns.length;
-                const average =
-                    (wrapperWidth - bodyMinWidth - surplus) /
-                    needAddWidthColumns.length;
-                needAddWidthColumns.forEach((column, index) => {
-                    column.width =
-                        (column.minWidth || min) +
-                        (index === 0 ? average + surplus : average);
-                });
             } else {
                 isScrollX.value = true;
                 bodyWidth.value = bodyMinWidth;
-                needAddWidthColumns.forEach((column) => {
-                    column.width = column.minWidth || min;
-                });
             }
-            const newWidthList = _widthList.reduce(
-                (previousValue, currentValue) => {
-                    previousValue[currentValue.id] = currentValue.width;
-                    return previousValue;
-                },
-                {} as Record<string, number>,
-            );
             // 如果值一样则没必要再次渲染，可减少一次多余渲染
             if (!isEqual(newWidthList, widthList.value)) {
                 widthList.value = newWidthList;

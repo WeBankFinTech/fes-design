@@ -24,7 +24,7 @@ export default defineComponent({
             bodyStyle,
             syncPosition,
             scrollbarRef,
-            hasFixedColumn
+            hasFixedColumn,
         } = inject(provideKey);
 
         const renderDefault = ({
@@ -49,7 +49,13 @@ export default defineComponent({
                 createVNode(Colgroup, {
                     columns: props.columns,
                 }),
-                createVNode('tbody', {}, itemVNodes.length ? itemVNodes : [<Tr columns={props.columns} />] ),
+                createVNode(
+                    'tbody',
+                    {},
+                    itemVNodes.length
+                        ? itemVNodes
+                        : [<Tr columns={props.columns} />],
+                ),
             ];
         };
 
@@ -70,8 +76,11 @@ export default defineComponent({
                     }}
                     shadow={{
                         x: hasFixedColumn.value,
-                        y: true
+                        y: true,
                     }}
+                    horizontalRatioStyle={{ zIndex: 3 }}
+                    verticalRatioStyle={{ zIndex: 3 }}
+                    shadowStyle={{ zIndex: 3 }}
                     onScroll={onScroll}
                     dataSources={showData.value}
                     dataKey={rootProps.rowKey}

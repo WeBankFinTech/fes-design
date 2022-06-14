@@ -15,7 +15,12 @@ export default defineComponent({
                 {columns.map((column) => (
                     <col
                         key={column.id}
-                        style={{ width: `${column.width}px` }}
+                        style={[
+                            column.width && { width: `${column.width}px` },
+                            column.minWidth && {
+                                width: `${column.minWidth}px`,
+                            },
+                        ]}
                     />
                 ))}
             </colgroup>
