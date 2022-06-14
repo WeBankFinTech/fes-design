@@ -33,25 +33,23 @@ export default function useTableLayout({
     const initRef = ref(false);
 
     const handlerHeight = () => {
-        setTimeout(() => {
-            // 需要在宽度分配完，重新渲染后，此时table已经按照期望正常渲染，此时的高度才是最终高度
-            const $wrapper = wrapperRef.value;
-            const $bodyWrapper = bodyWrapperRef.value;
-            if ($wrapper && $bodyWrapper && props.height) {
-                const $headerWrapper = props.showHeader
-                    ? headerWrapperRef.value
-                    : { offsetHeight: 0 };
-                const headerWrapperHeight = $headerWrapper.offsetHeight;
-                // 减去wrapperRef的border-bottom
-                const remainBodyHeight = props.height - headerWrapperHeight - 1;
-                bodyHeight.value = remainBodyHeight;
-                const bodyWrapperHeight = $bodyWrapper.offsetHeight;
-                if (remainBodyHeight < bodyWrapperHeight) {
-                    isScrollY.value = true;
-                }
-                headerHeight.value = headerWrapperHeight;
+        // 需要在宽度分配完，重新渲染后，此时table已经按照期望正常渲染，此时的高度才是最终高度
+        const $wrapper = wrapperRef.value;
+        const $bodyWrapper = bodyWrapperRef.value;
+        if ($wrapper && $bodyWrapper && props.height) {
+            const $headerWrapper = props.showHeader
+                ? headerWrapperRef.value
+                : { offsetHeight: 0 };
+            const headerWrapperHeight = $headerWrapper.offsetHeight;
+            // 减去wrapperRef的border-bottom
+            const remainBodyHeight = props.height - headerWrapperHeight - 1;
+            bodyHeight.value = remainBodyHeight;
+            const bodyWrapperHeight = $bodyWrapper.offsetHeight;
+            if (remainBodyHeight < bodyWrapperHeight) {
+                isScrollY.value = true;
             }
-        }, 0);
+            headerHeight.value = headerWrapperHeight;
+        }
     };
 
     const handlerWidth = () => {
