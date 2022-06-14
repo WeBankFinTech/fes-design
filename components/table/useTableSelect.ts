@@ -38,10 +38,6 @@ export default ({
         }
     });
 
-    const isAllSelected = ref(false);
-
-    const selection = reactive([]);
-
     // 能被选择 && 展示 的数据
     const selectableData = computed(() =>
         showData.value.filter((row, rowIndex) => {
@@ -55,6 +51,15 @@ export default ({
             return true;
         }),
     );
+
+    const selection = reactive([]);
+
+    const isAllSelected = computed(() => {
+        return selectableData.value.every((_row) => {
+            const _rowKey = getRowKey({ row: _row });
+            return selection.includes(_rowKey);
+        });
+    });
 
     watch(selection, () => {
         ctx.emit('selectionChange', selection);
@@ -89,24 +94,6 @@ export default ({
                 checked: true,
             });
         }
-        // 如果全部选中，则设置全选按钮
-        if (
-            selectableData.value.every((_row) => {
-                const _rowKey = getRowKey({ row: _row });
-                return selection.includes(_rowKey);
-            })
-        ) {
-            isAllSelected.value = true;
-        }
-        // 如果全部不选中，则设置全选按钮
-        if (
-            selectableData.value.some((_row) => {
-                const _rowKey = getRowKey({ row: _row });
-                return !selection.includes(_rowKey);
-            })
-        ) {
-            isAllSelected.value = false;
-        }
     };
 
     function splice(row: RowType) {
@@ -128,17 +115,14 @@ export default ({
     const handleSelectAll = () => {
         if (isAllSelected.value) {
             selectableData.value.forEach(splice);
-            isAllSelected.value = false;
         } else {
             selectableData.value.forEach(push);
-            isAllSelected.value = true;
         }
         ctx.emit('selectAll', { selection });
     };
 
     const clearSelect = () => {
         selectableData.value.forEach(splice);
-        isAllSelected.value = false;
     };
 
     return {
