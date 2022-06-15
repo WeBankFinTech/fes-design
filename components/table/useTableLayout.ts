@@ -66,7 +66,7 @@ export default function useTableLayout({
                 width?: number;
                 minWidth?: number;
             };
-            const _widthList: WidthItem[] = [];
+            const newWidthList: Record<string, WidthItem> = {};
             columns.value.forEach((column) => {
                 const widthObj: WidthItem = {
                     id: column.id,
@@ -91,38 +91,15 @@ export default function useTableLayout({
                 } else {
                     bodyMinWidth += min;
                 }
-                _widthList.push(widthObj);
+                newWidthList[column.id] = widthObj;
             });
-            const needAddWidthColumns = _widthList.filter(
-                (column) => !column.width,
-            );
-            // 如果不够，则需要补宽度
             if (bodyMinWidth < wrapperWidth) {
+                isScrollX.value = false;
                 bodyWidth.value = wrapperWidth;
-                const surplus =
-                    (wrapperWidth - bodyMinWidth) % needAddWidthColumns.length;
-                const average =
-                    (wrapperWidth - bodyMinWidth - surplus) /
-                    needAddWidthColumns.length;
-                needAddWidthColumns.forEach((column, index) => {
-                    column.width =
-                        (column.minWidth || min) +
-                        (index === 0 ? average + surplus : average);
-                });
             } else {
                 isScrollX.value = true;
                 bodyWidth.value = bodyMinWidth;
-                needAddWidthColumns.forEach((column) => {
-                    column.width = column.minWidth || min;
-                });
             }
-            const newWidthList = _widthList.reduce(
-                (previousValue, currentValue) => {
-                    previousValue[currentValue.id] = currentValue.width;
-                    return previousValue;
-                },
-                {} as Record<string, number>,
-            );
             // 如果值一样则没必要再次渲染，可减少一次多余渲染
             if (!isEqual(newWidthList, widthList.value)) {
                 widthList.value = newWidthList;

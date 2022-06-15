@@ -91,13 +91,13 @@ export default defineComponent({
             rootProps,
             toggleRowExpend,
         } = useTable(props, ctx);
-        
+
         ctx.expose &&
             ctx.expose({
                 toggleRowSelection: handleSelect,
                 toggleAllSelection: handleSelectAll,
                 clearSelection: clearSelect,
-                toggleRowExpend
+                toggleRowExpend,
             });
 
         // 计算出传入columns列的对应的宽度
@@ -105,7 +105,8 @@ export default defineComponent({
             const widthListValue = layout.widthList.value;
             return columns.value.map((column) => ({
                 ...column,
-                width: (widthListValue as any)[column.id],
+                width: (widthListValue as any)[column.id]?.width,
+                minWidth: (widthListValue as any)[column.id]?.minWidth,
             }));
         });
 
@@ -114,15 +115,19 @@ export default defineComponent({
             return !isUndefined(rootProps.height);
         });
 
-        watch(()=> props.virtualScroll, () => {
-            if (props.virtualScroll && !props.rowKey) {
-                console.warn(
-                    `[${TABLE_NAME}]: 当使用虚拟滚动时，请设置rowKey!`,
-                );
-            }
-        }, {
-            immediate: true
-        });
+        watch(
+            () => props.virtualScroll,
+            () => {
+                if (props.virtualScroll && !props.rowKey) {
+                    console.warn(
+                        `[${TABLE_NAME}]: 当使用虚拟滚动时，请设置rowKey!`,
+                    );
+                }
+            },
+            {
+                immediate: true,
+            },
+        );
 
         return () => (
             <div ref={wrapperRef} class={wrapperClass.value}>
@@ -135,7 +140,10 @@ export default defineComponent({
                     columns={columnsRef.value}
                 />
                 {rootProps.virtualScroll ? (
-                    <VirtualTable v-show={layout.initRef.value} columns={columnsRef.value} />
+                    <VirtualTable
+                        v-show={layout.initRef.value}
+                        columns={columnsRef.value}
+                    />
                 ) : (
                     <BodyTable
                         v-show={layout.initRef.value}

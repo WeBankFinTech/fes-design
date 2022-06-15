@@ -103,6 +103,7 @@ export interface ColumnInst {
     slots: ReturnType<typeof useSlots>;
     parentId?: number;
     width?: number;
+    minWidth?: number;
     fixLeft?: boolean;
     fixRight?: boolean;
     colSpan?: number;
