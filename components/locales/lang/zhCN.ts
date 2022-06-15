@@ -85,6 +85,7 @@ export default {
     },
     upload: {
         btnText: '上传文件',
+        fileTypeInvalidTip: '上传文件格式不正确！',
     },
     modal: {
         okText: '确定',

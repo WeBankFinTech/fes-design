@@ -77,3 +77,10 @@ app.use(FUpload);
 | tip      | 提示说明文字                                 |
 | fileList | 自定义文件的展示, 参数为 { uploadFiles }     |
 | file     | 自定义上传后的文件展示, 参数为 { file }      |
+
+
+## UploadDragger Props
+
+| 属性      | 说明                                     | 类型                     | 默认值  |
+| ---------- | ----------------- | ------------------------ | ------- |
+| onFileTypeInvalid        | 拖拽文件类型不满足`accept`时的钩子函数，若未定义则使用内置提示    | (files: File[]) => void       |  -     |

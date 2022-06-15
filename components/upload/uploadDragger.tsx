@@ -5,13 +5,19 @@ import {
     ExtractPropTypes,
     ref,
     computed,
+    PropType,
 } from 'vue';
 import { useTheme } from '../_theme/useTheme';
+import { useLocale } from '../config-provider/useLocale';
 import { key } from './const';
 import { matchType } from './utils';
 import FMessage from '../message';
 
-const uploadDraggerProps = {} as const;
+const uploadDraggerProps = {
+    onFileTypeInvalid: {
+        type: Function as PropType<(files: File[]) => void>,
+    },
+} as const;
 
 export type UploadDraggerProps = Partial<
     ExtractPropTypes<typeof uploadDraggerProps>
@@ -23,6 +29,8 @@ export default defineComponent({
     emits: [],
     setup(props, ctx) {
         useTheme();
+
+        const { t } = useLocale();
 
         const {
             prefixCls,
@@ -41,7 +49,7 @@ export default defineComponent({
             return [
                 `${prefixCls}-dragger`,
                 isHovering.value && 'is-hovering',
-                disabled.value && 'is-disabled'
+                disabled.value && 'is-disabled',
             ].filter(Boolean);
         });
 
@@ -79,7 +87,19 @@ export default defineComponent({
                 return matchType(file.name, file.type, accept.value);
             });
             if (filterFiles.length !== postFiles.length) {
-                FMessage.error("上传文件格式不正确！")
+                if (props.onFileTypeInvalid) {
+                    props.onFileTypeInvalid(
+                        postFiles.filter((file) => {
+                            return !matchType(
+                                file.name,
+                                file.type,
+                                accept.value,
+                            );
+                        }),
+                    );
+                } else {
+                    FMessage.error(t('upload.fileTypeInvalidTip'));
+                }
             }
             onUploadFiles(filterFiles);
         };
