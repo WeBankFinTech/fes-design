@@ -16,7 +16,7 @@ export default ({
     const transformData = ref<TreeNodeKey[]>([]);
 
     const { filter, filteredExpandedKeys, filteredKeys, isSearchingRef } =
-        useFilter(props, nodeList);
+        useFilter(props, transformData, nodeList);
 
     watch([filteredExpandedKeys, currentExpandedKeys, transformData], () => {
         const expandedKeys = isSearchingRef.value
@@ -33,26 +33,27 @@ export default ({
     });
 
     const currentData = computed(() =>
-        isSearchingRef.value
+        (isSearchingRef.value
             ? filteredKeys.value
-            : transformData.value.filter((value) => {
-                  const node = nodeList[value];
-                  const isRoot = node.indexPath.length === 1;
-                  if (isRoot) {
-                      return true;
-                  }
-                  const indexPath = node.indexPath;
-                  const len = indexPath.length;
-                  let index = 0;
-                  while (index < len - 1) {
-                      const parentNode = nodeList[indexPath[index]];
-                      if (!parentNode.isExpanded) {
-                          return false;
-                      }
-                      index += 1;
-                  }
-                  return true;
-              }),
+            : transformData.value
+        ).filter((value) => {
+            const node = nodeList[value];
+            const isRoot = node.indexPath.length === 1;
+            if (isRoot) {
+                return true;
+            }
+            const indexPath = node.indexPath;
+            const len = indexPath.length;
+            let index = 0;
+            while (index < len - 1) {
+                const parentNode = nodeList[indexPath[index]];
+                if (!parentNode.isExpanded) {
+                    return false;
+                }
+                index += 1;
+            }
+            return true;
+        }),
     );
 
     const transformNode = (
@@ -121,5 +122,7 @@ export default ({
         transformData,
         currentData,
         filter,
+        filteredExpandedKeys,
+        isSearchingRef,
     };
 };

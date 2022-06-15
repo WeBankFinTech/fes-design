@@ -51,12 +51,31 @@ export default defineComponent({
             hasIndeterminate,
         } = useState(props, { emit });
 
-        const { nodeList, currentData, transformData, filter } = useData({
+        const {
+            nodeList,
+            currentData,
+            transformData,
+            filter,
+            filteredExpandedKeys,
+            isSearchingRef,
+        } = useData({
             props,
             currentExpandedKeys,
         });
 
         const expandNode = (val: TreeNodeKey, event: Event) => {
+            if (isSearchingRef.value) {
+                const _value = cloneDeep(filteredExpandedKeys.value);
+                const index = _value.indexOf(val);
+                // 已经展开
+                if (index !== -1) {
+                    _value.splice(index, 1);
+                } else {
+                    _value.push(val);
+                }
+                filteredExpandedKeys.value = _value;
+                return;
+            }
             const node = nodeList[val];
             let values: TreeNodeKey[] = cloneDeep(currentExpandedKeys.value);
             const index = values.indexOf(val);

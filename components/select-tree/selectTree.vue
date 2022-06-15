@@ -124,6 +124,7 @@ import {
     onMounted,
     CSSProperties,
 } from 'vue';
+import { debounce } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel, useArrayModel } from '../_util/use/useModel';
@@ -320,9 +321,12 @@ export default defineComponent({
         };
 
         const refTree = ref(null);
-        watch(filterText, () => {
-            refTree.value.filter(filterText.value);
-        });
+        watch(
+            filterText,
+            debounce(() => {
+                refTree.value.filter(filterText.value);
+            }, 300),
+        );
         const filterMethod = (value: string, node: InnerTreeOption) =>
             node.label.indexOf(value) !== -1;
 
