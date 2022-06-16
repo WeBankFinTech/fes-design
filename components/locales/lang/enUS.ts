@@ -86,6 +86,7 @@ export default {
     },
     upload: {
         btnText: 'Upload File',
+        fileTypeInvalidTip: 'Upload file format is incorrect!',
     },
     modal: {
         okText: 'Confirm',

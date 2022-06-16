@@ -8,11 +8,32 @@
     display: inline-block;
     text-align: center;
     cursor: pointer;
+    &.is-dragger {
+        display: block;
+    }
     .@{upload-prefix-cls}-trigger-default {
         margin: 0;
     }
     & &-input {
         display: none;
+    }
+    &-dragger {
+        cursor: pointer;
+        box-sizing: border-box;
+        width: 100%;
+        text-align: center;
+        border-radius: var(--f-border-radius-base);
+        padding: var(--f-padding-middle);
+        background-color: var(--f-component-bg-color);
+        border: var(--f-border-width-base) dashed var(--f-border-color-base);
+        transition: border-color @animation-duration-slow @ease-base-in;
+        &:hover, &.is-hovering{
+            border-color: var(--f-primary-color);
+        }
+        &.is-disabled {
+            cursor: not-allowed;
+            border-color: var(--f-border-color-base);
+        }
     }
     &-list {
         min-width: 320px;
