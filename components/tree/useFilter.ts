@@ -1,64 +1,70 @@
-import { reactive } from 'vue';
+import { ref, Ref } from 'vue';
 import { isFunction } from 'lodash-es';
 
-import type { TreeOption, TreeNodeKey } from './interface';
+import type { TreeNodeKey, TreeNodeList, InnerTreeOption } from './interface';
 import type { TreeProps } from './props';
 
-export default (props: TreeProps) => {
-    const hiddenKeys = reactive([]);
-    const filteredExpandedKeys = reactive<TreeNodeKey[]>([]);
+export default (
+    props: TreeProps,
+    transformData: Ref<TreeNodeKey[]>,
+    nodeList: TreeNodeList,
+) => {
+    const filteredKeys = ref<TreeNodeKey[]>([]);
+    const filteredExpandedKeys = ref<TreeNodeKey[]>([]);
+    const isSearchingRef = ref(false);
+
+    function traverse(
+        filterMethod: (filterText: string, node: InnerTreeOption) => boolean,
+        filterText: string,
+    ) {
+        const _filteredExpandedKeys: TreeNodeKey[] = [];
+        const _filteredKeys: TreeNodeKey[] = [];
+        const _filteredExpandedKeysMap = new Map<TreeNodeKey, boolean>();
+        const _filteredKeysMap = new Map<TreeNodeKey, boolean>();
+        transformData.value.forEach((key) => {
+            const node: InnerTreeOption = nodeList[key];
+            if (filterMethod(filterText, node)) {
+                const parentKeys = node.indexPath;
+                parentKeys.forEach((_key) => {
+                    if (!_filteredExpandedKeysMap.get(_key)) {
+                        _filteredExpandedKeys.push(_key);
+                        _filteredExpandedKeysMap.set(_key, true);
+                    }
+                    if (!_filteredKeysMap.get(_key)) {
+                        _filteredKeys.push(_key);
+                        _filteredKeysMap.set(_key, true);
+                    }
+                });
+            }
+        });
+        _filteredExpandedKeysMap.clear();
+        _filteredKeysMap.clear();
+        return [_filteredExpandedKeys, _filteredKeys];
+    }
 
     const filter = (filterText: string) => {
         const filterMethod = props.filterMethod;
         if (!isFunction(filterMethod)) {
             return;
         }
-        filteredExpandedKeys.length = 0;
-        hiddenKeys.length = 0;
-        const family: TreeOption[] = [];
-        const expandKeySet = new Set<TreeNodeKey>();
-        function traverse(nodes: TreeOption[]) {
-            nodes.forEach((node) => {
-                family.push(node);
-                if (filterMethod(filterText, node)) {
-                    family.forEach((member) => {
-                        expandKeySet.add(member.value);
-                    });
-                } else if (node.isLeaf) {
-                    hiddenKeys.push(node.value);
-                }
-                const children = node.children;
-                if (children) {
-                    traverse(children);
-                }
-                if (!node.isLeaf) {
-                    if (!expandKeySet.has(node.value)) {
-                        if (!children) {
-                            hiddenKeys.push(node.value);
-                        } else if (
-                            children.every(
-                                (childNode) =>
-                                    !expandKeySet.has(childNode.value),
-                            )
-                        ) {
-                            hiddenKeys.push(node.value);
-                        }
-                    }
-                }
-                family.pop();
-            });
-        }
         if (filterText) {
-            traverse(props.data);
-            expandKeySet.forEach((key) => {
-                filteredExpandedKeys.push(key);
-            });
+            const [_filteredExpandedKeys, _filteredKeys] = traverse(
+                filterMethod,
+                filterText,
+            );
+            filteredExpandedKeys.value = _filteredExpandedKeys;
+            filteredKeys.value = _filteredKeys;
+        } else {
+            filteredExpandedKeys.value = [];
+            filteredKeys.value = [];
         }
+        isSearchingRef.value = filterText ? true : false;
     };
 
     return {
-        hiddenKeys,
+        filteredKeys,
         filteredExpandedKeys,
         filter,
+        isSearchingRef,
     };
 };

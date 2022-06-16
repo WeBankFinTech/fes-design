@@ -1,40 +1,42 @@
 import { ref, reactive, watch, computed, Ref } from 'vue';
 import { isNil } from 'lodash-es';
-
+import useFilter from './useFilter';
 import type { InnerTreeOption, TreeNodeKey, TreeNodeList } from './interface';
 import type { TreeProps } from './props';
 
 export default ({
     props,
-    filteredExpandedKeys,
     currentExpandedKeys,
-    hiddenKeys,
 }: {
     props: TreeProps;
-    filteredExpandedKeys: TreeNodeKey[];
     currentExpandedKeys: Ref<TreeNodeKey[]>;
-    hiddenKeys: TreeNodeKey[];
 }) => {
     const nodeList = reactive<TreeNodeList>({});
 
-    const transformData = ref([]);
+    const transformData = ref<TreeNodeKey[]>([]);
+
+    const { filter, filteredExpandedKeys, filteredKeys, isSearchingRef } =
+        useFilter(props, transformData, nodeList);
 
     watch([filteredExpandedKeys, currentExpandedKeys, transformData], () => {
-        const expandedKeys = filteredExpandedKeys.length
-            ? filteredExpandedKeys
+        const expandedKeys = isSearchingRef.value
+            ? filteredExpandedKeys.value
             : currentExpandedKeys.value;
         // 缓存每个节点的展开状态，性能更优
-        transformData.value.forEach((key) => {
+        (isSearchingRef.value
+            ? filteredKeys.value
+            : transformData.value
+        ).forEach((key) => {
             const node = nodeList[key];
             node.isExpanded = expandedKeys.includes(key);
         });
     });
 
     const currentData = computed(() =>
-        transformData.value.filter((value) => {
-            if (hiddenKeys.includes(value)) {
-                return false;
-            }
+        (isSearchingRef.value
+            ? filteredKeys.value
+            : transformData.value
+        ).filter((value) => {
             const node = nodeList[value];
             const isRoot = node.indexPath.length === 1;
             if (isRoot) {
@@ -119,5 +121,8 @@ export default ({
         nodeList,
         transformData,
         currentData,
+        filter,
+        filteredExpandedKeys,
+        isSearchingRef,
     };
 };
