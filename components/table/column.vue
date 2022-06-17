@@ -140,7 +140,13 @@ export default defineComponent({
     render() {
         let children: VNode[] = [];
         try {
-            const renderDefault = this.$slots.default?.();
+            const renderDefault = this.$slots.default?.({
+                row: {},
+                rowIndex: -1,
+                column: {},
+                columnIndex: -1,
+                cellValue: null,
+            });
             if (renderDefault instanceof Array) {
                 renderDefault.forEach((childNode) => {
                     if (

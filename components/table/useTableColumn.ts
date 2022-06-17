@@ -25,7 +25,7 @@ export default function useColumn() {
     const columns = computed(() => getColumns(visibleColumns.value));
 
     // 表头Rows
-    const headerRows = computed(() => getHeaderRows(columns.value));
+    const headerRows = computed(() => getHeaderRows(visibleColumns.value));
 
     const hasFixedColumn = computed(() =>
         columns.value.every((column) => {
