@@ -12,7 +12,7 @@
                 label="姓名"
                 :width="150"
             ></f-table-column>
-            <f-table-column label="地址">
+            <f-table-column label="地址信息">
                 <f-table-column
                     prop="province"
                     label="省份"
@@ -22,7 +22,7 @@
                 </f-table-column>
                 <f-table-column
                     prop="address"
-                    label="地址"
+                    label="详细地址"
                     :width="500"
                 ></f-table-column>
                 <f-table-column prop="zip" label="邮编" :width="120">

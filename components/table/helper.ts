@@ -27,6 +27,30 @@ export const getRowKey = ({
     return row;
 };
 
+const handleFixedColumns = (arr: ColumnInst[]) => {
+    // fixed固定列需要排在首尾
+    const fixLeftIndex = arr.findIndex(
+        (column) =>
+            column.props.fixed === true || column.props.fixed === 'left',
+    );
+    if (fixLeftIndex !== -1) {
+        const fixLeftColumn = arr[fixLeftIndex];
+        fixLeftColumn.fixLeft = true;
+        arr.splice(fixLeftIndex, 1);
+        arr.unshift(fixLeftColumn);
+    }
+    const fixRightIndex = arr.findIndex(
+        (column) => column.props.fixed === 'right',
+    );
+    if (fixRightIndex !== -1) {
+        const fixRightColumn = arr[fixRightIndex];
+        fixRightColumn.fixRight = true;
+        arr.splice(fixRightIndex, 1);
+        arr.push(fixRightColumn);
+    }
+    return arr;
+};
+
 /**
  *  考虑到存在聚合表头的场景，需要根据原始列数据的格式计算出聚合表头中每个单元格的 rowSpan、colSpan 和它所属的level
  * @param {} originColumns
@@ -36,9 +60,11 @@ export function getHeaderRows(originColumns: ColumnInst[]) {
     const rows: ColumnInst[][] = [];
 
     // copy，避免污染源数据，导致多次执行 getHeaderRows
-    const cols = originColumns.map((column) => ({
-        ...column,
-    }));
+    const cols = handleFixedColumns(
+        originColumns.map((column) => ({
+            ...column,
+        })),
+    );
 
     let isChildren: number[] = [];
     cols.forEach((column) => {
@@ -91,27 +117,7 @@ export function getColumns(originColumns: ColumnInst[]) {
     const arr = originColumns.filter(
         (col) => !originColumns.some((c) => c.parentId === col.id),
     );
-    // fixed固定列需要排在首尾
-    const fixLeftIndex = arr.findIndex(
-        (column) =>
-            column.props.fixed === true || column.props.fixed === 'left',
-    );
-    if (fixLeftIndex !== -1) {
-        const fixLeftColumn = arr[fixLeftIndex];
-        fixLeftColumn.fixLeft = true;
-        arr.splice(fixLeftIndex, 1);
-        arr.unshift(fixLeftColumn);
-    }
-    const fixRightIndex = arr.findIndex(
-        (column) => column.props.fixed === 'right',
-    );
-    if (fixRightIndex !== -1) {
-        const fixRightColumn = arr[fixRightIndex];
-        fixRightColumn.fixRight = true;
-        arr.splice(fixRightIndex, 1);
-        arr.push(fixRightColumn);
-    }
-    return arr;
+    return handleFixedColumns(arr);
 }
 
 export const getCellValue = (row?: RowType, column?: ColumnInst) => {
