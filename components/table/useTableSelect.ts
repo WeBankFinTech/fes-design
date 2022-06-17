@@ -38,10 +38,6 @@ export default ({
         }
     });
 
-    const isAllSelected = ref(false);
-
-    const selection = reactive([]);
-
     // 能被选择 && 展示 的数据
     const selectableData = computed(() =>
         showData.value.filter((row, rowIndex) => {
@@ -56,6 +52,17 @@ export default ({
         }),
     );
 
+    const selection = reactive([]);
+
+    const selectionMap = reactive(new Map());
+
+    const isAllSelected = computed(() => {
+        return selectableData.value.every((_row) => {
+            const _rowKey = getRowKey({ row: _row });
+            return selectionMap.get(_rowKey);
+        });
+    });
+
     watch(selection, () => {
         ctx.emit('selectionChange', selection);
     });
@@ -67,7 +74,7 @@ export default ({
 
     const isSelected = ({ row }: { row: RowType }) => {
         const rowKey = getRowKey({ row });
-        return selection.includes(rowKey);
+        return selectionMap.get(rowKey);
     };
 
     const handleSelect = ({ row }: { row: RowType }) => {
@@ -76,6 +83,7 @@ export default ({
         const index = selection.indexOf(rowKey);
         if (index !== -1) {
             selection.splice(index, 1);
+            selectionMap.delete(rowKey);
             ctx.emit('select', {
                 selection,
                 row,
@@ -83,29 +91,12 @@ export default ({
             });
         } else {
             selection.push(rowKey);
+            selectionMap.set(rowKey, true);
             ctx.emit('select', {
                 selection,
                 row,
                 checked: true,
             });
-        }
-        // 如果全部选中，则设置全选按钮
-        if (
-            selectableData.value.every((_row) => {
-                const _rowKey = getRowKey({ row: _row });
-                return selection.includes(_rowKey);
-            })
-        ) {
-            isAllSelected.value = true;
-        }
-        // 如果全部不选中，则设置全选按钮
-        if (
-            selectableData.value.some((_row) => {
-                const _rowKey = getRowKey({ row: _row });
-                return !selection.includes(_rowKey);
-            })
-        ) {
-            isAllSelected.value = false;
         }
     };
 
@@ -114,6 +105,7 @@ export default ({
         const index = selection.indexOf(rowKey);
         if (index !== -1) {
             selection.splice(index, 1);
+            selectionMap.delete(rowKey);
         }
     }
 
@@ -122,23 +114,21 @@ export default ({
         const index = selection.indexOf(rowKey);
         if (index === -1) {
             selection.push(rowKey);
+            selectionMap.set(rowKey, true);
         }
     }
 
     const handleSelectAll = () => {
         if (isAllSelected.value) {
             selectableData.value.forEach(splice);
-            isAllSelected.value = false;
         } else {
             selectableData.value.forEach(push);
-            isAllSelected.value = true;
         }
         ctx.emit('selectAll', { selection });
     };
 
     const clearSelect = () => {
         selectableData.value.forEach(splice);
-        isAllSelected.value = false;
     };
 
     return {
