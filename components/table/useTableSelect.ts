@@ -54,10 +54,12 @@ export default ({
 
     const selection = reactive([]);
 
+    const selectionMap = reactive(new Map());
+
     const isAllSelected = computed(() => {
         return selectableData.value.every((_row) => {
             const _rowKey = getRowKey({ row: _row });
-            return selection.includes(_rowKey);
+            return selectionMap.get(_rowKey);
         });
     });
 
@@ -72,7 +74,7 @@ export default ({
 
     const isSelected = ({ row }: { row: RowType }) => {
         const rowKey = getRowKey({ row });
-        return selection.includes(rowKey);
+        return selectionMap.get(rowKey);
     };
 
     const handleSelect = ({ row }: { row: RowType }) => {
@@ -81,6 +83,7 @@ export default ({
         const index = selection.indexOf(rowKey);
         if (index !== -1) {
             selection.splice(index, 1);
+            selectionMap.delete(rowKey);
             ctx.emit('select', {
                 selection,
                 row,
@@ -88,6 +91,7 @@ export default ({
             });
         } else {
             selection.push(rowKey);
+            selectionMap.set(rowKey, true);
             ctx.emit('select', {
                 selection,
                 row,
@@ -101,6 +105,7 @@ export default ({
         const index = selection.indexOf(rowKey);
         if (index !== -1) {
             selection.splice(index, 1);
+            selectionMap.delete(rowKey);
         }
     }
 
@@ -109,6 +114,7 @@ export default ({
         const index = selection.indexOf(rowKey);
         if (index === -1) {
             selection.push(rowKey);
+            selectionMap.set(rowKey, true);
         }
     }
 
