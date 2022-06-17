@@ -1,3 +1,18 @@
+## [0.5.11](https://github.com/WeBankFinTech/fes-design/compare/v0.5.10...v0.5.11) (2022-06-17)
+
+
+### Bug Fixes
+
+* Table全选在数据改变后不更新 ([#183](https://github.com/WeBankFinTech/fes-design/issues/183)) ([3ca7cee](https://github.com/WeBankFinTech/fes-design/commit/3ca7cee33d850ddd3f572e1de21b046ce39d9236))
+* 修复超出1W数据时过滤Tree卡顿问题 ([#182](https://github.com/WeBankFinTech/fes-design/issues/182)) ([295d68d](https://github.com/WeBankFinTech/fes-design/commit/295d68d73a64b2fc7869e1cf06a646e9b48abee3))
+
+
+### Features
+
+* upload支持拖拽上传 ([#181](https://github.com/WeBankFinTech/fes-design/issues/181)) ([a5d8adc](https://github.com/WeBankFinTech/fes-design/commit/a5d8adc169c020397274cec08796e770ac2774fd))
+
+
+
 ## [0.5.10](https://github.com/WeBankFinTech/fes-design/compare/v0.5.9...v0.5.10) (2022-06-13)
 
 
