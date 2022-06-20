@@ -1,3 +1,13 @@
+## [0.5.12](https://github.com/WeBankFinTech/fes-design/compare/v0.5.11...v0.5.12) (2022-06-20)
+
+
+### Bug Fixes
+
+* 修复Upload拖拽上传未配置accpet都会被拦截问题 ([c5c123d](https://github.com/WeBankFinTech/fes-design/commit/c5c123d6c12f4913ce9c13e85ad14b6965e69600))
+* 修复多级表头无法正确显示问题 ([#185](https://github.com/WeBankFinTech/fes-design/issues/185)) ([cbc763d](https://github.com/WeBankFinTech/fes-design/commit/cbc763d99c7af241011f1317bbd2cbc61dbe86bd))
+
+
+
 ## [0.5.11](https://github.com/WeBankFinTech/fes-design/compare/v0.5.10...v0.5.11) (2022-06-17)
 
 
