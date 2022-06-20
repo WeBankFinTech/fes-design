@@ -70,17 +70,17 @@
 // 表单布局: inline
 .@{form-cls}-inline {
     display: grid;
-    grid-gap: (@form-item-margin/2);
-    // inline-form grid 布局自适应换行: minmax(200px, 1fr) 即每一个列的宽度最小是200px，最大是1fr，等分宽度
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    // inline-form grid 布局自适应换行: minmax(220px, 1fr) 即每一个列的宽度最小是222px，最大是1fr，等分宽度
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     align-items: center;
     box-sizing: border-box;
     width: 100%;
     margin-bottom: @form-item-margin;
-    .@{form-item-cls} {
+    .@{form-item-cls} {;
         align-items: center;
         box-sizing: border-box;
         margin: 0;
+        padding: 0 (@form-item-margin/2) (@form-item-margin/2);
     }
 }
 
