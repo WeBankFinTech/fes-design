@@ -58,7 +58,7 @@ export default defineComponent({
             prefixCls,
             `${prefixCls}-${props.layout}`,
         ]);
-        const formStyle = computed(() => (props.inlineMinWidth && {
+        const formStyle = computed(() => ((props.layout === FORM_LAYOUT.INLINE && props.inlineMinWidth) && {
             'grid-template-columns': `repeat(auto-fit, minmax(${props.inlineMinWidth}, 1fr))`
         }));
 
