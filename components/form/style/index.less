@@ -70,8 +70,9 @@
 // 表单布局: inline
 .@{form-cls}-inline {
     display: grid;
-    // inline-form grid 布局自适应换行: minmax(220px, 1fr) 即每一个列的宽度最小是222px，最大是1fr，等分宽度
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-gap: (@form-item-margin/2);
+    // inline-form grid 布局自适应换行: 包含了 grid-gap 在内的等分换行
+    grid-template-columns: repeat(auto-fit, minmax(calc(220px - (@form-item-margin/2)), 1fr));
     align-items: center;
     box-sizing: border-box;
     width: 100%;
@@ -80,7 +81,6 @@
         align-items: center;
         box-sizing: border-box;
         margin: 0;
-        padding: 0 (@form-item-margin/2) (@form-item-margin/2);
     }
 }
 

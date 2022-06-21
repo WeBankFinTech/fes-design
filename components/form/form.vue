@@ -15,7 +15,7 @@ import {
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { allPromiseFinish } from './utils';
-import { FORM_NAME } from './const';
+import { FORM_NAME, GRID_GAP_DEFAULT } from './const';
 import type { Field, ValidateResult } from './interface';
 
 const prefixCls = getPrefixCls('form');
@@ -59,7 +59,7 @@ export default defineComponent({
             `${prefixCls}-${props.layout}`,
         ]);
         const formStyle = computed(() => ((props.layout === FORM_LAYOUT.INLINE && props.inlineMinWidth) && {
-            'grid-template-columns': `repeat(auto-fit, minmax(${props.inlineMinWidth}, 1fr))`
+            'grid-template-columns': `repeat(auto-fit, minmax(calc(${props.inlineMinWidth} - ${GRID_GAP_DEFAULT}), 1fr))`
         }));
 
         const addField = (formItemProp: string, formItemContext: Field) => {
