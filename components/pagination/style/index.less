@@ -75,6 +75,7 @@
             border-radius: var(--f-pager-item-border-radius);
             box-sizing: border-box;
             cursor: pointer;
+            padding: 0 4px;
 
             &:hover {
                 --f-pager-item-color: var(--f-primary-color);
@@ -159,7 +160,7 @@
         }
         .@{pagination-prefix-cls}-pager-item {
             &.is-current {
-                width: @pagination-big-btn-width-base;
+                min-width: @pagination-big-btn-width-base;
                 cursor: default;
                 &:hover {
                     --f-pager-item-color: var(--f-text-color);
@@ -233,7 +234,7 @@
         }
         .@{pagination-prefix-cls}-pager-item {
             &.is-current {
-                width: @pagination-big-btn-width-sm;
+                min-width: @pagination-big-btn-width-sm;
             }
         }
     }
