@@ -71,8 +71,8 @@
 .@{form-cls}-inline {
     display: grid;
     grid-gap: (@form-item-margin/2);
-    // inline-form grid 布局自适应换行: 包含了 grid-gap 在内的等分换行
-    grid-template-columns: repeat(auto-fit, minmax(calc(220px - (@form-item-margin/2)), 1fr));
+    // 默认情况下，repeat 4 个均分
+    grid-template-columns: repeat(4, 1fr);
     align-items: center;
     box-sizing: border-box;
     width: 100%;

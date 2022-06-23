@@ -12,10 +12,11 @@ import {
     LABEL_POSITION,
     TRIGGER_TYPE_DEFAULT,
 } from './const';
+import { addUnit } from '../_util/utils';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { allPromiseFinish } from './utils';
-import { FORM_NAME, GRID_GAP_DEFAULT } from './const';
+import { FORM_NAME } from './const';
 import type { Field, ValidateResult } from './interface';
 
 const prefixCls = getPrefixCls('form');
@@ -30,7 +31,7 @@ const formProps = {
         type: String as PropType<typeof FORM_LAYOUT[keyof typeof FORM_LAYOUT]>,
         default: FORM_LAYOUT.HORIZONTAL,
     },
-    inlineMinWidth: [String, Number] as PropType<string | number>,
+    inlineWidth: [String, Number] as PropType<string | number>,
     labelPosition: {
         type: String as PropType<
             typeof LABEL_POSITION[keyof typeof LABEL_POSITION]
@@ -58,8 +59,8 @@ export default defineComponent({
             prefixCls,
             `${prefixCls}-${props.layout}`,
         ]);
-        const formStyle = computed(() => ((props.layout === FORM_LAYOUT.INLINE && props.inlineMinWidth) && {
-            'grid-template-columns': `repeat(auto-fit, minmax(calc(${props.inlineMinWidth} - ${GRID_GAP_DEFAULT}), 1fr))`
+        const formStyle = computed(() => ((props.layout === FORM_LAYOUT.INLINE && props.inlineWidth) && {
+            'grid-template-columns': `repeat(auto-fit, minmax(${addUnit(props.inlineWidth)}, ${addUnit(props.inlineWidth)}))`
         }));
 
         const addField = (formItemProp: string, formItemContext: Field) => {

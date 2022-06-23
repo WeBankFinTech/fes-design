@@ -1,5 +1,5 @@
 <template>
-    <FForm layout="inline" inlineMinWidth="25%">
+    <FForm layout="inline" :inlineWidth="200">
         <FFormItem label="输入姓名">
             <FInput placeholder="请输入"></FInput>
         </FFormItem>
