@@ -170,6 +170,7 @@ export default (props: UploadProps, emit: any) => {
             file: rawFile,
             fileName: props.name,
             action: props.action,
+            timeout: props.timeout,
             onProgress: (e: ProgressEvent) => {
                 onProgress({
                     event: e,

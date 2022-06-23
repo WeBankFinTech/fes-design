@@ -79,6 +79,10 @@ export default function upload(option: UploadOption) {
         xhr.withCredentials = true;
     }
 
+    if (option.timeout) {
+        xhr.timeout = option.timeout;
+    }
+
     const headers = option.headers || {};
 
     Object.keys(headers).forEach((item) => {

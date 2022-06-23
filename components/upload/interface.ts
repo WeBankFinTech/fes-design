@@ -30,6 +30,7 @@ export interface UploadOption {
     file?: UploadFile;
     fileName?: string;
     action?: string;
+    timeout: number;
     onProgress: (e: ProgressEvent) => void;
     onSuccess: (res: any) => void;
     onError: (err: Error) => void;

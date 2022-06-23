@@ -27,12 +27,11 @@ const uploadProps = {
         type: Boolean,
         default: false,
     },
+    timeout: {
+        type: Number
+    },
     beforeUpload: Function,
     beforeRemove: Function,
-    drag: {
-        type: Boolean,
-        default: false,
-    },
     disabled: {
         type: Boolean,
         default: false,
