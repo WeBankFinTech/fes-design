@@ -1,3 +1,17 @@
+## [0.5.13](https://github.com/WeBankFinTech/fes-design/compare/v0.5.12...v0.5.13) (2022-06-23)
+
+
+### Bug Fixes
+
+* Pagaintion组件按钮加入默认padding ([#187](https://github.com/WeBankFinTech/fes-design/issues/187)) ([1605d04](https://github.com/WeBankFinTech/fes-design/commit/1605d04ea538865a4b70dbc5ccbaf6baa628ae82))
+
+
+### Features
+
+* Upload添加tansformResponse处理请求和timeout配置 ([#189](https://github.com/WeBankFinTech/fes-design/issues/189)) ([0825218](https://github.com/WeBankFinTech/fes-design/commit/0825218bb74fff5988504da933068b9df1b1284f))
+
+
+
 ## [0.5.12](https://github.com/WeBankFinTech/fes-design/compare/v0.5.11...v0.5.12) (2022-06-20)
 
 
