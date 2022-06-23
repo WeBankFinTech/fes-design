@@ -1,20 +1,20 @@
-export interface FileListItem {
-    uid?: number | string;
-    status?: string;
-    name: string;
-    url: string;
-}
-
 export interface UploadProgressEvent extends ProgressEvent {
     percent?: number;
 }
 
 export interface UploadFile extends File {
+    uid?: number | string;
+}
+export interface FileItem {
+    uid: number | string;
+    name: string;
+    size?: number;
     url?: string;
-    uid?: number;
     status?: string;
     percentage?: number;
     response?: any;
+    raw?: File;
+    [prop: string]: any;
 }
 
 export interface UploadError extends Error {
@@ -30,7 +30,8 @@ export interface UploadOption {
     file?: UploadFile;
     fileName?: string;
     action?: string;
-    timeout: number;
+    timeout?: number;
+    transformResponse?: (xhr: XMLHttpRequest) => any;
     onProgress: (e: ProgressEvent) => void;
     onSuccess: (res: any) => void;
     onError: (err: Error) => void;

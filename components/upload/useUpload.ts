@@ -8,17 +8,13 @@ import type { UploadProps } from './upload';
 
 const prefixCls = getPrefixCls('upload');
 
-import type {
-    FileListItem,
-    UploadFile,
-    UploadProgressEvent,
-} from './interface';
+import type { UploadFile, FileItem, UploadProgressEvent } from './interface';
 
 function genUid(seed: number) {
     return Date.now() + seed;
 }
 
-function getFile(rawFile: UploadFile, uploadFiles: UploadFile[]) {
+function getFile(rawFile: UploadFile, uploadFiles: FileItem[]) {
     return uploadFiles.find((file) => file.uid === rawFile.uid);
 }
 
@@ -29,13 +25,13 @@ export default (props: UploadProps, emit: any) => {
     const requestList = ref<{
         [key: number | string]: XMLHttpRequest;
     }>({});
-    let cachedFiles: FileListItem[] = [];
+    let cachedFiles: FileItem[] = [];
     let tempIndex = 1;
 
     function initFile(rawFile: UploadFile) {
         const uid = genUid(tempIndex++);
         rawFile.uid = uid;
-        const file = {
+        const file: FileItem = {
             name: rawFile.name,
             percentage: 0,
             status: 'ready',
@@ -47,7 +43,7 @@ export default (props: UploadProps, emit: any) => {
         return file;
     }
 
-    function abort(file?: UploadFile) {
+    function abort(file?: FileItem) {
         const _requestList = requestList.value;
         if (file) {
             const uid = file.uid;
@@ -77,7 +73,7 @@ export default (props: UploadProps, emit: any) => {
         emit('change', { file, fileList: uploadFiles.value });
     }
 
-    function onExceed(files: UploadFile[]) {
+    function onExceed(files: FileList) {
         emit('exceed', { files, fileList: uploadFiles.value });
     }
 
@@ -127,7 +123,7 @@ export default (props: UploadProps, emit: any) => {
         emit('change', { file, fileList: uploadFilesValue });
     }
 
-    function onRemove(rawFile: null | UploadFile, file?: UploadFile) {
+    function onRemove(rawFile: null | UploadFile, file?: FileItem) {
         const uploadFilesValue = uploadFiles.value;
         file = file || getFile(rawFile, uploadFilesValue);
         if (!file) {
@@ -171,6 +167,7 @@ export default (props: UploadProps, emit: any) => {
             fileName: props.name,
             action: props.action,
             timeout: props.timeout,
+            transformResponse: props.transformResponse,
             onProgress: (e: ProgressEvent) => {
                 onProgress({
                     event: e,
@@ -230,7 +227,7 @@ export default (props: UploadProps, emit: any) => {
         }
     };
 
-    const onUploadFiles = (files: UploadFile[]) => {
+    const onUploadFiles = (files: FileList) => {
         if (
             props.multipleLimit &&
             props.fileList.length + files.length > props.multipleLimit

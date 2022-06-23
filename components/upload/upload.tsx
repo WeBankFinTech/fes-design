@@ -5,7 +5,7 @@ import FileList from './fileList.vue';
 import request from './ajax';
 import useUpload from './useUpload';
 
-import type { FileListItem } from './interface';
+import type { FileItem } from './interface';
 
 type UploadListType = 'text' | 'picture-card';
 
@@ -37,8 +37,8 @@ const uploadProps = {
         default: false,
     },
     fileList: {
-        type: Array as PropType<FileListItem[]>,
-        default: (): FileListItem[] => [],
+        type: Array as PropType<FileItem[]>,
+        default: (): FileItem[] => [],
     },
     listType: {
         type: String as PropType<UploadListType>,
@@ -61,6 +61,7 @@ const uploadProps = {
         type: Function,
         default: request,
     },
+    transformResponse: Function
 } as const;
 
 export type UploadProps = Partial<ExtractPropTypes<typeof uploadProps>>;
