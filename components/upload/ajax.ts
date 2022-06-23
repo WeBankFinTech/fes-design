@@ -68,8 +68,21 @@ export default function upload(option: UploadOption) {
         if (xhr.status < 200 || xhr.status >= 300) {
             return option.onError(getError(action, option, xhr));
         }
-
-        option.onSuccess(getBody(xhr));
+        if (option.transformResponse) {
+            try {
+                option.onSuccess(option.transformResponse(xhr));
+            } catch (e: any) {
+                const msg =
+                    e?.message || `fail to post ${action} ${xhr.status}`;
+                const err = new Error(msg) as UploadError;
+                err.status = xhr.status;
+                err.method = 'post';
+                err.url = action;
+                option.onError(err);
+            }
+        } else {
+            option.onSuccess(getBody(xhr));
+        }
     };
 
     xhr.open('post', action, true);
@@ -77,6 +90,10 @@ export default function upload(option: UploadOption) {
     // eslint-disable-next-line no-restricted-syntax
     if (option.withCredentials && 'withCredentials' in xhr) {
         xhr.withCredentials = true;
+    }
+
+    if (option.timeout) {
+        xhr.timeout = option.timeout;
     }
 
     const headers = option.headers || {};
