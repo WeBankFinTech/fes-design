@@ -4,7 +4,7 @@ export const FORM_NAME = 'FForm';
 export const FORM_ITEM_NAME = 'FFormItem';
 export const FORM_LAYOUT = {
     HORIZONTAL: 'horizontal',
-    INLINEL: 'inline',
+    INLINE: 'inline',
 } as const;
 
 export const LABEL_POSITION = {

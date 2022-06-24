@@ -1,5 +1,5 @@
 <template>
-    <form :class="formClass">
+    <form :class="formClass" :style="formStyle">
         <slot />
     </form>
 </template>
@@ -12,6 +12,7 @@ import {
     LABEL_POSITION,
     TRIGGER_TYPE_DEFAULT,
 } from './const';
+import { addUnit } from '../_util/utils';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { allPromiseFinish } from './utils';
@@ -30,6 +31,7 @@ const formProps = {
         type: String as PropType<typeof FORM_LAYOUT[keyof typeof FORM_LAYOUT]>,
         default: FORM_LAYOUT.HORIZONTAL,
     },
+    inlineItemWidth: [String, Number] as PropType<string | number>,
     labelPosition: {
         type: String as PropType<
             typeof LABEL_POSITION[keyof typeof LABEL_POSITION]
@@ -57,6 +59,9 @@ export default defineComponent({
             prefixCls,
             `${prefixCls}-${props.layout}`,
         ]);
+        const formStyle = computed(() => ((props.layout === FORM_LAYOUT.INLINE && props.inlineItemWidth) && {
+            'grid-template-columns': `repeat(auto-fit, ${addUnit(props.inlineItemWidth)})`
+        }));
 
         const addField = (formItemProp: string, formItemContext: Field) => {
             formItemProp && (formFields[formItemProp] = formItemContext);
@@ -147,6 +152,7 @@ export default defineComponent({
 
         return {
             formClass,
+            formStyle,
 
             validate,
             clearValidate,
