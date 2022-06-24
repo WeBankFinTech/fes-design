@@ -31,7 +31,7 @@ const formProps = {
         type: String as PropType<typeof FORM_LAYOUT[keyof typeof FORM_LAYOUT]>,
         default: FORM_LAYOUT.HORIZONTAL,
     },
-    inlineWidth: [String, Number] as PropType<string | number>,
+    inlineItemWidth: [String, Number] as PropType<string | number>,
     labelPosition: {
         type: String as PropType<
             typeof LABEL_POSITION[keyof typeof LABEL_POSITION]
@@ -59,8 +59,8 @@ export default defineComponent({
             prefixCls,
             `${prefixCls}-${props.layout}`,
         ]);
-        const formStyle = computed(() => ((props.layout === FORM_LAYOUT.INLINE && props.inlineWidth) && {
-            'grid-template-columns': `repeat(auto-fit, minmax(${addUnit(props.inlineWidth)}, ${addUnit(props.inlineWidth)}))`
+        const formStyle = computed(() => ((props.layout === FORM_LAYOUT.INLINE && props.inlineItemWidth) && {
+            'grid-template-columns': `repeat(auto-fit, ${addUnit(props.inlineItemWidth)})`
         }));
 
         const addField = (formItemProp: string, formItemContext: Field) => {
