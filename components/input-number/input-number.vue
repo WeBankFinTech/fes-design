@@ -180,7 +180,6 @@ export default defineComponent({
                     (!Number.isNaN(Number(value)) || value === '')
                 ) {
                     setCurrentValue(value === '' ? null : Number(value));
-                    tempValue.value = null;
                 }
             });
         };
