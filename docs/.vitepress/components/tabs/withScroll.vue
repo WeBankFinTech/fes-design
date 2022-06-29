@@ -6,18 +6,6 @@
     </FTabs>
 </template>
 
-<style>
-.wrapper {
-    border: 1px solid #eee;
-    padding: 20px;
-}
-.tab-content {
-    background: #fff;
-    line-height: 60px;
-    text-align: center;
-}
-</style>
-
 <style scoped>
 .tab-content {
     background: #fff;

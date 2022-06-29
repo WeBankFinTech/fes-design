@@ -39,12 +39,10 @@
     </FTabs>
 </template>
 
-<style>
+<style scoped>
 .tab-content {
     margin-top: 24px;
 }
-</style>
-<style scoped>
 .fes-form {
     width: 600px;
 }
