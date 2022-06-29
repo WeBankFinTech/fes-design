@@ -1,3 +1,14 @@
+## [0.5.14](https://github.com/WeBankFinTech/fes-design/compare/v0.5.13...v0.5.14) (2022-06-29)
+
+
+### Bug Fixes
+
+* form label font-size 异常 ([#193](https://github.com/WeBankFinTech/fes-design/issues/193)) ([7c4ea9d](https://github.com/WeBankFinTech/fes-design/commit/7c4ea9d5f2fe9e427eec97e83a99a8b0d791ac8f))
+* inline-form grid 布局自适应换行 ([#190](https://github.com/WeBankFinTech/fes-design/issues/190)) ([f7ee251](https://github.com/WeBankFinTech/fes-design/commit/f7ee251248f463c2dd32b1415c6ae29528e5a9e9))
+* input-number 小数点后面不能输入0 ([#191](https://github.com/WeBankFinTech/fes-design/issues/191)) ([8ee926d](https://github.com/WeBankFinTech/fes-design/commit/8ee926d8c42d2b0d93a4793ee9100897f0d02133))
+
+
+
 ## [0.5.13](https://github.com/WeBankFinTech/fes-design/compare/v0.5.12...v0.5.13) (2022-06-23)
 
 
