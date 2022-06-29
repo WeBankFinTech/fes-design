@@ -26,14 +26,14 @@
 .@{form-cls} {
     width: 100%;
     margin: @form-margin;
-    font-size: var(--f-form-size-base);
+    font-size: @form-size-base;
 
     // 对齐方式: 左对齐 
     .@{form-item-cls} {
         display: flex;
         margin-bottom: @form-item-margin;
         padding: @form-margin;
-        font-size: var(--f-form-size-base);
+        font-size: @form-size-base;
         &-label {
             display: inline-flex;
             flex-shrink: 0; // 解决问题: 整体宽度不够时 label 被压缩
