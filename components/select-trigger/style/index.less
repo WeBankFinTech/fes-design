@@ -91,7 +91,12 @@
         }
         &.is-multiple {
             flex-wrap: wrap;
-            gap: calc(@padding-xs / 2 - 1px) calc(@padding-xs / 2);
+            margin-top: calc(@padding-xs / 2 * -1 + 1px);
+            margin-left: calc(@padding-xs / 2 * -1);
+            .@{select-trigger-prefix-cls}-label-item {
+                margin-top: calc(@padding-xs / 2 - 1px);
+                margin-left: calc(@padding-xs / 2);
+            }
             .@{select-trigger-prefix-cls}-label-input {
                 width: 1em;
             }
