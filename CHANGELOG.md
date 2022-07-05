@@ -1,3 +1,13 @@
+## [0.5.15](https://github.com/WeBankFinTech/fes-design/compare/v0.5.14...v0.5.15) (2022-07-05)
+
+
+### Bug Fixes
+
+* 修复Select等组件多选时gap样式兼容性差问题 ([#195](https://github.com/WeBankFinTech/fes-design/issues/195)) ([29ea579](https://github.com/WeBankFinTech/fes-design/commit/29ea579fb747019cf95fe30a5d7e2b5aea486437))
+* datePicker range 样式问题 ([#194](https://github.com/WeBankFinTech/fes-design/issues/194)) ([01dad24](https://github.com/WeBankFinTech/fes-design/commit/01dad24a808c36d8f7815cc689e2eeb0582ab672))
+
+
+
 ## [0.5.14](https://github.com/WeBankFinTech/fes-design/compare/v0.5.13...v0.5.14) (2022-06-29)
 
 
