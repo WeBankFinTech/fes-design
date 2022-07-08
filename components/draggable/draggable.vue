@@ -16,7 +16,7 @@
             :draggable="settings[index]?.draggable"
             :style="settings[index]?.style"
         >
-            <slot :item="item"></slot>
+            <slot :item="item" :index="index"></slot>
         </li>
     </ul>
 </template>
