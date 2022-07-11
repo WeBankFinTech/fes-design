@@ -16,13 +16,11 @@ app.use(FDraggable);
 
 我们经常在垂直方向上拖动排序
 
-
 --VERTICAL
 
 ### 水平方向
 
 还可能在水平方向上拖动
-
 
 --HORIZONTAL
 
@@ -30,13 +28,11 @@ app.use(FDraggable);
 
 或许你需要由一个容器拖拽到另一个容器
 
-
 --CONTAINER
 
 ### 拖拽指令
 
 用指令更简单
-
 
 --INSTRUCTION
 
@@ -44,13 +40,11 @@ app.use(FDraggable);
 
 指令也可以支持水平方向的
 
-
 --INSTRUCTIONHORIZANTAL
 
 ### 拖拽指令-多个容器
 
 指令当然也支持由一个容器拖拽到另一个容器
-
 
 --INSTRUCTIONCONTAINER
 
@@ -73,9 +67,9 @@ app.use(FDraggable);
 
 ## Draggable Slots
 
-| 名称    | 说明      | 属性     |
-| ------- | --------- | -------- |
-| default | item 内容 | { item } |
+| 名称    | 说明      | 属性            |
+| ------- | --------- | --------------- |
+| default | item 内容 | { item, index } |
 
 ## Draggable Directive
 
