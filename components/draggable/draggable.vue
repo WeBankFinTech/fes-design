@@ -16,7 +16,7 @@
             :draggable="settings[index]?.draggable"
             :style="settings[index]?.style"
         >
-            <slot :item="item"></slot>
+            <slot :item="item" :index="index"></slot>
         </li>
     </ul>
 </template>
@@ -34,7 +34,7 @@ type DraggableProps = {
     disabled?: boolean;
 };
 
-export type DraggableEmits = {
+type DraggableEmits = {
     (e: 'update:modelValue', ...args: any[]): void;
     (e: 'drag-start', ...args: any[]): void;
     (e: 'drag-end', ...args: any[]): void;
