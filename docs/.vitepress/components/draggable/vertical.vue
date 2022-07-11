@@ -34,7 +34,6 @@ export default {
                 op = 0
                 index = 0
             }
-            console.log(op, index)
             if (op === 0) { // 新增
                 FMessage.success(`在位置${index + 1}新增`)
                 list.value = list.value.slice(0, index).concat([`new item ${seed++}`]).concat(list.value.slice(index));

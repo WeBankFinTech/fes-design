@@ -157,7 +157,6 @@ export function useDraggable(
             index++
         ) {
             const node = containerRef.value.children[index];
-            console.log(node)
             if (!settings.value[index]) settings.value[index] = new Setting();
             const setting = settings.value[index];
             const rect = node.getBoundingClientRect();
