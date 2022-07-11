@@ -69,7 +69,7 @@ app.use(FDraggable);
 
 | 名称    | 说明      | 属性            |
 | ------- | --------- | --------------- |
-| default | item 内容 | { item, index } |
+| default | item 内容 | `{ item, index }` |
 
 ## Draggable Directive
 
