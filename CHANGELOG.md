@@ -1,3 +1,12 @@
+## [0.5.16](https://github.com/WeBankFinTech/fes-design/compare/v0.5.15...v0.5.16) (2022-07-11)
+
+
+### Features
+
+* draggable slot 暴露 index ([#197](https://github.com/WeBankFinTech/fes-design/issues/197)) ([9c0eea8](https://github.com/WeBankFinTech/fes-design/commit/9c0eea8470f4e174f37643e530c490d0d028804d))
+
+
+
 ## [0.5.15](https://github.com/WeBankFinTech/fes-design/compare/v0.5.14...v0.5.15) (2022-07-05)
 
 
