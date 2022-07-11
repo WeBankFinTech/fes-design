@@ -580,6 +580,7 @@ export const useTime = ({
             );
         },
         {
+            immediate: true,
             deep: true,
         },
     );
