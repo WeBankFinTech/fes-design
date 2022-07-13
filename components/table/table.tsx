@@ -61,6 +61,10 @@ const tableProps = {
         type: Boolean,
         default: false,
     },
+    layout: {
+        type: String as PropType<'fixed' | 'auto'>,
+        default: 'fixed'
+    }
 } as const;
 
 export type TableProps = Partial<ExtractPropTypes<typeof tableProps>>;

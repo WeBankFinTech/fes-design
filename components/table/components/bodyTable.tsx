@@ -52,7 +52,14 @@ export default defineComponent({
             return (
                 <table
                     class={`${prefixCls}-body`}
-                    style={bodyStyle.value}
+                    style={[
+                        bodyStyle.value,
+                        {
+                            'table-layout': props.composed
+                                ? 'fixed'
+                                : rootProps.layout,
+                        },
+                    ]}
                     cellspacing="0"
                     cellpadding="0"
                 >
