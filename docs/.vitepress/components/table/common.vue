@@ -1,5 +1,5 @@
 <template>
-    <f-table :data="data">
+    <f-table :data="data" layout="auto">
         <f-table-column prop="date" label="日期">
             <template #default="{ row }">
                 {{ row.date }}
