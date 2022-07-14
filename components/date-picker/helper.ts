@@ -203,3 +203,44 @@ export const getDefaultTime = (
 
     return time;
 };
+
+export const isBeyondRangeTime = (option: {
+    flagDate?: Date;
+    currentDate: Date;
+    maxRange: string;
+    format: string;
+}) => {
+    if (!option.flagDate) return false;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const arr = option.maxRange.match(/(\d*)([MDY])/)!;
+    const length = Number(arr[1]) - 1;
+    const type = arr[2];
+
+    let minDate: Date;
+    let maxDate: Date;
+
+    if (type === 'D') {
+        // FEATURE: 后续采取 unicode token 标准(https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table)，用 d
+        minDate = new Date(option.flagDate);
+        maxDate = new Date(option.flagDate);
+        minDate.setDate(minDate.getDate() - length);
+        maxDate.setDate(maxDate.getDate() + length);
+    } else if (type === 'M') {
+        minDate = new Date(option.flagDate);
+        maxDate = new Date(option.flagDate);
+        minDate.setMonth(minDate.getMonth() - length, 1);
+        maxDate.setMonth(maxDate.getMonth() + length, 1);
+    } else if (type === 'Y') {
+        // FEATURE: 后续采取 unicode token 标准，用 y
+        minDate = new Date(option.flagDate.getFullYear() + length, 0);
+        maxDate = new Date(option.flagDate.getFullYear() - length, 0);
+    }
+    if (!(minDate || maxDate)) {
+        return false;
+    }
+
+    return (
+        contrastDate(option.currentDate, minDate, option.format) === -1 ||
+        contrastDate(option.currentDate, maxDate, option.format) === 1
+    );
+};

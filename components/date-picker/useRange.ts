@@ -1,6 +1,6 @@
 import { watch, ref, Ref } from 'vue';
 
-import { contrastDate, parseDate, getTimestampFromFormat } from './helper';
+import { parseDate, getTimestampFromFormat, isBeyondRangeTime } from './helper';
 import { SELECTED_STATUS, RANGE_POSITION } from './const';
 import type { Picker } from './pickerHandler';
 
@@ -134,52 +134,30 @@ export const useRange = ({
         }
     };
 
-    // disable 相关逻辑
-    const beyondTimeScope = (
-        min: Date,
-        max: Date,
-        time: Date,
-        format: string,
-    ) =>
-        contrastDate(time, min, format) === -1 ||
-        contrastDate(time, max, format) === 1;
-    const maxRangeDisabled = (date: Date, format: string) => {
-        if (props.maxRange && selectedStatus.value === SELECTED_STATUS.ONE) {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const arr = props.maxRange.match(/(\d*)([MDY])/)!;
-            const length = Number(arr[1]) - 1;
-            const type = arr[2];
-
-            const dateFlag = new Date(tempCurrentValue.value[0]);
-            let minDate: Date;
-            let maxDate: Date;
-
-            if (type === 'D') {
-                // FEATURE: 后续采取 unicode token 标准(https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table)，用 d
-                minDate = new Date(dateFlag);
-                maxDate = new Date(dateFlag);
-                minDate.setDate(minDate.getDate() - length);
-                maxDate.setDate(maxDate.getDate() + length);
-            } else if (type === 'M') {
-                minDate = new Date(dateFlag);
-                maxDate = new Date(dateFlag);
-                minDate.setMonth(minDate.getMonth() - length, 1);
-                maxDate.setMonth(maxDate.getMonth() + length, 1);
-            } else if (type === 'Y') {
-                // FEATURE: 后续采取 unicode token 标准，用 y
-                minDate = new Date(dateFlag.getFullYear() + length, 0);
-                maxDate = new Date(dateFlag.getFullYear() - length, 0);
-            }
-            if (!(minDate || maxDate)) {
-                return false;
-            }
-            return beyondTimeScope(minDate, maxDate, date, format);
+    const maxRangeDisabled = (date: Date, format: string, flagDate?: Date) => {
+        if (flagDate) {
+            return isBeyondRangeTime({
+                flagDate,
+                currentDate: date,
+                maxRange: props.maxRange,
+                format,
+            });
+        } else if (
+            props.maxRange &&
+            selectedStatus.value === SELECTED_STATUS.ONE
+        ) {
+            return isBeyondRangeTime({
+                flagDate: new Date(tempCurrentValue.value[0]),
+                currentDate: date,
+                maxRange: props.maxRange,
+                format,
+            });
         }
         return false;
     };
 
-    const rangeDisabledDate = (date: Date, format: string) => {
-        if (maxRangeDisabled(date, format)) {
+    const rangeDisabledDate = (date: Date, format: string, flagDate?: Date) => {
+        if (maxRangeDisabled(date, format, flagDate)) {
             return true;
         }
         return innerDisabledDate(date, format);

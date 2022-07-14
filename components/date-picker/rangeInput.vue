@@ -58,7 +58,7 @@ import { format, isValid } from 'date-fns';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useInput } from '../_util/use/useInput';
 import { CloseCircleFilled } from '../icon';
-import { isEmptyValue, strictParse } from './helper';
+import { isEmptyValue, strictParse, isBeyondRangeTime } from './helper';
 
 const prefixCls = getPrefixCls('range-input');
 
@@ -67,8 +67,9 @@ const rangeInputProps = {
     selectedDates: {
         type: Array as PropType<number[]>,
     },
-    changeSeletedDates: Function as PropType<(val: number | number[]) => void>,
+    changeSelectedDates: Function as PropType<(val: number | number[]) => void>,
     separator: String,
+    maxRange: String,
     clearable: Boolean,
     disabled: {
         type: Boolean,
@@ -103,25 +104,32 @@ function useMouse(
 
 function useRangeInput(props: RangeInputProps, position: number) {
     const inputText = ref();
-    watch(
-        () => props.selectedDates,
-        () => {
-            inputText.value = isEmptyValue(props.selectedDates)
-                ? ''
-                : format(props.selectedDates[position], props.format);
-        },
-        {
-            immediate: true,
-        },
-    );
+    const resetInputValue = () => {
+        inputText.value = isEmptyValue(props.selectedDates)
+            ? ''
+            : format(props.selectedDates[position], props.format);
+    };
+    watch(() => props.selectedDates, resetInputValue, {
+        immediate: true,
+    });
     const updateInputText = (val: string) => {
         inputText.value = val;
         const date = strictParse(val, props.format, new Date());
-        if (isValid(date)) {
+        if (
+            isValid(date) &&
+            !isBeyondRangeTime({
+                flagDate:
+                    props.selectedDates?.[position] &&
+                    new Date(props.selectedDates?.[position]),
+                currentDate: date,
+                maxRange: props.maxRange,
+                format: props.format,
+            })
+        ) {
             // update selectedDates
             const dates = [...props.selectedDates];
             dates[position] = date.getTime();
-            props.changeSeletedDates(dates);
+            props.changeSelectedDates(dates);
         }
     };
     const { handleInput, handleCompositionStart, handleCompositionEnd } =
@@ -130,6 +138,7 @@ function useRangeInput(props: RangeInputProps, position: number) {
     return {
         inputText,
         handleInput,
+        resetInputValue,
         handleCompositionStart,
         handleCompositionEnd,
     };
@@ -139,12 +148,14 @@ function useLeftInput(props: RangeInputProps) {
     const {
         inputText,
         handleInput,
+        resetInputValue,
         handleCompositionStart,
         handleCompositionEnd,
     } = useRangeInput(props, 0);
 
     return {
         leftInputText: inputText,
+        resetLeftInputText: resetInputValue,
         onLeftInput: handleInput,
         onLeftCompositionStart: handleCompositionStart,
         onLeftCompositionEnd: handleCompositionEnd,
@@ -155,12 +166,14 @@ function useRightInput(props: RangeInputProps) {
     const {
         inputText,
         handleInput,
+        resetInputValue,
         handleCompositionStart,
         handleCompositionEnd,
     } = useRangeInput(props, 1);
 
     return {
         rightInputText: inputText,
+        resetRightInputText: resetInputValue,
         onRightInput: handleInput,
         onRightCompositionStart: handleCompositionStart,
         onRightCompositionEnd: handleCompositionEnd,
@@ -227,6 +240,7 @@ export default defineComponent({
 
         const {
             leftInputText,
+            resetLeftInputText,
             onLeftInput,
             onLeftCompositionStart,
             onLeftCompositionEnd,
@@ -234,6 +248,7 @@ export default defineComponent({
 
         const {
             rightInputText,
+            resetRightInputText,
             onRightInput,
             onRightCompositionStart,
             onRightCompositionEnd,
@@ -278,7 +293,11 @@ export default defineComponent({
             onRightCompositionEnd,
 
             onFocus,
-            onBlur,
+            onBlur: (event: FocusEvent) => {
+                resetLeftInputText();
+                resetRightInputText();
+                onBlur(event);
+            },
 
             focus,
             blur,
