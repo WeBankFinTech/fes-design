@@ -1,3 +1,12 @@
+## [0.5.17](https://github.com/WeBankFinTech/fes-design/compare/v0.5.16...v0.5.17) (2022-07-14)
+
+
+### Features
+
+* Table在某些场景下支持列按照内容分配宽度 ([#199](https://github.com/WeBankFinTech/fes-design/issues/199)) ([9525f03](https://github.com/WeBankFinTech/fes-design/commit/9525f03d61b262f7ecfba0aa193a5dd7f6fd0770))
+
+
+
 ## [0.5.16](https://github.com/WeBankFinTech/fes-design/compare/v0.5.15...v0.5.16) (2022-07-11)
 
 
