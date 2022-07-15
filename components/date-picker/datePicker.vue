@@ -23,7 +23,8 @@
                 :disabled="disabled"
                 :innerIsFocus="inputIsFocus"
                 :style="style"
-                :changeSeletedDates="changeDateByInput"
+                :changeSelectedDates="changeDateByInput"
+                :maxRange="maxRange"
                 @focus="handleFocus"
                 @blur="handleBlur"
                 @clear="clear"
@@ -116,6 +117,7 @@ import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
 import { noop } from '../_util/utils';
 import { pickerFactory } from './pickerHandler';
 import type { Picker } from './pickerHandler';
+import { useDisable } from './use';
 
 const prefixCls = getPrefixCls('date-picker');
 
@@ -180,6 +182,7 @@ const useInput = ({
     changeDateByInput: (val: any) => void;
 }) => {
     const dateText = ref<string>();
+    const { innerDisabledDate } = useDisable(props);
     let cacheValidInputDate = '';
 
     const getFormatDate = () => {
@@ -209,7 +212,10 @@ const useInput = ({
             props.format || picker.value.format,
             new Date(),
         );
-        if (isValid(date)) {
+        if (
+            isValid(date) &&
+            !innerDisabledDate(date, props.format || picker.value.format)
+        ) {
             cacheValidInputDate = val;
             changeDateByInput(date.getTime());
         }

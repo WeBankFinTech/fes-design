@@ -187,7 +187,7 @@ const calendarProps = {
     selectedStatus: Number as PropType<SELECTED_STATUS>,
     disabledDate: {
         type: Function as PropType<
-            (date: Date, format: string) => boolean | undefined
+            (date: Date, format: string, flagDate?: Date) => boolean | undefined
         >,
     },
 } as const;
@@ -240,16 +240,23 @@ function useDateInput({
     const handleDateInput = (val: string) => {
         inputDate.value = val;
         const date = strictParse(val, 'yyyy-MM-dd', new Date());
-        if (isValid(date)) {
+        const anotherDate = selectedDates.value[(currentIndex.value + 1) % 2];
+        if (
+            isValid(date) &&
+            !props.disabledDate?.(
+                date,
+                'yyyy-MM-dd',
+                anotherDate && new Date(transformDateToTimestamp(anotherDate)),
+            )
+        ) {
             const dateObj = parseDate(date);
             cacheValidInputDate = val;
-            const otherDate = selectedDates.value[(currentIndex.value + 1) % 2];
             // 在同一面板，不更新 current date
             if (
-                otherDate &&
+                anotherDate &&
                 !(
-                    otherDate.year === dateObj.year &&
-                    otherDate.month === dateObj.month
+                    anotherDate.year === dateObj.year &&
+                    anotherDate.month === dateObj.month
                 )
             ) {
                 updateCurrentDate(dateObj);

@@ -105,10 +105,11 @@ import getPrefixCls from '../_util/getPrefixCls';
 import Calendar from './calendar.vue';
 import { useNormalModel } from '../_util/use/useModel';
 import FButton from '../button';
-import { contrastDate, getTimestampFromFormat } from './helper';
+import { getTimestampFromFormat } from './helper';
 import { RANGE_POSITION, COMMON_PROPS, RANGE_PROPS } from './const';
 
 import { useRange, useSelectStatus } from './useRange';
+import { useDisable } from './use';
 import { useLocale } from '../config-provider/useLocale';
 import { pickerFactory } from './pickerHandler';
 
@@ -148,15 +149,7 @@ export default defineComponent({
 
         const tempCurrentValue = ref<number[]>([]);
 
-        const innerDisabledDate = (date: Date, format: string) => {
-            const min =
-                props.minDate &&
-                contrastDate(date, props.minDate, format) === -1;
-            const max =
-                props.maxDate &&
-                contrastDate(date, props.maxDate, format) === 1;
-            return min || max || props.disabledDate(date);
-        };
+        const { innerDisabledDate } = useDisable(props);
 
         const { t } = useLocale();
 
