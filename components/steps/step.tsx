@@ -62,7 +62,7 @@ export default defineComponent({
         const style = computed(() => {
             const _style: CSSProperties = {};
             const parentDom = parent.parentDomRef.value;
-            if (parentDom) {
+            if (parentDom && !parent.props.vertical) {
                 const lastChild =
                     index.value ===
                     parentDom.children.length - 1 + parent.props.initial!;
