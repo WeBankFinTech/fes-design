@@ -19,7 +19,7 @@ export default defineComponent({
             required: true,
         },
         columnIndex: Number,
-        onClick: Function as PropType<(e: Event) => void>
+        onClick: Function as PropType<(e: Event) => void>,
     },
     setup(props) {
         const {
@@ -73,21 +73,25 @@ export default defineComponent({
                         />
                     )}
                     {column.props.type === 'selection' && (
-                        <FCheckbox
-                            modelValue={isSelected({ row })}
-                            disabled={isSelectDisabled({ row })}
-                            onClick={() => {
-                                handleSelect({ row });
-                            }}
-                        />
+                        <div class={`${prefixCls}-center`}>
+                            <FCheckbox
+                                modelValue={isSelected({ row })}
+                                disabled={isSelectDisabled({ row })}
+                                onClick={() => {
+                                    handleSelect({ row });
+                                }}
+                            />
+                        </div>
                     )}
                     {column.props.type === 'expand' && (
-                        <CaretDownOutlined
-                            class={`${prefixCls}-expand-icon`}
-                            onClick={() => {
-                                handleExpand({ row });
-                            }}
-                        />
+                        <div class={`${prefixCls}-center`}>
+                            <CaretDownOutlined
+                                class={`${prefixCls}-expand-icon`}
+                                onClick={() => {
+                                    handleExpand({ row });
+                                }}
+                            />
+                        </div>
                     )}
                 </td>
             );
