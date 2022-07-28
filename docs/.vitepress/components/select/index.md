@@ -107,6 +107,8 @@ app.use(FSelect);
 | options              | 选项配置                                                      | array\<Option\>                    | `[]`                  |
 | valueField           | 替代 `Option` 中的 `value` 字段名                             | string                             | `value`               |
 | labelField           | 替代 `Option` 中的 `label` 字段名                             | string                             | `label`               |
+| popperClass           | 弹出框容器样式                           | string                             | -               |
+
 
 ## Select Events
 

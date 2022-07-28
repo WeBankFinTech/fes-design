@@ -4,7 +4,7 @@
             v-model="isOpenedRef"
             trigger="click"
             placement="bottom-start"
-            :popperClass="`${prefixCls}-popper`"
+            :popperClass="[`${prefixCls}-popper`, popperClass]"
             :appendToContainer="appendToContainer"
             :getContainer="getContainer"
             :offset="4"
@@ -96,9 +96,7 @@ export default defineComponent({
         SelectTrigger,
         OptionList,
     },
-    props: {
-        ...selectProps,
-    },
+    props: selectProps,
     emits: [
         UPDATE_MODEL_EVENT,
         CHANGE_EVENT,
