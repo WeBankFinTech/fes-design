@@ -1,4 +1,4 @@
-import { h, defineComponent, Fragment } from 'vue';
+import { defineComponent, Fragment } from 'vue';
 
 export default defineComponent({
     name: 'FTableLabel',
@@ -11,8 +11,7 @@ export default defineComponent({
     },
     setup(props) {
         const renderHeader = () =>
-            props.column?.slots?.header?.(props) ??
-            props.column?.props?.label;
+            props.column?.slots?.header?.(props) ?? props.column?.props?.label;
         return () => <Fragment>{renderHeader()}</Fragment>;
     },
 });

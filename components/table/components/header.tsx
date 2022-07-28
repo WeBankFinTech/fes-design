@@ -15,7 +15,7 @@ export default defineComponent({
             isAllSelected,
             selection,
             handleSelectAll,
-            prefixCls
+            prefixCls,
         } = inject(provideKey);
         const renderThList = (row: ColumnInst[]) =>
             row
@@ -24,7 +24,7 @@ export default defineComponent({
                         key={column.id}
                         colspan={column.colSpan}
                         rowspan={column.rowSpan}
-                        class={[`${prefixCls}-th`, ...getCellClass({ column })] }
+                        class={[`${prefixCls}-th`, ...getCellClass({ column })]}
                         style={getCustomCellStyle({ column })}
                         onClick={($event) => {
                             handleHeaderClick({ column }, $event);
@@ -34,13 +34,16 @@ export default defineComponent({
                             <Label column={column} columnIndex={columnIndex} />
                         )}
                         {column.props.type === 'selection' && (
-                            <FCheckbox
-                                modelValue={isAllSelected.value}
-                                indeterminate={
-                                    !isAllSelected.value && selection.length > 0
-                                }
-                                onClick={handleSelectAll}
-                            />
+                            <div class={`${prefixCls}-center`}>
+                                <FCheckbox
+                                    modelValue={isAllSelected.value}
+                                    indeterminate={
+                                        !isAllSelected.value &&
+                                        selection.length > 0
+                                    }
+                                    onClick={handleSelectAll}
+                                />
+                            </div>
                         )}
                     </th>
                 ))
@@ -48,10 +51,11 @@ export default defineComponent({
 
         const renderTrList = () =>
             headerRows.value.map((row, rowIndex) => (
-                <tr class={`${prefixCls}-row`} key={rowIndex}>{renderThList(row)}</tr>
+                <tr class={`${prefixCls}-row`} key={rowIndex}>
+                    {renderThList(row)}
+                </tr>
             ));
 
         return () => <thead>{renderTrList()}</thead>;
     },
 });
-
