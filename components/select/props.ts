@@ -74,6 +74,7 @@ export const selectProps = {
         type: Boolean,
         default: false,
     },
+    popperClass: [String, Array, Object] as PropType<string | [] | object>,
 } as const;
 
 export const selectPropsDefaultValue = extractPropsDefaultValue(selectProps);

@@ -1,4 +1,4 @@
-import { h, defineComponent, Fragment, PropType, CSSProperties } from 'vue';
+import { defineComponent, PropType, CSSProperties } from 'vue';
 import Scrollbar from '../scrollbar/scrollbar.vue';
 import Ellipsis from '../ellipsis/ellipsis';
 import VirtualList from '../virtual-list/virtualList';
@@ -30,25 +30,23 @@ const optionListProps = {
         type: Boolean,
     },
     emptyText: String,
-    renderOption: Function
+    renderOption: Function,
 } as const;
 
 export default defineComponent({
     props: optionListProps,
-     emits: [
-        'scroll'
-    ],
-    setup(props, {emit}) {
+    emits: ['scroll'],
+    setup(props, { emit }) {
         const renderLabel = (
             option: SelectOption,
             isSelected: boolean,
             prefixCls: string,
         ) => {
             if ((option as any).slots?.default) {
-                return (option as any).slots.default({...option, isSelected });
+                return (option as any).slots.default({ ...option, isSelected });
             }
             if (props.renderOption) {
-                return props.renderOption({...option, isSelected});
+                return props.renderOption({ ...option, isSelected });
             }
             if (option.label) {
                 return (
@@ -74,7 +72,8 @@ export default defineComponent({
             const classList = [
                 prefixCls,
                 isSelected && 'is-checked',
-                (option.disabled || (!isSelected && props.isLimit)) && 'is-disabled',
+                (option.disabled || (!isSelected && props.isLimit)) &&
+                    'is-disabled',
             ].filter(Boolean);
             return (
                 <div
@@ -97,8 +96,8 @@ export default defineComponent({
         return () =>
             props.options.length > 50 ? (
                 <VirtualList
-                    onScroll={(event: Event)=>{
-                        emit('scroll', event)
+                    onScroll={(event: Event) => {
+                        emit('scroll', event);
                     }}
                     dataSources={props.options}
                     dataKey={'value'}
@@ -110,8 +109,8 @@ export default defineComponent({
                 ></VirtualList>
             ) : props.options.length ? (
                 <Scrollbar
-                    onScroll={(event: Event)=>{
-                        emit('scroll', event)
+                    onScroll={(event: Event) => {
+                        emit('scroll', event);
                     }}
                     containerStyle={props.containerStyle}
                     containerClass={`${props.prefixCls}-dropdown`}
