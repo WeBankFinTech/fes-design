@@ -1,3 +1,18 @@
+## [0.5.19](https://github.com/WeBankFinTech/fes-design/compare/v0.5.18...v0.5.19) (2022-07-28)
+
+
+### Bug Fixes
+
+* 修复table样式问题 ([#204](https://github.com/WeBankFinTech/fes-design/issues/204)) ([b9d507d](https://github.com/WeBankFinTech/fes-design/commit/b9d507ddc5698a3efd3df6d852c6838816c9a9f8))
+* 修复垂直步骤条样式问题 ([#203](https://github.com/WeBankFinTech/fes-design/issues/203)) ([e9c89b4](https://github.com/WeBankFinTech/fes-design/commit/e9c89b48d6335399cc4c5baa76b15e27717ed626))
+
+
+### Features
+
+* select支持配置弹窗样式 ([#205](https://github.com/WeBankFinTech/fes-design/issues/205)) ([ac3159d](https://github.com/WeBankFinTech/fes-design/commit/ac3159d46ebf2e58270df557cc0c745cfbc90d84))
+
+
+
 ## [0.5.18](https://github.com/WeBankFinTech/fes-design/compare/v0.5.17...v0.5.18) (2022-07-18)
 
 
