@@ -5,10 +5,15 @@ export default (
     triggerRef: Ref<HTMLElement>,
     callback?: () => void,
     disabled?: boolean | Ref<boolean>,
+    immediate = true,
 ) => {
     const disabledRef = ref(disabled);
     const handleResize = () => {
         if (disabledRef.value) {
+            return;
+        }
+        if (!immediate) {
+            immediate = true;
             return;
         }
         callback && callback();
