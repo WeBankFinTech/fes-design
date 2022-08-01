@@ -70,11 +70,7 @@ export default ({
     const bodyWrapperStyle = computed(() => {
         const style: CSSProperties = {};
         if (layout.isScrollY.value) {
-            style['overflow-y'] = 'scroll';
             style.height = `${layout.bodyHeight.value}px`;
-        }
-        if (layout.isScrollX.value) {
-            style['overflow-x'] = 'scroll';
         }
         return style;
     });

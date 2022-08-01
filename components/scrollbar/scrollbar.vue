@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, onMounted, ref } from 'vue';
+import { computed, defineComponent, onMounted, ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { addUnit, requestAnimationFrame } from '../_util/utils';
@@ -139,13 +139,25 @@ export default defineComponent({
                 onScroll();
             },
             computed(() => props.noresize),
+            false,
+        );
+
+        useResize(
+            scrollbarRef,
+            () => {
+                onUpdate();
+                onScroll();
+            },
+            computed(() => props.noresize),
+            false,
         );
 
         onMounted(() => {
+            // 等待content插槽内容渲染完毕用setTimeout
             if (!props.native) {
-                nextTick(onUpdate);
+                setTimeout(onUpdate, 0);
             }
-            onScroll();
+            setTimeout(onScroll, 0);
         });
 
         const move = (
