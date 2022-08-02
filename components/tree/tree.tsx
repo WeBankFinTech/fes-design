@@ -82,6 +82,8 @@ export default defineComponent({
             // 已经展开
             if (index !== -1) {
                 values.splice(index, 1);
+                // 让动画早点动起来
+                node.isExpanded = false;
             } else {
                 if (props.accordion) {
                     values = values.filter((item) =>
@@ -89,7 +91,10 @@ export default defineComponent({
                     );
                 }
                 values.push(val);
+                // 让动画早点动起来
+                node.isExpanded = true;
             }
+            node.hasComputeExpand = true;
             updateExpandedKeys(values);
             emit('expand', {
                 expandedKeys: values,

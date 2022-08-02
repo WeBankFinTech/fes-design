@@ -1,5 +1,5 @@
-import { ref, reactive, watch, computed, Ref } from 'vue';
-import { isNil } from 'lodash-es';
+import { ref, reactive, watch, Ref } from 'vue';
+import { isNil, debounce } from 'lodash-es';
 import useFilter from './useFilter';
 import type { InnerTreeOption, TreeNodeKey, TreeNodeList } from './interface';
 import type { TreeProps } from './props';
@@ -18,43 +18,66 @@ export default ({
     const { filter, filteredExpandedKeys, filteredKeys, isSearchingRef } =
         useFilter(props, transformData, nodeList);
 
-    watch([filteredExpandedKeys, currentExpandedKeys, transformData], () => {
+    const currentData = ref<TreeNodeKey[]>([]);
+
+    const computeCurrentData = () => {
+        const res: TreeNodeKey[] = [];
         const expandedKeys = isSearchingRef.value
             ? filteredExpandedKeys.value
             : currentExpandedKeys.value;
+
         // 缓存每个节点的展开状态，性能更优
         (isSearchingRef.value
             ? filteredKeys.value
             : transformData.value
         ).forEach((key) => {
             const node = nodeList[key];
-            node.isExpanded = expandedKeys.includes(key);
-        });
-    });
-
-    const currentData = computed(() =>
-        (isSearchingRef.value
-            ? filteredKeys.value
-            : transformData.value
-        ).filter((value) => {
-            const node = nodeList[value];
-            const isRoot = node.indexPath.length === 1;
-            if (isRoot) {
-                return true;
-            }
+            node.isExpanded = node.hasChildren
+                ? expandedKeys.includes(key)
+                : true;
             const indexPath = node.indexPath;
             const len = indexPath.length;
+            // 根节点一直显示
+            if (len === 1) {
+                res.push(key);
+                return;
+            }
             let index = 0;
+            let parentExpanded = true;
             while (index < len - 1) {
                 const parentNode = nodeList[indexPath[index]];
                 if (!parentNode.isExpanded) {
-                    return false;
+                    parentExpanded = false;
+                    break;
                 }
                 index += 1;
             }
-            return true;
-        }),
+            if (parentExpanded) {
+                res.push(key);
+            }
+        });
+        currentData.value = res;
+    };
+
+    watch(
+        [filteredExpandedKeys, filteredKeys],
+        debounce(() => {
+            if (!isSearchingRef.value) return;
+            computeCurrentData();
+        }, 10),
     );
+
+    watch(
+        [currentExpandedKeys, transformData],
+        debounce(() => {
+            if (isSearchingRef.value) return;
+            computeCurrentData();
+        }, 10),
+    );
+
+    watch([isSearchingRef], () => {
+        computeCurrentData();
+    });
 
     const transformNode = (
         item: InnerTreeOption,
@@ -85,6 +108,9 @@ export default ({
         copy.indexPath = [...indexPath, value];
         copy.level = level;
         copy.hasChildren = hasChildren;
+        if (hasChildren) {
+            copy.isExpanded = false;
+        }
         return copy;
     };
 
@@ -99,9 +125,15 @@ export default ({
             nodeList[copy.value] = copy;
             res.push(copy.value);
             if (copy.hasChildren) {
-                res = res.concat(
-                    flatNodes(copy.children, copy.indexPath, level + 1),
+                const keys = flatNodes(
+                    copy.children,
+                    copy.indexPath,
+                    level + 1,
                 );
+                copy.children = keys.map((key) => {
+                    return nodeList[key];
+                });
+                res = res.concat(keys);
             }
             return res;
         }, []);
