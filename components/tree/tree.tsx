@@ -94,7 +94,6 @@ export default defineComponent({
                 // 让动画早点动起来
                 node.isExpanded = true;
             }
-            node.hasComputeExpand = true;
             updateExpandedKeys(values);
             emit('expand', {
                 expandedKeys: values,
