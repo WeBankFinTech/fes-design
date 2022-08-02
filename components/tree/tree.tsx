@@ -279,6 +279,11 @@ export default defineComponent({
                             node.isIndeterminate.value = false;
                         }
                     });
+                node.hasChildren &&
+                    node.childrenPath.forEach((key: TreeNodeKey) => {
+                        const node = nodeList[key];
+                        node.isIndeterminate.value = false;
+                    });
             }
             updateCheckedKeys(values);
             emit('check', {

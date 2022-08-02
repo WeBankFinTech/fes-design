@@ -151,6 +151,7 @@ export default ({
                 copy.children = copy.children.map((item) => {
                     return nodeList[item[props.valueField]];
                 });
+                copy.childrenPath = keys;
                 res = res.concat(keys);
             }
             return res;
