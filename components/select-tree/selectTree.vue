@@ -118,6 +118,7 @@
 import {
     defineComponent,
     ref,
+    shallowRef,
     unref,
     watch,
     computed,
@@ -198,7 +199,7 @@ export default defineComponent({
             validate(CHANGE_EVENT);
         };
 
-        const nodeList = ref<TreeNodeList>({});
+        const nodeList = shallowRef<TreeNodeList>({});
 
         const onChangeNodeList = (data: TreeNodeList) => {
             nodeList.value = data;

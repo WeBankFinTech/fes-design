@@ -10,12 +10,7 @@ export const getChildrenByValues = (
     values.forEach((value) => {
         const node = nodeList[value];
         if (isArray(node.children)) {
-            arr = arr.concat(
-                getChildrenByValues(
-                    nodeList,
-                    node.children.map((child) => child.value),
-                ),
-            );
+            arr = arr.concat(node.childrenPath);
         }
     });
     return arr;

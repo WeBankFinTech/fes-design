@@ -61,6 +61,46 @@ export default defineComponent({
             currentExpandedKeys,
         });
 
+        watch(
+            transformData,
+            () => {
+                emit('update:nodeList', nodeList);
+            },
+            {
+                immediate: true,
+            },
+        );
+
+        watch(currentCheckedKeys, (newKeys, oldKeys) => {
+            // 重置历史节点选择状态
+            oldKeys.forEach((key: TreeNodeKey) => {
+                const node = nodeList[key];
+                node.isChecked.value = false;
+            });
+            newKeys.forEach((key: TreeNodeKey) => {
+                const node = nodeList[key];
+                node.isChecked.value = true;
+            });
+            if (props.cascade) {
+                transformData.value.forEach((key) => {
+                    const node = nodeList[key];
+                    if (node.hasChildren) {
+                        if (node.isChecked.value) {
+                            node.isIndeterminate.value = false;
+                        } else {
+                            node.isIndeterminate.value = node.children.some(
+                                (item) =>
+                                    item.isChecked.value ||
+                                    item.isIndeterminate.value,
+                            );
+                        }
+                    } else {
+                        node.isIndeterminate.value = false;
+                    }
+                });
+            }
+        });
+
         const expandNode = (val: TreeNodeKey, event: Event) => {
             if (isSearchingRef.value) {
                 const _value = cloneDeep(filteredExpandedKeys.value);
@@ -110,16 +150,6 @@ export default defineComponent({
             handleDrop,
             dragOverInfo,
         } = useDrag({ nodeList, emit, expandNode });
-
-        watch(
-            transformData,
-            () => {
-                emit('update:nodeList', nodeList);
-            },
-            {
-                immediate: true,
-            },
-        );
 
         onMounted(() => {
             if (
@@ -230,11 +260,6 @@ export default defineComponent({
             const node = nodeList[val];
             const { isLeaf, children, indexPath } = node;
             const values = cloneDeep(currentCheckedKeys.value);
-            // 重置历史节点选择状态
-            values.forEach((key: TreeNodeKey) => {
-                const node = nodeList[key];
-                node.isChecked.value = false;
-            });
             const index = values.indexOf(val);
             if (!props.cascade) {
                 if (index !== -1) {
@@ -254,36 +279,6 @@ export default defineComponent({
                 if (!isLeaf) {
                     handleChildren(values, children, true);
                 }
-            }
-            values.forEach((key: TreeNodeKey) => {
-                const node = nodeList[key];
-                node.isChecked.value = true;
-            });
-            if (props.cascade) {
-                indexPath
-                    .slice(0)
-                    .reverse()
-                    .forEach((key: TreeNodeKey) => {
-                        const node = nodeList[key];
-                        if (node.hasChildren) {
-                            if (node.isChecked.value) {
-                                node.isIndeterminate.value = false;
-                            } else {
-                                node.isIndeterminate.value = node.children.some(
-                                    (item) =>
-                                        item.isChecked.value ||
-                                        item.isIndeterminate.value,
-                                );
-                            }
-                        } else {
-                            node.isIndeterminate.value = false;
-                        }
-                    });
-                node.hasChildren &&
-                    node.childrenPath.forEach((key: TreeNodeKey) => {
-                        const node = nodeList[key];
-                        node.isIndeterminate.value = false;
-                    });
             }
             updateCheckedKeys(values);
             emit('check', {
