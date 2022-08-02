@@ -1,4 +1,4 @@
-import { ref, reactive, watch, Ref } from 'vue';
+import { ref, watch, Ref } from 'vue';
 import { isNil, debounce } from 'lodash-es';
 import useFilter from './useFilter';
 import type { InnerTreeOption, TreeNodeKey, TreeNodeList } from './interface';
@@ -11,7 +11,9 @@ export default ({
     props: TreeProps;
     currentExpandedKeys: Ref<TreeNodeKey[]>;
 }) => {
-    const nodeList = reactive<TreeNodeList>({});
+    const renderKey = ref(0);
+
+    const nodeList: TreeNodeList = {};
 
     const transformData = ref<TreeNodeKey[]>([]);
 
@@ -26,15 +28,16 @@ export default ({
             ? filteredExpandedKeys.value
             : currentExpandedKeys.value;
 
-        // 缓存每个节点的展开状态，性能更优
-        (isSearchingRef.value
+        const keys = isSearchingRef.value
             ? filteredKeys.value
-            : transformData.value
-        ).forEach((key) => {
+            : transformData.value;
+
+        // 缓存每个节点的展开状态，性能更优
+        keys.forEach((key) => {
             const node = nodeList[key];
-            node.isExpanded = node.hasChildren
-                ? expandedKeys.includes(key)
-                : true;
+            if (node.hasChildren) {
+                node.isExpanded.value = expandedKeys.includes(key);
+            }
             const indexPath = node.indexPath;
             const len = indexPath.length;
             // 根节点一直显示
@@ -46,7 +49,7 @@ export default ({
             let parentExpanded = true;
             while (index < len - 1) {
                 const parentNode = nodeList[indexPath[index]];
-                if (!parentNode.isExpanded) {
+                if (!parentNode.isExpanded.value) {
                     parentExpanded = false;
                     break;
                 }
@@ -84,15 +87,13 @@ export default ({
         indexPath: TreeNodeKey[],
         level: number,
     ) => {
-        const copy = { ...item };
-        // TODO 有没更好的写法？
-        const value = (copy as any)[props.valueField];
-        const label = (copy as any)[props.labelField];
-        const children = (copy as any)[props.childrenField];
+        const value = item[props.valueField];
+        const label = item[props.labelField];
+        const children = item[props.childrenField];
         const hasChildren = !!(Array.isArray(children) && children.length);
         let isLeaf;
-        if (!isNil(copy.isLeaf)) {
-            isLeaf = copy.isLeaf;
+        if (!isNil(item.isLeaf)) {
+            isLeaf = item.isLeaf;
         } else if (hasChildren) {
             isLeaf = false;
         } else if (props.remote) {
@@ -100,17 +101,20 @@ export default ({
         } else {
             isLeaf = true;
         }
-        copy.origin = item;
-        copy.value = value;
-        copy.label = label;
-        copy.isLeaf = isLeaf;
-        // 处理indexPath
-        copy.indexPath = [...indexPath, value];
-        copy.level = level;
-        copy.hasChildren = hasChildren;
-        if (hasChildren) {
-            copy.isExpanded = false;
-        }
+        const copy: InnerTreeOption = {
+            ...item,
+            origin: item,
+            value,
+            label,
+            isLeaf,
+            hasChildren,
+            children,
+            level,
+            indexPath: [...indexPath, value],
+        };
+        copy.isExpanded = ref(false);
+        copy.isIndeterminate = ref(false);
+        copy.isChecked = ref(false);
         return copy;
     };
 
@@ -130,8 +134,8 @@ export default ({
                     copy.indexPath,
                     level + 1,
                 );
-                copy.children = keys.map((key) => {
-                    return nodeList[key];
+                copy.children = copy.children.map((item) => {
+                    return nodeList[item[props.valueField]];
                 });
                 res = res.concat(keys);
             }
@@ -142,6 +146,7 @@ export default ({
         [() => props.data],
         () => {
             transformData.value = flatNodes(props.data);
+            renderKey.value = renderKey.value + 1;
         },
         {
             immediate: true,
@@ -156,5 +161,6 @@ export default ({
         filter,
         filteredExpandedKeys,
         isSearchingRef,
+        renderKey,
     };
 };

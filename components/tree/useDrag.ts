@@ -84,7 +84,8 @@ export default ({
         } else {
             if (
                 Date.now() - overBeginTimeMap[value] > 1000 &&
-                !node.isExpanded
+                node.hasChildren &&
+                !node.isExpanded.value
             ) {
                 expandNode(value, event);
             }

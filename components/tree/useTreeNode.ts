@@ -7,12 +7,16 @@ import type { TreeNodeProps } from './treeNode';
 export default (props: TreeNodeProps) => {
     const root = inject(TREE_PROVIDE_KEY);
 
-    const isExpanded = computed(() => root.nodeList[props.value].isExpanded);
+    const node = root.nodeList[props.value];
+
     const isSelected = computed(() => root.hasSelected(props.value));
-    const isChecked = computed(() => root.hasChecked(props.value));
-    const isIndeterminate = computed(() =>
-        root.hasIndeterminate(root.nodeList[props.value]),
-    );
+
+    const isExpanded = computed(() => node.isExpanded?.value);
+
+    const isChecked = computed(() => node.isChecked.value);
+
+    const isIndeterminate = computed(() => node.isIndeterminate.value);
+
     const isInline = computed(() => {
         if (!root.props.inline) {
             return false;

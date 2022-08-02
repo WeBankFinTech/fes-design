@@ -116,8 +116,6 @@ export interface TreeInst {
     expandNode: (value: TreeNodeKey, event: Event) => void;
     checkNode: (value: TreeNodeKey, event: Event) => void;
     hasSelected: (value: TreeNodeKey) => boolean;
-    hasChecked: (value: TreeNodeKey) => boolean;
-    hasIndeterminate: (node: InnerTreeOption) => boolean;
     nodeList: {
         [key: string]: InnerTreeOption;
     };

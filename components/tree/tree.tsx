@@ -1,4 +1,4 @@
-import { h, defineComponent, provide, onMounted, watch, VNodeChild } from 'vue';
+import { defineComponent, provide, onMounted, watch, VNodeChild } from 'vue';
 import { isFunction, isString, cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -47,8 +47,6 @@ export default defineComponent({
             currentSelectedKeys,
             updateSelectedKeys,
             hasSelected,
-            hasChecked,
-            hasIndeterminate,
         } = useState(props, { emit });
 
         const {
@@ -58,6 +56,7 @@ export default defineComponent({
             filter,
             filteredExpandedKeys,
             isSearchingRef,
+            renderKey,
         } = useData({
             props,
             currentExpandedKeys,
@@ -83,7 +82,7 @@ export default defineComponent({
             if (index !== -1) {
                 values.splice(index, 1);
                 // 让动画早点动起来
-                node.isExpanded = false;
+                node.isExpanded.value = false;
             } else {
                 if (props.accordion) {
                     values = values.filter((item) =>
@@ -92,7 +91,7 @@ export default defineComponent({
                 }
                 values.push(val);
                 // 让动画早点动起来
-                node.isExpanded = true;
+                node.isExpanded.value = true;
             }
             updateExpandedKeys(values);
             emit('expand', {
@@ -114,7 +113,7 @@ export default defineComponent({
         } = useDrag({ nodeList, emit, expandNode });
 
         watch(
-            nodeList,
+            transformData,
             () => {
                 emit('update:nodeList', nodeList);
             },
@@ -232,6 +231,11 @@ export default defineComponent({
             const node = nodeList[val];
             const { isLeaf, children, indexPath } = node;
             const values = cloneDeep(currentCheckedKeys.value);
+            // 重置历史节点选择状态
+            values.forEach((key: TreeNodeKey) => {
+                const node = nodeList[key];
+                node.isChecked.value = false;
+            });
             const index = values.indexOf(val);
             if (!props.cascade) {
                 if (index !== -1) {
@@ -252,7 +256,31 @@ export default defineComponent({
                     handleChildren(values, children, true);
                 }
             }
-
+            values.forEach((key: TreeNodeKey) => {
+                const node = nodeList[key];
+                node.isChecked.value = true;
+            });
+            if (props.cascade) {
+                indexPath
+                    .slice(0)
+                    .reverse()
+                    .forEach((key: TreeNodeKey) => {
+                        const node = nodeList[key];
+                        if (node.hasChildren) {
+                            if (node.isChecked.value) {
+                                node.isIndeterminate.value = false;
+                            } else {
+                                node.isIndeterminate.value = node.children.some(
+                                    (item) =>
+                                        item.isChecked.value ||
+                                        item.isIndeterminate.value,
+                                );
+                            }
+                        } else {
+                            node.isIndeterminate.value = false;
+                        }
+                    });
+            }
             updateCheckedKeys(values);
             emit('check', {
                 checkedKeys: getCheckedKeys(values),
@@ -277,8 +305,6 @@ export default defineComponent({
             expandNode,
             checkNode,
             hasSelected,
-            hasChecked,
-            hasIndeterminate,
             nodeList,
             handleDragstart,
             handleDragenter,
@@ -308,7 +334,7 @@ export default defineComponent({
             }
             return (
                 <TreeNode
-                    key={node.value}
+                    key={`${renderKey.value}_${node.value}`}
                     level={node.level}
                     value={node.value}
                     label={node.label}
