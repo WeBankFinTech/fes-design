@@ -4,6 +4,11 @@ import useFilter from './useFilter';
 import type { InnerTreeOption, TreeNodeKey, TreeNodeList } from './interface';
 import type { TreeProps } from './props';
 
+let uid = 1;
+const getUid = () => {
+    return uid++;
+};
+
 export default ({
     props,
     currentExpandedKeys,
@@ -11,8 +16,6 @@ export default ({
     props: TreeProps;
     currentExpandedKeys: Ref<TreeNodeKey[]>;
 }) => {
-    const renderKey = ref(0);
-
     const nodeList: TreeNodeList = {};
 
     const transformData = ref<TreeNodeKey[]>([]);
@@ -101,20 +104,31 @@ export default ({
         } else {
             isLeaf = true;
         }
-        const copy: InnerTreeOption = {
-            ...item,
+        let copy: InnerTreeOption;
+        const newItem = {
             origin: item,
+            prefix: item.prefix,
+            suffix: item.suffix,
             value,
             label,
             isLeaf,
-            hasChildren,
             children,
+            hasChildren,
             level,
             indexPath: [...indexPath, value],
         };
-        copy.isExpanded = ref(false);
-        copy.isIndeterminate = ref(false);
-        copy.isChecked = ref(false);
+        if (!nodeList[value]) {
+            copy = {
+                ...newItem,
+                isExpanded: ref(false),
+                isIndeterminate: ref(false),
+                isChecked: ref(false),
+            };
+        } else {
+            copy = nodeList[value];
+            Object.assign(copy, newItem);
+        }
+        copy.uid = getUid();
         return copy;
     };
 
@@ -146,7 +160,6 @@ export default ({
         [() => props.data],
         () => {
             transformData.value = flatNodes(props.data);
-            renderKey.value = renderKey.value + 1;
         },
         {
             immediate: true,
@@ -161,6 +174,5 @@ export default ({
         filter,
         filteredExpandedKeys,
         isSearchingRef,
-        renderKey,
     };
 };

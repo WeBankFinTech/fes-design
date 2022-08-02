@@ -56,7 +56,6 @@ export default defineComponent({
             filter,
             filteredExpandedKeys,
             isSearchingRef,
-            renderKey,
         } = useData({
             props,
             currentExpandedKeys,
@@ -334,7 +333,7 @@ export default defineComponent({
             }
             return (
                 <TreeNode
-                    key={`${renderKey.value}_${node.value}`}
+                    key={node.uid}
                     level={node.level}
                     value={node.value}
                     label={node.label}
