@@ -71,6 +71,7 @@ export default defineComponent({
             },
         );
 
+        let checkingNode: InnerTreeOption;
         watch(currentCheckedKeys, (newKeys, oldKeys) => {
             // 重置历史节点选择状态
             oldKeys.forEach((key: TreeNodeKey) => {
@@ -82,22 +83,54 @@ export default defineComponent({
                 node.isChecked.value = true;
             });
             if (props.cascade) {
-                transformData.value.forEach((key) => {
-                    const node = nodeList.get(key);
-                    if (node.hasChildren) {
-                        if (node.isChecked.value) {
-                            node.isIndeterminate.value = false;
+                if (checkingNode) {
+                    const { indexPath } = checkingNode;
+                    indexPath
+                        .slice(0)
+                        .reverse()
+                        .forEach((key: TreeNodeKey) => {
+                            const node = nodeList.get(key);
+                            if (node.hasChildren) {
+                                if (node.isChecked.value) {
+                                    node.isIndeterminate.value = false;
+                                } else {
+                                    node.isIndeterminate.value =
+                                        node.children.some(
+                                            (item) =>
+                                                item.isChecked.value ||
+                                                item.isIndeterminate.value,
+                                        );
+                                }
+                            } else {
+                                node.isIndeterminate.value = false;
+                            }
+                        });
+                    checkingNode.hasChildren &&
+                        checkingNode.childrenPath.forEach(
+                            (key: TreeNodeKey) => {
+                                const node = nodeList.get(key);
+                                node.isIndeterminate.value = false;
+                            },
+                        );
+                    checkingNode = null;
+                } else {
+                    transformData.value.forEach((key) => {
+                        const node = nodeList.get(key);
+                        if (node.hasChildren) {
+                            if (node.isChecked.value) {
+                                node.isIndeterminate.value = false;
+                            } else {
+                                node.isIndeterminate.value = node.children.some(
+                                    (item) =>
+                                        item.isChecked.value ||
+                                        item.isIndeterminate.value,
+                                );
+                            }
                         } else {
-                            node.isIndeterminate.value = node.children.some(
-                                (item) =>
-                                    item.isChecked.value ||
-                                    item.isIndeterminate.value,
-                            );
+                            node.isIndeterminate.value = false;
                         }
-                    } else {
-                        node.isIndeterminate.value = false;
-                    }
-                });
+                    });
+                }
             }
         });
 
@@ -280,6 +313,7 @@ export default defineComponent({
                     handleChildren(values, children, true);
                 }
             }
+            checkingNode = node;
             updateCheckedKeys(values);
             emit('check', {
                 checkedKeys: getCheckedKeys(values),
@@ -364,6 +398,7 @@ export default defineComponent({
                     }}
                     estimateSize={32}
                     keeps={14}
+                    observeResize={false}
                     class={prefixCls}
                     v-slots={{ default: renderDefault }}
                 />

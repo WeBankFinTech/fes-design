@@ -18,7 +18,6 @@ export const VirtualProps = {
         type: Array as PropType<DataSource[]>,
         required: true,
     },
-
     keeps: {
         type: Number,
         default: 30,
@@ -30,7 +29,10 @@ export const VirtualProps = {
         type: Number,
         default: 50,
     },
-
+    observeResize: {
+        type: Boolean,
+        default: true,
+    },
     direction: {
         type: String as PropType<'horizontal' | 'vertical'>,
         default: 'vertical', // the other value is horizontal
@@ -84,5 +86,9 @@ export const ItemProps = {
     },
     uniqueKey: {
         type: [String, Number] as PropType<string | number>,
+    },
+    observeResize: {
+        type: Boolean,
+        default: true,
     },
 } as const;

@@ -266,6 +266,7 @@ export default defineComponent({
                                 uniqueKey,
                                 source: dataSource,
                                 onItemResized,
+                                observeResize: props.observeResize,
                             },
                             {
                                 default: slots.default,

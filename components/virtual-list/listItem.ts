@@ -2,7 +2,7 @@
  * item component, we need to know their size change at any time
  */
 
-import { defineComponent, ref, cloneVNode } from 'vue';
+import { defineComponent, ref, cloneVNode, computed } from 'vue';
 import { ItemProps } from './props';
 import useResize from '../_util/use/useResize';
 import { getFirstValidNode } from '../_util/vnode';
@@ -22,7 +22,11 @@ export const FVirtualListItem = defineComponent({
             (attrs as any).onItemResized(props.uniqueKey, s);
         };
 
-        useResize(itemRef, dispatchSizeChange);
+        useResize(
+            itemRef,
+            dispatchSizeChange,
+            computed(() => !props.observeResize),
+        );
 
         return {
             itemRef,
