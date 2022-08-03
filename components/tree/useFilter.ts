@@ -1,13 +1,13 @@
 import { ref, Ref } from 'vue';
 import { isFunction } from 'lodash-es';
 
-import type { TreeNodeKey, TreeNodeList, InnerTreeOption } from './interface';
+import type { TreeNodeKey, InnerTreeOption } from './interface';
 import type { TreeProps } from './props';
 
 export default (
     props: TreeProps,
     transformData: Ref<TreeNodeKey[]>,
-    nodeList: TreeNodeList,
+    nodeList: Map<TreeNodeKey, InnerTreeOption>,
 ) => {
     const filteredKeys = ref<TreeNodeKey[]>([]);
     const filteredExpandedKeys = ref<TreeNodeKey[]>([]);
@@ -22,7 +22,7 @@ export default (
         const _filteredExpandedKeysMap = new Map<TreeNodeKey, boolean>();
         const _filteredKeysMap = new Map<TreeNodeKey, boolean>();
         transformData.value.forEach((key) => {
-            const node: InnerTreeOption = nodeList[key];
+            const node: InnerTreeOption = nodeList.get(key);
             if (filterMethod(filterText, node)) {
                 const parentKeys = node.indexPath;
                 parentKeys.forEach((_key) => {

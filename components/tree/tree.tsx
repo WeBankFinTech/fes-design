@@ -74,16 +74,16 @@ export default defineComponent({
         watch(currentCheckedKeys, (newKeys, oldKeys) => {
             // 重置历史节点选择状态
             oldKeys.forEach((key: TreeNodeKey) => {
-                const node = nodeList[key];
+                const node = nodeList.get(key);
                 node.isChecked.value = false;
             });
             newKeys.forEach((key: TreeNodeKey) => {
-                const node = nodeList[key];
+                const node = nodeList.get(key);
                 node.isChecked.value = true;
             });
             if (props.cascade) {
                 transformData.value.forEach((key) => {
-                    const node = nodeList[key];
+                    const node = nodeList.get(key);
                     if (node.hasChildren) {
                         if (node.isChecked.value) {
                             node.isIndeterminate.value = false;
@@ -114,7 +114,7 @@ export default defineComponent({
                 filteredExpandedKeys.value = _value;
                 return;
             }
-            const node = nodeList[val];
+            const node = nodeList.get(val);
             let values: TreeNodeKey[] = cloneDeep(currentExpandedKeys.value);
             const index = values.indexOf(val);
             // 已经展开
@@ -158,7 +158,7 @@ export default defineComponent({
             ) {
                 updateExpandedKeys(
                     transformData.value.filter(
-                        (value) => !nodeList[value].isLeaf,
+                        (value) => !nodeList.get(value).isLeaf,
                     ),
                 );
             }
@@ -168,7 +168,7 @@ export default defineComponent({
             if (!props.selectable) {
                 return;
             }
-            const node = nodeList[val];
+            const node = nodeList.get(val);
             const values = cloneDeep(currentSelectedKeys.value);
             const index = values.indexOf(val);
             if (props.multiple) {
@@ -194,7 +194,7 @@ export default defineComponent({
         function getCheckedKeys(arr: TreeNodeKey[]) {
             return props.cascade
                 ? arr.filter((key) => {
-                      const node = nodeList[key];
+                      const node = nodeList.get(key);
                       if (props.checkStrictly === CHECK_STRATEGY.ALL) {
                           return true;
                       }
@@ -239,7 +239,7 @@ export default defineComponent({
         ) {
             let len = indexPath.length - 2;
             for (len; len >= 0; len--) {
-                const parent = nodeList[indexPath[len]];
+                const parent = nodeList.get(indexPath[len]);
                 const index = arr.indexOf(parent.value);
                 if (!isAdd) {
                     if (index !== -1) {
@@ -257,7 +257,7 @@ export default defineComponent({
             }
         }
         const checkNode = (val: TreeNodeKey, event: Event) => {
-            const node = nodeList[val];
+            const node = nodeList.get(val);
             const { isLeaf, children, indexPath } = node;
             const values = cloneDeep(currentCheckedKeys.value);
             const index = values.indexOf(val);
@@ -315,7 +315,7 @@ export default defineComponent({
         });
 
         const renderNode = (value: TreeNodeKey) => {
-            const node = nodeList[value];
+            const node = nodeList.get(value);
             const itemSlots: {
                 [key: string]: () => VNodeChild | string;
             } = {};

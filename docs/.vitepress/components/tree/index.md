@@ -135,7 +135,7 @@ app.use(FTree);
 | value             | 节点的 `key`，需要唯一，可使用 `valueField` 修改字段名 | string / number             | `-`     |
 | label             | 节点的内容，可使用 `labelField` 修改字段名             | string                      | `-`     |
 | children?         | 节点的子节点                                           | TreeOption[]                | `[]`    |
-| disabled?         | 是否禁用节点， 默认为`Tree`组件的`disabled`                                           | boolean                     | `-` |
+| disabled?         | 是否禁用节点                                           | boolean                     | `-` |
 | selectable? | 是否禁用选中节点，默认为`Tree`组件的`selectable`                          | boolean                     | `-` |
 | checkable? | 是否禁用勾选节点，默认为`Tree`组件的`checkable`                          | boolean                     | `-` |
 | isLeaf?           | 节点是否是叶节点，在 remote 模式下是必须的             | boolean                     | `false` |

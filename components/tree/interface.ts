@@ -26,10 +26,6 @@ export interface InnerTreeOption extends TreeOption {
     isIndeterminate?: Ref<boolean>;
 }
 
-export interface TreeNodeList {
-    [key: string]: InnerTreeOption;
-}
-
 interface TreeEventParams {
     node: TreeOption;
     event: Event;

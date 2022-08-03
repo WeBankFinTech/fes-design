@@ -1,7 +1,7 @@
 import { ref, watch, Ref } from 'vue';
 import { isNil, debounce } from 'lodash-es';
 import useFilter from './useFilter';
-import type { InnerTreeOption, TreeNodeKey, TreeNodeList } from './interface';
+import type { InnerTreeOption, TreeNodeKey } from './interface';
 import type { TreeProps } from './props';
 
 let uid = 1;
@@ -16,7 +16,7 @@ export default ({
     props: TreeProps;
     currentExpandedKeys: Ref<TreeNodeKey[]>;
 }) => {
-    const nodeList: TreeNodeList = {};
+    const nodeList: Map<TreeNodeKey, InnerTreeOption> = new Map();
 
     const transformData = ref<TreeNodeKey[]>([]);
 
@@ -37,21 +37,16 @@ export default ({
 
         // 缓存每个节点的展开状态，性能更优
         keys.forEach((key) => {
-            const node = nodeList[key];
+            const node = nodeList.get(key);
             if (node.hasChildren) {
                 node.isExpanded.value = expandedKeys.includes(key);
             }
             const indexPath = node.indexPath;
             const len = indexPath.length;
-            // 根节点一直显示
-            if (len === 1) {
-                res.push(key);
-                return;
-            }
             let index = 0;
             let parentExpanded = true;
             while (index < len - 1) {
-                const parentNode = nodeList[indexPath[index]];
+                const parentNode = nodeList.get(indexPath[index]);
                 if (!parentNode.isExpanded.value) {
                     parentExpanded = false;
                     break;
@@ -109,6 +104,9 @@ export default ({
             origin: item,
             prefix: item.prefix,
             suffix: item.suffix,
+            disabled: item.disabled,
+            selectable: item.selectable,
+            checkable: item.checkable,
             value,
             label,
             isLeaf,
@@ -117,7 +115,7 @@ export default ({
             level,
             indexPath: [...indexPath, value],
         };
-        if (!nodeList[value]) {
+        if (!nodeList.get(value)) {
             copy = {
                 ...newItem,
                 isExpanded: ref(false),
@@ -125,7 +123,7 @@ export default ({
                 isChecked: ref(false),
             };
         } else {
-            copy = nodeList[value];
+            copy = nodeList.get(value);
             Object.assign(copy, newItem);
         }
         copy.uid = getUid();
@@ -140,7 +138,7 @@ export default ({
         nodes.reduce((res, node) => {
             const copy = transformNode(node, indexPath, level);
             // 扁平化
-            nodeList[copy.value] = copy;
+            nodeList.set(copy.value, copy);
             res.push(copy.value);
             if (copy.hasChildren) {
                 const keys = flatNodes(
@@ -149,7 +147,7 @@ export default ({
                     level + 1,
                 );
                 copy.children = copy.children.map((item) => {
-                    return nodeList[item[props.valueField]];
+                    return nodeList.get(item[props.valueField]);
                 });
                 copy.childrenPath = keys;
                 res = res.concat(keys);

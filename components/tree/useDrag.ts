@@ -1,10 +1,5 @@
 import { onUnmounted, ref } from 'vue';
-import type {
-    InnerTreeOption,
-    TreeNodeKey,
-    TreeNodeList,
-    DropPosition,
-} from './interface';
+import type { InnerTreeOption, TreeNodeKey, DropPosition } from './interface';
 import getPrefixCls from '../_util/getPrefixCls';
 
 const prefixCls = getPrefixCls('tree-node');
@@ -14,7 +9,7 @@ export default ({
     emit,
     expandNode,
 }: {
-    nodeList: TreeNodeList;
+    nodeList: Map<TreeNodeKey, InnerTreeOption>;
     emit: any;
     expandNode: (value: TreeNodeKey, event: Event) => void;
 }) => {
@@ -39,20 +34,20 @@ export default ({
     }
 
     const handleDragstart = (value: TreeNodeKey, event: DragEvent) => {
-        const node = nodeList[value];
+        const node = nodeList.get(value);
         dragNode = node;
         emit('dragstart', { node, event });
     };
 
     const handleDragend = (value: TreeNodeKey, event: DragEvent) => {
         resetDragState();
-        const node = nodeList[value];
+        const node = nodeList.get(value);
         emit('dragend', { node, event });
     };
 
     function getTargetNode(value: TreeNodeKey) {
         if (!dragNode) return;
-        const node = nodeList[value];
+        const node = nodeList.get(value);
         if (!node) return;
         if (node.indexPath.includes(dragNode.value)) return;
         return node;
