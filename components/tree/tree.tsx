@@ -172,6 +172,7 @@ export default defineComponent({
                     );
                     deleteNode(expandingNode.childrenPath, index + 1);
                 }
+                expandingNode = null;
                 return;
             }
 
@@ -224,25 +225,20 @@ export default defineComponent({
         });
 
         const expandNode = (val: TreeNodeKey, event: Event) => {
-            const node = nodeList.get(val);
-            expandingNode = node;
             if (isSearchingRef.value) {
                 const _value = cloneDeep(filteredExpandedKeys.value);
                 const index = _value.indexOf(val);
                 // 已经展开
                 if (index !== -1) {
                     _value.splice(index, 1);
-                    // 让动画早点动起来
-                    node.isExpanded.value = false;
                 } else {
                     _value.push(val);
-                    // 让动画早点动起来
-                    node.isExpanded.value = true;
                 }
                 filteredExpandedKeys.value = _value;
                 return;
             }
-
+            const node = nodeList.get(val);
+            expandingNode = node;
             let values: TreeNodeKey[] = cloneDeep(currentExpandedKeys.value);
             const index = values.indexOf(val);
             // 已经展开
