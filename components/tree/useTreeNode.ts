@@ -7,12 +7,16 @@ import type { TreeNodeProps } from './treeNode';
 export default (props: TreeNodeProps) => {
     const root = inject(TREE_PROVIDE_KEY);
 
-    const isExpanded = computed(() => root.nodeList[props.value].isExpanded);
+    const node = root.nodeList.get(props.value);
+
     const isSelected = computed(() => root.hasSelected(props.value));
-    const isChecked = computed(() => root.hasChecked(props.value));
-    const isIndeterminate = computed(() =>
-        root.hasIndeterminate(root.nodeList[props.value]),
-    );
+
+    const isExpanded = computed(() => node.isExpanded?.value);
+
+    const isChecked = computed(() => node.isChecked.value);
+
+    const isIndeterminate = computed(() => node.isIndeterminate.value);
+
     const isInline = computed(() => {
         if (!root.props.inline) {
             return false;
@@ -21,9 +25,9 @@ export default (props: TreeNodeProps) => {
             return false;
         }
         const nodeList = root.nodeList;
-        const node = nodeList[props.value];
+        const node = nodeList.get(props.value);
         const parentNodePath = node.indexPath[node.indexPath.length - 2];
-        const parentNode = nodeList[parentNodePath];
+        const parentNode = nodeList.get(parentNodePath);
         return parentNode.children.every((item) => {
             const hasChildren =
                 Array.isArray(item.children) && item.children.length;
@@ -46,9 +50,9 @@ export default (props: TreeNodeProps) => {
             return false;
         }
         const nodeList = root.nodeList;
-        const node = nodeList[props.value];
+        const node = nodeList.get(props.value);
         const parentNodePath = node.indexPath[node.indexPath.length - 2];
-        const parentNode = nodeList[parentNodePath];
+        const parentNode = nodeList.get(parentNodePath);
         return parentNode.children[0].value === props.value;
     });
 

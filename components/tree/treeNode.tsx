@@ -99,7 +99,7 @@ export default defineComponent({
         let isLoaded = false;
         const isLoading = ref(false);
         const handleClickSwitcher = async (event?: Event) => {
-            const node = root.nodeList[props.value];
+            const node = root.nodeList.get(props.value);
             if (
                 !isLoaded &&
                 root.props.loadData &&

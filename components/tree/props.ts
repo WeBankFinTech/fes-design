@@ -116,11 +116,7 @@ export interface TreeInst {
     expandNode: (value: TreeNodeKey, event: Event) => void;
     checkNode: (value: TreeNodeKey, event: Event) => void;
     hasSelected: (value: TreeNodeKey) => boolean;
-    hasChecked: (value: TreeNodeKey) => boolean;
-    hasIndeterminate: (node: InnerTreeOption) => boolean;
-    nodeList: {
-        [key: string]: InnerTreeOption;
-    };
+    nodeList: Map<TreeNodeKey, InnerTreeOption>;
     handleDragstart: (value: TreeNodeKey, event: DragEvent) => void;
     handleDragenter: (value: TreeNodeKey, event: DragEvent) => void;
     handleDragover: (value: TreeNodeKey, event: DragEvent) => void;

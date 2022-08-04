@@ -1,4 +1,4 @@
-import type { VNodeChild } from 'vue';
+import type { VNodeChild, Ref } from 'vue';
 
 export type TreeNodeKey = string | number;
 
@@ -21,11 +21,9 @@ export interface InnerTreeOption extends TreeOption {
     hasChildren?: boolean;
     indexPath?: TreeNodeKey[];
     children?: InnerTreeOption[];
-    isExpanded?: boolean;
-}
-
-export interface TreeNodeList {
-    [key: string]: InnerTreeOption;
+    isExpanded?: Ref<boolean>;
+    isChecked?: Ref<boolean>;
+    isIndeterminate?: Ref<boolean>;
 }
 
 interface TreeEventParams {

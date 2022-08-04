@@ -118,11 +118,13 @@
 import {
     defineComponent,
     ref,
+    shallowRef,
     unref,
     watch,
     computed,
     onMounted,
     CSSProperties,
+    PropType,
 } from 'vue';
 import { debounce } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -140,10 +142,10 @@ import { getChildrenByValues, getParentByValues } from './helper';
 
 import type { SelectValue } from '../select/interface';
 import type {
-    TreeNodeList,
     SelectParams,
     CheckParams,
     InnerTreeOption,
+    TreeNodeKey,
 } from '../tree/interface';
 import { useLocale } from '../config-provider/useLocale';
 
@@ -160,6 +162,11 @@ export default defineComponent({
     props: {
         ...selectProps,
         ...treeProps,
+        modelValue: {
+            type: [String, Number, Array] as PropType<
+                string | number | Array<string | number>
+            >,
+        },
     },
     emits: [
         UPDATE_MODEL_EVENT,
@@ -198,9 +205,11 @@ export default defineComponent({
             validate(CHANGE_EVENT);
         };
 
-        const nodeList = ref<TreeNodeList>({});
+        const nodeList = shallowRef<Map<TreeNodeKey, InnerTreeOption>>(
+            new Map(),
+        );
 
-        const onChangeNodeList = (data: TreeNodeList) => {
+        const onChangeNodeList = (data: Map<TreeNodeKey, InnerTreeOption>) => {
             nodeList.value = data;
         };
 
@@ -294,14 +303,16 @@ export default defineComponent({
             }
         };
 
-        const selectedOptions = computed(() =>
-            Object.values(nodeList.value).filter((option) => {
-                if (props.multiple) {
-                    return currentValue.value.includes(option.value);
-                }
-                return [currentValue.value].includes(option.value);
-            }),
-        );
+        const selectedOptions = computed(() => {
+            const values = props.multiple
+                ? currentValue.value
+                : [currentValue.value];
+            return values
+                .map((val: TreeNodeKey) => {
+                    return nodeList.value.get(val);
+                })
+                .filter(Boolean);
+        });
 
         const focus = (e: Event) => {
             emit('focus', e);

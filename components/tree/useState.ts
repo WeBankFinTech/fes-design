@@ -1,6 +1,6 @@
 import { useNormalModel } from '../_util/use/useModel';
 
-import type { TreeOption, TreeNodeKey } from './interface';
+import type { TreeNodeKey } from './interface';
 import type { TreeProps } from './props';
 
 export default (props: TreeProps, { emit }: { emit: any }) => {
@@ -24,23 +24,6 @@ export default (props: TreeProps, { emit }: { emit: any }) => {
 
     const hasSelected = (value: TreeNodeKey) =>
         currentSelectedKeys.value.includes(value);
-    const hasChecked = (value: TreeNodeKey): boolean =>
-        currentCheckedKeys.value.includes(value);
-    const hasIndeterminate = (node: TreeOption): boolean => {
-        if (hasChecked(node.value)) {
-            return false;
-        }
-        if (node.isLeaf) {
-            return false;
-        }
-        return (
-            props.cascade &&
-            Array.isArray(node.children) &&
-            node.children.some(
-                (item) => hasChecked(item.value) || hasIndeterminate(item),
-            )
-        );
-    };
 
     return {
         currentExpandedKeys,
@@ -50,7 +33,5 @@ export default (props: TreeProps, { emit }: { emit: any }) => {
         currentSelectedKeys,
         updateSelectedKeys,
         hasSelected,
-        hasChecked,
-        hasIndeterminate,
     };
 };

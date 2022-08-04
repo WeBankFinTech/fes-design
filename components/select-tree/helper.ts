@@ -1,33 +1,28 @@
-import { isArray } from 'lodash-es';
-
-import type { TreeNodeList, TreeNodeKey } from '../tree/interface';
+import type { TreeNodeKey, InnerTreeOption } from '../tree/interface';
+import { concat } from '../_util/utils';
 
 export const getChildrenByValues = (
-    nodeList: TreeNodeList,
+    nodeList: Map<TreeNodeKey, InnerTreeOption>,
     values: TreeNodeKey[] = [],
 ) => {
-    let arr = [...values];
+    const arr = [...values];
     values.forEach((value) => {
-        const node = nodeList[value];
-        if (isArray(node.children)) {
-            arr = arr.concat(
-                getChildrenByValues(
-                    nodeList,
-                    node.children.map((child) => child.value),
-                ),
-            );
+        const node = nodeList.get(value);
+        if (node.hasChildren) {
+            // 比Array.concat快
+            concat(arr, node.childrenPath);
         }
     });
     return arr;
 };
 
 export const getParentByValues = (
-    nodeList: TreeNodeList,
+    nodeList: Map<TreeNodeKey, InnerTreeOption>,
     values: TreeNodeKey[] = [],
 ) => {
     const res: Record<string, TreeNodeKey[]> = {};
     values.forEach((value) => {
-        const node = nodeList[value];
+        const node = nodeList.get(value);
         if (!res[node.level]) {
             res[node.level] = [];
         }
@@ -39,10 +34,10 @@ export const getParentByValues = (
         const levelValues = res[level];
         if (levelValues) {
             levelValues.forEach((value) => {
-                const node = nodeList[value];
+                const node = nodeList.get(value);
                 const parentValue = node.indexPath[node.indexPath.length - 2];
                 if (parentValue) {
-                    const parentNode = nodeList[parentValue];
+                    const parentNode = nodeList.get(parentValue);
                     if (
                         parentNode.children.every((child) =>
                             levelValues.includes(child.value),
@@ -59,9 +54,10 @@ export const getParentByValues = (
             });
         }
     }
-    let arr: TreeNodeKey[] = [];
+    const arr: TreeNodeKey[] = [];
     Object.values(res).forEach((levelValues) => {
-        arr = arr.concat(levelValues);
+        // 比Array.concat快
+        concat(arr, levelValues);
     });
     return arr;
 };
