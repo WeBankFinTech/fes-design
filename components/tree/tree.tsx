@@ -125,22 +125,28 @@ export default defineComponent({
 
         let expandingNode: InnerTreeOption;
 
-        const addNode = (nodes: InnerTreeOption[], index: number) => {
-            nodes.forEach((node, _index) => {
-                currentData.value.splice(_index + index, 0, node.value);
-                if (node.isExpanded.value) {
-                    node.hasChildren &&
-                        addNode(node.children, _index + index + 1);
+        const addNode = (
+            nodes: InnerTreeOption[],
+            index: number,
+            res: TreeNodeKey[] = [],
+        ) => {
+            nodes.forEach((node) => {
+                res.push(node.value);
+                currentData.value.splice(index + res.length - 1, 0, node.value);
+                if (node.isExpanded.value && node.hasChildren) {
+                    addNode(node.children, index, res);
                 }
             });
         };
 
         const deleteNode = (keys: TreeNodeKey[], index: number) => {
+            let len = 0;
             keys.forEach((key) => {
-                if (key === currentData.value[index]) {
-                    currentData.value.splice(index, 1);
+                if (key === currentData.value[index + len]) {
+                    len += 1;
                 }
             });
+            currentData.value.splice(index, len);
         };
 
         const computeCurrentData = () => {
