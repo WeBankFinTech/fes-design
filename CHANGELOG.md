@@ -1,3 +1,13 @@
+## [0.5.20](https://github.com/WeBankFinTech/fes-design/compare/v0.5.19...v0.5.20) (2022-08-04)
+
+
+### Bug Fixes
+
+* scrollbar监听最外层容器大小变化而重新计算滚动条 ([#206](https://github.com/WeBankFinTech/fes-design/issues/206)) ([07a201c](https://github.com/WeBankFinTech/fes-design/commit/07a201c44da84d5cd9768a7f1bad032ca8e933eb))
+* 优化Tree大数据下的性能问题 & 父子关联模式下不兼容valueField问题 ([#207](https://github.com/WeBankFinTech/fes-design/issues/207)) ([c57cb7f](https://github.com/WeBankFinTech/fes-design/commit/c57cb7f1286943d2fd5f90ecb6911c83664e94f7))
+
+
+
 ## [0.5.19](https://github.com/WeBankFinTech/fes-design/compare/v0.5.18...v0.5.19) (2022-07-28)
 
 
