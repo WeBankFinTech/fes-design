@@ -12,11 +12,11 @@ app.use(FTree);
 
 ## 代码演示
 
-### 基础用法
+<!-- ### 基础用法
 
 基础的树形结构展示。
 
---COMMON
+--COMMON -->
 
 ### 虚拟列表
 设置`virtualList`属性，处理大数据。
@@ -24,7 +24,7 @@ app.use(FTree);
 --VIRTUALLIST
 
 
-#### 叶子节点一行展示
+<!-- #### 叶子节点一行展示
 
 --INLINE
 
@@ -73,7 +73,7 @@ app.use(FTree);
 
 ### 拖拽
 
---DRAG
+--DRAG -->
 
 --CODE
 

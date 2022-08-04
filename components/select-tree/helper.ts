@@ -1,16 +1,16 @@
-import { isArray } from 'lodash-es';
-
 import type { TreeNodeKey, InnerTreeOption } from '../tree/interface';
+import { concat } from '../_util/utils';
 
 export const getChildrenByValues = (
     nodeList: Map<TreeNodeKey, InnerTreeOption>,
     values: TreeNodeKey[] = [],
 ) => {
-    let arr = [...values];
+    const arr = [...values];
     values.forEach((value) => {
         const node = nodeList.get(value);
-        if (isArray(node.children)) {
-            arr = arr.concat(node.childrenPath);
+        if (node.hasChildren) {
+            // 比Array.concat快
+            concat(arr, node.childrenPath);
         }
     });
     return arr;
@@ -54,9 +54,10 @@ export const getParentByValues = (
             });
         }
     }
-    let arr: TreeNodeKey[] = [];
+    const arr: TreeNodeKey[] = [];
     Object.values(res).forEach((levelValues) => {
-        arr = arr.concat(levelValues);
+        // 比Array.concat快
+        concat(arr, levelValues);
     });
     return arr;
 };

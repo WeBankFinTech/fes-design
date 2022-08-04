@@ -1,84 +1,18 @@
-import { ref, watch, Ref } from 'vue';
-import { isNil, debounce } from 'lodash-es';
-import useFilter from './useFilter';
+import { ref, watch } from 'vue';
+import { isNil } from 'lodash-es';
 import type { InnerTreeOption, TreeNodeKey } from './interface';
 import type { TreeProps } from './props';
+import { concat } from '../_util/utils';
 
 let uid = 1;
 const getUid = () => {
     return uid++;
 };
 
-export default ({
-    props,
-    currentExpandedKeys,
-}: {
-    props: TreeProps;
-    currentExpandedKeys: Ref<TreeNodeKey[]>;
-}) => {
+export default ({ props }: { props: TreeProps }) => {
     const nodeList: Map<TreeNodeKey, InnerTreeOption> = new Map();
 
     const transformData = ref<TreeNodeKey[]>([]);
-
-    const { filter, filteredExpandedKeys, filteredKeys, isSearchingRef } =
-        useFilter(props, transformData, nodeList);
-
-    const currentData = ref<TreeNodeKey[]>([]);
-
-    const computeCurrentData = () => {
-        const res: TreeNodeKey[] = [];
-        const expandedKeys = isSearchingRef.value
-            ? filteredExpandedKeys.value
-            : currentExpandedKeys.value;
-
-        const keys = isSearchingRef.value
-            ? filteredKeys.value
-            : transformData.value;
-
-        // 缓存每个节点的展开状态，性能更优
-        keys.forEach((key) => {
-            const node = nodeList.get(key);
-            if (node.hasChildren) {
-                node.isExpanded.value = expandedKeys.includes(key);
-            }
-            const indexPath = node.indexPath;
-            const len = indexPath.length;
-            let index = 0;
-            let parentExpanded = true;
-            while (index < len - 1) {
-                const parentNode = nodeList.get(indexPath[index]);
-                if (!parentNode.isExpanded.value) {
-                    parentExpanded = false;
-                    break;
-                }
-                index += 1;
-            }
-            if (parentExpanded) {
-                res.push(key);
-            }
-        });
-        currentData.value = res;
-    };
-
-    watch(
-        [filteredExpandedKeys, filteredKeys],
-        debounce(() => {
-            if (!isSearchingRef.value) return;
-            computeCurrentData();
-        }, 10),
-    );
-
-    watch(
-        [currentExpandedKeys, transformData],
-        debounce(() => {
-            if (isSearchingRef.value) return;
-            computeCurrentData();
-        }, 10),
-    );
-
-    watch([isSearchingRef], () => {
-        computeCurrentData();
-    });
 
     const transformNode = (
         item: InnerTreeOption,
@@ -116,12 +50,11 @@ export default ({
             indexPath: [...indexPath, value],
         };
         if (!nodeList.get(value)) {
-            copy = {
-                ...newItem,
-                isExpanded: ref(false),
-                isIndeterminate: ref(false),
-                isChecked: ref(false),
-            };
+            // Object.assign比解构快很多
+            copy = Object.assign({}, newItem);
+            copy.isExpanded = ref(false);
+            copy.isIndeterminate = ref(false);
+            copy.isChecked = ref(false);
         } else {
             copy = nodeList.get(value);
             Object.assign(copy, newItem);
@@ -132,6 +65,7 @@ export default ({
 
     const flatNodes = (
         nodes: InnerTreeOption[] = [],
+        children: InnerTreeOption[] = [],
         indexPath: TreeNodeKey[] = [],
         level = 1,
     ) =>
@@ -140,17 +74,19 @@ export default ({
             // 扁平化
             nodeList.set(copy.value, copy);
             res.push(copy.value);
+            children.push(copy);
             if (copy.hasChildren) {
+                const children: InnerTreeOption[] = [];
                 const keys = flatNodes(
                     copy.children,
+                    children,
                     copy.indexPath,
                     level + 1,
                 );
-                copy.children = copy.children.map((item) => {
-                    return nodeList.get(item[props.valueField]);
-                });
+                copy.children = children;
                 copy.childrenPath = keys;
-                res = res.concat(keys);
+                // 比Array.concat快
+                concat(res, keys);
             }
             return res;
         }, []);
@@ -169,9 +105,5 @@ export default ({
     return {
         nodeList,
         transformData,
-        currentData,
-        filter,
-        filteredExpandedKeys,
-        isSearchingRef,
     };
 };
