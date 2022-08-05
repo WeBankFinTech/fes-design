@@ -1,3 +1,12 @@
+## [0.5.21](https://github.com/WeBankFinTech/fes-design/compare/v0.5.20...v0.5.21) (2022-08-05)
+
+
+### Bug Fixes
+
+* 优化Tree展开收起性能 ([#208](https://github.com/WeBankFinTech/fes-design/issues/208)) ([804a613](https://github.com/WeBankFinTech/fes-design/commit/804a6134545c493246f6fa05233b3de19939faa4))
+
+
+
 ## [0.5.20](https://github.com/WeBankFinTech/fes-design/compare/v0.5.19...v0.5.20) (2022-08-04)
 
 
