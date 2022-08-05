@@ -20,6 +20,7 @@ import useFilter from './useFilter';
 import { treeProps, TREE_PROVIDE_KEY } from './props';
 
 import type { InnerTreeOption, TreeNodeKey } from './interface';
+import { concat } from '../_util/utils';
 
 const prefixCls = getPrefixCls('tree');
 
@@ -125,18 +126,26 @@ export default defineComponent({
 
         let expandingNode: InnerTreeOption;
 
-        const addNode = (
+        const _addNode = (
             nodes: InnerTreeOption[],
-            index: number,
             res: TreeNodeKey[] = [],
         ) => {
             nodes.forEach((node) => {
                 res.push(node.value);
-                currentData.value.splice(index + res.length - 1, 0, node.value);
-                if (node.isExpanded.value && node.hasChildren) {
-                    addNode(node.children, index, res);
+                if (node.hasChildren && node.isExpanded.value) {
+                    _addNode(node.children, res);
                 }
             });
+        };
+
+        const addNode = (nodes: InnerTreeOption[], index: number) => {
+            const res: TreeNodeKey[] = [];
+            _addNode(nodes, res);
+            const arr1 = currentData.value.slice(0, index);
+            const arr2 = currentData.value.slice(index);
+            concat(arr1, res);
+            concat(arr1, arr2);
+            currentData.value = arr1;
         };
 
         const deleteNode = (keys: TreeNodeKey[], index: number) => {
