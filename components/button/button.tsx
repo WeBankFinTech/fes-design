@@ -1,4 +1,4 @@
-import { h, defineComponent, computed, ref, PropType } from 'vue';
+import { defineComponent, computed, ref, PropType } from 'vue';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useAnimate } from '../_util/use/useAnimate';
@@ -9,7 +9,6 @@ import type { Type, Size } from './interface';
 const prefixCls = getPrefixCls('btn');
 
 const loadingIconClassName = `${prefixCls}-loading-icon`;
-
 
 const buttonProps = {
     disabled: {
@@ -22,7 +21,7 @@ const buttonProps = {
     },
     size: {
         type: String as PropType<Size>,
-        default: 'middle'
+        default: 'middle',
     },
     loading: {
         type: Boolean,
@@ -63,14 +62,14 @@ export default defineComponent({
             emit('click', event);
         };
 
-        const classes = computed(() => ([
+        const classes = computed(() => [
             prefixCls,
             animateClassName.value,
             `${prefixCls}-type-${props.type}`,
             props.long && `${prefixCls}-long`,
             props.size !== 'middle' && `${prefixCls}-${props.size}`,
             props.loading && 'is-loading',
-        ]));
+        ]);
 
         return () => (
             <button
@@ -85,6 +84,7 @@ export default defineComponent({
                     slots.icon?.()
                 )}
                 {slots.default?.()}
-            </button>);
+            </button>
+        );
     },
 });

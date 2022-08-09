@@ -1,4 +1,4 @@
-import { h, defineComponent, PropType } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
 import type { ColumnInst } from '../column.vue';
 

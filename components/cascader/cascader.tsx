@@ -1,4 +1,4 @@
-import { defineComponent, provide, watch, VNodeChild, computed } from 'vue';
+import { defineComponent, provide, watch, computed } from 'vue';
 import { cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -72,7 +72,7 @@ export default defineComponent({
         ) => {
             const node = nodeList[val];
             // 叶子节点也包含在内，以便操作反馈
-            const values = [...node.indexPath]
+            const values = [...node.indexPath];
             updateExpandedKeys(values);
             emit('expand', {
                 expandedKeys: values,

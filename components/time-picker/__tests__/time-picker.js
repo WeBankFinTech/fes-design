@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import TimePicker from '../time-picker';
+import TimePicker from '../time-picker.vue';
 import getPrefixCls from '../../_util/getPrefixCls';
 
 const inputPrefixCls = getPrefixCls('input');
@@ -61,7 +61,6 @@ describe('TimePicker disabled', () => {
         await wrapper.setProps({ open: false });
         expect(wrapper.vm.displayValue).toEqual('01:02:22');
 
-
         await wrapper.setProps({ open: true });
         await allTarget01[1].trigger('click');
         // 隐藏 popper
@@ -94,14 +93,12 @@ describe('TimePicker disabled', () => {
         await wrapper.setProps({ open: false });
         expect(wrapper.vm.displayValue).toEqual('01:01:02');
 
-
         await wrapper.setProps({ open: true });
         await allTarget01[2].trigger('click');
         await wrapper.setProps({ open: false });
         expect(wrapper.vm.displayValue).toEqual('01:01:02');
     });
 });
-
 
 describe('TimePicker clearable', () => {
     test('focus to clearable', async () => {
@@ -138,7 +135,9 @@ describe('TimePicker format', () => {
         const allTarget01 = wrapper.findAll('li[data-key="01"]');
         expect(allTarget01.length).toBe(2);
 
-        const hoursLi = wrapper.find(`.${prefixCls}-content-item`).findAll('li');
+        const hoursLi = wrapper
+            .find(`.${prefixCls}-content-item`)
+            .findAll('li');
         expect(hoursLi.length).toBe(24);
     });
 });

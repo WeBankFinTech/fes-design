@@ -4,7 +4,6 @@
  */
 
 import {
-    h,
     defineComponent,
     watch,
     onActivated,

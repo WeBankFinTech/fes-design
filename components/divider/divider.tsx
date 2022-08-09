@@ -1,4 +1,4 @@
-import { h, defineComponent, computed, PropType } from 'vue';
+import { defineComponent, computed, PropType } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 
@@ -15,8 +15,8 @@ const dividerProps = {
     // 文字的位置
     titlePlacement: {
         type: String as PropType<TitlePlacement>,
-        default: 'center'
-    }
+        default: 'center',
+    },
 } as const;
 
 export default defineComponent({

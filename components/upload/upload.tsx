@@ -1,4 +1,4 @@
-import { h, defineComponent, PropType, ExtractPropTypes } from 'vue';
+import { defineComponent, PropType, ExtractPropTypes } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import Trigger from './trigger.vue';
 import FileList from './fileList.vue';
@@ -28,7 +28,7 @@ const uploadProps = {
         default: false,
     },
     timeout: {
-        type: Number
+        type: Number,
     },
     beforeUpload: Function,
     beforeRemove: Function,
@@ -61,7 +61,7 @@ const uploadProps = {
         type: Function,
         default: request,
     },
-    transformResponse: Function
+    transformResponse: Function,
 } as const;
 
 export type UploadProps = Partial<ExtractPropTypes<typeof uploadProps>>;

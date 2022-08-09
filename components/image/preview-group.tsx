@@ -1,4 +1,4 @@
-import { h, computed, ref, reactive, provide, defineComponent } from 'vue';
+import { computed, ref, reactive, provide, defineComponent } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import Preview from './preview.vue';
 import { PREVIEW_PROVIDE_KEY } from './props';

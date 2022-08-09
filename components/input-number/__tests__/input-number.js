@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import getPrefixCls from '../../_util/getPrefixCls';
-import inputNumber from '../input-number';
+import inputNumber from '../input-number.vue';
 
 const prefixCls = getPrefixCls('input-number');
 

@@ -1,4 +1,4 @@
-import { h, defineComponent, computed, inject, Fragment, Transition } from 'vue';
+import { defineComponent, computed, inject, Fragment, Transition } from 'vue';
 import { throttle } from 'lodash-es';
 import { provideKey } from './const';
 import { LeftOutlined, RightOutlined } from '../icon';
@@ -43,7 +43,10 @@ export default defineComponent({
                 (loop || props.activeIndex < slideChildren.value.length - 1),
         );
 
-        const slideItemInStage = (slideItem: CarouselItemData, index: number) => {
+        const slideItemInStage = (
+            slideItem: CarouselItemData,
+            index: number,
+        ) => {
             const length = slideChildren.value.length;
             if (
                 (index === length - 1 &&

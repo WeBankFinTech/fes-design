@@ -1,11 +1,10 @@
 import { mount } from '@vue/test-utils';
 import { ref, nextTick } from 'vue';
-import FSwitch from '../switch';
+import FSwitch from '../switch.vue';
 
 import getPrefixCls from '../../_util/getPrefixCls';
 
 const prefixCls = getPrefixCls('switch');
-
 
 describe('switch', () => {
     test('actived test', async () => {

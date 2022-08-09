@@ -1,4 +1,4 @@
-import { h, defineComponent, toRefs, ref } from 'vue';
+import { defineComponent, toRefs, ref } from 'vue';
 
 import getPrefixCls from '../_util/getPrefixCls';
 import InputInner from '../input/inputInner.vue';
@@ -10,7 +10,7 @@ const prefixCls = getPrefixCls('pagination');
 export default defineComponent({
     name: COMPONENT_NAME.PAGINATION_JUMPER,
     components: {
-        InputInner
+        InputInner,
     },
     props: {
         total: {
@@ -18,9 +18,7 @@ export default defineComponent({
             default: 0,
         },
     },
-    emits: [
-        'change'
-    ],
+    emits: ['change'],
     setup(props, { emit }) {
         const current = ref();
         const { total } = toRefs(props);
@@ -34,17 +32,21 @@ export default defineComponent({
             current.value = currentPage;
             emit('change', currentPage);
         };
-        const { t } = useLocale()
+        const { t } = useLocale();
         return () => (
             <div class={`${prefixCls}-jumper`}>
-                <span class={`${prefixCls}-jumper-item`}>{t('pagination.goto')}</span>
+                <span class={`${prefixCls}-jumper-item`}>
+                    {t('pagination.goto')}
+                </span>
                 <InputInner
                     class={`${prefixCls}-jumper-input`}
                     v-model={current.value}
                     placeholder=""
                     onChange={handleChange}
                 ></InputInner>
-                <span class={`${prefixCls}-jumper-item`}>{t('pagination.pageClassifier')}</span>
+                <span class={`${prefixCls}-jumper-item`}>
+                    {t('pagination.pageClassifier')}
+                </span>
             </div>
         );
     },

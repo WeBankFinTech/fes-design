@@ -1,4 +1,12 @@
-import { h, defineComponent, computed, ref, watch, onBeforeUnmount, PropType, CSSProperties } from 'vue';
+import {
+    defineComponent,
+    computed,
+    ref,
+    watch,
+    onBeforeUnmount,
+    PropType,
+    CSSProperties,
+} from 'vue';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -10,7 +18,7 @@ type SpinSize = 'small' | 'middle' | 'large';
 const spinProps = {
     size: {
         type: String as PropType<SpinSize>,
-        default: 'middle'
+        default: 'middle',
     },
     description: {
         type: String,
@@ -98,8 +106,9 @@ export default defineComponent({
             }
             return (
                 <div
-                    class={`${prefixCls}-container ${isShow.value ? 'is-spinning' : ''
-                        }`}
+                    class={`${prefixCls}-container ${
+                        isShow.value ? 'is-spinning' : ''
+                    }`}
                 >
                     <div class={`${prefixCls}-content`}>{slots.default()}</div>
                     <div class={`${prefixCls}-wrapper`}>

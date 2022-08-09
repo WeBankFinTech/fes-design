@@ -1,4 +1,4 @@
-import { h, defineComponent, computed, watch, PropType, VNodeTypes } from 'vue';
+import { defineComponent, computed, watch, PropType, VNodeTypes } from 'vue';
 import { isFunction } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { TRIGGER, PLACEMENT } from '../_util/constants';
@@ -13,8 +13,8 @@ type Option = {
     label: string | number;
     disabled?: boolean;
     icon?: () => VNodeTypes;
-    [key: string]: string | number | boolean | (() => VNodeTypes) | undefined
-}
+    [key: string]: string | number | boolean | (() => VNodeTypes) | undefined;
+};
 
 const dropdownProps = {
     visible: {
@@ -30,7 +30,7 @@ const dropdownProps = {
     },
     trigger: {
         type: String as PropType<typeof TRIGGER[number]>,
-        default: 'hover'
+        default: 'hover',
     },
     placement: {
         type: String as PropType<typeof PLACEMENT[number]>,
@@ -62,7 +62,7 @@ const dropdownProps = {
         type: Boolean,
         default: false,
     },
-}
+};
 
 export default defineComponent({
     name: 'FDropdown',
@@ -87,8 +87,9 @@ export default defineComponent({
         });
         const renderOptions = () => (
             <div
-                class={`${prefixCls}-option-wrapper ${hasIcon.value ? 'has-icon' : ''
-                    }`}
+                class={`${prefixCls}-option-wrapper ${
+                    hasIcon.value ? 'has-icon' : ''
+                }`}
             >
                 {props.options.map((option) => {
                     const optionClassList = [
@@ -109,7 +110,9 @@ export default defineComponent({
                                 {option.icon?.()}
                             </span>
                             <span class={`${prefixCls}-option-label`}>
-                                {isFunction(label) ? (label as any)(option) : label}
+                                {isFunction(label)
+                                    ? (label as any)(option)
+                                    : label}
                             </span>
                         </div>
                     );

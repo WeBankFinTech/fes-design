@@ -1,6 +1,5 @@
-import { h, defineComponent, computed, toRefs, watch, ref } from 'vue';
+import { defineComponent, computed, toRefs, watch, ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
-import { useNormalModel } from '../_util/use/useModel';
 import useSpecialModel from './useSpecialModel';
 import { CHANGE_EVENT } from '../_util/constants';
 import Simpler from './simpler';
@@ -29,30 +28,39 @@ export default defineComponent({
         'update:pageSize',
     ],
     setup(props, { emit }) {
-
         let timer: ReturnType<typeof setTimeout>;
         const changeEvent = () => {
             clearTimeout(timer);
-            timer = setTimeout(()=>{
+            timer = setTimeout(() => {
                 emit(CHANGE_EVENT, currentPage.value, pageSize.value);
-            })
-        }
+            });
+        };
 
         let pageSizeTimer: ReturnType<typeof setTimeout>;
         const pageSizeChangeEvent = () => {
             changeEvent();
             clearTimeout(pageSizeTimer);
-            pageSizeTimer = setTimeout(()=>{
+            pageSizeTimer = setTimeout(() => {
                 emit('pageSizeChange', pageSize.value);
-            })
-        }
+            });
+        };
 
-        const [currentPage, updateCurrentPage] = useSpecialModel(props, emit, {
-            prop: 'currentPage',
-        }, changeEvent);
-        const [pageSize] = useSpecialModel(props, emit, {
-            prop: 'pageSize',
-        }, pageSizeChangeEvent);
+        const [currentPage, updateCurrentPage] = useSpecialModel(
+            props,
+            emit,
+            {
+                prop: 'currentPage',
+            },
+            changeEvent,
+        );
+        const [pageSize] = useSpecialModel(
+            props,
+            emit,
+            {
+                prop: 'pageSize',
+            },
+            pageSizeChangeEvent,
+        );
 
         const {
             small,

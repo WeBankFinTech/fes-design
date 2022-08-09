@@ -1,5 +1,4 @@
 import {
-    h,
     computed,
     defineComponent,
     ref,
@@ -9,7 +8,7 @@ import {
     onUnmounted,
     inject,
     getCurrentInstance,
-    ComputedRef
+    ComputedRef,
 } from 'vue';
 import {
     CAROUSEL_NAME,
@@ -71,7 +70,11 @@ export default defineComponent({
 
         const { itemStyle, setItemStyle } = useItemStyle(direction);
 
-        function processIndex(index: number, activeIndex: number, length: number) {
+        function processIndex(
+            index: number,
+            activeIndex: number,
+            length: number,
+        ) {
             if (activeIndex === 0 && index === length - 1) {
                 return -1;
             }
@@ -109,7 +112,11 @@ export default defineComponent({
             return ((3 + CARD_SCALE) * parentWidth) / 4;
         }
 
-        function calcTranslate(index: number, activeIndex: number, isVertical: boolean) {
+        function calcTranslate(
+            index: number,
+            activeIndex: number,
+            isVertical: boolean,
+        ) {
             const distance =
                 (isVertical
                     ? wrapperRef.value?.offsetHeight
@@ -118,7 +125,11 @@ export default defineComponent({
         }
 
         const itemReady = ref(false);
-        const translateItem = (index: number, activeIndex: number, oldIndex: number) => {
+        const translateItem = (
+            index: number,
+            activeIndex: number,
+            oldIndex: number,
+        ) => {
             const length = slideChildren.value.length;
             // eslint-disable-next-line no-undefined
             if (parentType !== 'card' && oldIndex !== undefined) {

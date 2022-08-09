@@ -1,3 +1,1 @@
-describe('Tree', () => {
-
-});
+describe('Tree', () => {});

@@ -1,5 +1,4 @@
 import {
-    h,
     defineComponent,
     computed,
     PropType,
@@ -63,8 +62,8 @@ const tableProps = {
     },
     layout: {
         type: String as PropType<'fixed' | 'auto'>,
-        default: 'fixed'
-    }
+        default: 'fixed',
+    },
 } as const;
 
 export type TableProps = Partial<ExtractPropTypes<typeof tableProps>>;
