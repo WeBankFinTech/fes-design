@@ -1,4 +1,4 @@
-import { h, defineComponent, computed, toRefs, watch } from 'vue';
+import { defineComponent, computed, toRefs, watch } from 'vue';
 import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import LeftOutlined from '../icon/LeftOutlined';
@@ -81,7 +81,8 @@ export default defineComponent({
         };
 
         const getClassList = (cur: number) =>
-            `${prefixCls}-pager-item${cur === parseInt(currentPage.value, 10) ? ' is-active' : ''
+            `${prefixCls}-pager-item${
+                cur === parseInt(currentPage.value, 10) ? ' is-active' : ''
             }`;
         const getBtnElement = () =>
             pages.value.map((item) => (
@@ -162,8 +163,9 @@ export default defineComponent({
         return () => (
             <div class={`${prefixCls}-pager`}>
                 <div
-                    class={`${prefixCls}-pager-item${currentPage.value <= 1 ? ' is-disabled' : ''
-                        }`}
+                    class={`${prefixCls}-pager-item${
+                        currentPage.value <= 1 ? ' is-disabled' : ''
+                    }`}
                     onClick={handleCurrentChange.bind(
                         null,
                         currentPage.value - 1,
@@ -182,8 +184,9 @@ export default defineComponent({
                 {renderNextDoubleJump()}
                 {renderLast()}
                 <div
-                    class={`${prefixCls}-pager-item${total.value <= currentPage.value ? ' is-disabled' : ''
-                        }`}
+                    class={`${prefixCls}-pager-item${
+                        total.value <= currentPage.value ? ' is-disabled' : ''
+                    }`}
                     onClick={handleCurrentChange.bind(
                         null,
                         currentPage.value + 1,

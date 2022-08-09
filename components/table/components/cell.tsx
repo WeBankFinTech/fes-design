@@ -1,5 +1,4 @@
 import {
-    h,
     defineComponent,
     Fragment,
     inject,
@@ -80,7 +79,7 @@ export default defineComponent({
                     <Fragment>{column.slots.default(props)}</Fragment>
                 );
             }
-            const result = column?.props?.formatter?.(props) ?? cellValue
+            const result = column?.props?.formatter?.(props) ?? cellValue;
             return column.props.ellipsis ? (
                 <Ellipsis>{result}</Ellipsis>
             ) : (

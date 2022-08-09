@@ -1,5 +1,4 @@
 import {
-    h,
     ref,
     computed,
     defineComponent,
@@ -7,7 +6,6 @@ import {
     onBeforeUnmount,
     getCurrentInstance,
     watch,
-    Fragment,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import FadeInExpandTransition from '../_util/components/fadeInExpandTransition';
@@ -24,7 +22,7 @@ export default defineComponent({
     name: COMPONENT_NAME.SUB_MENU,
     components: {
         Ellipsis,
-        FadeInExpandTransition
+        FadeInExpandTransition,
     },
     props: {
         value: {
@@ -179,7 +177,12 @@ export default defineComponent({
                 <>
                     {renderWrapper('click')}
                     <FadeInExpandTransition>
-                        <div v-show={isOpened.value} class={`${prefixCls}-children`}>{renderDefault()}</div>
+                        <div
+                            v-show={isOpened.value}
+                            class={`${prefixCls}-children`}
+                        >
+                            {renderDefault()}
+                        </div>
                     </FadeInExpandTransition>
                 </>
             );

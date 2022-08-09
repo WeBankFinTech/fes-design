@@ -1,4 +1,4 @@
-import { h, reactive, Component } from 'vue';
+import { reactive, Component } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { createManager } from '../_util/noticeManager';
 import Alert from '../alert/alert';

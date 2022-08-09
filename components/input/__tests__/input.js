@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 
 import getPrefixCls from '../../_util/getPrefixCls';
-import Input from '../input';
+import Input from '../input.vue';
 
 const prefixCls = getPrefixCls('input');
 const textareaPrefixCls = getPrefixCls('textarea');

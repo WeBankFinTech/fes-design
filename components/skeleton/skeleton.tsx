@@ -2,10 +2,8 @@ import {
     computed,
     defineComponent,
     ExtractPropTypes,
-    h,
     mergeProps,
     PropType,
-    Fragment,
 } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -101,7 +99,7 @@ export default defineComponent({
             renderChild()
         ) : (
             <>
-                {Array.apply(null, { length: repeat } as any).map((_) => [
+                {Array.apply(null, { length: repeat } as any).map(() => [
                     renderChild(),
                 ])}
             </>

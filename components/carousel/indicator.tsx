@@ -1,4 +1,4 @@
-import { h, defineComponent, inject, computed } from 'vue';
+import { defineComponent, inject, computed } from 'vue';
 import { throttle } from 'lodash-es';
 import { provideKey } from './const';
 import type { CarouselItemData } from './interface';
@@ -32,12 +32,12 @@ export default defineComponent({
             return classes;
         });
 
-        const onClickIndicator = (index: Number, event: MouseEvent) => {
+        const onClickIndicator = (index: number, event: MouseEvent) => {
             event.stopPropagation();
             emit(INDICATOR_MOUSE_EVENT, index, event);
         };
 
-        const onHoverIndicator = (index: Number, event: MouseEvent) => {
+        const onHoverIndicator = (index: number, event: MouseEvent) => {
             if (props.trigger === 'hover' && index !== props.activeIndex) {
                 emit(INDICATOR_MOUSE_EVENT, index, event);
             }
@@ -50,23 +50,27 @@ export default defineComponent({
 
         return () => (
             <ul class={indicatorsClass.value}>
-                {slideChildren.value.map((item: CarouselItemData, index: number) => (
-                    <li
-                        key={index}
-                        class={[
-                            `${prefixCls}-indicator`,
-                            `${prefixCls}-indicator-${props.indicatorType}`,
-                            props.activeIndex === index ? 'is-active' : '',
-                        ]}
-                        onMouseenter={(e) => throttledIndicatorHover(index, e)}
-                        onClick={(e) => onClickIndicator(index, e)}
-                    >
-                        <button
-                            type="button"
-                            class={`${prefixCls}-indicator-btn`}
-                        ></button>
-                    </li>
-                ))}
+                {slideChildren.value.map(
+                    (item: CarouselItemData, index: number) => (
+                        <li
+                            key={index}
+                            class={[
+                                `${prefixCls}-indicator`,
+                                `${prefixCls}-indicator-${props.indicatorType}`,
+                                props.activeIndex === index ? 'is-active' : '',
+                            ]}
+                            onMouseenter={(e) =>
+                                throttledIndicatorHover(index, e)
+                            }
+                            onClick={(e) => onClickIndicator(index, e)}
+                        >
+                            <button
+                                type="button"
+                                class={`${prefixCls}-indicator-btn`}
+                            ></button>
+                        </li>
+                    ),
+                )}
             </ul>
         );
     },

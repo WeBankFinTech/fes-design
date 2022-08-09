@@ -1,4 +1,4 @@
-import { h, defineComponent, inject, PropType } from 'vue';
+import { defineComponent, inject, PropType } from 'vue';
 import Mousewheel from '../../_util/directives/mousewheel';
 import { provideKey } from '../const';
 import Colgroup from './colgroup';
@@ -13,7 +13,7 @@ export default defineComponent({
     props: {
         composed: {
             type: Boolean,
-            default: false
+            default: false,
         },
         columns: {
             type: Array as PropType<ColumnInst[]>,
@@ -27,34 +27,34 @@ export default defineComponent({
             headerWrapperRef,
             headerWrapperClass,
             headerStyle,
-            handleHeaderMousewheel
+            handleHeaderMousewheel,
         } = inject(provideKey);
 
         return () => {
-            if(!(props.composed && rootProps.showHeader)) {
-                return null
+            if (!(props.composed && rootProps.showHeader)) {
+                return null;
             }
             return (
                 <div
-                ref={(el) => {
-                    headerWrapperRef.value = el;
-                }}
-                class={headerWrapperClass.value}
-                v-mousewheel={(e: Event, data: any) => {
-                    handleHeaderMousewheel(e, data)
-                }}
-            >
-                <table
-                    class={`${prefixCls}-header`}
-                    style={headerStyle.value}
-                    cellspacing="0"
-                    cellpadding="0"
+                    ref={(el) => {
+                        headerWrapperRef.value = el;
+                    }}
+                    class={headerWrapperClass.value}
+                    v-mousewheel={(e: Event, data: any) => {
+                        handleHeaderMousewheel(e, data);
+                    }}
                 >
-                    <Colgroup columns={props.columns} />
-                    <Header />
-                </table>
-            </div>
-            )
+                    <table
+                        class={`${prefixCls}-header`}
+                        style={headerStyle.value}
+                        cellspacing="0"
+                        cellpadding="0"
+                    >
+                        <Colgroup columns={props.columns} />
+                        <Header />
+                    </table>
+                </div>
+            );
         };
     },
 });

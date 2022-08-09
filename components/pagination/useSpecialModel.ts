@@ -11,7 +11,7 @@ export default (
         prop: 'modelValue',
         isEqual: false,
     },
-    callback: Function
+    callback: Function,
 ): [WritableComputedRef<any>, (val: any) => void] => {
     const usingProp = config?.prop ?? 'modelValue';
     const currentValue = ref(props[usingProp]);

@@ -1,5 +1,4 @@
 import {
-    h,
     defineComponent,
     Fragment,
     cloneVNode,
@@ -89,7 +88,7 @@ export default defineComponent({
         );
 
         const renderTrigger = () => {
-            const vNode = getFirstValidNode(slots.trigger!?.(), 1);
+            const vNode = getFirstValidNode(slots.trigger?.(), 1);
             if (vNode) {
                 return cloneVNode(vNode, { ref: triggerRef, ...events }, true);
             }

@@ -1,4 +1,4 @@
-import { h, render, Slots, VNode, VNodeChild } from 'vue';
+import { render, VNode, VNodeChild } from 'vue';
 import { isFunction } from 'lodash-es';
 import Modal from './modal';
 

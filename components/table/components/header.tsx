@@ -1,4 +1,4 @@
-import { h, inject, defineComponent } from 'vue';
+import { inject, defineComponent } from 'vue';
 import FCheckbox from '../../checkbox/checkbox.vue';
 import { provideKey } from '../const';
 import Label from './label';

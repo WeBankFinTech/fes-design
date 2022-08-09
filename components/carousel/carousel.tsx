@@ -1,4 +1,4 @@
-import { h, defineComponent, watch, ref, PropType, ExtractPropTypes } from 'vue';
+import { defineComponent, watch, ref, PropType, ExtractPropTypes } from 'vue';
 import { CAROUSEL_NAME, CHANGE_EVENT } from './const';
 import Arrow from './arrow';
 import Indicator from './indicator';
@@ -34,7 +34,7 @@ const carouselProps = {
     },
     indicatorType: {
         type: String as PropType<'linear' | 'dot'>,
-        default: 'linear'
+        default: 'linear',
     },
     indicatorPlacement: {
         type: String as PropType<Placement>,

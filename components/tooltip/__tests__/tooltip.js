@@ -1,3 +1,1 @@
-describe('Tooltip', () => {
-
-});
+describe('Tooltip', () => {});

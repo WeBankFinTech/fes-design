@@ -1,3 +1,1 @@
-describe('Radio', () => {
-
-});
+describe('Radio', () => {});

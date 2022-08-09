@@ -1,4 +1,4 @@
-import { ref, watch, reactive, computed, SetupContext, Ref } from 'vue';
+import { watch, reactive, computed, SetupContext, Ref } from 'vue';
 import { isFunction } from 'lodash-es';
 import { TABLE_NAME } from './const';
 

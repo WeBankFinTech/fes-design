@@ -1,4 +1,4 @@
-import { h, Fragment, defineComponent, PropType } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import Popper from '../popper/popper';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';

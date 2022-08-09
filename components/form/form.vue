@@ -59,9 +59,15 @@ export default defineComponent({
             prefixCls,
             `${prefixCls}-${props.layout}`,
         ]);
-        const formStyle = computed(() => ((props.layout === FORM_LAYOUT.INLINE && props.inlineItemWidth) && {
-            'grid-template-columns': `repeat(auto-fit, ${addUnit(props.inlineItemWidth)})`
-        }));
+        const formStyle = computed(
+            () =>
+                props.layout === FORM_LAYOUT.INLINE &&
+                props.inlineItemWidth && {
+                    'grid-template-columns': `repeat(auto-fit, ${addUnit(
+                        props.inlineItemWidth,
+                    )})`,
+                },
+        );
 
         const addField = (formItemProp: string, formItemContext: Field) => {
             formItemProp && (formFields[formItemProp] = formItemContext);

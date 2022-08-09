@@ -1,4 +1,12 @@
-import { h, computed, onMounted, provide, ref, defineComponent, Ref, VNodeChild } from 'vue';
+import {
+    computed,
+    onMounted,
+    provide,
+    ref,
+    defineComponent,
+    Ref,
+    VNodeChild,
+} from 'vue';
 import { isFunction } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
@@ -51,7 +59,10 @@ export default defineComponent({
             }
         });
 
-        const clickSubMenu = (subMenu: MenuItemType, indexPath: Ref<string[]>) => {
+        const clickSubMenu = (
+            subMenu: MenuItemType,
+            indexPath: Ref<string[]>,
+        ) => {
             if (subMenu.isOpened.value) {
                 if (props.accordion) {
                     openedMenus.value = openedMenus.value.filter((uid) =>
@@ -84,15 +95,14 @@ export default defineComponent({
                 `is-${props.mode}`,
                 props.inverted && 'is-inverted',
                 props.mode === 'vertical' && props.collapsed && 'is-collapsed',
-            ]
-                .filter(Boolean)
+            ].filter(Boolean),
         );
 
         const renderChildren = (arr: MenuOption[]) =>
             arr.map((item) => {
                 const itemSlots: {
-                    icon?: () => VNodeChild,
-                    label?: string | (() => VNodeChild)
+                    icon?: () => VNodeChild;
+                    label?: string | (() => VNodeChild);
                 } = {};
                 if (isFunction(item.icon)) {
                     itemSlots.icon = item.icon;

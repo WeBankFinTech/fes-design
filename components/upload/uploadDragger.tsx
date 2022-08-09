@@ -1,5 +1,4 @@
 import {
-    h,
     inject,
     defineComponent,
     ExtractPropTypes,
@@ -83,9 +82,11 @@ export default defineComponent({
             if (!multiple.value) {
                 postFiles = postFiles.slice(0, 1);
             }
-            const filterFiles = accept.value.length ? postFiles.filter((file) => {
-                return matchType(file.name, file.type, accept.value);
-            }) : postFiles;
+            const filterFiles = accept.value.length
+                ? postFiles.filter((file) => {
+                      return matchType(file.name, file.type, accept.value);
+                  })
+                : postFiles;
             if (filterFiles.length !== postFiles.length) {
                 if (props.onFileTypeInvalid) {
                     props.onFileTypeInvalid(

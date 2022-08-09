@@ -1,4 +1,4 @@
-import { provide, unref, watch } from 'vue';
+import { provide, unref } from 'vue';
 import { checkboxGroupKey, name } from './const';
 import { useArrayModel } from '../_util/use/useModel';
 import useFormAdaptor from '../_util/use/useFormAdaptor';

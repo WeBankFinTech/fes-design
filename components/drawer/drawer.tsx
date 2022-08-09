@@ -1,5 +1,4 @@
 import {
-    h,
     computed,
     defineComponent,
     Teleport,
@@ -10,7 +9,6 @@ import {
     PropType,
     Component,
     CSSProperties,
-    Fragment,
 } from 'vue';
 import { isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -175,7 +173,10 @@ const Drawer = defineComponent({
         );
 
         return () => (
-            <Teleport disabled={!getContainer.value?.()} to={getContainer.value?.()}>
+            <Teleport
+                disabled={!getContainer.value?.()}
+                to={getContainer.value?.()}
+            >
                 <div class={`${prefixCls} ${prefixCls}-${props.placement}`}>
                     <Transition name={`${prefixCls}-mask-fade`}>
                         {props.mask && showDom.value && (

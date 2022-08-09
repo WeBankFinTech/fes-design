@@ -1,4 +1,4 @@
-import { h, computed, defineComponent, inject } from 'vue';
+import { computed, defineComponent, inject } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { TABS_INJECTION_KEY } from '../_util/constants';
 import { tabProps } from './helper';
@@ -20,7 +20,9 @@ export default defineComponent({
 
         const mergeClosable = computed(() => {
             if (!isCard.value) return;
-            return typeof props.closable === 'boolean' ? props.closable : closableRef.value;
+            return typeof props.closable === 'boolean'
+                ? props.closable
+                : closableRef.value;
         });
 
         function handleClick() {

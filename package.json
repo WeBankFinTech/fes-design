@@ -24,7 +24,7 @@
     "release": "node scripts/release.js",
     "lint-staged": "lint-staged --allow-empty",
     "commitlint": "commitlint --config commitlint.config.js -e -V",
-    "lint:script": "eslint --ext .js,.ts,.vue,.jsx ./components --fix",
+    "lint:script": "eslint --ext .js,.ts,.vue,.tsx ./components --fix",
     "lint:style": "stylelint 'components/**/*.less' --fix",
     "commit": "git cz",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"

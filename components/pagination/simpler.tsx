@@ -1,4 +1,4 @@
-import { h, defineComponent, toRefs, watch } from 'vue';
+import { defineComponent, toRefs, watch } from 'vue';
 import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import LeftOutlined from '../icon/LeftOutlined';
@@ -50,8 +50,9 @@ export default defineComponent({
         return () => (
             <div class={`${prefixCls}-pager ${prefixCls}-simpler`}>
                 <div
-                    class={`${prefixCls}-pager-item${currentPage.value <= 1 ? ' is-disabled' : ''
-                        }`}
+                    class={`${prefixCls}-pager-item${
+                        currentPage.value <= 1 ? ' is-disabled' : ''
+                    }`}
                     onClick={handleCurrentChange.bind(
                         null,
                         currentPage.value - 1,
@@ -67,8 +68,9 @@ export default defineComponent({
                     <span>{total.value}</span>
                 </div>
                 <div
-                    class={`${prefixCls}-pager-item${total.value <= currentPage.value ? ' is-disabled' : ''
-                        }`}
+                    class={`${prefixCls}-pager-item${
+                        total.value <= currentPage.value ? ' is-disabled' : ''
+                    }`}
                     onClick={handleCurrentChange.bind(
                         null,
                         currentPage.value + 1,

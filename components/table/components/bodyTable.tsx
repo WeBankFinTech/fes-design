@@ -1,4 +1,4 @@
-import { h, defineComponent, inject, PropType } from 'vue';
+import { defineComponent, inject, PropType } from 'vue';
 import FScrollbar from '../../scrollbar/scrollbar.vue';
 import { provideKey } from '../const';
 import Colgroup from './colgroup';

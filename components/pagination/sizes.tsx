@@ -1,4 +1,4 @@
-import { h, defineComponent, PropType } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
@@ -22,11 +22,11 @@ const pagerSizeProps = {
 
 export default defineComponent({
     name: COMPONENT_NAME.PAGINATION_SIZES,
-    props: pagerSizeProps,
     components: {
         FSelect,
         FOption,
     },
+    props: pagerSizeProps,
     emits: [UPDATE_MODEL_EVENT],
     setup(props, { emit }) {
         const [pageSize] = useNormalModel(props, emit);

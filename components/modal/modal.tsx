@@ -1,5 +1,4 @@
 import {
-    h,
     computed,
     defineComponent,
     Teleport,
@@ -7,7 +6,6 @@ import {
     ref,
     watch,
     nextTick,
-    Fragment,
     PropType,
     VNode,
     VNodeChild,
@@ -204,7 +202,10 @@ const Modal = defineComponent({
         );
 
         return () => (
-            <Teleport disabled={!getContainer.value?.()} to={getContainer.value?.()}>
+            <Teleport
+                disabled={!getContainer.value?.()}
+                to={getContainer.value?.()}
+            >
                 <div class={`${prefixCls}`}>
                     <Transition name={`${prefixCls}-mask-fade`}>
                         {props.mask && showDom.value && (

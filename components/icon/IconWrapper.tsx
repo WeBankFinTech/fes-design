@@ -1,4 +1,10 @@
-import { h, defineComponent, computed, CSSProperties, ExtractPropTypes } from 'vue';
+import {
+    h,
+    defineComponent,
+    computed,
+    CSSProperties,
+    ExtractPropTypes,
+} from 'vue';
 
 import { noop } from '../_util/utils';
 
@@ -26,8 +32,8 @@ export default defineComponent({
         const svgStyle = computed(() =>
             props.rotate
                 ? {
-                    transform: `rotate(${props.rotate}deg)`,
-                }
+                      transform: `rotate(${props.rotate}deg)`,
+                  }
                 : null,
         );
         const svgClasses = computed(() => ({

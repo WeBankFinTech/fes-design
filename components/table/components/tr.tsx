@@ -1,4 +1,4 @@
-import { h, defineComponent, Fragment, inject, PropType } from 'vue';
+import { defineComponent, Fragment, inject, PropType } from 'vue';
 import { provideKey } from '../const';
 import Td from './td';
 import ExpandTr from './expandTr';
@@ -40,26 +40,25 @@ export default defineComponent({
         } = inject(provideKey);
 
         const renderTdList = (row: object, rowIndex: number) =>
-            props.columns
-                .map((column, columnIndex) => (
-                    <Td
-                        key={column.id}
-                        row={row}
-                        rowIndex={rowIndex}
-                        column={column}
-                        columnIndex={columnIndex}
-                        onClick={($event: Event) => {
-                            handleCellClick(
-                                {
-                                    row,
-                                    column,
-                                    cellValue: getCellValue(row, column),
-                                },
-                                $event,
-                            );
-                        }}
-                    ></Td>
-                ))
+            props.columns.map((column, columnIndex) => (
+                <Td
+                    key={column.id}
+                    row={row}
+                    rowIndex={rowIndex}
+                    column={column}
+                    columnIndex={columnIndex}
+                    onClick={($event: Event) => {
+                        handleCellClick(
+                            {
+                                row,
+                                column,
+                                cellValue: getCellValue(row, column),
+                            },
+                            $event,
+                        );
+                    }}
+                ></Td>
+            ));
 
         const renderTr = () => {
             const { row, rowIndex } = props;

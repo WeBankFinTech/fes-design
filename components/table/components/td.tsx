@@ -1,4 +1,4 @@
-import { h, defineComponent, inject, PropType } from 'vue';
+import { defineComponent, inject, PropType } from 'vue';
 import { CaretDownOutlined } from '../../icon';
 import FCheckbox from '../../checkbox/checkbox.vue';
 import { provideKey } from '../const';

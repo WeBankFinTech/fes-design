@@ -1,4 +1,4 @@
-import { h, ref, Transition, computed, defineComponent, PropType } from 'vue';
+import { ref, Transition, computed, defineComponent, PropType } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import CloseCircleOutlined from '../icon/CloseCircleOutlined';
 import { CLOSE_EVENT } from '../_util/constants';
@@ -45,8 +45,10 @@ export default defineComponent({
         ]);
 
         const renderIcon = () => {
-            return ctx.slots.icon ? ctx.slots.icon() : (iconComponentMap[props.type]?.())
-        }
+            return ctx.slots.icon
+                ? ctx.slots.icon()
+                : iconComponentMap[props.type]?.();
+        };
 
         return () => {
             const {
@@ -68,10 +70,11 @@ export default defineComponent({
                 <Transition name={`${prefixCls}-fade-expand`}>
                     {!visible.value ? null : (
                         <div
-                            class={`${prefixCls} ${props.center
-                                ? `${prefixCls}-message-center`
-                                : ''
-                                } ${prefixCls}-${props.type}`}
+                            class={`${prefixCls} ${
+                                props.center
+                                    ? `${prefixCls}-message-center`
+                                    : ''
+                            } ${prefixCls}-${props.type}`}
                         >
                             <div class={`${prefixCls}-head`}>
                                 <div class={`${prefixCls}-head-message`}>
