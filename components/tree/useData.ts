@@ -9,10 +9,20 @@ const getUid = () => {
     return uid++;
 };
 
-export default ({ props }: { props: TreeProps }) => {
+export default ({ props, emit }: { props: TreeProps; emit: any }) => {
     const nodeList: Map<TreeNodeKey, InnerTreeOption> = new Map();
 
-    const transformData = ref<TreeNodeKey[]>([]);
+    const allKeys = ref<TreeNodeKey[]>([]);
+
+    watch(
+        allKeys,
+        () => {
+            emit('update:nodeList', nodeList);
+        },
+        {
+            immediate: true,
+        },
+    );
 
     const transformNode = (
         item: InnerTreeOption,
@@ -94,7 +104,7 @@ export default ({ props }: { props: TreeProps }) => {
     watch(
         [() => props.data],
         () => {
-            transformData.value = flatNodes(props.data);
+            allKeys.value = flatNodes(props.data);
         },
         {
             immediate: true,
@@ -104,6 +114,6 @@ export default ({ props }: { props: TreeProps }) => {
 
     return {
         nodeList,
-        transformData,
+        allKeys,
     };
 };

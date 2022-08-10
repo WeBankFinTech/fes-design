@@ -3,7 +3,7 @@ import { useNormalModel } from '../_util/use/useModel';
 import type { TreeNodeKey } from './interface';
 import type { TreeProps } from './props';
 
-export default (props: TreeProps, { emit }: { emit: any }) => {
+export default ({ props, emit }: { props: TreeProps; emit: any }) => {
     const [currentExpandedKeys, updateExpandedKeys] = useNormalModel(
         props,
         emit,

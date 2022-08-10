@@ -6,12 +6,12 @@ import type { TreeProps } from './props';
 
 export default (
     props: TreeProps,
-    transformData: Ref<TreeNodeKey[]>,
+    allKeys: Ref<TreeNodeKey[]>,
     nodeList: Map<TreeNodeKey, InnerTreeOption>,
 ) => {
     const filteredKeys = ref<TreeNodeKey[]>([]);
     const filteredExpandedKeys = ref<TreeNodeKey[]>([]);
-    const isSearchingRef = ref(false);
+    const isSearchingRef = ref<boolean>(false);
 
     function traverse(
         filterMethod: (filterText: string, node: InnerTreeOption) => boolean,
@@ -21,7 +21,7 @@ export default (
         const _filteredKeys: TreeNodeKey[] = [];
         const _filteredExpandedKeysMap = new Map<TreeNodeKey, boolean>();
         const _filteredKeysMap = new Map<TreeNodeKey, boolean>();
-        transformData.value.forEach((key) => {
+        allKeys.value.forEach((key) => {
             const node: InnerTreeOption = nodeList.get(key);
             if (filterMethod(filterText, node)) {
                 const parentKeys = node.indexPath;
