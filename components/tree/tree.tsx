@@ -93,34 +93,44 @@ export default defineComponent({
             }
         }
 
-        watch(currentCheckedKeys, (newKeys, oldKeys) => {
-            // 重置历史节点选择状态
-            oldKeys.forEach((key: TreeNodeKey) => {
-                const node = nodeList.get(key);
-                node.isChecked.value = false;
-            });
-            newKeys.forEach((key: TreeNodeKey) => {
-                const node = nodeList.get(key);
-                node.isChecked.value = true;
-            });
-            if (props.cascade) {
-                // 当选中某个节点时，只需要处理此节点相关上下节点状态
-                if (checkingNode) {
-                    const { indexPath } = checkingNode;
-                    indexPath.slice(0).reverse().forEach(computeIndeterminate);
-                    checkingNode.hasChildren &&
-                        checkingNode.childrenPath.forEach(
-                            (key: TreeNodeKey) => {
-                                const node = nodeList.get(key);
-                                node.isIndeterminate.value = false;
-                            },
-                        );
-                    checkingNode = null;
-                } else {
-                    transformData.value.forEach(computeIndeterminate);
+        watch(
+            currentCheckedKeys,
+            (newKeys, oldKeys) => {
+                // 重置历史节点选择状态
+                Array.isArray(oldKeys) &&
+                    oldKeys.forEach((key: TreeNodeKey) => {
+                        const node = nodeList.get(key);
+                        node.isChecked.value = false;
+                    });
+                newKeys.forEach((key: TreeNodeKey) => {
+                    const node = nodeList.get(key);
+                    node.isChecked.value = true;
+                });
+                if (props.cascade) {
+                    // 当选中某个节点时，只需要处理此节点相关上下节点状态
+                    if (checkingNode) {
+                        const { indexPath } = checkingNode;
+                        indexPath
+                            .slice(0)
+                            .reverse()
+                            .forEach(computeIndeterminate);
+                        checkingNode.hasChildren &&
+                            checkingNode.childrenPath.forEach(
+                                (key: TreeNodeKey) => {
+                                    const node = nodeList.get(key);
+                                    node.isIndeterminate.value = false;
+                                },
+                            );
+                        checkingNode = null;
+                    } else {
+                        transformData.value.forEach(computeIndeterminate);
+                    }
                 }
-            }
-        });
+            },
+            {
+                immediate: true,
+            },
+        );
 
         const currentData = ref<TreeNodeKey[]>([]);
 
