@@ -35,6 +35,9 @@ export const useRadioGroup = (
         const radioGroupVal = unref(currentValue);
         const radioVal = unref(value);
         if (radioGroupVal === radioVal) {
+            if (!props.cancelable) {
+                return;
+            }
             updateCurrentValue(null);
         } else {
             updateCurrentValue(radioVal);

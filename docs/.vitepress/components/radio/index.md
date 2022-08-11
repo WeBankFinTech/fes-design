@@ -57,6 +57,8 @@ app.use(FRadioGroup);
 | disabled | 是否禁用                     | boolean | `false` |
 | v-model  | 绑定值                       | array   | `null`  |
 | vertical | 是否垂直排列（默认水平排列） | boolean | `false` |
+| cancelable | 选中后是否可取消 | boolean | `true` |
+
 
 ## RadioGroup Events
 
