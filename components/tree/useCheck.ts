@@ -49,6 +49,7 @@ export default ({
             if (props.checkStrictly === CHECK_STRATEGY.CHILD) {
                 return getParentByValues(nodeList, currentCheckedKeys.value);
             }
+            return currentCheckedKeys.value;
         }
         return [];
     }
@@ -187,11 +188,10 @@ export default ({
             }
             values = _values;
         } else {
-            if (props.checkStrictly === 'all') {
+            if (props.checkStrictly === CHECK_STRATEGY.ALL) {
                 computeCheckedKeys(_values, node);
                 values = _values;
-            }
-            if (props.checkStrictly === 'parent') {
+            } else if (props.checkStrictly === CHECK_STRATEGY.PARENT) {
                 computeCheckedKeys(_values, node);
                 values = _values.filter((key) => {
                     const node = nodeList.get(key);
@@ -202,13 +202,15 @@ export default ({
                         }).length === 1
                     );
                 });
-            }
-            if (props.checkStrictly === 'child') {
+            } else if (props.checkStrictly === CHECK_STRATEGY.CHILD) {
                 computeCheckedKeys(_values, node);
                 values = _values.filter((key) => {
                     const node = nodeList.get(key);
                     return node.isLeaf;
                 });
+            } else {
+                computeCheckedKeys(_values, node);
+                values = _values;
             }
         }
 
@@ -219,7 +221,7 @@ export default ({
             checkedKeys: values,
             event,
             node,
-            checked: values.includes(val),
+            checked: node.isChecked.value,
         });
     };
 
