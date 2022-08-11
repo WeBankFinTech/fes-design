@@ -1,3 +1,7 @@
+# [0.6.0](https://github.com/WeBankFinTech/fes-design/compare/v0.5.22...v0.6.0) (2022-08-11)
+
+
+
 ## [0.5.22](https://github.com/WeBankFinTech/fes-design/compare/v0.5.21...v0.5.22) (2022-08-11)
 
 
