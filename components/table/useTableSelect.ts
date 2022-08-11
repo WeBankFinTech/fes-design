@@ -124,11 +124,12 @@ export default ({
         } else {
             selectableData.value.forEach(push);
         }
-        ctx.emit('selectAll', { selection });
+        ctx.emit('selectAll', { selection, checked: !isAllSelected.value });
     };
 
     const clearSelect = () => {
-        selectableData.value.forEach(splice);
+        selection.length = 0;
+        selectionMap.clear();
     };
 
     return {

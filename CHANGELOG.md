@@ -1,3 +1,14 @@
+## [0.5.22](https://github.com/WeBankFinTech/fes-design/compare/v0.5.21...v0.5.22) (2022-08-11)
+
+
+### Bug Fixes
+
+* clearSelection清除全部选中数据 ([#210](https://github.com/WeBankFinTech/fes-design/issues/210)) ([bd1ae14](https://github.com/WeBankFinTech/fes-design/commit/bd1ae147d1ec201c1f4151e9bfa7e875b7639bbc))
+* 修复Tree组件checkedKeys默认值无效问题 ([#212](https://github.com/WeBankFinTech/fes-design/issues/212)) ([c227483](https://github.com/WeBankFinTech/fes-design/commit/c227483ce9cb91c3b2d6f493e107a45b35a065be))
+* 修复代码格式问题 ([#209](https://github.com/WeBankFinTech/fes-design/issues/209)) ([b7bbee3](https://github.com/WeBankFinTech/fes-design/commit/b7bbee37ec39582fa06a7c3a191cc3416d69aecf))
+
+
+
 ## [0.5.21](https://github.com/WeBankFinTech/fes-design/compare/v0.5.20...v0.5.21) (2022-08-05)
 
 
