@@ -91,7 +91,7 @@ app.use(FTree);
 | cancelable                | 选中后是否可以再次点击取消选中                                                   | boolean                                   | `true`    |
 | checkable             | 是否显示 `Checkbox` 选择框                                            | boolean                                   | `false`    |
 | cascade             | 当勾选选择框时，父子节点的选择框勾选状态是否关联，相互影响                                           | boolean                                   | `false`    |
-| checkStrictly         | 设置勾选策略来计算`check`事件中`checkedKeys`，`all`为全部选中节点；`parent` 为全部选中节点中的父节点（当父节点下所有子节点都选中时）；`child` 为全部选中节点中的叶子节点          | string                                   | `all`    |
+| checkStrictly         | 设置勾选策略来计算`checkedKeys`，`all`为全部选中节点；`parent` 为全部选中节点中的父节点（当父节点下所有子节点都选中时）；`child` 为全部选中节点中的叶子节点          | string                                   | `all`    |
 | checkedKeys(v-model)  | 勾选节点 key 的数组                                                 | Array<string \| number>                   | `[]`       |
 | childrenField         | 替代 `TreeOption` 中的 `children` 字段名                                | string                                    | `children` |
 | valueField            | 替代 `TreeOption` 中的 `value` 字段名                                   | string                                    | `value`    |

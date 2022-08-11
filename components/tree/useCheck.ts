@@ -3,6 +3,7 @@ import { cloneDeep } from 'lodash-es';
 import type { TreeNodeKey, InnerTreeOption } from './interface';
 import type { TreeProps } from './props';
 import { CHECK_STRATEGY } from './const';
+import { getChildrenByValues, getParentByValues } from './helper';
 
 export default ({
     allKeys,
@@ -19,71 +20,7 @@ export default ({
     props: TreeProps;
     emit: any;
 }) => {
-    function getCheckedKeys(arr: TreeNodeKey[]) {
-        return props.cascade
-            ? arr.filter((key) => {
-                  const node = nodeList.get(key);
-                  if (props.checkStrictly === CHECK_STRATEGY.ALL) {
-                      return true;
-                  }
-                  if (props.checkStrictly === CHECK_STRATEGY.PARENT) {
-                      return (
-                          node.indexPath.filter((path) => arr.includes(path))
-                              .length === 1
-                      );
-                  }
-                  if (props.checkStrictly === CHECK_STRATEGY.CHILD) {
-                      return node.isLeaf;
-                  }
-                  return true;
-              })
-            : arr;
-    }
-
-    function handleChildren(
-        arr: TreeNodeKey[],
-        children: InnerTreeOption[],
-        isAdd: boolean,
-    ) {
-        children &&
-            children.forEach((child) => {
-                const index = arr.indexOf(child.value);
-                if (!isAdd) {
-                    if (index !== -1) {
-                        arr.splice(index, 1);
-                    }
-                } else if (index === -1) {
-                    arr.push(child.value);
-                }
-                if (child.children) {
-                    handleChildren(arr, child.children, isAdd);
-                }
-            });
-    }
-
-    function handleParent(
-        arr: TreeNodeKey[],
-        indexPath: TreeNodeKey[],
-        isAdd: boolean,
-    ) {
-        let len = indexPath.length - 2;
-        for (len; len >= 0; len--) {
-            const parent = nodeList.get(indexPath[len]);
-            const index = arr.indexOf(parent.value);
-            if (!isAdd) {
-                if (index !== -1) {
-                    arr.splice(index, 1);
-                }
-            } else if (index === -1) {
-                if (parent.children.every((item) => arr.includes(item.value))) {
-                    arr.push(parent.value);
-                }
-            }
-        }
-    }
-
-    function computeIndeterminate(key: TreeNodeKey) {
-        const node = nodeList.get(key);
+    function computeIndeterminate(node: InnerTreeOption) {
         if (node.hasChildren) {
             if (node.isChecked.value) {
                 node.isIndeterminate.value = false;
@@ -98,11 +35,53 @@ export default ({
         }
     }
 
-    const checkingNode: Ref<InnerTreeOption | null> = shallowRef(null);
+    function init() {
+        if (props.checkable) {
+            if (!props.cascade) {
+                return currentCheckedKeys.value;
+            }
+            if (props.checkStrictly === CHECK_STRATEGY.ALL) {
+                return currentCheckedKeys.value;
+            }
+            if (props.checkStrictly === CHECK_STRATEGY.PARENT) {
+                return getChildrenByValues(nodeList, currentCheckedKeys.value);
+            }
+            if (props.checkStrictly === CHECK_STRATEGY.CHILD) {
+                return getParentByValues(nodeList, currentCheckedKeys.value);
+            }
+        }
+        return [];
+    }
+
+    const _keys: Ref<TreeNodeKey[]> = shallowRef([]);
+
+    let unwatch = false;
+
+    let unwatchCurrent = false;
 
     watch(
         currentCheckedKeys,
+        () => {
+            if (!props.checkable) return;
+            if (unwatchCurrent) {
+                unwatchCurrent = false;
+                return;
+            }
+            _keys.value = init();
+        },
+        {
+            immediate: true,
+        },
+    );
+
+    watch(
+        _keys,
         (newKeys, oldKeys) => {
+            if (!props.checkable) return;
+            if (unwatch) {
+                unwatch = false;
+                return;
+            }
             // 重置历史节点选择状态
             Array.isArray(oldKeys) &&
                 oldKeys.forEach((key: TreeNodeKey) => {
@@ -114,20 +93,13 @@ export default ({
                 node.isChecked.value = true;
             });
             if (props.cascade) {
-                // 当选中某个节点时，只需要处理此节点相关上下节点状态
-                if (checkingNode.value) {
-                    const node = checkingNode.value;
-                    const { indexPath } = node;
-                    indexPath.slice(0).reverse().forEach(computeIndeterminate);
-                    node.hasChildren &&
-                        node.childrenPath.forEach((key: TreeNodeKey) => {
-                            const node = nodeList.get(key);
-                            node.isIndeterminate.value = false;
-                        });
-                    checkingNode.value = null;
-                } else {
-                    allKeys.value.forEach(computeIndeterminate);
-                }
+                allKeys.value
+                    .slice(0)
+                    .reverse()
+                    .forEach((key) => {
+                        const node = nodeList.get(key);
+                        computeIndeterminate(node);
+                    });
             }
         },
         {
@@ -135,34 +107,116 @@ export default ({
         },
     );
 
-    const checkNode = (val: TreeNodeKey, event: Event) => {
-        const node = nodeList.get(val);
-        const { isLeaf, children, indexPath } = node;
-        const values = cloneDeep(currentCheckedKeys.value);
-        const index = values.indexOf(val);
-        if (!props.cascade) {
-            if (index !== -1) {
-                values.splice(index, 1);
-            } else {
-                values.push(val);
+    const computeCheckedKeys = (
+        _values: TreeNodeKey[],
+        node: InnerTreeOption,
+    ) => {
+        const { hasChildren, childrenPath, indexPath, isChecked, value } = node;
+        if (isChecked.value) {
+            if (hasChildren) {
+                childrenPath.forEach((key) => {
+                    const childNode = nodeList.get(key);
+                    if (childNode.isChecked.value) {
+                        childNode.isChecked.value = false;
+                        const index = _values.indexOf(childNode.value);
+                        _values.splice(index, 1);
+                    }
+                    childNode.isIndeterminate.value = false;
+                });
             }
-        } else if (index !== -1) {
-            values.splice(index, 1);
-            handleParent(values, indexPath, false);
-            if (!isLeaf) {
-                handleChildren(values, children, false);
+            let len = indexPath.length - 1;
+            for (len; len >= 0; len--) {
+                const parentNode = nodeList.get(indexPath[len]);
+                if (parentNode.isChecked.value) {
+                    parentNode.isChecked.value = false;
+                    const index = _values.indexOf(parentNode.value);
+                    _values.splice(index, 1);
+                }
+                computeIndeterminate(parentNode);
             }
         } else {
-            values.push(val);
-            handleParent(values, indexPath, true);
-            if (!isLeaf) {
-                handleChildren(values, children, true);
+            if (hasChildren) {
+                childrenPath.forEach((key) => {
+                    const childNode = nodeList.get(key);
+                    if (!childNode.isChecked.value) {
+                        childNode.isChecked.value = true;
+                        _values.push(childNode.value);
+                    }
+                    childNode.isIndeterminate.value = false;
+                });
+            }
+
+            // 选中
+            _values.push(value);
+
+            node.isChecked.value = true;
+
+            computeIndeterminate(node);
+
+            let len = indexPath.length - 2;
+            for (len; len >= 0; len--) {
+                const parentNode = nodeList.get(indexPath[len]);
+                if (
+                    parentNode.children.every(
+                        (childNode) => childNode.isChecked.value,
+                    )
+                ) {
+                    parentNode.isChecked.value = true;
+                    _values.push(parentNode.value);
+                }
+                computeIndeterminate(parentNode);
             }
         }
-        checkingNode.value = node;
+    };
+
+    const checkNode = (val: TreeNodeKey, event: Event) => {
+        const node = nodeList.get(val);
+        unwatch = true;
+        unwatchCurrent = true;
+
+        const _values = cloneDeep(_keys.value);
+        let values;
+
+        if (!props.cascade) {
+            // 非关联
+            const index = _values.indexOf(val);
+            if (node.isChecked.value) {
+                _values.splice(index, 1);
+            } else {
+                _values.push(val);
+            }
+            values = _values;
+        } else {
+            if (props.checkStrictly === 'all') {
+                computeCheckedKeys(_values, node);
+                values = _values;
+            }
+            if (props.checkStrictly === 'parent') {
+                computeCheckedKeys(_values, node);
+                values = _values.filter((key) => {
+                    const node = nodeList.get(key);
+                    return (
+                        node.indexPath.filter((path) => {
+                            const parenNode = nodeList.get(path);
+                            return parenNode.isChecked.value;
+                        }).length === 1
+                    );
+                });
+            }
+            if (props.checkStrictly === 'child') {
+                computeCheckedKeys(_values, node);
+                values = _values.filter((key) => {
+                    const node = nodeList.get(key);
+                    return node.isLeaf;
+                });
+            }
+        }
+
+        _keys.value = _values;
         updateCheckedKeys(values);
+
         emit('check', {
-            checkedKeys: getCheckedKeys(values),
+            checkedKeys: values,
             event,
             node,
             checked: values.includes(val),
@@ -170,7 +224,6 @@ export default ({
     };
 
     return {
-        checkingNode,
         checkNode,
     };
 };
