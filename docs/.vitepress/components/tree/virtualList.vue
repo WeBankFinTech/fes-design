@@ -13,7 +13,7 @@ import { reactive, ref } from 'vue';
 
 function createData(level = 4, baseKey = '') {
     if (!level) return undefined;
-    return Array.apply(null, { length: 15 - level }).map((_, index) => {
+    return Array.apply(null, { length: 10 }).map((_, index) => {
         const key = baseKey ? `${baseKey}_${index}` : `${index}`;
         return {
             label: createLabel(level, index),
