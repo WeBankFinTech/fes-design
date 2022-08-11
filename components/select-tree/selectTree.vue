@@ -138,7 +138,6 @@ import Tree from '../tree/tree';
 import Scrollbar from '../scrollbar/scrollbar.vue';
 import { selectProps } from '../select/props';
 import { treeProps } from '../tree/props';
-import { getChildrenByValues, getParentByValues } from './helper';
 
 import type { SelectValue } from '../select/interface';
 import type {
@@ -222,24 +221,7 @@ export default defineComponent({
         });
         const checkedKeys = computed(() => {
             if (props.multiple) {
-                if (!props.cascade) {
-                    return currentValue.value;
-                }
-                if (props.checkStrictly === 'all') {
-                    return currentValue.value;
-                }
-                if (props.checkStrictly === 'parent') {
-                    return getChildrenByValues(
-                        nodeList.value,
-                        currentValue.value,
-                    );
-                }
-                if (props.checkStrictly === 'child') {
-                    return getParentByValues(
-                        nodeList.value,
-                        currentValue.value,
-                    );
-                }
+                return currentValue.value;
             }
             return [];
         });

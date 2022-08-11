@@ -20,6 +20,7 @@ export interface InnerTreeOption extends TreeOption {
     level?: number;
     hasChildren?: boolean;
     indexPath?: TreeNodeKey[];
+    childrenPath?: TreeNodeKey[];
     children?: InnerTreeOption[];
     isExpanded?: Ref<boolean>;
     isChecked?: Ref<boolean>;
