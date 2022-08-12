@@ -24,7 +24,8 @@
                     :collapseTags="collapseTags"
                     :collapseTagsLimit="collapseTagsLimit"
                     :tagBordered="tagBordered"
-                    :class="{ 'is-error': isError }"
+                    :class="[{ 'is-error': isError }, attrs.class]"
+                    :style="attrs.style"
                     :renderTag="$slots.tag"
                     @remove="onSelect"
                     @clear="handleClear"
@@ -108,7 +109,7 @@ export default defineComponent({
         'scroll',
         'search',
     ],
-    setup(props, { emit }) {
+    setup(props, { emit, attrs }) {
         useTheme();
         const { validate, isError } = useFormAdaptor(
             computed(() => (props.multiple ? 'array' : 'string')),
@@ -338,6 +339,7 @@ export default defineComponent({
             isError,
             onScroll,
             isLimitRef,
+            attrs,
         };
     },
 });

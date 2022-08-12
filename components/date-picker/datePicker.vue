@@ -22,7 +22,8 @@
                 :clearable="clearable"
                 :disabled="disabled"
                 :innerIsFocus="inputIsFocus"
-                :style="style"
+                :class="attrs.class"
+                :style="attrs.style"
                 :changeSelectedDates="changeDateByInput"
                 :maxRange="maxRange"
                 @focus="handleFocus"
@@ -46,7 +47,8 @@
                 :disabled="disabled"
                 :clearable="clearable"
                 :innerIsFocus="inputIsFocus"
-                :style="style"
+                :class="attrs.class"
+                :style="attrs.style"
                 @focus="handleFocus"
                 @input="handleDateInput"
                 @blur="handleDateInputBlur"
@@ -94,7 +96,6 @@ import {
     ComputedRef,
     ComponentPublicInstance,
     provide,
-    CSSProperties,
 } from 'vue';
 import { format, isValid } from 'date-fns';
 import { isEqual } from 'lodash-es';
@@ -143,9 +144,6 @@ const datePickerProps = {
     },
     getContainer: {
         type: Function as PropType<GetContainer>,
-    },
-    style: {
-        type: [String, Object, Array] as PropType<string | CSSProperties>,
     },
     popperClass: [String, Array, Object] as PropType<string | [] | object>,
     control: Boolean,
@@ -279,7 +277,7 @@ export default defineComponent({
         'blur',
         'focus',
     ],
-    setup(props, { emit }) {
+    setup(props, { emit, attrs }) {
         useTheme();
         const [isOpened, updatePopperOpen] = useNormalModel(props, emit, {
             prop: 'open',
@@ -439,6 +437,8 @@ export default defineComponent({
             inputRefEl,
             inputRangeRefEL,
             calendarsRef,
+
+            attrs,
         };
     },
 });

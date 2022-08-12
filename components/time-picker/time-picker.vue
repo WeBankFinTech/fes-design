@@ -14,7 +14,8 @@
         <template #trigger>
             <InputInner
                 v-if="!isRange"
-                :class="classes"
+                :class="[attrs.class, classes]"
+                :style="attrs.style"
                 :modelValue="displayValue"
                 :placeholder="inputPlaceholder"
                 :disabled="disabled"
@@ -239,7 +240,7 @@ export default defineComponent({
     },
     props: timePickerProps,
     emits: [UPDATE_MODEL_EVENT, 'update:open', 'change', 'blur', 'focus'],
-    setup(props, { emit, slots }) {
+    setup(props, { emit, slots, attrs }) {
         useTheme();
         const { validate, isError } = useFormAdaptor();
         // 避免子组件重复
@@ -342,6 +343,8 @@ export default defineComponent({
             activeTime,
             inputPlaceholder,
             t,
+
+            attrs,
         };
     },
 });
