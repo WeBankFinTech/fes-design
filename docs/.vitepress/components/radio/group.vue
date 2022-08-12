@@ -1,6 +1,6 @@
 <template>
     <FSpace>
-        <FRadioGroup v-model="val" @change="handleChange">
+        <FRadioGroup v-model="val" :cancelable="false" @change="handleChange">
             <FRadio v-for="i in len" :key="i" :value="i">{{ i }}</FRadio>
         </FRadioGroup>
     </FSpace>

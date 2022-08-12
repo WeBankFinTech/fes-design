@@ -14,6 +14,7 @@ export type RadioGroupProps = {
     modelValue?: string | number | boolean;
     vertical?: boolean;
     disabled?: boolean;
+    cancelable?: boolean;
 };
 
 export type RadioGroupEmits = {
@@ -26,6 +27,7 @@ const prefixCls = getPrefixCls('radio-group');
 const props = withDefaults(defineProps<RadioGroupProps>(), {
     vertical: false,
     disabled: false,
+    cancelable: true,
 });
 
 const emit = defineEmits<RadioGroupEmits>();
