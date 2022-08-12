@@ -25,7 +25,8 @@
                     :collapseTags="collapseTags"
                     :collapseTagsLimit="collapseTagsLimit"
                     :tagBordered="tagBordered"
-                    :class="{ 'is-error': isError }"
+                    :class="[{ 'is-error': isError }, attrs.class]"
+                    :style="attrs.style"
                     :renderTag="$slots.tag"
                     @remove="handleRemove"
                     @clear="handleClear"
@@ -176,7 +177,7 @@ export default defineComponent({
         'blur',
         'clear',
     ],
-    setup(props, { emit }) {
+    setup(props, { emit, attrs }) {
         useTheme();
         const { validate, isError } = useFormAdaptor(
             computed(() => (props.multiple ? 'array' : 'string')),
@@ -363,6 +364,7 @@ export default defineComponent({
             inputPlaceholder,
             listEmptyText,
             isError,
+            attrs,
         };
     },
 });

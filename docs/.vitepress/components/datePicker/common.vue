@@ -2,11 +2,12 @@
     <FSpace vertical>
         <FDatePicker
             v-model="currentDate"
+            class="date-picker"
             format="yyyy/MM/dd"
             clearable
             @change="change"
         />
-        <FDatePicker type="month" placeholder="选择月份" />
+        <FDatePicker :style="style" type="month" placeholder="选择月份" />
         <FDatePicker type="year" placeholder="选择年份" />
         <FDatePicker type="quarter" placeholder="选择季度" />
         <FDatePicker
@@ -22,7 +23,7 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, reactive } from 'vue';
 
 export default defineComponent({
     setup() {
@@ -31,13 +32,23 @@ export default defineComponent({
             console.log('change:', currentDate.value);
         };
 
+        const style = reactive({
+            width: '200px',
+        });
+
         const datetime = ref();
 
         return {
             currentDate,
             change,
             datetime,
+            style,
         };
     },
 });
 </script>
+<style scope>
+.date-picker {
+    width: 200px;
+}
+</style>

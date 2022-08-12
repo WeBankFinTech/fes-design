@@ -3,6 +3,7 @@
         filterable
         valueField="key"
         labelField="name"
+        style="width: 200px"
         :options="optionList"
     >
     </FSelect>
@@ -31,8 +32,3 @@ export default {
     },
 };
 </script>
-<style scoped>
-.fes-select {
-    width: 200px;
-}
-</style>

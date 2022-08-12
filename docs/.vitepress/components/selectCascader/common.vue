@@ -23,6 +23,7 @@
     <FDivider></FDivider>
 
     <FSelectCascader
+        class="select-cascader"
         :data="data"
         :expandTrigger="expandTrigger"
         :checkStrictly="checkStrictly"
@@ -69,7 +70,7 @@ export default {
 };
 </script>
 <style scoped>
-.fes-select-cascader {
+.select-cascader {
     width: 200px;
 }
 </style>

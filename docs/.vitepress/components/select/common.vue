@@ -1,5 +1,10 @@
 <template>
-    <FSelect v-model="arr" @change="handleChange" @scroll="onScroll">
+    <FSelect
+        v-model="arr"
+        class="select"
+        @change="handleChange"
+        @scroll="onScroll"
+    >
         <FOption
             v-for="(item, index) in optionList"
             :key="index"
@@ -54,7 +59,7 @@ export default {
 };
 </script>
 <style scoped>
-.fes-select {
+.select {
     width: 200px;
 }
 </style>

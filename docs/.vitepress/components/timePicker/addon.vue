@@ -3,6 +3,7 @@
         <FTimePicker
             v-model="currentTime"
             v-model:open="isOpen"
+            class="time-picker"
             placeholder="请输入"
         >
             <template #addon="slotProps">
@@ -39,3 +40,8 @@ export default {
     },
 };
 </script>
+<style>
+.time-picker {
+    width: 200px;
+}
+</style>
