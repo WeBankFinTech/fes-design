@@ -16,10 +16,10 @@
                         :renderTag="renderTag"
                         :option="selectedOptions[0]"
                     >
-                        <Ellipsis>
-                            <span :class="`${prefixCls}-label-text`">
-                                {{ labelTextRef }}
-                            </span>
+                        <Ellipsis
+                            :class="`${prefixCls}-label-text`"
+                            :content="labelTextRef"
+                        >
                         </Ellipsis>
                     </RenderTag>
                     <div v-else :class="`${prefixCls}-label-placeholder`">
@@ -50,10 +50,10 @@
                             :renderTag="renderTag"
                             :option="selectedOptions[0]"
                         >
-                            <Ellipsis>
-                                <span :class="`${prefixCls}-label-text`">
-                                    {{ labelTextRef }}
-                                </span>
+                            <Ellipsis
+                                :class="`${prefixCls}-label-text`"
+                                :content="labelTextRef"
+                            >
                             </Ellipsis>
                         </RenderTag>
                     </div>
@@ -75,10 +75,10 @@
                         :bordered="hasTagBordered"
                         @close="handleRemove(index)"
                     >
-                        <Ellipsis>
-                            <span :class="`${prefixCls}-label-text`">
-                                {{ tag.label }}
-                            </span>
+                        <Ellipsis
+                            :class="`${prefixCls}-label-text`"
+                            :content="tag.label"
+                        >
                         </Ellipsis>
                     </Tag>
                 </RenderTag>

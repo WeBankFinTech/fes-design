@@ -81,9 +81,9 @@ export default defineComponent({
             }
             const result = column?.props?.formatter?.(props) ?? cellValue;
             return column.props.ellipsis ? (
-                <Ellipsis>{result}</Ellipsis>
+                <Ellipsis content={result}></Ellipsis>
             ) : (
-                <Fragment>{result}</Fragment>
+                <Fragment content={result}></Fragment>
             );
         };
     },

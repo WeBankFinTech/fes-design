@@ -285,7 +285,7 @@ export default defineComponent({
                 >
                     {renderPrefix()}
                     <span class={`${prefixCls}-content-label`}>
-                        <Ellipsis>{props.label}</Ellipsis>
+                        <Ellipsis content={props.label}></Ellipsis>
                     </span>
                     {renderSuffix()}
                 </span>

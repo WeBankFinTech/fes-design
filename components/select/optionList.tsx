@@ -51,9 +51,10 @@ export default defineComponent({
             if (option.label) {
                 return (
                     <>
-                        <Ellipsis class={`${prefixCls}-label`}>
-                            {option.label}
-                        </Ellipsis>
+                        <Ellipsis
+                            class={`${prefixCls}-label`}
+                            content={`${option.label}`}
+                        ></Ellipsis>
                         {isSelected && (
                             <CheckOutlined
                                 class={`${prefixCls}-checked-icon`}
