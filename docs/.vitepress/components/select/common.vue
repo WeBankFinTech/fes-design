@@ -22,7 +22,7 @@ export default {
         const optionList = reactive([
             {
                 value: 'HuNan',
-                label: '湖南',
+                label: '湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南',
             },
             {
                 value: 'HuBei',
