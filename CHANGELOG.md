@@ -1,3 +1,13 @@
+## [0.6.1](https://github.com/WeBankFinTech/fes-design/compare/v0.6.0...v0.6.1) (2022-08-15)
+
+
+### Features
+
+* RadioGroup可配置是否取消选项 ([#213](https://github.com/WeBankFinTech/fes-design/issues/213)) ([5c48ba5](https://github.com/WeBankFinTech/fes-design/commit/5c48ba5c533b3aa5858b2304638ec70ff961703e))
+* Select/SelectTree/SelectCascader/DatePicker/TimePicker支持配置class和style ([#214](https://github.com/WeBankFinTech/fes-design/issues/214)) ([048391d](https://github.com/WeBankFinTech/fes-design/commit/048391d13a1c0742d89e95cfe9bc5b6065341208))
+
+
+
 # [0.6.0](https://github.com/WeBankFinTech/fes-design/compare/v0.5.22...v0.6.0) (2022-08-11)
 
 
