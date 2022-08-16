@@ -1,13 +1,4 @@
-import {
-    defineComponent,
-    computed,
-    ref,
-    PropType,
-    CSSProperties,
-    watch,
-    onMounted,
-    nextTick,
-} from 'vue';
+import { defineComponent, computed, ref, PropType, CSSProperties } from 'vue';
 import { isObject } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import Tooltip from '../tooltip/tooltip';
@@ -44,23 +35,24 @@ export default defineComponent({
     props: ellipsisProps,
     setup(props, { slots }) {
         useTheme();
+
         const triggerRef = ref<HTMLElement>();
-        const isEllipsisRef = ref(true);
+
         const classListRef = computed(() =>
-            [prefixCls, props.class, props.line > 1 && 'is-line-clamp'].filter(
-                Boolean,
-            ),
+            [prefixCls, props.class].filter(Boolean),
         );
 
-        const triggerEllipsisStyleRef = computed(() => {
-            return props.line > 1
-                ? { '-webkit-line-clamp': props.line }
-                : { 'text-overflow': 'ellipsis', 'white-space': 'nowrap' };
+        const styleRef = computed(() => {
+            const ellStyle =
+                props.line > 1
+                    ? {
+                          display: '-webkit-inline-box',
+                          '-webkit-line-clamp': props.line,
+                          '-webkit-box-orient': 'vertical',
+                      }
+                    : { 'text-overflow': 'ellipsis', 'white-space': 'nowrap' };
+            return [props.style, ellStyle];
         });
-
-        const isTooltipDisabledRef = computed(
-            () => !isEllipsisRef.value || props.tooltip === false,
-        );
 
         const toolTipPropsRef = computed(() => {
             if (isObject(props.tooltip)) {
@@ -70,43 +62,27 @@ export default defineComponent({
         });
 
         // 元素可能是隐藏的，当hover时需要重新计算下
-        const computeStyle = () => {
+        const getDisabled = () => {
+            let isEllipsis = true;
             const { value: trigger } = triggerRef;
-            if (!trigger) return;
-            const ellStyle = triggerEllipsisStyleRef.value;
-            Object.assign(trigger.style, ellStyle);
+            if (!trigger) return true;
             const { offsetHeight, scrollHeight, scrollWidth, offsetWidth } =
                 trigger;
             if (offsetHeight && offsetWidth) {
                 if (props.line > 1) {
-                    isEllipsisRef.value = scrollHeight > offsetHeight;
+                    isEllipsis = scrollHeight > offsetHeight;
                 } else {
-                    isEllipsisRef.value = scrollWidth > offsetWidth;
+                    isEllipsis = scrollWidth > offsetWidth;
                 }
             }
-            if (!isEllipsisRef.value) {
-                for (const key in ellStyle) {
-                    (trigger.style as any)[key] = null;
-                }
-            }
+            return !isEllipsis;
         };
-
-        watch([() => props.line, () => props.content], () => {
-            isEllipsisRef.value = true;
-            nextTick(computeStyle);
-        });
-
-        onMounted(() => {
-            isEllipsisRef.value = true;
-            nextTick(computeStyle);
-        });
 
         const renderTrigger = () => (
             <span
                 ref={triggerRef}
                 class={classListRef.value}
-                style={props.style}
-                onMouseenter={computeStyle}
+                style={styleRef.value}
             >
                 {slots.default?.() ?? props.content}
             </span>
@@ -117,12 +93,13 @@ export default defineComponent({
         };
 
         return () => {
-            if (isTooltipDisabledRef.value) {
+            if (!props.tooltip) {
                 return renderTrigger();
             }
             return (
                 <Tooltip
                     placement="top"
+                    disabled={getDisabled}
                     {...toolTipPropsRef.value}
                     v-slots={{
                         content:
