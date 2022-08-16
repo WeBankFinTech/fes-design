@@ -5,6 +5,7 @@ import {
     computed,
     Transition,
 } from 'vue';
+import { isBoolean, isFunction } from 'lodash-es';
 import LazyTeleport from '../_util/lazyTeleport';
 import getPrefixCls from '../_util/getPrefixCls';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
@@ -48,12 +49,17 @@ export default defineComponent({
             placement,
         } = usePopper(props, emit);
 
-        const disabledWatch = computed(() => props.disabled || !visible.value);
+        const disabledWatch = computed(
+            () =>
+                (isBoolean(props.disabled) ? props.disabled : false) ||
+                !visible.value,
+        );
 
         useScroll(
             computed(() => getElementFromRef(triggerRef.value)),
             (e: Event) => {
                 if (disabledWatch.value) return;
+                if (isFunction(props.disabled) && props.disabled()) return;
                 // 不挂载在container上
                 if (!props.appendToContainer) return;
                 if (e.target === getContainer.value?.()) return;

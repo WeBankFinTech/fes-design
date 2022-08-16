@@ -1,5 +1,6 @@
 import { onMounted, onActivated, ref, watch, reactive, nextTick } from 'vue';
 import { computePosition, offset, shift, flip, arrow } from '@floating-ui/dom';
+import { isBoolean, isFunction } from 'lodash-es';
 import { useNormalModel } from '../_util/use/useModel';
 import popupManager from '../_util/popupManager';
 import getElementFromRef from '../_util/getElementFromRef';
@@ -19,7 +20,8 @@ export default (props: PopperProps, emit: any) => {
     const placement = ref(props.placement);
 
     const computePopper = () => {
-        if (props.disabled) return;
+        if (isBoolean(props.disabled) && props.disabled) return;
+        if (isFunction(props.disabled) && props.disabled()) return;
         if (!visible.value) return;
         popperStyle.zIndex = popupManager.nextZIndex();
         nextTick(() => {

@@ -19,7 +19,7 @@ export const popperProps = {
         default: 6,
     },
     disabled: {
-        type: Boolean,
+        type: [Boolean, Function] as PropType<boolean | (() => boolean)>,
         default: false,
     },
     arrow: {
