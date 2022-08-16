@@ -1,3 +1,17 @@
+## [0.6.2](https://github.com/WeBankFinTech/fes-design/compare/v0.6.1...v0.6.2) (2022-08-16)
+
+
+### Bug Fixes
+
+* 修复Select组件切换选项时选项超长文本省略不生效问题 ([acd95b4](https://github.com/WeBankFinTech/fes-design/commit/acd95b4401843452e4425001c88af1a1fa382b7a))
+
+
+### Features
+
+* Popper的disabled提供函数 & 重构ellipsis实现方式 ([9176aba](https://github.com/WeBankFinTech/fes-design/commit/9176aba7a31b7c515a1a912e8034eac08acc1b92))
+
+
+
 ## [0.6.1](https://github.com/WeBankFinTech/fes-design/compare/v0.6.0...v0.6.1) (2022-08-15)
 
 
