@@ -83,7 +83,7 @@ export default defineComponent({
             return column.props.ellipsis ? (
                 <Ellipsis content={result}></Ellipsis>
             ) : (
-                <Fragment content={result}></Fragment>
+                <Fragment> {result} </Fragment>
             );
         };
     },

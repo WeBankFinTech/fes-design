@@ -135,7 +135,7 @@ export default defineComponent({
         return () => (
             <div ref={wrapperRef} class={wrapperClass.value}>
                 <div ref="hiddenColumns" class="hidden-columns">
-                    {ctx.slots?.default()}
+                    {ctx.slots.default?.()}
                 </div>
                 <HeaderTable
                     v-show={layout.initRef.value}

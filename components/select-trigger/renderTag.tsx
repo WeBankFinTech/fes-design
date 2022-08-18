@@ -17,7 +17,7 @@ export default defineComponent({
             if (renderTag) {
                 return renderTag({ option, handleClose });
             }
-            return slots?.default();
+            return slots.default?.();
         };
     },
 });
