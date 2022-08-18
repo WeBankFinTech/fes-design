@@ -1,3 +1,12 @@
+## [0.6.3](https://github.com/WeBankFinTech/fes-design/compare/v0.6.2...v0.6.3) (2022-08-18)
+
+
+### Bug Fixes
+
+* 修复table渲染问题 ([#216](https://github.com/WeBankFinTech/fes-design/issues/216)) ([6eb00c6](https://github.com/WeBankFinTech/fes-design/commit/6eb00c66d0a35d37e722e8d6c07c2461b0adce14))
+
+
+
 ## [0.6.2](https://github.com/WeBankFinTech/fes-design/compare/v0.6.1...v0.6.2) (2022-08-16)
 
 
