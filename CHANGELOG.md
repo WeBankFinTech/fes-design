@@ -1,3 +1,12 @@
+## [0.6.4](https://github.com/WeBankFinTech/fes-design/compare/v0.6.3...v0.6.4) (2022-08-24)
+
+
+### Bug Fixes
+
+* 修复selectTree默认值不显示问题 ([#217](https://github.com/WeBankFinTech/fes-design/issues/217)) ([be8e808](https://github.com/WeBankFinTech/fes-design/commit/be8e808105e0035d41e07794131bbcc4974d5589))
+
+
+
 ## [0.6.3](https://github.com/WeBankFinTech/fes-design/compare/v0.6.2...v0.6.3) (2022-08-18)
 
 
