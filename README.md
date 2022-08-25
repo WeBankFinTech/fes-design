@@ -8,7 +8,7 @@
 
 <div align="center">
 
-一个 vue3 组件库。
+Vue3 组件库，Typesccirpt 编写，高性能，可配置主题。
 </div>
 
 ## Install
