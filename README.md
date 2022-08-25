@@ -11,7 +11,7 @@
 Vue3 组件库，Typesccirpt 编写，高性能，可配置主题。
 </div>
 
-## Install
+## 安装
 
 ```bash
 npm i @fesjs/fes-design
@@ -21,7 +21,7 @@ npm i @fesjs/fes-design
 pnpm i @fesjs/fes-design
 ```
 
-## Usage
+## 使用
 
 ```js
 <template>
