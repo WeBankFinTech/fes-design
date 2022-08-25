@@ -60,7 +60,15 @@ export function flatten(vNodes: VNode[], result: VNode[] = []) {
         }
         if (vNode.type === Fragment) {
             if (vNode.children === null) return;
+            const key = vNode.key;
             if (Array.isArray(vNode.children)) {
+                (vNode.children as VNode[]).forEach(
+                    (node: VNode, index: number) => {
+                        if (node.key === undefined || node.key === null) {
+                            node.key = `${String(key)}_${index}`;
+                        }
+                    },
+                );
                 flatten(vNode.children as VNode[], result);
             }
             // rawSlot
