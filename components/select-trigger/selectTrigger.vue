@@ -212,7 +212,7 @@ export default defineComponent({
 
         const inputWidthRef = computed(() => {
             const totalText = filterTextRef.value + compositionValueRef.value;
-            return totalText.length ? `${totalText.length * 14}px` : '1em';
+            return totalText.length ? `${totalText.length + 1}em` : '1em';
         });
 
         const triggerClass = computed(() => ({
