@@ -8,7 +8,7 @@
 
 <div align="center">
 
-Vue3 组件库，Typesccirpt 编写，高性能，可配置主题。
+Vue3 组件库，Typescirpt 编写，高性能，支持按需引入、国际化、可配置主题。
 </div>
 
 ## 安装
