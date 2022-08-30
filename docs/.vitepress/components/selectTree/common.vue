@@ -1,8 +1,8 @@
 <template>
-    <FSelectTree :data="data"></FSelectTree>
+    <FSelectTree :modelValue="'40'" :data="data"></FSelectTree>
 </template>
 <script>
-import { reactive } from 'vue';
+import { ref } from 'vue';
 
 function createData(level = 1, baseKey = '', prefix = null, suffix = null) {
     if (!level) return undefined;
@@ -27,7 +27,10 @@ function createLabel(level) {
 
 export default {
     setup() {
-        const data = reactive(createData(4));
+        const data = ref([]);
+      setTimeout(()=>{
+        data.value = createData(4);
+      })
         return {
             data,
         };

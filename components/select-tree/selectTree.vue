@@ -14,7 +14,7 @@
         >
             <template #trigger>
                 <SelectTrigger
-                    ref="triggerRef"
+                    ref="triggerDomRef"
                     :selectedOptions="selectedOptions"
                     :disabled="disabled"
                     :clearable="clearable"
@@ -120,6 +120,7 @@ import {
     defineComponent,
     ref,
     shallowRef,
+    triggerRef,
     unref,
     watch,
     computed,
@@ -211,6 +212,7 @@ export default defineComponent({
 
         const onChangeNodeList = (data: Map<TreeNodeKey, InnerTreeOption>) => {
             nodeList.value = data;
+            triggerRef(nodeList);
         };
 
         const treeSelectable = computed(() => !props.multiple);
@@ -290,9 +292,10 @@ export default defineComponent({
             const values = props.multiple
                 ? currentValue.value
                 : [currentValue.value];
+            const nodeListValue = nodeList.value;
             return values
                 .map((val: TreeNodeKey) => {
-                    return nodeList.value.get(val);
+                    return nodeListValue.get(val);
                 })
                 .filter(Boolean);
         });
@@ -324,12 +327,12 @@ export default defineComponent({
         const filterMethod = (value: string, node: InnerTreeOption) =>
             node.label.indexOf(value) !== -1;
 
-        const triggerRef = ref();
+        const triggerDomRef = ref();
         const triggerWidth = ref(0);
 
         onMounted(() => {
-            if (triggerRef.value) {
-                triggerWidth.value = triggerRef.value.$el.offsetWidth;
+            if (triggerDomRef.value) {
+                triggerWidth.value = triggerDomRef.value.$el.offsetWidth;
             }
         });
 
@@ -358,7 +361,7 @@ export default defineComponent({
             checkedKeys,
             refTree,
             filterMethod,
-            triggerRef,
+            triggerDomRef,
             dropdownStyle,
             onChangeNodeList,
             inputPlaceholder,

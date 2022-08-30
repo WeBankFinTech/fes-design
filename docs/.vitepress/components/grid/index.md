@@ -10,9 +10,10 @@
 ## 组件注册
 
 ```js
-import { FGrid } from '@fesjs/fes-design';
+import { FGrid, FGridItem } from '@fesjs/fes-design';
 
 app.use(FGrid);
+app.use(FGridItem);
 ```
 
 ## 代码演示

@@ -8,10 +8,10 @@
 
 <div align="center">
 
-一个 vue3 组件库。
+Vue3 组件库，Typescirpt 编写，高性能，支持按需引入、国际化、可配置主题。
 </div>
 
-## Install
+## 安装
 
 ```bash
 npm i @fesjs/fes-design
@@ -21,7 +21,7 @@ npm i @fesjs/fes-design
 pnpm i @fesjs/fes-design
 ```
 
-## Usage
+## 使用
 
 ```js
 <template>

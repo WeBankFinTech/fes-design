@@ -110,7 +110,9 @@ export default defineComponent({
                         isShow.value ? 'is-spinning' : ''
                     }`}
                 >
-                    <div class={`${prefixCls}-content`}>{slots.default()}</div>
+                    <div class={`${prefixCls}-content`}>
+                        {slots.default?.()}
+                    </div>
                     <div class={`${prefixCls}-wrapper`}>
                         {renderSpin()}
                         {renderDesc()}
