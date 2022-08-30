@@ -1,33 +1,57 @@
-import { computed, reactive, ref, watch } from 'vue';
-import { useDraggable } from './useDraggable';
+import { computed, reactive, ref, SetupContext, watch } from 'vue';
+import {
+    BeforeDragEnd,
+    DRAG_END_EVENT,
+    DRAG_START_EVENT,
+    useDraggable,
+} from './useDraggable';
 
 import type { FObjectDirective } from '../_util/interface';
 
 export default {
     name: 'drag',
     mounted(el: HTMLElement, binding) {
+        const bindArg = binding.arg as unknown as {
+            onDragStart: (...args: unknown[]) => void;
+            beforeDragEnd?: BeforeDragEnd;
+            onDragEnd: (...args: unknown[]) => void;
+        };
         const fesDrag = reactive({
             props: {
                 list: binding.value || [],
                 droppable: binding.modifiers.droppable,
                 disabled: binding.modifiers.disabled,
+                isDirective: true,
+                beforeDragEnd: bindArg?.beforeDragEnd,
             },
             drag: null,
         });
+        const emit = (type: string, ...args: unknown[]) => {
+            switch (type) {
+                case DRAG_START_EVENT:
+                    bindArg?.onDragStart?.(...args);
+                    break;
+                case DRAG_END_EVENT:
+                    bindArg?.onDragStart?.(...args);
+                    break;
+            }
+        };
         const containerRef = ref(el);
         const propsRef = computed(() => fesDrag.props);
-        const drag = useDraggable(containerRef, propsRef);
-        el.addEventListener('mousedown', drag.handleSelectDrag);
-        el.addEventListener('dragover', drag.handleDragover);
-        el.addEventListener('drop', drag.handleDragEnd);
-        el.addEventListener('mouseup', drag.handleDragEnd);
-        el.addEventListener('dragend', drag.handleDragEnd);
-        el.addEventListener('transitionend', drag.handleTransitionEnd);
+        const drag = useDraggable(containerRef, propsRef, {
+            emit,
+        } as SetupContext);
+        el.addEventListener('mousedown', drag.onDragStart);
+        el.addEventListener('dragover', drag.onDragOver);
+        el.addEventListener('drop', drag.onDragEnd);
+        el.addEventListener('mouseup', drag.onDragEnd);
+        el.addEventListener('dragend', drag.onDragEnd);
+        el.addEventListener('transitionend', drag.onAnimationEnd);
 
         fesDrag.drag = drag;
 
         watch(
-            () => drag.settings,
+            () => drag.draggableItems,
             () => {
                 for (
                     let index = 0;
@@ -37,11 +61,13 @@ export default {
                     const node = containerRef.value.children[
                         index
                     ] as HTMLElement;
-                    const setting = drag.settings.value[index];
-                    node.setAttribute('draggable', String(setting?.draggable));
-                    node.style.transform = setting?.style.transform;
-                    node.style.transition = setting?.style.transition;
-                    node.style.opacity = '' + setting?.style.opacity;
+                    const item = drag.draggableItems[index];
+                    if (item) {
+                        node.setAttribute('draggable', String(item?.draggable));
+                        node.style.transform = item?.style.transform;
+                        node.style.transition = item?.style.transition;
+                        node.style.opacity = '' + item?.style.opacity;
+                    }
                 }
             },
             { deep: true },
@@ -51,22 +77,21 @@ export default {
     updated(el: HTMLElement, binding) {
         const fesDrag = (binding.instance as any).__fes_drag;
         if (!fesDrag) return;
-        fesDrag.props = {
-            list: binding.value || [],
-            droppable: binding.modifiers.droppable,
-            disabled: binding.modifiers.disabled,
-        };
+        fesDrag.props.list = binding.value || [];
+        fesDrag.props.droppable = binding.modifiers.droppable;
+        fesDrag.props.disabled = binding.modifiers.disabled;
+        fesDrag.drag.onUpdated();
     },
     beforeUnmount(el, binding) {
         const fesDrag = (binding.instance as any).__fes_drag;
         const drag = fesDrag?.drag;
         if (drag) {
-            el.removeEventListener('mousedown', drag.handleSelectDrag);
-            el.removeEventListener('dragover', drag.handleDragover);
-            el.removeEventListener('drop', drag.handleDragEnd);
-            el.removeEventListener('mouseup', drag.handleDragEnd);
-            el.removeEventListener('dragend', drag.handleDragEnd);
-            el.removeEventListener('transitionend', drag.handleTransitionEnd);
+            el.removeEventListener('mousedown', drag.onDragStart);
+            el.removeEventListener('dragover', drag.onDragOver);
+            el.removeEventListener('drop', drag.onDragEnd);
+            el.removeEventListener('mouseup', drag.onDragEnd);
+            el.removeEventListener('dragend', drag.onDragEnd);
+            el.removeEventListener('transitionend', drag.onAnimationEnd);
         }
     },
 } as FObjectDirective;

@@ -1,6 +1,10 @@
 <template>
     <div class="container">
-        <FDraggable v-model="hlist" class="horizontal">
+        <FDraggable
+            v-model="hlist"
+            class="horizontal"
+            :beforeDragEnd="beforeDragEnd"
+        >
             <template #="{ item }">
                 <div class="sort-horizontal-item">{{ item }}</div>
             </template>
@@ -15,8 +19,14 @@ export default {
     setup() {
         const hlist = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
 
+        const beforeDragEnd = (item, index) => {
+            console.log(item, index);
+            return true;
+        };
+
         return {
             hlist,
+            beforeDragEnd,
         };
     },
 };

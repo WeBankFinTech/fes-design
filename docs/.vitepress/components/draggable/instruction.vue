@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div v-drag="vlist">
+        <div v-drag:[dragArg]="vlist">
             <div v-for="i in vlist" :key="i" class="sort-item">
                 <span>{{ i }}</span>
             </div>
@@ -17,8 +17,22 @@ export default {
             vlist.value = [1, 2, 3, 4, 5];
         }, 1000);
 
+        const dragArg = {
+            onDragStart(event, item, setting) {
+                console.log('handleDargStart', event, item, setting);
+            },
+            onDragEnd(event, item, setting) {
+                console.log('handleDargStart', event, item, setting);
+            },
+            beforeDragEnd(item, start, end) {
+                console.log('beforeDragEnd', item, start, end);
+                return true;
+            },
+        };
+
         return {
             vlist,
+            dragArg,
         };
     },
 };

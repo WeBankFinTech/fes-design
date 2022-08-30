@@ -48,22 +48,44 @@ app.use(FDraggable);
 
 --INSTRUCTIONCONTAINER
 
+### 阻止拖拽
+当需要检查拖拽结果是否符合要求时，使用beforeDragEnd，返回false、Promise.resolve(false)、Promise.reject()时，拖拽会恢复之前的状态；
+```ts
+type BeforeDragEnd = (
+    drag: { // 拖拽信息
+        item: unknown;
+        index: number;
+        list: unknown[];
+        resultList: unknown[]; // 拖拽结束预期结果
+    },
+    drop: { // 放置信息
+        item: unknown;
+        index: number;
+        list: unknown[];
+        resultList: unknown[];
+    },
+) => Promise<boolean> | boolean;
+```
+--CHECKDRAGEND
+
 --CODE
 
 ## Draggable Props
 
 | 属性      | 说明                                                    | 类型    | 默认值  |
 | --------- | ------------------------------------------------------- | ------- | ------- |
+| v-model   | 绑定值                                                  | Array   | `[]`    |
+| tag | 指定root dom类型 | string | `div`
 | disabled  | 是否禁用                                                | boolean | `false` |
 | droppable | 是否可以放置，设置为 droppable 的容器都可以相互拖拽放置 | boolean | `false` |
-| v-model   | 绑定值                                                  | Array   | `[]`    |
+| beforeDragEnd | 拖拽结束之前回调，返回false、Promise.resolve(false)、Promise.reject()时，拖拽会恢复之前的状态 | [`BeforeDragEnd`](#阻止拖拽) |  |
 
 ## Draggable Events
 
 | 事件名称   | 说明                                              | 回调参数             |
 | ---------- | ------------------------------------------------- | -------------------- |
-| drag-start | 拖拽开始触发，可以修改 setting.draggable,阻止拖拽 | event，item，setting |
-| drag-end   | 拖拽结束触发                                      | event，item          |
+| drag-start | 拖拽开始触发，可以修改 setting.draggable,阻止拖拽 | event，item，setting, index |
+| drag-end   | 拖拽结束触发                                      | event，item, index          |
 
 ## Draggable Slots
 
@@ -73,6 +95,13 @@ app.use(FDraggable);
 
 ## Draggable Directive
 
-| 名称   | 值                | 修饰符 droppable               | 修饰符 disabled |
-| ------ | ----------------- | ------------------------------ | --------------- |
-| v-drag | 绑定值 Array 类型 | 是否可以放置其他容器的拖拽目标 | 是否禁用        |
+| 项   | 说明
+| ------ | ----------------- 
+| 指令名称 | v-drag |
+| 值 | 绑定值 Array 类型 |
+| 修饰符 droppable | 是否可以放置其他容器的拖拽目标 |
+| 修饰符 disabled | 是否禁用        |
+| 参数  | Object，指令参数         |
+| -- beforeDragEnd | 拖拽结束之前回调，[`BeforeDragEnd`](#阻止拖拽) |
+| -- onDragStart | 拖拽开始触发 |
+| -- onDragEnd |  拖拽结束触发 |
