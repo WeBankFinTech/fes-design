@@ -289,7 +289,7 @@ export const useDraggable = (
             shareSource(); // 跨容器，当前即是源，分享其他方法给目标容器
             sourceBackup = { ...backup };
         }
-        emit(DRAG_START_EVENT, event, list[index], item, index);
+        emit(DRAG_START_EVENT, event, list[index], index);
     };
 
     const onDragOver = (event: DragEvent) => {

@@ -6,6 +6,7 @@ import {
     PropType,
     cloneVNode,
 } from 'vue';
+import getPrefixCls from '../_util/getPrefixCls';
 import {
     DRAG_END_EVENT,
     DRAG_START_EVENT,
@@ -15,6 +16,8 @@ import {
 } from './useDraggable';
 import { useTheme } from '../_theme/useTheme';
 import { mergeWith } from 'lodash-es';
+
+const prefixCls = getPrefixCls('draggable');
 
 export default defineComponent({
     name: 'FDraggable',
@@ -69,6 +72,7 @@ export default defineComponent({
         return () => (
             <tag
                 ref={rootRef}
+                class={prefixCls}
                 onMousedown={onDragStart}
                 onDragover={onDragOver}
                 onDragend={onDragEnd}

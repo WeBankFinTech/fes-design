@@ -82,14 +82,14 @@ type BeforeDragEnd = (
 | tag | 指定root dom类型 | string | `div`
 | disabled  | 是否禁用                                                | boolean | `false` |
 | droppable | 是否可以放置，设置为 droppable 的容器都可以相互拖拽放置 | boolean | `false` |
-| beforeDragEnd | 拖拽结束之前回调，返回false、Promise.resolve(false)、Promise.reject()时，拖拽会恢复之前的状态 | [`BeforeDragEnd`](#阻止拖拽) |  |
+| beforeDragEnd | 拖拽结束之前回调，返回false、Promise.resolve(false)、Promise.reject()时，拖拽会恢复之前的状态 | [`BeforeDragEnd`](#阻止拖拽) | () => true
 
 ## Draggable Events
 
 | 事件名称   | 说明                                              | 回调参数             |
 | ---------- | ------------------------------------------------- | -------------------- |
-| drag-start | 拖拽开始触发，可以修改 setting.draggable,阻止拖拽 | event，item，setting, index |
-| drag-end   | 拖拽结束触发                                      | event，item, index          |
+| drag-start | 拖拽开始触发                                       | (event, item, index) => void |
+| drag-end   | 拖拽结束触发                                      | (event, item, index) => void   |
 
 ## Draggable Slots
 
