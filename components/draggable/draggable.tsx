@@ -6,7 +6,6 @@ import {
     PropType,
     cloneVNode,
 } from 'vue';
-import getPrefixCls from '../_util/getPrefixCls';
 import {
     DRAG_END_EVENT,
     DRAG_START_EVENT,
@@ -15,8 +14,7 @@ import {
     BeforeDragEnd,
 } from './useDraggable';
 import { useTheme } from '../_theme/useTheme';
-
-const prefixCls = getPrefixCls('draggable');
+import { mergeWith } from 'lodash-es';
 
 export default defineComponent({
     name: 'FDraggable',
@@ -56,17 +54,21 @@ export default defineComponent({
         const renderItem = (item: unknown, index: number) => {
             const vNode = ctx.slots.default({ item, index })[0];
             if (!vNode) return;
+            const style = { ...(vNode.props.style || {}) };
+            mergeWith(
+                style,
+                draggableItems[index]?.style,
+                (value, srcValue) => srcValue || value,
+            );
             return cloneVNode(vNode, {
                 key: index,
-                class: `${prefixCls}-item`,
                 draggable: draggableItems[index]?.draggable,
-                style: draggableItems[index]?.style,
+                style: style,
             });
         };
         return () => (
             <tag
                 ref={rootRef}
-                class={prefixCls}
                 onMousedown={onDragStart}
                 onDragover={onDragOver}
                 onDragend={onDragEnd}

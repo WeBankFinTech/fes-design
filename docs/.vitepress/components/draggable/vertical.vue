@@ -9,7 +9,9 @@
         </FSpace>
         <FDraggable v-model="list" :beforeDragEnd="beforeDragEnd">
             <template #="{ item }">
-                <div class="sort-item">{{ item }}</div>
+                <div class="sort-item">
+                    {{ item }}
+                </div>
             </template>
         </FDraggable>
     </div>

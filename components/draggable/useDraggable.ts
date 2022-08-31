@@ -42,6 +42,7 @@ type DragContext = {
     FLIP: (isFirst: boolean) => void;
     emit: (event: string, ...args: unknown[]) => void;
     resetDragWhenEnd: (event?: Event) => void;
+    newNextTick: (fn: () => void) => void;
 };
 
 type BackupContext = {
@@ -99,8 +100,8 @@ function findElement(target?: Element, parent?: Element) {
     }
     return;
 }
-class DraggableItem {
-    draggable = false;
+export class DraggableItem {
+    draggable = null as unknown;
     first = {
         x: 0,
         y: 0,
@@ -112,12 +113,14 @@ class DraggableItem {
     style = {
         transition: '',
         transform: '',
-        opacity: 1,
+        opacity: null as unknown,
     };
 
+    elStyle: Record<string, unknown> = {}; // 静态样式
+
     setDraggable(draggable = false) {
-        this.draggable = draggable;
-        this.style.opacity = draggable ? 0.4 : 1;
+        this.draggable = draggable || null;
+        this.style.opacity = draggable ? 0.4 : null;
     }
 }
 
@@ -130,13 +133,22 @@ export const useDraggable = (
     const current: CurrentStatus = {};
     const backup: BackupContext = {};
     const emit = ctx?.emit || (() => null);
-    const onUpdated = (fn: () => void) => {
+    const nextTickQueue: (() => void)[] = [];
+
+    const newNextTick = (fn: () => void) => {
         if (propsRef.value.isDirective) {
-            isFunction(fn) && fn();
+            isFunction(fn) && nextTickQueue.push(fn);
         } else {
             nextTick(fn);
         }
     };
+
+    const onUpdated = () => {
+        while (nextTickQueue.length) {
+            nextTickQueue.shift()();
+        }
+    };
+
     const FLIP = (isFirst: boolean) => {
         if (!containerRef.value) return;
         for (
@@ -144,9 +156,18 @@ export const useDraggable = (
             index < containerRef.value.children.length;
             index++
         ) {
-            const node = containerRef.value.children[index];
-            if (!draggableItems[index])
+            const node = containerRef.value.children[index] as HTMLElement;
+            if (!draggableItems[index]) {
                 draggableItems[index] = new DraggableItem();
+                const elStyle: Record<string, unknown> = {};
+                for (let index = 0; index < node.style.length; index++) {
+                    const key = node.style[index];
+                    elStyle[key] = (
+                        node.style as unknown as Record<string, unknown>
+                    )[key];
+                }
+                draggableItems[index].elStyle = elStyle;
+            }
             const item = draggableItems[index];
             const rect = node.getBoundingClientRect();
             if (isFirst) {
@@ -181,7 +202,7 @@ export const useDraggable = (
             draggableItems[index] = backup.draggableItems?.[index];
         });
         emit(UPDATE_MODEL_EVENT, backup.list);
-        onUpdated(() => {
+        newNextTick(() => {
             FLIP(false);
         });
     };
@@ -223,6 +244,7 @@ export const useDraggable = (
         current.isDropOverItem = false;
         draggableItems.forEach((item) => {
             item.setDraggable(false);
+            item.style.transition = null;
         });
     };
 
@@ -234,6 +256,7 @@ export const useDraggable = (
             FLIP,
             emit,
             resetDragWhenEnd,
+            newNextTick,
         };
     };
 
@@ -306,23 +329,24 @@ export const useDraggable = (
             if (drop.index >= list.length) drop.index = list.length - 1;
             if (dragIndex === drop.index || isDropOverItem) return;
         }
-
         // 更新当前容器数据
         FLIP(true);
         arrayMove(list, dragIndex, drop.index, listEvens);
         arrayMove(draggableItems, dragIndex, drop.index, draggableItemEvens);
         emit(UPDATE_MODEL_EVENT, list);
         current.animationEnd = false; // 动画开始
-        onUpdated(() => {
+        if (droppable && s) {
+            s.newNextTick(() => {
+                s.FLIP(false);
+                shareSource();
+            });
+        }
+        newNextTick(() => {
             current.drag = {
                 index: drop.index === -1 ? 0 : drop.index,
                 el: null,
             };
             current.drag.el = containerRef.value.children[drop.index];
-            if (droppable) {
-                shareSource();
-                s.FLIP(false);
-            }
             FLIP(false);
         });
     };
@@ -378,7 +402,7 @@ export const useDraggable = (
     watch(
         propsRef,
         () => {
-            onUpdated(() => FLIP(true));
+            if (!draggableItems.length) FLIP(true);
         },
         { immediate: true, deep: true },
     );
@@ -388,7 +412,8 @@ export const useDraggable = (
         onDragStart,
         onDragOver,
         onDragEnd,
-        onUpdated,
         draggableItems,
+        nextTickQueue,
+        onUpdated,
     };
 };

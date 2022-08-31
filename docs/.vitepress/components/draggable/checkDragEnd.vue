@@ -60,13 +60,13 @@ export default {
 
         const beforeDragEnd = (drag, drop) => {
             console.log('beforeDragEnd', drag, drop);
-            FMessage.warn('拖拽阻止！');
+            FMessage.error('拖拽阻止！');
             return false;
         };
 
         const beforeDragEnd2 = (drag, drop) => {
             console.log('beforeDragEnd2', drag, drop);
-            FMessage.warn('拖拽阻止！');
+            FMessage.error('拖拽阻止！');
             return false;
         };
 

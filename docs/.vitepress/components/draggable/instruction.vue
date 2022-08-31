@@ -1,7 +1,12 @@
 <template>
     <div class="container">
         <div v-drag:[dragArg]="vlist">
-            <div v-for="i in vlist" :key="i" class="sort-item">
+            <div
+                v-for="i in vlist"
+                :key="i"
+                class="sort-item"
+                style="opacity: 1"
+            >
                 <span>{{ i }}</span>
             </div>
         </div>
@@ -12,7 +17,7 @@
 import { ref } from 'vue';
 export default {
     setup() {
-        const vlist = ref();
+        const vlist = ref([]);
         setTimeout(() => {
             vlist.value = [1, 2, 3, 4, 5];
         }, 1000);
@@ -22,7 +27,7 @@ export default {
                 console.log('handleDargStart', event, item, setting);
             },
             onDragEnd(event, item, setting) {
-                console.log('handleDargStart', event, item, setting);
+                console.log('handleDargEnd', event, item, setting);
             },
             beforeDragEnd(item, start, end) {
                 console.log('beforeDragEnd', item, start, end);

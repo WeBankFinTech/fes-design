@@ -68,6 +68,10 @@ type BeforeDragEnd = (
 ```
 --CHECKDRAGEND
 
+### 指令式阻止拖拽
+
+--INSTRUCTIONCHECKDRAGEND
+
 --CODE
 
 ## Draggable Props

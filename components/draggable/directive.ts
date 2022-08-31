@@ -1,12 +1,38 @@
 import { computed, reactive, ref, SetupContext, watch } from 'vue';
 import {
     BeforeDragEnd,
+    DraggableItem,
     DRAG_END_EVENT,
     DRAG_START_EVENT,
+    UPDATE_MODEL_EVENT,
     useDraggable,
 } from './useDraggable';
 
 import type { FObjectDirective } from '../_util/interface';
+
+const dragInstanceMap = new WeakMap();
+
+const updateStyle = (el: HTMLElement, items: DraggableItem[]) => {
+    if (!el?.children?.length) return;
+    for (let index = 0; index < el.children.length; index++) {
+        const node = el.children[index] as HTMLElement;
+        const item = items[index];
+        if (item?.draggable) {
+            node.setAttribute('draggable', 'true');
+        } else {
+            node.removeAttribute('draggable');
+        }
+        const opacity = item?.style.opacity || item?.elStyle.opacity || '';
+        const transition =
+            item?.style.transition || item?.elStyle.transition || '';
+        const transform =
+            item?.style.transform || item?.elStyle.transform || '';
+        const style = node.style as unknown as Record<string, unknown>;
+        style.opacity = opacity;
+        style.transition = transition;
+        style.transform = transform;
+    }
+};
 
 export default {
     name: 'drag',
@@ -26,6 +52,8 @@ export default {
             },
             drag: null,
         });
+        const containerRef = ref(el);
+        const propsRef = computed(() => fesDrag.props);
         const emit = (type: string, ...args: unknown[]) => {
             switch (type) {
                 case DRAG_START_EVENT:
@@ -34,10 +62,15 @@ export default {
                 case DRAG_END_EVENT:
                     bindArg?.onDragStart?.(...args);
                     break;
+                case UPDATE_MODEL_EVENT:
+                    const list: unknown[] = (args[0] as unknown[]) || [];
+                    list.forEach((item, index) => {
+                        propsRef.value.list[index] = list[index];
+                    });
+                    propsRef.value.list.length = list.length;
+                    break;
             }
         };
-        const containerRef = ref(el);
-        const propsRef = computed(() => fesDrag.props);
         const drag = useDraggable(containerRef, propsRef, {
             emit,
         } as SetupContext);
@@ -52,30 +85,14 @@ export default {
 
         watch(
             () => drag.draggableItems,
-            () => {
-                for (
-                    let index = 0;
-                    index < containerRef.value.children.length;
-                    index++
-                ) {
-                    const node = containerRef.value.children[
-                        index
-                    ] as HTMLElement;
-                    const item = drag.draggableItems[index];
-                    if (item) {
-                        node.setAttribute('draggable', String(item?.draggable));
-                        node.style.transform = item?.style.transform;
-                        node.style.transition = item?.style.transition;
-                        node.style.opacity = '' + item?.style.opacity;
-                    }
-                }
-            },
+            () => updateStyle(el, drag.draggableItems),
             { deep: true },
         );
-        (binding.instance as any).__fes_drag = fesDrag;
+
+        dragInstanceMap.set(el, fesDrag);
     },
     updated(el: HTMLElement, binding) {
-        const fesDrag = (binding.instance as any).__fes_drag;
+        const fesDrag = dragInstanceMap.get(el);
         if (!fesDrag) return;
         fesDrag.props.list = binding.value || [];
         fesDrag.props.droppable = binding.modifiers.droppable;
