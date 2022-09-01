@@ -36,6 +36,9 @@ export default defineComponent({
             syncPosition,
             scrollbarRef,
             hasFixedColumn,
+            onDragstart,
+            onDragend,
+            beforeDragend,
         } = inject(provideKey);
 
         const renderBodyTrList = () =>
@@ -56,9 +59,19 @@ export default defineComponent({
                     </tbody>
                 );
             }
-            return (
-                <tbody v-drag={[showData.value]}>{renderBodyTrList()}</tbody>
-            );
+            if (rootProps.draggable) {
+                return (
+                    <tbody
+                        v-drag={[
+                            showData.value,
+                            { onDragstart, onDragend, beforeDragend },
+                        ]}
+                    >
+                        {renderBodyTrList()}
+                    </tbody>
+                );
+            }
+            return <tbody>{renderBodyTrList()}</tbody>;
         };
 
         const renderTable = () => {

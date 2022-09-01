@@ -7,6 +7,7 @@ import useTableEvent from './useTableEvent';
 import useTableSelect from './useTableSelect';
 import useTableExpand from './useTableExpand';
 import useTableStyle from './useTableStyle';
+import useTableDrag from './useTableDrag';
 
 import type { TableProps } from './table';
 import type { RowType } from './interface';
@@ -65,6 +66,8 @@ export default (props: TableProps, ctx: SetupContext) => {
         columns: columnState.columns,
     });
 
+    const dragState = useTableDrag({ props, ctx });
+
     const state = {
         rootProps: props,
         getRowKey,
@@ -76,6 +79,7 @@ export default (props: TableProps, ctx: SetupContext) => {
         ...expandState,
         ...styleState,
         ...selectState,
+        ...dragState,
     };
 
     provide(provideKey, state);

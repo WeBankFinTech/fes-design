@@ -13,6 +13,7 @@ import useTable from './useTable';
 import HeaderTable from './components/headerTable';
 import BodyTable from './components/bodyTable';
 import VirtualTable from './components/virtualTable';
+import { BeforeDragEnd } from '../draggable/useDraggable';
 
 import type { RowType, RowKey } from './interface';
 
@@ -68,6 +69,7 @@ const tableProps = {
         type: Boolean as PropType<boolean>,
         default: false,
     },
+    beforeDragend: Function as PropType<BeforeDragEnd>,
 } as const;
 
 export type TableProps = Partial<ExtractPropTypes<typeof tableProps>>;

@@ -70,6 +70,10 @@ app.use(FTable);
 
 --VIRTUAL 
 
+### 可拖拽
+
+--DRAGGABLE
+
 
 ### 展开行
 
@@ -106,6 +110,9 @@ app.use(FTable);
 | virtualScroll   | 是否启动虚拟滚动，当启用时不支持展开行                                                     | boolean | -      |      false     |
 | size   | table的间距大小                                           | string | `middle` `small`      |      `middle`     |
 | layout   | table列宽度分割算法，`fixed`为等分，`auto`按内容大小比例。只有不设置height和不启动虚拟滚动时才生效！                                      | string | `auto` `fixed`      |      `fixed`     |
+| draggable   | 是否开启拖拽，开启虚拟滚动后失效                            | boolean | -    |      `false`     |
+| beforeDragend   | 拖拽结束之前调用，当返回false、Promise.resolve(false)、Promise.reject()时，拖拽会恢复之前的状态    |  [`BeforeDragEnd`](./draggable#阻止拖拽) | -    |     （）= true     |
+
 
 ## FTable Slots
 
@@ -124,7 +131,8 @@ app.use(FTable);
 | select           | 当用户手动勾选数据行的 Checkbox 时触发的事件 | ({ selection, row, checked})=> void      |
 | selectAll       | 当用户手动勾选全选 Checkbox 时触发的事件     | ({ selection, checked }) => void          |
 | selectionChange | 当选择项发生变化时会触发该事件               | (selection) => void                   |
-
+| dragstart | 拖拽开始触发                                       | (event, item, index) => void |
+| dragend   | 拖拽结束触发                                      | (event, item, index) => void   |
 ## FTable Methods
 
 | 名称               | 说明                               | 参数  |
