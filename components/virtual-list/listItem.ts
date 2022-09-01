@@ -35,7 +35,7 @@ export const FVirtualListItem = defineComponent({
     render() {
         const { index, source, $slots } = this;
 
-        const vNode = getFirstValidNode($slots.default?.({ index, source }), 1);
+        const vNode = getFirstValidNode($slots.default?.({ index, source }));
         return cloneVNode(
             vNode,
             {

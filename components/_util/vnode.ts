@@ -1,4 +1,13 @@
-import { Fragment, Text, Comment, createTextVNode, VNode } from 'vue';
+import {
+    Fragment,
+    Text,
+    Comment,
+    createTextVNode,
+    VNode,
+    VNodeChild,
+    isVNode,
+    Slots,
+} from 'vue';
 
 const TEMPLATE = 'template';
 
@@ -10,18 +19,6 @@ export const isComment = (node: VNode) => node.type === Comment;
 
 export const isTemplate = (node: VNode) => node.type === TEMPLATE;
 
-export function getChildren(node: VNode, depth: number): VNode | undefined {
-    if (isComment(node)) return;
-    if (isFragment(node) || isTemplate(node)) {
-        return depth > 0
-            ? // eslint-disable-next-line no-use-before-define
-              getFirstValidNode(node.children as VNode[], depth - 1)
-            : // eslint-disable-next-line no-undefined
-              undefined;
-    }
-    return node;
-}
-
 /**
  * determine if the element is a valid element type rather than fragments and comment e.g. <template> v-if
  * @param node {VNode} node to be tested
@@ -29,23 +26,39 @@ export function getChildren(node: VNode, depth: number): VNode | undefined {
 export const isValidElementNode = (node: VNode) =>
     !(isFragment(node) || isComment(node));
 
-export function getFirstValidNode(nodes: VNode | VNode[], maxDepth = 3) {
-    if (Array.isArray(nodes)) {
-        return getChildren(nodes[0], maxDepth);
+export function getFirstValidNode(vNodes: VNodeChild[]): VNode | null {
+    const slotContent = flatten(vNodes);
+    // vue will normalize the slot, so slot must be an array
+    if (slotContent.length === 1) {
+        return slotContent[0];
+    } else {
+        console.warn(
+            'getFirstSlotVNode',
+            `vNodes should have exactly one child`,
+        );
+        return null;
     }
-    return getChildren(nodes, maxDepth);
 }
 
-export function getSlot(slots: any, slotName = 'default') {
+export function getSlot(
+    slots: Slots,
+    slotName = 'default',
+    props: unknown = undefined,
+) {
     const slot = slots[slotName];
     if (slot === undefined) {
-        throw new Error(`slot[${slotName}] is empty.`);
+        console.warn('getSlot', `slot[${slotName}] is empty.`);
+        return null;
     }
-    return slot();
+    return slot(props);
 }
 
 // o(n) flatten
-export function flatten(vNodes: VNode[], result: VNode[] = [], key?: string) {
+export function flatten(
+    vNodes: VNodeChild[],
+    result: VNode[] = [],
+    key?: string,
+) {
     vNodes.forEach((vNode) => {
         if (vNode === null) return;
         if (typeof vNode !== 'object') {
@@ -64,17 +77,18 @@ export function flatten(vNodes: VNode[], result: VNode[] = [], key?: string) {
                 ? `${key}_${String(vNode.key)}`
                 : String(vNode.key);
             if (Array.isArray(vNode.children)) {
-                (vNode.children as VNode[]).forEach(
-                    (node: VNode, index: number) => {
+                vNode.children.forEach((node: VNodeChild, index: number) => {
+                    if (isVNode(node)) {
                         if (node.key === undefined || node.key === null) {
                             node.key = `${currentKey}_${index}`;
                         }
-                    },
-                );
-                flatten(vNode.children as VNode[], result, currentKey);
+                    }
+                });
+                flatten(vNode.children, result, currentKey);
             }
-            // rawSlot
-        } else {
+        }
+        // rawSlot
+        else if (vNode.type !== Comment) {
             result.push(vNode);
         }
     });
