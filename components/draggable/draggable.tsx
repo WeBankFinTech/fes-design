@@ -16,6 +16,7 @@ import {
 } from './useDraggable';
 import { useTheme } from '../_theme/useTheme';
 import { mergeWith } from 'lodash-es';
+import { flatten, isComment } from '../_util/vnode';
 
 const prefixCls = getPrefixCls('draggable');
 
@@ -55,15 +56,22 @@ export default defineComponent({
         const tag = props.tag || 'div';
 
         const renderItem = (item: unknown, index: number) => {
-            const vNode = ctx.slots.default({ item, index })[0];
-            if (!vNode) return;
-            const style = { ...(vNode.props.style || {}) };
+            const vNodes = flatten(ctx.slots.default({ item, index }))?.filter(
+                (node) => !isComment(node),
+            );
+            if (!vNodes || !vNodes.length) return;
+            if (vNodes.length > 1) {
+                console.warn(
+                    '[FDraggable]: default slot must be a root element',
+                );
+            }
+            const style = { ...(vNodes[0].props.style || {}) };
             mergeWith(
                 style,
                 draggableItems[index]?.style,
                 (value, srcValue) => srcValue || value,
             );
-            return cloneVNode(vNode, {
+            return cloneVNode(vNodes[0], {
                 key: index,
                 draggable: draggableItems[index]?.draggable,
                 style: style,

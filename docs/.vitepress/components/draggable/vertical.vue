@@ -8,10 +8,12 @@
             </FButton>
         </FSpace>
         <FDraggable v-model="list" :beforeDragEnd="beforeDragEnd">
-            <template #="{ item }">
-                <div class="sort-item">
-                    {{ item }}
-                </div>
+            <template #="{ item, index }">
+                <!-- test -->
+                <template v-if="index === 0">
+                    <div class="sort-item">{{ item }} HH</div>
+                </template>
+                <div v-else class="sort-item">{{ item }}</div>
             </template>
         </FDraggable>
     </div>

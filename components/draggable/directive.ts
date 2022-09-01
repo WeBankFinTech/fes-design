@@ -88,6 +88,7 @@ export default {
     },
     updated(el: HTMLElement, binding) {
         const { drag, props } = dragInstanceMap.get(el) || {};
+        if (!props) return;
         props.list = binding.value || [];
         props.droppable = binding.modifiers.droppable;
         props.disabled = binding.modifiers.disabled;
