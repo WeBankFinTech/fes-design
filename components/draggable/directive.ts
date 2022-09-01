@@ -57,7 +57,7 @@ export default {
                     bindArg?.onDragstart?.(...args);
                     break;
                 case DRAG_END_EVENT:
-                    bindArg?.onDragstart?.(...args);
+                    bindArg?.onDragend?.(...args);
                     break;
                 case UPDATE_MODEL_EVENT:
                     const list: unknown[] = (args[0] as unknown[]) || [];

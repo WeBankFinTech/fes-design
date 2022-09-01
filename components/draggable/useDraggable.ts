@@ -225,13 +225,7 @@ export const useDraggable = (
     const resetDragWhenEnd = (event?: Event) => {
         const index = current.drag?.index;
         if (event && index >= 0) {
-            emit(
-                DRAG_END_EVENT,
-                event,
-                propsRef.value.list[index],
-                draggableItems[index],
-                index,
-            );
+            emit(DRAG_END_EVENT, event, propsRef.value.list[index], index);
         }
         backup.list = null;
         if (sourceBackup?.list) {
