@@ -1,62 +1,60 @@
-import { nextTick, ref, watch, Ref, ComputedRef, SetupContext } from 'vue';
+import { isFunction } from 'lodash-es';
+import { nextTick, watch, Ref, ComputedRef, SetupContext, reactive } from 'vue';
 
-class Setting {
-    draggable = false;
+export const UPDATE_MODEL_EVENT = 'update:modelValue';
+export const DRAG_START_EVENT = 'drag-start';
+export const DRAG_END_EVENT = 'drag-end';
 
-    first = {
-        x: 0,
-        y: 0,
-    };
-
-    last = {
-        x: 0,
-        y: 0,
-    };
-
-    style = {
-        transition: '',
-        transform: '',
-        opacity: 1,
-    };
-
-    setDrag(draggable = false) {
-        this.draggable = draggable;
-        this.style.opacity = draggable ? 0.4 : 1;
-    }
-}
-
-export const emits = ['drag-start', 'drag-end', 'update:modelValue'] as const;
-
-interface DragTarget {
-    el?: Element | null;
-    index: number;
-}
+export type BeforeDragEnd = (
+    drag: {
+        item: unknown;
+        index: number;
+        list: unknown[];
+        resultList: unknown[];
+    },
+    drop: {
+        item: unknown;
+        index: number;
+        list: unknown[];
+        resultList: unknown[];
+    },
+) => Promise<boolean> | boolean;
 
 type PropsRef = ComputedRef<{
-    list: never[];
+    list: unknown[];
     droppable: boolean;
     disabled: boolean;
+    beforeDragEnd?: BeforeDragEnd;
+    isDirective?: boolean;
 }>;
 
-interface Animation {
-    done: boolean;
-    duration: number;
-}
-
-type FDragEvent = typeof emits[number];
-
-type DragSource = {
-    dragTarget: DragTarget;
-    containerRef: Ref<HTMLElement | undefined>;
-    propsRef: PropsRef;
-    settings: Ref<Setting[]>;
-    animation: Animation;
-    emitEvent: (event: FDragEvent, ...args: any[]) => void;
-    updateSettingStyle: (isFirst?: boolean) => void;
-    resetDragTarget: () => void;
+type CurrentStatus = {
+    drag?: { el: Element; index: number };
+    animationEnd?: boolean;
+    /** 放置在条目上时，需要跳过当次的dragover事件 */
+    isDropOverItem?: boolean;
 };
 
-let dragSource: DragSource | null;
+type DragContext = {
+    propsRef: PropsRef;
+    current: CurrentStatus;
+    draggableItems: DraggableItem[];
+    FLIP: (isFirst: boolean) => void;
+    emit: (event: string, ...args: unknown[]) => void;
+    resetDragWhenEnd: (event?: Event) => void;
+    newNextTick: (fn: () => void) => void;
+};
+
+type BackupContext = {
+    draggableItems?: DraggableItem[];
+    list?: unknown[];
+    index?: number;
+    revertStatus?: () => void;
+    resetDragWhenEnd?: (event?: Event) => void;
+};
+
+let dragSourceCxt: DragContext | null;
+let sourceBackup: BackupContext | null;
 
 function pushAt<T>(array: T[] = [], value: T, index: number) {
     if (index < 0) {
@@ -91,309 +89,331 @@ function arrayMove<T>(
     return evens;
 }
 
-// 根据目标元素找到拖拽的元素
-function findDragElement(target?: Element, parent?: Element) {
+// 根据目标元素
+function findElement(target?: Element, parent?: Element) {
     if (!parent || !target) return;
     for (let index = 0; index < parent.children.length; index++) {
         const el = parent.children[index];
         if (el.contains(target)) {
-            return {
-                el,
-                index,
-            };
+            return { el: el as Element, index };
         }
+    }
+    return;
+}
+export class DraggableItem {
+    draggable = null as unknown;
+    first = {
+        x: 0,
+        y: 0,
+    };
+    last = {
+        x: 0,
+        y: 0,
+    };
+    style = {
+        transition: '',
+        transform: '',
+        opacity: null as unknown,
+    };
+
+    elStyle: Record<string, unknown> = {}; // 静态样式
+
+    setDraggable(draggable = false) {
+        this.draggable = draggable || null;
+        this.style.opacity = draggable ? 0.4 : null;
     }
 }
 
-function resetDragWhenEnd(
-    event: Event,
-    {
-        settings,
-        dragTarget,
-        list,
-        emitEvent,
-        resetDragTarget,
-    }: Omit<
-        DragSource,
-        'updateSettingStyle' | 'propsRef' | 'animation' | 'containerRef'
-    > & {
-        list: never[];
-    },
-) {
-    if (dragTarget.index < 0) return;
-    const setting = settings.value[dragTarget.index];
-    if (setting) setting.setDrag();
-    emitEvent(emits[1], event, list[dragTarget.index]);
-    resetDragTarget();
-}
-
-export function useDraggable(
-    containerRef: Ref<HTMLElement | undefined>,
+export const useDraggable = (
+    containerRef: Ref<Element | undefined>,
     propsRef: PropsRef,
     ctx?: SetupContext,
-) {
-    const settings = ref<Setting[]>([]);
-    const animation = {
-        done: true,
-        duration: 200,
+) => {
+    const draggableItems: DraggableItem[] = reactive([]);
+    const current: CurrentStatus = {};
+    const backup: BackupContext = {};
+    const emit = ctx?.emit || (() => null);
+    const nextTickQueue: (() => void)[] = [];
+
+    const newNextTick = (fn: () => void) => {
+        if (propsRef.value.isDirective) {
+            isFunction(fn) && nextTickQueue.push(fn);
+        } else {
+            nextTick(fn);
+        }
     };
 
-    const dragTarget: {
-        el?: Element | null;
-        index: number;
-    } = { el: null, index: -1 };
+    const onUpdated = () => {
+        while (nextTickQueue.length) {
+            nextTickQueue.shift()();
+        }
+    };
 
-    /** 放置在条目上时，需要跳过当次的dragover事件 */
-    let isDropOverItem = false;
-
-    /**
-     * FLIP动画 https://aerotwist.com/blog/flip-your-animations/
-     */
-    function updateSettingStyle(isFirst = false) {
+    const FLIP = (isFirst: boolean) => {
         if (!containerRef.value) return;
         for (
             let index = 0;
             index < containerRef.value.children.length;
             index++
         ) {
-            const node = containerRef.value.children[index];
-            if (!settings.value[index]) settings.value[index] = new Setting();
-            const setting = settings.value[index];
+            const node = containerRef.value.children[index] as HTMLElement;
+            if (!draggableItems[index]) {
+                draggableItems[index] = new DraggableItem();
+                const elStyle: Record<string, unknown> = {};
+                for (let index = 0; index < node.style.length; index++) {
+                    const key = node.style[index];
+                    elStyle[key] = (
+                        node.style as unknown as Record<string, unknown>
+                    )[key];
+                }
+                draggableItems[index].elStyle = elStyle;
+            }
+            const item = draggableItems[index];
             const rect = node.getBoundingClientRect();
             if (isFirst) {
                 // First
-                setting.first.x = rect.left;
-                setting.first.y = rect.top;
+                item.first.x = rect.left;
+                item.first.y = rect.top;
             } else {
                 // Last
-                setting.last.x = rect.left;
-                setting.last.y = rect.top;
+                item.last.x = rect.left;
+                item.last.y = rect.top;
                 // Invert
-                setting.style.transform = `translate3d(${
-                    setting.first.x - setting.last.x
-                }px, ${setting.first.y - setting.last.y}px , 0)`;
-                setting.style.transition = '';
+                item.style.transform = `translate3d(${
+                    item.first.x - item.last.x
+                }px, ${item.first.y - item.last.y}px , 0)`;
+                item.style.transition = '';
             }
         }
         if (isFirst) return;
         requestAnimationFrame(() => {
             // Play
-            settings.value.forEach((item) => {
+            draggableItems.forEach((item) => {
                 item.style.transition = 'transform 200ms ease';
                 item.style.transform = '';
             });
         });
-    }
+    };
 
-    function init() {
-        if (containerRef.value) {
-            updateSettingStyle(true);
-        }
-    }
-    watch(containerRef, init, { immediate: true });
-    watch(propsRef, () => {
-        nextTick(() => {
-            updateSettingStyle(true);
+    // 从backup中恢复状态
+    const revertStatus = () => {
+        FLIP(true);
+        backup.list.forEach((item, index) => {
+            draggableItems[index] = backup.draggableItems?.[index];
         });
-    });
+        emit(UPDATE_MODEL_EVENT, backup.list);
+        newNextTick(() => {
+            FLIP(false);
+        });
+    };
 
-    function resetDragTarget() {
-        dragTarget.el = null;
-        dragTarget.index = -1;
-    }
-
-    function emitEvent(event: typeof emits[number], ...args: any[]) {
-        if (typeof ctx?.emit !== 'function') return;
-        ctx.emit(event as any, ...args);
-    }
-
-    /** 设置共享数据 */
-    function setGlobalShare() {
-        dragSource = {
-            dragTarget,
-            containerRef,
-            propsRef,
-            settings,
-            animation,
-            emitEvent,
-            updateSettingStyle,
-            resetDragTarget,
-        };
-    }
-
-    /**
-     * 计算落点位置
-     */
-    function computeDropPos(event: DragEvent) {
-        if (!containerRef.value) return;
-        const target = findDragElement(
-            event.target as Element,
-            containerRef.value,
-        );
+    const computeDropTarget = (event: DragEvent) => {
+        const target = findElement(event.target as Element, containerRef.value);
         if (!target) {
-            if (
-                event.clientY > containerRef.value.getBoundingClientRect().top
-            ) {
-                // 底部
+            if (event.target === containerRef.value) {
+                // 放最后
                 return {
                     el: null,
                     index: propsRef.value.list.length,
                 };
             }
-            return {
-                el: null,
-                index: -1,
-            };
+            return null;
         }
         return target;
-    }
+    };
 
-    function moveTarget(
-        event: DragEvent,
-        source?: DragSource | null,
-        isCross?: boolean,
-    ) {
-        // 目标位置
-        const target = computeDropPos(event);
-        if (!target) return;
-        let dragTargetIndex = dragTarget.index;
-        let evens;
-        let evens2;
-        if (isCross && source) {
-            // source框拖拽过来的
-            isDropOverItem = !!target.el;
-            source.updateSettingStyle(true);
-            // 从source框移除拖拽
-            // TODO evens
-            evens = arrayMove(
-                source.propsRef.value.list,
-                source.dragTarget.index,
-            )[0];
-            evens2 = arrayMove(
-                source.settings.value,
-                source.dragTarget.index,
-            )[0];
-            source.animation.done = false;
-            source.resetDragTarget();
-            dragTargetIndex = -1;
-            source.emitEvent(emits[2], source.propsRef.value.list);
-        } else {
-            // 当前框的
-            if (target.index < 0) target.index = 0;
-            if (target.index >= propsRef.value.list.length)
-                target.index = propsRef.value.list.length - 1;
-            if (target.index === dragTargetIndex) return;
+    const resetDragWhenEnd = (event?: Event) => {
+        const index = current.drag?.index;
+        if (event && index >= 0) {
+            emit(
+                DRAG_END_EVENT,
+                event,
+                propsRef.value.list[index],
+                draggableItems[index],
+                index,
+            );
         }
-        // 先计算起始位置
-        updateSettingStyle(true);
-        // 在target框放入拖拽
-        arrayMove(propsRef.value.list, dragTargetIndex, target.index, evens);
-        arrayMove(settings.value, dragTargetIndex, target.index, evens2);
-        emitEvent(emits[2], propsRef.value.list);
-        animation.done = false;
-
-        nextTick(() => {
-            dragTarget.index = target.index === -1 ? 0 : target.index;
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            dragTarget.el = containerRef.value!.children[dragTarget.index];
-            if (source) {
-                setGlobalShare(); // 反转共享数据
-                source.updateSettingStyle(); // 计算移动后位置
-            }
-            // 计算移动后位置
-            updateSettingStyle();
+        backup.list = null;
+        if (sourceBackup?.list) {
+            sourceBackup.list = null;
+        }
+        backup.draggableItems = [];
+        backup.index = -1;
+        current.drag = null;
+        current.animationEnd = true;
+        current.isDropOverItem = false;
+        draggableItems.forEach((item) => {
+            item.setDraggable(false);
+            item.style.transition = null;
         });
-    }
+    };
 
-    /**
-     * 过渡动画结束
-     */
-    function handleTransitionEnd() {
-        animation.done = true;
-        isDropOverItem = false;
-    }
+    const shareSource = () => {
+        dragSourceCxt = {
+            propsRef,
+            current,
+            draggableItems,
+            FLIP,
+            emit,
+            resetDragWhenEnd,
+            newNextTick,
+        };
+    };
 
-    /**
-     * 选中拖拽条目
-     */
-    function handleSelectDrag(event: Event) {
-        if (propsRef.value.disabled) return;
-        const target = findDragElement(
-            event.target as Element,
-            containerRef.value,
-        );
+    const backupStatus = () => {
+        backup.list = [...propsRef.value.list];
+        backup.draggableItems = [...draggableItems];
+        backup.index = current.drag?.index;
+        backup.revertStatus = revertStatus;
+        backup.resetDragWhenEnd = resetDragWhenEnd;
+    };
 
-        if (!target || target.index < 0) return;
+    const onAnimationEnd = () => {
+        current.animationEnd = true;
+        current.isDropOverItem = false;
+    };
 
-        dragTarget.index = target.index;
-        dragTarget.el = target.el;
-        // 设置开始拖拽状态
-        handleTransitionEnd();
-        if (settings.value.length <= 0) updateSettingStyle(true);
-        const setting = settings.value[dragTarget.index];
-        setting?.setDrag(true);
+    /** 拖拽开始 */
+    const onDragStart = (event: Event) => {
+        const { disabled, droppable, list } = propsRef.value;
+        if (disabled) return;
+        current.drag = findElement(event.target as Element, containerRef.value);
+        if (!current.drag) return;
 
-        if (propsRef.value.droppable) {
-            // 共享容器拖拽的数据
-            setGlobalShare();
+        const index = current.drag.index;
+        const item = draggableItems[index];
+        onAnimationEnd(); // 动画结束
+        item.setDraggable(true); // 设置选中元素为可拖拽
+        backupStatus();
+        if (droppable) {
+            shareSource(); // 跨容器，当前即是源，分享其他方法给目标容器
+            sourceBackup = { ...backup };
         }
-        emitEvent(
-            emits[0],
-            event,
-            propsRef.value.list[dragTarget.index],
-            setting,
-        );
-    }
+        emit(DRAG_START_EVENT, event, list[index], index);
+    };
 
-    /**
-     * 拖拽元素到目标元素上时
-     */
-    function handleDragover(event: DragEvent) {
+    const onDragOver = (event: DragEvent) => {
         event.preventDefault();
-        const source = dragSource; // 拖拽容器共享的数据
-        if (!animation.done || (source && !source.animation.done)) return; // 如果动画没结束，就直接结束
-        if (
-            propsRef.value.droppable &&
-            source &&
-            containerRef.value &&
-            !containerRef.value.contains(source?.dragTarget.el as Node)
-        ) {
-            // 从source框，拖拽到了当前框
-            moveTarget(event, source, true);
-            return;
-        }
-        if (dragTarget.index < 0 || isDropOverItem) return;
-        moveTarget(event);
-    }
+        const { droppable, list } = propsRef.value;
+        const { animationEnd, isDropOverItem, drag } = current;
+        const s = dragSourceCxt;
 
-    /**
-     * 拖拽结束
-     */
-    function handleDragEnd(event: Event) {
-        const source = dragSource;
-        if (propsRef.value.droppable && source) {
-            // reset source
-            resetDragWhenEnd(event, {
-                ...source,
-                list: source.propsRef.value.list,
-            });
-            dragSource = null;
+        // 如果动画没结束，就直接结束
+        if (!animationEnd || (s && !s.current.animationEnd)) return;
+        // 目标位置
+        const drop = computeDropTarget(event);
+        if (!drop) return;
+
+        let listEvens: unknown; // 差值
+        let draggableItemEvens: DraggableItem; // 差值
+        let dragIndex = -1;
+        if (droppable && s && !containerRef.value.contains(s.current.drag.el)) {
+            // 从source容器拖拽到当前容器，source容器移除
+            s.FLIP(true);
+            current.isDropOverItem = !!drop.el;
+            const sDragIndex = s.current.drag.index;
+            if (!backup.list) {
+                // 跨框时，记录当前首次状态
+                backupStatus();
+                backup.index = sDragIndex;
+            }
+            listEvens = arrayMove(s.propsRef.value.list, sDragIndex)[0];
+            draggableItemEvens = arrayMove(s.draggableItems, sDragIndex)[0];
+            s.current.animationEnd = false; // 动画开始
+            s.current.drag = null;
+            s.emit(UPDATE_MODEL_EVENT, s.propsRef.value.list);
+        } else {
+            // 拖拽目标在当前容器上
+            dragIndex = drag.index;
+            if (drop.index < 0) drop.index = 0;
+            if (drop.index >= list.length) drop.index = list.length - 1;
+            if (dragIndex === drop.index || isDropOverItem) return;
         }
-        resetDragWhenEnd(event, {
-            // reset current
-            settings,
-            dragTarget,
-            list: propsRef.value.list,
-            emitEvent,
-            resetDragTarget,
+        // 更新当前容器数据
+        FLIP(true);
+        arrayMove(list, dragIndex, drop.index, listEvens);
+        arrayMove(draggableItems, dragIndex, drop.index, draggableItemEvens);
+        emit(UPDATE_MODEL_EVENT, list);
+        current.animationEnd = false; // 动画开始
+        if (droppable && s) {
+            s.newNextTick(() => {
+                s.FLIP(false);
+                shareSource();
+            });
+        }
+        newNextTick(() => {
+            current.drag = {
+                index: drop.index === -1 ? 0 : drop.index,
+                el: null,
+            };
+            current.drag.el = containerRef.value.children[drop.index];
+            FLIP(false);
         });
-    }
+    };
+
+    const checkDragEnd = async () => {
+        const { beforeDragEnd, list } = propsRef.value;
+        const index = current?.drag?.index;
+        if (isFunction(beforeDragEnd) && index >= 0) {
+            // 校验是否需要可以放置
+            let isTrue = false;
+            let drag = {
+                list: backup.list,
+                index: backup.index,
+                item: backup.list[backup.index],
+                resultList: list, // 预期结果
+            };
+            const drop = { ...drag, index };
+            if (sourceBackup?.list && backup.list !== sourceBackup.list) {
+                const resultList = [...sourceBackup.list];
+                arrayMove(resultList, sourceBackup.index);
+                drag = {
+                    list: sourceBackup.list,
+                    index: sourceBackup.index,
+                    item: sourceBackup.list[sourceBackup.index],
+                    resultList,
+                };
+                drop.item = drag.item;
+            }
+            try {
+                isTrue = await beforeDragEnd(drag, drop);
+            } catch (error) {
+                console.error(error);
+                isTrue = false;
+            }
+            if (!isTrue) {
+                revertStatus();
+                sourceBackup?.revertStatus();
+            }
+        }
+    };
+
+    const onDragEnd = async (event: Event) => {
+        const { droppable } = propsRef.value;
+        await checkDragEnd();
+        if (droppable && dragSourceCxt) {
+            sourceBackup?.resetDragWhenEnd(event);
+            dragSourceCxt = null;
+        }
+        resetDragWhenEnd(event);
+    };
+    resetDragWhenEnd();
+    watch(containerRef, () => FLIP(true), { immediate: true });
+    watch(
+        propsRef,
+        () => {
+            if (!draggableItems.length) FLIP(true);
+        },
+        { immediate: true, deep: true },
+    );
 
     return {
-        settings,
-        handleSelectDrag,
-        handleDragover,
-        handleDragEnd,
-        handleTransitionEnd,
+        onAnimationEnd,
+        onDragStart,
+        onDragOver,
+        onDragEnd,
+        draggableItems,
+        nextTickQueue,
+        onUpdated,
     };
-}
+};

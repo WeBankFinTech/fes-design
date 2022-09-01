@@ -91,7 +91,7 @@ const Notification = defineComponent({
                 typeof notice.children === 'function'
                     ? notice.children()
                     : notice.children;
-            vNode = getFirstValidNode(vNode as VNode);
+            vNode = getFirstValidNode([vNode]);
             if (vNode) return cloneVNode(vNode, { key: notice.key });
         });
         return (

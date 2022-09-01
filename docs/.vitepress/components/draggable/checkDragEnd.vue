@@ -4,6 +4,7 @@
             v-model="mlist"
             droppable
             style="height: 300px; width: 200px"
+            :beforeDragEnd="beforeDragEnd"
             @drag-start="handleDargStart"
             @drag-end="handleDargEnd"
         >
@@ -15,6 +16,7 @@
             v-model="mlist2"
             droppable
             style="height: 300px; width: 200px"
+            :beforeDragEnd="beforeDragEnd2"
             @drag-start="handleDargStart2"
             @drag-end="handleDargEnd2"
         >
@@ -36,6 +38,7 @@
 
 <script>
 import { ref } from 'vue';
+import { FMessage } from '@fesjs/fes-design';
 export default {
     setup() {
         const mlist = ref([1, 2, 3, 4]);
@@ -55,6 +58,18 @@ export default {
             console.log('handleDargEnd2', event, item, setting);
         }
 
+        const beforeDragEnd = (drag, drop) => {
+            console.log('beforeDragEnd', drag, drop);
+            FMessage.error('拖拽阻止！');
+            return false;
+        };
+
+        const beforeDragEnd2 = (drag, drop) => {
+            console.log('beforeDragEnd2', drag, drop);
+            FMessage.error('拖拽阻止！');
+            return false;
+        };
+
         return {
             mlist,
             mlist2,
@@ -63,6 +78,8 @@ export default {
             handleDargStart2,
             handleDargEnd,
             handleDargEnd2,
+            beforeDragEnd,
+            beforeDragEnd2,
         };
     },
 };

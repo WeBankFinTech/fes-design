@@ -1,5 +1,5 @@
 import { withInstall } from '../_util/withInstall';
-import Draggable from './draggable.vue';
+import Draggable from './draggable.jsx';
 import vDrag from './directive';
 
 import type { SFCWithInstall } from '../_util/interface';
