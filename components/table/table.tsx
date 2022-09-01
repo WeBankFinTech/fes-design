@@ -64,6 +64,10 @@ const tableProps = {
         type: String as PropType<'fixed' | 'auto'>,
         default: 'fixed',
     },
+    draggable: {
+        type: Boolean as PropType<boolean>,
+        default: false,
+    },
 } as const;
 
 export type TableProps = Partial<ExtractPropTypes<typeof tableProps>>;
@@ -80,6 +84,8 @@ export default defineComponent({
         'selectAll',
         'selectionChange',
         'sortChange',
+        'dragstart',
+        'dragend',
     ],
     setup(props, ctx: SetupContext) {
         useTheme();
