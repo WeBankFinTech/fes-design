@@ -38,26 +38,26 @@ export default {
     name: 'drag',
     mounted(el: HTMLElement, binding) {
         const bindArg = binding.arg as unknown as {
-            onDragStart: (...args: unknown[]) => void;
-            beforeDragEnd?: BeforeDragEnd;
-            onDragEnd: (...args: unknown[]) => void;
+            onDragstart: (...args: unknown[]) => void;
+            beforeDragend?: BeforeDragEnd;
+            onDragend: (...args: unknown[]) => void;
         };
         const props = reactive({
             list: binding.value || [],
             droppable: binding.modifiers.droppable,
             disabled: binding.modifiers.disabled,
             isDirective: true,
-            beforeDragEnd: bindArg?.beforeDragEnd,
+            beforeDragend: bindArg?.beforeDragend,
         });
         const containerRef = ref(el);
         const propsRef = computed(() => props);
         const emit = (type: string, ...args: unknown[]) => {
             switch (type) {
                 case DRAG_START_EVENT:
-                    bindArg?.onDragStart?.(...args);
+                    bindArg?.onDragstart?.(...args);
                     break;
                 case DRAG_END_EVENT:
-                    bindArg?.onDragStart?.(...args);
+                    bindArg?.onDragstart?.(...args);
                     break;
                 case UPDATE_MODEL_EVENT:
                     const list: unknown[] = (args[0] as unknown[]) || [];
@@ -71,11 +71,11 @@ export default {
         const drag = useDraggable(containerRef, propsRef, {
             emit,
         } as SetupContext);
-        el.addEventListener('mousedown', drag.onDragStart);
-        el.addEventListener('dragover', drag.onDragOver);
-        el.addEventListener('drop', drag.onDragEnd);
-        el.addEventListener('mouseup', drag.onDragEnd);
-        el.addEventListener('dragend', drag.onDragEnd);
+        el.addEventListener('mousedown', drag.onDragstart);
+        el.addEventListener('dragover', drag.onDragover);
+        el.addEventListener('drop', drag.onDragend);
+        el.addEventListener('mouseup', drag.onDragend);
+        el.addEventListener('dragend', drag.onDragend);
         el.addEventListener('transitionend', drag.onAnimationEnd);
 
         watch(
@@ -97,11 +97,11 @@ export default {
     beforeUnmount(el) {
         const { drag } = dragInstanceMap.get(el) || {};
         if (drag) {
-            el.removeEventListener('mousedown', drag.onDragStart);
-            el.removeEventListener('dragover', drag.onDragOver);
-            el.removeEventListener('drop', drag.onDragEnd);
-            el.removeEventListener('mouseup', drag.onDragEnd);
-            el.removeEventListener('dragend', drag.onDragEnd);
+            el.removeEventListener('mousedown', drag.onDragstart);
+            el.removeEventListener('dragover', drag.onDragover);
+            el.removeEventListener('drop', drag.onDragend);
+            el.removeEventListener('mouseup', drag.onDragend);
+            el.removeEventListener('dragend', drag.onDragend);
             el.removeEventListener('transitionend', drag.onAnimationEnd);
         }
     },

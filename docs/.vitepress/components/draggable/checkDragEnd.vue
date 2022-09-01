@@ -4,9 +4,9 @@
             v-model="mlist"
             droppable
             style="height: 300px; width: 200px"
-            :beforeDragEnd="beforeDragEnd"
-            @drag-start="handleDargStart"
-            @drag-end="handleDargEnd"
+            :beforeDragend="beforeDragend"
+            @dragstart="handleDargStart"
+            @dragend="handleDargEnd"
         >
             <template #="{ item }">
                 <div class="sort-item2">{{ item }}</div>
@@ -16,9 +16,9 @@
             v-model="mlist2"
             droppable
             style="height: 300px; width: 200px"
-            :beforeDragEnd="beforeDragEnd2"
-            @drag-start="handleDargStart2"
-            @drag-end="handleDargEnd2"
+            :beforeDragend="beforeDragend2"
+            @dragstart="handleDargStart2"
+            @dragend="handleDargEnd2"
         >
             <template #="{ item }">
                 <div class="sort-item2">{{ item }}</div>
@@ -58,14 +58,14 @@ export default {
             console.log('handleDargEnd2', event, item, setting);
         }
 
-        const beforeDragEnd = (drag, drop) => {
-            console.log('beforeDragEnd', drag, drop);
+        const beforeDragend = (drag, drop) => {
+            console.log('beforeDragend', drag, drop);
             FMessage.error('拖拽阻止！');
             return false;
         };
 
-        const beforeDragEnd2 = (drag, drop) => {
-            console.log('beforeDragEnd2', drag, drop);
+        const beforeDragend2 = (drag, drop) => {
+            console.log('beforeDragend2', drag, drop);
             FMessage.error('拖拽阻止！');
             return false;
         };
@@ -78,8 +78,8 @@ export default {
             handleDargStart2,
             handleDargEnd,
             handleDargEnd2,
-            beforeDragEnd,
-            beforeDragEnd2,
+            beforeDragend,
+            beforeDragend2,
         };
     },
 };

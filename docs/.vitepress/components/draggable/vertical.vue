@@ -7,7 +7,7 @@
                 随机更新
             </FButton>
         </FSpace>
-        <FDraggable v-model="list" :beforeDragEnd="beforeDragEnd">
+        <FDraggable v-model="list" :beforeDragend="beforeDragend">
             <template #="{ item, index }">
                 <div class="sort-item">{{ item }}</div>
             </template>
@@ -50,7 +50,7 @@ export default {
             }
         };
 
-        const beforeDragEnd = (item, index) => {
+        const beforeDragend = (item, index) => {
             // return new Promise((resolve, reject) => {
             //     setTimeout(() => {
             //         reject();
@@ -64,7 +64,7 @@ export default {
             doInsertItem,
             doDeleteItem,
             doRandomUpdateItem,
-            beforeDragEnd,
+            beforeDragend,
         };
     },
 };

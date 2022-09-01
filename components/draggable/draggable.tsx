@@ -29,7 +29,7 @@ export default defineComponent({
         },
         droppable: Boolean,
         disabled: Boolean,
-        beforeDragEnd: Function as PropType<BeforeDragEnd>,
+        beforeDragend: Function as PropType<BeforeDragEnd>,
         tag: {
             type: String,
             default: 'div',
@@ -43,13 +43,13 @@ export default defineComponent({
             droppable: props.droppable,
             disabled: props.disabled,
             list: [...props.modelValue],
-            beforeDragEnd: props.beforeDragEnd,
+            beforeDragend: props.beforeDragend,
         }));
         const {
             onAnimationEnd,
-            onDragStart,
-            onDragOver,
-            onDragEnd,
+            onDragstart,
+            onDragover,
+            onDragend,
             draggableItems,
         } = useDraggable(rootRef, propsRef, ctx as SetupContext);
 
@@ -81,11 +81,11 @@ export default defineComponent({
             <tag
                 ref={rootRef}
                 class={prefixCls}
-                onMousedown={onDragStart}
-                onDragover={onDragOver}
-                onDragend={onDragEnd}
-                onDrop={onDragEnd}
-                onMouseup={onDragEnd}
+                onMousedown={onDragstart}
+                onDragover={onDragover}
+                onDragend={onDragend}
+                onDrop={onDragend}
+                onMouseup={onDragend}
                 onTransitionend={onAnimationEnd}
             >
                 {props.modelValue.map(renderItem)}
