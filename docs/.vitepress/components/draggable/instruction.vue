@@ -23,14 +23,14 @@ export default {
         }, 1000);
 
         const dragArg = {
-            onDragStart(event, item, setting) {
+            onDragstart(event, item, setting) {
                 console.log('handleDargStart', event, item, setting);
             },
-            onDragEnd(event, item, setting) {
+            onDragend(event, item, setting) {
                 console.log('handleDargEnd', event, item, setting);
             },
-            beforeDragEnd(item, start, end) {
-                console.log('beforeDragEnd', item, start, end);
+            beforeDragend(item, start, end) {
+                console.log('beforeDragend', item, start, end);
                 return true;
             },
         };
