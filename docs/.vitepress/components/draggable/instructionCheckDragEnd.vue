@@ -31,28 +31,28 @@ export default {
         const mlist3 = ref([8, 9]);
 
         const dragArg = {
-            onDragStart(event, item, setting) {
+            onDragstart(event, item, setting) {
                 console.log('handleDargStart', event, item, setting);
             },
-            onDragEnd(event, item, setting) {
+            onDragend(event, item, setting) {
                 console.log('handleDargEnd', event, item, setting);
             },
-            beforeDragEnd(item, start, end) {
-                console.log('beforeDragEnd', item, start, end);
+            beforeDragend(item, start, end) {
+                console.log('beforeDragend', item, start, end);
                 FMessage.error('拖拽阻止！');
                 return false;
             },
         };
 
         const dragArg2 = {
-            onDragStart(event, item, setting) {
+            onDragstart(event, item, setting) {
                 console.log('handleDargStart2', event, item, setting);
             },
-            onDragEnd(event, item, setting) {
+            onDragend(event, item, setting) {
                 console.log('handleDargEnd2', event, item, setting);
             },
-            beforeDragEnd(item, start, end) {
-                console.log('beforeDragEnd2', item, start, end);
+            beforeDragend(item, start, end) {
+                console.log('beforeDragend2', item, start, end);
                 FMessage.error('拖拽阻止！');
                 return false;
             },

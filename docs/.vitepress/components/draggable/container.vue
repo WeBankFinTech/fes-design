@@ -4,8 +4,8 @@
             v-model="mlist"
             droppable
             style="height: 300px; width: 200px"
-            @drag-start="handleDargStart"
-            @drag-end="handleDargEnd"
+            @dragstart="handleDargStart"
+            @dragend="handleDargEnd"
         >
             <template #="{ item }">
                 <div class="sort-item2">{{ item }}</div>
@@ -15,8 +15,8 @@
             v-model="mlist2"
             droppable
             style="height: 300px; width: 200px"
-            @drag-start="handleDargStart2"
-            @drag-end="handleDargEnd2"
+            @dragstart="handleDargStart2"
+            @dragend="handleDargEnd2"
         >
             <template #="{ item }">
                 <div class="sort-item2">{{ item }}</div>

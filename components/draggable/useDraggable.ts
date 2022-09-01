@@ -2,8 +2,8 @@ import { isFunction } from 'lodash-es';
 import { nextTick, watch, Ref, ComputedRef, SetupContext, reactive } from 'vue';
 
 export const UPDATE_MODEL_EVENT = 'update:modelValue';
-export const DRAG_START_EVENT = 'drag-start';
-export const DRAG_END_EVENT = 'drag-end';
+export const DRAG_START_EVENT = 'dragstart';
+export const DRAG_END_EVENT = 'dragend';
 
 export type BeforeDragEnd = (
     drag: {
@@ -24,7 +24,7 @@ type PropsRef = ComputedRef<{
     list: unknown[];
     droppable: boolean;
     disabled: boolean;
-    beforeDragEnd?: BeforeDragEnd;
+    beforeDragend?: BeforeDragEnd;
     isDirective?: boolean;
 }>;
 
@@ -225,13 +225,7 @@ export const useDraggable = (
     const resetDragWhenEnd = (event?: Event) => {
         const index = current.drag?.index;
         if (event && index >= 0) {
-            emit(
-                DRAG_END_EVENT,
-                event,
-                propsRef.value.list[index],
-                draggableItems[index],
-                index,
-            );
+            emit(DRAG_END_EVENT, event, propsRef.value.list[index], index);
         }
         backup.list = null;
         if (sourceBackup?.list) {
@@ -274,7 +268,7 @@ export const useDraggable = (
     };
 
     /** 拖拽开始 */
-    const onDragStart = (event: Event) => {
+    const onDragstart = (event: Event) => {
         const { disabled, droppable, list } = propsRef.value;
         if (disabled) return;
         current.drag = findElement(event.target as Element, containerRef.value);
@@ -292,7 +286,7 @@ export const useDraggable = (
         emit(DRAG_START_EVENT, event, list[index], index);
     };
 
-    const onDragOver = (event: DragEvent) => {
+    const onDragover = (event: DragEvent) => {
         event.preventDefault();
         const { droppable, list } = propsRef.value;
         const { animationEnd, isDropOverItem, drag } = current;
@@ -352,9 +346,9 @@ export const useDraggable = (
     };
 
     const checkDragEnd = async () => {
-        const { beforeDragEnd, list } = propsRef.value;
+        const { beforeDragend, list } = propsRef.value;
         const index = current?.drag?.index;
-        if (isFunction(beforeDragEnd) && index >= 0) {
+        if (isFunction(beforeDragend) && index >= 0) {
             // 校验是否需要可以放置
             let isTrue = false;
             let drag = {
@@ -376,7 +370,7 @@ export const useDraggable = (
                 drop.item = drag.item;
             }
             try {
-                isTrue = await beforeDragEnd(drag, drop);
+                isTrue = await beforeDragend(drag, drop);
             } catch (error) {
                 console.error(error);
                 isTrue = false;
@@ -388,7 +382,7 @@ export const useDraggable = (
         }
     };
 
-    const onDragEnd = async (event: Event) => {
+    const onDragend = async (event: Event) => {
         const { droppable } = propsRef.value;
         await checkDragEnd();
         if (droppable && dragSourceCxt) {
@@ -409,9 +403,9 @@ export const useDraggable = (
 
     return {
         onAnimationEnd,
-        onDragStart,
-        onDragOver,
-        onDragEnd,
+        onDragstart,
+        onDragover,
+        onDragend,
         draggableItems,
         nextTickQueue,
         onUpdated,
