@@ -1,0 +1,36 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin.less';
+
+@descriptions-prefix-cls: ~'@{cls-prefix}-descriptions';
+@descriptions-item-prefix-cls: ~'@{cls-prefix}-descriptions-item';
+
+.@{descriptions-prefix-cls} {
+    &-header {
+        margin-bottom: 16px;
+        color: var(--f-head-color);
+        font-weight: @font-weight-medium;
+        font-size: 18px;
+        line-height: @line-height-base;
+    }
+    &-body {
+        display: grid;
+        grid-gap: 8px 12px;
+        font-size: var(--f-font-size-base);
+        line-height: @line-height-base;
+    }
+}
+
+.@{descriptions-item-prefix-cls} {
+    
+    &-label {
+        color: var(--f-sub-head-color);
+    }
+    &-content {
+        color: var(--f-head-color);
+    }
+    &-separator {
+        display: inline-block;
+        margin: 0 8px 0 2px;
+    }
+}

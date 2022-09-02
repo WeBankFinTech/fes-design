@@ -125,6 +125,10 @@ module.exports = {
                         link: '/zh/components/carousel',
                     },
                     {
+                        text: 'Descriptions 描述列表',
+                        link: '/zh/components/descriptions',
+                    },
+                    {
                         text: 'Draggable 拖拽',
                         link: '/zh/components/draggable',
                     },

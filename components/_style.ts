@@ -43,3 +43,4 @@ import './skeleton/style';
 import './space/style';
 import './cascader/style';
 import './select-cascader/style';
+import './descriptions/style';
