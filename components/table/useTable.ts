@@ -1,4 +1,4 @@
-import { computed, provide, SetupContext } from 'vue';
+import { computed, provide, SetupContext, watch, ref } from 'vue';
 import { isArray } from 'lodash-es';
 import { getRowKey as _getRowKey, getCellValue } from './helper';
 import { provideKey, TABLE_NAME } from './const';
@@ -7,6 +7,7 @@ import useTableEvent from './useTableEvent';
 import useTableSelect from './useTableSelect';
 import useTableExpand from './useTableExpand';
 import useTableStyle from './useTableStyle';
+import useTableDrag from './useTableDrag';
 
 import type { TableProps } from './table';
 import type { RowType } from './interface';
@@ -16,13 +17,23 @@ export default (props: TableProps, ctx: SetupContext) => {
     const tableId = `f-table_${tableIdSeed++}`;
 
     // 展示的数据
-    const showData = computed(() => {
-        if (isArray(props.data)) {
-            return props.data;
-        }
-        console.warn(`[${TABLE_NAME}]: data must be array`);
-        return [];
-    });
+    const showData = ref([]);
+
+    watch(
+        () => props.data,
+        () => {
+            if (isArray(props.data)) {
+                showData.value = props.data.slice(0);
+            } else {
+                console.warn(`[${TABLE_NAME}]: data must be array`);
+                showData.value = [];
+            }
+        },
+        {
+            immediate: true,
+            deep: true,
+        },
+    );
 
     // 行数据的key
     const getRowKey = ({ row }: { row: RowType }) =>
@@ -55,6 +66,8 @@ export default (props: TableProps, ctx: SetupContext) => {
         columns: columnState.columns,
     });
 
+    const dragState = useTableDrag({ props, ctx });
+
     const state = {
         rootProps: props,
         getRowKey,
@@ -66,6 +79,7 @@ export default (props: TableProps, ctx: SetupContext) => {
         ...expandState,
         ...styleState,
         ...selectState,
+        ...dragState,
     };
 
     provide(provideKey, state);

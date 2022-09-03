@@ -1,5 +1,6 @@
 import { defineComponent, inject, PropType } from 'vue';
 import FScrollbar from '../../scrollbar/scrollbar.vue';
+import vDrag from '../../draggable/directive';
 import { provideKey } from '../const';
 import Colgroup from './colgroup';
 import Header from './header';
@@ -8,6 +9,9 @@ import Tr from './tr';
 import type { ColumnInst } from '../column.vue';
 
 export default defineComponent({
+    directives: {
+        drag: vDrag,
+    },
     props: {
         composed: {
             type: Boolean,
@@ -32,21 +36,43 @@ export default defineComponent({
             syncPosition,
             scrollbarRef,
             hasFixedColumn,
+            onDragstart,
+            onDragend,
+            beforeDragend,
         } = inject(provideKey);
 
         const renderBodyTrList = () =>
-            showData.value.length ? (
-                showData.value.map((row: object, rowIndex: number) => (
-                    <Tr
-                        row={row}
-                        rowIndex={rowIndex}
-                        columns={props.columns}
-                        key={(getRowKey({ row }) || rowIndex) as any}
-                    />
-                ))
-            ) : (
-                <Tr columns={props.columns} />
-            );
+            showData.value.map((row: object, rowIndex: number) => (
+                <Tr
+                    row={row}
+                    rowIndex={rowIndex}
+                    columns={props.columns}
+                    key={(getRowKey({ row }) || rowIndex) as any}
+                />
+            ));
+
+        const renderBody = () => {
+            if (showData.value.length === 0) {
+                return (
+                    <tbody>
+                        <Tr columns={props.columns} />
+                    </tbody>
+                );
+            }
+            if (rootProps.draggable) {
+                return (
+                    <tbody
+                        v-drag={[
+                            showData.value,
+                            { onDragstart, onDragend, beforeDragend },
+                        ]}
+                    >
+                        {renderBodyTrList()}
+                    </tbody>
+                );
+            }
+            return <tbody>{renderBodyTrList()}</tbody>;
+        };
 
         const renderTable = () => {
             return (
@@ -65,7 +91,7 @@ export default defineComponent({
                 >
                     <Colgroup columns={props.columns} />
                     {!props.composed && rootProps.showHeader && <Header />}
-                    <tbody>{renderBodyTrList()}</tbody>
+                    {renderBody()}
                 </table>
             );
         };
