@@ -36,19 +36,22 @@ if (pathExistsSync(join(componentsPath, componentName))) {
     // write docs
     outputFileSync(docPath, `# ${componentName}`);
 
-    // index.js
+    // index.ts
     const indexTpl = `
+    import { withInstall } from '../_util/withInstall';
 import COMPONENT_CAMEL_NAME from './COMPONENT_NAME';
+import type { SFCWithInstall } from '../_util/interface';
 
-COMPONENT_CAMEL_NAME.install = function (app) {
-    app.component(COMPONENT_CAMEL_NAME.name, COMPONENT_CAMEL_NAME);
-    return app;
-};
+type COMPONENT_CAMEL_NAMEType = SFCWithInstall<typeof COMPONENT_CAMEL_NAME>;
 
-export default COMPONENT_CAMEL_NAME;
+export const FCOMPONENT_CAMEL_NAME = withInstall<COMPONENT_CAMEL_NAMEType>(
+    COMPONENT_CAMEL_NAME as COMPONENT_CAMEL_NAMEType,
+);
+
+export default FCOMPONENT_CAMEL_NAME;
 `;
     outputFileSync(
-        join(componentPath, 'index.js'),
+        join(componentPath, 'index.ts'),
         indexTpl
             .replaceAll('COMPONENT_CAMEL_NAME', getCamel(componentName))
             .replaceAll('COMPONENT_NAME', componentName),
@@ -61,7 +64,7 @@ export default COMPONENT_CAMEL_NAME;
 
     // test
     outputFileSync(
-        join(componentPath, '__tests__', `${componentName}.js`),
+        join(componentPath, '__tests__', `${componentName}.ts`),
         "import { mount } from '@vue/test-utils'",
     );
 

@@ -1,0 +1,53 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin.less';
+
+@descriptions-prefix-cls: ~'@{cls-prefix}-descriptions';
+@descriptions-item-prefix-cls: ~'@{cls-prefix}-descriptions-item';
+
+.@{descriptions-prefix-cls} {
+    .text();
+
+    &-header {
+        margin-bottom: var(--f-padding-middle);
+        color: var(--f-head-color);
+        font-weight: @font-weight-medium;
+        font-size: @font-size-head;
+    }
+    &-body {
+        display: grid;
+        grid-gap: var(--f-padding-xsmall) var(--f-padding-small);
+        font-size: var(--f-font-size-base);
+        &.is-bordered {
+            grid-gap: 0;
+            overflow: hidden;
+            border: var(--f-border-base);
+            border-radius: var(--f-border-radius-base);
+        }
+    }
+}
+
+.@{descriptions-item-prefix-cls} {
+    
+    &-label {
+        flex-shrink: 0;
+        color: var(--f-text-color);
+        &.is-top {
+            font-weight: @font-weight-medium;
+        }
+        &.is-bordered {
+            .bordered();
+            background-color: var(--f-component-bg-color);
+        }
+    }
+    &-content {
+        color: var(--f-text-color);
+        &.is-bordered {
+            .bordered();
+        }
+    }
+    &-separator {
+        display: inline-block;
+        margin: 0 8px 0 2px;
+    }
+}
