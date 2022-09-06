@@ -23,10 +23,16 @@ const descriptionsProps = {
     labelAlign: {
         type: String as PropType<LabelAlign>,
         default: 'left',
+        validator(value: string) {
+            return ['left', 'right', 'center'].includes(value);
+        },
     },
     labelPlacement: {
         type: String as PropType<LabelPlacement>,
         default: 'left',
+        validator(value: string) {
+            return ['left', 'top'].includes(value);
+        },
     },
     labelStyle: [Object, String] as PropType<CSSProperties | string>,
     separator: {
@@ -34,6 +40,7 @@ const descriptionsProps = {
         default: ':',
     },
     title: String,
+    bordered: Boolean,
 } as const;
 
 export default defineComponent({
@@ -41,7 +48,7 @@ export default defineComponent({
     props: descriptionsProps,
     setup(props, { slots }) {
         const style = computed(() => ({
-            'grid-template-columns': `repeat(${props.column}, ${props.column}fr)`,
+            'grid-template-columns': `repeat(${props.column}, 1fr)`,
         }));
 
         const renderHeader = () => {
@@ -57,21 +64,29 @@ export default defineComponent({
         provide(DESCRIPTIONS_PROVIDE_KEY, {
             parentProps: computed(() => {
                 return {
+                    column: props.column,
                     contentStyle: props.contentStyle,
                     labelAlign: props.labelAlign,
                     labelPlacement: props.labelPlacement,
                     labelStyle: props.labelStyle,
                     separator: props.separator,
+                    bordered: props.bordered,
                 };
             }),
         });
 
         return () => {
             return (
-                <div>
+                <div class={prefixCls}>
                     {renderHeader()}
-                    <div class={`${prefixCls}-body`} style={style.value}>
-                        {slots.default()}
+                    <div
+                        class={[
+                            `${prefixCls}-body`,
+                            props.bordered && 'is-bordered',
+                        ]}
+                        style={style.value}
+                    >
+                        {slots.default?.()}
                     </div>
                 </div>
             );

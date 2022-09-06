@@ -6,28 +6,45 @@
 @descriptions-item-prefix-cls: ~'@{cls-prefix}-descriptions-item';
 
 .@{descriptions-prefix-cls} {
+    .text();
+
     &-header {
-        margin-bottom: 16px;
+        margin-bottom: var(--f-padding-middle);
         color: var(--f-head-color);
         font-weight: @font-weight-medium;
-        font-size: 18px;
-        line-height: @line-height-base;
+        font-size: @font-size-head;
     }
     &-body {
         display: grid;
-        grid-gap: 8px 12px;
+        grid-gap: var(--f-padding-xsmall) var(--f-padding-small);
         font-size: var(--f-font-size-base);
-        line-height: @line-height-base;
+        &.is-bordered {
+            grid-gap: 0;
+            overflow: hidden;
+            border: var(--f-border-base);
+            border-radius: var(--f-border-radius-base);
+        }
     }
 }
 
 .@{descriptions-item-prefix-cls} {
     
     &-label {
-        color: var(--f-sub-head-color);
+        flex-shrink: 0;
+        color: var(--f-text-color);
+        &.is-top {
+            font-weight: @font-weight-medium;
+        }
+        &.is-bordered {
+            .bordered();
+            background-color: var(--f-component-bg-color);
+        }
     }
     &-content {
-        color: var(--f-head-color);
+        color: var(--f-text-color);
+        &.is-bordered {
+            .bordered();
+        }
     }
     &-separator {
         display: inline-block;

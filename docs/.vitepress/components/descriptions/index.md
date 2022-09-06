@@ -24,6 +24,8 @@ app.use(DatePicker);
 
 --span
 
+### 边框
+
 --CODE
 
 ## Props
@@ -39,6 +41,7 @@ app.use(DatePicker);
 | labelStyle     | label 样式                              | string / object         | -      |
 | separator      | 分隔符，`labelPlacement` 为 `left` 有效 | string                  | ':'    |
 | title          | 标题                                    | string                  | -      |
+| bordered       | 边框                                    | boolean                 | false  |
 
 ### DescriptionItem Props
 

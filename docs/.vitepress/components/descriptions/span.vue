@@ -6,7 +6,7 @@
             </FDescriptionsItem>
             <FDescriptionsItem label="墓封">魂镰</FDescriptionsItem>
             <FDescriptionsItem>
-                <template #label>吃鸡：</template>
+                <template #label>吃鸡</template>
                 MMing
             </FDescriptionsItem>
             <FDescriptionsItem label="吃鸡">Nannnn</FDescriptionsItem>

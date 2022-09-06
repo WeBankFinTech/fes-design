@@ -4,7 +4,6 @@ import {
     computed,
     PropType,
     CSSProperties,
-    Fragment,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { DESCRIPTIONS_PROVIDE_KEY } from './constants';
@@ -26,19 +25,19 @@ export default defineComponent({
     props: DescriptionsItemProps,
     setup(props, { slots }) {
         const { parentProps } = inject(DESCRIPTIONS_PROVIDE_KEY);
-        const style = computed(() => {
+        const style = computed<CSSProperties>(() => {
             return {
                 display: 'flex',
-                alignItems:
-                    parentProps.value.labelPlacement === 'left'
-                        ? 'center'
-                        : 'flex-start',
                 'flex-direction':
                     parentProps.value.labelPlacement === 'left'
                         ? 'row'
                         : 'column',
-                'grid-column-start': `span ${props.span}`,
-            } as CSSProperties;
+                'grid-column-start': `span ${
+                    props.span <= parentProps.value.column
+                        ? props.span
+                        : parentProps.value.column
+                }`,
+            };
         });
         const innerContentStyle = computed(() => {
             return [parentProps.value.contentStyle, props.contentStyle].filter(
@@ -66,7 +65,10 @@ export default defineComponent({
         };
 
         const renderSeparator = () => {
-            if (parentProps.value.labelPlacement === 'left') {
+            if (
+                parentProps.value.labelPlacement === 'left' &&
+                !parentProps.value.bordered
+            ) {
                 return (
                     <span class={`${prefixCls}-separator`}>
                         {parentProps.value.separator}
@@ -79,18 +81,26 @@ export default defineComponent({
         return () => {
             return (
                 <div style={style.value}>
-                    <span
-                        class={`${prefixCls}-label`}
+                    <label
+                        class={[
+                            `${prefixCls}-label`,
+                            parentProps.value.labelPlacement === 'top' &&
+                                'is-top',
+                            parentProps.value.bordered && 'is-bordered',
+                        ]}
                         style={innerLabelStyle.value}
                     >
                         {renderLabel()}
-                        {renderSeparator()}
-                    </span>
+                    </label>
+                    {renderSeparator()}
                     <span
-                        class={`${prefixCls}-content`}
+                        class={[
+                            `${prefixCls}-content`,
+                            parentProps.value.bordered && 'is-bordered',
+                        ]}
                         style={innerContentStyle.value}
                     >
-                        {slots.default()}
+                        {slots.default?.()}
                     </span>
                 </div>
             );
