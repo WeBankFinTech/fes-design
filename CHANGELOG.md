@@ -1,3 +1,20 @@
+# [0.7.0](https://github.com/WeBankFinTech/fes-design/compare/v0.6.4...v0.7.0) (2022-09-07)
+
+
+### Bug Fixes
+
+* 修复select多选时过滤文本展示不全的问题 ([#219](https://github.com/WeBankFinTech/fes-design/issues/219)) ([1b3f95e](https://github.com/WeBankFinTech/fes-design/commit/1b3f95eb3cd19a774ea35dd2f10eb076363f89cf))
+* flatten节点会配置Fragment包裹节点的key,避免出现渲染异常 ([#218](https://github.com/WeBankFinTech/fes-design/issues/218)) ([f7a42b3](https://github.com/WeBankFinTech/fes-design/commit/f7a42b3bd6758fe411254d4158bbb7140fa107de))
+
+
+### Features
+
+* 添加 descritions 描述组件 ([#223](https://github.com/WeBankFinTech/fes-design/issues/223)) ([8092767](https://github.com/WeBankFinTech/fes-design/commit/809276713e1dd4d509aa4640e978f07bacb902db))
+* draggable组件新增beforeDragEnd、dragStart事件、dragEnd事件 ([69f6dff](https://github.com/WeBankFinTech/fes-design/commit/69f6dff0e24457bc27a07ad3877f949ebb856c4a))
+* table支持拖拽 ([#222](https://github.com/WeBankFinTech/fes-design/issues/222)) ([5e53a5b](https://github.com/WeBankFinTech/fes-design/commit/5e53a5b00ea73f6cd9e3b94558f4dfe0058f08b4))
+
+
+
 ## [0.6.4](https://github.com/WeBankFinTech/fes-design/compare/v0.6.3...v0.6.4) (2022-08-24)
 
 
