@@ -1,4 +1,4 @@
-import { computed, defineComponent, inject } from 'vue';
+import { computed, defineComponent, inject, onBeforeUnmount } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { TABS_INJECTION_KEY } from '../_util/constants';
 import { tabProps } from './helper';
@@ -11,6 +11,7 @@ export default defineComponent({
     setup(props, ctx) {
         const {
             valueRef,
+            tabsLength,
             closableRef,
             isCard,
             handleTabClick,
@@ -34,6 +35,11 @@ export default defineComponent({
             event.stopPropagation();
             handleClose(props.value);
         }
+
+        tabsLength.value = tabsLength.value + 1;
+        onBeforeUnmount(() => {
+            tabsLength.value = tabsLength.value - 1;
+        });
 
         return () => {
             const defaultSlot = ctx.slots.default;

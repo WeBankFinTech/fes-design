@@ -106,6 +106,7 @@ export default defineComponent({
             props,
             ctx.emit,
         );
+        const tabsLength = ref(0);
         const isCard = computed(() => props.type === 'card');
         const position = computed(() =>
             isCard.value ? 'top' : props.position,
@@ -117,12 +118,7 @@ export default defineComponent({
 
         onMounted(() => {
             if (!tabNavRef.value) return;
-            const { scrollWidth, offsetWidth, scrollHeight, offsetHeight } =
-                tabNavRef.value;
-            if (scrollWidth > offsetWidth || scrollHeight > offsetHeight) {
-                isScroll.value = true;
-                useScrollX(tabNavRef);
-            }
+            useScrollX(tabNavRef);
         });
 
         const barStyle = ref({});
@@ -169,15 +165,17 @@ export default defineComponent({
             const { scrollLeft, scrollTop, offsetWidth, offsetHeight } =
                 tabNavRef.value;
             if (
-                scrollLeft + offsetWidth < el.offsetLeft + el.offsetWidth ||
-                el.offsetLeft < scrollLeft
+                ['top', 'bottom'].includes(props.position) &&
+                (scrollLeft + offsetWidth < el.offsetLeft + el.offsetWidth ||
+                    el.offsetLeft < scrollLeft)
             ) {
                 tabNavRef.value.scrollTo({
                     left: el.offsetLeft - offsetWidth + el.offsetWidth,
                 });
             } else if (
-                scrollTop + offsetHeight < el.offsetTop + el.offsetHeight ||
-                el.offsetTop < scrollTop
+                ['left', 'right'].includes(props.position) &&
+                (scrollTop + offsetHeight < el.offsetTop + el.offsetHeight ||
+                    el.offsetTop < scrollTop)
             ) {
                 tabNavRef.value.scrollTo({
                     top: el.offsetTop - offsetHeight + el.offsetHeight,
@@ -191,6 +189,7 @@ export default defineComponent({
             closableRef: toRef(props, 'closable'),
             closeModeRef: toRef(props, 'closeMode'),
             isCard,
+            tabsLength,
             handleTabClick,
             handleClose,
         });
@@ -224,6 +223,18 @@ export default defineComponent({
                 updateCurrentValue(tabPanes[0]?.props?.value);
             });
         }
+
+        watch(tabsLength, () => {
+            nextTick(() => {
+                console.log(tabsLength.value);
+                if (!tabNavRef.value) return;
+                const { scrollWidth, offsetWidth, scrollHeight, offsetHeight } =
+                    tabNavRef.value;
+                if (scrollWidth > offsetWidth || scrollHeight > offsetHeight) {
+                    isScroll.value = true;
+                }
+            });
+        });
 
         return () => {
             const children =
