@@ -171,7 +171,7 @@ export default defineComponent({
         };
 
         const optionsRef = computed(() =>
-            [...props.options, ...childOptions].map((option) => {
+            [...childOptions, ...props.options].map((option) => {
                 return {
                     ...option,
                     value: option[props.valueField],

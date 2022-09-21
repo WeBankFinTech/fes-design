@@ -273,7 +273,6 @@ export const useDraggable = (
         if (disabled) return;
         current.drag = findElement(event.target as Element, containerRef.value);
         if (!current.drag) return;
-
         const index = current.drag.index;
         const item = draggableItems[index];
         onAnimationEnd(); // 动画结束
@@ -396,7 +395,13 @@ export const useDraggable = (
     watch(
         propsRef,
         () => {
-            if (!draggableItems.length) FLIP(true);
+            if (draggableItems.length !== propsRef.value.list.length) {
+                if (propsRef.value.isDirective) {
+                    FLIP(true); // 指令的list更新在updated之后
+                } else {
+                    nextTick(() => FLIP(true));
+                }
+            }
         },
         { immediate: true, deep: true },
     );
