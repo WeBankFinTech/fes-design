@@ -226,7 +226,6 @@ export default defineComponent({
 
         watch(tabsLength, () => {
             nextTick(() => {
-                console.log(tabsLength.value);
                 if (!tabNavRef.value) return;
                 const { scrollWidth, offsetWidth, scrollHeight, offsetHeight } =
                     tabNavRef.value;
