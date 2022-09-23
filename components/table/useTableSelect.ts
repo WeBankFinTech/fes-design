@@ -1,5 +1,6 @@
 import { watch, reactive, computed, SetupContext, Ref } from 'vue';
 import { isFunction } from 'lodash-es';
+import { useNormalModel } from '../_util/use/useModel';
 import { TABLE_NAME } from './const';
 
 import type { TableProps } from './table';
@@ -52,27 +53,35 @@ export default ({
         }),
     );
 
-    const selectionList = reactive([]);
-
-    const selectionMap = reactive(new Map());
+    const [currentCheckedKeys, updateCheckedKeys] = useNormalModel(
+        props,
+        ctx.emit,
+        { prop: 'checkedKeys', isEqual: true },
+    );
 
     const isAllSelected = computed(() => {
         return selectableData.value.every((_row) => {
             const _rowKey = getRowKey({ row: _row });
-            return selectionMap.get(_rowKey);
+            return currentCheckedKeys.value.includes(_rowKey);
         });
     });
 
     const isCurrentDataAnySelected = computed(() => {
         return selectableData.value.some((_row) => {
             const _rowKey = getRowKey({ row: _row });
-            return selectionMap.get(_rowKey);
+            return currentCheckedKeys.value.includes(_rowKey);
         });
     });
 
-    watch(selectionList, () => {
-        ctx.emit('selectionChange', selectionList);
-    });
+    watch(
+        currentCheckedKeys,
+        () => {
+            ctx.emit('selectionChange', currentCheckedKeys.value);
+        },
+        {
+            deep: true,
+        },
+    );
 
     const isSelectDisabled = ({ row }: { row: RowType }) => {
         if (!selectionColumn.value) return false;
@@ -80,17 +89,17 @@ export default ({
     };
 
     const isSelected = ({ row }: { row: RowType }) => {
-        const rowKey = getRowKey({ row });
-        return selectionMap.get(rowKey);
+        const _rowKey = getRowKey({ row });
+        return currentCheckedKeys.value.includes(_rowKey);
     };
 
     const handleSelect = ({ row }: { row: RowType }) => {
         if (isSelectDisabled({ row })) return;
         const rowKey = getRowKey({ row });
+        const selectionList = currentCheckedKeys.value;
         const index = selectionList.indexOf(rowKey);
         if (index !== -1) {
             selectionList.splice(index, 1);
-            selectionMap.delete(rowKey);
             ctx.emit('select', {
                 selection: selectionList,
                 row,
@@ -98,7 +107,7 @@ export default ({
             });
         } else {
             selectionList.push(rowKey);
-            selectionMap.set(rowKey, true);
+            updateCheckedKeys(selectionList);
             ctx.emit('select', {
                 selection: selectionList,
                 row,
@@ -109,19 +118,19 @@ export default ({
 
     function splice(row: RowType) {
         const rowKey = getRowKey({ row });
+        const selectionList = currentCheckedKeys.value;
         const index = selectionList.indexOf(rowKey);
         if (index !== -1) {
             selectionList.splice(index, 1);
-            selectionMap.delete(rowKey);
         }
     }
 
     function push(row: RowType) {
         const rowKey = getRowKey({ row });
+        const selectionList = currentCheckedKeys.value;
         const index = selectionList.indexOf(rowKey);
         if (index === -1) {
             selectionList.push(rowKey);
-            selectionMap.set(rowKey, true);
         }
     }
 
@@ -132,19 +141,16 @@ export default ({
             selectableData.value.forEach(push);
         }
         ctx.emit('selectAll', {
-            selection: selectionList,
+            selection: currentCheckedKeys.value,
             checked: !isAllSelected.value,
         });
     };
 
     const clearSelect = () => {
-        selectionList.length = 0;
-        selectionMap.clear();
+        currentCheckedKeys.value.length = 0;
     };
 
     return {
-        selectionColumn,
-        selectionList,
         isSelectDisabled,
         isSelected,
         isAllSelected,
