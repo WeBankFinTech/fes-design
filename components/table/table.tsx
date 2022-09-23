@@ -70,6 +70,12 @@ const tableProps = {
         default: false,
     },
     beforeDragend: Function as PropType<BeforeDragEnd>,
+    checkedKeys: {
+        type: Array as PropType<string[] | number[]>,
+        default():string[] | number[] {
+            return [];
+        },
+    },
 } as const;
 
 export type TableProps = Partial<ExtractPropTypes<typeof tableProps>>;
@@ -88,6 +94,7 @@ export default defineComponent({
         'sortChange',
         'dragstart',
         'dragend',
+        'update:checkedKeys'
     ],
     setup(props, ctx: SetupContext) {
         useTheme();

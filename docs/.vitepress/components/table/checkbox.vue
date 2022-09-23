@@ -1,6 +1,8 @@
 <template>
+    选中的keys: {{ checkedKeys }}
     <f-table
         ref="multipleTable"
+        v-model:checkedKeys="checkedKeys"
         :data="data"
         rowKey="id"
         @selectionChange="selectionChange"
@@ -22,6 +24,7 @@
 import { reactive, ref } from 'vue';
 export default {
     setup() {
+        const checkedKeys = reactive([1]);
         const data = reactive(
             Array.from([1, 2, 3], (i) => {
                 return {
@@ -47,6 +50,7 @@ export default {
             }
         };
         return {
+            checkedKeys,
             data,
             selectable,
             multipleTable,
