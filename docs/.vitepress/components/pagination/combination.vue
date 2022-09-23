@@ -7,6 +7,7 @@
         @change="handleChange"
     ></FPagination>
 </template>
+
 <script>
 import { defineComponent, ref } from 'vue';
 

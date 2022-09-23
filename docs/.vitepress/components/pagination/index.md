@@ -20,13 +20,23 @@ app.use(FPagination);
 
 ### 电梯直达
 
+设置 show-quick-jumper 属性为 true ，显示快速跳转
 
 --JUMPER
 
 ### 每页数量
 
+设置 show-size-changer 属性为 true ，显示每页条数的选择器。
+
+设置 pageSizeOption 控制选择器选项，默认为 [10, 20, 30, 50, 100]
 
 --SIZES
+
+### 显示总数
+
+设置 show-total 属性为 true ，显示总条数
+
+--TOTAL
 
 ### 组合类型
 
@@ -35,11 +45,13 @@ app.use(FPagination);
 
 ### 简洁型
 
+设置 simple 属性为 true ，显示简洁的分页器。
 
 --SIMPLE
 
 ### 小型号
 
+设置 small 属性为 true ，让分页变小。
 
 --SMALL
 
