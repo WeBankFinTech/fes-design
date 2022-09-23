@@ -112,7 +112,8 @@ app.use(FTable);
 | layout   | table列宽度分割算法，`fixed`为等分，`auto`按内容大小比例。只有不设置height和不启动虚拟滚动时才生效！                                      | string | `auto` `fixed`      |      `fixed`     |
 | draggable   | 是否开启拖拽，开启虚拟滚动后失效                            | boolean | -    |      `false`     |
 | beforeDragend   | 拖拽结束之前调用，当返回false、Promise.resolve(false)、Promise.reject()时，拖拽会恢复之前的状态    |  [`BeforeDragEnd`](./draggable#阻止拖拽) | -    |     （）= true     |
-
+| expandedKeys(v-model) | 展开的节点的 key 的数组                                                 | Array<string \|  number>           | -        | `[]`       |
+| checkedKeys(v-model)  | 勾选节点 key 的数组                                                 | Array<string \| number>            |   -    | `[]`       | 
 
 ## FTable Slots
 
