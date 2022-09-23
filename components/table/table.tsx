@@ -76,6 +76,12 @@ const tableProps = {
             return [];
         },
     },
+    expandedKeys: {
+        type: Array as PropType<string[] | number[]>,
+        default():string[] | number[] {
+            return [];
+        },
+    },
 } as const;
 
 export type TableProps = Partial<ExtractPropTypes<typeof tableProps>>;
@@ -94,7 +100,8 @@ export default defineComponent({
         'sortChange',
         'dragstart',
         'dragend',
-        'update:checkedKeys'
+        'update:checkedKeys',
+        'update:expandedKeys'
     ],
     setup(props, ctx: SetupContext) {
         useTheme();

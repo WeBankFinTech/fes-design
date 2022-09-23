@@ -1,4 +1,5 @@
-import { reactive, computed, watch, SetupContext, Ref } from 'vue';
+import { computed, watch, SetupContext, Ref } from 'vue';
+import { useNormalModel } from '../_util/use/useModel';
 import { TABLE_NAME } from './const';
 
 import type { TableProps } from './table';
@@ -33,15 +34,19 @@ export default ({
         }
     });
 
-    const expandOpenedList = reactive([]);
+    const [currentExpandedKeys] = useNormalModel(props, ctx.emit, {
+        prop: 'expandedKeys',
+        isEqual: true,
+    });
 
     const isExpandOpened = ({ row }: { row: RowType }) => {
         const rowKey = getRowKey({ row });
-        return expandOpenedList.includes(rowKey);
+        return currentExpandedKeys.value.includes(rowKey);
     };
 
     const toggleRowExpend = ({ row }: { row: RowType }) => {
         const rowKey = getRowKey({ row });
+        const expandOpenedList = currentExpandedKeys.value;
         const index = expandOpenedList.indexOf(rowKey);
         if (index !== -1) {
             expandOpenedList.splice(index, 1);

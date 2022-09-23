@@ -1,8 +1,10 @@
 <template>
+    展开的行keys： {{ expandedKeys }}
     <f-table
         ref="tableRef"
+        v-model:expandedKeys="expandedKeys"
         :data="data"
-        rowKey="date"
+        rowKey="id"
         @expandChange="expandChange"
     >
         <f-table-column v-slot="{ row }" type="expand">
@@ -26,9 +28,11 @@
 import { ref } from 'vue';
 export default {
     setup() {
+        const expandedKeys = ref([1]);
         const tableRef = ref(null);
         const data = Array.from([1, 2, 3], (i) => {
             return {
+                id: i,
                 date: `2016-05-2016-05-2016-05-2016-05-2016-05-2016-05-2016-05-2016-05-${
                     i < 10 ? '0' + i : i
                 }`,
@@ -50,6 +54,7 @@ export default {
             data,
             toggle,
             expandChange,
+            expandedKeys,
         };
     },
 };
