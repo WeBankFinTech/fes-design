@@ -1,4 +1,4 @@
-import { watch, reactive, computed, SetupContext, Ref } from 'vue';
+import { watch, computed, SetupContext, Ref } from 'vue';
 import { isFunction } from 'lodash-es';
 import { useNormalModel } from '../_util/use/useModel';
 import { TABLE_NAME } from './const';
@@ -53,11 +53,10 @@ export default ({
         }),
     );
 
-    const [currentCheckedKeys, updateCheckedKeys] = useNormalModel(
-        props,
-        ctx.emit,
-        { prop: 'checkedKeys', isEqual: true },
-    );
+    const [currentCheckedKeys] = useNormalModel(props, ctx.emit, {
+        prop: 'checkedKeys',
+        isEqual: true,
+    });
 
     const isAllSelected = computed(() => {
         return selectableData.value.every((_row) => {
@@ -107,7 +106,6 @@ export default ({
             });
         } else {
             selectionList.push(rowKey);
-            updateCheckedKeys(selectionList);
             ctx.emit('select', {
                 selection: selectionList,
                 row,
