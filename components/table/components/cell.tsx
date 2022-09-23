@@ -11,7 +11,7 @@ import Ellipsis from '../../ellipsis/ellipsis';
 import { provideKey } from '../const';
 
 import type { ActionType } from '../interface';
-import type { ColumnInst } from '../column.vue';
+import type { ColumnInst } from '../column';
 
 const cellProps = {
     row: {

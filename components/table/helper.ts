@@ -1,5 +1,6 @@
 import type { RowType, RowKey } from './interface';
-import type { ColumnInst } from './column.vue';
+import type { ColumnInst } from './column';
+import { TABLE_NAME } from './const';
 
 export const getRowKey = ({
     row,
@@ -10,15 +11,23 @@ export const getRowKey = ({
 }) => {
     if (rowKey) {
         if (typeof rowKey === 'string') {
+            let res: any;
             if (rowKey.indexOf('.') < 0) {
-                return `${row[rowKey]}`;
+                res = row[rowKey];
+            } else {
+                const key = rowKey.split('.');
+                let current = row;
+                for (let i = 0; i < key.length; i++) {
+                    current = current[key[i]];
+                }
+                res = current;
             }
-            const key = rowKey.split('.');
-            let current = row;
-            for (let i = 0; i < key.length; i++) {
-                current = current[key[i]];
+            if (typeof res !== 'string' && typeof res !== 'number') {
+                console.warn(
+                    `[${TABLE_NAME}]: rowKey ${res} must be number or string`,
+                );
             }
-            return `${current}`;
+            return res;
         }
         if (typeof rowKey === 'function') {
             return rowKey(row);

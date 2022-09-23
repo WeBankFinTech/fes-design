@@ -1,6 +1,6 @@
 import { withInstall, withNoopInstall } from '../_util/withInstall';
 import Table from './table';
-import Column from './column.vue';
+import Column from './column';
 
 import type { SFCWithInstall } from '../_util/interface';
 

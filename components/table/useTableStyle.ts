@@ -8,7 +8,7 @@ const prefixCls = getPrefixCls('table');
 
 import type { TableProps } from './table';
 import type { RowType } from './interface';
-import type { ColumnInst } from './column.vue';
+import type { ColumnInst } from './column';
 
 export default ({
     props,

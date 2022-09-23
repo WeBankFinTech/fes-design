@@ -1,5 +1,10 @@
 <template>
-    <f-table ref="multipleTable" :data="data" rowKey="date">
+    <f-table
+        ref="multipleTable"
+        :data="data"
+        rowKey="id"
+        @selectionChange="selectionChange"
+    >
         <f-table-column
             type="selection"
             :selectable="selectable"
@@ -20,6 +25,7 @@ export default {
         const data = reactive(
             Array.from([1, 2, 3], (i) => {
                 return {
+                    id: i,
                     date: `2016-05-${i < 10 ? '0' + i : i}`,
                     name: '王小虎',
                     address: '上海市普陀区金沙江路 1516 弄',
@@ -28,6 +34,9 @@ export default {
         );
         const selectable = ({ row, rowIndex }) => {
             return rowIndex !== 1;
+        };
+        const selectionChange = (selecton) => {
+            console.log(selecton);
         };
         const multipleTable = ref(null);
         const toggleSelection = (row) => {
@@ -42,6 +51,7 @@ export default {
             selectable,
             multipleTable,
             toggleSelection,
+            selectionChange,
         };
     },
 };

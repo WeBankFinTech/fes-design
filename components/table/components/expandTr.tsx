@@ -1,7 +1,7 @@
 import { defineComponent, inject, PropType } from 'vue';
 import { provideKey } from '../const';
 
-import type { ColumnInst } from '../column.vue';
+import type { ColumnInst } from '../column';
 
 export default defineComponent({
     name: 'FTableExpand',

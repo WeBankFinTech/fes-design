@@ -4,7 +4,7 @@ import FCheckbox from '../../checkbox/checkbox.vue';
 import { provideKey } from '../const';
 import Cell from './cell';
 
-import type { ColumnInst } from '../column.vue';
+import type { ColumnInst } from '../column';
 
 export default defineComponent({
     name: 'FTableBodyTd',

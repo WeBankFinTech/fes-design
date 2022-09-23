@@ -4,7 +4,7 @@ import { TABLE_NAME } from './const';
 
 import type { TableProps } from './table';
 import type { RowType } from './interface';
-import type { ColumnInst } from './column.vue';
+import type { ColumnInst } from './column';
 
 export default ({
     props,
@@ -52,7 +52,7 @@ export default ({
         }),
     );
 
-    const selection = reactive([]);
+    const selectionList = reactive([]);
 
     const selectionMap = reactive(new Map());
 
@@ -63,8 +63,15 @@ export default ({
         });
     });
 
-    watch(selection, () => {
-        ctx.emit('selectionChange', selection);
+    const isCurrentDataAnySelected = computed(() => {
+        return selectableData.value.some((_row) => {
+            const _rowKey = getRowKey({ row: _row });
+            return selectionMap.get(_rowKey);
+        });
+    });
+
+    watch(selectionList, () => {
+        ctx.emit('selectionChange', selectionList);
     });
 
     const isSelectDisabled = ({ row }: { row: RowType }) => {
@@ -80,20 +87,20 @@ export default ({
     const handleSelect = ({ row }: { row: RowType }) => {
         if (isSelectDisabled({ row })) return;
         const rowKey = getRowKey({ row });
-        const index = selection.indexOf(rowKey);
+        const index = selectionList.indexOf(rowKey);
         if (index !== -1) {
-            selection.splice(index, 1);
+            selectionList.splice(index, 1);
             selectionMap.delete(rowKey);
             ctx.emit('select', {
-                selection,
+                selection: selectionList,
                 row,
                 checked: false,
             });
         } else {
-            selection.push(rowKey);
+            selectionList.push(rowKey);
             selectionMap.set(rowKey, true);
             ctx.emit('select', {
-                selection,
+                selection: selectionList,
                 row,
                 checked: true,
             });
@@ -102,18 +109,18 @@ export default ({
 
     function splice(row: RowType) {
         const rowKey = getRowKey({ row });
-        const index = selection.indexOf(rowKey);
+        const index = selectionList.indexOf(rowKey);
         if (index !== -1) {
-            selection.splice(index, 1);
+            selectionList.splice(index, 1);
             selectionMap.delete(rowKey);
         }
     }
 
     function push(row: RowType) {
         const rowKey = getRowKey({ row });
-        const index = selection.indexOf(rowKey);
+        const index = selectionList.indexOf(rowKey);
         if (index === -1) {
-            selection.push(rowKey);
+            selectionList.push(rowKey);
             selectionMap.set(rowKey, true);
         }
     }
@@ -124,20 +131,24 @@ export default ({
         } else {
             selectableData.value.forEach(push);
         }
-        ctx.emit('selectAll', { selection, checked: !isAllSelected.value });
+        ctx.emit('selectAll', {
+            selection: selectionList,
+            checked: !isAllSelected.value,
+        });
     };
 
     const clearSelect = () => {
-        selection.length = 0;
+        selectionList.length = 0;
         selectionMap.clear();
     };
 
     return {
         selectionColumn,
-        selection,
+        selectionList,
         isSelectDisabled,
         isSelected,
         isAllSelected,
+        isCurrentDataAnySelected,
         handleSelect,
         handleSelectAll,
         clearSelect,
