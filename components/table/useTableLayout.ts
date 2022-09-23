@@ -3,7 +3,7 @@ import { isEqual } from 'lodash-es';
 import useResize from '../_util/use/useResize';
 
 import type { TableProps } from './table';
-import type { ColumnInst } from './column.vue';
+import type { ColumnInst } from './column';
 
 /**
  * 更新列的宽度

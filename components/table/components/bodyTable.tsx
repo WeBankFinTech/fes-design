@@ -6,7 +6,7 @@ import Colgroup from './colgroup';
 import Header from './header';
 import Tr from './tr';
 
-import type { ColumnInst } from '../column.vue';
+import type { ColumnInst } from '../column';
 
 export default defineComponent({
     directives: {

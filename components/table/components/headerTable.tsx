@@ -4,7 +4,7 @@ import { provideKey } from '../const';
 import Colgroup from './colgroup';
 import Header from './header';
 
-import type { ColumnInst } from '../column.vue';
+import type { ColumnInst } from '../column';
 
 export default defineComponent({
     directives: {

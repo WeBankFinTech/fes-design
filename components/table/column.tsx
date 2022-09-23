@@ -1,4 +1,3 @@
-<script lang="ts">
 import {
     defineComponent,
     h,
@@ -168,4 +167,3 @@ export default defineComponent({
         return h('div', children);
     },
 });
-</script>

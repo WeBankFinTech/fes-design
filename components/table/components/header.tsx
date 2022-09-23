@@ -3,7 +3,7 @@ import FCheckbox from '../../checkbox/checkbox.vue';
 import { provideKey } from '../const';
 import Label from './label';
 
-import type { ColumnInst } from '../column.vue';
+import type { ColumnInst } from '../column';
 
 export default defineComponent({
     setup() {
@@ -13,7 +13,7 @@ export default defineComponent({
             getCellClass,
             getCustomCellStyle,
             isAllSelected,
-            selection,
+            isCurrentDataAnySelected,
             handleSelectAll,
             prefixCls,
         } = inject(provideKey);
@@ -39,7 +39,7 @@ export default defineComponent({
                                     modelValue={isAllSelected.value}
                                     indeterminate={
                                         !isAllSelected.value &&
-                                        selection.length > 0
+                                        isCurrentDataAnySelected.value
                                     }
                                     onClick={handleSelectAll}
                                 />
