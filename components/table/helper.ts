@@ -27,6 +27,7 @@ export const getRowKey = ({
                         `[${TABLE_NAME}]: reading rowKey from row data failed`,
                         error,
                     );
+                    throw error;
                 }
             }
         } else if (typeof rowKey === 'function') {
