@@ -1,3 +1,20 @@
+## [0.7.2](https://github.com/WeBankFinTech/fes-design/compare/v0.7.1...v0.7.2) (2022-09-26)
+
+
+### Bug Fixes
+
+* Table在处理rowkey时抛出异常 ([0daaafa](https://github.com/WeBankFinTech/fes-design/commit/0daaafaff3dab813c8f78da31a62e05962047de2))
+* 修复Table多选后切换数据显示未全选问题 & 修复Table把number的rowkey处理成string问题 ([e98db73](https://github.com/WeBankFinTech/fes-design/commit/e98db732bc89ea0943a6eb661e56dc09bf3fff6b))
+* 完善细节 ([601fcd5](https://github.com/WeBankFinTech/fes-design/commit/601fcd5e2d9247beaa815a76c2db6a23430baf88))
+
+
+### Features
+
+* Table提供checkedKeys配置 ([5edb855](https://github.com/WeBankFinTech/fes-design/commit/5edb85593ed49357f5abaab5209460beef5ccc41))
+* Table支持配置expandedKeys ([7e30aaa](https://github.com/WeBankFinTech/fes-design/commit/7e30aaad38c0cc32af6eeabbca043e32b1dc7e2f))
+
+
+
 ## [0.7.1](https://github.com/WeBankFinTech/fes-design/compare/v0.7.0...v0.7.1) (2022-09-21)
 
 
