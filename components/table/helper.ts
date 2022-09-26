@@ -10,28 +10,34 @@ export const getRowKey = ({
     rowKey?: RowKey;
 }) => {
     if (rowKey) {
+        let res: any;
         if (typeof rowKey === 'string') {
-            let res: any;
             if (rowKey.indexOf('.') < 0) {
                 res = row[rowKey];
             } else {
-                const key = rowKey.split('.');
-                let current = row;
-                for (let i = 0; i < key.length; i++) {
-                    current = current[key[i]];
+                try {
+                    const key = rowKey.split('.');
+                    let current = row;
+                    for (let i = 0; i < key.length; i++) {
+                        current = current[key[i]];
+                    }
+                    res = current;
+                } catch (error) {
+                    console.error(
+                        `[${TABLE_NAME}]: reading rowKey from row data failed`,
+                        error,
+                    );
                 }
-                res = current;
             }
-            if (typeof res !== 'string' && typeof res !== 'number') {
-                console.warn(
-                    `[${TABLE_NAME}]: rowKey ${res} must be number or string`,
-                );
-            }
-            return res;
+        } else if (typeof rowKey === 'function') {
+            res = rowKey(row);
         }
-        if (typeof rowKey === 'function') {
-            return rowKey(row);
+        if (typeof res !== 'string' && typeof res !== 'number') {
+            console.warn(
+                `[${TABLE_NAME}]: rowKey ${res} must be number or string`,
+            );
         }
+        return res;
     }
     return row;
 };
