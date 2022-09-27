@@ -383,11 +383,12 @@ export default defineComponent({
             info.next && monthToNext();
             info.pre && monthToPre();
             let time;
-            if (
-                pickerRef.value.hasTime &&
-                selectedDates.value[activeIndex.value]?.hour == null
-            ) {
-                time = getDefaultTime(props.defaultTime, props.rangePosition);
+            if (selectedDates.value[activeIndex.value]?.hour == null) {
+                time = getDefaultTime(
+                    props.defaultTime,
+                    props.rangePosition,
+                    pickerRef.value.hasTime,
+                );
             }
 
             updateSelectedDates(
