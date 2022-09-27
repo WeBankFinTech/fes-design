@@ -1,7 +1,7 @@
 import { parse, format, isValid } from 'date-fns';
 import { isNumber } from 'lodash-es';
 
-import type { ParticalDateObj } from './interface';
+import type { DateObj, ParticalDateObj } from './interface';
 import { RANGE_POSITION } from './const';
 
 // TODO 国际化
@@ -87,6 +87,14 @@ export const parseDate = (date?: number | Date) => {
         hour: vDate.getHours(),
         minute: vDate.getMinutes(),
         second: vDate.getSeconds(),
+    };
+};
+
+export const pickTime = (dateObj: DateObj) => {
+    return {
+        hour: dateObj.hour,
+        minute: dateObj.minute,
+        second: dateObj.second,
     };
 };
 
