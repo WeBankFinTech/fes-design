@@ -13,6 +13,7 @@ import {
     transformDateToTimestamp,
     transformTimeToDate,
     getDefaultTime,
+    pickTime,
 } from './helper';
 
 import type { CalendarProps } from './calendar.vue';
@@ -95,35 +96,42 @@ export const useSelectedDates = (
             (!selectedDates.value.length ||
                 props.selectedStatus === SELECTED_STATUS.TWO)
         ) {
-            const otherDate = { ...newDate };
-            if (props.defaultTime) {
-                Object.assign(
-                    otherDate,
-                    getDefaultTime(
-                        props.defaultTime,
-                        props.rangePosition === RANGE_POSITION.LEFT
-                            ? RANGE_POSITION.RIGHT
-                            : RANGE_POSITION.LEFT,
-                    ),
-                );
-            }
+            const anotherDate = { ...newDate };
+            Object.assign(
+                anotherDate,
+                getDefaultTime(
+                    props.defaultTime,
+                    props.rangePosition === RANGE_POSITION.LEFT
+                        ? RANGE_POSITION.RIGHT
+                        : RANGE_POSITION.LEFT,
+                ),
+            );
             if (props.rangePosition === RANGE_POSITION.LEFT) {
-                selectedDates.value = [newDate, otherDate];
+                selectedDates.value = [newDate, anotherDate];
             } else {
-                selectedDates.value = [otherDate, newDate];
+                selectedDates.value = [anotherDate, newDate];
             }
             emit('selectedDay');
         } else if (!picker.value.isRange) {
             emit('selectedDay');
             selectedDates.value = [newDate];
         } else {
+            // 变更日期的时候，继承当前位置的时间
             if (
                 transformDateToTimestamp(selectedDates.value[0]) >
                 transformDateToTimestamp(newDate)
             ) {
-                selectedDates.value.splice(0, 1, newDate);
+                selectedDates.value.splice(
+                    0,
+                    1,
+                    Object.assign(newDate, pickTime(selectedDates.value[0])),
+                );
             } else {
-                selectedDates.value.splice(1, 1, newDate);
+                selectedDates.value.splice(
+                    1,
+                    1,
+                    Object.assign(newDate, pickTime(selectedDates.value[1])),
+                );
             }
             emit('selectedDay');
         }

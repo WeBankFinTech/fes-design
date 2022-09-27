@@ -1,7 +1,7 @@
 import { parse, format, isValid } from 'date-fns';
 import { isNumber } from 'lodash-es';
 
-import type { ParticalDateObj } from './interface';
+import type { DateObj, ParticalDateObj } from './interface';
 import { RANGE_POSITION } from './const';
 
 // TODO 国际化
@@ -87,6 +87,14 @@ export const parseDate = (date?: number | Date) => {
         hour: vDate.getHours(),
         minute: vDate.getMinutes(),
         second: vDate.getSeconds(),
+    };
+};
+
+export const pickTime = (dateObj: DateObj) => {
+    return {
+        hour: dateObj.hour,
+        minute: dateObj.minute,
+        second: dateObj.second,
     };
 };
 
@@ -179,6 +187,7 @@ export const transformTimeToDate = (timeStr: string) => {
 export const getDefaultTime = (
     defaultTime?: string | string[],
     rangePosition?: typeof RANGE_POSITION[keyof typeof RANGE_POSITION],
+    hasTime?: boolean,
 ) => {
     const time: {
         hour?: number;
@@ -193,12 +202,20 @@ export const getDefaultTime = (
         } else {
             Object.assign(time, transformTimeToDate(defaultTime[1]));
         }
-    } else {
+    } else if (!rangePosition && hasTime) {
         const date = new Date();
 
         time.hour = date.getHours();
         time.minute = date.getMinutes();
         time.second = date.getSeconds();
+    } else if (rangePosition === RANGE_POSITION.RIGHT) {
+        time.hour = 23;
+        time.minute = 59;
+        time.second = 59;
+    } else {
+        time.hour = 0;
+        time.minute = 0;
+        time.second = 0;
     }
 
     return time;
