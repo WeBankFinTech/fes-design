@@ -1,4 +1,5 @@
 <template>
+    {{ checkedKeys }}
     <FTree
         v-model:checkedKeys="checkedKeys"
         :data="data"

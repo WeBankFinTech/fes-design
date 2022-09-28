@@ -1,4 +1,4 @@
-import { ref, watch, computed, WritableComputedRef } from 'vue';
+import { ref, watch, computed, WritableComputedRef, isProxy } from 'vue';
 import { isEqual, isArray } from 'lodash-es';
 
 import type { VModelEvent } from '../interface';
@@ -23,11 +23,20 @@ export const useNormalModel = (
         ) {
             return;
         }
+        // 兼容prop为reactive([])场景，使用currentValue.value = value会导致数据更新后，组件外丢失响应
+        if (isArray(value) && isArray(currentValue.value)) {
+            currentValue.value.length = 0;
+            value.forEach((val) => {
+                currentValue.value.push(val);
+            });
+            return;
+        }
         currentValue.value = value;
     };
     const updateCurrentValue = (value: any) => {
         pureUpdateCurrentValue(value);
-        emit(`update:${usingProp}`, value);
+        // 如果usingProp是数组，传入value则可能丢失响应，而currentValue.value是它自己，就不会丢失响应性
+        emit(`update:${usingProp}`, currentValue.value);
     };
 
     watch(

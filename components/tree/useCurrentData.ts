@@ -106,6 +106,7 @@ export default ({
         }, 10),
     );
 
+    // currentExpandedKeys 需要deep watch
     watch(
         [currentExpandedKeys, allKeys],
         debounce(() => {
@@ -114,6 +115,7 @@ export default ({
         }, 10),
         {
             immediate: true,
+            deep: true,
         },
     );
 

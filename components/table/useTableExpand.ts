@@ -36,7 +36,6 @@ export default ({
 
     const [currentExpandedKeys] = useNormalModel(props, ctx.emit, {
         prop: 'expandedKeys',
-        isEqual: true,
     });
 
     const isExpandOpened = ({ row }: { row: RowType }) => {
