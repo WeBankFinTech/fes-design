@@ -93,6 +93,10 @@
             flex-wrap: wrap;
             margin-top: calc(@padding-xs / 2 * -1 + 1px);
             margin-left: calc(@padding-xs / 2 * -1);
+            &.is-selected-null {
+                margin-top: 0;
+                margin-left: 0;
+            }
             .@{select-trigger-prefix-cls}-label-item {
                 margin-top: calc(@padding-xs / 2 - 1px);
                 margin-left: calc(@padding-xs / 2);

@@ -221,7 +221,9 @@ export default defineComponent({
                     : [];
             }
         };
-        watch(selectedDates, handleTempCurrentValue);
+        watch(selectedDates, handleTempCurrentValue, {
+            deep: true,
+        });
         const defaultActiveDate = ref(Date.now());
         watch(
             () => props.visible,

@@ -24,7 +24,7 @@
 import { reactive, ref } from 'vue';
 export default {
     setup() {
-        const checkedKeys = reactive([1]);
+        const checkedKeys = ref([1]);
         const data = reactive(
             Array.from([1, 2, 3], (i) => {
                 return {

@@ -12,19 +12,19 @@ export default (props: CascaderProps, { emit }: { emit: any }) => {
     const [currentExpandedKeys, updateExpandedKeys] = useNormalModel(
         props,
         emit,
-        { prop: 'expandedKeys', isEqual: true },
+        { prop: 'expandedKeys' },
     );
 
     const [currentCheckedKeys, updateCheckedKeys] = useNormalModel(
         props,
         emit,
-        { prop: 'checkedKeys', isEqual: true },
+        { prop: 'checkedKeys' },
     );
 
     const [currentSelectedKeys, updateSelectedKeys] = useNormalModel(
         props,
         emit,
-        { prop: 'selectedKeys', isEqual: true },
+        { prop: 'selectedKeys' },
     );
 
     const hasSelected = (value: CascaderNodeKey): boolean =>
