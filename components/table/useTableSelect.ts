@@ -55,7 +55,6 @@ export default ({
 
     const [currentCheckedKeys] = useNormalModel(props, ctx.emit, {
         prop: 'checkedKeys',
-        isEqual: true,
     });
 
     const isAllSelected = computed(() => {

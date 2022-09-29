@@ -24,6 +24,7 @@
     <FDivider></FDivider>
 
     <FSelect
+        v-model="arr"
         multiple
         clearable
         :tagBordered="tagBordered"
@@ -43,6 +44,7 @@ import { reactive, ref } from 'vue';
 
 export default {
     setup() {
+        const arr = ref([]);
         const optionList = reactive([
             {
                 value: 'HuNan',
@@ -76,6 +78,7 @@ export default {
             tagBordered,
             collapseTags,
             collapseTagsLimit,
+            arr,
         };
     },
 };

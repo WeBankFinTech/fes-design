@@ -23,14 +23,20 @@ export default ({
     const initialLoaded = ref(true);
     const initLoadingKeys = ref<CascaderNodeKey[]>([]);
 
-    watch([currentExpandedKeys, transformData, initLoadingKeys], () => {
-        // 缓存每个节点的状态，性能更优
-        transformData.value.forEach((key) => {
-            const node = nodeList[key];
-            node.isExpanded = currentExpandedKeys.value.includes(key);
-            node.isInitLoading = initLoadingKeys.value.includes(key);
-        });
-    });
+    watch(
+        [currentExpandedKeys, transformData, initLoadingKeys],
+        () => {
+            // 缓存每个节点的状态，性能更优
+            transformData.value.forEach((key) => {
+                const node = nodeList[key];
+                node.isExpanded = currentExpandedKeys.value.includes(key);
+                node.isInitLoading = initLoadingKeys.value.includes(key);
+            });
+        },
+        {
+            deep: true,
+        },
+    );
 
     const menuKeys = computed(() => {
         return [].concat(

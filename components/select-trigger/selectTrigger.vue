@@ -8,7 +8,13 @@
         @focusout="handleBlur"
         @mousedown="handleMouseDown"
     >
-        <div :class="[`${prefixCls}-label`, multiple && 'is-multiple']">
+        <div
+            :class="[
+                `${prefixCls}-label`,
+                multiple && 'is-multiple',
+                unSelectedRef && 'is-selected-null',
+            ]"
+        >
             <template v-if="!multiple">
                 <template v-if="!filterable">
                     <RenderTag
