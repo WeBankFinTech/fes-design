@@ -35,14 +35,16 @@ export const useNormalModel = (
     };
     const updateCurrentValue = (value: any) => {
         pureUpdateCurrentValue(value);
-        // 如果usingProp是数组，传入value则可能丢失响应，而currentValue.value是它自己，就不会丢失响应性
         emit(`update:${usingProp}`, currentValue.value);
     };
 
     watch(
         () => props[usingProp],
         (val) => {
-            pureUpdateCurrentValue(val);
+            if (val === currentValue.value) {
+                return;
+            }
+            currentValue.value = val;
         },
     );
 

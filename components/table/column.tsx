@@ -82,7 +82,9 @@ const columnProps = {
         default: false,
     },
     sortMethod: Function as PropType<() => void>,
-    selectable: Function as PropType<() => void>,
+    selectable: Function as PropType<
+        ({ row, index }: { row: RowType; index: number }) => void
+    >,
     action: [Object, Array] as PropType<ActionType | ActionType[]>,
     ellipsis: {
         type: Boolean,
