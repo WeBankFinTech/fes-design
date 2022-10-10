@@ -13,7 +13,7 @@ export type RowKey = string | ((row: RowType) => string | number);
 
 export interface ActionType {
     label: string | number;
-    func: (row: object) => void;
+    func: (row: any) => void;
 }
 
 export interface TableInst
