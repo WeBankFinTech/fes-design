@@ -52,6 +52,10 @@ app.use(FSelectCascader);
 
 --LABELFIELD
 
+### 多选场景扩展
+
+--SETSAMEROOTVALUE
+
 ### 无数据
 
 --NODATA
