@@ -3,18 +3,6 @@
         <span>默认语言:</span>
     </div>
     <div class="components">
-        <FSelectCascader></FSelectCascader>
-    </div>
-    <FDivider></FDivider>
-
-    <div class="title">
-        <span style="margin-right: 16px">语言切换:</span>
-        <FRadioGroup v-model="lang">
-            <FRadio key="cn" :value="zhCN.name">{{ zhCN.desc }}</FRadio>
-            <FRadio key="en" :value="enUS.name">{{ enUS.desc }}</FRadio>
-        </FRadioGroup>
-    </div>
-    <div class="components">
         <FConfigProvider :locale="locale">
             <div class="gap">
                 <FSelectCascader></FSelectCascader>
@@ -45,36 +33,6 @@
                 />
             </FSpace>
         </FConfigProvider>
-    </div>
-    <FDivider></FDivider>
-
-    <div class="title">
-        <div>嵌套配置:</div>
-    </div>
-    <div ref="componentsRef" class="components">
-        <FGrid>
-            <!-- 最外层英文 -->
-            <FGridItem :span="24">
-                <FConfigProvider :locale="enUS">
-                    <FSelectCascader></FSelectCascader>
-                    <!-- 中间层中文 -->
-                    <FGridItem :span="16">
-                        <FConfigProvider
-                            :locale="zhCN"
-                            :getContainer="getContainer"
-                        >
-                            <FSelectCascader></FSelectCascader>
-                            <!-- 最内层英文 -->
-                            <FGridItem :span="8">
-                                <FConfigProvider :locale="enUS">
-                                    <FSelectCascader> </FSelectCascader>
-                                </FConfigProvider>
-                            </FGridItem>
-                        </FConfigProvider>
-                    </FGridItem>
-                </FConfigProvider>
-            </FGridItem>
-        </FGrid>
     </div>
 </template>
 

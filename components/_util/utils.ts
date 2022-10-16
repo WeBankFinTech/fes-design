@@ -5,6 +5,7 @@ import { isNull, isNumber, isString, isUndefined } from 'lodash-es';
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = () => {};
 export const noopInNoop = () => noop;
+export const defaultContainer = () => document.body;
 
 export async function sleep(ms: number): Promise<void> {
     return new Promise((resolve) => {
