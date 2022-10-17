@@ -26,6 +26,7 @@ type PropsRef = ComputedRef<{
     disabled: boolean;
     beforeDragend?: BeforeDragEnd;
     isDirective?: boolean;
+    delay: number;
 }>;
 
 type CurrentStatus = {
@@ -120,7 +121,13 @@ export class DraggableItem {
 
     setDraggable(draggable = false) {
         this.draggable = draggable || null;
-        this.style.opacity = draggable ? 0.4 : null;
+        if (!draggable) {
+            this.style.opacity = null;
+        }
+    }
+
+    setOpacity(opacity = 0.4) {
+        this.style.opacity = opacity;
     }
 }
 
@@ -133,6 +140,8 @@ export const useDraggable = (
     const current: CurrentStatus = {};
     const backup: BackupContext = {};
     const emit = ctx?.emit || (() => null);
+    let isDragEnd = false;
+    let delayTimer = 0;
     const nextTickQueue: (() => void)[] = [];
 
     const newNextTick = (fn: () => void) => {
@@ -269,7 +278,8 @@ export const useDraggable = (
 
     /** 拖拽开始 */
     const onDragstart = (event: Event) => {
-        const { disabled, droppable, list } = propsRef.value;
+        isDragEnd = false;
+        const { disabled, droppable, list, delay } = propsRef.value;
         if (disabled) return;
         current.drag = findElement(event.target as Element, containerRef.value);
         if (!current.drag) return;
@@ -277,6 +287,11 @@ export const useDraggable = (
         const item = draggableItems[index];
         onAnimationEnd(); // 动画结束
         item.setDraggable(true); // 设置选中元素为可拖拽
+        clearTimeout(delayTimer);
+        delayTimer = setTimeout(() => {
+            if (isDragEnd) return;
+            item.setOpacity();
+        }, delay || 0);
         backupStatus();
         if (droppable) {
             shareSource(); // 跨容器，当前即是源，分享其他方法给目标容器
@@ -382,6 +397,7 @@ export const useDraggable = (
     };
 
     const onDragend = async (event: Event) => {
+        isDragEnd = true;
         const { droppable } = propsRef.value;
         await checkDragEnd();
         if (droppable && dragSourceCxt) {
@@ -408,8 +424,8 @@ export const useDraggable = (
 
     return {
         onAnimationEnd,
-        onDragstart,
         onDragover,
+        onDragstart,
         onDragend,
         draggableItems,
         nextTickQueue,

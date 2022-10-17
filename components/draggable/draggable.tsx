@@ -34,6 +34,7 @@ export default defineComponent({
             type: String,
             default: 'div',
         },
+        delay: Number,
     },
     emits: [UPDATE_MODEL_EVENT, DRAG_START_EVENT, DRAG_END_EVENT],
     setup(props, ctx) {
@@ -44,6 +45,7 @@ export default defineComponent({
             disabled: props.disabled,
             list: [...props.modelValue],
             beforeDragend: props.beforeDragend,
+            delay: props.delay,
         }));
         const {
             onAnimationEnd,
@@ -65,7 +67,7 @@ export default defineComponent({
                     '[FDraggable]: default slot must be a root element',
                 );
             }
-            const style = { ...(vNodes[0].props.style || {}) };
+            const style = { ...(vNodes[0].props?.style || {}) };
             mergeWith(
                 style,
                 draggableItems[index]?.style,
