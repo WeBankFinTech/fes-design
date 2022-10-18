@@ -72,13 +72,13 @@ const tableProps = {
     beforeDragend: Function as PropType<BeforeDragEnd>,
     checkedKeys: {
         type: Array as PropType<string[] | number[]>,
-        default():string[] | number[] {
+        default(): string[] | number[] {
             return [];
         },
     },
     expandedKeys: {
         type: Array as PropType<string[] | number[]>,
-        default():string[] | number[] {
+        default(): string[] | number[] {
             return [];
         },
     },
@@ -101,7 +101,7 @@ export default defineComponent({
         'dragstart',
         'dragend',
         'update:checkedKeys',
-        'update:expandedKeys'
+        'update:expandedKeys',
     ],
     setup(props, ctx: SetupContext) {
         useTheme();
