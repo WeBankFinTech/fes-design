@@ -16,10 +16,10 @@
     </f-table>
 </template>
 <script>
-import { reactive } from 'vue';
+import { ref } from 'vue';
 export default {
     setup() {
-        const data = reactive(
+        const data = ref(
             Array.from([1, 2, 3], (i) => {
                 return {
                     date: `2016-05-${i < 10 ? '0' + i : i}`,
