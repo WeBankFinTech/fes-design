@@ -83,7 +83,6 @@ type BeforeDragEnd = (
 | disabled  | 是否禁用                                                | boolean | `false` |
 | droppable | 是否可以放置，设置为 droppable 的容器都可以相互拖拽放置 | boolean | `false` |
 | beforeDragend | 拖拽结束之前回调，返回false、Promise.resolve(false)、Promise.reject()时，拖拽会恢复之前的状态 | [`BeforeDragEnd`](#阻止拖拽) | () => true
-| delay | 拖拽效果延迟时间，防止与单击效果冲突 | number | `0` |
 
 ## Draggable Events
 
@@ -110,5 +109,3 @@ type BeforeDragEnd = (
 | -- beforeDragend | 拖拽结束之前回调，[`BeforeDragEnd`](#阻止拖拽) |
 | -- onDragstart | 拖拽开始触发 |
 | -- onDragend |  拖拽结束触发 |
-| -- delay | 拖拽效果延迟时间，防止与单击效果冲突，默认0|
-
