@@ -296,7 +296,11 @@ export const useDraggable = (
     const onMousemove = (event: MouseEvent) => {
         if (!mousedownEvent) return;
         const item = draggableItems[current?.drag?.index];
-        if (item && Math.abs(event.x - mousedownEvent.x)) {
+        if (
+            item &&
+            (Math.abs(event.x - mousedownEvent.x) ||
+                Math.abs(event.y - mousedownEvent.y))
+        ) {
             item.setOpacity();
         }
     };
