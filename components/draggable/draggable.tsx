@@ -34,7 +34,6 @@ export default defineComponent({
             type: String,
             default: 'div',
         },
-        delay: Number,
     },
     emits: [UPDATE_MODEL_EVENT, DRAG_START_EVENT, DRAG_END_EVENT],
     setup(props, ctx) {
@@ -45,13 +44,13 @@ export default defineComponent({
             disabled: props.disabled,
             list: [...props.modelValue],
             beforeDragend: props.beforeDragend,
-            delay: props.delay,
         }));
         const {
             onAnimationEnd,
             onDragstart,
             onDragover,
             onDragend,
+            onMousemove,
             draggableItems,
         } = useDraggable(rootRef, propsRef, ctx as SetupContext);
 
@@ -88,6 +87,7 @@ export default defineComponent({
                 onDragend={onDragend}
                 onDrop={onDragend}
                 onMouseup={onDragend}
+                onMousemove={onMousemove}
                 onTransitionend={onAnimationEnd}
             >
                 {props.modelValue.map(renderItem)}

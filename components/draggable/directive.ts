@@ -48,7 +48,6 @@ export default {
             disabled: binding.modifiers.disabled,
             isDirective: true,
             beforeDragend: bindArg?.beforeDragend,
-            delay: 0,
         });
         const containerRef = ref(el);
         const propsRef = computed(() => props);

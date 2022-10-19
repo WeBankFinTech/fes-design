@@ -26,7 +26,6 @@ type PropsRef = ComputedRef<{
     disabled: boolean;
     beforeDragend?: BeforeDragEnd;
     isDirective?: boolean;
-    delay: number;
 }>;
 
 type CurrentStatus = {
@@ -140,8 +139,7 @@ export const useDraggable = (
     const current: CurrentStatus = {};
     const backup: BackupContext = {};
     const emit = ctx?.emit || (() => null);
-    let isDragEnd = false;
-    let delayTimer = 0;
+    let mousedownEvent: MouseEvent;
     const nextTickQueue: (() => void)[] = [];
 
     const newNextTick = (fn: () => void) => {
@@ -278,8 +276,8 @@ export const useDraggable = (
 
     /** 拖拽开始 */
     const onDragstart = (event: Event) => {
-        isDragEnd = false;
-        const { disabled, droppable, list, delay } = propsRef.value;
+        mousedownEvent = event as MouseEvent;
+        const { disabled, droppable, list } = propsRef.value;
         if (disabled) return;
         current.drag = findElement(event.target as Element, containerRef.value);
         if (!current.drag) return;
@@ -287,17 +285,20 @@ export const useDraggable = (
         const item = draggableItems[index];
         onAnimationEnd(); // 动画结束
         item.setDraggable(true); // 设置选中元素为可拖拽
-        clearTimeout(delayTimer);
-        delayTimer = setTimeout(() => {
-            if (isDragEnd) return;
-            item.setOpacity();
-        }, delay || 0);
         backupStatus();
         if (droppable) {
             shareSource(); // 跨容器，当前即是源，分享其他方法给目标容器
             sourceBackup = { ...backup };
         }
         emit(DRAG_START_EVENT, event, list[index], index);
+    };
+
+    const onMousemove = (event: MouseEvent) => {
+        if (!mousedownEvent) return;
+        const item = draggableItems[current?.drag?.index];
+        if (item && Math.abs(event.x - mousedownEvent.x)) {
+            item.setOpacity();
+        }
     };
 
     const onDragover = (event: DragEvent) => {
@@ -397,7 +398,7 @@ export const useDraggable = (
     };
 
     const onDragend = async (event: Event) => {
-        isDragEnd = true;
+        mousedownEvent = null;
         const { droppable } = propsRef.value;
         await checkDragEnd();
         if (droppable && dragSourceCxt) {
@@ -406,6 +407,7 @@ export const useDraggable = (
         }
         resetDragWhenEnd(event);
     };
+
     resetDragWhenEnd();
     watch(containerRef, () => FLIP(true), { immediate: true });
     watch(
@@ -429,6 +431,7 @@ export const useDraggable = (
         onDragend,
         draggableItems,
         nextTickQueue,
+        onMousemove,
         onUpdated,
     };
 };
