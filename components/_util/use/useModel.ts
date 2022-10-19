@@ -85,6 +85,7 @@ export const useArrayModel = (
         } else {
             val.push(value);
         }
+        updateCurrentValue(val);
     };
 
     return [computedValue, updateItem];
