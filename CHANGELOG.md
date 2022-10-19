@@ -1,3 +1,13 @@
+## [0.7.4](https://github.com/WeBankFinTech/fes-design/compare/v0.7.3...v0.7.4) (2022-10-18)
+
+
+### Bug Fixes
+
+* draggable指令兼容只有updated场景 ([#234](https://github.com/WeBankFinTech/fes-design/issues/234)) ([a9371f8](https://github.com/WeBankFinTech/fes-design/commit/a9371f80ce82c7239c47ab1d0c51047ff97bd2bb))
+* table actionType 类型问题 ([#230](https://github.com/WeBankFinTech/fes-design/issues/230)) ([0f77018](https://github.com/WeBankFinTech/fes-design/commit/0f770186fe6ed7ce71326b971bc76107584ce9c1))
+
+
+
 ## [0.7.3](https://github.com/WeBankFinTech/fes-design/compare/v0.7.2...v0.7.3) (2022-09-29)
 
 
