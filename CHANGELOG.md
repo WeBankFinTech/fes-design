@@ -1,3 +1,12 @@
+## [0.7.5](https://github.com/WeBankFinTech/fes-design/compare/v0.7.4...v0.7.5) (2022-10-20)
+
+
+### Bug Fixes
+
+* 修复Select组件v-model未初始化+多选导致内部状态不同步更新到组件外问题 ([#235](https://github.com/WeBankFinTech/fes-design/issues/235)) ([9efaa1f](https://github.com/WeBankFinTech/fes-design/commit/9efaa1f0092fd0d5e7ac628a7deef01df74d5233))
+
+
+
 ## [0.7.4](https://github.com/WeBankFinTech/fes-design/compare/v0.7.3...v0.7.4) (2022-10-18)
 
 
