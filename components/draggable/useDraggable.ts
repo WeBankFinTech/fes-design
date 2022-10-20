@@ -120,7 +120,13 @@ export class DraggableItem {
 
     setDraggable(draggable = false) {
         this.draggable = draggable || null;
-        this.style.opacity = draggable ? 0.4 : null;
+        if (!draggable) {
+            this.style.opacity = null;
+        }
+    }
+
+    setOpacity(opacity = 0.4) {
+        this.style.opacity = opacity;
     }
 }
 
@@ -133,6 +139,7 @@ export const useDraggable = (
     const current: CurrentStatus = {};
     const backup: BackupContext = {};
     const emit = ctx?.emit || (() => null);
+    let mousedownEvent: MouseEvent;
     const nextTickQueue: (() => void)[] = [];
 
     const newNextTick = (fn: () => void) => {
@@ -269,6 +276,7 @@ export const useDraggable = (
 
     /** 拖拽开始 */
     const onDragstart = (event: Event) => {
+        mousedownEvent = event as MouseEvent;
         const { disabled, droppable, list } = propsRef.value;
         if (disabled) return;
         current.drag = findElement(event.target as Element, containerRef.value);
@@ -283,6 +291,18 @@ export const useDraggable = (
             sourceBackup = { ...backup };
         }
         emit(DRAG_START_EVENT, event, list[index], index);
+    };
+
+    const onMousemove = (event: MouseEvent) => {
+        if (!mousedownEvent) return;
+        const item = draggableItems[current?.drag?.index];
+        if (
+            item &&
+            (Math.abs(event.x - mousedownEvent.x) ||
+                Math.abs(event.y - mousedownEvent.y))
+        ) {
+            item.setOpacity();
+        }
     };
 
     const onDragover = (event: DragEvent) => {
@@ -382,6 +402,7 @@ export const useDraggable = (
     };
 
     const onDragend = async (event: Event) => {
+        mousedownEvent = null;
         const { droppable } = propsRef.value;
         await checkDragEnd();
         if (droppable && dragSourceCxt) {
@@ -390,6 +411,7 @@ export const useDraggable = (
         }
         resetDragWhenEnd(event);
     };
+
     resetDragWhenEnd();
     watch(containerRef, () => FLIP(true), { immediate: true });
     watch(
@@ -408,11 +430,12 @@ export const useDraggable = (
 
     return {
         onAnimationEnd,
-        onDragstart,
         onDragover,
+        onDragstart,
         onDragend,
         draggableItems,
         nextTickQueue,
+        onMousemove,
         onUpdated,
     };
 };

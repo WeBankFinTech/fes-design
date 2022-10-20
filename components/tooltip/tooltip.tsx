@@ -1,4 +1,4 @@
-import { defineComponent, PropType } from 'vue';
+import { computed, defineComponent, PropType } from 'vue';
 import Popper from '../popper/popper';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -28,8 +28,6 @@ const toolTipProps = {
         default: () => defaultConfirmOption,
     },
 } as const;
-
-const tooltipPropKeys = Object.keys(toolTipProps);
 
 export default defineComponent({
     name: 'FTooltip',
@@ -132,20 +130,24 @@ export default defineComponent({
             }
         }
 
-        return () => {
-            const _props = { ...props };
-            tooltipPropKeys.forEach(
-                (key) => delete _props[key as keyof typeof toolTipProps],
-            );
+        const popperPropsRef = computed(() => {
+            const _props: Record<string, any> = {};
+            Object.keys(popperProps).forEach((key) => {
+                _props[key] = props[key as keyof typeof props];
+            });
             if (props.mode === 'confirm') {
                 // confirm模式下，只能点击触发
                 _props.trigger = 'click';
             }
+            return _props;
+        });
+
+        return () => {
             return (
                 <Popper
-                    {..._props}
+                    {...popperPropsRef.value}
                     v-model={currentValue.value}
-                    popperClass={`${prefixCls} ${prefixCls}-${props.mode} ${_props.popperClass}`}
+                    popperClass={`${prefixCls} ${prefixCls}-${props.mode} ${popperPropsRef.value.popperClass}`}
                     v-slots={getPopperSlots()}
                 >
                     {renderContent()}

@@ -82,6 +82,7 @@ const init = (el: HTMLElement, binding: DirectiveBinding<any>) => {
     el.addEventListener('mouseup', drag.onDragend);
     el.addEventListener('dragend', drag.onDragend);
     el.addEventListener('transitionend', drag.onAnimationEnd);
+    el.addEventListener('mousemove', drag.onMousemove);
 
     watch(
         () => drag.draggableItems,

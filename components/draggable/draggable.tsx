@@ -50,6 +50,7 @@ export default defineComponent({
             onDragstart,
             onDragover,
             onDragend,
+            onMousemove,
             draggableItems,
         } = useDraggable(rootRef, propsRef, ctx as SetupContext);
 
@@ -65,7 +66,7 @@ export default defineComponent({
                     '[FDraggable]: default slot must be a root element',
                 );
             }
-            const style = { ...(vNodes[0].props.style || {}) };
+            const style = { ...(vNodes[0].props?.style || {}) };
             mergeWith(
                 style,
                 draggableItems[index]?.style,
@@ -86,6 +87,7 @@ export default defineComponent({
                 onDragend={onDragend}
                 onDrop={onDragend}
                 onMouseup={onDragend}
+                onMousemove={onMousemove}
                 onTransitionend={onAnimationEnd}
             >
                 {props.modelValue.map(renderItem)}
