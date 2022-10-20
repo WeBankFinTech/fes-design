@@ -230,7 +230,7 @@ export const isBeyondRangeTime = (option: {
     if (!option.flagDate) return false;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const arr = option.maxRange.match(/(\d*)([MDY])/)!;
-    const length = Number(arr[1]) - 1;
+    const length = Number(arr[1]);
     const type = arr[2];
 
     let minDate: Date;
@@ -240,13 +240,14 @@ export const isBeyondRangeTime = (option: {
         // FEATURE: 后续采取 unicode token 标准(https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table)，用 d
         minDate = new Date(option.flagDate);
         maxDate = new Date(option.flagDate);
-        minDate.setDate(minDate.getDate() - length);
-        maxDate.setDate(maxDate.getDate() + length);
+        minDate.setDate(minDate.getDate() - length - 1);
+        maxDate.setDate(maxDate.getDate() + length - 1);
     } else if (type === 'M') {
+        // DEPRECATED 后续废弃对 M 和 Y 的支持
         minDate = new Date(option.flagDate);
         maxDate = new Date(option.flagDate);
-        minDate.setMonth(minDate.getMonth() - length, 1);
-        maxDate.setMonth(maxDate.getMonth() + length, 1);
+        minDate.setMonth(minDate.getMonth() - length, maxDate.getDate() + 1);
+        maxDate.setMonth(maxDate.getMonth() + length, maxDate.getDate() - 1);
     } else if (type === 'Y') {
         // FEATURE: 后续采取 unicode token 标准，用 y
         minDate = new Date(option.flagDate.getFullYear() + length, 0);
