@@ -17,7 +17,8 @@
 
 @calendars-prefix-cls: ~'@{cls-prefix}-calendars';
 
-@date-border-split: var(--f-border-width-base) var(--f-border-style-base) var(--f-border-color-split);
+@date-border-split: var(--f-border-width-base) var(--f-border-style-base)
+    var(--f-border-color-split);
 
 .@{calendars-prefix-cls} {
     display: flex;
@@ -253,7 +254,8 @@
         flex-direction: row;
         justify-content: space-between;
         padding: 10px 10px 4px;
-        &-date, &-time {
+        &-date,
+        &-time {
             width: 107px;
             height: 24px;
             text-align: center;
@@ -275,15 +277,19 @@
     height: @data-input-height-base;
     padding: 5px 9px;
     font-size: var(--f-font-size-base);
+    background-color: var(--f-white);
     border: var(--f-border-base);
     border-radius: var(--f-border-radius-base);
     outline: none;
 
-    &:focus-within, &.is-foused {
+    &:focus-within,
+    &.is-foused {
         box-shadow: 0 0 0 2px var(--f-focus-shadow-color);
     }
 
-    &:hover,&:focus-within, &.is-foused {
+    &:hover,
+    &:focus-within,
+    &.is-foused {
         border-color: var(--f-primary-color);
     }
 
@@ -295,7 +301,8 @@
         &:focus-within {
             box-shadow: none;
         }
-        &:hover,&:focus-within {
+        &:hover,
+        &:focus-within {
             border-color: var(--f-border-color-base);
         }
         > .@{range-input-prefix-cls}-inner {
