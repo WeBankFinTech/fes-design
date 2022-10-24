@@ -7,6 +7,7 @@ import { baseTheme } from './base';
 import type { TThemeVars } from './base';
 
 function _useTheme() {
+    // TODO: theme 和当前组件 config provider 的 getContainer 关联，目前只有第一个调用 useTheme 的组件生效
     const config = useConfig();
     const themeVars: Ref<TThemeVars> = ref(baseTheme());
 

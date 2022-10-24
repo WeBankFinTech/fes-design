@@ -1,13 +1,8 @@
-import type {
-    ExtractPropTypes,
-    InjectionKey,
-    PropType,
-    Ref,
-    ToRefs,
-} from 'vue';
+import type { InjectionKey, PropType, Ref } from 'vue';
 import type { TypeLanguage } from '../locales';
 import type { Theme } from '../_theme/interface';
 import type { GetContainer } from '../_util/interface';
+import { defaultContainer } from '../_util/utils';
 
 export type TranslatorOptionType = Record<string, string | number>;
 
@@ -24,15 +19,20 @@ export type LocaleContextType = {
 
 export const configProviderProps = {
     locale: Object as PropType<TypeLanguage>,
-    getContainer: Function as PropType<GetContainer>,
+    getContainer: {
+        type: Function as PropType<GetContainer>,
+        default: defaultContainer,
+    },
     theme: String,
     themeOverrides: Object as PropType<Partial<Theme>>,
 } as const;
 
-export type ConfigProviderContextType = ExtractPropTypes<
-    typeof configProviderProps
->;
+export type ConfigProviderContextType = {
+    locale?: Ref<TypeLanguage>;
+    getContainer?: Ref<GetContainer>;
+    theme?: Ref<string>;
+    themeOverrides?: Ref<Partial<Theme>>;
+};
 
-export const CONFIG_PROVIDER_INJECTION_KEY: InjectionKey<
-    ToRefs<ConfigProviderContextType>
-> = Symbol('ConfigProvider');
+export const CONFIG_PROVIDER_INJECTION_KEY: InjectionKey<ConfigProviderContextType> =
+    Symbol('ConfigProvider');

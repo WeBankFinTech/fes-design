@@ -1,15 +1,13 @@
 import {
+    ref,
     defineComponent,
     provide,
     inject,
-    ref,
     toRefs,
-    ToRefs,
     getCurrentInstance,
 } from 'vue';
-
+import { defaultContainer } from '../_util/utils';
 import { CONFIG_PROVIDER_INJECTION_KEY, configProviderProps } from './const';
-import type { ConfigProviderContextType } from './const';
 
 export function useConfig() {
     // 当不在vue实例使用时
@@ -17,15 +15,9 @@ export function useConfig() {
     if (!vm) {
         return {};
     }
-    const providerConfig: ToRefs<ConfigProviderContextType> = inject(
-        CONFIG_PROVIDER_INJECTION_KEY,
-        {},
-    );
-    if (!providerConfig.getContainer) {
-        providerConfig.getContainer = ref(() => {
-            return document.body;
-        });
-    }
+    const providerConfig = inject(CONFIG_PROVIDER_INJECTION_KEY, {
+        getContainer: ref(defaultContainer),
+    });
     return providerConfig;
 }
 
