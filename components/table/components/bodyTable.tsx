@@ -71,7 +71,17 @@ export default defineComponent({
                     </tbody>
                 );
             }
-            return <tbody>{renderBodyTrList()}</tbody>;
+            return (
+                <tbody
+                    v-drag={[
+                        showData.value,
+                        { onDragstart, onDragend, beforeDragend },
+                        ['disabled'],
+                    ]}
+                >
+                    {renderBodyTrList()}
+                </tbody>
+            );
         };
 
         const renderTable = () => {
