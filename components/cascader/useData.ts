@@ -54,14 +54,13 @@ export default ({
         level: number,
         path: CascaderOption[] = [],
     ) => {
-        const copy = { ...item };
-        const value = copy[props.valueField as 'value'];
-        const label = copy[props.labelField as 'label'];
-        const children = copy[props.childrenField as 'children'];
+        const value = item[props.valueField as 'value'];
+        const label = item[props.labelField as 'label'];
+        const children = item[props.childrenField as 'children'];
         const hasChildren = !!(Array.isArray(children) && children.length);
         let isLeaf;
-        if (!isNil(copy.isLeaf)) {
-            isLeaf = copy.isLeaf;
+        if (!isNil(item.isLeaf)) {
+            isLeaf = item.isLeaf;
         } else if (hasChildren) {
             isLeaf = false;
         } else if (props.remote) {
@@ -69,25 +68,39 @@ export default ({
         } else {
             isLeaf = true;
         }
-        copy.origin = item;
-        copy.value = value;
-        copy.label = label;
-        copy.isLeaf = isLeaf;
-        // 处理 indexPath
-        copy.indexPath = [...indexPath, value];
-        // 处理 path
-        copy.path = [
-            ...path,
-            {
-                value,
-                label,
-            },
-        ];
-        copy.level = level;
-        copy.hasChildren = hasChildren;
-        copy.childrenValues = hasChildren
-            ? children?.map((node) => node.value)
-            : [];
+        let copy: InnerCascaderOption;
+        const newItem = {
+            origin: item,
+            prefix: item.prefix,
+            suffix: item.suffix,
+            disabled: item.disabled,
+            selectable: item.selectable,
+            checkable: item.checkable,
+            value,
+            label,
+            isLeaf,
+            children,
+            hasChildren,
+            level,
+            indexPath: [...indexPath, value],
+            path: [
+                ...path,
+                {
+                    value,
+                    label,
+                },
+            ],
+            childrenValues: hasChildren
+                ? children?.map((node) => node[props.valueField as 'value'])
+                : [],
+        };
+        // Object.assign 比解构快很多
+        if (!nodeList[value]) {
+            copy = Object.assign({}, newItem);
+        } else {
+            copy = nodeList[value];
+            Object.assign(copy, newItem);
+        }
         return copy;
     };
 
@@ -162,7 +175,9 @@ export default ({
                     const children = await props.loadData({
                         ...node.origin, // 避免直接操作原生对象
                     });
-                    isArray(children) && (node.origin.children = children);
+                    isArray(children) &&
+                        (node.origin[props.childrenField as 'children'] =
+                            children);
                     await nextTick();
                 } catch (e) {
                     console.error(e);

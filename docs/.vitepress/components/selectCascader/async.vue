@@ -5,6 +5,9 @@
                 v-model="value1"
                 :data="data1"
                 :loadData="loadData"
+                valueField="id"
+                labelField="name"
+                childrenField="child"
                 clearable
                 remote
                 emitPath
@@ -18,6 +21,9 @@
                 v-model="value2"
                 :data="data2"
                 :loadData="loadData"
+                valueField="id"
+                labelField="name"
+                childrenField="child"
                 multiple
                 cascade
                 checkStrictly="parent"
@@ -38,9 +44,9 @@ function createData(level = 1, baseKey = '') {
     return Array.apply(null, { length: 2 }).map((_, index) => {
         const key = '' + baseKey + level + index;
         return {
-            label: createLabel(level),
-            value: key,
-            children: createData(level - 1, key),
+            name: createLabel(level),
+            id: key,
+            child: createData(level - 1, key),
         };
     });
 }
@@ -64,18 +70,18 @@ export default {
                     if (node) {
                         children = [
                             {
-                                label: `${node.label}1`,
-                                value: `${node.value}-1`,
+                                name: `${node.name}1`,
+                                id: `${node.id}-1`,
                                 isLeaf:
-                                    node.value.split('-').length > 1
+                                    node.id.split('-').length > 1
                                         ? true
                                         : false,
                             },
                             {
-                                label: `${node.label}2`,
-                                value: `${node.value}-2`,
+                                name: `${node.name}2`,
+                                id: `${node.id}-2`,
                                 isLeaf:
-                                    node.value.split('-').length > 1
+                                    node.id.split('-').length > 1
                                         ? true
                                         : false,
                             },
