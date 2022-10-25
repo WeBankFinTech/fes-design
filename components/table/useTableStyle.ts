@@ -133,6 +133,9 @@ export default ({
         if (layout.isScrollX.value && column.fixRight) {
             arr.push(`${prefixCls}-fixed-right`);
         }
+        if (column.props.sortable) {
+            arr.push(`${prefixCls}-cell-sortable`);
+        }
         return arr;
     };
 

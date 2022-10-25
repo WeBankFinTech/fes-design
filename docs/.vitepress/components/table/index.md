@@ -53,6 +53,10 @@ app.use(FTable);
 
 --CHECKBOX
 
+### 排序
+
+--SORT
+
 ### 操作
 
 简单的操作类型。
@@ -68,7 +72,7 @@ app.use(FTable);
 ### 虚拟滚动
 1W行数据也不会卡~
 
---VIRTUAL 
+--VIRTUAL
 
 ### 可拖拽
 
@@ -138,10 +142,12 @@ app.use(FTable);
 
 | 名称               | 说明                               | 参数  |
 | ------------------ | ---------------------------------- | ----- |
-| clearSelection     | 用于多选表格，清空用户的选择       | -     |
-| toggleRowSelection | 用于多选表格，切换某一行的选中状态 | *toggleRowSelection({row})* |
-| toggleAllSelection | 用于多选表格，切换全选和全不选     | -     |
-| toggleRowExpend | 用于控制某行的展开隐藏     | *toggleRowExpend({row})*    | 
+| clearSelection     | 用于多选表格，清空用户的选择       | () => void     |
+| toggleRowSelection | 用于多选表格，切换某一行的选中状态 | ({row: RowType})=> void |
+| toggleAllSelection | 用于多选表格，切换全选和全不选     | () => void      |
+| toggleRowExpend | 用于控制某行的展开隐藏     | ({row: RowType})=> void    |
+| sort | 设定表格的排序状态     | (prop: string, order: 'ascend' \| 'descend' \| false) => void    |
+| clearSorter | 清空所有排序状态     | () => void    |
 
 ## FTableColumn Props
 
@@ -161,6 +167,9 @@ app.use(FTable);
 | width        | 对应列的宽度，优先级大于 minWidth                                                     | number                                                               | -                     | -       |
 | ellipsis     | 设置宽度后，如果文本溢出后出现省略号                                                  | boolean                                                              | -                     | `false`   |
 | visible     | 是否显示列                                                  | boolean                                                              | -                     | `true`   |
+| sortable     | 是否排序列                                             | boolean                                                              | -                     | `false`   |
+| sorter     | 排序方法，如果设为 'default' 表格将会使用一个内置的排序函数；其他工作的方式类似 Array.sort 的对比函数                                             | ((a: RowType, b: RowType) => boolean) \| 'default'                                                              | -                     | `default`   |
+| sortDirections     | 支持的排序方式                                             | string[]                                                             | -                     | `['ascend', 'descend']`   |
 
 ## FTableColumn Slots
 

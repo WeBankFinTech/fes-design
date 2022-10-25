@@ -1,7 +1,6 @@
-import { inject, defineComponent } from 'vue';
+import { inject, defineComponent, Fragment } from 'vue';
 import FCheckbox from '../../checkbox/checkbox.vue';
 import { provideKey } from '../const';
-import Label from './label';
 
 import type { ColumnInst } from '../column';
 
@@ -15,8 +14,21 @@ export default defineComponent({
             isAllSelected,
             isCurrentDataAnySelected,
             handleSelectAll,
+            handleClickSortHeader,
             prefixCls,
+            sortState,
         } = inject(provideKey);
+
+        const renderHeader = ({
+            column,
+            columnIndex,
+        }: {
+            column: ColumnInst;
+            columnIndex: number;
+        }) =>
+            column?.slots?.header?.({ column, columnIndex }) ??
+            column?.props?.label;
+
         const renderThList = (row: ColumnInst[]) =>
             row
                 .map((column, columnIndex: number) => (
@@ -28,10 +40,45 @@ export default defineComponent({
                         style={getCustomCellStyle({ column })}
                         onClick={($event) => {
                             handleHeaderClick({ column }, $event);
+                            handleClickSortHeader({ column });
                         }}
                     >
                         {column.props.type === 'default' && (
-                            <Label column={column} columnIndex={columnIndex} />
+                            <Fragment>
+                                {renderHeader({ column, columnIndex })}
+                                {column.props.sortable && (
+                                    <span class={`${prefixCls}-sorter`}>
+                                        {column.props.sortDirections?.includes(
+                                            'ascend',
+                                        ) && (
+                                            <span
+                                                class={[
+                                                    `${prefixCls}-sorter-up`,
+                                                    sortState.prop ===
+                                                        column.props.prop &&
+                                                        sortState.order ===
+                                                            'ascend' &&
+                                                        'is-active',
+                                                ]}
+                                            />
+                                        )}
+                                        {column.props.sortDirections?.includes(
+                                            'descend',
+                                        ) && (
+                                            <span
+                                                class={[
+                                                    `${prefixCls}-sorter-down`,
+                                                    sortState.prop ===
+                                                        column.props.prop &&
+                                                        sortState.order ===
+                                                            'descend' &&
+                                                        'is-active',
+                                                ]}
+                                            />
+                                        )}
+                                    </span>
+                                )}
+                            </Fragment>
                         )}
                         {column.props.type === 'selection' && (
                             <div class={`${prefixCls}-center`}>

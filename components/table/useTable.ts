@@ -1,4 +1,4 @@
-import { computed, provide, SetupContext, watch, ref } from 'vue';
+import { provide, SetupContext, watch, ref } from 'vue';
 import { isArray } from 'lodash-es';
 import { getRowKey as _getRowKey, getCellValue } from './helper';
 import { provideKey, TABLE_NAME } from './const';
@@ -8,6 +8,7 @@ import useTableSelect from './useTableSelect';
 import useTableExpand from './useTableExpand';
 import useTableStyle from './useTableStyle';
 import useTableDrag from './useTableDrag';
+import useTableSort from './useTableSort';
 
 import type { TableProps } from './table';
 import type { RowType } from './interface';
@@ -68,6 +69,13 @@ export default (props: TableProps, ctx: SetupContext) => {
 
     const dragState = useTableDrag({ props, ctx });
 
+    const sortState = useTableSort({
+        props,
+        ctx,
+        showData,
+        columns: columnState.columns,
+    });
+
     const state = {
         rootProps: props,
         getRowKey,
@@ -80,6 +88,7 @@ export default (props: TableProps, ctx: SetupContext) => {
         ...styleState,
         ...selectState,
         ...dragState,
+        ...sortState,
     };
 
     provide(provideKey, state);

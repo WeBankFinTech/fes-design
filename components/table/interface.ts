@@ -6,6 +6,7 @@ import useTableSelect from './useTableSelect';
 import useTableExpand from './useTableExpand';
 import useTableStyle from './useTableStyle';
 import useTableDrag from './useTableDrag';
+import useTableSort from './useTableSort';
 import type { TableProps } from './table';
 
 export type RowType = Record<string, any>;
@@ -22,7 +23,8 @@ export interface TableInst
         ReturnType<typeof useTableSelect>,
         ReturnType<typeof useTableExpand>,
         ReturnType<typeof useTableStyle>,
-        ReturnType<typeof useTableDrag> {
+        ReturnType<typeof useTableDrag>,
+        ReturnType<typeof useTableSort> {
     rootProps: TableProps;
     getRowKey: ({ row }: { row: RowType }) => string | number | RowType;
     getCellValue: typeof getCellValue;
