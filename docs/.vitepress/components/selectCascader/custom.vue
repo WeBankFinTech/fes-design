@@ -16,7 +16,13 @@
 
     <FDivider></FDivider>
 
-    <FSelectCascader v-if="!multiple" :data="data">
+    <FSelectCascader
+        v-if="!multiple"
+        :data="data"
+        valueField="id"
+        labelField="name"
+        childrenField="child"
+    >
         <template #tag="{ option }">
             <FEllipsis>
                 <template v-if="showPath">
@@ -34,7 +40,14 @@
             </FEllipsis>
         </template>
     </FSelectCascader>
-    <FSelectCascader v-else :data="data" multiple>
+    <FSelectCascader
+        v-else
+        :data="data"
+        multiple
+        valueField="id"
+        labelField="name"
+        childrenField="child"
+    >
         <template #tag="{ option }">
             <FTag type="info" size="small">
                 <FEllipsis>
@@ -65,9 +78,9 @@ function createData(level = 1, baseKey = '', prefix = null, suffix = null) {
     return Array.apply(null, { length: 2 }).map((_, index) => {
         const key = '' + baseKey + level + index;
         return {
-            label: createLabel(level),
-            value: key,
-            children: createData(level - 1, key, prefix, suffix),
+            name: createLabel(level),
+            id: key,
+            child: createData(level - 1, key, prefix, suffix),
             x: `${key}-${createLabel(level)}`,
             prefix: prefix ? () => h(PictureOutlined) : null,
             suffix: suffix ? () => h(PlusCircleOutlined) : null,

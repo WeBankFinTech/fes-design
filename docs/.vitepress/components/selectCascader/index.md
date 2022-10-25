@@ -48,9 +48,9 @@ app.use(FSelectCascader);
 
 --DISABLED
 
-### 控制回填内容
+### 自定义选项及控制回填内容
 
---LABELFIELD
+--CUSTOM
 
 ### 无数据
 
