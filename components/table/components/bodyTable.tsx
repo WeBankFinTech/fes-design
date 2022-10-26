@@ -1,6 +1,6 @@
 import { defineComponent, inject, PropType } from 'vue';
 import FScrollbar from '../../scrollbar/scrollbar.vue';
-import vDrag from '../../draggable/directive';
+import Draggable from '../../draggable/draggable';
 import { provideKey } from '../const';
 import Colgroup from './colgroup';
 import Header from './header';
@@ -9,9 +9,6 @@ import Tr from './tr';
 import type { ColumnInst } from '../column';
 
 export default defineComponent({
-    directives: {
-        drag: vDrag,
-    },
     props: {
         composed: {
             type: Boolean,
@@ -51,6 +48,20 @@ export default defineComponent({
                 />
             ));
 
+        const slots = {
+            default: ({ item, index }: { item: object; index: number }) => {
+                return (
+                    <Tr
+                        row={item}
+                        rowIndex={index}
+                        columns={props.columns}
+                        expanded={false}
+                        key={(getRowKey({ row: item }) || index) as any}
+                    />
+                );
+            },
+        };
+
         const renderBody = () => {
             if (showData.value.length === 0) {
                 return (
@@ -61,14 +72,14 @@ export default defineComponent({
             }
             if (rootProps.draggable) {
                 return (
-                    <tbody
-                        v-drag={[
-                            showData.value,
-                            { onDragstart, onDragend, beforeDragend },
-                        ]}
-                    >
-                        {renderBodyTrList()}
-                    </tbody>
+                    <Draggable
+                        tag="tbody"
+                        v-model={showData.value}
+                        beforeDragend={beforeDragend}
+                        onDragstart={onDragstart}
+                        onDragend={onDragend}
+                        v-slots={slots}
+                    ></Draggable>
                 );
             }
             return <tbody>{renderBodyTrList()}</tbody>;

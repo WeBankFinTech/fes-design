@@ -42,6 +42,7 @@ const updateStyle = (el: HTMLElement, items: DraggableItem[]) => {
 };
 
 const init = (el: HTMLElement, binding: DirectiveBinding<any>) => {
+    if (binding.modifiers.disabled) return;
     const bindArg = binding.arg as unknown as {
         onDragstart: (...args: unknown[]) => void;
         beforeDragend?: BeforeDragEnd;
