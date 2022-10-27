@@ -1,31 +1,26 @@
 import { SetupContext, reactive, Ref, readonly } from 'vue';
-import type { TableProps } from './table';
 import type { RowType } from './interface';
 import type { ColumnInst, SortOrderType, SorterType } from './column';
 
+type SortStateType = {
+    prop?: string;
+    order?: 'descend' | 'ascend';
+    sorter?: SorterType;
+};
+
 export default ({
-    props,
     ctx,
-    showData,
     columns,
 }: {
-    props: TableProps;
     ctx: SetupContext;
-    showData: Ref<RowType[]>;
     columns: Ref<ColumnInst[]>;
 }) => {
-    const sortState: {
-        prop?: string;
-        order?: 'descend' | 'ascend';
-    } = reactive({});
+    const sortState: SortStateType = reactive({});
 
-    const handleData = (
-        prop: string,
-        order: SortOrderType,
-        sorter: SorterType,
-    ) => {
+    const handleRowDataBySort = (data: RowType[], param: SortStateType) => {
+        const { prop, order, sorter } = param;
         if (order === 'ascend') {
-            showData.value = showData.value.sort((a: RowType, b: RowType) => {
+            return data.sort((a: RowType, b: RowType) => {
                 let res = 0;
                 if (typeof sorter === 'function') {
                     try {
@@ -37,8 +32,9 @@ export default ({
                 }
                 return res;
             });
-        } else if (order === 'descend') {
-            showData.value = showData.value.sort((a: RowType, b: RowType) => {
+        }
+        if (order === 'descend') {
+            return data.sort((a: RowType, b: RowType) => {
                 let res = 0;
                 if (typeof sorter === 'function') {
                     try {
@@ -50,9 +46,8 @@ export default ({
                 }
                 return res;
             });
-        } else {
-            showData.value = props.data.slice(0);
         }
+        return data;
     };
 
     const handleClickSortHeader = ({ column }: { column: ColumnInst }) => {
@@ -61,22 +56,15 @@ export default ({
             Object.assign(sortState, {
                 prop: column.props.prop,
                 order: order,
+                sorter: column.props.sorter,
             });
-            handleData(column.props.prop, order, column.props.sorter);
         } else {
             const index = column.props.sortDirections.indexOf(sortState.order);
             const order = column.props.sortDirections[index + 1];
-            if (order) {
-                Object.assign(sortState, {
-                    order: order,
-                });
-                handleData(column.props.prop, order, column.props.sorter);
-            } else {
-                Object.assign(sortState, {
-                    order: false,
-                });
-                handleData(column.props.prop, false, column.props.sorter);
-            }
+            Object.assign(sortState, {
+                order: order ?? false,
+                sorter: column.props.sorter,
+            });
         }
         ctx.emit('sortChange', readonly(sortState));
     };
@@ -88,8 +76,8 @@ export default ({
         Object.assign(sortState, {
             prop,
             order,
+            sorter: column?.props?.sorter,
         });
-        handleData(prop, order, column?.props?.sorter);
         ctx.emit('sortChange', readonly(sortState));
     };
 
@@ -97,8 +85,8 @@ export default ({
         Object.assign(sortState, {
             prop: undefined,
             order: undefined,
+            sorter: undefined,
         });
-        handleData(undefined, false, undefined);
         ctx.emit('sortChange', readonly(sortState));
     };
 
@@ -107,5 +95,6 @@ export default ({
         handleClickSortHeader,
         sort,
         clearSorter,
+        handleRowDataBySort,
     };
 };

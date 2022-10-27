@@ -36,7 +36,11 @@ export default defineComponent({
                         key={column.id}
                         colspan={column.colSpan}
                         rowspan={column.rowSpan}
-                        class={[`${prefixCls}-th`, ...getCellClass({ column })]}
+                        class={[
+                            `${prefixCls}-th`,
+                            column.props.sortable && `${prefixCls}-th-sortable`,
+                            ...getCellClass({ column }),
+                        ]}
                         style={getCustomCellStyle({ column })}
                         onClick={($event) => {
                             handleHeaderClick({ column }, $event);

@@ -138,6 +138,9 @@ app.use(FTable);
 | selectionChange | 当选择项发生变化时会触发该事件               | (selection) => void                   |
 | dragstart | 拖拽开始触发                                       | (event, item, index) => void |
 | dragend   | 拖拽结束触发                                      | (event, item, index) => void   |
+| sortChange   | 点击排序后触发                                      | ({prop?: string; order?: 'descend' \| 'ascend'; sorter?: Function \| 'default'}) => void   |
+
+
 ## FTable Methods
 
 | 名称               | 说明                               | 参数  |

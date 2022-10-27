@@ -17,14 +17,24 @@ let tableIdSeed = 1;
 export default (props: TableProps, ctx: SetupContext) => {
     const tableId = `f-table_${tableIdSeed++}`;
 
+    const columnState = useTableColumn();
+
     // 展示的数据
     const showData = ref([]);
 
+    const sortState = useTableSort({
+        ctx,
+        columns: columnState.columns,
+    });
+
     watch(
-        () => props.data,
+        [() => props.data, sortState.sortState],
         () => {
             if (isArray(props.data)) {
-                showData.value = props.data.slice(0);
+                showData.value = sortState.handleRowDataBySort(
+                    props.data.slice(0),
+                    sortState.sortState,
+                );
             } else {
                 console.warn(`[${TABLE_NAME}]: data must be array`);
                 showData.value = [];
@@ -39,8 +49,6 @@ export default (props: TableProps, ctx: SetupContext) => {
     // 行数据的key
     const getRowKey = ({ row }: { row: RowType }) =>
         _getRowKey({ row, rowKey: props.rowKey });
-
-    const columnState = useTableColumn();
 
     const eventState = useTableEvent(ctx);
 
@@ -68,13 +76,6 @@ export default (props: TableProps, ctx: SetupContext) => {
     });
 
     const dragState = useTableDrag({ props, ctx });
-
-    const sortState = useTableSort({
-        props,
-        ctx,
-        showData,
-        columns: columnState.columns,
-    });
 
     const state = {
         rootProps: props,
