@@ -58,10 +58,13 @@ export default ({
     });
 
     const isAllSelected = computed(() => {
-        return selectableData.value.every((_row) => {
-            const _rowKey = getRowKey({ row: _row });
-            return currentCheckedKeys.value.includes(_rowKey);
-        });
+        return (
+            selectableData.value.length > 0 &&
+            selectableData.value.every((_row) => {
+                const _rowKey = getRowKey({ row: _row });
+                return currentCheckedKeys.value.includes(_rowKey);
+            })
+        );
     });
 
     const isCurrentDataAnySelected = computed(() => {
