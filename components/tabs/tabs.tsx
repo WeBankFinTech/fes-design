@@ -23,10 +23,10 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import useScrollX from '../_util/use/useScrollX';
 import { flatten } from '../_util/vnode';
-import { computeTabBarStyle } from './helper';
-import FTab from './tab';
 import { useTheme } from '../_theme/useTheme';
 import PlusOutlined from '../icon/PlusOutlined';
+import { computeTabBarStyle } from './helper';
+import FTab from './tab';
 
 import type { PropType } from 'vue';
 import type { Position } from './interface';
@@ -184,6 +184,13 @@ export default defineComponent({
             handleTabNavScroll();
         }
 
+        // 当没有默认值时，设置第一项为默认值，在Tab组件调用
+        const setDefaultValue = (value: unknown) => {
+            if (!currentValue.value && currentValue.value !== 0) {
+                updateCurrentValue(value);
+            }
+        };
+
         provide(TABS_INJECTION_KEY, {
             valueRef: currentValue,
             closableRef: toRef(props, 'closable'),
@@ -192,6 +199,7 @@ export default defineComponent({
             tabsLength,
             handleTabClick,
             handleClose,
+            setDefaultValue,
         });
 
         watch(
@@ -212,17 +220,6 @@ export default defineComponent({
             },
             { immediate: true },
         );
-
-        if (!currentValue.value && ctx.slots.default) {
-            // set default value
-            const tabPanes = flatten(ctx.slots.default()).filter(
-                (vNode) => (vNode.type as any).name === 'FTabPane',
-            );
-            // 避免可能出现的bug https://github.com/vuejs/core/issues/5290
-            nextTick(() => {
-                updateCurrentValue(tabPanes[0]?.props?.value);
-            });
-        }
 
         watch(tabsLength, () => {
             nextTick(() => {
