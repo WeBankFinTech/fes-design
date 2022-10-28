@@ -1,8 +1,8 @@
 import { computed, defineComponent, inject, onBeforeUnmount } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { TABS_INJECTION_KEY } from '../_util/constants';
-import { tabProps } from './helper';
 import CloseCircleFilled from '../icon/CloseCircleFilled';
+import { tabProps } from './helper';
 
 const prefixCls = getPrefixCls('tabs');
 
@@ -17,6 +17,7 @@ export default defineComponent({
             handleTabClick,
             handleClose,
             closeModeRef,
+            setDefaultValue,
         } = inject(TABS_INJECTION_KEY);
 
         const mergeClosable = computed(() => {
@@ -25,6 +26,8 @@ export default defineComponent({
                 ? props.closable
                 : closableRef.value;
         });
+
+        setDefaultValue(props.value);
 
         function handleClick() {
             if (props.disabled) return;
