@@ -22,6 +22,9 @@ import {
 import type { CellProps } from './components/cell';
 import type { RowType, ActionType } from './interface';
 
+export type SortOrderType = 'descend' | 'ascend' | false;
+export type SorterType = ((a: RowType, b: RowType) => boolean) | 'default';
+
 const columnProps = {
     label: String,
     prop: String,
@@ -81,7 +84,18 @@ const columnProps = {
         type: Boolean,
         default: false,
     },
-    sortMethod: Function as PropType<() => void>,
+    sortDirections: {
+        type: Array as PropType<Array<'descend' | 'ascend'>>,
+        default: ['descend', 'ascend'],
+    },
+    sortOrder: {
+        type: [String, Boolean] as PropType<SortOrderType>,
+        default: false,
+    },
+    sorter: {
+        type: [Function, String] as PropType<SorterType>,
+        default: 'default',
+    },
     selectable: Function as PropType<
         ({ row, index }: { row: RowType; index: number }) => void
     >,

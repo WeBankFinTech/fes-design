@@ -115,6 +115,8 @@ export default defineComponent({
             columns,
             rootProps,
             toggleRowExpend,
+            sort,
+            clearSorter,
         } = useTable(props, ctx);
 
         ctx.expose &&
@@ -123,6 +125,8 @@ export default defineComponent({
                 toggleAllSelection: handleSelectAll,
                 clearSelection: clearSelect,
                 toggleRowExpend,
+                sort,
+                clearSorter,
             });
 
         // 计算出传入columns列的对应的宽度
