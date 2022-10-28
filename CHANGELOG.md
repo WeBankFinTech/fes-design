@@ -1,3 +1,22 @@
+## [0.7.6](https://github.com/WeBankFinTech/fes-design/compare/v0.7.5...v0.7.6) (2022-10-28)
+
+
+### Bug Fixes
+
+* Cascader组件自定义选项配置不生效 ([#239](https://github.com/WeBankFinTech/fes-design/issues/239)) ([b2f7a49](https://github.com/WeBankFinTech/fes-design/commit/b2f7a49653c227b3f6b88a1e5f203c5d736655d2))
+* config provide getContainer 没给默认值异常 ([#232](https://github.com/WeBankFinTech/fes-design/issues/232)) ([cc9ad30](https://github.com/WeBankFinTech/fes-design/commit/cc9ad301b8b97017784db369825dacd57cb0c432))
+* datePicker maxRange 移除 M/Y 的支持 ([#236](https://github.com/WeBankFinTech/fes-design/issues/236)) ([c8a1156](https://github.com/WeBankFinTech/fes-design/commit/c8a1156768017c1159e12015332eb13925afbfe6))
+* datePicker range 样式问题 ([#238](https://github.com/WeBankFinTech/fes-design/issues/238)) ([9a9b0c9](https://github.com/WeBankFinTech/fes-design/commit/9a9b0c97ac6e64a9e54a4ecde83a7b1516ea95d6))
+* 修复Table无数据时会全选问题 ([b317bec](https://github.com/WeBankFinTech/fes-design/commit/b317becfe6b4adc059c711e2fc8c05dd90e5e9ef))
+* 修复Table组件开关draggable不起作用 ([#241](https://github.com/WeBankFinTech/fes-design/issues/241)) ([15ff82e](https://github.com/WeBankFinTech/fes-design/commit/15ff82ea9f23b10be10e331d1abf4d35ef8a00cc))
+
+
+### Features
+
+* Table支持排序 ([#240](https://github.com/WeBankFinTech/fes-design/issues/240)) ([ed51a99](https://github.com/WeBankFinTech/fes-design/commit/ed51a991f019045f609846badb60cc349024cde0))
+
+
+
 ## [0.7.5](https://github.com/WeBankFinTech/fes-design/compare/v0.7.4...v0.7.5) (2022-10-20)
 
 
