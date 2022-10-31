@@ -1,3 +1,13 @@
+## [0.7.7](https://github.com/WeBankFinTech/fes-design/compare/v0.7.6...v0.7.7) (2022-10-31)
+
+
+### Bug Fixes
+
+* tabs默认选中优化 ([#243](https://github.com/WeBankFinTech/fes-design/issues/243)) ([0721093](https://github.com/WeBankFinTech/fes-design/commit/0721093d4f7a1e27920eaa391c3eb54ff4aa6f70))
+* 修复Tree组件手风琴模式问题 ([#244](https://github.com/WeBankFinTech/fes-design/issues/244)) ([6d0d42b](https://github.com/WeBankFinTech/fes-design/commit/6d0d42b70b61076f36ba9be8b18a36e9a428eab2))
+
+
+
 ## [0.7.6](https://github.com/WeBankFinTech/fes-design/compare/v0.7.5...v0.7.6) (2022-10-28)
 
 
