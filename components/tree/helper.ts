@@ -70,13 +70,14 @@ export const getBrotherKeys = (
 ) => {
     const parentNode = node.indexPath[node.indexPath.length - 2];
     const arr: TreeNodeKey[] = [];
-    (parentNode ? nodeList.get(parentNode)?.children || [] : props.data).map(
-        (item) => {
-            const value = item[props.valueField];
-            if (value !== node.value) {
-                arr.push(value);
-            }
-        },
-    );
+    (parentNode
+        ? nodeList.get(parentNode)?.children || []
+        : props.data
+    ).forEach((item) => {
+        const value = item[props.valueField];
+        if (value !== node.value) {
+            arr.push(value);
+        }
+    });
     return arr;
 };
