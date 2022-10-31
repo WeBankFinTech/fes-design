@@ -1,9 +1,12 @@
 import { Ref, ref, watch } from 'vue';
 import { debounce } from 'lodash-es';
-import type { TreeNodeKey, InnerTreeOption } from './interface';
+import { getBrotherKeys } from './helper';
 import { concat } from '../_util/utils';
+import type { TreeNodeKey, InnerTreeOption } from './interface';
+import type { TreeProps } from './props';
 
 export default ({
+    props,
     isSearchingRef,
     filteredExpandedKeys,
     currentExpandedKeys,
@@ -12,6 +15,7 @@ export default ({
     expandingNode,
     nodeList,
 }: {
+    props: TreeProps;
     isSearchingRef: Ref<boolean>;
     filteredExpandedKeys: Ref<TreeNodeKey[]>;
     currentExpandedKeys: Ref<TreeNodeKey[]>;
@@ -63,6 +67,19 @@ export default ({
             const node = expandingNode.value;
             // 展开后
             if (node.isExpanded.value) {
+                if (props.accordion) {
+                    const brotherKeys = getBrotherKeys(node, props, nodeList);
+                    brotherKeys.forEach((key) => {
+                        const brotherNode = nodeList.get(key);
+                        if (brotherNode.isExpanded.value) {
+                            const index = currentData.value.indexOf(
+                                brotherNode.value,
+                            );
+                            deleteNode(brotherNode.childrenPath, index + 1);
+                            brotherNode.isExpanded.value = false;
+                        }
+                    });
+                }
                 const index = currentData.value.indexOf(node.value);
                 addNode(node.children, index + 1);
             } else {

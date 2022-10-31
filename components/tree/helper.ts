@@ -1,5 +1,6 @@
 import type { TreeNodeKey, InnerTreeOption } from './interface';
 import { concat } from '../_util/utils';
+import type { TreeProps } from './props';
 
 export const getChildrenByValues = (
     nodeList: Map<TreeNodeKey, InnerTreeOption>,
@@ -58,6 +59,25 @@ export const getParentByValues = (
     Object.values(res).forEach((levelValues) => {
         // 比Array.concat快
         concat(arr, levelValues);
+    });
+    return arr;
+};
+
+export const getBrotherKeys = (
+    node: InnerTreeOption,
+    props: TreeProps,
+    nodeList: Map<TreeNodeKey, InnerTreeOption>,
+) => {
+    const parentNode = node.indexPath[node.indexPath.length - 2];
+    const arr: TreeNodeKey[] = [];
+    (parentNode
+        ? nodeList.get(parentNode)?.children || []
+        : props.data
+    ).forEach((item) => {
+        const value = item[props.valueField];
+        if (value !== node.value) {
+            arr.push(value);
+        }
     });
     return arr;
 };
