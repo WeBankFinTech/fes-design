@@ -1,5 +1,6 @@
 import { Ref, shallowRef, onMounted } from 'vue';
 import { cloneDeep } from 'lodash-es';
+import { getBrotherKeys } from './helper';
 import type { TreeNodeKey, InnerTreeOption } from './interface';
 import type { TreeProps } from './props';
 
@@ -48,7 +49,8 @@ export default ({
             node.isExpanded.value = false;
         } else {
             if (props.accordion) {
-                values = values.filter((item) => node.indexPath.includes(item));
+                const brotherKeys = getBrotherKeys(node, props, nodeList);
+                values = values.filter((item) => !brotherKeys.includes(item));
             }
             values.push(val);
             // 让动画早点动起来

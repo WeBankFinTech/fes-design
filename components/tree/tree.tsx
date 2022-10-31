@@ -91,6 +91,7 @@ export default defineComponent({
         });
 
         const { currentData } = useCurrentData({
+            props,
             isSearchingRef,
             filteredExpandedKeys,
             currentExpandedKeys,
