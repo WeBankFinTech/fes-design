@@ -1,6 +1,7 @@
 <template>
     <FSpace vertical>
         <FDatePicker class="date-picker-1" type="daterange" clearable />
+        <FDatePicker class="date-picker-1" type="datemonthrange" />
         <FDatePicker
             type="daterange"
             style="width: 320px"

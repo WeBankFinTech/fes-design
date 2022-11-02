@@ -1,5 +1,6 @@
 import { watch, watchEffect, ref, reactive, computed, Ref } from 'vue';
 import { isNil } from 'lodash-es';
+import { endOfMonth } from 'date-fns';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { PickerType } from './pickerHandler';
@@ -12,8 +13,7 @@ import {
     contrastDate,
     transformDateToTimestamp,
     transformTimeToDate,
-    getDefaultTime,
-    pickTime,
+    fillDate,
 } from './helper';
 
 import type { CalendarProps } from './calendar.vue';
@@ -96,16 +96,15 @@ export const useSelectedDates = (
             (!selectedDates.value.length ||
                 props.selectedStatus === SELECTED_STATUS.TWO)
         ) {
-            const anotherDate = { ...newDate };
-            Object.assign(
-                anotherDate,
-                getDefaultTime(
-                    props.defaultTime,
+            const anotherDate = fillDate({
+                dateObj: newDate,
+                format: picker.value.format,
+                defaultTime: props.defaultTime,
+                rangePosition:
                     props.rangePosition === RANGE_POSITION.LEFT
                         ? RANGE_POSITION.RIGHT
                         : RANGE_POSITION.LEFT,
-                ),
-            );
+            });
             if (props.rangePosition === RANGE_POSITION.LEFT) {
                 selectedDates.value = [newDate, anotherDate];
             } else {
@@ -124,13 +123,19 @@ export const useSelectedDates = (
                 selectedDates.value.splice(
                     0,
                     1,
-                    Object.assign(newDate, pickTime(selectedDates.value[0])),
+                    picker.value.getRangeSelectedDate(
+                        newDate,
+                        selectedDates.value[0],
+                    ),
                 );
             } else {
                 selectedDates.value.splice(
                     1,
                     1,
-                    Object.assign(newDate, pickTime(selectedDates.value[1])),
+                    picker.value.getRangeSelectedDate(
+                        newDate,
+                        selectedDates.value[1],
+                    ),
                 );
             }
             emit('selectedDay');
@@ -241,6 +246,47 @@ export function useYear({
     };
 }
 
+export function useCommonRange({
+    props,
+    selectedDates,
+    picker,
+}: {
+    props: CalendarProps;
+    selectedDates: Ref<DateObj[]>;
+    picker: Ref<Picker>;
+}) {
+    const startDate = computed(
+        () =>
+            selectedDates.value[0] &&
+            new Date(transformDateToTimestamp(selectedDates.value[0])),
+    );
+    const endDate = computed(
+        () =>
+            selectedDates.value[1] &&
+            new Date(transformDateToTimestamp(selectedDates.value[1])),
+    );
+
+    // 样式计算
+    const inRangeDate = (date: Date, format: string) => {
+        if (picker.value.isRange && startDate.value && endDate.value) {
+            return (
+                contrastDate(date, startDate.value, format) === 1 &&
+                contrastDate(date, endDate.value, format) === -1
+            );
+        }
+        return false;
+    };
+
+    const completeRangeSelected = computed(
+        () => props.selectedStatus === SELECTED_STATUS.TWO,
+    );
+
+    return {
+        completeRangeSelected,
+        inRangeDate,
+    };
+}
+
 export function useMonth({
     props,
     selectedDates,
@@ -248,6 +294,7 @@ export function useMonth({
     activeIndex,
     currentDate,
     updateCurrentDate,
+    picker,
 }: {
     props: CalendarProps;
     selectedDates: Ref<DateObj[]>;
@@ -255,24 +302,28 @@ export function useMonth({
     activeIndex: Ref<number>;
     currentDate: DateObj;
     updateCurrentDate: UpdateCurrentDate;
+    picker: Ref<Picker>;
 }) {
     // 月份相关
     const format = 'yyyy-MM';
-    const isMonthSelect = ref(false);
-    watchEffect(() => {
-        if (props.type === PickerType.month) {
-            isMonthSelect.value = true;
-        }
+    const isMonthSelect = computed(() => {
+        return (
+            props.type === PickerType.month ||
+            props.type === PickerType.datemonthrange
+        );
     });
+
     const selectMonth = (month: number) => {
-        if (props.type !== PickerType.month) {
-            isMonthSelect.value = false;
-        }
         updateSelectedDates(
             {
                 year: currentDate.year,
                 month,
-                day: 1,
+                day:
+                    props.rangePosition === RANGE_POSITION.LEFT
+                        ? 1
+                        : endOfMonth(
+                              new Date(currentDate.year, month, 1),
+                          ).getDate(),
             },
             activeIndex.value,
         );
@@ -311,23 +362,42 @@ export function useMonth({
         return props.disabledDate && props.disabledDate(date, format);
     };
     const isSelectedMonth = (month: number) => {
-        if (props.type === PickerType.month) {
-            return !!selectedDates.value.find(
+        if (isMonthSelect.value) {
+            return selectedDates.value.findIndex(
                 (item) =>
                     item &&
                     item.year === currentDate.year &&
                     item.month === month,
             );
         }
-        return false;
+        return -1;
     };
-    const monthCls = (month: number) => [
-        `${prefixCls}-date`,
-        disabled(month) && `${prefixCls}-date-disabled`,
-        isSelectedMonth(month) && `${prefixCls}-date-selected`,
-        timeFormat(new Date(currentDate.year, month), format) ===
-            timeFormat(new Date(), format) && [`${prefixCls}-date-now`],
-    ];
+    const { completeRangeSelected, inRangeDate } = useCommonRange({
+        props,
+        selectedDates,
+        picker,
+    });
+    const monthCls = (month: number) => {
+        const selectedIndex = isSelectedMonth(month);
+        const date = new Date(currentDate.year, month);
+        return {
+            [`${prefixCls}-date`]: true,
+            [`${prefixCls}-date-disabled`]: disabled(month),
+            [`${prefixCls}-date-selected`]: selectedIndex !== -1,
+            'is-start':
+                picker.value.isRange &&
+                completeRangeSelected.value &&
+                selectedIndex === 0,
+            'is-end':
+                picker.value.isRange &&
+                completeRangeSelected.value &&
+                selectedIndex === 1,
+            [`${prefixCls}-date-now`]:
+                timeFormat(new Date(currentDate.year, month), format) ===
+                timeFormat(new Date(), format),
+            [`${prefixCls}-date-on`]: inRangeDate(date, format),
+        };
+    };
 
     return {
         isMonthSelect,
@@ -421,29 +491,11 @@ export function useDay({
             isSelected(selectedDate, dayItem),
         );
 
-    const startDate = computed(
-        () =>
-            selectedDates.value[0] &&
-            new Date(transformDateToTimestamp(selectedDates.value[0])),
-    );
-    const endDate = computed(
-        () =>
-            selectedDates.value[1] &&
-            new Date(transformDateToTimestamp(selectedDates.value[1])),
-    );
-    const completeRangeSelected = computed(
-        () => props.selectedStatus === SELECTED_STATUS.TWO,
-    );
-    // 样式计算
-    const inRangeDate = (date: Date, format: string) => {
-        if (picker.value.isRange && startDate.value && endDate.value) {
-            const isIn =
-                contrastDate(date, startDate.value, format) === 1 &&
-                contrastDate(date, endDate.value, format) === -1;
-            return isIn && date.getMonth() === currentDate.month;
-        }
-        return false;
-    };
+    const { completeRangeSelected, inRangeDate } = useCommonRange({
+        props,
+        selectedDates,
+        picker,
+    });
 
     const dayCls = (item: DayItem) => {
         const format = 'yyyy-MM-dd';
@@ -463,11 +515,12 @@ export function useDay({
             'is-end':
                 picker.value.isRange &&
                 completeRangeSelected.value &&
-                (selectedIndex === 1 ||
-                    isSelected(selectedDates.value[1], item)),
+                selectedIndex === 1,
             [`${prefixCls}-date-now`]:
                 timeFormat(date, format) === timeFormat(new Date(), format),
-            [`${prefixCls}-date-on`]: inRangeDate(date, format),
+            [`${prefixCls}-date-on`]:
+                inRangeDate(date, format) &&
+                date.getMonth() === currentDate.month,
         };
     };
 

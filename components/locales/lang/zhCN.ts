@@ -34,6 +34,8 @@ export default {
         selectEndDate: '结束日期',
         selectStartDateTime: '起始日期时间',
         selectEndDateTime: '结束日期时间',
+        selectStartDateMonth: '起始月份',
+        selectEndDateMonth: '结束月份',
         now: '此刻',
         today: '今天',
         current: '当前',

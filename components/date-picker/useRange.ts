@@ -1,6 +1,6 @@
 import { watch, ref, Ref } from 'vue';
 
-import { parseDate, getTimestampFromFormat, isBeyondRangeTime } from './helper';
+import { getTimestampFromFormat, isBeyondRangeTime } from './helper';
 import { SELECTED_STATUS, RANGE_POSITION } from './const';
 import type { Picker } from './pickerHandler';
 
@@ -78,30 +78,35 @@ export const useRange = ({
     lastSelectedPosition: Ref<RANGE_POSITION_VALUES>;
     picker: Ref<Picker>;
 }) => {
+    // TODO 日期组件通过组件区分，不通过 type 区分
+    if (!picker.value.isRange) return {};
     const leftActiveDate = ref(
         getTimestampFromFormat(
             tempCurrentValue.value[0] && new Date(tempCurrentValue.value[0]),
             picker.value.format,
         ),
     );
-    const endDate = new Date(leftActiveDate.value);
-    const rightActiveDate = ref(endDate.setMonth(endDate.getMonth() + 1, 1));
+    const rightActiveDate = ref(
+        picker.value.getRightActiveDate(leftActiveDate.value),
+    );
 
     const resetActiveDate = () => {
-        const leftDate = parseDate(tempCurrentValue.value[0]);
-        const rightDate = parseDate(tempCurrentValue.value[1]);
         if (
-            leftDate.year === rightDate.year &&
-            leftDate.month === rightDate.month
+            picker.value.isInSamePanel(
+                tempCurrentValue.value[0],
+                tempCurrentValue.value[1],
+            )
         ) {
             if (lastSelectedPosition.value === RANGE_POSITION.LEFT) {
-                const date = new Date(tempCurrentValue.value[0]);
                 leftActiveDate.value = tempCurrentValue.value[0];
-                rightActiveDate.value = date.setMonth(date.getMonth() + 1, 1);
+                rightActiveDate.value = picker.value.getRightActiveDate(
+                    leftActiveDate.value,
+                );
             } else {
-                const date = new Date(tempCurrentValue.value[1]);
                 rightActiveDate.value = tempCurrentValue.value[1];
-                leftActiveDate.value = date.setMonth(date.getMonth() - 1, 1);
+                leftActiveDate.value = picker.value.getLeftActiveDate(
+                    rightActiveDate.value,
+                );
             }
         } else {
             leftActiveDate.value = tempCurrentValue.value[0];
@@ -116,20 +121,14 @@ export const useRange = ({
         if (position === RANGE_POSITION.LEFT) {
             leftActiveDate.value = timestamp;
             if (timestamp >= rightActiveDate.value) {
-                const tempDate = new Date(timestamp);
-                rightActiveDate.value = tempDate.setMonth(
-                    tempDate.getMonth() + 1,
-                    1,
-                );
+                rightActiveDate.value =
+                    picker.value.getRightActiveDate(timestamp);
             }
         } else if (position === RANGE_POSITION.RIGHT) {
             rightActiveDate.value = timestamp;
             if (timestamp <= leftActiveDate.value) {
-                const tempDate = new Date(timestamp);
-                leftActiveDate.value = tempDate.setMonth(
-                    tempDate.getMonth() - 1,
-                    1,
-                );
+                leftActiveDate.value =
+                    picker.value.getLeftActiveDate(timestamp);
             }
         }
     };
