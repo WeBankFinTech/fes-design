@@ -34,16 +34,17 @@ import {
 import Schema from 'async-validator';
 import { isArray, cloneDeep, get, set } from 'lodash-es';
 import { addUnit } from '../_util/utils';
+import getPrefixCls from '../_util/getPrefixCls';
+import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
 import {
     provideKey,
+    FORM_LAYOUT,
     LABEL_POSITION,
     TRIGGER_TYPE_DEFAULT,
     RULE_TYPE_DEFAULT,
     VALIDATE_STATUS,
     VALIDATE_MESSAGE_DEFAULT,
 } from './const';
-import getPrefixCls from '../_util/getPrefixCls';
-import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
 import { wrapValidator } from './utils';
 import { FORM_ITEM_NAME } from './const';
 
@@ -54,6 +55,10 @@ const formItemProps = {
     label: String,
     labelWidth: [String, Number] as PropType<string | number>,
     labelClass: String,
+    span: {
+        type: Number,
+        default: 6,
+    },
     showMessage: {
         type: Boolean as PropType<boolean | null>,
         default: null as boolean,
@@ -74,6 +79,8 @@ export default defineComponent({
         const {
             model,
             rules,
+            layout,
+            inlineItemWidth,
             showMessage,
             labelWidth,
             labelClass,
@@ -91,7 +98,7 @@ export default defineComponent({
             const _rules = []
                 .concat(props.rules || [])
                 .concat(get(rules?.value, props.prop) || []);
-            return _rules;
+            return _rules || [];
         });
 
         /** 规则校验结果逻辑: 仅存最后一条校验规则的逻辑
@@ -123,6 +130,9 @@ export default defineComponent({
         const formItemClass = computed(() =>
             [
                 prefixCls,
+                layout.value === FORM_LAYOUT.INLINE &&
+                    !inlineItemWidth.value &&
+                    `${prefixCls}-${props.span}`, // Form传入 inlineItemWidth 即【定宽】情况, 此时 inlineItemWidth 优先级高于 span
                 labelPosition.value !== LABEL_POSITION.LEFT &&
                     `${prefixCls}-${labelPosition.value}`,
                 formItemRequired.value && 'is-required', // 必填校验: is-required
@@ -143,7 +153,9 @@ export default defineComponent({
         const setRuleDefaultType = (val = RULE_TYPE_DEFAULT) => {
             ruleDefaultType = val;
         };
-        const validateRules = async (trigger = TRIGGER_TYPE_DEFAULT) => {
+        const validateRules = async (
+            trigger: string | string[] = TRIGGER_TYPE_DEFAULT,
+        ) => {
             if (validateDisabled.value) {
                 validateDisabled.value = false;
                 return;
@@ -236,7 +248,7 @@ export default defineComponent({
         addField(props.prop, {
             prop: props.prop,
             value: fieldValue.value,
-            rules: formItemRules.value || [],
+            rules: formItemRules.value,
             validateRules,
             clearValidate,
             resetField,

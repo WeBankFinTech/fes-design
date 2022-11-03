@@ -48,7 +48,7 @@ Form 组件提供表单验证的功能，通过 rules 属性传入约定的验�
 | model | 表单数对象 | object | - |
 | rules | 表单验证规则，可查看`async-validator` | object | - |
 | layout | 表单布局，可选值为`horizontal`、`inline` | string | `horizontal` |
-| inlineItemWidth | 仅在 `inline` 表单中有效，每一个 FormItem 自适应的固定宽度 | string、number | - |
+| inlineItemWidth | 仅在 `inline` 表单中有效。统一定义 FormItem 的固定宽度 | string、number | - |
 | labelPosition  | 表单域标签的位置，可选值为`left`、`top`、`right` | string | `left` |
 | labelWidth  | 表单域标签的宽度。作为 Form 直接子元素的 form-item 会继承该值。| string(100px)、number(100) | - |
 | labelClass  | 表单域标签自定义 class | string | - |
@@ -69,7 +69,8 @@ Form 组件提供表单验证的功能，通过 rules 属性传入约定的验�
 | ------------- | ------------- | ------------- | ------------- |
 | prop | 表单域 `model` 字段，在使用 `validate`、`resetFields` 方法的情况下，该属性是必填的 | string | - |
 | rules | 表单项验证规则，可查看`Form-Item Rule Type` | Array | - |
-| label | 标签文本 | string | - |
+| span | 仅在 `inline` 表单中有效。自定义 FormItem 占据的列数，共 24 列 | number | - |
+| label | 标签文本 | string、slot | - |
 | labelWidth  | 表单项标签的宽度 | string(100px)、number(100) | - |
 | labelClass  | 表单项标签自定义 class | string | - |
 | showMessage  | 是否显示校验错误信息 | boolean | `true` |

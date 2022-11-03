@@ -6,15 +6,15 @@
 
 <script lang="ts">
 import { provide, toRefs, computed, defineComponent, PropType } from 'vue';
+import { addUnit } from '../_util/utils';
+import getPrefixCls from '../_util/getPrefixCls';
+import { useTheme } from '../_theme/useTheme';
 import {
     provideKey,
     FORM_LAYOUT,
     LABEL_POSITION,
     TRIGGER_TYPE_DEFAULT,
 } from './const';
-import { addUnit } from '../_util/utils';
-import getPrefixCls from '../_util/getPrefixCls';
-import { useTheme } from '../_theme/useTheme';
 import { allPromiseFinish } from './utils';
 import { FORM_NAME } from './const';
 import type { Field, ValidateResult } from './interface';
@@ -70,7 +70,7 @@ export default defineComponent({
         );
 
         const addField = (formItemProp: string, formItemContext: Field) => {
-            formItemProp && (formFields[formItemProp] = formItemContext);
+            if (formItemProp) formFields[formItemProp] = formItemContext;
         };
         const removeField = (formItemProp: string) => {
             delete formFields[formItemProp];
@@ -106,13 +106,12 @@ export default defineComponent({
             } catch (results: any) {
                 const errorList: ValidateResult[] = [];
                 const errorNameList: string[] = [];
-                results.length &&
-                    results.forEach((result: ValidateResult) => {
-                        if (result && result.errors.length) {
-                            errorList.push(result);
-                            errorNameList.push(result.name);
-                        }
-                    });
+                results?.forEach((result: ValidateResult) => {
+                    if (result?.errors?.length) {
+                        errorList.push(result);
+                        errorNameList.push(result?.name);
+                    }
+                });
                 return Promise.reject({
                     valid: false,
                     values: errorNameList,
