@@ -29,7 +29,6 @@ import {
     onBeforeUnmount,
     nextTick,
     defineComponent,
-    PropType,
 } from 'vue';
 import Schema from 'async-validator';
 import { isArray, cloneDeep, get, set } from 'lodash-es';
@@ -47,29 +46,9 @@ import {
 } from './const';
 import { wrapValidator } from './utils';
 import { FORM_ITEM_NAME } from './const';
+import { formItemProps } from './interface';
 
 const prefixCls = getPrefixCls('form-item');
-
-const formItemProps = {
-    prop: String,
-    label: String,
-    labelWidth: [String, Number] as PropType<string | number>,
-    labelClass: String,
-    span: {
-        type: Number,
-        default: 6,
-    },
-    showMessage: {
-        type: Boolean as PropType<boolean | null>,
-        default: null as boolean,
-    },
-    rules: {
-        type: Array as PropType<any[]>,
-        default: () => {
-            return [] as any[];
-        },
-    },
-} as const;
 
 export default defineComponent({
     name: FORM_ITEM_NAME,
@@ -98,7 +77,7 @@ export default defineComponent({
             const _rules = []
                 .concat(props.rules || [])
                 .concat(get(rules?.value, props.prop) || []);
-            return _rules || [];
+            return _rules;
         });
 
         /** 规则校验结果逻辑: 仅存最后一条校验规则的逻辑
@@ -132,7 +111,7 @@ export default defineComponent({
                 prefixCls,
                 layout.value === FORM_LAYOUT.INLINE &&
                     !inlineItemWidth.value &&
-                    `${prefixCls}-${props.span}`, // Form传入 inlineItemWidth 即【定宽】情况, 此时 inlineItemWidth 优先级高于 span
+                    `${prefixCls}-span-${props.span}`, // Form传入 inlineItemWidth 即【定宽】情况, 此时 inlineItemWidth 优先级高于 span
                 labelPosition.value !== LABEL_POSITION.LEFT &&
                     `${prefixCls}-${labelPosition.value}`,
                 formItemRequired.value && 'is-required', // 必填校验: is-required

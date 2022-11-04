@@ -5,46 +5,17 @@
 </template>
 
 <script lang="ts">
-import { provide, toRefs, computed, defineComponent, PropType } from 'vue';
+import { provide, toRefs, computed, defineComponent } from 'vue';
 import { addUnit } from '../_util/utils';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
-import {
-    provideKey,
-    FORM_LAYOUT,
-    LABEL_POSITION,
-    TRIGGER_TYPE_DEFAULT,
-} from './const';
+import { provideKey, FORM_LAYOUT, TRIGGER_TYPE_DEFAULT } from './const';
 import { allPromiseFinish } from './utils';
 import { FORM_NAME } from './const';
 import type { Field, ValidateResult } from './interface';
+import { formProps } from './interface';
 
 const prefixCls = getPrefixCls('form');
-
-const formProps = {
-    model: Object,
-    rules: {
-        type: Object,
-        default: () => ({}),
-    },
-    layout: {
-        type: String as PropType<typeof FORM_LAYOUT[keyof typeof FORM_LAYOUT]>,
-        default: FORM_LAYOUT.HORIZONTAL,
-    },
-    inlineItemWidth: [String, Number] as PropType<string | number>,
-    labelPosition: {
-        type: String as PropType<
-            typeof LABEL_POSITION[keyof typeof LABEL_POSITION]
-        >,
-        default: LABEL_POSITION.LEFT,
-    },
-    showMessage: {
-        type: Boolean,
-        default: true,
-    },
-    labelWidth: [String, Number] as PropType<string | number>,
-    labelClass: String,
-} as const;
 
 export default defineComponent({
     name: FORM_NAME,
