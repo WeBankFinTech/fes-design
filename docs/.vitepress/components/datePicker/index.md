@@ -42,20 +42,20 @@ app.use(DatePicker);
 
 ### 通用 Props
 
-| 属性         | 说明                                                                                   | 类型                                                                                                             | 默认值    |
-| ------------ | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | --------- |
-| modelValue   | 日期值，支持 v-model 双向绑定                                                          | Array/Number                                                                                                     | -         |
-| disabledDate | 禁止日期函数，参数为对应的时间 Date，执行结果为 true 则禁止                            | (date: Date)=> Boolean                                                                                           | -         |
-| disabledTime | 禁止时间选择, 返回参数同 time-picker 的 disableHours, disabledMinutes, disabledSeconds | (date: Date) => ({disabledHours: () => Boolean, disabledMinutes: () => Boolean, disabledSeconds: () => Boolean}) | -         |
-| type         | 类型                                                                                   | `date` `datetime` `daterange` `datetimerange` `datemonthrange` `year` `month`                                    | `quarter` |
-| maxDate      | 最大可选择时间                                                                         | Date                                                                                                             | -         |
-| minDate      | 最小可选择时间                                                                         | Date                                                                                                             | -         |
-| maxRange     | 最大可选区间，格式为 /\d+[D]/                                                          | string                                                                                                           | -         |
-| control      | 是否显示确认按钮，在多选强制为 true，其他情况默认为 false                              | boolean                                                                                                          | `false`   |
-| hourStep     | 小时选项间隔                                                                           | number                                                                                                           | `1`       |
-| minuteStep   | 分钟选项间隔                                                                           | number                                                                                                           | `1`       |
-| secondStep   | 秒钟选项间隔                                                                           | number                                                                                                           | `1`       |
-| defaultTime  | 选中日期后默认具体时刻，非时间范围 string；时间范围 string[]，格式: '12:00:00'         | string/string[]                                                                                                  | -         |
+| 属性         | 说明                                                                                   | 类型                                                                                                             | 默认值  |
+| ------------ | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------- |
+| modelValue   | 日期值，支持 v-model 双向绑定                                                          | Array/Number                                                                                                     | -       |
+| disabledDate | 禁止日期函数，参数为对应的时间 Date，执行结果为 true 则禁止                            | (date: Date)=> Boolean                                                                                           | -       |
+| disabledTime | 禁止时间选择, 返回参数同 time-picker 的 disableHours, disabledMinutes, disabledSeconds | (date: Date) => ({disabledHours: () => Boolean, disabledMinutes: () => Boolean, disabledSeconds: () => Boolean}) | -       |
+| type         | 类型                                                                                   | `date` `datetime` `daterange` `datetimerange` `datemonthrange` `year` `month` `quarter`                          | `date`  |
+| maxDate      | 最大可选择时间                                                                         | Date                                                                                                             | -       |
+| minDate      | 最小可选择时间                                                                         | Date                                                                                                             | -       |
+| maxRange     | 最大可选区间，格式为 /\d+[D]/                                                          | string                                                                                                           | -       |
+| control      | 是否显示确认按钮，在多选强制为 true，其他情况默认为 false                              | boolean                                                                                                          | `false` |
+| hourStep     | 小时选项间隔                                                                           | number                                                                                                           | `1`     |
+| minuteStep   | 分钟选项间隔                                                                           | number                                                                                                           | `1`     |
+| secondStep   | 秒钟选项间隔                                                                           | number                                                                                                           | `1`     |
+| defaultTime  | 选中日期后默认具体时刻，非时间范围 string；时间范围 string[]，格式: '12:00:00'         | string/string[]                                                                                                  | -       |
 
 ### DatePicker 类型 Props
 
