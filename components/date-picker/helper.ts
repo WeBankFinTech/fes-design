@@ -1,4 +1,4 @@
-import { parse, format, isValid } from 'date-fns';
+import { parse, format, endOfMonth, isValid } from 'date-fns';
 import { isNumber } from 'lodash-es';
 
 import type { DateObj, ParticalDateObj } from './interface';
@@ -98,10 +98,7 @@ export const pickTime = (dateObj: DateObj) => {
     };
 };
 
-export function transformDateToTimestamp(
-    date: ParticalDateObj,
-    isFullMax = false,
-) {
+export function dateObjToDate(date: ParticalDateObj, isFullMax = false) {
     if (!date) return null;
     // 将季度转换为月份
     const month = date.month ?? (date.quarter ? (date.quarter - 1) * 3 : null);
@@ -116,7 +113,7 @@ export function transformDateToTimestamp(
             date.minute ?? 59,
             date.second ?? 59,
             999,
-        ).getTime();
+        );
     }
     return new Date(
         date.year,
@@ -126,7 +123,15 @@ export function transformDateToTimestamp(
         date.minute ?? 0,
         date.second ?? 0,
         0,
-    ).getTime();
+    );
+}
+
+export function transformDateToTimestamp(
+    date: ParticalDateObj,
+    isFullMax = false,
+) {
+    if (!date) return null;
+    return dateObjToDate(date, isFullMax).getTime();
 }
 
 export const padStartZero = (target: number | string, len = 2) =>
@@ -184,6 +189,35 @@ export const transformTimeToDate = (timeStr: string) => {
     };
 };
 
+export const fillDate = ({
+    dateObj,
+    format,
+    defaultTime,
+    rangePosition,
+}: {
+    dateObj: ParticalDateObj;
+    format: string;
+    defaultTime?: string | string[];
+    rangePosition?: typeof RANGE_POSITION[keyof typeof RANGE_POSITION];
+}) => {
+    const newDateObj = { ...dateObj };
+
+    // FEATURE 支持填充其他格式
+    if (!/d/.test(format)) {
+        if (rangePosition === RANGE_POSITION.LEFT) {
+            newDateObj.day = 1;
+        } else {
+            const date = dateObjToDate(dateObj);
+            newDateObj.day = endOfMonth(date).getDate();
+        }
+    }
+
+    return {
+        ...newDateObj,
+        ...getDefaultTime(defaultTime, rangePosition),
+    } as DateObj;
+};
+
 export const getDefaultTime = (
     defaultTime?: string | string[],
     rangePosition?: typeof RANGE_POSITION[keyof typeof RANGE_POSITION],
@@ -222,12 +256,12 @@ export const getDefaultTime = (
 };
 
 export const isBeyondRangeTime = (option: {
-    flagDate?: Date;
     currentDate: Date;
-    maxRange: string;
     format: string;
+    flagDate?: Date;
+    maxRange?: string;
 }) => {
-    if (!option.flagDate) return false;
+    if (!option.flagDate || !option.maxRange) return false;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const arr = option.maxRange.match(/(\d*)([MDY])/)!;
     const length = Number(arr[1]);

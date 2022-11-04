@@ -35,6 +35,8 @@ export default {
         selectEndDate: 'End Date',
         selectStartDateTime: 'Start DateTime',
         selectEndDateTime: 'End DateTime',
+        selectStartDateMonth: 'Start Month',
+        selectEndDateMonth: 'End Month',
         now: 'Now',
         today: 'Today',
         current: 'Current',

@@ -353,6 +353,7 @@ export default defineComponent({
             activeIndex,
             currentDate,
             updateCurrentDate,
+            picker: pickerRef,
         });
 
         const { days, isDaySelect, weekNames, dayCls } = useDay({

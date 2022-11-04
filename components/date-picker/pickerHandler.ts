@@ -1,8 +1,12 @@
+import { parseDate, pickTime } from './helper';
+import type { DateObj } from './interface';
+
 export const PickerType = {
     date: 'date',
     datetime: 'datetime',
     daterange: 'daterange',
     datetimerange: 'datetimerange',
+    datemonthrange: 'datemonthrange',
     year: 'year',
     month: 'month',
     quarter: 'quarter',
@@ -16,6 +20,10 @@ export interface Picker {
     isRange: boolean;
     hasTime: boolean;
     getDateFromStr(val: string): Date;
+    getLeftActiveDate?(rightActiveDate: number): number;
+    getRightActiveDate?(leftActiveDate: number): number;
+    isInSamePanel?(left: number, right: number): boolean;
+    getRangeSelectedDate?(date: Partial<DateObj>, preDate: DateObj): DateObj;
 }
 
 export class DatePicker implements Picker {
@@ -42,7 +50,29 @@ export class DateTimePicker implements Picker {
     }
 }
 
-export class DateRangePicker implements Picker {
+class DateRange {
+    getLeftActiveDate(rightActiveDate: number) {
+        const endDate = new Date(rightActiveDate);
+        return endDate.setMonth(endDate.getMonth() - 1, 1);
+    }
+    getRightActiveDate(leftActiveDate: number) {
+        const endDate = new Date(leftActiveDate);
+        return endDate.setMonth(endDate.getMonth() + 1, 1);
+    }
+    isInSamePanel(left: number, right: number) {
+        const leftDate = parseDate(left);
+        const rightDate = parseDate(right);
+        return (
+            leftDate.year === rightDate.year &&
+            leftDate.month === rightDate.month
+        );
+    }
+    getRangeSelectedDate(date: Partial<DateObj>, preDate: DateObj) {
+        return Object.assign(date, pickTime(preDate)) as DateObj;
+    }
+}
+
+export class DateRangePicker extends DateRange implements Picker {
     name = PickerType.daterange;
     confirmLang = '';
     placeholderLang = [
@@ -57,7 +87,7 @@ export class DateRangePicker implements Picker {
     }
 }
 
-export class DateTimeRangePicker implements Picker {
+export class DateTimeRangePicker extends DateRange implements Picker {
     name = PickerType.datetimerange;
     confirmLang = '';
     placeholderLang = [
@@ -69,6 +99,43 @@ export class DateTimeRangePicker implements Picker {
     hasTime = true;
     getDateFromStr(val: string): Date {
         return new Date(val);
+    }
+}
+
+export class DateMonthRangePicker implements Picker {
+    name = PickerType.datemonthrange;
+    confirmLang = '';
+    placeholderLang = [
+        'datePicker.selectStartDateMonth',
+        'datePicker.selectEndDateMonth',
+    ];
+    format = 'yyyy-MM';
+    isRange = true;
+    hasTime = false;
+    getDateFromStr(val: string): Date {
+        return new Date(val);
+    }
+    getLeftActiveDate(rightActiveDate: number) {
+        const endDate = new Date(rightActiveDate);
+        return endDate.setFullYear(endDate.getFullYear() - 1, 0, 1);
+    }
+    getRightActiveDate(leftActiveDate: number) {
+        const endDate = new Date(leftActiveDate);
+        return endDate.setFullYear(endDate.getFullYear() + 1, 0, 1);
+    }
+    isInSamePanel(left: number, right: number) {
+        const leftDate = parseDate(left);
+        const rightDate = parseDate(right);
+        return leftDate.year === rightDate.year;
+    }
+    getRangeSelectedDate(date: Partial<DateObj>, preDate: DateObj) {
+        return Object.assign(
+            date,
+            {
+                day: preDate.day,
+            },
+            pickTime(preDate),
+        ) as DateObj;
     }
 }
 
@@ -119,6 +186,8 @@ export function pickerFactory(type: string): Picker {
             return new DateRangePicker();
         case PickerType.datetimerange:
             return new DateTimeRangePicker();
+        case PickerType.datemonthrange:
+            return new DateMonthRangePicker();
         case PickerType.year:
             return new YearPicker();
         case PickerType.month:
