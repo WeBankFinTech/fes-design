@@ -5,7 +5,7 @@ import { FORM_LAYOUT, LABEL_POSITION } from './const';
 export const formProps = {
     model: Object,
     rules: {
-        type: Object as PropType<RuleItem>,
+        type: Object as PropType<Record<string, RuleItem[]>>,
         default: () => ({}),
     },
     layout: {
