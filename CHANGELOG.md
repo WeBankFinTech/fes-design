@@ -1,3 +1,18 @@
+## [0.7.8](https://github.com/WeBankFinTech/fes-design/compare/v0.7.7...v0.7.8) (2022-11-07)
+
+
+### Bug Fixes
+
+* 修复Table组件未设置排序能排序问题 ([#247](https://github.com/WeBankFinTech/fes-design/issues/247)) ([a9001b1](https://github.com/WeBankFinTech/fes-design/commit/a9001b1122df196bb99908eb398ab7d764d4cb4d))
+
+
+### Features
+
+* date-picker 支持 month range ([#245](https://github.com/WeBankFinTech/fes-design/issues/245)) ([180c0ab](https://github.com/WeBankFinTech/fes-design/commit/180c0abc94ef82a8e326b05af5bb1cdfaf734738))
+* form-inline 在formItem新增span属性  &  优化form相关的 ts eslint 规则限制 ([#246](https://github.com/WeBankFinTech/fes-design/issues/246)) ([b7f121d](https://github.com/WeBankFinTech/fes-design/commit/b7f121da953df63585efb69286bc8d82f3a647ce))
+
+
+
 ## [0.7.7](https://github.com/WeBankFinTech/fes-design/compare/v0.7.6...v0.7.7) (2022-10-31)
 
 
