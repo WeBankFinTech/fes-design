@@ -71,8 +71,8 @@
 .@{form-cls}-inline {
     display: grid;
     grid-gap: (@form-item-margin/2);
-    // 默认情况下，repeat 4 个均分
-    grid-template-columns: repeat(4, 1fr);
+    // 默认情况下，将一行分割为 24 格, formItem 自定义占几格【默认6格】
+    grid-template-columns: repeat(24, minmax(0, 1fr));
     align-items: center;
     box-sizing: border-box;
     width: 100%;
@@ -82,6 +82,12 @@
         box-sizing: border-box;
         margin: 0;
     }
+    // formItem 的 span 属性，占据的列数
+    each(range(24), {
+        .@{form-item-cls}-span-@{value} {
+            grid-column: span @value / span @value;
+        }
+    });
 }
 
 .@{form-cls} {

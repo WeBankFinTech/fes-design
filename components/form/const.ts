@@ -1,4 +1,7 @@
-export const provideKey = Symbol('FForm');
+import type { InjectionKey } from 'vue';
+import type { FormInjectKey } from './interface';
+
+export const provideKey: InjectionKey<FormInjectKey> = Symbol('FForm');
 
 export const FORM_NAME = 'FForm';
 export const FORM_ITEM_NAME = 'FFormItem';

@@ -3,7 +3,7 @@
         <FFormItem label="输入姓名">
             <FInput placeholder="请输入"></FInput>
         </FFormItem>
-        <FFormItem label="选择城市">
+        <FFormItem label="选择城市" :span="10">
             <FSelect clearable placeholder="请单选">
                 <FOption
                     v-for="(item, index) in optionList"
@@ -28,6 +28,9 @@
                 <FRadio :value="1">男</FRadio>
                 <FRadio :value="2">女</FRadio>
             </FRadioGroup>
+        </FFormItem>
+        <FFormItem label="输入其他" :span="10">
+            <FInput placeholder="请输入"></FInput>
         </FFormItem>
         <FFormItem label="选择性别">
             <FRadioGroup>
