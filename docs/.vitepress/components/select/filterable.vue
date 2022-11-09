@@ -1,21 +1,28 @@
 <template>
     <FSpace>
-        <FSelect filterable>
-            <FOption
-                v-for="(item, index) in optionList"
-                :key="index"
-                :value="item.value"
-                :label="item.label"
-            ></FOption>
-        </FSelect>
-        <FSelect filterable multiple @blur="blur">
-            <FOption
-                v-for="(item, index) in optionList"
-                :key="index"
-                :value="item.value"
-                :label="item.label"
-            ></FOption>
-        </FSelect>
+        <div>
+            默认：
+            <FSelect filterable>
+                <FOption
+                    v-for="(item, index) in optionList"
+                    :key="index"
+                    :value="item.value"
+                    :label="item.label"
+                ></FOption>
+            </FSelect>
+        </div>
+
+        <div>
+            自定义过滤函数：
+            <FSelect filterable :filter="filter">
+                <FOption
+                    v-for="(item, index) in optionList"
+                    :key="index"
+                    :value="item.value"
+                    :label="item.label"
+                ></FOption>
+            </FSelect>
+        </div>
     </FSpace>
 </template>
 <script>
@@ -78,12 +85,12 @@ export default {
                 label: '8',
             },
         ]);
-        const blur = () => {
-            console.log('blur');
+        const filter = (text, option) => {
+            return option.label.indexOf(text) !== -1;
         };
         return {
             optionList,
-            blur,
+            filter,
         };
     },
 };

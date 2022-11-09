@@ -324,8 +324,12 @@ export default defineComponent({
                 refTree.value.filter(filterText.value);
             }, 300),
         );
-        const filterMethod = (value: string, node: InnerTreeOption) =>
-            node.label.indexOf(value) !== -1;
+        const filterMethod = computed(() => {
+            const defaultMethod = (value: string, node: InnerTreeOption) => {
+                return node.label.indexOf(value) !== -1;
+            };
+            return props.filter || defaultMethod;
+        });
 
         const triggerDomRef = ref();
         const triggerWidth = ref(0);
