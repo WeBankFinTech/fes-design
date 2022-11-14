@@ -47,6 +47,11 @@ export const selectProps = {
         type: Boolean,
         default: false,
     },
+    filter: {
+        type: Function as PropType<
+            (pattern: string, option: object) => boolean
+        >,
+    },
     collapseTags: {
         type: Boolean,
         default: false,

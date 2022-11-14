@@ -103,6 +103,7 @@ app.use(FSelect);
 | placeholder          | 当没有选择内容时的提示语                                      | string                             | -                     |
 | modelValue / v-model | 选中的值                                                      | number / string / boolean / object | -                     |
 | filterable           | 是否支持过滤选项                                              | boolean                            | `false`               |
+| filter          | 自定义过滤函数                                              | (pattern: string, option: object) => boolean                            | `-`               |
 | remote               | 是否远程搜索，当输入内容时触发`search`事件                    | boolean                            | `false`               |
 | options              | 选项配置                                                      | array\<Option\>                    | `[]`                  |
 | valueField           | 替代 `Option` 中的 `value` 字段名                             | string                             | `value`               |

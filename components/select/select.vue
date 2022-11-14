@@ -183,9 +183,12 @@ export default defineComponent({
         const filterText = ref('');
         const filteredOptions = computed(() => {
             if (!props.remote && props.filterable && filterText.value) {
-                return optionsRef.value.filter((option) =>
-                    String(option.label).includes(filterText.value),
-                );
+                return optionsRef.value.filter((option) => {
+                    if (props.filter) {
+                        return props.filter(filterText.value, option);
+                    }
+                    return String(option.label).includes(filterText.value);
+                });
             }
             return optionsRef.value;
         });

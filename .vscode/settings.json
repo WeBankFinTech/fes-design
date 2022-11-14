@@ -24,4 +24,7 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "prettier.printWidth": 180,
+    "cSpell.words": [
+        "unref"
+    ],
 }

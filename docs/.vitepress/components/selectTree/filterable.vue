@@ -1,7 +1,19 @@
 <template>
     <FSpace>
-        <FSelectTree :data="data" filterable virtualList></FSelectTree>
-        <FSelectTree :data="data" filterable multiple virtualList></FSelectTree>
+        <div>
+            默认：
+            <FSelectTree :data="data" filterable virtualList></FSelectTree>
+        </div>
+
+        <div>
+            自定义过滤函数：
+            <FSelectTree
+                :data="data"
+                filterable
+                :filter="filter"
+                virtualList
+            ></FSelectTree>
+        </div>
     </FSpace>
 </template>
 <script>
@@ -29,8 +41,12 @@ function createLabel(level) {
 export default {
     setup() {
         const data = reactive(createData(4));
+        const filter = (text, option) => {
+            return option.label.indexOf(text) !== -1;
+        };
         return {
             data,
+            filter,
         };
     },
 };
