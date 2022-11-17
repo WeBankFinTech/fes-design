@@ -1,3 +1,10 @@
+## <small>0.7.9 (2022-11-17)</small>
+
+* fix: 修复Select组件多选未选择时placeholder样式问题 ([d7e0a3c](https://github.com/WeBankFinTech/fes-design/commit/d7e0a3c))
+* feat: Select和SelectTree支持过滤函数 (#248) ([c5625c0](https://github.com/WeBankFinTech/fes-design/commit/c5625c0)), closes [#248](https://github.com/WeBankFinTech/fes-design/issues/248)
+
+
+
 ## [0.7.8](https://github.com/WeBankFinTech/fes-design/compare/v0.7.7...v0.7.8) (2022-11-07)
 
 
