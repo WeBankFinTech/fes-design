@@ -17,37 +17,6 @@ returnToTop: false
   </section>
 </ClientOnly>
 
-## 安装
-
-```bash
-npm i @fesjs/fes-design
-```
-
-```bash
-pnpm i @fesjs/fes-design
-```
-
-## 使用
-
-```js
-<template>
-    <FButton type="primary">Primary</FButton>
-    <CloseCircleFilled />
-</template>
-
-<script setup>
-import {FButton} from '@fesjs/fes-design';
-import {CloseCircleFilled} from '@fesjs/fes-design/icon';
-</script>
-```
-
-## 反馈
-
-| Github Issue  | Fes.js开源运营小助手 |
-| --- | --- |
-| [@fesjs/fes-design](../../issues) | <img src="https://cos-1254145788.cos.ap-guangzhou.myqcloud.com/WechatIMG104.jpeg" height="250"/> 
-
-
 <script setup>
 import { withBase } from 'vitepress'
 </script>
