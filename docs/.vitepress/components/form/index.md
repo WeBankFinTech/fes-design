@@ -68,6 +68,7 @@ Form 组件提供表单验证的功能，通过 rules 属性传入约定的验�
 | 属性 | 说明 | 类型 | 默认值  |
 | ------------- | ------------- | ------------- | ------------- |
 | prop | 表单域 `model` 字段，在使用 `validate`、`resetFields` 方法的情况下，该属性是必填的 | string | - |
+| value | 表单项的值。如果存在则优先取该属性 | string | - |
 | rules | 表单项验证规则，可查看`Form-Item Rule Type` | Array | - |
 | span | 仅在 `inline` 表单中有效。自定义 FormItem 占据的列数，共 24 列 | number | 6 |
 | label | 标签文本 | string | - |

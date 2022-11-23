@@ -6,7 +6,9 @@
         :model="modelForm"
         :rules="rules"
     >
-        <div class="complex-validate-item"><MoreCircleFilled /> 自定义 trigger、validator 场景: </div>
+        <div class="complex-validate-item">
+            <MoreCircleFilled /> 自定义 trigger、validator 场景:
+        </div>
         <FFormItem label="密码" prop="password">
             <FInput
                 v-model="modelForm.password"
@@ -25,7 +27,9 @@
             ></FInput>
         </FFormItem>
 
-        <div class="complex-validate-item"><MoreCircleFilled /> 联动校验场景: </div>
+        <div class="complex-validate-item">
+            <MoreCircleFilled /> 联动校验场景:
+        </div>
         <FFormItem label="类型选择" prop="type">
             <FRadioGroup v-model="modelForm.type">
                 <FRadio value="admin">admin</FRadio>
@@ -34,21 +38,36 @@
             </FRadioGroup>
         </FFormItem>
         <!-- 在 FForm 维度【全局rules】绑定联动规则  -->
-        <FFormItem v-if="modelForm.type === 'admin'" label="admin 详情" prop="adminDesc">
+        <FFormItem
+            v-if="modelForm.type === 'admin'"
+            label="admin 详情"
+            prop="adminDesc"
+        >
             <FInput
                 v-model="modelForm.adminDesc"
                 placeholder="请输入adminDesc【在 FForm 维度绑定联动规则】"
             ></FInput>
         </FFormItem>
         <!-- 在 FFormItem 维度绑定联动规则  -->
-        <FFormItem v-if="modelForm.type === 'edit'" label="edit 详情" prop="editDesc" :rules="modelForm.type === 'edit' ? [{required: true, message: '请输入editDesc'}] : []">
+        <FFormItem
+            v-if="modelForm.type === 'edit'"
+            label="edit 详情"
+            prop="editDesc"
+            :rules="
+                modelForm.type === 'edit'
+                    ? [{ required: true, message: '请输入editDesc' }]
+                    : []
+            "
+        >
             <FInput
                 v-model="modelForm.editDesc"
                 placeholder="请输入editDesc【在 FFormItem 维度绑定联动规则】"
             ></FInput>
         </FFormItem>
 
-        <div class="complex-validate-item"><MoreCircleFilled /> v-for 任意添加选项场景校验: </div>
+        <div class="complex-validate-item">
+            <MoreCircleFilled /> v-for 任意添加选项场景校验:
+        </div>
         <FFormItem
             v-for="(item, index) in modelForm.options"
             :key="index"
@@ -65,25 +84,55 @@
             </FSpace>
         </FFormItem>
 
-        <div class="complex-validate-item"><MoreCircleFilled /> v-for 动态 ref 校验: </div>
-        <div v-for="(item, index) in modelForm.scenes" :key="index" style="display: flex; margin-left: 65px">
+        <div class="complex-validate-item">
+            <MoreCircleFilled /> v-for 动态 ref 校验:
+        </div>
+        <div
+            v-for="(item, index) in modelForm.scenes"
+            :key="index"
+            style="display: flex; margin-left: 65px"
+        >
             {{ `场景${index + 1}名称：` }}
             <FFormItem :prop="`scenes[${index}].name`">
-                <FInput v-model="modelForm.scenes[index].name" :maxlength="10" @input="validateScenesCont(index)"/>
+                <FInput
+                    v-model="modelForm.scenes[index].name"
+                    :maxlength="10"
+                    @input="validateScenesCont(index)"
+                />
             </FFormItem>
             <span style="margin-left: 10px">内容：</span>
             <FFormItem
-                :prop="`scenes[${index}].content`"
                 :ref="(el) => (scenesDomRef[index] = el)"
-                :rules="modelForm.scenes[index].name ? [{ required: true, message: '' }] : []"
+                :prop="`scenes[${index}].content`"
+                :rules="
+                    modelForm.scenes[index].name
+                        ? [{ required: true, message: '' }]
+                        : []
+                "
             >
-                <FInput v-model="modelForm.scenes[index].content" :maxlength="10" :placeholder="`名称${index + 1}填写，内容必填`"/>
+                <FInput
+                    v-model="modelForm.scenes[index].content"
+                    :maxlength="10"
+                    :placeholder="`名称${index + 1}填写，内容必填`"
+                />
             </FFormItem>
         </div>
 
         <FFormItem label=" ">
-            <FButton type="primary" style="margin-right: 20px" @click="submitHandler">提交</FButton>
-            <FButton type="primary" style="margin-right: 20px" @click="clearHandler">清除</FButton>
+            <FButton
+                type="primary"
+                style="margin-right: 20px"
+                @click="submitHandler"
+            >
+                提交
+            </FButton>
+            <FButton
+                type="primary"
+                style="margin-right: 20px"
+                @click="clearHandler"
+            >
+                清除
+            </FButton>
             <FButton type="primary" @click="resetHandler">重置</FButton>
         </FFormItem>
     </FForm>
@@ -91,8 +140,6 @@
 
 <script>
 import { ref, reactive, computed } from 'vue';
-// eslint-disable-next-line import/no-unresolved
-import { FMessage } from '@fesjs/fes-design';
 
 export default {
     setup() {
@@ -103,9 +150,7 @@ export default {
             rePassword: '',
             type: 'admin',
             typeDesc: '',
-            options: [
-                { label: '选项1', value: '' },
-            ],
+            options: [{ label: '选项1', value: '' }],
             scenes: [
                 { name: '', content: '' },
                 { name: '', content: '' },
@@ -141,7 +186,8 @@ export default {
                         trigger: ['change'],
                     },
                     {
-                        validator: (rule, value) => (value === modelForm.password),
+                        validator: (rule, value) =>
+                            value === modelForm.password,
                         message: '输入密码时，两次密码输入不一致',
                         trigger: 'password-input',
                     },
@@ -155,7 +201,7 @@ export default {
                 ],
             };
         });
-        
+
         // 调用自定义的 password-input trigger
         const handlePasswordInput = () => {
             if (modelForm.rePassword) {
@@ -165,14 +211,16 @@ export default {
 
         const addOptionItem = () => {
             modelForm.options.push({
-                label: `选项${ modelForm.options.length + 1}`,
+                label: `选项${modelForm.options.length + 1}`,
                 value: '',
             });
         };
 
         const validateScenesCont = (index) => {
             // 通过 FFormItem 的动态 ref 调用 validate 校验
-            modelForm?.scenes[index]?.name ? scenesDomRef.value[index].validate() : scenesDomRef.value[index].clearValidate();
+            modelForm?.scenes[index]?.name
+                ? scenesDomRef.value[index].validate()
+                : scenesDomRef.value[index].clearValidate();
         };
 
         const submitHandler = async () => {
@@ -214,6 +262,6 @@ export default {
 }
 .complex-validate-item {
     margin: 10px 0 20px 60px;
-    color: rgb(136 136 136)
+    color: rgb(136 136 136);
 }
 </style>
