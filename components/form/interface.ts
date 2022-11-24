@@ -29,7 +29,7 @@ export const formProps = {
 
 export const formItemProps = {
     prop: String,
-    value: String,
+    value: [String, Number, Boolean, Array, Object] as PropType<unknown>,
     label: String,
     labelWidth: [String, Number] as PropType<string | number>,
     labelClass: String,

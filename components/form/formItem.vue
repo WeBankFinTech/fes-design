@@ -29,9 +29,10 @@ import {
     onBeforeUnmount,
     nextTick,
     defineComponent,
+    getCurrentInstance,
 } from 'vue';
 import Schema from 'async-validator';
-import { isArray, cloneDeep, get, set, uniqueId } from 'lodash-es';
+import { isArray, cloneDeep, get, set } from 'lodash-es';
 import { addUnit } from '../_util/utils';
 import getPrefixCls from '../_util/getPrefixCls';
 import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
@@ -69,7 +70,7 @@ export default defineComponent({
         } = inject(provideKey);
 
         const formItemProp = computed(() => {
-            return props.prop || uniqueId(`${prefixCls}_${Date.now()}_`);
+            return props.prop || `${prefixCls}_${getCurrentInstance().uid}`;
         });
         const fieldValue = computed(() => {
             // 优先获取 value 的值
@@ -79,7 +80,7 @@ export default defineComponent({
             if (!model.value || !formItemProp.value) return;
             return get(model.value, formItemProp.value);
         });
-        const initialValue = ref(cloneDeep(fieldValue.value));
+        const initialValue = cloneDeep(fieldValue.value);
         const formItemRules = computed(() => {
             const _rules = []
                 .concat(props.rules || [])
@@ -223,7 +224,7 @@ export default defineComponent({
             validateDisabled.value = true; // 在表单重置行为，不应触发校验
 
             // reset initialValue
-            set(model.value, formItemProp.value, initialValue.value);
+            set(model.value, formItemProp.value, initialValue);
 
             // reset validateDisabled after onFieldChange triggered
             nextTick(() => {
