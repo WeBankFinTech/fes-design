@@ -29,6 +29,7 @@ import {
     onBeforeUnmount,
     nextTick,
     defineComponent,
+    getCurrentInstance,
 } from 'vue';
 import Schema from 'async-validator';
 import { isArray, cloneDeep, get, set } from 'lodash-es';
@@ -68,15 +69,22 @@ export default defineComponent({
             removeField,
         } = inject(provideKey);
 
-        const fieldValue = computed(() => {
-            if (!model.value || !props.prop) return;
-            return get(model.value, props.prop);
+        const formItemProp = computed(() => {
+            return props.prop || `${prefixCls}_${getCurrentInstance().uid}`;
         });
-        const initialValue = ref(cloneDeep(fieldValue.value));
+        const fieldValue = computed(() => {
+            // 优先获取 value 的值
+            if (props.value !== undefined) return props.value;
+
+            // 不存在时获取 model[prop] 的值
+            if (!model.value || !formItemProp.value) return;
+            return get(model.value, formItemProp.value);
+        });
+        const initialValue = cloneDeep(fieldValue.value);
         const formItemRules = computed(() => {
             const _rules = []
                 .concat(props.rules || [])
-                .concat(get(rules?.value, props.prop) || []);
+                .concat(get(rules?.value, formItemProp.value) || []);
             return _rules;
         });
 
@@ -111,7 +119,7 @@ export default defineComponent({
                 prefixCls,
                 layout.value === FORM_LAYOUT.INLINE &&
                     !inlineItemWidth.value &&
-                    `${prefixCls}-span-${props.span}`, // Form传入 inlineItemWidth 即【定宽】情况, 此时 inlineItemWidth 优先级高于 span
+                    `${prefixCls}-span-${Math.ceil(props.span)}`, // Form传入 inlineItemWidth 即【定宽】情况, 此时 inlineItemWidth 优先级高于 span
                 labelPosition.value !== LABEL_POSITION.LEFT &&
                     `${prefixCls}-${labelPosition.value}`,
                 formItemRequired.value && 'is-required', // 必填校验: is-required
@@ -182,9 +190,9 @@ export default defineComponent({
 
             // 开始规则校验
             const descriptor: any = {};
-            descriptor[props.prop] = activeRules;
+            descriptor[formItemProp.value] = activeRules;
             const validatorModel: any = {};
-            validatorModel[props.prop] = fieldValue.value;
+            validatorModel[formItemProp.value] = fieldValue.value;
             const validator = new Schema(descriptor);
 
             try {
@@ -216,7 +224,7 @@ export default defineComponent({
             validateDisabled.value = true; // 在表单重置行为，不应触发校验
 
             // reset initialValue
-            set(model.value, props.prop, initialValue.value);
+            set(model.value, formItemProp.value, initialValue);
 
             // reset validateDisabled after onFieldChange triggered
             nextTick(() => {
@@ -224,8 +232,8 @@ export default defineComponent({
             });
         };
 
-        addField(props.prop, {
-            prop: props.prop,
+        addField(formItemProp.value, {
+            prop: formItemProp.value,
             value: fieldValue.value,
             rules: formItemRules.value,
             validateRules,
@@ -233,7 +241,7 @@ export default defineComponent({
             resetField,
         });
         onBeforeUnmount(() => {
-            removeField(props.prop);
+            removeField(formItemProp.value);
         });
 
         provide(FORM_ITEM_INJECTION_KEY, {
