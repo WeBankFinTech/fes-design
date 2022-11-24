@@ -1,3 +1,12 @@
+## [0.7.10](https://github.com/WeBankFinTech/fes-design/compare/v0.7.9...v0.7.10) (2022-11-24)
+
+
+### Features
+
+*  FormItem支持value  & FormItem span 取整 ([#249](https://github.com/WeBankFinTech/fes-design/issues/249)) ([cd10bcb](https://github.com/WeBankFinTech/fes-design/commit/cd10bcbbed79b647480a64465cce678993612490))
+
+
+
 ## [0.7.9](https://github.com/WeBankFinTech/fes-design/compare/v0.7.8...v0.7.9) (2022-11-17)
 
 ### Bug Fixes
