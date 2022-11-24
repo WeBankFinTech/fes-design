@@ -72,10 +72,11 @@ export default defineComponent({
             return props.prop || uniqueId(`${prefixCls}_${Date.now()}_`);
         });
         const fieldValue = computed(() => {
-            // 优先获取 value 的值; 不存在时再取 model[prop]
+            // 优先获取 value 的值
             if (props.value !== undefined) return props.value;
 
-            if (!model.value || formItemProp.value) return;
+            // 不存在时获取 model[prop] 的值
+            if (!model.value || !formItemProp.value) return;
             return get(model.value, formItemProp.value);
         });
         const initialValue = ref(cloneDeep(fieldValue.value));
