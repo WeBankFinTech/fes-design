@@ -110,6 +110,6 @@ defineExpose({
 <style scoped>
 .vue-repl {
     border-right: 1px solid var(--vt-c-divider-light);
-    height: calc(100vh - var(--vp-nav-height));
+    height: calc(100vh - 88px);
 }
 </style>

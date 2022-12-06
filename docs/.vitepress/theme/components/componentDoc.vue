@@ -20,7 +20,6 @@
 import { defineComponent, ref, watch } from 'vue';
 
 import playground from './playground';
-import { highlight } from './highlight';
 import codes from './demoCode';
 
 export default defineComponent({
@@ -32,9 +31,7 @@ export default defineComponent({
         watch(
             () => props.code,
             () => {
-                code.value = codes[props.code]
-                    ? highlight(codes[props.code], 'vue')
-                    : '';
+                code.value = codes[`${props.code}-code`];
             },
             {
                 immediate: true,
@@ -97,9 +94,11 @@ export default defineComponent({
         overflow: auto;
 
         &.visible-code {
+            border-radius: 4px;
             opacity: 1;
             height: auto;
             padding: 16px;
+            background-color: #292d3e;
         }
     }
 }

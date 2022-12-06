@@ -44,7 +44,6 @@ specifiers:
   cz-conventional-changelog: ^3.3.0
   date-fns: ^2.28.0
   enquirer: ^2.3.6
-  escape-html: ^1.0.3
   execa: ^4.0.2
   fast-glob: ^3.2.7
   fs-extra: ^10.0.0
@@ -60,7 +59,6 @@ specifiers:
   normalize-wheel: ^1.0.1
   postcss: ^8.3.11
   prettier: ^2.4.1
-  prismjs: ^1.25.0
   rollup: ^2.60.1
   rollup-plugin-postcss: ^4.0.1
   rollup-plugin-vue: ^6.0.0
@@ -130,7 +128,6 @@ devDependencies:
   csso: 4.2.0
   cz-conventional-changelog: 3.3.0
   enquirer: 2.3.6
-  escape-html: 1.0.3
   execa: 4.1.0
   fast-glob: 3.2.7
   fs-extra: 10.0.0
@@ -144,7 +141,6 @@ devDependencies:
   minimist: 1.2.5
   postcss: 8.4.4
   prettier: 2.5.1
-  prismjs: 1.25.0
   rollup: 2.60.2
   rollup-plugin-postcss: 4.0.2_postcss@8.4.4
   rollup-plugin-vue: 6.0.0_@vue+compiler-sfc@3.2.24
@@ -4668,10 +4664,6 @@ packages:
   /escalade/3.1.1:
     resolution: {integrity: sha1-2M/ccACWXFoBdLSoLqpcBVJ0LkA=, tarball: escalade/download/escalade-3.1.1.tgz}
     engines: {node: '>=6'}
-    dev: true
-
-  /escape-html/1.0.3:
-    resolution: {integrity: sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=, tarball: escape-html/download/escape-html-1.0.3.tgz}
     dev: true
 
   /escape-string-regexp/1.0.5:
