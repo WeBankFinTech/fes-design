@@ -2,6 +2,7 @@
 const path = require('path');
 const fs = require('fs');
 const fse = require('fs-extra');
+const shiki = require('shiki');
 
 const SCRIPT_TEMPLATE = `
 <script>
@@ -61,7 +62,34 @@ function handleCompDoc(compCode, compName, demoName) {
     );
 }
 
-function genComponent(dir, name) {
+const htmlEscapes = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+};
+
+function escapeHtml(html) {
+    return html.replace(/[&<>"']/g, (chr) => htmlEscapes[chr]);
+}
+
+let highlighter;
+const highlight = async (code, lang = 'vue') => {
+    if (!lang || lang === 'text') {
+        return `<pre v-pre><code>${escapeHtml(code)}</code></pre>`;
+    }
+    if (!highlighter) {
+        highlighter = await shiki.getHighlighter({
+            theme: 'material-palenight',
+        });
+    }
+    return highlighter
+        .codeToHtml(code, lang)
+        .replace(/^<pre.*?>/, '<pre v-pre>');
+};
+
+async function genComponent(dir, name) {
     const output = genOutputPath(name);
     const indexPath = path.join(dir, 'index.md');
     if (!fs.existsSync(indexPath)) return;
@@ -105,10 +133,9 @@ function genComponent(dir, name) {
 
             demoContent.push(`<${compName} />`);
 
-            tempCode[`${name}.${demoName}`] = fs.readFileSync(
-                fullPath,
-                'utf-8',
-            );
+            const rawCode = fs.readFileSync(fullPath, 'utf-8');
+            tempCode[`${name}.${demoName}`] = rawCode;
+            tempCode[`${name}.${demoName}-code`] = await highlight(rawCode);
 
             const matchStr = new RegExp(
                 `--${demoName.toLocaleUpperCase()}\\s`,
@@ -145,10 +172,10 @@ function genComponent(dir, name) {
     }
 }
 
-function genComponents(src) {
+async function genComponents(src) {
     const components = fs.readdirSync(src);
     for (const name of components) {
-        genComponent(path.join(src, name), name);
+        await genComponent(path.join(src, name), name);
     }
 }
 
@@ -205,9 +232,9 @@ async function watch(src) {
     watcher.on('-', handleDelete);
 }
 
-exports.genComponentDoc = () => {
+exports.genComponentDoc = async () => {
     const src = path.join(process.cwd(), './docs/.vitepress/components');
-    genComponents(src);
+    await genComponents(src);
 
     if (process.env.NODE_ENV !== 'production') {
         watch(src);
