@@ -35,8 +35,6 @@ export default defineComponent({
             isExpandOpened,
             handleCellClick,
             getCellValue,
-            prefixCls,
-            rootProps,
         } = inject(provideKey);
 
         const renderTdList = (row: object, rowIndex: number) =>
@@ -79,18 +77,6 @@ export default defineComponent({
 
         return () => {
             const { row, rowIndex, expanded } = props;
-            if (!row) {
-                return (
-                    <tr class={`${prefixCls}-row`}>
-                        <td
-                            colspan={props.columns.length}
-                            class={`${prefixCls}-td ${prefixCls}-cell ${prefixCls}-no-data`}
-                        >
-                            {rootProps.emptyText}
-                        </td>
-                    </tr>
-                );
-            }
 
             if (!expanded) {
                 return renderTr();

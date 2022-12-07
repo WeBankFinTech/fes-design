@@ -117,6 +117,7 @@ export default defineComponent({
             toggleRowExpend,
             sort,
             clearSorter,
+            showData,
         } = useTable(props, ctx);
 
         ctx.expose &&
@@ -168,7 +169,7 @@ export default defineComponent({
                     composed={composed.value}
                     columns={columnsRef.value}
                 />
-                {rootProps.virtualScroll ? (
+                {rootProps.virtualScroll && showData.value.length ? (
                     <VirtualTable
                         v-show={layout.initRef.value}
                         columns={columnsRef.value}
