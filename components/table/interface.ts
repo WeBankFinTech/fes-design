@@ -1,4 +1,4 @@
-import { Ref } from 'vue';
+import { Ref, SetupContext } from 'vue';
 import { getCellValue } from './helper';
 import useTableColumn from './useTableColumn';
 import useTableEvent from './useTableEvent';
@@ -26,6 +26,7 @@ export interface TableInst
         ReturnType<typeof useTableDrag>,
         ReturnType<typeof useTableSort> {
     rootProps: TableProps;
+    rootCtx: SetupContext;
     getRowKey: ({ row }: { row: RowType }) => string | number | RowType;
     getCellValue: typeof getCellValue;
     tableId: string;

@@ -5,6 +5,7 @@ import { provideKey } from '../const';
 import Colgroup from './colgroup';
 import Header from './header';
 import Tr from './tr';
+import NoData from './noData';
 
 import type { ColumnInst } from '../column';
 
@@ -64,11 +65,7 @@ export default defineComponent({
 
         const renderBody = () => {
             if (showData.value.length === 0) {
-                return (
-                    <tbody>
-                        <Tr columns={props.columns} />
-                    </tbody>
-                );
+                return <NoData></NoData>;
             }
             if (rootProps.draggable) {
                 return (

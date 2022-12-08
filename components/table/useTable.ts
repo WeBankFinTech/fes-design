@@ -79,6 +79,7 @@ export default (props: TableProps, ctx: SetupContext) => {
 
     const state = {
         rootProps: props,
+        rootCtx: ctx,
         getRowKey,
         getCellValue,
         tableId,
