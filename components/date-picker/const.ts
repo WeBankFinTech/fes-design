@@ -1,5 +1,5 @@
 import type { PropType } from 'vue';
-import { PickerType } from './pickerHandler';
+import type { PickerType } from './pickerHandler';
 
 export const RANGE_POSITION = {
     LEFT: 'left',
@@ -21,7 +21,7 @@ export const COMMON_PROPS = {
     format: String,
     type: {
         type: String as PropType<keyof typeof PickerType>,
-        default: PickerType.date,
+        default: 'date',
     },
     minDate: {
         type: Date,
