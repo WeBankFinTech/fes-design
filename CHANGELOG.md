@@ -1,3 +1,17 @@
+## [0.7.11](https://github.com/WeBankFinTech/fes-design/compare/v0.7.10...v0.7.11) (2022-12-08)
+
+
+### Bug Fixes
+
+* 循环依赖问题 ([#252](https://github.com/WeBankFinTech/fes-design/issues/252)) ([7859b32](https://github.com/WeBankFinTech/fes-design/commit/7859b3239ee0c209ad8d818a34abccb5561dd01b))
+
+
+### Features
+
+* Table组件支持empty插槽 ([#251](https://github.com/WeBankFinTech/fes-design/issues/251)) ([eaaace0](https://github.com/WeBankFinTech/fes-design/commit/eaaace0b71641bf11d0245979f4ec6303ed7abf3))
+
+
+
 ## [0.7.10](https://github.com/WeBankFinTech/fes-design/compare/v0.7.9...v0.7.10) (2022-11-24)
 
 

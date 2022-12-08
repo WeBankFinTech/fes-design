@@ -23,6 +23,7 @@ specifiers:
   '@types/normalize-wheel': ^1.0.0
   '@vitejs/plugin-vue-jsx': ^1.1.7
   '@vue/babel-plugin-jsx': ^1.1.1
+  '@vue/compiler-sfc': ^3.2.45
   '@vue/repl': ^1.0.0
   '@vue/shared': ^3.2.19
   '@vue/test-utils': ^2.0.0-rc.6
@@ -111,6 +112,7 @@ devDependencies:
   '@types/jest': 27.4.1
   '@vitejs/plugin-vue-jsx': 1.3.0
   '@vue/babel-plugin-jsx': 1.1.1_@babel+core@7.16.0
+  '@vue/compiler-sfc': 3.2.45
   '@vue/repl': 1.0.0_vue@3.2.45
   '@vue/test-utils': 2.0.0-rc.17_vue@3.2.45
   '@vue/vue3-jest': 27.0.0-alpha.4_3kypkzph7lmv7c7ecp2xlm2lyy
@@ -141,7 +143,7 @@ devDependencies:
   prettier: 2.5.1
   rollup: 2.60.2
   rollup-plugin-postcss: 4.0.2_postcss@8.4.4
-  rollup-plugin-vue: 6.0.0
+  rollup-plugin-vue: 6.0.0_@vue+compiler-sfc@3.2.45
   semver: 7.3.5
   shiki: 0.10.1
   stylelint: 14.1.0
@@ -8830,11 +8832,12 @@ packages:
       - ts-node
     dev: true
 
-  /rollup-plugin-vue/6.0.0:
+  /rollup-plugin-vue/6.0.0_@vue+compiler-sfc@3.2.45:
     resolution: {integrity: sha1-43npPlrpqGSFIvaYvi5FLoZyqvI=, tarball: rollup-plugin-vue/download/rollup-plugin-vue-6.0.0.tgz}
     peerDependencies:
       '@vue/compiler-sfc': '*'
     dependencies:
+      '@vue/compiler-sfc': 3.2.45
       debug: 4.3.3
       hash-sum: 2.0.0
       rollup-pluginutils: 2.8.2
