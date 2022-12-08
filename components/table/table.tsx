@@ -13,7 +13,7 @@ import useTable from './useTable';
 import HeaderTable from './components/headerTable';
 import BodyTable from './components/bodyTable';
 import VirtualTable from './components/virtualTable';
-import { BeforeDragEnd } from '../draggable/useDraggable';
+import type { BeforeDragEnd } from '../draggable/useDraggable';
 
 import type { RowType, RowKey } from './interface';
 

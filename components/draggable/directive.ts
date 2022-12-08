@@ -7,13 +7,13 @@ import {
     DirectiveBinding,
 } from 'vue';
 import {
-    BeforeDragEnd,
     DraggableItem,
     DRAG_END_EVENT,
     DRAG_START_EVENT,
     UPDATE_MODEL_EVENT,
     useDraggable,
 } from './useDraggable';
+import type { BeforeDragEnd } from './useDraggable';
 
 import type { FObjectDirective } from '../_util/interface';
 

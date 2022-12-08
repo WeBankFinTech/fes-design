@@ -6,11 +6,8 @@ import {
     CSSProperties,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
-import {
-    DESCRIPTIONS_PROVIDE_KEY,
-    LabelAlign,
-    LabelPlacement,
-} from './constants';
+import { DESCRIPTIONS_PROVIDE_KEY } from './constants';
+import type { LabelAlign, LabelPlacement } from './constants';
 
 const prefixCls = getPrefixCls('descriptions');
 

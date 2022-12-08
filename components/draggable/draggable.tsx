@@ -12,11 +12,11 @@ import {
     DRAG_START_EVENT,
     UPDATE_MODEL_EVENT,
     useDraggable,
-    BeforeDragEnd,
 } from './useDraggable';
 import { useTheme } from '../_theme/useTheme';
 import { mergeWith } from 'lodash-es';
 import { flatten, isComment } from '../_util/vnode';
+import type { BeforeDragEnd } from './useDraggable';
 
 const prefixCls = getPrefixCls('draggable');
 

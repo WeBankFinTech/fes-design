@@ -1,5 +1,5 @@
 import { ExtractPropTypes, PropType, ToRefs, Ref } from 'vue';
-import { RuleItem } from 'async-validator';
+import type { RuleItem } from 'async-validator';
 import { FORM_LAYOUT, LABEL_POSITION } from './const';
 
 export const formProps = {
