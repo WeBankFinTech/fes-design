@@ -13,7 +13,7 @@
 @btn-min-width-sm: 40px;
 
 @btn-padding-base: 0 16px;
-@btn-padding-sm: 0 8px;
+@btn-padding-sm: 0 12px;
 
 .@{btn-prefix-cls} {
     --f-btn-color: var(--f-text-color);
@@ -73,7 +73,8 @@
     }
 
     &-type-default {
-        &:hover, &:focus {
+        &:hover,
+        &:focus {
             --f-btn-color: var(--f-primary-color);
             --f-btn-bg-color: var(--f-btn-hover-color-light);
             --f-btn-border-color: var(--f-primary-color);
@@ -96,7 +97,8 @@
         --f-btn-color: var(--f-white);
         --f-btn-bg-color: var(--f-primary-color);
         --f-btn-border-color: var(--f-primary-color);
-        &:hover, &:focus {
+        &:hover,
+        &:focus {
             --f-btn-bg-color: var(--f-btn-hover-color);
             --f-btn-border-color: var(--f-btn-hover-color);
         }
@@ -116,7 +118,8 @@
         --f-btn-bg-color: transparent;
         --f-btn-border-color: transparent;
 
-        &:hover, &:focus {
+        &:hover,
+        &:focus {
             --f-btn-color: var(--f-primary-color);
             --f-btn-bg-color: var(--f-hover-color-light);
         }
@@ -136,7 +139,8 @@
         --f-btn-bg-color: transparent;
         --f-btn-border-color: transparent;
 
-        &:hover, &:focus {
+        &:hover,
+        &:focus {
             --f-btn-color: var(--f-hover-color-base);
         }
         &:active {
@@ -149,12 +153,15 @@
         .button-processing();
     }
 
-    &-type-info, &-type-success, &-type-warning, &-type-danger {
+    &-type-info,
+    &-type-success,
+    &-type-warning,
+    &-type-danger {
         &[disabled] {
             --f-btn-color: var(--f-btn-disabled-color);
             --f-btn-bg-color: var(--f-disabled-color-light);
             --f-btn-border-color: var(--f-btn-disabled-color);
-        };
+        }
 
         .button-processing();
     }
@@ -164,8 +171,9 @@
         --f-btn-bg-color: var(--f-white);
         --f-btn-border-color: var(--f-primary-color);
         --f-btn-wave-shadow-color: var(--f-primary-color);
-        
-        &:hover, &:focus {
+
+        &:hover,
+        &:focus {
             --f-btn-bg-color: var(--f-hover-color-light);
         }
         &:active {
@@ -181,7 +189,8 @@
         --f-btn-border-color: var(--f-success-color);
         --f-btn-wave-shadow-color: var(--f-success-color);
 
-        &:hover, &:focus {
+        &:hover,
+        &:focus {
             --f-btn-bg-color: var(--f-hover-success-color);
         }
         &:active {
@@ -196,8 +205,9 @@
         --f-btn-bg-color: var(--f-white);
         --f-btn-border-color: var(--f-warning-color);
         --f-btn-wave-shadow-color: var(--f-warning-color);
-        
-        &:hover, &:focus {
+
+        &:hover,
+        &:focus {
             --f-btn-bg-color: var(--f-hover-warning-color);
         }
         &:active {
@@ -212,8 +222,9 @@
         --f-btn-bg-color: var(--f-white);
         --f-btn-border-color: var(--f-danger-color);
         --f-btn-wave-shadow-color: var(--f-danger-color);
-        
-        &:hover, &:focus {
+
+        &:hover,
+        &:focus {
             --f-btn-bg-color: var(--f-hover-danger-color);
         }
         &:active {
