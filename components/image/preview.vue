@@ -69,6 +69,9 @@
                 :class="[`${prefixCls}__canvas`]"
                 :src="src"
                 :style="previewStyle"
+                @mousedown="handleMouseDown"
+                @mousemove="handleMouseMove"
+                @mouseup="handleMouseUp"
             />
         </div>
     </teleport>
@@ -102,6 +105,7 @@ import {
 } from '../icon';
 import { CLOSE_EVENT } from '../_util/constants';
 import { PREVIEW_PROVIDE_KEY } from './props';
+import { throttle } from 'lodash-es';
 
 const prefixCls = getPrefixCls('preview');
 
@@ -147,6 +151,8 @@ export default defineComponent({
         const transform = ref({
             scale: 1,
             rotateDeg: 0,
+            offsetX: 0,
+            offsetY: 0,
         });
         const { isGroup, next, prev } = inject(PREVIEW_PROVIDE_KEY, {
             isGroup: ref(false),
@@ -157,10 +163,12 @@ export default defineComponent({
         const mousewheelEvent = isFirefox() ? 'DOMMouseScroll' : 'mousewheel';
 
         const previewStyle = computed(() => {
-            const { scale, rotateDeg } = transform.value;
+            const { scale, rotateDeg, offsetX, offsetY } = transform.value;
             const style: CSSProperties = {
                 transform: `scale(${scale}) rotate(${rotateDeg}deg)`,
                 transition: 'transform .3s',
+                'margin-left': `${offsetX}px`,
+                'margin-top': `${offsetY}px`,
             };
             if (
                 props.size.height > clientHeight ||
@@ -214,6 +222,8 @@ export default defineComponent({
             transform.value = {
                 scale: 1,
                 rotateDeg: 0,
+                offsetX: 0,
+                offsetY: 0,
             };
         };
 
@@ -240,6 +250,40 @@ export default defineComponent({
                 mousewheelEvent,
                 handleScroll,
             );
+        };
+
+        let isMouseDown = false;
+        let startX: number;
+        let startY: number;
+        let imgOffsetX: number;
+        let imgOffsetY: number;
+
+        const handleMouseDown = (event: MouseEvent) => {
+            // 取消默认图片拖拽的行为
+            event.preventDefault();
+            isMouseDown = true;
+            // 存储鼠标按下的偏移量和事件发生坐标
+            const { offsetX, offsetY } = transform.value;
+            startX = event.pageX;
+            startY = event.pageY;
+            imgOffsetX = offsetX;
+            imgOffsetY = offsetY;
+        };
+
+        const dragHandle = (event: MouseEvent) => {
+            transform.value.offsetX = imgOffsetX + event.pageX - startX;
+            transform.value.offsetY = imgOffsetY + event.pageY - startY;
+        };
+        // 节流0.1s 改变一次图片拖动位置
+        const throttleDrag = throttle(dragHandle, 100);
+
+        const handleMouseMove = (event: MouseEvent) => {
+            if (!isMouseDown) return;
+            throttleDrag(event);
+        };
+
+        const handleMouseUp = () => {
+            isMouseDown = false;
         };
 
         const handleClose = () => {
@@ -271,6 +315,9 @@ export default defineComponent({
             handleActions,
             previewStyle,
             zIndex,
+            handleMouseDown,
+            handleMouseMove,
+            handleMouseUp,
         };
     },
 });
