@@ -2,6 +2,7 @@
 const fse = require('fs-extra');
 const path = require('path');
 const rollup = require('rollup');
+const replace = require('@rollup/plugin-replace');
 const { minify } = require('terser');
 
 const { getRollupConfig, OUTPUT_DIR } = require('./build-shard');
@@ -9,7 +10,13 @@ const { getRollupConfig, OUTPUT_DIR } = require('./build-shard');
 fse.mkdirsSync(OUTPUT_DIR);
 
 async function compiler() {
-    const bundle = await rollup.rollup(getRollupConfig());
+    const rollupConfig = getRollupConfig();
+    rollupConfig.plugins.push(
+        replace({
+            'process.env.NODE_ENV': JSON.stringify('production'),
+        }),
+    );
+    const bundle = await rollup.rollup(rollupConfig);
     const outputFilePath = path.join(OUTPUT_DIR, 'fes-design.js');
 
     await bundle.write({
