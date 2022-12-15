@@ -1,3 +1,17 @@
+## [0.7.12](https://github.com/WeBankFinTech/fes-design/compare/v0.7.11...v0.7.12) (2022-12-15)
+
+
+### Bug Fixes
+
+* 修复 umd 编译问题 ([#255](https://github.com/WeBankFinTech/fes-design/issues/255)) ([e1ca8d4](https://github.com/WeBankFinTech/fes-design/commit/e1ca8d415e5d4e84024387e3cdbdd6b220850dc1))
+
+
+### Features
+
+* image组件新增预览拖拽查看 ([#254](https://github.com/WeBankFinTech/fes-design/issues/254)) ([f099cdc](https://github.com/WeBankFinTech/fes-design/commit/f099cdcb5a75cda1f260c1b7907afe5389e64f60))
+
+
+
 ## [0.7.11](https://github.com/WeBankFinTech/fes-design/compare/v0.7.10...v0.7.11) (2022-12-08)
 
 
