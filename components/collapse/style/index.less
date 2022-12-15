@@ -1,0 +1,213 @@
+/* stylelint-disable selector-class-pattern */
+:root{
+    --fes-color-primary-rgb:64,158,255;
+    --fes-fill-color-blank:#fff;
+    --fes-text-color-primary: #0F1222;
+    --fes-text-color-disabled:#c0c4cc;
+    --fes-border-color-lighter:#ebeef5;
+    --fes-transition-duration-fast:0.2s;
+    --fes-transition-duration:0.3s;
+    --fes-transition-function-fast-bezier:cubic-bezier(0.23, 1, 0.32, 1);
+    --fes-transition-fade-linear:opacity var(--fes-transition-duration-fast) linear;
+    --fes-transition-md-fade:transform var(--fes-transition-duration) var(--fes-transition-function-fast-bezier),opacity var(--fes-transition-duration) var(--fes-transition-function-fast-bezier);
+}
+.fade-in-linear-enter-active,
+.fade-in-linear-leave-active {
+    transition: var(--fes-transition-fade-linear);
+}
+
+.fade-in-linear-enter-from,
+.fade-in-linear-leave-to {
+    opacity: 0;
+}
+
+.fes-fade-in-linear-enter-active,
+.fes-fade-in-linear-leave-active {
+    transition: var(--fes-transition-fade-linear);
+}
+
+.fes-fade-in-linear-enter-from,
+.fes-fade-in-linear-leave-to {
+    opacity: 0;
+}
+
+.fes-fade-in-enter-active,
+.fes-fade-in-leave-active {
+    transition: all var(--fes-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.fes-fade-in-enter-from,
+.fes-fade-in-leave-active {
+    opacity: 0;
+}
+
+.fes-zoom-in-center-enter-active,
+.fes-zoom-in-center-leave-active {
+    transition: all var(--fes-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.fes-zoom-in-center-enter-from,
+.fes-zoom-in-center-leave-active {
+    transform: scaleX(0);
+    opacity: 0;
+}
+
+.fes-zoom-in-top-enter-active,
+.fes-zoom-in-top-leave-active {
+    transform: scaleY(1);
+    transform-origin: center top;
+    opacity: 1;
+    transition: var(--fes-transition-md-fade);
+}
+
+.fes-zoom-in-top-enter-active[data-popper-placement^='top'],
+.fes-zoom-in-top-leave-active[data-popper-placement^='top'] {
+    transform-origin: center bottom;
+}
+
+.fes-zoom-in-top-enter-from,
+.fes-zoom-in-top-leave-active {
+    transform: scaleY(0);
+    opacity: 0;
+}
+
+.fes-zoom-in-bottom-enter-active,
+.fes-zoom-in-bottom-leave-active {
+    transform: scaleY(1);
+    transform-origin: center bottom;
+    opacity: 1;
+    transition: var(--fes-transition-md-fade);
+}
+
+.fes-zoom-in-bottom-enter-from,
+.fes-zoom-in-bottom-leave-active {
+    transform: scaleY(0);
+    opacity: 0;
+}
+
+.fes-zoom-in-left-enter-active,
+.fes-zoom-in-left-leave-active {
+    transform: scale(1, 1);
+    transform-origin: top left;
+    opacity: 1;
+    transition: var(--fes-transition-md-fade);
+}
+
+.fes-zoom-in-left-enter-from,
+.fes-zoom-in-left-leave-active {
+    transform: scale(0.45, 0.45);
+    opacity: 0;
+}
+
+.collapse-transition {
+    transition: var(--fes-transition-duration) height ease-in-out,
+        var(--fes-transition-duration) padding-top ease-in-out,
+        var(--fes-transition-duration) padding-bottom ease-in-out;
+}
+
+.fes-collapse-transition-enter-active,
+.fes-collapse-transition-leave-active {
+    transition: var(--fes-transition-duration) max-height ease-in-out,
+        var(--fes-transition-duration) padding-top ease-in-out,
+        var(--fes-transition-duration) padding-bottom ease-in-out;
+}
+
+.horizontal-collapse-transition {
+    transition: var(--fes-transition-duration) width ease-in-out,
+        var(--fes-transition-duration) padding-left ease-in-out,
+        var(--fes-transition-duration) padding-right ease-in-out;
+}
+
+.fes-list-enter-active,
+.fes-list-leave-active {
+    transition: all 1s;
+}
+
+.fes-list-enter-from,
+.fes-list-leave-to {
+    transform: translateY(-30px);
+    opacity: 0;
+}
+
+.fes-list-leave-active {
+    position: absolute !important;
+}
+
+.fes-opacity-transition {
+    transition: opacity var(--fes-transition-duration)
+        cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.fes-collapse {
+    --fes-collapse-border-color: var(--fes-border-color-lighter);
+    --fes-collapse-header-height: 48px;
+    --fes-collapse-header-bg-color: var(--fes-fill-color-blank);
+    --fes-collapse-header-text-color: var(--fes-text-color-primary);
+    --fes-collapse-header-font-size: 13px;
+    --fes-collapse-content-bg-color: var(--fes-fill-color-blank);
+    --fes-collapse-content-font-size: 13px;
+    --fes-collapse-content-text-color: rgb(15 18 34 / 0.65);
+    border-top: 1px solid var(--fes-collapse-border-color);
+    border-bottom: 1px solid var(--fes-collapse-border-color);
+}
+
+.fes-collapse-item.is-disabled .fes-collapse-item__header {
+    color: var(--fes-text-color-disabled);
+    cursor: not-allowed;
+}
+
+.fes-collapse-item__header {
+    display: flex;
+    align-items: center;
+    height: var(--fes-collapse-header-height);
+    color: var(--fes-collapse-header-text-color);
+    font-weight: 500;
+    font-size: var(--fes-collapse-header-font-size);
+    line-height: var(--fes-collapse-header-height);
+    background-color: var(--fes-collapse-header-bg-color);
+    border-bottom: 1px solid var(--fes-collapse-border-color);
+    outline: 0;
+    cursor: pointer;
+    transition: border-bottom-color var(--fes-transition-duration);
+}
+
+.fes-collapse-item__arrow {
+    margin: 0 8px 0 auto;
+    font-weight: 300;
+    transition: transform var(--fes-transition-duration);
+}
+.fes-collapse-item__arrow-left {
+    margin: 0 24px 0 8px;
+}
+
+.fes-collapse-item__arrow.is-active {
+    transform: rotate(90deg);
+}
+
+.fes-collapse-item__header.focusing:focus:not(:hover) {
+    color: var(--fes-color-primary);
+}
+
+.fes-collapse-item__header.is-active {
+    border-bottom-color: transparent;
+}
+
+.fes-collapse-item__wrap {
+    box-sizing: border-box;
+    overflow: hidden;
+    background-color: var(--fes-collapse-content-bg-color);
+    border-bottom: 1px solid var(--fes-collapse-border-color);
+    will-change: height;
+}
+
+.fes-collapse-item__content {
+    padding: 16px;
+    color: var(--fes-collapse-content-text-color);
+    font-size: var(--fes-collapse-content-font-size);
+    line-height: 1.769;
+    background-color: #F7F7F8;
+}
+
+.fes-collapse-item:last-child {
+    margin-bottom: -1px;
+}

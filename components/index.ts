@@ -44,6 +44,7 @@ import { FSkeleton } from './skeleton';
 import { FCascader } from './cascader';
 import { FSelectCascader } from './select-cascader';
 import { FDescriptions, FDescriptionsItem } from './descriptions';
+import { FCollapse, FCollapseItem } from './collapse';
 
 export * from './locales';
 
@@ -108,6 +109,8 @@ const components = [
     FSelectCascader,
     FDescriptions,
     FDescriptionsItem,
+    FCollapse,
+    FCollapseItem,
 ];
 const install = function (app: App) {
     components.forEach((component) => {
@@ -180,6 +183,8 @@ export {
     FSelectCascader,
     FDescriptions,
     FDescriptionsItem,
+    FCollapse,
+    FCollapseItem,
 };
 export default {
     version,

@@ -125,6 +125,10 @@ module.exports = {
                         link: '/zh/components/carousel',
                     },
                     {
+                        text: 'Collapse 折叠面板',
+                        link: '/zh/components/collapse',
+                    },
+                    {
                         text: 'Descriptions 描述列表',
                         link: '/zh/components/descriptions',
                     },
