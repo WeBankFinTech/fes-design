@@ -29,7 +29,7 @@
                 </div>
             </div>
         </div>
-        <ColTransition>
+        <ColTransition name="fes-fade-in-linear" mode="in-out">
             <div
                 v-show="isActive"
                 :id="scopedContentId"
@@ -75,6 +75,7 @@ const {
     scopedContentId,
     scopedHeadId,
 } = useCollapseItemDOM(props, { focusing, isActive, id });
+console.log(itemWrapperKls);
 
 defineExpose({
     /** @description current collapse-item whether active */
