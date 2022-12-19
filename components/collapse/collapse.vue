@@ -9,7 +9,9 @@ import { provide } from 'vue';
 import { collapseEmits, collapseProps } from './collapse';
 import { useCollapse, useCollapseDOM } from './useCollapse';
 import { arrowPositionKey } from './common';
-
+import { useTheme } from '../_theme/useTheme';
+console.log('usetheme: ', useTheme());
+useTheme();
 const props = defineProps(collapseProps);
 const emit = defineEmits(collapseEmits);
 
