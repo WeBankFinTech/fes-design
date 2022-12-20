@@ -29,7 +29,7 @@
                 </div>
             </div>
         </div>
-        <ColTransition name="fes-fade-in-linear" mode="in-out">
+        <FadeInExpandTransition>
             <div
                 v-show="isActive"
                 :id="scopedContentId"
@@ -42,12 +42,13 @@
                     <slot />
                 </div>
             </div>
-        </ColTransition>
+        </FadeInExpandTransition>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { Transition as ColTransition, inject } from 'vue';
+import { inject } from 'vue';
+import FadeInExpandTransition from '../_util/components/fadeInExpandTransition';
 import { RightOutlined } from '../icon';
 import { collapseItemProps } from './collapseItem';
 import { useCollapseItem, useCollapseItemDOM } from './useCollapseItem';
