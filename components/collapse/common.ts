@@ -1,9 +1,22 @@
-import type { PropType } from 'vue';
+import type { InjectionKey, PropType, Ref } from 'vue';
 
 export const definePropType = <T>(val: any): PropType<T> => val;
 
 export const generateId = (): number => Math.floor(Math.random() * 10000);
 
-export const collapseContextKey = Symbol('collapseContextKey');
+export type CollapseActiveName = string | number;
 
-export const arrowPositionKey = Symbol('arrow_position');
+export type contextType = {
+    activeNames: Ref<(string | number)[]>;
+    handleItemClick: (name: CollapseActiveName) => void;
+};
+
+export type arrowType = {
+    arrow: string;
+};
+
+export const collapseContextKey: InjectionKey<contextType> =
+    Symbol('collapseContextKey');
+
+export const arrowPositionKey: InjectionKey<arrowType> =
+    Symbol('arrow_position');

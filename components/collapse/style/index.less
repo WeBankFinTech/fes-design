@@ -5,13 +5,12 @@
 
 .fes-collapse {
     --fes-collapse-header-height: 48px;
-    --fes-collapse-header-text-color: #0F1222;
     border-top: 1px solid var(--f-border-color-split);
     border-bottom: 1px solid var(--f-border-color-split);
 }
 
 .fes-collapse-item.is-disabled .fes-collapse-item__header {
-    color: #c0c4cc;
+    color: var(--f-text-color-disabled) !important;
     cursor: not-allowed;
 }
 
@@ -19,7 +18,7 @@
     display: flex;
     align-items: center;
     height: var(--fes-collapse-header-height);
-    color: var(--fes-collapse-header-text-color);
+    color: var(--f-head-color);
     font-weight: 500;
     font-size: var(--f-font-size-base);
     line-height: var(--fes-collapse-header-height);

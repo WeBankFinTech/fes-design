@@ -1,11 +1,10 @@
 import { isNumber, isString } from 'lodash-es';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import type { ExtractPropTypes } from 'vue';
-import { definePropType } from './common';
+import { definePropType, CollapseActiveName } from './common';
 
 type Arrayable<T> = T | T[];
 
-export type CollapseActiveName = string | number;
 export type CollapseModelValue = Arrayable<CollapseActiveName>;
 export type Mutable<T> = { -readonly [P in keyof T]: T[P] }; // 移除只读特性
 
