@@ -25,7 +25,7 @@ export const collapseProps = {
         default: () => mutable([] as const), // 常量
     },
 };
-export type CollapseProps = ExtractPropTypes<typeof collapseProps>; // todo
+export type CollapseProps = ExtractPropTypes<typeof collapseProps>;
 
 export const collapseEmits = {
     [UPDATE_MODEL_EVENT]: emitChangeFn,
