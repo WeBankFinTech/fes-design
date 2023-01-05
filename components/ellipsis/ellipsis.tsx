@@ -1,4 +1,11 @@
-import { defineComponent, computed, ref, PropType, CSSProperties } from 'vue';
+import {
+    defineComponent,
+    computed,
+    ref,
+    PropType,
+    CSSProperties,
+    ExtractPropTypes,
+} from 'vue';
 import { isObject } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import Tooltip from '../tooltip/tooltip';
@@ -26,6 +33,8 @@ const ellipsisProps = {
         },
     },
 } as const;
+
+export type EllipsisProps = ExtractPropTypes<typeof ellipsisProps>;
 
 export default defineComponent({
     name: 'FEllipsis',

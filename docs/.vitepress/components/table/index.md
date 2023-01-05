@@ -168,7 +168,7 @@ app.use(FTable);
 | selectable   | 仅对 type=selection 的列有效，Function 的返回值用来决定这一行的 CheckBox 是否可以勾选 | ({row, rowIndex}) => boolean                                            | -                     | -       |
 | type         | 列的类型，如果设置为`selection`则显示选择器，如果设置为`expand`则显示一个展开按钮     | string                                                               | selection / expand    | `false` |
 | width        | 对应列的宽度，优先级大于 minWidth                                                     | number                                                               | -                     | -       |
-| ellipsis     | 设置宽度后，如果文本溢出后出现省略号                                                  | boolean                                                              | -                     | `false`   |
+| ellipsis     | 设置宽度后，如果文本溢出后出现省略号，设置为对象时参考Ellipsis组件配置                                                 | boolean / Object                                                             | -                     | `false`   |
 | visible     | 是否显示列                                                  | boolean                                                              | -                     | `true`   |
 | sortable     | 是否排序列                                             | boolean                                                              | -                     | `false`   |
 | sorter     | 排序方法，如果设为 'default' 表格将会使用一个内置的排序函数；其他工作的方式类似 Array.sort 的对比函数                                             | ((a: RowType, b: RowType) => boolean) \| 'default'                                                              | -                     | `default`   |

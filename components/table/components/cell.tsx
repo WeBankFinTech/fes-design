@@ -72,16 +72,22 @@ export default defineComponent({
                     </div>
                 );
             }
+            const hasEllipsis = column.props.ellipsis !== false;
+            const ellipsisProps = isPlainObject(column.props.ellipsis)
+                ? column.props.ellipsis
+                : {};
             if (column?.slots?.default) {
-                return column.props.ellipsis ? (
-                    <Ellipsis>{column.slots.default(props)}</Ellipsis>
+                return hasEllipsis ? (
+                    <Ellipsis {...ellipsisProps}>
+                        {column.slots.default(props)}
+                    </Ellipsis>
                 ) : (
                     <Fragment>{column.slots.default(props)}</Fragment>
                 );
             }
             const result = column?.props?.formatter?.(props) ?? cellValue;
-            return column.props.ellipsis ? (
-                <Ellipsis content={result}></Ellipsis>
+            return hasEllipsis ? (
+                <Ellipsis {...ellipsisProps} content={result}></Ellipsis>
             ) : (
                 <Fragment> {result} </Fragment>
             );

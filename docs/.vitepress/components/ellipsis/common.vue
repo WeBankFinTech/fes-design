@@ -1,5 +1,10 @@
 <template>
-    <FEllipsis :content="text" style="max-width: 240px"> </FEllipsis>
+    <FEllipsis
+        :content="text"
+        :tooltip="{ popperClass: 'a', showAfter: 500 }"
+        style="max-width: 240px"
+    >
+    </FEllipsis>
 </template>
 <script>
 import { ref } from 'vue';
