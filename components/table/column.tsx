@@ -11,7 +11,7 @@ import {
     useSlots,
     ExtractPropTypes,
 } from 'vue';
-import { EllipsisProps } from '../ellipsis';
+import type { EllipsisProps } from '../ellipsis';
 import {
     COL_TYPE,
     ALIGN,
