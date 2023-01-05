@@ -1,7 +1,8 @@
 import { isNumber, isString } from 'lodash-es';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import type { ExtractPropTypes } from 'vue';
-import { definePropType, CollapseActiveName } from './common';
+import { definePropType } from './common';
+import type { CollapseActiveName } from './common';
 
 type Arrayable<T> = T | T[];
 

@@ -52,7 +52,8 @@ import FadeInExpandTransition from '../_util/components/fadeInExpandTransition';
 import { RightOutlined } from '../icon';
 import { collapseItemProps } from './collapseItem';
 import { useCollapseItem, useCollapseItemDOM } from './useCollapseItem';
-import { arrowPositionKey, arrowType } from './common';
+import { arrowPositionKey } from './common';
+import type { ArrowType } from './common';
 import { useTheme } from '../_theme/useTheme';
 
 export default defineComponent({
@@ -65,7 +66,7 @@ export default defineComponent({
     setup(props) {
         useTheme();
 
-        const { arrow } = inject(arrowPositionKey) as arrowType;
+        const { arrow } = inject(arrowPositionKey) as ArrowType;
 
         const {
             focusing,

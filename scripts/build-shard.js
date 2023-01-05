@@ -11,7 +11,7 @@ const postcss = require('rollup-plugin-postcss');
 const SOURCE_PATH = path.join(__dirname, '../components/index.ts');
 const OUTPUT_DIR = path.join(__dirname, '../dist');
 
-const extensions = ['.js', '.vue', '.jsx', '.json', '.ts', '.tsx'];
+const extensions = ['.js', '.jsx', '.ts', '.tsx', '.vue', '.json'];
 
 const getRollupConfig = (config = {}) => ({
     input: SOURCE_PATH,
