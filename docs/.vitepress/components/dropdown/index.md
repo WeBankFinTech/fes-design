@@ -57,7 +57,7 @@ app.use(FDropdown);
 | getContainer      | 指定下拉选项挂载的 HTML 节点                                                                                                                                                                 | () => HTMLElement       | `() => document.body` |
 | trigger           | 触发弹窗的方式，可选`hover`、`click`、`focus`、`contextmenu`                                                                                                                                 | string                  | `hover`               |
 | placement         | 弹出位置，可选`top`、`top-start`、`top-end`、`bottom`、`bottom-start`、`bottom-end`、`right`、`right-start`、`right-end`、`left`、`left-start`、`left-end` | string                  | `bottom`              |
-| offset            | 下拉菜单弹窗距离触发元素的距离                                                                                                                                                               | string                  | `6px`                 |
+| offset            | 下拉菜单弹窗距离触发元素的距离,单位px                                                                                                                                                               | number                  | `6`                 |
 | disabled          | 是否禁用                                                                                                                                                                                     | boolean                 | `false`               |
 | arrow             | 是否显示箭头                                                                                                                                                                                 | boolean                 | `false`               |
 

@@ -3,10 +3,11 @@
 ## 组件注册
 
 ```js
-import { FRadio, FRadioGroup } from '@fesjs/fes-design';
+import { FRadio, FRadioGroup,FRadioButton } from '@fesjs/fes-design';
 
 app.use(FRadio);
 app.use(FRadioGroup);
+app.use(FRadioButton);
 ```
 
 ## 代码演示
@@ -27,10 +28,20 @@ app.use(FRadioGroup);
 
 --VERTICAL
 
+#### 按钮组
+
+单选按钮组，可通过`size`设置按钮组整体大小，对于单个按钮可以通过`disabled` 设置是否禁用。   
+按钮样式分为两种，可以通过`type`进行设置。  
+按钮组分为有边框和无边框两种，可以通过进行`border`设置。   
+
+--BUTTON
+
 #### 配置方式
-通过配置`options`直接生成选项
+通过配置`options`直接生成选项,可以通过`optionType`设置生成项的类型
 
 --OPTIONS
+
+
 
 --CODE
 
@@ -66,6 +77,20 @@ app.use(FRadioGroup);
 | options  | 选项配置                  | array\<Option\>   | `[]`   |
 | valueField  | 替代 `Option` 中的 `value` 字段名   | string  | `value`               |
 | labelField  | 替代 `Option` 中的 `label` 字段名   | string   | `label`               |
+| optionType  | 用于设置 Radio options 类型  可选值 `default` `button`  | string  | `default`               |
+| type     | 按钮样式类型  可选值 `default` `primary`   | string | `default`  |
+| size     | 按钮大小 可选值 `small` `middle`    | string  | `middle`  |
+| border    | 按钮是否含有边框             | boolean  | `true`  |
+
+## RadioButton Props
+
+| 属性     | 说明                                       | 类型                      | 默认值  |
+| -------- | ------------------------------------------ | ------------------------- | ------- |
+| disabled | 是否禁用                                     | boolean                   | `false` |
+| label    | 按钮描述和介绍                                  | string                    | `null`  |
+| v-model  | 按钮选定状态  双向绑定                         | boolean                   | `false` |
+| value    | 选中状态的值，RadioButton需在RadioGroup标签内使用 | string / number / boolean | `null`  |
+
 
 
 ## RadioGroup Events

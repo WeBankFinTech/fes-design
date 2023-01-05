@@ -4,6 +4,7 @@
 
 @radio-group-prefix-cls: ~'@{cls-prefix}-radio-group';
 @radio-prefix-cls: ~'@{cls-prefix}-radio';
+@radio-button-prefix-cls: ~'@{cls-prefix}-radio-button';
 
 .@{radio-group-prefix-cls} {
     display: inline-flex;
@@ -14,8 +15,20 @@
             margin-right: 0;
         }
     }
+    &>.@{radio-button-prefix-cls} {
+       
+        &:first-child {
+            border-radius: 4px 0px 0px 4px;
+        }
+    
+        &:last-child {
+            border-radius: 0px 4px 4px 0px;
+        }
+    }
+
     &.is-vertical {
         flex-direction: column;
         align-items: flex-start;
     }
 }
+
