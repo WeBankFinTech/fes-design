@@ -5,7 +5,7 @@ import {
     PropType,
     ExtractPropTypes,
 } from 'vue';
-import { isArray, isFunction, isPlainObject } from 'lodash-es';
+import { isNil, isArray, isFunction, isPlainObject } from 'lodash-es';
 import Button from '../../button/button';
 import Ellipsis from '../../ellipsis/ellipsis';
 import { provideKey } from '../const';
@@ -72,7 +72,9 @@ export default defineComponent({
                     </div>
                 );
             }
-            const hasEllipsis = column.props.ellipsis !== false;
+            const hasEllipsis =
+                !isNil(column.props.ellipsis) &&
+                column.props.ellipsis !== false;
             const ellipsisProps = isPlainObject(column.props.ellipsis)
                 ? column.props.ellipsis
                 : {};
@@ -86,8 +88,9 @@ export default defineComponent({
                 );
             }
             const result = column?.props?.formatter?.(props) ?? cellValue;
+            Object.assign(ellipsisProps, { content: result });
             return hasEllipsis ? (
-                <Ellipsis {...ellipsisProps} content={result}></Ellipsis>
+                <Ellipsis {...ellipsisProps}></Ellipsis>
             ) : (
                 <Fragment> {result} </Fragment>
             );
