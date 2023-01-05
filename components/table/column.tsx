@@ -11,6 +11,7 @@ import {
     useSlots,
     ExtractPropTypes,
 } from 'vue';
+import type { EllipsisProps } from '../ellipsis';
 import {
     COL_TYPE,
     ALIGN,
@@ -101,7 +102,7 @@ const columnProps = {
     >,
     action: [Object, Array] as PropType<ActionType | ActionType[]>,
     ellipsis: {
-        type: Boolean,
+        type: [Boolean, Object] as PropType<boolean | EllipsisProps>,
         default: false,
     },
     visible: {

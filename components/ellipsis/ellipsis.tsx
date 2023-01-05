@@ -1,7 +1,15 @@
-import { defineComponent, computed, ref, PropType, CSSProperties } from 'vue';
+import {
+    defineComponent,
+    computed,
+    ref,
+    PropType,
+    CSSProperties,
+    ExtractPropTypes,
+} from 'vue';
 import { isObject } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
-import Tooltip from '../tooltip/tooltip';
+import Tooltip from '../tooltip';
+import type { ToolTipProps } from '../tooltip';
 import { useTheme } from '../_theme/useTheme';
 
 const prefixCls = getPrefixCls('ellipsis');
@@ -13,7 +21,7 @@ const ellipsisProps = {
         default: 1,
     },
     tooltip: {
-        type: [Boolean, Object] as PropType<boolean | object>,
+        type: [Boolean, Object] as PropType<boolean | ToolTipProps>,
         default: {
             showAfter: 500,
         },
@@ -26,6 +34,8 @@ const ellipsisProps = {
         },
     },
 } as const;
+
+export type EllipsisProps = ExtractPropTypes<typeof ellipsisProps>;
 
 export default defineComponent({
     name: 'FEllipsis',
