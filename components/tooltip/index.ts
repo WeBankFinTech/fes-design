@@ -7,3 +7,4 @@ type TooltipType = SFCWithInstall<typeof Tooltip>;
 export const FTooltip = withInstall<TooltipType>(Tooltip as TooltipType);
 
 export default FTooltip;
+export type { ToolTipProps } from './tooltip';

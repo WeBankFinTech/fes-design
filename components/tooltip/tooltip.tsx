@@ -1,4 +1,4 @@
-import { computed, defineComponent, PropType } from 'vue';
+import { computed, defineComponent, PropType, ExtractPropTypes } from 'vue';
 import Popper from '../popper/popper';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -17,6 +17,7 @@ const defaultConfirmOption = {
 };
 
 const toolTipProps = {
+    ...popperProps,
     title: String,
     content: String,
     mode: {
@@ -27,22 +28,21 @@ const toolTipProps = {
         type: Object,
         default: () => defaultConfirmOption,
     },
+    arrow: {
+        type: Boolean,
+        default: true,
+    },
+    offset: {
+        type: Number,
+        default: 8,
+    },
 } as const;
+
+export type ToolTipProps = Partial<ExtractPropTypes<typeof toolTipProps>>;
 
 export default defineComponent({
     name: 'FTooltip',
-    props: {
-        ...popperProps,
-        ...toolTipProps,
-        arrow: {
-            type: Boolean,
-            default: true,
-        },
-        offset: {
-            type: Number,
-            default: 8,
-        },
-    },
+    props: toolTipProps,
     emits: [OK_EVENT, CANCEL_EVENT, UPDATE_MODEL_EVENT],
     setup(props, ctx) {
         useTheme();
