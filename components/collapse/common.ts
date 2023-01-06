@@ -11,12 +11,12 @@ export type contextType = {
     handleItemClick: (name: CollapseActiveName) => void;
 };
 
-export type arrowType = {
+export type ArrowType = {
     arrow: string;
 };
 
 export const collapseContextKey: InjectionKey<contextType> =
     Symbol('collapseContextKey');
 
-export const arrowPositionKey: InjectionKey<arrowType> =
+export const arrowPositionKey: InjectionKey<ArrowType> =
     Symbol('arrow_position');

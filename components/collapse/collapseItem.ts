@@ -1,5 +1,6 @@
 import type { ExtractPropTypes } from 'vue';
-import { definePropType, generateId, CollapseActiveName } from './common';
+import type { CollapseActiveName } from './common';
+import { definePropType, generateId } from './common';
 
 export const collapseItemProps = {
     title: {

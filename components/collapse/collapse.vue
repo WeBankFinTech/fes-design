@@ -8,13 +8,10 @@
 import { provide, defineComponent, computed } from 'vue';
 import { collapseEmits, collapseProps } from './collapse';
 import { useNamespace } from './useNamespace';
-import {
-    arrowPositionKey,
-    collapseContextKey,
-    CollapseActiveName,
-} from './common';
+import { arrowPositionKey, collapseContextKey } from './common';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel } from '../_util/use/useModel';
+import type { CollapseActiveName } from './common';
 
 export default defineComponent({
     name: 'FCollapse',
