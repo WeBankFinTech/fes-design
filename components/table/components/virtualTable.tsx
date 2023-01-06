@@ -87,7 +87,7 @@ export default defineComponent({
                     estimateSize={54}
                     keeps={20}
                     class={bodyWrapperClass.value}
-                    style={{ height: `${layout.bodyHeight.value}px` }}
+                    maxHeight={layout.bodyHeight.value}
                     wrapTag={'table'}
                     wrapClass={`${prefixCls}-body`}
                     wrapStyle={bodyStyle.value}

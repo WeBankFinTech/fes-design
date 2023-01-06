@@ -1,24 +1,21 @@
 <template>
-    <div class="virtual-container">
-        <FVirtualList
-            ref="virtualList"
-            class="list-dynamic scroll-touch"
-            :dataKey="'id'"
-            :dataSources="items"
-            :estimateSize="80"
-        >
-            <template #default="{ source }">
-                <!-- 111 -->
-                <div class="item-inner">
-                    <div class="head">
-                        <span># {{ source.index }}</span>
-                        <span>{{ source.name }}</span>
-                    </div>
-                    <div class="desc">{{ source.desc }}</div>
+    <FVirtualList
+        ref="virtualList"
+        :dataKey="'id'"
+        :dataSources="items"
+        :estimateSize="80"
+        :height="500"
+    >
+        <template #default="{ source }">
+            <div class="item-inner">
+                <div class="head">
+                    <span># {{ source.index }}</span>
+                    <span>{{ source.name }}</span>
                 </div>
-            </template>
-        </FVirtualList>
-    </div>
+                <div class="desc">{{ source.desc }}</div>
+            </div>
+        </template>
+    </FVirtualList>
 </template>
 
 <script>
@@ -71,23 +68,10 @@ export default {
 </script>
 
 <style>
-.virtual-container {
-    padding: 20px;
-    margin-top: 20px;
-}
 .list-dynamic {
     width: 100%;
     height: 500px;
     overflow-y: auto;
-}
-.list-dynamic .list-item-dynamic {
-    display: flex;
-    align-items: center;
-    padding: 1em;
-    border-bottom: 1px solid;
-    border-color: lightgray;
-    background: rgba(83, 132, 255, 0.06) none repeat scroll 0% 0%;
-    border-bottom: 2px solid rgb(255, 255, 255);
 }
 .item-inner .head {
     font-weight: 500;

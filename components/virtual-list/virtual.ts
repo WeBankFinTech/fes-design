@@ -1,6 +1,7 @@
 /**
  * virtual list core calculating center
  */
+import { reactive } from 'vue';
 
 enum DIRECTION_TYPE {
     FRONT = 'FRONT', // scroll up or left
@@ -49,7 +50,7 @@ export default class Virtual {
         this.param = param;
         this.callUpdate = callUpdate;
         // size data
-        this.sizes = new Map();
+        this.sizes = reactive(new Map());
         this.firstRangeTotalSize = 0;
         this.firstRangeAverageSize = 0;
         this.lastCalcIndex = 0;
