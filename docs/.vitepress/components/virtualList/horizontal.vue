@@ -1,23 +1,21 @@
 <template>
-    <div class="virtual-container">
-        <FVirtualList
-            class="list-horizontal scroll-touch"
-            :dataKey="'id'"
-            :dataSources="items"
-            :estimateSize="110"
-            direction="horizontal"
-        >
-            <template #default="{ source }">
-                <div
-                    class="item-inner-horizontal"
-                    :style="{ width: source.size + 'px' }"
-                >
-                    <div class="index"># {{ source.index }}</div>
-                    <div class="size">{{ source.size }}</div>
-                </div>
-            </template>
-        </FVirtualList>
-    </div>
+    <FVirtualList
+        class="list-horizontal"
+        :dataKey="'id'"
+        :dataSources="items"
+        :estimateSize="110"
+        direction="horizontal"
+    >
+        <template #default="{ source }">
+            <div
+                class="item-inner-horizontal"
+                :style="{ width: source.size + 'px' }"
+            >
+                <div class="index"># {{ source.index }}</div>
+                <div class="size">{{ source.size }}</div>
+            </div>
+        </template>
+    </FVirtualList>
 </template>
 
 <script>
@@ -52,15 +50,10 @@ export default {
 </script>
 
 <style>
-.virtual-container {
-    padding: 20px;
-    margin-top: 20px;
-}
 .list-horizontal {
     width: 100%;
     height: 120px;
     overflow-x: auto;
-    display: flex;
 }
 .item-inner-horizontal {
     display: flex;

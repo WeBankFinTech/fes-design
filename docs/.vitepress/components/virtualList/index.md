@@ -125,6 +125,18 @@ app.use(FVirtualList);
       <td>{}</td>
       <td>列表包裹元素内联样式。</td>
     </tr>
+    <tr>
+      <td><code>height</code></td>
+      <td>Number</td>
+      <td> - </td>
+      <td>高度</td>
+    </tr>
+    <tr>
+      <td><code>maxHeight</code></td>
+      <td>Number</td>
+      <td> - </td>
+      <td>最大高度</td>
+    </tr>
 
   </table>
 

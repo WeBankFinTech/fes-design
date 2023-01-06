@@ -15,7 +15,7 @@ import {
 import { throttle } from 'lodash-es';
 import Virtual from './virtual';
 import { FVirtualListItem } from './listItem';
-import { VirtualProps } from './props';
+import { virtualProps } from './props';
 import FScrollbar from '../scrollbar/scrollbar.vue';
 import {
     TO_TOP_EVENT,
@@ -30,7 +30,7 @@ enum SLOT_TYPE {
 
 export default defineComponent({
     name: 'FVirtualList',
-    props: VirtualProps,
+    props: virtualProps,
     emits: [TO_TOP_EVENT, TO_BOTTOM_EVENT, RESIZED_EVENT, 'scroll'],
     setup(props, { emit, slots }) {
         const isHorizontal = props.direction === 'horizontal';
@@ -363,6 +363,8 @@ export default defineComponent({
             fullHeight,
             renderItemList,
             shadow,
+            height,
+            maxHeight,
         } = this;
 
         // wrap style
@@ -382,11 +384,11 @@ export default defineComponent({
             top: `${padFront}px`,
             bottom: `${padBehind}px`,
         };
-        const extraStyle = isHorizontal ? horizontalStyle : verticalStyle;
-        const wrapperStyle = wrapStyle
-            ? Object.assign({}, wrapStyle, extraStyle)
-            : extraStyle;
-        // root style
+        const wrapperStyle = Object.assign(
+            {},
+            wrapStyle || {},
+            isHorizontal ? horizontalStyle : verticalStyle,
+        );
         const rootStyle = isHorizontal
             ? {
                   position: 'relative',
@@ -399,7 +401,7 @@ export default defineComponent({
                   width: '100%',
               };
 
-        const tempVirtualVNode = createVNode(
+        const wrapNode = createVNode(
             wrapTag,
             {
                 class: wrapClass,
@@ -418,9 +420,11 @@ export default defineComponent({
                 }}
                 onScroll={onScroll}
                 shadow={shadow}
+                height={height}
+                maxHeight={maxHeight}
                 contentStyle={rootStyle}
             >
-                {tempVirtualVNode}
+                {wrapNode}
             </FScrollbar>
         );
     },

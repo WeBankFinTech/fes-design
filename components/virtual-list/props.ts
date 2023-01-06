@@ -7,7 +7,7 @@ import { COMMON_PROPS } from '../scrollbar/const';
 
 export type DataSource = any;
 
-export const VirtualProps = {
+export const virtualProps = {
     dataKey: {
         type: [String, Function] as PropType<
             string | ((dataSource: DataSource) => string | number)
@@ -72,9 +72,11 @@ export const VirtualProps = {
         type: Function as PropType<(itemVNodes: VNode[]) => VNode[]>,
     },
     ...COMMON_PROPS,
+    height: Number,
+    maxHeight: Number,
 } as const;
 
-export const ItemProps = {
+export const itemProps = {
     index: {
         type: Number,
     },

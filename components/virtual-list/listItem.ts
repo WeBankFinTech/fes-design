@@ -3,7 +3,7 @@
  */
 
 import { defineComponent, ref, cloneVNode, computed } from 'vue';
-import { ItemProps } from './props';
+import { itemProps } from './props';
 import useResize from '../_util/use/useResize';
 import { getFirstValidNode } from '../_util/vnode';
 import getElementFromRef from '../_util/getElementFromRef';
@@ -11,7 +11,7 @@ import getElementFromRef from '../_util/getElementFromRef';
 // wrapping for item
 export const FVirtualListItem = defineComponent({
     name: 'FVirtualListItem',
-    props: ItemProps,
+    props: itemProps,
     setup(props, { attrs }) {
         const itemRef = ref();
 
