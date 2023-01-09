@@ -111,7 +111,7 @@ import { RANGE_POSITION, COMMON_PROPS, RANGE_PROPS } from './const';
 import { useRange, useSelectStatus } from './useRange';
 import { useDisable } from './use';
 import { useLocale } from '../config-provider/useLocale';
-import { pickerFactory } from './pickerHandler';
+import { PickerType, pickerFactory } from './pickerHandler';
 
 const prefixCls = getPrefixCls('calendars');
 
@@ -186,12 +186,16 @@ export default defineComponent({
         const visibleFooter = computed(
             () =>
                 props.control ||
+                pickerRef.value.name === PickerType.datemultiple ||
                 pickerRef.value.isRange ||
                 pickerRef.value.hasTime,
         );
 
         const change = () => {
-            if (pickerRef.value.isRange) {
+            if (
+                pickerRef.value.isRange ||
+                pickerRef.value.name === PickerType.datemultiple
+            ) {
                 emit('change', tempCurrentValue.value);
             } else {
                 emit('change', tempCurrentValue.value[0]);
@@ -201,7 +205,10 @@ export default defineComponent({
         const updateTempCurrentValue = (val: number[]) => {
             tempCurrentValue.value = val;
 
-            if (pickerRef.value.isRange) {
+            if (
+                pickerRef.value.isRange ||
+                pickerRef.value.name === PickerType.datemultiple
+            ) {
                 emit('tmpSelectedDateChange', tempCurrentValue.value);
             } else {
                 emit('tmpSelectedDateChange', tempCurrentValue.value[0]);
@@ -213,13 +220,9 @@ export default defineComponent({
         };
 
         const handleTempCurrentValue = () => {
-            if (pickerRef.value.isRange) {
-                tempCurrentValue.value = selectedDates.value || [];
-            } else {
-                tempCurrentValue.value = selectedDates.value
-                    ? [selectedDates.value]
-                    : [];
-            }
+            tempCurrentValue.value = isArray(selectedDates.value)
+                ? selectedDates.value
+                : [];
         };
         watch(selectedDates, handleTempCurrentValue, {
             deep: true,

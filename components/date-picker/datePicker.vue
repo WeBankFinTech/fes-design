@@ -45,6 +45,7 @@
                 :modelValue="dateText"
                 :placeholder="singlePlaceHolder"
                 :disabled="disabled"
+                :canEdit="pickerRef.name !== PickerType.datemultiple"
                 :clearable="clearable"
                 :innerIsFocus="inputIsFocus"
                 :class="attrs.class"
@@ -98,9 +99,7 @@ import {
     provide,
 } from 'vue';
 import { format, isValid } from 'date-fns';
-import { isEqual } from 'lodash-es';
-import RangeInput from './rangeInput.vue';
-import Calendars from './calendars.vue';
+import { isEqual, isArray } from 'lodash-es';
 import InputInner from '../input/inputInner.vue';
 import Popper from '../popper';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
@@ -109,16 +108,17 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { DateOutlined, SwapRightOutlined } from '../icon';
 
-import { isEmptyValue, strictParse } from './helper';
-import { COMMON_PROPS, RANGE_PROPS } from './const';
-
-import type { GetContainer } from '../_util/interface';
 import { useLocale } from '../config-provider/useLocale';
 import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
 import { noop } from '../_util/utils';
-import { pickerFactory } from './pickerHandler';
-import type { Picker } from './pickerHandler';
+import { COMMON_PROPS, RANGE_PROPS } from './const';
+import { isEmptyValue, strictParse } from './helper';
+import Calendars from './calendars.vue';
+import RangeInput from './rangeInput.vue';
+import { pickerFactory, PickerType } from './pickerHandler';
 import { useDisable } from './use';
+import type { GetContainer } from '../_util/interface';
+import type { Picker } from './pickerHandler';
 
 const prefixCls = getPrefixCls('date-picker');
 
@@ -188,6 +188,16 @@ const useInput = ({
             return '';
         }
         if (!picker.value.isRange) {
+            if (isArray(visibleValue.value)) {
+                return visibleValue.value
+                    .map((item) => {
+                        return format(
+                            item,
+                            props.format || picker.value.format,
+                        );
+                    })
+                    .join('; ');
+            }
             return format(
                 visibleValue.value,
                 props.format || picker.value.format,
@@ -351,7 +361,11 @@ export default defineComponent({
 
         // 事件
         const clear = () => {
-            const initValue: [] | null = pickerRef.value.isRange ? [] : null;
+            const initValue: [] | null =
+                pickerRef.value.isRange ||
+                pickerRef.value.name === PickerType.datemultiple
+                    ? []
+                    : null;
             tmpSelectedDateChange(initValue);
             handleChange(initValue);
             emit('clear');
@@ -418,6 +432,7 @@ export default defineComponent({
                 handleDateInputBlur();
                 handleBlur(event);
             },
+            PickerType,
             pickerRef,
 
             changeDateByInput,

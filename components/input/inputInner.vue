@@ -23,7 +23,7 @@
             :type="
                 showPassword ? (passwordVisible ? 'text' : 'password') : type
             "
-            :readonly="readonly"
+            :readonly="!canEdit || readonly"
             :disabled="disabled"
             :placeholder="placeholder"
             :autocomplete="autocomplete"
@@ -86,6 +86,10 @@ const inputInnerProps = {
     // 内部使用，处理页面存在多个 input focus 样式场景
     innerIsFocus: Boolean,
     innerIsError: Boolean,
+    canEdit: {
+        type: Boolean,
+        default: true,
+    },
 } as const;
 
 const prefixCls = getPrefixCls('input-inner');

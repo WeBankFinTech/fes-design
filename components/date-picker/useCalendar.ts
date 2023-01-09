@@ -47,7 +47,7 @@ export const useCurrentDate = (props: CalendarProps, emit: CalendarEmits) => {
     watch(
         () => props.modelValue,
         () => {
-            if (props.modelValue && !props.rangePosition) {
+            if (props.modelValue?.length === 1 && !props.rangePosition) {
                 updateCurrentDate(parseDate(props.modelValue[0]));
             }
         },
@@ -111,9 +111,23 @@ export const useSelectedDates = (
                 selectedDates.value = [anotherDate, newDate];
             }
             emit('selectedDay');
-        } else if (!picker.value.isRange) {
+        } else if (picker.value.name === PickerType.datemultiple) {
+            const selectedDateIndex = selectedDates.value.findIndex((item) => {
+                return (
+                    item.year === newDate.year &&
+                    item.month === newDate.month &&
+                    item.day === newDate.day
+                );
+            });
+            if (selectedDateIndex !== -1) {
+                selectedDates.value.splice(selectedDateIndex, 1);
+            } else {
+                selectedDates.value.push(newDate);
+            }
             emit('selectedDay');
+        } else if (!picker.value.isRange) {
             selectedDates.value = [newDate];
+            emit('selectedDay');
         } else {
             // 变更日期的时候，继承当前位置的时间
             if (
@@ -146,6 +160,13 @@ export const useSelectedDates = (
                 transformDateToTimestamp(selectedDates.value[0]),
                 transformDateToTimestamp(selectedDates.value[1], true),
             ]);
+        } else if (picker.value.name === PickerType.datemultiple) {
+            emit(
+                'change',
+                selectedDates.value.map((item) => {
+                    return transformDateToTimestamp(item);
+                }),
+            );
         } else {
             emit('change', [transformDateToTimestamp(selectedDates.value[0])]);
         }
@@ -436,6 +457,7 @@ export function useDay({
             PickerType.datetime,
             PickerType.daterange,
             PickerType.datetimerange,
+            PickerType.datemultiple,
         ].some((type) => props.type === type),
     );
 
