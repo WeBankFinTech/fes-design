@@ -50,7 +50,7 @@
 import { inject, defineComponent } from 'vue';
 import FadeInExpandTransition from '../_util/components/fadeInExpandTransition';
 import { RightOutlined } from '../icon';
-import { collapseItemProps } from './collapseItem';
+import { collapseItemProps } from './collapseItemExpose';
 import { useCollapseItem, useCollapseItemDOM } from './useCollapseItem';
 import { arrowPositionKey } from './common';
 import type { ArrowType } from './common';

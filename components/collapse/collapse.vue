@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { provide, defineComponent, computed } from 'vue';
-import { collapseEmits, collapseProps } from './collapse';
+import { collapseEmits, collapseProps } from './collapseExpose';
 import { useNamespace } from './useNamespace';
 import { arrowPositionKey, collapseContextKey } from './common';
 import { useTheme } from '../_theme/useTheme';

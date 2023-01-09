@@ -1,7 +1,7 @@
 import { computed, inject, ref, unref } from 'vue';
 import { collapseContextKey, generateId } from './common';
 import { useNamespace } from './useNamespace';
-import type { CollapseItemProps } from './collapseItem';
+import type { CollapseItemProps } from './collapseItemExpose';
 
 export const useCollapseItem = (props: CollapseItemProps) => {
     const collapse: any = inject(collapseContextKey);
