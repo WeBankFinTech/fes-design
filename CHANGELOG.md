@@ -1,3 +1,12 @@
+## [0.7.14](https://github.com/WeBankFinTech/fes-design/compare/v0.7.13...v0.7.14) (2023-01-09)
+
+
+### Bug Fixes
+
+* 解决 collapse 构建问题 ([#260](https://github.com/WeBankFinTech/fes-design/issues/260)) ([c835bf3](https://github.com/WeBankFinTech/fes-design/commit/c835bf3d55e0432dd941d07447165b38cb2dcafa))
+
+
+
 ## [0.7.13](https://github.com/WeBankFinTech/fes-design/compare/v0.7.12...v0.7.13) (2023-01-09)
 
 
