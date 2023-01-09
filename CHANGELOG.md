@@ -1,3 +1,14 @@
+## [0.7.13](https://github.com/WeBankFinTech/fes-design/compare/v0.7.12...v0.7.13) (2023-01-09)
+
+
+### Features
+
+* table配置个性化配置ellipsis ([#257](https://github.com/WeBankFinTech/fes-design/issues/257)) ([8ec6d84](https://github.com/WeBankFinTech/fes-design/commit/8ec6d8464b0e34ba3cb3e167201a04454454a5b9))
+* VirtualList支持配置height和maxHeight ([#259](https://github.com/WeBankFinTech/fes-design/issues/259)) ([480ee19](https://github.com/WeBankFinTech/fes-design/commit/480ee19423824785634c3775c78a536e05a3b587))
+* 添加collapse组件 ([#256](https://github.com/WeBankFinTech/fes-design/issues/256)) ([43081c0](https://github.com/WeBankFinTech/fes-design/commit/43081c07e37bcf7aa3116d3b2e49ab59a46474f4))
+
+
+
 ## [0.7.12](https://github.com/WeBankFinTech/fes-design/compare/v0.7.11...v0.7.12) (2022-12-15)
 
 
