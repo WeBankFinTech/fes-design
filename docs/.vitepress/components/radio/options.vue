@@ -1,0 +1,32 @@
+<template>
+    <FSpace>
+        <FRadioGroup
+            v-model="val"
+            :cancelable="false"
+            :options="options"
+            @change="handleChange"
+        >
+        </FRadioGroup>
+    </FSpace>
+</template>
+<script>
+import { ref } from 'vue';
+export default {
+    setup() {
+        const val = ref();
+        const options = ref([]);
+        const len = 10;
+        for (let index = 1; index <= len; index++) {
+            options.value.push({ label: index, value: index });
+        }
+        const handleChange = (value) => {
+            console.log('change:', value);
+        };
+        return {
+            val,
+            options,
+            handleChange,
+        };
+    },
+};
+</script>

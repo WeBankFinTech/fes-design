@@ -32,3 +32,9 @@ export type ComponentInstall = DefineComponent & {
 export type GetContainer = () => HTMLElement;
 
 export type SFCWithInstall<T> = T & Plugin;
+
+export interface Option {
+    value: string | number | boolean | object;
+    label: string | number;
+    disabled?: boolean;
+}

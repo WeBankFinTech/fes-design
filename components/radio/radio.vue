@@ -25,7 +25,7 @@ const prefixCls = getPrefixCls('radio');
 
 type RadioProps = {
     modelValue?: boolean;
-    value?: string | number | boolean;
+    value?: string | number | boolean | object;
     label?: string | number;
     disabled?: boolean;
 };
