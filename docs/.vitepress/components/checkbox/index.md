@@ -88,6 +88,6 @@ app.use(FCheckboxGroup);
 
 | 属性     | 说明                                      | 类型                               | 默认值  |
 | -------- | ----------------------------------------- | ---------------------------------- | ------- |
-| value    | 选项的值                                  | string / number / boolean / object | -       |
+| value    | 选项的值                                  | string / number / boolean | -       |
 | label    | 选项的标签                                 | string / number                    | -       |
 | disabled | 是否禁用                                  | boolean                            | `false` |

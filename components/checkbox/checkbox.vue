@@ -23,7 +23,7 @@ const prefixCls = getPrefixCls('checkbox');
 
 type CheckboxProps = {
     modelValue?: boolean;
-    value?: string | number | boolean | object;
+    value?: string | number | boolean;
     label?: string | number;
     disabled?: boolean;
     indeterminate?: boolean;
