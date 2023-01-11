@@ -99,7 +99,7 @@ import {
     provide,
 } from 'vue';
 import { format, isValid } from 'date-fns';
-import { isEqual, isArray } from 'lodash-es';
+import { isEqual, isNil, isArray } from 'lodash-es';
 import InputInner from '../input/inputInner.vue';
 import Popper from '../popper';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
@@ -326,7 +326,7 @@ export default defineComponent({
 
         const visibleValue = computed(() => {
             if (isOpened.value) {
-                return isEmptyValue(tmpSelectedDates.value)
+                return isNil(tmpSelectedDates.value)
                     ? currentValue.value
                     : tmpSelectedDates.value;
             }
@@ -366,7 +366,7 @@ export default defineComponent({
                 pickerRef.value.name === PickerType.datemultiple
                     ? []
                     : null;
-            tmpSelectedDateChange(initValue);
+            tmpSelectedDateChange(null);
             handleChange(initValue);
             emit('clear');
         };
@@ -402,7 +402,9 @@ export default defineComponent({
             cacheEvent = e;
             // 非弹窗内容点击导致的失焦，进行 blur 的校验
             if (!calendarsRef.value.$el.contains(e.relatedTarget)) {
-                isOpened.value && updatePopperOpen(false);
+                if (isOpened.value) {
+                    updatePopperOpen(false);
+                }
                 checkBlur();
             }
         };

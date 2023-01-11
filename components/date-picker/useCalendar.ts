@@ -3,8 +3,8 @@ import { isNil } from 'lodash-es';
 import { endOfMonth } from 'date-fns';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
+import { useLocale } from '../config-provider/useLocale';
 import { PickerType } from './pickerHandler';
-import type { Picker } from './pickerHandler';
 
 import { RANGE_POSITION, SELECTED_STATUS, YEAR_COUNT } from './const';
 import {
@@ -15,6 +15,7 @@ import {
     transformTimeToDate,
     fillDate,
 } from './helper';
+import type { Picker } from './pickerHandler';
 
 import type { CalendarProps } from './calendar.vue';
 import type {
@@ -23,7 +24,6 @@ import type {
     DayItem,
     UpdateSelectedDates,
 } from './interface';
-import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('calendar');
 const WEEK_NAMES = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
@@ -124,10 +124,8 @@ export const useSelectedDates = (
             } else {
                 selectedDates.value.push(newDate);
             }
-            emit('selectedDay');
         } else if (!picker.value.isRange) {
             selectedDates.value = [newDate];
-            emit('selectedDay');
         } else {
             // 变更日期的时候，继承当前位置的时间
             if (

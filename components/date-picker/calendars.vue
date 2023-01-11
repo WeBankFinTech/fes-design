@@ -102,15 +102,15 @@ import {
 } from 'vue';
 import { isFunction, isArray, isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
-import Calendar from './calendar.vue';
 import { useNormalModel } from '../_util/use/useModel';
 import FButton from '../button';
+import { useLocale } from '../config-provider/useLocale';
+import Calendar from './calendar.vue';
 import { getTimestampFromFormat } from './helper';
 import { RANGE_POSITION, COMMON_PROPS, RANGE_PROPS } from './const';
 
 import { useRange, useSelectStatus } from './useRange';
 import { useDisable } from './use';
-import { useLocale } from '../config-provider/useLocale';
 import { PickerType, pickerFactory } from './pickerHandler';
 
 const prefixCls = getPrefixCls('calendars');
@@ -180,6 +180,10 @@ export default defineComponent({
                 return !tempCurrentValue.value.length;
             }
 
+            if (pickerRef.value.name === PickerType.datemultiple) {
+                return false;
+            }
+
             return !tempCurrentValue.value[0];
         });
 
@@ -220,9 +224,13 @@ export default defineComponent({
         };
 
         const handleTempCurrentValue = () => {
-            tempCurrentValue.value = isArray(selectedDates.value)
-                ? selectedDates.value
-                : [];
+            if (isArray(selectedDates.value)) {
+                tempCurrentValue.value = selectedDates.value;
+            } else {
+                tempCurrentValue.value = selectedDates.value
+                    ? [selectedDates.value]
+                    : [];
+            }
         };
         watch(selectedDates, handleTempCurrentValue, {
             deep: true,
