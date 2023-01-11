@@ -34,7 +34,7 @@ export type GetContainer = () => HTMLElement;
 export type SFCWithInstall<T> = T & Plugin;
 
 export interface Option {
-    value: string | number | boolean | object;
+    value: string | number | boolean;
     label: string | number;
     disabled?: boolean;
 }
