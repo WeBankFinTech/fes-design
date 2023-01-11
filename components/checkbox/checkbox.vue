@@ -18,14 +18,16 @@ import getPrefixCls from '../_util/getPrefixCls';
 import useSelect from '../_util/use/useSelect';
 import { name, checkboxGroupKey } from '../checkbox-group/const';
 import { useTheme } from '../_theme/useTheme';
-import type { Option } from '../_util/interface';
 
 const prefixCls = getPrefixCls('checkbox');
 
 type CheckboxProps = {
     modelValue?: boolean;
     indeterminate?: boolean;
-} & Option;
+    value?: string | number | boolean;
+    label?: string | number;
+    disabled?: boolean;
+};
 
 const props = withDefaults(defineProps<CheckboxProps>(), {
     modelValue: false,

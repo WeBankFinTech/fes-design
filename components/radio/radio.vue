@@ -19,13 +19,16 @@ import { useTheme } from '../_theme/useTheme';
 import useSelect from '../_util/use/useSelect';
 import { name, radioGroupKey } from '../radio-group/const';
 
-import type { VModelEvent, ChangeEvent, Option } from '../_util/interface';
+import type { VModelEvent, ChangeEvent } from '../_util/interface';
 
 const prefixCls = getPrefixCls('radio');
 
 type RadioProps = {
     modelValue?: boolean;
-} & Option;
+    value?: string | number | boolean;
+    label?: string | number;
+    disabled?: boolean;
+};
 
 type RadioEmits = {
     (e: VModelEvent, value: string | number | boolean): void;
