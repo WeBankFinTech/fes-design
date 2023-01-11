@@ -11,13 +11,13 @@ import {
 import { isFunction, isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import LoadingOutlined from '../icon/LoadingOutlined';
-import { COMPONENT_NAME } from './const';
-import useCascaderMenu from './useCascaderMenu';
-import type { InnerCascaderOption } from './interface';
-import CascaderNode from './cascaderNode';
 import Scrollbar from '../scrollbar';
 import getElementFromRef from '../_util/getElementFromRef';
+import { COMPONENT_NAME } from './const';
+import useCascaderMenu from './useCascaderMenu';
+import CascaderNode from './cascaderNode';
 import { scrollIntoParentView } from './helper';
+import type { InnerCascaderOption } from './interface';
 
 const prefixCls = getPrefixCls('cascader-menu');
 const scrollbarContainerClass = `${prefixCls}-dropdown`;

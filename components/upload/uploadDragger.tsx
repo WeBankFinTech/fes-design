@@ -8,9 +8,9 @@ import {
 } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import { useLocale } from '../config-provider/useLocale';
+import FMessage from '../message';
 import { key } from './const';
 import { matchType } from './utils';
-import FMessage from '../message';
 
 const uploadDraggerProps = {
     onFileTypeInvalid: {

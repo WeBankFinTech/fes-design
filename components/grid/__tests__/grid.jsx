@@ -3,7 +3,6 @@ import FGrid from '../grid.vue';
 import FGridItem from '../gridItem.vue';
 
 import getPrefixCls from '../../_util/getPrefixCls';
-import { first } from 'lodash-es';
 
 const prefixCls = getPrefixCls('grid');
 

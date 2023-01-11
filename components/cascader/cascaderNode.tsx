@@ -13,11 +13,11 @@ import RightOutlined from '../icon/RightOutlined';
 import CheckOutlined from '../icon/CheckOutlined';
 import Checkbox from '../checkbox/checkbox.vue';
 import Radio from '../radio/radio.vue';
-import { CHECK_STRATEGY, COMPONENT_NAME, EXPAND_TRIGGER } from './const';
-import useCascaderNode from './useCascaderNode';
 import Ellipsis from '../ellipsis';
 import Tooltip from '../tooltip';
 import { useLocale } from '../config-provider/useLocale';
+import useCascaderNode from './useCascaderNode';
+import { CHECK_STRATEGY, COMPONENT_NAME, EXPAND_TRIGGER } from './const';
 
 const prefixCls = getPrefixCls('cascader-node');
 
