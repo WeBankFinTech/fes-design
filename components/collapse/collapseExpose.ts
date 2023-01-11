@@ -1,13 +1,8 @@
 import { isNumber, isString } from 'lodash-es';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
-<<<<<<< HEAD:components/collapse/collapseExpose.ts
-import type { ExtractPropTypes } from 'vue';
 import { definePropType } from './common';
-import type { CollapseActiveName } from './common';
-=======
-import { definePropType, CollapseActiveName } from './common';
 import type { ExtractPropTypes } from 'vue';
->>>>>>> d9c5759 (refactor: 处理ts提示):components/collapse/collapse.ts
+import type { CollapseActiveName } from './common';
 
 type Arrayable<T> = T | T[];
 

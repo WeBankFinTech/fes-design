@@ -1,3 +1,13 @@
+## [0.7.15](https://github.com/WeBankFinTech/fes-design/compare/v0.7.14...v0.7.15) (2023-01-11)
+
+
+### Features
+
+* 日期选择支持多选 ([#261](https://github.com/WeBankFinTech/fes-design/issues/261)) ([638b792](https://github.com/WeBankFinTech/fes-design/commit/638b792ed5afe6cbffa3e063d166cb9469c37955))
+* checkbox&radio新增options支持 ([#263](https://github.com/WeBankFinTech/fes-design/issues/263)) ([85897fd](https://github.com/WeBankFinTech/fes-design/commit/85897fd04d87a26b6bdb1557ad5fcd7a1fc87388))
+
+
+
 ## [0.7.14](https://github.com/WeBankFinTech/fes-design/compare/v0.7.13...v0.7.14) (2023-01-09)
 
 
