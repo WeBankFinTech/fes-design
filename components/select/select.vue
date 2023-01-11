@@ -81,12 +81,12 @@ import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
+import { useLocale } from '../config-provider/useLocale';
 import { key } from './const';
 import OptionList from './optionList';
 import { selectProps } from './props';
 
 import type { SelectValue, OptionChildren } from './interface';
-import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('select');
 
