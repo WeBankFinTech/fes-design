@@ -27,6 +27,11 @@ app.use(FRadioGroup);
 
 --VERTICAL
 
+#### 配置方式
+通过配置`options`直接生成选项
+
+--OPTIONS
+
 --CODE
 
 ## Radio Props
@@ -58,6 +63,9 @@ app.use(FRadioGroup);
 | v-model  | 绑定值                       | array   | `null`  |
 | vertical | 是否垂直排列（默认水平排列） | boolean | `false` |
 | cancelable | 选中后是否可取消 | boolean | `true` |
+| options  | 选项配置                  | array\<Option\>   | `[]`   |
+| valueField  | 替代 `Option` 中的 `value` 字段名   | string  | `value`               |
+| labelField  | 替代 `Option` 中的 `label` 字段名   | string   | `label`               |
 
 
 ## RadioGroup Events
@@ -71,3 +79,12 @@ app.use(FRadioGroup);
 | 名称    | 说明       |
 | ------- | ---------- |
 | default | Radio 组件 |
+
+
+## Option Props
+
+| 属性     | 说明                                      | 类型                               | 默认值  |
+| -------- | ----------------------------------------- | ---------------------------------- | ------- |
+| value    | 选项的值                                  | string / number / boolean | -       |
+| label    | 选项的标签                                 | string / number                    | -       |
+| disabled | 是否禁用                                  | boolean                            | `false` |

@@ -1,11 +1,11 @@
 import { provide, unref } from 'vue';
-import { radioGroupKey, name } from './const';
 import { useNormalModel } from '../_util/use/useModel';
 import { CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import useFormGroupResetter from '../_util/use/useFormGroupResetter';
 import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
 import { noop } from '../_util/utils';
+import { radioGroupKey, name } from './const';
 import type { RadioGroupProps, RadioGroupEmits } from './radio-group.vue';
 
 export const useRadioGroup = (

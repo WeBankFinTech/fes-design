@@ -1,6 +1,13 @@
 <template>
     <div :class="classList">
         <slot />
+        <Checkbox
+            v-for="opt in optionsRef"
+            :key="(opt.value as any)"
+            :value="opt.value"
+            :label="opt.label"
+            :disabled="opt.disabled"
+        ></Checkbox>
     </div>
 </template>
 
@@ -8,9 +15,8 @@
 import { computed } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';
+import Checkbox from '../checkbox/checkbox.vue';
 import { useCheckboxGroup } from './useCheckboxGroup';
-
-const prefixCls = getPrefixCls('checkbox-group');
 
 // 由于 vue setup 的限制，声明文件必须放在同一个文件中
 // https://github.com/vuejs/rfcs/blob/master/active-rfcs/0040-script-setup.md#type-only-propsemit-declarations
@@ -18,6 +24,9 @@ export type CheckboxGroupProps = {
     modelValue?: [];
     vertical?: boolean;
     disabled?: boolean;
+    options?: Array<Option>;
+    valueField?: string;
+    labelField?: string;
 };
 
 export type CheckboxGroupEmits = {
@@ -25,10 +34,15 @@ export type CheckboxGroupEmits = {
     (e: 'change', value: string | number | boolean): void;
 };
 
+const prefixCls = getPrefixCls('checkbox-group');
+
 const props = withDefaults(defineProps<CheckboxGroupProps>(), {
     modelValue: () => [],
     vertical: false,
     disabled: false,
+    options: () => [],
+    valueField: 'value',
+    labelField: 'label',
 });
 
 const emit = defineEmits<CheckboxGroupEmits>();
@@ -40,10 +54,21 @@ const classList = computed(() => [
     props.vertical && 'is-vertical',
     props.disabled && 'is-disabled',
 ]);
+
+const optionsRef = computed(() =>
+    props.options.map((opt: any) => {
+        return {
+            ...opt,
+            value: opt[props.valueField],
+            label: opt[props.labelField],
+        };
+    }),
+);
 </script>
 
 <script lang="ts">
 import { name } from './const';
+import type { Option } from '../_util/interface';
 export default {
     name,
 };

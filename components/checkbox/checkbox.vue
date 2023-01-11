@@ -23,10 +23,10 @@ const prefixCls = getPrefixCls('checkbox');
 
 type CheckboxProps = {
     modelValue?: boolean;
+    indeterminate?: boolean;
     value?: string | number | boolean;
     label?: string | number;
     disabled?: boolean;
-    indeterminate?: boolean;
 };
 
 const props = withDefaults(defineProps<CheckboxProps>(), {
