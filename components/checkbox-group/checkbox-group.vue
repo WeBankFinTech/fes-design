@@ -16,7 +16,6 @@ import { computed } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';
 import Checkbox from '../checkbox/checkbox.vue';
-import { Option } from '../_util/interface';
 import { useCheckboxGroup } from './useCheckboxGroup';
 
 // 由于 vue setup 的限制，声明文件必须放在同一个文件中
@@ -69,6 +68,7 @@ const optionsRef = computed(() =>
 
 <script lang="ts">
 import { name } from './const';
+import type { Option } from '../_util/interface';
 export default {
     name,
 };

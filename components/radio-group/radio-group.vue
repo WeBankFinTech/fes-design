@@ -15,7 +15,6 @@
 import { computed } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
-import { Option } from '../_util/interface';
 import Radio from '../radio/radio.vue';
 import { useRadioGroup } from './useRadioGroup';
 
@@ -68,6 +67,7 @@ const optionsRef = computed(() =>
 
 <script lang="ts">
 import { name } from './const';
+import type { Option } from '../_util/interface';
 
 export default {
     name,
