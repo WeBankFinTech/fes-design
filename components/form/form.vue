@@ -12,8 +12,8 @@ import { useTheme } from '../_theme/useTheme';
 import { provideKey, FORM_LAYOUT, TRIGGER_TYPE_DEFAULT } from './const';
 import { allPromiseFinish } from './utils';
 import { FORM_NAME } from './const';
-import type { Field, ValidateResult } from './interface';
 import { formProps } from './interface';
+import type { Field, ValidateResult } from './interface';
 
 const prefixCls = getPrefixCls('form');
 

@@ -9,8 +9,8 @@ import {
 import { isObject } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import Tooltip from '../tooltip';
-import type { ToolTipProps } from '../tooltip';
 import { useTheme } from '../_theme/useTheme';
+import type { ToolTipProps } from '../tooltip';
 
 const prefixCls = getPrefixCls('ellipsis');
 
@@ -22,9 +22,10 @@ const ellipsisProps = {
     },
     tooltip: {
         type: [Boolean, Object] as PropType<boolean | ToolTipProps>,
-        default: {
-            showAfter: 500,
-        },
+        default: () =>
+            ({
+                showAfter: 500,
+            } as ToolTipProps),
     },
     class: [String, Array, Object] as PropType<string | object | []>,
     style: {
@@ -35,7 +36,7 @@ const ellipsisProps = {
     },
 } as const;
 
-export type EllipsisProps = ExtractPropTypes<typeof ellipsisProps>;
+export type EllipsisProps = Partial<ExtractPropTypes<typeof ellipsisProps>>;
 
 export default defineComponent({
     name: 'FEllipsis',

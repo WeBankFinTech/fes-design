@@ -23,10 +23,10 @@
 
 <script setup lang="ts">
 import { inject, computed } from 'vue';
-import { key } from './const';
 import Button from '../button/button';
 import UploadOutlined from '../icon/UploadOutlined';
 import { useLocale } from '../config-provider/useLocale';
+import { key } from './const';
 
 const { name, multiple, accept, disabled, prefixCls, onUploadFiles, inputRef } =
     inject(key);

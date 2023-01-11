@@ -2,7 +2,6 @@
 @import '../../style/mixins/index';
 @import './mixin.less';
 
-
 @tooltip-prefix-cls: ~'@{cls-prefix}-tooltip';
 
 .@{tooltip-prefix-cls} {
@@ -12,10 +11,12 @@
     border-radius: var(--f-border-radius-base);
     &-text {
         color: var(--f-white);
+        word-break: break-all;
         background-color: var(--f-tooltip-text-bg-color);
     }
 
-    &-confirm, &-popover  {
+    &-confirm,
+    &-popover {
         padding: @padding-md;
         background-color: var(--f-white);
         .clearfix();
@@ -32,7 +33,7 @@
                 font-size: var(--f-font-size-base);
             }
         }
-        
+
         &-icon {
             display: flex;
             align-items: center;

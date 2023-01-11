@@ -73,7 +73,7 @@ export default (props: UploadProps, emit: any) => {
         emit('change', { file, fileList: uploadFiles.value });
     }
 
-    function onExceed(files: FileList) {
+    function onExceed(files: File[]) {
         emit('exceed', { files, fileList: uploadFiles.value });
     }
 
@@ -227,7 +227,8 @@ export default (props: UploadProps, emit: any) => {
         }
     };
 
-    const onUploadFiles = (files: FileList) => {
+    const onUploadFiles = (files: FileList | File[]) => {
+        files = Array.from(files);
         if (
             props.multipleLimit &&
             props.fileList.length + files.length > props.multipleLimit
@@ -235,7 +236,7 @@ export default (props: UploadProps, emit: any) => {
             onExceed(files);
             return;
         }
-        let postFiles = Array.from(files);
+        let postFiles = files;
         if (!props.multiple) {
             postFiles = postFiles.slice(0, 1);
         }

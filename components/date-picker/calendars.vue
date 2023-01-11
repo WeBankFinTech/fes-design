@@ -102,16 +102,16 @@ import {
 } from 'vue';
 import { isFunction, isArray, isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
-import Calendar from './calendar.vue';
 import { useNormalModel } from '../_util/use/useModel';
 import FButton from '../button';
+import { useLocale } from '../config-provider/useLocale';
+import Calendar from './calendar.vue';
 import { getTimestampFromFormat } from './helper';
 import { RANGE_POSITION, COMMON_PROPS, RANGE_PROPS } from './const';
 
 import { useRange, useSelectStatus } from './useRange';
 import { useDisable } from './use';
-import { useLocale } from '../config-provider/useLocale';
-import { pickerFactory } from './pickerHandler';
+import { PickerType, pickerFactory } from './pickerHandler';
 
 const prefixCls = getPrefixCls('calendars');
 
@@ -180,18 +180,26 @@ export default defineComponent({
                 return !tempCurrentValue.value.length;
             }
 
+            if (pickerRef.value.name === PickerType.datemultiple) {
+                return false;
+            }
+
             return !tempCurrentValue.value[0];
         });
 
         const visibleFooter = computed(
             () =>
                 props.control ||
+                pickerRef.value.name === PickerType.datemultiple ||
                 pickerRef.value.isRange ||
                 pickerRef.value.hasTime,
         );
 
         const change = () => {
-            if (pickerRef.value.isRange) {
+            if (
+                pickerRef.value.isRange ||
+                pickerRef.value.name === PickerType.datemultiple
+            ) {
                 emit('change', tempCurrentValue.value);
             } else {
                 emit('change', tempCurrentValue.value[0]);
@@ -201,7 +209,10 @@ export default defineComponent({
         const updateTempCurrentValue = (val: number[]) => {
             tempCurrentValue.value = val;
 
-            if (pickerRef.value.isRange) {
+            if (
+                pickerRef.value.isRange ||
+                pickerRef.value.name === PickerType.datemultiple
+            ) {
                 emit('tmpSelectedDateChange', tempCurrentValue.value);
             } else {
                 emit('tmpSelectedDateChange', tempCurrentValue.value[0]);
@@ -213,8 +224,8 @@ export default defineComponent({
         };
 
         const handleTempCurrentValue = () => {
-            if (pickerRef.value.isRange) {
-                tempCurrentValue.value = selectedDates.value || [];
+            if (isArray(selectedDates.value)) {
+                tempCurrentValue.value = selectedDates.value;
             } else {
                 tempCurrentValue.value = selectedDates.value
                     ? [selectedDates.value]

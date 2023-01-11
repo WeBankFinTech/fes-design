@@ -20,6 +20,10 @@ app.use(DatePicker);
 
 --rangeSelect
 
+### 日期多选
+
+--multiple
+
 ### 禁用部分日期
 
 --someDisabled
@@ -47,7 +51,7 @@ app.use(DatePicker);
 | modelValue   | 日期值，支持 v-model 双向绑定                                                          | Array/Number                                                                                                     | -       |
 | disabledDate | 禁止日期函数，参数为对应的时间 Date，执行结果为 true 则禁止                            | (date: Date)=> Boolean                                                                                           | -       |
 | disabledTime | 禁止时间选择, 返回参数同 time-picker 的 disableHours, disabledMinutes, disabledSeconds | (date: Date) => ({disabledHours: () => Boolean, disabledMinutes: () => Boolean, disabledSeconds: () => Boolean}) | -       |
-| type         | 类型                                                                                   | `date` `datetime` `daterange` `datetimerange` `datemonthrange` `year` `month` `quarter`                          | `date`  |
+| type         | 类型                                                                                   | `date` `datetime` `datemultiple` `daterange` `datetimerange` `datemonthrange` `year` `month` `quarter`           | `date`  |
 | maxDate      | 最大可选择时间                                                                         | Date                                                                                                             | -       |
 | minDate      | 最小可选择时间                                                                         | Date                                                                                                             | -       |
 | maxRange     | 最大可选区间，格式为 /\d+[D]/                                                          | string                                                                                                           | -       |

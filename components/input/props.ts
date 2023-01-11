@@ -33,7 +33,7 @@ export const commonInputProps = {
     },
     inputStyle: {
         type: Object as PropType<CSSProperties>,
-        default: () => ({}),
+        default: () => ({} as CSSProperties),
     },
     autocomplete: {
         type: String,

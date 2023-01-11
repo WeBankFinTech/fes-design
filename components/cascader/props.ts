@@ -1,6 +1,6 @@
-import type { ExtractPropTypes, PropType, InjectionKey, Ref } from 'vue';
-import { CHECK_STRATEGY, EXPAND_TRIGGER } from './const';
 import { extractPropsDefaultValue } from '../_util/utils';
+import { CHECK_STRATEGY, EXPAND_TRIGGER } from './const';
+import type { ExtractPropTypes, PropType, InjectionKey, Ref } from 'vue';
 
 import type {
     CascaderOption,
