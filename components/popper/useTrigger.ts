@@ -1,4 +1,4 @@
-import { reactive, Ref } from 'vue';
+import { ref, Ref, watch } from 'vue';
 import { isBoolean, isFunction } from 'lodash-es';
 import type { PopperProps } from './props';
 import type { VirtualRect } from './interface';
@@ -21,7 +21,7 @@ export default function useTrigger(
     let triggerFocused = false;
     let showTimer: ReturnType<typeof setTimeout>;
     let hideTimer: ReturnType<typeof setTimeout>;
-    const events = reactive<Record<string, (e: MouseEvent) => void>>({});
+    const events: Ref<Record<string, (e: MouseEvent) => void>> = ref({});
 
     function clearTimers() {
         clearTimeout(showTimer);
@@ -112,16 +112,26 @@ export default function useTrigger(
     };
 
     const mapEvents = (t: TriggerEventsMapKey) => {
+        const _events: Record<string, (e: MouseEvent) => void> = {};
         triggerEventsMap[t].forEach((event: string) => {
-            events[event] = (e: MouseEvent) => {
+            _events[event] = (e: MouseEvent) => {
                 popperEventsHandler(e, t);
             };
         });
+        events.value = _events;
     };
 
-    if (props.trigger) {
-        mapEvents(props.trigger);
-    }
+    watch(
+        () => props.trigger,
+        () => {
+            if (props.trigger) {
+                mapEvents(props.trigger);
+            }
+        },
+        {
+            immediate: true,
+        },
+    );
 
     function onPopperMouseEnter() {
         // if trigger is click, user won't be able to close popper when

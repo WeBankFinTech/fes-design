@@ -14,11 +14,10 @@ import useResize from '../_util/use/useResize';
 import { getFirstValidNode } from '../_util/vnode';
 import getElementFromRef from '../_util/getElementFromRef';
 import { useTheme } from '../_theme/useTheme';
+import { useConfig } from '../config-provider';
 import useTrigger from './useTrigger';
 import usePopper from './usePopper';
 import useScroll from './useScroll';
-
-import { useConfig } from '../config-provider';
 
 import { popperProps } from './props';
 
@@ -96,7 +95,11 @@ export default defineComponent({
         const renderTrigger = () => {
             const vNode = getFirstValidNode(slots.trigger?.());
             if (vNode) {
-                return cloneVNode(vNode, { ref: triggerRef, ...events }, true);
+                return cloneVNode(
+                    vNode,
+                    { ref: triggerRef, ...events.value },
+                    true,
+                );
             }
         };
 
