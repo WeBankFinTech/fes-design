@@ -12,6 +12,10 @@ export const formProps = {
         type: String as PropType<typeof FORM_LAYOUT[keyof typeof FORM_LAYOUT]>,
         default: FORM_LAYOUT.HORIZONTAL,
     },
+    span: {
+        type: Number,
+        default: 6,
+    },
     inlineItemWidth: [String, Number] as PropType<string | number>,
     labelPosition: {
         type: String as PropType<
@@ -38,7 +42,7 @@ export const formItemProps = {
     labelClass: String,
     span: {
         type: Number,
-        default: 6,
+        default: null as number,
     },
     showMessage: {
         type: Boolean as PropType<boolean | null>,
