@@ -32,7 +32,7 @@ app.use(FRadioButton);
 
 单选按钮组，可通过`size`设置按钮组整体大小，对于单个按钮可以通过`disabled` 设置是否禁用。   
 按钮样式分为两种，可以通过`type`进行设置。  
-按钮组分为有边框和无边框两种，可以通过进行`border`设置。   
+按钮组分为有边框和无边框两种，可以通过进行`bordered`设置。   
 
 --BUTTON
 
@@ -80,7 +80,7 @@ app.use(FRadioButton);
 | optionType  | 用于设置 Radio options 类型  可选值 `default` `button`  | string  | `default`               |
 | type     | 按钮样式类型  可选值 `default` `primary`   | string | `default`  |
 | size     | 按钮大小 可选值 `small` `middle`    | string  | `middle`  |
-| border    | 按钮是否含有边框             | boolean  | `true`  |
+| bordered    | 按钮是否含有边框             | boolean  | `true`  |
 
 ## RadioButton Props
 

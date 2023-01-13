@@ -48,12 +48,12 @@ export default defineComponent({
 
         // content样式
         const contentClasses = computed(() => {
-            const arr = [`radio-button-content-${group.props.size}`];
+            const arr = [`${prefixCls}-content-${group.props.size}`];
             // 无边框的样式
             if (!group.props.bordered && checked.value) {
-                arr.push('radio-button-content-checked');
-                arr.push(`radio-button-content-checked-${group.props.size}`);
-                arr.push(`radio-button-content-checked-${group.props.type}`);
+                arr.push(`${prefixCls}-content-checked`);
+                arr.push(`${prefixCls}-content-checked-${group.props.size}`);
+                arr.push(`${prefixCls}-content-checked-${group.props.type}`);
             }
             return arr;
         });

@@ -25,19 +25,19 @@
         color: var(--f-primary-color);
     }
 
-    .radio-button-content-small {
+    &-content-small {
         padding: 0px var(--f-padding-small);
         line-height: @radio-button-content-height-sm;
         margin: 1px;
     }
 
-    .radio-button-content-middle {
+    &-content-middle {
         padding: 0px var(--f-padding-middle);
         line-height: @radio-button-content-height-base;
         margin: 1px;
     }
 
-    .radio-button-content-checked {
+    &-content-checked {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -56,6 +56,10 @@
             color: var(--f-black);
             background: var(--f-white);
             transition: all @animation-duration-base @ease-base-in;
+
+            &:hover {
+                color: var(--f-black);
+            }
         }
 
         &-primary {
