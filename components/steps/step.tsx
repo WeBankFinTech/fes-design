@@ -9,8 +9,8 @@ import {
 } from 'vue';
 import { isNil } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
-import { COMPONENT_NAME, STATUS, PROVIDE_KEY } from './const';
 import { CloseOutlined, CheckOutlined } from '../icon';
+import { COMPONENT_NAME, STATUS, PROVIDE_KEY } from './const';
 
 const prefixCls = getPrefixCls('step');
 
@@ -41,11 +41,15 @@ export default defineComponent({
             !vm.parent.type ||
             vm.parent.type.name !== COMPONENT_NAME.STEPS
         ) {
-            return console.warn(
+            console.warn(
                 `[${COMPONENT_NAME.STEP}] must be a child of ${COMPONENT_NAME.STEPS}`,
             );
         }
-        const parent = inject(PROVIDE_KEY)!;
+        const parent = inject(PROVIDE_KEY, {
+            current: ref(),
+            parentDomRef: ref(null),
+            props: { initial: 1 },
+        });
         const itemDomRef = ref();
         const index = computed(() => {
             const parentDom = parent.parentDomRef.value;
@@ -53,10 +57,10 @@ export default defineComponent({
             if (parentDom && itemDom) {
                 return (
                     Array.from(parentDom.children).indexOf(itemDom) +
-                    parent.props.initial!
+                    parent.props.initial
                 );
             }
-            return parent.props.initial! - 1;
+            return parent.props.initial - 1;
         });
         const style = computed(() => {
             const _style: CSSProperties = {};
@@ -64,7 +68,7 @@ export default defineComponent({
             if (parentDom && !parent.props.vertical) {
                 const lastChild =
                     index.value ===
-                    parentDom.children.length - 1 + parent.props.initial!;
+                    parentDom.children.length - 1 + parent.props.initial;
                 if (lastChild) {
                     _style['max-width'] = `${
                         (1 / parentDom.children.length) * 100
