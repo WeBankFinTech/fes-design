@@ -8,8 +8,9 @@ import {
 import Ellipsis from '../ellipsis/ellipsis';
 import getPrefixCls from '../_util/getPrefixCls';
 import { COMPONENT_NAME } from './const';
-import useMenu from './useMenu';
 import useChildren from './useChildren';
+import useParent from './useParent';
+import useMenu from './useMenu';
 
 const prefixCls = getPrefixCls('menu-group');
 
@@ -23,10 +24,11 @@ export default defineComponent({
     },
     setup(props, { slots }) {
         const instance = getCurrentInstance();
-        const { rootMenu, parentMenu, paddingStyle } = useMenu(instance);
+        const { indexPath } = useMenu(instance);
+        const { rootMenu, parentMenu, paddingStyle } = useChildren(indexPath);
         // 根节点 menu
         if (!rootMenu) {
-            return console.warn(
+            console.warn(
                 `[${COMPONENT_NAME.MENU_GROUP}] must be a child of ${COMPONENT_NAME.MENU}`,
             );
         }
@@ -36,7 +38,7 @@ export default defineComponent({
                 `[${COMPONENT_NAME.MENU_GROUP}] must be a child of ${COMPONENT_NAME.MENU} or ${COMPONENT_NAME.SUB_MENU}`,
             );
         }
-        const { children } = useChildren();
+        const { children } = useParent();
         const isActive = computed(() =>
             children.some((child) => child?.isActive),
         );

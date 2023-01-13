@@ -1,4 +1,4 @@
-import { PropType } from 'vue';
+import { PropType, InjectionKey, ComputedRef } from 'vue';
 
 import type { MenuOption } from './interface';
 
@@ -11,7 +11,16 @@ export const COMPONENT_NAME = {
     MENU_GROUP: 'FMenuGroup',
 };
 
-export const MENU_KEY = Symbol('FMenu');
+export const CHILDREN_KEY = Symbol('FMenuChildren');
+
+export interface MenuNode {
+    name: string;
+    uid: number | string;
+}
+
+export const MENU_KEY: InjectionKey<{
+    parentPath: ComputedRef<MenuNode[]>;
+}> = Symbol('FMenu');
 
 export const MENU_PROPS = {
     // 当前选中的值

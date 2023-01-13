@@ -8,6 +8,7 @@ import {
 import Ellipsis from '../ellipsis/ellipsis';
 import getPrefixCls from '../_util/getPrefixCls';
 import { COMPONENT_NAME } from './const';
+import useChildren from './useChildren';
 import useMenu from './useMenu';
 
 const prefixCls = getPrefixCls('menu-item');
@@ -25,18 +26,19 @@ export default defineComponent({
     },
     setup(props, { slots }) {
         const instance = getCurrentInstance();
+        const { indexPath } = useMenu(instance);
         const { rootMenu, parentMenu, paddingStyle, onlyIcon } =
-            useMenu(instance);
+            useChildren(indexPath);
         // 根节点 menu
         if (!rootMenu) {
-            return console.warn(
+            console.warn(
                 `[${COMPONENT_NAME.MENU_ITEM}] must be a child of ${COMPONENT_NAME.MENU}`,
             );
         }
         // 父级组件，可能为 menu 或者 sub-menu
         if (!parentMenu) {
-            return console.warn(
-                `[${COMPONENT_NAME.SUB_MENU}] must be a child of ${COMPONENT_NAME.MENU} or ${COMPONENT_NAME.SUB_MENU}`,
+            console.warn(
+                `[${COMPONENT_NAME.MENU_ITEM}] must be a child of ${COMPONENT_NAME.MENU} or ${COMPONENT_NAME.SUB_MENU}`,
             );
         }
         const isActive = computed(

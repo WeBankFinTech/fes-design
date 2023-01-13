@@ -14,8 +14,9 @@ import DownOutlined from '../icon/DownOutlined';
 import RightOutlined from '../icon/RightOutlined';
 import Ellipsis from '../ellipsis/ellipsis';
 import { COMPONENT_NAME } from './const';
-import useMenu from './useMenu';
 import useChildren from './useChildren';
+import useParent from './useParent';
+import useMenu from './useMenu';
 
 const prefixCls = getPrefixCls('sub-menu');
 export default defineComponent({
@@ -33,18 +34,13 @@ export default defineComponent({
     },
     setup(props, { slots }) {
         const instance = getCurrentInstance();
+        const { indexPath } = useMenu(instance);
         const subMenuRef = ref(null);
-        const {
-            rootMenu,
-            parentMenu,
-            paddingStyle,
-            isFirstLevel,
-            onlyIcon,
-            indexPath,
-        } = useMenu(instance);
+        const { rootMenu, parentMenu, paddingStyle, isFirstLevel, onlyIcon } =
+            useChildren(indexPath);
         // 根节点 menu
         if (!rootMenu) {
-            return console.warn(
+            console.warn(
                 `[${COMPONENT_NAME.SUB_MENU}] must be a child of ${COMPONENT_NAME.MENU}`,
             );
         }
@@ -54,7 +50,7 @@ export default defineComponent({
                 `[${COMPONENT_NAME.SUB_MENU}] must be a child of ${COMPONENT_NAME.MENU} or ${COMPONENT_NAME.SUB_MENU}`,
             );
         }
-        const { children } = useChildren();
+        const { children } = useParent();
         const isOpened = ref(false);
         const isActive = computed(() =>
             children.some((child) => child?.isActive),
@@ -147,7 +143,9 @@ export default defineComponent({
                 class={`${prefixCls}-wrapper`}
                 style={paddingStyle.value}
                 onClick={() => {
-                    trigger === 'click' && handleClickTrigger();
+                    if (trigger === 'click') {
+                        handleClickTrigger();
+                    }
                 }}
             >
                 {renderIcon()}
