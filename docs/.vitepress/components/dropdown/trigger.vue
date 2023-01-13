@@ -1,21 +1,18 @@
 <template>
     <FSpace>
-        <FDropdown trigger="hover" :options="options">
-            <FButton>hover</FButton>
-        </FDropdown>
-        <FDropdown trigger="click" :options="options">
-            <FButton>click</FButton>
-        </FDropdown>
-        <FDropdown trigger="focus" :options="options">
-            <FButton>focus</FButton>
-        </FDropdown>
-        <FDropdown trigger="contextmenu" :options="options">
-            <FButton style="width: 200px">contextmenu</FButton>
+        <FSelect v-model="trigger" style="width: 100px">
+            <FOption value="hover">hover</FOption>
+            <FOption value="click">click</FOption>
+            <FOption value="focus">focus</FOption>
+            <FOption value="contextmenu">contextmenu</FOption>
+        </FSelect>
+        <FDropdown :trigger="trigger" :options="options">
+            <FButton>{{ trigger }}</FButton>
         </FDropdown>
     </FSpace>
 </template>
 <script>
-import { h } from 'vue';
+import { h, ref } from 'vue';
 import {
     DeleteOutlined,
     StarOutlined,
@@ -27,6 +24,7 @@ import {
 
 export default {
     setup() {
+        const trigger = ref('hover');
         const options = [
             {
                 value: '1',
@@ -65,6 +63,7 @@ export default {
             },
         ];
         return {
+            trigger,
             options,
         };
     },

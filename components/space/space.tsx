@@ -9,9 +9,9 @@ import {
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { flatten, getSlot, isValidElementNode } from '../_util/vnode';
-import type { TThemeVars } from '../_theme/base';
 import { createKey } from '../_util/createKey';
 import { depx } from '../_util/utils';
+import type { TThemeVars } from '../_theme/base';
 
 const prefixCls = getPrefixCls('space');
 
@@ -111,7 +111,7 @@ export default defineComponent({
             margin,
         } = this;
 
-        const children = flatten(getSlot(this.$slots)).filter((node) =>
+        const children = flatten(getSlot(this.$slots) || []).filter((node) =>
             isValidElementNode(node),
         );
         const lastIndex = children.length - 1;
@@ -133,7 +133,7 @@ export default defineComponent({
                     marginBottom: vertical ? '' : `-${margin.semiVertical}`,
                 }}
             >
-                {children.map((child, index) => (
+                {children?.map((child, index) => (
                     <div
                         role="none"
                         style={[
