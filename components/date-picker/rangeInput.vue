@@ -4,7 +4,8 @@
         :class="[
             prefixCls,
             disabled && 'is-disabled',
-            innerIsFocus && 'is-foused',
+            innerIsFocus && 'is-focused',
+            innerIsError && 'is-error',
         ]"
         :tabindex="disabled ? null : 0"
         @mouseenter="onMouseEnter"
@@ -77,6 +78,7 @@ const rangeInputProps = {
     },
     placeholder: [String, Array] as PropType<string | string[]>,
     innerIsFocus: Boolean,
+    innerIsError: Boolean,
 } as const;
 
 type RangeInputProps = Partial<ExtractPropTypes<typeof rangeInputProps>>;

@@ -22,6 +22,7 @@
                 :clearable="clearable"
                 :disabled="disabled"
                 :innerIsFocus="inputIsFocus"
+                :innerIsError="isError"
                 :class="attrs.class"
                 :style="attrs.style"
                 :changeSelectedDates="changeDateByInput"
@@ -48,6 +49,7 @@
                 :canEdit="pickerRef.name !== PickerType.datemultiple"
                 :clearable="clearable"
                 :innerIsFocus="inputIsFocus"
+                :innerIsError="isError"
                 :class="attrs.class"
                 :style="attrs.style"
                 @focus="handleFocus"
@@ -427,6 +429,8 @@ export default defineComponent({
             isOpened,
             currentValue,
             visibleValue,
+
+            isError,
 
             dateText,
             handleDateInput,
