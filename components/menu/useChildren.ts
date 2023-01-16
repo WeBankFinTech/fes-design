@@ -1,30 +1,45 @@
-import { reactive, provide, UnwrapRef } from 'vue';
-import { MENU_KEY } from './const';
+import { inject, computed, ComputedRef } from 'vue';
+import { CHILDREN_KEY, COMPONENT_NAME, MenuNode } from './const';
 
-import type { MenuItemType } from './interface';
+export default (indexPath: ComputedRef<MenuNode[]>) => {
+    // 根节点 menu
+    const rootMenu = inject('rootMenu', null);
+    // 父级组件，可能为 menu / sub-menu / menu-group
+    const parentMenu = inject(CHILDREN_KEY, null);
 
-type MenuItemTypePlain = UnwrapRef<MenuItemType>;
-
-export default () => {
-    const children = reactive<MenuItemTypePlain[]>([]);
-
-    const addChild = (child: MenuItemTypePlain) => {
-        children.push(child);
-    };
-
-    const removeChild = (child: MenuItemTypePlain) => {
-        const index = children.indexOf(child);
-        if (index !== -1) {
-            children.splice(index, 1);
+    const paddingStyle = computed(() => {
+        if (rootMenu.renderWithPopper.value) return {};
+        let padding = 16;
+        const len = indexPath.value.length;
+        if (len > 2) {
+            for (let i = len - 2; i >= 0; i--) {
+                const node = indexPath.value[i];
+                if (node.name === COMPONENT_NAME.SUB_MENU) {
+                    padding += 14;
+                }
+                if (node.name === COMPONENT_NAME.MENU_GROUP) {
+                    padding += 8;
+                }
+            }
         }
-    };
+        return { paddingLeft: `${padding}px` };
+    });
 
-    provide(MENU_KEY, {
-        addChild,
-        removeChild,
+    const isFirstLevel = computed(() => {
+        return indexPath.value.length < 3;
+    });
+
+    const onlyIcon = computed(() => {
+        if (rootMenu.props.mode !== 'vertical') return false;
+        return isFirstLevel.value && rootMenu.props.collapsed;
     });
 
     return {
-        children,
+        rootMenu,
+        parentMenu,
+        paddingStyle,
+        onlyIcon,
+        isFirstLevel,
+        indexPath,
     };
 };

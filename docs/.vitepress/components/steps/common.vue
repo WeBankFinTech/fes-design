@@ -34,13 +34,13 @@ export default {
     setup() {
         const current = ref(1);
         const pre = () => {
-            if (current < 1) {
+            if (current.value < 1) {
                 return;
             }
             current.value = current.value - 1;
         };
         const next = () => {
-            if (current > 4) {
+            if (current.value > 4) {
                 return;
             }
             current.value = current.value + 1;

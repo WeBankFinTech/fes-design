@@ -12,8 +12,9 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import { useTheme } from '../_theme/useTheme';
-import { COMPONENT_NAME, MENU_PROPS } from './const';
-import useChildren from './useChildren';
+import { COMPONENT_NAME, MENU_PROPS, MenuNode } from './const';
+import useParent from './useParent';
+import useMenu from './useMenu';
 import MenuGroup from './menuGroup';
 import MenuItem from './menuItem';
 import SubMenu from './subMenu';
@@ -27,6 +28,9 @@ export default defineComponent({
     emits: ['select', UPDATE_MODEL_EVENT],
     setup(props, { emit, slots }) {
         useTheme();
+
+        useMenu();
+
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
         const renderWithPopper = computed(() => {
@@ -36,7 +40,7 @@ export default defineComponent({
             return props.collapsed;
         });
 
-        const { children } = useChildren();
+        const { children } = useParent();
 
         const clickMenuItem = (value: string) => {
             updateCurrentValue(value);
@@ -61,12 +65,14 @@ export default defineComponent({
 
         const clickSubMenu = (
             subMenu: MenuItemType,
-            indexPath: Ref<string[]>,
+            indexPath: Ref<MenuNode[]>,
         ) => {
             if (subMenu.isOpened.value) {
                 if (props.accordion) {
                     openedMenus.value = openedMenus.value.filter((uid) =>
-                        indexPath.value.includes(uid),
+                        indexPath.value.some((node) => {
+                            return node.uid === uid;
+                        }),
                     );
                 }
                 openedMenus.value.push(subMenu.value || subMenu.uid);
