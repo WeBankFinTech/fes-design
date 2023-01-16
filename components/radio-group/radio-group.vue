@@ -1,13 +1,24 @@
 <template>
     <div :class="classList">
         <slot />
-        <Radio
-            v-for="opt in optionsRef"
-            :key="(opt.value as any)"
-            :value="opt.value"
-            :label="opt.label"
-            :disabled="opt.disabled"
-        ></Radio>
+        <template v-if="props.optionType === 'default'">
+            <Radio
+                v-for="opt in optionsRef"
+                :key="(opt.value as any)"
+                :value="opt.value"
+                :label="opt.label"
+                :disabled="opt.disabled"
+            ></Radio>
+        </template>
+        <template v-else>
+            <RadioButton
+                v-for="opt in optionsRef"
+                :key="(opt.value as any)"
+                :value="opt.value"
+                :label="opt.label"
+                :disabled="opt.disabled"
+            ></RadioButton>
+        </template>
     </div>
 </template>
 
@@ -16,7 +27,9 @@ import { computed } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import Radio from '../radio/radio.vue';
+import RadioButton from '../radio-button/radio-button';
 import { useRadioGroup } from './useRadioGroup';
+import type { Size, Type, OptionType } from './interface';
 
 export type RadioGroupProps = {
     modelValue?: string | number | boolean;
@@ -26,6 +39,10 @@ export type RadioGroupProps = {
     options?: Array<Option>;
     valueField?: string;
     labelField?: string;
+    size?: Size;
+    type?: Type;
+    bordered?: boolean;
+    optionType?: OptionType;
 };
 
 export type RadioGroupEmits = {
@@ -42,6 +59,10 @@ const props = withDefaults(defineProps<RadioGroupProps>(), {
     options: () => [],
     valueField: 'value',
     labelField: 'label',
+    size: 'middle' as Size,
+    type: 'default' as Type,
+    bordered: true,
+    optionType: 'default' as OptionType,
 });
 
 const emit = defineEmits<RadioGroupEmits>();

@@ -18,6 +18,7 @@ import FMessage from './message';
 import { FModal } from './modal';
 import { FPopper } from './popper';
 import { FRadio } from './radio';
+import { FRadioButton } from './radio-button';
 import { FRadioGroup } from './radio-group';
 import { FScrollbar } from './scrollbar';
 import { FSelect, FOption } from './select';
@@ -74,6 +75,7 @@ const components = [
     FModal,
     FPopper,
     FRadio,
+    FRadioButton,
     FRadioGroup,
     FScrollbar,
     FSelect,
@@ -149,6 +151,7 @@ export {
     FPopper,
     FRadio,
     FRadioGroup,
+    FRadioButton,
     FScrollbar,
     FSelect,
     FOption,

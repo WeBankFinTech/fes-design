@@ -45,3 +45,4 @@ import './cascader/style';
 import './select-cascader/style';
 import './descriptions/style';
 import './collapse/style';
+import './radio-button/style';
