@@ -60,6 +60,7 @@ export default defineComponent({
             model,
             rules,
             layout,
+            span,
             inlineItemWidth,
             showMessage,
             labelWidth,
@@ -117,9 +118,11 @@ export default defineComponent({
         const formItemClass = computed(() =>
             [
                 prefixCls,
+                // inlineFormItem 定宽情况: Form 传入 inlineItemWidth, 此时 inlineItemWidth 优先级最高
+                // inlineFormItem 自适应情况: 同时支持 form、formItem 传入 span, 此时 formItem 优先级更高
                 layout.value === FORM_LAYOUT.INLINE &&
                     !inlineItemWidth.value &&
-                    `${prefixCls}-span-${Math.ceil(props.span)}`, // Form传入 inlineItemWidth 即【定宽】情况, 此时 inlineItemWidth 优先级高于 span
+                    `${prefixCls}-span-${Math.ceil(props.span || span.value)}`,
                 labelPosition.value !== LABEL_POSITION.LEFT &&
                     `${prefixCls}-${labelPosition.value}`,
                 formItemRequired.value && 'is-required', // 必填校验: is-required
@@ -224,7 +227,7 @@ export default defineComponent({
             validateDisabled.value = true; // 在表单重置行为，不应触发校验
 
             // reset initialValue
-            set(model.value, formItemProp.value, initialValue);
+            set(model.value, formItemProp.value, cloneDeep(initialValue));
 
             // reset validateDisabled after onFieldChange triggered
             nextTick(() => {
