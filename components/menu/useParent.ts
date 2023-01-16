@@ -9,11 +9,19 @@ export default () => {
     const children = reactive<MenuItemTypePlain[]>([]);
 
     const addChild = (child: MenuItemTypePlain) => {
-        children.push(child);
+        if (
+            children.every((item) => {
+                return item.uid !== child.uid;
+            })
+        ) {
+            children.push(child);
+        }
     };
 
     const removeChild = (child: MenuItemTypePlain) => {
-        const index = children.indexOf(child);
+        const index = children.findIndex((item) => {
+            return item.uid === child.uid;
+        });
         if (index !== -1) {
             children.splice(index, 1);
         }
