@@ -1,14 +1,14 @@
 import { defineComponent, computed, toRefs, watch, ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
-import useSpecialModel from './useSpecialModel';
 import { CHANGE_EVENT } from '../_util/constants';
+import { useTheme } from '../_theme/useTheme';
+import useSpecialModel from './useSpecialModel';
 import Simpler from './simpler';
 import Pager from './pager';
 import Sizes from './sizes';
 import Jumper from './jumper';
 import Total from './total';
 import { COMPONENT_NAME, PROPS } from './const';
-
 const prefixCls = getPrefixCls('pagination');
 
 export default defineComponent({
@@ -28,6 +28,8 @@ export default defineComponent({
         'update:pageSize',
     ],
     setup(props, { emit }) {
+        useTheme();
+
         let timer: ReturnType<typeof setTimeout>;
         const changeEvent = () => {
             clearTimeout(timer);
