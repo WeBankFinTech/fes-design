@@ -1,3 +1,20 @@
+## [0.7.16](https://github.com/WeBankFinTech/fes-design/compare/v0.7.15...v0.7.16) (2023-01-17)
+
+
+### Bug Fixes
+
+*  Form组件 修复重置功能bug & 支持span 属性 ([#266](https://github.com/WeBankFinTech/fes-design/issues/266)) ([90bd956](https://github.com/WeBankFinTech/fes-design/commit/90bd95637e83f61f0c7c82c64c9d0674bf85e163))
+* DatePicker 修复表单样式校验问题 ([#268](https://github.com/WeBankFinTech/fes-design/issues/268)) ([ca31edd](https://github.com/WeBankFinTech/fes-design/commit/ca31edd4954fda0f1aca007f2a94cbfe10051352))
+* space空插槽问题 ([#264](https://github.com/WeBankFinTech/fes-design/issues/264)) ([52e9c25](https://github.com/WeBankFinTech/fes-design/commit/52e9c25dfbeaa05e409fba4613a8dc1de5c523f5))
+* 可切换trigger ([#265](https://github.com/WeBankFinTech/fes-design/issues/265)) ([80e5b0b](https://github.com/WeBankFinTech/fes-design/commit/80e5b0b85a38e81d86628354f9e263ca2366bdd8))
+
+
+### Features
+
+* RadioGroup支持按钮组 ([#262](https://github.com/WeBankFinTech/fes-design/issues/262)) ([5edf303](https://github.com/WeBankFinTech/fes-design/commit/5edf303f433e166698d4986c0321d9c2e385358a))
+
+
+
 ## [0.7.15](https://github.com/WeBankFinTech/fes-design/compare/v0.7.14...v0.7.15) (2023-01-11)
 
 
