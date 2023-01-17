@@ -288,14 +288,21 @@
     outline: none;
 
     &:focus-within,
-    &.is-foused {
+    &.is-focused {
         box-shadow: 0 0 0 2px var(--f-focus-shadow-color);
     }
 
     &:hover,
     &:focus-within,
-    &.is-foused {
+    &.is-focused {
         border-color: var(--f-primary-color);
+    }
+
+    &.is-error:not(.is-disabled) {
+        border-color: var(--f-danger-color);
+        &:focus {
+            box-shadow: 0 0 0 2px var(--f-focus-danger-shadow-color);
+        }
     }
 
     &.is-disabled {
