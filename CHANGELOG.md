@@ -1,3 +1,13 @@
+## [0.7.17](https://github.com/WeBankFinTech/fes-design/compare/v0.7.16...v0.7.17) (2023-01-30)
+
+
+### Bug Fixes
+
+* 修复Pagination组件未正确处理theme问题 ([dc55c9a](https://github.com/WeBankFinTech/fes-design/commit/dc55c9a507d0d6ed9996d4f1b069141d19f93366))
+* 修复Select disabled 时的样式问题 ([#269](https://github.com/WeBankFinTech/fes-design/issues/269)) ([f4112db](https://github.com/WeBankFinTech/fes-design/commit/f4112dbe46b80f40cabf0e8f8a70b404ee095206))
+
+
+
 ## [0.7.16](https://github.com/WeBankFinTech/fes-design/compare/v0.7.15...v0.7.16) (2023-01-17)
 
 
