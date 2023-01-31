@@ -7,6 +7,7 @@ export interface SelectOption {
     value: string | number | boolean | object;
     label: string | number;
     disabled?: boolean;
+    cache?: boolean;
 }
 
 export interface OptionChildren extends ToRefs<OptionProps> {

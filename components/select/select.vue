@@ -27,6 +27,7 @@
                     :class="[{ 'is-error': isError }, attrs.class]"
                     :style="attrs.style"
                     :renderTag="$slots.tag"
+                    @keydown.enter="onKeyDown"
                     @remove="onSelect"
                     @clear="handleClear"
                     @focus="focus"
@@ -36,11 +37,13 @@
             </template>
             <template #default>
                 <OptionList
+                    :hoverOptionValue="hoverOptionValue"
                     :options="filteredOptions"
                     :prefixCls="prefixCls"
                     :containerStyle="dropdownStyle"
                     :isSelect="isSelect"
                     :onSelect="onSelect"
+                    :onHover="onHover"
                     :isLimit="isLimitRef"
                     :emptyText="listEmptyText"
                     :renderOption="$slots.option"
@@ -86,7 +89,7 @@ import { key } from './const';
 import OptionList from './optionList';
 import { selectProps } from './props';
 
-import type { SelectValue, OptionChildren } from './interface';
+import type { SelectValue, SelectOption, OptionChildren } from './interface';
 
 const prefixCls = getPrefixCls('select');
 
@@ -122,6 +125,10 @@ export default defineComponent({
         const triggerRef = ref();
         const triggerWidth = ref(0);
 
+        const filterText = ref('');
+
+        const cacheOptions = ref([]);
+
         watch(isOpenedRef, () => {
             emit('visibleChange', unref(isOpenedRef));
             if (isOpenedRef.value && triggerRef.value) {
@@ -144,6 +151,7 @@ export default defineComponent({
                 updateCurrentValue(value);
                 handleChange();
             }
+            cacheOptions.value = [];
             emit('clear');
         };
 
@@ -170,17 +178,54 @@ export default defineComponent({
             }
         };
 
-        const optionsRef = computed(() =>
-            [...childOptions, ...props.options].map((option) => {
+        const cacheOptionsForTag = computed(() => {
+            if (props.filterable && props.tag) {
+                if (!props.multiple) {
+                    if (filterText.value) {
+                        return [
+                            {
+                                value: filterText.value,
+                                label: filterText.value,
+                                cache: true,
+                            },
+                        ];
+                    }
+                }
+                if (
+                    filterText.value &&
+                    cacheOptions.value.every((option) => {
+                        return option.value !== filterText.value;
+                    })
+                ) {
+                    return [
+                        {
+                            value: filterText.value,
+                            label: filterText.value,
+                            cache: true,
+                        },
+                        ...cacheOptions.value,
+                    ];
+                }
+                return cacheOptions.value;
+            }
+            return [];
+        });
+
+        const optionsRef = computed(() => {
+            const allOptions = [
+                ...cacheOptionsForTag.value,
+                ...childOptions,
+                ...props.options,
+            ];
+            return allOptions.map((option) => {
                 return {
                     ...option,
                     value: option[props.valueField],
                     label: option[props.labelField],
                 };
-            }),
-        );
+            });
+        });
 
-        const filterText = ref('');
         const filteredOptions = computed(() => {
             if (!props.remote && props.filterable && filterText.value) {
                 return optionsRef.value.filter((option) => {
@@ -213,7 +258,7 @@ export default defineComponent({
             );
         });
 
-        const onSelect = (value: SelectValue) => {
+        const onSelect = (value: SelectValue, option?: SelectOption) => {
             if (props.disabled) return;
             if (props.multiple) {
                 filterText.value = '';
@@ -228,6 +273,29 @@ export default defineComponent({
                     filterText.value = '';
                 }, 400);
                 isOpenedRef.value = false;
+            }
+            if (props.filterable && props.tag) {
+                if (props.multiple) {
+                    if (isSelect(value)) {
+                        const index = cacheOptions.value.findIndex((option) => {
+                            return option.value === value;
+                        });
+                        if (index !== -1) {
+                            cacheOptions.value.splice(index, 1);
+                        }
+                    } else {
+                        if (option?.cache) {
+                            cacheOptions.value = [
+                                option,
+                                ...cacheOptions.value,
+                            ];
+                        }
+                    }
+                } else {
+                    if (option?.cache) {
+                        cacheOptions.value = [option];
+                    }
+                }
             }
             updateCurrentValue(unref(value));
             handleChange();
@@ -323,6 +391,44 @@ export default defineComponent({
             emit('scroll', e);
         };
 
+        const hoverOptionValue = ref();
+
+        const onHover = (option: SelectOption) => {
+            hoverOptionValue.value = option.value;
+        };
+
+        watch(isOpenedRef, () => {
+            if (isOpenedRef.value) {
+                if (props.multiple) {
+                    if (currentValue.value.length > 0) {
+                        hoverOptionValue.value = currentValue.value[0];
+                    }
+                } else if (currentValue.value) {
+                    hoverOptionValue.value = currentValue.value;
+                }
+                if (!hoverOptionValue.value && optionsRef.value.length) {
+                    hoverOptionValue.value = optionsRef.value[0].value;
+                }
+            } else {
+                hoverOptionValue.value = undefined;
+            }
+        });
+
+        watch(filteredOptions, () => {
+            if (isOpenedRef.value && filteredOptions.value.length) {
+                hoverOptionValue.value = filteredOptions.value[0].value;
+            }
+        });
+
+        const onKeyDown = () => {
+            if (hoverOptionValue.value) {
+                const option = optionsRef.value.find((option) => {
+                    return option.value === hoverOptionValue.value;
+                });
+                onSelect(hoverOptionValue.value, option);
+            }
+        };
+
         return {
             prefixCls,
             isOpenedRef,
@@ -344,6 +450,9 @@ export default defineComponent({
             onScroll,
             isLimitRef,
             attrs,
+            hoverOptionValue,
+            onHover,
+            onKeyDown,
         };
     },
 });

@@ -1,6 +1,5 @@
-import type { PropType, ExtractPropTypes } from 'vue';
-
 import { extractPropsDefaultValue } from '../_util/utils';
+import type { PropType, ExtractPropTypes } from 'vue';
 
 import type { SelectOption, SelectValue } from './interface';
 import type { GetContainer } from '../_util/interface';
@@ -79,6 +78,10 @@ export const selectProps = {
         default: 'label',
     },
     tagBordered: {
+        type: Boolean,
+        default: false,
+    },
+    tag: {
         type: Boolean,
         default: false,
     },

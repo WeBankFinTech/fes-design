@@ -58,7 +58,7 @@
             margin-left: @padding-xs;
             font-size: @font-size-head;
         }
-        &:hover {
+        &.is-hover {
             background: @select-option-hover-color;
             transition: background-color @animation-duration-fast @ease-base-in;
         }
@@ -69,8 +69,7 @@
         }
         &.is-checked {
             color: var(--f-primary-color);
-            background: @select-option-hover-color;
-            transition: background-color @animation-duration-fast @ease-base-in;
+            transition: color @animation-duration-fast @ease-base-in;
         }
     }
 }
