@@ -294,6 +294,8 @@ export default defineComponent({
                 } else {
                     if (option?.cache) {
                         cacheOptions.value = [option];
+                    } else {
+                        cacheOptions.value = [];
                     }
                 }
             }
