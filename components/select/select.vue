@@ -437,7 +437,7 @@ export default defineComponent({
 
         const onKeyDown = () => {
             if (!isNil(hoverOptionValue.value)) {
-                const option = allOptions.value.find((option) => {
+                const option = allOptions.value.find((option: SelectOption) => {
                     return option.value === hoverOptionValue.value;
                 });
                 onSelect(hoverOptionValue.value, option);
