@@ -4,6 +4,7 @@ import {
     ExtractPropTypes,
     mergeProps,
     PropType,
+    StyleValue,
 } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -90,7 +91,10 @@ export default defineComponent({
         );
 
         const renderChild = () => (
-            <div class={mergeAttrs.class} style={mergeAttrs.style}>
+            <div
+                class={mergeAttrs.class}
+                style={mergeAttrs.style as StyleValue}
+            >
                 {slotDefault}
             </div>
         );
@@ -98,11 +102,7 @@ export default defineComponent({
         return repeat <= 1 ? (
             renderChild()
         ) : (
-            <>
-                {Array.apply(null, { length: repeat } as any).map(() => [
-                    renderChild(),
-                ])}
-            </>
+            <>{[...Array(repeat)].map(() => [renderChild()])}</>
         );
     },
 });
