@@ -4,6 +4,7 @@
             v-model="isOpenedRef"
             trigger="click"
             placement="bottom-start"
+            :onlyShowTrigger="filterable || remote"
             :popperClass="[`${prefixCls}-popper`, popperClass]"
             :appendToContainer="appendToContainer"
             :getContainer="getContainer"
@@ -392,6 +393,23 @@ export default defineComponent({
             hoverOptionValue.value = option.value;
         };
 
+        function getFirstOption() {
+            const len = filteredOptions.value.length;
+            if (len < 1) {
+                return;
+            }
+            let index = 0;
+            while (index < len) {
+                if (!filteredOptions.value[index].disabled) {
+                    break;
+                }
+                index++;
+            }
+            if (index < len) {
+                return filteredOptions.value[index];
+            }
+        }
+
         watch(isOpenedRef, () => {
             if (isOpenedRef.value) {
                 if (props.multiple) {
@@ -401,11 +419,9 @@ export default defineComponent({
                 } else if (!isNil(currentValue.value)) {
                     hoverOptionValue.value = currentValue.value;
                 }
-                if (
-                    isNil(hoverOptionValue.value) &&
-                    filteredOptions.value.length
-                ) {
-                    hoverOptionValue.value = filteredOptions.value[0].value;
+                const option = getFirstOption();
+                if (isNil(hoverOptionValue.value) && option) {
+                    hoverOptionValue.value = option.value;
                 }
             } else {
                 hoverOptionValue.value = undefined;
@@ -413,8 +429,9 @@ export default defineComponent({
         });
 
         watch(filteredOptions, () => {
-            if (isOpenedRef.value && filteredOptions.value.length) {
-                hoverOptionValue.value = filteredOptions.value[0].value;
+            const option = getFirstOption();
+            if (isOpenedRef.value && option) {
+                hoverOptionValue.value = option.value;
             }
         });
 
