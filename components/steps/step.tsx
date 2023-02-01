@@ -6,9 +6,12 @@ import {
     ref,
     PropType,
     CSSProperties,
+    onMounted,
+    onUnmounted,
 } from 'vue';
 import { isNil } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
+import { noop } from '../_util/utils';
 import { CloseOutlined, CheckOutlined } from '../icon';
 import { COMPONENT_NAME, STATUS, PROVIDE_KEY } from './const';
 
@@ -49,9 +52,13 @@ export default defineComponent({
             current: ref(),
             parentDomRef: ref(null),
             props: { initial: 1 },
+            count: ref(0),
+            onUpdate: noop,
         });
         const itemDomRef = ref();
         const index = computed(() => {
+            // 用parent.count触发更新
+            void parent.count.value;
             const parentDom = parent.parentDomRef.value;
             const itemDom = itemDomRef.value;
             if (parentDom && itemDom) {
@@ -63,6 +70,8 @@ export default defineComponent({
             return parent.props.initial - 1;
         });
         const style = computed(() => {
+            // 用parent.count触发更新
+            void parent.count.value;
             const _style: CSSProperties = {};
             const parentDom = parent.parentDomRef.value;
             if (parentDom && !parent.props.vertical) {
@@ -128,6 +137,15 @@ export default defineComponent({
                 </div>
             );
         };
+
+        onMounted(() => {
+            parent.onUpdate();
+        });
+
+        onUnmounted(() => {
+            parent.onUpdate();
+        });
+
         return () => (
             <div ref={itemDomRef} class={classList.value} style={style.value}>
                 {renderSymbol()}

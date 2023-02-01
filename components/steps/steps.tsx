@@ -51,11 +51,17 @@ export default defineComponent({
                 .filter(Boolean)
                 .join(' '),
         );
+        const count = ref(0);
+        const onUpdate = () => {
+            count.value += 1;
+        };
         provide(PROVIDE_KEY, {
             current,
             updateCurrent,
             props,
             parentDomRef,
+            count,
+            onUpdate,
         });
         return () => (
             <div ref={parentDomRef} class={classList.value}>
