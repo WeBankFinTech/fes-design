@@ -6,4 +6,6 @@ export interface StepsInject {
     updateCurrent?: (val: any) => void;
     props: StepsProps;
     parentDomRef: Ref<HTMLElement | undefined>;
+    count: Ref<number>;
+    onUpdate: () => void;
 }

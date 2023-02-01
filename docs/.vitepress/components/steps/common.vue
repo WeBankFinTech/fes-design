@@ -32,7 +32,7 @@
 import { ref } from 'vue';
 export default {
     setup() {
-        const current = ref(1);
+        const current = ref(2);
         const pre = () => {
             if (current.value < 1) {
                 return;
@@ -45,6 +45,7 @@ export default {
             }
             current.value = current.value + 1;
         };
+
         return {
             current,
             pre,
