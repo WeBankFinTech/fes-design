@@ -18,8 +18,8 @@ const defaultConfirmOption = {
 
 const toolTipProps = {
     ...popperProps,
-    title: String,
-    content: String,
+    title: [Number, String] as PropType<number | string>,
+    content: [Number, String] as PropType<number | string>,
     mode: {
         type: String as PropType<'text' | 'confirm' | 'popover'>,
         default: 'text',

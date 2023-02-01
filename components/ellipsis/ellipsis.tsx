@@ -15,7 +15,7 @@ import type { ToolTipProps } from '../tooltip';
 const prefixCls = getPrefixCls('ellipsis');
 
 const ellipsisProps = {
-    content: String,
+    content: [Number, String] as PropType<number | string>,
     line: {
         type: [Number, String] as PropType<number | string>,
         default: 1,
