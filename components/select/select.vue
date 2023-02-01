@@ -77,6 +77,7 @@ import {
     CSSProperties,
     defineComponent,
 } from 'vue';
+import { isNil } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel, useArrayModel } from '../_util/use/useModel';
@@ -178,45 +179,8 @@ export default defineComponent({
             }
         };
 
-        const cacheOptionsForTag = computed(() => {
-            if (props.filterable && props.tag) {
-                if (!props.multiple) {
-                    if (filterText.value) {
-                        return [
-                            {
-                                value: filterText.value,
-                                label: filterText.value,
-                                cache: true,
-                            },
-                        ];
-                    }
-                }
-                if (
-                    filterText.value &&
-                    cacheOptions.value.every((option) => {
-                        return option.value !== filterText.value;
-                    })
-                ) {
-                    return [
-                        {
-                            value: filterText.value,
-                            label: filterText.value,
-                            cache: true,
-                        },
-                        ...cacheOptions.value,
-                    ];
-                }
-                return cacheOptions.value;
-            }
-            return [];
-        });
-
-        const optionsRef = computed(() => {
-            const allOptions = [
-                ...cacheOptionsForTag.value,
-                ...childOptions,
-                ...props.options,
-            ];
+        const baseOptions = computed(() => {
+            const allOptions = [...childOptions, ...props.options];
             return allOptions.map((option) => {
                 return {
                     ...option,
@@ -226,16 +190,45 @@ export default defineComponent({
             });
         });
 
+        const cacheOptionsForTag = computed(() => {
+            if (props.filterable && props.tag) {
+                if (
+                    filterText.value &&
+                    baseOptions.value.every((option) => {
+                        return option.label !== filterText.value;
+                    }) &&
+                    cacheOptions.value.every((option) => {
+                        return option.value !== filterText.value;
+                    })
+                ) {
+                    return [
+                        {
+                            value: filterText.value,
+                            label: filterText.value,
+                            __cache: true,
+                        },
+                        ...cacheOptions.value,
+                    ];
+                }
+                return cacheOptions.value;
+            }
+            return [];
+        });
+
+        const allOptions = computed(() => {
+            return [...cacheOptionsForTag.value, ...baseOptions.value];
+        });
+
         const filteredOptions = computed(() => {
             if (!props.remote && props.filterable && filterText.value) {
-                return optionsRef.value.filter((option) => {
+                return allOptions.value.filter((option) => {
                     if (props.filter) {
                         return props.filter(filterText.value, option);
                     }
                     return String(option.label).includes(filterText.value);
                 });
             }
-            return optionsRef.value;
+            return allOptions.value;
         });
 
         const isSelect = (value: SelectValue) => {
@@ -284,7 +277,7 @@ export default defineComponent({
                             cacheOptions.value.splice(index, 1);
                         }
                     } else {
-                        if (option?.cache) {
+                        if (option?.__cache) {
                             cacheOptions.value = [
                                 option,
                                 ...cacheOptions.value,
@@ -292,7 +285,7 @@ export default defineComponent({
                         }
                     }
                 } else {
-                    if (option?.cache) {
+                    if (option?.__cache) {
                         cacheOptions.value = [option];
                     } else {
                         cacheOptions.value = [];
@@ -306,7 +299,7 @@ export default defineComponent({
         // select-trigger 选择项展示，只在 currentValue 改变时才改变
         const selectedOptionsRef = ref([]);
         watch(
-            [currentValue, optionsRef],
+            [currentValue, allOptions],
             ([newValue, newOptions]) => {
                 const getOption = (val: SelectValue) => {
                     let cacheOption;
@@ -405,11 +398,14 @@ export default defineComponent({
                     if (currentValue.value.length > 0) {
                         hoverOptionValue.value = currentValue.value[0];
                     }
-                } else if (currentValue.value) {
+                } else if (!isNil(currentValue.value)) {
                     hoverOptionValue.value = currentValue.value;
                 }
-                if (!hoverOptionValue.value && optionsRef.value.length) {
-                    hoverOptionValue.value = optionsRef.value[0].value;
+                if (
+                    isNil(hoverOptionValue.value) &&
+                    filteredOptions.value.length
+                ) {
+                    hoverOptionValue.value = filteredOptions.value[0].value;
                 }
             } else {
                 hoverOptionValue.value = undefined;
@@ -423,8 +419,8 @@ export default defineComponent({
         });
 
         const onKeyDown = () => {
-            if (hoverOptionValue.value) {
-                const option = optionsRef.value.find((option) => {
+            if (!isNil(hoverOptionValue.value)) {
+                const option = allOptions.value.find((option) => {
                     return option.value === hoverOptionValue.value;
                 });
                 onSelect(hoverOptionValue.value, option);
