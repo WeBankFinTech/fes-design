@@ -18,6 +18,7 @@ export default (props: PopperProps, emit: any) => {
         zIndex: popupManager.nextZIndex(),
     });
     const placement = ref(props.placement);
+    const cacheVisible = ref(true);
 
     const computePopper = () => {
         if (isBoolean(props.disabled) && props.disabled) return;
@@ -53,10 +54,12 @@ export default (props: PopperProps, emit: any) => {
             }).then((state) => {
                 // 当方向改变时，动画需要重新执行
                 if (placement.value !== state.placement) {
-                    updateVisible(false);
+                    cacheVisible.value = false;
                     nextTick(() => {
-                        updateVisible(true);
+                        cacheVisible.value = true;
                     });
+                    placement.value = state.placement;
+                    return;
                 }
                 placement.value = state.placement;
 
@@ -106,5 +109,6 @@ export default (props: PopperProps, emit: any) => {
         computePopper,
         updateVirtualRect,
         placement,
+        cacheVisible,
     };
 };

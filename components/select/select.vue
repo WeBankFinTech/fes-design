@@ -4,6 +4,7 @@
             v-model="isOpenedRef"
             trigger="click"
             placement="bottom-start"
+            :onlyShowTrigger="filterable || remote"
             :popperClass="[`${prefixCls}-popper`, popperClass]"
             :appendToContainer="appendToContainer"
             :getContainer="getContainer"
@@ -27,6 +28,7 @@
                     :class="[{ 'is-error': isError }, attrs.class]"
                     :style="attrs.style"
                     :renderTag="$slots.tag"
+                    @keydown.enter="onKeyDown"
                     @remove="onSelect"
                     @clear="handleClear"
                     @focus="focus"
@@ -36,11 +38,13 @@
             </template>
             <template #default>
                 <OptionList
+                    :hoverOptionValue="hoverOptionValue"
                     :options="filteredOptions"
                     :prefixCls="prefixCls"
                     :containerStyle="dropdownStyle"
                     :isSelect="isSelect"
                     :onSelect="onSelect"
+                    :onHover="onHover"
                     :isLimit="isLimitRef"
                     :emptyText="listEmptyText"
                     :renderOption="$slots.option"
@@ -74,6 +78,7 @@ import {
     CSSProperties,
     defineComponent,
 } from 'vue';
+import { isNil } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel, useArrayModel } from '../_util/use/useModel';
@@ -86,7 +91,7 @@ import { key } from './const';
 import OptionList from './optionList';
 import { selectProps } from './props';
 
-import type { SelectValue, OptionChildren } from './interface';
+import type { SelectValue, SelectOption, OptionChildren } from './interface';
 
 const prefixCls = getPrefixCls('select');
 
@@ -122,6 +127,10 @@ export default defineComponent({
         const triggerRef = ref();
         const triggerWidth = ref(0);
 
+        const filterText = ref('');
+
+        const cacheOptions = ref([]);
+
         watch(isOpenedRef, () => {
             emit('visibleChange', unref(isOpenedRef));
             if (isOpenedRef.value && triggerRef.value) {
@@ -144,6 +153,7 @@ export default defineComponent({
                 updateCurrentValue(value);
                 handleChange();
             }
+            cacheOptions.value = [];
             emit('clear');
         };
 
@@ -170,27 +180,56 @@ export default defineComponent({
             }
         };
 
-        const optionsRef = computed(() =>
-            [...childOptions, ...props.options].map((option) => {
+        const baseOptions = computed(() => {
+            const allOptions = [...childOptions, ...props.options];
+            return allOptions.map((option) => {
                 return {
                     ...option,
                     value: option[props.valueField],
                     label: option[props.labelField],
                 };
-            }),
-        );
+            });
+        });
 
-        const filterText = ref('');
+        const cacheOptionsForTag = computed(() => {
+            if (props.filterable && props.tag) {
+                if (
+                    filterText.value &&
+                    baseOptions.value.every((option) => {
+                        return option.label !== filterText.value;
+                    }) &&
+                    cacheOptions.value.every((option) => {
+                        return option.value !== filterText.value;
+                    })
+                ) {
+                    return [
+                        {
+                            value: filterText.value,
+                            label: filterText.value,
+                            __cache: true,
+                        },
+                        ...cacheOptions.value,
+                    ];
+                }
+                return cacheOptions.value;
+            }
+            return [];
+        });
+
+        const allOptions = computed(() => {
+            return [...cacheOptionsForTag.value, ...baseOptions.value];
+        });
+
         const filteredOptions = computed(() => {
             if (!props.remote && props.filterable && filterText.value) {
-                return optionsRef.value.filter((option) => {
+                return allOptions.value.filter((option) => {
                     if (props.filter) {
                         return props.filter(filterText.value, option);
                     }
                     return String(option.label).includes(filterText.value);
                 });
             }
-            return optionsRef.value;
+            return allOptions.value;
         });
 
         const isSelect = (value: SelectValue) => {
@@ -213,7 +252,7 @@ export default defineComponent({
             );
         });
 
-        const onSelect = (value: SelectValue) => {
+        const onSelect = (value: SelectValue, option?: SelectOption) => {
             if (props.disabled) return;
             if (props.multiple) {
                 filterText.value = '';
@@ -229,6 +268,31 @@ export default defineComponent({
                 }, 400);
                 isOpenedRef.value = false;
             }
+            if (props.filterable && props.tag) {
+                if (props.multiple) {
+                    if (isSelect(value)) {
+                        const index = cacheOptions.value.findIndex((option) => {
+                            return option.value === value;
+                        });
+                        if (index !== -1) {
+                            cacheOptions.value.splice(index, 1);
+                        }
+                    } else {
+                        if (option?.__cache) {
+                            cacheOptions.value = [
+                                option,
+                                ...cacheOptions.value,
+                            ];
+                        }
+                    }
+                } else {
+                    if (option?.__cache) {
+                        cacheOptions.value = [option];
+                    } else {
+                        cacheOptions.value = [];
+                    }
+                }
+            }
             updateCurrentValue(unref(value));
             handleChange();
         };
@@ -236,7 +300,7 @@ export default defineComponent({
         // select-trigger 选择项展示，只在 currentValue 改变时才改变
         const selectedOptionsRef = ref([]);
         watch(
-            [currentValue, optionsRef],
+            [currentValue, allOptions],
             ([newValue, newOptions]) => {
                 const getOption = (val: SelectValue) => {
                     let cacheOption;
@@ -323,6 +387,63 @@ export default defineComponent({
             emit('scroll', e);
         };
 
+        const hoverOptionValue = ref();
+
+        const onHover = (option: SelectOption) => {
+            hoverOptionValue.value = option.value;
+        };
+
+        function getFirstOption() {
+            const len = filteredOptions.value.length;
+            if (len < 1) {
+                return;
+            }
+            let index = 0;
+            while (index < len) {
+                if (!filteredOptions.value[index].disabled) {
+                    break;
+                }
+                index++;
+            }
+            if (index < len) {
+                return filteredOptions.value[index];
+            }
+        }
+
+        watch(isOpenedRef, () => {
+            if (isOpenedRef.value) {
+                if (props.multiple) {
+                    if (currentValue.value.length > 0) {
+                        hoverOptionValue.value = currentValue.value[0];
+                    }
+                } else if (!isNil(currentValue.value)) {
+                    hoverOptionValue.value = currentValue.value;
+                }
+                const option = getFirstOption();
+                if (isNil(hoverOptionValue.value) && option) {
+                    hoverOptionValue.value = option.value;
+                }
+            } else {
+                hoverOptionValue.value = undefined;
+            }
+        });
+
+        watch(filteredOptions, () => {
+            const option = getFirstOption();
+            if (isOpenedRef.value && option) {
+                hoverOptionValue.value = option.value;
+            }
+        });
+
+        const onKeyDown = () => {
+            if (!isNil(hoverOptionValue.value)) {
+                const option = allOptions.value.find((option: SelectOption) => {
+                    return option.value === hoverOptionValue.value;
+                });
+                onSelect(hoverOptionValue.value, option);
+            }
+        };
+
         return {
             prefixCls,
             isOpenedRef,
@@ -344,6 +465,9 @@ export default defineComponent({
             onScroll,
             isLimitRef,
             attrs,
+            hoverOptionValue,
+            onHover,
+            onKeyDown,
         };
     },
 });

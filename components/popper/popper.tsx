@@ -46,6 +46,7 @@ export default defineComponent({
             popperStyle,
             updateVirtualRect,
             placement,
+            cacheVisible,
         } = usePopper(props, emit);
 
         const disabledWatch = computed(
@@ -148,7 +149,9 @@ export default defineComponent({
                             appear
                             onBeforeEnter={computePopper}
                         >
-                            <Content v-show={visible.value} />
+                            <Content
+                                v-show={visible.value && cacheVisible.value}
+                            />
                         </Transition>
                     </div>
                 </LazyTeleport>

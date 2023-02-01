@@ -1,4 +1,5 @@
 import { withInstall, withNoopInstall } from '../_util/withInstall';
+export { default as useFormAdaptor } from '../_util/use/useFormAdaptor';
 import Form from './form.vue';
 import FormItem from './formItem.vue';
 

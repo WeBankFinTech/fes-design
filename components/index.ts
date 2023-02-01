@@ -1,4 +1,3 @@
-import type { App } from 'vue';
 import version from './version';
 import { FAlert } from './alert';
 import { FButton } from './button';
@@ -46,6 +45,7 @@ import { FCascader } from './cascader';
 import { FSelectCascader } from './select-cascader';
 import { FDescriptions, FDescriptionsItem } from './descriptions';
 import { FCollapse, FCollapseItem } from './collapse';
+import type { App } from 'vue';
 
 export * from './locales';
 

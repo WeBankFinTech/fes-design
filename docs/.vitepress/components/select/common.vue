@@ -9,6 +9,7 @@
             v-for="(item, index) in optionList"
             :key="index"
             :value="item.value"
+            :disabled="item.disabled"
         >
             {{ item.label }}
         </FOption>

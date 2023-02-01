@@ -1,5 +1,5 @@
-import type { PropType, ExtractPropTypes } from 'vue';
 import { TRIGGER, PLACEMENT } from '../_util/constants';
+import type { PropType, ExtractPropTypes } from 'vue';
 
 export const popperProps = {
     modelValue: {

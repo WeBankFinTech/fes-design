@@ -1,15 +1,22 @@
 <template>
     <FSpace>
-        <div>
-            默认：
-            <FSelect filterable :options="optionList"> </FSelect>
-        </div>
-
-        <div>
-            自定义过滤函数：
-            <FSelect filterable :filter="filter" :options="optionList">
-            </FSelect>
-        </div>
+        <FSelect :options="optionList">
+            <template #tag="{ option }">
+                {{ option.value }}-{{ option.label }}
+            </template>
+        </FSelect>
+        <FSelect multiple :options="optionList">
+            <template #tag="{ option, handleClose }">
+                <FTag
+                    type="info"
+                    size="small"
+                    :closable="option.closable"
+                    @close="handleClose"
+                >
+                    {{ option.value }}-{{ option.label }}
+                </FTag>
+            </template>
+        </FSelect>
     </FSpace>
 </template>
 <script>
@@ -21,31 +28,32 @@ export default {
             {
                 value: 'HuNan',
                 label: '湖南',
+                x: 'HuNan-湖南',
             },
             {
                 value: 'HuBei',
                 label: '湖北',
                 disabled: true,
+                x: 'HuBei-湖北',
             },
             {
                 value: 'ZheJiang',
                 label: '浙江',
+                x: 'ZheJiang-浙江',
             },
             {
                 value: 'GuangDong',
                 label: '广东',
+                x: 'GuangDong-广东',
             },
             {
                 value: 'JiangSu',
                 label: '江苏',
+                x: 'JiangSu-江苏',
             },
         ]);
-        const filter = (text, option) => {
-            return option.label.indexOf(text) !== -1;
-        };
         return {
             optionList,
-            filter,
         };
     },
 };

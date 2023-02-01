@@ -5,7 +5,7 @@ import VirtualList from '../virtual-list/virtualList';
 import CheckOutlined from '../icon/CheckOutlined';
 import { noop } from '../_util/utils';
 
-import type { SelectOption } from './interface';
+import type { SelectOption, SelectValue } from './interface';
 
 const optionListProps = {
     prefixCls: String,
@@ -26,11 +26,16 @@ const optionListProps = {
         type: Function,
         default: noop,
     },
+    onHover: {
+        type: Function,
+        default: noop,
+    },
     isLimit: {
         type: Boolean,
     },
     emptyText: String,
     renderOption: Function,
+    hoverOptionValue: [String, Number, Object] as PropType<SelectValue>,
 } as const;
 
 export default defineComponent({
@@ -69,10 +74,12 @@ export default defineComponent({
         const renderOption = (option: SelectOption) => {
             const value = option.value;
             const isSelected = props.isSelect(value);
+            const isHover = props.hoverOptionValue === option.value;
             const prefixCls = `${props.prefixCls}-option`;
             const classList = [
                 prefixCls,
                 isSelected && 'is-checked',
+                isHover && 'is-hover',
                 (option.disabled || (!isSelected && props.isLimit)) &&
                     'is-disabled',
             ].filter(Boolean);
@@ -83,7 +90,13 @@ export default defineComponent({
                         if (option.disabled) {
                             return;
                         }
-                        props.onSelect(value);
+                        props.onSelect(value, option);
+                    }}
+                    onMouseover={() => {
+                        if (option.disabled) {
+                            return;
+                        }
+                        props.onHover(option);
                     }}
                 >
                     {renderLabel(option, isSelected, prefixCls)}

@@ -20,27 +20,9 @@ app.use(FSelect);
 
 ### 配置方式
 
-通过配置`options`直接生成选项，当数据量大于 `50` 时使用 `VirtualList`组件实现虚拟列表，性能更优。所以其实推荐用配置`options`直接生成选项！！
+通过配置`options`直接生成选项，当数据量大于 `50` 时使用 `VirtualList`组件实现虚拟列表，性能更优，推荐用配置`options`直接生成选项！
 
 --OPTIONS
-
-### 自定义模板
-
-可以自定义备选项模板，`FOption`子组件是针对每一项单独配置，而 `slots.option` 插槽则是通用配置。
-
---CUSTOMOPTION
-
-### 可清空
-
-包含清空按钮，可将选择器清空为初始状态
-
---CLEARABLE
-
-### 禁用选项
-
-禁止选择某一项
-
---OPTIONDISABLED
 
 ### 基础多选
 
@@ -54,29 +36,54 @@ app.use(FSelect);
 
 --LIMIT
 
+### 自定义选项模板
+
+可以自定义备选项模板，`FOption`子组件是针对每一项单独配置，而 `slots.option` 插槽则是通用配置。
+
+--CUSTOMOPTION
+
+
+### 自定义回填内容
+
+--CUSTOMTAG
+
 ### 可过滤
 
 可以利用搜索功能快速查找选项
 
 --FILTERABLE
 
+### 动态创建选项
+
+使用 `tag` & `filterable` 来允许动态创建选项。
+
+--TAG
+
 ### 远程搜索
 
 --REMOTE
 
-### 禁用状态
+### 禁用选项
+
+禁止选择某一项
+
+--OPTIONDISABLED
+
+### 禁用选择器
 
 选择器不可用状态
 
 --DISABLED
 
+### 可清空
+
+包含清空按钮，可将选择器清空为初始状态
+
+--CLEARABLE
+
 ### 无数据
 
 --NODATA
-
-### 控制回填内容
-
---TAG
 
 ### 底部插槽
 
@@ -104,6 +111,7 @@ app.use(FSelect);
 | modelValue / v-model | 选中的值                                                      | number / string / boolean / object | -                     |
 | filterable           | 是否支持过滤选项                                              | boolean                            | `false`               |
 | filter          | 自定义过滤函数                                              | (pattern: string, option: object) => boolean                            | `-`               |
+| tag           | 是否可以创建新的选项，需要和 `filterable` 一起使用                           | boolean                             | `false`               |
 | remote               | 是否远程搜索，当输入内容时触发`search`事件                    | boolean                            | `false`               |
 | options              | 选项配置                                                      | array\<Option\>                    | `[]`                  |
 | valueField           | 替代 `Option` 中的 `value` 字段名                             | string                             | `value`               |
