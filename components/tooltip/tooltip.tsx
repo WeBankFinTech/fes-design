@@ -1,4 +1,5 @@
 import { computed, defineComponent, PropType, ExtractPropTypes } from 'vue';
+import { isNil } from 'lodash-es';
 import Popper from '../popper/popper';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -66,8 +67,8 @@ export default defineComponent({
         }
 
         function renderContent() {
-            const content = ctx.slots?.content?.() || props.content;
-            const title = ctx.slots?.title?.() || props.title;
+            const content = ctx.slots?.content?.() ?? props.content;
+            const title = ctx.slots?.title?.() ?? props.title;
             const isConfirm = props.mode === 'confirm';
             const isPopover = props.mode === 'popover';
             if (props.mode === 'text') {
@@ -101,7 +102,11 @@ export default defineComponent({
                                 {title}
                             </div>
                         )}
-                        {content && <div class={contentClass}>{content}</div>}
+                        {!isNil(content) ? (
+                            <div class={contentClass}>{content}</div>
+                        ) : (
+                            content
+                        )}
                         {isConfirm && (
                             <>
                                 <FButton
