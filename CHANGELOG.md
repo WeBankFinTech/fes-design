@@ -1,3 +1,18 @@
+## [0.7.18](https://github.com/WeBankFinTech/fes-design/compare/v0.7.17...v0.7.18) (2023-02-02)
+
+
+### Bug Fixes
+
+* skeleton源码类型检查OK ([#273](https://github.com/WeBankFinTech/fes-design/issues/273)) ([0c3f0f1](https://github.com/WeBankFinTech/fes-design/commit/0c3f0f197e8269bb240eca2c3680f94f7afd873f))
+* 修复Steps组件未处理子组件删减逻辑 ([#271](https://github.com/WeBankFinTech/fes-design/issues/271)) ([b7899c3](https://github.com/WeBankFinTech/fes-design/commit/b7899c3397f9ff9bb629197e405b7f4c7c299716))
+
+
+### Features
+
+* 优化输入框光标颜色 & Select组件支持输入新选项 & Select组件支持按下enter选择 ([#270](https://github.com/WeBankFinTech/fes-design/issues/270)) ([8fce917](https://github.com/WeBankFinTech/fes-design/commit/8fce917ec189e84641d05ba2844d799e9d9c5ee3))
+
+
+
 ## [0.7.17](https://github.com/WeBankFinTech/fes-design/compare/v0.7.16...v0.7.17) (2023-01-30)
 
 
