@@ -3,6 +3,7 @@
         <FTooltip
             mode="confirm"
             :confirmOption="{ okText: 'OK' }"
+            :content="0"
             @ok="() => handleConfirm('确定')"
             @cancel="() => handleConfirm('取消')"
         >
