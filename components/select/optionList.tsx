@@ -56,10 +56,14 @@ export default defineComponent({
             if (option.label) {
                 return (
                     <>
-                        <Ellipsis
-                            class={`${prefixCls}-label`}
-                            content={`${option.label}`}
-                        ></Ellipsis>
+                        <Ellipsis class={`${prefixCls}-label`}>
+                            {option.label}
+                            {option.__cache && (
+                                <span class={`${prefixCls}-label-tip`}>
+                                    - 自定义
+                                </span>
+                            )}
+                        </Ellipsis>
                         {isSelected && (
                             <CheckOutlined
                                 class={`${prefixCls}-checked-icon`}
