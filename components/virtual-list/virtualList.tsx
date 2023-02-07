@@ -151,7 +151,6 @@ export default defineComponent({
                 scrollToBottom();
             } else {
                 const offset = virtual.getOffset(index);
-                console.log(index, offset);
                 scrollToOffset(offset);
             }
         };
