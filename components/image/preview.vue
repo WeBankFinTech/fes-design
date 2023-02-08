@@ -1,5 +1,5 @@
 <template>
-    <teleport to="body">
+    <teleport :disabled="!getContainer?.()" :to="getContainer?.()">
         <div
             v-show="show"
             :class="`${prefixCls}`"
@@ -90,6 +90,7 @@ import {
     CSSProperties,
 } from 'vue';
 import { useEventListener } from '@vueuse/core';
+import { throttle } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { isFirefox, noop } from '../_util/utils';
 import PopupManager from '../_util/popupManager';
@@ -104,8 +105,8 @@ import {
     DownloadOutlined,
 } from '../icon';
 import { CLOSE_EVENT } from '../_util/constants';
+import { useConfig } from '../config-provider';
 import { PREVIEW_PROVIDE_KEY } from './props';
-import { throttle } from 'lodash-es';
 
 const prefixCls = getPrefixCls('preview');
 
@@ -125,6 +126,9 @@ const previewProps = {
     download: {
         type: Boolean,
         default: false,
+    },
+    getContainer: {
+        type: Function as PropType<() => HTMLElement>,
     },
     size: Object as PropType<{ width: number; height: number }>,
     name: String,
@@ -159,6 +163,11 @@ export default defineComponent({
             next: noop,
             prev: noop,
         });
+
+        const config = useConfig();
+        const getContainer = computed(
+            () => props.getContainer || config.getContainer?.value,
+        );
 
         const mousewheelEvent = isFirefox() ? 'DOMMouseScroll' : 'mousewheel';
 
@@ -318,6 +327,7 @@ export default defineComponent({
             handleMouseDown,
             handleMouseMove,
             handleMouseUp,
+            getContainer,
         };
     },
 });
