@@ -119,7 +119,7 @@ export default defineComponent({
         const mouseUpDocumentHandler = () => {
             cursorDown.value = false;
             barStore.value[barMap.value.axis] = 0;
-            docMouseMoveClose && docMouseMoveClose();
+            docMouseMoveClose?.();
             document.onselectstart = onselectstartStore;
             if (cursorLeave.value) {
                 visible.value = false;
