@@ -29,6 +29,13 @@ const forceProps = {
     footer: true,
 } as const;
 
+const defaultConfig: ModalConfig = {
+    getContainer: () => document.body,
+    width: 400,
+    closable: false,
+};
+let mergeConfig: ModalConfig = defaultConfig;
+
 /**
  * 创建Model
  */
@@ -40,9 +47,8 @@ function create(type: ModalType, config: ModalConfig) {
     const mergeProps: ModalConfig & {
         show: boolean;
     } = {
-        width: 400,
+        ...mergeConfig,
         show: true,
-        closable: false,
     };
     let cbFuncEnd = false;
 
@@ -119,6 +125,14 @@ function create(type: ModalType, config: ModalConfig) {
 }
 
 export default {
+    config(config: Partial<ModalConfig>) {
+        if (config) {
+            mergeConfig = {
+                ...defaultConfig,
+                ...config,
+            };
+        }
+    },
     info: (config: ModalConfig) => create('info', config),
     warning: (config: ModalConfig) => create('warning', config),
     warn: (config: ModalConfig) => create('warning', config),
