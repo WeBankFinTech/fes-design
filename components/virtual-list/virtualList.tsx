@@ -11,17 +11,18 @@ import {
     ref,
     createVNode,
     computed,
+    CSSProperties,
 } from 'vue';
 import { throttle } from 'lodash-es';
-import Virtual from './virtual';
-import { FVirtualListItem } from './listItem';
-import { virtualProps } from './props';
 import FScrollbar from '../scrollbar/scrollbar.vue';
 import {
     TO_TOP_EVENT,
     TO_BOTTOM_EVENT,
     RESIZED_EVENT,
 } from '../_util/constants';
+import Virtual from './virtual';
+import { FVirtualListItem } from './listItem';
+import { virtualProps } from './props';
 
 enum SLOT_TYPE {
     HEADER = 'thead', // string value also use for aria role attribute
@@ -46,6 +47,8 @@ export default defineComponent({
 
         const fullHeight = computed(() => {
             const { padBehind } = rangeRef.value;
+            // 当未全部加载所有子项时，高度跟随getEstimateSize变化
+            void virtual.sizes.size;
             if (padBehind !== 0) {
                 return (
                     virtual &&
@@ -114,9 +117,11 @@ export default defineComponent({
         const scrollToOffset = (offset: number) => {
             const root = rootRef.value;
             if (root) {
-                isHorizontal
-                    ? root.scrollBy(offset, 0)
-                    : root.scrollBy(0, offset); // 解决设置OffsetTop无效的问题
+                if (isHorizontal) {
+                    root.scrollBy(offset, 0);
+                } else {
+                    root.scrollBy(0, offset); // 解决设置OffsetTop无效的问题
+                }
             }
         };
 
@@ -125,7 +130,7 @@ export default defineComponent({
             const shepherd = rootRef.value;
             if (shepherd) {
                 const offset =
-                    shepherd[isHorizontal ? 'offsetLeft' : 'offsetTop'];
+                    shepherd[isHorizontal ? 'scrollWidth' : 'scrollHeight'];
                 scrollToOffset(offset);
                 // check if it's really scrolled to the bottom
                 // maybe list doesn't render and calculate to last range
@@ -389,7 +394,7 @@ export default defineComponent({
             wrapStyle || {},
             isHorizontal ? horizontalStyle : verticalStyle,
         );
-        const rootStyle = isHorizontal
+        const rootStyle: CSSProperties = isHorizontal
             ? {
                   position: 'relative',
                   width: `${fullHeight}px`,
