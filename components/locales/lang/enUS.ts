@@ -4,6 +4,7 @@ export default {
     select: {
         emptyText: 'No Data',
         placeholder: 'Select',
+        tagOption: 'Custom',
     },
     cascader: {
         loadingRequiredMessage:
