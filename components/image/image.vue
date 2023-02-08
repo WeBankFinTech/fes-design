@@ -32,6 +32,7 @@
                 :size="imageSize"
                 :download="download"
                 :hide-on-click-modal="hideOnClickModal"
+                :getContainer="previewContainer"
                 @close="closeViewer"
             >
             </preview>
@@ -106,6 +107,9 @@ export default defineComponent({
             type: Boolean,
             default: false,
         },
+        previewContainer: {
+            type: Function as PropType<() => HTMLElement>,
+        },
     },
     emits: [ERROR_EVENT, LOAD_EVENT, CLOSE_EVENT],
     setup(props, { attrs, emit }) {
@@ -115,7 +119,6 @@ export default defineComponent({
         const container = ref(null);
         const isShowPreview = ref(false);
         const currentId = ref(curIndex++);
-
         const {
             width = '',
             height = '',
