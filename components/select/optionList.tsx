@@ -4,6 +4,7 @@ import Ellipsis from '../ellipsis/ellipsis';
 import VirtualList from '../virtual-list/virtualList';
 import CheckOutlined from '../icon/CheckOutlined';
 import { noop } from '../_util/utils';
+import { useLocale } from '../config-provider/useLocale';
 
 import type { SelectOption, SelectValue } from './interface';
 
@@ -42,6 +43,8 @@ export default defineComponent({
     props: optionListProps,
     emits: ['scroll'],
     setup(props, { emit }) {
+        const { t } = useLocale();
+
         const renderLabel = (
             option: SelectOption,
             isSelected: boolean,
@@ -56,10 +59,14 @@ export default defineComponent({
             if (option.label) {
                 return (
                     <>
-                        <Ellipsis
-                            class={`${prefixCls}-label`}
-                            content={`${option.label}`}
-                        ></Ellipsis>
+                        <Ellipsis class={`${prefixCls}-label`}>
+                            {option.label}
+                            {option.__cache && (
+                                <span class={`${prefixCls}-label-tip`}>
+                                    - {t('select.tagOption')}
+                                </span>
+                            )}
+                        </Ellipsis>
                         {isSelected && (
                             <CheckOutlined
                                 class={`${prefixCls}-checked-icon`}
