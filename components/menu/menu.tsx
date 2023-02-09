@@ -2,15 +2,15 @@ import {
     computed,
     onMounted,
     provide,
-    ref,
     defineComponent,
     Ref,
     VNodeChild,
 } from 'vue';
 import { isFunction } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
-import { useNormalModel } from '../_util/use/useModel';
+import { useNormalModel, useArrayModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
+import { concat } from '../_util/utils';
 import { useTheme } from '../_theme/useTheme';
 import { COMPONENT_NAME, MENU_PROPS, MenuNode } from './const';
 import useParent from './useParent';
@@ -18,6 +18,7 @@ import useMenu from './useMenu';
 import MenuGroup from './menuGroup';
 import MenuItem from './menuItem';
 import SubMenu from './subMenu';
+import type { MenuItemTypePlain } from './useParent';
 
 import type { MenuItemType, MenuOption } from './interface';
 
@@ -25,13 +26,19 @@ const prefixCls = getPrefixCls('menu');
 export default defineComponent({
     name: COMPONENT_NAME.MENU,
     props: MENU_PROPS,
-    emits: ['select', UPDATE_MODEL_EVENT],
+    emits: ['select', UPDATE_MODEL_EVENT, 'update:expandedKeys'],
     setup(props, { emit, slots }) {
         useTheme();
 
         useMenu();
 
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
+
+        const [currentExpandedKeys, updateExpandedKeys] = useArrayModel(
+            props,
+            emit,
+            { prop: 'expandedKeys' },
+        );
 
         const renderWithPopper = computed(() => {
             if (props.mode === 'horizontal') {
@@ -55,11 +62,26 @@ export default defineComponent({
             }
         };
 
-        const openedMenus = ref([]);
+        const flatNodes = (nodes: MenuItemTypePlain[] = []) =>
+            nodes.reduce((res, node) => {
+                if (node.type === 'subMenu') {
+                    res.push(node.value || node.uid);
+                }
+                if (node.children?.length) {
+                    const keys = flatNodes(node.children);
+                    // 比Array.concat快
+                    concat(res, keys);
+                }
+                return res;
+            }, []);
 
         onMounted(() => {
-            if (!props.defaultExpandAll) {
-                openedMenus.value = props.expandedKeys;
+            if (
+                props.defaultExpandAll &&
+                currentExpandedKeys.value.length === 0
+            ) {
+                const keys = flatNodes(children);
+                updateExpandedKeys(keys);
             }
         });
 
@@ -69,20 +91,18 @@ export default defineComponent({
         ) => {
             if (subMenu.isOpened.value) {
                 if (props.accordion) {
-                    openedMenus.value = openedMenus.value.filter((uid) =>
-                        indexPath.value.some((node) => {
-                            return node.uid === uid;
-                        }),
+                    updateExpandedKeys(
+                        currentExpandedKeys.value.filter(
+                            (uid: string | number) =>
+                                indexPath.value.some((node) => {
+                                    return node.uid === uid;
+                                }),
+                        ),
                     );
                 }
-                openedMenus.value.push(subMenu.value || subMenu.uid);
+                updateExpandedKeys(subMenu.value || subMenu.uid);
             } else {
-                const index = openedMenus.value.indexOf(
-                    subMenu.value || subMenu.uid,
-                );
-                if (index !== -1) {
-                    openedMenus.value.splice(index, 1);
-                }
+                updateExpandedKeys(subMenu.value || subMenu.uid);
             }
         };
 
@@ -92,7 +112,8 @@ export default defineComponent({
             clickMenuItem,
             clickSubMenu,
             renderWithPopper,
-            openedMenus,
+            currentExpandedKeys,
+            updateExpandedKeys,
         });
 
         const classList = computed(() =>
