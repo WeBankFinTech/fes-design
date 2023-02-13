@@ -1,3 +1,19 @@
+## [0.7.19](https://github.com/WeBankFinTech/fes-design/compare/v0.7.18...v0.7.19) (2023-02-13)
+
+
+### Bug Fixes
+
+* 修复虚拟滚动组件scrollToBottom问题 ([#276](https://github.com/WeBankFinTech/fes-design/issues/276)) ([5f0d557](https://github.com/WeBankFinTech/fes-design/commit/5f0d557e8705fc490d232295a87feb1a49c50912))
+* 避免Table组件当bodyWrapper叠加scrollbar时高度为100%可能计算出错误高度 ([#278](https://github.com/WeBankFinTech/fes-design/issues/278)) ([dd0c687](https://github.com/WeBankFinTech/fes-design/commit/dd0c687f7009a758e19ff4fa89d0ec56216f669d))
+
+
+### Features
+
+* Image预览挂载 & Modal全局配置 ([#277](https://github.com/WeBankFinTech/fes-design/issues/277)) ([950474c](https://github.com/WeBankFinTech/fes-design/commit/950474cf47f9662f0ad27fc0065d0b39a6e47b75))
+* Select组件中自定义选项添加标记 ([#275](https://github.com/WeBankFinTech/fes-design/issues/275)) ([300d982](https://github.com/WeBankFinTech/fes-design/commit/300d982c0b27332b0b5a5c3da8628022362aa88c))
+
+
+
 ## [0.7.18](https://github.com/WeBankFinTech/fes-design/compare/v0.7.17...v0.7.18) (2023-02-02)
 
 
