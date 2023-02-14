@@ -48,6 +48,7 @@
                     :isLimit="isLimitRef"
                     :emptyText="listEmptyText"
                     :renderOption="$slots.option"
+                    :renderEmpty="$slots.empty"
                     @scroll="onScroll"
                     @mousedown.prevent
                 />
