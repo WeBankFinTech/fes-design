@@ -27,6 +27,11 @@ app.use(FForm);
 
 --ALIGN
 
+### 表单可用状态
+当需要设置整个表单不可用的时候,可以设置disabled属性。
+
+--DISABLED
+
 ### 表单验证
 Form 组件提供表单验证的功能，通过 rules 属性传入约定的验证规则，并将 FormItem 的 prop 属性设置为需校验的字段名即可。表单验证目的在于尽可能让用户更早地发现并纠正错误。
 
@@ -54,6 +59,7 @@ Form 组件提供表单验证的功能，通过 rules 属性传入约定的验�
 | labelWidth  | 表单域标签的宽度。作为 Form 直接子元素的 form-item 会继承该值。| string(100px)、number(100) | - |
 | labelClass  | 表单域标签自定义 class | string | - |
 | showMessage  | 是否显示校验错误信息。| boolean | `true` |
+| disabled  | 表单是否可用| boolean | `false` |
 
 
 ## Form Methods

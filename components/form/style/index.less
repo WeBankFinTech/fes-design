@@ -9,6 +9,8 @@
 @form-item-error-cls: ~'@{form-item-cls}-error';
 @form-item-required: ~'is-required';
 @form-item-error: ~'is-error';
+@form-cls-disabled: ~'@{cls-prefix}-form-disabled';
+@form-item-disabled: ~'is-disabled';
 
 @form-margin: 0;
 
@@ -103,6 +105,20 @@
             }
         }
     }
+}
+
+.@{form-cls} {
+    // formItem disabled样式
+    .@{form-item-cls}.@{form-item-disabled} {
+        color: var(--f-text-color-disabled);
+        pointer-events: none; // 和cursor: not-allowed联用会使 样式失效
+    }
+}
+
+// 整体表格 disabled
+.@{form-cls-disabled} {
+    cursor: not-allowed;
+    filter: grayscale(100%); // 色调整体置灰
 }
 
 .@{form-item-error-cls} {
