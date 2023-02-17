@@ -36,6 +36,7 @@ const optionListProps = {
     },
     emptyText: String,
     renderOption: Function,
+    renderEmpty: Function,
     hoverOptionValue: [String, Number, Object] as PropType<SelectValue>,
 } as const;
 
@@ -138,6 +139,13 @@ export default defineComponent({
                 >
                     {props.options.map((option) => renderOption(option))}
                 </Scrollbar>
+            ) : props.renderEmpty ? (
+                <div
+                    class={[`${props.prefixCls}-dropdown`]}
+                    style={props.containerStyle}
+                >
+                    {props.renderEmpty()}
+                </div>
             ) : (
                 <div
                     class={[
