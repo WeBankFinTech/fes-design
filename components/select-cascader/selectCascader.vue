@@ -9,13 +9,13 @@
             :getContainer="getContainer"
             :offset="4"
             :hideAfter="0"
-            :disabled="disabled || isDisabled"
+            :disabled="isDisabled"
             :lazy="false"
         >
             <template #trigger>
                 <SelectTrigger
                     :selectedOptions="selectedOptions"
-                    :disabled="disabled || isDisabled"
+                    :disabled="isDisabled"
                     :clearable="clearable"
                     :isOpened="isOpened"
                     :multiple="multiple"
@@ -123,7 +123,7 @@ export default defineComponent({
     ],
     setup(props, { emit, attrs }) {
         useTheme();
-        const { validate, isError, isDisabled } = useFormAdaptor(
+        const { validate, isError, isFormDisabled } = useFormAdaptor(
             computed(() => (props.multiple ? 'array' : 'string')),
         );
         const isOpened = ref(false);
@@ -134,6 +134,10 @@ export default defineComponent({
         const { t } = useLocale();
         const inputPlaceholder = computed(
             () => props.placeholder || t('select.placeholder'),
+        );
+
+        const isDisabled = computed(
+            () => props.disabled || isFormDisabled.value,
         );
 
         watch(isOpened, () => {
@@ -242,7 +246,7 @@ export default defineComponent({
         };
 
         const handleSelect = (data: SelectParams) => {
-            if (props.disabled || isDisabled.value) return;
+            if (isDisabled.value) return;
             if (!props.multiple) {
                 isOpened.value = false;
             }
@@ -253,7 +257,7 @@ export default defineComponent({
         };
 
         const handleCheck = (data: CheckParams) => {
-            if (props.disabled || isDisabled.value) return;
+            if (isDisabled.value) return;
             if (!props.multiple) {
                 isOpened.value = false;
             }

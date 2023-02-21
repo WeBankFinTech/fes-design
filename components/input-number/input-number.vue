@@ -2,7 +2,7 @@
     <div :class="classes" @dragstart.prevent>
         <InputInner
             :modelValue="displayValue"
-            :disabled="isDisabled || disabled"
+            :disabled="isDisabled"
             :placeholder="placeholder"
             :class="[`${prefixCls}-inner`]"
             :innerIsError="isError"
@@ -25,8 +25,7 @@
                         :class="[
                             `${prefixCls}-actions-increase`,
                             {
-                                'is-disabled':
-                                    maxDisabled || disabled || isDisabled,
+                                'is-disabled': maxDisabled || isDisabled,
                             },
                         ]"
                         @mousedown.prevent
@@ -38,8 +37,7 @@
                         :class="[
                             `${prefixCls}-actions-decrease`,
                             {
-                                'is-disabled':
-                                    minDisabled || disabled || isDisabled,
+                                'is-disabled': minDisabled || isDisabled,
                             },
                         ]"
                         @mousedown.prevent
@@ -100,22 +98,20 @@ export default defineComponent({
     emits: ['update:modelValue', 'change', 'input', 'blur', 'focus'],
     setup(props, { emit }) {
         useTheme();
-        const { validate, isError, isDisabled } = useFormAdaptor('number');
+        const { validate, isError, isFormDisabled, resetProvideKey } =
+            useFormAdaptor('number');
 
         // 避免子组件重复
-        provide(FORM_ITEM_INJECTION_KEY, {
-            validate: noop,
-            isError,
-            isDisabled,
-        });
+        resetProvideKey();
 
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
+        const isDisabled = computed(
+            () => props.disabled || isFormDisabled.value,
+        );
+
         const classes = computed(() =>
-            [
-                `${prefixCls}`,
-                (props.disabled || isDisabled.value) && 'is-disabled',
-            ].filter(Boolean),
+            [`${prefixCls}`, isDisabled.value && 'is-disabled'].filter(Boolean),
         );
 
         const tempValue = ref();
@@ -225,7 +221,7 @@ export default defineComponent({
                 props.disabled ||
                 (maxDisabled.value && type === ActionEnum.PLUS) ||
                 (minDisabled.value && type === ActionEnum.REDUCE) ||
-                isDisabled.value
+                isFormDisabled.value
             )
                 return;
             tempValue.value = null;

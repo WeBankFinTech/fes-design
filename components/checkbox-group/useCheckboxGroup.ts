@@ -2,8 +2,6 @@ import { provide, unref } from 'vue';
 import { useArrayModel } from '../_util/use/useModel';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import { CHANGE_EVENT } from '../_util/constants';
-import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
-import { noop } from '../_util/utils';
 import { checkboxGroupKey, name } from './const';
 
 import type { CheckboxGroupProps, CheckboxGroupEmits } from './interface';
@@ -12,9 +10,10 @@ export const useCheckboxGroup = (
     props: CheckboxGroupProps,
     emit: CheckboxGroupEmits,
 ) => {
-    const { validate, isError, isDisabled } = useFormAdaptor('array');
+    const { validate, isFormDisabled, resetProvideKey } =
+        useFormAdaptor('array');
     // 避免子组件重复
-    provide(FORM_ITEM_INJECTION_KEY, { validate: noop, isError, isDisabled });
+    resetProvideKey();
 
     const [currentValue, updateItem] = useArrayModel(props, emit);
 
@@ -45,6 +44,6 @@ export const useCheckboxGroup = (
     });
 
     return {
-        isDisabled,
+        isFormDisabled,
     };
 };

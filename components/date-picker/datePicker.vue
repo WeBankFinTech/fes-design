@@ -1,7 +1,7 @@
 <template>
     <Popper
         v-model="isOpened"
-        :disabled="isDisabled || disabled"
+        :disabled="isDisabled"
         :appendToContainer="appendToContainer"
         :getContainer="getContainer"
         :popperClass="[popperClass, `${prefixCls}-popper`]"
@@ -20,7 +20,7 @@
                 :selectedDates="visibleValue"
                 :placeholder="rangePlaceHolder"
                 :clearable="clearable"
-                :disabled="isDisabled || disabled"
+                :disabled="isDisabled"
                 :innerIsFocus="inputIsFocus"
                 :innerIsError="isError"
                 :class="attrs.class"
@@ -45,7 +45,7 @@
                 ref="inputRefEl"
                 :modelValue="dateText"
                 :placeholder="singlePlaceHolder"
-                :disabled="isDisabled || disabled"
+                :disabled="isDisabled"
                 :canEdit="pickerRef.name !== PickerType.datemultiple"
                 :clearable="clearable"
                 :innerIsFocus="inputIsFocus"
@@ -312,15 +312,16 @@ export default defineComponent({
             return inputRefEl.value;
         });
 
-        const { validate, isError, isDisabled } = useFormAdaptor(
-            computed(() => (pickerRef.value.isRange ? 'array' : 'number')),
-        );
+        const { validate, isError, isFormDisabled, resetProvideKey } =
+            useFormAdaptor(
+                computed(() => (pickerRef.value.isRange ? 'array' : 'number')),
+            );
         // 避免子组件重复
-        provide(FORM_ITEM_INJECTION_KEY, {
-            validate: noop,
-            isError,
-            isDisabled,
-        });
+        resetProvideKey();
+
+        const isDisabled = computed(
+            () => props.disabled || isFormDisabled.value,
+        );
 
         const { rangePlaceHolder, singlePlaceHolder } = usePlaceholder(
             props,

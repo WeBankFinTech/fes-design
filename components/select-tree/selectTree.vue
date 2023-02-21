@@ -9,14 +9,14 @@
             :getContainer="getContainer"
             :offset="4"
             :hideAfter="0"
-            :disabled="disabled || isDisabled"
+            :disabled="isDisabled"
             :lazy="false"
         >
             <template #trigger>
                 <SelectTrigger
                     ref="triggerDomRef"
                     :selectedOptions="selectedOptions"
-                    :disabled="disabled || isDisabled"
+                    :disabled="isDisabled"
                     :clearable="clearable"
                     :isOpened="isOpened"
                     :multiple="multiple"
@@ -179,7 +179,7 @@ export default defineComponent({
     ],
     setup(props, { emit, attrs }) {
         useTheme();
-        const { validate, isError, isDisabled } = useFormAdaptor(
+        const { validate, isError, isFormDisabled } = useFormAdaptor(
             computed(() => (props.multiple ? 'array' : 'string')),
         );
         const isOpened = ref(false);
@@ -194,6 +194,9 @@ export default defineComponent({
         );
         const listEmptyText = computed(
             () => props.emptyText || t('select.emptyText'),
+        );
+        const isDisabled = computed(
+            () => props.disabled || isFormDisabled.value,
         );
 
         watch(isOpened, () => {
@@ -251,7 +254,7 @@ export default defineComponent({
         };
 
         const handleSelect = (data: SelectParams) => {
-            if (props.disabled || isDisabled.value) return;
+            if (isDisabled.value) return;
             filterText.value = '';
             if (!props.multiple) {
                 updateCurrentValue(data.selectedKeys[0]);
@@ -263,7 +266,7 @@ export default defineComponent({
         };
 
         const handleCheck = (data: CheckParams) => {
-            if (props.disabled || isDisabled.value) return;
+            if (isDisabled.value) return;
             filterText.value = '';
             if (!props.multiple) {
                 updateCurrentValue(data.checkedKeys[0]);

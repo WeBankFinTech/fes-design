@@ -4,7 +4,7 @@
         trigger="click"
         placement="bottom-start"
         :popperClass="`${prefixCls}-popper`"
-        :disabled="isDisabled || disabled"
+        :disabled="isDisabled"
         :appendToContainer="appendToContainer"
         :getContainer="getContainer"
         :hideAfter="0"
@@ -18,7 +18,7 @@
                 :style="attrs.style"
                 :modelValue="displayValue"
                 :placeholder="inputPlaceholder"
-                :disabled="isDisabled || disabled"
+                :disabled="isDisabled"
                 :clearable="clearable"
                 :innerIsError="isError"
                 @clear="clear"
@@ -242,19 +242,20 @@ export default defineComponent({
     emits: [UPDATE_MODEL_EVENT, 'update:open', 'change', 'blur', 'focus'],
     setup(props, { emit, slots, attrs }) {
         useTheme();
-        const { validate, isError, isDisabled } = useFormAdaptor();
+        const { validate, isError, isFormDisabled, resetProvideKey } =
+            useFormAdaptor();
         // 避免子组件重复
-        provide(FORM_ITEM_INJECTION_KEY, {
-            validate: noop,
-            isError,
-            isDisabled,
-        });
+        resetProvideKey();
+
+        const isDisabled = computed(
+            () => props.disabled || isFormDisabled.value,
+        );
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
         const { isOpened, closePopper } = useOpen(props, emit);
         const classes = computed(() =>
             [
                 prefixCls,
-                (isDisabled.value || props.disabled) && 'is-disabled',
+                (isFormDisabled.value || props.disabled) && 'is-disabled',
                 props.inputClass,
             ].filter(Boolean),
         );

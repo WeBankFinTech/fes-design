@@ -75,7 +75,7 @@ export interface FormItemInject {
     validate: (eventName: string) => void;
     setRuleDefaultType?: (ruleType: string) => void;
     isError?: Ref<boolean>;
-    isDisabled?: Ref<boolean>;
+    isFormDisabled?: Ref<boolean>;
 }
 
 export interface Field {

@@ -254,7 +254,7 @@ export default defineComponent({
             isError: computed(() => {
                 return validateStatus.value === VALIDATE_STATUS.ERROR;
             }),
-            isDisabled: disabled,
+            isFormDisabled: disabled,
         });
 
         return {

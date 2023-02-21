@@ -48,7 +48,7 @@ export default defineComponent({
     emits: ['click'],
     setup(props, { slots, emit }) {
         const { animateClassName, handelAnimate } = useAnimate(400);
-        const { isDisabled } = useFormAdaptor();
+        const { isFormDisabled } = useFormAdaptor();
 
         useTheme();
         const notAllowed = ref(false);
@@ -57,7 +57,7 @@ export default defineComponent({
                 notAllowed.value ||
                 props.disabled ||
                 props.loading ||
-                isDisabled.value
+                isFormDisabled.value
             )
                 return;
 
@@ -82,7 +82,7 @@ export default defineComponent({
         return () => (
             <button
                 type={props.htmlType}
-                disabled={props.disabled || isDisabled.value}
+                disabled={props.disabled || isFormDisabled.value}
                 class={classes.value}
                 onClick={handleClick}
             >

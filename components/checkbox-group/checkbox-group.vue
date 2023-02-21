@@ -48,11 +48,11 @@ const props = withDefaults(defineProps<CheckboxGroupProps>(), {
 const emit = defineEmits<CheckboxGroupEmits>();
 
 useTheme();
-const { isDisabled } = useCheckboxGroup(props, emit);
+const { isFormDisabled } = useCheckboxGroup(props, emit);
 const classList = computed(() => [
     prefixCls,
     props.vertical && 'is-vertical',
-    (isDisabled.value || props.disabled) && 'is-disabled',
+    (isFormDisabled.value || props.disabled) && 'is-disabled',
 ]);
 
 const optionsRef = computed(() =>

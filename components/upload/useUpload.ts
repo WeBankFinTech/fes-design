@@ -251,12 +251,12 @@ export default (props: UploadProps, emit: any) => {
     };
 
     // 表单组件的总体disabled状态
-    const { isDisabled } = useFormAdaptor();
+    const { isFormDisabled } = useFormAdaptor();
 
     provide(key, {
         ...toRefs(props),
         disabled: computed(() => {
-            return props.disabled || isDisabled.value;
+            return props.disabled || isFormDisabled.value;
         }),
         prefixCls,
         uploadFiles,

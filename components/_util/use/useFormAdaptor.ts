@@ -1,15 +1,15 @@
-import { inject, isRef, watch, ref, Ref } from 'vue';
+import { inject, isRef, watch, ref, Ref, provide } from 'vue';
 import { isString, isFunction } from 'lodash-es';
 import { noop } from '../utils';
 import { FORM_ITEM_INJECTION_KEY } from '../constants';
 
 export default (valueType?: string | Ref<string> | (() => string)) => {
-    const { validate, isError, setRuleDefaultType, isDisabled } = inject(
+    const { validate, isError, setRuleDefaultType, isFormDisabled } = inject(
         FORM_ITEM_INJECTION_KEY,
         {
             validate: noop,
             isError: ref(false),
-            isDisabled: ref(false),
+            isFormDisabled: ref(false),
         },
     );
 
@@ -32,9 +32,19 @@ export default (valueType?: string | Ref<string> | (() => string)) => {
         }
     }
 
+    const resetProvideKey = () => {
+        // 避免子组件重复
+        provide(FORM_ITEM_INJECTION_KEY, {
+            validate: noop,
+            isError,
+            isFormDisabled,
+        });
+    };
+
     return {
         validate,
         isError,
-        isDisabled,
+        isFormDisabled,
+        resetProvideKey,
     };
 };
