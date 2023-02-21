@@ -140,7 +140,7 @@ import Tree from '../tree/tree';
 import Scrollbar from '../scrollbar/scrollbar.vue';
 import { selectProps } from '../select/props';
 import { treeProps } from '../tree/props';
-
+import { useLocale } from '../config-provider/useLocale';
 import type { SelectValue } from '../select/interface';
 import type {
     SelectParams,
@@ -148,7 +148,6 @@ import type {
     InnerTreeOption,
     TreeNodeKey,
 } from '../tree/interface';
-import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('select-tree');
 

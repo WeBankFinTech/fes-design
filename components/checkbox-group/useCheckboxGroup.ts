@@ -2,7 +2,6 @@ import { provide, unref } from 'vue';
 import { useArrayModel } from '../_util/use/useModel';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import { CHANGE_EVENT } from '../_util/constants';
-import useFormGroupResetter from '../_util/use/useFormGroupResetter';
 import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
 import { noop } from '../_util/utils';
 import { checkboxGroupKey, name } from './const';
@@ -13,7 +12,6 @@ export const useCheckboxGroup = (
     props: CheckboxGroupProps,
     emit: CheckboxGroupEmits,
 ) => {
-    useFormGroupResetter();
     const { validate, isError, isDisabled } = useFormAdaptor('array');
     // 避免子组件重复
     provide(FORM_ITEM_INJECTION_KEY, { validate: noop, isError, isDisabled });
@@ -45,4 +43,8 @@ export const useCheckboxGroup = (
         onSelect,
         props,
     });
+
+    return {
+        isDisabled,
+    };
 };

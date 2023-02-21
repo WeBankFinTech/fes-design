@@ -22,26 +22,14 @@
 </template>
 
 <script setup lang="ts">
-import { inject, computed, ref } from 'vue';
+import { inject, computed } from 'vue';
 import Button from '../button/button';
 import UploadOutlined from '../icon/UploadOutlined';
 import { useLocale } from '../config-provider/useLocale';
 import { key } from './const';
-import useFormAdaptor from '../_util/use/useFormAdaptor';
 
-const {
-    name,
-    multiple,
-    accept,
-    disabled: uploadDisabled,
-    prefixCls,
-    onUploadFiles,
-    inputRef,
-} = inject(key);
-
-// 表单组件的总体disabled状态
-const { isDisabled } = useFormAdaptor();
-const disabled = ref(uploadDisabled || isDisabled.value);
+const { name, multiple, accept, disabled, prefixCls, onUploadFiles, inputRef } =
+    inject(key);
 
 const acceptStr = computed(() => accept.value.join(','));
 

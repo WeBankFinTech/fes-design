@@ -11,7 +11,6 @@ import { useLocale } from '../config-provider/useLocale';
 import FMessage from '../message';
 import { key } from './const';
 import { matchType } from './utils';
-import useFormAdaptor from '../_util/use/useFormAdaptor';
 
 const uploadDraggerProps = {
     onFileTypeInvalid: {
@@ -38,12 +37,8 @@ export default defineComponent({
             isDragger,
             accept,
             multiple,
-            disabled: uploadDisabled, // 组件本身的disabled 状态
+            disabled, // 组件本身的disabled 状态
         } = inject(key);
-
-        // 表单组件的总体disabled状态
-        const { isDisabled } = useFormAdaptor();
-        const disabled = ref(uploadDisabled || isDisabled.value);
 
         isDragger.value = true;
 

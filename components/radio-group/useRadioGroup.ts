@@ -2,7 +2,6 @@ import { provide, unref } from 'vue';
 import { useNormalModel } from '../_util/use/useModel';
 import { CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
-import useFormGroupResetter from '../_util/use/useFormGroupResetter';
 import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
 import { noop } from '../_util/utils';
 import { radioGroupKey, name } from './const';
@@ -12,7 +11,6 @@ export const useRadioGroup = (
     props: RadioGroupProps,
     emit: RadioGroupEmits,
 ) => {
-    useFormGroupResetter();
     const { validate, isError, isDisabled } = useFormAdaptor();
 
     // 避免子组件重复
