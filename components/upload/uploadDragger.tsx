@@ -43,7 +43,9 @@ export default defineComponent({
 
         // 表单组件的总体disabled状态
         const { isDisabled } = useFormAdaptor();
-        const disabled = ref(uploadDisabled || isDisabled.value);
+        const disabled = computed(
+            () => uploadDisabled.value || isDisabled.value,
+        );
 
         isDragger.value = true;
 

@@ -42,7 +42,7 @@ export default ({
         if (
             props.disabled ||
             (isGroup && group?.props?.disabled) ||
-            isDisabled.value
+            disabled.value
         ) {
             return;
         }

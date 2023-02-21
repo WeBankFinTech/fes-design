@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, computed, ref } from 'vue';
+import { inject, computed } from 'vue';
 import Button from '../button/button';
 import UploadOutlined from '../icon/UploadOutlined';
 import { useLocale } from '../config-provider/useLocale';
@@ -41,7 +41,7 @@ const {
 
 // 表单组件的总体disabled状态
 const { isDisabled } = useFormAdaptor();
-const disabled = ref(uploadDisabled || isDisabled.value);
+const disabled = computed(() => uploadDisabled.value || isDisabled.value);
 
 const acceptStr = computed(() => accept.value.join(','));
 

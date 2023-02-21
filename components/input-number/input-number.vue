@@ -56,7 +56,6 @@
 <script lang="ts">
 import { computed, provide, ref, nextTick, defineComponent } from 'vue';
 import { isNumber } from 'lodash-es';
-
 import { UpOutlined, DownOutlined } from '../icon';
 import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -238,7 +237,6 @@ export default defineComponent({
             isError,
             ActionEnum,
             isDisabled,
-
             classes,
             handleInput,
             handleBlur,
