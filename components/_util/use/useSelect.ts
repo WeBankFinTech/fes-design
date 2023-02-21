@@ -1,7 +1,7 @@
 import { inject, ref, computed } from 'vue';
+import { CHANGE_EVENT } from '../constants';
 import { useNormalModel } from './useModel';
 import useFormAdaptor from './useFormAdaptor';
-import { CHANGE_EVENT } from '../constants';
 
 import type { VModelEvent, ChangeEvent } from '../interface';
 
@@ -39,11 +39,7 @@ export default ({
             isDisabled.value,
     );
     const handleClick = () => {
-        if (
-            props.disabled ||
-            (isGroup && group?.props?.disabled) ||
-            isDisabled.value
-        ) {
+        if (disabled.value) {
             return;
         }
         if (isGroup) {
