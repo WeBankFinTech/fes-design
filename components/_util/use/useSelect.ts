@@ -20,7 +20,7 @@ export default ({
         name: string;
     };
 }) => {
-    const { validate } = useFormAdaptor('boolean');
+    const { validate, isDisabled } = useFormAdaptor('boolean');
     const group = inject(parent.groupKey, null) as any;
     const focus = ref(false);
     const hover = ref(false);
@@ -33,10 +33,17 @@ export default ({
         return group.isSelect(props.value);
     });
     const disabled = computed(
-        () => props.disabled || (isGroup && group?.props?.disabled),
+        () =>
+            props.disabled ||
+            (isGroup && group?.props?.disabled) ||
+            isDisabled.value,
     );
     const handleClick = () => {
-        if (props.disabled || (isGroup && group?.props?.disabled)) {
+        if (
+            props.disabled ||
+            (isGroup && group?.props?.disabled) ||
+            isDisabled.value
+        ) {
             return;
         }
         if (isGroup) {

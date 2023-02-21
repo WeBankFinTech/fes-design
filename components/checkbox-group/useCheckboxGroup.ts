@@ -14,9 +14,9 @@ export const useCheckboxGroup = (
     emit: CheckboxGroupEmits,
 ) => {
     useFormGroupResetter();
-    const { validate, isError } = useFormAdaptor('array');
+    const { validate, isError, isDisabled } = useFormAdaptor('array');
     // 避免子组件重复
-    provide(FORM_ITEM_INJECTION_KEY, { validate: noop, isError });
+    provide(FORM_ITEM_INJECTION_KEY, { validate: noop, isError, isDisabled });
 
     const [currentValue, updateItem] = useArrayModel(props, emit);
 

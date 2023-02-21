@@ -13,10 +13,10 @@ export const useRadioGroup = (
     emit: RadioGroupEmits,
 ) => {
     useFormGroupResetter();
-    const { validate, isError } = useFormAdaptor();
+    const { validate, isError, isDisabled } = useFormAdaptor();
 
     // 避免子组件重复
-    provide(FORM_ITEM_INJECTION_KEY, { validate: noop, isError });
+    provide(FORM_ITEM_INJECTION_KEY, { validate: noop, isError, isDisabled });
 
     const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
@@ -51,4 +51,6 @@ export const useRadioGroup = (
         onSelect,
         props,
     });
+
+    return { isDisabled };
 };

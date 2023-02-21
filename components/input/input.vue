@@ -11,7 +11,7 @@
                 :type="type"
                 :placeholder="placeholder"
                 :readonly="readonly"
-                :disabled="disabled"
+                :disabled="isDisabled || disabled"
                 :clearable="clearable"
                 :maxlength="maxlength"
                 :showPassword="showPassword"
@@ -50,7 +50,7 @@
             :style="textareaStyle"
             :class="`${textareaPrefixCls}-inner`"
             :readonly="readonly"
-            :disabled="disabled"
+            :disabled="isDisabled || disabled"
             :autocomplete="autocomplete"
             :maxlength="maxlength"
             :placeholder="placeholder"
@@ -161,7 +161,7 @@ export default defineComponent({
     ],
     setup(props, { slots, emit }) {
         useTheme();
-        const { validate, isError } = useFormAdaptor();
+        const { validate, isError, isDisabled } = useFormAdaptor();
         const inputRef = ref();
         const textareaRef = ref();
 
@@ -249,6 +249,7 @@ export default defineComponent({
         };
 
         return {
+            isDisabled,
             isError,
             inputRef,
             textareaRef,

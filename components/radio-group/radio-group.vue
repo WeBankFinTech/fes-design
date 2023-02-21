@@ -7,7 +7,7 @@
                 :key="(opt.value as any)"
                 :value="opt.value"
                 :label="opt.label"
-                :disabled="opt.disabled"
+                :disabled="opt.disabled || isDisabled"
             ></Radio>
         </template>
         <template v-else>
@@ -16,7 +16,7 @@
                 :key="(opt.value as any)"
                 :value="opt.value"
                 :label="opt.label"
-                :disabled="opt.disabled"
+                :disabled="opt.disabled || isDisabled"
             ></RadioButton>
         </template>
     </div>
@@ -68,11 +68,11 @@ const props = withDefaults(defineProps<RadioGroupProps>(), {
 const emit = defineEmits<RadioGroupEmits>();
 
 useTheme();
-useRadioGroup(props, emit);
+const { isDisabled } = useRadioGroup(props, emit);
 const classList = computed(() => [
     prefixCls,
     props.vertical && 'is-vertical',
-    props.disabled && 'is-disabled',
+    (props.disabled || isDisabled.value) && 'is-disabled',
 ]);
 
 const optionsRef = computed(() =>

@@ -128,7 +128,6 @@ export default defineComponent({
                     `${prefixCls}-${labelPosition.value}`,
                 formItemRequired.value && 'is-required', // 必填校验: is-required
                 validateStatus.value === VALIDATE_STATUS.ERROR && 'is-error', // 校验错误: is-error
-                disabled.value && 'is-disabled', // disabled
             ].filter(Boolean),
         );
         const formItemLabelClass = computed(() =>
@@ -254,6 +253,9 @@ export default defineComponent({
             setRuleDefaultType,
             isError: computed(() => {
                 return validateStatus.value === VALIDATE_STATUS.ERROR;
+            }),
+            isDisabled: computed(() => {
+                return disabled.value;
             }),
         });
 

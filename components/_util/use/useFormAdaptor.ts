@@ -4,11 +4,12 @@ import { noop } from '../utils';
 import { FORM_ITEM_INJECTION_KEY } from '../constants';
 
 export default (valueType?: string | Ref<string> | (() => string)) => {
-    const { validate, isError, setRuleDefaultType } = inject(
+    const { validate, isError, setRuleDefaultType, isDisabled } = inject(
         FORM_ITEM_INJECTION_KEY,
         {
             validate: noop,
             isError: ref(false),
+            isDisabled: ref(false),
         },
     );
 
@@ -34,5 +35,6 @@ export default (valueType?: string | Ref<string> | (() => string)) => {
     return {
         validate,
         isError,
+        isDisabled,
     };
 };
