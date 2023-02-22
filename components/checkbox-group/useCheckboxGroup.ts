@@ -10,10 +10,7 @@ export const useCheckboxGroup = (
     props: CheckboxGroupProps,
     emit: CheckboxGroupEmits,
 ) => {
-    const { validate, isFormDisabled, resetProvideKey } =
-        useFormAdaptor('array');
-    // 避免子组件重复
-    resetProvideKey();
+    const { validate, isFormDisabled } = useFormAdaptor('array', true);
 
     const [currentValue, updateItem] = useArrayModel(props, emit);
 

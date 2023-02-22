@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts">
-import { computed, provide, ref, nextTick, defineComponent } from 'vue';
+import { computed, ref, nextTick, defineComponent } from 'vue';
 import { isNumber } from 'lodash-es';
 import { UpOutlined, DownOutlined } from '../icon';
 import { useTheme } from '../_theme/useTheme';
@@ -60,8 +60,6 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import InputInner from '../input/inputInner.vue';
-import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
-import { noop } from '../_util/utils';
 
 const prefixCls = getPrefixCls('input-number');
 
@@ -98,11 +96,10 @@ export default defineComponent({
     emits: ['update:modelValue', 'change', 'input', 'blur', 'focus'],
     setup(props, { emit }) {
         useTheme();
-        const { validate, isError, isFormDisabled, resetProvideKey } =
-            useFormAdaptor('number');
-
-        // 避免子组件重复
-        resetProvideKey();
+        const { validate, isError, isFormDisabled } = useFormAdaptor(
+            'number',
+            true,
+        );
 
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 

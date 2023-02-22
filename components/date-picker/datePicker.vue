@@ -312,12 +312,10 @@ export default defineComponent({
             return inputRefEl.value;
         });
 
-        const { validate, isError, isFormDisabled, resetProvideKey } =
-            useFormAdaptor(
-                computed(() => (pickerRef.value.isRange ? 'array' : 'number')),
-            );
-        // 避免子组件重复
-        resetProvideKey();
+        const { validate, isError, isFormDisabled } = useFormAdaptor(
+            computed(() => (pickerRef.value.isRange ? 'array' : 'number')),
+            true,
+        );
 
         const isDisabled = computed(
             () => props.disabled || isFormDisabled.value,

@@ -9,10 +9,7 @@ export const useRadioGroup = (
     props: RadioGroupProps,
     emit: RadioGroupEmits,
 ) => {
-    const { validate, isFormDisabled, resetProvideKey } = useFormAdaptor();
-
-    // 避免子组件重复
-    resetProvideKey();
+    const { validate, isFormDisabled } = useFormAdaptor(undefined, true);
 
     const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 

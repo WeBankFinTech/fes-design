@@ -32,14 +32,14 @@ export default ({
         }
         return group.isSelect(props.value);
     });
-    const disabled = computed(
+    const innerDisabled = computed(
         () =>
             props.disabled ||
             (isGroup && group?.props?.disabled) ||
             isFormDisabled.value,
     );
     const handleClick = () => {
-        if (disabled.value) {
+        if (innerDisabled.value) {
             return;
         }
         if (isGroup) {
@@ -61,7 +61,7 @@ export default ({
         currentValue,
         updateCurrentValue,
         checked,
-        disabled,
+        innerDisabled,
         isGroup,
         group,
         focus,

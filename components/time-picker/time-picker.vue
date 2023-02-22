@@ -242,10 +242,10 @@ export default defineComponent({
     emits: [UPDATE_MODEL_EVENT, 'update:open', 'change', 'blur', 'focus'],
     setup(props, { emit, slots, attrs }) {
         useTheme();
-        const { validate, isError, isFormDisabled, resetProvideKey } =
-            useFormAdaptor();
-        // 避免子组件重复
-        resetProvideKey();
+        const { validate, isError, isFormDisabled } = useFormAdaptor(
+            undefined,
+            true,
+        );
 
         const isDisabled = computed(
             () => props.disabled || isFormDisabled.value,
