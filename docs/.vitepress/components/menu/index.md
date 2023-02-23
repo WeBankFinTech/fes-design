@@ -61,8 +61,8 @@ app.use(FMenu);
 | mode                | 模式，可选值有`horizontal`和`vertical`               | string  | `horizontal` |
 | collapsed           | 是否水平折叠收起菜单（仅在 mode 为 vertical 时可用） | boolean | `false`      |
 | inverted            | 是否反转样式                                         | boolean | `false`      |
-| defaultExpandAll    | 是否默认展开全部菜单                                 | boolean | `false`      |
-| expandedKeys        | 默认展开的子菜单标识符数组                           | array   | `[]`         |
+| defaultExpandAll    | 是否默认展开全部菜单，当有 `expandedKeys` 时，`defaultExpandAll` 将失效                                | boolean | `false`      |
+| expandedKeys(v-model)       | 展开的子菜单标识符数组                           | array   | `[]`         |
 | accordion           | 是否只保持一个子菜单的展开                           | boolean | `false`      |
 | options             | 菜单数据，配置可看 MenuOption                        | array   | `[]`         |
 

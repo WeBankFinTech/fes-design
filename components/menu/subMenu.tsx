@@ -65,13 +65,6 @@ export default defineComponent({
         };
         onMounted(() => {
             parentMenu.addChild(subMenu);
-            // 默认展开全部
-            if (rootMenu.props.defaultExpandAll) {
-                // 这才能触发watch
-                rootMenu.openedMenus.value = rootMenu.openedMenus.value.concat(
-                    props.value || instance.uid,
-                );
-            }
         });
         onBeforeUnmount(() => {
             parentMenu.removeChild(subMenu);
@@ -91,18 +84,26 @@ export default defineComponent({
             isOpened.value = !isOpened.value;
             rootMenu.clickSubMenu(subMenu, indexPath);
         };
-        watch(rootMenu.openedMenus, () => {
-            if (!rootMenu.renderWithPopper.value) {
-                const index = rootMenu.openedMenus.value.indexOf(
-                    props.value || instance.uid,
-                );
-                if (index === -1 && isOpened.value) {
-                    isOpened.value = false;
-                } else if (index !== -1 && !isOpened.value) {
-                    isOpened.value = true;
+
+        watch(
+            rootMenu.currentExpandedKeys,
+            () => {
+                if (!rootMenu.renderWithPopper.value) {
+                    const index = rootMenu.currentExpandedKeys.value.indexOf(
+                        props.value || instance.uid,
+                    );
+                    if (index === -1 && isOpened.value) {
+                        isOpened.value = false;
+                    } else if (index !== -1 && !isOpened.value) {
+                        isOpened.value = true;
+                    }
                 }
-            }
-        });
+            },
+            {
+                immediate: true,
+            },
+        );
+
         const renderTitle = () => {
             return (
                 <Ellipsis class={`${prefixCls}-label`}>

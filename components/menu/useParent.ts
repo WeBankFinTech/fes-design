@@ -3,7 +3,7 @@ import { CHILDREN_KEY } from './const';
 
 import type { MenuItemType } from './interface';
 
-type MenuItemTypePlain = UnwrapRef<MenuItemType>;
+export type MenuItemTypePlain = UnwrapRef<MenuItemType>;
 
 export default () => {
     const children = reactive<MenuItemTypePlain[]>([]);
