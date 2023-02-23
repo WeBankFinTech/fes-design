@@ -48,7 +48,7 @@ const {
     group,
     hover,
     checked,
-    disabled,
+    innerDisabled,
     handleClick,
     handleMouseOver,
     handleMouseOut,
@@ -62,7 +62,7 @@ const wrapperClass = computed(() => {
     if (checked.value) {
         arr.push('is-checked');
     }
-    if (disabled.value) {
+    if (innerDisabled.value) {
         arr.push('is-disabled');
     }
     if (hover.value) {

@@ -1,6 +1,7 @@
-import { ref, provide, watch, toRefs } from 'vue';
+import { ref, provide, watch, computed, toRefs } from 'vue';
 import { isEqual, isFunction, cloneDeep } from 'lodash-es';
 import { noop, hasOwn } from '../_util/utils';
+import useFormAdaptor from '../_util/use/useFormAdaptor';
 import getPrefixCls from '../_util/getPrefixCls';
 import { key } from './const';
 
@@ -249,8 +250,14 @@ export default (props: UploadProps, emit: any) => {
         });
     };
 
+    // 表单组件的总体disabled状态
+    const { isFormDisabled } = useFormAdaptor();
+
     provide(key, {
         ...toRefs(props),
+        disabled: computed(() => {
+            return props.disabled || isFormDisabled.value;
+        }),
         prefixCls,
         uploadFiles,
         onRemove,

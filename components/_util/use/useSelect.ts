@@ -1,7 +1,7 @@
 import { inject, ref, computed } from 'vue';
+import { CHANGE_EVENT } from '../constants';
 import { useNormalModel } from './useModel';
 import useFormAdaptor from './useFormAdaptor';
-import { CHANGE_EVENT } from '../constants';
 
 import type { VModelEvent, ChangeEvent } from '../interface';
 
@@ -20,7 +20,9 @@ export default ({
         name: string;
     };
 }) => {
-    const { validate } = useFormAdaptor('boolean');
+    const { validate, isFormDisabled } = useFormAdaptor({
+        valueType: 'boolean',
+    });
     const group = inject(parent.groupKey, null) as any;
     const focus = ref(false);
     const hover = ref(false);
@@ -32,11 +34,14 @@ export default ({
         }
         return group.isSelect(props.value);
     });
-    const disabled = computed(
-        () => props.disabled || (isGroup && group?.props?.disabled),
+    const innerDisabled = computed(
+        () =>
+            props.disabled ||
+            (isGroup && group?.props?.disabled) ||
+            isFormDisabled.value,
     );
     const handleClick = () => {
-        if (props.disabled || (isGroup && group?.props?.disabled)) {
+        if (innerDisabled.value) {
             return;
         }
         if (isGroup) {
@@ -58,7 +63,7 @@ export default ({
         currentValue,
         updateCurrentValue,
         checked,
-        disabled,
+        innerDisabled,
         isGroup,
         group,
         focus,

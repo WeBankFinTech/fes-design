@@ -11,7 +11,7 @@
                 :type="type"
                 :placeholder="placeholder"
                 :readonly="readonly"
-                :disabled="disabled"
+                :disabled="innnerDisabed"
                 :clearable="clearable"
                 :maxlength="maxlength"
                 :showPassword="showPassword"
@@ -50,7 +50,7 @@
             :style="textareaStyle"
             :class="`${textareaPrefixCls}-inner`"
             :readonly="readonly"
-            :disabled="disabled"
+            :disabled="innnerDisabed"
             :autocomplete="autocomplete"
             :maxlength="maxlength"
             :placeholder="placeholder"
@@ -161,7 +161,7 @@ export default defineComponent({
     ],
     setup(props, { slots, emit }) {
         useTheme();
-        const { validate, isError } = useFormAdaptor();
+        const { validate, isError, isFormDisabled } = useFormAdaptor();
         const inputRef = ref();
         const textareaRef = ref();
 
@@ -195,6 +195,10 @@ export default defineComponent({
                 [`${prefixCls}-group-append`]: slots.append,
             },
         ]);
+
+        const innnerDisabed = computed(
+            () => props.disabled || isFormDisabled.value,
+        );
 
         const textareaCalcStyle = shallowRef(props.inputStyle);
         const textareaStyle = computed(() => ({
@@ -249,6 +253,7 @@ export default defineComponent({
         };
 
         return {
+            innnerDisabed,
             isError,
             inputRef,
             textareaRef,

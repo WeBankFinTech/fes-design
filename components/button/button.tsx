@@ -5,6 +5,7 @@ import { useAnimate } from '../_util/use/useAnimate';
 import { useTheme } from '../_theme/useTheme';
 
 import type { Type, Size } from './interface';
+import useFormAdaptor from '../_util/use/useFormAdaptor';
 
 const prefixCls = getPrefixCls('btn');
 
@@ -47,11 +48,18 @@ export default defineComponent({
     emits: ['click'],
     setup(props, { slots, emit }) {
         const { animateClassName, handelAnimate } = useAnimate(400);
+        const { isFormDisabled } = useFormAdaptor();
 
         useTheme();
         const notAllowed = ref(false);
         const handleClick = (event: MouseEvent) => {
-            if (notAllowed.value || props.disabled || props.loading) return;
+            if (
+                notAllowed.value ||
+                props.disabled ||
+                props.loading ||
+                isFormDisabled.value
+            )
+                return;
 
             handelAnimate();
 
@@ -74,7 +82,7 @@ export default defineComponent({
         return () => (
             <button
                 type={props.htmlType}
-                disabled={props.disabled}
+                disabled={props.disabled || isFormDisabled.value}
                 class={classes.value}
                 onClick={handleClick}
             >

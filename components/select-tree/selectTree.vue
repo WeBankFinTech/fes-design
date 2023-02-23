@@ -9,14 +9,14 @@
             :getContainer="getContainer"
             :offset="4"
             :hideAfter="0"
-            :disabled="disabled"
+            :disabled="innnerDisabed"
             :lazy="false"
         >
             <template #trigger>
                 <SelectTrigger
                     ref="triggerDomRef"
                     :selectedOptions="selectedOptions"
-                    :disabled="disabled"
+                    :disabled="innnerDisabed"
                     :clearable="clearable"
                     :isOpened="isOpened"
                     :multiple="multiple"
@@ -140,7 +140,7 @@ import Tree from '../tree/tree';
 import Scrollbar from '../scrollbar/scrollbar.vue';
 import { selectProps } from '../select/props';
 import { treeProps } from '../tree/props';
-
+import { useLocale } from '../config-provider/useLocale';
 import type { SelectValue } from '../select/interface';
 import type {
     SelectParams,
@@ -148,7 +148,6 @@ import type {
     InnerTreeOption,
     TreeNodeKey,
 } from '../tree/interface';
-import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('select-tree');
 
@@ -180,9 +179,9 @@ export default defineComponent({
     ],
     setup(props, { emit, attrs }) {
         useTheme();
-        const { validate, isError } = useFormAdaptor(
-            computed(() => (props.multiple ? 'array' : 'string')),
-        );
+        const { validate, isError, isFormDisabled } = useFormAdaptor({
+            valueType: computed(() => (props.multiple ? 'array' : 'string')),
+        });
         const isOpened = ref(false);
         const [currentValue, updateCurrentValue] = props.multiple
             ? useArrayModel(props, emit)
@@ -195,6 +194,9 @@ export default defineComponent({
         );
         const listEmptyText = computed(
             () => props.emptyText || t('select.emptyText'),
+        );
+        const innnerDisabed = computed(
+            () => props.disabled || isFormDisabled.value,
         );
 
         watch(isOpened, () => {
@@ -252,7 +254,7 @@ export default defineComponent({
         };
 
         const handleSelect = (data: SelectParams) => {
-            if (props.disabled) return;
+            if (innnerDisabed.value) return;
             filterText.value = '';
             if (!props.multiple) {
                 updateCurrentValue(data.selectedKeys[0]);
@@ -264,7 +266,7 @@ export default defineComponent({
         };
 
         const handleCheck = (data: CheckParams) => {
-            if (props.disabled) return;
+            if (innnerDisabed.value) return;
             filterText.value = '';
             if (!props.multiple) {
                 updateCurrentValue(data.checkedKeys[0]);
@@ -372,6 +374,7 @@ export default defineComponent({
             listEmptyText,
             isError,
             attrs,
+            innnerDisabed,
         };
     },
 });

@@ -25,7 +25,7 @@ export default defineComponent({
     props: radioButtonProps,
     emits: [CHANGE_EVENT, UPDATE_MODEL_EVENT],
     setup(props, { slots, emit }) {
-        const { checked, disabled, handleClick, group } = useSelect({
+        const { checked, innerDisabled, handleClick, group } = useSelect({
             props,
             emit,
             parent: { groupKey: radioGroupKey, name },
@@ -39,7 +39,7 @@ export default defineComponent({
                 prefixCls,
                 `${prefixCls}-${group.props.size}`,
                 `${prefixCls}-${group.props.bordered ? 'border' : 'no-border'}`,
-                disabled.value && 'is-disabled',
+                innerDisabled.value && 'is-disabled',
                 checked.value && group.props.bordered
                     ? `is-checked-${group.props.type}-${'border'}`
                     : '',

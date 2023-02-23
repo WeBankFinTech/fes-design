@@ -66,6 +66,7 @@ export default defineComponent({
             labelWidth,
             labelClass,
             labelPosition,
+            disabled,
             addField,
             removeField,
         } = inject(provideKey);
@@ -253,6 +254,7 @@ export default defineComponent({
             isError: computed(() => {
                 return validateStatus.value === VALIDATE_STATUS.ERROR;
             }),
+            isFormDisabled: disabled,
         });
 
         return {

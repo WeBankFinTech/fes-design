@@ -29,6 +29,7 @@ export default defineComponent({
         const formClass = computed(() => [
             prefixCls,
             `${prefixCls}-${props.layout}`,
+            props.disabled && `${prefixCls}-disabled`, // disabled
         ]);
         const formStyle = computed(
             () =>

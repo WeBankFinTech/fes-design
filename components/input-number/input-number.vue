@@ -2,7 +2,7 @@
     <div :class="classes" @dragstart.prevent>
         <InputInner
             :modelValue="displayValue"
-            :disabled="disabled"
+            :disabled="innnerDisabed"
             :placeholder="placeholder"
             :class="[`${prefixCls}-inner`]"
             :innerIsError="isError"
@@ -24,7 +24,9 @@
                     <span
                         :class="[
                             `${prefixCls}-actions-increase`,
-                            { 'is-disabled': maxDisabled || disabled },
+                            {
+                                'is-disabled': maxDisabled || innnerDisabed,
+                            },
                         ]"
                         @mousedown.prevent
                         @click="calculationNum(ActionEnum.PLUS)"
@@ -34,7 +36,9 @@
                     <span
                         :class="[
                             `${prefixCls}-actions-decrease`,
-                            { 'is-disabled': minDisabled || disabled },
+                            {
+                                'is-disabled': minDisabled || innnerDisabed,
+                            },
                         ]"
                         @mousedown.prevent
                         @click="calculationNum(ActionEnum.REDUCE)"
@@ -48,17 +52,14 @@
 </template>
 
 <script lang="ts">
-import { computed, provide, ref, nextTick, defineComponent } from 'vue';
+import { computed, ref, nextTick, defineComponent } from 'vue';
 import { isNumber } from 'lodash-es';
-
 import { UpOutlined, DownOutlined } from '../icon';
 import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import InputInner from '../input/inputInner.vue';
-import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
-import { noop } from '../_util/utils';
 
 const prefixCls = getPrefixCls('input-number');
 
@@ -95,15 +96,21 @@ export default defineComponent({
     emits: ['update:modelValue', 'change', 'input', 'blur', 'focus'],
     setup(props, { emit }) {
         useTheme();
-        const { validate, isError } = useFormAdaptor('number');
-
-        // 避免子组件重复
-        provide(FORM_ITEM_INJECTION_KEY, { validate: noop, isError });
+        const { validate, isError, isFormDisabled } = useFormAdaptor({
+            valueType: 'number',
+            forbidChildValidate: true,
+        });
 
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
+        const innnerDisabed = computed(
+            () => props.disabled || isFormDisabled.value,
+        );
+
         const classes = computed(() =>
-            [`${prefixCls}`, props.disabled && 'is-disabled'].filter(Boolean),
+            [`${prefixCls}`, innnerDisabed.value && 'is-disabled'].filter(
+                Boolean,
+            ),
         );
 
         const tempValue = ref();
@@ -212,7 +219,8 @@ export default defineComponent({
             if (
                 props.disabled ||
                 (maxDisabled.value && type === ActionEnum.PLUS) ||
-                (minDisabled.value && type === ActionEnum.REDUCE)
+                (minDisabled.value && type === ActionEnum.REDUCE) ||
+                isFormDisabled.value
             )
                 return;
             tempValue.value = null;
@@ -223,7 +231,7 @@ export default defineComponent({
             prefixCls,
             isError,
             ActionEnum,
-
+            innnerDisabed,
             classes,
             handleInput,
             handleBlur,

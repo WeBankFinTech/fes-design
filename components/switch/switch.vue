@@ -71,7 +71,7 @@ export default defineComponent({
                 isEqual: true,
             },
         );
-        const { validate } = useFormAdaptor();
+        const { validate, isFormDisabled } = useFormAdaptor();
         onMounted(() => {
             // 默认为未选中
             if (currentValue.value === undefined) {
@@ -95,9 +95,12 @@ export default defineComponent({
         const inactiveRef = computed(() =>
             isEqual(currentValue.value, props.inactiveValue),
         );
+        const innnerDisabed = computed(
+            () => props.disabled || isFormDisabled.value,
+        );
 
         const toggle = async () => {
-            if (props.disabled) return;
+            if (innnerDisabed.value) return;
             if (isFunction(props.beforeChange)) {
                 loadingRef.value = true;
                 try {
@@ -123,7 +126,7 @@ export default defineComponent({
                 prefixCls,
                 props.size && `${prefixCls}-size-${props.size}`,
                 activeRef.value && 'is-checked',
-                props.disabled && 'is-disabled',
+                innnerDisabed.value && 'is-disabled',
             ].filter(Boolean),
         );
         return {

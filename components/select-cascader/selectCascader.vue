@@ -9,13 +9,13 @@
             :getContainer="getContainer"
             :offset="4"
             :hideAfter="0"
-            :disabled="disabled"
+            :disabled="innnerDisabed"
             :lazy="false"
         >
             <template #trigger>
                 <SelectTrigger
                     :selectedOptions="selectedOptions"
-                    :disabled="disabled"
+                    :disabled="innnerDisabed"
                     :clearable="clearable"
                     :isOpened="isOpened"
                     :multiple="multiple"
@@ -64,6 +64,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, unref, watch, computed } from 'vue';
+import { isArray } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel, useArrayModel } from '../_util/use/useModel';
@@ -75,17 +76,19 @@ import Cascader from '../cascader/cascader';
 import { selectProps } from '../select/props';
 import { cascaderProps } from '../cascader/props';
 import {
-    getCurrentValueByKeys,
-    getKeysByCurrentValue,
-    getNotMatchedPathByKey,
-    getExpandedKeysBySelectedKeys,
-} from './helper';
-import {
     getCascadeChildrenByKeys,
     getCascadeParentByKeys,
     handleParent,
     handleChildren,
 } from '../cascader/helper';
+import { useLocale } from '../config-provider/useLocale';
+import { CHECK_STRATEGY } from '../cascader/const';
+import {
+    getCurrentValueByKeys,
+    getKeysByCurrentValue,
+    getNotMatchedPathByKey,
+    getExpandedKeysBySelectedKeys,
+} from './helper';
 
 import type { SelectValue } from '../select/interface';
 import type {
@@ -95,9 +98,6 @@ import type {
     CascaderNodeKey,
     CascaderOption,
 } from '../cascader/interface';
-import { useLocale } from '../config-provider/useLocale';
-import { CHECK_STRATEGY } from '../cascader/const';
-import { isArray } from 'lodash-es';
 
 const prefixCls = getPrefixCls('select-cascader');
 
@@ -123,9 +123,9 @@ export default defineComponent({
     ],
     setup(props, { emit, attrs }) {
         useTheme();
-        const { validate, isError } = useFormAdaptor(
-            computed(() => (props.multiple ? 'array' : 'string')),
-        );
+        const { validate, isError, isFormDisabled } = useFormAdaptor({
+            valueType: computed(() => (props.multiple ? 'array' : 'string')),
+        });
         const isOpened = ref(false);
         const [currentValue, updateCurrentValue] = props.multiple
             ? useArrayModel(props, emit)
@@ -134,6 +134,10 @@ export default defineComponent({
         const { t } = useLocale();
         const inputPlaceholder = computed(
             () => props.placeholder || t('select.placeholder'),
+        );
+
+        const innnerDisabed = computed(
+            () => props.disabled || isFormDisabled.value,
         );
 
         watch(isOpened, () => {
@@ -242,7 +246,7 @@ export default defineComponent({
         };
 
         const handleSelect = (data: SelectParams) => {
-            if (props.disabled) return;
+            if (innnerDisabed.value) return;
             if (!props.multiple) {
                 isOpened.value = false;
             }
@@ -253,7 +257,7 @@ export default defineComponent({
         };
 
         const handleCheck = (data: CheckParams) => {
-            if (props.disabled) return;
+            if (innnerDisabed.value) return;
             if (!props.multiple) {
                 isOpened.value = false;
             }
@@ -373,6 +377,7 @@ export default defineComponent({
             isError,
             initLoadKeys,
             attrs,
+            innnerDisabed,
         };
     },
 });

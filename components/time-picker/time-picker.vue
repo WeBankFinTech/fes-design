@@ -4,7 +4,7 @@
         trigger="click"
         placement="bottom-start"
         :popperClass="`${prefixCls}-popper`"
-        :disabled="disabled"
+        :disabled="innnerDisabed"
         :appendToContainer="appendToContainer"
         :getContainer="getContainer"
         :hideAfter="0"
@@ -18,7 +18,7 @@
                 :style="attrs.style"
                 :modelValue="displayValue"
                 :placeholder="inputPlaceholder"
-                :disabled="disabled"
+                :disabled="innnerDisabed"
                 :clearable="clearable"
                 :innerIsError="isError"
                 @clear="clear"
@@ -80,7 +80,6 @@ import {
     computed,
     PropType,
     ExtractPropTypes,
-    provide,
 } from 'vue';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
@@ -95,8 +94,6 @@ import FButton from '../button';
 
 import type { GetContainer } from '../_util/interface';
 import { useLocale } from '../config-provider/useLocale';
-import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
-import { noop } from '../_util/utils';
 
 const prefixCls = getPrefixCls('time-picker');
 
@@ -242,15 +239,19 @@ export default defineComponent({
     emits: [UPDATE_MODEL_EVENT, 'update:open', 'change', 'blur', 'focus'],
     setup(props, { emit, slots, attrs }) {
         useTheme();
-        const { validate, isError } = useFormAdaptor();
-        // 避免子组件重复
-        provide(FORM_ITEM_INJECTION_KEY, { validate: noop, isError });
+        const { validate, isError, isFormDisabled } = useFormAdaptor({
+            forbidChildValidate: true,
+        });
+
+        const innnerDisabed = computed(
+            () => props.disabled || isFormDisabled.value,
+        );
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
         const { isOpened, closePopper } = useOpen(props, emit);
         const classes = computed(() =>
             [
                 prefixCls,
-                props.disabled && 'is-disabled',
+                (isFormDisabled.value || props.disabled) && 'is-disabled',
                 props.inputClass,
             ].filter(Boolean),
         );
@@ -325,6 +326,7 @@ export default defineComponent({
         return {
             prefixCls,
             isError,
+            innnerDisabed,
             classes,
             displayValue,
             isOpened,

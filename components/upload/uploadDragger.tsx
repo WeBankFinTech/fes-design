@@ -37,7 +37,7 @@ export default defineComponent({
             isDragger,
             accept,
             multiple,
-            disabled,
+            disabled, // 组件本身的disabled 状态
         } = inject(key);
 
         isDragger.value = true;

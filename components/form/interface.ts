@@ -29,6 +29,10 @@ export const formProps = {
     },
     labelWidth: [String, Number] as PropType<string | number>,
     labelClass: String,
+    disabled: {
+        type: Boolean,
+        default: false,
+    },
 } as const;
 
 export const formItemProps = {
@@ -71,6 +75,7 @@ export interface FormItemInject {
     validate: (eventName: string) => void;
     setRuleDefaultType?: (ruleType: string) => void;
     isError?: Ref<boolean>;
+    isFormDisabled?: Ref<boolean>;
 }
 
 export interface Field {

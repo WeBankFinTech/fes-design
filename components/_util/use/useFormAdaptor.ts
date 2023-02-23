@@ -1,14 +1,23 @@
-import { inject, isRef, watch, ref, Ref } from 'vue';
+import { inject, isRef, watch, ref, Ref, provide } from 'vue';
 import { isString, isFunction } from 'lodash-es';
 import { noop } from '../utils';
 import { FORM_ITEM_INJECTION_KEY } from '../constants';
 
-export default (valueType?: string | Ref<string> | (() => string)) => {
-    const { validate, isError, setRuleDefaultType } = inject(
+type FormAdaptorConfig = {
+    valueType?: string | Ref<string> | (() => string);
+    forbidChildValidate?: boolean;
+};
+
+export default (formAdaptorConfig?: FormAdaptorConfig) => {
+    const valueType = formAdaptorConfig?.valueType;
+    const forbidChildValidate = formAdaptorConfig?.forbidChildValidate;
+
+    const { validate, isError, setRuleDefaultType, isFormDisabled } = inject(
         FORM_ITEM_INJECTION_KEY,
         {
             validate: noop,
             isError: ref(false),
+            isFormDisabled: ref(false),
         },
     );
 
@@ -31,8 +40,18 @@ export default (valueType?: string | Ref<string> | (() => string)) => {
         }
     }
 
+    if (forbidChildValidate) {
+        // 避免子组件重复
+        provide(FORM_ITEM_INJECTION_KEY, {
+            validate: noop,
+            isError,
+            isFormDisabled,
+        });
+    }
+
     return {
         validate,
         isError,
+        isFormDisabled,
     };
 };
