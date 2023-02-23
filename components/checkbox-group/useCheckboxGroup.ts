@@ -10,7 +10,10 @@ export const useCheckboxGroup = (
     props: CheckboxGroupProps,
     emit: CheckboxGroupEmits,
 ) => {
-    const { validate, isFormDisabled } = useFormAdaptor('array', true);
+    const { validate, isFormDisabled } = useFormAdaptor({
+        valueType: 'array',
+        forbidChildValidate: true,
+    });
 
     const [currentValue, updateItem] = useArrayModel(props, emit);
 

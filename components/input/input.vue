@@ -11,7 +11,7 @@
                 :type="type"
                 :placeholder="placeholder"
                 :readonly="readonly"
-                :disabled="isDisabled"
+                :disabled="innnerDisabed"
                 :clearable="clearable"
                 :maxlength="maxlength"
                 :showPassword="showPassword"
@@ -50,7 +50,7 @@
             :style="textareaStyle"
             :class="`${textareaPrefixCls}-inner`"
             :readonly="readonly"
-            :disabled="isDisabled"
+            :disabled="innnerDisabed"
             :autocomplete="autocomplete"
             :maxlength="maxlength"
             :placeholder="placeholder"
@@ -196,7 +196,7 @@ export default defineComponent({
             },
         ]);
 
-        const isDisabled = computed(
+        const innnerDisabed = computed(
             () => props.disabled || isFormDisabled.value,
         );
 
@@ -253,7 +253,7 @@ export default defineComponent({
         };
 
         return {
-            isDisabled,
+            innnerDisabed,
             isError,
             inputRef,
             textareaRef,

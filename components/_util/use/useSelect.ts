@@ -20,7 +20,9 @@ export default ({
         name: string;
     };
 }) => {
-    const { validate, isFormDisabled } = useFormAdaptor('boolean');
+    const { validate, isFormDisabled } = useFormAdaptor({
+        valueType: 'boolean',
+    });
     const group = inject(parent.groupKey, null) as any;
     const focus = ref(false);
     const hover = ref(false);

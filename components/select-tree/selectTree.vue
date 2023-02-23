@@ -9,14 +9,14 @@
             :getContainer="getContainer"
             :offset="4"
             :hideAfter="0"
-            :disabled="isDisabled"
+            :disabled="innnerDisabed"
             :lazy="false"
         >
             <template #trigger>
                 <SelectTrigger
                     ref="triggerDomRef"
                     :selectedOptions="selectedOptions"
-                    :disabled="isDisabled"
+                    :disabled="innnerDisabed"
                     :clearable="clearable"
                     :isOpened="isOpened"
                     :multiple="multiple"
@@ -179,9 +179,9 @@ export default defineComponent({
     ],
     setup(props, { emit, attrs }) {
         useTheme();
-        const { validate, isError, isFormDisabled } = useFormAdaptor(
-            computed(() => (props.multiple ? 'array' : 'string')),
-        );
+        const { validate, isError, isFormDisabled } = useFormAdaptor({
+            valueType: computed(() => (props.multiple ? 'array' : 'string')),
+        });
         const isOpened = ref(false);
         const [currentValue, updateCurrentValue] = props.multiple
             ? useArrayModel(props, emit)
@@ -195,7 +195,7 @@ export default defineComponent({
         const listEmptyText = computed(
             () => props.emptyText || t('select.emptyText'),
         );
-        const isDisabled = computed(
+        const innnerDisabed = computed(
             () => props.disabled || isFormDisabled.value,
         );
 
@@ -254,7 +254,7 @@ export default defineComponent({
         };
 
         const handleSelect = (data: SelectParams) => {
-            if (isDisabled.value) return;
+            if (innnerDisabed.value) return;
             filterText.value = '';
             if (!props.multiple) {
                 updateCurrentValue(data.selectedKeys[0]);
@@ -266,7 +266,7 @@ export default defineComponent({
         };
 
         const handleCheck = (data: CheckParams) => {
-            if (isDisabled.value) return;
+            if (innnerDisabed.value) return;
             filterText.value = '';
             if (!props.multiple) {
                 updateCurrentValue(data.checkedKeys[0]);
@@ -374,7 +374,7 @@ export default defineComponent({
             listEmptyText,
             isError,
             attrs,
-            isDisabled,
+            innnerDisabed,
         };
     },
 });

@@ -1,7 +1,7 @@
 <template>
     <Popper
         v-model="isOpened"
-        :disabled="isDisabled"
+        :disabled="innnerDisabed"
         :appendToContainer="appendToContainer"
         :getContainer="getContainer"
         :popperClass="[popperClass, `${prefixCls}-popper`]"
@@ -20,7 +20,7 @@
                 :selectedDates="visibleValue"
                 :placeholder="rangePlaceHolder"
                 :clearable="clearable"
-                :disabled="isDisabled"
+                :disabled="innnerDisabed"
                 :innerIsFocus="inputIsFocus"
                 :innerIsError="isError"
                 :class="attrs.class"
@@ -45,7 +45,7 @@
                 ref="inputRefEl"
                 :modelValue="dateText"
                 :placeholder="singlePlaceHolder"
-                :disabled="isDisabled"
+                :disabled="innnerDisabed"
                 :canEdit="pickerRef.name !== PickerType.datemultiple"
                 :clearable="clearable"
                 :innerIsFocus="inputIsFocus"
@@ -98,7 +98,6 @@ import {
     ExtractPropTypes,
     ComputedRef,
     ComponentPublicInstance,
-    provide,
 } from 'vue';
 import { format, isValid } from 'date-fns';
 import { isEqual, isNil, isArray } from 'lodash-es';
@@ -111,8 +110,6 @@ import { useTheme } from '../_theme/useTheme';
 import { DateOutlined, SwapRightOutlined } from '../icon';
 
 import { useLocale } from '../config-provider/useLocale';
-import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
-import { noop } from '../_util/utils';
 import { COMMON_PROPS, RANGE_PROPS } from './const';
 import { isEmptyValue, strictParse } from './helper';
 import Calendars from './calendars.vue';
@@ -312,12 +309,14 @@ export default defineComponent({
             return inputRefEl.value;
         });
 
-        const { validate, isError, isFormDisabled } = useFormAdaptor(
-            computed(() => (pickerRef.value.isRange ? 'array' : 'number')),
-            true,
-        );
+        const { validate, isError, isFormDisabled } = useFormAdaptor({
+            valueType: computed(() =>
+                pickerRef.value.isRange ? 'array' : 'number',
+            ),
+            forbidChildValidate: true,
+        });
 
-        const isDisabled = computed(
+        const innnerDisabed = computed(
             () => props.disabled || isFormDisabled.value,
         );
 
@@ -434,7 +433,7 @@ export default defineComponent({
             visibleValue,
 
             isError,
-            isDisabled,
+            innnerDisabed,
             dateText,
             handleDateInput,
             handleDateInputBlur: (event: FocusEvent) => {

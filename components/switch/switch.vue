@@ -95,12 +95,12 @@ export default defineComponent({
         const inactiveRef = computed(() =>
             isEqual(currentValue.value, props.inactiveValue),
         );
-        const isDisabled = computed(
+        const innnerDisabed = computed(
             () => props.disabled || isFormDisabled.value,
         );
 
         const toggle = async () => {
-            if (isDisabled.value) return;
+            if (innnerDisabed.value) return;
             if (isFunction(props.beforeChange)) {
                 loadingRef.value = true;
                 try {
@@ -126,7 +126,7 @@ export default defineComponent({
                 prefixCls,
                 props.size && `${prefixCls}-size-${props.size}`,
                 activeRef.value && 'is-checked',
-                isDisabled.value && 'is-disabled',
+                innnerDisabed.value && 'is-disabled',
             ].filter(Boolean),
         );
         return {

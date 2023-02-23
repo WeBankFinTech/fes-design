@@ -10,13 +10,13 @@
             :getContainer="getContainer"
             :offset="4"
             :hideAfter="0"
-            :disabled="isDisabled"
+            :disabled="innnerDisabed"
         >
             <template #trigger>
                 <SelectTrigger
                     ref="triggerRef"
                     :selectedOptions="selectedOptionsRef"
-                    :disabled="isDisabled"
+                    :disabled="innnerDisabed"
                     :clearable="clearable"
                     :isOpened="isOpenedRef"
                     :multiple="multiple"
@@ -116,10 +116,10 @@ export default defineComponent({
     ],
     setup(props, { emit, attrs }) {
         useTheme();
-        const { validate, isError, isFormDisabled } = useFormAdaptor(
-            computed(() => (props.multiple ? 'array' : 'string')),
-        );
-        const isDisabled = computed(
+        const { validate, isError, isFormDisabled } = useFormAdaptor({
+            valueType: computed(() => (props.multiple ? 'array' : 'string')),
+        });
+        const innnerDisabed = computed(
             () => props.disabled || isFormDisabled.value,
         );
         const isOpenedRef = ref(false);
@@ -465,7 +465,7 @@ export default defineComponent({
             listEmptyText,
             inputPlaceholder,
             isError,
-            isDisabled,
+            innnerDisabed,
             onScroll,
             isLimitRef,
             attrs,

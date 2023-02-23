@@ -2,7 +2,7 @@
     <div :class="classes" @dragstart.prevent>
         <InputInner
             :modelValue="displayValue"
-            :disabled="isDisabled"
+            :disabled="innnerDisabed"
             :placeholder="placeholder"
             :class="[`${prefixCls}-inner`]"
             :innerIsError="isError"
@@ -25,7 +25,7 @@
                         :class="[
                             `${prefixCls}-actions-increase`,
                             {
-                                'is-disabled': maxDisabled || isDisabled,
+                                'is-disabled': maxDisabled || innnerDisabed,
                             },
                         ]"
                         @mousedown.prevent
@@ -37,7 +37,7 @@
                         :class="[
                             `${prefixCls}-actions-decrease`,
                             {
-                                'is-disabled': minDisabled || isDisabled,
+                                'is-disabled': minDisabled || innnerDisabed,
                             },
                         ]"
                         @mousedown.prevent
@@ -96,19 +96,21 @@ export default defineComponent({
     emits: ['update:modelValue', 'change', 'input', 'blur', 'focus'],
     setup(props, { emit }) {
         useTheme();
-        const { validate, isError, isFormDisabled } = useFormAdaptor(
-            'number',
-            true,
-        );
+        const { validate, isError, isFormDisabled } = useFormAdaptor({
+            valueType: 'number',
+            forbidChildValidate: true,
+        });
 
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
-        const isDisabled = computed(
+        const innnerDisabed = computed(
             () => props.disabled || isFormDisabled.value,
         );
 
         const classes = computed(() =>
-            [`${prefixCls}`, isDisabled.value && 'is-disabled'].filter(Boolean),
+            [`${prefixCls}`, innnerDisabed.value && 'is-disabled'].filter(
+                Boolean,
+            ),
         );
 
         const tempValue = ref();
@@ -229,7 +231,7 @@ export default defineComponent({
             prefixCls,
             isError,
             ActionEnum,
-            isDisabled,
+            innnerDisabed,
             classes,
             handleInput,
             handleBlur,

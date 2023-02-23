@@ -9,7 +9,9 @@ export const useRadioGroup = (
     props: RadioGroupProps,
     emit: RadioGroupEmits,
 ) => {
-    const { validate, isFormDisabled } = useFormAdaptor(undefined, true);
+    const { validate, isFormDisabled } = useFormAdaptor({
+        forbidChildValidate: true,
+    });
 
     const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 

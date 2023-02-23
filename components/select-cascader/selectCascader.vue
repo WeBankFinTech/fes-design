@@ -9,13 +9,13 @@
             :getContainer="getContainer"
             :offset="4"
             :hideAfter="0"
-            :disabled="isDisabled"
+            :disabled="innnerDisabed"
             :lazy="false"
         >
             <template #trigger>
                 <SelectTrigger
                     :selectedOptions="selectedOptions"
-                    :disabled="isDisabled"
+                    :disabled="innnerDisabed"
                     :clearable="clearable"
                     :isOpened="isOpened"
                     :multiple="multiple"
@@ -123,9 +123,9 @@ export default defineComponent({
     ],
     setup(props, { emit, attrs }) {
         useTheme();
-        const { validate, isError, isFormDisabled } = useFormAdaptor(
-            computed(() => (props.multiple ? 'array' : 'string')),
-        );
+        const { validate, isError, isFormDisabled } = useFormAdaptor({
+            valueType: computed(() => (props.multiple ? 'array' : 'string')),
+        });
         const isOpened = ref(false);
         const [currentValue, updateCurrentValue] = props.multiple
             ? useArrayModel(props, emit)
@@ -136,7 +136,7 @@ export default defineComponent({
             () => props.placeholder || t('select.placeholder'),
         );
 
-        const isDisabled = computed(
+        const innnerDisabed = computed(
             () => props.disabled || isFormDisabled.value,
         );
 
@@ -246,7 +246,7 @@ export default defineComponent({
         };
 
         const handleSelect = (data: SelectParams) => {
-            if (isDisabled.value) return;
+            if (innnerDisabed.value) return;
             if (!props.multiple) {
                 isOpened.value = false;
             }
@@ -257,7 +257,7 @@ export default defineComponent({
         };
 
         const handleCheck = (data: CheckParams) => {
-            if (isDisabled.value) return;
+            if (innnerDisabed.value) return;
             if (!props.multiple) {
                 isOpened.value = false;
             }
@@ -377,7 +377,7 @@ export default defineComponent({
             isError,
             initLoadKeys,
             attrs,
-            isDisabled,
+            innnerDisabed,
         };
     },
 });
