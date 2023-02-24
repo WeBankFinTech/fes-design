@@ -11,7 +11,7 @@
                 :type="type"
                 :placeholder="placeholder"
                 :readonly="readonly"
-                :disabled="innnerDisabed"
+                :disabled="innerDisabled"
                 :clearable="clearable"
                 :maxlength="maxlength"
                 :showPassword="showPassword"
@@ -50,7 +50,7 @@
             :style="textareaStyle"
             :class="`${textareaPrefixCls}-inner`"
             :readonly="readonly"
-            :disabled="innnerDisabed"
+            :disabled="innerDisabled"
             :autocomplete="autocomplete"
             :maxlength="maxlength"
             :placeholder="placeholder"
@@ -92,10 +92,10 @@ import useFormAdaptor from '../_util/use/useFormAdaptor';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel } from '../_util/use/useModel';
+import { useInput } from '../_util/use/useInput';
 import calcTextareaHeight from './calcTextareaHeight';
 import InputInner from './inputInner.vue';
 import { commonInputProps } from './props';
-import { useInput } from '../_util/use/useInput';
 import { useFocus, useMouse } from './useInput';
 
 import type { InputValue } from './interface';
@@ -196,7 +196,7 @@ export default defineComponent({
             },
         ]);
 
-        const innnerDisabed = computed(
+        const innerDisabled = computed(
             () => props.disabled || isFormDisabled.value,
         );
 
@@ -253,7 +253,7 @@ export default defineComponent({
         };
 
         return {
-            innnerDisabed,
+            innerDisabled,
             isError,
             inputRef,
             textareaRef,

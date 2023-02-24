@@ -73,6 +73,7 @@ import { computed, ref, defineComponent, Ref, ExtractPropTypes } from 'vue';
 import { EyeOutlined, EyeInvisibleOutlined, CloseCircleFilled } from '../icon';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
+import useClickOutSide from '../_util/use/useClickOutSide';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 
 import { useInput } from '../_util/use/useInput';
@@ -195,17 +196,6 @@ export default defineComponent({
 
         const { hovering, onMouseLeave, onMouseEnter } = useMouse(emit);
 
-        const handleMousedown = (e: MouseEvent) => {
-            if (props.disabled) return;
-            const { tagName } = e.target as HTMLElement;
-            if (tagName !== 'INPUT' && tagName !== 'TEXTAREA') {
-                e.preventDefault();
-                if (!focused.value) {
-                    handleFocus(e);
-                }
-            }
-        };
-
         const handleChange = (event: Event) => {
             const { value } = event.target as HTMLInputElement;
             emit('change', value);
@@ -231,8 +221,26 @@ export default defineComponent({
             inputRefEl.value.blur();
         };
 
+        const wrapperElRef = ref();
+        useClickOutSide(wrapperElRef, () => {
+            if (focused.value) {
+                blur();
+            }
+        });
+
+        const handleMousedown = (e: MouseEvent) => {
+            if (props.disabled) return;
+            const { tagName } = e.target as HTMLElement;
+            if (tagName !== 'INPUT' && tagName !== 'TEXTAREA') {
+                e.preventDefault();
+                if (!focused.value) {
+                    focus();
+                }
+            }
+        };
         return {
             inputRefEl,
+            wrapperElRef,
             // 外部使用
             focus,
             blur,
