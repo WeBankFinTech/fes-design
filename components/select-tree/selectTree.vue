@@ -9,14 +9,14 @@
             :getContainer="getContainer"
             :offset="4"
             :hideAfter="0"
-            :disabled="innnerDisabed"
+            :disabled="innerDisabled"
             :lazy="false"
         >
             <template #trigger>
                 <SelectTrigger
                     ref="triggerDomRef"
                     :selectedOptions="selectedOptions"
-                    :disabled="innnerDisabed"
+                    :disabled="innerDisabled"
                     :clearable="clearable"
                     :isOpened="isOpened"
                     :multiple="multiple"
@@ -195,7 +195,7 @@ export default defineComponent({
         const listEmptyText = computed(
             () => props.emptyText || t('select.emptyText'),
         );
-        const innnerDisabed = computed(
+        const innerDisabled = computed(
             () => props.disabled || isFormDisabled.value,
         );
 
@@ -254,7 +254,7 @@ export default defineComponent({
         };
 
         const handleSelect = (data: SelectParams) => {
-            if (innnerDisabed.value) return;
+            if (innerDisabled.value) return;
             filterText.value = '';
             if (!props.multiple) {
                 updateCurrentValue(data.selectedKeys[0]);
@@ -266,7 +266,7 @@ export default defineComponent({
         };
 
         const handleCheck = (data: CheckParams) => {
-            if (innnerDisabed.value) return;
+            if (innerDisabled.value) return;
             filterText.value = '';
             if (!props.multiple) {
                 updateCurrentValue(data.checkedKeys[0]);
@@ -374,7 +374,7 @@ export default defineComponent({
             listEmptyText,
             isError,
             attrs,
-            innnerDisabed,
+            innerDisabled,
         };
     },
 });

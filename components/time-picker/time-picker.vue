@@ -4,7 +4,7 @@
         trigger="click"
         placement="bottom-start"
         :popperClass="`${prefixCls}-popper`"
-        :disabled="innnerDisabed"
+        :disabled="innerDisabled"
         :appendToContainer="appendToContainer"
         :getContainer="getContainer"
         :hideAfter="0"
@@ -18,7 +18,7 @@
                 :style="attrs.style"
                 :modelValue="displayValue"
                 :placeholder="inputPlaceholder"
-                :disabled="innnerDisabed"
+                :disabled="innerDisabled"
                 :clearable="clearable"
                 :innerIsError="isError"
                 @clear="clear"
@@ -243,7 +243,7 @@ export default defineComponent({
             forbidChildValidate: true,
         });
 
-        const innnerDisabed = computed(
+        const innerDisabled = computed(
             () => props.disabled || isFormDisabled.value,
         );
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
@@ -326,7 +326,7 @@ export default defineComponent({
         return {
             prefixCls,
             isError,
-            innnerDisabed,
+            innerDisabled,
             classes,
             displayValue,
             isOpened,

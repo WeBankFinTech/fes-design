@@ -1,9 +1,12 @@
 import { isRef, onBeforeUnmount, onMounted, watch, Ref } from 'vue';
 
-export default function useEsc(action: () => void, open: Ref<boolean>) {
+export default function useEsc(
+    action: (event: KeyboardEvent) => void,
+    open?: Ref<boolean>,
+) {
     const onGlobalKeyDown = (event: KeyboardEvent) => {
         if (event.code === 'Escape') {
-            action();
+            action(event);
         }
     };
 

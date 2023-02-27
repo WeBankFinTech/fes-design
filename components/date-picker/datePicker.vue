@@ -1,7 +1,7 @@
 <template>
     <Popper
         v-model="isOpened"
-        :disabled="innnerDisabed"
+        :disabled="innerDisabled"
         :appendToContainer="appendToContainer"
         :getContainer="getContainer"
         :popperClass="[popperClass, `${prefixCls}-popper`]"
@@ -20,7 +20,7 @@
                 :selectedDates="visibleValue"
                 :placeholder="rangePlaceHolder"
                 :clearable="clearable"
-                :disabled="innnerDisabed"
+                :disabled="innerDisabled"
                 :innerIsFocus="inputIsFocus"
                 :innerIsError="isError"
                 :class="attrs.class"
@@ -45,7 +45,7 @@
                 ref="inputRefEl"
                 :modelValue="dateText"
                 :placeholder="singlePlaceHolder"
-                :disabled="innnerDisabed"
+                :disabled="innerDisabled"
                 :canEdit="pickerRef.name !== PickerType.datemultiple"
                 :clearable="clearable"
                 :innerIsFocus="inputIsFocus"
@@ -316,7 +316,7 @@ export default defineComponent({
             forbidChildValidate: true,
         });
 
-        const innnerDisabed = computed(
+        const innerDisabled = computed(
             () => props.disabled || isFormDisabled.value,
         );
 
@@ -433,7 +433,7 @@ export default defineComponent({
             visibleValue,
 
             isError,
-            innnerDisabed,
+            innerDisabled,
             dateText,
             handleDateInput,
             handleDateInputBlur: (event: FocusEvent) => {

@@ -15,6 +15,7 @@ import getPrefixCls from '../_util/getPrefixCls';
 import FButton from '../button/button';
 import { CloseOutlined } from '../icon';
 import { useTheme } from '../_theme/useTheme';
+import useEsc from '../_util/use/useEsc';
 import { iconComponentMap } from '../_util/noticeManager';
 import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
@@ -115,10 +116,12 @@ const Modal = defineComponent({
 
         const { t } = useLocale();
 
-        function handleCancel(event: MouseEvent) {
+        function handleCancel(event: MouseEvent | KeyboardEvent) {
             ctx.emit(UPDATE_SHOW_EVENT, false);
             ctx.emit(CANCEL_EVENT, event);
         }
+
+        useEsc(handleCancel);
 
         function handleOk(event: MouseEvent) {
             ctx.emit(OK_EVENT, event);

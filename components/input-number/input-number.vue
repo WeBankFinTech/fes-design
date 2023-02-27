@@ -2,12 +2,12 @@
     <div :class="classes" @dragstart.prevent>
         <InputInner
             :modelValue="displayValue"
-            :disabled="innnerDisabed"
+            :disabled="innerDisabled"
             :placeholder="placeholder"
             :class="[`${prefixCls}-inner`]"
             :innerIsError="isError"
             @input="handleInput"
-            @focus="(event) => $emit('focus', event)"
+            @focus="onFocused"
             @blur="handleBlur"
         >
             <template v-if="$slots.prefix" #prefix>
@@ -25,7 +25,7 @@
                         :class="[
                             `${prefixCls}-actions-increase`,
                             {
-                                'is-disabled': maxDisabled || innnerDisabed,
+                                'is-disabled': maxDisabled || innerDisabled,
                             },
                         ]"
                         @mousedown.prevent
@@ -37,7 +37,7 @@
                         :class="[
                             `${prefixCls}-actions-decrease`,
                             {
-                                'is-disabled': minDisabled || innnerDisabed,
+                                'is-disabled': minDisabled || innerDisabled,
                             },
                         ]"
                         @mousedown.prevent
@@ -103,12 +103,12 @@ export default defineComponent({
 
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
-        const innnerDisabed = computed(
+        const innerDisabled = computed(
             () => props.disabled || isFormDisabled.value,
         );
 
         const classes = computed(() =>
-            [`${prefixCls}`, innnerDisabed.value && 'is-disabled'].filter(
+            [`${prefixCls}`, innerDisabled.value && 'is-disabled'].filter(
                 Boolean,
             ),
         );
@@ -120,37 +120,37 @@ export default defineComponent({
         });
 
         // 获取输入值的小数位数
-        const getPrecison = (val: number) => {
+        const getPrecision = (val: number) => {
             if (val == null) return 0;
             const valueString = val.toString();
             const dotPosition = valueString.indexOf('.');
-            let valuePrecison = 0;
+            let valuePrecision = 0;
             if (dotPosition !== -1) {
-                valuePrecison = valueString.length - dotPosition - 1;
+                valuePrecision = valueString.length - dotPosition - 1;
             }
-            return valuePrecison;
+            return valuePrecision;
         };
 
         // 数字的实际精度 （组件绑定的精度属性要处理）
-        const numPresicion = computed(() => {
-            const stepPrecision = getPrecison(props.step);
+        const numPrecision = computed(() => {
+            const stepPrecision = getPrecision(props.step);
             if (props.precision != null) {
-                const positiveIntegerPresicion = Math.abs(
+                const positiveIntegerPrecision = Math.abs(
                     Math.round(props.precision),
                 );
-                if (stepPrecision > positiveIntegerPresicion) {
+                if (stepPrecision > positiveIntegerPrecision) {
                     console.warn(
                         '[InputNumber]precision should not be less than the decimal places of step',
                     );
                 }
-                return positiveIntegerPresicion;
+                return positiveIntegerPrecision;
             }
-            return Math.max(getPrecison(currentValue.value), stepPrecision); // 计算时可能currentvalue 无值
+            return Math.max(getPrecision(currentValue.value), stepPrecision); // 计算时可能currentvalue 无值
         });
 
         // 保留指定的小数位数
         const toPrecision = (num: number, pre?: number): number => {
-            if (pre == null) pre = numPresicion.value;
+            if (pre == null) pre = numPrecision.value;
             return Math.round(num * 10 ** pre) / 10 ** pre;
         };
 
@@ -190,10 +190,13 @@ export default defineComponent({
                 }
             });
         };
+        const onFocused = (e: Event) => {
+            emit('focus', e);
+        };
 
         const _calculationNum = (val: number, type: ActionEnum) => {
             if (!isNumber(val) && val != null) return tempValue.value;
-            const precisionFactor = 10 ** numPresicion.value;
+            const precisionFactor = 10 ** numPrecision.value;
             let tmp;
             if (type === ActionEnum.PLUS) {
                 tmp = precisionFactor * val + precisionFactor * props.step;
@@ -231,9 +234,11 @@ export default defineComponent({
             prefixCls,
             isError,
             ActionEnum,
-            innnerDisabed,
+            innerDisabled,
             classes,
             handleInput,
+            onFocused,
+
             handleBlur,
             calculationNum,
             displayValue,
