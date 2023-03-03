@@ -1,3 +1,15 @@
+## [0.7.20](https://github.com/WeBankFinTech/fes-design/compare/v0.7.19...v0.7.20) (2023-03-03)
+
+
+### Features
+
+* form组件新增disabled能力 ([#280](https://github.com/WeBankFinTech/fes-design/issues/280)) ([6d14f8a](https://github.com/WeBankFinTech/fes-design/commit/6d14f8a9c890f2326531eb6dfd8fdcdc289cbdc7))
+* Menu组件的expandKeys支持双向绑定 ([#281](https://github.com/WeBankFinTech/fes-design/issues/281)) ([45d2040](https://github.com/WeBankFinTech/fes-design/commit/45d20403d5064a21912ac9346665faacf12cadaa))
+* modal 添加 esc 快捷键 ([#282](https://github.com/WeBankFinTech/fes-design/issues/282)) ([aca2fbe](https://github.com/WeBankFinTech/fes-design/commit/aca2fbecd3d6255191a6cd7351902a4c41d9536f))
+* Select组件支持empty插槽 ([#279](https://github.com/WeBankFinTech/fes-design/issues/279)) ([c839675](https://github.com/WeBankFinTech/fes-design/commit/c839675ae78cc63ecb57d2341fc3d49da5d838dc))
+
+
+
 ## [0.7.19](https://github.com/WeBankFinTech/fes-design/compare/v0.7.18...v0.7.19) (2023-02-13)
 
 
