@@ -166,7 +166,9 @@ export default defineComponent({
             tempValue.value = null;
             updateCurrentValue(newVal);
             emit('input', newVal);
-            emit('change', newVal, oldVal);
+            nextTick(() => {
+                emit('change', newVal, oldVal);
+            });
             validate('input');
             validate('change');
         };

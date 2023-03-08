@@ -1,4 +1,4 @@
-import { provide, unref } from 'vue';
+import { provide, unref, nextTick } from 'vue';
 import { useArrayModel } from '../_util/use/useModel';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import { CHANGE_EVENT } from '../_util/constants';
@@ -18,7 +18,9 @@ export const useCheckboxGroup = (
     const [currentValue, updateItem] = useArrayModel(props, emit);
 
     const handleChange = () => {
-        emit(CHANGE_EVENT, currentValue.value);
+        nextTick(() => {
+            emit(CHANGE_EVENT, currentValue.value);
+        });
         validate(CHANGE_EVENT);
     };
 

@@ -127,6 +127,7 @@ import {
     onMounted,
     CSSProperties,
     PropType,
+    nextTick,
 } from 'vue';
 import { debounce } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -204,7 +205,9 @@ export default defineComponent({
         });
 
         const handleChange = () => {
-            emit(CHANGE_EVENT, currentValue.value);
+            nextTick(() => {
+                emit(CHANGE_EVENT, currentValue.value);
+            });
             validate(CHANGE_EVENT);
         };
 

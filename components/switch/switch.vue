@@ -85,7 +85,9 @@ export default defineComponent({
         const loadingRef = ref(false);
 
         const handleChange = () => {
-            ctx.emit(CHANGE_EVENT, currentValue.value);
+            nextTick(() => {
+                ctx.emit(CHANGE_EVENT, currentValue.value);
+            });
             validate(CHANGE_EVENT);
         };
 

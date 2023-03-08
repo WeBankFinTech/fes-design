@@ -1,4 +1,4 @@
-import { inject, ref, computed } from 'vue';
+import { inject, ref, computed, nextTick } from 'vue';
 import { CHANGE_EVENT } from '../constants';
 import { useNormalModel } from './useModel';
 import useFormAdaptor from './useFormAdaptor';
@@ -49,7 +49,9 @@ export default ({
         } else {
             const newVal = !currentValue.value;
             updateCurrentValue(newVal);
-            emit(CHANGE_EVENT, newVal);
+            nextTick(() => {
+                emit(CHANGE_EVENT, newVal);
+            });
             validate(CHANGE_EVENT);
         }
     };

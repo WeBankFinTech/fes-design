@@ -80,20 +80,21 @@ import {
     computed,
     PropType,
     ExtractPropTypes,
+    nextTick,
 } from 'vue';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { useTheme } from '../_theme/useTheme';
-import TimeSelect from './time-select.vue';
 import InputInner from '../input/inputInner.vue';
 import { ClockCircleOutlined } from '../icon';
 import Popper from '../popper';
 import FButton from '../button';
 
-import type { GetContainer } from '../_util/interface';
 import { useLocale } from '../config-provider/useLocale';
+import TimeSelect from './time-select.vue';
+import type { GetContainer } from '../_util/interface';
 
 const prefixCls = getPrefixCls('time-picker');
 
@@ -275,7 +276,9 @@ export default defineComponent({
             if (val !== currentValue.value) {
                 tempValue.value = '';
                 updateCurrentValue(val);
-                emit('change', val);
+                nextTick(() => {
+                    emit('change', val);
+                });
                 validate('change');
                 activeTime.value = val;
             }

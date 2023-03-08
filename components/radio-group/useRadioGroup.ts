@@ -1,4 +1,4 @@
-import { provide, unref } from 'vue';
+import { provide, unref, nextTick } from 'vue';
 import { useNormalModel } from '../_util/use/useModel';
 import { CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
@@ -16,7 +16,9 @@ export const useRadioGroup = (
     const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
 
     const handleChange = () => {
-        emit(CHANGE_EVENT, currentValue.value);
+        nextTick(() => {
+            emit(CHANGE_EVENT, currentValue.value);
+        });
         validate(CHANGE_EVENT);
     };
 

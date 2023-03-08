@@ -98,6 +98,7 @@ import {
     ExtractPropTypes,
     ComputedRef,
     ComponentPublicInstance,
+    nextTick,
 } from 'vue';
 import { format, isValid } from 'date-fns';
 import { isEqual, isNil, isArray } from 'lodash-es';
@@ -340,7 +341,9 @@ export default defineComponent({
         const handleChange = (val: number | number[] | null) => {
             if (!isEqual(val, currentValue.value)) {
                 updateCurrentValue(val);
-                emit('change', val);
+                nextTick(() => {
+                    emit('change', val);
+                });
                 validate('change');
             }
         };
