@@ -1,8 +1,8 @@
 import { parse, format, endOfMonth, isValid } from 'date-fns';
 import { isNumber } from 'lodash-es';
 
-import type { DateObj, ParticalDateObj } from './interface';
 import { RANGE_POSITION } from './const';
+import type { DateObj, ParticalDateObj } from './interface';
 
 // TODO 国际化
 export function strictParse(
@@ -274,7 +274,7 @@ export const isBeyondRangeTime = (option: {
         // FEATURE: 后续采取 unicode token 标准(https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table)，用 d
         minDate = new Date(option.flagDate);
         maxDate = new Date(option.flagDate);
-        minDate.setDate(minDate.getDate() - length - 1);
+        minDate.setDate(minDate.getDate() - length + 1);
         maxDate.setDate(maxDate.getDate() + length - 1);
     } else if (type === 'M') {
         // DEPRECATED 后续废弃对 M 和 Y 的支持
