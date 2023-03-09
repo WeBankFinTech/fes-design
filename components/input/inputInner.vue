@@ -1,6 +1,5 @@
 <template>
     <span
-        ref="wrapperElRef"
         :class="[
             prefixCls,
             (focused || innerIsFocus) && `${prefixCls}-focus`,
@@ -73,7 +72,6 @@ import { computed, ref, defineComponent, Ref, ExtractPropTypes } from 'vue';
 import { EyeOutlined, EyeInvisibleOutlined, CloseCircleFilled } from '../icon';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
-import useClickOutSide from '../_util/use/useClickOutSide';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 
 import { useInput } from '../_util/use/useInput';
@@ -221,13 +219,6 @@ export default defineComponent({
             inputRefEl.value.blur();
         };
 
-        const wrapperElRef = ref();
-        useClickOutSide(wrapperElRef, () => {
-            if (focused.value) {
-                blur();
-            }
-        });
-
         const handleMousedown = (e: MouseEvent) => {
             if (props.disabled) return;
             const { tagName } = e.target as HTMLElement;
@@ -240,7 +231,6 @@ export default defineComponent({
         };
         return {
             inputRefEl,
-            wrapperElRef,
             // 外部使用
             focus,
             blur,
