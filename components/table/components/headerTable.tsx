@@ -11,10 +11,6 @@ export default defineComponent({
         mousewheel: Mousewheel,
     },
     props: {
-        composed: {
-            type: Boolean,
-            default: false,
-        },
         columns: {
             type: Array as PropType<ColumnInst[]>,
             required: true,
@@ -22,7 +18,6 @@ export default defineComponent({
     },
     setup(props) {
         const {
-            rootProps,
             prefixCls,
             headerWrapperRef,
             headerWrapperClass,
@@ -31,9 +26,6 @@ export default defineComponent({
         } = inject(provideKey);
 
         return () => {
-            if (!(props.composed && rootProps.showHeader)) {
-                return null;
-            }
             return (
                 <div
                     ref={(el) => {

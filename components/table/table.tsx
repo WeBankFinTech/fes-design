@@ -120,15 +120,14 @@ export default defineComponent({
             showData,
         } = useTable(props, ctx);
 
-        ctx.expose &&
-            ctx.expose({
-                toggleRowSelection: handleSelect,
-                toggleAllSelection: handleSelectAll,
-                clearSelection: clearSelect,
-                toggleRowExpend,
-                sort,
-                clearSorter,
-            });
+        ctx.expose?.({
+            toggleRowSelection: handleSelect,
+            toggleAllSelection: handleSelectAll,
+            clearSelection: clearSelect,
+            toggleRowExpend,
+            sort,
+            clearSorter,
+        });
 
         // 计算出传入columns列的对应的宽度
         const columnsRef = computed(() => {
@@ -159,28 +158,33 @@ export default defineComponent({
             },
         );
 
+        const render = () => {
+            if (!layout.initRef.value) {
+                return;
+            }
+            return (
+                <>
+                    {composed.value && rootProps.showHeader && (
+                        <HeaderTable columns={columnsRef.value} />
+                    )}
+                    {rootProps.virtualScroll && showData.value.length ? (
+                        <VirtualTable columns={columnsRef.value} />
+                    ) : (
+                        <BodyTable
+                            composed={composed.value}
+                            columns={columnsRef.value}
+                        />
+                    )}
+                </>
+            );
+        };
+
         return () => (
             <div ref={wrapperRef} class={wrapperClass.value}>
                 <div ref="hiddenColumns" class="hidden-columns">
                     {ctx.slots.default?.()}
                 </div>
-                <HeaderTable
-                    v-show={layout.initRef.value}
-                    composed={composed.value}
-                    columns={columnsRef.value}
-                />
-                {rootProps.virtualScroll && showData.value.length ? (
-                    <VirtualTable
-                        v-show={layout.initRef.value}
-                        columns={columnsRef.value}
-                    />
-                ) : (
-                    <BodyTable
-                        v-show={layout.initRef.value}
-                        composed={composed.value}
-                        columns={columnsRef.value}
-                    />
-                )}
+                {render()}
             </div>
         );
     },
