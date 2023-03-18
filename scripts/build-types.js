@@ -14,12 +14,16 @@ async function main() {
     // 这里仅需要知道这是用来处理 ts 文件并生成类型声明文件即可
     const project = new Project({
         compilerOptions: {
+            baseUrl: '.',
             declaration: true,
             emitDeclarationOnly: true,
             noEmitOnError: false,
             noImplicitAny: false,
-            allowJs: true, // 如果想兼容 js 语法需要加上
-            // outDir: 'types', // 可以设置自定义的打包文件夹，如 'types'
+            skipLibCheck: true,
+            // https://github.com/microsoft/TypeScript/issues/29808#issuecomment-540292885
+            paths: {
+                'async-validator': ['node_modules/async-validator'],
+            },
         },
         tsConfigFilePath: path.resolve(__dirname, '../tsconfig.json'),
         skipAddingFilesFromTsConfig: true,
@@ -62,10 +66,6 @@ async function main() {
 
                         if (script.lang === 'ts') isTs = true;
                     }
-
-                    // if (/\/layout\//.test(file)) {
-                    //     console.log(content);
-                    // }
 
                     sourceFiles.push(
                         // 创建一个同路径的同名 ts/js 的映射文件
