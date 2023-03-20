@@ -32,17 +32,17 @@ export default defineComponent({
             props.disabled && `${prefixCls}-disabled`, // disabled
         ]);
         const formStyle = computed(() => {
-            const gapStyle = props.layout === FORM_LAYOUT.INLINE &&
+            const tempColStyle = props.layout === FORM_LAYOUT.INLINE &&
                 props.inlineItemWidth && {
                     'grid-template-columns': `repeat(auto-fit, ${addUnit(
                         props.inlineItemWidth,
                     )})`,
                 };
-            const tempColStyle = props.layout === FORM_LAYOUT.INLINE &&
+            const gapStyle = props.layout === FORM_LAYOUT.INLINE &&
                 props.inlineItemGap && {
                     'grid-gap': `${addUnit(props.inlineItemGap)}`,
                 };
-            return { ...gapStyle, ...tempColStyle };
+            return { ...tempColStyle, ...gapStyle };
         });
 
         const addField = (formItemProp: string, formItemContext: Field) => {
