@@ -201,11 +201,13 @@ export default defineComponent({
         );
 
         const textareaCalcStyle = shallowRef(props.inputStyle);
-        const textareaStyle = computed(() => ({
-            ...props.inputStyle,
-            ...textareaCalcStyle.value,
-            resize: props.resize,
-        }));
+        const textareaStyle = computed(() => [
+            props.inputStyle,
+            textareaCalcStyle.value,
+            {
+                resize: props.resize,
+            },
+        ]);
         const resizeTextarea = () => {
             const { type, autosize } = props;
 

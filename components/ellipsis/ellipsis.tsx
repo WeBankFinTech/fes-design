@@ -5,6 +5,7 @@ import {
     PropType,
     CSSProperties,
     ExtractPropTypes,
+    StyleValue,
 } from 'vue';
 import { isObject } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -54,11 +55,11 @@ export default defineComponent({
         );
 
         const styleRef = computed(() => {
-            const ellStyle =
+            const ellStyle: StyleValue =
                 props.line > 1
                     ? {
                           display: '-webkit-inline-box',
-                          '-webkit-line-clamp': props.line,
+                          '-webkit-line-clamp': +props.line,
                           '-webkit-box-orient': 'vertical',
                       }
                     : { 'text-overflow': 'ellipsis', 'white-space': 'nowrap' };
