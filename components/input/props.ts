@@ -1,4 +1,4 @@
-import type { PropType, CSSProperties } from 'vue';
+import type { PropType, StyleValue } from 'vue';
 import type { InputValue } from './interface';
 
 export const commonInputProps = {
@@ -32,8 +32,8 @@ export const commonInputProps = {
         default: false,
     },
     inputStyle: {
-        type: Object as PropType<CSSProperties>,
-        default: () => ({} as CSSProperties),
+        type: Object as PropType<StyleValue>,
+        default: () => ({} as StyleValue),
     },
     autocomplete: {
         type: String,

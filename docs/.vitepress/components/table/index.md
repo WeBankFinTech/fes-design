@@ -16,7 +16,7 @@ app.use(FTable);
 
 --COMMON
 
-<!-- #### 带边框表格
+#### 带边框表格
 
 配置`bordered`即可。
 
@@ -94,7 +94,7 @@ app.use(FTable);
 
 ### 无数据
 
---NODATA  -->
+--NODATA 
 
 --CODE
 

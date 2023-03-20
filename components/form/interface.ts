@@ -1,12 +1,12 @@
 import { ExtractPropTypes, PropType, ToRefs, Ref } from 'vue';
 import { FORM_LAYOUT, LABEL_POSITION } from './const';
-import type { RuleItem } from 'async-validator';
+import type { RuleItem, Rules } from 'async-validator';
 
 export const formProps = {
     model: Object,
     rules: {
-        type: Object as PropType<Record<string, RuleItem[] | RuleItem>>,
-        default: () => ({}),
+        type: Object as PropType<Rules>,
+        default: () => ({} as Rules),
     },
     layout: {
         type: String as PropType<typeof FORM_LAYOUT[keyof typeof FORM_LAYOUT]>,
@@ -40,6 +40,7 @@ export const formItemProps = {
     prop: String,
     value: {
         type: [String, Number, Boolean, Array, Object] as PropType<unknown>,
+        // eslint-disable-next-line no-undefined
         default: undefined as boolean,
     },
     label: String,
