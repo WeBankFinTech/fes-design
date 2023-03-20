@@ -1,3 +1,12 @@
+## [0.7.22](https://github.com/WeBankFinTech/fes-design/compare/v0.7.21...v0.7.22) (2023-03-20)
+
+
+### Bug Fixes
+
+* 修复类型异常 ([#290](https://github.com/WeBankFinTech/fes-design/issues/290)) ([3ff05dd](https://github.com/WeBankFinTech/fes-design/commit/3ff05dddc327a9ee13245ef35372c6fba82cdaf6))
+
+
+
 ## [0.7.21](https://github.com/WeBankFinTech/fes-design/compare/v0.7.20...v0.7.21) (2023-03-09)
 
 
