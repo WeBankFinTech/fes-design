@@ -152,7 +152,11 @@ export default defineComponent({
                 <Popper
                     {...popperPropsRef.value}
                     v-model={currentValue.value}
-                    popperClass={`${prefixCls} ${prefixCls}-${props.mode} ${popperPropsRef.value.popperClass}`}
+                    popperClass={[
+                        prefixCls,
+                        `${prefixCls}-${props.mode}`,
+                        popperPropsRef.value.popperClass,
+                    ]}
                     v-slots={getPopperSlots()}
                 >
                     {renderContent()}
