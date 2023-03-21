@@ -16,7 +16,10 @@ export const formProps = {
         type: Number,
         default: 6,
     },
-    inlineItemGap: [String, Number] as PropType<string | number>,
+    inlineItemGap: {
+        type: [String, Number] as PropType<string | number>,
+        default: 11,
+    },
     inlineItemWidth: [String, Number] as PropType<string | number>,
     labelPosition: {
         type: String as PropType<
