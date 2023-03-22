@@ -2,6 +2,7 @@
     <teleport :disabled="!getContainer?.()" :to="getContainer?.()">
         <div
             v-show="show"
+            ref="containerRef"
             :class="`${prefixCls}`"
             :style="{ zIndex }"
             @click.self="hideOnClickModal && handleClose()"
@@ -83,8 +84,6 @@ import {
     ref,
     computed,
     watch,
-    onMounted,
-    onUnmounted,
     defineComponent,
     PropType,
     CSSProperties,
@@ -92,7 +91,7 @@ import {
 import { useEventListener } from '@vueuse/core';
 import { throttle } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
-import { isFirefox, noop } from '../_util/utils';
+import { noop } from '../_util/utils';
 import PopupManager from '../_util/popupManager';
 import {
     LeftOutlined,
@@ -149,6 +148,7 @@ export default defineComponent({
     props: previewProps,
     emits: [CLOSE_EVENT],
     setup(props, { emit }) {
+        const containerRef = ref<HTMLElement>();
         const clientHeight = document.documentElement.clientHeight;
         const clientWidth = document.documentElement.clientWidth;
         const zIndex = ref(PopupManager.nextZIndex());
@@ -168,8 +168,6 @@ export default defineComponent({
         const getContainer = computed(
             () => props.getContainer || config.getContainer?.value,
         );
-
-        const mousewheelEvent = isFirefox() ? 'DOMMouseScroll' : 'mousewheel';
 
         const previewStyle = computed(() => {
             const { scale, rotateDeg, offsetX, offsetY } = transform.value;
@@ -236,30 +234,28 @@ export default defineComponent({
             };
         };
 
-        const handleScroll = (e: WheelEvent) => {
-            e.stopPropagation();
-            window.requestAnimationFrame(() => {
-                const delta = e.deltaY ? e.deltaY : e.detail;
-                if (delta < 0) {
-                    handleActions('zoomIn', {
-                        zoomRate: 0.015,
-                    });
-                } else {
-                    handleActions('zoomOut', {
-                        zoomRate: 0.015,
-                    });
-                }
-            });
-        };
-
-        let clearScrollListener: () => void;
-        const addMouseListener = () => {
-            clearScrollListener = useEventListener(
-                document,
-                mousewheelEvent,
-                handleScroll,
-            );
-        };
+        useEventListener(
+            containerRef,
+            'wheel',
+            (e: WheelEvent) => {
+                e.preventDefault();
+                window.requestAnimationFrame(() => {
+                    const delta = e.deltaY ? e.deltaY : e.detail;
+                    if (delta < 0) {
+                        handleActions('zoomIn', {
+                            zoomRate: 0.015,
+                        });
+                    } else {
+                        handleActions('zoomOut', {
+                            zoomRate: 0.015,
+                        });
+                    }
+                });
+            },
+            {
+                passive: false,
+            },
+        );
 
         let isMouseDown = false;
         let startX: number;
@@ -296,7 +292,6 @@ export default defineComponent({
         };
 
         const handleClose = () => {
-            clearScrollListener && clearScrollListener();
             emit(CLOSE_EVENT);
         };
 
@@ -307,15 +302,8 @@ export default defineComponent({
             },
         );
 
-        onMounted(() => {
-            addMouseListener();
-        });
-
-        onUnmounted(() => {
-            clearScrollListener && clearScrollListener();
-        });
-
         return {
+            containerRef,
             prefixCls,
             handleClose,
             isGroup,

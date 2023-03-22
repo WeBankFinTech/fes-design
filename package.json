@@ -117,14 +117,12 @@
     "@floating-ui/dom": "^0.4.2",
     "@juggle/resize-observer": "^3.3.1",
     "@types/lodash-es": "^4.17.5",
-    "@types/normalize-wheel": "^1.0.0",
     "@vue/shared": "^3.2.24",
     "@vueuse/core": "^9.6.0",
     "async-validator": "^4.0.7",
     "csstype": "^3.0.10",
     "date-fns": "^2.28.0",
     "lodash-es": "^4.17.21",
-    "normalize-wheel": "^1.0.1",
     "stickybits": "^3.7.9"
   },
   "lint-staged": {

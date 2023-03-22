@@ -1,5 +1,5 @@
 import { defineComponent, inject, PropType } from 'vue';
-import Mousewheel from '../../_util/directives/mousewheel';
+import { useEventListener } from '@vueuse/core';
 import { provideKey } from '../const';
 import Colgroup from './colgroup';
 import Header from './header';
@@ -7,9 +7,6 @@ import Header from './header';
 import type { ColumnInst } from '../column';
 
 export default defineComponent({
-    directives: {
-        mousewheel: Mousewheel,
-    },
     props: {
         columns: {
             type: Array as PropType<ColumnInst[]>,
@@ -25,6 +22,10 @@ export default defineComponent({
             handleHeaderMousewheel,
         } = inject(provideKey);
 
+        useEventListener(headerWrapperRef, 'wheel', handleHeaderMousewheel, {
+            passive: false,
+        });
+
         return () => {
             return (
                 <div
@@ -32,9 +33,6 @@ export default defineComponent({
                         headerWrapperRef.value = el;
                     }}
                     class={headerWrapperClass.value}
-                    v-mousewheel={(e: Event, data: any) => {
-                        handleHeaderMousewheel(e, data);
-                    }}
                 >
                     <table
                         class={`${prefixCls}-header`}
