@@ -1,3 +1,18 @@
+## [0.7.23](https://github.com/WeBankFinTech/fes-design/compare/v0.7.22...v0.7.23) (2023-03-22)
+
+
+### Bug Fixes
+
+* **tooltip:** 修复处理popperClass不正确问题 ([#291](https://github.com/WeBankFinTech/fes-design/issues/291)) ([b3131d4](https://github.com/WeBankFinTech/fes-design/commit/b3131d43054b6931d476256d0ae86f7556613f22))
+* 修复 popper trigger 纯文本节点导致异常 ([#295](https://github.com/WeBankFinTech/fes-design/issues/295)) ([b41e58c](https://github.com/WeBankFinTech/fes-design/commit/b41e58c87f866d51b39acfce50e6e5a6c6b744fc))
+
+
+### Features
+
+* form支持inlineItemGap属性 ([#296](https://github.com/WeBankFinTech/fes-design/issues/296)) ([0f97c14](https://github.com/WeBankFinTech/fes-design/commit/0f97c14dcb4d5508fd9c32720d0c83017c4296c9))
+
+
+
 ## [0.7.22](https://github.com/WeBankFinTech/fes-design/compare/v0.7.21...v0.7.22) (2023-03-20)
 
 
