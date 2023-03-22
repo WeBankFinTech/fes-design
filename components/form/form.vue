@@ -31,15 +31,19 @@ export default defineComponent({
             `${prefixCls}-${props.layout}`,
             props.disabled && `${prefixCls}-disabled`, // disabled
         ]);
-        const formStyle = computed(
-            () =>
-                props.layout === FORM_LAYOUT.INLINE &&
+        const formStyle = computed(() => {
+            const tempColStyle = props.layout === FORM_LAYOUT.INLINE &&
                 props.inlineItemWidth && {
                     'grid-template-columns': `repeat(auto-fit, ${addUnit(
                         props.inlineItemWidth,
                     )})`,
-                },
-        );
+                };
+            const gapStyle = props.layout === FORM_LAYOUT.INLINE &&
+                props.inlineItemGap && {
+                    'grid-gap': `${addUnit(props.inlineItemGap)}`,
+                };
+            return { ...tempColStyle, ...gapStyle };
+        });
 
         const addField = (formItemProp: string, formItemContext: Field) => {
             if (formItemProp) formFields[formItemProp] = formItemContext;
