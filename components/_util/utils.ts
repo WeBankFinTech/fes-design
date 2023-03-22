@@ -110,7 +110,7 @@ export function getParentNode(node: Node): Node | null {
 export function getScrollParent(
     node: Node | null,
 ): HTMLElement | Document | null {
-    if (node === null) return null;
+    if (node == null) return null;
 
     const parentNode = getParentNode(node);
 

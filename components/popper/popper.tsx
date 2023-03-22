@@ -55,17 +55,24 @@ export default defineComponent({
                 !visible.value,
         );
 
-        useScroll(
-            computed(() => getElementFromRef(triggerRef.value)),
-            (e: Event) => {
-                if (disabledWatch.value) return;
-                if (isFunction(props.disabled) && props.disabled()) return;
-                // 不挂载在container上
-                if (!props.appendToContainer) return;
-                if (e.target === getContainer.value?.()) return;
-                computePopper();
-            },
-        );
+        const triggerElement = computed(() => {
+            const elm = getElementFromRef(triggerRef.value);
+            if (elm instanceof Text) {
+                throw TypeError(
+                    `FPopper: trigger must be a Element, but get Text(${elm.nodeValue})`,
+                );
+            }
+            return elm;
+        });
+
+        useScroll(triggerElement, (e: Event) => {
+            if (disabledWatch.value) return;
+            if (isFunction(props.disabled) && props.disabled()) return;
+            // 不挂载在container上
+            if (!props.appendToContainer) return;
+            if (e.target === getContainer.value?.()) return;
+            computePopper();
+        });
         useClickOutSide(
             [triggerRef, popperRef],
             () => {
@@ -73,11 +80,7 @@ export default defineComponent({
             },
             disabledWatch,
         );
-        useResize(
-            computed(() => getElementFromRef(triggerRef.value)),
-            computePopper,
-            disabledWatch,
-        );
+        useResize(triggerElement, computePopper, disabledWatch);
         useResize(
             computed(() => getElementFromRef(popperRef.value)),
             computePopper,
