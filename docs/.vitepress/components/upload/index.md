@@ -38,6 +38,10 @@ app.use(FUpload);
 
 --previewUpload
 
+### 自定义 http request
+
+--customerUpload
+
 --CODE
 
 ## Upload Props
@@ -126,35 +130,18 @@ interface UploadError extends Error {
 
 ### RequestOptions
 
-```js
-const options = {
-    headers: props.header,
-    withCredentials: props.withCredentials,
-    data: props.data,
-    file: rawFile,
-    fileName: props.name,
-    action: props.action,
-    timeout: props.timeout,
-    transformResponse: props.transformResponse,
-    onProgress: (e: ProgressEvent) => {
-        onProgress({
-            event: e,
-            rawFile,
-        });
-    },
-    onSuccess: (res: any) => {
-        onSuccess({
-            response: res,
-            rawFile,
-        });
-        delete requestList.value[uid];
-    },
-    onError: (err: Error) => {
-        onError({
-            error: err,
-            rawFile,
-        });
-        delete requestList.value[uid];
-    },
-};
+```ts
+interface RequestOptions {
+    headers: Record<string, string>; // 值为 props.headers,
+    withCredentials: string; // 值为 props.withCredentials,
+    data: Record<string, any>; //  值为 props.data,
+    file: File; // 用户选中的文件
+    fileName: string; // 值为 props.name,
+    action: string; // 值为 props.action,
+    timeout: number; // 值为 props.timeout,
+    transformResponse: Function; // 值为 props.transformResponse,
+    onProgress: (e: ProgressEvent) => void;
+    onSuccess: (res: any) => void;
+    onError: (err: Error) => void;
+}
 ```
