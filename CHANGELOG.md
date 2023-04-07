@@ -1,3 +1,12 @@
+## [0.7.24](https://github.com/WeBankFinTech/fes-design/compare/v0.7.23...v0.7.24) (2023-04-07)
+
+
+### Bug Fixes
+
+* **scrollbar:** 修复scrollbar组件在水平滚动时,无法监听内容大小变化问题 ([#299](https://github.com/WeBankFinTech/fes-design/issues/299)) ([5ec94bc](https://github.com/WeBankFinTech/fes-design/commit/5ec94bce267030c2bc4855894b982bfe2588c261))
+
+
+
 ## [0.7.23](https://github.com/WeBankFinTech/fes-design/compare/v0.7.22...v0.7.23) (2023-03-22)
 
 
