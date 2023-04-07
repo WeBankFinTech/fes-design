@@ -9,7 +9,7 @@
             <div
                 ref="contentRef"
                 :class="`${prefixCls}-content`"
-                :style="contentStyle"
+                :style="[scrollX && { width: 'fit-content' }, contentStyle]"
             >
                 <slot></slot>
             </div>
