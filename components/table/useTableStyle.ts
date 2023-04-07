@@ -248,12 +248,12 @@ export default ({
         }
     }, 10);
 
-    const handleHeaderMousewheel = (e: Event, data: any) => {
-        const { pixelX, pixelY } = data;
-        if (Math.abs(pixelX) >= Math.abs(pixelY)) {
+    const handleHeaderMousewheel = (e: WheelEvent) => {
+        const { deltaX, deltaY } = e;
+        if (Math.abs(deltaX) >= Math.abs(deltaY)) {
             e.preventDefault();
             if (scrollbarRef.value) {
-                scrollbarRef.value.containerRef.scrollLeft += data.pixelX;
+                scrollbarRef.value.containerRef.scrollLeft += deltaX;
             }
         }
     };
