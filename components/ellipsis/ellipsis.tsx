@@ -50,16 +50,22 @@ export default defineComponent({
 
         const triggerRef = ref<HTMLElement>();
 
+        const triggerInnerRef = ref<HTMLElement>();
+
         const classListRef = computed(() =>
             [prefixCls, props.class].filter(Boolean),
         );
 
+        const line = computed(() => {
+            return Number(props.line);
+        });
+
         const styleRef = computed(() => {
             const ellStyle: StyleValue =
-                props.line > 1
+                line.value > 1
                     ? {
                           display: '-webkit-inline-box',
-                          '-webkit-line-clamp': +props.line,
+                          '-webkit-line-clamp': line.value,
                           '-webkit-box-orient': 'vertical',
                       }
                     : { 'text-overflow': 'ellipsis', 'white-space': 'nowrap' };
@@ -78,13 +84,15 @@ export default defineComponent({
             let isEllipsis = true;
             const { value: trigger } = triggerRef;
             if (!trigger) return true;
-            const { offsetHeight, scrollHeight, scrollWidth, offsetWidth } =
-                trigger;
+            const { offsetHeight, scrollHeight, offsetWidth } = trigger;
             if (offsetHeight && offsetWidth) {
-                if (props.line > 1) {
+                if (line.value > 1) {
                     isEllipsis = scrollHeight > offsetHeight;
                 } else {
-                    isEllipsis = scrollWidth > offsetWidth;
+                    const { value: triggerInner } = triggerInnerRef;
+                    isEllipsis =
+                        triggerInner.getBoundingClientRect().width >
+                        trigger.getBoundingClientRect().width;
                 }
             }
             return !isEllipsis;
@@ -96,7 +104,13 @@ export default defineComponent({
                 class={classListRef.value}
                 style={styleRef.value}
             >
-                {slots.default?.() ?? props.content}
+                {line.value > 1 ? (
+                    slots.default?.() ?? props.content
+                ) : (
+                    <span ref={triggerInnerRef}>
+                        {slots.default?.() ?? props.content}
+                    </span>
+                )}
             </span>
         );
 
