@@ -4,6 +4,7 @@ node_modules
 .cache
 .rollup.cache
 .temp
+.rc
 dist
 es
 lib
