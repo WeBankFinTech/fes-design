@@ -25,8 +25,6 @@ export default defineComponent({
     setup(props) {
         useTheme();
 
-        console.log('xxx', props);
-
         const classes = computed(() => ({
             [prefixCls]: true,
             [`${prefixCls}-size--${props.size}`]: props.size,
