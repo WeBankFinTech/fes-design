@@ -46,3 +46,4 @@ import './select-cascader/style';
 import './descriptions/style';
 import './collapse/style';
 import './radio-button/style';
+import './card/style';

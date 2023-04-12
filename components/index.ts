@@ -45,6 +45,7 @@ import { FCascader } from './cascader';
 import { FSelectCascader } from './select-cascader';
 import { FDescriptions, FDescriptionsItem } from './descriptions';
 import { FCollapse, FCollapseItem } from './collapse';
+import { FCard } from './card';
 import type { App } from 'vue';
 
 export * from './locales';
@@ -113,6 +114,7 @@ const components = [
     FDescriptionsItem,
     FCollapse,
     FCollapseItem,
+    FCard,
 ];
 const install = function (app: App) {
     components.forEach((component) => {
@@ -188,6 +190,7 @@ export {
     FDescriptionsItem,
     FCollapse,
     FCollapseItem,
+    FCard,
 };
 export default {
     version,
