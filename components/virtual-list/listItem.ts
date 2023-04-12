@@ -3,10 +3,10 @@
  */
 
 import { defineComponent, ref, cloneVNode, computed } from 'vue';
-import { itemProps } from './props';
 import useResize from '../_util/use/useResize';
 import { getFirstValidNode } from '../_util/vnode';
-import getElementFromRef from '../_util/getElementFromRef';
+import getElementFromVueInstance from '../_util/getElementFromVueInstance';
+import { itemProps } from './props';
 
 // wrapping for item
 export const FVirtualListItem = defineComponent({
@@ -40,7 +40,7 @@ export const FVirtualListItem = defineComponent({
             vNode,
             {
                 ref: (el) => {
-                    if (el) this.itemRef = getElementFromRef(el);
+                    if (el) this.itemRef = getElementFromVueInstance(el);
                 },
             },
             true,

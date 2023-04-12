@@ -14,7 +14,7 @@ const cls = getPrefixCls('popup-hidden');
  * Hook that monitoring the ref value to lock or unlock the screen.
  * When the trigger became true, it assumes modal is now opened and vice versa.
  */
-export default (trigger: Ref<boolean>) => {
+export default function useLockScreen(trigger: Ref<boolean>) {
     let scrollBarWidth = 0;
     let withoutHiddenClass = false;
     let bodyPaddingRight = '0';
@@ -60,4 +60,4 @@ export default (trigger: Ref<boolean>) => {
             cleanup();
         }
     });
-};
+}

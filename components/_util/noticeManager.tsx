@@ -1,6 +1,5 @@
 /* eslint-disable vue/one-component-per-file */
 import {
-    h,
     createApp,
     defineComponent,
     onMounted,

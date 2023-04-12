@@ -3,7 +3,7 @@ import { computePosition, offset, shift, flip, arrow } from '@floating-ui/dom';
 import { isBoolean, isFunction } from 'lodash-es';
 import { useNormalModel } from '../_util/use/useModel';
 import popupManager from '../_util/popupManager';
-import getElementFromRef from '../_util/getElementFromRef';
+import getElementFromVueInstance from '../_util/getElementFromVueInstance';
 
 import type { PopperProps } from './props';
 import type { VirtualRect } from './interface';
@@ -37,9 +37,11 @@ export default (props: PopperProps, emit: any) => {
                               bottom: virtualRect.value.y,
                               left: virtualRect.value.x,
                           },
-                      contextElement: getElementFromRef(triggerRef.value),
+                      contextElement: getElementFromVueInstance(
+                          triggerRef.value,
+                      ),
                   }
-                : getElementFromRef(triggerRef.value);
+                : getElementFromVueInstance(triggerRef.value);
             const popperEl = popperRef.value;
             computePosition(triggerEl, popperEl, {
                 placement: props.placement,

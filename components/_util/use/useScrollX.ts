@@ -1,6 +1,6 @@
 import { onBeforeUnmount, onMounted, Ref } from 'vue';
 
-export default (targetRef: Ref<HTMLElement>) => {
+export default function useScrollX(targetRef: Ref<HTMLElement>) {
     function handleWheelEvent(event: WheelEvent) {
         const currentTarget = event.currentTarget as HTMLElement;
         if (!currentTarget) return;
@@ -26,4 +26,4 @@ export default (targetRef: Ref<HTMLElement>) => {
     return {
         scrollTo,
     };
-};
+}

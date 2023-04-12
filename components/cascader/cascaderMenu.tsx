@@ -12,7 +12,7 @@ import { isFunction, isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import Scrollbar from '../scrollbar';
-import getElementFromRef from '../_util/getElementFromRef';
+import getElementFromVueInstance from '../_util/getElementFromVueInstance';
 import { COMPONENT_NAME } from './const';
 import useCascaderMenu from './useCascaderMenu';
 import CascaderNode from './cascaderNode';
@@ -86,7 +86,7 @@ export default defineComponent({
                 return;
             }
 
-            const scrollbarEl = getElementFromRef(
+            const scrollbarEl = getElementFromVueInstance(
                 scrollbarRef.value,
             ) as HTMLElement;
             const scrollbarContainerEl =

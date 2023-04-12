@@ -6,13 +6,13 @@ import {
     Transition,
 } from 'vue';
 import { isBoolean, isFunction } from 'lodash-es';
-import LazyTeleport from '../_util/lazyTeleport';
+import LazyTeleport from '../_util/components/lazyTeleport';
 import getPrefixCls from '../_util/getPrefixCls';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import useClickOutSide from '../_util/use/useClickOutSide';
 import useResize from '../_util/use/useResize';
 import { getFirstValidNode } from '../_util/vnode';
-import getElementFromRef from '../_util/getElementFromRef';
+import getElementFromVueInstance from '../_util/getElementFromVueInstance';
 import { useTheme } from '../_theme/useTheme';
 import { useConfig } from '../config-provider';
 import useTrigger from './useTrigger';
@@ -56,7 +56,7 @@ export default defineComponent({
         );
 
         const triggerElement = computed(() => {
-            const elm = getElementFromRef(triggerRef.value);
+            const elm = getElementFromVueInstance(triggerRef.value);
             if (elm instanceof Text) {
                 throw TypeError(
                     `FPopper: trigger must be a Element, but get Text(${elm.nodeValue})`,
@@ -82,7 +82,7 @@ export default defineComponent({
         );
         useResize(triggerElement, computePopper, disabledWatch);
         useResize(
-            computed(() => getElementFromRef(popperRef.value)),
+            computed(() => getElementFromVueInstance(popperRef.value)),
             computePopper,
             disabledWatch,
         );

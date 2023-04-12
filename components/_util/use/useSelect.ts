@@ -5,7 +5,7 @@ import useFormAdaptor from './useFormAdaptor';
 
 import type { VModelEvent, ChangeEvent } from '../interface';
 
-export default ({
+export default function useSelect({
     props,
     emit,
     parent,
@@ -19,7 +19,7 @@ export default ({
         groupKey: symbol;
         name: string;
     };
-}) => {
+}) {
     const { validate, isFormDisabled } = useFormAdaptor({
         valueType: 'boolean',
     });
@@ -72,4 +72,4 @@ export default ({
         handleMouseOver,
         handleMouseOut,
     };
-};
+}

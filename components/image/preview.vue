@@ -91,7 +91,7 @@ import {
 import { useEventListener } from '@vueuse/core';
 import { throttle } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
-import { noop } from '../_util/utils';
+import { noop, requestAnimationFrame } from '../_util/utils';
 import PopupManager from '../_util/popupManager';
 import {
     LeftOutlined,
@@ -239,7 +239,7 @@ export default defineComponent({
             'wheel',
             (e: WheelEvent) => {
                 e.preventDefault();
-                window.requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
                     const delta = e.deltaY ? e.deltaY : e.detail;
                     if (delta < 0) {
                         handleActions('zoomIn', {
