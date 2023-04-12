@@ -8,21 +8,20 @@
 
 .@{radio-group-prefix-cls} {
     display: inline-flex;
-    align-items: center;
     flex-wrap: wrap;
-    &>.@{radio-prefix-cls} {
+    align-items: center;
+    & > .@{radio-prefix-cls} {
         &:last-child {
             margin-right: 0;
         }
     }
-    &>.@{radio-button-prefix-cls} {
-       
+    & > .@{radio-button-prefix-cls} {
         &:first-child {
-            border-radius: 4px 0px 0px 4px;
+            border-radius: 4px 0 0 4px;
         }
-    
+
         &:last-child {
-            border-radius: 0px 4px 4px 0px;
+            border-radius: 0 4px 4px 0;
         }
     }
 
@@ -31,4 +30,3 @@
         align-items: flex-start;
     }
 }
-

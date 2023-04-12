@@ -3,7 +3,8 @@ import { useNormalModel } from '../_util/use/useModel';
 import { CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import { radioGroupKey, name } from './const';
-import type { RadioGroupProps, RadioGroupEmits } from './radio-group.vue';
+import type { RadioGroupProps } from './const';
+import type { RadioGroupEmits } from './interface'
 
 export const useRadioGroup = (
     props: RadioGroupProps,
