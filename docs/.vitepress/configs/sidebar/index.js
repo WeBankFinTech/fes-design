@@ -121,6 +121,10 @@ module.exports = {
                 text: '数据展示组件',
                 items: [
                     {
+                        text: 'Card 卡片',
+                        link: '/zh/components/card',
+                    },
+                    {
                         text: 'Carousel 跑马灯',
                         link: '/zh/components/carousel',
                     },
