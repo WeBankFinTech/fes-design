@@ -19,9 +19,7 @@ const prefixCls = getPrefixCls('card');
 
 export default defineComponent({
     name: 'FCard',
-    props: {
-        ...cardProps,
-    },
+    props: cardProps,
     setup(props) {
         useTheme();
 

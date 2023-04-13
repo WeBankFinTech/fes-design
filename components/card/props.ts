@@ -16,12 +16,12 @@ export const cardProps = {
         default: () => ({} as StyleValue),
     },
     size: {
-        type: String as PropType<Shadow>,
-        default: 'always',
-    },
-    shadow: {
         type: String as PropType<Size>,
         default: 'middle',
+    },
+    shadow: {
+        type: String as PropType<Shadow>,
+        default: 'always',
     },
     bordered: {
         type: Boolean,
