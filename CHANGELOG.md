@@ -1,3 +1,20 @@
+## [0.7.25](https://github.com/WeBankFinTech/fes-design/compare/v0.7.24...v0.7.25) (2023-04-17)
+
+
+### Bug Fixes
+
+* radio-group options 丢失 radio 样式问题 ([#302](https://github.com/WeBankFinTech/fes-design/issues/302)) ([9814c13](https://github.com/WeBankFinTech/fes-design/commit/9814c13dad5713c2b20d3e417c61535137f2ffd8))
+* radio-group 类型异常 ([#303](https://github.com/WeBankFinTech/fes-design/issues/303)) ([fce25d4](https://github.com/WeBankFinTech/fes-design/commit/fce25d41df4843917d35539069b85e2f88084987))
+* 修复scrollWidth > offsetWidth判断是否省略不准确问题,可能出现scrollWidth等于offsetWidth实际显示有省略 ([#301](https://github.com/WeBankFinTech/fes-design/issues/301)) ([a680143](https://github.com/WeBankFinTech/fes-design/commit/a680143d9c573cdb6c480cbdb01e72cfdb4abf45))
+* 修复编译问题 ([7da9303](https://github.com/WeBankFinTech/fes-design/commit/7da93035da4fbd4a56f4b87906213d11e4d4460d))
+
+
+### Features
+
+* 卡片组件 ([#304](https://github.com/WeBankFinTech/fes-design/issues/304)) ([199c738](https://github.com/WeBankFinTech/fes-design/commit/199c738e91947f3313589015a155d236916f9ce7))
+
+
+
 ## [0.7.24](https://github.com/WeBankFinTech/fes-design/compare/v0.7.23...v0.7.24) (2023-04-07)
 
 
