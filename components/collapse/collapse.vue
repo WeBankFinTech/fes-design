@@ -6,11 +6,11 @@
 
 <script lang="ts">
 import { provide, defineComponent, computed } from 'vue';
+import { useTheme } from '../_theme/useTheme';
+import { useNormalModel } from '../_util/use/useModel';
 import { collapseEmits, collapseProps } from './collapseExpose';
 import { useNamespace } from './useNamespace';
 import { arrowPositionKey, collapseContextKey } from './common';
-import { useTheme } from '../_theme/useTheme';
-import { useNormalModel } from '../_util/use/useModel';
 import type { CollapseActiveName } from './common';
 
 export default defineComponent({
