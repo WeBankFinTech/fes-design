@@ -4,7 +4,7 @@
         <template v-if="optionType === 'default'">
             <FRadio
                 v-for="opt in optionsRef"
-                :key="(opt.value as any)"
+                :key="opt.value"
                 :value="opt.value"
                 :label="opt.label"
                 :disabled="opt.disabled || isFormDisabled"
@@ -13,7 +13,7 @@
         <template v-else>
             <RadioButton
                 v-for="opt in optionsRef"
-                :key="(opt.value as any)"
+                :key="opt.value"
                 :value="opt.value"
                 :label="opt.label"
                 :disabled="opt.disabled || isFormDisabled"
