@@ -1,6 +1,6 @@
 import { ref, reactive, watch, computed, Ref, nextTick } from 'vue';
 import { isArray, isEmpty, isNil } from 'lodash-es';
-
+import { ROOT_MENU_KEY } from './const';
 import type {
     InnerCascaderOption,
     CascaderOption,
@@ -8,15 +8,14 @@ import type {
     CascaderNodeList,
 } from './interface';
 import type { CascaderProps } from './props';
-import { ROOT_MENU_KEY } from './const';
 
-export default ({
+export default function useData({
     props,
     currentExpandedKeys,
 }: {
     props: CascaderProps;
     currentExpandedKeys: Ref<CascaderNodeKey[]>;
-}) => {
+}) {
     const nodeList = reactive<CascaderNodeList>({});
 
     const transformData = ref<CascaderNodeKey[]>([]);
@@ -137,8 +136,9 @@ export default ({
 
                 try {
                     const children = await props.loadData(null);
-                    isArray(children) &&
+                    if (isArray(children)) {
                         children.forEach((item) => props.data.push(item));
+                    }
                     await nextTick();
                 } catch (e) {
                     console.error(e);
@@ -175,9 +175,10 @@ export default ({
                     const children = await props.loadData({
                         ...node.origin, // 避免直接操作原生对象
                     });
-                    isArray(children) &&
-                        (node.origin[props.childrenField as 'children'] =
-                            children);
+                    if (isArray(children)) {
+                        node.origin[props.childrenField as 'children'] =
+                            children;
+                    }
                     await nextTick();
                 } catch (e) {
                     console.error(e);
@@ -214,4 +215,4 @@ export default ({
         menuKeys,
         initialLoaded,
     };
-};
+}

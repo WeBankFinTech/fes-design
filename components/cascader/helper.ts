@@ -82,7 +82,7 @@ export function handleChildren(
     children: InnerCascaderOption[],
     isAdd: boolean,
 ) {
-    children &&
+    if (children) {
         children.forEach((child) => {
             const index = arr.indexOf(child.value);
             if (!isAdd) {
@@ -96,6 +96,7 @@ export function handleChildren(
                 handleChildren(arr, child.children, isAdd);
             }
         });
+    }
 }
 
 // 父节点关联项的选中和取消选中

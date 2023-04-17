@@ -2,15 +2,14 @@ import { defineComponent, provide, watch, computed } from 'vue';
 import { cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
+import { useLocale } from '../config-provider/useLocale';
 import CascaderMenu from './cascaderMenu';
 import { COMPONENT_NAME, CHECK_STRATEGY } from './const';
 import useData from './useData';
 import useState from './useState';
 import { cascaderProps, CASCADER_PROVIDE_KEY } from './props';
 import { handleParent, handleChildren } from './helper';
-
 import type { CascaderNodeKey } from './interface';
-import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('cascader');
 
@@ -93,12 +92,16 @@ export default defineComponent({
             const index = values.indexOf(val);
             if (props.multiple) {
                 if (index !== -1) {
-                    props.cancelable && values.splice(index, 1);
+                    if (props.cancelable) {
+                        values.splice(index, 1);
+                    }
                 } else {
                     values.push(val);
                 }
             } else if (index !== -1) {
-                props.cancelable && values.splice(index, 1);
+                if (props.cancelable) {
+                    values.splice(index, 1);
+                }
             } else {
                 values[0] = val;
             }

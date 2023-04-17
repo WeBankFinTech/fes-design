@@ -1,13 +1,13 @@
 import { ref, computed, provide } from 'vue';
-import { provideKey } from './const';
 import getPrefixCls from '../_util/getPrefixCls';
+import { provideKey } from './const';
 import useCarouselItem from './useCarouselItem';
 
 import type { CarouselProps } from './carousel';
 
 const prefixCls = getPrefixCls('carousel');
 
-export default (props: CarouselProps) => {
+export default function useCarousel(props: CarouselProps) {
     const wrapperRef = ref(null); // 最外层容器句柄
     const activeIndex = ref(-1); // 当前激活的索引
 
@@ -48,4 +48,4 @@ export default (props: CarouselProps) => {
     provide(provideKey, state);
 
     return state;
-};
+}

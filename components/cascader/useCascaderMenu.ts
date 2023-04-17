@@ -1,11 +1,11 @@
 import { inject, computed } from 'vue';
 import { CASCADER_PROVIDE_KEY } from './props';
 
+import { ROOT_MENU_KEY } from './const';
 import type { CascaderMenuProps } from './cascaderMenu';
 import type { InnerCascaderOption } from './interface';
-import { ROOT_MENU_KEY } from './const';
 
-export default (props: CascaderMenuProps) => {
+export default function useCascaderMenu(props: CascaderMenuProps) {
     const root = inject(CASCADER_PROVIDE_KEY);
 
     const menuNodes = computed(() => {
@@ -50,4 +50,4 @@ export default (props: CascaderMenuProps) => {
         isCascaderOpened,
         menuScrollNode,
     };
-};
+}

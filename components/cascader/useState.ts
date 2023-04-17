@@ -1,14 +1,16 @@
 import { useNormalModel } from '../_util/use/useModel';
-
+import { getCascadeChildrenByKeys } from './helper';
 import type {
     InnerCascaderOption,
     CascaderNodeKey,
     CascaderNodeList,
 } from './interface';
 import type { CascaderProps } from './props';
-import { getCascadeChildrenByKeys } from './helper';
 
-export default (props: CascaderProps, { emit }: { emit: any }) => {
+export default function useState(
+    props: CascaderProps,
+    { emit }: { emit: any },
+) {
     const [currentExpandedKeys, updateExpandedKeys] = useNormalModel(
         props,
         emit,
@@ -79,4 +81,4 @@ export default (props: CascaderProps, { emit }: { emit: any }) => {
         hasCheckLoaded,
         hasActive,
     };
-};
+}
