@@ -13,7 +13,12 @@ type Option = {
     label: string | number;
     disabled?: boolean;
     icon?: () => VNodeTypes;
-    [key: string]: string | number | boolean | (() => VNodeTypes) | undefined;
+    [key: string]:
+        | string
+        | number
+        | boolean
+        | ((option: Option) => VNodeTypes)
+        | undefined;
 };
 
 const dropdownProps = {
@@ -87,17 +92,16 @@ export default defineComponent({
         });
         const renderOptions = () => (
             <div
-                class={`${prefixCls}-option-wrapper ${
-                    hasIcon.value ? 'has-icon' : ''
-                }`}
+                class={[
+                    `${prefixCls}-option-wrapper`,
+                    hasIcon.value ? 'has-icon' : '',
+                ]}
             >
                 {props.options.map((option) => {
                     const optionClassList = [
                         `${prefixCls}-option`,
                         option.disabled && 'is-disabled',
-                    ]
-                        .filter(Boolean)
-                        .join(' ');
+                    ].filter(Boolean);
                     const label = option[props.labelField];
                     return (
                         <div
@@ -110,9 +114,7 @@ export default defineComponent({
                                 {option.icon?.()}
                             </span>
                             <span class={`${prefixCls}-option-label`}>
-                                {isFunction(label)
-                                    ? (label as any)(option)
-                                    : label}
+                                {isFunction(label) ? label(option) : label}
                             </span>
                         </div>
                     );

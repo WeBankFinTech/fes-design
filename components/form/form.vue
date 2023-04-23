@@ -75,10 +75,9 @@ export default defineComponent({
                         ),
                 );
             });
-            const summaryPromise = allPromiseFinish(promiseList); // 汇总校验结果
 
             try {
-                await summaryPromise;
+                return await allPromiseFinish(promiseList); // 汇总校验结果;
             } catch (results: any) {
                 const errorList: ValidateResult[] = [];
                 const errorNameList: string[] = [];
