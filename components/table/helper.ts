@@ -130,7 +130,6 @@ export function getHeaderRows(originColumns: ColumnInst[]) {
  * @returns
  */
 export function getColumns(originColumns: ColumnInst[]) {
-    console.log(originColumns);
     const arr = originColumns.filter(
         (col) => !originColumns.some((c) => c.parentId === col.id),
     );
