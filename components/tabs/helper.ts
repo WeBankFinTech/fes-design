@@ -1,4 +1,4 @@
-import type { PropType } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import type { Position } from './interface';
 
 export const tabProps = {
@@ -18,6 +18,8 @@ export const tabProps = {
         default: 'if',
     },
 } as const;
+
+export type TabProps = Partial<ExtractPropTypes<typeof tabProps>>;
 
 /**
  * 计算TabBar样式
