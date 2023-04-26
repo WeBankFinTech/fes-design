@@ -108,7 +108,7 @@ app.use(FTable);
 | data         | 数据                                                                          | array                                            | -      | `[]`       |
 | emptyText    | 空数据时显示的文本内容，也可以通过 #empty 设置                                | string                                           | -      | `暂无数据` |
 | height       | table 的高度，如果内容过多超出时则表头固定，内容滚动                          | number                                           | -      | -          |
-| rowKey       | 行数据的 Key，用来优化 Table 的渲染                                           | (row)=> string / string                           | -      | -          |
+| rowKey       | 行数据的 Key，用来优化 Table 的渲染                                           | string \| (row)=> string / string                           | -      | -          |
 | showHeader   | 是否展示表头                                                                  | boolean                                          | -      | `true`     |
 | spanMethod   | 合并行或列的计算方法                           |  *({ row, column, rowIndex, columnIndex }) => { rowspan: string, colspan: string }*| -      | -          |
 | virtualScroll   | 是否启动虚拟滚动，当启用时不支持展开行                                                     | boolean | -      |      false     |
