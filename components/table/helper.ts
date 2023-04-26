@@ -1,6 +1,6 @@
+import { TABLE_NAME } from './const';
 import type { RowType, RowKey } from './interface';
 import type { ColumnInst } from './column';
-import { TABLE_NAME } from './const';
 
 export const getRowKey = ({
     row,
@@ -130,6 +130,7 @@ export function getHeaderRows(originColumns: ColumnInst[]) {
  * @returns
  */
 export function getColumns(originColumns: ColumnInst[]) {
+    console.log(originColumns);
     const arr = originColumns.filter(
         (col) => !originColumns.some((c) => c.parentId === col.id),
     );

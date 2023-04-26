@@ -1,9 +1,34 @@
 import { reactive, computed } from 'vue';
+import { random } from 'lodash-es';
 import { getHeaderRows, getColumns } from './helper';
+import { getDefaultColProps } from './column';
+import type { ColumnInst, ColumnChildren } from './column';
+import type { TableProps } from './table';
 
-import type { ColumnInst } from './column';
+// 递归扁平化columns
+const instColumns = (
+    cols: ColumnChildren = [],
+    instList: ColumnInst[] = [],
+    parent?: ColumnInst,
+) => {
+    cols.forEach((props) => {
+        const inst: ColumnInst = {
+            id: Date.now() + random(0, 999, false),
+            props: {
+                ...getDefaultColProps(),
+                ...props,
+            },
+            slots: {},
+            parentId: parent?.id || null,
+        };
+        instList.push(inst);
+        if (props.children?.length) {
+            instColumns(props.children, instList, inst);
+        }
+    });
+};
 
-export default function useColumn() {
+export default function useColumn(props: TableProps) {
     const originColumns = reactive<ColumnInst[]>([]);
 
     const addColumn = (column: ColumnInst) => {
@@ -17,8 +42,17 @@ export default function useColumn() {
         }
     };
 
+    // 合并template定义和props定义的column
+    const mergeColumns = computed(() => {
+        const instList: ColumnInst[] = [];
+        if (props.columns?.length) {
+            instColumns(props.columns, instList);
+        }
+        return originColumns.concat(instList);
+    });
+
     const visibleColumns = computed(() =>
-        originColumns.filter((column) => column.props.visible),
+        mergeColumns.value.filter((column) => column.props.visible),
     );
 
     // 列配置

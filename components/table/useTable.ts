@@ -17,7 +17,7 @@ let tableIdSeed = 1;
 export default (props: TableProps, ctx: SetupContext) => {
     const tableId = `f-table_${tableIdSeed++}`;
 
-    const columnState = useTableColumn();
+    const columnState = useTableColumn(props);
 
     // 展示的数据
     const showData = ref([]);

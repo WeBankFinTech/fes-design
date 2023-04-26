@@ -11,7 +11,6 @@ import {
     useSlots,
     ExtractPropTypes,
 } from 'vue';
-import type { EllipsisProps } from '../ellipsis';
 import {
     COL_TYPE,
     ALIGN,
@@ -19,6 +18,7 @@ import {
     TABLE_COLUMN_NAME,
     provideKey,
 } from './const';
+import type { EllipsisProps } from '../ellipsis';
 
 import type { CellProps } from './components/cell';
 import type { RowType, ActionType } from './interface';
@@ -30,11 +30,11 @@ const columnProps = {
     label: String,
     prop: String,
     type: {
-        type: String as PropType<typeof COL_TYPE[number]>,
+        type: String as PropType<(typeof COL_TYPE)[number]>,
         default: 'default',
     },
     align: {
-        type: String as PropType<typeof ALIGN[number]>,
+        type: String as PropType<(typeof ALIGN)[number]>,
         default: 'left',
     },
     width: Number,
@@ -113,6 +113,16 @@ const columnProps = {
 
 export type ColumnProps = Partial<ExtractPropTypes<typeof columnProps>>;
 
+export type ColumnChildren = Array<ColumnProps & { children?: ColumnChildren }>;
+
+export const getDefaultColProps = (): ColumnProps => {
+    const values: Record<string, any> = {};
+    Object.keys(columnProps).forEach((key) => {
+        const val: any = (columnProps as Record<string, any>)[key].default;
+        values[key] = val;
+    });
+    return values as ColumnProps;
+};
 export interface ColumnInst {
     id: number;
     props: ColumnProps;
