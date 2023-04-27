@@ -12,6 +12,7 @@ import {
     onMounted,
     VNode,
     ComponentPublicInstance,
+    Slots,
 } from 'vue';
 import {
     CLOSE_EVENT,
@@ -28,8 +29,10 @@ import PlusOutlined from '../icon/PlusOutlined';
 import { computeTabBarStyle } from './helper';
 import FTab from './tab';
 
+import TabPane from './tab-pane.vue';
 import type { PropType } from 'vue';
 import type { Position } from './interface';
+import type { TabProps } from './helper';
 
 const prefixCls = getPrefixCls('tabs');
 const ADD_EVENT = 'add';
@@ -67,6 +70,11 @@ function mapTabPane(
 type TabType = 'line' | 'card';
 type TabCloseMode = 'hover' | 'visible';
 
+type TabPaneProps = TabProps & {
+    render?: (props: TabProps) => VNode[];
+    renderTab?: (props: TabProps) => VNode[];
+};
+
 export default defineComponent({
     name: 'FTabs',
     props: {
@@ -94,6 +102,10 @@ export default defineComponent({
         transition: {
             type: [String, Boolean],
             default: true,
+        },
+        panes: {
+            type: Array as PropType<TabPaneProps>,
+            default: (): TabPaneProps[] => [],
         },
     },
     emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, CLOSE_EVENT, ADD_EVENT],
@@ -232,12 +244,39 @@ export default defineComponent({
             });
         });
 
-        return () => {
+        const mergeRenderPans = () => {
             const children =
-                ctx.slots.default &&
-                flatten(ctx.slots.default()).filter(
-                    (vNode) => (vNode.type as any).name === 'FTabPane',
+                (ctx.slots.default &&
+                    flatten(ctx.slots.default()).filter(
+                        (vNode) => (vNode.type as any).name === 'FTabPane',
+                    )) ||
+                [];
+            if (props.panes?.length) {
+                return children.concat(
+                    props.panes.map((pane) => {
+                        const { render, renderTab, ...paneProps } = pane;
+                        if (!render) {
+                            console.warn('[FTab]: panes需要提供render');
+                        }
+                        const slots: Slots = {
+                            default: () => render?.(paneProps),
+                            tab: renderTab ? () => renderTab(paneProps) : null,
+                        };
+                        return (
+                            <TabPane
+                                {...paneProps}
+                                value={paneProps.value}
+                                v-slots={slots}
+                            />
+                        );
+                    }),
                 );
+            }
+            return children;
+        };
+
+        return () => {
+            const children = mergeRenderPans();
             return (
                 <div
                     class={{

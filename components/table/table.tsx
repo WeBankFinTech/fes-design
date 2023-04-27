@@ -13,6 +13,7 @@ import useTable from './useTable';
 import HeaderTable from './components/headerTable';
 import BodyTable from './components/bodyTable';
 import VirtualTable from './components/virtualTable';
+import type { ColumnChildren } from './column';
 import type { BeforeDragEnd } from '../draggable/useDraggable';
 
 import type { RowType, RowKey } from './interface';
@@ -79,6 +80,12 @@ const tableProps = {
     expandedKeys: {
         type: Array as PropType<string[] | number[]>,
         default(): string[] | number[] {
+            return [];
+        },
+    },
+    columns: {
+        type: Array as PropType<ColumnChildren>,
+        default(): ColumnChildren {
             return [];
         },
     },

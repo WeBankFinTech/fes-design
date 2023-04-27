@@ -1,6 +1,6 @@
+import { TABLE_NAME } from './const';
 import type { RowType, RowKey } from './interface';
 import type { ColumnInst } from './column';
-import { TABLE_NAME } from './const';
 
 export const getRowKey = ({
     row,
