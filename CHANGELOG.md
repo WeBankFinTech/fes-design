@@ -1,3 +1,12 @@
+## [0.7.26](https://github.com/WeBankFinTech/fes-design/compare/v0.7.25...v0.7.26) (2023-04-27)
+
+
+### Features
+
+* Table和Tabs支持列配置属性 ([#306](https://github.com/WeBankFinTech/fes-design/issues/306)) ([7e16a71](https://github.com/WeBankFinTech/fes-design/commit/7e16a719fea0a8f3c765240eea240c47e4458ce7))
+
+
+
 ## [0.7.25](https://github.com/WeBankFinTech/fes-design/compare/v0.7.24...v0.7.25) (2023-04-17)
 
 
