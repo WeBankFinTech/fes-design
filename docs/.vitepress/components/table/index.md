@@ -96,7 +96,7 @@ app.use(FTable);
 
 --NODATA 
 
-### 使用columns
+### 使用 columns 配置列
 
 --COLUMNS
 
@@ -109,8 +109,8 @@ app.use(FTable);
 | 属性         | 说明                                                                          | 类型                                             | 可选值 | 默认值     |
 | ------------ | ----------------------------------------------------------------------------- | ------------------------------------------------ | ------ | ---------- |
 | bordered     | 是否展示列边框                                                                | boolean                                          | -      | `false`    |
-| rowClassName | 行的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。 | *string \| object \| array \| ({ row, column, rowIndex, columnIndex, cellValue })=> ( object \| array \| string )*  | -      | -          |
-| rowStyle     | 行的 style 的回调方法，也可以使用一个固定的 Object 为所有行设置一样的 Style。 | *object \| ({row, rowIndex})=> object*               | -      | -          |
+| rowClassName | 行的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。 | string \| object \| array \| ({ row, column, rowIndex, columnIndex, cellValue })=> ( object \| array \| string ) | -      | -          |
+| rowStyle     | 行的 style 的回调方法，也可以使用一个固定的 Object 为所有行设置一样的 Style。 | object \| ({row, rowIndex})=> object               | -      | -          |
 | data         | 数据                                                                          | array                                            | -      | `[]`       |
 | emptyText    | 空数据时显示的文本内容，也可以通过 #empty 设置                                | string                                           | -      | `暂无数据` |
 | height       | table 的高度，如果内容过多超出时则表头固定，内容滚动                          | number                                           | -      | -          |
@@ -124,6 +124,7 @@ app.use(FTable);
 | beforeDragend   | 拖拽结束之前调用，当返回false、Promise.resolve(false)、Promise.reject()时，拖拽会恢复之前的状态    |  [`BeforeDragEnd`](./draggable#阻止拖拽) | -    |     （）= true     |
 | expandedKeys(v-model) | 展开的节点的 key 的数组                                                 | Array<string \|  number>           | -        | `[]`       |
 | checkedKeys(v-model)  | 勾选节点 key 的数组                                                 | Array<string \| number>            |   -    | `[]`       | 
+| columns  |  列的配置信息              | Array\<ColumnChildren\>            |   -    | `-`      | 
 
 ## FTable Slots
 
@@ -162,11 +163,11 @@ app.use(FTable);
 
 | 属性         | 说明                                                                                  | 类型                                                                 | 可选值                | 默认值  |
 | ------------ | ------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | --------------------- | ------- |
-| action       | 操作                                                                                  | array / object                                                       | -                     | -       |
+| action       | 操作                                                                                  | array \| object                                                       | -                     | -       |
 | align        | 对齐方式                                                                              | string                                                               | left / center / right | `left`  |
-| colClassName | 列的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。         | *string \| object \| array \| ({ row, column, rowIndex, columnIndex, cellValue })=> ( object \| array \| string )* | -                     | -       |
-| colStyle     | 列的 style 的回调方法，也可以使用一个固定的 Object 为所有行设置一样的 Style。         | *object \| ({ row, column, rowIndex, columnIndex, cellValue }) => object* | -                     | -       |
-| fixed        | 列是否固定在左侧或者右侧，true 表示固定在左侧                                         | string / boolean                                                     | true / left / right   | -       |
+| colClassName | 列的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。         | string \| object \| array \| ({ row, column, rowIndex, columnIndex, cellValue })=> ( object \| array \| string ) | -                     | -       |
+| colStyle     | 列的 style 的回调方法，也可以使用一个固定的 Object 为所有行设置一样的 Style。         | object \| ({ row, column, rowIndex, columnIndex, cellValue }) => object | -                     | -       |
+| fixed        | 列是否固定在左侧或者右侧，true 表示固定在左侧                                         | string \| boolean                                                     | true / left / right   | -       |
 | formatter    | 用来格式化内容                                                                        | ({row, column, rowIndex, columnIndex, cellValue}) => any            | -                     | -       |
 | label        | 列的标题，也可以使用 `#header` 自定义                                                 | string                                                               | -                     | -       |
 | minWidth     | 列最小的宽度，如果容器宽度够大，则会自适应补偿                                        | number                                                               | -                     | -       |
@@ -174,7 +175,7 @@ app.use(FTable);
 | selectable   | 仅对 type=selection 的列有效，Function 的返回值用来决定这一行的 CheckBox 是否可以勾选 | ({row, rowIndex}) => boolean                                            | -                     | -       |
 | type         | 列的类型，如果设置为`selection`则显示选择器，如果设置为`expand`则显示一个展开按钮     | string                                                               | selection / expand    | `false` |
 | width        | 对应列的宽度，优先级大于 minWidth                                                     | number                                                               | -                     | -       |
-| ellipsis     | 设置宽度后，如果文本溢出后出现省略号，设置为对象时参考Ellipsis组件配置                                                 | boolean / Object                                                             | -                     | `false`   |
+| ellipsis     | 设置宽度后，如果文本溢出后出现省略号，设置为对象时参考Ellipsis组件配置                                                 | boolean \|  Object                                                             | -                     | `false`   |
 | visible     | 是否显示列                                                  | boolean                                                              | -                     | `true`   |
 | sortable     | 是否排序列                                             | boolean                                                              | -                     | `false`   |
 | sorter     | 排序方法，如果设为 'default' 表格将会使用一个内置的排序函数；其他工作的方式类似 Array.sort 的对比函数                                             | ((a: RowType, b: RowType) => boolean) \| 'default'                                                              | -                     | `default`   |
@@ -182,7 +183,17 @@ app.use(FTable);
 
 ## FTableColumn Slots
 
-| 名称    | 说明                                                                     | 参数 |
+| 名称    | 说明                                                                     | 类型 |
 | ------- | ------------------------------------------------------------------------ |   ------- |
-| default | 自定义列的内容 | *{ row, column, rowIndex, columnIndex, cellValue }* |
-| header  | 自定义表头的内容                         | *{ column, columnIndex }*  |
+| default | 自定义列的内容 | ({ row, column, rowIndex, columnIndex, cellValue }）=> VNode[] |
+| header  | 自定义表头的内容                         | ({ column, columnIndex }) => VNode[]  |
+
+
+## ColumnChildren
+
+`ColumnChildren` 跟 `FTableColumn Props` 保持一致，使用 render函数替代`FTableColumn`组件的插槽。
+
+| 名称    | 说明                                                                     | 类型 |
+| ------- | ------------------------------------------------------------------------ |   ------- |
+| render | 自定义列的内容 | ({ row, column, rowIndex, columnIndex, cellValue }) => VNode[] |
+| renderHeader  | 自定义表头的内容           | ({ column, columnIndex }) =>  VNode[]  |

@@ -6,8 +6,9 @@
     </f-table>
 </template>
 <script>
-import { reactive } from 'vue';
-export default {
+import { reactive, defineComponent } from 'vue';
+
+export default defineComponent({
     setup() {
         const data = reactive(
             Array.from([1, 2, 3], (i) => {
@@ -22,5 +23,5 @@ export default {
             data,
         };
     },
-};
+});
 </script>

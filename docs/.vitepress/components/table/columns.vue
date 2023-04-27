@@ -1,10 +1,10 @@
 <template>
-    <f-table :data="data" bordered layout="auto" :columns="columns">
-        <template #date></template>
-    </f-table>
+    <f-table :data="data" bordered layout="auto" :columns="columns"> </f-table>
 </template>
 <script>
-export default {
+import { h, defineComponent } from 'vue';
+
+export default defineComponent({
     setup() {
         const data = Array.from([1, 2, 3], () => {
             return {
@@ -17,7 +17,23 @@ export default {
             };
         });
         const columns = [
-            { prop: 'date', label: '日期', width: 150 },
+            {
+                type: 'selection',
+            },
+            {
+                type: 'expand',
+            },
+            {
+                prop: 'date',
+                label: '日期',
+                width: 150,
+                render: ({ row }) => {
+                    return h('span', row.date);
+                },
+                renderHeader: () => {
+                    return h('span', { style: { fontSize: '20px' } }, '日期');
+                },
+            },
             {
                 label: '配送信息',
                 children: [
@@ -27,7 +43,7 @@ export default {
                         children: [
                             { prop: 'province', label: '省份', width: 150 },
                             { prop: 'city', label: '市区', width: 150 },
-                            { prop: 'address', label: '详细地址', width: 500 },
+                            { prop: 'address', label: '详细地址', width: 300 },
                         ],
                     },
                 ],
@@ -38,5 +54,5 @@ export default {
             columns,
         };
     },
-};
+});
 </script>
