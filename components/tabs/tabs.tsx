@@ -12,7 +12,6 @@ import {
     onMounted,
     VNode,
     ComponentPublicInstance,
-    VNodeChild,
     Slots,
 } from 'vue';
 import {
@@ -72,8 +71,8 @@ type TabType = 'line' | 'card';
 type TabCloseMode = 'hover' | 'visible';
 
 type TabPaneProps = TabProps & {
-    render?: (props: TabProps) => VNodeChild;
-    renderTab?: (props: TabProps) => VNodeChild;
+    render?: (props: TabProps) => VNode[];
+    renderTab?: (props: TabProps) => VNode[];
 };
 
 export default defineComponent({
@@ -106,7 +105,7 @@ export default defineComponent({
         },
         panes: {
             type: Array as PropType<TabPaneProps>,
-            default: () => [],
+            default: (): TabPaneProps[] => [],
         },
     },
     emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, CLOSE_EVENT, ADD_EVENT],
@@ -257,13 +256,19 @@ export default defineComponent({
                     props.panes.map((pane) => {
                         const { render, renderTab, ...paneProps } = pane;
                         if (!render) {
-                            console.warn('[FTab]: pans需要提供render');
+                            console.warn('[FTab]: panes需要提供render');
                         }
                         const slots: Slots = {
                             default: () => render?.(paneProps),
                             tab: renderTab ? () => renderTab(paneProps) : null,
                         };
-                        return <TabPane {...paneProps} v-slots={slots} />;
+                        return (
+                            <TabPane
+                                {...paneProps}
+                                value={paneProps.value}
+                                v-slots={slots}
+                            />
+                        );
                     }),
                 );
             }
