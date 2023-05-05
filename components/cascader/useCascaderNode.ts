@@ -4,7 +4,7 @@ import { CASCADER_PROVIDE_KEY } from './props';
 import type { CascaderNodeProps } from './cascaderNode';
 import type { InnerCascaderOption } from './interface';
 
-export default (props: CascaderNodeProps) => {
+export default function useCascaderNode(props: CascaderNodeProps) {
     const root = inject(CASCADER_PROVIDE_KEY);
 
     const isExpanded = computed(() => root.nodeList[props.value].isExpanded);
@@ -55,4 +55,4 @@ export default (props: CascaderNodeProps) => {
         isCheckLoaded,
         isActive,
     };
-};
+}

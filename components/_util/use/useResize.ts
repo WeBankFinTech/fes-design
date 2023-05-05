@@ -1,4 +1,12 @@
-import { onBeforeUnmount, watch, ref, Ref, onMounted, nextTick } from 'vue';
+import {
+    onBeforeUnmount,
+    watch,
+    computed,
+    unref,
+    Ref,
+    onMounted,
+    nextTick,
+} from 'vue';
 import { ResizeObserver } from '@juggle/resize-observer';
 
 export default (
@@ -7,7 +15,7 @@ export default (
     disabled?: boolean | Ref<boolean>,
     immediate = true,
 ) => {
-    const disabledRef = ref(disabled);
+    const disabledRef = computed(() => unref(disabled));
     const handleResize = () => {
         if (disabledRef.value) {
             return;
@@ -16,7 +24,7 @@ export default (
             immediate = true;
             return;
         }
-        callback && callback();
+        callback?.();
     };
 
     const ro = new ResizeObserver(handleResize);

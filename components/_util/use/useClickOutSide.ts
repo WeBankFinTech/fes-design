@@ -1,5 +1,5 @@
 import { unref, watch, onBeforeUnmount, ref, Ref } from 'vue';
-import getElementFromRef from '../getElementFromRef';
+import getElementFromVueInstance from '../getElementFromVueInstance';
 
 export default function useClickOutSide(
     watchList:
@@ -15,20 +15,22 @@ export default function useClickOutSide(
     const disabledRef = ref(disabled);
     function onGlobalMouseDown(event: MouseEvent) {
         const target = event.target;
-        const elements = _watchList.map((r) => getElementFromRef(unref(r)));
         if (
-            elements.every(
-                (element) =>
-                    element && !element.contains(target) && element !== target,
-            )
+            _watchList.every((watchElement) => {
+                const element = getElementFromVueInstance(unref(watchElement));
+                return (
+                    element && !element.contains(target) && element !== target
+                );
+            })
         ) {
-            callback && callback();
+            callback?.();
         }
     }
 
     const destroy = () => {
         if (listened) {
             listened = false;
+            // 事件捕获
             window.removeEventListener('click', onGlobalMouseDown, true);
         }
     };

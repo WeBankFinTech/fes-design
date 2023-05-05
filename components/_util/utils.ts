@@ -57,7 +57,7 @@ export const addUnit = (val: number | string) => {
 export const requestAnimationFrame = (() => {
     const hackRAF = function (func: () => void) {
         return setTimeout(() => {
-            func && func();
+            func?.();
         }, 10);
     };
     if (typeof window !== 'undefined') {

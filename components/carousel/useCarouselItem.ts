@@ -12,7 +12,7 @@ export default function useCarouselItem({
     activeIndex,
 }: UseCarouselItemType) {
     // 子项集合
-    const slideChildren = ref([]);
+    const slideChildren: Ref<CarouselItemData[]> = ref([]);
 
     const resetItemPosition = (oldIndex?: number | unknown): void => {
         slideChildren.value.forEach((item, index) => {

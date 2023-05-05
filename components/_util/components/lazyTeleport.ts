@@ -1,5 +1,5 @@
 import { Teleport, h, ref, watch, computed, defineComponent } from 'vue';
-import { getSlot } from './vnode';
+import { getSlot } from '../vnode';
 export default defineComponent({
     name: 'LazyTeleport',
     props: {
@@ -25,10 +25,7 @@ export default defineComponent({
         );
         return {
             showTeleport: showTeleport,
-            mergedTo: computed(() => {
-                const { to } = props;
-                return to !== null && to !== void 0 ? to : 'body';
-            }),
+            mergedTo: computed(() => props.to ?? 'body'),
         };
     },
     render() {
