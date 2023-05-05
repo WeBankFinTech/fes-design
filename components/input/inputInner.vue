@@ -77,7 +77,7 @@ import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import { useInput } from '../_util/use/useInput';
 import { useMouse } from './useInput';
 import { commonInputProps } from './props';
-
+import { debounce } from 'lodash-es';
 import type { InputValue } from './interface';
 
 const inputInnerProps = {
@@ -194,10 +194,10 @@ export default defineComponent({
 
         const { hovering, onMouseLeave, onMouseEnter } = useMouse(emit);
 
-        const handleChange = (event: Event) => {
+        const handleChange = debounce((event: Event) => {
             const { value } = event.target as HTMLInputElement;
             emit('change', value);
-        };
+        });
 
         const handleKeydown = (e: KeyboardEvent) => {
             emit('keydown', e);
