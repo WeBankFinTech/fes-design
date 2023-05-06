@@ -10,7 +10,7 @@ const prefixCls = getPrefixCls('dropdown');
 
 type Option = {
     value: string | number;
-    label: string | number;
+    label: string | number | ((option: Option) => VNodeTypes);
     disabled?: boolean;
     icon?: () => VNodeTypes;
     [key: string]:
