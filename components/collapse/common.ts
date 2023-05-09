@@ -13,6 +13,7 @@ export type contextType = {
 
 export type ArrowType = {
     arrow: string;
+    embedded: boolean;
 };
 
 export const collapseContextKey: InjectionKey<contextType> =
