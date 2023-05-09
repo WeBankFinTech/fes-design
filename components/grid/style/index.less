@@ -7,7 +7,6 @@
 // Media queries breakpoints
 @grid-columns: 24;
 @screen-sm: 576px;
-@screen-xs-max: (@screen-sm-min - 1px);
 @screen-sm-min: @screen-sm;
 @screen-md: 768px;
 @screen-md-min: @screen-md;
@@ -35,9 +34,7 @@
 }
 
 .make-grid();
-@media (max-width: @screen-xs-max) {
-    .make-grid(-xs);
-}
+.make-grid(-xs);
 @media (min-width: @screen-sm-min) {
     .make-grid(-sm);
 }
