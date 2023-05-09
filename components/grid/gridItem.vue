@@ -68,10 +68,9 @@ const classList = computed(() => {
         props.pull && `${prefixCls}-pull-${props.pull}`,
         props.push && `${prefixCls}-push-${props.push}`,
         `${prefixCls}-${props.span}`,
-    ].filter(Boolean);
+    ];
 
-    let sizeClasses: string[] = [];
-    sizes.forEach((size) => {
+    const sizeClasses: string[] = sizes.reduce((pre, size) => {
         let sizeProps: ColSize = {};
         const propSize = props[size];
         if (isNumber(propSize)) {
@@ -79,22 +78,19 @@ const classList = computed(() => {
         } else if (isObject(propSize)) {
             sizeProps = propSize || {};
         }
+        return pre.concat([
+            !isUndefined(sizeProps.span) &&
+                `${prefixCls}-${size}-${sizeProps.span}`,
+            (sizeProps.offset || sizeProps.offset === 0) &&
+                `${prefixCls}-${size}-offset-${sizeProps.offset}`,
+            (sizeProps.pull || sizeProps.pull === 0) &&
+                `${prefixCls}-${size}-pull-${sizeProps.pull}`,
+            (sizeProps.push || sizeProps.push === 0) &&
+                `${prefixCls}-${size}-push-${sizeProps.push}`,
+        ]);
+    }, []);
 
-        sizeClasses = sizeClasses.concat(
-            [
-                !isUndefined(sizeProps.span) &&
-                    `${prefixCls}-${size}-${sizeProps.span}`,
-                (sizeProps.offset || sizeProps.offset === 0) &&
-                    `${prefixCls}-${size}-offset-${sizeProps.offset}`,
-                (sizeProps.pull || sizeProps.pull === 0) &&
-                    `${prefixCls}-${size}-pull-${sizeProps.pull}`,
-                (sizeProps.push || sizeProps.push === 0) &&
-                    `${prefixCls}-${size}-push-${sizeProps.push}`,
-            ].filter(Boolean),
-        );
-    });
-
-    return classes.concat(sizeClasses);
+    return classes.concat(sizeClasses).filter(Boolean);
 });
 const style = computed(() => {
     const _style: CSSProperties = {};
