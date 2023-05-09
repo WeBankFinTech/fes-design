@@ -4,6 +4,22 @@
 @row-prefix-cls: ~'@{cls-prefix}-grid';
 @col-prefix-cls: ~'@{cls-prefix}-grid-item';
 
+// Media queries breakpoints
+@grid-columns: 24;
+@screen-sm: 576px;
+@screen-xs-max: (@screen-sm-min - 1px);
+@screen-sm-min: @screen-sm;
+@screen-md: 768px;
+@screen-md-min: @screen-md;
+@screen-lg: 992px;
+@screen-lg-min: @screen-lg;
+@screen-xl: 1200px;
+@screen-xl-min: @screen-xl;
+@screen-xxl: 1600px;
+@screen-xxl-min: @screen-xxl;
+@screen-xxxl: 2000px;
+@screen-xxxl-min: @screen-xxxl;
+
 .@{row-prefix-cls} {
     position: relative;
     display: flex;
@@ -16,23 +32,30 @@
     box-sizing: border-box;
     max-width: 100%;
     min-height: 1px;
-    .@{col-prefix-cls}-0 {
-        display: none;
-    }
 }
 
-each(range(24), {
-    .@{col-prefix-cls}-@{value} {
-        flex: 0 0 (@value / 24 * 100%);
-        max-width: (@value / 24 * 100%);
-    }
-    .@{col-prefix-cls}-offset-@{value} {
-        margin-left: (@value / 24 * 100%);
-    }
-    .@{col-prefix-cls}-pull-@{value} {
-        right: (@value / 24 * 100%);
-    }
-    .@{col-prefix-cls}-push-@{value} {
-        left: (@value / 24 * 100%);
-    }
-});
+.make-grid();
+@media (max-width: @screen-xs-max) {
+    .make-grid(-xs);
+}
+@media (min-width: @screen-sm-min) {
+    .make-grid(-sm);
+}
+@media (min-width: @screen-sm-min) {
+    .make-grid(-sm);
+}
+@media (min-width: @screen-md-min) {
+    .make-grid(-md);
+}
+@media (min-width: @screen-lg-min) {
+    .make-grid(-lg);
+}
+@media (min-width: @screen-xl-min) {
+    .make-grid(-xl);
+}
+@media (min-width: @screen-xxl-min) {
+    .make-grid(-xxl);
+}
+@media (min-width: @screen-xxxl-min) {
+    .make-grid(-xxxl);
+}
