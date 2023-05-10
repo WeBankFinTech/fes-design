@@ -51,7 +51,6 @@ const props = withDefaults(defineProps<GridItemProps>(), {
     offset: 0,
     pull: 0,
     push: 0,
-    span: 0,
     order: 0,
 });
 
@@ -67,7 +66,7 @@ const classList = computed(() => {
         props.offset && `${prefixCls}-offset-${props.offset}`,
         props.pull && `${prefixCls}-pull-${props.pull}`,
         props.push && `${prefixCls}-push-${props.push}`,
-        `${prefixCls}-${props.span}`,
+        (props.span || props.span === 0) && `${prefixCls}-${props.span}`,
     ];
 
     const sizeClasses: string[] = sizes.reduce((pre, size) => {

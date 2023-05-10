@@ -2,6 +2,7 @@
 
 .loop-grid-columns(@index, @class) when (@index > 0) {
     .@{col-prefix-cls}@{class}-@{index} {
+        display: block;
         flex: 0 0 (@index / 24 * 100%);
         max-width: (@index / 24 * 100%);
     }
