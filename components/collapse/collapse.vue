@@ -49,7 +49,7 @@ export default defineComponent({
 
         provide(arrowPositionKey, {
             arrow: props?.arrow,
-            embedded: props?.embedded,
+            embedded: computed(() => props?.embedded),
         });
         return {
             rootKls,

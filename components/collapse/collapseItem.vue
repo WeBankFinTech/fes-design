@@ -35,7 +35,6 @@
                 :id="scopedContentId"
                 :class="itemWrapperKls"
                 role="tabpanel"
-                :style="{ background: embedded ? '#F7F7F8' : '' }"
                 :aria-hidden="!isActive"
                 :aria-labelledby="scopedHeadId"
             >
@@ -68,7 +67,6 @@ export default defineComponent({
         useTheme();
 
         const { arrow, embedded } = inject(arrowPositionKey) as ArrowType;
-        console.log(embedded);
         const {
             focusing,
             id,
@@ -86,10 +84,9 @@ export default defineComponent({
             itemContentKls,
             scopedContentId,
             scopedHeadId,
-        } = useCollapseItemDOM(props, { focusing, isActive, id });
+        } = useCollapseItemDOM(props, { focusing, isActive, id, embedded });
 
         return {
-            embedded,
             arrow,
             arrowKls,
             headKls,
