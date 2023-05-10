@@ -1,3 +1,18 @@
+## [0.7.27](https://github.com/WeBankFinTech/fes-design/compare/v0.7.26...v0.7.27) (2023-05-10)
+
+
+### Bug Fixes
+
+* 修复 dropdown 类型问题 ([#308](https://github.com/WeBankFinTech/fes-design/issues/308)) ([a52fcf2](https://github.com/WeBankFinTech/fes-design/commit/a52fcf2dc9052e3e408ef51f3dbfd43774f776e1))
+* 修复输入框输入后回车两次触发change事件 ([#307](https://github.com/WeBankFinTech/fes-design/issues/307)) ([c35b048](https://github.com/WeBankFinTech/fes-design/commit/c35b048fc3aa619459ebd94de5d1f78e59f7f31f))
+
+
+### Features
+
+* grid组件支持响应式布局 ([#309](https://github.com/WeBankFinTech/fes-design/issues/309)) ([7b769a0](https://github.com/WeBankFinTech/fes-design/commit/7b769a07e6a6da8f47ea903a26b10e8ccb5b0f89))
+
+
+
 ## [0.7.26](https://github.com/WeBankFinTech/fes-design/compare/v0.7.25...v0.7.26) (2023-04-27)
 
 
