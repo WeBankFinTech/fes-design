@@ -51,7 +51,7 @@ const props = withDefaults(defineProps<GridItemProps>(), {
     offset: 0,
     pull: 0,
     push: 0,
-    span: 24,
+    span: 0,
     order: 0,
 });
 
