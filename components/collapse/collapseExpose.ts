@@ -25,6 +25,10 @@ export const collapseProps = {
         type: definePropType<CollapseModelValue>([Array, String, Number]),
         default: () => mutable([] as const), // 常量
     },
+    embedded: {
+        type: Boolean,
+        default: true,
+    },
 };
 export type CollapseProps = Partial<ExtractPropTypes<typeof collapseProps>>;
 

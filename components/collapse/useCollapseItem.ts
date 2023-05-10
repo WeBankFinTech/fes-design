@@ -1,4 +1,4 @@
-import { computed, inject, ref, unref } from 'vue';
+import { Ref, computed, inject, ref, unref } from 'vue';
 import { collapseContextKey, generateId } from './common';
 import { useNamespace } from './useNamespace';
 import type { CollapseItemProps } from './collapseItemExpose';
@@ -47,7 +47,12 @@ export const useCollapseItem = (props: CollapseItemProps) => {
 
 export const useCollapseItemDOM = (
     props: CollapseItemProps,
-    { focusing, isActive, id }: Partial<ReturnType<typeof useCollapseItem>>,
+    {
+        focusing,
+        isActive,
+        id,
+        embedded,
+    }: Partial<ReturnType<typeof useCollapseItem>> & { embedded: Ref<boolean> },
 ) => {
     const ns = useNamespace('collapse');
     const rootKls = computed(() => [
@@ -64,7 +69,10 @@ export const useCollapseItemDOM = (
         ns.be('item', 'arrow'),
         ns.is('active', unref(isActive)),
     ]);
-    const itemWrapperKls = computed(() => ns.be('item', 'wrap'));
+    const itemWrapperKls = computed(() => [
+        ns.be('item', 'wrap'),
+        ns.is('embedded', unref(embedded)),
+    ]);
     const itemContentKls = computed(() => ns.be('item', 'content'));
     const scopedContentId = computed(() => ns.b(`content-${unref(id)}`));
     const scopedHeadId = computed(() => ns.b(`head-${unref(id)}`));

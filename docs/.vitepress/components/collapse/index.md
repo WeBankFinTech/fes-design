@@ -30,6 +30,12 @@ app.use(FCollapse);
 
 --ARROWLEFT
 
+## 背景色
+
+embedded控制背景色
+
+--EMBEDDED
+
 ## 自定义面板标题
 
 除了可以通过 `title` 属性以外，还可以通过具名 `slot` 来实现自定义面板的标题内容，以实现增加图标等效果。
@@ -45,6 +51,7 @@ app.use(FCollapse);
 | model-value / v-model | 当前激活的面板(如果是手风琴模式，绑定值类型需要为string，否则为array)       | string (accordion mode) / array (non-accordion mode) | —  | —      |
 | accordion             | 是否手风琴模式                                                       | boolean                                              | — | false  |
 | arrow                 | 箭头位置 ( left, right ) ，默认右边                                   | string                                              | — | right  |
+| embedded              | 内容使用更深的背景色展现嵌入效果                                          | boolean                                              | — | true  |
 
 ## Collapse 事件
 

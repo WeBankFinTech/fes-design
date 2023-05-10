@@ -47,7 +47,10 @@ export default defineComponent({
 
         const rootKls = computed(() => ns.b());
 
-        provide(arrowPositionKey, { arrow: props?.arrow });
+        provide(arrowPositionKey, {
+            arrow: props?.arrow,
+            embedded: computed(() => props?.embedded),
+        });
         return {
             rootKls,
             activeNames,

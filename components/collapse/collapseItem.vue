@@ -50,11 +50,11 @@
 import { inject, defineComponent } from 'vue';
 import FadeInExpandTransition from '../_util/components/fadeInExpandTransition';
 import { RightOutlined } from '../icon';
+import { useTheme } from '../_theme/useTheme';
 import { collapseItemProps } from './collapseItemExpose';
 import { useCollapseItem, useCollapseItemDOM } from './useCollapseItem';
 import { arrowPositionKey } from './common';
 import type { ArrowType } from './common';
-import { useTheme } from '../_theme/useTheme';
 
 export default defineComponent({
     name: 'FCollapseItem',
@@ -66,8 +66,7 @@ export default defineComponent({
     setup(props) {
         useTheme();
 
-        const { arrow } = inject(arrowPositionKey) as ArrowType;
-
+        const { arrow, embedded } = inject(arrowPositionKey) as ArrowType;
         const {
             focusing,
             id,
@@ -85,7 +84,7 @@ export default defineComponent({
             itemContentKls,
             scopedContentId,
             scopedHeadId,
-        } = useCollapseItemDOM(props, { focusing, isActive, id });
+        } = useCollapseItemDOM(props, { focusing, isActive, id, embedded });
 
         return {
             arrow,

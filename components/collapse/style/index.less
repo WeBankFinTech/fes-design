@@ -5,8 +5,6 @@
 
 .fes-collapse {
     --fes-collapse-header-height: 48px;
-    border-top: 1px solid var(--f-border-color-split);
-    border-bottom: 1px solid var(--f-border-color-split);
 }
 
 .fes-collapse-item.is-disabled .fes-collapse-item__header {
@@ -23,10 +21,18 @@
     font-size: var(--f-font-size-base);
     line-height: var(--fes-collapse-header-height);
     background-color: var(--f-white);
-    border-bottom: 1px solid var(--f-border-color-split);
+    border-top: 1px solid var(--f-border-color-split);
     outline: 0;
     cursor: pointer;
     transition: border-bottom-color 0.3s;
+}
+
+.fes-collapse-item {
+    &:first-child {
+        .fes-collapse-item__header {
+            border-top: none;
+        }
+    }
 }
 
 .fes-collapse-item__arrow {
@@ -57,12 +63,15 @@
     will-change: height;
 }
 
+.fes-collapse-item__wrap.is-embedded {
+    background: var(--f-component-bg-color);
+}
+
 .fes-collapse-item__content {
     padding: 16px;
     color: var(--f-text-color-secondary);
     font-size: var(--f-font-size-base);
     line-height: 1.769;
-    background-color: #F7F7F8;
 }
 
 .fes-collapse-item:last-child {
