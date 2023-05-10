@@ -1,0 +1,44 @@
+// mixins for grid
+
+.loop-grid-columns(@index, @class) when (@index > 0) {
+    .@{col-prefix-cls}@{class}-@{index} {
+        display: block;
+        flex: 0 0 (@index / 24 * 100%);
+        max-width: (@index / 24 * 100%);
+    }
+    .@{col-prefix-cls}@{class}-offset-@{index} {
+        margin-left: (@index / 24 * 100%);
+    }
+    .@{col-prefix-cls}@{class}-pull-@{index} {
+        right: (@index / 24 * 100%);
+    }
+    .@{col-prefix-cls}@{class}-push-@{index} {
+        left: (@index / 24 * 100%);
+    }
+    .loop-grid-columns((@index - 1), @class);
+}
+
+.loop-grid-columns(@index, @class) when (@index = 0) {
+    .@{col-prefix-cls}@{class}-@{index} {
+        display: none;
+    }
+    .@{col-prefix-cls}-pull-@{index} {
+        right: auto;
+    }
+    .@{col-prefix-cls}-push-@{index} {
+        left: auto;
+    }
+    .@{col-prefix-cls}@{class}-offset-@{index} {
+        margin-left: 0;
+    }
+    .@{col-prefix-cls}@{class}-pull-@{index} {
+        right: auto;
+    }
+    .@{col-prefix-cls}@{class}-push-@{index} {
+        left: auto;
+    }
+}
+
+.make-grid(@class: ~'') {
+    .loop-grid-columns(@grid-columns, @class);
+}

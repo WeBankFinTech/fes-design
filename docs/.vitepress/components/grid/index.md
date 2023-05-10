@@ -72,6 +72,14 @@ app.use(FGridItem);
 
 `GridItem` 提供 `flex` 属性以支持填充。
 
+--FLEX
+
+### 响应式布局
+
+参照 Bootstrap 的 响应式设计，预设七个响应尺寸：`xs`、`sm`、`md`、`lg`、`xl`、`xxl`、`xxxl`。
+
+--RESPONSIVE
+
 --CODE
 
 <style lang="less">
@@ -108,11 +116,18 @@ app.use(FGridItem);
 
 ## GridItem Props
 
-| 属性   | 说明                                      | 类型          | 默认值 |
-| ------ | ----------------------------------------- | ------------- | ------ |
-| flex   | `flex` 布局填充                           | string/number | `-`    |
-| offset | 栅格左侧的间隔格数                        | number        | 0      |
-| order  | 栅格的顺序，从小到大排列                  | number        | -      |
-| pull   | 栅格向左移动格数                          | number        | 0      |
-| push   | 栅格向右移动格数                          | number        | 0      |
-| span   | 栅格占位格数，为 0 时相当于 display: none | number        | 0      |
+| 属性   | 说明                                                     | 类型          | 默认值 |
+| ------ | -------------------------------------------------------- | ------------- | ------ |
+| flex   | `flex` 布局填充                                          | string/number | `-`    |
+| offset | 栅格左侧的间隔格数                                       | number        | 0      |
+| order  | 栅格的顺序，从小到大排列                                 | number        | -      |
+| pull   | 栅格向左移动格数                                         | number        | 0      |
+| push   | 栅格向右移动格数                                         | number        | 0      |
+| span   | 栅格占位格数，为 0 时相当于 display: none                | number        | `-`    |
+| xs     | `<576px` 响应式栅格，可为栅格数或一个包含其他属性的对象  | number/object | `-`    |
+| sm     | `≥576px` 响应式栅格，可为栅格数或一个包含其他属性的对象  | number/object | `-`    |
+| md     | `≥768px` 响应式栅格，可为栅格数或一个包含其他属性的对象  | number/object | `-`    |
+| lg     | `≥992px` 响应式栅格，可为栅格数或一个包含其他属性的对象  | number/object | `-`    |
+| xl     | `≥1200px` 响应式栅格，可为栅格数或一个包含其他属性的对象 | number/object | `-`    |
+| xxl    | `≥1600px` 响应式栅格，可为栅格数或一个包含其他属性的对象 | number/object | `-`    |
+| xxxl   | `≥2000px` 响应式栅格，可为栅格数或一个包含其他属性的对象 | number/object | `-`    |
