@@ -115,8 +115,8 @@ export type ColumnProps = Partial<ExtractPropTypes<typeof columnProps>>;
 
 export type ColumnChildren = Array<
     ColumnProps & {
-        render: (data: CellProps) => VNode[];
-        renderHeader: (data: CellProps) => VNode[];
+        render?: (data: CellProps) => VNode[];
+        renderHeader?: (data: CellProps) => VNode[];
         children?: ColumnChildren;
     }
 >;
