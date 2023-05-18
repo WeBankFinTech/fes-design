@@ -5,9 +5,9 @@
 ## 组件注册
 
 ```js
-import { DatePicker } from '@fesjs/fes-design';
+import { FDescriptions } from '@fesjs/fes-design';
 
-app.use(DatePicker);
+app.use(FDescriptions);
 ```
 
 ## 代码演示
