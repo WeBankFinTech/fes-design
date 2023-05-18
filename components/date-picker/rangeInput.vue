@@ -104,12 +104,16 @@ function useMouse(
     };
 }
 
-function useRangeInput(props: RangeInputProps, position: number) {
+function useRangeInput(
+    props: RangeInputProps,
+    currentPosition: number,
+    anotherPosition: number,
+) {
     const inputText = ref();
     const resetInputValue = () => {
         inputText.value = isEmptyValue(props.selectedDates)
             ? ''
-            : format(props.selectedDates[position], props.format);
+            : format(props.selectedDates[currentPosition], props.format);
     };
     watch(() => props.selectedDates, resetInputValue, {
         immediate: true,
@@ -121,8 +125,8 @@ function useRangeInput(props: RangeInputProps, position: number) {
             isValid(date) &&
             !isBeyondRangeTime({
                 flagDate:
-                    props.selectedDates?.[position] &&
-                    new Date(props.selectedDates?.[position]),
+                    props.selectedDates?.[anotherPosition] &&
+                    new Date(props.selectedDates?.[anotherPosition]),
                 currentDate: date,
                 maxRange: props.maxRange,
                 format: props.format,
@@ -130,7 +134,7 @@ function useRangeInput(props: RangeInputProps, position: number) {
         ) {
             // update selectedDates
             const dates = [...props.selectedDates];
-            dates[position] = date.getTime();
+            dates[currentPosition] = date.getTime();
             props.changeSelectedDates(dates);
         }
     };
@@ -153,7 +157,7 @@ function useLeftInput(props: RangeInputProps) {
         resetInputValue,
         handleCompositionStart,
         handleCompositionEnd,
-    } = useRangeInput(props, 0);
+    } = useRangeInput(props, 0, 1);
 
     return {
         leftInputText: inputText,
@@ -171,7 +175,7 @@ function useRightInput(props: RangeInputProps) {
         resetInputValue,
         handleCompositionStart,
         handleCompositionEnd,
-    } = useRangeInput(props, 1);
+    } = useRangeInput(props, 1, 0);
 
     return {
         rightInputText: inputText,
