@@ -31,7 +31,7 @@ const props = defineProps({
 });
 
 const store = new ReplStore({
-    defaultVueRuntimeURL: `https://npm.elemecdn.com/vue@${version}/dist/vue.esm-browser.js`,
+    defaultVueRuntimeURL: `https://unpkg.com/vue@${version}/dist/vue.esm-browser.js`,
 });
 
 const fesDesignSetup = `
@@ -48,7 +48,7 @@ export function loadStyle() {
 
   const link = document.createElement('link')
 	link.rel = 'stylesheet'
-	link.href = 'https://npm.elemecdn.com/@fesjs/fes-design@latest/dist/fes-design.min.css';
+	link.href = 'https://unpkg.com/@fesjs/fes-design@latest/dist/fes-design.min.css';
 	document.head.appendChild(link)
 }
 
@@ -72,9 +72,9 @@ function resolveSFCExample(demo) {
         'import-map.json': JSON.stringify({
             imports: {
                 '@fesjs/fes-design':
-                    'https://npm.elemecdn.com/@fesjs/fes-design@latest/dist/fes-design.esm-browser.js',
+                    'https://unpkg.com/@fesjs/fes-design@latest/dist/fes-design.esm-browser.js',
                 '@fesjs/fes-design/icon':
-                    'https://npm.elemecdn.com/@fesjs/fes-design@latest/dist/fes-design.icon-browser.js',
+                    'https://unpkg.com/@fesjs/fes-design@latest/dist/fes-design.icon-browser.js',
             },
         }),
     };
