@@ -71,7 +71,7 @@ app.use(FRadioButton);
 | 属性     | 说明                         | 类型    | 默认值  |
 | -------- | ---------------------------- | ------- | ------- |
 | disabled | 是否禁用                     | boolean | `false` |
-| v-model  | 绑定值                       | array   | `null`  |
+| v-model  | 绑定值                       | string \| number \| boolean   | `-`  |
 | vertical | 是否垂直排列（默认水平排列） | boolean | `false` |
 | cancelable | 选中后是否可取消 | boolean | `true` |
 | options  | 选项配置                  | array\<Option\>   | `[]`   |
