@@ -8,7 +8,7 @@ export const name = 'FRadioGroup';
 export const radioGroupProps = {
     modelValue: {
         type: [String, Number, Boolean] as PropType<string | number | boolean>,
-        default: (): string => void 0,
+        default: (): undefined => void 0,
     },
     vertical: Boolean,
     disabled: Boolean,
