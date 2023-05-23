@@ -15,7 +15,7 @@
 import { computed } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';
-import Checkbox from '../checkbox/checkbox.vue';
+import Checkbox from '../checkbox';
 import { useCheckboxGroup } from './useCheckboxGroup';
 
 // 由于 vue setup 的限制，声明文件必须放在同一个文件中
