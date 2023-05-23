@@ -1,10 +1,11 @@
 import {
-    h,
     defineComponent,
     computed,
     CSSProperties,
     ExtractPropTypes,
+    ComputedRef,
 } from 'vue';
+import { isNil } from 'lodash-es';
 
 import { noop } from '../_util/utils';
 
@@ -14,6 +15,8 @@ const iconProps = {
     spin: Boolean,
     rotate: String,
     tabIndex: Number,
+    size: Number,
+    color: String,
 } as const;
 
 export type IconProps = Partial<ExtractPropTypes<typeof iconProps>>;
@@ -29,13 +32,19 @@ export default defineComponent({
             }
             return tabIndex;
         });
-        const svgStyle = computed(() =>
-            props.rotate
-                ? {
-                      transform: `rotate(${props.rotate}deg)`,
-                  }
-                : null,
-        );
+        const svgStyle: ComputedRef<CSSProperties[]> = computed(() => {
+            return [
+                props.rotate && {
+                    transform: `rotate(${props.rotate}deg)`,
+                },
+                !isNil(props.size) && {
+                    fontSize: `${props.size}px`,
+                },
+                props.color && {
+                    color: props.color,
+                },
+            ];
+        });
         const svgClasses = computed(() => ({
             [prefixCls]: true,
             [`${prefixCls}--spin`]: !!props.spin,
@@ -46,7 +55,7 @@ export default defineComponent({
                 tabindex={iconTabIndex.value}
                 role="img"
                 class={svgClasses.value}
-                style={svgStyle.value as CSSProperties}
+                style={svgStyle.value}
                 onClick={(attrs.onClick || noop) as () => void}
             >
                 {slots.default && slots.default()}
