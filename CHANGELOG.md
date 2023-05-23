@@ -1,3 +1,21 @@
+## [0.7.28](https://github.com/WeBankFinTech/fes-design/compare/v0.7.27...v0.7.28) (2023-05-23)
+
+
+### Bug Fixes
+
+* 更正RadioGroup文档 & 修复RadioGroup默认值为false问题 ([#314](https://github.com/WeBankFinTech/fes-design/issues/314)) ([736d86b](https://github.com/WeBankFinTech/fes-design/commit/736d86bc6f8af1f8f6aef9f9591975abda72140a))
+* 解决 date-picker 可通过输入的方式超过 maxRange ([#313](https://github.com/WeBankFinTech/fes-design/issues/313)) ([a43923d](https://github.com/WeBankFinTech/fes-design/commit/a43923de49b3ced734cc384c8fa65ace9bc5eed4))
+* 修复样式问题 ([#316](https://github.com/WeBankFinTech/fes-design/issues/316)) ([13582ac](https://github.com/WeBankFinTech/fes-design/commit/13582ac777eac1819d5f09c00ebc9963f840411a))
+* npm服务提供商切换为unpkg.com ([4d5c65b](https://github.com/WeBankFinTech/fes-design/commit/4d5c65b5f13e83a3633a128fada991790ff56a7c))
+* **table:** 修复Table组件ColumnChildren类型问题 ([#311](https://github.com/WeBankFinTech/fes-design/issues/311)) ([a2056b0](https://github.com/WeBankFinTech/fes-design/commit/a2056b07e854d476ae6dd3d65466a609f8e74907))
+
+
+### Features
+
+* Icon支持size和color配置 ([#315](https://github.com/WeBankFinTech/fes-design/issues/315)) ([09be3ab](https://github.com/WeBankFinTech/fes-design/commit/09be3abbc26ffcc50962911e39728fcab1114854))
+
+
+
 ## [0.7.27](https://github.com/WeBankFinTech/fes-design/compare/v0.7.26...v0.7.27) (2023-05-10)
 
 
