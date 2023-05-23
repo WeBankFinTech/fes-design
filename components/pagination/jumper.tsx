@@ -1,9 +1,8 @@
 import { defineComponent, toRefs, ref } from 'vue';
-
 import getPrefixCls from '../_util/getPrefixCls';
 import InputInner from '../input/inputInner.vue';
-import { COMPONENT_NAME } from './const';
 import { useLocale } from '../config-provider/useLocale';
+import { COMPONENT_NAME } from './const';
 
 const prefixCls = getPrefixCls('pagination');
 
