@@ -1,14 +1,14 @@
-import type { PropType, ExtractPropTypes } from "vue";
+import type { PropType, ExtractPropTypes } from 'vue';
 import type { Size, Type, OptionType } from './interface';
 import type { Option } from '../_util/interface';
 
 export const radioGroupKey = Symbol('FRadioGroup');
 export const name = 'FRadioGroup';
 
-
 export const radioGroupProps = {
     modelValue: {
         type: [String, Number, Boolean] as PropType<string | number | boolean>,
+        default: (): void => void 0,
     },
     vertical: Boolean,
     disabled: Boolean,

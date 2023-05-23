@@ -10,7 +10,7 @@ export const selectProps = {
             SelectValue | SelectValue[]
         >,
         default(): undefined {
-            return undefined;
+            return void 0;
         },
     },
     placeholder: {
