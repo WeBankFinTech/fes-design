@@ -6,7 +6,7 @@ const CSS_VAR_PREFIX = '--f-';
 export function applyTheme(
     container: HTMLElement,
     theme?: string,
-    themeOverrides?: Partial<Theme>,
+    themeOverrides?: Theme,
 ) {
     // TODO 逻辑优化
     const _theme = baseTheme(themeOverrides);
