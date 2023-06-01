@@ -1,9 +1,10 @@
 import {
     defineComponent,
     computed,
-    CSSProperties,
     ExtractPropTypes,
     ComputedRef,
+    StyleValue,
+    HTMLAttributes,
 } from 'vue';
 import { isNil } from 'lodash-es';
 
@@ -19,7 +20,8 @@ const iconProps = {
     color: String,
 } as const;
 
-export type IconProps = Partial<ExtractPropTypes<typeof iconProps>>;
+export type IconProps = Partial<ExtractPropTypes<typeof iconProps>> &
+    HTMLAttributes;
 
 export default defineComponent({
     name: 'FIconWrapper',
@@ -32,7 +34,7 @@ export default defineComponent({
             }
             return tabIndex;
         });
-        const svgStyle: ComputedRef<CSSProperties[]> = computed(() => {
+        const svgStyle: ComputedRef<StyleValue[]> = computed(() => {
             return [
                 props.rotate && {
                     transform: `rotate(${props.rotate}deg)`,
@@ -45,10 +47,12 @@ export default defineComponent({
                 },
             ];
         });
-        const svgClasses = computed(() => ({
-            [prefixCls]: true,
-            [`${prefixCls}--spin`]: !!props.spin,
-        }));
+        const svgClasses = computed(() => [
+            {
+                [prefixCls]: true,
+                [`${prefixCls}--spin`]: !!props.spin,
+            },
+        ]);
 
         return () => (
             <span
