@@ -350,10 +350,23 @@ export function useMonth({
 
     const monthToNext = () => {
         if (currentDate.month < 11) {
-            updateCurrentDate({
-                year: currentDate.year,
-                month: currentDate.month + 1,
-            });
+            const lastMonthDay = new Date(
+                currentDate.year,
+                currentDate.month + 1,
+                0,
+            ).getDate();
+            if (lastMonthDay === currentDate.day) {
+                updateCurrentDate({
+                    year: currentDate.year,
+                    month: currentDate.month + 1,
+                    day: 1,
+                });
+            } else {
+                updateCurrentDate({
+                    year: currentDate.year,
+                    month: currentDate.month + 1,
+                });
+            }
         } else {
             updateCurrentDate({
                 year: currentDate.year + 1,
