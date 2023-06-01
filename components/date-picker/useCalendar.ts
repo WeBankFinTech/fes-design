@@ -35,13 +35,19 @@ export const useCurrentDate = (props: CalendarProps, emit: CalendarEmits) => {
     const [innerActiveDate, updateActiveDate] = useNormalModel(props, emit, {
         prop: 'activeDate',
     });
-    const updateCurrentDate: UpdateCurrentDate = (date: Partial<DateObj>) => {
+
+    const mergeCurrentDate = (date: Partial<DateObj>) => {
         Object.assign(currentDate, date);
+        currentDate.day = 1;
+    };
+
+    const updateCurrentDate: UpdateCurrentDate = (date: Partial<DateObj>) => {
+        mergeCurrentDate(date);
         updateActiveDate(transformDateToTimestamp(currentDate));
     };
 
     watch(innerActiveDate, () => {
-        Object.assign(currentDate, parseDate(innerActiveDate.value));
+        mergeCurrentDate(parseDate(innerActiveDate.value));
     });
 
     watch(
