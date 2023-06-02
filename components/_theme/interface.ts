@@ -35,5 +35,5 @@ export interface ThemeCommon {
 }
 
 export interface Theme {
-    common: ThemeCommon;
+    common?: Partial<ThemeCommon>;
 }
