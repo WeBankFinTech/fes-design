@@ -50,21 +50,21 @@ export default defineComponent({
             const length = slideChildren.value.length;
             if (
                 (index === length - 1 &&
-                    slideItem.inStage &&
-                    slideChildren.value[0].active) ||
-                (slideItem.inStage &&
+                    slideItem.states.inStage &&
+                    slideChildren.value[0].states.active) ||
+                (slideItem.states.inStage &&
                     slideChildren.value[index + 1] &&
-                    slideChildren.value[index + 1].active)
+                    slideChildren.value[index + 1].states.active)
             ) {
                 return 'left';
             }
             if (
                 (index === 0 &&
-                    slideItem.inStage &&
-                    slideChildren.value[length - 1].active) ||
-                (slideItem.inStage &&
+                    slideItem.states.inStage &&
+                    slideChildren.value[length - 1].states.active) ||
+                (slideItem.states.inStage &&
                     slideChildren.value[index - 1] &&
-                    slideChildren.value[index - 1].active)
+                    slideChildren.value[index - 1].states.active)
             ) {
                 return 'right';
             }
@@ -76,7 +76,7 @@ export default defineComponent({
             if (direction.value === 'vertical') return;
             slideChildren.value.forEach((item, index) => {
                 if (arrow === slideItemInStage(item, index)) {
-                    item.hover = true;
+                    item.states.hover = true;
                 }
             });
         };
@@ -85,7 +85,7 @@ export default defineComponent({
         const onLeaveArrowButton = () => {
             if (direction.value === 'vertical') return;
             slideChildren.value.forEach((item) => {
-                item.hover = false;
+                item.states.hover = false;
             });
         };
 

@@ -1,4 +1,4 @@
-import { ToRefs, ExtractPropTypes, Ref } from 'vue';
+import { ExtractPropTypes } from 'vue';
 import useCarousel from './useCarousel';
 
 export type Placement = 'top' | 'bottom' | 'left' | 'right';
@@ -19,18 +19,16 @@ export type CarouselItemProps = Partial<
     ExtractPropTypes<typeof carouselItemProps>
 >;
 
-export interface CarouselItemStatus {
-    hover: Ref<boolean>;
+export interface CarouselItemStates {
+    hover: boolean;
     active: boolean;
     inStage: boolean;
     animating: boolean;
 }
 
-export type UnionCarouselItemData = CarouselItemProps &
-    ToRefs<CarouselItemStatus>;
-
-export interface CarouselItemData extends UnionCarouselItemData {
+export interface CarouselItemData extends CarouselItemProps {
     uid: number;
+    states: CarouselItemStates;
     translateItem: (
         index: number,
         activeIndex: number,
