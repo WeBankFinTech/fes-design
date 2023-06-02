@@ -41,7 +41,7 @@ const themeCommon = {
 
 export type TThemeVars = ReturnType<typeof baseTheme>;
 
-export const baseTheme = (themeOverrides: Partial<Theme> = {}) => {
+export const baseTheme = (themeOverrides: Theme = {}) => {
     const base = Object.assign(themeCommon, themeOverrides.common);
     return {
         ...base,

@@ -1,8 +1,8 @@
+import { defaultContainer } from '../_util/utils';
 import type { InjectionKey, PropType, Ref } from 'vue';
 import type { TypeLanguage } from '../locales';
 import type { Theme } from '../_theme/interface';
 import type { GetContainer } from '../_util/interface';
-import { defaultContainer } from '../_util/utils';
 
 export type TranslatorOptionType = Record<string, string | number>;
 
@@ -24,14 +24,14 @@ export const configProviderProps = {
         default: defaultContainer,
     },
     theme: String,
-    themeOverrides: Object as PropType<Partial<Theme>>,
+    themeOverrides: Object as PropType<Theme>,
 } as const;
 
 export type ConfigProviderContextType = {
     locale?: Ref<TypeLanguage>;
     getContainer?: Ref<GetContainer>;
     theme?: Ref<string>;
-    themeOverrides?: Ref<Partial<Theme>>;
+    themeOverrides?: Ref<Theme>;
 };
 
 export const CONFIG_PROVIDER_INJECTION_KEY: InjectionKey<ConfigProviderContextType> =

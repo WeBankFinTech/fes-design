@@ -2,7 +2,6 @@ import {
     computed,
     defineComponent,
     ref,
-    toRefs,
     reactive,
     onMounted,
     onUnmounted,
@@ -176,8 +175,8 @@ export default defineComponent({
         onMounted(() => {
             addItem({
                 uid: instance.uid,
-                ...props,
-                ...toRefs(itemStatus),
+                key: props.key,
+                states: itemStatus,
                 translateItem,
             } as CarouselItemData);
         });
