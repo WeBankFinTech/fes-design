@@ -34,7 +34,7 @@ export default defineComponent({
             }
             return tabIndex;
         });
-        const svgStyle: ComputedRef<StyleValue[]> = computed(() => {
+        const svgStyle: ComputedRef<StyleValue> = computed(() => {
             return [
                 props.rotate && {
                     transform: `rotate(${props.rotate}deg)`,
