@@ -1,48 +1,52 @@
 import { tint, shade, fade } from './colors/colorFunc';
 import type { Theme } from './interface';
 
-const fontColorBase = '#0f1222';
-const themeCommon = {
-    primaryColor: '#5384ff',
+function getDefaultThemeBase(fontColorBase = '#0f1222') {
+    return {
+        primaryColor: '#5384ff',
 
-    successColor: '#00cb91',
-    dangerColor: '#ff4d4f',
-    warningColor: '#f29360',
-    tipColor: '#5384ff',
+        successColor: '#00cb91',
+        dangerColor: '#ff4d4f',
+        warningColor: '#f29360',
+        tipColor: '#5384ff',
 
-    white: '#fff',
-    black: '#000',
+        white: '#fff',
+        black: '#000',
 
-    bodyBgColor: '#fff',
+        bodyBgColor: '#fff',
 
-    fontColorBase,
-    fontSizeBase: '14px',
+        fontColorBase,
+        fontSizeBase: '14px',
 
-    borderRadiusBase: '4px',
-    borderRadiusSm: '2px',
-    borderWidthBase: '1px',
-    borderStyleBase: 'solid',
+        borderRadiusBase: '4px',
+        borderRadiusSm: '2px',
+        borderWidthBase: '1px',
+        borderStyleBase: 'solid',
 
-    borderColorBase: tint(fontColorBase, 0.8),
+        borderColorBase: tint(fontColorBase, 0.8),
 
-    shadowColor: fade(fontColorBase, 0.1),
-    shadowColorSm: fade(fontColorBase, 0.2),
-    shadowRadius: '12px',
-    shadowRadiusSm: '4px',
+        shadowColor: fade(fontColorBase, 0.1),
+        shadowColorSm: fade(fontColorBase, 0.2),
+        shadowRadius: '12px',
+        shadowRadiusSm: '4px',
 
-    maskColor: fade(fontColorBase, 0.45),
-    maskDarkColor: fade(fontColorBase, 0.9),
+        maskColor: fade(fontColorBase, 0.45),
+        maskDarkColor: fade(fontColorBase, 0.9),
 
-    paddingLarge: '24px',
-    paddingMiddle: '16px',
-    paddingSmall: '12px',
-    paddingXsmall: '8px',
-};
+        paddingLarge: '24px',
+        paddingMiddle: '16px',
+        paddingSmall: '12px',
+        paddingXsmall: '8px',
+    };
+}
 
 export type TThemeVars = ReturnType<typeof baseTheme>;
 
 export const baseTheme = (themeOverrides: Theme = {}) => {
-    const base = Object.assign(themeCommon, themeOverrides.common);
+    const base = Object.assign(
+        getDefaultThemeBase(themeOverrides.common?.fontColorBase),
+        themeOverrides.common,
+    );
     return {
         ...base,
 
@@ -80,7 +84,6 @@ export const baseTheme = (themeOverrides: Theme = {}) => {
         textColorDisabledLight: tint(base.fontColorBase, 0.8),
         textColorCaption: tint(base.fontColorBase, 0.8),
 
-        borderColorBase: tint(base.fontColorBase, 0.8),
         borderColorDisabled: tint(base.fontColorBase, 0.8),
         borderColorSplit: tint(base.fontColorBase, 0.94),
         borderColorInverse: base.white,
