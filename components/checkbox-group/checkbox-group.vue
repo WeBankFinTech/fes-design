@@ -3,7 +3,7 @@
         <slot />
         <Checkbox
             v-for="opt in optionsRef"
-            :key="(opt.value as any)"
+            :key="opt.value"
             :value="opt.value"
             :label="opt.label"
             :disabled="opt.disabled"

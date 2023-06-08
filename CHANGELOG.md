@@ -1,3 +1,12 @@
+## [0.7.30](https://github.com/WeBankFinTech/fes-design/compare/v0.7.29...v0.7.30) (2023-06-08)
+
+
+### Bug Fixes
+
+* 修复主题问题 ([#321](https://github.com/WeBankFinTech/fes-design/issues/321)) ([30d2f8b](https://github.com/WeBankFinTech/fes-design/commit/30d2f8b26853684d42417f2608e1df2777d4d55e))
+
+
+
 ## [0.7.29](https://github.com/WeBankFinTech/fes-design/compare/v0.7.28...v0.7.29) (2023-06-01)
 
 
