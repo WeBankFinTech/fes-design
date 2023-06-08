@@ -3,6 +3,7 @@
         v-model:show="isShow"
         title="Playground"
         displayDirective="show"
+        :maskClosable="false"
         width="90%"
         @ok="isShow = false"
     >
