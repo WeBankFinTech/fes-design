@@ -1,12 +1,6 @@
 .slide-motion(@className, @keyframeName) {
     @name: ~'@{cls-prefix}-@{className}';
     .make-motion(@name, @keyframeName);
-    .@{name}-enter-active {
-        animation-timing-function: @ease-out-quint;
-    }
-    .@{name}-leave-active {
-        animation-timing-function: @ease-in-quint;
-    }
 }
 
 .slide-motion(slide-up, slideUp);

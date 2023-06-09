@@ -45,8 +45,8 @@ export default defineComponent({
             computePopper,
             popperStyle,
             updateVirtualRect,
-            placement,
             cacheVisible,
+            transitionName,
         } = usePopper(props, emit);
 
         const disabledWatch = computed(
@@ -118,19 +118,6 @@ export default defineComponent({
             );
         };
 
-        const transitionName = computed(() => {
-            const placementValue = placement.value;
-            const MAP = {
-                bottom: 'up',
-                top: 'down',
-                left: 'right',
-                right: 'left',
-            } as const;
-            return `fes-slide-${
-                MAP[placementValue.split('-')[0] as keyof typeof MAP]
-            }`;
-        });
-
         return () => (
             <Fragment>
                 {renderTrigger()}
@@ -149,6 +136,7 @@ export default defineComponent({
                     >
                         <Transition
                             name={transitionName.value}
+                            type="animation"
                             appear
                             onBeforeEnter={computePopper}
                         >

@@ -1,4 +1,12 @@
-import { onMounted, onActivated, ref, watch, reactive, nextTick } from 'vue';
+import {
+    onMounted,
+    onActivated,
+    ref,
+    watch,
+    reactive,
+    nextTick,
+    computed,
+} from 'vue';
 import { computePosition, offset, shift, flip, arrow } from '@floating-ui/dom';
 import { isBoolean, isFunction } from 'lodash-es';
 import { useNormalModel } from '../_util/use/useModel';
@@ -7,6 +15,13 @@ import getElementFromVueInstance from '../_util/getElementFromVueInstance';
 
 import type { PopperProps } from './props';
 import type { VirtualRect } from './interface';
+
+const MAP = {
+    bottom: 'up',
+    top: 'down',
+    left: 'right',
+    right: 'left',
+} as const;
 
 export default (props: PopperProps, emit: any) => {
     const [visible, updateVisible] = useNormalModel(props, emit);
@@ -20,11 +35,19 @@ export default (props: PopperProps, emit: any) => {
     const placement = ref(props.placement);
     const cacheVisible = ref(true);
 
+    const transitionName = computed(() => {
+        const placementValue = placement.value;
+        return `fes-slide-${
+            MAP[placementValue.split('-')[0] as keyof typeof MAP]
+        }`;
+    });
+
     const computePopper = () => {
         if (isBoolean(props.disabled) && props.disabled) return;
         if (isFunction(props.disabled) && props.disabled()) return;
         if (!visible.value) return;
         popperStyle.zIndex = popupManager.nextZIndex();
+
         nextTick(() => {
             const triggerEl = virtualRect.value
                 ? {
@@ -110,7 +133,7 @@ export default (props: PopperProps, emit: any) => {
         popperStyle,
         computePopper,
         updateVirtualRect,
-        placement,
         cacheVisible,
+        transitionName,
     };
 };
