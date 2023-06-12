@@ -1,5 +1,14 @@
-import { defineComponent, computed, watch, PropType, VNodeTypes } from 'vue';
+import {
+    defineComponent,
+    computed,
+    watch,
+    PropType,
+    VNodeTypes,
+    ref,
+    Ref,
+} from 'vue';
 import { isFunction } from 'lodash-es';
+import CheckOutlined from '../icon/CheckOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
 import { TRIGGER, PLACEMENT } from '../_util/constants';
 import { useNormalModel } from '../_util/use/useModel';
@@ -67,6 +76,10 @@ const dropdownProps = {
         type: Boolean,
         default: false,
     },
+    showSelectedOption: {
+        type: Boolean,
+        default: false,
+    },
 };
 
 export default defineComponent({
@@ -75,6 +88,7 @@ export default defineComponent({
     emits: ['click', 'visibleChange', 'update:visible'],
     setup(props, { slots, emit }) {
         useTheme();
+        const currentValue: Ref<string | number> = ref();
         const [visible, updateVisible] = useNormalModel(props, emit, {
             prop: 'visible',
         });
@@ -83,7 +97,8 @@ export default defineComponent({
         );
         const handleClick = (option: Option) => {
             if (option.disabled) return;
-            const value = option[props.valueField];
+            const value = option[props.valueField] as Option['value'];
+            currentValue.value = value;
             updateVisible(false);
             emit('click', value);
         };
@@ -98,11 +113,16 @@ export default defineComponent({
                 ]}
             >
                 {props.options.map((option) => {
+                    const value = option[props.valueField] as Option['value'];
+                    const label = option[props.labelField] as Option['label'];
+                    const isChecked =
+                        props.showSelectedOption &&
+                        currentValue.value === value;
                     const optionClassList = [
                         `${prefixCls}-option`,
                         option.disabled && 'is-disabled',
+                        isChecked && 'is-checked',
                     ].filter(Boolean);
-                    const label = option[props.labelField];
                     return (
                         <div
                             class={optionClassList}
@@ -110,12 +130,19 @@ export default defineComponent({
                                 handleClick(option);
                             }}
                         >
-                            <span class={`${prefixCls}-option-icon`}>
-                                {option.icon?.()}
-                            </span>
+                            {option.icon && (
+                                <span class={`${prefixCls}-option-icon`}>
+                                    {option.icon?.()}
+                                </span>
+                            )}
                             <span class={`${prefixCls}-option-label`}>
                                 {isFunction(label) ? label(option) : label}
                             </span>
+                            {isChecked && (
+                                <CheckOutlined
+                                    class={`${prefixCls}-checked-icon`}
+                                />
+                            )}
                         </div>
                     );
                 })}

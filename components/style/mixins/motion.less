@@ -8,11 +8,13 @@
         .motion-common(@duration);
         animation-name: ~'@{keyframeName}In';
         animation-play-state: running;
+        animation-timing-function: @ease-out-quint;
     }
     .@{className}-leave-active {
         .motion-common(@duration);
         animation-name: ~'@{keyframeName}Out';
         animation-play-state: running;
+        animation-timing-function: @ease-in-quint;
         pointer-events: none;
     }
 }
