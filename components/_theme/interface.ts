@@ -32,6 +32,8 @@ export interface ThemeCommon {
     paddingMiddle: string;
     paddingSmall: string;
     paddingXSmall: string;
+
+    [key: string]: string;
 }
 
 export interface Theme {

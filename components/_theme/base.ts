@@ -48,8 +48,6 @@ export const baseTheme = (themeOverrides: Theme = {}) => {
         themeOverrides.common,
     );
     return {
-        ...base,
-
         linkColor: base.primaryColor,
 
         componentBgColor: tint(base.fontColorBase, 0.97),
@@ -101,5 +99,7 @@ export const baseTheme = (themeOverrides: Theme = {}) => {
         carouselColor: base.shadowColorSm,
         carouselHoverColor: base.maskColor,
         carouselActiveColor: fade(base.fontColorBase, 0.65),
+
+        ...base,
     };
 };
