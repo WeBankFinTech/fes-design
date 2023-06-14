@@ -4,7 +4,7 @@ import Modal from './modal';
 
 import type { ModalType } from './modal';
 
-interface ModalConfig {
+export interface ModalConfig {
     closable?: boolean;
     mask?: boolean;
     maskClosable?: boolean;
