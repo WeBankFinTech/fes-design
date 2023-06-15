@@ -18,6 +18,12 @@ app.use(FDropdown);
 
 --COMMON
 
+### 选中效果
+
+展示选中选项
+
+--CHECK
+
 ### 图标
 
 菜单项可配置图标。
@@ -60,6 +66,8 @@ app.use(FDropdown);
 | offset            | 下拉菜单弹窗距离触发元素的距离,单位px                                                                                                                                                               | number                  | `6`                 |
 | disabled          | 是否禁用                                                                                                                                                                                     | boolean                 | `false`               |
 | arrow             | 是否显示箭头                                                                                                                                                                                 | boolean                 | `false`               |
+| showSelectedOption             | 是否显示选中选项                                                                                                                                                                                 | boolean                 | `false`               |
+
 
 ## Events
 

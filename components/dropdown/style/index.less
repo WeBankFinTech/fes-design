@@ -44,6 +44,10 @@
             width: var(--f-font-size-base);
             margin-right: @padding-xs;
         }
+         &-checked-icon {
+            margin-left: @padding-xs;
+            font-size: @font-size-head;
+        }
         &:hover {
             background: @dropdown-option-hover-color;
             transition: background-color @animation-duration-fast @ease-base-in;
@@ -52,6 +56,10 @@
             color: var(--f-text-color-disabled);
             background: var(--f-white);
             cursor: not-allowed;
+        }
+        &.is-checked {
+            color: var(--f-primary-color);
+            transition: color @animation-duration-fast @ease-base-in;
         }
     }
 }
