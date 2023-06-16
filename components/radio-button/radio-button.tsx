@@ -43,6 +43,7 @@ export default defineComponent({
                 checked.value && group.props.bordered
                     ? `is-checked-${group.props.type}-${'border'}`
                     : '',
+                group.props.fullLine ? 'is-flex' : '',
             ];
         });
 

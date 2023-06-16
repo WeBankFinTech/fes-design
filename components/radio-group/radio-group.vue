@@ -47,6 +47,7 @@ export default defineComponent({
         const classList = computed(() => [
             prefixCls,
             props.vertical && 'is-vertical',
+            props.fullLine && 'is-full-line',
             (props.disabled || isFormDisabled.value) && 'is-disabled',
         ]);
 

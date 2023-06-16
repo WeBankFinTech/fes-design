@@ -44,6 +44,10 @@ export const radioGroupProps = {
         type: String as PropType<OptionType>,
         default: 'default' as OptionType,
     },
+    fullLine: {
+        type: Boolean,
+        default: false,
+    },
 } as const;
 
 export type RadioGroupProps = Partial<ExtractPropTypes<typeof radioGroupProps>>;
