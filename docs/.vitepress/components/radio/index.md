@@ -81,6 +81,7 @@ app.use(FRadioButton);
 | type     | 按钮样式类型  可选值 `default` `primary`   | string | `default`  |
 | size     | 按钮大小 可选值 `small` `middle`    | string  | `middle`  |
 | bordered    | 按钮是否含有边框             | boolean  | `true`  |
+| fullLine    | 是否撑满整个父容器宽度             | boolean  | `false`  |
 
 ## RadioButton Props
 
