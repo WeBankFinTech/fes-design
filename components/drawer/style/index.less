@@ -21,7 +21,7 @@
         .fixed-full();
         display: flex;
     }
-    
+
     &-wrapper {
         position: relative;
         display: flex;
@@ -30,7 +30,7 @@
         border-radius: var(--f-border-radius-base);
         box-shadow: @shadow-down;
     }
-    
+
     &-header {
         position: relative;
         display: flex;
@@ -47,10 +47,13 @@
         }
     }
 
-    &-body {
+    &-body-wrapper {
         flex: 1;
+    }
+
+    &-body-container {
+        box-sizing: border-box;
         padding: @padding-md calc(@padding-md + @padding-xs);
-        overflow: auto;
         color: var(--f-sub-head-color);
         font-size: var(--f-font-size-base);
     }
@@ -78,7 +81,7 @@
     &-mask-fade-enter-active {
         transition: opacity @animation-duration-slow @ease-base-in;
     }
-    
+
     &-mask-fade-leave-to,
     &-mask-fade-enter-from {
         opacity: 0;

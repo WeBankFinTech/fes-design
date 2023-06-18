@@ -48,7 +48,7 @@
             :footer="true"
             @ok="show[4] = false"
         >
-            <div>我是内容...</div>
+            <div style="height: 1000px">我是内容...</div>
             <div>我是内容...</div>
             <div>我是内容...</div>
         </FDrawer>

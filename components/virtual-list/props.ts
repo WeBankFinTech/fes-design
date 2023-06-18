@@ -17,6 +17,7 @@ export const virtualProps = {
     dataSources: {
         type: Array as PropType<DataSource[]>,
         required: true,
+        default: (): DataSource[] => [],
     },
     keeps: {
         type: Number,
