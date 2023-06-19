@@ -2,7 +2,7 @@ import { defineComponent, provide, VNodeChild } from 'vue';
 import { isFunction, isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
-import VirtualList from '../virtual-list/virtualList';
+import VirtualList from '../virtual-list';
 import TreeNode from './treeNode';
 import { COMPONENT_NAME } from './const';
 import useData from './useData';

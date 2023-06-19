@@ -10,7 +10,8 @@ import { isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import CaretDownOutlined from '../icon/CaretDownOutlined';
 import LoadingOutlined from '../icon/LoadingOutlined';
-import Checkbox from '../checkbox/checkbox.vue';
+import Checkbox from '../checkbox';
+import FEllipsis from '../ellipsis';
 import { COMPONENT_NAME, INDENT } from './const';
 import useTreeNode from './useTreeNode';
 
@@ -246,9 +247,10 @@ export default defineComponent({
                     onClick={handleClickContent}
                 >
                     {renderPrefix()}
-                    <span class={`${prefixCls}-content-label`}>
-                        {props.label}
-                    </span>
+                    <FEllipsis
+                        class={`${prefixCls}-content-label`}
+                        content={props.label}
+                    />
                     {renderSuffix()}
                 </span>
             </div>
