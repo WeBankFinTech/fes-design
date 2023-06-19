@@ -45,6 +45,7 @@ export default defineComponent({
                     rowIndex={rowIndex}
                     column={column}
                     columnIndex={columnIndex}
+                    columns={props.columns}
                     onClick={($event: Event) => {
                         handleCellClick(
                             {

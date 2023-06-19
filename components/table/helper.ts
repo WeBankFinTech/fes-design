@@ -45,26 +45,23 @@ export const getRowKey = ({
 
 const handleFixedColumns = (arr: ColumnInst[]) => {
     // fixed固定列需要排在首尾
-    const fixLeftIndex = arr.findIndex(
-        (column) =>
-            column.props.fixed === true || column.props.fixed === 'left',
-    );
-    if (fixLeftIndex !== -1) {
-        const fixLeftColumn = arr[fixLeftIndex];
-        fixLeftColumn.fixLeft = true;
-        arr.splice(fixLeftIndex, 1);
-        arr.unshift(fixLeftColumn);
+    const fixedLeftColumns = [];
+    const fixedRightColumns = [];
+    const otherColumns = [];
+    for (let i = 0; i < arr.length; i++) {
+        const column = arr[i];
+        if (column.props.fixed === true || column.props.fixed === 'left') {
+            column.fixedLeft = true;
+            fixedLeftColumns.push(column);
+        } else if (column.props.fixed === 'right') {
+            column.fixedRight = true;
+            fixedRightColumns.push(column);
+        } else {
+            otherColumns.push(column);
+        }
     }
-    const fixRightIndex = arr.findIndex(
-        (column) => column.props.fixed === 'right',
-    );
-    if (fixRightIndex !== -1) {
-        const fixRightColumn = arr[fixRightIndex];
-        fixRightColumn.fixRight = true;
-        arr.splice(fixRightIndex, 1);
-        arr.push(fixRightColumn);
-    }
-    return arr;
+
+    return fixedLeftColumns.concat(otherColumns, fixedRightColumns);
 };
 
 /**

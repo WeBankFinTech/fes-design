@@ -36,14 +36,14 @@
     & &-body-wrapper {
         &.is-scrolling-x-left,
         &.is-scrolling-x-middle {
-            .@{table-prefix}-fixed-right {
+            .@{table-prefix}-fixed-right.is-first {
                 box-shadow: -1px 2px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
             }
         }
         &.is-scrolling-x-right,
         &.is-scrolling-x-middle {
-            .@{table-prefix}-fixed-left {
-                box-shadow: 1px 2px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
+            .@{table-prefix}-fixed-left.is-last {
+                box-shadow: 2px 2px var(--f-shadow-radius-sm) -1px var(--f-shadow-color-sm);
             }
         }
     }

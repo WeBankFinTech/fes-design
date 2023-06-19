@@ -125,13 +125,27 @@ export default ({
         }
     };
 
-    const getCellClass = ({ column }: { column: ColumnInst }) => {
+    const getCellClass = ({
+        column,
+        columns,
+        columnIndex,
+    }: {
+        column: ColumnInst;
+        columns: ColumnInst[];
+        columnIndex: number;
+    }) => {
         const arr = [`${prefixCls}-cell`, column.id];
-        if (layout.isScrollX.value && column.fixLeft) {
+        if (layout.isScrollX.value && column.fixedLeft) {
             arr.push(`${prefixCls}-fixed-left`);
+            if (!columns[columnIndex + 1]?.fixedLeft) {
+                arr.push('is-last');
+            }
         }
-        if (layout.isScrollX.value && column.fixRight) {
+        if (layout.isScrollX.value && column.fixedRight) {
             arr.push(`${prefixCls}-fixed-right`);
+            if (!columns[columnIndex - 1]?.fixedRight) {
+                arr.push('is-first');
+            }
         }
         return arr;
     };
@@ -162,6 +176,48 @@ export default ({
         ];
     };
 
+    const getCellStyle = ({
+        column,
+        columns,
+        columnIndex,
+        row,
+    }: {
+        column: ColumnInst;
+        columns: ColumnInst[];
+        columnIndex: number;
+        row?: RowType;
+    }): CSSProperties => {
+        const align = column.props.align;
+        const alignStyle: CSSProperties = {
+            'text-align': !row && column.colSpan > 1 ? 'center' : align,
+        };
+        const leftStyle: CSSProperties = {};
+        if (column.fixedLeft) {
+            const leftColumns = columns.slice(0, columnIndex);
+            const width = leftColumns.reduce((accumulator, currentValue) => {
+                return (
+                    currentValue.width || currentValue.minWidth + accumulator
+                );
+            }, 0);
+            leftStyle.left = `${width}px`;
+        }
+        const rightStyle: CSSProperties = {};
+        if (column.fixedRight) {
+            const rightColumns = columns.slice(columnIndex + 1);
+            const width = rightColumns.reduceRight(
+                (accumulator, currentValue) => {
+                    return (
+                        currentValue.width ||
+                        currentValue.minWidth + accumulator
+                    );
+                },
+                0,
+            );
+            leftStyle.right = `${width}px`;
+        }
+        return { ...alignStyle, ...leftStyle, ...rightStyle };
+    };
+
     const getCustomCellStyle = ({
         row,
         column,
@@ -175,10 +231,6 @@ export default ({
     }) => {
         const cellValue = getCellValue(row, column);
         const colStyle = column.props.colStyle;
-        const align = column.props.align;
-        const alignStyle = {
-            'text-align': !row && column.colSpan > 1 ? 'center' : align,
-        };
         let extraStyle = {};
         // row 为空，则是表头，表头不处理 colStyle
         if (row) {
@@ -195,7 +247,7 @@ export default ({
                 });
             }
         }
-        return { ...alignStyle, ...extraStyle };
+        return extraStyle;
     };
 
     const getCellSpan = ({
@@ -273,6 +325,7 @@ export default ({
         getRowStyle,
         getCellClass,
         getCustomCellClass,
+        getCellStyle,
         getCustomCellStyle,
         syncPosition,
         handleHeaderMousewheel,

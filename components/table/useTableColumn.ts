@@ -62,7 +62,7 @@ export default function useColumn(props: TableProps) {
 
     const hasFixedColumn = computed(() =>
         columns.value.every((column) => {
-            return !column.fixLeft && !column.fixRight;
+            return !column.fixedLeft && !column.fixedRight;
         }),
     );
 

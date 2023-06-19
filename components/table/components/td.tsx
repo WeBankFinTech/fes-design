@@ -9,6 +9,10 @@ import type { ColumnInst } from '../column';
 export default defineComponent({
     name: 'FTableBodyTd',
     props: {
+        columns: {
+            type: Array as PropType<ColumnInst[]>,
+            required: true,
+        },
         row: {
             type: Object,
             required: true,
@@ -27,6 +31,7 @@ export default defineComponent({
             getCellSpan,
             getCellClass,
             getCustomCellClass,
+            getCellStyle,
             getCustomCellStyle,
             isSelected,
             isSelectDisabled,
@@ -45,15 +50,27 @@ export default defineComponent({
                 <td
                     rowspan={rowspan}
                     colspan={colspan}
-                    style={getCustomCellStyle({
-                        row,
-                        column,
-                        rowIndex,
-                        columnIndex,
-                    })}
+                    style={[
+                        getCellStyle({
+                            row,
+                            column,
+                            columnIndex,
+                            columns: props.columns,
+                        }),
+                        getCustomCellStyle({
+                            row,
+                            column,
+                            rowIndex,
+                            columnIndex,
+                        }),
+                    ]}
                     class={[
                         `${prefixCls}-td`,
-                        ...getCellClass({ column }),
+                        ...getCellClass({
+                            column,
+                            columnIndex,
+                            columns: props.columns,
+                        }),
                         ...getCustomCellClass({
                             row,
                             column,
