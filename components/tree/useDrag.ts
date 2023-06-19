@@ -1,6 +1,6 @@
 import { onUnmounted, ref } from 'vue';
-import type { InnerTreeOption, TreeNodeKey, DropPosition } from './interface';
 import getPrefixCls from '../_util/getPrefixCls';
+import type { InnerTreeOption, TreeNodeKey, DropPosition } from './interface';
 
 const prefixCls = getPrefixCls('tree-node');
 
@@ -35,6 +35,11 @@ export default ({
 
     const handleDragstart = (value: TreeNodeKey, event: DragEvent) => {
         const node = nodeList.get(value);
+        if (!node.draggable) {
+            // 阻止默认事件，默认事件会有拖拽效果
+            event.preventDefault();
+            return;
+        }
         dragNode = node;
         emit('dragstart', { node, event });
     };
@@ -42,6 +47,10 @@ export default ({
     const handleDragend = (value: TreeNodeKey, event: DragEvent) => {
         resetDragState();
         const node = nodeList.get(value);
+        if (!node.draggable) {
+            event.preventDefault();
+            return;
+        }
         emit('dragend', { node, event });
     };
 
