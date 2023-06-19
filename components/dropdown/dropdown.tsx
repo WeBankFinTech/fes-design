@@ -96,7 +96,6 @@ export default defineComponent({
             props.options.some((option) => option.icon),
         );
         const handleClick = (option: Option, event: Event) => {
-            event.preventDefault();
             event.stopPropagation();
             if (option.disabled) return;
             const value = option[props.valueField] as Option['value'];
