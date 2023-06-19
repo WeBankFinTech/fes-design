@@ -1,3 +1,23 @@
+## [0.7.32](https://github.com/WeBankFinTech/fes-design/compare/v0.7.31...v0.7.32) (2023-06-19)
+
+
+### Bug Fixes
+
+* 修复 dropdown 事件穿透问题 ([#329](https://github.com/WeBankFinTech/fes-design/issues/329)) ([5fac69a](https://github.com/WeBankFinTech/fes-design/commit/5fac69a2b562738bf9c33f3e064cfd15dfab5a23))
+* 隐藏 edge 浏览器 password 的眼睛 ([#325](https://github.com/WeBankFinTech/fes-design/issues/325)) ([8e23da2](https://github.com/WeBankFinTech/fes-design/commit/8e23da201625e4e689823c63ef966ed88ba0a3bf))
+
+
+### Features
+
+* Dropdown支持配置显示选择选项 ([#324](https://github.com/WeBankFinTech/fes-design/issues/324)) ([2a90158](https://github.com/WeBankFinTech/fes-design/commit/2a901584c0c8c83ba883051cd7d82e143c9c5c01))
+* Table组件支持配置多个fixed ([#333](https://github.com/WeBankFinTech/fes-design/issues/333)) ([c24ed9c](https://github.com/WeBankFinTech/fes-design/commit/c24ed9c692f933f9052bcf111a28bd7a38e5a417))
+* theme 可覆盖任意内部变量 ([#326](https://github.com/WeBankFinTech/fes-design/issues/326)) ([29ee93d](https://github.com/WeBankFinTech/fes-design/commit/29ee93d81819ab5c159046a6a660d49ff095c0cc))
+* Tree组件节点文本过多省略 ([#332](https://github.com/WeBankFinTech/fes-design/issues/332)) ([bc31a16](https://github.com/WeBankFinTech/fes-design/commit/bc31a16ec3ad360f3fdf17fa6a77ae412aa544e5))
+* Tree组件选项支持配置是否可拖拽 ([#331](https://github.com/WeBankFinTech/fes-design/issues/331)) ([07a3276](https://github.com/WeBankFinTech/fes-design/commit/07a3276c919c69afe46a8610cfece4ee258fff3a))
+* 单选按钮组新增设置支持占满父元素,子按钮平分空间 ([#328](https://github.com/WeBankFinTech/fes-design/issues/328)) ([08273d0](https://github.com/WeBankFinTech/fes-design/commit/08273d0441b4cf5dfa11dd5ca4719a7459027e23))
+
+
+
 ## [0.7.31](https://github.com/WeBankFinTech/fes-design/compare/v0.7.30...v0.7.31) (2023-06-08)
 
 
