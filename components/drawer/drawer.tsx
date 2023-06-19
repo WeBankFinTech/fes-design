@@ -12,7 +12,8 @@ import {
 } from 'vue';
 import { isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
-import FButton from '../button/button';
+import FButton from '../button';
+import FScrollbar from '../scrollbar';
 import { CloseOutlined } from '../icon';
 import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
@@ -215,9 +216,12 @@ const Drawer = defineComponent({
                                     onClick={(event) => event.stopPropagation()}
                                 >
                                     {getHeader()}
-                                    <div class={`${prefixCls}-body`}>
+                                    <FScrollbar
+                                        class={`${prefixCls}-body-wrapper`}
+                                        containerClass={`${prefixCls}-body-container`}
+                                    >
                                         {ctx.slots.default?.()}
-                                    </div>
+                                    </FScrollbar>
                                     {getFooter()}
                                 </div>
                             </div>
