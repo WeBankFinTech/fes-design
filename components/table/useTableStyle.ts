@@ -191,7 +191,7 @@ export default ({
         const alignStyle: CSSProperties = {
             'text-align': !row && column.colSpan > 1 ? 'center' : align,
         };
-        const leftStyle: CSSProperties = {};
+        const fixedStyle: CSSProperties = {};
         if (column.fixedLeft) {
             const leftColumns = columns.slice(0, columnIndex);
             const width = leftColumns.reduce((accumulator, currentValue) => {
@@ -199,10 +199,8 @@ export default ({
                     currentValue.width || currentValue.minWidth + accumulator
                 );
             }, 0);
-            leftStyle.left = `${width}px`;
-        }
-        const rightStyle: CSSProperties = {};
-        if (column.fixedRight) {
+            fixedStyle.left = `${width}px`;
+        } else if (column.fixedRight) {
             const rightColumns = columns.slice(columnIndex + 1);
             const width = rightColumns.reduceRight(
                 (accumulator, currentValue) => {
@@ -213,9 +211,9 @@ export default ({
                 },
                 0,
             );
-            leftStyle.right = `${width}px`;
+            fixedStyle.right = `${width}px`;
         }
-        return { ...alignStyle, ...leftStyle, ...rightStyle };
+        return { ...alignStyle, ...fixedStyle };
     };
 
     const getCustomCellStyle = ({
