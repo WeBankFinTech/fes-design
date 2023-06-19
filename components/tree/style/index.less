@@ -78,6 +78,8 @@
         flex-grow: 1;
         align-items: center;
         height: @data-input-height-base;
+        // 可阻止被子元素撑开宽度
+        min-width: 0;
         &-prefix {
             display: inline-flex;
             margin-right: @padding-xs;
