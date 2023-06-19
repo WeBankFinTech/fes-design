@@ -1,15 +1,22 @@
-import { inject, defineComponent, Fragment } from 'vue';
+import { inject, defineComponent, Fragment, PropType } from 'vue';
 import FCheckbox from '../../checkbox/checkbox.vue';
 import { provideKey } from '../const';
 
 import type { ColumnInst } from '../column';
 
 export default defineComponent({
-    setup() {
+    props: {
+        columns: {
+            type: Array as PropType<ColumnInst[]>,
+            required: true,
+        },
+    },
+    setup(props) {
         const {
             headerRows,
             handleHeaderClick,
             getCellClass,
+            getCellStyle,
             getCustomCellStyle,
             isAllSelected,
             isCurrentDataAnySelected,
@@ -39,9 +46,20 @@ export default defineComponent({
                         class={[
                             `${prefixCls}-th`,
                             column.props.sortable && `${prefixCls}-th-sortable`,
-                            ...getCellClass({ column }),
+                            ...getCellClass({
+                                column,
+                                columnIndex,
+                                columns: props.columns,
+                            }),
                         ]}
-                        style={getCustomCellStyle({ column })}
+                        style={[
+                            getCellStyle({
+                                column,
+                                columnIndex,
+                                columns: props.columns,
+                            }),
+                            getCustomCellStyle({ column }),
+                        ]}
                         onClick={($event) => {
                             handleHeaderClick({ column }, $event);
                             handleClickSortHeader({ column });

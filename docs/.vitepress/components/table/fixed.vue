@@ -2,7 +2,12 @@
     <f-table :data="data">
         <f-table-column prop="date" label="日期" :width="150" ellipsis fixed>
         </f-table-column>
-        <f-table-column prop="name" label="姓名" :width="150"></f-table-column>
+        <f-table-column
+            prop="name"
+            label="姓名"
+            :width="150"
+            fixed
+        ></f-table-column>
         <f-table-column
             prop="province"
             label="省份"
@@ -12,7 +17,8 @@
         <f-table-column
             prop="address"
             label="地址"
-            :width="800"
+            :width="300"
+            fixed="right"
         ></f-table-column>
         <f-table-column prop="zip" label="邮编" :width="120"> </f-table-column>
         <f-table-column

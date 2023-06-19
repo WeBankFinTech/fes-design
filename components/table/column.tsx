@@ -136,8 +136,8 @@ export interface ColumnInst {
     parentId?: number;
     width?: number;
     minWidth?: number;
-    fixLeft?: boolean;
-    fixRight?: boolean;
+    fixedLeft?: boolean;
+    fixedRight?: boolean;
     colSpan?: number;
     rowSpan?: number;
     children?: ColumnInst[];

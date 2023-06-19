@@ -41,7 +41,7 @@ export default defineComponent({
                         cellpadding="0"
                     >
                         <Colgroup columns={props.columns} />
-                        <Header />
+                        <Header columns={props.columns} />
                     </table>
                 </div>
             );

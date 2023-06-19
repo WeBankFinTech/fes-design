@@ -98,7 +98,9 @@ export default defineComponent({
                     cellpadding="0"
                 >
                     <Colgroup columns={props.columns} />
-                    {!props.composed && rootProps.showHeader && <Header />}
+                    {!props.composed && rootProps.showHeader && (
+                        <Header columns={props.columns} />
+                    )}
                     {renderBody()}
                 </table>
             );
