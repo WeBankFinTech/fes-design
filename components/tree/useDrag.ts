@@ -35,8 +35,8 @@ export default ({
 
     const handleDragstart = (value: TreeNodeKey, event: DragEvent) => {
         const node = nodeList.get(value);
-        console.log(node.draggable, node);
         if (!node.draggable) {
+            // 阻止默认事件，默认事件会有拖拽效果
             event.preventDefault();
             return;
         }
