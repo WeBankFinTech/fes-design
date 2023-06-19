@@ -25,12 +25,16 @@ export default ({
         const index = values.indexOf(val);
         if (props.multiple) {
             if (index !== -1) {
-                props.cancelable && values.splice(index, 1);
+                if (props.cancelable) {
+                    values.splice(index, 1);
+                }
             } else {
                 values.push(val);
             }
         } else if (index !== -1) {
-            props.cancelable && values.splice(index, 1);
+            if (props.cancelable) {
+                values.splice(index, 1);
+            }
         } else {
             values[0] = val;
         }

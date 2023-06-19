@@ -1,8 +1,8 @@
 import { ref, watch } from 'vue';
-import { isNil } from 'lodash-es';
+import { isNil, isUndefined } from 'lodash-es';
+import { concat } from '../_util/utils';
 import type { InnerTreeOption, TreeNodeKey } from './interface';
 import type { TreeProps } from './props';
-import { concat } from '../_util/utils';
 
 let uid = 1;
 const getUid = () => {
@@ -51,6 +51,7 @@ export default ({ props, emit }: { props: TreeProps; emit: any }) => {
             disabled: item.disabled,
             selectable: item.selectable,
             checkable: item.checkable,
+            draggable: isUndefined(item.draggable) ? true : item.draggable,
             value,
             label,
             isLeaf,

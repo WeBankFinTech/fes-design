@@ -9,6 +9,7 @@ export interface TreeOption {
     disabled?: boolean;
     selectable?: boolean;
     checkable?: boolean;
+    draggable?: boolean;
     isLeaf?: boolean;
     prefix?: string | (() => VNodeChild);
     suffix?: string | (() => VNodeChild);

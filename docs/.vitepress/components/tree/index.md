@@ -63,6 +63,7 @@ app.use(FTree);
 通过关键字过滤树节点。
 
 --FILTER 
+
 ### 前缀与后缀
 
 放一些操作。
@@ -138,6 +139,7 @@ app.use(FTree);
 | disabled?         | 是否禁用节点                                           | boolean                     | `-` |
 | selectable? | 是否禁用选中节点，默认为`Tree`组件的`selectable`                          | boolean                     | `-` |
 | checkable? | 是否禁用勾选节点，默认为`Tree`组件的`checkable`                          | boolean                     | `-` |
+| draggable? | 节点是否能被拖拽，默认为true                       | boolean                     | `true` |
 | isLeaf?           | 节点是否是叶节点，在 remote 模式下是必须的             | boolean                     | `false` |
 | prefix?           | 节点的前缀                                             | string / (() => VNodeChild) | `null`  |
 | suffix?           | 节点的后缀                                             | string / (() => VNodeChild) | `null`  |

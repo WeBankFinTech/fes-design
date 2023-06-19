@@ -1,6 +1,6 @@
-import type { ExtractPropTypes, PropType, InjectionKey, Ref } from 'vue';
-import { CHECK_STRATEGY } from './const';
 import { extractPropsDefaultValue } from '../_util/utils';
+import { CHECK_STRATEGY } from './const';
+import type { ExtractPropTypes, PropType, InjectionKey, Ref } from 'vue';
 
 import type {
     TreeOption,
