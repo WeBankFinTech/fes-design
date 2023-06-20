@@ -1,5 +1,5 @@
 import { ref, provide, watch, computed, toRefs } from 'vue';
-import { isFunction } from 'lodash-es';
+import { isEqual, isFunction } from 'lodash-es';
 import { noop, hasOwn } from '../_util/utils';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -270,15 +270,15 @@ export default (props: UploadProps, emit: any) => {
     watch(
         () => props.fileList,
         (fileList) => {
-            fileList.map((file) => {
-                const { uid, status } = file;
-                if (!uid) {
-                    file.uid = genUid(tempIndex++);
-                }
-                if (!status) {
-                    file.status = 'success';
-                }
-            });
+            if (!isEqual(uploadFiles.value, fileList)) {
+                uploadFiles.value = fileList.map((file) => {
+                    return {
+                        ...file,
+                        uid: file.uid || genUid(tempIndex++),
+                        status: file.status || 'success',
+                    };
+                });
+            }
         },
         {
             immediate: true,
