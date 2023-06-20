@@ -269,7 +269,7 @@ export default (props: UploadProps, emit: any) => {
     watch(
         () => props.fileList,
         (fileList) => {
-            if (!isEqual(cachedFiles, fileList)) {
+            if (!isEqual(cachedFiles, fileList) || fileList.length === 0) {
                 cachedFiles = [];
                 uploadFiles.value = fileList.map((file) => {
                     const cloneFile = cloneDeep(file);
