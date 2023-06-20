@@ -16,12 +16,19 @@ app.use(FTable);
 
 --COMMON
 
-#### 带边框表格
+#### 边框和分割线
 
-配置`bordered`即可。
+默认无边框，配置`bordered`则有
 
 --BORDERED
 
+默认有水平分割线，配置`horizontalLine=false`则无水平分割线
+
+--horizontalLine
+
+默认无垂直分割线，配置`verticalLine`则有
+
+--verticalLine
 
 ### 固定表头
 
@@ -109,6 +116,8 @@ app.use(FTable);
 | 属性         | 说明                                                                          | 类型                                             | 可选值 | 默认值     |
 | ------------ | ----------------------------------------------------------------------------- | ------------------------------------------------ | ------ | ---------- |
 | bordered     | 是否展示列边框                                                                | boolean                                          | -      | `false`    |
+| horizontalLine     | 是否展示水平分割线                                                               | boolean                                          | -      | `true`    |
+| verticalLine     | 是否展示垂直分割线                                                                | boolean                                          | -      | `false`    |
 | rowClassName | 行的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。 | string \| object \| array \| ({ row, column, rowIndex, columnIndex, cellValue })=> ( object \| array \| string ) | -      | -          |
 | rowStyle     | 行的 style 的回调方法，也可以使用一个固定的 Object 为所有行设置一样的 Style。 | object \| ({row, rowIndex})=> object               | -      | -          |
 | data         | 数据                                                                          | array                                            | -      | `[]`       |
