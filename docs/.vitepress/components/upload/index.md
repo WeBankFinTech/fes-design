@@ -16,6 +16,10 @@ app.use(FUpload);
 
 --COMMON
 
+### 初始列表
+
+--INITLIST
+
 ### 自定义上传的触发器
 
 --DEFAULT
@@ -54,7 +58,7 @@ app.use(FUpload);
 | beforeRemove                   | 删除文件之前的钩子，参数为上传的文件和文件列表，若返回 false 或者返回 Promise 且被 reject，则停止删除 | (file: FileItem, fileList: FileItem[]) => boolean \| Promise\<boolean\> | -       |
 | disabled                       | 是否禁用                                                                                              | boolean                                                                 | `false` |
 | data                           | 上传接口附带的数据                                                                                    | object                                                                  | `{}`    |
-| fileList                       | 上传的文件列表, 例如: [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}]。                      | FileItem[]                                                              | `[]`    |
+| fileList(v-model)              | 上传的文件列表, 例如: [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}]。                      | FileItem[]                                                              | `[]`    |
 | headers                        | 上传接口中请求附带的请求头                                                                            | object                                                                  | `{}`    |
 | listType（第一期只支持`text`） | 文件列表的类型，可选值有`text` / `picture-card`                                                       | string                                                                  | `text`  |
 | multiple                       | 是否支持多选文件                                                                                      | boolean                                                                 | `false` |

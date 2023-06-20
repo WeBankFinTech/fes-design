@@ -1,8 +1,9 @@
 import { ref, provide, watch, computed, toRefs } from 'vue';
-import { isEqual, isFunction, cloneDeep } from 'lodash-es';
+import { isFunction } from 'lodash-es';
 import { noop, hasOwn } from '../_util/utils';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import getPrefixCls from '../_util/getPrefixCls';
+import { useNormalModel } from '../_util/use/useModel';
 import { key } from './const';
 
 import type { UploadProps } from './upload';
@@ -22,12 +23,12 @@ function getFile(rawFile: UploadFile, uploadFiles: FileItem[]) {
 export default (props: UploadProps, emit: any) => {
     const isDragger = ref(false);
     const inputRef = ref();
-    const uploadFiles = ref([]);
     const requestList = ref<{
         [key: number | string]: XMLHttpRequest;
     }>({});
-    let cachedFiles: FileItem[] = [];
     let tempIndex = 1;
+
+    const [uploadFiles] = useNormalModel(props, emit, { prop: 'fileList' });
 
     function initFile(rawFile: UploadFile) {
         const uid = genUid(tempIndex++);
@@ -269,18 +270,15 @@ export default (props: UploadProps, emit: any) => {
     watch(
         () => props.fileList,
         (fileList) => {
-            if (!isEqual(cachedFiles, fileList) || fileList.length === 0) {
-                cachedFiles = [];
-                uploadFiles.value = fileList.map((file) => {
-                    const cloneFile = cloneDeep(file);
-                    cachedFiles.push(cloneFile);
-                    return {
-                        ...cloneFile,
-                        uid: file.uid || genUid(tempIndex++),
-                        status: file.status || 'success',
-                    };
-                });
-            }
+            fileList.map((file) => {
+                const { uid, status } = file;
+                if (!uid) {
+                    file.uid = genUid(tempIndex++);
+                }
+                if (!status) {
+                    file.status = 'success';
+                }
+            });
         },
         {
             immediate: true,
