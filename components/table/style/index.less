@@ -234,4 +234,32 @@
     & &-th-sortable {
         cursor: pointer;
     }
+
+    & &-resize-button {
+        width: 8px;
+        position: absolute;
+        top: 0;
+        right: 4px;
+        bottom: 0;
+        cursor: col-resize;
+        user-select: none;
+        &::after {
+            width: 2px;
+            height: 50%;
+            position: absolute;
+            top: 50%;
+            left: 4px;
+            bottom: 0;
+            background-color: @table-border-color;
+            transform: translate(-50%, -50%);
+            transition: background-color @animation-duration-base @ease-in-out;
+            z-index: 1;
+            content: '';
+        }
+        &.is-active {
+            &::after {
+                background-color: var(--f-primary-color);
+            }
+        }
+    }
 }

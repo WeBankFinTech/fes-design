@@ -1,5 +1,5 @@
-import { defineComponent, PropType } from 'vue';
-
+import { defineComponent, PropType, inject } from 'vue';
+import { provideKey } from '../const';
 import type { ColumnInst } from '../column';
 
 export default defineComponent({
@@ -10,19 +10,22 @@ export default defineComponent({
         },
     },
     setup(props) {
+        const { layout } = inject(provideKey);
         const renderColgroup = (columns: ColumnInst[]) => (
             <colgroup>
-                {columns.map((column) => (
-                    <col
-                        key={column.id}
-                        style={[
-                            column.width && { width: `${column.width}px` },
-                            column.minWidth && {
-                                width: `${column.minWidth}px`,
-                            },
-                        ]}
-                    />
-                ))}
+                {columns.map((column) => {
+                    const width = layout.widthList.value[column.id].width;
+                    const minWidth = layout.widthList.value[column.id].minWidth;
+                    return (
+                        <col
+                            key={column.id}
+                            style={[
+                                width && { width: `${width}px` },
+                                minWidth && { minWidth: `${minWidth}px` },
+                            ]}
+                        />
+                    );
+                })}
             </colgroup>
         );
         return () => renderColgroup(props.columns);

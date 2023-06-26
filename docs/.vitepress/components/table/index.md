@@ -16,7 +16,7 @@ app.use(FTable);
 
 --COMMON
 
-#### 边框和分割线
+ #### 边框和分割线
 
 默认无边框，配置`bordered`则有
 
@@ -28,7 +28,7 @@ app.use(FTable);
 
 默认无垂直分割线，配置`verticalLine`则有
 
---verticalLine
+--verticalLine 
 
 ### 固定表头
 
@@ -36,17 +36,21 @@ app.use(FTable);
 
 --HEIGHT
 
+
+
 ### 固定列
 
 横向内容过多时，可选择固定列。
 
 --FIXED
 
+
 ### 固定列和表头
 
 横纵内容过多时，可选择固定列和表头。
 
 --SCROLL
+
 
 ### 多级表头
 
@@ -101,12 +105,15 @@ app.use(FTable);
 
 ### 无数据
 
---NODATA 
+--NODATA  
 
 ### 使用 columns 配置列
 
 --COLUMNS
 
+### 列宽可拖拽配置
+
+--resizable 
 
 --CODE
 
@@ -189,6 +196,8 @@ app.use(FTable);
 | sortable     | 是否排序列                                             | boolean                                                              | -                     | `false`   |
 | sorter     | 排序方法，如果设为 'default' 表格将会使用一个内置的排序函数；其他工作的方式类似 Array.sort 的对比函数                                             | ((a: RowType, b: RowType) => boolean) \| 'default'                                                              | -                     | `default`   |
 | sortDirections     | 支持的排序方式                                             | string[]                                                             | -                     | `['ascend', 'descend']`   |
+| resizable     | 列是否可设置大小                                                  | boolean                                                              | -                     | `false`   |
+
 
 ## FTableColumn Slots
 
