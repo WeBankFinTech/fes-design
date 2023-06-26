@@ -89,6 +89,14 @@ const tableProps = {
             return [];
         },
     },
+    horizontalLine: {
+        type: Boolean,
+        default: true,
+    },
+    verticalLine: {
+        type: Boolean,
+        default: false,
+    },
 } as const;
 
 export type TableProps = Partial<ExtractPropTypes<typeof tableProps>>;

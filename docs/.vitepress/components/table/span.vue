@@ -1,5 +1,5 @@
 <template>
-    <f-table :data="data" :span-method="objectSpanMethod" bordered>
+    <f-table :data="data" :span-method="objectSpanMethod" bordered verticalLine>
         <f-table-column prop="id" label="ID" :width="180"></f-table-column>
         <f-table-column prop="name" label="姓名"> </f-table-column>
         <f-table-column prop="amount1" label="数值 1（元）"></f-table-column>

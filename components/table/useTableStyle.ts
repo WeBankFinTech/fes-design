@@ -33,6 +33,8 @@ export default ({
             prefixCls,
             props.bordered && 'is-bordered',
             props.size && `is-size-${props.size}`,
+            props.horizontalLine && 'is-horizontal-line',
+            props.verticalLine && 'is-vertical-line',
         ]
             .filter(Boolean)
             .join(' '),
