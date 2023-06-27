@@ -44,99 +44,96 @@ export default defineComponent({
 
         const renderThList = (row: ColumnInst[]) =>
             row
-                .map((column, columnIndex: number) => {
-                    return (
-                        <th
-                            key={column.id}
-                            colspan={column.colSpan}
-                            rowspan={column.rowSpan}
-                            class={[
-                                `${prefixCls}-th`,
-                                column.props.sortable &&
-                                    `${prefixCls}-th-sortable`,
-                                ...getCellClass({
-                                    column,
-                                    columnIndex,
-                                    columns: props.columns,
-                                }),
-                            ]}
-                            style={[
-                                getCellStyle({
-                                    column,
-                                    columnIndex,
-                                    columns: props.columns,
-                                }),
-                                getCustomCellStyle({ column }),
-                            ]}
-                            onClick={($event) => {
-                                handleHeaderClick({ column }, $event);
-                                handleClickSortHeader({ column });
-                            }}
-                        >
-                            {column.props.type === 'default' && (
-                                <Fragment>
-                                    {renderHeader({ column, columnIndex })}
-                                    {column.props.sortable && (
-                                        <span class={`${prefixCls}-sorter`}>
-                                            {column.props.sortDirections?.includes(
-                                                'ascend',
-                                            ) && (
-                                                <span
-                                                    class={[
-                                                        `${prefixCls}-sorter-up`,
-                                                        sortState.prop ===
-                                                            column.props.prop &&
-                                                            sortState.order ===
-                                                                'ascend' &&
-                                                            'is-active',
-                                                    ]}
-                                                />
-                                            )}
-                                            {column.props.sortDirections?.includes(
-                                                'descend',
-                                            ) && (
-                                                <span
-                                                    class={[
-                                                        `${prefixCls}-sorter-down`,
-                                                        sortState.prop ===
-                                                            column.props.prop &&
-                                                            sortState.order ===
-                                                                'descend' &&
-                                                            'is-active',
-                                                    ]}
-                                                />
-                                            )}
-                                        </span>
-                                    )}
-                                </Fragment>
-                            )}
-                            {column.props.type === 'selection' && (
-                                <div class={`${prefixCls}-center`}>
-                                    <FCheckbox
-                                        modelValue={isAllSelected.value}
-                                        indeterminate={
-                                            !isAllSelected.value &&
-                                            isCurrentDataAnySelected.value
-                                        }
-                                        onClick={handleSelectAll}
-                                    />
-                                </div>
-                            )}
-                            {column.props.resizable && (
-                                <span
-                                    class={[
-                                        `${prefixCls}-resize-button`,
-                                        current.value?.id === column.id &&
-                                            'is-active',
-                                    ]}
-                                    onMousedown={(e) =>
-                                        onMousedown(column, columnIndex, e)
+                .map((column, columnIndex: number) => (
+                    <th
+                        key={column.id}
+                        colspan={column.colSpan}
+                        rowspan={column.rowSpan}
+                        class={[
+                            `${prefixCls}-th`,
+                            column.props.sortable && `${prefixCls}-th-sortable`,
+                            ...getCellClass({
+                                column,
+                                columnIndex,
+                                columns: props.columns,
+                            }),
+                        ]}
+                        style={[
+                            getCellStyle({
+                                column,
+                                columnIndex,
+                                columns: props.columns,
+                            }),
+                            getCustomCellStyle({ column }),
+                        ]}
+                        onClick={($event) => {
+                            handleHeaderClick({ column }, $event);
+                            handleClickSortHeader({ column });
+                        }}
+                    >
+                        {column.props.type === 'default' && (
+                            <Fragment>
+                                {renderHeader({ column, columnIndex })}
+                                {column.props.sortable && (
+                                    <span class={`${prefixCls}-sorter`}>
+                                        {column.props.sortDirections?.includes(
+                                            'ascend',
+                                        ) && (
+                                            <span
+                                                class={[
+                                                    `${prefixCls}-sorter-up`,
+                                                    sortState.prop ===
+                                                        column.props.prop &&
+                                                        sortState.order ===
+                                                            'ascend' &&
+                                                        'is-active',
+                                                ]}
+                                            />
+                                        )}
+                                        {column.props.sortDirections?.includes(
+                                            'descend',
+                                        ) && (
+                                            <span
+                                                class={[
+                                                    `${prefixCls}-sorter-down`,
+                                                    sortState.prop ===
+                                                        column.props.prop &&
+                                                        sortState.order ===
+                                                            'descend' &&
+                                                        'is-active',
+                                                ]}
+                                            />
+                                        )}
+                                    </span>
+                                )}
+                            </Fragment>
+                        )}
+                        {column.props.type === 'selection' && (
+                            <div class={`${prefixCls}-center`}>
+                                <FCheckbox
+                                    modelValue={isAllSelected.value}
+                                    indeterminate={
+                                        !isAllSelected.value &&
+                                        isCurrentDataAnySelected.value
                                     }
-                                ></span>
-                            )}
-                        </th>
-                    );
-                })
+                                    onClick={handleSelectAll}
+                                />
+                            </div>
+                        )}
+                        {column.props.resizable && (
+                            <span
+                                class={[
+                                    `${prefixCls}-resize-button`,
+                                    current.value?.id === column.id &&
+                                        'is-active',
+                                ]}
+                                onMousedown={(e) =>
+                                    onMousedown(column, columnIndex, e)
+                                }
+                            ></span>
+                        )}
+                    </th>
+                ))
                 .filter(Boolean);
 
         const renderTrList = () =>
