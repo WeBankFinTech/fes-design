@@ -129,7 +129,9 @@ export default defineComponent({
                                         current.value?.id === column.id &&
                                             'is-active',
                                     ]}
-                                    onMousedown={(e) => onMousedown(column, e)}
+                                    onMousedown={(e) =>
+                                        onMousedown(column, columnIndex, e)
+                                    }
                                 ></span>
                             )}
                         </th>
