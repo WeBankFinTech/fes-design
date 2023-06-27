@@ -14,8 +14,9 @@ export default defineComponent({
         const renderColgroup = (columns: ColumnInst[]) => (
             <colgroup>
                 {columns.map((column) => {
-                    const width = layout.widthList.value[column.id].width;
-                    const minWidth = layout.widthList.value[column.id].minWidth;
+                    const width = layout.widthList.value[column.id]?.width;
+                    const minWidth =
+                        layout.widthList.value[column.id]?.minWidth;
                     return (
                         <col
                             key={column.id}

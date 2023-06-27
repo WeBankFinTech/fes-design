@@ -69,7 +69,15 @@ export type UploadProps = Partial<ExtractPropTypes<typeof uploadProps>>;
 export default defineComponent({
     name: 'FUpload',
     props: uploadProps,
-    emits: ['change', 'remove', 'success', 'error', 'progress', 'exceed'],
+    emits: [
+        'change',
+        'remove',
+        'success',
+        'error',
+        'progress',
+        'exceed',
+        'update:fileList',
+    ],
     setup(props, ctx) {
         useTheme();
         const { uploadFiles, isDragger } = useUpload(props, ctx.emit);

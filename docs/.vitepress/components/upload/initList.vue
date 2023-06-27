@@ -1,9 +1,9 @@
 <template>
     <FUpload
-        v-model:fileList="fileList"
         action="https://run.mocky.io/v3/2d9d9844-4a46-4145-8f57-07e13768f565"
         multiple
         :multipleLimit="4"
+        :fileList="fileList"
         :accept="accept"
         :beforeUpload="beforeUpload"
         @change="change"
@@ -25,7 +25,28 @@ import { ref } from 'vue';
 
 export default {
     setup() {
-        const fileList = ref([]);
+        const fileList = ref([
+            {
+                uid: '1',
+                name: 'xxx.png',
+                status: 'done',
+                response: 'Server Error 500', // custom error message to show
+                url: 'http://www.baidu.com/xxx.png',
+            },
+            {
+                uid: '2',
+                name: 'yyy.png',
+                status: 'done',
+                url: 'http://www.baidu.com/yyy.png',
+            },
+            {
+                uid: '3',
+                name: 'zzz.png',
+                status: 'error',
+                response: 'Server Error 500', // custom error message to show
+                url: 'http://www.baidu.com/zzz.png',
+            },
+        ]);
 
         const accept = ['image/*'];
         const change = (param) => {
@@ -38,9 +59,6 @@ export default {
             console.log('success:', param, fileList.value);
         };
         const error = (param) => {
-            fileList.value = fileList.value.filter(
-                (file) => file.status !== 'error',
-            );
             console.log('error:', param, fileList.value);
         };
         const exceed = (param) => {

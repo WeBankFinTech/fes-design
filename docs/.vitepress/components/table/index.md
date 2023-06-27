@@ -16,7 +16,7 @@ app.use(FTable);
 
 --COMMON
 
- #### 边框和分割线
+#### 边框和分割线
 
 默认无边框，配置`bordered`则有
 
@@ -28,7 +28,7 @@ app.use(FTable);
 
 默认无垂直分割线，配置`verticalLine`则有
 
---verticalLine 
+--verticalLine
 
 ### 固定表头
 
@@ -36,14 +36,11 @@ app.use(FTable);
 
 --HEIGHT
 
-
-
 ### 固定列
 
 横向内容过多时，可选择固定列。
 
 --FIXED
-
 
 ### 固定列和表头
 
