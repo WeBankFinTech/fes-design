@@ -118,7 +118,7 @@ export default defineComponent({
 
         return () => {
             if (
-                hasResizableColumn ||
+                hasResizableColumn.value ||
                 layout.isScrollX.value ||
                 layout.isScrollY.value
             ) {
