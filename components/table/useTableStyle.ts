@@ -197,9 +197,9 @@ export default ({
         if (column.fixedLeft) {
             const leftColumns = columns.slice(0, columnIndex);
             const width = leftColumns.reduce((accumulator, currentValue) => {
-                const width = layout.widthList.value[currentValue.id].width;
+                const width = layout.widthList.value[currentValue.id]?.width;
                 const minWidth =
-                    layout.widthList.value[currentValue.id].minWidth;
+                    layout.widthList.value[currentValue.id]?.minWidth;
                 return width || minWidth + accumulator;
             }, 0);
             fixedStyle.left = `${width}px`;
@@ -207,9 +207,10 @@ export default ({
             const rightColumns = columns.slice(columnIndex + 1);
             const width = rightColumns.reduceRight(
                 (accumulator, currentValue) => {
-                    const width = layout.widthList.value[currentValue.id].width;
+                    const width =
+                        layout.widthList.value[currentValue.id]?.width;
                     const minWidth =
-                        layout.widthList.value[currentValue.id].minWidth;
+                        layout.widthList.value[currentValue.id]?.minWidth;
                     return width || minWidth + accumulator;
                 },
                 0,
