@@ -48,6 +48,7 @@ app.use(FTable);
 
 --SCROLL
 
+
 ### 多级表头
 
 数据结构比较复杂的时候，可使用多级表头来展现数据的层次关系。
@@ -101,12 +102,15 @@ app.use(FTable);
 
 ### 无数据
 
---NODATA 
+--NODATA  
 
 ### 使用 columns 配置列
 
 --COLUMNS
 
+### 列宽可拖拽配置
+
+--resizable 
 
 --CODE
 
@@ -189,6 +193,8 @@ app.use(FTable);
 | sortable     | 是否排序列                                             | boolean                                                              | -                     | `false`   |
 | sorter     | 排序方法，如果设为 'default' 表格将会使用一个内置的排序函数；其他工作的方式类似 Array.sort 的对比函数                                             | ((a: RowType, b: RowType) => boolean) \| 'default'                                                              | -                     | `default`   |
 | sortDirections     | 支持的排序方式                                             | string[]                                                             | -                     | `['ascend', 'descend']`   |
+| resizable     | 列是否可设置大小                                                  | boolean                                                              | -                     | `false`   |
+
 
 ## FTableColumn Slots
 

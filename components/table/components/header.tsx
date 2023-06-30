@@ -1,7 +1,7 @@
 import { inject, defineComponent, Fragment, PropType } from 'vue';
 import FCheckbox from '../../checkbox/checkbox.vue';
 import { provideKey } from '../const';
-
+import useResize from '../useResize';
 import type { ColumnInst } from '../column';
 
 export default defineComponent({
@@ -24,7 +24,13 @@ export default defineComponent({
             handleClickSortHeader,
             prefixCls,
             sortState,
+            layout,
         } = inject(provideKey);
+
+        const { current, onMousedown } = useResize(
+            props.columns,
+            layout.widthList,
+        );
 
         const renderHeader = ({
             column,
@@ -113,6 +119,18 @@ export default defineComponent({
                                     onClick={handleSelectAll}
                                 />
                             </div>
+                        )}
+                        {column.props.resizable && (
+                            <span
+                                class={[
+                                    `${prefixCls}-resize-button`,
+                                    current.value?.id === column.id &&
+                                        'is-active',
+                                ]}
+                                onMousedown={(e) =>
+                                    onMousedown(column, columnIndex, e)
+                                }
+                            ></span>
                         )}
                     </th>
                 ))

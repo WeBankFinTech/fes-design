@@ -144,16 +144,6 @@ export default defineComponent({
             clearSorter,
         });
 
-        // 计算出传入columns列的对应的宽度
-        const columnsRef = computed(() => {
-            const widthListValue = layout.widthList.value;
-            return columns.value.map((column) => ({
-                ...column,
-                width: (widthListValue as any)[column.id]?.width,
-                minWidth: (widthListValue as any)[column.id]?.minWidth,
-            }));
-        });
-
         // 是否两个table
         const composed = computed(() => {
             return !isUndefined(rootProps.height);
@@ -180,14 +170,14 @@ export default defineComponent({
             return (
                 <>
                     {composed.value && rootProps.showHeader && (
-                        <HeaderTable columns={columnsRef.value} />
+                        <HeaderTable columns={columns.value} />
                     )}
                     {rootProps.virtualScroll && showData.value.length ? (
-                        <VirtualTable columns={columnsRef.value} />
+                        <VirtualTable columns={columns.value} />
                     ) : (
                         <BodyTable
                             composed={composed.value}
-                            columns={columnsRef.value}
+                            columns={columns.value}
                         />
                     )}
                 </>

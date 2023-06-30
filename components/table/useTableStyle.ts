@@ -197,19 +197,21 @@ export default ({
         if (column.fixedLeft) {
             const leftColumns = columns.slice(0, columnIndex);
             const width = leftColumns.reduce((accumulator, currentValue) => {
-                return (
-                    currentValue.width || currentValue.minWidth + accumulator
-                );
+                const width = layout.widthList.value[currentValue.id]?.width;
+                const minWidth =
+                    layout.widthList.value[currentValue.id]?.minWidth;
+                return width || minWidth + accumulator;
             }, 0);
             fixedStyle.left = `${width}px`;
         } else if (column.fixedRight) {
             const rightColumns = columns.slice(columnIndex + 1);
             const width = rightColumns.reduceRight(
                 (accumulator, currentValue) => {
-                    return (
-                        currentValue.width ||
-                        currentValue.minWidth + accumulator
-                    );
+                    const width =
+                        layout.widthList.value[currentValue.id]?.width;
+                    const minWidth =
+                        layout.widthList.value[currentValue.id]?.minWidth;
+                    return width || minWidth + accumulator;
                 },
                 0,
             );

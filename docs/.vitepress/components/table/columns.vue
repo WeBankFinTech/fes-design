@@ -1,5 +1,12 @@
 <template>
-    <f-table :data="data" bordered layout="auto" :columns="columns"> </f-table>
+    <f-table
+        :data="data"
+        bordered
+        verticalLine
+        layout="auto"
+        :columns="columns"
+    >
+    </f-table>
 </template>
 <script>
 import { h, defineComponent } from 'vue';
@@ -19,9 +26,6 @@ export default defineComponent({
         const columns = [
             {
                 type: 'selection',
-            },
-            {
-                type: 'expand',
             },
             {
                 prop: 'date',

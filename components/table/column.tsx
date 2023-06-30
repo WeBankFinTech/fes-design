@@ -134,8 +134,6 @@ export interface ColumnInst {
     props: ColumnProps;
     slots: ReturnType<typeof useSlots>;
     parentId?: number;
-    width?: number;
-    minWidth?: number;
     fixedLeft?: boolean;
     fixedRight?: boolean;
     colSpan?: number;

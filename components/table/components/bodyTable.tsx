@@ -1,4 +1,4 @@
-import { defineComponent, inject, PropType } from 'vue';
+import { defineComponent, inject, PropType, computed } from 'vue';
 import FScrollbar from '../../scrollbar/scrollbar.vue';
 import Draggable from '../../draggable/draggable';
 import { provideKey } from '../const';
@@ -38,6 +38,10 @@ export default defineComponent({
             onDragend,
             beforeDragend,
         } = inject(provideKey);
+
+        const hasResizableColumn = computed(() => {
+            return props.columns.some((col) => col.props.resizable);
+        });
 
         const renderBodyTrList = () =>
             showData.value.map((row: object, rowIndex: number) => (
@@ -113,7 +117,11 @@ export default defineComponent({
         };
 
         return () => {
-            if (layout.isScrollX.value || layout.isScrollY.value) {
+            if (
+                hasResizableColumn.value ||
+                layout.isScrollX.value ||
+                layout.isScrollY.value
+            ) {
                 return (
                     <FScrollbar
                         ref={(el: any) => {
