@@ -27,7 +27,7 @@ export default defineComponent({
             layout,
         } = inject(provideKey);
 
-        const { current, onMousedown, onMousemove, onMouseup } = useResize(
+        const { current, onMousedown } = useResize(
             props.columns,
             layout.widthList,
         );
@@ -138,12 +138,7 @@ export default defineComponent({
 
         const renderTrList = () =>
             headerRows.value.map((row, rowIndex) => (
-                <tr
-                    class={`${prefixCls}-row`}
-                    key={rowIndex}
-                    onMousemove={(e) => onMousemove(e)}
-                    onMouseup={() => onMouseup()}
-                >
+                <tr class={`${prefixCls}-row`} key={rowIndex}>
                     {renderThList(row)}
                 </tr>
             ));

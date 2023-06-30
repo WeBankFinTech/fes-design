@@ -1,5 +1,6 @@
 import { Ref, ref } from 'vue';
 import { cloneDeep } from 'lodash-es';
+import { useEventListener } from '@vueuse/core';
 import { depx } from '../_util/utils';
 import type { ColumnInst } from './column';
 import type { WidthItem } from './useTableLayout';
@@ -14,6 +15,7 @@ export default (
         clientX: number;
         width: number;
     }>(null);
+
     const onMousedown = (
         column: ColumnInst,
         columnIndex: number,
@@ -47,15 +49,25 @@ export default (
                 (leftColumns.length + rightColumns.length)) /
             rightColumns.length;
         const width = current.value.width + offsetX;
-        _widthList[current.value.id].width = width;
-        _widthList[current.value.id].minWidth = width;
-        widthList.value = _widthList;
+        const currentColumn = columns[current.value.columnIndex];
+        if (
+            currentColumn.props.minWidth &&
+            width >= currentColumn.props.minWidth
+        ) {
+            _widthList[current.value.id].width = width;
+            _widthList[current.value.id].minWidth = width;
+            widthList.value = _widthList;
+        }
     };
 
     const onMouseup = () => {
         if (!current.value) return;
         current.value = null;
     };
+
+    useEventListener(window.document, 'mousemove', onMousemove);
+
+    useEventListener(window.document, 'mouseup', onMouseup);
 
     return {
         onMousedown,
