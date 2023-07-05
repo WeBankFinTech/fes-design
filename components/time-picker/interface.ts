@@ -1,4 +1,5 @@
 export type TimeOption = {
     disabled: boolean | undefined;
-    value: string;
+    label: string;
+    value: number;
 };

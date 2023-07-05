@@ -18,7 +18,7 @@
                     'is-focus': focus === index,
                 }"
             >
-                {{ item.value }}
+                {{ item.label }}
             </li>
         </ul>
     </FScrollbar>
@@ -43,10 +43,7 @@ const prefixCls = getPrefixCls('time-picker');
 
 const pickerItemProps = {
     visible: Boolean,
-    value: {
-        type: String,
-        default: '',
-    },
+    value: Number,
     focus: {
         type: Number,
         default: -1,
@@ -147,7 +144,7 @@ export default defineComponent({
         const selectedTime = (e: MouseEvent) => {
             if (!e.target) return;
             const key = (e.target as HTMLElement).getAttribute('data-key');
-            const option = props.times.find((item) => item.value === key);
+            const option = props.times.find((item) => item.value === +key);
             if (option && !option.disabled) {
                 emit('change', option);
             }

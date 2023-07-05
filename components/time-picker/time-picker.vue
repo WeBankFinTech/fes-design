@@ -13,7 +13,6 @@
     >
         <template #trigger>
             <InputInner
-                v-if="!isRange"
                 :class="[attrs.class, classes]"
                 :style="attrs.style"
                 :modelValue="displayValue"
@@ -35,7 +34,7 @@
             <div :class="`${prefixCls}-dropdown`" @mousedown.prevent>
                 <TimeSelect
                     :visible="isOpened"
-                    :modelValue="currentValue"
+                    :modelValue="timestamp"
                     :format="format"
                     :hour-step="hourStep"
                     :minute-step="minuteStep"
@@ -81,19 +80,20 @@ import {
     PropType,
     ExtractPropTypes,
 } from 'vue';
+import { parse } from 'date-fns';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { useTheme } from '../_theme/useTheme';
-import TimeSelect from './time-select.vue';
 import InputInner from '../input/inputInner.vue';
 import { ClockCircleOutlined } from '../icon';
 import Popper from '../popper';
 import FButton from '../button';
 
-import type { GetContainer } from '../_util/interface';
 import { useLocale } from '../config-provider/useLocale';
+import TimeSelect from './time-select.vue';
+import type { GetContainer } from '../_util/interface';
 
 const prefixCls = getPrefixCls('time-picker');
 
@@ -146,7 +146,7 @@ function validateTime(data: string, format: string) {
 
 const timePickerProps = {
     modelValue: {
-        type: [String, Array] as PropType<string | string[] | number[]>,
+        type: [String, Number] as PropType<string | number>,
         default: '',
     },
     open: {
@@ -163,11 +163,6 @@ const timePickerProps = {
     placeholder: {
         type: String,
         default: '',
-    },
-    // FEATURE 下个版本实现
-    isRange: {
-        type: Boolean,
-        default: false,
     },
     disabled: {
         type: Boolean,
@@ -247,6 +242,28 @@ export default defineComponent({
             () => props.disabled || isFormDisabled.value,
         );
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
+
+        const timestamp = ref();
+        watch(
+            currentValue,
+            () => {
+                if (currentValue.value) {
+                    if (typeof currentValue.value === 'string') {
+                        timestamp.value = parse(
+                            currentValue.value,
+                            props.format,
+                            new Date(),
+                        );
+                    } else {
+                        timestamp.value = currentValue.value;
+                    }
+                }
+            },
+            {
+                immediate: true,
+            },
+        );
+
         const { isOpened, closePopper } = useOpen(props, emit);
         const classes = computed(() =>
             [
@@ -266,14 +283,14 @@ export default defineComponent({
         );
 
         const activeTime = ref();
-        const changeTime = (val: string) => {
-            tempValue.value = '';
+        const changeTime = (val: number) => {
+            tempValue.value = val;
             activeTime.value = val;
         };
 
-        const setCurrentValue = (val: string) => {
-            if (val !== currentValue.value) {
-                tempValue.value = '';
+        const setCurrentValue = (val: number) => {
+            if (val !== timestamp.value) {
+                tempValue.value = null;
                 updateCurrentValue(val);
                 emit('change', val);
                 validate('change');
@@ -281,7 +298,7 @@ export default defineComponent({
             }
         };
         const clear = () => {
-            setCurrentValue('');
+            setCurrentValue(null);
         };
 
         watch(isOpened, () => {
@@ -306,9 +323,6 @@ export default defineComponent({
         };
 
         const displayValue = computed(() => {
-            if (props.isRange) {
-                return currentValue.value || [];
-            }
             return (
                 tempValue.value || activeTime.value || currentValue.value || ''
             );
@@ -330,7 +344,7 @@ export default defineComponent({
             classes,
             displayValue,
             isOpened,
-            currentValue,
+            timestamp,
 
             tempValue,
 

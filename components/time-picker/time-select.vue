@@ -35,8 +35,16 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, PropType } from 'vue';
-import PickerItem from './picker-item.vue';
+import {
+    getHours,
+    getMinutes,
+    getSeconds,
+    setHours,
+    setMinutes,
+    setSeconds,
+} from 'date-fns';
 import getPrefixCls from '../_util/getPrefixCls';
+import PickerItem from './picker-item.vue';
 
 import type { TimeOption } from './interface';
 
@@ -50,24 +58,25 @@ function formatTime(
 ) {
     const formatData: TimeOption[] = [];
     for (let i = 0; i < total; i += step) {
-        let value;
+        let label;
         if (format) {
-            value = `${i}`.padStart(2, '0');
+            label = `${i}`.padStart(2, '0');
         } else {
-            value = `${i}`;
+            label = `${i}`;
         }
         formatData.push({
-            disabled: disable && disable(Number(value)),
-            value,
+            disabled: disable && disable(i),
+            value: i,
+            label,
         });
     }
     return formatData;
 }
 
 export interface SelectedTime {
-    hour: string | null;
-    minute: string | null;
-    seconds: string | null;
+    hour: number | null;
+    minute: number | null;
+    seconds: number | null;
 }
 
 const timeSelectProps = {
@@ -75,10 +84,7 @@ const timeSelectProps = {
         type: Boolean,
         default: false,
     },
-    modelValue: {
-        type: String,
-        default: '',
-    },
+    modelValue: Number,
     format: {
         type: String,
         default: 'HH:mm:ss',
@@ -131,36 +137,34 @@ export default defineComponent({
             seconds: null,
         };
         const selectedTime = reactive<SelectedTime>({ ...initialSelectedTime });
-        const formatSingleTime = (timeFormat: string) =>
-            props.format.indexOf(timeFormat) !== -1 ? '00' : '0';
+
         const parseTime = () => {
-            if (!props.modelValue) {
-                Object.assign(selectedTime, initialSelectedTime);
-                return;
-            }
-            const splitTime = props.modelValue.split(':');
             if (/H/.test(props.format)) {
-                selectedTime.hour = splitTime.shift() || formatSingleTime('HH');
+                selectedTime.hour = props.modelValue
+                    ? getHours(props.modelValue)
+                    : null;
             }
             if (/m/.test(props.format)) {
-                selectedTime.minute =
-                    splitTime.shift() || formatSingleTime('mm');
+                selectedTime.minute = props.modelValue
+                    ? getMinutes(props.modelValue)
+                    : null;
             }
             if (/s/.test(props.format)) {
-                selectedTime.seconds =
-                    splitTime.shift() || formatSingleTime('ss');
+                selectedTime.seconds = props.modelValue
+                    ? getSeconds(props.modelValue)
+                    : null;
             }
         };
 
         const setSelectedTimeDefault = () => {
             if (/H/.test(props.format) && !selectedTime.hour) {
-                selectedTime.hour = formatSingleTime('HH');
+                selectedTime.hour = 0;
             }
             if (/m/.test(props.format) && !selectedTime.minute) {
-                selectedTime.minute = formatSingleTime('mm');
+                selectedTime.minute = 0;
             }
             if (/s/.test(props.format) && !selectedTime.seconds) {
-                selectedTime.seconds = formatSingleTime('ss');
+                selectedTime.seconds = 0;
             }
         };
 
@@ -220,32 +224,29 @@ export default defineComponent({
             setSelectedTimeDefault();
         };
 
-        const timeString = computed(() => {
-            let currentTime = '';
+        const timestamp = computed(() => {
+            let currentTime = new Date(props.modelValue);
             const { hour, minute, seconds } = selectedTime;
-            if (!(hour || minute || seconds)) {
-                return currentTime;
+            if (/H/.test(props.format) && hour != null) {
+                currentTime = setHours(currentTime, hour);
             }
-            if (/H/.test(props.format)) {
-                currentTime += hour;
+            if (/m/.test(props.format) && minute != null) {
+                currentTime = setMinutes(currentTime, minute);
             }
-            if (/m/.test(props.format)) {
-                currentTime += currentTime.length > 0 ? `:${minute}` : minute;
+            if (/s/.test(props.format) && seconds != null) {
+                currentTime = setSeconds(currentTime, seconds);
             }
-            if (/s/.test(props.format)) {
-                currentTime += currentTime.length > 0 ? `:${seconds}` : seconds;
-            }
-            return currentTime;
+            return currentTime.getTime();
         });
-        watch(timeString, () => {
-            emit('update:modelValue', timeString.value);
-            emit('change', timeString.value);
+        watch(timestamp, () => {
+            emit('update:modelValue', timestamp.value);
+            emit('change', timestamp.value);
         });
 
         watch(
             () => props.modelValue,
             () => {
-                if (timeString.value !== props.modelValue) {
+                if (timestamp.value !== props.modelValue) {
                     parseTime();
                 }
             },
