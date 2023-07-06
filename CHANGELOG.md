@@ -1,3 +1,19 @@
+# [0.8.0](https://github.com/WeBankFinTech/fes-design/compare/v0.7.32...v0.8.0) (2023-07-06)
+
+
+### Bug Fixes
+
+* 修复 date-picker input 样式权重问题 ([#338](https://github.com/WeBankFinTech/fes-design/issues/338)) ([92371c5](https://github.com/WeBankFinTech/fes-design/commit/92371c52e9d894d3f0fab676444c3d32c4b79724))
+* 修复Tree组件中父子节点不关联时选中逻辑问题 ([#339](https://github.com/WeBankFinTech/fes-design/issues/339)) ([7ce04f8](https://github.com/WeBankFinTech/fes-design/commit/7ce04f859b87e98750be3f59371f79685c084953))
+
+
+### Features
+
+* FUpload组件 fileList 支持 v-model 双向绑定 ([#336](https://github.com/WeBankFinTech/fes-design/issues/336)) ([490f515](https://github.com/WeBankFinTech/fes-design/commit/490f515a17f1af6cb722ac9efcf9bede3cae7cf2))
+* Table的列宽支持拖拽 ([#337](https://github.com/WeBankFinTech/fes-design/issues/337)) ([9d8c750](https://github.com/WeBankFinTech/fes-design/commit/9d8c750f98b5da1f89a50caefe0ba5612672b256))
+
+
+
 ## [0.7.32](https://github.com/WeBankFinTech/fes-design/compare/v0.7.31...v0.7.32) (2023-06-19)
 
 
