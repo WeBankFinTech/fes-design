@@ -126,10 +126,11 @@ import {
     DoubleLeftOutlined,
     DoubleRightOutlined,
 } from '../icon';
-import TimePicker from '../time-picker/time-picker.vue';
+import TimePicker from '../time-picker';
 import InputInner from '../input/inputInner.vue';
 import getPrefixCls from '../_util/getPrefixCls';
 
+import { useLocale } from '../config-provider/useLocale';
 import {
     parseDate,
     strictParse,
@@ -153,9 +154,8 @@ import {
     useTime,
 } from './useCalendar';
 
-import type { DayItem, DateObj, UpdateSelectedDates } from './interface';
-import { useLocale } from '../config-provider/useLocale';
 import { pickerFactory } from './pickerHandler';
+import type { DayItem, DateObj, UpdateSelectedDates } from './interface';
 import type { Picker } from './pickerHandler';
 
 const prefixCls = getPrefixCls('calendar');
@@ -381,8 +381,12 @@ export default defineComponent({
         });
 
         const selectedDay = (info: DayItem) => {
-            info.next && monthToNext();
-            info.pre && monthToPre();
+            if (info.next) {
+                monthToNext();
+            }
+            if (info.pre) {
+                monthToPre();
+            }
             let time;
             if (selectedDates.value[activeIndex.value]?.hour == null) {
                 time = getDefaultTime(
