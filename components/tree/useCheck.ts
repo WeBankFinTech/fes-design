@@ -1,9 +1,9 @@
 import { Ref, shallowRef, watch } from 'vue';
 import { cloneDeep } from 'lodash-es';
-import type { TreeNodeKey, InnerTreeOption } from './interface';
-import type { TreeProps } from './props';
 import { CHECK_STRATEGY } from './const';
 import { getChildrenByValues, getParentByValues } from './helper';
+import type { TreeNodeKey, InnerTreeOption } from './interface';
+import type { TreeProps } from './props';
 
 export default ({
     allKeys,
@@ -85,11 +85,12 @@ export default ({
                 return;
             }
             // 重置历史节点选择状态
-            Array.isArray(oldKeys) &&
+            if (Array.isArray(oldKeys)) {
                 oldKeys.forEach((key: TreeNodeKey) => {
                     const node = nodeList.get(key);
                     node.isChecked.value = false;
                 });
+            }
             newKeys.forEach((key: TreeNodeKey) => {
                 const node = nodeList.get(key);
                 node.isChecked.value = true;
@@ -187,6 +188,7 @@ export default ({
             } else {
                 _values.push(val);
             }
+            node.isChecked.value = !node.isChecked.value;
             values = _values;
         } else {
             if (props.checkStrictly === CHECK_STRATEGY.ALL) {
