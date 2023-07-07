@@ -194,16 +194,16 @@ export default ({
             'text-align': !row && column.colSpan > 1 ? 'center' : align,
         };
         const fixedStyle: CSSProperties = {};
-        if (column.fixedLeft) {
+        if (column.fixedLeft && layout.isScrollX.value) {
             const leftColumns = columns.slice(0, columnIndex);
             const width = leftColumns.reduce((accumulator, currentValue) => {
                 const width = layout.widthList.value[currentValue.id]?.width;
                 const minWidth =
                     layout.widthList.value[currentValue.id]?.minWidth;
-                return width || minWidth + accumulator;
+                return (width || minWidth) + accumulator;
             }, 0);
             fixedStyle.left = `${width}px`;
-        } else if (column.fixedRight) {
+        } else if (column.fixedRight && layout.isScrollX.value) {
             const rightColumns = columns.slice(columnIndex + 1);
             const width = rightColumns.reduceRight(
                 (accumulator, currentValue) => {
@@ -211,7 +211,7 @@ export default ({
                         layout.widthList.value[currentValue.id]?.width;
                     const minWidth =
                         layout.widthList.value[currentValue.id]?.minWidth;
-                    return width || minWidth + accumulator;
+                    return (width || minWidth) + accumulator;
                 },
                 0,
             );

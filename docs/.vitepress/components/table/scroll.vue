@@ -1,6 +1,11 @@
 <template>
     <f-table :data="data" bordered :height="250">
         <f-table-column
+            type="selection"
+            :width="30"
+            fixed="left"
+        ></f-table-column>
+        <f-table-column
             prop="date"
             label="日期"
             :width="150"
