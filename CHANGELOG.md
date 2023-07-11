@@ -1,3 +1,13 @@
+## [0.8.1](https://github.com/WeBankFinTech/fes-design/compare/v0.8.0...v0.8.1) (2023-07-11)
+
+
+### Bug Fixes
+
+* select 兼容 options 为 null 的场景 ([#341](https://github.com/WeBankFinTech/fes-design/issues/341)) ([228b85d](https://github.com/WeBankFinTech/fes-design/commit/228b85de660e9bfaaf4439997f1836fc88c037db))
+* **Table:** 修复多列Fixed时宽度计算问题 ([#340](https://github.com/WeBankFinTech/fes-design/issues/340)) ([2fc6959](https://github.com/WeBankFinTech/fes-design/commit/2fc695936fb2f99796f315343490d69553198174))
+
+
+
 # [0.8.0](https://github.com/WeBankFinTech/fes-design/compare/v0.7.32...v0.8.0) (2023-07-06)
 
 
