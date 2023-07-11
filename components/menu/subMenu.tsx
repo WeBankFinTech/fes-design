@@ -7,6 +7,7 @@ import {
     getCurrentInstance,
     watch,
 } from 'vue';
+import { PropType } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import FadeInExpandTransition from '../_util/components/fadeInExpandTransition';
 import Popper from '../popper/popper';
@@ -17,8 +18,19 @@ import { COMPONENT_NAME } from './const';
 import useChildren from './useChildren';
 import useParent from './useParent';
 import useMenu from './useMenu';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('sub-menu');
+
+export const subMenuProps = {
+    value: {
+        type: [String, Number] as PropType<string | number>,
+    },
+    label: String,
+};
+
+export type SubMenuProps = ExtractPublicPropTypes<typeof subMenuProps>;
+
 export default defineComponent({
     name: COMPONENT_NAME.SUB_MENU,
     components: {

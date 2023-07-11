@@ -10,12 +10,13 @@ import {
 import LoadingOutlined from '../icon/LoadingOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('spin');
 
 type SpinSize = 'small' | 'middle' | 'large';
 
-const spinProps = {
+export const spinProps = {
     size: {
         type: String as PropType<SpinSize>,
         default: 'middle',
@@ -35,6 +36,8 @@ const spinProps = {
         default: true,
     },
 } as const;
+
+export type SpinProps = ExtractPublicPropTypes<typeof spinProps>;
 
 export default defineComponent({
     name: 'FSpin',

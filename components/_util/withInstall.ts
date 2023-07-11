@@ -1,7 +1,6 @@
 import { Component, App, Plugin } from 'vue';
-import type { FObjectDirective } from './interface';
-
 import { noop } from './utils';
+import type { FObjectDirective } from './interface';
 
 export function withInstall<T extends Plugin>(
     main: T,

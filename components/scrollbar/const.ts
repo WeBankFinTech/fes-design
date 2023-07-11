@@ -1,4 +1,5 @@
-import { PropType, CSSProperties, ExtractPropTypes } from 'vue';
+import { PropType, CSSProperties } from 'vue';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const PROVIDE_KEY = Symbol('scrollbar');
 export const CONTAINER_PROVIDE_KEY = Symbol('scrollbar-container');
@@ -64,4 +65,4 @@ export const scrollbarProps = {
     ...COMMON_PROPS,
 } as const;
 
-export type ScrollbarProps = Partial<ExtractPropTypes<typeof scrollbarProps>>;
+export type ScrollbarProps = ExtractPublicPropTypes<typeof scrollbarProps>;

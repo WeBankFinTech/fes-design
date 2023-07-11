@@ -4,6 +4,7 @@
 
 import { PropType, VNode } from 'vue';
 import { COMMON_PROPS } from '../scrollbar/const';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export type DataSource = any;
 
@@ -76,6 +77,8 @@ export const virtualProps = {
     height: Number,
     maxHeight: Number,
 } as const;
+
+export type VirtualProps = ExtractPublicPropTypes<typeof virtualProps>;
 
 export const itemProps = {
     index: {

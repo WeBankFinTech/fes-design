@@ -1,6 +1,7 @@
-import type { PropType, ExtractPropTypes } from 'vue';
+import type { PropType } from 'vue';
 import type { Size, Type, OptionType } from './interface';
 import type { Option } from '../_util/interface';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const radioGroupKey = Symbol('FRadioGroup');
 export const name = 'FRadioGroup';
@@ -50,4 +51,4 @@ export const radioGroupProps = {
     },
 } as const;
 
-export type RadioGroupProps = Partial<ExtractPropTypes<typeof radioGroupProps>>;
+export type RadioGroupProps = ExtractPublicPropTypes<typeof radioGroupProps>;

@@ -4,7 +4,6 @@ import {
     ref,
     PropType,
     CSSProperties,
-    ExtractPropTypes,
     StyleValue,
 } from 'vue';
 import { isObject } from 'lodash-es';
@@ -12,10 +11,11 @@ import getPrefixCls from '../_util/getPrefixCls';
 import Tooltip from '../tooltip';
 import { useTheme } from '../_theme/useTheme';
 import type { ToolTipProps } from '../tooltip';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('ellipsis');
 
-const ellipsisProps = {
+export const ellipsisProps = {
     content: [Number, String] as PropType<number | string>,
     line: {
         type: [Number, String] as PropType<number | string>,
@@ -37,7 +37,7 @@ const ellipsisProps = {
     },
 } as const;
 
-export type EllipsisProps = Partial<ExtractPropTypes<typeof ellipsisProps>>;
+export type EllipsisProps = ExtractPublicPropTypes<typeof ellipsisProps>;
 
 export default defineComponent({
     name: 'FEllipsis',

@@ -115,7 +115,7 @@ function message(
     create(params);
 }
 
-export default {
+export const FMessage = {
     config(options: Partial<Options>) {
         if (options) {
             mergeConfig = {
@@ -135,7 +135,11 @@ export default {
     error: (content: string | Partial<Options>, duration?: number) =>
         message('error', content, duration),
     destroy() {
-        messageInstance && messageInstance.destroy();
+        if (messageInstance) {
+            messageInstance.destroy();
+        }
         messageInstance = null;
     },
 };
+
+export default FMessage;

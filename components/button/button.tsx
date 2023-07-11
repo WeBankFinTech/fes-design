@@ -4,14 +4,15 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useAnimate } from '../_util/use/useAnimate';
 import { useTheme } from '../_theme/useTheme';
 
-import type { Type, Size } from './interface';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
+import type { Type, Size } from './interface';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('btn');
 
 const loadingIconClassName = `${prefixCls}-loading-icon`;
 
-const buttonProps = {
+export const buttonProps = {
     disabled: {
         type: Boolean,
         default: false,
@@ -41,6 +42,8 @@ const buttonProps = {
         default: 'default',
     },
 } as const;
+
+export type ButtonProps = ExtractPublicPropTypes<typeof buttonProps>;
 
 export default defineComponent({
     name: 'FButton',

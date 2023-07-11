@@ -27,8 +27,8 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import CloseCircleFilled from '../icon/CloseCircleFilled';
 import CloseCircleOutlined from '../icon/CloseCircleOutlined';
-import { tagProps } from './props';
 import { CLOSE_EVENT } from '../_util/constants';
+import { tagProps } from './props';
 import { useHover } from './useHover';
 
 const prefixCls = getPrefixCls('tag');

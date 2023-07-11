@@ -14,24 +14,32 @@ import {
 import getPrefixCls from '../_util/getPrefixCls';
 import { noop } from '../_util/utils';
 import { COMPONENT_NAME, LAYOUT_PROVIDE_KEY } from './const';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('layout');
+
+export const layoutFooterProps = {
+    embedded: {
+        type: Boolean,
+        default: false,
+    },
+    bordered: {
+        type: Boolean,
+        default: false,
+    },
+    fixed: {
+        type: Boolean,
+        default: false,
+    },
+} as const;
+
+export type LayoutFooterProps = ExtractPublicPropTypes<
+    typeof layoutFooterProps
+>;
+
 export default defineComponent({
     name: COMPONENT_NAME.FOOTER,
-    props: {
-        embedded: {
-            type: Boolean,
-            default: false,
-        },
-        bordered: {
-            type: Boolean,
-            default: false,
-        },
-        fixed: {
-            type: Boolean,
-            default: false,
-        },
-    },
+    props: layoutFooterProps,
     setup(props) {
         const vm = getCurrentInstance();
         if (

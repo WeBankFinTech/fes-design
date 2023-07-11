@@ -98,8 +98,18 @@ import type {
     CascaderNodeKey,
     CascaderOption,
 } from '../cascader/interface';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('select-cascader');
+
+export const selectCascaderProps = {
+    ...selectProps,
+    ...cascaderProps,
+} as const;
+
+export type SelectCascaderProps = ExtractPublicPropTypes<
+    typeof selectCascaderProps
+>;
 
 export default defineComponent({
     name: 'FSelectCascader',
@@ -108,10 +118,7 @@ export default defineComponent({
         SelectTrigger,
         Cascader,
     },
-    props: {
-        ...selectProps,
-        ...cascaderProps,
-    },
+    props: selectCascaderProps,
     emits: [
         UPDATE_MODEL_EVENT,
         CHANGE_EVENT,

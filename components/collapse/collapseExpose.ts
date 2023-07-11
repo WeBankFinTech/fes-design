@@ -1,8 +1,8 @@
 import { isNumber, isString } from 'lodash-es';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import { definePropType } from './common';
-import type { ExtractPropTypes } from 'vue';
 import type { CollapseActiveName } from './common';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 type Arrayable<T> = T | T[];
 
@@ -29,8 +29,9 @@ export const collapseProps = {
         type: Boolean,
         default: true,
     },
-};
-export type CollapseProps = Partial<ExtractPropTypes<typeof collapseProps>>;
+} as const;
+
+export type CollapseProps = ExtractPublicPropTypes<typeof collapseProps>;
 
 export const collapseEmits = {
     [UPDATE_MODEL_EVENT]: emitChangeFn,

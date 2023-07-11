@@ -17,7 +17,7 @@ import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';
 import Checkbox from '../checkbox';
 import { useCheckboxGroup } from './useCheckboxGroup';
-import { name, checkboxProps } from './const';
+import { name, checkboxGroupProps } from './const';
 
 const prefixCls = getPrefixCls('checkbox-group');
 
@@ -26,7 +26,7 @@ export default defineComponent({
     components: {
         Checkbox,
     },
-    props: checkboxProps,
+    props: checkboxGroupProps,
     emits: ['update:modelValue', 'change'],
     setup(props, { emit }) {
         useTheme();

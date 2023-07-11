@@ -1,11 +1,5 @@
-import {
-    Ref,
-    CSSProperties,
-    ToRefs,
-    PropType,
-    ExtractPropTypes,
-    InjectionKey,
-} from 'vue';
+import { Ref, CSSProperties, ToRefs, PropType, InjectionKey } from 'vue';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export enum COMPONENT_NAME {
     LAYOUT = 'FLayout',
@@ -34,7 +28,7 @@ export const layoutProps = {
     containerStyle: Object as PropType<CSSProperties>,
 } as const;
 
-export type LayoutProps = Partial<ExtractPropTypes<typeof layoutProps>>;
+export type LayoutProps = ExtractPublicPropTypes<typeof layoutProps>;
 
 export interface LayoutInst extends ToRefs<LayoutProps> {
     addChild: (child: LayoutChild) => void;

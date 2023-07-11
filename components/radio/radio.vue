@@ -12,74 +12,78 @@
     </label>
 </template>
 
-<script setup lang="ts">
-import { computed } from 'vue';
+<script lang="ts">
+import { PropType, computed, defineComponent } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import useSelect from '../_util/use/useSelect';
 import { name, radioGroupKey } from '../radio-group/const';
-
-import type { VModelEvent, ChangeEvent } from '../_util/interface';
+import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('radio');
 
-type RadioProps = {
-    modelValue?: boolean;
-    value?: string | number | boolean;
-    label?: string | number;
-    disabled?: boolean;
-};
+// type RadioEmits = {
+//     (e: VModelEvent, value: string | number | boolean): void;
+//     (e: ChangeEvent, value: string | number | boolean): void;
+// };
 
-type RadioEmits = {
-    (e: VModelEvent, value: string | number | boolean): void;
-    (e: ChangeEvent, value: string | number | boolean): void;
-};
+export const radioProps = {
+    modelValue: Boolean,
+    value: [String, Number, Boolean] as PropType<string | number | boolean>,
+    label: [String, Number] as PropType<string | number>,
+    disabled: Boolean,
+} as const;
 
-const props = withDefaults(defineProps<RadioProps>(), {
-    modelValue: false,
-    disabled: false,
-});
+export type RadioProps = ExtractPublicPropTypes<typeof radioProps>;
 
-const emit = defineEmits<RadioEmits>();
-
-useTheme();
-const {
-    isGroup,
-    group,
-    hover,
-    checked,
-    innerDisabled,
-    handleClick,
-    handleMouseOver,
-    handleMouseOut,
-} = useSelect({
-    props,
-    emit,
-    parent: { groupKey: radioGroupKey, name },
-});
-const wrapperClass = computed(() => {
-    const arr = [`${prefixCls}`];
-    if (checked.value) {
-        arr.push('is-checked');
-    }
-    if (innerDisabled.value) {
-        arr.push('is-disabled');
-    }
-    if (hover.value) {
-        arr.push('is-hover');
-    }
-    if (isGroup) {
-        arr.push('is-item');
-        if (group.props.vertical) {
-            arr.push('is-item-vertical');
-        }
-    }
-    return arr;
-});
-</script>
-
-<script lang="ts">
-export default {
+export default defineComponent({
     name: 'FRadio',
-};
+    props: radioProps,
+    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT],
+    setup(props, { emit }) {
+        useTheme();
+        const {
+            isGroup,
+            group,
+            hover,
+            checked,
+            innerDisabled,
+            handleClick,
+            handleMouseOver,
+            handleMouseOut,
+        } = useSelect({
+            props,
+            emit,
+            parent: { groupKey: radioGroupKey, name },
+        });
+        const wrapperClass = computed(() => {
+            const arr = [`${prefixCls}`];
+            if (checked.value) {
+                arr.push('is-checked');
+            }
+            if (innerDisabled.value) {
+                arr.push('is-disabled');
+            }
+            if (hover.value) {
+                arr.push('is-hover');
+            }
+            if (isGroup) {
+                arr.push('is-item');
+                if (group.props.vertical) {
+                    arr.push('is-item-vertical');
+                }
+            }
+            return arr;
+        });
+
+        return {
+            prefixCls,
+            handleClick,
+            handleMouseOver,
+            handleMouseOut,
+            wrapperClass,
+        };
+    },
+});
 </script>

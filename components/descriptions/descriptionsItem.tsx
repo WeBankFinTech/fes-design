@@ -7,10 +7,11 @@ import {
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { DESCRIPTIONS_PROVIDE_KEY } from './constants';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('descriptions-item');
 
-const DescriptionsItemProps = {
+export const descriptionsItemProps = {
     contentStyle: [Object, String] as PropType<CSSProperties | string>,
     label: String,
     labelStyle: [Object, String] as PropType<CSSProperties | string>,
@@ -20,9 +21,13 @@ const DescriptionsItemProps = {
     },
 } as const;
 
+export type DescriptionsItemProps = ExtractPublicPropTypes<
+    typeof descriptionsItemProps
+>;
+
 export default defineComponent({
     name: 'FDescriptionsItem',
-    props: DescriptionsItemProps,
+    props: descriptionsItemProps,
     setup(props, { slots }) {
         const { parentProps } = inject(DESCRIPTIONS_PROVIDE_KEY);
         const style = computed<CSSProperties>(() => {

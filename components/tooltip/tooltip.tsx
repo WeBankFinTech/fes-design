@@ -1,4 +1,4 @@
-import { computed, defineComponent, PropType, ExtractPropTypes } from 'vue';
+import { computed, defineComponent, PropType } from 'vue';
 import { isNil } from 'lodash-es';
 import Popper from '../popper/popper';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -8,6 +8,7 @@ import FButton from '../button/button';
 import { useNormalModel } from '../_util/use/useModel';
 import { popperProps } from '../popper/props';
 import { CANCEL_EVENT, OK_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('tooltip');
 
@@ -17,7 +18,7 @@ const defaultConfirmOption = {
     icon: <ExclamationCircleFilled />,
 };
 
-const toolTipProps = {
+export const toolTipProps = {
     ...popperProps,
     title: [Number, String] as PropType<number | string>,
     content: [Number, String] as PropType<number | string>,
@@ -39,7 +40,7 @@ const toolTipProps = {
     },
 } as const;
 
-export type ToolTipProps = Partial<ExtractPropTypes<typeof toolTipProps>>;
+export type ToolTipProps = ExtractPublicPropTypes<typeof toolTipProps>;
 
 export default defineComponent({
     name: 'FTooltip',

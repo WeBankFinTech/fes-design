@@ -9,7 +9,6 @@ import {
     VNode,
     PropType,
     useSlots,
-    ExtractPropTypes,
 } from 'vue';
 import {
     COL_TYPE,
@@ -22,11 +21,12 @@ import type { EllipsisProps } from '../ellipsis';
 
 import type { CellProps } from './components/cell';
 import type { RowType, ActionType } from './interface';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export type SortOrderType = 'descend' | 'ascend' | false;
 export type SorterType = ((a: RowType, b: RowType) => boolean) | 'default';
 
-const columnProps = {
+export const columnProps = {
     label: String,
     prop: String,
     type: {
@@ -111,7 +111,7 @@ const columnProps = {
     },
 } as const;
 
-export type ColumnProps = Partial<ExtractPropTypes<typeof columnProps>>;
+export type ColumnProps = ExtractPublicPropTypes<typeof columnProps>;
 
 export type ColumnChildren = Array<
     ColumnProps & {

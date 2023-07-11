@@ -1,4 +1,4 @@
-import { defineComponent, watch, ref, PropType, ExtractPropTypes } from 'vue';
+import { defineComponent, watch, ref, PropType } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import useResize from '../_util/use/useResize';
 import { CAROUSEL_NAME, CHANGE_EVENT } from './const';
@@ -8,8 +8,9 @@ import useCarousel from './useCarousel';
 import useCarouselStyle from './useCarouselStyle';
 import useCarouselPlay from './useCarouselPlay';
 import type { Placement } from './interface';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
-const carouselProps = {
+export const carouselProps = {
     height: {
         type: String,
         default: '',
@@ -60,7 +61,7 @@ const carouselProps = {
     },
 } as const;
 
-export type CarouselProps = Partial<ExtractPropTypes<typeof carouselProps>>;
+export type CarouselProps = ExtractPublicPropTypes<typeof carouselProps>;
 
 export default defineComponent({
     name: CAROUSEL_NAME,

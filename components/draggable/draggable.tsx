@@ -6,35 +6,40 @@ import {
     PropType,
     cloneVNode,
 } from 'vue';
+import { mergeWith } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
+import { useTheme } from '../_theme/useTheme';
+import { flatten, isComment } from '../_util/vnode';
 import {
     DRAG_END_EVENT,
     DRAG_START_EVENT,
     UPDATE_MODEL_EVENT,
     useDraggable,
 } from './useDraggable';
-import { useTheme } from '../_theme/useTheme';
-import { mergeWith } from 'lodash-es';
-import { flatten, isComment } from '../_util/vnode';
 import type { BeforeDragEnd } from './useDraggable';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('draggable');
 
+export const draggableProps = {
+    modelValue: {
+        type: Array,
+        default: [],
+    },
+    droppable: Boolean,
+    disabled: Boolean,
+    beforeDragend: Function as PropType<BeforeDragEnd>,
+    tag: {
+        type: String,
+        default: 'div',
+    },
+} as const;
+
+export type DraggableProps = ExtractPublicPropTypes<typeof draggableProps>;
+
 export default defineComponent({
     name: 'FDraggable',
-    props: {
-        modelValue: {
-            type: Array,
-            default: [],
-        },
-        droppable: Boolean,
-        disabled: Boolean,
-        beforeDragend: Function as PropType<BeforeDragEnd>,
-        tag: {
-            type: String,
-            default: 'div',
-        },
-    },
+    props: draggableProps,
     emits: [UPDATE_MODEL_EVENT, DRAG_START_EVENT, DRAG_END_EVENT],
     setup(props, ctx) {
         useTheme();

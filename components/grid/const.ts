@@ -4,7 +4,7 @@ export const ALIGN = [
     'flex-end',
     'baseline',
     'stretch',
-];
+] as const;
 
 export const JUSTIFY = [
     'flex-start',
@@ -12,6 +12,6 @@ export const JUSTIFY = [
     'center',
     'space-around',
     'space-between',
-];
+] as const;
 
 export const GRID_KEY = Symbol('FGrid');

@@ -1,6 +1,7 @@
 import type { PropType } from 'vue';
 
 import type { Type, Size, Effect } from './interface';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const tagProps = {
     type: {
@@ -28,3 +29,5 @@ export const tagProps = {
         default: true,
     },
 } as const;
+
+export type TagProps = ExtractPublicPropTypes<typeof tagProps>;

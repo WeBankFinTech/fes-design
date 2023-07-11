@@ -1,12 +1,13 @@
 import { defineComponent, computed, PropType } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('divider');
 
 type TitlePlacement = 'center' | 'left' | 'right';
 
-const dividerProps = {
+export const dividerProps = {
     // 是否是垂直方向
     vertical: {
         type: Boolean,
@@ -18,6 +19,8 @@ const dividerProps = {
         default: 'center',
     },
 } as const;
+
+export type DividerProps = ExtractPublicPropTypes<typeof dividerProps>;
 
 export default defineComponent({
     name: 'FDivider',

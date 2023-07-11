@@ -1,4 +1,5 @@
-import { PropType } from 'vue';
+import type { PropType } from 'vue';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const COMPONENT_NAME = {
     PAGINATION: 'FPagination',
@@ -11,7 +12,7 @@ export const COMPONENT_NAME = {
 
 export const PROVIDE_KEY = Symbol('PaginationProvideKey');
 
-export const PROPS = {
+export const paginationProps = {
     // 每页显示条目个数
     pageSize: {
         type: Number,
@@ -60,3 +61,5 @@ export const PROPS = {
         default: false,
     },
 } as const;
+
+export type PaginationProps = ExtractPublicPropTypes<typeof paginationProps>;

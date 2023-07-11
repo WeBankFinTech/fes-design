@@ -1,7 +1,8 @@
 import { extractPropsDefaultValue } from '../_util/utils';
 import { CHECK_STRATEGY } from './const';
-import type { ExtractPropTypes, PropType, InjectionKey, Ref } from 'vue';
+import type { PropType, InjectionKey, Ref } from 'vue';
 
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import type {
     TreeOption,
     TreeNodeKey,
@@ -108,7 +109,7 @@ export const treeProps = {
 
 export const treePropsDefaultValue = extractPropsDefaultValue(treeProps);
 
-export type TreeProps = Partial<ExtractPropTypes<typeof treeProps>>;
+export type TreeProps = ExtractPublicPropTypes<typeof treeProps>;
 
 export interface TreeInst {
     props: TreeProps;

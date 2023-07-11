@@ -1,25 +1,19 @@
-import {
-    inject,
-    defineComponent,
-    ExtractPropTypes,
-    ref,
-    computed,
-    PropType,
-} from 'vue';
+import { inject, defineComponent, ref, computed, PropType } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import { useLocale } from '../config-provider/useLocale';
 import FMessage from '../message';
 import { key } from './const';
 import { matchType } from './utils';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
-const uploadDraggerProps = {
+export const uploadDraggerProps = {
     onFileTypeInvalid: {
         type: Function as PropType<(files: File[]) => void>,
     },
 } as const;
 
-export type UploadDraggerProps = Partial<
-    ExtractPropTypes<typeof uploadDraggerProps>
+export type UploadDraggerProps = ExtractPublicPropTypes<
+    typeof uploadDraggerProps
 >;
 
 export default defineComponent({

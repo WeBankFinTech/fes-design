@@ -8,10 +8,11 @@ import {
 import getPrefixCls from '../_util/getPrefixCls';
 import { DESCRIPTIONS_PROVIDE_KEY } from './constants';
 import type { LabelAlign, LabelPlacement } from './constants';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('descriptions');
 
-const descriptionsProps = {
+export const descriptionsProps = {
     column: {
         type: Number,
         default: 3,
@@ -39,6 +40,10 @@ const descriptionsProps = {
     title: String,
     bordered: Boolean,
 } as const;
+
+export type DescriptionsProps = ExtractPublicPropTypes<
+    typeof descriptionsProps
+>;
 
 export default defineComponent({
     name: 'FDescriptions',

@@ -1,6 +1,7 @@
 import { PropType, InjectionKey, ComputedRef } from 'vue';
 
 import type { MenuOption } from './interface';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const MODE = ['horizontal', 'vertical'] as const;
 
@@ -22,10 +23,10 @@ export const MENU_KEY: InjectionKey<{
     parentPath: ComputedRef<MenuNode[]>;
 }> = Symbol('FMenu');
 
-export const MENU_PROPS = {
+export const menuProps = {
     // 当前选中的值
     modelValue: {
-        type: [String, Number],
+        type: [String, Number] as PropType<string | number>,
     },
     // 垂直或者水平
     mode: {
@@ -63,4 +64,6 @@ export const MENU_PROPS = {
             return [];
         },
     },
-};
+} as const;
+
+export type MenuProps = ExtractPublicPropTypes<typeof menuProps>;

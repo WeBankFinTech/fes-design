@@ -1,7 +1,6 @@
 import {
     computed,
     defineComponent,
-    ExtractPropTypes,
     mergeProps,
     PropType,
     StyleValue,
@@ -10,12 +9,13 @@ import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';
 import { pxfy } from '../_util/utils';
 import { getSlot } from '../_util/vnode';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 type Size = 'small' | 'middle' | 'large';
 
 const prefixCls = getPrefixCls('skeleton');
 
-const skeletonProps = {
+export const skeletonProps = {
     text: Boolean,
     round: Boolean,
     circle: Boolean,
@@ -36,7 +36,7 @@ const skeletonProps = {
     },
 } as const;
 
-export type SkeletonProps = Partial<ExtractPropTypes<typeof skeletonProps>>;
+export type SkeletonProps = ExtractPublicPropTypes<typeof skeletonProps>;
 
 export default defineComponent({
     name: 'FSkeleton',

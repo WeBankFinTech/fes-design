@@ -19,6 +19,7 @@ import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
 import { useConfig } from '../config-provider';
 import { useTheme } from '../_theme/useTheme';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('drawer');
 const UPDATE_SHOW_EVENT = 'update:show';
@@ -27,7 +28,7 @@ const CANCEL_EVENT = 'cancel';
 const AFTER_LEAVE_EVENT = 'after-leave';
 
 // 通用的属性
-const drawerProps = {
+export const drawerProps = {
     show: Boolean,
     displayDirective: {
         type: String as PropType<'show' | 'if'>,
@@ -75,6 +76,8 @@ const drawerProps = {
     },
     contentClass: String,
 } as const;
+
+export type DrawerProps = ExtractPublicPropTypes<typeof drawerProps>;
 
 const Drawer = defineComponent({
     name: 'FDrawer',

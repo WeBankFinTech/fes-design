@@ -95,7 +95,6 @@ import {
     Ref,
     defineComponent,
     PropType,
-    ExtractPropTypes,
     ComputedRef,
     ComponentPublicInstance,
 } from 'vue';
@@ -118,10 +117,11 @@ import { pickerFactory, PickerType } from './pickerHandler';
 import { useDisable } from './use';
 import type { GetContainer } from '../_util/interface';
 import type { Picker } from './pickerHandler';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('date-picker');
 
-const datePickerProps = {
+export const datePickerProps = {
     open: {
         type: Boolean,
         default: false,
@@ -165,7 +165,7 @@ const useTmpSelectedDates = () => {
     };
 };
 
-export type DatePickerProps = Partial<ExtractPropTypes<typeof datePickerProps>>;
+export type DatePickerProps = ExtractPublicPropTypes<typeof datePickerProps>;
 
 const useInput = ({
     props,
