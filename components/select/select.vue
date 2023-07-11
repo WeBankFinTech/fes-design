@@ -185,7 +185,7 @@ export default defineComponent({
         };
 
         const baseOptions = computed(() => {
-            const allOptions = [...childOptions, ...props.options];
+            const allOptions = [...childOptions, ...(props.options || [])];
             return allOptions.map((option) => {
                 return {
                     ...option,
@@ -428,6 +428,7 @@ export default defineComponent({
                     hoverOptionValue.value = option.value;
                 }
             } else {
+                // eslint-disable-next-line no-undefined
                 hoverOptionValue.value = undefined;
             }
         });
