@@ -11,8 +11,8 @@ export { tabsProps } from './tabs';
 export type { TabsProps } from './tabs';
 export const FTabs = withInstall<TabsType>(Tabs as TabsType, { TabPane });
 
-export { tabProps } from './helper';
-export type { TabProps } from './helper';
+export { tabProps as tabPaneProps } from './helper';
+export type { TabProps as TabPaneProps } from './helper';
 export const FTabPane = withNoopInstall<TabPaneType>(TabPane as TabPaneType);
 
 export default FTabs;
