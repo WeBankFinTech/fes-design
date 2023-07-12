@@ -14,6 +14,8 @@ export const FCarousel = withInstall<CarouselType>(Carousel as CarouselType, {
     CarouselItem,
 });
 
+export { carouselItemProps } from './interface';
+export type { CarouselItemProps } from './interface';
 export const FCarouselItem = withNoopInstall<CarouselItemType>(
     CarouselItem as CarouselItemType,
 );

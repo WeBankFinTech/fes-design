@@ -1,5 +1,5 @@
-import { ExtractPropTypes } from 'vue';
 import useCarousel from './useCarousel';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export type Placement = 'top' | 'bottom' | 'left' | 'right';
 export type Direction = 'horizontal' | 'vertical' | '';
@@ -15,8 +15,8 @@ export const carouselItemProps = {
     },
 } as const;
 
-export type CarouselItemProps = Partial<
-    ExtractPropTypes<typeof carouselItemProps>
+export type CarouselItemProps = ExtractPublicPropTypes<
+    typeof carouselItemProps
 >;
 
 export interface CarouselItemStates {
