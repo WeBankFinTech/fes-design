@@ -14,7 +14,7 @@ export const tabProps = {
         default: null as null,
     },
     displayDirective: {
-        type: String as PropType<'if' | 'show'>,
+        type: String as PropType<'if' | 'show' | 'show:lazy'>,
         default: 'if',
     },
 } as const;
