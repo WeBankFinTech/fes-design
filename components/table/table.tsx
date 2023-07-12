@@ -1,11 +1,4 @@
-import {
-    defineComponent,
-    computed,
-    PropType,
-    ExtractPropTypes,
-    SetupContext,
-    watch,
-} from 'vue';
+import { defineComponent, computed, PropType, SetupContext, watch } from 'vue';
 import { isUndefined } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
 import { TABLE_NAME, SIZE } from './const';
@@ -15,10 +8,11 @@ import BodyTable from './components/bodyTable';
 import VirtualTable from './components/virtualTable';
 import type { ColumnChildren } from './column';
 import type { BeforeDragEnd } from '../draggable/useDraggable';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 import type { RowType, RowKey } from './interface';
 
-const tableProps = {
+export const tableProps = {
     data: {
         type: Array as PropType<object[]>,
         default: (): object[] => [],
@@ -99,7 +93,7 @@ const tableProps = {
     },
 } as const;
 
-export type TableProps = Partial<ExtractPropTypes<typeof tableProps>>;
+export type TableProps = ExtractPublicPropTypes<typeof tableProps>;
 
 export default defineComponent({
     name: TABLE_NAME,

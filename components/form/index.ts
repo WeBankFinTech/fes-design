@@ -7,8 +7,13 @@ import type { SFCWithInstall } from '../_util/interface';
 
 type FormType = SFCWithInstall<typeof Form>;
 type FormItemType = SFCWithInstall<typeof FormItem>;
+
+export { formProps } from './interface';
+export type { FormProps } from './interface';
 export const FForm = withInstall<FormType>(Form as FormType, { FormItem });
 
+export { formItemProps } from './interface';
+export type { FormItemProps } from './interface';
 export const FFormItem = withNoopInstall<FormItemType>(
     FormItem as FormItemType,
 );

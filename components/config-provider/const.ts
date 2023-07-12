@@ -3,6 +3,7 @@ import type { InjectionKey, PropType, Ref } from 'vue';
 import type { TypeLanguage } from '../locales';
 import type { Theme } from '../_theme/interface';
 import type { GetContainer } from '../_util/interface';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export type TranslatorOptionType = Record<string, string | number>;
 
@@ -26,6 +27,10 @@ export const configProviderProps = {
     theme: String,
     themeOverrides: Object as PropType<Theme>,
 } as const;
+
+export type ConfigProviderProps = ExtractPublicPropTypes<
+    typeof configProviderProps
+>;
 
 export type ConfigProviderContextType = {
     locale?: Ref<TypeLanguage>;

@@ -9,16 +9,16 @@ import {
     getCurrentInstance,
     ComputedRef,
 } from 'vue';
+import { useTheme } from '../_theme/useTheme';
 import {
     CAROUSEL_NAME,
     CAROUSEL_ITEM_NAME,
     CARD_SCALE,
     provideKey,
 } from './const';
-import { useTheme } from '../_theme/useTheme';
 
-import type { CarouselItemData, Direction } from './interface';
 import { carouselItemProps } from './interface';
+import type { CarouselItemData, Direction } from './interface';
 
 const useItemStyle = (direction: ComputedRef<Direction>) => {
     const itemStyleState = reactive({

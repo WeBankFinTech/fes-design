@@ -24,13 +24,14 @@ import { useNormalModel } from '../_util/use/useModel';
 import { CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import LoadingOutlined from '../icon/LoadingOutlined';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('switch');
 
 type SwitchValue = string | [] | object | number | boolean;
 type SwitchSize = 'normal' | 'small';
 
-const switchProps = {
+export const switchProps = {
     modelValue: {
         type: [String, Array, Object, Number, Boolean] as PropType<SwitchValue>,
     },
@@ -54,6 +55,8 @@ const switchProps = {
         default: 'normal',
     },
 } as const;
+
+export type SwitchProps = ExtractPublicPropTypes<typeof switchProps>;
 
 export default defineComponent({
     name: 'FSwitch',

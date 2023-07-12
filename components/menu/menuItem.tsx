@@ -10,8 +10,21 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { COMPONENT_NAME } from './const';
 import useChildren from './useChildren';
 import useMenu from './useMenu';
+import type { PropType } from 'vue';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('menu-item');
+
+export const menuItemProps = {
+    value: {
+        type: [String, Number] as PropType<string | number>,
+        required: true,
+    },
+    label: String,
+} as const;
+
+export type MenuItemProps = ExtractPublicPropTypes<typeof menuItemProps>;
+
 export default defineComponent({
     name: COMPONENT_NAME.MENU_ITEM,
     components: {

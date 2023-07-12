@@ -14,10 +14,11 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { noop } from '../_util/utils';
 import { CloseOutlined, CheckOutlined } from '../icon';
 import { COMPONENT_NAME, STATUS, PROVIDE_KEY } from './const';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('step');
 
-const stepProps = {
+export const stepProps = {
     description: {
         type: String,
     },
@@ -28,6 +29,8 @@ const stepProps = {
         type: String as PropType<typeof STATUS[keyof typeof STATUS]>,
     },
 } as const;
+
+export type StepProps = ExtractPublicPropTypes<typeof stepProps>;
 
 export default defineComponent({
     name: COMPONENT_NAME.STEP,

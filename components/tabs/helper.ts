@@ -1,5 +1,6 @@
-import type { ExtractPropTypes, PropType } from 'vue';
+import type { PropType } from 'vue';
 import type { Position } from './interface';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const tabProps = {
     key: [String, Number, Symbol] as PropType<string | number | symbol>,
@@ -19,7 +20,7 @@ export const tabProps = {
     },
 } as const;
 
-export type TabProps = Partial<ExtractPropTypes<typeof tabProps>>;
+export type TabProps = ExtractPublicPropTypes<typeof tabProps>;
 
 /**
  * 计算TabBar样式

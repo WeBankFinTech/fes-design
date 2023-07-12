@@ -26,7 +26,7 @@
         </div>
 
         <template v-if="isShowPreview">
-            <preview
+            <Preview
                 :src="src"
                 :name="name"
                 :size="imageSize"
@@ -35,7 +35,7 @@
                 :getContainer="previewContainer"
                 @close="closeViewer"
             >
-            </preview>
+            </Preview>
         </template>
     </div>
 </template>
@@ -63,6 +63,7 @@ import download from '../_util/download';
 import { useTheme } from '../_theme/useTheme';
 import { PREVIEW_PROVIDE_KEY } from './props';
 import Preview from './preview.vue';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 import type { CSSProperties } from 'vue';
 
@@ -70,6 +71,41 @@ const prefixCls = getPrefixCls('img');
 
 let curIndex = 0;
 let prevOverflow = '';
+
+export const imageProps = {
+    src: {
+        type: String,
+        default: '',
+    },
+    name: String,
+    preview: {
+        type: Boolean,
+        default: false,
+    },
+    fit: {
+        type: String as PropType<
+            'contain' | 'cover' | 'fill' | 'none' | 'scale-down'
+        >,
+    },
+    lazy: {
+        type: Boolean,
+        default: false,
+    },
+    hideOnClickModal: {
+        type: Boolean,
+        default: false,
+    },
+    scrollContainer: [String, Object] as PropType<string | HTMLElement>,
+    download: {
+        type: Boolean,
+        default: false,
+    },
+    previewContainer: {
+        type: Function as PropType<() => HTMLElement>,
+    },
+} as const;
+
+export type ImageProps = ExtractPublicPropTypes<typeof imageProps>;
 
 export default defineComponent({
     name: 'FImage',
@@ -79,38 +115,7 @@ export default defineComponent({
         PictureOutlined,
         PictureFailOutlined,
     },
-    props: {
-        src: {
-            type: String,
-            default: '',
-        },
-        name: String,
-        preview: {
-            type: Boolean,
-            default: false,
-        },
-        fit: {
-            type: String as PropType<
-                'contain' | 'cover' | 'fill' | 'none' | 'scale-down'
-            >,
-        },
-        lazy: {
-            type: Boolean,
-            default: false,
-        },
-        hideOnClickModal: {
-            type: Boolean,
-            default: false,
-        },
-        scrollContainer: [String, Object] as PropType<string | HTMLElement>,
-        download: {
-            type: Boolean,
-            default: false,
-        },
-        previewContainer: {
-            type: Function as PropType<() => HTMLElement>,
-        },
-    },
+    props: imageProps,
     emits: [ERROR_EVENT, LOAD_EVENT, CLOSE_EVENT],
     setup(props, { attrs, emit }) {
         useTheme();
@@ -220,7 +225,9 @@ export default defineComponent({
         let clearScrollListener = noop;
         async function addLazyLoadListener() {
             await nextTick();
-            clearScrollListener && clearScrollListener();
+            if (clearScrollListener) {
+                clearScrollListener();
+            }
 
             if (_scrollContainer.value) {
                 clearScrollListener = useEventListener(
@@ -289,8 +296,12 @@ export default defineComponent({
         );
 
         onUnmounted(() => {
-            unRegister && unRegister();
-            clearScrollListener && clearScrollListener();
+            if (unRegister) {
+                unRegister();
+            }
+            if (clearScrollListener) {
+                clearScrollListener();
+            }
         });
 
         return {

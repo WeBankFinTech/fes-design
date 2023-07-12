@@ -14,6 +14,7 @@ import { TRIGGER, PLACEMENT } from '../_util/constants';
 import { useNormalModel } from '../_util/use/useModel';
 import { useTheme } from '../_theme/useTheme';
 import Popper from '../popper/popper';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('dropdown');
 
@@ -30,7 +31,7 @@ type Option = {
         | undefined;
 };
 
-const dropdownProps = {
+export const dropdownProps = {
     visible: {
         type: Boolean,
         default: false,
@@ -80,7 +81,9 @@ const dropdownProps = {
         type: Boolean,
         default: false,
     },
-};
+} as const;
+
+export type DropdownProps = ExtractPublicPropTypes<typeof dropdownProps>;
 
 export default defineComponent({
     name: 'FDropdown',

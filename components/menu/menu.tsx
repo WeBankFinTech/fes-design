@@ -12,7 +12,7 @@ import { useNormalModel, useArrayModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import { concat } from '../_util/utils';
 import { useTheme } from '../_theme/useTheme';
-import { COMPONENT_NAME, MENU_PROPS, MenuNode } from './const';
+import { COMPONENT_NAME, menuProps, MenuNode } from './const';
 import useParent from './useParent';
 import useMenu from './useMenu';
 import MenuGroup from './menuGroup';
@@ -23,9 +23,10 @@ import type { MenuItemTypePlain } from './useParent';
 import type { MenuItemType, MenuOption } from './interface';
 
 const prefixCls = getPrefixCls('menu');
+
 export default defineComponent({
     name: COMPONENT_NAME.MENU,
-    props: MENU_PROPS,
+    props: menuProps,
     emits: ['select', UPDATE_MODEL_EVENT, 'update:expandedKeys'],
     setup(props, { emit, slots }) {
         useTheme();

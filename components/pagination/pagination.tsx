@@ -8,7 +8,7 @@ import Pager from './pager';
 import Sizes from './sizes';
 import Jumper from './jumper';
 import Total from './total';
-import { COMPONENT_NAME, PROPS } from './const';
+import { COMPONENT_NAME, paginationProps } from './const';
 const prefixCls = getPrefixCls('pagination');
 
 export default defineComponent({
@@ -20,7 +20,7 @@ export default defineComponent({
         Jumper,
         Total,
     },
-    props: PROPS,
+    props: paginationProps,
     emits: [
         CHANGE_EVENT,
         'pageSizeChange',

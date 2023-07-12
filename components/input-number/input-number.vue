@@ -60,6 +60,7 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import InputInner from '../input/inputInner.vue';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('input-number');
 
@@ -68,6 +69,27 @@ enum ActionEnum {
     REDUCE,
 }
 
+export const inputNumberProps = {
+    modelValue: Number,
+    min: {
+        type: Number,
+        default: -Infinity,
+    },
+    max: {
+        type: Number,
+        default: Infinity,
+    },
+    step: {
+        type: Number,
+        default: 1,
+    },
+    precision: Number,
+    disabled: Boolean,
+    placeholder: String,
+} as const;
+
+export type InputNumberProps = ExtractPublicPropTypes<typeof inputNumberProps>;
+
 export default defineComponent({
     name: 'FInputNumber',
     components: {
@@ -75,24 +97,7 @@ export default defineComponent({
         UpOutlined,
         DownOutlined,
     },
-    props: {
-        modelValue: Number,
-        min: {
-            type: Number,
-            default: -Infinity,
-        },
-        max: {
-            type: Number,
-            default: Infinity,
-        },
-        step: {
-            type: Number,
-            default: 1,
-        },
-        precision: Number,
-        disabled: Boolean,
-        placeholder: String,
-    },
+    props: inputNumberProps,
     emits: ['update:modelValue', 'change', 'input', 'blur', 'focus'],
     setup(props, { emit }) {
         useTheme();

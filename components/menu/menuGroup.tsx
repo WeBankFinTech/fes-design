@@ -11,17 +11,22 @@ import { COMPONENT_NAME } from './const';
 import useChildren from './useChildren';
 import useParent from './useParent';
 import useMenu from './useMenu';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('menu-group');
 
+export const menuGroupProps = {
+    // 分组标题
+    label: {
+        type: String,
+    },
+} as const;
+
+export type MenuGroupProps = ExtractPublicPropTypes<typeof menuGroupProps>;
+
 export default defineComponent({
     name: COMPONENT_NAME.MENU_GROUP,
-    props: {
-        // 分组标题
-        label: {
-            type: String,
-        },
-    },
+    props: menuGroupProps,
     setup(props, { slots }) {
         const instance = getCurrentInstance();
         const { indexPath } = useMenu(instance);

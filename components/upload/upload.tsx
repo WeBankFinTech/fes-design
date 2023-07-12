@@ -1,15 +1,16 @@
-import { defineComponent, PropType, ExtractPropTypes } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import Trigger from './trigger.vue';
 import FileList from './fileList.vue';
 import request from './ajax';
 import useUpload from './useUpload';
 
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import type { FileItem } from './interface';
 
 type UploadListType = 'text' | 'picture-card';
 
-const uploadProps = {
+export const uploadProps = {
     accept: {
         type: Array as PropType<string[]>,
         default: (): string[] => [],
@@ -64,7 +65,7 @@ const uploadProps = {
     transformResponse: Function,
 } as const;
 
-export type UploadProps = Partial<ExtractPropTypes<typeof uploadProps>>;
+export type UploadProps = ExtractPublicPropTypes<typeof uploadProps>;
 
 export default defineComponent({
     name: 'FUpload',

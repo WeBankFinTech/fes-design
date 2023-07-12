@@ -34,6 +34,8 @@ import type { PropType } from 'vue';
 import type { Position } from './interface';
 import type { TabProps } from './helper';
 
+import type { ExtractPublicPropTypes } from '../_util/interface';
+
 const prefixCls = getPrefixCls('tabs');
 const ADD_EVENT = 'add';
 function mapTabPane(
@@ -75,39 +77,43 @@ type TabPaneProps = TabProps & {
     renderTab?: (props: TabProps) => VNode[];
 };
 
+export const tabsProps = {
+    modelValue: [String, Number] as PropType<string | number>,
+    position: {
+        type: String as PropType<Position>,
+        default: 'top',
+    },
+    type: {
+        type: String as PropType<TabType>,
+        default: 'line',
+    },
+    closable: {
+        type: Boolean,
+        default: false,
+    },
+    closeMode: {
+        type: String as PropType<TabCloseMode>,
+        default: 'visible',
+    },
+    addable: {
+        type: Boolean,
+        default: false,
+    },
+    transition: {
+        type: [String, Boolean] as PropType<string | boolean>,
+        default: true,
+    },
+    panes: {
+        type: Array as PropType<TabPaneProps>,
+        default: (): TabPaneProps[] => [],
+    },
+} as const;
+
+export type TabsProps = ExtractPublicPropTypes<typeof tabsProps>;
+
 export default defineComponent({
     name: 'FTabs',
-    props: {
-        modelValue: [String, Number] as PropType<string | number>,
-        position: {
-            type: String as PropType<Position>,
-            default: 'top',
-        },
-        type: {
-            type: String as PropType<TabType>,
-            default: 'line',
-        },
-        closable: {
-            type: Boolean,
-            default: false,
-        },
-        closeMode: {
-            type: String as PropType<TabCloseMode>,
-            default: 'visible',
-        },
-        addable: {
-            type: Boolean,
-            default: false,
-        },
-        transition: {
-            type: [String, Boolean],
-            default: true,
-        },
-        panes: {
-            type: Array as PropType<TabPaneProps>,
-            default: (): TabPaneProps[] => [],
-        },
-    },
+    props: tabsProps,
     emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, CLOSE_EVENT, ADD_EVENT],
     setup(props, ctx) {
         useTheme();

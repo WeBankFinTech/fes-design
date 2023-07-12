@@ -5,6 +5,7 @@ import type {
     DefineComponent,
     App,
     Plugin,
+    ExtractPropTypes,
 } from 'vue';
 
 export type Emit = SetupContext['emit'];
@@ -32,6 +33,15 @@ export type ComponentInstall = DefineComponent & {
 export type GetContainer = () => HTMLElement;
 
 export type SFCWithInstall<T> = T & Plugin;
+
+type RemoveReadonly<T> = {
+    -readonly [key in keyof T]: T[key];
+};
+
+export type ExtractPublicPropTypes<T> = Omit<
+    Partial<RemoveReadonly<ExtractPropTypes<T>>>,
+    Extract<keyof T, `internal${string}`>
+>;
 
 export interface Option {
     value: string | number | boolean;

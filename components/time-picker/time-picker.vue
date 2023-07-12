@@ -73,27 +73,21 @@
 </template>
 
 <script lang="ts">
-import {
-    defineComponent,
-    ref,
-    watch,
-    computed,
-    PropType,
-    ExtractPropTypes,
-} from 'vue';
+import { defineComponent, ref, watch, computed, PropType } from 'vue';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { useTheme } from '../_theme/useTheme';
-import TimeSelect from './time-select.vue';
 import InputInner from '../input/inputInner.vue';
 import { ClockCircleOutlined } from '../icon';
 import Popper from '../popper';
 import FButton from '../button';
 
-import type { GetContainer } from '../_util/interface';
 import { useLocale } from '../config-provider/useLocale';
+import TimeSelect from './time-select.vue';
+import type { GetContainer } from '../_util/interface';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('time-picker');
 
@@ -144,7 +138,7 @@ function validateTime(data: string, format: string) {
     return true;
 }
 
-const timePickerProps = {
+export const timePickerProps = {
     modelValue: {
         type: [String, Array] as PropType<string | string[] | number[]>,
         default: '',
@@ -211,7 +205,7 @@ const timePickerProps = {
     },
 } as const;
 
-type TimePickerProps = Partial<ExtractPropTypes<typeof timePickerProps>>;
+export type TimePickerProps = ExtractPublicPropTypes<typeof timePickerProps>;
 
 function useOpen(props: TimePickerProps, emit: any) {
     const [isOpened, updateCurrentValue] = useNormalModel(props, emit, {

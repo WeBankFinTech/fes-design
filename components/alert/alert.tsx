@@ -4,10 +4,11 @@ import CloseCircleOutlined from '../icon/CloseCircleOutlined';
 import { CLOSE_EVENT } from '../_util/constants';
 import { iconComponentMap } from '../_util/noticeManager';
 import { useTheme } from '../_theme/useTheme';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('alert');
 
-const alertProps = {
+export const alertProps = {
     message: String,
     description: String,
     showIcon: Boolean,
@@ -22,6 +23,8 @@ const alertProps = {
         default: () => true,
     },
 } as const;
+
+export type AlertProps = ExtractPublicPropTypes<typeof alertProps>;
 
 export default defineComponent({
     name: 'FAlert',

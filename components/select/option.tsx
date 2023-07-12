@@ -7,12 +7,12 @@ import {
     toRefs,
     defineComponent,
     PropType,
-    ExtractPropTypes,
     ref,
 } from 'vue';
 import { key } from './const';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
-const optionProps = {
+export const optionProps = {
     value: {
         type: [String, Number, Boolean, Object] as PropType<
             string | number | boolean | object
@@ -22,7 +22,7 @@ const optionProps = {
     disabled: Boolean,
 } as const;
 
-export type OptionProps = Partial<ExtractPropTypes<typeof optionProps>>;
+export type OptionProps = ExtractPublicPropTypes<typeof optionProps>;
 
 export default defineComponent({
     name: 'FOption',

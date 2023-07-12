@@ -4,11 +4,12 @@ import { name, radioGroupKey } from '../radio-group/const';
 import useSelect from '../_util/use/useSelect';
 import { useTheme } from '../_theme/useTheme';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 // 样式字符串
 const prefixCls = getPrefixCls('radio-button');
 
-const radioButtonProps = {
+export const radioButtonProps = {
     disabled: {
         type: Boolean,
     },
@@ -19,6 +20,8 @@ const radioButtonProps = {
         type: [String, Number] as PropType<string | number>,
     },
 } as const;
+
+export type RadioButtonProps = ExtractPublicPropTypes<typeof radioButtonProps>;
 
 export default defineComponent({
     name: 'FRadioButton',

@@ -1,17 +1,11 @@
-import {
-    computed,
-    CSSProperties,
-    defineComponent,
-    ExtractPropTypes,
-    PropType,
-    Ref,
-} from 'vue';
+import { computed, CSSProperties, defineComponent, PropType, Ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { flatten, getSlot, isValidElementNode } from '../_util/vnode';
 import { createKey } from '../_util/createKey';
 import { depx } from '../_util/utils';
 import type { TThemeVars } from '../_theme/base';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('space');
 
@@ -28,7 +22,7 @@ type Justify = 'start' | 'end' | 'center' | 'space-around' | 'space-between';
 
 type Size = 'xsmall' | 'small' | 'middle' | 'large';
 
-const spaceProps = {
+export const spaceProps = {
     align: String as PropType<Align>,
     justify: {
         type: String as PropType<Justify>,
@@ -49,7 +43,7 @@ const spaceProps = {
     },
 } as const;
 
-export type SpaceProps = Partial<ExtractPropTypes<typeof spaceProps>>;
+export type SpaceProps = ExtractPublicPropTypes<typeof spaceProps>;
 
 const useMargin = (props: SpaceProps, themeVarsRef: Ref<TThemeVars>) => {
     const margin = computed(() => {

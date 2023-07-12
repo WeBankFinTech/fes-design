@@ -8,25 +8,32 @@ import { computed, inject, getCurrentInstance, defineComponent } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { noop } from '../_util/utils';
 import { COMPONENT_NAME, LAYOUT_PROVIDE_KEY } from './const';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('layout');
 
+export const layoutHeaderProps = {
+    inverted: {
+        type: Boolean,
+        default: false,
+    },
+    bordered: {
+        type: Boolean,
+        default: false,
+    },
+    fixed: {
+        type: Boolean,
+        default: false,
+    },
+} as const;
+
+export type LayoutHeaderProps = ExtractPublicPropTypes<
+    typeof layoutHeaderProps
+>;
+
 export default defineComponent({
     name: COMPONENT_NAME.HEADER,
-    props: {
-        inverted: {
-            type: Boolean,
-            default: false,
-        },
-        bordered: {
-            type: Boolean,
-            default: false,
-        },
-        fixed: {
-            type: Boolean,
-            default: false,
-        },
-    },
+    props: layoutHeaderProps,
     setup(props) {
         const vm = getCurrentInstance();
         if (

@@ -1,19 +1,13 @@
-import {
-    computed,
-    provide,
-    defineComponent,
-    ref,
-    PropType,
-    ExtractPropTypes,
-} from 'vue';
+import { computed, provide, defineComponent, ref, PropType } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { useTheme } from '../_theme/useTheme';
 import { PROVIDE_KEY, COMPONENT_NAME, STATUS, TYPE } from './const';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('steps');
 
-const stepsProps = {
+export const stepsProps = {
     current: {
         type: Number,
     },
@@ -35,7 +29,7 @@ const stepsProps = {
     },
 } as const;
 
-export type StepsProps = Partial<ExtractPropTypes<typeof stepsProps>>;
+export type StepsProps = ExtractPublicPropTypes<typeof stepsProps>;
 
 export default defineComponent({
     name: COMPONENT_NAME.STEPS,

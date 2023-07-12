@@ -1,12 +1,13 @@
-import type { PropType, ExtractPropTypes } from 'vue';
+import type { PropType } from 'vue';
 import type { Option } from '../_util/interface';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const checkboxGroupKey = Symbol('FCheckboxGroup');
 export const name = 'FCheckboxGroup';
 
 type OptionValue = string | number | boolean;
 
-export const checkboxProps = {
+export const checkboxGroupProps = {
     modelValue: {
         type: Array as PropType<OptionValue[]>,
         default: () => [] as OptionValue[],
@@ -27,4 +28,6 @@ export const checkboxProps = {
     },
 } as const;
 
-export type CheckboxProps = Partial<ExtractPropTypes<typeof checkboxProps>>;
+export type CheckboxGroupProps = ExtractPublicPropTypes<
+    typeof checkboxGroupProps
+>;

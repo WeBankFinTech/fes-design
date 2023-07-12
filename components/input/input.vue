@@ -83,7 +83,6 @@ import {
     onMounted,
     defineComponent,
     PropType,
-    ExtractPropTypes,
     Ref,
 } from 'vue';
 
@@ -97,6 +96,7 @@ import calcTextareaHeight from './calcTextareaHeight';
 import InputInner from './inputInner.vue';
 import { commonInputProps } from './props';
 import { useFocus, useMouse } from './useInput';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 import type { InputValue } from './interface';
 
@@ -108,7 +108,7 @@ export interface Autosize {
     maxRows?: number;
 }
 
-const inputProps = {
+export const inputProps = {
     ...commonInputProps,
     rows: {
         type: Number,
@@ -127,7 +127,7 @@ const inputProps = {
     >,
 } as const;
 
-type InputProps = Partial<ExtractPropTypes<typeof inputProps>>;
+export type InputProps = ExtractPublicPropTypes<typeof inputProps>;
 
 export function useWordLimit(currentValue: Ref<InputValue>, props: InputProps) {
     const isWordLimitVisible = computed(

@@ -14,16 +14,22 @@ import {
 import getPrefixCls from '../_util/getPrefixCls';
 import { noop } from '../_util/utils';
 import { COMPONENT_NAME, LAYOUT_PROVIDE_KEY } from './const';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('layout');
+
+export const layoutMainProps = {
+    embedded: {
+        type: Boolean,
+        default: false,
+    },
+} as const;
+
+export type LayoutMainProps = ExtractPublicPropTypes<typeof layoutMainProps>;
+
 export default defineComponent({
     name: COMPONENT_NAME.MAIN,
-    props: {
-        embedded: {
-            type: Boolean,
-            default: false,
-        },
-    },
+    props: layoutMainProps,
     setup(props) {
         const vm = getCurrentInstance();
         if (

@@ -21,6 +21,7 @@ import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
 import { useConfig } from '../config-provider';
 import { useLocale } from '../config-provider/useLocale';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('modal');
 const UPDATE_SHOW_EVENT = 'update:show';
@@ -45,7 +46,7 @@ const globalModalProps = {
 } as const;
 
 // 通用的属性
-const modalProps = {
+export const modalProps = {
     show: Boolean,
     displayDirective: {
         type: String as PropType<'show' | 'if'>,
@@ -89,6 +90,8 @@ const modalProps = {
     },
     contentClass: String,
 } as const;
+
+export type ModalProps = ExtractPublicPropTypes<typeof modalProps>;
 
 const Modal = defineComponent({
     name: 'FModal',

@@ -1,7 +1,7 @@
 import { extractPropsDefaultValue } from '../_util/utils';
 import { CHECK_STRATEGY, EXPAND_TRIGGER } from './const';
-import type { ExtractPropTypes, PropType, InjectionKey, Ref } from 'vue';
-
+import type { PropType, InjectionKey, Ref } from 'vue';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import type {
     CascaderOption,
     CascaderNodeKey,
@@ -108,10 +108,10 @@ export const cascaderProps = {
     },
 } as const;
 
+export type CascaderProps = ExtractPublicPropTypes<typeof cascaderProps>;
+
 export const cascaderPropsDefaultValue =
     extractPropsDefaultValue(cascaderProps);
-
-export type CascaderProps = Partial<ExtractPropTypes<typeof cascaderProps>>;
 
 export interface CascaderInst {
     props: CascaderProps;

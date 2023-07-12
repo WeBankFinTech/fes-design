@@ -2,12 +2,12 @@ import { provide, unref } from 'vue';
 import { useArrayModel } from '../_util/use/useModel';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import { CHANGE_EVENT } from '../_util/constants';
-import { CheckboxProps, checkboxGroupKey, name } from './const';
+import { CheckboxGroupProps, checkboxGroupKey, name } from './const';
 
 import type { CheckboxGroupEmits } from './interface';
 
 export const useCheckboxGroup = (
-    props: CheckboxProps,
+    props: CheckboxGroupProps,
     emit: CheckboxGroupEmits,
 ) => {
     const { validate, isFormDisabled } = useFormAdaptor({

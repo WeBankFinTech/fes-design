@@ -148,8 +148,21 @@ import type {
     InnerTreeOption,
     TreeNodeKey,
 } from '../tree/interface';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('select-tree');
+
+export const selectTreeProps = {
+    ...selectProps,
+    ...treeProps,
+    modelValue: {
+        type: [String, Number, Array] as PropType<
+            string | number | Array<string | number>
+        >,
+    },
+} as const;
+
+export type SelectTreeProps = ExtractPublicPropTypes<typeof selectTreeProps>;
 
 export default defineComponent({
     name: 'FSelectTree',
@@ -159,15 +172,7 @@ export default defineComponent({
         Tree,
         Scrollbar,
     },
-    props: {
-        ...selectProps,
-        ...treeProps,
-        modelValue: {
-            type: [String, Number, Array] as PropType<
-                string | number | Array<string | number>
-            >,
-        },
-    },
+    props: selectTreeProps,
     emits: [
         UPDATE_MODEL_EVENT,
         CHANGE_EVENT,

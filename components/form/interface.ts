@@ -1,6 +1,7 @@
 import { ExtractPropTypes, PropType, ToRefs, Ref } from 'vue';
 import { FORM_LAYOUT, LABEL_POSITION } from './const';
 import type { RuleItem, Rules } from 'async-validator';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const formProps = {
     model: Object,
@@ -39,6 +40,8 @@ export const formProps = {
     },
 } as const;
 
+export type FormProps = ExtractPublicPropTypes<typeof formProps>;
+
 export const formItemProps = {
     prop: String,
     value: {
@@ -64,6 +67,8 @@ export const formItemProps = {
         },
     },
 } as const;
+
+export type FormItemProps = ExtractPublicPropTypes<typeof formItemProps>;
 
 export type AddFieldType = (
     formItemProp: string,

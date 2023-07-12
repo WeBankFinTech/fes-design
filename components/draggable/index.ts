@@ -11,4 +11,7 @@ export const FDraggable = withInstall<DraggableType>(
     [vDrag],
 );
 
+export { draggableProps } from './draggable';
+export type { DraggableProps } from './draggable';
+
 export default FDraggable;

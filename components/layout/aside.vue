@@ -34,10 +34,44 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { noop } from '../_util/utils';
 import { COMPONENT_NAME, LAYOUT_PROVIDE_KEY } from './const';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export type AsidePlacement = 'left' | 'right' | '';
 
 const prefixCls = getPrefixCls('layout');
+
+export const layoutAsideProps = {
+    collapsible: {
+        type: Boolean,
+        default: false,
+    },
+    collapsedWidth: {
+        type: String,
+        default: '48px',
+    },
+    width: {
+        type: String,
+        default: '200px',
+    },
+    fixed: {
+        type: Boolean,
+        default: false,
+    },
+    inverted: {
+        type: Boolean,
+        default: false,
+    },
+    bordered: {
+        type: Boolean,
+        default: false,
+    },
+    showTrigger: {
+        type: Boolean,
+        default: true,
+    },
+} as const;
+
+export type LayoutAsideProps = ExtractPublicPropTypes<typeof layoutAsideProps>;
 
 export default defineComponent({
     name: COMPONENT_NAME.ASIDE,
@@ -45,36 +79,7 @@ export default defineComponent({
         LeftOutlined,
         RightOutlined,
     },
-    props: {
-        collapsible: {
-            type: Boolean,
-            default: false,
-        },
-        collapsedWidth: {
-            type: String,
-            default: '48px',
-        },
-        width: {
-            type: String,
-            default: '200px',
-        },
-        fixed: {
-            type: Boolean,
-            default: false,
-        },
-        inverted: {
-            type: Boolean,
-            default: false,
-        },
-        bordered: {
-            type: Boolean,
-            default: false,
-        },
-        showTrigger: {
-            type: Boolean,
-            default: true,
-        },
-    },
+    props: layoutAsideProps,
     emits: ['update:collapsed'],
     setup(props, { emit }) {
         const vm = getCurrentInstance();

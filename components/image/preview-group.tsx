@@ -3,17 +3,24 @@ import { useTheme } from '../_theme/useTheme';
 import Preview from './preview.vue';
 import { PREVIEW_PROVIDE_KEY } from './props';
 import type { PreviewImageType } from './props';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 let prevOverflow = '';
 
+export const previewGroupProps = {
+    hideOnClickModal: {
+        type: Boolean,
+        default: false,
+    },
+} as const;
+
+export type PreviewGroupProps = ExtractPublicPropTypes<
+    typeof previewGroupProps
+>;
+
 export default defineComponent({
     name: 'FPreviewGroup',
-    props: {
-        hideOnClickModal: {
-            type: Boolean,
-            default: false,
-        },
-    },
+    props: previewGroupProps,
     setup(props, { slots }) {
         useTheme();
         const previewUrls = reactive<Record<number, PreviewImageType>>({});
