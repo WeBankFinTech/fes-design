@@ -1,3 +1,18 @@
+## [0.8.2](https://github.com/WeBankFinTech/fes-design/compare/v0.8.1...v0.8.2) (2023-07-14)
+
+
+### Bug Fixes
+
+* radio-group emits声明 ([#344](https://github.com/WeBankFinTech/fes-design/issues/344)) ([2af07e2](https://github.com/WeBankFinTech/fes-design/commit/2af07e23b5542f454ac54d795a7bc508e032dd9d))
+* tabs属性displayDirective类型 ([#343](https://github.com/WeBankFinTech/fes-design/issues/343)) ([7ff006f](https://github.com/WeBankFinTech/fes-design/commit/7ff006fdddd67b1e8ffb35d6b005000fc6678330))
+
+
+### Features
+
+* 导出所有组件的 props 和 props type ([#342](https://github.com/WeBankFinTech/fes-design/issues/342)) ([404725d](https://github.com/WeBankFinTech/fes-design/commit/404725dc507dc5b384c44b1e290d914471bc1079))
+
+
+
 ## [0.8.1](https://github.com/WeBankFinTech/fes-design/compare/v0.8.0...v0.8.1) (2023-07-11)
 
 
