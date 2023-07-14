@@ -151,7 +151,7 @@ export default defineComponent({
             const value: null | [] = props.multiple ? [] : null;
             if (
                 props.multiple
-                    ? currentValue.value.length
+                    ? currentValue.value?.length
                     : currentValue.value !== null
             ) {
                 updateCurrentValue(value);
@@ -239,7 +239,7 @@ export default defineComponent({
         const isSelect = (value: SelectValue) => {
             const selectVal = unref(currentValue);
             const optVal = unref(value);
-            if (selectVal === null) {
+            if (selectVal == null) {
                 return false;
             }
             if (props.multiple) {
@@ -252,7 +252,7 @@ export default defineComponent({
             const selectVal = unref(currentValue);
             return (
                 props.multipleLimit > 0 &&
-                props.multipleLimit === selectVal.length
+                props.multipleLimit === selectVal?.length
             );
         });
 
@@ -329,7 +329,7 @@ export default defineComponent({
                     const option = getOption(newValue);
                     selectedOptionsRef.value = option ? [option] : [];
                 } else {
-                    selectedOptionsRef.value = newValue
+                    selectedOptionsRef.value = (newValue || [])
                         .map((value: SelectValue) => {
                             return getOption(value);
                         })
@@ -417,7 +417,7 @@ export default defineComponent({
         watch(isOpenedRef, () => {
             if (isOpenedRef.value) {
                 if (props.multiple) {
-                    if (currentValue.value.length > 0) {
+                    if (currentValue.value?.length > 0) {
                         hoverOptionValue.value = currentValue.value[0];
                     }
                 } else if (!isNil(currentValue.value)) {

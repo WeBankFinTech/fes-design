@@ -78,7 +78,7 @@ export const useArrayModel = (
             updateCurrentValue(value);
             return;
         }
-        const val = computedValue.value;
+        const val = computedValue.value || [];
         const index = val.indexOf(value);
         if (index !== -1) {
             val.splice(index, 1);
