@@ -25,6 +25,7 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import { useTheme } from '../_theme/useTheme';
 import FRadio from '../radio';
 import RadioButton from '../radio-button';
@@ -40,6 +41,7 @@ export default defineComponent({
         RadioButton,
     },
     props: radioGroupProps,
+    emits: [CHANGE_EVENT, UPDATE_MODEL_EVENT],
     setup(props, { emit }) {
         useTheme();
         const { isFormDisabled } = useRadioGroup(props, emit);
