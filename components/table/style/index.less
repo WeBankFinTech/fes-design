@@ -4,7 +4,8 @@
 
 @table-prefix: ~'@{cls-prefix}-table';
 @table-border-color: var(--f-border-color-split);
-@table-border: var(--f-border-width-base) var(--f-border-style-base) @table-border-color;
+@table-border: var(--f-border-width-base) var(--f-border-style-base)
+    @table-border-color;
 
 .@{table-prefix} {
     position: relative;
@@ -36,7 +37,8 @@
         &.is-scrolling-x-left,
         &.is-scrolling-x-middle {
             .@{table-prefix}-fixed-right.is-first {
-                box-shadow: -1px 2px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
+                box-shadow: -1px 2px var(--f-shadow-radius-sm)
+                    var(--f-shadow-color-sm);
             }
         }
 
@@ -71,7 +73,7 @@
                     transform: rotate(0);
                 }
 
-                &+.@{table-prefix}-tr {
+                & + .@{table-prefix}-tr {
                     .@{table-prefix}-td {
                         background-color: var(--f-component-bg-color);
                     }
@@ -126,21 +128,28 @@
     }
 
     &.is-horizontal-line {
-        .@{table-prefix}-td, .@{table-prefix}-th {
-            border-bottom: @table-border;
-        }
-        .@{table-prefix}-row {
-            &.is-opened {
-                .@{table-prefix}-td {
-                    border-bottom: none;
+        .@{table-prefix}-header,
+        .@{table-prefix}-body {
+            .@{table-prefix}-td,
+            .@{table-prefix}-th {
+                border-bottom: @table-border;
+            }
+            .@{table-prefix}-row {
+                &.is-opened {
+                    .@{table-prefix}-td {
+                        border-bottom: none;
+                    }
                 }
             }
         }
         &.is-bordered {
-            tbody .@{table-prefix}-row {
-                &:last-child {
-                    .@{table-prefix}-td {
-                        border-bottom: none;
+            .@{table-prefix}-header,
+            .@{table-prefix}-body {
+                tbody .@{table-prefix}-row {
+                    &:last-child {
+                        .@{table-prefix}-td {
+                            border-bottom: none;
+                        }
                     }
                 }
             }
@@ -148,16 +157,18 @@
     }
 
     &.is-vertical-line {
-        .@{table-prefix}-th,
-        .@{table-prefix}-td {
-            border-right: @table-border;
-        }
-
-        .@{table-prefix}-row {
-            .@{table-prefix}-td, 
-            .@{table-prefix}-th {
-                &:last-child {
-                    border-right: none;
+        .@{table-prefix}-header,
+        .@{table-prefix}-body {
+            .@{table-prefix}-th,
+            .@{table-prefix}-td {
+                border-right: @table-border;
+            }
+            .@{table-prefix}-row {
+                .@{table-prefix}-td,
+                .@{table-prefix}-th {
+                    &:last-child {
+                        border-right: none;
+                    }
                 }
             }
         }
