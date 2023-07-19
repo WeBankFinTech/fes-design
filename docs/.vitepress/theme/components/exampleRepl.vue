@@ -8,6 +8,8 @@
         @ok="isShow = false"
     >
         <Repl
+            v-if="props.codeName"
+            :editor="CodeMirror"
             :store="store"
             :showImportMap="true"
             :showCompileOutput="false"
@@ -20,12 +22,14 @@
 import { version, ref, watch } from 'vue';
 // eslint-disable-next-line import/no-unresolved
 import { FDrawer } from '@fesjs/fes-design';
+import CodeMirror from '@vue/repl/codemirror-editor';
+
 import { Repl, ReplStore } from '@vue/repl';
 // eslint-disable-next-line import/no-unresolved
 import '@vue/repl/style.css';
 import data from './demoCode.json';
-const mainFile = 'App.vue';
-const demoFile = 'demo.vue';
+const mainFile = 'src/App.vue';
+const demoFile = 'src/demo.vue';
 
 const props = defineProps({
     codeName: String,
@@ -64,22 +68,24 @@ export function setupFesDesign() {
 }
 `;
 
+const defaultFiles = {
+    [mainFile]: data.app,
+    'src/space.vue': data.space,
+    'src/fes-design.js': fesDesignSetup,
+    'import-map.json': JSON.stringify({
+        imports: {
+            '@fesjs/fes-design':
+                'https://unpkg.com/@fesjs/fes-design@latest/dist/fes-design.esm-browser.js',
+            '@fesjs/fes-design/icon':
+                'https://unpkg.com/@fesjs/fes-design@latest/dist/fes-design.icon-browser.js',
+        },
+    }),
+};
+store.setFiles(defaultFiles);
+store.setActive(mainFile);
 function resolveSFCExample(demo) {
-    const files = {
-        [mainFile]: data.app,
-        'space.vue': data.space,
-        [demoFile]: data[demo],
-        'fes-design.js': fesDesignSetup,
-        'import-map.json': JSON.stringify({
-            imports: {
-                '@fesjs/fes-design':
-                    'https://unpkg.com/@fesjs/fes-design@latest/dist/fes-design.esm-browser.js',
-                '@fesjs/fes-design/icon':
-                    'https://unpkg.com/@fesjs/fes-design@latest/dist/fes-design.icon-browser.js',
-            },
-        }),
-    };
-    return files;
+    defaultFiles[demoFile] = data[demo];
+    return defaultFiles;
 }
 
 function updateExample(fileName) {
