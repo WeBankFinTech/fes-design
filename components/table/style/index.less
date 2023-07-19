@@ -273,4 +273,18 @@
             }
         }
     }
+
+    &.is-vertical-line {
+        .@{table-prefix}-resize-button {
+            right: -4px;
+            &::after {
+                background-color: none;
+            }
+            &.is-active {
+                &::after {
+                    background-color: var(--f-primary-color);
+                }
+            }
+        }
+    }
 }
