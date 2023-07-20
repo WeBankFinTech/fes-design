@@ -36,7 +36,7 @@ const props = defineProps({
 });
 
 const store = new ReplStore({
-    defaultVueRuntimeURL: `https://unpkg.com/vue@${version}/dist/vue.esm-browser.js`,
+    defaultVueRuntimeURL: `https://registry.npmmirror.com/vue/${version}/files/dist/vue.esm-browser.js`,
 });
 
 const fesDesignSetup = `
@@ -53,7 +53,7 @@ export function loadStyle() {
 
   const link = document.createElement('link')
 	link.rel = 'stylesheet'
-	link.href = 'https://unpkg.com/@fesjs/fes-design@latest/dist/fes-design.min.css';
+	link.href = 'https://registry.npmmirror.com/@fesjs/fes-design/latest/files/dist/fes-design.min.css';
 	document.head.appendChild(link)
 }
 
@@ -75,9 +75,9 @@ const defaultFiles = {
     'import-map.json': JSON.stringify({
         imports: {
             '@fesjs/fes-design':
-                'https://unpkg.com/@fesjs/fes-design@latest/dist/fes-design.esm-browser.js',
+                'https://registry.npmmirror.com/@fesjs/fes-design/latest/files/dist/fes-design.esm-browser.js',
             '@fesjs/fes-design/icon':
-                'https://unpkg.com/@fesjs/fes-design@latest/dist/fes-design.icon-browser.js',
+                'https://registry.npmmirror.com/@fesjs/fes-design/latest/files/dist/fes-design.icon-browser.js',
         },
     }),
 };
