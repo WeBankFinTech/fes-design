@@ -8,6 +8,16 @@ module.exports = {
             ],
         },
     ],
+    settings: {
+        'import/resolver': {
+            'eslint-import-resolver-custom-alias': {
+                alias: {
+                    '@fesjs/fes-design': './components/index.ts',
+                },
+            },
+        },
+    },
+
     env: {
         jest: true,
     },
