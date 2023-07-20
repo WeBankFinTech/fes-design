@@ -3,7 +3,7 @@ import { FORM_LAYOUT, LABEL_POSITION } from './const';
 import type { RuleItem, Rules } from 'async-validator';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
-export interface FRormRuleItem extends RuleItem {
+export interface FFormRuleItem extends RuleItem {
     trigger?: string | string[];
 }
 
@@ -65,9 +65,9 @@ export const formItemProps = {
         default: null as boolean,
     },
     rules: {
-        type: Array as PropType<FRormRuleItem[]>,
+        type: Array as PropType<FFormRuleItem[]>,
         default: () => {
-            return [] as FRormRuleItem[];
+            return [] as FFormRuleItem[];
         },
     },
 } as const;
@@ -95,7 +95,7 @@ export interface FormItemInject {
 export interface Field {
     prop: string;
     value: any;
-    rules: FRormRuleItem[];
+    rules: FFormRuleItem[];
     validateRules: (trigger?: string | string[]) => Promise<any>;
     clearValidate: () => void;
     resetField: () => void;
