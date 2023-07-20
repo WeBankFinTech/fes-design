@@ -65,6 +65,14 @@ export const selectProps = {
         default(): SelectOption[] {
             return [];
         },
+        // validator: function (value: SelectOption[]) {
+        //     if (!this.valueField && !this.labelField) {
+        //         return value.every((option) => {
+        //             return 'value' in option && 'label' in option;
+        //         });
+        //     }
+        //     return true;
+        // },
     },
     remote: {
         type: Boolean,
