@@ -160,6 +160,14 @@ export const selectTreeProps = {
             string | number | Array<string | number>
         >,
     },
+    showPath: {
+        type: Boolean,
+        default: false
+    },
+    emitPath: {
+        type: Boolean,
+        default: false
+    },
 } as const;
 
 export type SelectTreeProps = ExtractPublicPropTypes<typeof selectTreeProps>;
@@ -222,6 +230,28 @@ export default defineComponent({
             triggerRef(nodeList);
         };
 
+        const getCurrentValueByKeys = (keys: TreeNodeKey[] = []) => {
+            if (props.multiple) {
+                const nodeValues: TreeNodeKey[] = [];
+                nodeList.value.forEach((value, key) => nodeValues.push(key))
+                // 兼容异步加载，未匹配到节点的情况
+                const notMatchedKeys = keys.filter(
+                    (key) => !(nodeValues as TreeNodeKey[]).includes(key),
+                );
+                // 保持层级顺序不变
+                return [].concat(
+                    notMatchedKeys,
+                    nodeValues
+                        .filter((key) => keys.includes(key))
+                        .map((key) =>
+                            props.emitPath ? [...(nodeList.value.get(key)?.indexPath) || []] : key,
+                        ),
+                );
+            } else {
+                return props.emitPath ? [...(nodeList.value.get(keys[0])?.indexPath || [])] : keys[0];
+            }
+        }
+
         const treeSelectable = computed(() => !props.multiple);
         const treeCheckable = computed(() => props.multiple);
         const selectedKeys = computed(() => {
@@ -231,17 +261,17 @@ export default defineComponent({
         });
         const checkedKeys = computed(() => {
             if (props.multiple) {
-                return currentValue.value;
+                return currentValue.value.map((item: [] | string) => Array.isArray(item) ? item[item.length - 1]: item);
             }
             return [];
         });
 
         watch(
-            () => props.checkStrictly,
+            [() => props.checkStrictly, () => props.emitPath],
             () => {
-                if (props.multiple && props.cascade) {
-                    updateCurrentValue([]);
-                }
+                const value: null | [] = props.multiple && props.cascade || props.emitPath ? [] : null
+                updateCurrentValue(value);
+                handleChange();
             },
         );
 
@@ -262,11 +292,9 @@ export default defineComponent({
             if (innerDisabled.value) return;
             filterText.value = '';
             if (!props.multiple) {
-                updateCurrentValue(data.selectedKeys[0]);
                 isOpened.value = false;
-            } else {
-                updateCurrentValue(data.selectedKeys);
             }
+            updateCurrentValue(getCurrentValueByKeys(data.selectedKeys));
             handleChange();
         };
 
@@ -274,11 +302,9 @@ export default defineComponent({
             if (innerDisabled.value) return;
             filterText.value = '';
             if (!props.multiple) {
-                updateCurrentValue(data.checkedKeys[0]);
                 isOpened.value = false;
-            } else {
-                updateCurrentValue(data.checkedKeys);
             }
+            updateCurrentValue(getCurrentValueByKeys(data.checkedKeys));
             handleChange();
         };
 
@@ -296,13 +322,25 @@ export default defineComponent({
         };
 
         const selectedOptions = computed(() => {
-            const values = props.multiple
+            let values = props.multiple
                 ? currentValue.value
                 : [currentValue.value];
+            if (props.emitPath) { // 获取选中节点
+                values = values.map((item: TreeNodeKey[]) => item[item.length - 1]);
+            }
             const nodeListValue = nodeList.value;
             return values
                 .map((val: TreeNodeKey) => {
-                    return nodeListValue.get(val);
+                    const node = nodeListValue.get(val);
+                    if (!node) return;
+                    if (props.showPath) {
+                        return {
+                            ...node,
+                            label: node.indexPath?.map(item => nodeListValue.get(item).label).join('/')
+                        }
+                    } else {
+                        return node;
+                    }
                 })
                 .filter(Boolean);
         });

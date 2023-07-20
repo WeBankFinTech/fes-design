@@ -55,6 +55,10 @@ app.use(FSelectTree);
 
 --NODATA
 
+### 获取选中路径
+
+--WITHPATH
+
 --CODE
 
 ## SelectTree Props
