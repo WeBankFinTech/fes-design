@@ -8,6 +8,7 @@ export interface SelectOption {
     label: string | number;
     disabled?: boolean;
     __cache?: boolean;
+    [key: string]: any;
 }
 
 export interface OptionChildren extends ToRefs<OptionProps> {
