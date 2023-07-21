@@ -92,6 +92,8 @@ app.use(FSelectTree);
 | loadData              | 异步加载数据的回调函数                                                                                                                                                  | (node: TreeOption) => Promise\<void\> | `null`                |
 | inline                | 底层节点是否横向排列                                                                                                                                                    | boolean                               | `false`               |
 | virtualList           | 是否使用虚拟滚动，inline 需要为 false                                                                                                                                   | boolean                               | `false`               |
+| emitPath              | `modelValue` 是否返回选中节点所在的各级菜单的值所组成的数组，若设置 false，则只返回该节点的值。                                                                                                                           | boolean                                                       | `false`               |
+| showPath              | 是否在选择器中显示选项路径                                                                                                                                                                                                | boolean                                                       | `false`               |
 
 ## SelectTree Events
 
