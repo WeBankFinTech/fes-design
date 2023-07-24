@@ -43,7 +43,6 @@ export default defineComponent({
     ],
     setup(props, { emit, expose }) {
         useTheme();
-
         const { nodeList, allKeys } = useData({
             props,
             emit,

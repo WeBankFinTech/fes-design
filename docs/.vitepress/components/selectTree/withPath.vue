@@ -13,13 +13,26 @@
             </FRadioGroup>
         </FFormItem>
         <FFormItem label="单选：">
-            <FSelectTree v-model="singleValue" :emitPath="emitPath" :showPath="showPath" :data="data"></FSelectTree>
+            <FSelectTree
+                v-model="singleValue"
+                :emitPath="emitPath"
+                :showPath="showPath"
+                :data="data"
+            ></FSelectTree>
         </FFormItem>
         <FFormItem label="modelValue：">
             {{ singleValue }}
         </FFormItem>
         <FFormItem label="多选：">
-            <FSelectTree v-model="multipleValue" :emitPath="emitPath" :showPath="showPath" :data="data" cascade multiple checkStrictly="child"></FSelectTree>
+            <FSelectTree
+                v-model="multipleValue"
+                :emitPath="emitPath"
+                :showPath="showPath"
+                :data="data"
+                cascade
+                multiple
+                checkStrictly="child"
+            ></FSelectTree>
         </FFormItem>
         <FFormItem label="modelValue：">
             {{ multipleValue }}
@@ -53,21 +66,23 @@ function createLabel(level) {
 export default {
     setup() {
         const data = ref([]);
-        const emitPath = ref(false);
-        const showPath = ref(false);
+        const emitPath = ref(true);
+        const showPath = ref(true);
 
-        const singleValue = ref('');
-        const multipleValue = ref([]);
+        const init = ['40', '4030', '403020', '40302010'];
 
-        setTimeout(()=>{
+        const singleValue = ref(init);
+        const multipleValue = ref([init]);
+
+        setTimeout(() => {
             data.value = createData(4);
-        })
+        });
         return {
             data,
             singleValue,
             multipleValue,
             emitPath,
-            showPath
+            showPath,
         };
     },
 };

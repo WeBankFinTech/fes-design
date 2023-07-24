@@ -155,17 +155,17 @@ export const selectTreeProps = {
     ...selectProps,
     ...treeProps,
     modelValue: {
-        type: [String, Number, Array] as PropType<
-            string | number | Array<string | number>
+        type: [String, Number, Array, Array<[]>] as PropType<
+            string | number | Array<TreeNodeKey> | Array<Array<TreeNodeKey>>
         >,
     },
     showPath: {
         type: Boolean,
-        default: false
+        default: false,
     },
     emitPath: {
         type: Boolean,
-        default: false
+        default: false,
     },
 } as const;
 
@@ -236,25 +236,19 @@ export default defineComponent({
 
         const getCurrentValueByKeys = (keys: TreeNodeKey[] = []) => {
             if (props.multiple) {
-                const nodeValues: TreeNodeKey[] = [];
-                nodeList.value.forEach((value, key) => nodeValues.push(key))
-                // 兼容异步加载，未匹配到节点的情况
-                const notMatchedKeys = keys.filter(
-                    (key) => !(nodeValues as TreeNodeKey[]).includes(key),
-                );
-                // 保持层级顺序不变
-                return [].concat(
-                    notMatchedKeys,
-                    nodeValues
-                        .filter((key) => keys.includes(key))
-                        .map((key) =>
-                            props.emitPath ? [...(nodeList.value.get(key)?.indexPath) || []] : key,
-                        ),
-                );
-            } else {
-                return props.emitPath ? [...(nodeList.value.get(keys[0])?.indexPath || [])] : keys[0];
+                return keys.map((key) => {
+                    if (props.emitPath) {
+                        const node = nodeList.value.get(key);
+                        return [...(node?.indexPath || [key])];
+                    }
+                    return key;
+                });
             }
-        }
+
+            return props.emitPath
+                ? [...(nodeList.value.get(keys[0])?.indexPath || [])]
+                : keys[0];
+        };
 
         const treeSelectable = computed(() => !props.multiple);
         const treeCheckable = computed(() => props.multiple);
@@ -264,20 +258,21 @@ export default defineComponent({
             return [];
         });
         const checkedKeys = computed(() => {
-            if (props.multiple) {
-                return currentValue.value.map((item: [] | string) => Array.isArray(item) ? item[item.length - 1]: item);
+            if (props.multiple && currentValue.value?.length) {
+                const keys = currentValue.value.map((item: [] | string) =>
+                    Array.isArray(item) ? item[item.length - 1] : item,
+                );
+                return keys;
             }
             return [];
         });
 
-        watch(
-            [() => props.checkStrictly, () => props.emitPath],
-            () => {
-                const value: null | [] = props.multiple && props.cascade || props.emitPath ? [] : null
-                updateCurrentValue(value);
-                handleChange();
-            },
-        );
+        watch([() => props.checkStrictly, () => props.emitPath], () => {
+            const value: null | [] =
+                (props.multiple && props.cascade) || props.emitPath ? [] : null;
+            updateCurrentValue(value);
+            handleChange();
+        });
 
         const handleClear = () => {
             const value: null | [] = props.multiple ? [] : null;
@@ -312,36 +307,48 @@ export default defineComponent({
             handleChange();
         };
 
+        /** 节点目标值 */
+        const targetValues = computed((): TreeNodeKey[] => {
+            let values = props.multiple
+                ? currentValue.value
+                : [currentValue.value];
+            if (props.emitPath) {
+                // 获取选中节点
+                return values.map((item: []) => item[item.length - 1]);
+            }
+            return values;
+        });
+
         const handleRemove = (value: SelectValue) => {
             if (!props.multiple) {
                 return;
             }
-            const findIndex = currentValue.value.indexOf(value);
+            const findIndex = targetValues.value.indexOf(value as string);
             if (findIndex !== -1) {
                 emit('removeTag', value);
-                // arrayModel会自动添加或者删除
-                updateCurrentValue(value);
+                const values = [...targetValues.value];
+                values.splice(findIndex, 1);
+                updateCurrentValue(getCurrentValueByKeys(values));
                 handleChange();
             }
         };
 
         const selectedOptions = computed(() => {
-            let values = props.multiple
-                ? currentValue.value
-                : [currentValue.value];
-            if (props.emitPath) { // 获取选中节点
-                values = values.map((item: TreeNodeKey[]) => item[item.length - 1]);
-            }
             const nodeListValue = nodeList.value;
-            return values
+            return targetValues.value
                 .map((val: TreeNodeKey) => {
                     const node = nodeListValue.get(val);
                     if (!node) return;
                     if (props.showPath) {
                         return {
                             ...node,
-                            label: node.indexPath?.map(item => nodeListValue.get(item).label).join('/')
-                        }
+                            label: node.indexPath
+                                ?.map(
+                                    (item) =>
+                                        nodeListValue.get(item)?.label || item,
+                                )
+                                .join('/'),
+                        };
                     } else {
                         return node;
                     }
