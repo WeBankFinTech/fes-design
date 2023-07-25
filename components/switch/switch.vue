@@ -21,7 +21,7 @@ import { isEqual, isFunction } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
-import { CHANGE_EVENT } from '../_util/constants';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import type { ExtractPublicPropTypes } from '../_util/interface';
@@ -64,6 +64,7 @@ export default defineComponent({
         LoadingOutlined,
     },
     props: switchProps,
+    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT],
     setup(props, ctx) {
         useTheme();
         const [currentValue, updateCurrentValue] = useNormalModel(
