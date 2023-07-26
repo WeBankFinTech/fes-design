@@ -1,39 +1,39 @@
 <template>
-    <FDrawer
-        v-model:show="isShow"
-        title="Playground"
-        displayDirective="show"
-        :maskClosable="false"
-        width="90%"
-        @ok="isShow = false"
-    >
-        <Repl
-            v-if="props.codeName"
-            :editor="CodeMirror"
-            :store="store"
-            :showImportMap="true"
-            :showCompileOutput="false"
-            :clearConsole="false"
-        />
-    </FDrawer>
+  <FDrawer
+    v-model:show="isShow"
+    title="Playground"
+    display-directive="show"
+    :mask-closable="false"
+    width="90%"
+    @ok="isShow = false"
+  >
+    <Repl
+      v-if="props.codeName"
+      :editor="CodeMirror"
+      :store="store"
+      :show-import-map="true"
+      :show-compile-output="false"
+      :clear-console="false"
+    />
+  </FDrawer>
 </template>
 
 <script setup>
-import { version, ref, watch } from 'vue';
-// eslint-disable-next-line import/no-unresolved
-import { FDrawer } from '@fesjs/fes-design';
+import { ref, version, watch } from 'vue';
+
 import CodeMirror from '@vue/repl/codemirror-editor';
 
 import { Repl, ReplStore } from '@vue/repl';
-// eslint-disable-next-line import/no-unresolved
+import { FDrawer } from '@fesjs/fes-design';
+
 import '@vue/repl/style.css';
 import data from './demoCode.json';
-const mainFile = 'src/App.vue';
-const demoFile = 'src/demo.vue';
 
 const props = defineProps({
     codeName: String,
 });
+const mainFile = 'src/App.vue';
+const demoFile = 'src/demo.vue';
 
 const store = new ReplStore({
     defaultVueRuntimeURL: `https://registry.npmmirror.com/vue/${version}/files/dist/vue.esm-browser.js`,
@@ -51,10 +51,10 @@ export function loadStyle() {
     if (/fes-design.min.css/.test(l.href)) return;
   }
 
-  const link = document.createElement('link')
-	link.rel = 'stylesheet'
-	link.href = 'https://registry.npmmirror.com/@fesjs/fes-design/latest/files/dist/fes-design.min.css';
-	document.head.appendChild(link)
+    const link = document.createElement('link')
+    link.rel = 'stylesheet'
+    link.href = 'https://registry.npmmirror.com/@fesjs/fes-design/latest/files/dist/fes-design.min.css';
+    document.head.appendChild(link)
 }
 
 export function setupFesDesign() {
@@ -105,9 +105,9 @@ watch(
 );
 
 const isShow = ref(true);
-const handleShow = (val) => {
+function handleShow(val) {
     isShow.value = val;
-};
+}
 defineExpose({
     isShow,
     handleShow,

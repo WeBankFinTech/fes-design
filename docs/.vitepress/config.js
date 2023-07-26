@@ -1,15 +1,15 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-// eslint-disable-next-line import/no-extraneous-dependencies
+const path = require('node:path');
+const process = require('node:process');
 const vueJsx = require('@vitejs/plugin-vue-jsx');
-const path = require('path');
 const { navbar, sidebar } = require('./configs');
 const { genComponentDoc } = require('./scripts/genComponentDoc');
-const baseConfig = require('./vueTheme/vitepress/config/baseConfig');
 
-const ssrTransformCustomDir = () => ({
-    props: [],
-    needRuntime: true,
-});
+function ssrTransformCustomDir() {
+    return {
+        props: [],
+        needRuntime: true,
+    };
+}
 
 genComponentDoc();
 
@@ -17,10 +17,10 @@ const BASE_URL = process.env.NODE_ENV === 'production' ? '/' : '/';
 
 module.exports = {
     base: BASE_URL,
-    extends: baseConfig,
     lang: 'zh-CN',
     title: 'Fes Design',
     description: '微众银行中后台设计 Fes Design',
+    appearance: false,
     vite: {
         define: {
             __VUE_OPTIONS_API__: false,
@@ -30,13 +30,9 @@ module.exports = {
                 ignored: ['**/docs/.vitepress/components/**'],
             },
         },
-        optimizeDeps: {
-            exclude: ['@vue/repl'],
-        },
         ssr: {
             // lodash-es 模块是 esm，ssr 渲染的时候编译成 cjs 的引入方式，会引发 nodejs 的模块加载异常错误
             noExternal: ['lodash-es'],
-            external: ['@vue/repl'],
         },
         resolve: {
             extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
@@ -76,5 +72,13 @@ module.exports = {
         ],
         nav: navbar.zh,
         sidebar: sidebar.zh,
+
+        outline: {
+            label: '本页目录',
+        },
+
+        search: {
+            provider: 'local',
+        },
     },
 };

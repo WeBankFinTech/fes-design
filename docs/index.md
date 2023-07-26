@@ -7,7 +7,7 @@ returnToTop: false
 
 <ClientOnly>
   <section id="hero">
-    <div class="descrition">
+    <div class="description">
       <img class="logo-img" :src="withBase('./images/fes-logo.svg')">
       <h3>微众银行中后台设计 Fes Design</h3>
     </div>
@@ -30,17 +30,17 @@ import { withBase } from 'vitepress'
 </style>
 
 <style scoped>
-.descrition {
+.description {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
-.descrition .logo-img {
+.description .logo-img {
     width: 362px;
     height: 233px;
 }
-.descrition h3 {
+.description h3 {
     font-size: 36px;
 }
 .actions {
@@ -59,14 +59,14 @@ import { withBase } from 'vitepress'
 }
 
 .actions .get-started {
+  margin-top: 20px;
   font-weight: 600;
   color: #fff;
-  /* background: linear-gradient(135deg, #5384ff, #f5222d); */
   background: #5384ff;
 }
 
 
-.dark .descrition {
+.dark .description {
     color: #fff;
 }
 </style>

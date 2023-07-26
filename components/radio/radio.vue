@@ -1,24 +1,25 @@
 <template>
-    <label
-        :class="wrapperClass"
-        @click="handleClick"
-        @mouseover="handleMouseOver"
-        @mouseout="handleMouseOut"
-    >
-        <span :class="`${prefixCls}-inner`" />
-        <span :class="`${prefixCls}-content`">
-            <slot>{{ label }}</slot>
-        </span>
-    </label>
+  <label
+    :class="wrapperClass"
+    @click="handleClick"
+    @mouseover="handleMouseOver"
+    @mouseout="handleMouseOut"
+  >
+    <span :class="`${prefixCls}-inner`" />
+    <span :class="`${prefixCls}-content`">
+      <slot>{{ label }}</slot>
+    </span>
+  </label>
 </template>
 
 <script lang="ts">
-import { PropType, computed, defineComponent } from 'vue';
+import type { PropType } from 'vue';
+import { computed, defineComponent } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import useSelect from '../_util/use/useSelect';
 import { name, radioGroupKey } from '../radio-group/const';
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('radio');
@@ -59,20 +60,19 @@ export default defineComponent({
         });
         const wrapperClass = computed(() => {
             const arr = [`${prefixCls}`];
-            if (checked.value) {
+            if (checked.value)
                 arr.push('is-checked');
-            }
-            if (innerDisabled.value) {
+
+            if (innerDisabled.value)
                 arr.push('is-disabled');
-            }
-            if (hover.value) {
+
+            if (hover.value)
                 arr.push('is-hover');
-            }
+
             if (isGroup) {
                 arr.push('is-item');
-                if (group.props.vertical) {
+                if (group.props.vertical)
                     arr.push('is-item-vertical');
-                }
             }
             return arr;
         });

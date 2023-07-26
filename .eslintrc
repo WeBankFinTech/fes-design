@@ -1,0 +1,65 @@
+{
+    "extends": "@antfu",
+    "rules": {
+        "no-console": "warn",
+        "semi": ["error", "always"],
+        "semi-spacing": ["error", { "before": false, "after": true }],
+        // 分号必须写在行尾，禁止写在行首
+        "semi-style": ["error", "last"],
+        "@typescript-eslint/semi": ["error", "always"],
+        "@typescript-eslint/indent": [
+            "error",
+            4,
+            {
+                "SwitchCase": 1,
+                "VariableDeclarator": 1,
+                "outerIIFEBody": 1,
+                "MemberExpression": 1,
+                "FunctionDeclaration": {
+                    "parameters": 1,
+                    "body": 1
+                },
+                "FunctionExpression": {
+                    "parameters": 1,
+                    "body": 1
+                },
+                "CallExpression": {
+                    "arguments": 1
+                },
+                "ArrayExpression": 1,
+                "ObjectExpression": 1,
+                "ImportDeclaration": 1,
+                "flatTernaryExpressions": false,
+                "ignoreComments": false,
+                "offsetTernaryExpressions": true,
+                "ignoredNodes": [
+                    "TemplateLiteral *",
+                    "JSXElement",
+                    "JSXElement > *",
+                    "JSXAttribute",
+                    "JSXIdentifier",
+                    "JSXNamespacedName",
+                    "JSXMemberExpression",
+                    "JSXSpreadAttribute",
+                    "JSXExpressionContainer",
+                    "JSXOpeningElement",
+                    "JSXClosingElement",
+                    "JSXFragment",
+                    "JSXOpeningFragment",
+                    "JSXClosingFragment",
+                    "JSXText",
+                    "JSXEmptyExpression",
+                    "JSXSpreadChild",
+                    "TSTypeParameterInstantiation",
+                    "FunctionExpression > .params[decorators.length > 0]",
+                    "FunctionExpression > .params > :matches(Decorator, :not(:first-child))",
+                    "ClassBody.body > PropertyDefinition[decorators.length > 0] > .key"
+                ]
+            }
+        ],
+        "vue/one-component-per-file": "off",
+        "vue/component-tags-order": ["error", {
+            "order": ["template", "script", "style"]
+        }],
+    }
+}

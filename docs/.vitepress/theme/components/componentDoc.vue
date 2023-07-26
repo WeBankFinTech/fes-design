@@ -1,19 +1,19 @@
 <template>
-    <div class="component-doc">
-        <div class="component-doc-header">
-            <span class="play" @click="openPlayground">play</span>
-            <LeftOutlined
-                :class="['show-code-btn', visibleCode && 'active']"
-                @click="visibleCode = !visibleCode"
-            />
-        </div>
-        <div class="component-doc-content">
-            <slot></slot>
-        </div>
-        <div :class="['component-doc-code', visibleCode && 'visible-code']">
-            <pre v-html="code"></pre>
-        </div>
+  <div class="component-doc">
+    <div class="component-doc-header">
+      <span class="play" @click="openPlayground">play</span>
+      <LeftOutlined
+        class="show-code-btn" :class="[visibleCode && 'active']"
+        @click="visibleCode = !visibleCode"
+      />
     </div>
+    <div class="component-doc-content">
+      <slot />
+    </div>
+    <div class="component-doc-code" :class="[visibleCode && 'visible-code']">
+      <pre v-html="code" />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -42,9 +42,9 @@ export default defineComponent({
         const openPlayground = () => {
             playground(props.code);
         };
+
         return {
             visibleCode,
-            // eslint-disable-next-line vue/no-dupe-keys
             code,
             openPlayground,
         };

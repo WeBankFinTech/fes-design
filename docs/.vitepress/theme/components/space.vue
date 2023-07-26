@@ -1,7 +1,7 @@
 <template>
-    <div :class="['space', vertical && 'is-vertical']">
-        <slot></slot>
-    </div>
+  <div class="space" :class="[vertical && 'is-vertical']">
+    <slot />
+  </div>
 </template>
 
 <script>
