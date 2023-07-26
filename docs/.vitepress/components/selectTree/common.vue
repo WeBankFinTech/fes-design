@@ -28,9 +28,9 @@ function createLabel(level) {
 export default {
     setup() {
         const data = ref([]);
-      setTimeout(()=>{
-        data.value = createData(4);
-      })
+        setTimeout(() => {
+            data.value = createData(4);
+        });
         return {
             data,
         };

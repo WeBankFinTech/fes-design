@@ -124,7 +124,6 @@ import {
     unref,
     watch,
     computed,
-    onMounted,
     CSSProperties,
     PropType,
 } from 'vue';
@@ -206,6 +205,11 @@ export default defineComponent({
 
         watch(isOpened, () => {
             emit('visibleChange', unref(isOpened));
+
+            // trigger 在mounted 之后可能会改变
+            if (isOpened.value && triggerDomRef.value) {
+                triggerWidth.value = triggerDomRef.value.$el.offsetWidth;
+            }
         });
 
         const handleChange = () => {
@@ -340,12 +344,6 @@ export default defineComponent({
 
         const triggerDomRef = ref();
         const triggerWidth = ref(0);
-
-        onMounted(() => {
-            if (triggerDomRef.value) {
-                triggerWidth.value = triggerDomRef.value.$el.offsetWidth;
-            }
-        });
 
         const dropdownStyle = computed(() => {
             const style: CSSProperties = {};
