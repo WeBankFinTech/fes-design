@@ -30,11 +30,11 @@ export const columnProps = {
     label: String,
     prop: String,
     type: {
-        type: String as PropType<typeof COL_TYPE[number]>,
+        type: String as PropType<(typeof COL_TYPE)[number]>,
         default: 'default',
     },
     align: {
-        type: String as PropType<typeof ALIGN[number]>,
+        type: String as PropType<(typeof ALIGN)[number]>,
         default: 'left',
     },
     width: Number,

@@ -10,7 +10,7 @@ const instColumns = (cols: ColumnChildren = [], parent?: ColumnInst) => {
     let instList: ColumnInst[] = [];
     cols.forEach((props) => {
         const inst: ColumnInst = {
-            id: Date.now() + random(0, 999, false),
+            id: +`${Date.now()}${random(0, 999, false)}`,
             props: {
                 ...getDefaultColProps(),
                 ...omit(props, ['renderHeader', 'render']),
