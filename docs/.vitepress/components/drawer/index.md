@@ -23,6 +23,12 @@ app.use(FDrawer);
 
 --PLACEMENT
 
+### 拖拽
+
+可设置宽度或者高度可拖拽，默认resizable是false
+
+--RESIZABLE
+
 --CODE
 
 ## Drawer Props
@@ -43,6 +49,7 @@ app.use(FDrawer);
 | placement        | 抽屉方向                                                           | 'top' | 'right' | 'bottom' | 'left'      | 'right'                   |
 | contentClass     | 可用于设置内容的类名                                                           | String            | -                     |
 | getContainer     | 指定 `Drawer` 挂载的 HTML 节点                                                  | () => HTMLElement | `() => document.body` |
+| resizable        | 是否支持宽度/高度可拖拽                                                           | Boolean           | `false`                |
 
 ## Drawer Event
 
