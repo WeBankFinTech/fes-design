@@ -12,6 +12,13 @@
                 <FRadio :value="true">true</FRadio>
             </FRadioGroup>
         </FFormItem>
+        <FFormItem label="勾选策略：">
+            <FRadioGroup v-model="checkStrictly">
+                <FRadio value="all">all</FRadio>
+                <FRadio value="parent">parent</FRadio>
+                <FRadio value="child">child</FRadio>
+            </FRadioGroup>
+        </FFormItem>
         <FFormItem label="单选：">
             <FSelectTree
                 v-model="singleValue"
@@ -28,10 +35,10 @@
                 v-model="multipleValue"
                 :emitPath="emitPath"
                 :showPath="showPath"
+                :checkStrictly="checkStrictly"
                 :data="data"
                 cascade
                 multiple
-                checkStrictly="child"
             ></FSelectTree>
         </FFormItem>
         <FFormItem label="modelValue：">
@@ -68,6 +75,7 @@ export default {
         const data = ref([]);
         const emitPath = ref(true);
         const showPath = ref(true);
+        const checkStrictly = ref('child');
 
         const init = ['40', '4030', '403020', '40302010'];
 
@@ -83,6 +91,7 @@ export default {
             multipleValue,
             emitPath,
             showPath,
+            checkStrictly,
         };
     },
 };

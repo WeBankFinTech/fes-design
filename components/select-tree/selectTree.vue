@@ -253,14 +253,20 @@ export default defineComponent({
         const treeSelectable = computed(() => !props.multiple);
         const treeCheckable = computed(() => props.multiple);
         const selectedKeys = computed(() => {
-            if (!props.multiple)
+            if (!props.multiple) {
+                if (props.emitPath && Array.isArray(currentValue.value)) {
+                    return [currentValue.value[currentValue.value.length - 1]];
+                }
                 return currentValue.value ? [currentValue.value] : [];
+            }
             return [];
         });
         const checkedKeys = computed(() => {
             if (props.multiple && currentValue.value?.length) {
                 const keys = currentValue.value.map((item: [] | string) =>
-                    Array.isArray(item) ? item[item.length - 1] : item,
+                    props.emitPath && Array.isArray(item)
+                        ? item[item.length - 1]
+                        : item,
                 );
                 return keys;
             }
