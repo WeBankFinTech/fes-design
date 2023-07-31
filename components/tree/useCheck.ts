@@ -61,7 +61,7 @@ export default ({
     let unwatchCurrent = false;
 
     watch(
-        currentCheckedKeys,
+        [currentCheckedKeys, allKeys],
         () => {
             if (!props.checkable) return;
             if (unwatchCurrent) {

@@ -155,9 +155,17 @@ export const selectTreeProps = {
     ...selectProps,
     ...treeProps,
     modelValue: {
-        type: [String, Number, Array] as PropType<
-            string | number | Array<string | number>
+        type: [String, Number, Array, Array<[]>] as PropType<
+            string | number | Array<TreeNodeKey> | Array<Array<TreeNodeKey>>
         >,
+    },
+    showPath: {
+        type: Boolean,
+        default: false,
+    },
+    emitPath: {
+        type: Boolean,
+        default: false,
     },
 } as const;
 
@@ -226,28 +234,51 @@ export default defineComponent({
             triggerRef(nodeList);
         };
 
+        const getCurrentValueByKeys = (keys: TreeNodeKey[] = []) => {
+            if (props.multiple) {
+                return keys.map((key) => {
+                    if (props.emitPath) {
+                        const node = nodeList.value.get(key);
+                        return [...(node?.indexPath || [key])];
+                    }
+                    return key;
+                });
+            }
+
+            return props.emitPath
+                ? [...(nodeList.value.get(keys[0])?.indexPath || [])]
+                : keys[0];
+        };
+
         const treeSelectable = computed(() => !props.multiple);
         const treeCheckable = computed(() => props.multiple);
         const selectedKeys = computed(() => {
-            if (!props.multiple)
+            if (!props.multiple) {
+                if (props.emitPath && Array.isArray(currentValue.value)) {
+                    return [currentValue.value[currentValue.value.length - 1]];
+                }
                 return currentValue.value ? [currentValue.value] : [];
+            }
             return [];
         });
         const checkedKeys = computed(() => {
-            if (props.multiple) {
-                return currentValue.value;
+            if (props.multiple && currentValue.value?.length) {
+                const keys = currentValue.value.map((item: [] | string) =>
+                    props.emitPath && Array.isArray(item)
+                        ? item[item.length - 1]
+                        : item,
+                );
+                return keys;
             }
             return [];
         });
 
-        watch(
-            () => props.checkStrictly,
-            () => {
-                if (props.multiple && props.cascade) {
-                    updateCurrentValue([]);
-                }
-            },
-        );
+        watch([() => props.checkStrictly, () => props.emitPath], () => {
+            const value: null | [] =
+                (props.multiple && props.cascade) || props.emitPath ? [] : null;
+            updateCurrentValue(value);
+            handleChange();
+        });
 
         const handleClear = () => {
             const value: null | [] = props.multiple ? [] : null;
@@ -266,11 +297,9 @@ export default defineComponent({
             if (innerDisabled.value) return;
             filterText.value = '';
             if (!props.multiple) {
-                updateCurrentValue(data.selectedKeys[0]);
                 isOpened.value = false;
-            } else {
-                updateCurrentValue(data.selectedKeys);
             }
+            updateCurrentValue(getCurrentValueByKeys(data.selectedKeys));
             handleChange();
         };
 
@@ -278,35 +307,57 @@ export default defineComponent({
             if (innerDisabled.value) return;
             filterText.value = '';
             if (!props.multiple) {
-                updateCurrentValue(data.checkedKeys[0]);
                 isOpened.value = false;
-            } else {
-                updateCurrentValue(data.checkedKeys);
             }
+            updateCurrentValue(getCurrentValueByKeys(data.checkedKeys));
             handleChange();
         };
+
+        /** 节点目标值 */
+        const targetValues = computed((): TreeNodeKey[] => {
+            let values = props.multiple
+                ? currentValue.value
+                : [currentValue.value];
+            if (props.emitPath) {
+                // 获取选中节点
+                return values.map((item: []) => item[item.length - 1]);
+            }
+            return values;
+        });
 
         const handleRemove = (value: SelectValue) => {
             if (!props.multiple) {
                 return;
             }
-            const findIndex = currentValue.value.indexOf(value);
+            const findIndex = targetValues.value.indexOf(value as string);
             if (findIndex !== -1) {
                 emit('removeTag', value);
-                // arrayModel会自动添加或者删除
-                updateCurrentValue(value);
+                const values = [...targetValues.value];
+                values.splice(findIndex, 1);
+                updateCurrentValue(getCurrentValueByKeys(values));
                 handleChange();
             }
         };
 
         const selectedOptions = computed(() => {
-            const values = props.multiple
-                ? currentValue.value
-                : [currentValue.value];
             const nodeListValue = nodeList.value;
-            return values
+            return targetValues.value
                 .map((val: TreeNodeKey) => {
-                    return nodeListValue.get(val);
+                    const node = nodeListValue.get(val);
+                    if (!node) return;
+                    if (props.showPath) {
+                        return {
+                            ...node,
+                            label: node.indexPath
+                                ?.map(
+                                    (item) =>
+                                        nodeListValue.get(item)?.label || item,
+                                )
+                                .join('/'),
+                        };
+                    } else {
+                        return node;
+                    }
                 })
                 .filter(Boolean);
         });
