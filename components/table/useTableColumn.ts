@@ -1,16 +1,18 @@
 import { reactive, computed } from 'vue';
-import { random, omit } from 'lodash-es';
+import { omit } from 'lodash-es';
 import { getHeaderRows, getColumns } from './helper';
 import { getDefaultColProps } from './column';
 import type { ColumnInst, ColumnChildren } from './column';
 import type { TableProps } from './table';
+
+let seed = 0;
 
 // 递归扁平化 columns
 const instColumns = (cols: ColumnChildren = [], parent?: ColumnInst) => {
     let instList: ColumnInst[] = [];
     cols.forEach((props) => {
         const inst: ColumnInst = {
-            id: +`${Date.now()}${random(0, 999, false)}`,
+            id: ++seed,
             props: {
                 ...getDefaultColProps(),
                 ...omit(props, ['renderHeader', 'render']),
