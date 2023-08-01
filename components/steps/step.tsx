@@ -26,7 +26,7 @@ export const stepProps = {
         type: String,
     },
     status: {
-        type: String as PropType<typeof STATUS[keyof typeof STATUS]>,
+        type: String as PropType<(typeof STATUS)[keyof typeof STATUS]>,
     },
 } as const;
 

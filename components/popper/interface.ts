@@ -10,7 +10,7 @@ export type VirtualRect = {
     y: number;
 };
 
-export type Placement = typeof PLACEMENT[number];
+export type Placement = (typeof PLACEMENT)[number];
 
 export type Popper = {
     width: number;

@@ -40,6 +40,7 @@ export default ({
     watch(
         () => autoplay,
         (current) => {
+            // eslint-disable-next-line no-unused-expressions
             current ? startTimer() : pauseTimer();
         },
     );

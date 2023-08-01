@@ -14,7 +14,9 @@ export const formProps = {
         default: () => ({} as Rules),
     },
     layout: {
-        type: String as PropType<typeof FORM_LAYOUT[keyof typeof FORM_LAYOUT]>,
+        type: String as PropType<
+            (typeof FORM_LAYOUT)[keyof typeof FORM_LAYOUT]
+        >,
         default: FORM_LAYOUT.HORIZONTAL,
     },
     span: {
@@ -28,7 +30,7 @@ export const formProps = {
     inlineItemWidth: [String, Number] as PropType<string | number>,
     labelPosition: {
         type: String as PropType<
-            typeof LABEL_POSITION[keyof typeof LABEL_POSITION]
+            (typeof LABEL_POSITION)[keyof typeof LABEL_POSITION]
         >,
         default: LABEL_POSITION.LEFT,
     },

@@ -6,7 +6,8 @@ import type { Picker } from './pickerHandler';
 
 import type { CalendarsProps } from './calendars.vue';
 
-type RANGE_POSITION_VALUES = typeof RANGE_POSITION[keyof typeof RANGE_POSITION];
+type RANGE_POSITION_VALUES =
+    (typeof RANGE_POSITION)[keyof typeof RANGE_POSITION];
 
 export const useSelectStatus = (props: CalendarsProps) => {
     const selectedStatus = ref<SELECTED_STATUS>(0);

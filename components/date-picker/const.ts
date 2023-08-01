@@ -37,7 +37,7 @@ export const COMMON_PROPS = {
         type: Function as PropType<
             (
                 date: Date,
-                rangePosition?: typeof RANGE_POSITION[keyof typeof RANGE_POSITION],
+                rangePosition?: (typeof RANGE_POSITION)[keyof typeof RANGE_POSITION],
                 value?: Date | Date[],
             ) => boolean
         >,

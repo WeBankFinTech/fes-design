@@ -37,5 +37,11 @@ module.exports = {
         'vue/no-multiple-template-root': 'off',
         'vue/no-v-model-argument': 'off',
         'vue/html-indent': 'off',
+        // 保留现状, 允许 any
+        '@typescript-eslint/no-explicit-any': 'off',
+        // 保留现状, 允许定义变量值为 undefined
+        'no-undefined': 'off',
+        // 保留现状, 允许 !. 用法
+        '@typescript-eslint/no-non-null-assertion': 'off',
     },
 };

@@ -198,7 +198,7 @@ export const fillDate = ({
     dateObj: ParticalDateObj;
     format: string;
     defaultTime?: string | string[];
-    rangePosition?: typeof RANGE_POSITION[keyof typeof RANGE_POSITION];
+    rangePosition?: (typeof RANGE_POSITION)[keyof typeof RANGE_POSITION];
 }) => {
     const newDateObj = { ...dateObj };
 
@@ -220,7 +220,7 @@ export const fillDate = ({
 
 export const getDefaultTime = (
     defaultTime?: string | string[],
-    rangePosition?: typeof RANGE_POSITION[keyof typeof RANGE_POSITION],
+    rangePosition?: (typeof RANGE_POSITION)[keyof typeof RANGE_POSITION],
     hasTime?: boolean,
 ) => {
     const time: {

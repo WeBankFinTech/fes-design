@@ -11,6 +11,7 @@ export default function useScrollX(targetRef: Ref<HTMLElement>) {
         event.preventDefault();
     }
 
+    // eslint-disable-next-line no-undef
     function scrollTo(options: ScrollToOptions) {
         targetRef.value?.scrollTo(options);
     }

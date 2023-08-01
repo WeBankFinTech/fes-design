@@ -8,11 +8,11 @@ export const popperProps = {
         default: false,
     },
     trigger: {
-        type: String as PropType<typeof TRIGGER[number]>,
+        type: String as PropType<(typeof TRIGGER)[number]>,
         default: 'hover',
     },
     placement: {
-        type: String as PropType<typeof PLACEMENT[number]>,
+        type: String as PropType<(typeof PLACEMENT)[number]>,
         default: 'bottom',
     },
     offset: {
