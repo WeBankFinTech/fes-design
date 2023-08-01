@@ -155,7 +155,7 @@ export const selectTreeProps = {
     ...selectProps,
     ...treeProps,
     modelValue: {
-        type: [String, Number, Array, Array<[]>] as PropType<
+        type: [String, Number, Array] as PropType<
             string | number | Array<TreeNodeKey> | Array<Array<TreeNodeKey>>
         >,
     },

@@ -5,7 +5,7 @@ export type Placement = 'top' | 'bottom' | 'left' | 'right';
 export type Direction = 'horizontal' | 'vertical' | '';
 
 export interface CarouselInst extends ReturnType<typeof useCarousel> {
-    carouselId: string;
+    carouselId?: string;
 }
 
 export const carouselItemProps = {
