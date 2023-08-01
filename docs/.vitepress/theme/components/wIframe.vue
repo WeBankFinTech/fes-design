@@ -1,8 +1,9 @@
 <template>
     <div class="iframe-wrapper">
-        <iframe class="iframe" :style="{ height: height }" :src="src"></iframe>
+        <iframe class="iframe" :style="{ height }" :src="src" />
     </div>
 </template>
+
 <script>
 export default {
     props: {
@@ -17,6 +18,7 @@ export default {
     },
 };
 </script>
+
 <style lang="less" scoped>
 .iframe-wrapper {
     position: relative;

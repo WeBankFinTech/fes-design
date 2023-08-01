@@ -10,7 +10,7 @@ export function hideLayout() {
             'width: 100%; padding: 0 !important;';
         inIframeVPApp.querySelector('.VPContentDoc .content').style =
             'max-width: 100%;';
-        inIframeVPApp.querySelector('.VPContentDoc .content .vt-doc').style =
+        inIframeVPApp.querySelector('.VPContentDoc .content .vp-doc').style =
             'margin: 0; padding: 0;';
     });
 }

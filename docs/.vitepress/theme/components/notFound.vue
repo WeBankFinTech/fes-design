@@ -1,12 +1,5 @@
-<script setup>
-import { useData, useRoute } from 'vitepress';
-
-const { theme } = useData();
-const route = useRoute();
-</script>
-
 <template>
-    <div class="vt-doc">
+    <div class="vp-doc">
         <h1>看起来我们进入了错误的链接</h1>
         <p>
             你发现了一个 404 链接:
@@ -23,8 +16,15 @@ const route = useRoute();
     </div>
 </template>
 
+<script setup>
+import { useData, useRoute } from 'vitepress';
+
+const { theme } = useData();
+const route = useRoute();
+</script>
+
 <style scoped>
-.vt-doc {
+.vp-doc {
     padding: 32px 48px;
     background-color: var(--vt-c-bg-soft);
     margin: 32px;

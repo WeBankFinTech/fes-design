@@ -3,15 +3,19 @@
         <div class="component-doc-header">
             <span class="play" @click="openPlayground">play</span>
             <LeftOutlined
-                :class="['show-code-btn', visibleCode && 'active']"
+                class="show-code-btn"
+                :class="[visibleCode && 'active']"
                 @click="visibleCode = !visibleCode"
             />
         </div>
         <div class="component-doc-content">
-            <slot></slot>
+            <slot />
         </div>
-        <div :class="['component-doc-code', visibleCode && 'visible-code']">
-            <pre v-html="code"></pre>
+        <div
+            class="component-doc-code"
+            :class="[visibleCode && 'visible-code']"
+        >
+            <pre v-html="currentCode" />
         </div>
     </div>
 </template>
@@ -27,11 +31,11 @@ export default defineComponent({
         code: String,
     },
     setup(props) {
-        const code = ref('');
+        const currentCode = ref('');
         watch(
             () => props.code,
             () => {
-                code.value = codes[`${props.code}-code`];
+                currentCode.value = codes[`${props.code}-code`];
             },
             {
                 immediate: true,
@@ -42,10 +46,10 @@ export default defineComponent({
         const openPlayground = () => {
             playground(props.code);
         };
+
         return {
             visibleCode,
-            // eslint-disable-next-line vue/no-dupe-keys
-            code,
+            currentCode,
             openPlayground,
         };
     },
