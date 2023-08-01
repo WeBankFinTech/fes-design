@@ -31,7 +31,7 @@ export const tableProps = {
         default: '暂无数据',
     },
     size: {
-        type: String as PropType<typeof SIZE[number]>,
+        type: String as PropType<(typeof SIZE)[number]>,
         default: 'middle',
     },
     spanMethod: Function,

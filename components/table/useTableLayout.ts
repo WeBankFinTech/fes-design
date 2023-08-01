@@ -88,7 +88,7 @@ export default function useTableLayout({
         }
     };
 
-    const computeWidth = () => {
+    const computeColumnWidth = () => {
         const newWidthList: Record<string, WidthItem> = {};
         columns.value.forEach((column) => {
             const widthObj: WidthItem = {
@@ -127,11 +127,11 @@ export default function useTableLayout({
         watchResizeDisableRef.value = false;
     });
 
-    // 检测Table宽度变化，计算列宽度
-    useResize(wrapperRef, computeWidth, watchResizeDisableRef);
+    // 检测Table宽度变化，计算内容宽度
+    useResize(wrapperRef, computeX, watchResizeDisableRef);
 
     // 根据列数据，计算列宽度
-    watch([columns, wrapperRef], computeWidth);
+    watch([columns, wrapperRef], computeColumnWidth);
 
     watch([widthList, wrapperRef, () => props.bordered], computeX);
 
