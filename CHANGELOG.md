@@ -1,3 +1,26 @@
+## [0.8.3](https://github.com/WeBankFinTech/fes-design/compare/v0.8.2...v0.8.3) (2023-08-01)
+
+
+### Bug Fixes
+
+* 解决option含有其他key的类型异常问题 ([#351](https://github.com/WeBankFinTech/fes-design/issues/351)) ([719023d](https://github.com/WeBankFinTech/fes-design/commit/719023d25d8f4ba7c74199158b3283a4f613ee5e))
+* 修复 Switch 类型问题 ([1cf0e74](https://github.com/WeBankFinTech/fes-design/commit/1cf0e7481be2eca0c861301238ad29ac0ac201c3))
+* 修改 FForm rules ts 类型 ([#350](https://github.com/WeBankFinTech/fes-design/issues/350)) ([afac056](https://github.com/WeBankFinTech/fes-design/commit/afac05680a37d3e100df3814d328ebb06be8874b))
+* **select-tree:** 修正下拉宽度变更 ([#353](https://github.com/WeBankFinTech/fes-design/issues/353)) ([8ba968e](https://github.com/WeBankFinTech/fes-design/commit/8ba968e1f497bc69a32987f68df5a5de70a314ce))
+* table column id重复 ([#355](https://github.com/WeBankFinTech/fes-design/issues/355)) ([96ab5e3](https://github.com/WeBankFinTech/fes-design/commit/96ab5e365f8932ffc3f450887ebf204bd9f71247))
+* **Table:** 修复分割线样式问题 ([#346](https://github.com/WeBankFinTech/fes-design/issues/346)) ([cd6e098](https://github.com/WeBankFinTech/fes-design/commit/cd6e09844579b0480fbef17255aa90d82dc45459))
+* **Table:** 修复有垂直分割线+拖拽宽度时的样式问题 ([#349](https://github.com/WeBankFinTech/fes-design/issues/349)) ([f203fa5](https://github.com/WeBankFinTech/fes-design/commit/f203fa572c402ae7f66ba9c7db5276752f17692f))
+* table组件宽度跟随容器宽度自适应 ([#358](https://github.com/WeBankFinTech/fes-design/issues/358)) ([018fbbb](https://github.com/WeBankFinTech/fes-design/commit/018fbbb506b671733a89a6a24a8418e491c83712))
+
+
+### Features
+
+* drawer resizable可拖拽宽高度开发 ([#356](https://github.com/WeBankFinTech/fes-design/issues/356)) ([be250ca](https://github.com/WeBankFinTech/fes-design/commit/be250ca062cde85f18930a8ca06a1df5b85b0cb3))
+* scripts文件格式规范 ([#359](https://github.com/WeBankFinTech/fes-design/issues/359)) ([3a990ea](https://github.com/WeBankFinTech/fes-design/commit/3a990ea9f42762fe76a02089c34f370addc8b666))
+* SelectTree 支持 emitPath 和 showPath ([569fe84](https://github.com/WeBankFinTech/fes-design/commit/569fe84c3058ec01e175c8e0693ce29582eacb3e))
+
+
+
 ## [0.8.2](https://github.com/WeBankFinTech/fes-design/compare/v0.8.1...v0.8.2) (2023-07-14)
 
 
