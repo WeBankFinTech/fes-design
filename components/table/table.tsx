@@ -112,7 +112,7 @@ export default defineComponent({
         'update:checkedKeys',
         'update:expandedKeys',
     ],
-    setup(props, ctx: SetupContext) {
+    setup(props, ctx: any) {
         useTheme();
         const {
             handleSelect,
@@ -127,9 +127,9 @@ export default defineComponent({
             sort,
             clearSorter,
             showData,
-        } = useTable(props, ctx);
+        } = useTable(props, ctx as SetupContext);
 
-        ctx.expose?.({
+        (ctx as SetupContext).expose?.({
             toggleRowSelection: handleSelect,
             toggleAllSelection: handleSelectAll,
             clearSelection: clearSelect,
@@ -181,7 +181,7 @@ export default defineComponent({
         return () => (
             <div ref={wrapperRef} class={wrapperClass.value}>
                 <div ref="hiddenColumns" class="hidden-columns">
-                    {ctx.slots.default?.()}
+                    {(ctx as SetupContext).slots.default?.()}
                 </div>
                 {render()}
             </div>
