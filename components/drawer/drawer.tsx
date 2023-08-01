@@ -9,6 +9,7 @@ import {
     PropType,
     Component,
     CSSProperties,
+    reactive,
 } from 'vue';
 import { isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -19,6 +20,7 @@ import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
 import { useConfig } from '../config-provider';
 import { useTheme } from '../_theme/useTheme';
+import { useResizable } from './useResizable';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('drawer');
@@ -75,6 +77,10 @@ export const drawerProps = {
         default: 'right',
     },
     contentClass: String,
+    resizable: {
+        type: Boolean,
+        default: false,
+    },
 } as const;
 
 export type DrawerProps = ExtractPublicPropTypes<typeof drawerProps>;
@@ -159,15 +165,38 @@ const Drawer = defineComponent({
             return <div class={`${prefixCls}-footer`}>{footer}</div>;
         }
 
-        const styles = computed(() => {
-            const sty: CSSProperties = { width: '100%', height: '100%' };
-            const propsKey = ['top', 'bottom'].includes(props.placement)
+        const drawerSize = reactive({
+            width: props.width,
+            height: props.height,
+        });
+
+        const propsKey = computed(() => {
+            return ['top', 'bottom'].includes(props.placement)
                 ? 'height'
                 : 'width';
-            sty[propsKey] = isNumber(props[propsKey])
-                ? `${props[propsKey]}px`
-                : props[propsKey];
+        });
+
+        const styles = computed(() => {
+            const sty: CSSProperties = { width: '100%', height: '100%' };
+            // 初始化的时候 数字直接拼px，如果是字符串直接应用，拖拽后数值覆盖
+            sty[propsKey.value] = isNumber(drawerSize[propsKey.value])
+                ? `${drawerSize[propsKey.value]}px`
+                : drawerSize[propsKey.value];
             return sty;
+        });
+
+        const {
+            onMouseenter,
+            onMouseleave,
+            onMousedown,
+            drawerRef,
+            dragClass,
+        } = useResizable({
+            propsKey: propsKey.value,
+            placement: props.placement,
+            drawerSize,
+            resizable: props.resizable,
+            prefixCls,
         });
 
         const showDom = computed(
@@ -175,6 +204,12 @@ const Drawer = defineComponent({
                 (props.displayDirective === 'if' && visible.value) ||
                 props.displayDirective === 'show',
         );
+
+        // 监听宽高改变的时候，宽高要生效
+        watch([() => props.height, () => props.width], () => {
+            drawerSize.width = props.width;
+            drawerSize.height = props.height;
+        });
 
         return () => (
             <Teleport
@@ -215,9 +250,19 @@ const Drawer = defineComponent({
                                     class={`${prefixCls}-wrapper ${
                                         props.contentClass || ''
                                     }`}
+                                    ref={drawerRef}
                                     style={styles.value}
                                     onClick={(event) => event.stopPropagation()}
                                 >
+                                    {/* 拖拽的dom 颜色透明  */}
+                                    {props.resizable && (
+                                        <div
+                                            class={dragClass.value}
+                                            onMousedown={onMousedown}
+                                            onMouseenter={onMouseenter}
+                                            onMouseleave={onMouseleave}
+                                        ></div>
+                                    )}
                                     {getHeader()}
                                     <FScrollbar
                                         class={`${prefixCls}-body-wrapper`}

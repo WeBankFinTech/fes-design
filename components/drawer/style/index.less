@@ -158,4 +158,46 @@
         }
     }
 
+    &-drag {
+        position: absolute;
+        z-index: 999;
+
+        &-hover {
+            background: var(--f-primary-color);
+        }
+
+        &-left{
+            width: 2px;
+            height: 100%;
+            cursor: col-resize;
+            right: 0;
+            top: 0;
+        }
+
+        &-right{
+            width: 2px;
+            height: 100%;
+            cursor: col-resize;
+            left: 0;
+            top: 0;
+        }
+
+        &-top{
+            height: 2px;
+            width: 100%;
+            cursor: row-resize;
+            left: 0;
+            bottom: 0;
+        }
+
+        &-bottom{
+            height: 2px;
+            width: 100%;
+            cursor: row-resize;
+            left: 0;
+            top: 0;
+        }
+    }
 }
+
+
