@@ -43,5 +43,6 @@ module.exports = {
         'no-undefined': 'off',
         // 保留现状, 允许 !. 用法
         '@typescript-eslint/no-non-null-assertion': 'off',
+        '@typescript-eslint/no-var-requires': 'off',
     },
 };

@@ -11,6 +11,7 @@ lib
 /icon
 package-lock.json
 yarn.lock
+docs/.vitepress/cache
 docs/.vitepress/theme/components/demoCode.json
 docs/zh/components
 

@@ -1,24 +1,22 @@
-/* eslint-disable import/no-unresolved */
-import { VPTheme } from '../vueTheme/index';
-import { h } from 'vue';
-
-// eslint-disable-next-line import/no-extraneous-dependencies
-import WeDesign from '../../../components/index';
-import '../../../components/_style';
+import DefaultTheme from 'vitepress/theme';
+import WeDesign from '@fesjs/fes-design';
+// eslint-disable-next-line import/no-unresolved
+import '@fesjs/fes-design/_style';
 
 import * as Icons from './IconDoc/icons';
 import IconDoc from './IconDoc/IconDoc';
 import './IconDoc/index.less';
 import '../../../components/icon/style';
 
-import WIframe from './components/wIframe';
-import NotFound from './components/notFound';
-import ComponentDoc from './components/componentDoc';
+import WIframe from './components/wIframe.vue';
+import NotFound from './components/notFound.vue';
+import ComponentDoc from './components/componentDoc.vue';
 import Space from './components/space.vue';
 
 import './global.less';
 
-export default Object.assign({}, VPTheme, {
+export default {
+    extends: DefaultTheme,
     NotFound,
     enhanceApp({ app }) {
         app.component('IconDoc', IconDoc);
@@ -34,4 +32,4 @@ export default Object.assign({}, VPTheme, {
             return headers;
         });
     },
-});
+};
