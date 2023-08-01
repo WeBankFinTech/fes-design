@@ -33,9 +33,9 @@
 
 <script setup lang="ts">
 import { inject } from 'vue';
-import { key } from './const';
 import CloseCircleFilled from '../icon/CloseCircleFilled';
 import FileOutlined from '../icon/FileOutlined';
+import { key } from './const';
 
 const { disabled, prefixCls, uploadFiles, onRemove } = inject(key);
 </script>

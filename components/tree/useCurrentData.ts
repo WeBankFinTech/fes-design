@@ -1,7 +1,7 @@
 import { Ref, ref, watch } from 'vue';
 import { debounce } from 'lodash-es';
-import { getBrotherKeys } from './helper';
 import { concat } from '../_util/utils';
+import { getBrotherKeys } from './helper';
 import type { TreeNodeKey, InnerTreeOption } from './interface';
 import type { TreeProps } from './props';
 

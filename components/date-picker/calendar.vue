@@ -179,7 +179,7 @@ const calendarProps = {
     ...COMMON_PROPS,
     rangePosition: {
         type: String as PropType<
-            typeof RANGE_POSITION[keyof typeof RANGE_POSITION]
+            (typeof RANGE_POSITION)[keyof typeof RANGE_POSITION]
         >,
     },
     modelValue: Array as PropType<number[]>,

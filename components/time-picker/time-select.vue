@@ -35,8 +35,8 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, PropType } from 'vue';
-import PickerItem from './picker-item.vue';
 import getPrefixCls from '../_util/getPrefixCls';
+import PickerItem from './picker-item.vue';
 
 import type { TimeOption } from './interface';
 

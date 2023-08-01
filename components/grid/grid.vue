@@ -18,7 +18,7 @@ const prefixCls = getPrefixCls('grid');
 
 export const gridProps = {
     align: {
-        type: String as PropType<typeof ALIGN[number]>,
+        type: String as PropType<(typeof ALIGN)[number]>,
         default: ALIGN[0],
     },
     gutter: {
@@ -26,7 +26,7 @@ export const gridProps = {
         default: 0,
     },
     justify: {
-        type: String as PropType<typeof JUSTIFY[number]>,
+        type: String as PropType<(typeof JUSTIFY)[number]>,
         default: JUSTIFY[0],
     },
     wrap: Boolean,

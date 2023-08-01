@@ -51,7 +51,7 @@ export const treeProps = {
     },
     checkStrictly: {
         type: String as PropType<
-            typeof CHECK_STRATEGY[keyof typeof CHECK_STRATEGY]
+            (typeof CHECK_STRATEGY)[keyof typeof CHECK_STRATEGY]
         >,
         default: CHECK_STRATEGY.ALL,
     },

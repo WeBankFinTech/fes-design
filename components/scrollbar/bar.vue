@@ -93,6 +93,7 @@ export default defineComponent({
 
         const cursorLeave = ref();
         const cursorDown = ref();
+        // eslint-disable-next-line no-undef
         let onselectstartStore: GlobalEventHandlers['onselectstart'] = null;
         const mouseMoveDocumentHandler = (e: MouseEvent) => {
             if (cursorDown.value === false) return;

@@ -8,6 +8,7 @@ import type { ColumnInst } from '../column';
 export default defineComponent({
     components: {
         ExpandTr,
+        // eslint-disable-next-line vue/no-reserved-component-names
         Td,
     },
     props: {

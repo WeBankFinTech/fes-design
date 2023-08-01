@@ -173,7 +173,7 @@ export default defineComponent({
             }
             if (isHtmlElement(_container)) {
                 dom = _container;
-            } else if (container) {
+            } else if (container.value) {
                 dom = getScrollContainer(container.value);
             }
             return dom;

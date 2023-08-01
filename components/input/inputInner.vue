@@ -69,6 +69,7 @@
 
 <script lang="ts">
 import { computed, ref, defineComponent, Ref, ExtractPropTypes } from 'vue';
+import { debounce } from 'lodash-es';
 import { EyeOutlined, EyeInvisibleOutlined, CloseCircleFilled } from '../icon';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
@@ -77,7 +78,6 @@ import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import { useInput } from '../_util/use/useInput';
 import { useMouse } from './useInput';
 import { commonInputProps } from './props';
-import { debounce } from 'lodash-es';
 import type { InputValue } from './interface';
 
 const inputInnerProps = {

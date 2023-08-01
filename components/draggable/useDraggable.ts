@@ -144,6 +144,7 @@ export const useDraggable = (
 
     const newNextTick = (fn: () => void) => {
         if (propsRef.value.isDirective) {
+            // eslint-disable-next-line no-unused-expressions
             isFunction(fn) && nextTickQueue.push(fn);
         } else {
             nextTick(fn);

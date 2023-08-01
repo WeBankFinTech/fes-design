@@ -64,9 +64,10 @@ async function create({
     }
     if (closable) classNames.push(`${prefixCls}-close`);
 
+    // eslint-disable-next-line prefer-const
     let item: Notice;
     function handleCloseClick() {
-        messageInstance!.remove(item?.key!);
+        messageInstance!.remove(item?.key);
     }
 
     const contentIsFunc = typeof content === 'function';

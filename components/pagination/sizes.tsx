@@ -5,8 +5,8 @@ import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import FSelect from '../select/select.vue';
 import FOption from '../select/option';
-import { COMPONENT_NAME } from './const';
 import { useLocale } from '../config-provider/useLocale';
+import { COMPONENT_NAME } from './const';
 
 const prefixCls = getPrefixCls('pagination');
 

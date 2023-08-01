@@ -30,7 +30,7 @@ export const menuProps = {
     },
     // 垂直或者水平
     mode: {
-        type: String as PropType<typeof MODE[number]>,
+        type: String as PropType<(typeof MODE)[number]>,
         default: MODE[0],
     },
     // 是否收起
