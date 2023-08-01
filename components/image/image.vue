@@ -206,6 +206,7 @@ export default defineComponent({
         };
 
         const loadImage = () => {
+            // loading 为true 才会加载图片
             if (!loading.value) return;
 
             const img = new Image();
@@ -267,6 +268,10 @@ export default defineComponent({
             () => props.src,
             (_src) => {
                 if (_src) {
+                    // 将 loading 状态设置为 true
+                    loading.value = true;
+                    // 重置 isLoadError 状态
+                    isLoadError.value = false;
                     if (props.lazy) {
                         addLazyLoadListener();
                     } else {
