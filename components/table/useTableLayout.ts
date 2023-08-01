@@ -128,7 +128,14 @@ export default function useTableLayout({
     });
 
     // 检测Table宽度变化，计算列宽度
-    useResize(wrapperRef, computeWidth, watchResizeDisableRef);
+    useResize(
+        wrapperRef,
+        () => {
+            computeWidth();
+            computeX();
+        },
+        watchResizeDisableRef,
+    );
 
     // 根据列数据，计算列宽度
     watch([columns, wrapperRef], computeWidth);
