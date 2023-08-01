@@ -6,33 +6,33 @@
 }
 
 .shadow(@scrollbar-shadow-size; @placement) when (@placement = 'top') {
-    left: 0;
     top: -@scrollbar-shadow-size;
+    left: 0;
     width: 100%;
     height: @scrollbar-shadow-size;
     box-shadow: 0 1px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
 }
 
 .shadow(@scrollbar-shadow-size; @placement) when (@placement = 'bottom') {
-    left: 0;
     bottom: -@scrollbar-shadow-size;
+    left: 0;
     width: 100%;
     height: @scrollbar-shadow-size;
     box-shadow: 0 -1px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
 }
 
 .shadow(@scrollbar-shadow-size; @placement) when (@placement = 'left') {
-    left: -@scrollbar-shadow-size;
     top: 0;
+    left: -@scrollbar-shadow-size;
     width: @scrollbar-shadow-size;
     height: 100%;
-    box-shadow: 1px 0px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
+    box-shadow: 1px 0 var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
 }
 
 .shadow(@scrollbar-shadow-size; @placement) when (@placement = 'right') {
-    right: -@scrollbar-shadow-size;
     top: 0;
+    right: -@scrollbar-shadow-size;
     width: @scrollbar-shadow-size;
     height: 100%;
-    box-shadow: -1px 0px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
+    box-shadow: -1px 0 var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
 }

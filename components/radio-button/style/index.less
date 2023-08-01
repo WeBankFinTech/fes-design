@@ -14,11 +14,11 @@
 @radio-button-content-height-base: 28px;
 
 .@{radio-button-prefix-cls} {
-    display: inline-block;
-    text-align: center;
-    margin-left: -1px;
     position: relative;
+    display: inline-block;
     box-sizing: border-box;
+    margin-left: -1px;
+    text-align: center;
     background: var(--f-white);
     cursor: pointer;
 
@@ -27,23 +27,23 @@
     }
 
     &-content-small {
-        padding: 0px var(--f-padding-small);
-        line-height: @radio-button-content-height-sm;
         margin: 1px;
+        padding: 0 var(--f-padding-small);
+        line-height: @radio-button-content-height-sm;
     }
 
     &-content-middle {
-        padding: 0px var(--f-padding-middle);
-        line-height: @radio-button-content-height-base;
         margin: 1px;
+        padding: 0 var(--f-padding-middle);
+        line-height: @radio-button-content-height-base;
     }
 
     &-content-checked {
         display: flex;
-        justify-content: center;
         align-items: center;
-        border-radius: 4px;
+        justify-content: center;
         margin: 1px;
+        border-radius: 4px;
 
         &-small {
             height: @radio-button-content-height-sm;
@@ -91,18 +91,18 @@
     }
     // 无边框样式
     &-no-border {
+        color: var(--f-sub-head-color);
         background: var(--f-border-color-split);
         border: var(--f-border-width-base) var(--f-border-style-base) var(--f-border-color-split);
-        color: var(--f-sub-head-color);
     }
 
     // 有边框的选中样式
     &.is-checked-primary-border {
+        z-index: 1;
+        color: var(--f-white);
         background: var(--f-primary-color);
         border-color: var(--f-primary-color);
-        color: var(--f-white);
         transition: all @animation-duration-base @ease-base-in;
-        z-index: 1;
 
         :hover {
             color: var(--f-white);
@@ -110,11 +110,11 @@
     }
 
     &.is-checked-default-border {
+        z-index: 1;
+        color: var(--f-primary-color);
         background: var(--f-white);
         border-color: var(--f-primary-color);
-        color: var(--f-primary-color);
         transition: all @animation-duration-base @ease-base-in;
-        z-index: 1;
     }
 
     &.is-disabled {

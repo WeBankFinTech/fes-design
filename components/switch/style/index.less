@@ -49,9 +49,9 @@
         position: absolute;
         top: 6px;
         left: 6px;
+        z-index: 1;
         color: var(--f-font-color-base);
         font-size: @switch-height - 12px;
-        z-index: 1;
     }
     
     &.is-checked {
@@ -63,8 +63,8 @@
             margin-left: @padding-xs;
         }
         .@{switch-loading-prefix} {
-            left: auto;
             right: 6px;
+            left: auto;
             color: var(--f-primary-color);
         }
         &::after {

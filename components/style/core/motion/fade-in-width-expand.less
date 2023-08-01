@@ -2,22 +2,22 @@
 .fade-in-width-expand-motion() {
     @name: ~'@{cls-prefix}-fade-in-width-expand';
     .@{name}-enter-to {
-        opacity: 1;
         transform: translateX(0) translateY(0);
+        opacity: 1;
     }
     .@{name}-enter-from {
         max-width: 0 !important;
-        opacity: 0;
         transform: translateY(60%);
+        opacity: 0;
     }
     .@{name}-leave-to {
         max-width: 0 !important;
-        opacity: 0;
         transform: translateY(60%);
+        opacity: 0;
     }
     .@{name}-leave-from {
-        opacity: 1;
         transform: translateY(0);
+        opacity: 1;
     }
     .@{name}-enter-active {
         overflow: hidden;

@@ -208,19 +208,19 @@
     }
 
     & &-sorter {
-        margin-top: -0.2em;
-        margin-left: @padding-sm;
-        vertical-align: middle;
         display: inline-flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        margin-top: -0.2em;
+        margin-left: @padding-sm;
+        vertical-align: middle;
 
         .@{table-prefix}-sorter-up {
             width: 0;
             height: 0;
-            border-bottom: 4px solid var(--f-disabled-color-base);
             border-right: 4px solid transparent;
+            border-bottom: 4px solid var(--f-disabled-color-base);
             border-left: 4px solid transparent;
 
             &.is-active {
@@ -229,9 +229,9 @@
         }
 
         .@{table-prefix}-sorter-down {
-            margin-top: calc(@padding-xs / 4);
             width: 0;
             height: 0;
+            margin-top: calc(@padding-xs / 4);
             border-top: 4px solid var(--f-disabled-color-base);
             border-right: 4px solid transparent;
             border-left: 4px solid transparent;
@@ -247,24 +247,24 @@
     }
 
     & &-resize-button {
-        width: 8px;
         position: absolute;
         top: 0;
         right: 4px;
         bottom: 0;
+        width: 8px;
         cursor: col-resize;
         user-select: none;
         &::after {
-            width: 2px;
-            height: 50%;
             position: absolute;
             top: 50%;
-            left: 4px;
             bottom: 0;
+            left: 4px;
+            z-index: 1;
+            width: 2px;
+            height: 50%;
             background-color: @table-border-color;
             transform: translate(-50%, -50%);
             transition: background-color @animation-duration-base @ease-in-out;
-            z-index: 1;
             content: '';
         }
         &.is-active {

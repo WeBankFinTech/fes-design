@@ -20,9 +20,8 @@
     transition: width @animation-duration-base;
     >.@{layout-prefix-cls}-container {
         display: flex;
-        flex-wrap: nowrap;
+        flex-flow: column nowrap;
         align-items: stretch;
-        flex-direction: column;
         width: 100%;
         height: 100%;
         overflow: auto;
@@ -34,10 +33,10 @@
     }
     &.is-fixed {
         position: absolute;
-        left: 0;
-        right: 0;
         top: 0;
+        right: 0;
         bottom: 0;
+        left: 0;
         transition: left @animation-duration-base, right @animation-duration-base;
     }
 }
@@ -82,37 +81,37 @@
     }
     &-wrapper {
         position: relative;
-        height: 100%;
-        width: 100%;
-        overflow: auto;
         z-index: 1;
         box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
     }
     &-trigger {
         position: absolute;
         bottom: 0;
         left: 0;
+        z-index: 2;
         width: 100%;
         height: @aside-trigger-height;
         font-size: var(--f-font-size-base);
         line-height: @aside-trigger-height;
         text-align: center;
+        background-color: var(--f-white);
         border-top: var(--f-border-width-base) var(--f-border-style-base)
             var(--f-border-color-split);
-        background-color: var(--f-white);
-        z-index: 2;
     }
 }
 
 .@{header-prefix-cls} {
     position: relative;
+    flex-shrink: 0;
     width: 100%;
     height: 54px;
-    line-height: 54px;
     padding: 0;
     color: var(--f-text-color);
+    line-height: 54px;
     background-color: var(--f-white);
-    flex-shrink: 0;
     &.is-inverted {
         color: @layout-inverted-font-color;
         background-color: @layout-inverted-background-color;
@@ -124,8 +123,8 @@
     &.is-fixed {
         position: absolute;
         top: 0;
-        left: 0;
         right: 0;
+        left: 0;
     }
 }
 
@@ -152,8 +151,8 @@
     }
     &.is-fixed {
         position: absolute;
+        right: 0;
         bottom: 0;
         left: 0;
-        right: 0;
     }
 }

@@ -77,9 +77,9 @@
         display: flex;
         flex-grow: 1;
         align-items: center;
-        height: @data-input-height-base;
         // 可阻止被子元素撑开宽度
         min-width: 0;
+        height: @data-input-height-base;
         &-prefix {
             display: inline-flex;
             margin-right: @padding-xs;
@@ -93,21 +93,21 @@
     }
     &-node-drag-over {
         position: absolute;
-        left: 0;
         right: 0;
+        left: 0;
         height: 1px;
         background: var(--f-primary-color);
         &::before{
-            content: "";
             position: absolute;
-            display: block;
-            left: -5px;
             top: -2px;
-            height: 4px;
-            width: 4px;
-            border-radius: 50%;
-            border: 1px solid var(--f-primary-color);
+            left: -5px;
             z-index: 1;
+            display: block;
+            width: 4px;
+            height: 4px;
+            border: 1px solid var(--f-primary-color);
+            border-radius: 50%;
+            content: "";
         }
     }
 }

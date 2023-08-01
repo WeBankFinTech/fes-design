@@ -18,21 +18,21 @@
         display: none;
     }
     &-dragger {
-        cursor: pointer;
         box-sizing: border-box;
         width: 100%;
-        text-align: center;
-        border-radius: var(--f-border-radius-base);
         padding: var(--f-padding-middle);
+        text-align: center;
         background-color: var(--f-component-bg-color);
         border: var(--f-border-width-base) dashed var(--f-border-color-base);
+        border-radius: var(--f-border-radius-base);
+        cursor: pointer;
         transition: border-color @animation-duration-slow @ease-base-in;
         &:hover, &.is-hovering{
             border-color: var(--f-primary-color);
         }
         &.is-disabled {
-            cursor: not-allowed;
             border-color: var(--f-border-color-base);
+            cursor: not-allowed;
         }
     }
     &-list {
