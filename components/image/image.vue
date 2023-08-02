@@ -205,14 +205,27 @@ export default defineComponent({
             emit(ERROR_EVENT, e);
         };
 
+        let currentImageId = 0;
+
         const loadImage = () => {
             // loading 为true 才会加载图片
             if (!loading.value) return;
 
             const img = new Image();
-            img.addEventListener('load', (e) => handleLoaded(e, img));
-            img.addEventListener('error', handleError);
 
+            const imageId = ++currentImageId;
+            img.addEventListener('load', (e) => {
+                // 检查 imageId 是否与 currentImageId 相同
+                if (imageId !== currentImageId) return;
+                handleLoaded(e, img);
+            });
+            img.addEventListener('error', (e) => {
+                // 检查 imageId 是否与 currentImageId 相同
+                if (imageId !== currentImageId) return;
+                handleError(e);
+            });
+
+            // 赋值开始加载图片src
             img.src = props.src;
         };
 
