@@ -44,9 +44,13 @@ app.use(FInput);
 
 --TEXTAREA
 
-### 事件
+### 事件监听
 
 --EVENT
+
+### 聚焦和失焦
+
+--AUTOFOCUS
 
 --CODE
 
@@ -84,5 +88,12 @@ app.use(FInput);
 | input    | 内容变更触发                              | (event) => void |
 | blur     | 失去焦点                                  | (event) => void |
 | focus    | 获取焦点                                  | (event) => void |
-| clear    | 点击 `clearable` 属性生成的清空按钮时触发 | - ｜            |
+| clear    | 点击 `clearable` 属性生成的清空按钮时触发 | -               |
 | keydown  | 按下键盘时触发                            | (event) => void |
+
+## Methods
+
+| 名称  | 说明     |
+| ----- | -------- |
+| blur  | 取消焦点 |
+| focus | 获取焦点 |

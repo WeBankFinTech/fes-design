@@ -159,7 +159,7 @@ export default defineComponent({
         'mouseleave',
         'mouseenter',
     ],
-    setup(props, { slots, emit }) {
+    setup(props, { slots, emit, expose }) {
         useTheme();
         const { validate, isError, isFormDisabled } = useFormAdaptor();
         const inputRef = ref();
@@ -253,6 +253,13 @@ export default defineComponent({
         const blur = () => {
             currentInput.value.blur();
         };
+
+        if (expose) {
+            expose({
+                focus,
+                blur,
+            });
+        }
 
         return {
             innerDisabled,

@@ -9,16 +9,26 @@
     </FSpace>
 </template>
 
-<script setup lang="ts">
-const textChange = (e) => {
-    console.log('text change', e);
-};
+<script>
+export default {
+    setup() {
+        const textChange = (e) => {
+            console.log('text change', e);
+        };
 
-const keyDown = (e) => {
-    console.log('keyDown', e);
-};
+        const keyDown = (e) => {
+            console.log('keyDown', e);
+        };
 
-const inputChange = (e) => {
-    console.log('inputChange', e);
+        const inputChange = (e) => {
+            console.log('inputChange', e);
+        };
+
+        return {
+            textChange,
+            keyDown,
+            inputChange,
+        };
+    },
 };
 </script>
