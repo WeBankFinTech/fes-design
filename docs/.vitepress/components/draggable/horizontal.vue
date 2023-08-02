@@ -5,7 +5,7 @@
             class="horizontal"
             :beforeDragend="beforeDragend"
         >
-            <template #="{ item }">
+            <template #default="{ item }">
                 <div class="sort-horizontal-item">{{ item }}</div>
             </template>
         </FDraggable>

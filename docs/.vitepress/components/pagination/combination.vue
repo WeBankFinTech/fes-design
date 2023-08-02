@@ -9,15 +9,15 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
     setup() {
         const handleChange = (currentPage, pageSize) => {
             console.log(`currentPage=${currentPage}, pageSize=${pageSize}`);
-        }
+        };
         return {
-            handleChange
+            handleChange,
         };
     },
 });

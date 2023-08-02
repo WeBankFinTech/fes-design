@@ -6,7 +6,7 @@
     </f-grid>
 </template>
 <script>
-import { ref, reactive } from 'vue';
+import {} from 'vue';
 
 export default {
     setup() {

@@ -73,6 +73,7 @@ app.use(FModal);
 | footer  | 底部内容，一般是自定义按钮 |
 
 ## 全局方法
+
 -   `Modal.config(options)` 全局方法的默认配置
 
 -   `Modal.info(options)`

@@ -327,7 +327,7 @@ export default {
         const submitHandler = async () => {
             WFormDomRef.value
                 .validate()
-                .then((result) => {
+                .then(() => {
                     console.log('表单验证成功~');
                     WFormDomRef.value.resetFields();
                 })

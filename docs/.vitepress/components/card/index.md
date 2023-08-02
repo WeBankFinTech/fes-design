@@ -30,7 +30,7 @@ app.use(FCard);
 
 ### 是否有标题
 
---HEADER
+--HASHEADER
 
 ### 是否有分割线
 

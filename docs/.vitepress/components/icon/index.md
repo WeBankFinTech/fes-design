@@ -14,18 +14,16 @@ import { CloseCircleFilled } from '@fesjs/fes-design/icon';
 </script>
 ```
 
-
 ## Icons
 
 <IconDoc />
 
-
 ## Icon Props
 
-| 属性 | 说明 | 类型 | 默认值  |
-| ------------- | ------------- | ------------- | ------------- |
-| spin  | 是否不停转动 | boolean | `false` |
-| rotate  | 旋转 |  number | `-` |
-| tabIndex  | tabIndex，设置后会可被选中  | number | `-` |
-| size  | 大小 | number | `-` |
-| color  | 颜色 | string  | `-` |
+| 属性     | 说明                       | 类型    | 默认值  |
+| -------- | -------------------------- | ------- | ------- |
+| spin     | 是否不停转动               | boolean | `false` |
+| rotate   | 旋转                       | number  | `-`     |
+| tabIndex | tabIndex，设置后会可被选中 | number  | `-`     |
+| size     | 大小                       | number  | `-`     |
+| color    | 颜色                       | string  | `-`     |

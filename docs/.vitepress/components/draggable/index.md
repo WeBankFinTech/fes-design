@@ -49,16 +49,20 @@ app.use(FDraggable);
 --INSTRUCTIONCONTAINER
 
 ### 阻止拖拽
-当需要检查拖拽结果是否符合要求时，使用beforeDragend，返回false、Promise.resolve(false)、Promise.reject()时，拖拽会恢复之前的状态；
+
+当需要检查拖拽结果是否符合要求时，使用 beforeDragend，返回 false、Promise.resolve(false)、Promise.reject()时，拖拽会恢复之前的状态；
+
 ```ts
 type BeforeDragEnd = (
-    drag: { // 拖拽信息
+    drag: {
+        // 拖拽信息
         item: unknown;
         index: number;
         list: unknown[];
         resultList: unknown[]; // 拖拽结束预期结果
     },
-    drop: { // 放置信息
+    drop: {
+        // 放置信息
         item: unknown;
         index: number;
         list: unknown[];
@@ -66,6 +70,7 @@ type BeforeDragEnd = (
     },
 ) => Promise<boolean> | boolean;
 ```
+
 --CHECKDRAGEND
 
 ### 指令式阻止拖拽
@@ -76,36 +81,36 @@ type BeforeDragEnd = (
 
 ## Draggable Props
 
-| 属性      | 说明                                                    | 类型    | 默认值  |
-| --------- | ------------------------------------------------------- | ------- | ------- |
-| v-model   | 绑定值                                                  | Array   | `[]`    |
-| tag | 指定root dom类型 | string | `div`
-| disabled  | 是否禁用                                                | boolean | `false` |
-| droppable | 是否可以放置，设置为 droppable 的容器都可以相互拖拽放置 | boolean | `false` |
-| beforeDragend | 拖拽结束之前回调，返回false、Promise.resolve(false)、Promise.reject()时，拖拽会恢复之前的状态 | [`BeforeDragEnd`](#阻止拖拽) | () => true
+| 属性          | 说明                                                                                           | 类型                         | 默认值     |
+| ------------- | ---------------------------------------------------------------------------------------------- | ---------------------------- | ---------- |
+| v-model       | 绑定值                                                                                         | Array                        | `[]`       |
+| tag           | 指定 root dom 类型                                                                             | string                       | `div`      |
+| disabled      | 是否禁用                                                                                       | boolean                      | `false`    |
+| droppable     | 是否可以放置，设置为 droppable 的容器都可以相互拖拽放置                                        | boolean                      | `false`    |
+| beforeDragend | 拖拽结束之前回调，返回 false、Promise.resolve(false)、Promise.reject()时，拖拽会恢复之前的状态 | [`BeforeDragEnd`](#阻止拖拽) | () => true |
 
 ## Draggable Events
 
-| 事件名称   | 说明                                              | 回调参数             |
-| ---------- | ------------------------------------------------- | -------------------- |
-| dragstart | 拖拽开始触发                                       | (event, item, index) => void |
-| dragend   | 拖拽结束触发                                      | (event, item, index) => void   |
+| 事件名称  | 说明         | 回调参数                     |
+| --------- | ------------ | ---------------------------- |
+| dragstart | 拖拽开始触发 | (event, item, index) => void |
+| dragend   | 拖拽结束触发 | (event, item, index) => void |
 
 ## Draggable Slots
 
-| 名称    | 说明      | 属性            |
-| ------- | --------- | --------------- |
+| 名称    | 说明      | 属性              |
+| ------- | --------- | ----------------- |
 | default | item 内容 | `{ item, index }` |
 
 ## Draggable Directive
 
-| 项   | 说明
-| ------ | ----------------- 
-| 指令名称 | v-drag |
-| 值 | 绑定值 Array 类型 |
-| 修饰符 droppable | 是否可以放置其他容器的拖拽目标 |
-| 修饰符 disabled | 是否禁用        |
-| 参数  | Object，指令参数         |
+| 项               | 说明                                           |
+| ---------------- | ---------------------------------------------- |
+| 指令名称         | v-drag                                         |
+| 值               | 绑定值 Array 类型                              |
+| 修饰符 droppable | 是否可以放置其他容器的拖拽目标                 |
+| 修饰符 disabled  | 是否禁用                                       |
+| 参数             | Object，指令参数                               |
 | -- beforeDragend | 拖拽结束之前回调，[`BeforeDragEnd`](#阻止拖拽) |
-| -- onDragstart | 拖拽开始触发 |
-| -- onDragend |  拖拽结束触发 |
+| -- onDragstart   | 拖拽开始触发                                   |
+| -- onDragend     | 拖拽结束触发                                   |

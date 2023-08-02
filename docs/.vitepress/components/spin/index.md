@@ -14,21 +14,17 @@ app.use(FSpin);
 
 ### 基础用法
 
-
 --COMMON
 
 ### 颜色
-
 
 --COLOR
 
 ### 卡片加载中
 
-
 --LOADING
 
 ### 各种大小
-
 
 --SIZE
 

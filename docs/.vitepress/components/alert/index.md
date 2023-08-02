@@ -32,7 +32,7 @@ app.use(FAlert);
 
 ### 信息居中
 
---CENTER
+--INFOCENTER
 
 ### 自定义
 

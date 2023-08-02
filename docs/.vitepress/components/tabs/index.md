@@ -82,7 +82,7 @@ app.use(FTabs);
 | closable   | 页签是否可关闭，type 为`card`时可用                                        | boolean         | `false`   |
 | closeMode  | 关闭显示的方式，可选`hover` `visible`                                      | string          | `visible` |
 | transition | 自定义页签切换过渡 TransitionGroup 的动画名。默认是 true，使用内置过渡动画 | string/boolean  | `true`    |
-| panes | 配置页签 | TabPaneProps[]  | `[]`    |
+| panes      | 配置页签                                                                   | TabPaneProps[]  | `[]`      |
 
 ## Tabs Events
 
@@ -101,16 +101,17 @@ app.use(FTabs);
 
 ## TabPane Props
 
-| 属性             | 说明                                                                                                                                                            | 类型            | 默认值  |
-| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- | ------- |
-| value            | tab 的值                                                                                                                                                        | string / number | -       |
-| name             | tab 的名称                                                                                                                                                      | string / number | -       |
-| disabled         | 是否禁用                                                                                                                                                        | boolean         | `false` |
-| closable         | 是否可关闭                                                                                                                                                      | boolean         | `false` |
-| displayDirective | 选择渲染使用的指令为 if 、 show 或者 show:lazy。使用 show 的时候标签页内容不会随着切换重置。使用 show:lazy 的时候显示效果跟 show 一致，不过内容会进行延迟加载。 | string          | `if`    |
-| render | 自定义内容，仅在配置panes中有效 |  (props: TabProps) => VNodeChild  |   -  |
-| renderTab | 自定义页签，，仅在配置panes中有效 | (props: TabProps) => VNodeChild   | -    |
-## TabPane  Slots
+| 属性             | 说明                                                                                                                                                            | 类型                            | 默认值  |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | ------- |
+| value            | tab 的值                                                                                                                                                        | string / number                 | -       |
+| name             | tab 的名称                                                                                                                                                      | string / number                 | -       |
+| disabled         | 是否禁用                                                                                                                                                        | boolean                         | `false` |
+| closable         | 是否可关闭                                                                                                                                                      | boolean                         | `false` |
+| displayDirective | 选择渲染使用的指令为 if 、 show 或者 show:lazy。使用 show 的时候标签页内容不会随着切换重置。使用 show:lazy 的时候显示效果跟 show 一致，不过内容会进行延迟加载。 | string                          | `if`    |
+| render           | 自定义内容，仅在配置 panes 中有效                                                                                                                               | (props: TabProps) => VNodeChild | -       |
+| renderTab        | 自定义页签，，仅在配置 panes 中有效                                                                                                                             | (props: TabProps) => VNodeChild | -       |
+
+## TabPane Slots
 
 | 名称    | 说明              |
 | ------- | ----------------- |

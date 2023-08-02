@@ -35,7 +35,7 @@ export default {
                 };
             }),
         );
-        const selectable = ({ row, rowIndex }) => {
+        const selectable = ({ rowIndex }) => {
             return rowIndex !== 1;
         };
         const selectionChange = (selecton) => {

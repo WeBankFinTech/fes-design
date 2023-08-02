@@ -48,25 +48,34 @@ import { withBase } from 'vitepress'
     text-align: center;
 }
 .actions a {
-  font-size: 18px;
-  display: inline-block;
-  background-color: #5384ff;
-  padding: 10px 24px;
-  font-weight: 500;
-  border-radius: 8px;
-  transition: background-color 0.5s, color 0.5s;
-  text-decoration: none;
+    font-size: 18px;
+    display: inline-block;
+    background-color: #5384ff;
+    padding: 10px 24px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: background-color 0.5s, color 0.5s;
+    text-decoration: none;
 }
 
 .actions .get-started {
-  margin-top: 20px;
+  margin-top: 60px;
   font-weight: 600;
   color: #fff;
   background: #5384ff;
 }
 
-
 .dark .description {
     color: #fff;
+}
+
+@media screen and (max-width: 768px) {
+    .description .logo-img {
+        scale: 0.6
+    }
+    .description h3 {
+        margin-top: 0;
+        font-size: 16px;
+    }
 }
 </style>
