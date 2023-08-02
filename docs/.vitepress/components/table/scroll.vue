@@ -38,7 +38,7 @@
     </f-table>
 </template>
 <script>
-import { reactive } from 'vue';
+import {} from 'vue';
 export default {
     setup() {
         const data = Array.from([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], (i) => {

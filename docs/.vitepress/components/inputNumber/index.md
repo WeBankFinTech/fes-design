@@ -14,11 +14,9 @@ app.use(FInputNumber);
 
 ### 标准使用
 
-
 --COMMON
 
 ### 禁用状态
-
 
 --DISABLED
 
@@ -26,13 +24,11 @@ app.use(FInputNumber);
 
 设定最大值为 10，最小值为 1
 
-
 --MAXANDMIN
 
 ### 设置精度
 
 设置精度为 2
-
 
 --PRECISION
 
@@ -40,11 +36,9 @@ app.use(FInputNumber);
 
 设置步长为 5，最大值为 12,精度为 2
 
-
 --STEP
 
 ### 设置前置后置
-
 
 --prefixSuffix
 
@@ -64,10 +58,10 @@ app.use(FInputNumber);
 
 ## Slots
 
-| 属性    | 说明                                |
-| ------- | ----------------------------------- |
-| prefix  | 前缀    |
-| suffix  | 后缀    |
+| 属性   | 说明 |
+| ------ | ---- |
+| prefix | 前缀 |
+| suffix | 后缀 |
 
 ## Events
 

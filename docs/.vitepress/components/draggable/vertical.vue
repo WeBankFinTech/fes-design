@@ -8,7 +8,7 @@
             </FButton>
         </FSpace>
         <FDraggable v-model="list" :beforeDragend="beforeDragend">
-            <template #="{ item, index }">
+            <template #default="{ item }">
                 <div class="sort-item">{{ item }}</div>
             </template>
         </FDraggable>
@@ -50,7 +50,7 @@ export default {
             }
         };
 
-        const beforeDragend = (item, index) => {
+        const beforeDragend = () => {
             // return new Promise((resolve, reject) => {
             //     setTimeout(() => {
             //         reject();

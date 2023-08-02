@@ -18,7 +18,7 @@ app.use(FSpace);
 
 ### 中间对齐
 
---CENTER
+--JUSTIFYCENTER
 
 ### 尾部对齐
 

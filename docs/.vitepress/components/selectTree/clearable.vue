@@ -2,7 +2,9 @@
     <FSelectTree :data="data" clearable></FSelectTree>
 </template>
 <script>
-import { reactive } from 'vue';
+import { reactive, h } from 'vue';
+// eslint-disable-next-line import/no-unresolved
+import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
 
 function createData(level = 1, baseKey = '', prefix = null, suffix = null) {
     if (!level) return undefined;

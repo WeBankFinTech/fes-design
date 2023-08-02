@@ -47,7 +47,7 @@ export default {
                 amount3: 15,
             },
         ];
-        const objectSpanMethod = ({ row, column, rowIndex, columnIndex }) => {
+        const objectSpanMethod = ({ rowIndex, columnIndex }) => {
             if (columnIndex === 0) {
                 if (rowIndex % 2 === 0) {
                     return {

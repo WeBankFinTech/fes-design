@@ -8,7 +8,7 @@
             @dragstart="handleDargStart"
             @dragend="handleDargEnd"
         >
-            <template #="{ item }">
+            <template #default="{ item }">
                 <div class="sort-item2">{{ item }}</div>
             </template>
         </FDraggable>
@@ -20,7 +20,7 @@
             @dragstart="handleDargStart2"
             @dragend="handleDargEnd2"
         >
-            <template #="{ item }">
+            <template #default="{ item }">
                 <div class="sort-item2">{{ item }}</div>
             </template>
         </FDraggable>
@@ -29,7 +29,7 @@
             droppable
             style="height: 300px; width: 200px"
         >
-            <template #="{ item }">
+            <template #default="{ item }">
                 <div class="sort-item2">{{ item }}</div>
             </template>
         </FDraggable>

@@ -14,36 +14,29 @@ app.use(FButton);
 
 ### 按钮类型
 
-
 --TYPE
 
 ### Icon 按钮
-
 
 --ICON
 
 ### 按钮 loading 状态
 
-
 --LOADING
 
 ### 按钮禁用
-
 
 --DISABLED
 
 ### long 按钮
 
-
 --LONG
 
 ### 其他按钮
 
-
 --OTHER
 
 ### 按钮大小
-
 
 --SIZE
 

@@ -1,8 +1,5 @@
 <template>
-    <FPagination 
-        :total-count="totalCount"
-        @change="handleChange"
-    ></FPagination>
+    <FPagination :total-count="totalCount" @change="handleChange"></FPagination>
 </template>
 
 <script>
@@ -13,10 +10,10 @@ export default defineComponent({
         const totalCount = ref(1000);
         const handleChange = (currentPage, pageSize) => {
             console.log(`currentPage=${currentPage}, pageSize=${pageSize}`);
-        }
+        };
         return {
             totalCount,
-            handleChange
+            handleChange,
         };
     },
 });

@@ -44,5 +44,8 @@ module.exports = {
         // 保留现状, 允许 !. 用法
         '@typescript-eslint/no-non-null-assertion': 'off',
         '@typescript-eslint/no-var-requires': 'off',
+        // 保留现状，允许 vue 文件中 :a="{ b: { c: 500 } }" 的写法
+        'vue/object-curly-spacing': 'off',
+        'no-unused-expressions': 'off',
     },
 };

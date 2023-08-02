@@ -30,7 +30,6 @@ app.use(FSteps);
 
 --CODE
 
-
 ## Steps Props
 
 | 属性             | 说明                                                                 | 类型    | 默认值      |

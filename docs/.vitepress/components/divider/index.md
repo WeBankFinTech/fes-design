@@ -14,16 +14,13 @@ app.use(FDivider);
 
 ### 基础用法
 
-
 --COMMON
 
 ### 附带文字
 
-
 --TEXT
 
 ### 垂直方向
-
 
 --VERTICAL
 

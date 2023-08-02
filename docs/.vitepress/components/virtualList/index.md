@@ -24,31 +24,31 @@ app.use(FVirtualList);
 
 ## VirtualList Props
 
-| 属性                  | 说明                                                                    | 类型                                      | 默认值     |
-| --------------------- | ----------------------------------------------------------------------- | ----------------------------------------- | ---------- |
-| dataKey                  | 从`dataSources`中的每个数据对象获取唯一键。或者使用每个数据源调用函数并返回其唯一键。其值在数据源中必须是唯一的，用于标识每一项的尺寸。                                                                | string \| ()=> string                       | `-`       |
-| dataSources                  | 为列表生成的源数组，每个数组数据必须是一个对象，并且具有唯一的key get或generate for`data key`属性。                                                            |  Array\<Object\>                | `-`       |
-|keeps | 您期望虚拟列表在真实 `dom` 中保持渲染的项目数量。 | number | 30 |
-|estimateSize | 每项的估计大小，如果它更接近平均大小，滚动条长度看起来更准确。建议指定自己计算的平均值 | number | 50 |
-|start | 设置滚动位置保持开始索引 | number | 0 |
-|offset | 设置滚动位置保持偏移 | number | 0 |
-| direction | 滚动的方向, 可选值为 `vertical` 和 `horizontal` | string | `vertical` |
-|wrapTag | 列表包裹元素名称 | string | `div` |
-|wrapClass |列表包裹元素类名 | string | - |
-|wrapStyle |列表包裹元素内联样式| object | `{}` |
-|height | 高度 | number | - |
-|maxHeight | 最大高度 | number | - |
-|topThreshold | 触发`totop` 事件的阈值 | number | 0 |
-|bottomThreshold | 触发`tobottom` 事件的阈值 | number | 0 |
+| 属性            | 说明                                                                                                                                    | 类型                  | 默认值     |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | ---------- |
+| dataKey         | 从`dataSources`中的每个数据对象获取唯一键。或者使用每个数据源调用函数并返回其唯一键。其值在数据源中必须是唯一的，用于标识每一项的尺寸。 | string \| ()=> string | `-`        |
+| dataSources     | 为列表生成的源数组，每个数组数据必须是一个对象，并且具有唯一的 key get 或 generate for`data key`属性。                                  | Array\<Object\>       | `-`        |
+| keeps           | 您期望虚拟列表在真实 `dom` 中保持渲染的项目数量。                                                                                       | number                | 30         |
+| estimateSize    | 每项的估计大小，如果它更接近平均大小，滚动条长度看起来更准确。建议指定自己计算的平均值                                                  | number                | 50         |
+| start           | 设置滚动位置保持开始索引                                                                                                                | number                | 0          |
+| offset          | 设置滚动位置保持偏移                                                                                                                    | number                | 0          |
+| direction       | 滚动的方向, 可选值为 `vertical` 和 `horizontal`                                                                                         | string                | `vertical` |
+| wrapTag         | 列表包裹元素名称                                                                                                                        | string                | `div`      |
+| wrapClass       | 列表包裹元素类名                                                                                                                        | string                | -          |
+| wrapStyle       | 列表包裹元素内联样式                                                                                                                    | object                | `{}`       |
+| height          | 高度                                                                                                                                    | number                | -          |
+| maxHeight       | 最大高度                                                                                                                                | number                | -          |
+| topThreshold    | 触发`totop` 事件的阈值                                                                                                                  | number                | 0          |
+| bottomThreshold | 触发`tobottom` 事件的阈值                                                                                                               | number                | 0          |
 
 ## VirtualList Events
 
-| 事件名称 | 说明                | 回调参数                                          |
-| -------- | ------------------- | ------------------------------------------------- |
-| scroll    | 滚动时触发      | (event, range) => void   |
-| totop   | 当滚动到顶部或者左边时触发 | () => void |
-| tobottom   | 当滚动到底部或者右边时触发，无参数      | () => void |
-| resized   |   开始拖拽时调用    | (id, size}) => void |
+| 事件名称 | 说明                               | 回调参数               |
+| -------- | ---------------------------------- | ---------------------- |
+| scroll   | 滚动时触发                         | (event, range) => void |
+| totop    | 当滚动到顶部或者左边时触发         | () => void             |
+| tobottom | 当滚动到底部或者右边时触发，无参数 | () => void             |
+| resized  | 开始拖拽时调用                     | (id, size}) => void    |
 
 ## VirtualList Method
 

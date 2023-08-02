@@ -3,7 +3,7 @@
         <f-table-column
             prop="date"
             label="日期"
-            :ellipsis="{ tooltip: { popperClass: 'a', showAfter: 500 }}"
+            :ellipsis="{ tooltip: { popperClass: 'a', showAfter: 500 } }"
             :width="150"
         ></f-table-column>
         <f-table-column label="配送信息">
