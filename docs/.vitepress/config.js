@@ -21,6 +21,16 @@ module.exports = {
     title: 'Fes Design',
     description: '微众银行中后台设计 Fes Design',
     appearance: false,
+    // 配置图标
+    head: [
+        [
+            'link',
+            {
+                rel: 'icon',
+                href: '/logo.svg',
+            },
+        ],
+    ],
     vite: {
         define: {
             __VUE_OPTIONS_API__: false,
