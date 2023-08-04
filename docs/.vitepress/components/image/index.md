@@ -49,20 +49,20 @@ app.use(FPreviewGroup);
 
 ## Image Props
 
-| 属性             | 说明                                        | 类型                 | 默认值                                       |
-| ---------------- | ------------------------------------------- | -------------------- | -------------------------------------------- |
-| alt              | 图像描述                                    | string               | `-`                                          |
-| width            | 图像宽度                                    | string/number        | `-`                                          |
-| height           | 图像高度                                    | string/number        | `-`                                          |
-| src              | 图片地址                                    | string               | `-`                                          |
-| preview          | 预览参数，为 false 时禁用                   | boolean              | `false`                                      |
-| fit              | 确定图片如何适应容器框，同原生 `object-fit` | string               | `fill / contain / cover / none / scale-down` |
-| lazy             | 是否开启懒加载                              | boolean              | `-`                                          |
-| hideOnClickModal | 是否可以通过点击遮罩层关闭预览              | boolean              | `false`                                      |
-| scrollContainer  | 开启懒加载后，监听 scroll 事件的容器        | string / HTMLElement | `-`                                          |
-| previewContainer | 指定预览弹窗挂载的 HTML 节点                | () => HTMLElement    | `() => document.body`                        |
-| name             | 当配置名称时，预览会展示此名称              | string               | `-`                                          |
-| download         | 是否可以下载，下载文件名称使用`name`        | boolean              | `false`                                      |
+| 属性             | 说明                                                                                               | 类型                 | 默认值                |
+| ---------------- | -------------------------------------------------------------------------------------------------- | -------------------- | --------------------- |
+| alt              | 图像描述                                                                                           | string               | `-`                   |
+| width            | 图像宽度                                                                                           | string/number        | `-`                   |
+| height           | 图像高度                                                                                           | string/number        | `-`                   |
+| src              | 图片地址                                                                                           | string               | `-`                   |
+| preview          | 预览参数，为 false 时禁用                                                                          | boolean              | `false`               |
+| fit              | 确定图片如何适应容器框，同原生 `object-fit`，可选值为 `fill` `contain` `cover` `none` `scale-down` | string               | `fill`                |
+| lazy             | 是否开启懒加载                                                                                     | boolean              | `-`                   |
+| hideOnClickModal | 是否可以通过点击遮罩层关闭预览                                                                     | boolean              | `false`               |
+| scrollContainer  | 开启懒加载后，监听 scroll 事件的容器                                                               | string / HTMLElement | `-`                   |
+| previewContainer | 指定预览弹窗挂载的 HTML 节点                                                                       | () => HTMLElement    | `() => document.body` |
+| name             | 当配置名称时，预览会展示此名称                                                                     | string               | `-`                   |
+| download         | 是否可以下载，下载文件名称使用`name`                                                               | boolean              | `false`               |
 
 ## Image Events
 
