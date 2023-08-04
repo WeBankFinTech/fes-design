@@ -6,27 +6,20 @@
 </template>
 
 <script>
-import { ref, onMounted, nextTick } from 'vue';
+import { ref, nextTick } from 'vue';
 
 export default {
     setup() {
         const inputRef = ref(null);
 
-        // 自动聚焦和失焦
-        onMounted(() => {
-            setTimeout(() => {
-                inputRef.value?.focus();
-            }, 1000);
-
-            setTimeout(() => {
-                inputRef.value?.blur();
-            }, 5000);
-        });
-
         // 手动聚焦
         const handleFocus = async () => {
             await nextTick();
             inputRef.value?.focus();
+
+            setTimeout(() => {
+                inputRef.value?.blur();
+            }, 5000);
         };
 
         return {
