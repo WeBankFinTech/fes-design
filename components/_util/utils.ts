@@ -91,7 +91,6 @@ export const pxfy = (value: string | number): string => {
         return `${value}px`;
     }
 
-    console.warn('[pxfy] 转换失败，原始值为：', value);
     if (isUndefined(value) || isNull(value)) return undefined;
     return value as string;
 };
