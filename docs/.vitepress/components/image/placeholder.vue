@@ -1,5 +1,5 @@
 <template>
-    <FImage style="width: 200px; height: 200px" :src="url">
+    <FImage :width="200" height="200px" :src="url">
         <template #placeholder>
             <div class="image-slot">
                 <div class="image-slot">

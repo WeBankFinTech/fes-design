@@ -1,5 +1,5 @@
 <template>
-    <div ref="container" :class="prefixCls">
+    <div ref="container" :class="prefixCls" :style="style">
         <slot v-if="loading" name="placeholder">
             <div :class="`${prefixCls}__placeholder`">
                 <PictureOutlined />
@@ -20,7 +20,7 @@
                     :src="src"
                     :class="`${prefixCls}__inner-image`"
                     :style="imageStyle"
-                    v-bind="imgCommonProps"
+                    v-bind="imgAttrs"
                 />
             </slot>
         </div>
@@ -57,7 +57,7 @@ import { isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { PictureOutlined, PictureFailOutlined } from '../icon';
 import { isHtmlElement, getScrollContainer, isInContainer } from '../_util/dom';
-import { noop, noopInNoop } from '../_util/utils';
+import { noop, noopInNoop, pxfy } from '../_util/utils';
 import { CLOSE_EVENT, LOAD_EVENT, ERROR_EVENT } from '../_util/constants';
 import download from '../_util/download';
 import { useTheme } from '../_theme/useTheme';
@@ -103,6 +103,8 @@ export const imageProps = {
     previewContainer: {
         type: Function as PropType<() => HTMLElement>,
     },
+    height: [String, Number] as PropType<string | number>,
+    width: [String, Number] as PropType<string | number>,
 } as const;
 
 export type ImageProps = ExtractPublicPropTypes<typeof imageProps>;
@@ -124,25 +126,35 @@ export default defineComponent({
         const container = ref(null);
         const isShowPreview = ref(false);
         const currentId = ref(curIndex++);
-        const {
-            width = '',
-            height = '',
-            crossorigin = '',
-            decoding = 'auto',
-            alt = '',
-            sizes = '',
-            srcset = '',
-            usemap = '',
-        } = attrs as ImgHTMLAttributes;
 
-        const imgCommonProps = {
-            crossorigin,
-            decoding,
-            alt,
-            sizes,
-            srcset,
-            usemap,
-        };
+        const imgAttrs = computed(() => {
+            const {
+                crossorigin = undefined,
+                decoding = 'auto',
+                alt = undefined,
+                sizes = undefined,
+                srcset = undefined,
+                usemap = undefined,
+            } = attrs as ImgHTMLAttributes;
+
+            return {
+                crossorigin,
+                decoding,
+                alt,
+                sizes,
+                srcset,
+                usemap,
+            };
+        });
+
+        const style = computed(() => {
+            const { width, height } = props;
+
+            return {
+                width: pxfy(width),
+                height: pxfy(height),
+            };
+        });
 
         const imageSize = reactive({
             height: 0,
@@ -297,7 +309,12 @@ export default defineComponent({
 
         let unRegister = noop;
         watch(
-            [() => props.src, canGroupPreview],
+            [
+                () => props.src,
+                () => props.name,
+                () => props.download,
+                canGroupPreview,
+            ],
             () => {
                 unRegister();
                 if (canGroupPreview.value) {
@@ -323,9 +340,7 @@ export default defineComponent({
         });
 
         return {
-            width,
-            height,
-            imgCommonProps,
+            imgAttrs,
             imageStyle,
             isShowPreview,
             clickHandler,
@@ -335,6 +350,7 @@ export default defineComponent({
             isLoadError,
             loading,
             imageSize,
+            style,
         };
     },
 });
