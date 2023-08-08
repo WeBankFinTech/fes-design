@@ -79,6 +79,9 @@ export const depx = (value: string | number): number => {
             return Number(formatValue);
         }
     }
+    if (isFinite(Number(value))) {
+        return Number(value);
+    }
 
     console.warn('[depx] 转换失败，原始值为：', value);
     if (isUndefined(value) || isNull(value)) return undefined;
@@ -89,6 +92,9 @@ export const depx = (value: string | number): number => {
 export const pxfy = (value: string | number): string => {
     if (isFinite(value)) {
         return `${value}px`;
+    }
+    if (isFinite(Number(value))) {
+        return `${Number(value)}px`;
     }
 
     if (isUndefined(value) || isNull(value)) return undefined;
