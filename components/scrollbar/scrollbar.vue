@@ -62,7 +62,7 @@
 import { computed, defineComponent, onMounted, ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
-import { addUnit, requestAnimationFrame } from '../_util/utils';
+import { pxfy, requestAnimationFrame } from '../_util/utils';
 import useResize from '../_util/use/useResize';
 import FBar from './bar.vue';
 import useScrollbar from './useScrollbar';
@@ -111,8 +111,8 @@ export default defineComponent({
         const style = computed(() => [
             props.containerStyle,
             {
-                height: addUnit(props.height),
-                maxHeight: addUnit(props.maxHeight),
+                height: pxfy(props.height),
+                maxHeight: pxfy(props.maxHeight),
             },
         ]);
 
