@@ -36,9 +36,13 @@ app.use(FSpace);
 
 --SPACEAROUND
 
-### 控制间距大小
+### 默认间距
 
 --SIZE
+
+### 自定义间距
+
+--CUSTOMSIZE
 
 ### 对齐方式
 

@@ -33,7 +33,7 @@ import {
 } from 'vue';
 import Schema from 'async-validator';
 import { isArray, cloneDeep, get, set } from 'lodash-es';
-import { addUnit } from '../_util/utils';
+import { pxfy } from '../_util/utils';
 import getPrefixCls from '../_util/getPrefixCls';
 import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
 import {
@@ -136,7 +136,7 @@ export default defineComponent({
             ),
         );
         const formItemLabelStyle = computed(() => ({
-            width: addUnit(props.labelWidth || labelWidth.value),
+            width: pxfy(props.labelWidth || labelWidth.value),
         }));
 
         /** 校验规则的类型: 默认 String  */

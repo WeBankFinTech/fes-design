@@ -1,6 +1,6 @@
 import { nextTick } from 'vue';
 
-import { isNull, isNumber, isString, isUndefined } from 'lodash-es';
+import { isFinite, isNull, isString, isUndefined } from 'lodash-es';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = () => {};
@@ -45,15 +45,6 @@ export const rAF = async () => {
 export const hasOwn = (val: object, key: string) =>
     Object.hasOwnProperty.call(val, key);
 
-export const addUnit = (val: number | string) => {
-    if (isNumber(val)) {
-        return `${val}px`;
-    }
-    if (isString(val)) return val;
-
-    return null;
-};
-
 export const requestAnimationFrame = (() => {
     const hackRAF = function (func: () => void) {
         return setTimeout(() => {
@@ -81,22 +72,33 @@ export const extractPropsDefaultValue = (props: { [key: string]: any }) => {
 };
 
 // 10px => 10
-export const depx = (value: string | number) => {
-    if (isString(value)) {
-        if (value.endsWith('px')) {
-            return Number(value.slice(0, value.length - 2));
+export const depx = (value: string | number): number => {
+    if (isString(value) && value.endsWith('px')) {
+        const formatValue = value.slice(0, value.length - 2);
+        if (isFinite(Number(formatValue))) {
+            return Number(formatValue);
         }
+    }
+    if (isFinite(Number(value))) {
         return Number(value);
     }
-    return value;
+
+    console.warn('[depx] 转换失败，原始值为：', value);
+    if (isUndefined(value) || isNull(value)) return undefined;
+    return value as number;
 };
 
 // 10 => 10px
-export const pxfy = (value: string | number) => {
+export const pxfy = (value: string | number): string => {
+    if (isFinite(value)) {
+        return `${value}px`;
+    }
+    if (isFinite(Number(value))) {
+        return `${Number(value)}px`;
+    }
+
     if (isUndefined(value) || isNull(value)) return undefined;
-    if (isNumber(value)) return `${value}px`;
-    if (value.endsWith('px')) return value;
-    return `${value}px`;
+    return value as string;
 };
 
 export function getParentNode(node: Node): Node | null {

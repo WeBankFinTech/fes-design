@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { addUnit } from '../_util/utils';
+import { pxfy } from '../_util/utils';
 import type { ScrollbarProps } from './const';
 
 export default (props: ScrollbarProps) => {
@@ -36,9 +36,8 @@ export default (props: ScrollbarProps) => {
                 originalThumbWidth /
                 (offsetWidth - originalThumbWidth) /
                 (width / (offsetWidth - width));
-            sizeHeight.value =
-                height + GAP < offsetHeight ? addUnit(height) : '';
-            sizeWidth.value = width + GAP < offsetWidth ? addUnit(width) : '';
+            sizeHeight.value = height + GAP < offsetHeight ? pxfy(height) : '';
+            sizeWidth.value = width + GAP < offsetWidth ? pxfy(width) : '';
         }
     };
 

@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { provide, toRefs, computed, defineComponent } from 'vue';
-import { addUnit } from '../_util/utils';
+import { pxfy } from '../_util/utils';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { provideKey, FORM_LAYOUT, TRIGGER_TYPE_DEFAULT } from './const';
@@ -34,13 +34,13 @@ export default defineComponent({
         const formStyle = computed(() => {
             const tempColStyle = props.layout === FORM_LAYOUT.INLINE &&
                 props.inlineItemWidth && {
-                    'grid-template-columns': `repeat(auto-fit, ${addUnit(
+                    'grid-template-columns': `repeat(auto-fit, ${pxfy(
                         props.inlineItemWidth,
                     )})`,
                 };
             const gapStyle = props.layout === FORM_LAYOUT.INLINE &&
                 props.inlineItemGap && {
-                    'grid-gap': `${addUnit(props.inlineItemGap)}`,
+                    'grid-gap': `${pxfy(props.inlineItemGap)}`,
                 };
             return { ...tempColStyle, ...gapStyle };
         });
