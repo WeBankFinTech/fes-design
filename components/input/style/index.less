@@ -11,12 +11,13 @@
 
 .@{input-prefix-cls} {
     .default();
+    .text();
     position: relative;
     display: inline-block;
     box-sizing: border-box;
     width: 100%;
     vertical-align: middle;
-    .text();
+
     &-prepend {
         .group();
         .group-prepend();
@@ -60,14 +61,16 @@
 }
 
 .@{textarea-prefix-cls} {
+    .default();
+    .text();
     position: relative;
     display: inline-block;
     width: 100%;
     font-size: var(--f-font-size-base);
     vertical-align: bottom;
-    .default();
-    .text();
+
     &-inner {
+        .text();
         display: block;
         box-sizing: border-box;
         width: 100%;
