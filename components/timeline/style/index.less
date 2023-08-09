@@ -1,0 +1,433 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+
+@timeline: ~'@{cls-prefix}-timeline';
+@item: ~'@{cls-prefix}-timeline-item';
+
+@item-axis-space: var(--f-padding-middle);
+@item-gap-space: var(--f-padding-large);
+@item-title-color: var(--f-text-color);
+@item-desc-color: var(--f-text-color-secondary);
+@item-desc-vertical-gap: 4px;
+@item-desc-horizontal-gap: 16px;
+@item-font-size: var(--f-font-size-base);
+@item-line-height: calc(@item-font-size + 3px * 2); // 行高
+
+@item-tail-width: var(--f-border-width-base); // 不使用 position 的移动，0.5px 无法生效
+@item-tail-color: var(--f-border-color-disabled);
+
+@icon-side-length: 8px;
+@icon-border-width: 2px;
+@icon-padding: 4px;
+@icon-info-color: var(--f-primary-color);
+@icon-success-color: var(--f-success-color);
+@icon-warning-color: var(--f-warning-color);
+@icon-error-color: var(--f-danger-color);
+
+ul.@{timeline} {
+    .text();
+
+    display: flex;
+    margin: 0;
+    padding: calc(@item-line-height / 2);
+    font-size: @item-font-size;
+    list-style: none;
+
+    // 时间轴结点
+    li.@{item} {
+        position: relative;
+        margin: 0;
+        list-style: none;
+
+        .@{item}-title {
+            position: relative;
+            color: @item-title-color;
+            line-height: @item-line-height;
+        }
+
+        .@{item}-desc {
+            position: relative;
+            color: @item-desc-color;
+            line-height: @item-line-height;
+        }
+
+        .@{item}-content-wrapper {
+            position: relative;
+
+            // 辅助信息在标题下方
+            .@{item}-desc.@{item}-desc-layout-under {
+                margin-top: @item-desc-vertical-gap;
+            }
+
+            // 辅助信息与标题同行
+            &.@{item}-content-wrapper-start:has(> .@{item}-desc.@{item}-desc-layout-inline),
+            &.@{item}-content-wrapper-end:has(> .@{item}-desc.@{item}-desc-layout-inline) {
+                display: flex;
+
+                .@{item}-title {
+                    white-space: nowrap
+                }
+            }
+
+            &.@{item}-content-wrapper-start:has(> .@{item}-desc.@{item}-desc-layout-inline) {
+                flex-direction: row-reverse;
+
+                .@{item}-desc.@{item}-desc-layout-inline {
+                    margin-right: @item-desc-horizontal-gap;
+                }
+            }
+
+            &.@{item}-content-wrapper-end:has(> .@{item}-desc.@{item}-desc-layout-inline) {
+                flex-direction: row;
+
+                .@{item}-desc.@{item}-desc-layout-inline {
+                    margin-left: @item-desc-horizontal-gap;
+                }
+            }
+        }
+
+        .@{item}-icon {
+            position: absolute;
+            width: @icon-side-length;
+            height: @icon-side-length;
+            border: @icon-border-width solid transparent;
+            border-radius: 50%;
+
+            &-custom {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                width: auto;
+                height: auto;
+                border: unset;
+            }
+
+            &-info {
+                color: @icon-info-color;
+                border-color: @icon-info-color;
+            }
+
+            &-success {
+                color: @icon-success-color;
+                border-color: @icon-success-color;
+            }
+
+            &-warning {
+                color: @icon-warning-color;
+                border-color: @icon-warning-color;
+            }
+
+            &-error {
+                color: @icon-error-color;
+                border-color: @icon-error-color;
+            }
+        }
+
+        .@{item}-tail {
+            position: absolute;
+            background-color: @item-tail-color;
+
+            &-last {
+                display: none;
+            }
+        }
+    }
+}
+
+// 时间轴垂直方向
+.@{timeline}-direction-column {
+    flex-direction: column;
+
+    li.@{item} {
+        padding-bottom: @item-gap-space;
+
+        .@{item}-tail {
+            top: calc(@icon-side-length / 2 + @icon-padding);
+            width: @item-tail-width;
+            height: calc(100% - @icon-side-length - @icon-padding * 2);
+        }
+    }
+
+    // 时间轴垂直方向，且轴在左
+    &.@{timeline}-layout-end:not(.@{timeline}-desc-opposite) {
+        li.@{item} {
+            .@{item}-icon {
+                top: 0;
+                left: 0;
+                transform: translate(-50%, -50%);
+            }
+    
+            .@{item}-tail {
+                left: 0;
+                transform: translateX(-50%);
+            }
+    
+            .@{item}-content-wrapper {
+                top: calc(0px - @item-line-height / 2);
+                margin-left: calc(@icon-side-length / 2 + @item-axis-space);
+            }
+        }
+    }
+
+    // 时间轴垂直方向，且轴在右
+    &.@{timeline}-layout-start:not(.@{timeline}-desc-opposite) {
+        li.@{item} {
+            text-align: right;
+
+            .@{item}-icon {
+                top: 0;
+                right: 0;
+                transform: translate(50%, -50%);
+            }
+
+            .@{item}-tail {
+                right: 0;
+                transform: translateX(50%);
+            }
+
+            .@{item}-content-wrapper {
+                top: calc(0px - @item-line-height / 2);
+                margin-right: calc(@icon-side-length / 2 + @item-axis-space);
+            }
+        }
+    }
+
+    // 时间轴垂直方向，且轴在中间
+    &.@{timeline}-layout-alternate,
+    // 时间轴垂直方向，辅助信息与标题分侧
+    &.@{timeline}-desc-opposite {
+        li.@{item} {
+            display: grid;
+            grid-template-areas: 'start end';
+            grid-template-columns: 1fr 1fr;
+
+            .@{item}-icon {
+                top: 0;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            .@{item}-tail {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .@{item}-content-wrapper {
+                top: calc(0px - @item-line-height / 2);
+            }
+
+            // 轴左侧结点
+            .@{item}-content-wrapper-start {
+                grid-area: start;
+                padding-right: calc(@icon-side-length / 2 + @item-axis-space);
+                text-align: right;
+            }
+            
+
+            // 轴右侧结点
+            .@{item}-content-wrapper-end {
+                grid-area: end;
+                padding-left: calc(@icon-side-length / 2 + @item-axis-space);
+                text-align: left;
+            }
+        }
+    }
+}
+
+// 时间轴水平方向
+.@{timeline}-direction-row, 
+.@{timeline}-direction-row-reverse {
+    li.@{item} {
+        flex-grow: 1;
+        min-width: 105px;
+
+        .@{item}-tail {
+            width: calc(100% - @icon-side-length - @icon-padding * 2);
+            height: @item-tail-width;
+        }
+    }
+
+    // 时间轴水平方向，且轴在上方
+    &.@{timeline}-layout-end {
+        li.@{item} {
+            .@{item}-tail {
+                top: 0;
+                transform: translateY(-50%);
+            }
+        }
+    }
+
+    // 时间轴水平方向，且轴在下方
+    &.@{timeline}-layout-start {
+        li.@{item} {
+            .@{item}-tail {
+                bottom: 0;
+                transform: translateY(50%);
+            }
+        }
+    }
+
+    // 时间轴水平方向，且轴在中间
+    &.@{timeline}-layout-alternate,
+    // 时间轴水平方向，辅助信息与标题分侧
+    &.@{timeline}-desc-opposite {
+        li.@{item} {
+            /**
+             * NOTE: 之所以使用 grid 布局，是因为对于 li.@{item} > .@{item}-content-wrapper
+             * - 不能使用 relative top：会无法撑开 li.@{item}
+             * - 不能使用 margin-top：百分比计算不正确
+             *   并不是根据包含块的高度百分比来计算 margin，而是宽度（https://developer.mozilla.org/zh-CN/docs/Web/CSS/Containing_block#%E6%A0%B9%E6%8D%AE%E5%8C%85%E5%90%AB%E5%9D%97%E8%AE%A1%E7%AE%97%E7%99%BE%E5%88%86%E5%80%BC）
+             * 而使用 grid 布局则可以直接对 li.@{item} 的 height 进行二等分
+             */
+            display: grid;
+            grid-template-areas: 'start' 'end';
+            grid-template-rows: 1fr 1fr;
+
+            .@{item}-content-wrapper {
+                display: flex; 
+                flex-direction: column;
+
+                // 轴上方结点
+                &.@{item}-content-wrapper-start {
+                    grid-area: start;
+                    justify-content: end;
+                    padding-bottom: calc(@icon-side-length / 2 + @item-axis-space);
+                }
+
+                // 轴下方结点
+                &.@{item}-content-wrapper-end {
+                    grid-area: end;
+                    justify-content: start;
+                    padding-top: calc(@icon-side-length / 2 + @item-axis-space);
+                }
+            }
+
+            .@{item}-tail {
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+    }
+}
+
+// 时间轴水平向右
+.@{timeline}-direction-row {
+    flex-direction: row;
+
+    li.@{item} {
+        padding-right: @item-gap-space;
+
+        .@{item}-tail {
+            left: calc(@icon-side-length / 2 + @icon-padding);
+        }
+
+        .@{item}-content-wrapper {
+            left: calc(0px - @icon-side-length / 2)
+        }
+    }
+
+    // 时间轴水平向右，且轴在上方
+    &.@{timeline}-layout-end:not(.@{timeline}-desc-opposite) {
+        li.@{item} {
+            .@{item}-icon {
+                top: 0;
+                left: 0;
+                transform: translate(-50%, -50%);
+            }
+    
+            .@{item}-content-wrapper {
+                margin-top: calc(@icon-side-length / 2 + @item-axis-space);
+            }
+        }
+    }
+
+    // 时间轴水平向右，且轴在下方
+    &.@{timeline}-layout-start:not(.@{timeline}-desc-opposite) {
+        li.@{item} {
+            .@{item}-icon {
+                bottom: 0;
+                left: 0;
+                transform: translate(-50%, 50%);
+            }
+
+            .@{item}-content-wrapper {
+                margin-bottom: calc(@icon-side-length / 2 + @item-axis-space);
+            }
+        }
+    }
+
+    // 时间轴水平向右，且轴在中间
+    &.@{timeline}-layout-alternate,
+    // 时间轴水平方向，辅助信息与标题分侧
+    &.@{timeline}-desc-opposite {
+        li.@{item} {
+            .@{item}-icon {
+                top: 50%;
+                left: 0;
+                transform: translate(-50%, -50%);
+            }
+        }
+    }
+}
+
+// 时间轴水平向左
+.@{timeline}-direction-row-reverse {
+    flex-direction: row-reverse;
+
+    li.@{item} {
+        padding-left: @item-gap-space;
+        text-align: right;
+
+        .@{item}-tail {
+            right: calc(@icon-side-length / 2 + @icon-padding);
+        }
+
+        .@{item}-content-wrapper {
+            right: calc(0px - @icon-side-length / 2)
+        }
+    }
+
+    // 时间轴水平向左，且轴在上方
+    &.@{timeline}-layout-end:not(.@{timeline}-desc-opposite) {
+        li.@{item} {
+            .@{item}-icon {
+                top: 0;
+                right: 0;
+                transform: translate(50%, -50%);
+            }
+    
+            .@{item}-content-wrapper {
+                margin-top: calc(@icon-side-length / 2 + @item-axis-space);
+            }
+        }
+    }
+
+    // 时间轴水平向左，且轴在下方
+    &.@{timeline}-layout-start:not(.@{timeline}-desc-opposite) {
+        li.@{item} {
+            .@{item}-icon {
+                right: 0;
+                bottom: 0;
+                transform: translate(50%, 50%);
+            }
+
+            .@{item}-content-wrapper {
+                margin-bottom: calc(@icon-side-length / 2 + @item-axis-space);
+            }
+        }
+    }
+
+    // 时间轴水平向左，且轴在中间
+    &.@{timeline}-layout-alternate,
+    // 时间轴水平方向，辅助信息与标题分侧
+    &.@{timeline}-desc-opposite {
+        li.@{item} {
+            .@{item}-icon {
+                top: 50%;
+                right: 0;
+                transform: translate(50%, -50%);
+            }
+        }
+    }
+}

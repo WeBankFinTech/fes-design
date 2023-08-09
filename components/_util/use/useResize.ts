@@ -9,14 +9,16 @@ import {
 } from 'vue';
 import { ResizeObserver } from '@juggle/resize-observer';
 
+type ResizeObserverCallback = ConstructorParameters<typeof ResizeObserver>[0];
+
 export default (
     triggerRef: Ref<HTMLElement>,
-    callback?: () => void,
+    callback?: ResizeObserverCallback,
     disabled?: boolean | Ref<boolean>,
     immediate = true,
 ) => {
     const disabledRef = computed(() => unref(disabled));
-    const handleResize = () => {
+    const handleResize: ResizeObserverCallback = (...params) => {
         if (disabledRef.value) {
             return;
         }
@@ -24,7 +26,7 @@ export default (
             immediate = true;
             return;
         }
-        callback?.();
+        callback?.(...params);
     };
 
     const ro = new ResizeObserver(handleResize);

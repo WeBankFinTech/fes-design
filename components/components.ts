@@ -46,3 +46,4 @@ export * from './tree';
 export * from './upload';
 export * from './virtual-list';
 export * from './text';
+export * from './timeline';
