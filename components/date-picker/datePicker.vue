@@ -44,7 +44,7 @@
                 v-else
                 ref="inputRefEl"
                 :modelValue="dateText"
-                :placeholder="(innerPlaceHolder as string)"
+                :placeholder="singlePlaceHolder"
                 :disabled="innerDisabled"
                 :canEdit="pickerRef.name !== PickerType.datemultiple"
                 :clearable="clearable"
@@ -256,8 +256,15 @@ const usePlaceholder = (
         return t(placeholderLang);
     });
 
+    const singlePlaceHolder = computed(() => {
+        return Array.isArray(innerPlaceHolder.value)
+            ? innerPlaceHolder.value[0]
+            : innerPlaceHolder.value;
+    });
+
     return {
         innerPlaceHolder,
+        singlePlaceHolder,
     };
 };
 
@@ -314,7 +321,10 @@ export default defineComponent({
             () => props.disabled || isFormDisabled.value,
         );
 
-        const { innerPlaceHolder } = usePlaceholder(props, pickerRef);
+        const { innerPlaceHolder, singlePlaceHolder } = usePlaceholder(
+            props,
+            pickerRef,
+        );
 
         const { tmpSelectedDates, tmpSelectedDateChange } =
             useTmpSelectedDates();
@@ -444,6 +454,7 @@ export default defineComponent({
 
             tmpSelectedDateChange,
             innerPlaceHolder,
+            singlePlaceHolder,
 
             handlePopperVisible,
 
