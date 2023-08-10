@@ -1,5 +1,5 @@
 import { computed, inject, unref } from 'vue';
-import { get } from 'lodash-es';
+import { get, isString, isUndefined } from 'lodash-es';
 import { zhCN } from '../locales';
 import { CONFIG_PROVIDER_INJECTION_KEY } from './const';
 import type { TranslatorType, TranslatorOptionType } from './const';
@@ -11,7 +11,26 @@ const translate = (
     option: undefined | TranslatorOptionType,
     locale: TypeLanguage,
 ): string => {
-    return (get(locale, path, '') as string).replace(
+    const config = get(locale, path, undefined);
+    if (isUndefined(config)) {
+        console.warn(
+            '[configProvider] 未找到语言配置项, path:',
+            path,
+            ', locale:',
+            locale,
+        );
+        return '';
+    }
+    if (!isString(config)) {
+        console.warn(
+            '[configProvider] 语言配置项仅支持字符串类型, path:',
+            path,
+            ', config:',
+            config,
+        );
+        return '';
+    }
+    return (config as string).replace(
         /\{(\w+)\}/g,
         (_, key) => `${option?.[key] ?? `{${key}}`}`,
     );
