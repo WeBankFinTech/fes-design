@@ -18,7 +18,7 @@
                 ref="inputRangeRefEL"
                 :format="format || pickerRef.format"
                 :selectedDates="visibleValue"
-                :placeholder="rangePlaceHolder"
+                :placeholder="innerPlaceHolder"
                 :clearable="clearable"
                 :disabled="innerDisabled"
                 :innerIsFocus="inputIsFocus"
@@ -44,7 +44,7 @@
                 v-else
                 ref="inputRefEl"
                 :modelValue="dateText"
-                :placeholder="singlePlaceHolder"
+                :placeholder="(innerPlaceHolder as string)"
                 :disabled="innerDisabled"
                 :canEdit="pickerRef.name !== PickerType.datemultiple"
                 :clearable="clearable"
@@ -247,7 +247,7 @@ const usePlaceholder = (
 ) => {
     const { t } = useLocale();
 
-    const rangePlaceHolder = computed(() => {
+    const innerPlaceHolder = computed(() => {
         if (props.placeholder) return props.placeholder;
         const placeholderLang = picker.value.placeholderLang;
         if (Array.isArray(placeholderLang)) {
@@ -256,14 +256,8 @@ const usePlaceholder = (
         return t(placeholderLang);
     });
 
-    const singlePlaceHolder = computed(() => {
-        if (props.placeholder) return props.placeholder as string;
-        return t(picker.value.placeholderLang as string);
-    });
-
     return {
-        rangePlaceHolder,
-        singlePlaceHolder,
+        innerPlaceHolder,
     };
 };
 
@@ -320,10 +314,7 @@ export default defineComponent({
             () => props.disabled || isFormDisabled.value,
         );
 
-        const { rangePlaceHolder, singlePlaceHolder } = usePlaceholder(
-            props,
-            pickerRef,
-        );
+        const { innerPlaceHolder } = usePlaceholder(props, pickerRef);
 
         const { tmpSelectedDates, tmpSelectedDateChange } =
             useTmpSelectedDates();
@@ -452,8 +443,7 @@ export default defineComponent({
             handleBlur,
 
             tmpSelectedDateChange,
-            rangePlaceHolder,
-            singlePlaceHolder,
+            innerPlaceHolder,
 
             handlePopperVisible,
 
