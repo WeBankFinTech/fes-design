@@ -10,16 +10,18 @@ const translate = (
     path: string,
     option: undefined | TranslatorOptionType,
     locale: TypeLanguage,
-): string =>
-    (get(locale, path, path) as string).replace(
+): string => {
+    return (get(locale, path, '') as string).replace(
         /\{(\w+)\}/g,
         (_, key) => `${option?.[key] ?? `{${key}}`}`,
     );
+};
 
-const buildTranslator =
-    (locale: MaybeRef<TypeLanguage>): TranslatorType =>
-    (path: string, option: undefined | TranslatorOptionType) =>
-        translate(path, option, unref(locale));
+const buildTranslator = (locale: MaybeRef<TypeLanguage>): TranslatorType => {
+    return (path: string, option: undefined | TranslatorOptionType) => {
+        return translate(path, option, unref(locale));
+    };
+};
 
 export const useLocale = () => {
     const providerConfig = inject(CONFIG_PROVIDER_INJECTION_KEY, {});

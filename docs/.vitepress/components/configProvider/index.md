@@ -27,9 +27,13 @@ const getContainer = () => {
 </script>
 ```
 
-### 2. 切换语言
+### 切换语言
 
---changeLocale
+--CHANGELOCALE
+
+### 自定义语言
+
+--CUSTOMLOCALE
 
 --CODE
 
