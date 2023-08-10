@@ -1,3 +1,21 @@
+## [0.8.4](https://github.com/WeBankFinTech/fes-design/compare/v0.8.3...v0.8.4) (2023-08-10)
+
+
+### Bug Fixes
+
+* 修复 date-picker placeholder 属性遍历导致的问题 ([#379](https://github.com/WeBankFinTech/fes-design/issues/379)) ([69ccd1f](https://github.com/WeBankFinTech/fes-design/commit/69ccd1ffc1e426baf3268626a8db1cea398b61c1))
+* 修复 datePicker build ([#380](https://github.com/WeBankFinTech/fes-design/issues/380)) ([35afcd5](https://github.com/WeBankFinTech/fes-design/commit/35afcd5980528b8feef33d54f8227aa8d2a6cec3))
+* 修复图片加载load顺序可能异常的问题 ([#370](https://github.com/WeBankFinTech/fes-design/issues/370)) ([e458b0b](https://github.com/WeBankFinTech/fes-design/commit/e458b0b8748db28096d83e9a68f64beb53c29e0e))
+* 修复image图片src变更,loading状态未重置问题 ([#361](https://github.com/WeBankFinTech/fes-design/issues/361)) ([18fe1ea](https://github.com/WeBankFinTech/fes-design/commit/18fe1ea79411950aa33c34a9fcac5b191a9c0f8c))
+* 修复input组件字体样式不是默认字体的问题 ([#376](https://github.com/WeBankFinTech/fes-design/issues/376)) ([d63ddb1](https://github.com/WeBankFinTech/fes-design/commit/d63ddb13aeb5d29e091c5b92aecc89609db53b50))
+
+
+### Features
+
+* Image组件配置支持响应式 ([#373](https://github.com/WeBankFinTech/fes-design/issues/373)) ([6c9780c](https://github.com/WeBankFinTech/fes-design/commit/6c9780ce1ea55710625c08658197b648f42e7209))
+
+
+
 ## [0.8.3](https://github.com/WeBankFinTech/fes-design/compare/v0.8.2...v0.8.3) (2023-08-01)
 
 
