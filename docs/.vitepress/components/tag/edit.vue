@@ -15,7 +15,7 @@
                 v-model="dynamicTags.state.inputValue"
                 class="input-tag"
                 size="small"
-                @blur="dynamicTags.handleInputConfirm"
+                @change="dynamicTags.handleInputConfirm"
             >
             </FInput>
             <FButton v-else class="button-tag" @click="dynamicTags.showInput">

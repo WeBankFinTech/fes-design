@@ -6,6 +6,8 @@
         <FInput placeholder="请输入" @keydown="keyDown"></FInput>
         Input事件
         <FInput placeholder="请输入" @input="inputChange"></FInput>
+        Enter事件
+        <FInput placeholder="请输入" @keyup.enter="keyupEnter"></FInput>
     </FSpace>
 </template>
 
@@ -24,10 +26,15 @@ export default {
             console.log('inputChange', e);
         };
 
+        const keyupEnter = (e) => {
+            console.log('keyupEnter', e);
+        };
+
         return {
             textChange,
             keyDown,
             inputChange,
+            keyupEnter,
         };
     },
 };

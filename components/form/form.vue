@@ -1,5 +1,5 @@
 <template>
-    <form :class="formClass" :style="formStyle">
+    <form :class="formClass" :style="formStyle" @submit="handleSubmit">
         <slot />
     </form>
 </template>
@@ -20,7 +20,8 @@ const prefixCls = getPrefixCls('form');
 export default defineComponent({
     name: FORM_NAME,
     props: formProps,
-    setup(props) {
+    emits: ['submit'],
+    setup(props, { emit }) {
         useTheme();
 
         const formFields: {
@@ -130,6 +131,12 @@ export default defineComponent({
             removeField,
         });
 
+        const handleSubmit = (e: Event) => {
+            e.preventDefault();
+            e.stopPropagation();
+            emit('submit', e);
+        };
+
         return {
             formClass,
             formStyle,
@@ -137,6 +144,7 @@ export default defineComponent({
             validate,
             clearValidate,
             resetFields,
+            handleSubmit,
         };
     },
 });
