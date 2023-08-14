@@ -72,6 +72,13 @@ export const useArrayModel = (
         ...config,
         defaultValue: [],
     });
+    if (!isArray(computedValue.value)) {
+        console.warn(
+            '[useArrayModel] 绑定值类型不匹配, 仅支持数组类型, value:',
+            props[config?.prop || 'modelValue'],
+        );
+        updateCurrentValue([]);
+    }
 
     const updateItem = (value: any) => {
         if (isArray(value)) {
