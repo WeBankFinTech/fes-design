@@ -13,8 +13,10 @@
 .@{text-prefix-cls} {
     --f-text-text-color: @text-color-base;
 
+    .default();
+    .text();
+
     color: var(--f-text-text-color);
-    transition: color @animation-duration-slow @ease-in-out;
 
     &-type--success {
         --f-text-text-color: @text-color-success;
