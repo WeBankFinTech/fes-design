@@ -5,6 +5,7 @@ import {
     ComputedRef,
     StyleValue,
     HTMLAttributes,
+    PropType,
 } from 'vue';
 import { isNil } from 'lodash-es';
 
@@ -14,7 +15,7 @@ const prefixCls = 'fes-design-icon';
 
 const iconProps = {
     spin: Boolean,
-    rotate: Number,
+    rotate: [String, Number] as PropType<string | number>,
     tabIndex: Number,
     size: Number,
     color: String,
