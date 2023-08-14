@@ -14,7 +14,7 @@ const prefixCls = 'fes-design-icon';
 
 const iconProps = {
     spin: Boolean,
-    rotate: String,
+    rotate: Number,
     tabIndex: Number,
     size: Number,
     color: String,

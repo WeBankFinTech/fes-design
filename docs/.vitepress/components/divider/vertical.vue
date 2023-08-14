@@ -1,6 +1,6 @@
 <template>
     啊
-    <FDivider vertical>右边</FDivider>
+    <FDivider vertical></FDivider>
     啊
     <FDivider vertical></FDivider>
     啊
