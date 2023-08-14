@@ -23,7 +23,7 @@
 
     <FDivider></FDivider>
     <FSpace>
-        <FText type="info" :strong="isStrong" :italic="IsItalic" :tag="tag">
+        <FText :strong="isStrong" :italic="IsItalic" :tag="tag">
             这是一段文字
         </FText>
     </FSpace>
