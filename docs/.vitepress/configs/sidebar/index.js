@@ -157,6 +157,10 @@ module.exports = {
                         link: '/zh/components/tag',
                     },
                     {
+                        text: 'Text 文本',
+                        link: '/zh/components/text',
+                    },
+                    {
                         text: 'Tree 树形控件',
                         link: '/zh/components/tree',
                     },

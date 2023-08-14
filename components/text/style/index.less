@@ -1,0 +1,40 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+@import './mixin.less';
+
+@text-prefix-cls: ~'@{cls-prefix}-text';
+
+@text-color-base: var(--f-text-color);
+@text-color-success: var(--f-success-color);
+@text-color-info: var(--f-primary-color);
+@text-color-warning: var(--f-warning-color);
+@text-color-danger: var(--f-danger-color);
+
+.@{text-prefix-cls} {
+    --f-text-text-color: @text-color-base;
+
+    .default();
+    .text();
+
+    color: var(--f-text-text-color);
+
+    &-type--success {
+        --f-text-text-color: @text-color-success;
+    }
+    &-type--info {
+        --f-text-text-color: @text-color-info;
+    }
+    &-type--warning {
+        --f-text-text-color: @text-color-warning;
+    }
+    &-type--danger {
+        --f-text-text-color: @text-color-danger;
+    }
+
+    &-text--strong {
+        font-weight: @font-weight-medium;
+    }
+    &-text--italic {
+        font-style: italic
+    }
+}
