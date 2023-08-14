@@ -40,5 +40,5 @@ import { ref } from 'vue';
 import { EditOutlined } from '@fesjs/fes-design/icon';
 const size = ref(24);
 const rotate = ref(45);
-const color = ref('primary');
+const color = ref('#5384ff');
 </script>
