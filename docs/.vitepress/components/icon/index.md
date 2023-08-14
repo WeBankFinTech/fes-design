@@ -14,9 +14,25 @@ import { CloseCircleFilled } from '@fesjs/fes-design/icon';
 </script>
 ```
 
-## Icons
+## Icons 列表
 
 <IconDoc />
+
+## 代码演示
+
+### 基础用法
+
+--COMMON
+
+### 加载状态
+
+--LOADING
+
+### 自定义
+
+--CUSTOM
+
+--CODE
 
 ## Icon Props
 
