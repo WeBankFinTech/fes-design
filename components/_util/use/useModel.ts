@@ -1,10 +1,5 @@
 import { ref, watch, computed, WritableComputedRef } from 'vue';
-import {
-    isEqual as isEqualFunc,
-    isArray,
-    isUndefined,
-    isNull,
-} from 'lodash-es';
+import { isEqual as isEqualFunc, isArray, isUndefined } from 'lodash-es';
 
 type UseNormalModelOptions = {
     prop?: string;
@@ -26,9 +21,7 @@ export const useNormalModel = (
     } = config;
     const usingProp = prop;
     const currentValue = ref(
-        !(isUndefined(props[usingProp]) || isNull(props[usingProp]))
-            ? props[usingProp]
-            : defaultValue,
+        !isUndefined(props[usingProp]) ? props[usingProp] : defaultValue,
     );
     const pureUpdateCurrentValue = (value: any) => {
         if (
@@ -79,6 +72,13 @@ export const useArrayModel = (
         ...config,
         defaultValue: [],
     });
+    if (!isArray(computedValue.value)) {
+        console.warn(
+            '[useArrayModel] 绑定值类型不匹配, 仅支持数组类型, value:',
+            props[config?.prop || 'modelValue'],
+        );
+        updateCurrentValue([]);
+    }
 
     const updateItem = (value: any) => {
         if (isArray(value)) {
