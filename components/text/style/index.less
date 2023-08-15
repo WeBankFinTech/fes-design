@@ -10,13 +10,18 @@
 @text-color-warning: var(--f-warning-color);
 @text-color-danger: var(--f-danger-color);
 
+@text-font-size-sm: @font-size-caption;
+@text-font-size-lg: @font-size-head;
+
 .@{text-prefix-cls} {
     --f-text-text-color: @text-color-base;
+    --f-text-font-size: var(--f-font-size-base);
 
     .default();
     .text();
 
     color: var(--f-text-text-color);
+    font-size: var(--f-text-font-size);
 
     &-type--success {
         --f-text-text-color: @text-color-success;
@@ -29,6 +34,13 @@
     }
     &-type--danger {
         --f-text-text-color: @text-color-danger;
+    }
+
+    &-size--small {
+        --f-text-font-size: @text-font-size-sm;
+    }
+    &-size--large {
+        --f-text-font-size: @text-font-size-lg;
     }
 
     &-text--strong {

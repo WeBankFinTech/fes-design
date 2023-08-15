@@ -16,23 +16,36 @@ app.use(FText);
 
 --BASIC
 
-### 更多效果
+### 尺寸
 
---EXTEND
+--SIZE
+
+### 字体效果
+
+--EFFECT
+
+### 自定义元素标签
+
+--TAG
+
+### 混合使用
+
+--MIXIN
 
 --CODE
 
-## Tag Props
+## Text Props
 
 | 属性   | 说明                                                        | 类型    | 默认值    |
 | ------ | ----------------------------------------------------------- | ------- | --------- |
 | type   | 类型，可选值为`default` `success` `info` `warning` `danger` | string  | `default` |
+| size   | 类型，可选值为`large` `default` `small`                     | string  | `default` |
 | strong | 是否字体加粗                                                | boolean | `false`   |
 | italic | 是否字体倾斜                                                | boolean | `false`   |
-| tag    | 元素标签，可选值为`span` `div` `p` `h1` `h2` `h3` 等        | string  | `span`    |
+| tag    | 自定义元素标签，可选值为`span` `div` `p` `h1` `h2` `h3` 等  | string  | `span`    |
 
-## Tag Slots
+## Text Slots
 
 | slot 名称 | 说明     |
 | --------- | -------- |
-| default   | 文本内容 |
+| default   | 默认内容 |
