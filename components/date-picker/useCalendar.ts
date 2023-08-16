@@ -133,8 +133,11 @@ export const useSelectedDates = (
         } else if (!picker.value.isRange) {
             selectedDates.value = [newDate];
         } else {
-            // 变更日期的时候，继承当前位置的时间
-            if (
+            if (props.selectedStatus === SELECTED_STATUS.EMPTY) {
+                // 若重新选择，则重新赋值
+                selectedDates.value = [newDate, newDate];
+            } else if (
+                // 变更日期的时候，继承当前位置的时间
                 transformDateToTimestamp(selectedDates.value[0]) >
                 transformDateToTimestamp(newDate)
             ) {

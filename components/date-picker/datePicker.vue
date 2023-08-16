@@ -379,7 +379,6 @@ export default defineComponent({
         const changeDateBycalendars = (val: number | number[] | null) => {
             handleChange(val);
             // 选择完后重新聚焦
-            // TODO 如果有取消按钮，取消之后也应该重新聚焦
             activeInputRefEL.value.focus();
             updatePopperOpen(false);
         };
@@ -406,7 +405,8 @@ export default defineComponent({
         const handleBlur = (e: FocusEvent) => {
             cacheEvent = e;
             // 非弹窗内容点击导致的失焦，进行 blur 的校验
-            if (!calendarsRef.value.$el.contains(e.relatedTarget)) {
+            // 兼容禁用状态，选择框不展示的情况
+            if (!calendarsRef.value?.$el.contains(e.relatedTarget)) {
                 if (isOpened.value) {
                     updatePopperOpen(false);
                 }
