@@ -10,7 +10,7 @@ export const textProps = {
     },
     size: {
         type: String as PropType<Size>,
-        default: 'default',
+        default: 'middle',
     },
     strong: Boolean,
     italic: Boolean,

@@ -1,3 +1,3 @@
 export type Type = 'default' | 'success' | 'info' | 'warning' | 'danger';
 
-export type Size = 'large' | 'default' | 'small';
+export type Size = 'small' | 'middle' | 'large';
