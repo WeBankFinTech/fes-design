@@ -18,6 +18,7 @@ export default defineComponent({
         const textClass = computed(() => ({
             [prefixCls]: true,
             [`${prefixCls}-type--${props.type}`]: props.type,
+            [`${prefixCls}-size--${props.size}`]: props.size,
             [`${prefixCls}-text--strong`]: props.strong,
             [`${prefixCls}-text--italic`]: props.italic,
         }));

@@ -12,19 +12,13 @@
                 <FRadio :value="true">是</FRadio>
             </FRadioGroup>
         </FFormItem>
-        <FFormItem label="元素标签：">
-            <FRadioGroup v-model="tag">
-                <FRadio value="">span(默认)</FRadio>
-                <FRadio value="div">div</FRadio>
-                <FRadio value="p">p</FRadio>
-            </FRadioGroup>
-        </FFormItem>
     </FForm>
 
     <FDivider></FDivider>
+
     <FSpace>
-        <FText :strong="isStrong" :italic="IsItalic" :tag="tag">
-            这是一段文字
+        <FText :strong="isStrong" :italic="IsItalic">
+            道生一，一生二，二生三，三生万物
         </FText>
     </FSpace>
 </template>
@@ -33,5 +27,4 @@
 import { ref } from 'vue';
 const isStrong = ref(true);
 const IsItalic = ref(true);
-const tag = ref('');
 </script>
