@@ -1,5 +1,5 @@
 import DefaultTheme from 'vitepress/theme';
-import WeDesign from '@fesjs/fes-design';
+import FesDesign from '@fesjs/fes-design';
 // eslint-disable-next-line import/no-unresolved
 import '@fesjs/fes-design/_style';
 
@@ -23,7 +23,7 @@ export default {
         Object.keys(Icons).forEach((iconName) => {
             app.component(iconName, Icons[iconName]);
         });
-        app.use(WeDesign);
+        app.use(FesDesign);
         app.component('ComponentDoc', ComponentDoc);
 
         app.provide('filter-headers', (headers) => {

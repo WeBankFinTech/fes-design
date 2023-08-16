@@ -4,29 +4,7 @@ const fs = require('fs');
 const fse = require('fs-extra');
 const shiki = require('shiki');
 
-const SCRIPT_TEMPLATE = `
-<script>
-IMPORT_EXPRESSION
-
-export default {
-    components: {
-        COMPONENTS
-    }
-}
-</script>
-`;
-
-const DEMO_ENTRY_FILE = `
-<template>
-    <Demo />
-</template>
-
-<script setup>
-import {setupFesDesign } from './fes-design.js';
-import Demo from './demo.vue';
-setupFesDesign();
-</script>
-`;
+const { SCRIPT_TEMPLATE, DEMO_ENTRY_FILE } = require('./constants');
 
 const CODE_PATH = path.join(
     process.cwd(),
@@ -50,10 +28,13 @@ function genOutputPath(name) {
 }
 
 function handleCompDoc(compCode, compName, demoName) {
+    const codeName = `${compName}.${demoName}`;
+    const codeSrc = encodeURIComponent(code[`${codeName}`]);
+    const codeFormat = encodeURIComponent(code[`${codeName}-code`]);
     return compCode.replace(
         /<template>([\s\S]*)<\/template>/,
         (match, p1) =>
-            `<template><ComponentDoc code="${compName}.${demoName}"><ClientOnly>${p1}</ClientOnly></ComponentDoc></template>`,
+            `<template><ComponentDoc codeName="${codeName}" codeSrc="${codeSrc}" codeFormat="${codeFormat}"><ClientOnly>${p1}</ClientOnly></ComponentDoc></template>`,
     );
 }
 

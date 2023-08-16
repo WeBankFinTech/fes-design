@@ -57,6 +57,9 @@ module.exports = {
             stringify: true,
         },
         plugins: [vueJsx({})],
+        build: {
+            chunkSizeWarningLimit: 1000,
+        },
     },
     vue: {
         template: {
