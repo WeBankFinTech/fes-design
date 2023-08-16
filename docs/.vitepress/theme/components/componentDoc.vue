@@ -21,30 +21,27 @@
 </template>
 
 <script>
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 
 import playground from './playground';
-import codes from './demoCode';
 
 export default defineComponent({
     props: {
-        code: String,
+        codeName: String,
+        codeSrc: String,
+        codeFormat: String,
     },
     setup(props) {
-        const currentCode = ref('');
-        watch(
-            () => props.code,
-            () => {
-                currentCode.value = codes[`${props.code}-code`];
-            },
-            {
-                immediate: true,
-            },
+        const currentCode = computed(() =>
+            decodeURIComponent(props.codeFormat),
         );
 
         const visibleCode = ref(false);
         const openPlayground = () => {
-            playground(props.code);
+            playground({
+                codeName: props.codeName,
+                codeSrc: props.codeSrc,
+            });
         };
 
         return {
