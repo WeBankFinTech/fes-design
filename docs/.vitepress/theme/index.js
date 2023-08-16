@@ -11,7 +11,6 @@ import '../../../components/icon/style';
 import WIframe from './components/wIframe.vue';
 import NotFound from './components/notFound.vue';
 import ComponentDoc from './components/componentDoc.vue';
-import Space from './components/space.vue';
 
 import './global.less';
 
@@ -26,7 +25,6 @@ export default {
         });
         app.use(WeDesign);
         app.component('ComponentDoc', ComponentDoc);
-        app.component('Space', Space);
 
         app.provide('filter-headers', (headers) => {
             return headers;

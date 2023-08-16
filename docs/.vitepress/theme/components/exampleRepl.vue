@@ -43,7 +43,6 @@ const store = new ReplStore({
 const fesDesignSetup = `
 // 不要修改此文件!!!
 import { getCurrentInstance } from 'vue';
-import Space from './space.vue';
 import FesDesign from '@fesjs/fes-design';
 import * as Icons from '@fesjs/fes-design/icon';
 export function loadStyle() {
@@ -65,13 +64,11 @@ export function setupFesDesign() {
   Object.keys(Icons).forEach((iconName) => {
       instance.appContext.app.component(iconName, Icons[iconName]);
   });
-  instance.appContext.app.component('Space', Space)
 }
 `;
 
 const defaultFiles = {
     [mainFile]: data.app,
-    'src/space.vue': data.space,
     'src/fes-design.js': fesDesignSetup,
     'import-map.json': JSON.stringify({
         imports: {

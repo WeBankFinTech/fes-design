@@ -32,10 +32,6 @@ const CODE_PATH = path.join(
     process.cwd(),
     './docs/.vitepress/theme/components/demoCode.json',
 );
-const COMP_SPACE_PATH = path.join(
-    process.cwd(),
-    './docs/.vitepress/theme/components/space.vue',
-);
 
 function getDemoCode() {
     if (fs.existsSync(CODE_PATH)) {
@@ -44,7 +40,6 @@ function getDemoCode() {
 
     return {
         app: DEMO_ENTRY_FILE,
-        space: fs.readFileSync(COMP_SPACE_PATH, 'utf-8'),
     };
 }
 
