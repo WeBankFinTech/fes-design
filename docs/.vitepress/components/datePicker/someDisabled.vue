@@ -8,7 +8,7 @@
         <FDatePicker :disabledDate="disabledDate" />
         最大日期范围为7天
         <FDatePicker type="daterange" maxRange="7D" />
-        控制可选时间范围为：09:00:00 - 18:00:00
+        控制可选时间范围为: 09:00:00 - 18:00:00
         <FDatePicker type="datetimerange" :disabledTime="disabledTime" />
     </FSpace>
 </template>

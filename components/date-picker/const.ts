@@ -7,9 +7,8 @@ export const RANGE_POSITION = {
 } as const;
 
 export enum SELECTED_STATUS {
-    EMPTY,
-    ONE,
-    TWO,
+    START,
+    END,
 }
 
 export const YEAR_COUNT = 16;

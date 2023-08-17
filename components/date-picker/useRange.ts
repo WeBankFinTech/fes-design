@@ -10,31 +10,18 @@ type RANGE_POSITION_VALUES =
     (typeof RANGE_POSITION)[keyof typeof RANGE_POSITION];
 
 export const useSelectStatus = (props: CalendarsProps) => {
-    const selectedStatus = ref<SELECTED_STATUS>(0);
+    const selectedStatus = ref<SELECTED_STATUS>(SELECTED_STATUS.END);
     const lastSelectedPosition = ref<RANGE_POSITION_VALUES>();
 
-    watch(
-        () => props.modelValue,
-        () => {
-            if (Array.isArray(props.modelValue)) {
-                selectedStatus.value = props.modelValue.length
-                    ? SELECTED_STATUS.TWO
-                    : SELECTED_STATUS.EMPTY;
-            }
-        },
-        {
-            immediate: true,
-        },
-    );
-
+    // 处理没有选择，点其他地方隐藏
     watch(
         () => props.visible,
         () => {
             if (
                 !props.visible &&
-                selectedStatus.value === SELECTED_STATUS.ONE
+                selectedStatus.value === SELECTED_STATUS.START
             ) {
-                selectedStatus.value = SELECTED_STATUS.EMPTY;
+                selectedStatus.value = SELECTED_STATUS.END;
             }
         },
     );
@@ -42,17 +29,11 @@ export const useSelectStatus = (props: CalendarsProps) => {
     const selectedDay = (position: RANGE_POSITION_VALUES) => {
         lastSelectedPosition.value = position;
         switch (selectedStatus.value) {
-            case SELECTED_STATUS.EMPTY:
-                selectedStatus.value = SELECTED_STATUS.ONE;
+            case SELECTED_STATUS.END:
+                selectedStatus.value = SELECTED_STATUS.START;
                 break;
-            case SELECTED_STATUS.ONE:
-                selectedStatus.value = SELECTED_STATUS.TWO;
-                break;
-            case SELECTED_STATUS.TWO:
-                selectedStatus.value = SELECTED_STATUS.ONE;
-                break;
-            default:
-                selectedStatus.value = SELECTED_STATUS.EMPTY;
+            case SELECTED_STATUS.START:
+                selectedStatus.value = SELECTED_STATUS.END;
                 break;
         }
     };
@@ -144,7 +125,7 @@ export const useRange = ({
             });
         } else if (
             props.maxRange &&
-            selectedStatus.value === SELECTED_STATUS.ONE
+            selectedStatus.value === SELECTED_STATUS.START
         ) {
             return isBeyondRangeTime({
                 flagDate: new Date(tempCurrentValue.value[0]),
