@@ -94,13 +94,13 @@ export const useSelectedDates = (
         if (
             picker.value.isRange &&
             (option.isTime || option.isDateInput) &&
-            props.selectedStatus === SELECTED_STATUS.TWO
+            props.selectedStatus === SELECTED_STATUS.END
         ) {
             updateRangeSelectedDates(newDate, index);
         } else if (
             picker.value.isRange &&
             (!selectedDates.value.length ||
-                props.selectedStatus === SELECTED_STATUS.TWO)
+                props.selectedStatus === SELECTED_STATUS.END)
         ) {
             const anotherDate = fillDate({
                 dateObj: newDate,
@@ -133,10 +133,7 @@ export const useSelectedDates = (
         } else if (!picker.value.isRange) {
             selectedDates.value = [newDate];
         } else {
-            if (props.selectedStatus === SELECTED_STATUS.EMPTY) {
-                // 若重新选择，则重新赋值
-                selectedDates.value = [newDate, newDate];
-            } else if (
+            if (
                 // 变更日期的时候，继承当前位置的时间
                 transformDateToTimestamp(selectedDates.value[0]) >
                 transformDateToTimestamp(newDate)
@@ -306,7 +303,7 @@ export function useCommonRange({
     };
 
     const completeRangeSelected = computed(
-        () => props.selectedStatus === SELECTED_STATUS.TWO,
+        () => props.selectedStatus === SELECTED_STATUS.END,
     );
 
     return {
@@ -520,6 +517,21 @@ export function useDay({
             isSelected(selectedDate, dayItem),
         );
 
+    const computedSelectedStart = (dayItem: DayItem) => {
+        return (
+            picker.value.isRange &&
+            completeRangeSelected.value &&
+            isSelected(selectedDates.value[0], dayItem)
+        );
+    };
+    const computedSelectedEnd = (dayItem: DayItem) => {
+        return (
+            picker.value.isRange &&
+            completeRangeSelected.value &&
+            isSelected(selectedDates.value[1], dayItem)
+        );
+    };
+
     const { completeRangeSelected, inRangeDate } = useCommonRange({
         props,
         selectedDates,
@@ -537,14 +549,8 @@ export function useDay({
             [`${prefixCls}-date-disabled`]:
                 props.disabledDate && props.disabledDate(date, format),
             [`${prefixCls}-date-selected`]: selectedIndex !== -1,
-            'is-start':
-                picker.value.isRange &&
-                completeRangeSelected.value &&
-                selectedIndex === 0,
-            'is-end':
-                picker.value.isRange &&
-                completeRangeSelected.value &&
-                selectedIndex === 1,
+            'is-start': computedSelectedStart(item),
+            'is-end': computedSelectedEnd(item),
             [`${prefixCls}-date-now`]:
                 timeFormat(date, format) === timeFormat(new Date(), format),
             [`${prefixCls}-date-on`]:
