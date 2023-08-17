@@ -12,7 +12,7 @@ export default {
         const val = ref();
         const len = 30;
         const handleChange = (value) => {
-            console.log('change:', value);
+            console.log('[radio.group] [handleChange] value:', value);
         };
         return {
             len,

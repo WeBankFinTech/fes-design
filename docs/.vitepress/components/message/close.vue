@@ -15,7 +15,9 @@ export default {
                 content: '可以手动关闭的消息！',
                 afterClose() {
                     FMessage.destroy();
-                    console.log('Message closed!');
+                    console.log(
+                        '[message.close] [handleMessageClose] [afterClose]',
+                    );
                 },
             });
         }

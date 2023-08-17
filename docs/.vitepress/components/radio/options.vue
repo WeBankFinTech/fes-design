@@ -31,7 +31,7 @@ export default {
             options.value.push({ label: index, value: index });
         }
         const handleChange = (value) => {
-            console.log('change:', value);
+            console.log('[radio.options] [handleChange] value:', value);
         };
         return {
             val,

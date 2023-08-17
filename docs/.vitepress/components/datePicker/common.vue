@@ -26,7 +26,7 @@
 import { reactive, ref } from 'vue';
 const currentDate = ref(Date.now() + 31 * 24 * 60 * 60 * 1000);
 const change = () => {
-    console.log('change:', currentDate.value);
+    console.log('[datePicker.common] [change] currentDate:', currentDate.value);
 };
 
 const style = reactive({

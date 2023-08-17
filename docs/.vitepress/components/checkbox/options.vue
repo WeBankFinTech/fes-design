@@ -23,7 +23,7 @@ export default {
         }
 
         const handleChange = (value) => {
-            console.log('change:', value);
+            console.log('[checkbox.options] [handleChange] value:', value);
         };
         return {
             arr,

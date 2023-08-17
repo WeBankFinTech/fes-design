@@ -23,7 +23,7 @@
 export default {
     setup() {
         const search = () => {
-            console.log('search');
+            console.log('[input.prefixSuffix] [search]');
         };
 
         return {

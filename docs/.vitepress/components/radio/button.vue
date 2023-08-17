@@ -110,7 +110,7 @@ export default {
         const val8 = ref(1);
 
         const handleChange = (value) => {
-            console.log('change:', value);
+            console.log('[radio.button] [handleChange] value:', value);
         };
         return {
             val1,

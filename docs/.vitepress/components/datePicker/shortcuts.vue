@@ -22,7 +22,10 @@ export default defineComponent({
     setup() {
         const currentDate = ref();
         const change = () => {
-            console.log('change:', currentDate.value);
+            console.log(
+                '[datePicker.shortcuts] [change] currentDate:',
+                currentDate.value,
+            );
         };
         return {
             currentDate,

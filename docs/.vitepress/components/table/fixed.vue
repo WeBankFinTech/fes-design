@@ -51,13 +51,13 @@ export default {
             {
                 label: '编辑',
                 func: (row) => {
-                    console.log(row);
+                    console.log('[table.fixed] [action.编辑] row:', row);
                 },
             },
             {
                 label: '删除',
                 func: (row) => {
-                    console.log(row);
+                    console.log('[table.fixed] [action.删除] row:', row);
                 },
             },
         ];

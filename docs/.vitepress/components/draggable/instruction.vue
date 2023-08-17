@@ -24,13 +24,34 @@ export default {
 
         const dragArg = {
             onDragstart(event, item, setting) {
-                console.log('handleDargStart', event, item, setting);
+                console.log(
+                    '[draggable.instruction] [onDragstart] event:',
+                    event,
+                    ' item:',
+                    item,
+                    ' setting:',
+                    setting,
+                );
             },
             onDragend(event, item, setting) {
-                console.log('handleDargEnd', event, item, setting);
+                console.log(
+                    '[draggable.instruction] [onDragend] event:',
+                    event,
+                    ' item:',
+                    item,
+                    ' setting:',
+                    setting,
+                );
             },
             beforeDragend(item, start, end) {
-                console.log('beforeDragend', item, start, end);
+                console.log(
+                    '[draggable.instruction] [beforeDragend] item:',
+                    item,
+                    ' start:',
+                    start,
+                    ' end:',
+                    end,
+                );
                 return true;
             },
         };

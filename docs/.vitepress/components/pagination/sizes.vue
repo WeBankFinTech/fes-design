@@ -14,7 +14,12 @@ export default defineComponent({
     setup() {
         const pageSizeOption = reactive([10, 20, 30, 50, 100]);
         const handleChange = (currentPage, pageSize) => {
-            console.log(`currentPage=${currentPage}, pageSize=${pageSize}`);
+            console.log(
+                '[pagination.sizes] [handleChange] currentPage:',
+                currentPage,
+                ' pageSize:',
+                pageSize,
+            );
         };
         return {
             pageSizeOption,

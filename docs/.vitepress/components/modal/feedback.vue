@@ -27,7 +27,7 @@ export default {
                 okText: '知道了',
                 // getContainer: () => document.getElementById('modalContainer'),
                 onOk() {
-                    console.log('modal ok');
+                    console.log('[modal.feedback] [showFModal] [onOk]');
                     if (type === 'confirm') {
                         return new Promise(() => {
                             modal.update({ okText: '1s后自动关闭' });
@@ -40,7 +40,7 @@ export default {
                     }
                 },
                 onCancel() {
-                    console.log('modal cancel');
+                    console.log('[modal.feedback] [showFModal] [onCancel]');
                     return Promise.resolve();
                 },
             });

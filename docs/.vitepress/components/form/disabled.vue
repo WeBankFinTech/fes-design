@@ -84,11 +84,11 @@ export default {
         const toggleVal = ref();
         const numVal = ref(0);
         const handleSwitchChange = (value) => {
-            console.log('change:', value);
+            console.log('[form.disabled] [handleSwitchChange] value:', value);
         };
         const radioBtnVal = ref(0);
         const handleRadioBtnChange = (value) => {
-            console.log('change:', value);
+            console.log('[form.disabled] [handleRadioBtnChange] value:', value);
         };
         return {
             optionList: [

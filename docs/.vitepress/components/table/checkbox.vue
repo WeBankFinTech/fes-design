@@ -39,7 +39,10 @@ export default {
             return rowIndex !== 1;
         };
         const selectionChange = (selecton) => {
-            console.log(selecton);
+            console.log(
+                '[table.checkbox] [selectionChange] selecton:',
+                selecton,
+            );
         };
         const multipleTable = ref(null);
         const toggleSelection = (row) => {

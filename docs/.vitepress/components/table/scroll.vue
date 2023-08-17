@@ -55,13 +55,13 @@ export default {
             {
                 label: '编辑',
                 func: (row) => {
-                    console.log(row);
+                    console.log('[table.scroll] [action.编辑] row:', row);
                 },
             },
             {
                 label: '删除',
                 func: (row) => {
-                    console.log(row);
+                    console.log('[table.scroll] [action.删除] row:', row);
                 },
             },
         ];
