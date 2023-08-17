@@ -46,26 +46,65 @@ export default {
         const mlist3 = ref([8, 9]);
 
         function handleDargStart(event, item, setting) {
-            console.log('handleDargStart', event, item, setting);
+            console.log(
+                '[draggable.checkDragEnd] [handleDargStart] event:',
+                event,
+                ' item:',
+                item,
+                ' setting:',
+                setting,
+            );
         }
         function handleDargStart2(event, item, setting) {
-            console.log('handleDargStart2', event, item, setting);
+            console.log(
+                '[draggable.checkDragEnd] [handleDargStart2] event:',
+                event,
+                ' item:',
+                item,
+                ' setting:',
+                setting,
+            );
         }
         function handleDargEnd(event, item, setting) {
-            console.log('handleDargEnd', event, item, mlist, setting);
+            console.log(
+                '[draggable.checkDragEnd] [handleDargEnd] event:',
+                event,
+                ' item:',
+                item,
+                ' setting:',
+                setting,
+            );
         }
         function handleDargEnd2(event, item, setting) {
-            console.log('handleDargEnd2', event, item, setting);
+            console.log(
+                '[draggable.checkDragEnd] [handleDargEnd2] event:',
+                event,
+                ' item:',
+                item,
+                ' setting:',
+                setting,
+            );
         }
 
         const beforeDragend = (drag, drop) => {
-            console.log('beforeDragend', drag, drop);
+            console.log(
+                '[draggable.checkDragEnd] [beforeDragend] drag:',
+                drag,
+                ' drop:',
+                drop,
+            );
             FMessage.error('拖拽阻止！');
             return false;
         };
 
         const beforeDragend2 = (drag, drop) => {
-            console.log('beforeDragend2', drag, drop);
+            console.log(
+                '[draggable.checkDragEnd] [beforeDragend2] drag:',
+                drag,
+                ' drop:',
+                drop,
+            );
+
             FMessage.error('拖拽阻止！');
             return false;
         };

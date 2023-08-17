@@ -46,27 +46,29 @@ export default {
 
         const accept = ['image/*'];
         const change = (param) => {
-            console.log('change:', param);
+            console.log('[upload.default] [change] param:', param);
         };
         const remove = (param) => {
-            console.log('remove:', param);
+            console.log('[upload.default] [remove] param:', param);
         };
         const success = (param) => {
-            console.log('success:', param);
+            console.log('[upload.default] [success] param:', param);
         };
         const error = (param) => {
-            console.log('error:', param);
+            console.log('[upload.default] [error] param:', param);
         };
         const exceed = (param) => {
-            console.log('exceed:', param);
+            console.log('[upload.default] [exceed] param:', param);
         };
         const progress = (param) => {
-            console.log('progress:', param);
+            console.log('[upload.default] [progress] param:', param);
         };
         const beforeUpload = async (file) => {
-            console.log('file:', file);
+            console.log('[upload.default] [beforeUpload] file:', file);
             if (file.size > 500 * 1024) {
-                console.log('超出5KB，无法上传！');
+                console.log(
+                    '[upload.default] [beforeUpload] 超出5KB,无法上传!',
+                );
                 return false;
             }
             return true;

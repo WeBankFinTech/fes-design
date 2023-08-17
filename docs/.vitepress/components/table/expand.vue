@@ -44,7 +44,12 @@ export default {
             };
         });
         const expandChange = ({ row, expanded }) => {
-            console.log(row, expanded);
+            console.log(
+                '[table.expand] [expandChange] row:',
+                row,
+                ' expanded:',
+                expanded,
+            );
         };
         const toggle = () => {
             tableRef.value.toggleRowExpend({ row: data[0] });

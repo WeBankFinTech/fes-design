@@ -96,7 +96,7 @@ export default {
         };
 
         const handleChange = (value) => {
-            console.log('value:', value);
+            console.log('[selectCascader.async] [handleChange] value:', value);
         };
 
         const value1 = ref([]);

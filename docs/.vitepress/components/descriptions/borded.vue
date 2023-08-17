@@ -21,27 +21,11 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive } from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
     setup() {
-        const currentDate = ref(Date.now() + 31 * 24 * 60 * 60 * 1000);
-        const change = () => {
-            console.log('change:', currentDate.value);
-        };
-
-        const style = reactive({
-            width: '200px',
-        });
-
-        const datetime = ref();
-
-        return {
-            currentDate,
-            change,
-            datetime,
-            style,
-        };
+        return {};
     },
 });
 </script>

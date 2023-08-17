@@ -36,8 +36,8 @@ import { ref } from 'vue';
 export default {
     setup() {
         const activeNames = ref(['1']);
-        const handleChange = (val) => {
-            console.log(val);
+        const handleChange = (value) => {
+            console.log('[collapse.embedded] [handleChange] value:', value);
         };
         const embedded = ref(false);
         return {

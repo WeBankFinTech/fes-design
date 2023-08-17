@@ -31,7 +31,7 @@ import { defineComponent } from 'vue';
 export default defineComponent({
     setup() {
         const onChange = (current) => {
-            console.log(current);
+            console.log('[carousel.default] [onChange] current:', current);
         };
 
         return {

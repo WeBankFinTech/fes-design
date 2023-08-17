@@ -32,13 +32,34 @@ export default {
 
         const dragArg = {
             onDragstart(event, item, setting) {
-                console.log('handleDargStart', event, item, setting);
+                console.log(
+                    '[draggable.instructionCheckDragEnd] [onDragstart] event:',
+                    event,
+                    ' item:',
+                    item,
+                    ' setting:',
+                    setting,
+                );
             },
             onDragend(event, item, setting) {
-                console.log('handleDargEnd', event, item, setting);
+                console.log(
+                    '[draggable.instructionCheckDragEnd] [onDragend] event:',
+                    event,
+                    ' item:',
+                    item,
+                    ' setting:',
+                    setting,
+                );
             },
             beforeDragend(item, start, end) {
-                console.log('beforeDragend', item, start, end);
+                console.log(
+                    '[draggable.instructionCheckDragEnd] [beforeDragend] item:',
+                    item,
+                    ' start:',
+                    start,
+                    ' end:',
+                    end,
+                );
                 FMessage.error('拖拽阻止！');
                 return false;
             },
@@ -46,13 +67,34 @@ export default {
 
         const dragArg2 = {
             onDragstart(event, item, setting) {
-                console.log('handleDargStart2', event, item, setting);
+                console.log(
+                    '[draggable.instructionCheckDragEnd] [onDragstart] event:',
+                    event,
+                    ' item:',
+                    item,
+                    ' setting:',
+                    setting,
+                );
             },
             onDragend(event, item, setting) {
-                console.log('handleDargEnd2', event, item, setting);
+                console.log(
+                    '[draggable.instructionCheckDragEnd] [onDragend] event:',
+                    event,
+                    ' item:',
+                    item,
+                    ' setting:',
+                    setting,
+                );
             },
             beforeDragend(item, start, end) {
-                console.log('beforeDragend2', item, start, end);
+                console.log(
+                    '[draggable.instructionCheckDragEnd] [beforeDragend] item:',
+                    item,
+                    ' start:',
+                    start,
+                    ' end:',
+                    end,
+                );
                 FMessage.error('拖拽阻止！');
                 return false;
             },

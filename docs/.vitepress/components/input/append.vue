@@ -118,7 +118,7 @@ const useCascader = () => {
     ];
 
     function handleChange(value) {
-        console.log('Cascader || handleChange || value:', value);
+        console.log('[input.append] [handleChange] value:', value);
     }
 
     return {

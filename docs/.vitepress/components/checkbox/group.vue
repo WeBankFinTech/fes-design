@@ -14,7 +14,7 @@ export default {
         const len = 30;
         const arr = ref([]);
         const handleChange = (value) => {
-            console.log('change:', value);
+            console.log('[checkbox.group] [handleChange] value:', value);
         };
         return {
             len,

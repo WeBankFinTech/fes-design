@@ -14,7 +14,12 @@ import { defineComponent } from 'vue';
 export default defineComponent({
     setup() {
         const handleChange = (currentPage, pageSize) => {
-            console.log(`currentPage=${currentPage}, pageSize=${pageSize}`);
+            console.log(
+                '[pagination.combination] [handleChange] currentPage:',
+                currentPage,
+                ' pageSize:',
+                pageSize,
+            );
         };
         return {
             handleChange,

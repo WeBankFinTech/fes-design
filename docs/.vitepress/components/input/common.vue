@@ -19,17 +19,28 @@ export default {
     setup() {
         const inputValue = ref('hello input');
         watch(inputValue, () => {
-            console.log(inputValue.value);
+            console.log(
+                '[input.common] [watch] inputValue.value:',
+                inputValue.value,
+            );
         });
 
         const handleKeydown = (value) => {
-            console.log(value);
+            console.log('[input.common] [handleKeydown] value:', value);
         };
         const handleChange = () => {
-            console.log('change', inputValue.value);
+            console.log(
+                '[input.common] [handleChange] inputValue.value:',
+                inputValue.value,
+            );
         };
         const handleInput = (value) => {
-            console.log('input', value, inputValue.value);
+            console.log(
+                '[input.common] [handleInput] value:',
+                value,
+                ' inputValue.value:',
+                inputValue.value,
+            );
         };
 
         return {

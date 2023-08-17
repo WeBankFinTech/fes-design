@@ -227,9 +227,14 @@ export default {
             // 通过 FForm 的 validate 直接校验
             try {
                 await WFormDomRef.value.validate();
-                console.log('表单验证成功~');
+                console.log(
+                    '[form.complexValidate] [submitHandler] 表单验证成功~',
+                );
             } catch (error) {
-                console.log('表单验证失败: ', error);
+                console.log(
+                    '[form.complexValidate] [submitHandler] 表单验证失败, error:',
+                    error,
+                );
             }
         };
         const clearHandler = () => {

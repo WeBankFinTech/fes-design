@@ -20,7 +20,12 @@ export default {
         const hlist = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
 
         const beforeDragend = (item, index) => {
-            console.log(item, index);
+            console.log(
+                '[draggable.horizontal] [beforeDragend] item:',
+                item,
+                ' index:',
+                index,
+            );
             return true;
         };
 

@@ -45,10 +45,10 @@ export default {
         ]);
         const arr = ref();
         const handleChange = (value) => {
-            console.log('change:', value);
+            console.log('[select.common] [handleChange] value:', value);
         };
         const onScroll = (e) => {
-            console.log(e);
+            console.log('[select.common] [onScroll] e:', e);
         };
         return {
             arr,

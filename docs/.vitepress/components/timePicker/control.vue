@@ -19,7 +19,7 @@ export default {
             return hour === 1;
         };
         watch(time, () => {
-            console.log(time.value);
+            console.log('[timePicker.control] [watch] time.value:', time.value);
         });
         return {
             time,

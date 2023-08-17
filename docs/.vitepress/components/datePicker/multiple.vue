@@ -19,7 +19,10 @@
 import { ref } from 'vue';
 const multipleDate = ref([]);
 const changeMultipleData = () => {
-    console.log('multiple-date:', multipleDate.value);
+    console.log(
+        '[datePicker.multiple] [changeMultipleData] multipleDate:',
+        multipleDate.value,
+    );
 };
 </script>
 <style scope>

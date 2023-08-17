@@ -29,30 +29,45 @@ export default {
 
         const accept = ['image/*'];
         const change = (param) => {
-            console.log('change:', param);
+            console.log('[upload.common] [change] param:', param);
         };
         const remove = (param) => {
-            console.log('remove:', param, fileList.value);
+            console.log(
+                '[upload.common] [remove] param:',
+                param,
+                ' fileList.value:',
+                fileList.value,
+            );
         };
         const success = (param) => {
-            console.log('success:', param, fileList.value);
+            console.log(
+                '[upload.common] [success] param:',
+                param,
+                ' fileList.value:',
+                fileList.value,
+            );
         };
         const error = (param) => {
             fileList.value = fileList.value.filter(
                 (file) => file.status !== 'error',
             );
-            console.log('error:', param, fileList.value);
+            console.log(
+                '[upload.common] [error] param:',
+                param,
+                ' fileList.value:',
+                fileList.value,
+            );
         };
         const exceed = (param) => {
-            console.log('exceed:', param);
+            console.log('[upload.common] [exceed] param:', param);
         };
         const progress = (param) => {
-            console.log('progress:', param);
+            console.log('[upload.common] [progress] param:', param);
         };
         const beforeUpload = async (file) => {
-            console.log('file:', file);
+            console.log('[upload.common] [beforeUpload] file:', file);
             if (file.size > 500 * 1024) {
-                console.log('超出5KB，无法上传！');
+                console.log('[upload.common] [beforeUpload] 超出5KB,无法上传!');
                 return false;
             }
             return true;

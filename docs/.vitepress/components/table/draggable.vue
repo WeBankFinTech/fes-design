@@ -35,10 +35,10 @@ export default {
             }),
         );
         const onDragstart = (...arg) => {
-            console.log('onDragstart:', arg);
+            console.log('[table.draggable] [onDragstart] arg:', arg);
         };
         const onDragend = (...arg) => {
-            console.log('onDragend:', arg);
+            console.log('[table.draggable] [onDragend] arg:', arg);
         };
         const draggable = ref(true);
         return {

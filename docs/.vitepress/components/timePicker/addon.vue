@@ -28,7 +28,7 @@ export default {
         const currentTime = ref();
         const isOpen = ref(false);
         const confirm = (activeTime) => {
-            console.log(currentTime.value);
+            console.log('[timePicker.addon] [confirm] activeTime:', activeTime);
             currentTime.value = activeTime;
             isOpen.value = false;
         };

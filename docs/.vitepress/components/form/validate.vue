@@ -321,26 +321,33 @@ export default {
         ];
 
         const changeHandler = (value) => {
-            console.log('value', value);
+            console.log('[form.validate] [changeHandler] value:', value);
         };
 
         const submitHandler = async () => {
             WFormDomRef.value
                 .validate()
                 .then(() => {
-                    console.log('表单验证成功~');
+                    console.log(
+                        '[form.validate] [submitHandler] 表单验证成功~',
+                    );
                     WFormDomRef.value.resetFields();
                 })
                 .catch((error) => {
-                    console.log('表单验证失败: ', error);
+                    console.log(
+                        '[form.validate] [submitHandler] 表单验证失败, error:',
+                        error,
+                    );
                 });
 
-            /** await 调用
+            /**
+             * // await 调用
+             *
              * try {
              *      const result = await WFormDomRef.value.validate();
-             *      console.log('表单验证成功: ', result);
+             *      console.log('[form.validate] [submitHandler] 表单验证成功, result:', result);
              * } catch (error) {
-             *      console.log('表单验证失败: ', error);
+             *      console.log('[form.validate] [submitHandler] 表单验证失败, error:', error);
              * }
              */
         };

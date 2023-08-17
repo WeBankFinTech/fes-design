@@ -31,8 +31,8 @@ import { ref } from 'vue';
 export default {
     setup() {
         const activeNames = ref(['1']);
-        const handleChange = (val) => {
-            console.log(val);
+        const handleChange = (value) => {
+            console.log('[collapse.arrowleft] [handleChange] value:', value);
         };
         return {
             activeNames,

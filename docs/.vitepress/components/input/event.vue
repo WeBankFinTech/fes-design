@@ -15,19 +15,19 @@
 export default {
     setup() {
         const textChange = (e) => {
-            console.log('text change', e);
+            console.log('[input.event] [textChange] e:', e);
         };
 
         const keyDown = (e) => {
-            console.log('keyDown', e);
+            console.log('[input.event] [keyDown] e:', e);
         };
 
         const inputChange = (e) => {
-            console.log('inputChange', e);
+            console.log('[input.event] [inputChange] e:', e);
         };
 
         const keyupEnter = (e) => {
-            console.log('keyupEnter', e);
+            console.log('[input.event] [keyupEnter] e:', e);
         };
 
         return {

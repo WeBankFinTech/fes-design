@@ -43,7 +43,7 @@ export default {
             activeTab.value = tabs.length - 1;
         }
         const handleChangeTab = (key) => {
-            console.log(key);
+            console.log('[tabs.closable] [handleChangeTab] key:', key);
         };
         return {
             tabs,
