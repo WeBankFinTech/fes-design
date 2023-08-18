@@ -165,6 +165,10 @@ module.exports = {
                         link: '/zh/components/tree',
                     },
                     {
+                        text: 'Timeline 时间轴',
+                        link: '/zh/components/timeline',
+                    },
+                    {
                         text: 'Cascader 级联控件',
                         link: '/zh/components/cascader',
                     },

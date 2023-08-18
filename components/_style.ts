@@ -48,3 +48,4 @@ import './collapse/style';
 import './radio-button/style';
 import './card/style';
 import './text/style';
+import './timeline/style';
