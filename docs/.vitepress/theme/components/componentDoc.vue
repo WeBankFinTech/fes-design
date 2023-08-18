@@ -22,6 +22,7 @@
 
 <script>
 import { defineComponent, ref, computed } from 'vue';
+import { debounce } from 'lodash-es';
 
 import playground from './playground';
 
@@ -37,12 +38,12 @@ export default defineComponent({
         );
 
         const visibleCode = ref(false);
-        const openPlayground = () => {
+        const openPlayground = debounce(() => {
             playground({
                 codeName: props.codeName,
                 codeSrc: props.codeSrc,
             });
-        };
+        }, 500);
 
         return {
             visibleCode,
