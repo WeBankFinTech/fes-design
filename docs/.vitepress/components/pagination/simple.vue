@@ -1,3 +1,25 @@
 <template>
-    <FPagination :total-count="1000" simple></FPagination>
+    <FPagination
+        :total-count="totalCount"
+        simple
+        @change="handleChange"
+    ></FPagination>
 </template>
+
+<script>
+import { defineComponent, ref } from 'vue';
+
+export default defineComponent({
+    setup() {
+        const totalCount = ref(1000);
+
+        const handleChange = (currentPage, pageSize) => {
+            console.log(`currentPage=${currentPage}, pageSize=${pageSize}`);
+        };
+        return {
+            totalCount,
+            handleChange,
+        };
+    },
+});
+</script>

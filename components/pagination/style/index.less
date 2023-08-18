@@ -158,17 +158,6 @@
                 font-style: normal;
             }
         }
-        .@{pagination-prefix-cls}-pager-item {
-            &.is-current {
-                min-width: @pagination-big-btn-width-base;
-                cursor: default;
-                &:hover {
-                    --f-pager-item-color: var(--f-text-color);
-                    --f-pager-item-bg-color: var(--f-white);
-                    --f-pager-item-border-color: @pager-border-color;
-                }
-            }
-        }
     }
 }
 
@@ -230,11 +219,6 @@
             --f-pager-total-border-radius: var(--f-border-radius-sm);
             &-split {
                 margin-right: @pagination-normal-item-horizontal-margin-sm;
-            }
-        }
-        .@{pagination-prefix-cls}-pager-item {
-            &.is-current {
-                min-width: @pagination-big-btn-width-sm;
             }
         }
     }
