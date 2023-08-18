@@ -14,7 +14,12 @@ export default defineComponent({
         const totalCount = ref(1000);
 
         const handleChange = (currentPage, pageSize) => {
-            console.log(`currentPage=${currentPage}, pageSize=${pageSize}`);
+            console.log(
+                '[pagination.simple] [handleChange] currentPage:',
+                currentPage,
+                ' pageSize:',
+                pageSize,
+            );
         };
         return {
             totalCount,
