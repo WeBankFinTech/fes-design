@@ -1,26 +1,43 @@
 <template>
-    <f-grid>
-        <f-grid-item :flex="2">
+    <FGrid>
+        <FGridItem :flex="2">
             <div class="col-demo">2 / 5</div>
-        </f-grid-item>
-        <f-grid-item :flex="3">
+        </FGridItem>
+        <FGridItem :flex="3">
             <div class="col-demo">3 / 5</div>
-        </f-grid-item>
-    </f-grid>
-    <f-grid>
-        <f-grid-item flex="100px">
+        </FGridItem>
+    </FGrid>
+    <FGrid>
+        <FGridItem flex="100px">
             <div class="col-demo">100px</div>
-        </f-grid-item>
-        <f-grid-item flex="auto">
+        </FGridItem>
+        <FGridItem flex="auto">
             <div class="col-demo">auto</div>
-        </f-grid-item>
-    </f-grid>
-    <f-grid>
-        <f-grid-item flex="1 1 200px">
+        </FGridItem>
+    </FGrid>
+    <FGrid>
+        <FGridItem flex="1 1 200px">
             <div class="col-demo">1 1 200px</div>
-        </f-grid-item>
-        <f-grid-item flex="0 1 300px">
+        </FGridItem>
+        <FGridItem flex="0 1 300px">
             <div class="col-demo">0 1 300px</div>
-        </f-grid-item>
-    </f-grid>
+        </FGridItem>
+    </FGrid>
 </template>
+
+<style scoped>
+.fes-grid-item .col-demo {
+    margin: 4px 0;
+    padding: 16px 0;
+    color: #ffffff;
+    text-align: center;
+}
+
+.fes-grid-item:nth-child(2n + 1) .col-demo {
+    background: rgba(0, 146, 255, 0.75);
+}
+
+.fes-grid-item:nth-child(2n) .col-demo {
+    background: #0092ff;
+}
+</style>
