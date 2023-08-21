@@ -82,29 +82,6 @@ app.use(FGridItem);
 
 --CODE
 
-<style lang="less">
-.fes-grid {
-    margin: 8px 0;
-    .fes-grid-item {
-        .col-demo {
-            padding: 16px 0;
-            color: #ffffff;
-            text-align: center;
-        }
-        &:nth-child(2n+1) {
-            .col-demo{
-                background: rgba(0,146,255, .75);
-            }
-        }
-        &:nth-child(2n) {
-            .col-demo{
-                background: #0092ff;
-            }
-        }
-    }
-}
-</style>
-
 ## Grid Props
 
 | 属性    | 说明                                                                                             | 类型         | 默认值       |
