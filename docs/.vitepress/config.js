@@ -1,8 +1,10 @@
 const path = require('node:path');
 const process = require('node:process');
 const vueJsx = require('@vitejs/plugin-vue-jsx');
+const { withPwa } = require('@vite-pwa/vitepress');
 const { navbar, sidebar } = require('./configs');
 const { genComponentDoc } = require('./scripts/genComponentDoc');
+const { pwa } = require('./scripts/pwa');
 
 function ssrTransformCustomDir() {
     return {
@@ -15,7 +17,8 @@ genComponentDoc();
 
 const BASE_URL = process.env.NODE_ENV === 'production' ? '/' : '/';
 
-module.exports = {
+module.exports = withPwa({
+    pwa: pwa(),
     base: BASE_URL,
     lang: 'zh-CN',
     title: 'Fes Design',
@@ -95,4 +98,4 @@ module.exports = {
             provider: 'local',
         },
     },
-};
+});
