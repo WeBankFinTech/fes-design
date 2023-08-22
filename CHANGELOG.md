@@ -1,3 +1,24 @@
+## [0.8.5](https://github.com/WeBankFinTech/fes-design/compare/v0.8.4...v0.8.5) (2023-08-22)
+
+
+### Bug Fixes
+
+* 多语言支持兼容未配置导致取值异常的情况 ([#381](https://github.com/WeBankFinTech/fes-design/issues/381)) ([a443f79](https://github.com/WeBankFinTech/fes-design/commit/a443f79ee582f59c8542de16c439dc19b3c8ce68))
+* 修复日期范围，重新选择未重新赋值的问题 ([#404](https://github.com/WeBankFinTech/fes-design/issues/404)) ([b60ddb3](https://github.com/WeBankFinTech/fes-design/commit/b60ddb34ccf7357d5748f3ccb3d642c35e0c3ca4))
+* select multiple 支持 null ([#386](https://github.com/WeBankFinTech/fes-design/issues/386)) ([e115826](https://github.com/WeBankFinTech/fes-design/commit/e1158262f2da591969e662186d02be0f8fae5f94))
+* steps组件，步骤描述为空时展示样式优化 ([#384](https://github.com/WeBankFinTech/fes-design/issues/384)) ([4eafe52](https://github.com/WeBankFinTech/fes-design/commit/4eafe5228ca0a6efd368fa740a758c50cb4fb150))
+
+
+### Features
+
+* 分页器simple模式可输入跳转 ([#401](https://github.com/WeBankFinTech/fes-design/issues/401)) ([ddf2372](https://github.com/WeBankFinTech/fes-design/commit/ddf2372b9ac68c059e493fa5530fc0b10899ad1b))
+* 时间轴组件 ([#378](https://github.com/WeBankFinTech/fes-design/issues/378)) ([c6a1d15](https://github.com/WeBankFinTech/fes-design/commit/c6a1d1543f0d828a1802a729cd5892409b0c943a))
+* 文本组件 ([#385](https://github.com/WeBankFinTech/fes-design/issues/385)) ([c961578](https://github.com/WeBankFinTech/fes-design/commit/c9615785a36c22f2e2c6a0bfc45b7c50a8480755))
+* form组件增加submit事件回调及取消默认行为 ([#383](https://github.com/WeBankFinTech/fes-design/issues/383)) ([5a566fa](https://github.com/WeBankFinTech/fes-design/commit/5a566fa11dfdda771e33ea157feb33b657b0e09a))
+* text组件增加size配置项 ([#395](https://github.com/WeBankFinTech/fes-design/issues/395)) ([1fd37aa](https://github.com/WeBankFinTech/fes-design/commit/1fd37aaf63a84fed50cd86e735319845ea093202))
+
+
+
 ## [0.8.4](https://github.com/WeBankFinTech/fes-design/compare/v0.8.3...v0.8.4) (2023-08-10)
 
 
