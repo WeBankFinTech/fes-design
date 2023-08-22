@@ -11,7 +11,6 @@ import {
     watch,
 } from 'vue';
 import useResize from '../_util/use/useResize';
-import { TimelineInnerProps as Props } from './props';
 import {
     COMPONENT_NAME,
     ICON_DEFAULT_SIDE_LENGTH,
@@ -22,6 +21,7 @@ import {
     calcInlineStartProp,
     calcLengthProp,
 } from './utils';
+import type { TimelineInnerProps as Props } from './props';
 
 type NodeIndex = number;
 

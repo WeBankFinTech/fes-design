@@ -17,7 +17,6 @@ import {
 import {
     CLOSE_EVENT,
     CHANGE_EVENT,
-    TABS_INJECTION_KEY,
     UPDATE_MODEL_EVENT,
 } from '../_util/constants';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -26,12 +25,13 @@ import useScrollX from '../_util/use/useScrollX';
 import { flatten } from '../_util/vnode';
 import { useTheme } from '../_theme/useTheme';
 import PlusOutlined from '../icon/PlusOutlined';
+import { TABS_INJECTION_KEY } from './constants';
 import { computeTabBarStyle } from './helper';
 import FTab from './tab';
 
 import TabPane from './tab-pane.vue';
 import type { PropType } from 'vue';
-import type { Position } from './interface';
+import type { Value, Position, TabCloseMode } from './interface';
 import type { TabProps } from './helper';
 
 import type { ExtractPublicPropTypes } from '../_util/interface';
@@ -70,7 +70,6 @@ function mapTabPane(
 }
 
 type TabType = 'line' | 'card';
-type TabCloseMode = 'hover' | 'visible';
 
 type TabPaneProps = TabProps & {
     render?: (props: TabProps) => VNode[];
@@ -78,7 +77,7 @@ type TabPaneProps = TabProps & {
 };
 
 export const tabsProps = {
-    modelValue: [String, Number] as PropType<string | number>,
+    modelValue: [String, Number] as PropType<Value>,
     position: {
         type: String as PropType<Position>,
         default: 'top',

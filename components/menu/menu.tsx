@@ -12,12 +12,13 @@ import { useNormalModel, useArrayModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import { concat } from '../_util/utils';
 import { useTheme } from '../_theme/useTheme';
-import { COMPONENT_NAME, menuProps, MenuNode } from './const';
+import { COMPONENT_NAME, menuProps } from './const';
 import useParent from './useParent';
 import useMenu from './useMenu';
 import MenuGroup from './menuGroup';
 import MenuItem from './menuItem';
 import SubMenu from './subMenu';
+import type { MenuNode } from './const';
 import type { MenuItemTypePlain } from './useParent';
 
 import type { MenuItemType, MenuOption } from './interface';

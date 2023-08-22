@@ -2,7 +2,8 @@ import { provide, unref } from 'vue';
 import { useArrayModel } from '../_util/use/useModel';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import { CHANGE_EVENT } from '../_util/constants';
-import { CheckboxGroupProps, checkboxGroupKey, name } from './const';
+import { checkboxGroupKey, name } from './const';
+import type { CheckboxGroupProps } from './const';
 
 import type { CheckboxGroupEmits } from './interface';
 

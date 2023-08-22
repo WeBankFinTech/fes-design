@@ -7,7 +7,7 @@
 <script lang="ts">
 import { defineComponent, inject } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
-import { TABS_INJECTION_KEY } from '../_util/constants';
+import { TABS_INJECTION_KEY } from './constants';
 import { tabProps } from './helper';
 
 const prefixCls = getPrefixCls('tabs');

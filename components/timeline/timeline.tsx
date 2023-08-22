@@ -6,6 +6,7 @@ import {
     VNodeChild,
     computed,
     defineComponent,
+    ComponentObjectPropsOptions,
 } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import { timelineProps } from './props';
@@ -19,7 +20,7 @@ import {
     isValidRenderResult,
 } from './utils';
 import { useCustomIconRegister, useCustomIcons } from './useCustomIcons';
-import { ComponentInnerProps } from './utilTypes';
+import type { ComponentInnerProps } from './utilTypes';
 import type {
     TimelineInnerProps as Props,
     TimelineSlots as Slots,
@@ -31,7 +32,7 @@ const iconProps = {
     index: { type: Number, required: true },
     icon: { type: [String, Function] as PropType<TimelineNode['icon']> },
     slotRender: { type: Function as PropType<UnboxSlots['icon']> },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 const Icon = defineComponent({
     name: `${COMPONENT_NAME}Icon`,
     props: iconProps,

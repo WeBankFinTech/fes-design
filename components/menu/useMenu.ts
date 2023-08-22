@@ -5,7 +5,8 @@ import {
     getCurrentInstance,
     ComponentInternalInstance,
 } from 'vue';
-import { MENU_KEY, MenuNode } from './const';
+import { MENU_KEY } from './const';
+import type { MenuNode } from './const';
 
 export default (instance?: ComponentInternalInstance) => {
     instance = instance ?? getCurrentInstance();

@@ -15,8 +15,6 @@ export const ERROR_EVENT = 'error';
 
 export const LOAD_EVENT = 'load';
 
-export const TABS_INJECTION_KEY = Symbol('tabs');
-
 export const PLACEMENT = [
     'top',
     'top-start',
