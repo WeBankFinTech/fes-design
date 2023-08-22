@@ -1,3 +1,7 @@
+<template>
+    <FTimeline :data="data" />
+</template>
+
 <script setup lang="ts">
 const data = [
     {
@@ -18,7 +22,3 @@ const data = [
     },
 ];
 </script>
-
-<template>
-    <FTimeline :data="data" />
-</template>

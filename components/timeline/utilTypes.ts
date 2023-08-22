@@ -2,10 +2,6 @@ import type { ExtractPublicPropTypes } from '../_util/interface';
 
 type RequiredByKeys<T, K> = Omit<T & Required<Pick<T, K & keyof T>>, never>;
 
-/**
- * NOTE: 下面部分仅为测试用，经 review 后再合入 _util/interface
- */
-
 type ComponentRequiredProps<
     CompProps,
     Prop extends keyof CompProps = keyof CompProps,
