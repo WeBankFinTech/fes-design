@@ -1,3 +1,19 @@
+<template>
+    <FTimeline :data="data" direction="row">
+        <template #icon="{ index }">
+            <RightCircleOutlined
+                v-if="customNodes.has(data[index]?.title)"
+                :size="16"
+                color="#7f00ff"
+            />
+        </template>
+        <template #desc="{ index }">
+            <RotateLeftOutlined class="btn" @click="handleTrigger(index)" />
+            <DeleteOutlined class="btn" @click="handleDelete(index)" />
+        </template>
+    </FTimeline>
+</template>
+
 <script setup lang="ts">
 import { ref } from 'vue';
 
@@ -24,22 +40,6 @@ const handleDelete = (index: number) => {
     data.value.splice(index, 1);
 };
 </script>
-
-<template>
-    <FTimeline :data="data" direction="row">
-        <template #icon="{ index }">
-            <RightCircleOutlined
-                v-if="customNodes.has(data[index]?.title)"
-                :size="16"
-                color="#7f00ff"
-            />
-        </template>
-        <template #desc="{ index }">
-            <RotateLeftOutlined class="btn" @click="handleTrigger(index)" />
-            <DeleteOutlined class="btn" @click="handleDelete(index)" />
-        </template>
-    </FTimeline>
-</template>
 
 <style scoped lang="less">
 .btn {

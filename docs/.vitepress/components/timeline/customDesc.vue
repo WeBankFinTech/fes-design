@@ -1,5 +1,28 @@
+<template>
+    <FTimeline :data="data2" direction="row" descPosition="opposite">
+        <template #desc="{ index }">
+            <span
+                :style="{
+                    color:
+                        index === data2.length - 1
+                            ? '#ff007f'
+                            : 'var(--f-primary-color)',
+                }"
+            >
+                自定义辅助描述
+            </span>
+        </template>
+    </FTimeline>
+    <FDivider />
+    <FTimeline :data="data1">
+        <template #desc="{ index }">
+            <div class="desc">{{ data1[index].desc }}</div>
+        </template>
+    </FTimeline>
+</template>
+
 <script setup lang="ts">
-const data = [
+const data1 = [
     {
         title: '2015-09-01',
         desc: 'Create a services site',
@@ -18,15 +41,23 @@ const data = [
         icon: '#ff007f',
     },
 ];
-</script>
 
-<template>
-    <FTimeline :data="data" titlePosition="end">
-        <template #desc="{ index }">
-            <div class="desc">{{ data[index].desc }}</div>
-        </template>
-    </FTimeline>
-</template>
+const data2 = [
+    {
+        title: '2015-09-01',
+    },
+    {
+        title: '2015-09-01',
+    },
+    {
+        title: '2015-09-01',
+    },
+    {
+        title: '2015-09-01',
+        icon: '#ff007f',
+    },
+];
+</script>
 
 <style scoped>
 .desc {

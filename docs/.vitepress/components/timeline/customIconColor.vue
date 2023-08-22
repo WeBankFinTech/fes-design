@@ -1,3 +1,7 @@
+<template>
+    <FTimeline :data="data" direction="row" titlePosition="end" />
+</template>
+
 <script setup lang="ts">
 const data = [
     {
@@ -21,7 +25,3 @@ const data = [
     icon: index % 2 === 0 ? '#ff007f' : 'rgb(127, 0, 255)',
 }));
 </script>
-
-<template>
-    <FTimeline :data="data" direction="row" titlePosition="end" />
-</template>
