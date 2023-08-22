@@ -125,7 +125,7 @@ module.exports = {
                         link: '/zh/components/card',
                     },
                     {
-                        text: 'Carousel 跑马灯',
+                        text: 'Carousel 走马灯',
                         link: '/zh/components/carousel',
                     },
                     {
@@ -139,6 +139,10 @@ module.exports = {
                     {
                         text: 'Draggable 拖拽',
                         link: '/zh/components/draggable',
+                    },
+                    {
+                        text: 'Empty 空数据',
+                        link: '/zh/components/empty',
                     },
                     {
                         text: 'Image 图片',
