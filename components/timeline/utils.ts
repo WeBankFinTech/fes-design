@@ -2,7 +2,7 @@ import { CSSProperties, VNodeChild, isVNode } from 'vue';
 import { isNil } from 'lodash-es';
 import { isValidElementNode } from '../_util/vnode';
 import { COMPONENT_NAME, prefixCls } from './const';
-import {
+import type {
     TimelineInnerProps as ComponentProps,
     TimelineIconType,
     TimelineNode,

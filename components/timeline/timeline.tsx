@@ -1,6 +1,5 @@
 import {
     CSSProperties,
-    ComponentObjectPropsOptions,
     PropType,
     SlotsType,
     VNode,
@@ -9,13 +8,7 @@ import {
     defineComponent,
 } from 'vue';
 import { useTheme } from '../_theme/useTheme';
-import {
-    TimelineInnerProps as Props,
-    TimelineSlots as Slots,
-    TimelineUnboxSlots as UnboxSlots,
-    TimelineNode,
-    timelineProps,
-} from './props';
+import { timelineProps } from './props';
 import { COMPONENT_NAME, ICON_DEFAULT_COLOR, prefixCls } from './const';
 import {
     calcDescPosition,
@@ -27,12 +20,18 @@ import {
 } from './utils';
 import { useCustomIconRegister, useCustomIcons } from './useCustomIcons';
 import { ComponentInnerProps } from './utilTypes';
+import type {
+    TimelineInnerProps as Props,
+    TimelineSlots as Slots,
+    TimelineUnboxSlots as UnboxSlots,
+    TimelineNode,
+} from './props';
 
 const iconProps = {
     index: { type: Number, required: true },
     icon: { type: [String, Function] as PropType<TimelineNode['icon']> },
     slotRender: { type: Function as PropType<UnboxSlots['icon']> },
-} as const satisfies ComponentObjectPropsOptions;
+} as const;
 const Icon = defineComponent({
     name: `${COMPONENT_NAME}Icon`,
     props: iconProps,
