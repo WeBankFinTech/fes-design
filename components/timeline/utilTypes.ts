@@ -1,4 +1,4 @@
-import { ExtractPublicPropTypes } from '../_util/interface';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 type RequiredByKeys<T, K> = Omit<T & Required<Pick<T, K & keyof T>>, never>;
 

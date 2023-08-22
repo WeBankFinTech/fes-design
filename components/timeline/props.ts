@@ -4,8 +4,9 @@ import {
     SetupContext,
     SlotsType,
     VNodeChild,
+    ComponentObjectPropsOptions,
 } from 'vue';
-import { ComponentInnerProps, ComponentProps } from './utilTypes';
+import type { ComponentInnerProps, ComponentProps } from './utilTypes';
 
 /** 严格版本的 Extract */
 type StrictExtract<Type, Union extends Type> = Extract<Type, Union>;
@@ -83,7 +84,7 @@ export const timelineProps = {
     },
     titleClass: { type: String },
     descClass: { type: String },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 // 组件暴露给外部的 props 类型
 export type TimelineProps = ComponentProps<typeof timelineProps>;

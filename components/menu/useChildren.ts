@@ -1,5 +1,6 @@
 import { inject, computed, ComputedRef } from 'vue';
-import { CHILDREN_KEY, COMPONENT_NAME, MenuNode } from './const';
+import { CHILDREN_KEY, COMPONENT_NAME } from './const';
+import type { MenuNode } from './const';
 
 export default (indexPath: ComputedRef<MenuNode[]>) => {
     // 根节点 menu
