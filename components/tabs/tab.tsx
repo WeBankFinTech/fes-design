@@ -1,7 +1,7 @@
 import { computed, defineComponent, inject, onBeforeUnmount } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
-import { TABS_INJECTION_KEY } from '../_util/constants';
 import CloseCircleFilled from '../icon/CloseCircleFilled';
+import { TABS_INJECTION_KEY } from './constants';
 import { tabProps } from './helper';
 
 const prefixCls = getPrefixCls('tabs');
