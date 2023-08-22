@@ -1,6 +1,5 @@
 import {
     CSSProperties,
-    ComponentObjectPropsOptions,
     PropType,
     SetupContext,
     SlotsType,
@@ -84,7 +83,7 @@ export const timelineProps = {
     },
     titleClass: { type: String },
     descClass: { type: String },
-} as const satisfies ComponentObjectPropsOptions;
+} as const;
 
 // 组件暴露给外部的 props 类型
 export type TimelineProps = ComponentProps<typeof timelineProps>;
