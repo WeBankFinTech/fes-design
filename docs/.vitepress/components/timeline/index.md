@@ -9,6 +9,7 @@ import { FTimeline } from '@fesjs/fes-design';
 
 app.use(FTimeline);
 ```
+
 ## 代码演示
 
 ### 基础用法
@@ -21,9 +22,9 @@ app.use(FTimeline);
 
 值同 flex 布局中的 [`flex-direction`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex-direction) 属性
 
-- `column` 轴垂直向下
-- `row` 轴水平向右
-- `row` 轴水平向左
+-   `column` 轴垂直向下
+-   `row` 轴水平向右
+-   `row` 轴水平向左
 
 --DIRECTION
 
@@ -32,8 +33,9 @@ app.use(FTimeline);
 使用 `titlePosition` 调整结点在时间轴两侧的位置
 
 可选值中的 `start` 和 `end`，与 flex 布局中概念相同。可以理解成时间轴为 flex 中的「主轴」，结点相对时间轴的位置，则是「交叉轴」。例如：
-- `start` 表示书写方向的开始，如：`direction: row` 时，`start` 为纵轴的上方
-- `end` 表示书写方向的末尾，如：`direction: column` 时，`end` 为横轴的右侧
+
+-   `start` 表示书写方向的开始，如：`direction: row` 时，`start` 为纵轴的上方
+-   `end` 表示书写方向的末尾，如：`direction: column` 时，`end` 为横轴的右侧
 
 --TITLEPOSITION
 
@@ -41,47 +43,50 @@ app.use(FTimeline);
 
 用于设置辅助描述相对于标题的位置
 
-- `under` 辅助说明位于标题下方
-- `inline` 辅助说明与标题同行
-- `opposite` 辅助说明和标题分别于轴两侧
+-   `under` 辅助说明位于标题下方
+-   `inline` 辅助说明与标题同行
+-   `opposite` 辅助说明和标题分别于轴两侧
 
-*当轴为水平方向时，不支持辅助说明与标题同行*
+_当轴为水平方向时，不支持辅助说明与标题同行_
 
 --DESCPOSITION
 
 #### 自定义辅助描述
+
 --CUSTOMDESC
 
 ### 轴点
 
 #### 自定义颜色
+
 支持预设的 `info`、`success`、`error`、`warning`，此外还可以使用如 `#ff007f` 这样的能被 CSS 的 `color` 接受的颜色值
 --CUSTOMICONCOLOR
 
 #### 自定义图标
+
 --CUSTOMICON
 
 --CODE
 
 ## Props
 
-| 属性           | 说明               | 类型                             | 默认值   |
-| -------------- | ------------------ | -------------------------------- | -------- |
-| data           | 数据               | `TimelineNode[]`                 | -        |
-| direction      | 时间轴方向         | `column` `row` `row-reverse` | `column` |
-| titlePosition  | 标题位置           | `start` `end` `alternate`        | `end`    |
-| descPosition   | 辅助说明位置       | `under` `inline` `opposite`      | `under`  |
-| titleClass | 自定义标题样式     | `string`                         | -        |
-| descClass  | 自定义辅助说明样式 | `string`                         | -        |
+| 属性          | 说明               | 类型                         | 默认值   |
+| ------------- | ------------------ | ---------------------------- | -------- |
+| data          | 数据               | `TimelineNode[]`             | -        |
+| direction     | 时间轴方向         | `column` `row` `row-reverse` | `column` |
+| titlePosition | 标题位置           | `start` `end` `alternate`    | `end`    |
+| descPosition  | 辅助说明位置       | `under` `inline` `opposite`  | `under`  |
+| titleClass    | 自定义标题样式     | `string`                     | -        |
+| descClass     | 自定义辅助说明样式 | `string`                     | -        |
 
 #### TimelineNode
 
-| 属性          | 说明                   | 类型                                                         | 默认值 |
-| ------------- | ---------------------- | ------------------------------------------------------------ | ------ |
-| title         | 轴结点的标题           | `string`                                                     | -      |
-| titlePosition | 轴结点的标题位置       | `start` `end`                                                | -      |
-| desc          | 轴结点的辅助说明       | `string`  `({ index: number }) => VNode`                     | -      |
-| icon          | 轴结点的轴点图标自定义 | `info` `success` `error` `warning`<br/>`CSSProperties.color`<br/> `({ index: number }) => VNode` | -      |
+| 属性          | 说明                   | 类型                                                                                              | 默认值 |
+| ------------- | ---------------------- | ------------------------------------------------------------------------------------------------- | ------ |
+| title         | 轴结点的标题           | `string`                                                                                          | -      |
+| titlePosition | 轴结点的标题位置       | `start` `end`                                                                                     | -      |
+| desc          | 轴结点的辅助说明       | `string` `({ index: number }) => VNode`                                                           | -      |
+| icon          | 轴结点的轴点图标自定义 | `info` `success` `error` `warning`<br/> `CSSProperties.color`<br/> `({ index: number }) => VNode` | -      |
 
 ## Slots
 
