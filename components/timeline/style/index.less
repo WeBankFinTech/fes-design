@@ -24,6 +24,7 @@
 @icon-warning-color: var(--f-warning-color);
 @icon-error-color: var(--f-danger-color);
 
+// TODO: 去掉 ul、li 选择器后，设定的样式优先级会降低，等文档组件修复样式隔离问题后再去掉
 ul.@{timeline} {
     .text();
 
@@ -32,6 +33,11 @@ ul.@{timeline} {
     padding: calc(@item-line-height / 2);
     font-size: @item-font-size;
     list-style: none;
+
+    // 覆盖所有后代元素
+    * {
+        box-sizing: border-box;
+    }
 
     // 时间轴结点
     li.@{item} {
@@ -136,7 +142,7 @@ ul.@{timeline} {
 }
 
 // 时间轴垂直方向
-.@{timeline}-direction-column {
+ul.@{timeline}.@{timeline}-direction-column {
     flex-direction: column;
 
     li.@{item} {
@@ -236,8 +242,8 @@ ul.@{timeline} {
 }
 
 // 时间轴水平方向
-.@{timeline}-direction-row, 
-.@{timeline}-direction-row-reverse {
+ul.@{timeline}.@{timeline}-direction-row, 
+ul.@{timeline}.@{timeline}-direction-row-reverse {
     li.@{item} {
         flex-grow: 1;
         min-width: 105px;
@@ -312,7 +318,7 @@ ul.@{timeline} {
 }
 
 // 时间轴水平向右
-.@{timeline}-direction-row {
+ul.@{timeline}.@{timeline}-direction-row {
     flex-direction: row;
 
     li.@{item} {
@@ -372,7 +378,7 @@ ul.@{timeline} {
 }
 
 // 时间轴水平向左
-.@{timeline}-direction-row-reverse {
+ul.@{timeline}.@{timeline}-direction-row-reverse {
     flex-direction: row-reverse;
 
     li.@{item} {
