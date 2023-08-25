@@ -89,25 +89,26 @@ app.use(FModal);
 -   `Modal.confirm(options)`
 
 参数如下：
-| 参数 | 说明 | 类型 | 默认值 |
-| ------------- | ------------- | ------------- | ------------- |
-| closable | 是否显示右上角关闭图标 | Boolean | false |
-| mask | 是否显示蒙层 | Boolean | true |
-| maskClosable | 点击蒙层是否允许关闭 | Boolean | false |
-| title | 标题 | string / vNode / ()=>VNode |
-| content| 内容 | string / vNode / ()=>VNode | - |
-| footer| 页脚 | string / vNode / ()=>VNode | - |
-| okText | 确认按钮文字 | String | 确定 |
-| cancelText | 取消按钮文字 | String | 取消 |
-| onOk | 点击确定 | Function | - |
-| onCancel | 点击遮罩层或右上角叉或取消按钮的回调 | Function | - |
-| width | 宽度 | String/Number | 400 |
-| top | 距离顶部 | String/Number | 50 |
-| verticalCenter | 垂直居中 | Boolean | false |
-| center | 标题、内容、按钮居中 | Boolean | false |
-| fullScreen | 全屏显示 | Boolean | `false` |
-| contentClass | 可用于设置内容的类名 | String | - |
-| getContainer | 指定 `Modal` 挂载的 HTML 节点 | () => HTMLElement | `() => document.body` |
+
+| 参数           | 说明                                 | 类型                       | 默认值                |
+| -------------- | ------------------------------------ | -------------------------- | --------------------- |
+| closable       | 是否显示右上角关闭图标               | Boolean                    | false                 |
+| mask           | 是否显示蒙层                         | Boolean                    | true                  |
+| maskClosable   | 点击蒙层是否允许关闭                 | Boolean                    | false                 |
+| title          | 标题                                 | string / vNode / ()=>VNode |
+| content        | 内容                                 | string / vNode / ()=>VNode | -                     |
+| footer         | 页脚                                 | string / vNode / ()=>VNode | -                     |
+| okText         | 确认按钮文字                         | String                     | 确定                  |
+| cancelText     | 取消按钮文字                         | String                     | 取消                  |
+| onOk           | 点击确定                             | Function                   | -                     |
+| onCancel       | 点击遮罩层或右上角叉或取消按钮的回调 | Function                   | -                     |
+| width          | 宽度                                 | String/Number              | 400                   |
+| top            | 距离顶部                             | String/Number              | 50                    |
+| verticalCenter | 垂直居中                             | Boolean                    | false                 |
+| center         | 标题、内容、按钮居中                 | Boolean                    | false                 |
+| fullScreen     | 全屏显示                             | Boolean                    | `false`               |
+| contentClass   | 可用于设置内容的类名                 | String                     | -                     |
+| getContainer   | 指定 `Modal` 挂载的 HTML 节点        | () => HTMLElement          | `() => document.body` |
 
 以上函数调用后，会返回一个引用，可以通过该引用更新和关闭弹窗。
 
