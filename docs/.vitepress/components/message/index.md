@@ -101,3 +101,11 @@ FMessage.info('这是一条消息');
 | maxCount     | 最大显示数, 超过限制时，最早的消息会被自动关闭      | number            | -                     |
 | top          | 消息距离顶部的位置                                  | string            | `24px`                |
 | colorful     | 是否是彩色样式                                      | boolean           | `false`               |
+
+以上函数调用后，会返回一个引用，可以通过该引用关闭消息。
+
+```js
+const messageInfo = FMessage.info();
+
+messageInfo.destroy();
+```
