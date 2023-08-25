@@ -14,6 +14,12 @@ export const COMPONENT_NAME = {
 
 export const CHILDREN_KEY = Symbol('FMenuChildren');
 
+export interface SubMenuInject {
+    handleItemClick: () => void;
+}
+
+export const SUB_MENU_KEY: InjectionKey<SubMenuInject> = Symbol('SUB_MENU_KEY');
+
 export interface MenuNode {
     name: string;
     uid: number | string;

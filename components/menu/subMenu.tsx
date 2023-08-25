@@ -6,6 +6,7 @@ import {
     onBeforeUnmount,
     getCurrentInstance,
     watch,
+    provide,
 } from 'vue';
 import { PropType } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -14,7 +15,7 @@ import Popper from '../popper/popper';
 import DownOutlined from '../icon/DownOutlined';
 import RightOutlined from '../icon/RightOutlined';
 import Ellipsis from '../ellipsis/ellipsis';
-import { COMPONENT_NAME } from './const';
+import { COMPONENT_NAME, SUB_MENU_KEY } from './const';
 import useChildren from './useChildren';
 import useParent from './useParent';
 import useMenu from './useMenu';
@@ -81,6 +82,15 @@ export default defineComponent({
         onBeforeUnmount(() => {
             parentMenu.removeChild(subMenu);
         });
+
+        provide(SUB_MENU_KEY, {
+            handleItemClick: () => {
+                if (rootMenu.renderWithPopper.value) {
+                    isOpened.value = false;
+                }
+            },
+        });
+
         const placement = computed(() => {
             if (rootMenu.props.mode === 'horizontal') {
                 return isFirstLevel.value ? 'bottom-start' : 'right-start';
@@ -173,9 +183,9 @@ export default defineComponent({
                     <Popper
                         v-model={isOpened.value}
                         trigger="hover"
+                        onlyShowTrigger={true}
                         placement={placement.value}
                         popperClass={`${prefixCls}-popper`}
-                        appendToContainer={false}
                         offset={1}
                         v-slots={{
                             default: renderDefault,
