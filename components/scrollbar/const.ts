@@ -1,4 +1,4 @@
-import { PropType, CSSProperties } from 'vue';
+import { PropType, StyleValue } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const PROVIDE_KEY = Symbol('scrollbar');
@@ -48,11 +48,12 @@ export const scrollbarProps = {
         default: false,
     },
     containerClass: [Array, Object, String] as PropType<string | object | []>,
-    containerStyle: [String, Object] as PropType<string | CSSProperties>,
-    contentStyle: [String, Object] as PropType<string | CSSProperties>,
-    horizontalRatioStyle: [String, Object] as PropType<string | CSSProperties>,
-    verticalRatioStyle: [String, Object] as PropType<string | CSSProperties>,
-    shadowStyle: [String, Object] as PropType<string | CSSProperties>,
+    containerStyle: [String, Array, Object] as PropType<StyleValue>,
+    contentStyle: [String, Array, Object] as PropType<StyleValue>,
+    horizontalRatioStyle: [String, Array, Object] as PropType<StyleValue>,
+    verticalRatioStyle: [String, Array, Object] as PropType<StyleValue>,
+    shadowStyle: [String, Array, Object] as PropType<StyleValue>,
+    thumbStyle: [String, Array, Object] as PropType<StyleValue>,
     noresize: Boolean,
     always: {
         type: Boolean,

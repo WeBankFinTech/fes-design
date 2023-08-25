@@ -1,8 +1,17 @@
 <template>
     <aside :class="classList" :style="style">
-        <div :class="`${prefixCls}-aside-wrapper`">
+        <FScrollbar
+            :style="[
+                collapsible && showTrigger && { height: 'calc(100% - 48px)' },
+            ]"
+            :thumb-style="[
+                inverted && {
+                    backgroundColor: '#fff',
+                },
+            ]"
+        >
             <slot></slot>
-        </div>
+        </FScrollbar>
         <div
             v-if="collapsible && showTrigger"
             :class="`${prefixCls}-aside-trigger`"
@@ -28,6 +37,7 @@ import {
     getCurrentInstance,
     ref,
 } from 'vue';
+import { FScrollbar } from '../scrollbar';
 import LeftOutlined from '../icon/LeftOutlined';
 import RightOutlined from '../icon/RightOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -76,6 +86,7 @@ export type LayoutAsideProps = ExtractPublicPropTypes<typeof layoutAsideProps>;
 export default defineComponent({
     name: COMPONENT_NAME.ASIDE,
     components: {
+        FScrollbar,
         LeftOutlined,
         RightOutlined,
     },

@@ -25,6 +25,7 @@ import {
     CSSProperties,
     defineComponent,
     PropType,
+    StyleValue,
 } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -58,6 +59,7 @@ const barProps = {
     always: Boolean,
     scrollbarRef: Array as PropType<HTMLElement[]>,
     containerRef: Object as PropType<HTMLElement>,
+    thumbStyle: [String, Array, Object] as PropType<StyleValue>,
 } as const;
 
 export default defineComponent({
@@ -74,13 +76,14 @@ export default defineComponent({
         const barMap = computed(
             () => BAR_MAP[props.vertical ? 'vertical' : 'horizontal'],
         );
-        const thumbStyle = computed(() =>
+        const thumbStyle = computed(() => [
             renderThumbStyle({
                 size: props.size,
                 move: props.move,
                 bar: barMap.value,
             }),
-        );
+            props.thumbStyle,
+        ]);
         const offsetRatio = computed(
             () =>
                 barRef.value[barMap.value.offset] ** 2 /
