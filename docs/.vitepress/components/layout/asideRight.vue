@@ -1,6 +1,7 @@
 <template>
     <f-layout style="height: 400px">
         <f-aside v-model:collapsed="collapsed" inverted fixed collapsible>
+            <div style="height: 800px"></div>
         </f-aside>
         <f-layout fixed :style="{ left: collapsed ? '48px' : '200px' }">
             <f-header bordered fixed> Header </f-header>

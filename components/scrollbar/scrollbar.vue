@@ -16,6 +16,7 @@
         </div>
         <template v-if="!native">
             <FBar
+                :thumbStyle="thumbStyle"
                 :scrollbarRef="[scrollbarRef]"
                 :containerRef="containerRef"
                 :move="thumbMoveX"
@@ -25,6 +26,7 @@
                 :style="horizontalRatioStyle"
             />
             <FBar
+                :thumbStyle="thumbStyle"
                 :scrollbarRef="[scrollbarRef]"
                 :containerRef="containerRef"
                 :move="thumbMoveY"
