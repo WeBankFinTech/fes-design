@@ -4,10 +4,12 @@ import {
     onMounted,
     onBeforeUnmount,
     getCurrentInstance,
+    inject,
 } from 'vue';
 import Ellipsis from '../ellipsis/ellipsis';
 import getPrefixCls from '../_util/getPrefixCls';
-import { COMPONENT_NAME } from './const';
+import { noop } from '../_util/utils';
+import { COMPONENT_NAME, SUB_MENU_KEY } from './const';
 import useChildren from './useChildren';
 import useMenu from './useMenu';
 import type { PropType } from 'vue';
@@ -42,6 +44,9 @@ export default defineComponent({
         const { indexPath } = useMenu(instance);
         const { rootMenu, parentMenu, paddingStyle, onlyIcon } =
             useChildren(indexPath);
+        const { handleItemClick } = inject(SUB_MENU_KEY, {
+            handleItemClick: noop,
+        });
         // 根节点 menu
         if (!rootMenu) {
             console.warn(
@@ -76,6 +81,7 @@ export default defineComponent({
         );
         const handleClick = () => {
             rootMenu.clickMenuItem(props.value);
+            handleItemClick();
         };
         const renderTitle = () => {
             return (

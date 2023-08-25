@@ -1,7 +1,13 @@
 <template>
-    是否折叠：<FSwitch v-model="collapsed" style="margin: 20px"></FSwitch>
+    是否折叠：
+    <FSwitch v-model="collapsed" style="margin: 20px"></FSwitch>
+    反色：
+    <f-switch v-model="inverted">
+        <template #active> 深色 </template>
+        <template #inactive> 浅色 </template>
+    </f-switch>
     <div style="width: 200px">
-        <f-menu mode="vertical" :collapsed="collapsed">
+        <f-menu mode="vertical" :collapsed="collapsed" :inverted="inverted">
             <f-sub-menu value="1">
                 <template #icon>
                     <AppstoreOutlined />
@@ -69,8 +75,10 @@ import { defineComponent, ref } from 'vue';
 export default defineComponent({
     setup() {
         const collapsed = ref(false);
+        const inverted = ref(false);
         return {
             collapsed,
+            inverted,
         };
     },
 });

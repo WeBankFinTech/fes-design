@@ -29,6 +29,9 @@ export default function useTrigger(
     }
 
     const hide = () => {
+        if (props.onlyShowTrigger) {
+            return;
+        }
         if (isBoolean(props.disabled) && props.disabled) return;
         if (isFunction(props.disabled) && props.disabled()) return;
         clearTimers();
@@ -55,7 +58,7 @@ export default function useTrigger(
     };
 
     const toggleState = () => {
-        if (visible.value && !props.onlyShowTrigger) {
+        if (visible.value) {
             hide();
         } else {
             show();
