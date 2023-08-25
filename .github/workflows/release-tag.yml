@@ -5,6 +5,10 @@ on:
 
 name: Create Release
 
+# https://docs.github.com/en/actions/learn-github-actions/contexts#env-context
+env:
+  RELEASE_VERSION: ''
+
 jobs:
   build:
     name: Create Release
@@ -12,15 +16,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@master
+
       - name: Get the release version from the tag
         shell: bash
         if: env.RELEASE_VERSION == ''
         run: |
           echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
       - name: Generate Release Notes
         run: |
           ./.github/workflows/release-notes.mjs ${{ env.RELEASE_VERSION }}
           cat notes-${{ env.RELEASE_VERSION }}.md
+
       - name: Create Release for Tag
         id: release_tag
         uses: softprops/action-gh-release@v1
