@@ -1,9 +1,9 @@
 <template>
     <div :class="prefixCls">
         <div :class="`${prefixCls}-image`" :style="imageStyle">
-            <img v-if="image" :src="image" ondragstart="return false" />
+            <img v-if="imageSrc" :src="imageSrc" ondragstart="return false" />
             <slot v-else name="image">
-                <img-empty />
+                <DefaultImgEmpty />
             </slot>
         </div>
         <div :class="`${prefixCls}-description`">
@@ -20,12 +20,11 @@
 import { computed } from 'vue';
 
 import getPrefixCls from '../_util/getPrefixCls';
-import { pxfy } from '../_util/utils';
 import { useTheme } from '../_theme/useTheme';
 
 import { useLocale } from '../config-provider/useLocale';
 
-import ImgEmpty from './img-empty.vue';
+import DefaultImgEmpty from './imgEmpty.vue';
 import { emptyProps } from './props';
 import type { CSSProperties } from 'vue';
 
@@ -41,10 +40,8 @@ useTheme();
 
 const { t } = useLocale();
 const emptyDescription = computed(
-    () => props.description || t('table.emptyText'),
+    () => props.description || t('empty.emptyText'),
 );
 
-const imageStyle = computed<CSSProperties>(() => ({
-    width: pxfy(props.imageSize),
-}));
+const imageStyle = computed<CSSProperties>(() => props.imageStyle);
 </script>

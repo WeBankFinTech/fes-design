@@ -1,5 +1,9 @@
 <template>
-    <FEmpty :image="url" :image-size="400" description="暂无数据">
+    <FEmpty
+        :image-src="url"
+        :image-style="{ width: '400px' }"
+        description="暂无数据"
+    >
         <FButton type="primary">退出登录</FButton>
     </FEmpty>
 </template>

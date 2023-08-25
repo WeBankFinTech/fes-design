@@ -44,30 +44,16 @@ app.use(FEmpty);
 
 --CODE
 
-### 自定义样式
-
-您可以通过 `css` 全局变量为 Empty 组件设置自定义样式。例如 `:root { --f-empty-font-size: 16px; --f-empty-text-color: #ccc; }` 等变量。 
-
-### 默认变量
-
-| Variable                | Color                         |
-| ----------------------- | ----------------------------- |
-| --f-empty-padding       | 30px 0                        |
-| --f-empty-font-size     | var(--f-font-size-base)       |
-| --f-empty-text-color    | var(--f-text-color-secondary) |
-| --f-empty-description-margin-top | 16px                 |
-| --f-empty-bottom-margin-top | 24px                      |
-
 
 ## API
 
 ### 属性 Attributes
 
-| 属性名       | 描述                         | 类型      | 默认值 |
+| 属性名       | 描述                         | 类型      | 默认值   |
 | ----------- | --------------------------- | --------- | ------- |
-| image       | empty 组件的图像地址          | `string` | 默认图片  |
-| image-size  | empty 组件的图像大小尺寸（宽度） | `number` | 无      |
-| description | empty 组件的描述信息        | `string`   | ''      |
+| image-src   | empty 组件的图像地址          | `string`  | -       |
+| image-style | empty 组件的图像自定义样式     | `CSSProperties`  | -       |
+| description | empty 组件的描述信息          | `string`  | -      |
 
 ### 插槽  Slots
 
