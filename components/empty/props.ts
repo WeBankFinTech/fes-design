@@ -1,4 +1,4 @@
-import type { PropType, CSSProperties } from 'vue';
+import type { PropType, StyleValue } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const emptyProps = {
@@ -13,7 +13,7 @@ export const emptyProps = {
      * @description image style of empty
      */
     imageStyle: {
-        type: Object as PropType<CSSProperties>,
+        type: [Object, Array, String] as PropType<StyleValue>,
         default: () => ({}),
     },
     /**

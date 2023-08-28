@@ -7,7 +7,6 @@
 @empty-image-width: 150px;
 @empty-description-margin-top: 16px;
 @empty-bottom-margin-top: 24px;
-@empty-svg-monochrome-grey: #dcdfe6;
 
 .@{empty-prefix-cls} {
     --f-empty-padding: @empty-padding;
@@ -17,6 +16,7 @@
     --f-empty-description-margin-top: @empty-description-margin-top;
     --f-empty-bottom-margin-top: @empty-bottom-margin-top;
 
+    .text();
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,7 +28,7 @@
     &-image {
         width: var(--f-empty-image-width);
 
-        img {
+        .empty-img {
             width: 100%;
             height: 100%;
             object-fit: contain;
@@ -36,7 +36,7 @@
             user-select: none;
         }
 
-        svg {
+        .empty-svg {
             width: 100%;
             height: 100%;
             vertical-align: top;
@@ -47,7 +47,7 @@
     &-description {
         margin-top: var(--f-empty-description-margin-top);
 
-        p {
+        .empty-text {
             margin: 0;
             color: var(--f-empty-text-color);
             font-size: var(--f-empty-font-size);
