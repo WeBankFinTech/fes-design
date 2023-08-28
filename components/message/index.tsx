@@ -50,15 +50,21 @@ function create({
 
     let item: Notice;
 
+    function handleItemCloseClick() {
+        item && messageInstance?.remove(item?.key);
+    }
+    function destroyItem() {
+        item && messageInstance?.remove(item?.key);
+    }
+
     function renderItem() {
         const classNames = [`${prefixCls}`];
         // 当前colorful判断优先
         if (!(colorful || (colorful !== false && mergeConfig.colorful))) {
             classNames.push(`${prefixCls}-no-colorful`);
         }
-        if (closable) classNames.push(`${prefixCls}-close`);
-        function handleCloseClick() {
-            messageInstance!.remove(item?.key);
+        if (closable) {
+            classNames.push(`${prefixCls}-close`);
         }
 
         const contentIsFunc = typeof content === 'function';
@@ -85,7 +91,7 @@ function create({
                         message={contentIsFunc ? '' : content}
                         showIcon
                         closable={closable}
-                        onClose={handleCloseClick}
+                        onClose={handleItemCloseClick}
                         v-slots={scopedSlots}
                     />
                 </div>
@@ -108,12 +114,8 @@ function create({
         renderItem();
     }
 
-    function destroy() {
-        messageInstance?.remove(item?.key);
-    }
-
     return {
-        destroy,
+        destroy: destroyItem,
     };
 }
 
