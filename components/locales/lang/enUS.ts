@@ -6,6 +6,9 @@ export default {
         placeholder: 'Select',
         tagOption: 'Custom',
     },
+    empty: {
+        emptyText: 'No Data',
+    },
     cascader: {
         loadingRequiredMessage:
             "Please load all {label}'s descendants before checking it.",

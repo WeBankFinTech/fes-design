@@ -31,6 +31,7 @@ import './pagination/style';
 import './steps/style';
 import './divider/style';
 import './ellipsis/style';
+import './empty/style';
 import './dropdown/style';
 import './spin/style';
 import './config-provider/style';
