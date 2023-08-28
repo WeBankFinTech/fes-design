@@ -48,13 +48,15 @@ function create({
 }: Partial<Options>) {
     managerStyle.zIndex = PopupManager.nextZIndex();
 
-    let item: Notice;
+    let item: Notice | null = null;
 
     function handleItemCloseClick() {
         item && messageInstance?.remove(item?.key);
+        item = null;
     }
     function destroyItem() {
         item && messageInstance?.remove(item?.key);
+        item = null;
     }
 
     function renderItem() {
