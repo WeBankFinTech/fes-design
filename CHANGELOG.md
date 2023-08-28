@@ -1,3 +1,18 @@
+## [0.8.6](https://github.com/WeBankFinTech/fes-design/compare/v0.8.5...v0.8.6) (2023-08-28)
+
+
+### Bug Fixes
+
+* SubMenu弹出时改为塞入body,可避免祖先overflow设置导致无法显示弹层 ([#428](https://github.com/WeBankFinTech/fes-design/issues/428)) ([eea5a26](https://github.com/WeBankFinTech/fes-design/commit/eea5a26c4e2879c9a6e6f6adfe631183d1523515))
+
+
+### Features
+
+* **message:** 组件支持关闭当前消息 ([#429](https://github.com/WeBankFinTech/fes-design/issues/429)) ([f4c9d37](https://github.com/WeBankFinTech/fes-design/commit/f4c9d379f265c71a8f9c5f0179befc817020b335))
+* scrollbar 支持自定义 thumb 样式 & layout aside 滚动用scrollbar ([#427](https://github.com/WeBankFinTech/fes-design/issues/427)) ([4800966](https://github.com/WeBankFinTech/fes-design/commit/4800966108ca8487a36b5f63caa79491154de3f4))
+
+
+
 ## [0.8.5](https://github.com/WeBankFinTech/fes-design/compare/v0.8.4...v0.8.5) (2023-08-22)
 
 
