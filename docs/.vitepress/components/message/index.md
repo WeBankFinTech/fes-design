@@ -44,19 +44,21 @@ FMessage.info('这是一条消息');
 
 --CODE
 
-## API
+## 全局方法
 
 组件提供了一些静态方法，使用方式和参数如下
 
--   `message.success(content, [duration])`
+-   `Message.success(content, [duration])`
 
--   `message.error(content, [duration])`
+-   `Message.error(content, [duration])`
 
--   `message.info(content, [duration])`
+-   `Message.info(content, [duration])`
 
--   `message.warning(content, [duration])`
+-   `Message.warning(content, [duration])`
 
--   `message.warn(content, [duration])` // alias of warning
+-   `Message.warn(content, [duration])` 同 warning
+
+参数如下：
 
 | 参数     | 说明                                          | 类型                  | 默认值 |
 | -------- | --------------------------------------------- | --------------------- | ------ |
@@ -65,15 +67,17 @@ FMessage.info('这是一条消息');
 
 也可以对象的形式传递参数：
 
--   `message.success(config)`
+-   `Message.success(config)`
 
--   `message.error(config)`
+-   `Message.error(config)`
 
--   `message.info(config)`
+-   `Message.info(config)`
 
--   `message.warning(config)`
+-   `Message.warning(config)`
 
--   `message.warn(config)` // alias of warning
+-   `Message.warn(config)` 同 warning
+
+参数如下：
 
 | 参数       | 说明                                          | 类型                  | 默认值  |
 | ---------- | --------------------------------------------- | --------------------- | ------- |
@@ -86,9 +90,9 @@ FMessage.info('这是一条消息');
 
 ## 全局方法
 
--   `message.config(options)`
+-   `Message.config(options)`
 
--   `message.destroy()`
+-   `Message.destroy()` 关闭所有消息
 
 | 参数         | 说明                                                | 类型              | 默认值                |
 | ------------ | --------------------------------------------------- | ----------------- | --------------------- |
@@ -97,3 +101,11 @@ FMessage.info('这是一条消息');
 | maxCount     | 最大显示数, 超过限制时，最早的消息会被自动关闭      | number            | -                     |
 | top          | 消息距离顶部的位置                                  | string            | `24px`                |
 | colorful     | 是否是彩色样式                                      | boolean           | `false`               |
+
+以上函数调用后，会返回一个引用，可以通过该引用关闭消息。
+
+```js
+const messageInfo = FMessage.info();
+
+messageInfo.destroy();
+```

@@ -37,7 +37,7 @@ const managerStyle = reactive({
     top: mergeConfig.top,
 });
 
-async function create({
+function create({
     type,
     content,
     duration,
@@ -47,65 +47,85 @@ async function create({
     colorful,
 }: Partial<Options>) {
     managerStyle.zIndex = PopupManager.nextZIndex();
+
+    let item: Notice | null = null;
+
+    function handleItemCloseClick() {
+        item && messageInstance?.remove(item?.key);
+        item = null;
+    }
+    function destroyItem() {
+        item && messageInstance?.remove(item?.key);
+        item = null;
+    }
+
+    function renderItem() {
+        const classNames = [`${prefixCls}`];
+        // 当前colorful判断优先
+        if (!(colorful || (colorful !== false && mergeConfig.colorful))) {
+            classNames.push(`${prefixCls}-no-colorful`);
+        }
+        if (closable) {
+            classNames.push(`${prefixCls}-close`);
+        }
+
+        const contentIsFunc = typeof content === 'function';
+        const iconIsFunc = typeof icon === 'function';
+        const scopedSlots: any = {
+            default: contentIsFunc ? content : null,
+            icon: iconIsFunc ? icon : null,
+        };
+
+        item = messageInstance.append({
+            afterRemove: afterClose,
+            duration:
+                duration != null && duration >= 0
+                    ? duration
+                    : mergeConfig.duration,
+            style: {
+                zIndex: PopupManager.nextZIndex(),
+            },
+            children: (
+                <div class={`${prefixCls}-item`}>
+                    <Alert
+                        class={classNames}
+                        type={type}
+                        message={contentIsFunc ? '' : content}
+                        showIcon
+                        closable={closable}
+                        onClose={handleItemCloseClick}
+                        v-slots={scopedSlots}
+                    />
+                </div>
+            ),
+        });
+    }
+
     if (!messageInstance?.exited?.()) {
-        messageInstance = await createManager({
+        createManager({
             getContainer: mergeConfig.getContainer,
             transitionName: `${prefixCls}`,
             class: `${prefixCls}-wrapper`,
             maxCount: mergeConfig.maxCount,
             style: managerStyle,
+        }).then((instance) => {
+            messageInstance = instance;
+            renderItem();
         });
+    } else {
+        renderItem();
     }
 
-    const classNames = [`${prefixCls}`];
-    // 当前colorful判断优先
-    if (!(colorful || (colorful !== false && mergeConfig.colorful))) {
-        classNames.push(`${prefixCls}-no-colorful`);
-    }
-    if (closable) classNames.push(`${prefixCls}-close`);
-
-    // eslint-disable-next-line prefer-const
-    let item: Notice;
-    function handleCloseClick() {
-        messageInstance!.remove(item?.key);
-    }
-
-    const contentIsFunc = typeof content === 'function';
-    const iconIsFunc = typeof icon === 'function';
-    const scopedSlots: any = {
-        default: contentIsFunc ? content : null,
-        icon: iconIsFunc ? icon : null,
+    return {
+        destroy: destroyItem,
     };
-    item = messageInstance.append({
-        afterRemove: afterClose,
-        duration:
-            duration != null && duration >= 0 ? duration : mergeConfig.duration,
-        style: {
-            zIndex: PopupManager.nextZIndex(),
-        },
-        children: (
-            <div class={`${prefixCls}-item`}>
-                <Alert
-                    class={classNames}
-                    type={type}
-                    message={contentIsFunc ? '' : content}
-                    showIcon
-                    closable={closable}
-                    onClose={handleCloseClick}
-                    v-slots={scopedSlots}
-                />
-            </div>
-        ),
-    });
 }
 
-// function message(type: MessageType, content: string, duration?: number): void;
-// function message(type: MessageType, options: Options): void;
 function message(
     type: MessageType,
     options: string | Partial<Options>,
     duration?: number,
-): void {
+) {
     const params: Partial<Options> = { type };
     if (typeof options === 'string') {
         params.content = options;
@@ -113,7 +133,7 @@ function message(
     } else {
         Object.assign(params, options);
     }
-    create(params);
+    return create(params);
 }
 
 export const FMessage = {
