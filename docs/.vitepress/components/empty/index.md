@@ -51,9 +51,9 @@ app.use(FEmpty);
 
 | 属性名       | 描述                                | 类型      | 默认值     |
 | ----------- | ---------------------------------- | --------- | --------- |
-| image-src   | empty 组件的图像地址，优先于大于 solt  | `string`  |  -        |
+| image-src   | empty 组件的图像地址，优先级大于 solt  | `string`  |  -        |
 | image-style | empty 组件的图像自定义样式            | `CSSProperties` | -   |
-| description | empty 组件的描述信息，优先于大于 solt  | `string`  |  -        |
+| description | empty 组件的描述信息，优先级大于 solt  | `string`  |  -        |
 
 ### 插槽  Slots
 
