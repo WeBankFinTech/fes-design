@@ -12,7 +12,7 @@
             </slot>
         </div>
         <div :class="`${prefixCls}-description`">
-            <p v-if="description" class="desc-text">{{ description }}</p>
+            <p v-if="description" class="empty-text">{{ description }}</p>
             <slot v-else name="description">
                 <p class="empty-text">{{ defaultDescription }}</p>
             </slot>
