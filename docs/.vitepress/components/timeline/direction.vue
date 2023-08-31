@@ -6,8 +6,10 @@
             { label: '水平向右', value: 'row' },
             { label: '水平向左', value: 'row-reverse' },
         ]"
-        :style="{ marginBottom: 'var(--f-padding-large)' }"
     />
+
+    <FDivider></FDivider>
+
     <FTimeline
         :data="data"
         :direction="direction ?? undefined"

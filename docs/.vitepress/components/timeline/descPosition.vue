@@ -17,6 +17,9 @@
             />
         </FFormItem>
     </FForm>
+
+    <FDivider></FDivider>
+
     <FTimeline
         :data="data"
         :direction="direction ?? undefined"
