@@ -18,7 +18,7 @@ app.use(FScrollbar);
 
 ### 横向滚动
 
---ROW
+--HORIZONTAL
 
 --CODE
 
