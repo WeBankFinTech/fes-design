@@ -44,21 +44,20 @@ app.use(FEmpty);
 
 --CODE
 
-
 ## API
 
 ### 属性 Attributes
 
-| 属性名       | 描述                                | 类型      | 默认值     |
-| ----------- | ---------------------------------- | --------- | --------- |
-| image-src   | empty 组件的图像地址，优先级大于 solt  | `string`  |  -        |
-| image-style | empty 组件的图像自定义样式            | `CSSProperties` | -   |
-| description | empty 组件的描述信息，优先级大于 solt  | `string`  |  -        |
+| 属性名      | 描述                                  | 类型            | 默认值 |
+| ----------- | ------------------------------------- | --------------- | ------ |
+| imageSrc   | empty 组件的图像地址，优先级大于 solt | `string`        | -      |
+| imageStyle | empty 组件的图像自定义样式            | `CSSProperties` | -      |
+| description | empty 组件的描述信息，优先级大于 solt | `string`        | -      |
 
-### 插槽  Slots
+### 插槽 Slots
 
-| 插槽名称     | 描述                       |
-| ----------- | ------------------------- |
-| default     | 作为底部内容的内容           |
-| image       | 作为图像的内容              |
-| description | 作为描述的内容              |
+| 插槽名称    | 描述               |
+| ----------- | ------------------ |
+| default     | 作为底部内容的内容 |
+| image       | 作为图像的内容     |
+| description | 作为描述的内容     |
