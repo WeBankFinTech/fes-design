@@ -28,7 +28,7 @@ app.use(FTimeline);
 
 --DIRECTION
 
-### 结点布局方式
+### 标题位置
 
 使用 `titlePosition` 调整结点在时间轴两侧的位置
 
@@ -39,7 +39,7 @@ app.use(FTimeline);
 
 --TITLEPOSITION
 
-### 辅助描述
+### 辅助描述位置
 
 用于设置辅助描述相对于标题的位置
 
@@ -51,18 +51,16 @@ _当轴为水平方向时，不支持辅助说明与标题同行_
 
 --DESCPOSITION
 
-#### 自定义辅助描述
+### 自定义辅助描述
 
 --CUSTOMDESC
 
-### 轴点
-
-#### 自定义颜色
+### 轴点-自定义颜色
 
 支持预设的 `info`、`success`、`error`、`warning`，此外还可以使用如 `#ff007f` 这样的能被 CSS 的 `color` 接受的颜色值
 --CUSTOMICONCOLOR
 
-#### 自定义图标
+### 轴点-自定义图标
 
 --CUSTOMICON
 

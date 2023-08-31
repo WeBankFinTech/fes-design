@@ -2,9 +2,9 @@
     <FRadioGroup
         v-model="direction"
         :options="[
-            { label: 'column (default)', value: 'column' },
-            { label: 'row', value: 'row' },
-            { label: 'row-reverse', value: 'row-reverse' },
+            { label: '垂直向下(默认)', value: 'column' },
+            { label: '水平向右', value: 'row' },
+            { label: '水平向左', value: 'row-reverse' },
         ]"
         :style="{ marginBottom: 'var(--f-padding-large)' }"
     />

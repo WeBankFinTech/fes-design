@@ -1,17 +1,20 @@
 <template>
     <FForm>
-        <FFormItem label="direction:">
+        <FFormItem label="轴的方向:">
             <FRadioGroup
                 v-model="direction"
                 :options="[
-                    { label: 'column', value: 'column' },
-                    { label: 'row', value: 'row' },
-                    { label: 'row-reverse', value: 'row-reverse' },
+                    { label: '垂直向下(默认)', value: 'column' },
+                    { label: '水平向右', value: 'row' },
+                    { label: '水平向左', value: 'row-reverse' },
                 ]"
             />
         </FFormItem>
-        <FFormItem label="descPosition:">
-            <FRadioGroup v-model="descPosition" :options="descConfig" />
+        <FFormItem label="辅助描述位置:">
+            <FRadioGroup
+                v-model="descPosition"
+                :options="descPositionOptions"
+            />
         </FFormItem>
     </FForm>
     <FTimeline
@@ -24,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 const data = [
     {
@@ -49,13 +52,21 @@ const data = [
 const direction = ref('column');
 const descPosition = ref('opposite');
 
-const descConfig = computed(() => [
-    { label: 'under (default)', value: 'under' },
-    {
-        label: 'inline',
-        value: 'inline',
-        disabled: direction.value !== 'column',
-    },
-    { label: 'opposite', value: 'opposite' },
-]);
+const descPositionOptions = computed(() => {
+    return [
+        { label: '在标题下方(默认)', value: 'under' },
+        {
+            label: '与标题同行',
+            value: 'inline',
+            disabled: direction.value !== 'column',
+        },
+        { label: '和标题位于轴的两侧', value: 'opposite' },
+    ];
+});
+
+watch(direction, () => {
+    if (direction.value !== 'column' && descPosition.value === 'inline') {
+        descPosition.value = 'under';
+    }
+});
 </script>

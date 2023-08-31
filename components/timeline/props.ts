@@ -62,6 +62,7 @@ export type TimelineNode = {
     icon?:
         | TimelineIconType
         | Color
+        | string
         | ((params: TimelineNodeSlotCommonParams) => VNodeChild);
 };
 
