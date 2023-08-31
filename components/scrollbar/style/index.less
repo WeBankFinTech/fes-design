@@ -4,7 +4,8 @@
 
 @scrollbar-prefix-cls: ~'@{cls-prefix}-scrollbar';
 @scrollbar-track-cls: ~'@{scrollbar-prefix-cls}-track';
-@scrollbar-width: 4px;
+@scrollbar-width: 5px;
+@scrollbar-hover-width: 8px;
 @scrollbar-bg: var(--f-scrollbar-bg-color);
 @scrollbar-active-bg: var(--f-scrollbar-active-color);
 @scrollbar-shadow-size: 4px;
@@ -56,12 +57,18 @@
         > div {
             width: 100%;
         }
+        &.is-hovering {
+            width: @scrollbar-hover-width;
+        }
     }
     &.is-horizontal {
         left: 2px;
         height: @scrollbar-width;
         > div {
             height: 100%;
+        }
+        &.is-hovering {
+            height: @scrollbar-hover-width;
         }
     }
 
@@ -75,9 +82,14 @@
         cursor: pointer;
         transition: @animation-duration-slow background-color;
 
-        &:hover,
-        &.is-hovering {
+        &:hover {
             background-color: @scrollbar-active-bg;
+        }
+    }
+    &.is-hovering {
+        .@{scrollbar-track-cls}-thumb {
+            background-color: @scrollbar-active-bg;
+            border-radius: var(--f-border-radius-base);
         }
     }
 }

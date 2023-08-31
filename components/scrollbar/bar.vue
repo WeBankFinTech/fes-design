@@ -3,12 +3,16 @@
         <div
             v-show="always || visible"
             ref="barRef"
-            :class="[prefixCls, `is-${barMap.key}`]"
+            :class="[
+                prefixCls,
+                `is-${barMap.key}`,
+                cursorDown && `is-hovering`,
+            ]"
             @mousedown.stop.prevent="clickTrackHandler"
         >
             <div
                 ref="thumbRef"
-                :class="[`${prefixCls}-thumb`, cursorDown && `is-hovering`]"
+                :class="[`${prefixCls}-thumb`]"
                 :style="thumbStyle"
                 @mousedown.stop.prevent="clickThumbHandler"
             ></div>
