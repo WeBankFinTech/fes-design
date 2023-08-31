@@ -9,6 +9,10 @@
 
 @input-height-base: @data-input-height-base;
 
+@scrollbar-width: 6px;
+@scrollbar-bg: var(--f-scrollbar-bg-color);
+@scrollbar-active-bg: var(--f-scrollbar-active-color);
+
 .@{input-prefix-cls} {
     .default();
     .text();
@@ -101,6 +105,33 @@
             resize: none;
             .disabled();
         }
+
+        /* 滚动条整体部分 */
+        &::-webkit-scrollbar {
+            width: @scrollbar-width;
+        }
+        /* 滚动条的轨道 */
+        &::-webkit-scrollbar-track {
+            background-color: var(--f-white);
+            border: var(--f-border-width-base) var(--f-border-style-base) transparent;
+            border-radius: var(--f-border-radius-base);
+        }
+        /* 滚动条里面的小方块，能向上向下移动 */
+        &::-webkit-scrollbar-thumb {
+            background-color: @scrollbar-bg;
+            border: var(--f-border-width-base) var(--f-border-style-base) transparent;
+            border-radius: var(--f-border-radius-base);
+        }
+        &::-webkit-scrollbar-thumb:hover {
+            background-color: @scrollbar-active-bg;
+        }
+        &::-webkit-scrollbar-thumb:active {
+            background-color: @scrollbar-active-bg;
+        }
+        /* 边角，即两个滚动条的交汇处 */
+        &::-webkit-scrollbar-corner {
+            border-radius: var(--f-border-radius-base);
+        }
     }
 
     &.is-error {
@@ -116,9 +147,11 @@
         position: absolute;
         right: 8px;
         bottom: 2px;
-        color: var(--f-text-color-secondary);
+        color: var(--f-text-color);
         font-size: @font-size-caption;
         text-align: right;
         background-color: #fff;
+        opacity: 0.4;
+        pointer-events: none;
     }
 }
