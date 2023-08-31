@@ -1,5 +1,5 @@
 <template>
-    <FSpace direction="vertical">
+    <FSpace vertical>
         <FText>
             This is text mixed icon
             <BellOutlined />
