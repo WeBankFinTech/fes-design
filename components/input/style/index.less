@@ -9,6 +9,10 @@
 
 @input-height-base: @data-input-height-base;
 
+@scrollbar-width: 6px;
+@scrollbar-bg: var(--f-scrollbar-bg-color);
+@scrollbar-active-bg: var(--f-scrollbar-active-color);
+
 .@{input-prefix-cls} {
     .default();
     .text();
@@ -71,6 +75,8 @@
 
     &-inner {
         .text();
+        .textarea-scrollbar(@scrollbar-width; @scrollbar-bg; @scrollbar-active-bg);
+
         display: block;
         box-sizing: border-box;
         width: 100%;
@@ -116,9 +122,11 @@
         position: absolute;
         right: 8px;
         bottom: 2px;
-        color: var(--f-text-color-secondary);
+        color: var(--f-text-color);
         font-size: @font-size-caption;
         text-align: right;
         background-color: #fff;
+        opacity: 0.4;
+        pointer-events: none;
     }
 }
