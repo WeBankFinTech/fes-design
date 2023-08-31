@@ -17,7 +17,7 @@ const iconProps = {
     slotRender: { type: Function as PropType<UnboxSlots['icon']> },
 } as const satisfies ComponentObjectPropsOptions;
 
-const Icon = defineComponent({
+export default defineComponent({
     name: `${COMPONENT_NAME}Icon`,
     props: iconProps,
     setup: (props: ComponentInnerProps<typeof iconProps>) => {
@@ -82,5 +82,3 @@ const Icon = defineComponent({
         };
     },
 });
-
-export default Icon;
