@@ -1,4 +1,5 @@
 import {
+    CSSProperties,
     PropType,
     SetupContext,
     SlotsType,
@@ -44,6 +45,7 @@ type TimelineDescPosition = 'under' | 'inline' | 'opposite';
  */
 export type TimelineIconType = 'info' | 'success' | 'warning' | 'error';
 
+type Color = CSSProperties['color'];
 /**
  * 时间轴结点插槽或渲染函数的共同参数
  *
@@ -59,6 +61,7 @@ export type TimelineNode = {
     desc?: string | ((params: TimelineNodeSlotCommonParams) => VNodeChild);
     icon?:
         | TimelineIconType
+        | Color
         | string
         | ((params: TimelineNodeSlotCommonParams) => VNodeChild);
 };
