@@ -5,7 +5,6 @@ import { provideKey } from '../const';
 import Colgroup from './colgroup';
 import Header from './header';
 import Tr from './tr';
-import NoData from './noData';
 
 import type { ColumnInst } from '../column';
 
@@ -69,7 +68,7 @@ export default defineComponent({
 
         const renderBody = () => {
             if (showData.value.length === 0) {
-                return <NoData></NoData>;
+                return null;
             }
             if (rootProps.draggable) {
                 return (

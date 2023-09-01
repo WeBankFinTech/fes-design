@@ -6,6 +6,7 @@ import useTable from './useTable';
 import HeaderTable from './components/headerTable';
 import BodyTable from './components/bodyTable';
 import VirtualTable from './components/virtualTable';
+import NoData from './components/noData';
 import type { ColumnChildren } from './column';
 import type { BeforeDragEnd } from '../draggable/useDraggable';
 import type { ExtractPublicPropTypes } from '../_util/interface';
@@ -174,6 +175,7 @@ export default defineComponent({
                             columns={columns.value}
                         />
                     )}
+                    {showData.value.length === 0 && <NoData></NoData>}
                 </>
             );
         };
