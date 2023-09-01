@@ -16,23 +16,35 @@ app.use(FModal);
 
 --COMMON
 
-### 确认对话框
+### 自定义头部
 
-使用 `confirm()` 可以快捷地弹出确认框。
+通过 slot `title`可以自定义页脚内容
 
---CONFIRM
-
-### 信息反馈
-
-各种类型的信息提示
-
---FEEDBACK
+--CUSTOMTITLE
 
 ### 自定义页脚
 
 通过 slot `footer`可以自定义页脚内容
 
---FOOTER
+--CUSTOMFOOTER
+
+### 命令式调用 - 确认对话框
+
+使用 `confirm()` 可以快捷地弹出确认框。
+
+--CONFIRM
+
+### 命令式调用 - 信息反馈
+
+各种类型的信息提示
+
+--FEEDBACK
+
+### 异步提交
+
+针对弹窗确认提交操作。
+
+--ASYNCSUBMIT
 
 --CODE
 
