@@ -1,6 +1,6 @@
 <template>
     <FSpace>
-        <FButton @click="() => showFModalSubmit()">命令行调用</FButton>
+        <FButton @click="() => showFModalSubmit()">全局方法</FButton>
         <FButton @click="() => (customShow = true)">自定义页脚</FButton>
     </FSpace>
 
@@ -82,7 +82,9 @@ export default {
                 okText: '提交更新',
                 cancelText: '数据还原',
                 onOk() {
-                    console.log('[modal.confirm] [showFModalSubmit] [onOk]');
+                    console.log(
+                        '[modal.asyncSubmit] [showFModalSubmit] [onOk]',
+                    );
                     return new Promise(() => {
                         modal.update({ okText: '2s后自动关闭' });
                         setTimeout(() => {
@@ -92,7 +94,7 @@ export default {
                 },
                 async onCancel() {
                     console.log(
-                        '[modal.confirm] [showFModalSubmit] [onCancel]',
+                        '[modal.asyncSubmit] [showFModalSubmit] [onCancel]',
                     );
                     modal.update({ cancelText: '3s后自动关闭' });
                     await sleep(3000);

@@ -37,12 +37,8 @@ export type ModalType = keyof typeof modalIconMap;
 
 // 全局方法的特有属性
 const globalModalProps = {
-    type: {
-        type: String as PropType<ModalType>,
-        default: 'info',
-    },
     content: String as PropType<string | VNode | (() => VNodeChild)>,
-    forGlobal: Boolean,
+    forGlobal: Boolean, // 标记是否API调用
 } as const;
 
 // 通用的属性
@@ -64,9 +60,16 @@ export const modalProps = {
         type: Boolean,
         default: true,
     },
+    type: {
+        type: String as PropType<ModalType>,
+    },
     title: String as PropType<string | VNode | (() => VNodeChild)>,
     okText: String,
     cancelText: String,
+    showCancel: {
+        type: Boolean,
+        default: true,
+    },
     width: {
         type: [String, Number] as PropType<string | number>,
         default: 520,
@@ -146,7 +149,7 @@ const Modal = defineComponent({
             const header = ctx.slots.title?.() || props.title;
             return (
                 <div class={`${prefixCls}-header`}>
-                    {props.forGlobal && (
+                    {props.type && (
                         <div
                             class={`${prefixCls}-icon ${prefixCls}-status-${props.type}`}
                         >
@@ -167,7 +170,7 @@ const Modal = defineComponent({
             } else {
                 footer = (
                     <>
-                        {(!props.forGlobal || props.type === 'confirm') && (
+                        {props.showCancel && (
                             <FButton
                                 size="middle"
                                 class="btn-margin"

@@ -1,7 +1,6 @@
 <template>
     <FSpace>
         <FButton @click="() => showFModal()">confirm</FButton>
-        <FButton @click="() => showFModal()">confirm</FButton>
     </FSpace>
 </template>
 
@@ -17,12 +16,10 @@ export default {
                 content: `这是一个确认对话的弹框`,
                 okText: '知道了',
                 onOk() {
-                    console.log('[modal.confirm] [showFModalNormal] [onOk]');
+                    console.log('[modal.confirm] [showFModal] [onOk]');
                 },
                 onCancel() {
-                    console.log(
-                        '[modal.confirm] [showFModalNormal] [onCancel]',
-                    );
+                    console.log('[modal.confirm] [showFModal] [onCancel]');
                 },
             });
         }
