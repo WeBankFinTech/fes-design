@@ -1,3 +1,15 @@
+## [0.8.7](https://github.com/WeBankFinTech/fes-design/compare/v0.8.6...v0.8.7) (2023-09-04)
+
+
+### Features
+
+* 新增 Empty 组件 ([#433](https://github.com/WeBankFinTech/fes-design/issues/433)) ([78245b7](https://github.com/WeBankFinTech/fes-design/commit/78245b700fca359893bfd9e87da5468ea44cb2bf))
+* **input:** textarea滚动条样式美化 ([#448](https://github.com/WeBankFinTech/fes-design/issues/448)) ([4486b7a](https://github.com/WeBankFinTech/fes-design/commit/4486b7a8c60207629bf52e162cfe4b0a256a9417))
+* **scrollbar:** 滚动条样式体验优化 ([#450](https://github.com/WeBankFinTech/fes-design/issues/450)) ([605ace1](https://github.com/WeBankFinTech/fes-design/commit/605ace1e5e8446d4f0becd0a403e8de3d61b4ae0))
+* **table:** 无数据场景交互优化及丰富组件文档无数据的案例 ([#452](https://github.com/WeBankFinTech/fes-design/issues/452)) ([cce1848](https://github.com/WeBankFinTech/fes-design/commit/cce18485176678121a15c9b4d96bb65ceaa4fcd0))
+
+
+
 ## [0.8.6](https://github.com/WeBankFinTech/fes-design/compare/v0.8.5...v0.8.6) (2023-08-28)
 
 
