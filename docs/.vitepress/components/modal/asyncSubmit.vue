@@ -1,13 +1,28 @@
 <template>
     <FSpace>
         <FButton @click="() => showFModalSubmit()">全局方法</FButton>
+        <FButton @click="() => (normalShow = true)">常规</FButton>
         <FButton @click="() => (customShow = true)">自定义页脚</FButton>
     </FSpace>
 
     <FModal
+        v-model:show="normalShow"
+        title="常规"
+        displayDirective="if"
+        type="confirm"
+        :okLoading="normalOkLoading"
+        :okText="normalOkText"
+        @ok="() => handleNormalOk()"
+        @cancel="normalShow = false"
+    >
+        您的订单还未支付完成，退出将放弃购买
+    </FModal>
+
+    <FModal
         v-model:show="customShow"
-        title="这里是标题"
-        @ok="() => (customShow = false)"
+        displayDirective="if"
+        type="confirm"
+        title="自定义页脚"
     >
         您的订单还未支付完成，退出将放弃购买
         <template #footer>
@@ -20,7 +35,7 @@
                     {{ customCancelText }}
                 </FButton>
                 <FButton
-                    type="success"
+                    type="primary"
                     :loading="customOkLoading"
                     @click="handleCustomOk"
                 >
@@ -32,7 +47,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, nextTick } from 'vue';
 // eslint-disable-next-line import/no-unresolved
 import { FModal } from '@fesjs/fes-design';
 
@@ -40,36 +55,40 @@ function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
 }
 
-function useCustomFooter() {
-    const customShow = ref(false);
-    const customOkLoading = ref(false);
-    const customCancelLoading = ref(false);
-    const customOkText = ref('提交更新');
-    const customCancelText = ref('数据还原');
+function useModal() {
+    const show = ref(false);
+    const okLoading = ref(false);
+    const cancelLoading = ref(false);
+    const okText = ref('提交更新');
+    const cancelText = ref('数据还原');
 
-    const handleCustomCancel = async () => {
-        customCancelLoading.value = true;
-        customCancelText.value = '3s后自动关闭';
+    const handleCancel = async () => {
+        cancelLoading.value = true;
+        cancelText.value = '3s后自动关闭';
         await sleep(2000);
-        customCancelLoading.value = false;
-        customShow.value = false;
+        cancelLoading.value = false;
+        show.value = false;
+        await nextTick();
+        cancelText.value = '数据还原';
     };
-    const handleCustomOk = async () => {
-        customOkLoading.value = true;
-        customOkText.value = '2s后自动关闭';
+    const handleOk = async () => {
+        okLoading.value = true;
+        okText.value = '2s后自动关闭';
         await sleep(3000);
-        customOkLoading.value = false;
-        customShow.value = false;
+        okLoading.value = false;
+        show.value = false;
+        await nextTick();
+        okText.value = '提交更新';
     };
 
     return {
-        customShow,
-        customOkLoading,
-        customCancelLoading,
-        handleCustomCancel,
-        handleCustomOk,
-        customOkText,
-        customCancelText,
+        show,
+        okLoading,
+        cancelLoading,
+        handleCancel,
+        handleOk,
+        okText,
+        cancelText,
     };
 }
 
@@ -78,7 +97,7 @@ export default {
         function showFModalSubmit() {
             const modal = FModal.confirm({
                 title: '确认对话',
-                content: `这是一个确认对话的弹框`,
+                content: `您的订单还未支付完成，退出将放弃购买`,
                 okText: '提交更新',
                 cancelText: '数据还原',
                 onOk() {
@@ -86,7 +105,10 @@ export default {
                         '[modal.asyncSubmit] [showFModalSubmit] [onOk]',
                     );
                     return new Promise(() => {
-                        modal.update({ okText: '2s后自动关闭' });
+                        modal.update({
+                            okText: '2s后自动关闭',
+                            okLoading: true,
+                        });
                         setTimeout(() => {
                             modal.destroy();
                         }, 2000);
@@ -96,7 +118,10 @@ export default {
                     console.log(
                         '[modal.asyncSubmit] [showFModalSubmit] [onCancel]',
                     );
-                    modal.update({ cancelText: '3s后自动关闭' });
+                    modal.update({
+                        cancelText: '3s后自动关闭',
+                        cancelLoading: true,
+                    });
                     await sleep(3000);
                     modal.destroy();
                 },
@@ -104,17 +129,30 @@ export default {
         }
 
         const {
-            customShow,
-            customCancelLoading,
-            customOkLoading,
-            handleCustomCancel,
-            handleCustomOk,
-            customOkText,
-            customCancelText,
-        } = useCustomFooter();
+            show: normalShow,
+            okLoading: normalOkLoading,
+            handleOk: handleNormalOk,
+            okText: normalOkText,
+        } = useModal();
+
+        const {
+            show: customShow,
+            cancelLoading: customCancelLoading,
+            okLoading: customOkLoading,
+            handleCancel: handleCustomCancel,
+            handleOk: handleCustomOk,
+            okText: customOkText,
+            cancelText: customCancelText,
+        } = useModal();
 
         return {
             showFModalSubmit,
+
+            normalShow,
+            normalOkLoading,
+            handleNormalOk,
+            normalOkText,
+
             customShow,
             customCancelLoading,
             customOkLoading,

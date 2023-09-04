@@ -65,8 +65,9 @@ app.use(FModal);
 | title            | 标题                                                                           | String            | -                     |
 | footer           | 是否显示底部内容                                                               | Boolean           | `true`                |
 | okText           | 确认按钮文字                                                                   | String            | 确定                  |
-| cancelText       | 取消按钮文字                                                                   | String            | 取消                  |
+| okLoading        | 确认按钮 Loading 状态                                                          | Boolean           | `false`               |
 | showCancel       | 是否展示取消按钮                                                               | Boolean           | `true`                |
+| cancelText       | 取消按钮文字                                                                   | String            | 取消                  |
 | width            | 宽度                                                                           | String/Number     | 520                   |
 | top              | 距离顶部                                                                       | String/Number     | 50                    |
 | verticalCenter   | 垂直居中                                                                       | Boolean           | false                 |
@@ -117,8 +118,10 @@ app.use(FModal);
 | content        | 内容                                 | string / vNode / ()=>VNode | -                                            |
 | footer         | 页脚                                 | string / vNode / ()=>VNode | -                                            |
 | okText         | 确认按钮文字                         | String                     | 确定                                         |
-| cancelText     | 取消按钮文字                         | String                     | 取消                                         |
+| okLoading      | 确认按钮 Loading 状态                | Boolean                    | `false`                                      |
 | showCancel     | 是否展示取消按钮                     | Boolean                    | confim 方法默认`true`，其他方法默认为`false` |
+| cancelText     | 取消按钮文字                         | String                     | 取消                                         |
+| cancelLoading  | 取消按钮 Loading 状态                | Boolean                    | `false`                                      |
 | onOk           | 点击确定                             | Function                   | -                                            |
 | onCancel       | 点击遮罩层或右上角叉或取消按钮的回调 | Function                   | -                                            |
 | width          | 宽度                                 | String/Number              | 400                                          |

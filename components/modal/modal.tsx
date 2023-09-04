@@ -39,6 +39,7 @@ export type ModalType = keyof typeof modalIconMap;
 const globalModalProps = {
     content: String as PropType<string | VNode | (() => VNodeChild)>,
     forGlobal: Boolean, // 标记是否API调用
+    cancelLoading: Boolean,
 } as const;
 
 // 通用的属性
@@ -65,6 +66,7 @@ export const modalProps = {
     },
     title: String as PropType<string | VNode | (() => VNodeChild)>,
     okText: String,
+    okLoading: Boolean,
     cancelText: String,
     showCancel: {
         type: Boolean,
@@ -175,6 +177,7 @@ const Modal = defineComponent({
                                 size="middle"
                                 class="btn-margin"
                                 onClick={handleCancel}
+                                loading={props.cancelLoading}
                             >
                                 {props.cancelText || t('modal.cancelText')}
                             </FButton>
@@ -183,6 +186,7 @@ const Modal = defineComponent({
                             type="primary"
                             size="middle"
                             onClick={handleOk}
+                            loading={props.okLoading}
                         >
                             {props.okText || t('modal.okText')}
                         </FButton>
