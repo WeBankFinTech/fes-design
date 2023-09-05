@@ -186,8 +186,8 @@ module.exports = {
                 text: '反馈组件',
                 items: [
                     {
-                        text: 'Alert 警告提示',
-                        link: '/zh/components/alert',
+                        text: 'Modal 对话框',
+                        link: '/zh/components/modal',
                     },
                     {
                         text: 'Drawer 抽屉',
@@ -198,12 +198,12 @@ module.exports = {
                         link: '/zh/components/tooltip',
                     },
                     {
-                        text: 'Message 全局提示',
-                        link: '/zh/components/message',
+                        text: 'Alert 警告提示',
+                        link: '/zh/components/alert',
                     },
                     {
-                        text: 'Modal 对话框',
-                        link: '/zh/components/modal',
+                        text: 'Message 全局提示',
+                        link: '/zh/components/message',
                     },
                     {
                         text: 'Spin 加载中',

@@ -1,5 +1,5 @@
 import { render, VNode, VNodeChild } from 'vue';
-import { isFunction } from 'lodash-es';
+import { isFunction, isUndefined } from 'lodash-es';
 import Modal from './modal';
 
 import type { ModalType } from './modal';
@@ -12,7 +12,10 @@ export interface ModalConfig {
     content?: string | VNode | (() => VNodeChild);
     footer?: VNode | (() => VNodeChild);
     okText?: string;
+    okLoading?: boolean;
     cancelText?: string;
+    showCancel?: boolean;
+    cancelLoading?: boolean;
     onOk?: (event: MouseEvent) => void | Promise<any>;
     onCancel?: (event: MouseEvent) => void | Promise<any>;
     width?: string | number;
@@ -24,7 +27,7 @@ type VNodeProperty = 'title' | 'content' | 'footer';
 
 const forceProps = {
     maskClosable: false,
-    forGlobal: true,
+    forGlobal: true, // 标记是否API调用
     displayDirective: 'if',
     footer: true,
 } as const;
@@ -83,6 +86,9 @@ function create(type: ModalType, config: ModalConfig) {
     function updateProps(options: ModalConfig) {
         // 更新 props
         Object.assign(mergeProps, options || {});
+        if (isUndefined(options.showCancel)) {
+            mergeProps.showCancel = type === 'confirm' ? true : false;
+        }
         mergeProps.onOk = (event: MouseEvent) =>
             handleCallBack(event, options.onOk);
         mergeProps.onCancel = (event: MouseEvent) =>

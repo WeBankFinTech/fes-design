@@ -16,23 +16,39 @@ app.use(FModal);
 
 --COMMON
 
-### 确认对话框
+### 自定义头部
 
-使用 `confirm()` 可以快捷地弹出确认框。
+通过 slot `title`可以自定义页脚内容
 
---CONFIRM
-
-### 信息反馈
-
-各种类型的信息提示
-
---FEEDBACK
+--CUSTOMTITLE
 
 ### 自定义页脚
 
 通过 slot `footer`可以自定义页脚内容
 
---FOOTER
+--CUSTOMFOOTER
+
+### 全局方法 - 确认对话框
+
+使用 `confirm()` 可以快捷地弹出确认框。
+
+--CONFIRM
+
+### 全局方法 - 信息反馈
+
+各种类型的信息提示
+
+--FEEDBACK
+
+### 异步提交
+
+针对弹窗确认提交操作。
+
+--ASYNCSUBMIT
+
+### 是否展示取消按钮
+
+--SHOWCANCEL
 
 --CODE
 
@@ -45,9 +61,12 @@ app.use(FModal);
 | closable         | 是否显示右上角关闭图标                                                         | Boolean           | `true`                |
 | mask             | 是否显示蒙层                                                                   | Boolean           | `true`                |
 | maskClosable     | 点击蒙层是否允许关闭                                                           | Boolean           | `true`                |
+| type             | 类型，可选值为`info` `success` `error` `warning` `warn` `confirm`              | string            | -                     |
 | title            | 标题                                                                           | String            | -                     |
 | footer           | 是否显示底部内容                                                               | Boolean           | `true`                |
 | okText           | 确认按钮文字                                                                   | String            | 确定                  |
+| okLoading        | 确认按钮 Loading 状态                                                          | Boolean           | `false`               |
+| showCancel       | 是否展示取消按钮                                                               | Boolean           | `true`                |
 | cancelText       | 取消按钮文字                                                                   | String            | 取消                  |
 | width            | 宽度                                                                           | String/Number     | 520                   |
 | top              | 距离顶部                                                                       | String/Number     | 50                    |
@@ -90,25 +109,28 @@ app.use(FModal);
 
 参数如下：
 
-| 参数           | 说明                                 | 类型                       | 默认值                |
-| -------------- | ------------------------------------ | -------------------------- | --------------------- |
-| closable       | 是否显示右上角关闭图标               | Boolean                    | false                 |
-| mask           | 是否显示蒙层                         | Boolean                    | true                  |
-| maskClosable   | 点击蒙层是否允许关闭                 | Boolean                    | false                 |
+| 参数           | 说明                                 | 类型                       | 默认值                                       |
+| -------------- | ------------------------------------ | -------------------------- | -------------------------------------------- |
+| closable       | 是否显示右上角关闭图标               | Boolean                    | false                                        |
+| mask           | 是否显示蒙层                         | Boolean                    | true                                         |
+| maskClosable   | 点击蒙层是否允许关闭                 | Boolean                    | false                                        |
 | title          | 标题                                 | string / vNode / ()=>VNode |
-| content        | 内容                                 | string / vNode / ()=>VNode | -                     |
-| footer         | 页脚                                 | string / vNode / ()=>VNode | -                     |
-| okText         | 确认按钮文字                         | String                     | 确定                  |
-| cancelText     | 取消按钮文字                         | String                     | 取消                  |
-| onOk           | 点击确定                             | Function                   | -                     |
-| onCancel       | 点击遮罩层或右上角叉或取消按钮的回调 | Function                   | -                     |
-| width          | 宽度                                 | String/Number              | 400                   |
-| top            | 距离顶部                             | String/Number              | 50                    |
-| verticalCenter | 垂直居中                             | Boolean                    | false                 |
-| center         | 标题、内容、按钮居中                 | Boolean                    | false                 |
-| fullScreen     | 全屏显示                             | Boolean                    | `false`               |
-| contentClass   | 可用于设置内容的类名                 | String                     | -                     |
-| getContainer   | 指定 `Modal` 挂载的 HTML 节点        | () => HTMLElement          | `() => document.body` |
+| content        | 内容                                 | string / vNode / ()=>VNode | -                                            |
+| footer         | 页脚                                 | string / vNode / ()=>VNode | -                                            |
+| okText         | 确认按钮文字                         | String                     | 确定                                         |
+| okLoading      | 确认按钮 Loading 状态                | Boolean                    | `false`                                      |
+| showCancel     | 是否展示取消按钮                     | Boolean                    | confim 方法默认`true`，其他方法默认为`false` |
+| cancelText     | 取消按钮文字                         | String                     | 取消                                         |
+| cancelLoading  | 取消按钮 Loading 状态                | Boolean                    | `false`                                      |
+| onOk           | 点击确定                             | Function                   | -                                            |
+| onCancel       | 点击遮罩层或右上角叉或取消按钮的回调 | Function                   | -                                            |
+| width          | 宽度                                 | String/Number              | 400                                          |
+| top            | 距离顶部                             | String/Number              | 50                                           |
+| verticalCenter | 垂直居中                             | Boolean                    | false                                        |
+| center         | 标题、内容、按钮居中                 | Boolean                    | false                                        |
+| fullScreen     | 全屏显示                             | Boolean                    | `false`                                      |
+| contentClass   | 可用于设置内容的类名                 | String                     | -                                            |
+| getContainer   | 指定 `Modal` 挂载的 HTML 节点        | () => HTMLElement          | `() => document.body`                        |
 
 以上函数调用后，会返回一个引用，可以通过该引用更新和关闭弹窗。
 
