@@ -53,9 +53,14 @@ export const drawerProps = {
         type: String,
         default: '确定',
     },
+    okLoading: Boolean,
     cancelText: {
         type: String,
         default: '取消',
+    },
+    showCancel: {
+        type: Boolean,
+        default: true,
     },
     width: {
         type: [String, Number] as PropType<string | number>,
@@ -153,12 +158,15 @@ const Drawer = defineComponent({
                             class="btn-margin"
                             size="middle"
                             onClick={handleOk}
+                            loading={props.okLoading}
                         >
                             {props.okText}
                         </FButton>
-                        <FButton size="middle" onClick={handleCancel}>
-                            {props.cancelText}
-                        </FButton>
+                        {props.showCancel && (
+                            <FButton size="middle" onClick={handleCancel}>
+                                {props.cancelText}
+                            </FButton>
+                        )}
                     </>
                 );
             }

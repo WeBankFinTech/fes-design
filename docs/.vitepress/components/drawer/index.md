@@ -40,6 +40,12 @@ app.use(FDrawer);
 
 --CUSTOMFOOTER
 
+### 异步提交
+
+针对抽屉确认提交操作。
+
+--ASYNCSUBMIT
+
 --CODE
 
 ## Drawer Props
