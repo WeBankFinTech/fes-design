@@ -267,6 +267,7 @@ const Drawer = defineComponent({
                                     <FScrollbar
                                         class={`${prefixCls}-body-wrapper`}
                                         containerClass={`${prefixCls}-body-container`}
+                                        always={true}
                                     >
                                         {ctx.slots.default?.()}
                                     </FScrollbar>

@@ -1,8 +1,13 @@
 <template>
     <FSpace>
         <FButton @click="show = true">自定义页脚</FButton>
-        <FDrawer v-model:show="show" title="这里是标题" :footer="true">
-            <div>我是内容...</div>
+        <FDrawer
+            v-model:show="show"
+            title="这里是标题"
+            :footer="true"
+            displayDirective="if"
+        >
+            <div style="height: 1000px">我是内容...</div>
             <div>我是内容...</div>
             <div>我是内容...</div>
             <template #footer>
