@@ -44,11 +44,11 @@ app.use(FDrawer);
 | okText           | 确认按钮文字                                                                   | String            | 确定                                    |
 | cancelText       | 取消按钮文字                                                                   | String            | 取消                                    |
 | width            | 宽度                                                                           | String/Number     | 520                                     |
-| hight            | 高度， 高度, 在 placement 为 top 或 bottom 时使用                              | String/Number     | 520                                     |
-| placement        | 抽屉方向                                                                       | 'right'             | 'right' 、'bottom' 、 'left' 、 'right' |
+| hight            | 高度，在 placement 为 top 或 bottom 时使用                                     | String/Number     | 520                                     |
+| placement        | 抽屉方向                                                                       | 'right'           | 'right' 、'bottom' 、 'left' 、 'right' |
 | contentClass     | 可用于设置内容的类名                                                           | String            | -                                       |
 | getContainer     | 指定 `Drawer` 挂载的 HTML 节点                                                 | () => HTMLElement | `() => document.body`                   |
-| resizable        | 是否支持宽度/高度可拖拽                                                        | Boolean           | `false`                                 |
+| resizable        | 是否支持宽度/高度可拖拽，目前仅支持 placement 为 right 的场景                       | Boolean           | `false`                                 |
 
 ## Drawer Event
 
