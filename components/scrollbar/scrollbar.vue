@@ -189,6 +189,20 @@ export default defineComponent({
             move('scrollLeft', val, duration);
         };
 
+        const scrollToEnd = (
+            direction: 'bottom' | 'right',
+            duration: number,
+        ) => {
+            if (direction === 'bottom') {
+                move('scrollTop', contentRef.value.offsetHeight, duration);
+            } else if (direction === 'right') {
+                move('scrollLeft', contentRef.value.offsetWidth, duration);
+            } else {
+                move('scrollTop', contentRef.value.offsetHeight, duration);
+                move('scrollLeft', contentRef.value.offsetWidth, duration);
+            }
+        };
+
         return {
             scrollbarRef,
             containerRef,
@@ -197,6 +211,7 @@ export default defineComponent({
             prefixCls,
             setScrollTop,
             setScrollLeft,
+            scrollToEnd,
             update: onUpdate,
             handleScroll,
             thumbMoveX,

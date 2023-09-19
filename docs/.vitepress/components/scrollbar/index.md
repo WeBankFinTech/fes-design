@@ -60,8 +60,9 @@ app.use(FScrollbar);
 
 ## Methods
 
-| 事件名称      | 说明                                 | 参数                                           |
-| ------------- | ------------------------------------ | ---------------------------------------------- |
-| setScrollTop  | 设置 scrollTop, duration 为滚动动画  | (scrollTop: number, duration: Number) => void  |
-| setScrollLeft | 设置 scrollLeft, duration 为滚动动画 | (scrollLeft: number, duration: Number) => void |
-| update        | 手动更新滚动条                       | -                                              |
+| 事件名称      | 说明                                                                            | 参数                                                     |
+| ------------- | ------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| setScrollTop  | 设置 scrollTop, duration 为滚动动画                                             | (scrollTop: number, duration: Number) => void            |
+| setScrollLeft | 设置 scrollLeft, duration 为滚动动画                                            | (scrollLeft: number, duration: Number) => void           |
+| scrollToEnd   | 滚动到底部, direction 不设置的话默认滚动到 bottom 和 right, duration 为滚动动画 | (direction: 'bottom'\|'right', duration: Number) => void |
+| update        | 手动更新滚动条                                                                  | -                                                        |
