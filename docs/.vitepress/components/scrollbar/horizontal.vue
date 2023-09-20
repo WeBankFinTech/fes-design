@@ -1,8 +1,8 @@
 <template>
     <FSpace vertical>
-        <FScrollbar style="width: 100%">
+        <FScrollbar ref="scrollbarRefEl" style="width: 100%">
             <ul class="scroll-ul">
-                <li v-for="(item, index) in vals" :key="index">
+                <li v-for="(item, index) in values" :key="index">
                     {{ item }}
                 </li>
             </ul>
@@ -10,19 +10,15 @@
     </FSpace>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue';
-export default {
-    setup() {
-        const vals = ref([]);
-        for (let i = 0; i < 100; ++i) {
-            vals.value.push(i);
-        }
-        return {
-            vals,
-        };
-    },
-};
+
+const values = ref([]);
+for (let i = 0; i < 100; ++i) {
+    values.value.push(i);
+}
+
+const scrollbarRefEl = ref();
 </script>
 
 <style scoped>
