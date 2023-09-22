@@ -16,13 +16,13 @@
     <FSpace vertical>
         <FDatePicker
             :format="format"
-            class="date-picker-1"
+            class="date-picker"
             type="daterange"
             clearable
         />
         <FDatePicker
             :format="format"
-            class="date-picker-1"
+            class="date-picker"
             type="datemonthrange"
         />
         <FDatePicker
@@ -30,6 +30,7 @@
             type="daterange"
             style="width: 320px"
             :modelValue="[Date.now(), Date.now() + 7 * 24 * 60 * 60 * 1000]"
+            clearable
         >
             <template #separator> 至 </template>
         </FDatePicker>
@@ -47,10 +48,10 @@ import { ref } from 'vue';
 export default {
     setup() {
         const formatOptions = [
-            'yyyy-MM',
             'yyyy-MM-dd',
             'yyyy/MM/dd',
             'yyyy-MM-dd HH:mm:ss',
+            'yyyy-MM',
         ].map((value) => ({
             value,
             label: value,
@@ -69,7 +70,7 @@ export default {
 };
 </script>
 <style scope>
-.date-picker-1 {
+.date-picker {
     width: 320px;
 }
 </style>

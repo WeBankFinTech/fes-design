@@ -21,6 +21,6 @@
 <script setup></script>
 <style scope>
 .date-picker {
-    width: 250px;
+    width: 320px;
 }
 </style>

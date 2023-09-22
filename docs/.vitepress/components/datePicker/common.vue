@@ -45,10 +45,11 @@
 import { reactive, ref } from 'vue';
 
 const formatOptions = [
-    'yyyy-MM',
     'yyyy-MM-dd',
     'yyyy/MM/dd',
     'yyyy-MM-dd HH:mm:ss',
+    'yyyy-MM',
+    'yyyy',
 ].map((value) => ({
     value,
     label: value,
@@ -61,7 +62,7 @@ const change = () => {
 };
 
 const style = reactive({
-    width: '200px',
+    width: '320px',
 });
 
 const datetime = ref();
