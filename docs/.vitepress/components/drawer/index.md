@@ -69,7 +69,7 @@ app.use(FDrawer);
 | placement        | 抽屉方向                                                                       | 'right'           | 'right' 、'bottom' 、 'left' 、 'right' |
 | contentClass     | 可用于设置内容的类名                                                           | String            | -                                       |
 | getContainer     | 指定 `Drawer` 挂载的 HTML 节点                                                 | () => HTMLElement | `() => document.body`                   |
-| resizable        | 是否支持宽度/高度可拖拽，目前仅支持 placement 为 right 的场景                  | Boolean           | `false`                                 |
+| resizable        | 是否支持宽度/高度可拖拽                                                        | Boolean           | `false`                                 |
 
 ## Drawer Event
 
