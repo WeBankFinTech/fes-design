@@ -226,6 +226,11 @@
         grid-template-columns: repeat(4, 1fr);
         width: 256px;
         background: var(--f-white);
+        .@{calendar-prefix-cls}-date-disabled {
+            &::before {
+                width: 64px;
+            }
+        }
     }
     &-months {
         height: 112px;
