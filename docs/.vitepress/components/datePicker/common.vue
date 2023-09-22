@@ -44,12 +44,15 @@
 <script setup>
 import { reactive, ref } from 'vue';
 
-const formatOptions = ['yyyy-MM-dd', 'yyyy/MM/dd', 'yyyy-MM-dd HH:mm:ss'].map(
-    (value) => ({
-        value,
-        label: value,
-    }),
-);
+const formatOptions = [
+    'yyyy-MM',
+    'yyyy-MM-dd',
+    'yyyy/MM/dd',
+    'yyyy-MM-dd HH:mm:ss',
+].map((value) => ({
+    value,
+    label: value,
+}));
 const format = ref();
 
 const currentDate = ref(Date.now() + 31 * 24 * 60 * 60 * 1000);

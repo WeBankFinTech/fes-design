@@ -117,7 +117,7 @@ function useRangeInput(
             ? ''
             : format(props.selectedDates[currentPosition], props.format);
     };
-    watch(() => props.selectedDates, resetInputValue, {
+    watch([() => props.selectedDates, () => props.format], resetInputValue, {
         immediate: true,
     });
     const updateInputText = (val: string) => {
