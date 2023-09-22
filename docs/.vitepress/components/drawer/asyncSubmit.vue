@@ -9,6 +9,15 @@
                 ]"
             />
         </FFormItem>
+        <FFormItem label="是否显示底部分割线:">
+            <FRadioGroup
+                v-model="showFooterBorder"
+                :options="[
+                    { label: '是', value: true },
+                    { label: '否(默认)', value: false },
+                ]"
+            />
+        </FFormItem>
     </FForm>
 
     <FDivider></FDivider>
@@ -23,6 +32,7 @@
         title="常规"
         displayDirective="if"
         :footer="true"
+        :footerBorder="showFooterBorder"
         :okLoading="normalOkLoading"
         :okText="normalOkText"
         :showCancel="showCancel"
@@ -38,6 +48,7 @@
         v-model:show="customShow"
         displayDirective="if"
         :footer="true"
+        :footerBorder="showFooterBorder"
         title="自定义页脚"
     >
         <div style="height: 1000px">我是内容...</div>
@@ -112,6 +123,7 @@ function useDrawer() {
 export default {
     setup() {
         const showCancel = ref(true);
+        const showFooterBorder = ref(true);
 
         const {
             show: normalShow,
@@ -131,6 +143,8 @@ export default {
         } = useDrawer();
 
         return {
+            showFooterBorder,
+
             normalShow,
             normalOkLoading,
             handleNormalOk,

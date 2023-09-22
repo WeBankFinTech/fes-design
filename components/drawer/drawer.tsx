@@ -74,6 +74,10 @@ export const drawerProps = {
         type: Boolean,
         default: false,
     },
+    footerBorder: {
+        type: Boolean,
+        default: false,
+    },
     getContainer: {
         type: Function,
     },
@@ -170,7 +174,16 @@ const Drawer = defineComponent({
                     </>
                 );
             }
-            return <div class={`${prefixCls}-footer`}>{footer}</div>;
+            return (
+                <div
+                    class={{
+                        [`${prefixCls}-footer`]: true,
+                        [`${prefixCls}-footer-has-border`]: props.footerBorder,
+                    }}
+                >
+                    {footer}
+                </div>
+            );
         }
 
         const drawerSize = reactive({

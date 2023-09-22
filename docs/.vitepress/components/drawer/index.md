@@ -59,6 +59,7 @@ app.use(FDrawer);
 | maskClosable     | 点击蒙层是否允许关闭                                                           | Boolean           | `true`                                  |
 | title            | 标题                                                                           | String            | -                                       |
 | footer           | 是否显示底部内容                                                               | Boolean           | `false`                                 |
+| footerBorder     | 是否显示底部分割线                                                             | Boolean           | `false`                                 |
 | okText           | 确认按钮文字                                                                   | String            | 确定                                    |
 | okLoading        | 确认按钮 Loading 状态                                                          | Boolean           | `false`                                 |
 | showCancel       | 是否展示取消按钮                                                               | Boolean           | `true`                                  |
