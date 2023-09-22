@@ -27,6 +27,13 @@
             placeholder="选择月份"
             :format="format"
         />
+        <FDatePicker
+            v-model="datemonth"
+            :style="style"
+            type="month"
+            placeholder="选择月份"
+            :format="format"
+        />
         <FDatePicker type="year" placeholder="选择年份" :format="format" />
         <FDatePicker type="quarter" placeholder="选择季度" :format="format" />
         <FDatePicker
@@ -66,6 +73,7 @@ const style = reactive({
 });
 
 const datetime = ref();
+const datemonth = ref(Date.now());
 </script>
 <style scope>
 .date-picker {
