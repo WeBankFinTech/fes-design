@@ -208,7 +208,7 @@ const useInput = ({
         dateText.value = getFormatDate();
         cacheValidInputDate = dateText.value;
     };
-    watch(visibleValue, resetDateText, {
+    watch([visibleValue, () => props.format], resetDateText, {
         immediate: true,
     });
 
