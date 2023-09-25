@@ -1,3 +1,21 @@
+## [0.8.8](https://github.com/WeBankFinTech/fes-design/compare/v0.8.7...v0.8.8) (2023-09-25)
+
+
+### Bug Fixes
+
+* **date-picker:** 修复禁用样式异常、及月份选择时间为月初、增加 format 配置项响应式处理 ([#473](https://github.com/WeBankFinTech/fes-design/issues/473)) ([7604458](https://github.com/WeBankFinTech/fes-design/commit/76044587911c61fab024f3908bb797c415627dfd))
+* **drawer:** 修复不同位置打开抽屉，拖拽不生效的问题 ([#469](https://github.com/WeBankFinTech/fes-design/issues/469)) ([59932d9](https://github.com/WeBankFinTech/fes-design/commit/59932d92be71fdc9354661ed83a0cd7d1a475391))
+
+
+### Features
+
+* **drawer:** 增加确认按钮 loading 状态及是否展示取消按钮配置项 ([#455](https://github.com/WeBankFinTech/fes-design/issues/455)) ([#467](https://github.com/WeBankFinTech/fes-design/issues/467)) ([76a7af1](https://github.com/WeBankFinTech/fes-design/commit/76a7af100f99f890830e665bba50f237105ff0ed))
+* **modal:** 支持按钮loading状态、标题type类型、是否展示取消按钮配置项，及组件文档案例完善 ([#455](https://github.com/WeBankFinTech/fes-design/issues/455)) ([52b6309](https://github.com/WeBankFinTech/fes-design/commit/52b6309484f6c4737f971ab7cda01b9e71bdc893))
+* scrollbar 支持 scrollToEnd 方法 ([#468](https://github.com/WeBankFinTech/fes-design/issues/468)) ([fd460a8](https://github.com/WeBankFinTech/fes-design/commit/fd460a8660abb9f98b62bb6acb5bebe8581301a0))
+* **scrollbar:** hover交互体验优化 ([#472](https://github.com/WeBankFinTech/fes-design/issues/472)) ([b3d4042](https://github.com/WeBankFinTech/fes-design/commit/b3d404261545aa9501fba62e76e38cc9174acfe3))
+
+
+
 ## [0.8.7](https://github.com/WeBankFinTech/fes-design/compare/v0.8.6...v0.8.7) (2023-09-04)
 
 
