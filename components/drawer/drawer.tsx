@@ -197,6 +197,9 @@ const Drawer = defineComponent({
                 : 'width';
         });
 
+        const placement = computed(() => props.placement);
+        const resizable = computed(() => props.resizable);
+
         const styles = computed(() => {
             const sty: CSSProperties = { width: '100%', height: '100%' };
             // 初始化的时候 数字直接拼px，如果是字符串直接应用，拖拽后数值覆盖
@@ -213,10 +216,10 @@ const Drawer = defineComponent({
             drawerRef,
             dragClass,
         } = useResizable({
-            propsKey: propsKey.value,
-            placement: props.placement,
+            propsKey,
+            placement,
             drawerSize,
-            resizable: props.resizable,
+            resizable,
             prefixCls,
         });
 

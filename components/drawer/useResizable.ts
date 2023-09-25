@@ -1,14 +1,14 @@
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, ComputedRef } from 'vue';
 import { useEventListener } from '@vueuse/core';
 
 export const useResizable = (config: {
-    propsKey: 'width' | 'height';
-    placement: string;
+    propsKey: ComputedRef<'width' | 'height'>;
+    placement: ComputedRef<string>;
     drawerSize: {
         width: string | number;
         height: string | number;
     };
-    resizable: boolean;
+    resizable: ComputedRef<boolean>;
     prefixCls: string;
 }) => {
     const { propsKey, drawerSize, placement, resizable, prefixCls } = config;
@@ -39,13 +39,13 @@ export const useResizable = (config: {
     const onMousedown = (e: MouseEvent) => {
         if (drawerRef.value) {
             // 鼠标按下时的初始位置
-            start = propsKey === 'width' ? e.clientX : e.clientY;
+            start = propsKey.value === 'width' ? e.clientX : e.clientY;
 
             isActive.value = true;
 
             // 拖拽的时候拿到实时的宽度或者高度
             lastSizeValue =
-                propsKey === 'width'
+                propsKey.value === 'width'
                     ? drawerRef.value.offsetWidth
                     : drawerRef.value.offsetHeight;
         }
@@ -65,15 +65,16 @@ export const useResizable = (config: {
 
         // 偏移量
         const offset =
-            (propsKey === 'width' ? event.clientX : event.clientY) - start;
+            (propsKey.value === 'width' ? event.clientX : event.clientY) -
+            start;
 
         // 根据 位置 偏移量正负加减
-        if (['left', 'top'].includes(placement)) {
+        if (['left', 'top'].includes(placement.value)) {
             // 鼠标移动时改变宽度或者高度
-            drawerSize[propsKey] = lastSizeValue + offset;
+            drawerSize[propsKey.value] = lastSizeValue + offset;
         } else {
             // 鼠标移动时改变宽度或者高度
-            drawerSize[propsKey] = lastSizeValue - offset;
+            drawerSize[propsKey.value] = lastSizeValue - offset;
         }
     };
 
@@ -83,7 +84,7 @@ export const useResizable = (config: {
         if (isHover.value) {
             classArr.push(`${prefixCls}-drag-hover`);
         }
-        switch (placement) {
+        switch (placement.value) {
             case 'left':
                 classArr.push(`${prefixCls}-drag-left`);
                 break;
@@ -102,7 +103,7 @@ export const useResizable = (config: {
 
     // 可拖拽的时候才发起事件监听
     onMounted(() => {
-        if (resizable) {
+        if (resizable.value) {
             useEventListener(window.document, 'mousemove', doResize);
             useEventListener(window.document, 'mouseup', onMouseup);
         }
