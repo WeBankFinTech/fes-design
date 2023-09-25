@@ -105,8 +105,8 @@ app.use(FRadioButton);
 
 ## Option Props
 
-| 属性     | 说明       | 类型                      | 默认值  |
-| -------- | ---------- | ------------------------- | ------- |
-| value    | 选项的值   | string / number / boolean | -       |
-| label    | 选项的标签 | string / number           | -       |
-| disabled | 是否禁用   | boolean                   | `false` |
+| 属性     | 说明               | 类型                      | 默认值  |
+| -------- | ------------------ | ------------------------- | ------- |
+| value    | 选项的值，需要唯一 | string / number / boolean | -       |
+| label    | 选项的标签         | string / number           | -       |
+| disabled | 是否禁用           | boolean                   | `false` |
