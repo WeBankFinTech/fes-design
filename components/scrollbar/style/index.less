@@ -57,7 +57,7 @@
         > div {
             width: 100%;
         }
-        &.is-hovering {
+        &:hover, &.is-hovering {
             width: @scrollbar-hover-width;
         }
     }
@@ -67,7 +67,7 @@
         > div {
             height: 100%;
         }
-        &.is-hovering {
+        &:hover, &.is-hovering {
             height: @scrollbar-hover-width;
         }
     }
@@ -81,12 +81,8 @@
         border-radius: var(--f-border-radius-sm);
         cursor: pointer;
         transition: @animation-duration-slow background-color;
-
-        &:hover {
-            background-color: @scrollbar-active-bg;
-        }
     }
-    &.is-hovering {
+    &:hover, &.is-hovering {
         .@{scrollbar-track-cls}-thumb {
             background-color: @scrollbar-active-bg;
             border-radius: var(--f-border-radius-base);
