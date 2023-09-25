@@ -61,6 +61,8 @@ export const useResizable = (config: {
     const doResize = (event: MouseEvent) => {
         if (!isActive.value) return;
 
+        event.preventDefault();
+
         // 偏移量
         const offset =
             (propsKey === 'width' ? event.clientX : event.clientY) - start;

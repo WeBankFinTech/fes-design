@@ -53,9 +53,14 @@ export const drawerProps = {
         type: String,
         default: '确定',
     },
+    okLoading: Boolean,
     cancelText: {
         type: String,
         default: '取消',
+    },
+    showCancel: {
+        type: Boolean,
+        default: true,
     },
     width: {
         type: [String, Number] as PropType<string | number>,
@@ -66,6 +71,10 @@ export const drawerProps = {
         default: 520,
     },
     footer: {
+        type: Boolean,
+        default: false,
+    },
+    footerBorder: {
         type: Boolean,
         default: false,
     },
@@ -153,16 +162,28 @@ const Drawer = defineComponent({
                             class="btn-margin"
                             size="middle"
                             onClick={handleOk}
+                            loading={props.okLoading}
                         >
                             {props.okText}
                         </FButton>
-                        <FButton size="middle" onClick={handleCancel}>
-                            {props.cancelText}
-                        </FButton>
+                        {props.showCancel && (
+                            <FButton size="middle" onClick={handleCancel}>
+                                {props.cancelText}
+                            </FButton>
+                        )}
                     </>
                 );
             }
-            return <div class={`${prefixCls}-footer`}>{footer}</div>;
+            return (
+                <div
+                    class={{
+                        [`${prefixCls}-footer`]: true,
+                        [`${prefixCls}-footer-has-border`]: props.footerBorder,
+                    }}
+                >
+                    {footer}
+                </div>
+            );
         }
 
         const drawerSize = reactive({
@@ -267,6 +288,7 @@ const Drawer = defineComponent({
                                     <FScrollbar
                                         class={`${prefixCls}-body-wrapper`}
                                         containerClass={`${prefixCls}-body-container`}
+                                        always={true}
                                     >
                                         {ctx.slots.default?.()}
                                     </FScrollbar>

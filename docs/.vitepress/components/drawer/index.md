@@ -28,6 +28,24 @@ app.use(FDrawer);
 
 --RESIZABLE
 
+### 自定义头部
+
+通过 slot `title`可以自定义页脚内容
+
+--CUSTOMTITLE
+
+### 自定义页脚
+
+通过 slot `footer`可以自定义页脚内容
+
+--CUSTOMFOOTER
+
+### 异步提交
+
+针对抽屉确认提交操作。
+
+--ASYNCSUBMIT
+
 --CODE
 
 ## Drawer Props
@@ -41,11 +59,14 @@ app.use(FDrawer);
 | maskClosable     | 点击蒙层是否允许关闭                                                           | Boolean           | `true`                                  |
 | title            | 标题                                                                           | String            | -                                       |
 | footer           | 是否显示底部内容                                                               | Boolean           | `false`                                 |
+| footerBorder     | 是否显示底部分割线                                                             | Boolean           | `false`                                 |
 | okText           | 确认按钮文字                                                                   | String            | 确定                                    |
+| okLoading        | 确认按钮 Loading 状态                                                          | Boolean           | `false`                                 |
+| showCancel       | 是否展示取消按钮                                                               | Boolean           | `true`                                  |
 | cancelText       | 取消按钮文字                                                                   | String            | 取消                                    |
 | width            | 宽度                                                                           | String/Number     | 520                                     |
-| hight            | 高度， 高度, 在 placement 为 top 或 bottom 时使用                              | String/Number     | 520                                     |
-| placement        | 抽屉方向                                                                       | 'right'             | 'right' 、'bottom' 、 'left' 、 'right' |
+| hight            | 高度，在 placement 为 top 或 bottom 时使用                                     | String/Number     | 520                                     |
+| placement        | 抽屉方向                                                                       | 'right'           | 'right' 、'bottom' 、 'left' 、 'right' |
 | contentClass     | 可用于设置内容的类名                                                           | String            | -                                       |
 | getContainer     | 指定 `Drawer` 挂载的 HTML 节点                                                 | () => HTMLElement | `() => document.body`                   |
 | resizable        | 是否支持宽度/高度可拖拽                                                        | Boolean           | `false`                                 |

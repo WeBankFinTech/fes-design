@@ -59,10 +59,13 @@
     }
 
     &-footer {
-        padding: calc(@padding-md + @padding-xs);
+        padding: @padding-md calc(@padding-md + @padding-xs);
         text-align: left;
         .btn-margin {
             margin-right: @padding-md;
+        }
+        &-has-border {
+            border-top: var(--f-border-width-base) var(--f-border-style-base) var(--f-border-color-split);
         }
     }
 

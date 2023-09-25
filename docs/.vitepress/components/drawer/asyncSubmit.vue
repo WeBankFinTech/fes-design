@@ -1,33 +1,63 @@
 <template>
+    <FForm>
+        <FFormItem label="是否展示取消按钮:">
+            <FRadioGroup
+                v-model="showCancel"
+                :options="[
+                    { label: '是(默认)', value: true },
+                    { label: '否', value: false },
+                ]"
+            />
+        </FFormItem>
+        <FFormItem label="是否显示底部分割线:">
+            <FRadioGroup
+                v-model="showFooterBorder"
+                :options="[
+                    { label: '是', value: true },
+                    { label: '否(默认)', value: false },
+                ]"
+            />
+        </FFormItem>
+    </FForm>
+
+    <FDivider></FDivider>
+
     <FSpace>
-        <FButton @click="() => showFModalSubmit()">全局方法</FButton>
         <FButton @click="() => (normalShow = true)">常规</FButton>
         <FButton @click="() => (customShow = true)">自定义页脚</FButton>
     </FSpace>
 
-    <FModal
+    <FDrawer
         v-model:show="normalShow"
         title="常规"
         displayDirective="if"
-        type="confirm"
+        :footer="true"
+        :footerBorder="showFooterBorder"
         :okLoading="normalOkLoading"
         :okText="normalOkText"
+        :showCancel="showCancel"
         @ok="() => handleNormalOk()"
         @cancel="normalShow = false"
     >
-        您的订单还未支付完成，退出将放弃购买
-    </FModal>
+        <div style="height: 1000px">我是内容...</div>
+        <div>我是内容...</div>
+        <div>我是内容...</div>
+    </FDrawer>
 
-    <FModal
+    <FDrawer
         v-model:show="customShow"
         displayDirective="if"
-        type="confirm"
+        :footer="true"
+        :footerBorder="showFooterBorder"
         title="自定义页脚"
     >
-        您的订单还未支付完成，退出将放弃购买
+        <div style="height: 1000px">我是内容...</div>
+        <div>我是内容...</div>
+        <div>我是内容...</div>
         <template #footer>
             <FSpace justify="end">
                 <FButton
+                    v-show="showCancel"
                     type="warning"
                     :loading="customCancelLoading"
                     @click="handleCustomCancel"
@@ -43,19 +73,17 @@
                 </FButton>
             </FSpace>
         </template>
-    </FModal>
+    </FDrawer>
 </template>
 
 <script>
 import { ref, nextTick } from 'vue';
-// eslint-disable-next-line import/no-unresolved
-import { FModal } from '@fesjs/fes-design';
 
 function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
 }
 
-function useModal() {
+function useDrawer() {
     const show = ref(false);
     const okLoading = ref(false);
     const cancelLoading = ref(false);
@@ -94,46 +122,15 @@ function useModal() {
 
 export default {
     setup() {
-        function showFModalSubmit() {
-            const modal = FModal.confirm({
-                title: '确认对话',
-                content: `您的订单还未支付完成，退出将放弃购买`,
-                okText: '提交更新',
-                cancelText: '数据还原',
-                onOk() {
-                    console.log(
-                        '[modal.asyncSubmit] [showFModalSubmit] [onOk]',
-                    );
-                    return new Promise(() => {
-                        modal.update({
-                            okText: '2s后自动关闭',
-                            okLoading: true,
-                        });
-                        setTimeout(() => {
-                            modal.destroy();
-                        }, 2000);
-                    });
-                },
-                async onCancel() {
-                    console.log(
-                        '[modal.asyncSubmit] [showFModalSubmit] [onCancel]',
-                    );
-                    modal.update({
-                        cancelText: '3s后自动关闭',
-                        cancelLoading: true,
-                    });
-                    await sleep(3000);
-                    modal.destroy();
-                },
-            });
-        }
+        const showCancel = ref(true);
+        const showFooterBorder = ref(true);
 
         const {
             show: normalShow,
             okLoading: normalOkLoading,
             handleOk: handleNormalOk,
             okText: normalOkText,
-        } = useModal();
+        } = useDrawer();
 
         const {
             show: customShow,
@@ -143,15 +140,16 @@ export default {
             handleOk: handleCustomOk,
             okText: customOkText,
             cancelText: customCancelText,
-        } = useModal();
+        } = useDrawer();
 
         return {
-            showFModalSubmit,
+            showFooterBorder,
 
             normalShow,
             normalOkLoading,
             handleNormalOk,
             normalOkText,
+            showCancel,
 
             customShow,
             customCancelLoading,
