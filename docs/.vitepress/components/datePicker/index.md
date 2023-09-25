@@ -40,6 +40,10 @@ app.use(DatePicker);
 
 --control
 
+### 默认具体时间
+
+--DEFAULTTIME
+
 --CODE
 
 ## Props

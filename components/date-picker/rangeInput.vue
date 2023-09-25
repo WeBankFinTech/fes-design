@@ -17,6 +17,7 @@
             :class="`${prefixCls}-inner`"
             :value="leftInputText"
             :placeholder="innerPlaceHolder[0]"
+            :disabled="disabled"
             @compositionstart="onLeftCompositionStart"
             @compositionend="onLeftCompositionEnd"
             @input="onLeftInput"
@@ -30,6 +31,7 @@
             :class="`${prefixCls}-inner`"
             :value="rightInputText"
             :placeholder="innerPlaceHolder[1]"
+            :disabled="disabled"
             @compositionstart="onRightCompositionStart"
             @compositionend="onRightCompositionEnd"
             @input="onRightInput"
@@ -115,7 +117,7 @@ function useRangeInput(
             ? ''
             : format(props.selectedDates[currentPosition], props.format);
     };
-    watch(() => props.selectedDates, resetInputValue, {
+    watch([() => props.selectedDates, () => props.format], resetInputValue, {
         immediate: true,
     });
     const updateInputText = (val: string) => {

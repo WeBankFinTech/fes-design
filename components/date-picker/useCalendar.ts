@@ -344,6 +344,7 @@ export function useMonth({
                 year: currentDate.year,
                 month,
                 day:
+                    props.type === PickerType.month ||
                     props.rangePosition === RANGE_POSITION.LEFT
                         ? 1
                         : endOfMonth(
