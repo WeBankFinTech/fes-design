@@ -1,3 +1,12 @@
+## [0.8.9](https://github.com/WeBankFinTech/fes-design/compare/v0.8.8...v0.8.9) (2023-09-26)
+
+
+### Bug Fixes
+
+* **select:** 解决清空操作，过滤列表缓存的问题 ([#478](https://github.com/WeBankFinTech/fes-design/issues/478)) ([9a4dc29](https://github.com/WeBankFinTech/fes-design/commit/9a4dc29cf7824d6c9721edd4023dc0c85293e15e))
+
+
+
 ## [0.8.8](https://github.com/WeBankFinTech/fes-design/compare/v0.8.7...v0.8.8) (2023-09-25)
 
 
