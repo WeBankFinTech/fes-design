@@ -113,18 +113,18 @@ async function genComponentExample(dir, name) {
             tempCode[`${name}.${demoName}-code`] = await highlight(rawCode);
 
             const dashMatchRegExp = new RegExp(`--${demoName}`, 'ig');
-            const nameMatchRegExp = new RegExp(
+            const colonMatchRegExp = new RegExp(
                 `:::demo[\\s]*${demoName}\.vue[\\s]*:::`,
                 'g',
             );
 
             if (
                 dashMatchRegExp.test(fileContent) ||
-                nameMatchRegExp.test(fileContent)
+                colonMatchRegExp.test(fileContent)
             ) {
                 fileContent = fileContent
                     .replace(dashMatchRegExp, demoContent.join('\n\n\n'))
-                    .replace(nameMatchRegExp, demoContent.join('\n\n\n'));
+                    .replace(colonMatchRegExp, demoContent.join('\n\n\n'));
             } else {
                 demoMDStrs.push(...demoContent);
             }
@@ -138,14 +138,22 @@ async function genComponentExample(dir, name) {
 
     demoMDStrs.push(scriptStr);
 
+    const dashCodeMatchRegExp = new RegExp(`--CODE`);
+    const colonCodeMatchRegExp = new RegExp(`:::code[\\s\\S]*:::`);
+    if (
+        !(
+            dashCodeMatchRegExp.test(fileContent) ||
+            colonCodeMatchRegExp.test(fileContent)
+        )
+    ) {
+        const appendContent = '\n\n:::code:::\n\n';
+        fileContent = fileContent + appendContent;
+    }
     fse.outputFileSync(
         output,
         fileContent
-            .replace('--CODE', demoMDStrs.join('\n\n'))
-            .replace(
-                new RegExp(`:::code[\\s\\S]*:::`),
-                demoMDStrs.join('\n\n'),
-            ),
+            .replace(dashCodeMatchRegExp, demoMDStrs.join('\n\n'))
+            .replace(colonCodeMatchRegExp, demoMDStrs.join('\n\n')),
     );
 
     if (Object.keys(tempCode).length) {

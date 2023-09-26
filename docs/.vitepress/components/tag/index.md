@@ -68,8 +68,6 @@ withForm.vue
 tooltip.vue
 :::
 
-:::code:::
-
 ## Tag Props
 
 | 属性            | 说明                                                        | 类型    | 默认值    |
