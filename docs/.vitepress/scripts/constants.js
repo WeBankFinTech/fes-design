@@ -1,12 +1,6 @@
 exports.SCRIPT_TEMPLATE = `
-<script>
+<script setup>
 IMPORT_EXPRESSION
-
-export default {
-    components: {
-        COMPONENTS
-    }
-}
 </script>
 `;
 

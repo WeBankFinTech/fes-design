@@ -14,45 +14,62 @@ app.use(FTag);
 
 ### 基础用法
 
---BASIC
+:::demo
+basic.vue
+:::
 
 ### 可移除标签
 
 设置 `closable` 属性可以定义一个标签是否可移除。
 
---CLOSABLE
+:::demo
+closable.vue
+:::
 
 ### 动态编辑标签
 
 动态编辑标签可以通过点击标签关闭按钮后触发的 `close` 事件来实现
 
---EDIT
+:::demo
+edit.vue
+:::
 
 ### 不同尺寸
 
 Tag 组件提供了以下几种尺寸，可以在不同场景下选择合适的尺寸。
 
---SIZE
+:::demo
+size.vue
+:::
 
 ### 不同主题
 
 Tag 组件提供了三个不同的主题。
 
---THEME
+:::demo
+theme.vue
+:::
 
 ### 带图标
 
---WITHICON
+:::demo
+withIcon.vue
+:::
 
 ### 结合 Form 组件
 
---WITHFORM
+:::demo
+withForm.vue
+:::
 
 ### 超长省略
 
---TOOLTIP
+:::demo
+tooltip.vue
+:::
 
---CODE
+:::code
+:::
 
 ## Tag Props
 
