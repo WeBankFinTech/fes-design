@@ -2,7 +2,7 @@
     <FSpace>
         <div>
             默认：
-            <FSelect filterable :options="optionList"> </FSelect>
+            <FSelect filterable clearable :options="optionList"> </FSelect>
         </div>
 
         <div>
