@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
-const fs = require('fs');
 const fse = require('fs-extra');
 const shiki = require('shiki');
 
@@ -12,8 +11,8 @@ const CODE_PATH = path.join(
 );
 
 function getDemoCode() {
-    if (fs.existsSync(CODE_PATH)) {
-        return JSON.parse(fs.readFileSync(CODE_PATH, 'utf-8'));
+    if (fse.existsSync(CODE_PATH)) {
+        return JSON.parse(fse.readFileSync(CODE_PATH, 'utf-8'));
     }
 
     return {
@@ -65,14 +64,14 @@ const highlight = async (code, lang = 'vue') => {
         .replace(/^<pre.*?>/, '<pre v-pre>');
 };
 
-async function genComponent(dir, name) {
+async function genComponentExample(dir, name) {
     const output = genOutputPath(name);
     const indexPath = path.join(dir, 'index.md');
-    if (!fs.existsSync(indexPath)) return;
+    if (!fse.existsSync(indexPath)) return;
 
-    let fileContent = fs.readFileSync(indexPath, 'utf-8');
+    let fileContent = fse.readFileSync(indexPath, 'utf-8');
 
-    const demos = fs.readdirSync(dir);
+    const demos = fse.readdirSync(dir);
     const demoMDStrs = [];
     const scriptCode = {
         imports: [],
@@ -82,7 +81,7 @@ async function genComponent(dir, name) {
     for (const filename of demos) {
         const fullPath = path.join(dir, filename);
         if (
-            fs.statSync(fullPath).isFile() &&
+            fse.statSync(fullPath).isFile() &&
             path.extname(fullPath) === '.vue'
         ) {
             const demoContent = [];
@@ -100,7 +99,7 @@ async function genComponent(dir, name) {
             fse.outputFileSync(
                 tempCompPath,
                 handleCompDoc(
-                    fs.readFileSync(fullPath, 'utf-8'),
+                    fse.readFileSync(fullPath, 'utf-8'),
                     name,
                     demoName,
                 ),
@@ -109,19 +108,23 @@ async function genComponent(dir, name) {
 
             demoContent.push(`<${compName} />`);
 
-            const rawCode = fs.readFileSync(fullPath, 'utf-8');
+            const rawCode = fse.readFileSync(fullPath, 'utf-8');
             tempCode[`${name}.${demoName}`] = rawCode;
             tempCode[`${name}.${demoName}-code`] = await highlight(rawCode);
 
-            const matchStr = new RegExp(
-                `--${demoName.toLocaleUpperCase()}\\s`,
-                'i',
+            const dashMatchRegExp = new RegExp(`--${demoName}`, 'ig');
+            const colonMatchRegExp = new RegExp(
+                `:::demo[\\s]*${demoName}\.vue[\\s]*:::`,
+                'g',
             );
-            if (matchStr.test(fileContent)) {
-                fileContent = fileContent.replace(
-                    matchStr,
-                    demoContent.join('\n\n\n'),
-                );
+
+            if (
+                dashMatchRegExp.test(fileContent) ||
+                colonMatchRegExp.test(fileContent)
+            ) {
+                fileContent = fileContent
+                    .replace(dashMatchRegExp, demoContent.join('\n\n\n'))
+                    .replace(colonMatchRegExp, demoContent.join('\n\n\n'));
             } else {
                 demoMDStrs.push(...demoContent);
             }
@@ -131,13 +134,26 @@ async function genComponent(dir, name) {
     const scriptStr = SCRIPT_TEMPLATE.replace(
         'IMPORT_EXPRESSION',
         scriptCode.imports.join('\n'),
-    ).replace('COMPONENTS', scriptCode.components.join(',\n'));
+    );
 
     demoMDStrs.push(scriptStr);
 
+    const dashCodeMatchRegExp = new RegExp(`--CODE`);
+    const colonCodeMatchRegExp = new RegExp(`:::code[\\s\\S]*:::`);
+    if (
+        !(
+            dashCodeMatchRegExp.test(fileContent) ||
+            colonCodeMatchRegExp.test(fileContent)
+        )
+    ) {
+        const appendContent = '\n\n:::code:::\n\n';
+        fileContent = fileContent + appendContent;
+    }
     fse.outputFileSync(
         output,
-        fileContent.replace('--CODE', demoMDStrs.join('\n\n')),
+        fileContent
+            .replace(dashCodeMatchRegExp, demoMDStrs.join('\n\n'))
+            .replace(colonCodeMatchRegExp, demoMDStrs.join('\n\n')),
     );
 
     if (Object.keys(tempCode).length) {
@@ -149,9 +165,9 @@ async function genComponent(dir, name) {
 }
 
 async function genComponents(src) {
-    const components = fs.readdirSync(src);
+    const components = fse.readdirSync(src);
     for (const name of components) {
-        await genComponent(path.join(src, name), name);
+        await genComponentExample(path.join(src, name), name);
     }
 }
 
@@ -160,14 +176,15 @@ async function watch(src) {
         dir: src,
         debounce: 50,
     });
+
     await watcher.init();
-    const gen = (data) => {
-        const fullPath = path.join(src, data.path);
+
+    const handleGen = (data) => {
         // 只监听目录变更
-        if (fs.statSync(fullPath).isDirectory()) {
+        if (data.stats.isDirectory()) {
             const pathSeps = data.path.split(path.sep);
-            const componentName = pathSeps[0];
-            genComponent(path.join(src, componentName), componentName);
+            const pkgName = pathSeps[0];
+            genComponentExample(path.join(src, pkgName), pkgName);
         }
     };
     const handleDelete = (data) => {
@@ -185,26 +202,25 @@ async function watch(src) {
             });
 
             if (hasDeleteCode) {
-                fs.writeFileSync(CODE_PATH, JSON.stringify(code, null, 2));
+                fse.writeFileSync(CODE_PATH, JSON.stringify(code, null, 2));
             }
             const outputPath = genOutputPath(name);
-            if (fs.existsSync(outputPath)) {
-                fs.unlinkSync(outputPath);
+            if (fse.existsSync(outputPath)) {
+                fse.unlinkSync(outputPath);
             }
         } else if (data.stats.isFile() && path.extname(data.path) === '.vue') {
+            const pkgName = pathSeps[0];
             // 删除组件属性
-            const codekey = `${pathSeps[0]}.${path.basename(
-                data.path,
-                '.vue',
-            )}`;
+            const codekey = `${pkgName}.${path.basename(data.path, '.vue')}`;
             if (code[codekey]) {
                 delete code[codekey];
-                fs.writeFileSync(CODE_PATH, JSON.stringify(code, null, 2));
+                fse.writeFileSync(CODE_PATH, JSON.stringify(code, null, 2));
             }
-            genComponent(path.join(src, pathSeps[0]), pathSeps[0]);
+            genComponentExample(path.join(src, pkgName), pkgName);
         }
     };
-    watcher.on('+', gen);
+
+    watcher.on('+', handleGen);
     watcher.on('-', handleDelete);
 }
 
