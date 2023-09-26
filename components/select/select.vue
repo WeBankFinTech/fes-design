@@ -157,6 +157,7 @@ export default defineComponent({
                 updateCurrentValue(value);
                 handleChange();
             }
+            filterText.value = '';
             cacheOptions.value = [];
             emit('clear');
         };
