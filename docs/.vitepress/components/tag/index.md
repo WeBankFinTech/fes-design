@@ -68,8 +68,7 @@ withForm.vue
 tooltip.vue
 :::
 
-:::code
-:::
+:::code:::
 
 ## Tag Props
 
