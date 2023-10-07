@@ -14,39 +14,59 @@ app.use(FUpload);
 
 ### 通用用法
 
---COMMON
+:::demo
+common.vue
+:::
+
+### 单个上传
+
+:::demo
+singleUpload.vue
+:::
 
 ### 初始列表
 
---INITLIST
+:::demo
+initList.vue
+:::
 
 ### 自定义上传的触发器
 
---DEFAULT
+:::demo
+default.vue
+:::
 
 ### 拖拽上传
 
 当自定义上传触发器使用`FUploadDragger`时开启拖拽上传。
 
---DRAG
+:::demo
+drag.vue
+:::
 
 ### 自定义文件列表的显示
 
---FILELIST
+:::demo
+fileList.vue
+:::
 
 ### 禁用
 
---DISABLED
+:::demo
+disabled.vue
+:::
 
 ### 预览上传文件
 
---previewUpload
+:::demo
+previewUpload.vue
+:::
 
 ### 自定义 http request
 
---customerUpload
-
---CODE
+:::demo
+customerUpload.vue
+:::
 
 ## Upload Props
 
