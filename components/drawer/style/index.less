@@ -2,7 +2,6 @@
 @import '../../style/mixins/index';
 @import './mixin.less';
 
-
 @drawer-prefix-cls: ~'@{cls-prefix}-drawer';
 
 .@{drawer-prefix-cls} {
@@ -20,6 +19,12 @@
     &-container {
         .fixed-full();
         display: flex;
+
+        &.@{drawer-prefix-cls}-no-header {
+            .@{drawer-prefix-cls}-wrapper {
+                padding-top: 22px;
+            }
+        }
     }
 
     &-wrapper {
@@ -39,7 +44,8 @@
         color: var(--f-head-color);
         font-weight: @font-weight-medium;
         font-size: @font-size-head;
-        border-bottom: var(--f-border-width-base) var(--f-border-style-base) var(--f-border-color-split);
+        border-bottom: var(--f-border-width-base) var(--f-border-style-base)
+            var(--f-border-color-split);
 
         .@{drawer-prefix-cls}-close {
             top: auto;
@@ -65,7 +71,8 @@
             margin-right: @padding-md;
         }
         &-has-border {
-            border-top: var(--f-border-width-base) var(--f-border-style-base) var(--f-border-color-split);
+            border-top: var(--f-border-width-base) var(--f-border-style-base)
+                var(--f-border-color-split);
         }
     }
 
@@ -105,7 +112,6 @@
             align-items: flex-start;
         }
 
-
         .@{drawer-prefix-cls}-wrapper {
             border-top-left-radius: 0;
             border-top-right-radius: 0;
@@ -138,7 +144,6 @@
             align-items: flex-end;
         }
 
-
         .@{drawer-prefix-cls}-wrapper {
             border-bottom-right-radius: 0;
             border-bottom-left-radius: 0;
@@ -169,7 +174,7 @@
             background: var(--f-primary-color);
         }
 
-        &-left{
+        &-left {
             top: 0;
             right: 0;
             width: 2px;
@@ -177,7 +182,7 @@
             cursor: col-resize;
         }
 
-        &-right{
+        &-right {
             top: 0;
             left: 0;
             width: 2px;
@@ -185,7 +190,7 @@
             cursor: col-resize;
         }
 
-        &-top{
+        &-top {
             bottom: 0;
             left: 0;
             width: 100%;
@@ -193,7 +198,7 @@
             cursor: row-resize;
         }
 
-        &-bottom{
+        &-bottom {
             top: 0;
             left: 0;
             width: 100%;
@@ -202,4 +207,3 @@
         }
     }
 }
-
