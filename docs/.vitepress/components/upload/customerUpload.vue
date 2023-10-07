@@ -1,9 +1,9 @@
 <template>
     <FUpload
+        v-model:fileList="fileList"
         action="https://run.mocky.io/v3/2d9d9844-4a46-4145-8f57-07e13768f565"
         multiple
         :multipleLimit="4"
-        :fileList="fileList"
         :accept="accept"
         :beforeUpload="beforeUpload"
         :httpRequest="customRequest"
@@ -23,6 +23,7 @@
 </template>
 <script>
 import { ref } from 'vue';
+import { FMessage } from '@fesjs/fes-design';
 
 export default {
     setup() {
@@ -61,19 +62,22 @@ export default {
         };
         const error = (param) => {
             console.log('[upload.customerUpload] [error] param:', param);
+            FMessage.error('文件上传失败');
         };
         const exceed = (param) => {
             console.log('[upload.customerUpload] [exceed] param:', param);
+            FMessage.warning('文件上传超限');
         };
         const progress = (param) => {
             console.log('[upload.customerUpload] [progress] param:', param);
         };
         const beforeUpload = async (file) => {
             console.log('[upload.customerUpload] [beforeUpload] file:', file);
-            if (file.size > 500 * 1024) {
+            if (file.size > 5 * 1024) {
                 console.log(
                     '[upload.customerUpload] [beforeUpload] 超出5KB,无法上传!',
                 );
+                FMessage.warning('超出5KB,无法上传!');
                 return false;
             }
             return true;

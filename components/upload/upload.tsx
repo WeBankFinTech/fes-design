@@ -1,4 +1,4 @@
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, SetupContext } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import Trigger from './trigger.vue';
 import FileList from './fileList.vue';
@@ -81,7 +81,9 @@ export default defineComponent({
     ],
     setup(props, ctx) {
         useTheme();
-        const { uploadFiles, isDragger } = useUpload(props, ctx.emit);
+        const { uploadFiles, isDragger, clearFiles, addFile, removeFile } =
+            useUpload(props, ctx.emit);
+
         const getFileList = () => {
             if (!props.showFileList) {
                 return null;
@@ -93,6 +95,13 @@ export default defineComponent({
             }
             return fileListSlots({ uploadFiles: uploadFiles.value });
         };
+
+        (ctx as SetupContext).expose?.({
+            clearFiles,
+            addFile,
+            removeFile,
+        });
+
         return () => {
             return (
                 <>

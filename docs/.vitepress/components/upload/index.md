@@ -14,39 +14,59 @@ app.use(FUpload);
 
 ### 通用用法
 
---COMMON
+:::demo
+common.vue
+:::
 
 ### 初始列表
 
---INITLIST
+:::demo
+initList.vue
+:::
 
 ### 自定义上传的触发器
 
---DEFAULT
+:::demo
+default.vue
+:::
 
 ### 拖拽上传
 
 当自定义上传触发器使用`FUploadDragger`时开启拖拽上传。
 
---DRAG
+:::demo
+drag.vue
+:::
 
 ### 自定义文件列表的显示
 
---FILELIST
+:::demo
+fileList.vue
+:::
 
 ### 禁用
 
---DISABLED
+:::demo
+disabled.vue
+:::
 
 ### 预览上传文件
 
---previewUpload
+:::demo
+previewUpload.vue
+:::
 
 ### 自定义 http request
 
---customerUpload
+:::demo
+customerUpload.vue
+:::
 
---CODE
+### 单个文件覆盖上传
+
+:::demo
+singleUpload.vue
+:::
 
 ## Upload Props
 
@@ -90,6 +110,14 @@ app.use(FUpload);
 | fileList | 自定义文件的展示, 参数为 { uploadFiles }     |
 | file     | 自定义上传后的文件展示, 参数为 { file }      |
 
+## Upload Methods
+
+| 名称       | 说明                 | 参数                          |
+| ---------- | -------------------- | ----------------------------- |
+| clearFiles | 清空已上传的文件列表 | () => void                    |
+| addFile    | 手动选择文件         | (rawFile: UploadFile) => void |
+| removeFile | 手动移除文件         | (file: FileItem) => void      |
+
 ## UploadDragger Props
 
 | 属性              | 说明                                                           | 类型                    | 默认值 |
@@ -111,6 +139,14 @@ interface FileItem {
     response?: any;
     raw?: File;
     [prop: string]: any;
+}
+```
+
+### UploadFile
+
+```ts
+interface UploadFile extends File {
+    uid?: number | string;
 }
 ```
 
