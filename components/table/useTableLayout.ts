@@ -52,8 +52,10 @@ export default function useTableLayout({
                     ? headerWrapperRef.value
                     : { offsetHeight: 0 };
                 const headerWrapperHeight = $headerWrapper.offsetHeight;
-                // 减去wrapperRef的border-bottom
-                const remainBodyHeight = props.height - headerWrapperHeight - 1;
+                let remainBodyHeight = props.height - headerWrapperHeight;
+                if (props.bordered) {
+                    remainBodyHeight -= 2;
+                }
                 bodyHeight.value = remainBodyHeight;
                 const bodyWrapperHeight = $bodyWrapper.offsetHeight;
                 if (remainBodyHeight < bodyWrapperHeight) {
