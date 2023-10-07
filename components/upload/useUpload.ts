@@ -291,7 +291,7 @@ export default (props: UploadProps, emit: any) => {
     function clearFiles() {
         updateUploadFiles([]);
     }
-    function handleUploadFile(rawFile: UploadFile) {
+    function addFile(rawFile: UploadFile) {
         if (!rawFile) {
             return;
         }
@@ -305,7 +305,7 @@ export default (props: UploadProps, emit: any) => {
         onStart(rawFile);
         upload(rawFile);
     }
-    function handleRemoveFile(file: FileItem) {
+    function removeFile(file: FileItem) {
         if (!file) {
             return;
         }
@@ -316,7 +316,7 @@ export default (props: UploadProps, emit: any) => {
         uploadFiles,
         isDragger,
         clearFiles,
-        handleUploadFile,
-        handleRemoveFile,
+        addFile,
+        removeFile,
     };
 };

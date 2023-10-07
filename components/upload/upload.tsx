@@ -81,13 +81,9 @@ export default defineComponent({
     ],
     setup(props, ctx) {
         useTheme();
-        const {
-            uploadFiles,
-            isDragger,
-            clearFiles,
-            handleUploadFile,
-            handleRemoveFile,
-        } = useUpload(props, ctx.emit);
+        const { uploadFiles, isDragger, clearFiles, addFile, removeFile } =
+            useUpload(props, ctx.emit);
+
         const getFileList = () => {
             if (!props.showFileList) {
                 return null;
@@ -102,8 +98,8 @@ export default defineComponent({
 
         (ctx as SetupContext).expose?.({
             clearFiles,
-            handleUploadFile,
-            handleRemoveFile,
+            addFile,
+            removeFile,
         });
 
         return () => {

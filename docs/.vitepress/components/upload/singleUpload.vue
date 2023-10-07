@@ -66,7 +66,7 @@ export default {
             console.log('[upload.singleUpload] [exceed] param:', param);
             uploadRef.value?.clearFiles();
             await nextTick();
-            uploadRef.value?.handleUploadFile(param.files[0]);
+            uploadRef.value?.addFile(param.files[0]);
         };
         const progress = (param) => {
             console.log('[upload.singleUpload] [progress] param:', param);

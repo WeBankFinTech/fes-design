@@ -112,11 +112,11 @@ singleUpload.vue
 
 ## Upload Methods
 
-| 名称             | 说明                 | 参数                          |
-| ---------------- | -------------------- | ----------------------------- |
-| clearFiles       | 清空已上传的文件列表 | () => void                    |
-| handleUploadFile | 手动选择文件         | (rawFile: UploadFile) => void |
-| handleRemoveFile | 手动移除文件         | (file: FileItem) => void      |
+| 名称       | 说明                 | 参数                          |
+| ---------- | -------------------- | ----------------------------- |
+| clearFiles | 清空已上传的文件列表 | () => void                    |
+| addFile    | 手动选择文件         | (rawFile: UploadFile) => void |
+| removeFile | 手动移除文件         | (file: FileItem) => void      |
 
 ## UploadDragger Props
 
