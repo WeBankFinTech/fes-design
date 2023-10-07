@@ -16,7 +16,11 @@
             <div>我是内容...</div>
         </FDrawer>
         <FDrawer v-model:show="show[1]" @ok="show[1] = true">
-            <div>没有标题...</div>
+            <FAlert
+                style="margin-bottom: 10px"
+                type="info"
+                message="没有标题..."
+            />
             <div>没有标题...</div>
             <div>没有标题...</div>
         </FDrawer>
