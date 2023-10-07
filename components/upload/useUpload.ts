@@ -28,7 +28,9 @@ export default (props: UploadProps, emit: any) => {
     }>({});
     let tempIndex = 1;
 
-    const [uploadFiles] = useNormalModel(props, emit, { prop: 'fileList' });
+    const [uploadFiles, updateUploadFiles] = useNormalModel(props, emit, {
+        prop: 'fileList',
+    });
 
     function initFile(rawFile: UploadFile) {
         const uid = genUid(tempIndex++);
@@ -286,8 +288,35 @@ export default (props: UploadProps, emit: any) => {
         },
     );
 
+    function clearFiles() {
+        updateUploadFiles([]);
+    }
+    function handleUploadFile(rawFile: UploadFile) {
+        if (!rawFile) {
+            return;
+        }
+        if (
+            props.multipleLimit &&
+            props.fileList.length + 1 > props.multipleLimit
+        ) {
+            onExceed([rawFile]);
+            return;
+        }
+        onStart(rawFile);
+        upload(rawFile);
+    }
+    function handleRemoveFile(file: FileItem) {
+        if (!file) {
+            return;
+        }
+        onRemove(null, file);
+    }
+
     return {
         uploadFiles,
         isDragger,
+        clearFiles,
+        handleUploadFile,
+        handleRemoveFile,
     };
 };

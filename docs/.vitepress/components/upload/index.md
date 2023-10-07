@@ -18,12 +18,6 @@ app.use(FUpload);
 common.vue
 :::
 
-### 单个上传
-
-:::demo
-singleUpload.vue
-:::
-
 ### 初始列表
 
 :::demo
@@ -68,6 +62,12 @@ previewUpload.vue
 customerUpload.vue
 :::
 
+### 单个文件覆盖上传
+
+:::demo
+singleUpload.vue
+:::
+
 ## Upload Props
 
 | 属性                           | 说明                                                                                                  | 类型                                                                    | 默认值  |
@@ -110,6 +110,14 @@ customerUpload.vue
 | fileList | 自定义文件的展示, 参数为 { uploadFiles }     |
 | file     | 自定义上传后的文件展示, 参数为 { file }      |
 
+## Upload Methods
+
+| 名称             | 说明                 | 参数                          |
+| ---------------- | -------------------- | ----------------------------- |
+| clearFiles       | 清空已上传的文件列表 | () => void                    |
+| handleUploadFile | 手动选择文件         | (rawFile: UploadFile) => void |
+| handleRemoveFile | 手动移除文件         | (file: FileItem) => void      |
+
 ## UploadDragger Props
 
 | 属性              | 说明                                                           | 类型                    | 默认值 |
@@ -131,6 +139,14 @@ interface FileItem {
     response?: any;
     raw?: File;
     [prop: string]: any;
+}
+```
+
+### UploadFile
+
+```ts
+interface UploadFile extends File {
+    uid?: number | string;
 }
 ```
 

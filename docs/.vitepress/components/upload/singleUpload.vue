@@ -1,9 +1,9 @@
 <template>
     <FUpload
+        ref="uploadRef"
         v-model:fileList="fileList"
         action="https://run.mocky.io/v3/2d9d9844-4a46-4145-8f57-07e13768f565"
-        multiple
-        :multipleLimit="4"
+        :multipleLimit="1"
         :accept="accept"
         :beforeUpload="beforeUpload"
         @change="change"
@@ -21,20 +21,22 @@
     </FUpload>
 </template>
 <script>
-import { ref } from 'vue';
+import { ref, nextTick } from 'vue';
 import { FMessage } from '@fesjs/fes-design';
 
 export default {
     setup() {
+        const uploadRef = ref(null);
+
         const fileList = ref([]);
 
         const accept = ['image/*'];
         const change = (param) => {
-            console.log('[upload.common] [change] param:', param);
+            console.log('[upload.singleUpload] [change] param:', param);
         };
         const remove = (param) => {
             console.log(
-                '[upload.common] [remove] param:',
+                '[upload.singleUpload] [remove] param:',
                 param,
                 ' fileList.value:',
                 fileList.value,
@@ -42,7 +44,7 @@ export default {
         };
         const success = (param) => {
             console.log(
-                '[upload.common] [success] param:',
+                '[upload.singleUpload] [success] param:',
                 param,
                 ' fileList.value:',
                 fileList.value,
@@ -53,28 +55,35 @@ export default {
                 (file) => file.status !== 'error',
             );
             console.log(
-                '[upload.common] [error] param:',
+                '[upload.singleUpload] [error] param:',
                 param,
                 ' fileList.value:',
                 fileList.value,
             );
+            FMessage.error('文件上传失败');
         };
-        const exceed = (param) => {
-            console.log('[upload.common] [exceed] param:', param);
+        const exceed = async (param) => {
+            console.log('[upload.singleUpload] [exceed] param:', param);
+            uploadRef.value?.clearFiles();
+            await nextTick();
+            uploadRef.value?.handleUploadFile(param.files[0]);
         };
         const progress = (param) => {
-            console.log('[upload.common] [progress] param:', param);
+            console.log('[upload.singleUpload] [progress] param:', param);
         };
         const beforeUpload = async (file) => {
-            console.log('[upload.common] [beforeUpload] file:', file);
-            if (file.size > 5 * 1024) {
-                console.log('[upload.common] [beforeUpload] 超出5KB,无法上传!');
-                FMessage.warning('超出5KB,无法上传!');
+            console.log('[upload.singleUpload] [beforeUpload] file:', file);
+            if (file.size > 50 * 1024) {
+                console.log(
+                    '[upload.singleUpload] [beforeUpload] 超出5KB,无法上传!',
+                );
+                FMessage.warning('超出50KB,无法上传!');
                 return false;
             }
             return true;
         };
         return {
+            uploadRef,
             fileList,
             accept,
             change,

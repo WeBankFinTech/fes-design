@@ -62,9 +62,11 @@ export default {
         };
         const error = (param) => {
             console.log('[upload.customerUpload] [error] param:', param);
+            FMessage.error('文件上传失败');
         };
         const exceed = (param) => {
             console.log('[upload.customerUpload] [exceed] param:', param);
+            FMessage.warning('文件上传超限');
         };
         const progress = (param) => {
             console.log('[upload.customerUpload] [progress] param:', param);

@@ -58,18 +58,20 @@ export default {
                 ' fileList.value:',
                 fileList.value,
             );
+            FMessage.error('文件上传失败');
         };
         const exceed = (param) => {
             console.log('[upload.common] [exceed] param:', param);
+            FMessage.warning('文件上传超限');
         };
         const progress = (param) => {
             console.log('[upload.common] [progress] param:', param);
         };
         const beforeUpload = async (file) => {
             console.log('[upload.common] [beforeUpload] file:', file);
-            if (file.size > 5 * 1024) {
+            if (file.size > 50 * 1024) {
                 console.log('[upload.common] [beforeUpload] 超出5KB,无法上传!');
-                FMessage.warning('超出5KB,无法上传!');
+                FMessage.warning('超出50KB,无法上传!');
                 return false;
             }
             return true;
