@@ -1,3 +1,18 @@
+## [0.8.10](https://github.com/WeBankFinTech/fes-design/compare/v0.8.9...v0.8.10) (2023-10-08)
+
+
+### Bug Fixes
+
+* **drawer:** 解决无标题情况下，关闭按钮不可点击的问题 ([#484](https://github.com/WeBankFinTech/fes-design/issues/484)) ([a7aad88](https://github.com/WeBankFinTech/fes-design/commit/a7aad88b127be86be2510e80718258c338964b14))
+* **table:** 解决设置height时，高度误差问题 ([#483](https://github.com/WeBankFinTech/fes-design/issues/483)) ([665eb39](https://github.com/WeBankFinTech/fes-design/commit/665eb392fc4e7231b8111a36d1c7e6a6a0b2bab3))
+
+
+### Features
+
+* **upload:** 增加 clearFiles、addFile、removeFile 方法，支持覆盖上传 ([#482](https://github.com/WeBankFinTech/fes-design/issues/482)) ([a91a18a](https://github.com/WeBankFinTech/fes-design/commit/a91a18a0459f66539b77af4b8511ddcb1dd96985))
+
+
+
 ## [0.8.9](https://github.com/WeBankFinTech/fes-design/compare/v0.8.8...v0.8.9) (2023-09-26)
 
 
