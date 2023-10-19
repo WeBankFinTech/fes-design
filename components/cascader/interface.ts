@@ -3,8 +3,8 @@ import type { VNodeChild } from 'vue';
 export type CascaderNodeKey = string | number;
 
 export interface CascaderOption {
-    value: CascaderNodeKey;
-    label: string;
+    value?: CascaderNodeKey;
+    label?: string;
     children?: CascaderOption[];
     disabled?: boolean;
     selectable?: boolean;

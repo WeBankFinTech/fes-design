@@ -3,8 +3,8 @@ import type { VNodeChild, Ref } from 'vue';
 export type TreeNodeKey = string | number;
 
 export interface TreeOption {
-    value: TreeNodeKey;
-    label: string;
+    value?: TreeNodeKey;
+    label?: string;
     children?: TreeOption[];
     disabled?: boolean;
     selectable?: boolean;
