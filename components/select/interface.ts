@@ -4,8 +4,8 @@ import type { OptionProps } from './option';
 export type SelectValue = string | number | boolean | object;
 
 export interface SelectOption {
-    value: string | number | boolean | object;
-    label: string | number;
+    value?: string | number | boolean | object;
+    label?: string | number;
     disabled?: boolean;
     __cache?: boolean;
     [key: string]: any;
