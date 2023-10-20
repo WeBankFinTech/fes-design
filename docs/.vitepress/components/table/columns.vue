@@ -1,11 +1,5 @@
 <template>
-    <FTable
-        :data="data"
-        bordered
-        verticalLine
-        layout="auto"
-        :columns="columns"
-    >
+    <FTable :data="data" bordered verticalLine layout="auto" :columns="columns">
     </FTable>
 </template>
 <script>

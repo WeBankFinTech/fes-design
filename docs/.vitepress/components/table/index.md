@@ -56,7 +56,6 @@ heightAndFixed.vue
 
 数据结构比较复杂的时候，可使用多级表头来展现数据的层次关系。
 
---MULTIHEADER
 :::demo
 multiHeader.vue
 :::

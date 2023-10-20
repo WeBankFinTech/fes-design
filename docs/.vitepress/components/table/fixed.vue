@@ -1,8 +1,17 @@
 <template>
-    <FForm labelWidth="100px">
-        <FFormItem label="是否固定列:">
+    <FForm labelWidth="150px">
+        <FFormItem label="左边列是否固定:">
             <FRadioGroup
-                v-model="fixedCol"
+                v-model="fixedLeft"
+                :options="[
+                    { label: '否', value: false },
+                    { label: '是', value: true },
+                ]"
+            />
+        </FFormItem>
+        <FFormItem label="右边列是否固定:">
+            <FRadioGroup
+                v-model="fixedRight"
                 :options="[
                     { label: '否', value: false },
                     { label: '是', value: true },
@@ -17,26 +26,32 @@
         <FTableColumn
             type="selection"
             :width="30"
-            :fixed="fixedCol ? 'left' : undefined"
+            :fixed="fixedLeft ? 'left' : undefined"
         ></FTableColumn>
         <FTableColumn
             prop="date"
             label="日期"
             ellipsis
             :width="150"
-            :fixed="fixedCol ? true : undefined"
+            :fixed="fixedLeft ? true : undefined"
         ></FTableColumn>
         <FTableColumn prop="name" label="姓名" :width="150"></FTableColumn>
         <FTableColumn prop="province" label="省份" :width="150"></FTableColumn>
         <FTableColumn prop="city" label="市区" :width="150"> </FTableColumn>
         <FTableColumn prop="address" label="地址" :width="800"></FTableColumn>
-        <FTableColumn prop="zip" label="邮编" :width="120"> </FTableColumn>
+        <FTableColumn
+            prop="zip"
+            label="邮编"
+            :width="120"
+            :fixed="fixedRight ? 'right' : undefined"
+        >
+        </FTableColumn>
         <FTableColumn
             label="操作"
             align="center"
             :width="200"
             :action="action"
-            :fixed="fixedCol ? 'right' : undefined"
+            :fixed="fixedRight ? 'right' : undefined"
         ></FTableColumn>
     </FTable>
 </template>
@@ -44,8 +59,8 @@
 import { ref } from 'vue';
 export default {
     setup() {
-        const height = ref(250);
-        const fixedCol = ref(true);
+        const fixedLeft = ref(true);
+        const fixedRight = ref(true);
 
         const data = Array.from([1, 2, 3], (i) => {
             return {
@@ -72,8 +87,8 @@ export default {
             },
         ];
         return {
-            height,
-            fixedCol,
+            fixedLeft,
+            fixedRight,
             data,
             action,
         };

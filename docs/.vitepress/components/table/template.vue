@@ -4,11 +4,11 @@
             <ClockCircleOutlined />{{ row.date }}
         </FTableColumn>
         <FTableColumn v-slot="{ row }" prop="name" label="姓名">
-            <f-tag>{{ row.name }}</f-tag>
+            <FTag>{{ row.name }}</FTag>
         </FTableColumn>
         <FTableColumn prop="address" label="地址"></FTableColumn>
         <FTableColumn label="操作">
-            <f-button>编辑</f-button>
+            <FButton>编辑</FButton>
         </FTableColumn>
     </FTable>
 </template>

@@ -1,8 +1,8 @@
 <template>
     <f-space vertical>
         <f-space>
-            <f-button @click="toggleSort">Sort By ID(ascend)</f-button>
-            <f-button @click="clearSorter">Clear Sorter</f-button>
+            <FButton @click="toggleSort">Sort By ID(ascend)</FButton>
+            <FButton @click="clearSorter">Clear Sorter</FButton>
         </f-space>
         <FTable ref="table" :data="data" layout="auto">
             <FTableColumn sortable prop="id" label="ID"> </FTableColumn>
