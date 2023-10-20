@@ -23,7 +23,7 @@
         v-if="emptyType === 'normal'"
         :data="data"
         :size="size"
-        :emptyText="emptyText"
+        :emptyText="emptyText || '暂无数据'"
         bordered
     >
         <FTableColumn :width="200" prop="date" label="日期"></FTableColumn>

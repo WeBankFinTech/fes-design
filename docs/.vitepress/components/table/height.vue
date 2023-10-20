@@ -18,6 +18,9 @@
             ></FInputNumber>
             <span style="margin-left: 10px">px</span>
         </FFormItem>
+        <FFormItem label="姓名列描述：">
+            <FInput v-model="nameLabel" :maxlength="30" showWordLimit></FInput>
+        </FFormItem>
     </FForm>
 
     <FDivider></FDivider>
@@ -30,7 +33,11 @@
             ellipsis
             :width="150"
         ></FTableColumn>
-        <FTableColumn prop="name" label="姓名" :width="150"></FTableColumn>
+        <FTableColumn
+            prop="name"
+            :label="nameLabel || '姓名'"
+            :width="150"
+        ></FTableColumn>
         <FTableColumn prop="province" label="省份" :width="150"></FTableColumn>
         <FTableColumn prop="city" label="市区" :width="150"> </FTableColumn>
         <FTableColumn prop="address" label="地址" :width="800"></FTableColumn>
@@ -49,6 +56,7 @@ export default {
     setup() {
         const fixedHeader = ref(true);
         const height = ref(250);
+        const nameLabel = ref('姓名');
 
         const data = Array.from([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], (i) => {
             return {
@@ -77,6 +85,7 @@ export default {
         return {
             fixedHeader,
             height,
+            nameLabel,
             data,
             action,
         };
