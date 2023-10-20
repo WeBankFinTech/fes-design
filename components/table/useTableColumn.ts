@@ -62,7 +62,7 @@ export default function (props: TableProps) {
     // 表头Rows
     const headerRows = computed(() => getHeaderRows(visibleColumns.value));
 
-    const hasFixedColumn = computed(() =>
+    const noFixedColumn = computed(() =>
         columns.value.every((column) => {
             return !column.fixedLeft && !column.fixedRight;
         }),
@@ -73,6 +73,6 @@ export default function (props: TableProps) {
         removeColumn,
         headerRows,
         columns,
-        hasFixedColumn,
+        noFixedColumn,
     };
 }
