@@ -52,11 +52,15 @@ const handleFixedColumns = (arr: ColumnInst[]) => {
         const column = arr[i];
         if (column.props.fixed === true || column.props.fixed === 'left') {
             column.fixedLeft = true;
+            column.fixedRight = false;
             fixedLeftColumns.push(column);
         } else if (column.props.fixed === 'right') {
+            column.fixedLeft = false;
             column.fixedRight = true;
             fixedRightColumns.push(column);
         } else {
+            column.fixedLeft = false;
+            column.fixedRight = false;
             otherColumns.push(column);
         }
     }

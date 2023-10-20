@@ -31,7 +31,7 @@ const instColumns = (cols: ColumnChildren = [], parent?: ColumnInst) => {
     return instList;
 };
 
-export default function useColumn(props: TableProps) {
+export default function (props: TableProps) {
     const originColumns = reactive<ColumnInst[]>([]);
 
     const addColumn = (column: ColumnInst) => {
