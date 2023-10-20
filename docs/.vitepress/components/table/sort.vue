@@ -4,16 +4,16 @@
             <f-button @click="toggleSort">Sort By ID(ascend)</f-button>
             <f-button @click="clearSorter">Clear Sorter</f-button>
         </f-space>
-        <f-table ref="table" :data="data" layout="auto">
-            <f-table-column sortable prop="id" label="ID"> </f-table-column>
-            <f-table-column sortable prop="date" label="日期">
+        <FTable ref="table" :data="data" layout="auto">
+            <FTableColumn sortable prop="id" label="ID"> </FTableColumn>
+            <FTableColumn sortable prop="date" label="日期">
                 <template #default="{ row }">
                     {{ row.date }}
                 </template>
-            </f-table-column>
-            <f-table-column prop="name" label="姓名"></f-table-column>
-            <f-table-column prop="address" label="地址"></f-table-column>
-        </f-table>
+            </FTableColumn>
+            <FTableColumn prop="name" label="姓名"></FTableColumn>
+            <FTableColumn prop="address" label="地址"></FTableColumn>
+        </FTable>
     </f-space>
 </template>
 <script>

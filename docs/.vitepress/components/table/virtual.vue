@@ -1,28 +1,20 @@
 <template>
-    <f-table :height="250" rowKey="date" virtualScroll :data="data">
-        <f-table-column prop="date" label="日期" :width="150" ellipsis fixed>
-        </f-table-column>
-        <f-table-column prop="name" label="姓名" :width="150"></f-table-column>
-        <f-table-column
-            prop="province"
-            label="省份"
-            :width="150"
-        ></f-table-column>
-        <f-table-column prop="city" label="市区" :width="150"> </f-table-column>
-        <f-table-column
-            prop="address"
-            label="地址"
-            :width="800"
-        ></f-table-column>
-        <f-table-column prop="zip" label="邮编" :width="120"> </f-table-column>
-        <f-table-column
+    <FTable :height="250" rowKey="date" virtualScroll :data="data">
+        <FTableColumn prop="date" label="日期" :width="150" ellipsis fixed>
+        </FTableColumn>
+        <FTableColumn prop="name" label="姓名" :width="150"></FTableColumn>
+        <FTableColumn prop="province" label="省份" :width="150"></FTableColumn>
+        <FTableColumn prop="city" label="市区" :width="150"> </FTableColumn>
+        <FTableColumn prop="address" label="地址" :width="800"></FTableColumn>
+        <FTableColumn prop="zip" label="邮编" :width="120"> </FTableColumn>
+        <FTableColumn
             label="操作"
             align="center"
             :width="200"
             :action="action"
             fixed="right"
-        ></f-table-column>
-    </f-table>
+        ></FTableColumn>
+    </FTable>
 </template>
 <script>
 import { reactive } from 'vue';

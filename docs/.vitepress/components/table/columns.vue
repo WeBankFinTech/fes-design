@@ -1,12 +1,12 @@
 <template>
-    <f-table
+    <FTable
         :data="data"
         bordered
         verticalLine
         layout="auto"
         :columns="columns"
     >
-    </f-table>
+    </FTable>
 </template>
 <script>
 import { h, defineComponent } from 'vue';

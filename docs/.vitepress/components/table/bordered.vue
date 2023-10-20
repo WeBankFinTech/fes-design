@@ -1,15 +1,56 @@
 <template>
-    <f-table bordered :data="data">
-        <f-table-column prop="date" label="日期"></f-table-column>
-        <f-table-column prop="name" label="姓名"></f-table-column>
-        <f-table-column prop="address" label="地址"></f-table-column>
-    </f-table>
+    <FForm>
+        <FFormItem label="是否展示表格边框:">
+            <FRadioGroup
+                v-model="bordered"
+                :options="[
+                    { label: '否(默认)', value: false },
+                    { label: '是', value: true },
+                ]"
+            />
+        </FFormItem>
+        <FFormItem label="是否展示水平分割线:">
+            <FRadioGroup
+                v-model="horizontalLine"
+                :options="[
+                    { label: '否', value: false },
+                    { label: '是(默认)', value: true },
+                ]"
+            />
+        </FFormItem>
+        <FFormItem label="是否展示垂直分割线:">
+            <FRadioGroup
+                v-model="verticalLine"
+                :options="[
+                    { label: '否(默认)', value: false },
+                    { label: '是', value: true },
+                ]"
+            />
+        </FFormItem>
+    </FForm>
+
+    <FDivider></FDivider>
+
+    <FTable
+        :bordered="bordered"
+        :horizontalLine="horizontalLine"
+        :verticalLine="verticalLine"
+        :data="data"
+    >
+        <FTableColumn prop="date" label="日期"></FTableColumn>
+        <FTableColumn prop="name" label="姓名"></FTableColumn>
+        <FTableColumn prop="address" label="地址"></FTableColumn>
+    </FTable>
 </template>
 <script>
-import { reactive, defineComponent } from 'vue';
+import { reactive, defineComponent, ref } from 'vue';
 
 export default defineComponent({
     setup() {
+        const bordered = ref(false);
+        const horizontalLine = ref(true);
+        const verticalLine = ref(false);
+
         const data = reactive(
             Array.from([1, 2, 3], (i) => {
                 return {
@@ -20,6 +61,9 @@ export default defineComponent({
             }),
         );
         return {
+            bordered,
+            horizontalLine,
+            verticalLine,
             data,
         };
     },

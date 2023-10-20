@@ -4,21 +4,21 @@
             <template #active> 开 </template>
             <template #inactive> 关 </template>
         </FSwitch>
-        <f-table
+        <FTable
             :data="data"
             :draggable="draggable"
             layout="auto"
             @dragstart="onDragstart"
             @dragend="onDragend"
         >
-            <f-table-column prop="date" label="日期">
+            <FTableColumn prop="date" label="日期">
                 <template #default="{ row }">
                     {{ row.date }}
                 </template>
-            </f-table-column>
-            <f-table-column prop="name" label="姓名"></f-table-column>
-            <f-table-column prop="address" label="地址"></f-table-column>
-        </f-table>
+            </FTableColumn>
+            <FTableColumn prop="name" label="姓名"></FTableColumn>
+            <FTableColumn prop="address" label="地址"></FTableColumn>
+        </FTable>
     </f-space>
 </template>
 <script>

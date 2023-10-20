@@ -1,13 +1,13 @@
 <template>
     展开的行keys： {{ expandedKeys }}
-    <f-table
+    <FTable
         ref="tableRef"
         v-model:expandedKeys="expandedKeys"
         :data="data"
         rowKey="id"
         @expandChange="expandChange"
     >
-        <f-table-column v-slot="{ row }" type="expand">
+        <FTableColumn v-slot="{ row }" type="expand">
             <f-grid
                 :gutter="[20, 20]"
                 wrap
@@ -18,10 +18,10 @@
                 <f-grid-item :span="12"> 邮编：{{ row.zip }} </f-grid-item>
                 <f-grid-item :span="12"> 地址：{{ row.address }} </f-grid-item>
             </f-grid>
-        </f-table-column>
-        <f-table-column prop="date" label="日期"></f-table-column>
-        <f-table-column prop="name" label="姓名"></f-table-column>
-    </f-table>
+        </FTableColumn>
+        <FTableColumn prop="date" label="日期"></FTableColumn>
+        <FTableColumn prop="name" label="姓名"></FTableColumn>
+    </FTable>
     <f-button @click="toggle">手动展开/关闭第一行</f-button>
 </template>
 <script>

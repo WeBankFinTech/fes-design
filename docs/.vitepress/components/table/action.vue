@@ -1,15 +1,15 @@
 <template>
-    <f-table :data="data">
-        <f-table-column prop="date" label="日期"></f-table-column>
-        <f-table-column prop="name" label="姓名"></f-table-column>
-        <f-table-column prop="address" label="地址"></f-table-column>
-        <f-table-column
+    <FTable :data="data">
+        <FTableColumn prop="date" label="日期"></FTableColumn>
+        <FTableColumn prop="name" label="姓名"></FTableColumn>
+        <FTableColumn prop="address" label="地址"></FTableColumn>
+        <FTableColumn
             label="操作"
             align="center"
             :width="200"
             :action="action"
-        ></f-table-column>
-    </f-table>
+        ></FTableColumn>
+    </FTable>
 </template>
 <script>
 import { reactive } from 'vue';

@@ -1,11 +1,11 @@
 <template>
-    <f-table :data="data" :span-method="objectSpanMethod" bordered verticalLine>
-        <f-table-column prop="id" label="ID" :width="180"></f-table-column>
-        <f-table-column prop="name" label="姓名"> </f-table-column>
-        <f-table-column prop="amount1" label="数值 1（元）"></f-table-column>
-        <f-table-column prop="amount2" label="数值 2（元）"></f-table-column>
-        <f-table-column prop="amount3" label="数值 3（元）"></f-table-column>
-    </f-table>
+    <FTable :data="data" :span-method="objectSpanMethod" bordered verticalLine>
+        <FTableColumn prop="id" label="ID" :width="180"></FTableColumn>
+        <FTableColumn prop="name" label="姓名"> </FTableColumn>
+        <FTableColumn prop="amount1" label="数值 1（元）"></FTableColumn>
+        <FTableColumn prop="amount2" label="数值 2（元）"></FTableColumn>
+        <FTableColumn prop="amount3" label="数值 3（元）"></FTableColumn>
+    </FTable>
 </template>
 <script>
 export default {
