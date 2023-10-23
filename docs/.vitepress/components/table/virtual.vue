@@ -79,7 +79,7 @@ export default {
         const isFixedHeight = ref(true);
         const height = ref(250);
 
-        const data = reactive(createData(5));
+        const data = reactive(createData(200));
         const action = [
             {
                 label: '编辑',
