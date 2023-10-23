@@ -1,5 +1,42 @@
 <template>
-    <FTable :height="250" rowKey="date" virtualScroll :data="data">
+    <FForm labelWidth="100px">
+        <FFormItem label="是否虚拟滚动:">
+            <FRadioGroup
+                v-model="virtualScroll"
+                :options="[
+                    { label: '否', value: false },
+                    { label: '是', value: true },
+                ]"
+            />
+        </FFormItem>
+        <FFormItem label="是否指定高度:">
+            <FRadioGroup
+                v-model="isFixedHeight"
+                :options="[
+                    { label: '否', value: false },
+                    { label: '是', value: true },
+                ]"
+            />
+        </FFormItem>
+        <FFormItem v-if="isFixedHeight" label="固定高度：">
+            <FInputNumber
+                v-model="height"
+                :min="50"
+                :max="1000"
+                :step="50"
+            ></FInputNumber>
+            <span style="margin-left: 10px">px</span>
+        </FFormItem>
+    </FForm>
+
+    <FDivider></FDivider>
+
+    <FTable
+        :virtualScroll="virtualScroll"
+        :height="isFixedHeight ? height : undefined"
+        rowKey="date"
+        :data="data"
+    >
         <FTableColumn prop="date" label="日期" :width="150" ellipsis fixed>
         </FTableColumn>
         <FTableColumn prop="name" label="姓名" :width="150"></FTableColumn>
@@ -17,7 +54,7 @@
     </FTable>
 </template>
 <script>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 const createData = (n) => {
     const arr = [];
@@ -36,7 +73,11 @@ const createData = (n) => {
 
 export default {
     setup() {
-        const data = reactive(createData(10000));
+        const virtualScroll = ref(true);
+        const isFixedHeight = ref(true);
+        const height = ref(250);
+
+        const data = reactive(createData(5));
         const action = [
             {
                 label: '编辑',
@@ -54,6 +95,9 @@ export default {
         return {
             data,
             action,
+            virtualScroll,
+            isFixedHeight,
+            height,
         };
     },
 };

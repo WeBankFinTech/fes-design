@@ -145,7 +145,7 @@ export default defineComponent({
         });
 
         watch(
-            () => props.virtualScroll,
+            [() => props.virtualScroll, () => props.rowKey],
             () => {
                 if (props.virtualScroll && !props.rowKey) {
                     console.warn(

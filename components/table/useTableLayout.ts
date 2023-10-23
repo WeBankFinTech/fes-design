@@ -56,14 +56,17 @@ export default function useTableLayout({
                     if (props.bordered) {
                         remainBodyHeight -= 2;
                     }
-                    bodyHeight.value = remainBodyHeight;
                     const bodyWrapperHeight = $bodyWrapper.offsetHeight;
-                    if (remainBodyHeight < bodyWrapperHeight) {
+
+                    bodyHeight.value = remainBodyHeight;
+                    // 渲染后重新执行，会出现 remainBodyHeight === bodyWrapperHeight 的情况
+                    if (remainBodyHeight <= bodyWrapperHeight) {
                         isScrollY.value = true;
+                    } else {
+                        isScrollY.value = false;
                     }
                 } else {
                     isScrollY.value = false;
-                    bodyHeight.value = 0;
                 }
             }
         });

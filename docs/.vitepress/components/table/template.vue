@@ -1,7 +1,9 @@
 <template>
     <FTable :data="data">
         <FTableColumn v-slot="{ row }" prop="date" label="日期">
-            <ClockCircleOutlined />{{ row.date }}
+            <div style="display: flex; align-items: center">
+                <ClockCircleOutlined />{{ row.date }}
+            </div>
         </FTableColumn>
         <FTableColumn v-slot="{ row }" prop="name" label="姓名">
             <FTag>{{ row.name }}</FTag>

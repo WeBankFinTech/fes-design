@@ -12,7 +12,7 @@
         <FFormItem v-if="fixedHeader" label="固定高度：">
             <FInputNumber
                 v-model="height"
-                :min="50"
+                :min="10"
                 :max="1000"
                 :step="50"
             ></FInputNumber>

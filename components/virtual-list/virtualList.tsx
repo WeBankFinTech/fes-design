@@ -20,6 +20,7 @@ import {
     TO_BOTTOM_EVENT,
     RESIZED_EVENT,
 } from '../_util/constants';
+import getPrefixCls from '../_util/getPrefixCls';
 import Virtual from './virtual';
 import { FVirtualListItem } from './listItem';
 import { virtualProps } from './props';
@@ -28,6 +29,8 @@ enum SLOT_TYPE {
     HEADER = 'thead', // string value also use for aria role attribute
     FOOTER = 'tfoot',
 }
+
+const prefixCls = getPrefixCls('virtual-list');
 
 export default defineComponent({
     name: 'FVirtualList',
@@ -428,6 +431,7 @@ export default defineComponent({
                 height={height}
                 maxHeight={maxHeight}
                 contentStyle={rootStyle}
+                containerClass={`${prefixCls}-container`}
             >
                 {wrapNode}
             </FScrollbar>
