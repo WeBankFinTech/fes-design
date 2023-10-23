@@ -35,7 +35,6 @@ export default function useTableLayout({
     const widthList = ref<Record<string, WidthItem>>({});
     const isScrollX = ref(false);
     const isScrollY = ref(false);
-    const headerHeight = ref(0);
     const bodyHeight = ref(0);
     const initRef = ref(false);
 
@@ -62,7 +61,6 @@ export default function useTableLayout({
                     if (remainBodyHeight < bodyWrapperHeight) {
                         isScrollY.value = true;
                     }
-                    headerHeight.value = headerWrapperHeight;
                 } else {
                     isScrollY.value = false;
                     bodyHeight.value = 0;
@@ -167,7 +165,6 @@ export default function useTableLayout({
 
     return {
         widthList,
-        headerHeight,
         bodyWidth,
         bodyHeight,
         isScrollX,
