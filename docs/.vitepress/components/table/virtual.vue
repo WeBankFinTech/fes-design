@@ -7,11 +7,13 @@
                     { label: '否', value: false },
                     { label: '是', value: true },
                 ]"
+                @change="() => virtualScroll && (isFixedHeight = true)"
             />
         </FFormItem>
         <FFormItem label="是否指定高度:">
             <FRadioGroup
                 v-model="isFixedHeight"
+                :disabled="virtualScroll"
                 :options="[
                     { label: '否', value: false },
                     { label: '是', value: true },

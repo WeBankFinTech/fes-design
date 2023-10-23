@@ -145,11 +145,16 @@ export default defineComponent({
         });
 
         watch(
-            [() => props.virtualScroll, () => props.rowKey],
+            [() => props.virtualScroll, () => props.rowKey, () => props.height],
             () => {
                 if (props.virtualScroll && !props.rowKey) {
                     console.warn(
                         `[${TABLE_NAME}]: 当使用虚拟滚动时，请设置rowKey!`,
+                    );
+                }
+                if (props.virtualScroll && !props.height) {
+                    console.warn(
+                        `[${TABLE_NAME}]: 当使用虚拟滚动时，请设置height!`,
                     );
                 }
             },
