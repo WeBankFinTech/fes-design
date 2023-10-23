@@ -1,16 +1,18 @@
 <template>
-    <f-table :data="data">
-        <f-table-column v-slot="{ row }" prop="date" label="日期">
-            <ClockCircleOutlined />{{ row.date }}
-        </f-table-column>
-        <f-table-column v-slot="{ row }" prop="name" label="姓名">
-            <f-tag>{{ row.name }}</f-tag>
-        </f-table-column>
-        <f-table-column prop="address" label="地址"></f-table-column>
-        <f-table-column label="操作">
-            <f-button>编辑</f-button>
-        </f-table-column>
-    </f-table>
+    <FTable :data="data">
+        <FTableColumn v-slot="{ row }" prop="date" label="日期">
+            <div style="display: flex; align-items: center">
+                <ClockCircleOutlined />{{ row.date }}
+            </div>
+        </FTableColumn>
+        <FTableColumn v-slot="{ row }" prop="name" label="姓名">
+            <FTag>{{ row.name }}</FTag>
+        </FTableColumn>
+        <FTableColumn prop="address" label="地址"></FTableColumn>
+        <FTableColumn label="操作">
+            <FButton>编辑</FButton>
+        </FTableColumn>
+    </FTable>
 </template>
 <script>
 import { reactive } from 'vue';

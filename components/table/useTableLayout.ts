@@ -35,33 +35,39 @@ export default function useTableLayout({
     const widthList = ref<Record<string, WidthItem>>({});
     const isScrollX = ref(false);
     const isScrollY = ref(false);
-    const headerHeight = ref(0);
     const bodyHeight = ref(0);
     const initRef = ref(false);
 
     const min = 80;
 
     const computeY = () => {
-        // 第一次渲染时会出现 bodyWrapperHeight = 0，必须再nexttick
+        // 第一次渲染时会出现 bodyWrapperHeight = 0，必须再nextTick
         nextTick(() => {
             // 需要在宽度分配完，重新渲染后，此时table已经按照期望正常渲染，此时的高度才是最终高度
             const $wrapper = wrapperRef.value;
             const $bodyWrapper = bodyWrapperRef.value;
-            if ($wrapper && $bodyWrapper && props.height) {
-                const $headerWrapper = props.showHeader
-                    ? headerWrapperRef.value
-                    : { offsetHeight: 0 };
-                const headerWrapperHeight = $headerWrapper.offsetHeight;
-                let remainBodyHeight = props.height - headerWrapperHeight;
-                if (props.bordered) {
-                    remainBodyHeight -= 2;
+            if ($wrapper && $bodyWrapper) {
+                if (props.height) {
+                    const $headerWrapper = props.showHeader
+                        ? headerWrapperRef.value
+                        : { offsetHeight: 0 };
+                    const headerWrapperHeight = $headerWrapper.offsetHeight;
+                    let remainBodyHeight = props.height - headerWrapperHeight;
+                    if (props.bordered) {
+                        remainBodyHeight -= 2;
+                    }
+                    const bodyWrapperHeight = $bodyWrapper.offsetHeight;
+
+                    bodyHeight.value = remainBodyHeight;
+                    // 渲染后重新执行，会出现 remainBodyHeight === bodyWrapperHeight 的情况
+                    if (remainBodyHeight <= bodyWrapperHeight) {
+                        isScrollY.value = true;
+                    } else {
+                        isScrollY.value = false;
+                    }
+                } else {
+                    isScrollY.value = false;
                 }
-                bodyHeight.value = remainBodyHeight;
-                const bodyWrapperHeight = $bodyWrapper.offsetHeight;
-                if (remainBodyHeight < bodyWrapperHeight) {
-                    isScrollY.value = true;
-                }
-                headerHeight.value = headerWrapperHeight;
             }
         });
     };
@@ -129,8 +135,15 @@ export default function useTableLayout({
         watchResizeDisableRef.value = false;
     });
 
-    // 检测Table宽度变化，计算内容宽度
-    useResize(wrapperRef, computeX, watchResizeDisableRef);
+    // 检测Table宽度和高度变化，计算内容宽度和高度
+    useResize(
+        wrapperRef,
+        () => {
+            computeX();
+            computeY();
+        },
+        watchResizeDisableRef,
+    );
 
     // 根据列数据，计算列宽度
     watch([columns, wrapperRef], computeColumnWidth);
@@ -142,6 +155,7 @@ export default function useTableLayout({
             widthList,
             () => props.height,
             () => props.showHeader,
+            () => props.bordered,
             wrapperRef,
             bodyWrapperRef,
             headerWrapperRef,
@@ -154,7 +168,6 @@ export default function useTableLayout({
 
     return {
         widthList,
-        headerHeight,
         bodyWidth,
         bodyHeight,
         isScrollX,

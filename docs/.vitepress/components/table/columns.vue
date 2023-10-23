@@ -1,12 +1,6 @@
 <template>
-    <f-table
-        :data="data"
-        bordered
-        verticalLine
-        layout="auto"
-        :columns="columns"
-    >
-    </f-table>
+    <FTable :data="data" bordered verticalLine layout="auto" :columns="columns">
+    </FTable>
 </template>
 <script>
 import { h, defineComponent } from 'vue';

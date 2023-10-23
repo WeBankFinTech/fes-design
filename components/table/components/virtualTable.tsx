@@ -24,7 +24,7 @@ export default defineComponent({
             bodyStyle,
             syncPosition,
             scrollbarRef,
-            hasFixedColumn,
+            noFixedColumn,
         } = inject(provideKey);
 
         const renderDefault = ({
@@ -75,7 +75,7 @@ export default defineComponent({
                         }
                     }}
                     shadow={{
-                        x: hasFixedColumn.value,
+                        x: noFixedColumn.value,
                         y: true,
                     }}
                     horizontalRatioStyle={{ zIndex: 3 }}

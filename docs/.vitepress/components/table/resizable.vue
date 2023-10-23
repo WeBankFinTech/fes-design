@@ -1,5 +1,5 @@
 <template>
-    <f-table :data="data" :columns="columns" layout="auto"> </f-table>
+    <FTable :data="data" :columns="columns" layout="auto"> </FTable>
 </template>
 <script>
 import { reactive } from 'vue';

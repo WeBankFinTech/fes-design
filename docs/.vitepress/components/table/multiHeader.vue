@@ -1,35 +1,31 @@
 <template>
-    <f-table :data="data" bordered verticalLine>
-        <f-table-column
+    <FTable :data="data" bordered verticalLine>
+        <FTableColumn
             prop="date"
             label="日期"
             :ellipsis="{ tooltip: { popperClass: 'a', showAfter: 500 } }"
             :width="150"
-        ></f-table-column>
-        <f-table-column label="配送信息">
-            <f-table-column
-                prop="name"
-                label="姓名"
-                :width="150"
-            ></f-table-column>
-            <f-table-column label="地址信息">
-                <f-table-column
+        ></FTableColumn>
+        <FTableColumn label="配送信息">
+            <FTableColumn prop="name" label="姓名" :width="150"></FTableColumn>
+            <FTableColumn label="地址信息">
+                <FTableColumn
                     prop="province"
                     label="省份"
                     :width="150"
-                ></f-table-column>
-                <f-table-column prop="city" label="市区" :width="150">
-                </f-table-column>
-                <f-table-column
+                ></FTableColumn>
+                <FTableColumn prop="city" label="市区" :width="150">
+                </FTableColumn>
+                <FTableColumn
                     prop="address"
                     label="详细地址"
                     :width="500"
-                ></f-table-column>
-                <f-table-column prop="zip" label="邮编" :width="120">
-                </f-table-column>
-            </f-table-column>
-        </f-table-column>
-    </f-table>
+                ></FTableColumn>
+                <FTableColumn prop="zip" label="邮编" :width="120">
+                </FTableColumn>
+            </FTableColumn>
+        </FTableColumn>
+    </FTable>
 </template>
 <script>
 import { defineComponent } from 'vue';

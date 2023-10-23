@@ -1,28 +1,30 @@
 <template>
-    展开的行keys： {{ expandedKeys }}
-    <f-table
+    <div style="margin-bottom: 10px">展开的行keys： {{ expandedKeys }}</div>
+    <FTable
         ref="tableRef"
         v-model:expandedKeys="expandedKeys"
         :data="data"
         rowKey="id"
         @expandChange="expandChange"
     >
-        <f-table-column v-slot="{ row }" type="expand">
-            <f-grid
+        <FTableColumn v-slot="{ row }" type="expand">
+            <FGrid
                 :gutter="[20, 20]"
                 wrap
                 style="background: #f8f8f8; padding: 16px"
             >
-                <f-grid-item :span="12"> 省份：{{ row.province }} </f-grid-item>
-                <f-grid-item :span="12"> 市区：{{ row.city }} </f-grid-item>
-                <f-grid-item :span="12"> 邮编：{{ row.zip }} </f-grid-item>
-                <f-grid-item :span="12"> 地址：{{ row.address }} </f-grid-item>
-            </f-grid>
-        </f-table-column>
-        <f-table-column prop="date" label="日期"></f-table-column>
-        <f-table-column prop="name" label="姓名"></f-table-column>
-    </f-table>
-    <f-button @click="toggle">手动展开/关闭第一行</f-button>
+                <FGridItem :span="12"> 省份：{{ row.province }} </FGridItem>
+                <FGridItem :span="12"> 市区：{{ row.city }} </FGridItem>
+                <FGridItem :span="12"> 邮编：{{ row.zip }} </FGridItem>
+                <FGridItem :span="12"> 地址：{{ row.address }} </FGridItem>
+            </FGrid>
+        </FTableColumn>
+        <FTableColumn prop="date" label="日期"></FTableColumn>
+        <FTableColumn prop="name" label="姓名"></FTableColumn>
+    </FTable>
+    <FButton style="margin-top: 10px" @click="toggle">
+        手动展开/关闭第一行
+    </FButton>
 </template>
 <script>
 import { ref } from 'vue';

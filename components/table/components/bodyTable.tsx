@@ -32,7 +32,7 @@ export default defineComponent({
             getRowKey,
             syncPosition,
             scrollbarRef,
-            hasFixedColumn,
+            noFixedColumn,
             onDragstart,
             onDragend,
             beforeDragend,
@@ -135,7 +135,7 @@ export default defineComponent({
                         verticalRatioStyle={{ zIndex: 3 }}
                         shadowStyle={{ zIndex: 3 }}
                         shadow={{
-                            x: hasFixedColumn.value,
+                            x: noFixedColumn.value,
                             y: true,
                         }}
                         onScroll={onScroll}

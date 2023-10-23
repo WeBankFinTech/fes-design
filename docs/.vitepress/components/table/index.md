@@ -12,105 +12,131 @@ app.use(FTable);
 
 ### 基础用法
 
-当 `f-table` 元素中注入 `data` 对象数组后，在 `f-table-column` 中用 `prop` 属性来对应对象中的键名即可填入数据，用 `label` 属性来定义表格的列名。可已使用`width` 属性来定义列宽。
+当 `FTable` 元素中注入 `data` 对象数组后，在 `FTableColumn` 中用 `prop` 属性来对应对象中的键名即可填入数据，用 `label` 属性来定义表格的列名。可已使用`width` 属性来定义列宽。
 
---COMMON
+:::demo
+common.vue
+:::
 
-#### 边框和分割线
+### 边框和分割线
 
-默认无边框，配置`bordered`则有
+默认有水平分割线，配置`horizontalLine=false`则无水平分割线。
 
---BORDERED
+默认无垂直分割线，配置`verticalLine=true`则有垂直分割线。
 
-默认有水平分割线，配置`horizontalLine=false`则无水平分割线
-
---horizontalLine
-
-默认无垂直分割线，配置`verticalLine`则有
-
---verticalLine
+:::demo
+bordered.vue
+:::
 
 ### 固定表头
 
 纵向内容过多时，可选择固定表头。配置`height`属性，当内容高度超出时出现滚动条。
 
---HEIGHT
+:::demo
+height.vue
+:::
 
 ### 固定列
 
 横向内容过多时，可选择固定列。
 
---FIXED
+:::demo
+fixed.vue
+:::
 
 ### 固定列和表头
 
 横纵内容过多时，可选择固定列和表头。
 
---SCROLL
+:::demo
+heightAndFixed.vue
+:::
 
 ### 多级表头
 
 数据结构比较复杂的时候，可使用多级表头来展现数据的层次关系。
 
---MULTIHEADER
+:::demo
+multiHeader.vue
+:::
 
 ### 多选
 
 选择多行数据时使用 Checkbox。
 
---CHECKBOX
+:::demo
+checkbox.vue
+:::
 
 ### 排序
 
---SORT
+:::demo
+sort.vue
+:::
 
 ### 操作
 
 简单的操作类型。
 
---ACTION
+:::demo
+action.vue
+:::
 
 ### 自定义列模板
 
 自定义列的显示内容，可组合其他组件使用。
 
---TEMPLATE
+:::demo
+template.vue
+:::
 
 ### 虚拟滚动
 
 1W 行数据也不会卡~
 
---VIRTUAL
+:::demo
+virtual.vue
+:::
 
 ### 可拖拽
 
---DRAGGABLE
+:::demo
+draggable.vue
+:::
 
 ### 展开行
 
 当行内容过多并且不想显示横向滚动条时，可以使用展开行功能。
 
---EXPAND
+:::demo
+expand.vue
+:::
 
 ### 合并行或列
 
 多行或多列共用一个数据时，可以合并行或列。
 
---SPAN
+:::demo
+span.vue
+:::
 
 ### 无数据
 
---NODATA
+:::demo
+nodata.vue
+:::
 
 ### 使用 columns 配置列
 
---COLUMNS
+:::demo
+columns.vue
+:::
 
 ### 列宽可拖拽配置
 
---resizable
-
---CODE
+:::demo
+resizable.vue
+:::
 
 ## FTable Props
 

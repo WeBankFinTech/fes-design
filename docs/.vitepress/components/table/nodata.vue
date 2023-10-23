@@ -19,33 +19,21 @@
 
     <FDivider></FDivider>
 
-    <f-table
+    <FTable
         v-if="emptyType === 'normal'"
         :data="data"
         :size="size"
-        :emptyText="emptyText"
+        :emptyText="emptyText || '暂无数据'"
         bordered
     >
-        <f-table-column :width="200" prop="date" label="日期"></f-table-column>
-        <f-table-column :width="200" prop="name" label="姓名"></f-table-column>
-        <f-table-column
-            :width="200"
-            prop="address"
-            label="地址"
-        ></f-table-column>
-        <f-table-column
-            :width="200"
-            prop="contact"
-            label="联系人"
-        ></f-table-column>
-        <f-table-column
-            :width="200"
-            prop="postcode"
-            label="邮编"
-        ></f-table-column>
-    </f-table>
+        <FTableColumn :width="200" prop="date" label="日期"></FTableColumn>
+        <FTableColumn :width="200" prop="name" label="姓名"></FTableColumn>
+        <FTableColumn :width="200" prop="address" label="地址"></FTableColumn>
+        <FTableColumn :width="200" prop="contact" label="联系人"></FTableColumn>
+        <FTableColumn :width="200" prop="postcode" label="邮编"></FTableColumn>
+    </FTable>
 
-    <f-table
+    <FTable
         v-if="emptyType === 'custom'"
         :data="data"
         :size="size"
@@ -54,24 +42,12 @@
         <template #empty>
             <FEmpty :description="emptyText" />
         </template>
-        <f-table-column :width="200" prop="date" label="日期"></f-table-column>
-        <f-table-column :width="200" prop="name" label="姓名"></f-table-column>
-        <f-table-column
-            :width="200"
-            prop="address"
-            label="地址"
-        ></f-table-column>
-        <f-table-column
-            :width="200"
-            prop="contact"
-            label="联系人"
-        ></f-table-column>
-        <f-table-column
-            :width="200"
-            prop="postcode"
-            label="邮编"
-        ></f-table-column>
-    </f-table>
+        <FTableColumn :width="200" prop="date" label="日期"></FTableColumn>
+        <FTableColumn :width="200" prop="name" label="姓名"></FTableColumn>
+        <FTableColumn :width="200" prop="address" label="地址"></FTableColumn>
+        <FTableColumn :width="200" prop="contact" label="联系人"></FTableColumn>
+        <FTableColumn :width="200" prop="postcode" label="邮编"></FTableColumn>
+    </FTable>
 </template>
 <script>
 import { ref, reactive } from 'vue';

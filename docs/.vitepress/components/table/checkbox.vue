@@ -1,23 +1,20 @@
 <template>
-    选中的keys: {{ checkedKeys }}
-    <f-table
+    <div style="margin-bottom: 10px">选中的keys: {{ checkedKeys }}</div>
+    <FTable
         ref="multipleTable"
         v-model:checkedKeys="checkedKeys"
         :data="data"
         rowKey="id"
         @selectionChange="selectionChange"
     >
-        <f-table-column
-            type="selection"
-            :selectable="selectable"
-        ></f-table-column>
-        <f-table-column prop="date" label="日期"></f-table-column>
-        <f-table-column prop="name" label="姓名"></f-table-column>
-        <f-table-column prop="address" label="地址"></f-table-column>
-    </f-table>
-    <div class="buttons">
-        <f-button @click="toggleSelection(data[0])">切换第一行</f-button>
-        <f-button @click="toggleSelection(null)">取消选择</f-button>
+        <FTableColumn type="selection" :selectable="selectable"></FTableColumn>
+        <FTableColumn prop="date" label="日期"></FTableColumn>
+        <FTableColumn prop="name" label="姓名"></FTableColumn>
+        <FTableColumn prop="address" label="地址"></FTableColumn>
+    </FTable>
+    <div style="margin-top: 10px">
+        <FButton @click="toggleSelection(data[0])">切换第一行</FButton>
+        <FButton @click="toggleSelection(null)">取消选择</FButton>
     </div>
 </template>
 <script>
