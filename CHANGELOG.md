@@ -1,3 +1,13 @@
+## [0.8.11](https://github.com/WeBankFinTech/fes-design/compare/v0.8.10...v0.8.11) (2023-10-23)
+
+
+### Bug Fixes
+
+* select、tree、cascader 选项类型校验兼容自定义的情况 ([#486](https://github.com/WeBankFinTech/fes-design/issues/486)) ([16a4856](https://github.com/WeBankFinTech/fes-design/commit/16a4856909cfa6458d406e68ee500d84c212e97b))
+* **Table:** 固定表头和固定列配置项支持响应式 ([#487](https://github.com/WeBankFinTech/fes-design/issues/487)) ([ed7ed21](https://github.com/WeBankFinTech/fes-design/commit/ed7ed21ef1e777059a960288fe472ab23396ff2a))
+
+
+
 ## [0.8.10](https://github.com/WeBankFinTech/fes-design/compare/v0.8.9...v0.8.10) (2023-10-08)
 
 
