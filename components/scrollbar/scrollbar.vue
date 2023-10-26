@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from 'vue';
+import { computed, defineComponent, onMounted, ref, watch } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { pxfy, requestAnimationFrame } from '../_util/utils';
@@ -134,6 +134,7 @@ export default defineComponent({
             }
         };
 
+        // contentRef 为 containerRef 的子元素，所以 containerRef 不需要再监听
         useResize(
             contentRef,
             () => {
@@ -161,6 +162,17 @@ export default defineComponent({
             }
             setTimeout(onScroll, 0);
         });
+
+        watch(
+            () => props.minSize,
+            () => {
+                onUpdate();
+                onScroll();
+            },
+            {
+                immediate: false,
+            },
+        );
 
         const move = (
             type: 'scrollTop' | 'scrollLeft',
