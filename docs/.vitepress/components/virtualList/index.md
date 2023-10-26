@@ -56,8 +56,8 @@ more.vue
 | wrapTag         | 列表包裹元素名称                                                                                                                        | string                                 | `div`      |
 | wrapClass       | 列表包裹元素类名                                                                                                                        | string                                 | -          |
 | wrapStyle       | 列表包裹元素内联样式                                                                                                                    | object                                 | `{}`       |
-| topThreshold    | 触发`totop` 事件的阈值                                                                                                                  | number                                 | 0          |
-| bottomThreshold | 触发`tobottom` 事件的阈值                                                                                                               | number                                 | 0          |
+| topThreshold    | 触发`toTop` 事件的阈值                                                                                                                  | number                                 | 0          |
+| bottomThreshold | 触发`toBottom` 事件的阈值                                                                                                               | number                                 | 0          |
 | observeResize   | 不响应列表元素尺寸变化，如果尺寸不变，最好设置它可以优化性能                                                                            | boolean                                | `true`     |
 | height          | 内容高度                                                                                                                                | number/string                          | -          |
 | maxHeight       | 内容最大高度                                                                                                                            | number/string                          | -          |
@@ -73,49 +73,18 @@ more.vue
 | scroll   | 滚动时触发                         | (event: Event, range) => void |
 | toTop    | 当滚动到顶部或者左边时触发         | () => void                    |
 | toBottom | 当滚动到底部或者右边时触发，无参数 | () => void                    |
-| resized  | 开始拖拽时调用                     | (id, size}) => void           |
+| resized  | 列表项渲染尺寸改变时调用           | (id, size}) => void           |
 
-## VirtualList Method
+## VirtualList Methods
 
-<table>
-  <tr>
-    <th><span style="width:150px;display:inline-block;">方法</span></th>
-    <th>描述</th>
-  </tr>
-  <tr>
-    <td><code>reset()</code></td>
-    <td>将所有状态重置回初始状态。</td>
-  </tr>
-  <tr>
-    <td><code>scrollToBottom()</code></td>
-    <td>手动将滚动位置设置为底部。</td>
-  </tr>
-  <tr>
-    <td><code>scrollToIndex(index)</code></td>
-    <td>手动将滚动位置设置为指定索引。 </td>
-  </tr>
-  <tr>
-    <td><code>scrollToOffset(offset)</code></td>
-    <td>手动将滚动位置设置为指定的偏移量。</td>
-  </tr>
-  <tr>
-    <td><code>getSize(id)</code></td>
-    <td>按id（从<code>data-key</code>）获取指定的项目大小。如果已渲染列表中没有该项，则返回<code>undefined</code>。</td>
-  </tr>
-  <tr>
-    <td><code>getSizes()</code></td>
-    <td>获取存储（渲染）项的总数。</td>
-  </tr>
-  <tr>
-    <td><code>getOffset()</code></td>
-    <td>获取当前滚动偏移量。 </td>
-  </tr>
-  <tr>
-    <td><code>getClientSize()</code></td>
-    <td>获取包装器元素客户端视口大小（宽度或高度）。</td>
-  </tr>
-  <tr>
-    <td><code>getScrollSize()</code></td>
-    <td>获取所有滚动大小（滚动高度或滚动宽度）。 </td>
-  </tr>
-</table>
+| 名称           | 说明                                                                                 | 参数                     |
+| -------------- | ------------------------------------------------------------------------------------ | ------------------------ |
+| reset          | 将所有状态重置回初始状态                                                             | () => void               |
+| scrollToBottom | 手动将滚动位置设置为底部                                                             | () => void               |
+| scrollToIndex  | 手动将滚动位置设置为相对指定索引                                                     | (index: number) => void  |
+| scrollToOffset | 手动将滚动位置设置为相对指定偏移量                                                   | (offset: number) => void |
+| getSize        | 按 id（从`data-key`）获取指定的列表项尺寸。如果已渲染列表中没有该项，则返回`undefined` | (id: number) => number   |
+| getSizes       | 获取存储（渲染）项的总数                                                             | () => number             |
+| getOffset      | 获取当前滚动偏移量                                                                   | () => number             |
+| getClientSize  | 获取包装器元素客户端视口大小（宽度或高度）                                           | () => number             |
+| getScrollSize  | 获取所有滚动大小（滚动高度或滚动宽度）                                               | () => number             |

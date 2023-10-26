@@ -47,8 +47,11 @@ export default class Virtual {
     }
 
     init(param: VirtualPramas = {}, callUpdate: (range: Range) => void = null) {
-        this.param = param;
-        this.callUpdate = callUpdate;
+        this.param = {
+            ...param,
+            uniqueIds: param.uniqueIds || [],
+        };
+        this.callUpdate = callUpdate || (() => null);
         // size data
         this.sizes = reactive(new Map());
         this.firstRangeTotalSize = 0;
