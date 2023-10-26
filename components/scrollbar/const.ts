@@ -34,9 +34,6 @@ export const COMMON_PROPS = {
         type: [Boolean, Object] as PropType<ShadowType>,
         default: false,
     },
-};
-
-export const scrollbarProps = {
     height: {
         type: [Number, String] as PropType<number | string>,
     },
@@ -47,14 +44,6 @@ export const scrollbarProps = {
         type: Boolean,
         default: false,
     },
-    containerClass: [Array, Object, String] as PropType<string | object | []>,
-    containerStyle: [String, Array, Object] as PropType<StyleValue>,
-    contentStyle: [String, Array, Object] as PropType<StyleValue>,
-    horizontalRatioStyle: [String, Array, Object] as PropType<StyleValue>,
-    verticalRatioStyle: [String, Array, Object] as PropType<StyleValue>,
-    shadowStyle: [String, Array, Object] as PropType<StyleValue>,
-    thumbStyle: [String, Array, Object] as PropType<StyleValue>,
-    noresize: Boolean,
     always: {
         type: Boolean,
         default: false,
@@ -63,6 +52,17 @@ export const scrollbarProps = {
         type: Number,
         default: 20,
     },
+};
+
+export const scrollbarProps = {
+    containerClass: [Array, Object, String] as PropType<string | object | []>,
+    containerStyle: [String, Array, Object] as PropType<StyleValue>,
+    contentStyle: [String, Array, Object] as PropType<StyleValue>,
+    horizontalRatioStyle: [String, Array, Object] as PropType<StyleValue>,
+    verticalRatioStyle: [String, Array, Object] as PropType<StyleValue>,
+    shadowStyle: [String, Array, Object] as PropType<StyleValue>,
+    thumbStyle: [String, Array, Object] as PropType<StyleValue>,
+    noresize: Boolean,
     ...COMMON_PROPS,
 } as const;
 

@@ -12,43 +12,68 @@ app.use(FVirtualList);
 
 ## 代码演示
 
-### 1. 不规则纵向滚动列表
+### 不规则纵向滚动列表
 
---VERTICAL
+:::demo
+vertical.vue
+:::
 
-### 2. 不规则横向滚动列表
+### 不规则横向滚动列表
 
---HORIZONTAL
+:::demo
+horizontal.vue
+:::
 
---CODE
+### 最大高度
+
+:::demo
+maxHeight.vue
+:::
+
+### 滚动操作
+
+:::demo
+scroll.vue
+:::
+
+### 更多用法
+
+:::demo
+more.vue
+:::
 
 ## VirtualList Props
 
-| 属性            | 说明                                                                                                                                    | 类型                  | 默认值     |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | ---------- |
-| dataKey         | 从`dataSources`中的每个数据对象获取唯一键。或者使用每个数据源调用函数并返回其唯一键。其值在数据源中必须是唯一的，用于标识每一项的尺寸。 | string \| ()=> string | `-`        |
-| dataSources     | 为列表生成的源数组，每个数组数据必须是一个对象，并且具有唯一的 key get 或 generate for`data key`属性。                                  | Array\<Object\>       | `-`        |
-| keeps           | 您期望虚拟列表在真实 `dom` 中保持渲染的项目数量。                                                                                       | number                | 30         |
-| estimateSize    | 每项的估计大小，如果它更接近平均大小，滚动条长度看起来更准确。建议指定自己计算的平均值                                                  | number                | 50         |
-| start           | 设置滚动位置保持开始索引                                                                                                                | number                | 0          |
-| offset          | 设置滚动位置保持偏移                                                                                                                    | number                | 0          |
-| direction       | 滚动的方向, 可选值为 `vertical` 和 `horizontal`                                                                                         | string                | `vertical` |
-| wrapTag         | 列表包裹元素名称                                                                                                                        | string                | `div`      |
-| wrapClass       | 列表包裹元素类名                                                                                                                        | string                | -          |
-| wrapStyle       | 列表包裹元素内联样式                                                                                                                    | object                | `{}`       |
-| height          | 高度                                                                                                                                    | number                | -          |
-| maxHeight       | 最大高度                                                                                                                                | number                | -          |
-| topThreshold    | 触发`totop` 事件的阈值                                                                                                                  | number                | 0          |
-| bottomThreshold | 触发`tobottom` 事件的阈值                                                                                                               | number                | 0          |
+| 属性            | 说明                                                                                                                                    | 类型                                   | 默认值     |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | ---------- |
+| dataKey         | 从`dataSources`中的每个数据对象获取唯一键。或者使用每个数据源调用函数并返回其唯一键。其值在数据源中必须是唯一的，用于标识每一项的尺寸。 | string \| (data) => string             | `-`        |
+| dataSources     | 为列表生成的源数组，每个数组数据必须是一个对象，并且具有唯一的 key get 或 generate for`data key`属性。                                  | Array\<Object\>                        | `-`        |
+| keeps           | 您期望虚拟列表在真实 `dom` 中保持渲染的项目数量。                                                                                       | number                                 | 30         |
+| estimateSize    | 每项的估计大小，如果它更接近平均大小，滚动条长度看起来更准确。建议指定自己计算的平均值                                                  | number                                 | 50         |
+| start           | 设置滚动位置保持开始索引                                                                                                                | number                                 | 0          |
+| offset          | 设置滚动位置保持偏移                                                                                                                    | number                                 | 0          |
+| direction       | 滚动的方向, 可选值为 `vertical` 和 `horizontal`                                                                                         | string                                 | `vertical` |
+| wrapTag         | 列表包裹元素名称                                                                                                                        | string                                 | `div`      |
+| wrapClass       | 列表包裹元素类名                                                                                                                        | string                                 | -          |
+| wrapStyle       | 列表包裹元素内联样式                                                                                                                    | object                                 | `{}`       |
+| topThreshold    | 触发`totop` 事件的阈值                                                                                                                  | number                                 | 0          |
+| bottomThreshold | 触发`tobottom` 事件的阈值                                                                                                               | number                                 | 0          |
+| observeResize   | 不响应列表元素尺寸变化，如果尺寸不变，最好设置它可以优化性能                                                                            | boolean                                | `true`     |
+| height          | 内容高度                                                                                                                                | number/string                          | -          |
+| maxHeight       | 内容最大高度                                                                                                                            | number/string                          | -          |
+| native          | 是否使用原生滚动样式                                                                                                                    | boolean                                | `false`    |
+| always          | 总是显示滚动条                                                                                                                          | boolean                                | `false`    |
+| minSize         | 滚动条滑块的最小尺寸                                                                                                                    | number                                 | `20`       |
+| shadow          | 显示待滚动区域阴影                                                                                                                      | boolean / `{ x: boolean, y: boolean }` | `false`    |
 
 ## VirtualList Events
 
-| 事件名称 | 说明                               | 回调参数               |
-| -------- | ---------------------------------- | ---------------------- |
-| scroll   | 滚动时触发                         | (event, range) => void |
-| totop    | 当滚动到顶部或者左边时触发         | () => void             |
-| tobottom | 当滚动到底部或者右边时触发，无参数 | () => void             |
-| resized  | 开始拖拽时调用                     | (id, size}) => void    |
+| 事件名称 | 说明                               | 回调参数                      |
+| -------- | ---------------------------------- | ----------------------------- |
+| scroll   | 滚动时触发                         | (event: Event, range) => void |
+| toTop    | 当滚动到顶部或者左边时触发         | () => void                    |
+| toBottom | 当滚动到底部或者右边时触发，无参数 | () => void                    |
+| resized  | 开始拖拽时调用                     | (id, size}) => void           |
 
 ## VirtualList Method
 

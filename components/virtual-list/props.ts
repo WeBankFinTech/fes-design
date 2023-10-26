@@ -74,8 +74,6 @@ export const virtualProps = {
         type: Function as PropType<(itemVNodes: VNode[]) => VNode[]>,
     },
     ...COMMON_PROPS,
-    height: Number,
-    maxHeight: Number,
 } as const;
 
 export type VirtualProps = ExtractPublicPropTypes<typeof virtualProps>;

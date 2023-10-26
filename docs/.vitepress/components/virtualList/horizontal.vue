@@ -1,7 +1,7 @@
 <template>
     <FVirtualList
         class="list-horizontal"
-        :dataKey="'id'"
+        dataKey="id"
         :dataSources="items"
         :estimateSize="110"
         direction="horizontal"
@@ -26,11 +26,11 @@ const genUniqueId = (prefix) => {
     return `${prefix}$${Math.random().toString(16).substr(9)}`;
 };
 
-const DataItems = [];
+const dataItems = [];
 let count = TOTAL_COUNT;
 while (count--) {
     const index = TOTAL_COUNT - count;
-    DataItems.push({
+    dataItems.push({
         index,
         id: genUniqueId(index),
         size: sizes[Math.floor(Math.random() * 5)],
@@ -41,9 +41,7 @@ export default {
     name: 'Horizontal',
     setup() {
         return {
-            total: TOTAL_COUNT.toLocaleString(),
-            items: DataItems,
-            isShowView: true,
+            items: dataItems,
         };
     },
 };

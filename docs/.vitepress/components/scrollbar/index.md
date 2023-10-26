@@ -49,15 +49,15 @@ more.vue
 | height               | 内容高度                                                     | number/string                          | -       |
 | maxHeight            | 内容最大高度                                                 | number/string                          | -       |
 | native               | 是否使用原生滚动样式                                         | boolean                                | `false` |
+| always               | 总是显示滚动条                                               | boolean                                | `false` |
+| minSize              | 滚动条滑块的最小尺寸                                         | number                                 | `20`    |
+| shadow               | 显示待滚动区域阴影                                           | boolean / `{ x: boolean, y: boolean }` | `false` |
 | containerClass       | 包裹容器的自定义类名                                         | array/object/string                    | -       |
 | containerStyle       | 包裹容器的自定义样式                                         | array/object/string                    | -       |
 | contentStyle         | 内容容器的自定义样式                                         | array/object/string                    | -       |
 | horizontalRatioStyle | 水平滚动条的自定义样式                                       | array/object/string                    | -       |
 | verticalRatioStyle   | 垂直滚动条的自定义样式                                       | array/object/string                    | -       |
 | noresize             | 不响应容器尺寸变化，如果容器尺寸不变，最好设置它可以优化性能 | boolean                                | `false` |
-| always               | 总是显示滚动条                                               | boolean                                | `false` |
-| minSize              | 滚动条滑块的最小尺寸                                         | number                                 | `20`    |
-| shadow               | 显示待滚动区域阴影                                           | boolean / `{ x: boolean, y: boolean }` | `false` |
 | thumbStyle           | 滚动条样式                                                   | array/object/string                    | -       |
 
 ## Scrollbar Events

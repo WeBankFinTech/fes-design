@@ -1,10 +1,10 @@
 <template>
     <FVirtualList
         ref="virtualList"
-        :dataKey="'id'"
+        :dataKey="(data) => data.id"
         :dataSources="items"
         :estimateSize="80"
-        :height="500"
+        :height="height"
     >
         <template #default="{ source }">
             <div class="item-inner">
@@ -41,11 +41,11 @@ const getSentences = () => {
     return sentence3[index];
 };
 
-const DataItems = [];
+const dataItems = [];
 let count = TOTAL_COUNT;
 while (count--) {
     const index = TOTAL_COUNT - count;
-    DataItems.push({
+    dataItems.push({
         index,
         name: `${Math.random()}`,
         id: genUniqueId(index),
@@ -57,30 +57,27 @@ export default {
     name: 'Vertical',
     setup() {
         const virtualList = ref(null);
+        const height = ref(200);
+
         return {
             virtualList,
-            total: TOTAL_COUNT.toLocaleString(),
-            items: DataItems,
-            isShowView: true,
+            items: dataItems,
+            height,
         };
     },
 };
 </script>
 
-<style>
-.list-dynamic {
-    width: 100%;
-    height: 500px;
-    overflow-y: auto;
-}
+<style scoped>
 .item-inner .head {
     font-weight: 500;
 }
-.item-inner span:first-child {
+.item-inner .head span:first-child {
     margin-right: 1em;
 }
 .item-inner .desc {
-    padding-top: 0.5em;
+    margin-top: 0.5em;
+    margin-bottom: 1em;
     text-align: justify;
 }
 </style>

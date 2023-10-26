@@ -373,6 +373,9 @@ export default defineComponent({
             shadow,
             height,
             maxHeight,
+            native,
+            always,
+            minSize,
         } = this;
 
         // wrap style
@@ -430,6 +433,9 @@ export default defineComponent({
                 shadow={shadow}
                 height={height}
                 maxHeight={maxHeight}
+                native={native}
+                always={always}
+                minSize={minSize}
                 contentStyle={rootStyle}
                 containerClass={`${prefixCls}-container`}
             >
