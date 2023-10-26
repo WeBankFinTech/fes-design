@@ -12,11 +12,15 @@
 
     <FSpace vertical>
         <FScrollbar height="200px" style="width: 100%" :native="native">
-            <ul class="scroll-ul">
-                <li v-for="(item, index) in vals" :key="index">
+            <div class="scroll-list">
+                <div
+                    v-for="(item, index) in vals"
+                    :key="index"
+                    class="scroll-item"
+                >
                     {{ item }}
-                </li>
-            </ul>
+                </div>
+            </div>
         </FScrollbar>
     </FSpace>
 </template>
@@ -40,19 +44,17 @@ export default {
 </script>
 
 <style scoped>
-.scroll-ul {
-    list-style-type: none;
+.scroll-list {
     margin: 0;
     padding: 0;
-    list-style: none;
+    width: 1000px;
 }
-.scroll-ul > li {
+.scroll-list > .scroll-item {
     height: 36px;
     background: rgba(83, 132, 255, 0.06);
-    list-style-type: none;
     border-bottom: 2px solid #fff;
 }
-.scroll-ul > li::before {
-    display: none;
+.scroll-list > .scroll-item + .scroll-item {
+    margin-top: 8px;
 }
 </style>
