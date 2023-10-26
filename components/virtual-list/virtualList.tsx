@@ -255,7 +255,7 @@ export default defineComponent({
             const { dataSources, dataKey } = props;
             for (let index = start; index <= end; index++) {
                 const dataSource = dataSources[index];
-                if (dataSource) {
+                if (dataSource || dataSource === 0) {
                     const uniqueKey =
                         typeof dataKey === 'function'
                             ? dataKey(dataSource)
