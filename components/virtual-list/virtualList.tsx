@@ -143,7 +143,7 @@ export default defineComponent({
                         scrollToBottom();
                     }
                     clearTimeout(time);
-                }, 3);
+                }, 10);
             }
         };
 
