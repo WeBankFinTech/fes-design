@@ -1,6 +1,6 @@
 <template>
     <FVirtualList
-        class="list-horizontal"
+        class="virtual-scroll-list-horizontal"
         dataKey="id"
         :dataSources="items"
         :estimateSize="110"
@@ -47,23 +47,22 @@ export default {
 };
 </script>
 
-<style>
-.list-horizontal {
+<style scoped>
+.virtual-scroll-list-horizontal {
     width: 100%;
     height: 120px;
-    overflow-x: auto;
 }
-.item-inner-horizontal {
+.virtual-scroll-list-horizontal .item-inner-horizontal {
     display: flex;
     align-items: center;
     flex-direction: column;
     padding: 2em 0;
 }
-.item-inner-horizontal .index {
+.virtual-scroll-list-horizontal .item-inner-horizontal .index {
     width: 100%;
     text-align: center;
 }
-.item-inner-horizontal .size {
+.virtual-scroll-list-horizontal .item-inner-horizontal .size {
     text-align: right;
     color: darkgray;
     font-size: 16px;

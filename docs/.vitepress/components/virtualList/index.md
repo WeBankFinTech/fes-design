@@ -77,14 +77,14 @@ more.vue
 
 ## VirtualList Methods
 
-| 名称           | 说明                                                                                 | 参数                     |
-| -------------- | ------------------------------------------------------------------------------------ | ------------------------ |
-| reset          | 将所有状态重置回初始状态                                                             | () => void               |
-| scrollToBottom | 手动将滚动位置设置为底部                                                             | () => void               |
-| scrollToIndex  | 手动将滚动位置设置为相对指定索引                                                     | (index: number) => void  |
-| scrollToOffset | 手动将滚动位置设置为相对指定偏移量                                                   | (offset: number) => void |
+| 名称           | 说明                                                                                   | 参数                     |
+| -------------- | -------------------------------------------------------------------------------------- | ------------------------ |
+| reset          | 将所有状态重置回初始状态                                                               | () => void               |
+| scrollToBottom | 手动将滚动位置设置为底部                                                               | () => void               |
+| scrollToIndex  | 手动将滚动位置设置为指定索引                                                           | (index: number) => void  |
+| scrollToOffset | 手动将滚动位置设置为相对指定偏移量                                                     | (offset: number) => void |
 | getSize        | 按 id（从`data-key`）获取指定的列表项尺寸。如果已渲染列表中没有该项，则返回`undefined` | (id: number) => number   |
-| getSizes       | 获取存储（渲染）项的总数                                                             | () => number             |
-| getOffset      | 获取当前滚动偏移量                                                                   | () => number             |
-| getClientSize  | 获取包装器元素客户端视口大小（宽度或高度）                                           | () => number             |
-| getScrollSize  | 获取所有滚动大小（滚动高度或滚动宽度）                                               | () => number             |
+| getSizes       | 获取存储（渲染）项的总数                                                               | () => number             |
+| getOffset      | 获取当前滚动偏移量                                                                     | () => number             |
+| getClientSize  | 获取包装器元素客户端视口大小（宽度或高度）                                             | () => number             |
+| getScrollSize  | 获取所有滚动大小（滚动高度或滚动宽度）                                                 | () => number             |

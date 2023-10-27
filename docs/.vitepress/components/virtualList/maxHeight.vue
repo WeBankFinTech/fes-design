@@ -31,7 +31,7 @@
     <FSpace vertical>
         <FVirtualList
             ref="virtualList"
-            class="virtual-scroll-list"
+            class="virtual-scroll-list-max-height"
             wrapClass="virtual-scroll-list-wrap"
             :dataKey="(data) => data"
             :dataSources="vals"
@@ -91,17 +91,17 @@ export default {
 </script>
 
 <style>
-.virtual-scroll-list .virtual-scroll-list-wrap {
+.virtual-scroll-list-max-height .virtual-scroll-list-wrap {
     margin: 0;
     padding: 0;
     width: 1000px;
 }
-.virtual-scroll-list .virtual-scroll-list-wrap .virtual-scroll-item {
+.virtual-scroll-list-max-height .virtual-scroll-list-wrap .virtual-scroll-item {
     height: 36px;
     background: rgba(83, 132, 255, 0.06);
     border-bottom: 2px solid #fff;
 }
-.virtual-scroll-list
+.virtual-scroll-list-max-height
     .virtual-scroll-list-wrap
     .virtual-scroll-item
     + .virtual-scroll-item {
