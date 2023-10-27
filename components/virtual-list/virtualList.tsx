@@ -128,13 +128,25 @@ export default defineComponent({
             }
         };
 
+        // set current scroll position to a expectant target
+        const scrollToTarget = (position: number) => {
+            const root = rootRef.value;
+            if (root) {
+                if (isHorizontal) {
+                    root.scrollTo(position, 0);
+                } else {
+                    root.scrollTo(0, position); // 解决设置OffsetTop无效的问题
+                }
+            }
+        };
+
         // set current scroll position to bottom
         const scrollToBottom = () => {
-            const shepherd = rootRef.value;
-            if (shepherd) {
-                const offset =
-                    shepherd[isHorizontal ? 'scrollWidth' : 'scrollHeight'];
-                scrollToOffset(offset);
+            const root = rootRef.value;
+            if (root) {
+                const position =
+                    root[isHorizontal ? 'scrollWidth' : 'scrollHeight'];
+                scrollToTarget(position);
                 // check if it's really scrolled to the bottom
                 // maybe list doesn't render and calculate to last range
                 // so we need retry in next event loop until it really at bottom
@@ -153,15 +165,15 @@ export default defineComponent({
             if (index >= props.dataSources.length - 1) {
                 scrollToBottom();
             } else {
-                const offset = virtual.getOffset(index);
-                scrollToOffset(offset);
+                const position = virtual.getOffset(index);
+                scrollToTarget(position);
             }
         };
 
         // reset all state back to initial
         const reset = () => {
             virtual.destroy();
-            scrollToOffset(0);
+            scrollToIndex(0);
             installVirtual();
         };
 
