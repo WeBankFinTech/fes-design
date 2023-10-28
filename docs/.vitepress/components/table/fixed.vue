@@ -22,7 +22,7 @@
 
     <FDivider></FDivider>
 
-    <FTable :data="data" bordered>
+    <FTable rowKey="id" :data="data" bordered>
         <FTableColumn
             type="selection"
             :width="30"
@@ -64,6 +64,7 @@ export default {
 
         const data = Array.from([1, 2, 3], (i) => {
             return {
+                id: i,
                 date: `2016-05-2016-05-2016-05-2016-05-${i < 10 ? '0' + i : i}`,
                 name: '王小虎',
                 province: '上海',

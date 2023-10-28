@@ -1,5 +1,12 @@
 <template>
-    <FTable :data="data" bordered verticalLine layout="auto" :columns="columns">
+    <FTable
+        rowKey="id"
+        :data="data"
+        bordered
+        verticalLine
+        layout="auto"
+        :columns="columns"
+    >
     </FTable>
 </template>
 <script>
@@ -7,8 +14,9 @@ import { h, defineComponent } from 'vue';
 
 export default defineComponent({
     setup() {
-        const data = Array.from([1, 2, 3], () => {
+        const data = Array.from([1, 2, 3], (i) => {
             return {
+                id: i,
                 date: `2016-05`,
                 name: '王小虎',
                 province: '上海',

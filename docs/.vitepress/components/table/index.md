@@ -82,12 +82,18 @@ sort.vue
 action.vue
 :::
 
-### 自定义列模板
+### 自定义列内容
 
 自定义列的显示内容，可组合其他组件使用。
 
 :::demo
-template.vue
+customContent.vue
+:::
+
+### 自定义表头
+
+:::demo
+customHeader.vue
 :::
 
 ### 虚拟滚动
