@@ -13,7 +13,7 @@ import {
     computed,
     CSSProperties,
 } from 'vue';
-import { throttle } from 'lodash-es';
+import { isNil, throttle } from 'lodash-es';
 import FScrollbar from '../scrollbar/scrollbar.vue';
 import {
     TO_TOP_EVENT,
@@ -267,7 +267,7 @@ export default defineComponent({
             const { dataSources, dataKey } = props;
             for (let index = start; index <= end; index++) {
                 const dataSource = dataSources[index];
-                if (dataSource || dataSource === 0) {
+                if (!isNil(dataSource)) {
                     const uniqueKey =
                         typeof dataKey === 'function'
                             ? dataKey(dataSource)
