@@ -1,6 +1,6 @@
 <template>
     <div :class="formItemClass">
-        <label
+        <span
             v-if="label || $slots.label"
             :class="formItemLabelClass"
             :style="formItemLabelStyle"
@@ -8,9 +8,9 @@
             <slot name="label">
                 {{ label }}
             </slot>
-        </label>
+        </span>
         <div :class="`${prefixCls}-content`">
-            <slot />
+            <slot></slot>
             <transition name="fes-fade">
                 <div v-if="formItemShowMessage" :class="`${prefixCls}-error`">
                     {{ validateMessage }}
