@@ -21,7 +21,7 @@
         <FFormItem v-if="itemWidthType === 'span'" label="占据列数：">
             <FInputNumber
                 v-model="span"
-                :min="4"
+                :min="6"
                 :max="24"
                 :step="1"
             ></FInputNumber>
@@ -45,6 +45,8 @@
 
     <FForm
         layout="inline"
+        labelWidth="100px"
+        labelPosition="right"
         :inlineItemGap="inlineItemGap"
         :span="itemWidthType === 'span' ? span : undefined"
         :inlineItemWidth="
@@ -76,6 +78,7 @@
         </FFormItem>
         <FFormItem label="选择性别">
             <FRadioGroup>
+                <FRadio :value="0">未知</FRadio>
                 <FRadio :value="1">男</FRadio>
                 <FRadio :value="2">女</FRadio>
             </FRadioGroup>
@@ -83,8 +86,9 @@
         <FFormItem label="输入其他">
             <FInput placeholder="请输入"></FInput>
         </FFormItem>
-        <FFormItem label="选择性别">
+        <FFormItem label="选择性别" align="center">
             <FRadioGroup>
+                <FRadio :value="0">未知</FRadio>
                 <FRadio :value="1">男</FRadio>
                 <FRadio :value="2">女</FRadio>
             </FRadioGroup>
@@ -98,7 +102,7 @@ export default defineComponent({
     setup() {
         const inlineItemGap = ref(11);
         const itemWidthType = ref('span');
-        const span = ref(6);
+        const span = ref(12);
         const inlineItemWidth = ref(300);
 
         return {

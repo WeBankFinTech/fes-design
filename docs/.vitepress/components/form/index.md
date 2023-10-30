@@ -28,7 +28,7 @@ basic.vue
 inline.vue
 :::
 
-### 标签对齐方式
+### 对齐方式
 
 根据具体目标和制约因素，选择最佳的标签对齐方式。
 
@@ -92,16 +92,17 @@ complexValidate.vue
 
 ## Form-Item Props
 
-| 属性        | 说明                                                                               | 类型                       | 默认值 |
-| ----------- | ---------------------------------------------------------------------------------- | -------------------------- | ------ |
-| prop        | 表单域 `model` 字段，在使用 `validate`、`resetFields` 方法的情况下，该属性是必填的 | string                     | -      |
-| value       | 表单项的值。如果存在则优先取该属性                                                 | string                     | -      |
-| rules       | 表单项验证规则，可查看`Form-Item Rule Type`                                        | Array                      | -      |
-| span        | 仅在 `inline` 表单中有效。自定义 FormItem 占据列数，共 24 列                       | number                     | -      |
-| label       | 标签文本                                                                           | string                     | -      |
-| labelWidth  | 表单项标签的宽度                                                                   | string(100px)、number(100) | -      |
-| labelClass  | 表单项标签自定义 class                                                             | string                     | -      |
-| showMessage | 是否显示校验错误信息                                                               | boolean                    | `true` |
+| 属性        | 说明                                                                                                        | 类型                       | 默认值       |
+| ----------- | ----------------------------------------------------------------------------------------------------------- | -------------------------- | ------------ |
+| prop        | 表单域 `model` 字段，在使用 `validate`、`resetFields` 方法的情况下，该属性是必填的                          | string                     | -            |
+| value       | 表单项的值。如果存在则优先取该属性                                                                          | string                     | -            |
+| rules       | 表单项验证规则，可查看`Form-Item Rule Type`                                                                 | Array                      | -            |
+| span        | 仅在 `inline` 表单中有效。自定义 FormItem 占据列数，共 24 列                                                | number                     | -            |
+| label       | 标签文本                                                                                                    | string                     | -            |
+| labelWidth  | 表单项标签的宽度                                                                                            | string(100px)、number(100) | -            |
+| labelClass  | 表单项标签自定义 class                                                                                      | string                     | -            |
+| showMessage | 是否显示校验错误信息                                                                                        | boolean                    | `true`       |
+| align       | 仅在 `labelPosition` 为 `left` 或 `right` 时有效。垂直排列方式，可选值为 `flex-start`、`baseline`、`center` | string                     | `flex-start` |
 
 ## Form-Item Slots
 

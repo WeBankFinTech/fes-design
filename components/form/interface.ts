@@ -3,6 +3,8 @@ import { FORM_LAYOUT, LABEL_POSITION } from './const';
 import type { RuleItem, Rules } from 'async-validator';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
+export type FormItemAlign = 'flex-start' | 'baseline' | 'center';
+
 export interface FFormRuleItem extends RuleItem {
     trigger?: string | string[];
 }
@@ -71,6 +73,10 @@ export const formItemProps = {
         default: () => {
             return [] as FFormRuleItem[];
         },
+    },
+    align: {
+        type: String as PropType<FormItemAlign>,
+        default: 'flex-start',
     },
 } as const;
 

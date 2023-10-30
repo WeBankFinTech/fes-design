@@ -13,8 +13,8 @@
 @form-margin: 0;
 
 @form-item-margin: 22px;
-@form-item-label-mr: 16px;
-@form-item-label-mb: 8px;
+@form-item-label-margin-right: 16px;
+@form-item-label-margin-bottom: 8px;
 
 @form-size-base: var(--f-font-size-base);
 @form-size-error: @font-size-caption;
@@ -31,7 +31,6 @@
     // 对齐方式: 左对齐 
     .@{form-item-cls} {
         display: flex;
-        align-items: flex-start;
         margin-bottom: @form-item-margin;
         padding: @form-margin;
         font-size: @form-size-base;
@@ -43,7 +42,7 @@
             align-items: center;
             justify-content: flex-start;
             min-height: @form-item-height;
-            margin-right: @form-item-label-mr;
+            margin-right: @form-item-label-margin-right;
         }
         &-content {
             position: relative;
@@ -65,7 +64,7 @@
             display: block;
             height: auto;
             margin-right: 0;
-            margin-bottom: @form-item-label-mb;
+            margin-bottom: @form-item-label-margin-bottom;
         }
     }
 }
@@ -81,7 +80,6 @@
     width: 100%;
     margin-bottom: @form-item-margin;
     .@{form-item-cls} {
-        align-items: center;
         box-sizing: border-box;
         margin: 0;
     }

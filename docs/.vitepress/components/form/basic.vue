@@ -19,7 +19,7 @@
                 <FRadio :value="2">女</FRadio>
             </FRadioGroup>
         </FFormItem>
-        <FFormItem label="这是一段长的表单项描述">
+        <FFormItem label="这是一段长的表单项描述" align="center">
             <FInput placeholder="请输入"></FInput>
         </FFormItem>
         <FFormItem label="年龄范围">

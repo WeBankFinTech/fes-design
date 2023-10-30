@@ -1,5 +1,5 @@
 <template>
-    <div :class="formItemClass">
+    <div :class="formItemClass" :style="formItemStyle">
         <span
             v-if="label || $slots.label"
             :class="formItemLabelClass"
@@ -130,6 +130,9 @@ export default defineComponent({
                 validateStatus.value === VALIDATE_STATUS.ERROR && 'is-error', // 校验错误: is-error
             ].filter(Boolean),
         );
+        const formItemStyle = computed(() => ({
+            alignItems: props.align,
+        }));
         const formItemLabelClass = computed(() =>
             [`${prefixCls}-label`, labelClass.value, props.labelClass].filter(
                 Boolean,
@@ -261,6 +264,7 @@ export default defineComponent({
             prefixCls,
 
             formItemClass,
+            formItemStyle,
             formItemLabelClass,
             formItemLabelStyle,
             formItemShowMessage,
