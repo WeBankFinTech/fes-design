@@ -1,10 +1,23 @@
 <template>
+    <FForm labelWidth="150px">
+        <FFormItem label="表单禁用:">
+            <FSwitch v-model="formDisabled"></FSwitch>
+        </FFormItem>
+        <FFormItem label="是否显示校验错误信息:">
+            <FSwitch v-model="showMessage"></FSwitch>
+        </FFormItem>
+    </FForm>
+
+    <FDivider></FDivider>
+
     <FForm
-        ref="WFormDomRef"
+        ref="formRef"
         labelWidth="140px"
         labelPosition="right"
         :model="modelForm"
         :rules="rules"
+        :disabled="formDisabled"
+        :showMessage="showMessage"
     >
         <FFormItem prop="name">
             <template #label><span>姓名(slot)</span></template>
@@ -91,9 +104,13 @@
             >
             </FSelectCascader>
         </FFormItem>
-        <FFormItem label="备注 slot" labelClass="more-label" prop="desc">
+        <FFormItem
+            label="备注 slot"
+            labelClass="more-label-container"
+            prop="desc"
+        >
             <template #label>
-                <span @click="descClickHandler">
+                <span class="more-label-text" @click="descClickHandler">
                     <QuestionCircleFilled /> 备注(slot)
                 </span>
             </template>
@@ -130,7 +147,10 @@ import { FMessage } from '@fesjs/fes-design';
 
 export default {
     setup() {
-        const WFormDomRef = ref(null);
+        const formRef = ref(null);
+        const formDisabled = ref(false);
+        const showMessage = ref(true);
+
         const modelForm = reactive({
             name: {
                 first: '',
@@ -325,13 +345,13 @@ export default {
         };
 
         const submitHandler = async () => {
-            WFormDomRef.value
+            formRef.value
                 .validate()
                 .then(() => {
                     console.log(
                         '[form.validate] [submitHandler] 表单验证成功~',
                     );
-                    WFormDomRef.value.resetFields();
+                    formRef.value.resetFields();
                 })
                 .catch((error) => {
                     console.log(
@@ -344,7 +364,7 @@ export default {
              * // await 调用
              *
              * try {
-             *      const result = await WFormDomRef.value.validate();
+             *      const result = await formRef.value.validate();
              *      console.log('[form.validate] [submitHandler] 表单验证成功, result:', result);
              * } catch (error) {
              *      console.log('[form.validate] [submitHandler] 表单验证失败, error:', error);
@@ -352,10 +372,10 @@ export default {
              */
         };
         const clearHandler = () => {
-            WFormDomRef.value.clearValidate();
+            formRef.value.clearValidate();
         };
         const resetHandler = () => {
-            WFormDomRef.value.resetFields();
+            formRef.value.resetFields();
         };
 
         const descClickHandler = () => {
@@ -363,7 +383,9 @@ export default {
         };
 
         return {
-            WFormDomRef,
+            formRef,
+            formDisabled,
+            showMessage,
             modelForm,
             rules,
             optionList,
@@ -378,16 +400,12 @@ export default {
 };
 </script>
 <style scoped>
-.fes-form {
-    width: 600px;
-}
-.fes-form .fes-form-item-label.more-label {
+.more-label-text {
     color: #9e9e9e;
-}
-.row-container {
-    width: 100%;
-}
-.row-item {
     display: flex;
+    align-items: center;
+}
+.more-label-text > :first-child {
+    margin-right: 5px;
 }
 </style>

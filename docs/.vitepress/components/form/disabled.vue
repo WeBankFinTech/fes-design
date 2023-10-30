@@ -1,10 +1,13 @@
 <template>
-    <FSpace>
-        <div>表单禁用</div>
-        <FSwitch v-model="formToggle" @change="handleSwitchChange"></FSwitch>
-    </FSpace>
+    <FForm labelWidth="120px">
+        <FFormItem label="表单禁用:">
+            <FSwitch v-model="formDisabled"></FSwitch>
+        </FFormItem>
+    </FForm>
+
     <FDivider></FDivider>
-    <FForm :labelWidth="80" :disabled="formToggle">
+
+    <FForm :labelWidth="80" :disabled="formDisabled">
         <FFormItem label="输入框">
             <FInput placeholder="请输入"></FInput>
         </FFormItem>
@@ -31,7 +34,7 @@
             </FRadioGroup>
         </FFormItem>
         <FFormItem label="单选按钮组">
-            <FRadioGroup v-model="radioBtnVal" @change="handleRadioBtnChange">
+            <FRadioGroup v-model="radioBtnVal">
                 <FRadioButton :value="1">选项一</FRadioButton>
                 <FRadioButton :value="2">选项二</FRadioButton>
                 <FRadioButton :value="3">选项三</FRadioButton>
@@ -45,7 +48,7 @@
             </FCheckboxGroup>
         </FFormItem>
         <FFormItem label="开关">
-            <FSwitch v-model="toggleVal" @change="handleSwitchChange"></FSwitch>
+            <FSwitch v-model="toggleVal"></FSwitch>
         </FFormItem>
         <FFormItem label="时间选择">
             <FTimePicker
@@ -80,16 +83,10 @@
 import { ref } from 'vue';
 export default {
     setup() {
-        const formToggle = ref(true);
+        const formDisabled = ref(true);
         const toggleVal = ref();
         const numVal = ref(0);
-        const handleSwitchChange = (value) => {
-            console.log('[form.disabled] [handleSwitchChange] value:', value);
-        };
         const radioBtnVal = ref(0);
-        const handleRadioBtnChange = (value) => {
-            console.log('[form.disabled] [handleRadioBtnChange] value:', value);
-        };
         return {
             optionList: [
                 {
@@ -113,18 +110,12 @@ export default {
                     label: '江苏',
                 },
             ],
-            handleSwitchChange,
-            handleRadioBtnChange,
             toggleVal,
             numVal,
-            formToggle,
+            formDisabled,
             radioBtnVal,
         };
     },
 };
 </script>
-<style scoped>
-.fes-form {
-    width: 600px;
-}
-</style>
+<style scoped></style>

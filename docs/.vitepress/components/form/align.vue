@@ -1,49 +1,53 @@
 <template>
-    <FTabs>
-        <FTabPane name="左对齐" value="左对齐">
-            <div class="tab-content">
-                <FForm :labelWidth="80" labelPosition="left">
-                    <FFormItem label="姓名">
-                        <FInput placeholder="请输入姓名"></FInput>
-                    </FFormItem>
-                    <FFormItem label="手机号码">
-                        <FInput placeholder="请输入手机号码"></FInput>
-                    </FFormItem>
-                </FForm>
-            </div>
-        </FTabPane>
-        <FTabPane name="右对齐" value="右对齐" displayDirective="show">
-            <div class="tab-content">
-                <FForm :labelWidth="80" labelPosition="right">
-                    <FFormItem label="姓名">
-                        <FInput placeholder="请输入姓名"></FInput>
-                    </FFormItem>
-                    <FFormItem label="手机号码">
-                        <FInput placeholder="请输入手机号码"></FInput>
-                    </FFormItem>
-                </FForm>
-            </div>
-        </FTabPane>
-        <FTabPane name="顶部对齐" value="顶部对齐">
-            <div class="tab-content">
-                <FForm :labelWidth="80" labelPosition="top">
-                    <FFormItem label="姓名">
-                        <FInput placeholder="请输入姓名"></FInput>
-                    </FFormItem>
-                    <FFormItem label="手机号码">
-                        <FInput placeholder="请输入手机号码"></FInput>
-                    </FFormItem>
-                </FForm>
-            </div>
-        </FTabPane>
-    </FTabs>
+    <FForm labelWidth="150px">
+        <FFormItem label="对齐方式:">
+            <FRadioGroup
+                v-model="labelPosition"
+                :options="[
+                    { label: '左对齐(默认)', value: 'left' },
+                    { label: '右对齐', value: 'right' },
+                    { label: '顶对齐', value: 'top' },
+                ]"
+            />
+        </FFormItem>
+    </FForm>
+
+    <FDivider></FDivider>
+
+    <div class="tab-content">
+        <FForm
+            :labelWidth="labelPosition === 'top' ? undefined : 100"
+            :labelPosition="labelPosition"
+        >
+            <FFormItem label="姓名">
+                <FInput placeholder="请输入姓名"></FInput>
+            </FFormItem>
+            <FFormItem label="手机号码">
+                <FInput placeholder="请输入手机号码"></FInput>
+            </FFormItem>
+            <FFormItem label="这是一段长的表单项描述">
+                <FInput placeholder="请输入"></FInput>
+            </FFormItem>
+        </FForm>
+    </div>
 </template>
+
+<script>
+import { ref, defineComponent } from 'vue';
+
+export default defineComponent({
+    setup() {
+        const labelPosition = ref('left');
+
+        return {
+            labelPosition,
+        };
+    },
+});
+</script>
 
 <style scoped>
 .tab-content {
     margin-top: 24px;
-}
-.fes-form {
-    width: 600px;
 }
 </style>

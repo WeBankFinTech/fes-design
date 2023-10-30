@@ -1,9 +1,60 @@
 <template>
-    <FForm layout="inline">
+    <FForm labelWidth="120px">
+        <FFormItem label="行间距:">
+            <FInputNumber
+                v-model="inlineItemGap"
+                :min="5"
+                :max="30"
+                :step="1"
+            ></FInputNumber>
+            <span style="margin-left: 10px">px</span>
+        </FFormItem>
+        <FFormItem label="每项宽度设置方式:">
+            <FRadioGroup
+                v-model="itemWidthType"
+                :options="[
+                    { label: '占据列数', value: 'span' },
+                    { label: '固定宽度', value: 'inlineItemWidth' },
+                ]"
+            />
+        </FFormItem>
+        <FFormItem v-if="itemWidthType === 'span'" label="占据列数：">
+            <FInputNumber
+                v-model="span"
+                :min="4"
+                :max="24"
+                :step="1"
+            ></FInputNumber>
+            <span style="margin-left: 10px">px</span>
+        </FFormItem>
+        <FFormItem
+            v-if="itemWidthType === 'inlineItemWidth'"
+            label="固定宽度："
+        >
+            <FInputNumber
+                v-model="inlineItemWidth"
+                :min="100"
+                :max="500"
+                :step="10"
+            ></FInputNumber>
+            <span style="margin-left: 10px">px</span>
+        </FFormItem>
+    </FForm>
+
+    <FDivider></FDivider>
+
+    <FForm
+        layout="inline"
+        :inlineItemGap="inlineItemGap"
+        :span="itemWidthType === 'span' ? span : undefined"
+        :inlineItemWidth="
+            itemWidthType === 'inlineItemWidth' ? inlineItemWidth : undefined
+        "
+    >
         <FFormItem label="输入姓名">
             <FInput placeholder="请输入"></FInput>
         </FFormItem>
-        <FFormItem label="选择城市" :span="10">
+        <FFormItem label="选择城市">
             <FSelect clearable placeholder="请单选">
                 <FOption
                     v-for="(item, index) in optionList"
@@ -29,7 +80,7 @@
                 <FRadio :value="2">女</FRadio>
             </FRadioGroup>
         </FFormItem>
-        <FFormItem label="输入其他" :span="10">
+        <FFormItem label="输入其他">
             <FInput placeholder="请输入"></FInput>
         </FFormItem>
         <FFormItem label="选择性别">
@@ -41,9 +92,21 @@
     </FForm>
 </template>
 <script>
-export default {
+import { ref, defineComponent } from 'vue';
+
+export default defineComponent({
     setup() {
+        const inlineItemGap = ref(11);
+        const itemWidthType = ref('span');
+        const span = ref(6);
+        const inlineItemWidth = ref(300);
+
         return {
+            inlineItemGap,
+            itemWidthType,
+            span,
+            inlineItemWidth,
+
             optionList: [
                 {
                     value: 'HuNan',
@@ -68,5 +131,5 @@ export default {
             ],
         };
     },
-};
+});
 </script>
