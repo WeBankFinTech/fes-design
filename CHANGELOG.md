@@ -1,3 +1,12 @@
+## [0.8.12](https://github.com/WeBankFinTech/fes-design/compare/v0.8.11...v0.8.12) (2023-10-30)
+
+
+### Bug Fixes
+
+* **VirtualList:** 虚拟列表组件，配置项 minSize 支持响应式，增加 Scrollbar 组件配置项，以及修复滚动到指定索引不生效的问题 ([#489](https://github.com/WeBankFinTech/fes-design/issues/489)) ([7af8047](https://github.com/WeBankFinTech/fes-design/commit/7af804798857eb7758745cc0d04413ce52278369))
+
+
+
 ## [0.8.11](https://github.com/WeBankFinTech/fes-design/compare/v0.8.10...v0.8.11) (2023-10-23)
 
 
