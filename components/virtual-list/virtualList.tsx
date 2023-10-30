@@ -24,6 +24,7 @@ import getPrefixCls from '../_util/getPrefixCls';
 import Virtual from './virtual';
 import { FVirtualListItem } from './listItem';
 import { virtualProps } from './props';
+import { ITME_RESIZE_UPDATE_SCROLL_BAR_TIMEOUT } from './const';
 
 enum SLOT_TYPE {
     HEADER = 'thead', // string value also use for aria role attribute
@@ -155,7 +156,7 @@ export default defineComponent({
                         scrollToBottom();
                     }
                     clearTimeout(time);
-                }, 10);
+                }, ITME_RESIZE_UPDATE_SCROLL_BAR_TIMEOUT + 10);
             }
         };
 
@@ -186,7 +187,7 @@ export default defineComponent({
                     scrollRef.value.update?.();
                 }
             }
-        }, 10);
+        }, ITME_RESIZE_UPDATE_SCROLL_BAR_TIMEOUT);
 
         // event called when each item mounted or size changed
         const onItemResized = (id: number | string, size: number) => {
