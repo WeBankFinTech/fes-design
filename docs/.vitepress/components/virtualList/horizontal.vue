@@ -1,7 +1,7 @@
 <template>
     <FVirtualList
-        class="list-horizontal"
-        :dataKey="'id'"
+        class="virtual-scroll-list-horizontal"
+        dataKey="id"
         :dataSources="items"
         :estimateSize="110"
         direction="horizontal"
@@ -26,11 +26,11 @@ const genUniqueId = (prefix) => {
     return `${prefix}$${Math.random().toString(16).substr(9)}`;
 };
 
-const DataItems = [];
+const dataItems = [];
 let count = TOTAL_COUNT;
 while (count--) {
     const index = TOTAL_COUNT - count;
-    DataItems.push({
+    dataItems.push({
         index,
         id: genUniqueId(index),
         size: sizes[Math.floor(Math.random() * 5)],
@@ -41,31 +41,28 @@ export default {
     name: 'Horizontal',
     setup() {
         return {
-            total: TOTAL_COUNT.toLocaleString(),
-            items: DataItems,
-            isShowView: true,
+            items: dataItems,
         };
     },
 };
 </script>
 
-<style>
-.list-horizontal {
+<style scoped>
+.virtual-scroll-list-horizontal {
     width: 100%;
     height: 120px;
-    overflow-x: auto;
 }
-.item-inner-horizontal {
+.virtual-scroll-list-horizontal .item-inner-horizontal {
     display: flex;
     align-items: center;
     flex-direction: column;
     padding: 2em 0;
 }
-.item-inner-horizontal .index {
+.virtual-scroll-list-horizontal .item-inner-horizontal .index {
     width: 100%;
     text-align: center;
 }
-.item-inner-horizontal .size {
+.virtual-scroll-list-horizontal .item-inner-horizontal .size {
     text-align: right;
     color: darkgray;
     font-size: 16px;

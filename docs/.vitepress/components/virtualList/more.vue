@@ -1,5 +1,5 @@
 <template>
-    <FForm :labelWidth="160">
+    <FForm :labelWidth="180">
         <FFormItem label="总是显示滚动条：">
             <FRadioGroup v-model="always">
                 <FRadio :value="false">否(默认)</FRadio>
@@ -12,6 +12,12 @@
                 <FRadio :value="true">是</FRadio>
             </FRadioGroup>
         </FFormItem>
+        <FFormItem label="是否原生滚动条：">
+            <FRadioGroup v-model="native">
+                <FRadio :value="true">是</FRadio>
+                <FRadio :value="false">否(默认)</FRadio>
+            </FRadioGroup>
+        </FFormItem>
         <FFormItem label="滚动条滑块最小尺寸：">
             <FInputNumber
                 v-model="minSize"
@@ -21,33 +27,30 @@
             ></FInputNumber>
             <span style="margin-left: 10px">px</span>
         </FFormItem>
-        <FSpace>
-            <FButton @click="handleReset">滚动到初始位置</FButton>
-            <FButton @click="handleScrollToEnd">滚动到底部位置</FButton>
-        </FSpace>
     </FForm>
 
     <FDivider></FDivider>
 
     <FSpace vertical>
-        <FScrollbar
-            ref="scrollbarRef"
+        <FVirtualList
+            ref="virtualList"
+            class="virtual-scroll-list-more"
+            wrapClass="virtual-scroll-list-wrap"
+            :dataKey="(data) => data"
+            :dataSources="vals"
+            :estimateSize="80"
             :height="200"
-            :always="always"
             :shadow="shadow"
-            style="width: 100%"
+            :always="always"
+            :native="native"
             :minSize="minSize"
         >
-            <div class="scroll-list">
-                <div
-                    v-for="(item, index) in vals"
-                    :key="index"
-                    class="scroll-item"
-                >
-                    {{ item }}
+            <template #default="{ source }">
+                <div class="virtual-scroll-item">
+                    {{ source }}
                 </div>
-            </div>
-        </FScrollbar>
+            </template>
+        </FVirtualList>
     </FSpace>
 </template>
 
@@ -55,9 +58,9 @@
 import { ref } from 'vue';
 export default {
     setup() {
-        const scrollbarRef = ref(null);
-        const always = ref(true);
         const shadow = ref(true);
+        const always = ref(true);
+        const native = ref(false);
         const minSize = ref(10);
 
         const vals = ref([]);
@@ -65,40 +68,32 @@ export default {
             vals.value.push(i);
         }
 
-        const handleReset = () => {
-            scrollbarRef.value?.setScrollTop(0, 300);
-            scrollbarRef.value?.setScrollLeft(0, 300);
-        };
-
-        const handleScrollToEnd = () => {
-            scrollbarRef.value?.scrollToEnd(undefined, 500);
-        };
-
         return {
-            scrollbarRef,
-            vals,
-            always,
-            minSize,
             shadow,
-            handleReset,
-            handleScrollToEnd,
+            always,
+            native,
+            minSize,
+            vals,
         };
     },
 };
 </script>
 
-<style scoped>
-.scroll-list {
+<style>
+.virtual-scroll-list-more .virtual-scroll-list-wrap {
     margin: 0;
     padding: 0;
     width: 1000px;
 }
-.scroll-list > .scroll-item {
+.virtual-scroll-list-more .virtual-scroll-list-wrap .virtual-scroll-item {
     height: 36px;
     background: rgba(83, 132, 255, 0.06);
     border-bottom: 2px solid #fff;
 }
-.scroll-list > .scroll-item + .scroll-item {
+.virtual-scroll-list-more
+    .virtual-scroll-list-wrap
+    .virtual-scroll-item
+    + .virtual-scroll-item {
     margin-top: 8px;
 }
 </style>

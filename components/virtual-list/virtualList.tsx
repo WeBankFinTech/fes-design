@@ -13,7 +13,7 @@ import {
     computed,
     CSSProperties,
 } from 'vue';
-import { throttle } from 'lodash-es';
+import { isNil, throttle } from 'lodash-es';
 import FScrollbar from '../scrollbar/scrollbar.vue';
 import {
     TO_TOP_EVENT,
@@ -24,6 +24,7 @@ import getPrefixCls from '../_util/getPrefixCls';
 import Virtual from './virtual';
 import { FVirtualListItem } from './listItem';
 import { virtualProps } from './props';
+import { ITME_RESIZE_UPDATE_SCROLL_BAR_TIMEOUT } from './const';
 
 enum SLOT_TYPE {
     HEADER = 'thead', // string value also use for aria role attribute
@@ -128,13 +129,25 @@ export default defineComponent({
             }
         };
 
+        // set current scroll position to a expectant target
+        const scrollToTarget = (position: number) => {
+            const root = rootRef.value;
+            if (root) {
+                if (isHorizontal) {
+                    root.scrollTo(position, 0);
+                } else {
+                    root.scrollTo(0, position); // 解决设置OffsetTop无效的问题
+                }
+            }
+        };
+
         // set current scroll position to bottom
         const scrollToBottom = () => {
-            const shepherd = rootRef.value;
-            if (shepherd) {
-                const offset =
-                    shepherd[isHorizontal ? 'scrollWidth' : 'scrollHeight'];
-                scrollToOffset(offset);
+            const root = rootRef.value;
+            if (root) {
+                const position =
+                    root[isHorizontal ? 'scrollWidth' : 'scrollHeight'];
+                scrollToTarget(position);
                 // check if it's really scrolled to the bottom
                 // maybe list doesn't render and calculate to last range
                 // so we need retry in next event loop until it really at bottom
@@ -143,7 +156,7 @@ export default defineComponent({
                         scrollToBottom();
                     }
                     clearTimeout(time);
-                }, 3);
+                }, ITME_RESIZE_UPDATE_SCROLL_BAR_TIMEOUT + 10);
             }
         };
 
@@ -153,15 +166,15 @@ export default defineComponent({
             if (index >= props.dataSources.length - 1) {
                 scrollToBottom();
             } else {
-                const offset = virtual.getOffset(index);
-                scrollToOffset(offset);
+                const position = virtual.getOffset(index);
+                scrollToTarget(position);
             }
         };
 
         // reset all state back to initial
         const reset = () => {
             virtual.destroy();
-            scrollToOffset(0);
+            scrollToIndex(0);
             installVirtual();
         };
 
@@ -174,7 +187,7 @@ export default defineComponent({
                     scrollRef.value.update?.();
                 }
             }
-        }, 10);
+        }, ITME_RESIZE_UPDATE_SCROLL_BAR_TIMEOUT);
 
         // event called when each item mounted or size changed
         const onItemResized = (id: number | string, size: number) => {
@@ -255,7 +268,7 @@ export default defineComponent({
             const { dataSources, dataKey } = props;
             for (let index = start; index <= end; index++) {
                 const dataSource = dataSources[index];
-                if (dataSource) {
+                if (!isNil(dataSource)) {
                     const uniqueKey =
                         typeof dataKey === 'function'
                             ? dataKey(dataSource)
@@ -373,6 +386,9 @@ export default defineComponent({
             shadow,
             height,
             maxHeight,
+            native,
+            always,
+            minSize,
         } = this;
 
         // wrap style
@@ -430,6 +446,9 @@ export default defineComponent({
                 shadow={shadow}
                 height={height}
                 maxHeight={maxHeight}
+                native={native}
+                always={always}
+                minSize={minSize}
                 contentStyle={rootStyle}
                 containerClass={`${prefixCls}-container`}
             >

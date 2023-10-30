@@ -29,17 +29,22 @@
     <FDivider></FDivider>
 
     <FSpace vertical>
-        <FScrollbar :height="height" :maxHeight="maxHeight" style="width: 100%">
-            <div class="scroll-list">
-                <div
-                    v-for="(item, index) in vals"
-                    :key="index"
-                    class="scroll-item"
-                >
-                    {{ item }}
+        <FVirtualList
+            ref="virtualList"
+            class="virtual-scroll-list-max-height"
+            wrapClass="virtual-scroll-list-wrap"
+            :dataKey="(data) => data"
+            :dataSources="vals"
+            :estimateSize="80"
+            :height="height"
+            :maxHeight="maxHeight"
+        >
+            <template #default="{ source }">
+                <div class="virtual-scroll-item">
+                    {{ source }}
                 </div>
-            </div>
-        </FScrollbar>
+            </template>
+        </FVirtualList>
     </FSpace>
 </template>
 
@@ -85,18 +90,21 @@ export default {
 };
 </script>
 
-<style scoped>
-.scroll-list {
+<style>
+.virtual-scroll-list-max-height .virtual-scroll-list-wrap {
     margin: 0;
     padding: 0;
     width: 1000px;
 }
-.scroll-list > .scroll-item {
+.virtual-scroll-list-max-height .virtual-scroll-list-wrap .virtual-scroll-item {
     height: 36px;
     background: rgba(83, 132, 255, 0.06);
     border-bottom: 2px solid #fff;
 }
-.scroll-list > .scroll-item + .scroll-item {
+.virtual-scroll-list-max-height
+    .virtual-scroll-list-wrap
+    .virtual-scroll-item
+    + .virtual-scroll-item {
     margin-top: 8px;
 }
 </style>

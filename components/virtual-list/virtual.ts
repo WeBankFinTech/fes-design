@@ -49,6 +49,7 @@ export default class Virtual {
     init(param: VirtualPramas = {}, callUpdate: (range: Range) => void = null) {
         this.param = param;
         this.callUpdate = callUpdate;
+
         // size data
         this.sizes = reactive(new Map());
         this.firstRangeTotalSize = 0;
@@ -62,7 +63,7 @@ export default class Virtual {
 
         // range data
         this.range = Object.create(null);
-        if (this.param) {
+        if (this.param && this.callUpdate) {
             this.checkRange(0, this.param.keeps - 1);
         }
     }
