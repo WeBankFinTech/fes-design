@@ -1,9 +1,7 @@
 import { ExtractPropTypes, PropType, ToRefs, Ref } from 'vue';
-import { FORM_LAYOUT, LABEL_POSITION } from './const';
+import { FORM_LAYOUT, LABEL_POSITION, FORM_ITEM_ALIGN } from './const';
 import type { RuleItem, Rules } from 'async-validator';
 import type { ExtractPublicPropTypes } from '../_util/interface';
-
-export type FormItemAlign = 'flex-start' | 'baseline' | 'center';
 
 export interface FFormRuleItem extends RuleItem {
     trigger?: string | string[];
@@ -75,8 +73,8 @@ export const formItemProps = {
         },
     },
     align: {
-        type: String as PropType<FormItemAlign>,
-        default: 'flex-start',
+        type: String as PropType<(typeof FORM_ITEM_ALIGN)[number]>,
+        default: FORM_ITEM_ALIGN[0],
     },
 } as const;
 

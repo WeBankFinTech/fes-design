@@ -1,5 +1,5 @@
 <template>
-    <div :class="formItemClass" :style="formItemStyle">
+    <div :class="formItemClass">
         <span
             v-if="label || $slots.label"
             :class="formItemLabelClass"
@@ -44,6 +44,7 @@ import {
     RULE_TYPE_DEFAULT,
     VALIDATE_STATUS,
     VALIDATE_MESSAGE_DEFAULT,
+    FORM_ITEM_ALIGN,
 } from './const';
 import { wrapValidator } from './utils';
 import { FORM_ITEM_NAME } from './const';
@@ -128,11 +129,10 @@ export default defineComponent({
                     `${prefixCls}-${labelPosition.value}`,
                 formItemRequired.value && 'is-required', // 必填校验: is-required
                 validateStatus.value === VALIDATE_STATUS.ERROR && 'is-error', // 校验错误: is-error
+                FORM_ITEM_ALIGN.includes(props.align) &&
+                    `${prefixCls}-align-${props.align}`,
             ].filter(Boolean),
         );
-        const formItemStyle = computed(() => ({
-            alignItems: props.align,
-        }));
         const formItemLabelClass = computed(() =>
             [`${prefixCls}-label`, labelClass.value, props.labelClass].filter(
                 Boolean,
@@ -264,7 +264,6 @@ export default defineComponent({
             prefixCls,
 
             formItemClass,
-            formItemStyle,
             formItemLabelClass,
             formItemLabelStyle,
             formItemShowMessage,

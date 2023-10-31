@@ -26,3 +26,5 @@ export const VALIDATE_MESSAGE_DEFAULT = '';
 
 export const TRIGGER_TYPE_DEFAULT = ''; // 默认 trigger 类型
 export const RULE_TYPE_DEFAULT = 'string'; // 默认 rule 的校验类型
+
+export const FORM_ITEM_ALIGN = ['flex-start', 'baseline', 'center'] as const;

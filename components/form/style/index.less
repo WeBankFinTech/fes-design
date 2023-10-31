@@ -34,8 +34,16 @@
         margin-bottom: @form-item-margin;
         padding: @form-margin;
         font-size: @form-size-base;
-        white-space: normal;
-        word-break: break-all;
+        &.@{form-item-cls}-align-flex-start {
+            align-items: flex-start;
+        }
+        &.@{form-item-cls}-align-baseline {
+            align-items: baseline;
+        }
+        &.@{form-item-cls}-align-center {
+            align-items: center;
+        }
+
         &-label {
             display: inline-flex;
             flex-shrink: 0; // 解决问题: 整体宽度不够时 label 被压缩
@@ -43,6 +51,8 @@
             justify-content: flex-start;
             min-height: @form-item-height;
             margin-right: @form-item-label-margin-right;
+            white-space: normal;
+            word-break: break-all;
         }
         &-content {
             position: relative;
