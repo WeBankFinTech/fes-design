@@ -1,6 +1,6 @@
 <template>
     <div :class="formItemClass">
-        <label
+        <span
             v-if="label || $slots.label"
             :class="formItemLabelClass"
             :style="formItemLabelStyle"
@@ -8,9 +8,9 @@
             <slot name="label">
                 {{ label }}
             </slot>
-        </label>
+        </span>
         <div :class="`${prefixCls}-content`">
-            <slot />
+            <slot></slot>
             <transition name="fes-fade">
                 <div v-if="formItemShowMessage" :class="`${prefixCls}-error`">
                     {{ validateMessage }}
@@ -44,6 +44,7 @@ import {
     RULE_TYPE_DEFAULT,
     VALIDATE_STATUS,
     VALIDATE_MESSAGE_DEFAULT,
+    FORM_ITEM_ALIGN,
 } from './const';
 import { wrapValidator } from './utils';
 import { FORM_ITEM_NAME } from './const';
@@ -128,6 +129,8 @@ export default defineComponent({
                     `${prefixCls}-${labelPosition.value}`,
                 formItemRequired.value && 'is-required', // 必填校验: is-required
                 validateStatus.value === VALIDATE_STATUS.ERROR && 'is-error', // 校验错误: is-error
+                FORM_ITEM_ALIGN.includes(props.align) &&
+                    `${prefixCls}-align-${props.align}`,
             ].filter(Boolean),
         );
         const formItemLabelClass = computed(() =>

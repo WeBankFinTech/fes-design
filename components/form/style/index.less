@@ -13,8 +13,8 @@
 @form-margin: 0;
 
 @form-item-margin: 22px;
-@form-item-label-mr: 16px;
-@form-item-label-mb: 8px;
+@form-item-label-margin-right: 16px;
+@form-item-label-margin-bottom: 8px;
 
 @form-size-base: var(--f-font-size-base);
 @form-size-error: @font-size-caption;
@@ -34,13 +34,25 @@
         margin-bottom: @form-item-margin;
         padding: @form-margin;
         font-size: @form-size-base;
+        &.@{form-item-cls}-align-flex-start {
+            align-items: flex-start;
+        }
+        &.@{form-item-cls}-align-baseline {
+            align-items: baseline;
+        }
+        &.@{form-item-cls}-align-center {
+            align-items: center;
+        }
+
         &-label {
             display: inline-flex;
             flex-shrink: 0; // 解决问题: 整体宽度不够时 label 被压缩
             align-items: center;
             justify-content: flex-start;
-            height: @form-item-height;
-            margin-right: @form-item-label-mr;
+            min-height: @form-item-height;
+            margin-right: @form-item-label-margin-right;
+            white-space: normal;
+            word-break: break-all;
         }
         &-content {
             position: relative;
@@ -62,7 +74,7 @@
             display: block;
             height: auto;
             margin-right: 0;
-            margin-bottom: @form-item-label-mb;
+            margin-bottom: @form-item-label-margin-bottom;
         }
     }
 }
@@ -78,7 +90,6 @@
     width: 100%;
     margin-bottom: @form-item-margin;
     .@{form-item-cls} {
-        align-items: center;
         box-sizing: border-box;
         margin: 0;
     }

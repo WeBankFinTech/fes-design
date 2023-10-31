@@ -262,11 +262,13 @@ export default {
 };
 </script>
 <style scoped>
-.fes-form {
-    width: 600px;
-}
 .complex-validate-item {
     margin: 10px 0 20px 60px;
     color: rgb(136 136 136);
+    display: flex;
+    align-items: center;
+}
+.complex-validate-item > :first-child {
+    margin-right: 5px;
 }
 </style>
