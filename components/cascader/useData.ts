@@ -125,7 +125,7 @@ export default function useData({
                 );
             }
             return res;
-        }, []);
+        }, []) as CascaderNodeKey[];
 
     watch(
         () => props.data,

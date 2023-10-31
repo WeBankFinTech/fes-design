@@ -97,10 +97,10 @@ export default ({ props, emit }: { props: TreeProps; emit: any }) => {
                 copy.children = children;
                 copy.childrenPath = keys;
                 // 比Array.concat快
-                concat(res, keys);
+                concat(res as InnerTreeOption[], keys);
             }
             return res;
-        }, []);
+        }, []) as TreeNodeKey[];
 
     watch(
         [() => props.data],
