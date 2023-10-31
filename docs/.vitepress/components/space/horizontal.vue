@@ -1,5 +1,14 @@
 <template>
     <FForm labelWidth="100px">
+        <FFormItem label="是否换行:">
+            <FRadioGroup
+                v-model="wrap"
+                :options="[
+                    { label: '是(默认)', value: true },
+                    { label: '否', value: false },
+                ]"
+            />
+        </FFormItem>
         <FFormItem label="垂直排列:">
             <FRadioGroup
                 v-model="align"
@@ -28,45 +37,64 @@
 
     <FDivider></FDivider>
 
-    <FSpace
-        class="space-wrapper"
-        vertical
-        :justify="justify"
-        :align="align"
-        style="min-height: 150px"
-    >
+    <FSpace :justify="justify" :align="align" :wrap="wrap">
         <FButton>Text</FButton>
         <FButton>Text</FButton>
         <FButton>Text</FButton>
-    </FSpace>
-
-    <FDivider></FDivider>
-
-    <FSpace
-        class="space-wrapper"
-        vertical
-        :justify="justify"
-        :align="align"
-        style="min-height: 200px"
-    >
-        <FButton>Text</FButton>
-        <FButton>Checkbox</FButton>
-        <FButton>Input</FButton>
+        <!-- 注释 -->
         <FButton>
             Long! Long! Long! Long! Long! Long! Long! Long! Long! Long! Cross
             Cross the line!
         </FButton>
     </FSpace>
+
+    <FDivider></FDivider>
+
+    <div class="space-wrapper">
+        <FSpace :justify="justify" :align="align" :wrap="wrap">
+            Text
+            <FButton>Button</FButton>
+
+            <div class="box-wrapper">
+                <FSpace vertical>
+                    Text
+                    <FButton>Button</FButton>
+                </FSpace>
+            </div>
+        </FSpace>
+    </div>
+
+    <FDivider></FDivider>
+
+    <FSpace :justify="justify" :align="align" :wrap="wrap">
+        Text
+        <FButton>Button</FButton>
+        <div class="box-wrapper">
+            <FSpace vertical>
+                Text
+                <FButton>
+                    Long! Long! Long! Long! Long! Long! Long! Long! Long! Long!
+                    Cross Cross the line!
+                </FButton>
+            </FSpace>
+        </div>
+    </FSpace>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-const align = ref('');
+const align = ref('center');
 const justify = ref('start');
+const wrap = ref(true);
 </script>
 
 <style scoped>
 .space-wrapper {
+    width: 100%;
+    padding: 8px;
+    border: 1px dashed #ccc;
+}
+.box-wrapper {
     border: 1px dashed #ccc;
     padding: 8px;
 }

@@ -14,45 +14,39 @@ app.use(FSpace);
 
 ### 基础用法
 
---BASIC
+:::demo
+basic.vue
+:::
 
-### 中间对齐
+### 水平对齐
 
---JUSTIFYCENTER
-
-### 尾部对齐
-
---END
+:::demo
+horizontal.vue
+:::
 
 ### 垂直对齐
 
---VERTICAL
-
-### space-between
-
---SPACEBETWEEN
-
-### space-around
-
---SPACEAROUND
+:::demo
+vertical.vue
+:::
 
 ### 默认间距
 
---SIZE
+:::demo
+size.vue
+:::
 
 ### 自定义间距
 
---CUSTOMSIZE
-
-### 对齐方式
-
---ALIGN
+:::demo
+customSize.vue
+:::
 
 ### 内联元素
 
---INLINE
-
---CODE
+:::demo
+inline.vue
+:::
 
 ## Space Props
 
@@ -61,7 +55,7 @@ app.use(FSpace);
 | align     | 垂直排列方式，可选值为 `start` `end` `center` `baseline` `stretch` `flex-start` `flex-end`                              | string                             | -       |
 | inline    | 是否为行内元素                                                                                                          | boolean                            | `false` |
 | itemStyle | 节点样式                                                                                                                | string / object                    | -       |
-| justify   | 水平排列方式，可选值为 `start` `end` `center` `space-around` `space-between` `start`                                    | string                             | `start` |
+| justify   | 水平排列方式，可选值为 `start` `end` `center` `space-around` `space-between`                                            | string                             | `start` |
 | size      | 为数字或字符串时，是垂直和水平间距；为数组时，是 [垂直间距, 水平间距]，字符串可选值为 `xsmall` `small` `middle` `large` | string / number / [number, number] | `small` |
 | vertical  | 是否垂直布局                                                                                                            | boolean                            | `false` |
 | wrap      | 是否超出换行                                                                                                            | boolean                            | `true`  |

@@ -6,7 +6,7 @@
 
     <FDivider></FDivider>
 
-    <FSpace class="box-wrapper" :inline="inline">
+    <FSpace class="space-wrapper" :inline="inline">
         <FButton>Text</FButton>
         <FButton>Text</FButton>
         <FButton>Text</FButton>
@@ -19,7 +19,7 @@ const inline = ref(false);
 </script>
 
 <style scoped>
-.box-wrapper {
+.space-wrapper {
     border: 1px dashed #ccc;
 }
 </style>
