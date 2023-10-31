@@ -63,22 +63,6 @@
             </div>
         </FSpace>
     </div>
-
-    <FDivider></FDivider>
-
-    <FSpace :justify="justify" :align="align" :wrap="wrap">
-        Text
-        <FButton>Button</FButton>
-        <div class="box-wrapper">
-            <FSpace vertical>
-                Text
-                <FButton>
-                    Long! Long! Long! Long! Long! Long! Long! Long! Long! Long!
-                    Cross Cross the line!
-                </FButton>
-            </FSpace>
-        </div>
-    </FSpace>
 </template>
 
 <script setup>

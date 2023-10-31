@@ -33,20 +33,6 @@
         vertical
         :justify="justify"
         :align="align"
-        style="min-height: 150px"
-    >
-        <FButton>Text</FButton>
-        <FButton>Text</FButton>
-        <FButton>Text</FButton>
-    </FSpace>
-
-    <FDivider></FDivider>
-
-    <FSpace
-        class="space-wrapper"
-        vertical
-        :justify="justify"
-        :align="align"
         style="min-height: 200px"
     >
         <FButton>Text</FButton>
