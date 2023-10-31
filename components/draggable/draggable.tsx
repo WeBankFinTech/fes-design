@@ -86,7 +86,10 @@ export default defineComponent({
         return () => (
             <tag
                 ref={rootRef}
-                class={prefixCls}
+                class={[
+                    `${prefixCls}`,
+                    propsRef.value.disabled && `${prefixCls}-disabled`,
+                ]}
                 onMousedown={onDragstart}
                 onDragover={onDragover}
                 onDragend={onDragend}

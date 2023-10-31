@@ -3,3 +3,11 @@
 @import './mixin.less';
 
 @draggable-prefix-cls: ~'@{cls-prefix}-draggable';
+
+.@{draggable-prefix-cls} {
+    user-select: none;
+
+    &.@{draggable-prefix-cls}-disabled {
+        user-select: auto;
+    }
+}
