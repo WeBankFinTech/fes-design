@@ -210,7 +210,11 @@ export default defineComponent({
                     const error = errObj.errors[0];
                     setValidateInfo(VALIDATE_STATUS.ERROR, error.message);
                     return Promise.reject([
-                        { ...error, message: error.message },
+                        {
+                            ...error,
+                            message: error.message,
+                            descriptor: descriptor[error.field] || null,
+                        },
                     ]);
                 }
             }
