@@ -16,37 +16,25 @@ app.use(FDraggable);
 
 我们经常在垂直方向上拖动排序
 
---VERTICAL
+:::demo
+vertical.vue
+:::
 
 ### 水平方向
 
 还可能在水平方向上拖动
 
---HORIZONTAL
+:::demo
+horizontal.vue
+:::
 
 ### 多个容器
 
 或许你需要由一个容器拖拽到另一个容器
 
---CONTAINER
-
-### 拖拽指令
-
-用指令更简单
-
---INSTRUCTION
-
-### 拖拽指令-水平方向
-
-指令也可以支持水平方向的
-
---INSTRUCTIONHORIZANTAL
-
-### 拖拽指令-多个容器
-
-指令当然也支持由一个容器拖拽到另一个容器
-
---INSTRUCTIONCONTAINER
+:::demo
+container.vue
+:::
 
 ### 阻止拖拽
 
@@ -71,13 +59,39 @@ type BeforeDragEnd = (
 ) => Promise<boolean> | boolean;
 ```
 
---CHECKDRAGEND
+:::demo
+checkDragEnd.vue
+:::
 
-### 指令式阻止拖拽
+### 拖拽指令-垂直方向
 
---INSTRUCTIONCHECKDRAGEND
+用指令更简单
 
---CODE
+:::demo
+instruction.vue
+:::
+
+### 拖拽指令-水平方向
+
+指令也可以支持水平方向的
+
+:::demo
+instructionHorizantal.vue
+:::
+
+### 拖拽指令-多个容器
+
+指令当然也支持由一个容器拖拽到另一个容器
+
+:::demo
+instructionContainer.vue
+:::
+
+### 拖拽指令-阻止拖拽
+
+:::demo
+instructionCheckDragEnd.vue
+:::
 
 ## Draggable Props
 
@@ -85,7 +99,7 @@ type BeforeDragEnd = (
 | ------------- | ---------------------------------------------------------------------------------------------- | ---------------------------- | ---------- |
 | v-model       | 绑定值                                                                                         | Array                        | `[]`       |
 | tag           | 指定 root dom 类型                                                                             | string                       | `div`      |
-| disabled      | 是否禁用                                                                                       | boolean                      | `false`    |
+| disabled      | 是否禁止拖拽                                                                                   | boolean                      | `false`    |
 | droppable     | 是否可以放置，设置为 droppable 的容器都可以相互拖拽放置                                        | boolean                      | `false`    |
 | beforeDragend | 拖拽结束之前回调，返回 false、Promise.resolve(false)、Promise.reject()时，拖拽会恢复之前的状态 | [`BeforeDragEnd`](#阻止拖拽) | () => true |
 

@@ -1,9 +1,18 @@
 <template>
+    <FForm labelWidth="100px">
+        <FFormItem label="是否禁用:">
+            <FSwitch v-model="disabled"></FSwitch>
+        </FFormItem>
+    </FForm>
+
+    <FDivider></FDivider>
+
     <div class="container">
         <FDraggable
             v-model="hlist"
             class="horizontal"
             :beforeDragend="beforeDragend"
+            :disabled="disabled"
         >
             <template #default="{ item }">
                 <div class="sort-horizontal-item">{{ item }}</div>
@@ -17,6 +26,7 @@ import { ref } from 'vue';
 
 export default {
     setup() {
+        const disabled = ref(false);
         const hlist = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
 
         const beforeDragend = (item, index) => {
@@ -30,6 +40,7 @@ export default {
         };
 
         return {
+            disabled,
             hlist,
             beforeDragend,
         };
