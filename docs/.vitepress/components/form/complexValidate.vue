@@ -1,6 +1,6 @@
 <template>
     <FForm
-        ref="WFormDomRef"
+        ref="formRef"
         labelWidth="140px"
         labelPosition="right"
         :model="modelForm"
@@ -92,17 +92,21 @@
             :key="index"
             style="display: flex; margin-left: 65px"
         >
-            {{ `场景${index + 1}名称：` }}
-            <FFormItem :prop="`scenes[${index}].name`">
+            <FFormItem
+                :prop="`scenes[${index}].name`"
+                :label="`场景${index + 1}名称：`"
+                labelWidth="80px"
+            >
                 <FInput
                     v-model="modelForm.scenes[index].name"
                     :maxlength="10"
                     @input="validateScenesCont(index)"
                 />
             </FFormItem>
-            <span style="margin-left: 10px">内容：</span>
             <FFormItem
-                :ref="(el) => (scenesDomRef[index] = el)"
+                :ref="(el) => (sceneFormItemRefList[index] = el)"
+                label="内容："
+                labelWidth="80px"
                 :prop="`scenes[${index}].content`"
                 :rules="
                     modelForm.scenes[index].name
@@ -119,21 +123,11 @@
         </div>
 
         <FFormItem label=" ">
-            <FButton
-                type="primary"
-                style="margin-right: 20px"
-                @click="submitHandler"
-            >
-                提交
-            </FButton>
-            <FButton
-                type="primary"
-                style="margin-right: 20px"
-                @click="clearHandler"
-            >
-                清除
-            </FButton>
-            <FButton type="primary" @click="resetHandler">重置</FButton>
+            <FSpace>
+                <FButton type="primary" @click="submitHandler"> 提交 </FButton>
+                <FButton type="primary" @click="clearHandler"> 清除 </FButton>
+                <FButton type="primary" @click="resetHandler">重置</FButton>
+            </FSpace>
         </FFormItem>
     </FForm>
 </template>
@@ -143,7 +137,7 @@ import { ref, reactive, computed } from 'vue';
 
 export default {
     setup() {
-        const WFormDomRef = ref(null);
+        const formRef = ref(null);
         const rePasswordRef = ref(null);
         const modelForm = reactive({
             password: '',
@@ -156,7 +150,7 @@ export default {
                 { name: '', content: '' },
             ],
         });
-        const scenesDomRef = ref([]);
+        const sceneFormItemRefList = ref([]);
 
         const validatePasswordStartWith = (rule, value) => {
             return Boolean(
@@ -219,16 +213,16 @@ export default {
         const validateScenesCont = (index) => {
             // 通过 FFormItem 的动态 ref 调用 validate 校验
             modelForm?.scenes[index]?.name
-                ? scenesDomRef.value[index].validate()
-                : scenesDomRef.value[index].clearValidate();
+                ? sceneFormItemRefList.value[index].validate()
+                : sceneFormItemRefList.value[index].clearValidate();
         };
 
         const submitHandler = async () => {
             // 通过 FForm 的 validate 直接校验
             try {
-                await WFormDomRef.value.validate();
+                await formRef.value.validate();
                 console.log(
-                    '[form.complexValidate] [submitHandler] 表单验证成功~',
+                    '[form.complexValidate] [submitHandler] 表单验证成功',
                 );
             } catch (error) {
                 console.log(
@@ -238,18 +232,18 @@ export default {
             }
         };
         const clearHandler = () => {
-            WFormDomRef.value.clearValidate();
+            formRef.value.clearValidate();
         };
         const resetHandler = () => {
-            WFormDomRef.value.resetFields();
+            formRef.value.resetFields();
         };
 
         return {
-            WFormDomRef,
+            formRef,
             rePasswordRef,
             modelForm,
             rules,
-            scenesDomRef,
+            sceneFormItemRefList,
 
             handlePasswordInput,
             validateScenesCont,
