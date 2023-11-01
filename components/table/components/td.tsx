@@ -1,5 +1,5 @@
 import { defineComponent, inject, PropType } from 'vue';
-import { CaretDownOutlined } from '../../icon';
+import { DownOutlined } from '../../icon';
 import FCheckbox from '../../checkbox/checkbox.vue';
 import { provideKey } from '../const';
 import Cell from './cell';
@@ -102,7 +102,7 @@ export default defineComponent({
                     )}
                     {column.props.type === 'expand' && (
                         <div class={`${prefixCls}-center`}>
-                            <CaretDownOutlined
+                            <DownOutlined
                                 class={`${prefixCls}-expand-icon`}
                                 onClick={() => {
                                     handleExpand({ row });
