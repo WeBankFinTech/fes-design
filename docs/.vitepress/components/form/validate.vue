@@ -121,21 +121,11 @@
             ></FInput>
         </FFormItem>
         <FFormItem label=" ">
-            <FButton
-                type="primary"
-                style="margin-right: 20px"
-                @click="submitHandler"
-            >
-                提交
-            </FButton>
-            <FButton
-                type="primary"
-                style="margin-right: 20px"
-                @click="clearHandler"
-            >
-                清除
-            </FButton>
-            <FButton type="primary" @click="resetHandler">重置</FButton>
+            <FSpace>
+                <FButton type="primary" @click="submitHandler"> 提交 </FButton>
+                <FButton type="primary" @click="clearHandler"> 清除 </FButton>
+                <FButton type="primary" @click="resetHandler">重置</FButton>
+            </FSpace>
         </FFormItem>
     </FForm>
 </template>
@@ -345,31 +335,16 @@ export default {
         };
 
         const submitHandler = async () => {
-            formRef.value
-                .validate()
-                .then(() => {
-                    console.log(
-                        '[form.validate] [submitHandler] 表单验证成功~',
-                    );
-                    formRef.value.resetFields();
-                })
-                .catch((error) => {
-                    console.log(
-                        '[form.validate] [submitHandler] 表单验证失败, error:',
-                        error,
-                    );
-                });
-
-            /**
-             * // await 调用
-             *
-             * try {
-             *      const result = await formRef.value.validate();
-             *      console.log('[form.validate] [submitHandler] 表单验证成功, result:', result);
-             * } catch (error) {
-             *      console.log('[form.validate] [submitHandler] 表单验证失败, error:', error);
-             * }
-             */
+            try {
+                await formRef.value.validate();
+                console.log('[form.validate] [submitHandler] 表单验证成功~');
+            } catch (error) {
+                console.log(
+                    '[form.validate] [submitHandler] 表单验证失败, error:',
+                    error,
+                );
+                FMessage.warn('请检查表单项');
+            }
         };
         const clearHandler = () => {
             formRef.value.clearValidate();

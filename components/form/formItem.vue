@@ -127,16 +127,18 @@ export default defineComponent({
                     `${prefixCls}-span-${Math.ceil(props.span || span.value)}`,
                 labelPosition.value !== LABEL_POSITION.LEFT &&
                     `${prefixCls}-${labelPosition.value}`,
-                formItemRequired.value && 'is-required', // 必填校验: is-required
                 validateStatus.value === VALIDATE_STATUS.ERROR && 'is-error', // 校验错误: is-error
                 FORM_ITEM_ALIGN.includes(props.align) &&
                     `${prefixCls}-align-${props.align}`,
             ].filter(Boolean),
         );
         const formItemLabelClass = computed(() =>
-            [`${prefixCls}-label`, labelClass.value, props.labelClass].filter(
-                Boolean,
-            ),
+            [
+                `${prefixCls}-label`,
+                formItemRequired.value && 'is-required', // 必填校验: is-required
+                labelClass.value,
+                props.labelClass,
+            ].filter(Boolean),
         );
         const formItemLabelStyle = computed(() => ({
             width: pxfy(props.labelWidth || labelWidth.value),
@@ -275,6 +277,8 @@ export default defineComponent({
 
             validate,
             clearValidate,
+
+            formItemRules,
         };
     },
 });

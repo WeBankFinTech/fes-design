@@ -66,6 +66,12 @@ complexValidate.vue
 asyncValidator.vue
 :::
 
+### 嵌套验证
+
+:::demo
+nestValidator.vue
+:::
+
 ## Form Props
 
 | 属性            | 说明                                                            | 类型                       | 默认值       |

@@ -31,22 +31,17 @@
             />
         </FFormItem>
         <FFormItem label=" ">
-            <FButton
-                type="primary"
-                style="margin-right: 20px"
-                :loading="modelForm.submitLoading"
-                @click="submitHandler"
-            >
-                {{ modelForm.submitText }}
-            </FButton>
-            <FButton
-                type="primary"
-                style="margin-right: 20px"
-                @click="clearHandler"
-            >
-                清除
-            </FButton>
-            <FButton type="primary" @click="resetHandler">重置</FButton>
+            <FSpace>
+                <FButton
+                    type="primary"
+                    :loading="modelForm.submitLoading"
+                    @click="submitHandler"
+                >
+                    {{ modelForm.submitText }}
+                </FButton>
+                <FButton type="primary" @click="clearHandler"> 清除 </FButton>
+                <FButton type="primary" @click="resetHandler">重置</FButton>
+            </FSpace>
         </FFormItem>
     </FForm>
 </template>
@@ -147,14 +142,13 @@ export default {
             try {
                 modelForm.submitLoading = true;
                 modelForm.submitText = '校验中';
-                const result = await formRef.value.validate();
+                await formRef.value.validate();
                 console.log(
-                    '[form.validate] [submitHandler] 表单验证成功, result:',
-                    result,
+                    '[form.asyncValidator] [submitHandler] 表单验证成功',
                 );
             } catch (error) {
                 console.log(
-                    '[form.validate] [submitHandler] 表单验证失败, error:',
+                    '[form.asyncValidator] [submitHandler] 表单验证失败, error:',
                     error,
                 );
                 FMessage.warn('请检查表单项');
