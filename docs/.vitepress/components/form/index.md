@@ -44,7 +44,7 @@ align.vue
 disabled.vue
 :::
 
-### 表单验证
+### 常规表单验证
 
 Form 组件提供表单验证的功能，通过 rules 属性传入约定的验证规则，并将 FormItem 的 prop 属性设置为需校验的字段名即可。表单验证目的在于尽可能让用户更早地发现并纠正错误。
 
@@ -60,12 +60,18 @@ validate.vue
 complexValidate.vue
 :::
 
+### 异步表单验证
+
+:::demo
+asyncValidator.vue
+:::
+
 ## Form Props
 
 | 属性            | 说明                                                            | 类型                       | 默认值       |
 | --------------- | --------------------------------------------------------------- | -------------------------- | ------------ |
 | model           | 表单数对象                                                      | object                     | -            |
-| rules           | 表单验证规则，可查看`async-validator`                           | object                     | -            |
+| rules           | 表单验证规则，可查看`Form-Item Rule Type`                       | object                     | -            |
 | layout          | 表单布局，可选值为`horizontal`、`inline`                        | string                     | `horizontal` |
 | inlineItemWidth | 仅在 `inline` 表单中有效。统一定义 FormItem 固定宽度            | string、number             | -            |
 | inlineItemGap   | 仅在 `inline` 表单中有效。统一定义整行 FormItem 的间距          | string、number             | 11px         |
@@ -119,12 +125,13 @@ complexValidate.vue
 ## Form-Item Rule Type
 
 以下并不是规则的全部用法，如果你想了解更多的用法，请参考 <a href="https://github.com/yiminghe/async-validator" target="blank">async-validator </a>。
-| 属性 | 说明 | 类型 | 默认值 |
-| ------------- | ------------- | ------------- | ------------- |
-| trigger | 校验触发的时机 | string、Array | - |
-| required | 是否必填 | boolean | false |
-| message | 校验失败时展示的信息 | string | - |
-| type | 内建校验类型，<a href="https://github.com/yiminghe/async-validator#type" target="blank">可选项</a> 【注意: 非`string`类型都需要指明 type】 | string | 'string' |
-| min | 最小长度 | number | - |
-| max | 最大长度 | number | - |
-| validator | 自定义校验【注意，<a href="https://github.com/ant-design/ant-design/issues/5155" target="blank">callback 必须被调用】</a> | function(rule, value, callback) | - |
+
+| 属性      | 说明                                                                                                                                       | 类型                            | 默认值   |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------- | -------- |
+| trigger   | 校验触发的时机                                                                                                                             | string、Array                   | -        |
+| required  | 是否必填                                                                                                                                   | boolean                         | false    |
+| message   | 校验失败时展示的信息                                                                                                                       | string                          | -        |
+| type      | 内建校验类型，<a href="https://github.com/yiminghe/async-validator#type" target="blank">可选项</a> 【注意: 非`string`类型都需要指明 type】 | string                          | `string` |
+| min       | 最小长度                                                                                                                                   | number                          | -        |
+| max       | 最大长度                                                                                                                                   | number                          | -        |
+| validator | 自定义校验【注意，<a href="https://github.com/ant-design/ant-design/issues/5155" target="blank">callback 必须被调用】</a>                  | function(rule, value, callback) | -        |
