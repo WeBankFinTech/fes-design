@@ -1,13 +1,23 @@
 <template>
+    <FForm labelWidth="100px">
+        <FFormItem label="是否禁用:">
+            <FSwitch v-model="disabled"></FSwitch>
+        </FFormItem>
+    </FForm>
+    <FSpace>
+        <FButton type="primary" @click="doInsertItem">动态新增</FButton>
+        <FButton type="primary" @click="doDeleteItem">动态删减</FButton>
+        <FButton type="primary" @click="doRandomUpdateItem"> 随机更新 </FButton>
+    </FSpace>
+
+    <FDivider></FDivider>
+
     <div class="container">
-        <FSpace style="margin: 1.25rem">
-            <FButton type="primary" @click="doInsertItem">动态新增</FButton>
-            <FButton type="primary" @click="doDeleteItem">动态删减</FButton>
-            <FButton type="primary" @click="doRandomUpdateItem">
-                随机更新
-            </FButton>
-        </FSpace>
-        <FDraggable v-model="list" :beforeDragend="beforeDragend">
+        <FDraggable
+            v-model="list"
+            :beforeDragend="beforeDragend"
+            :disabled="disabled"
+        >
             <template #default="{ item }">
                 <div class="sort-item">{{ item }}</div>
             </template>
@@ -21,6 +31,8 @@ import { FMessage } from '@fesjs/fes-design';
 let seed = 6;
 export default {
     setup() {
+        const disabled = ref(false);
+
         const list = ref([1, 2, 3, 4, 5]);
         const doInsertItem = () => {
             list.value.push(`new item ${seed++}`);
@@ -60,6 +72,7 @@ export default {
         };
 
         return {
+            disabled,
             list,
             doInsertItem,
             doDeleteItem,

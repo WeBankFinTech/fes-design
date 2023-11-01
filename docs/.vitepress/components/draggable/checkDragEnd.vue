@@ -3,7 +3,7 @@
         <FDraggable
             v-model="mlist"
             droppable
-            style="height: 300px; width: 200px"
+            class="draggable-wrapper"
             :beforeDragend="beforeDragend"
             @dragstart="handleDargStart"
             @dragend="handleDargEnd"
@@ -15,7 +15,7 @@
         <FDraggable
             v-model="mlist2"
             droppable
-            style="height: 300px; width: 200px"
+            class="draggable-wrapper"
             :beforeDragend="beforeDragend2"
             @dragstart="handleDargStart2"
             @dragend="handleDargEnd2"
@@ -24,11 +24,7 @@
                 <div class="sort-item2">{{ item }}</div>
             </template>
         </FDraggable>
-        <FDraggable
-            v-model="mlist3"
-            droppable
-            style="height: 300px; width: 200px"
-        >
+        <FDraggable v-model="mlist3" droppable class="draggable-wrapper">
             <template #default="{ item }">
                 <div class="sort-item2">{{ item }}</div>
             </template>
@@ -130,11 +126,18 @@ export default {
     padding: 50px 20px;
 }
 
+.draggable-wrapper {
+    height: 300px;
+    width: 200px;
+    overflow: auto;
+    border: 1px dashed #ccc;
+    box-sizing: border-box;
+}
+
 .sort-item2 {
     line-height: 50px;
     background: #fff;
     margin: 1px 0;
     padding-left: 20px;
-    width: 150px;
 }
 </style>

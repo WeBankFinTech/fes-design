@@ -321,6 +321,7 @@ export const useDraggable = (
         let listEvens: unknown; // 差值
         let draggableItemEvens: DraggableItem; // 差值
         let dragIndex = -1;
+        if (droppable && !s) return; // 跨容器，不存在source
         if (droppable && s && !containerRef.value.contains(s.current.drag.el)) {
             // 从source容器拖拽到当前容器，source容器移除
             s.FLIP(true);

@@ -1,9 +1,35 @@
 <template>
-    <div class="container" style="display: flex; justify-content: space-around">
+    <FForm labelWidth="120px">
+        <FFormItem label="禁用容器:">
+            <FCheckboxGroup
+                v-model="disableds"
+                :options="[
+                    { label: '左侧容器', value: 'left' },
+                    { label: '中间容器', value: 'center' },
+                    { label: '右侧容器', value: 'right' },
+                ]"
+            />
+        </FFormItem>
+        <FFormItem label="可以放置容器:">
+            <FCheckboxGroup
+                v-model="droppables"
+                :options="[
+                    { label: '左侧容器', value: 'left' },
+                    { label: '中间容器', value: 'center' },
+                    { label: '右侧容器', value: 'right' },
+                ]"
+            />
+        </FFormItem>
+    </FForm>
+
+    <FDivider></FDivider>
+
+    <div class="container">
         <FDraggable
             v-model="mlist"
-            droppable
-            style="height: 300px; width: 200px"
+            class="draggable-wrapper"
+            :disabled="disableds.includes('left')"
+            :droppable="droppables.includes('left')"
             @dragstart="handleDargStart"
             @dragend="handleDargEnd"
         >
@@ -13,8 +39,9 @@
         </FDraggable>
         <FDraggable
             v-model="mlist2"
-            droppable
-            style="height: 300px; width: 200px"
+            class="draggable-wrapper"
+            :disabled="disableds.includes('center')"
+            :droppable="droppables.includes('center')"
             @dragstart="handleDargStart2"
             @dragend="handleDargEnd2"
         >
@@ -24,8 +51,9 @@
         </FDraggable>
         <FDraggable
             v-model="mlist3"
-            droppable
-            style="height: 300px; width: 200px"
+            class="draggable-wrapper"
+            :disabled="disableds.includes('right')"
+            :droppable="droppables.includes('right')"
         >
             <template #default="{ item }">
                 <div class="sort-item2">{{ item }}</div>
@@ -38,6 +66,9 @@
 import { ref } from 'vue';
 export default {
     setup() {
+        const disableds = ref([]);
+        const droppables = ref(['left', 'center', 'right']);
+
         const mlist = ref([1, 2, 3, 4]);
         const mlist2 = ref([5, 6, 7]);
         const mlist3 = ref([8, 9]);
@@ -84,6 +115,8 @@ export default {
         }
 
         return {
+            disableds,
+            droppables,
             mlist,
             mlist2,
             mlist3,
@@ -100,6 +133,16 @@ export default {
 .container {
     background: #eee;
     padding: 50px 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.draggable-wrapper {
+    height: 300px;
+    width: 200px;
+    overflow: auto;
+    border: 1px dashed #ccc;
+    box-sizing: border-box;
 }
 
 .sort-item2 {
@@ -107,6 +150,5 @@ export default {
     background: #fff;
     margin: 1px 0;
     padding-left: 20px;
-    width: 150px;
 }
 </style>

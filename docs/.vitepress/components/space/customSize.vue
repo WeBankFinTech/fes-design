@@ -54,7 +54,7 @@
 
     <FDivider></FDivider>
 
-    <FSpace vertical align="start" :size="size">
+    <FSpace vertical :size="size">
         <FButton>Text</FButton>
         <FButton>Text</FButton>
         <FButton>Text</FButton>
