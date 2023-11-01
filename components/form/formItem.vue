@@ -213,7 +213,7 @@ export default defineComponent({
                         {
                             ...error,
                             message: error.message,
-                            descriptor: descriptor[error.field] || null,
+                            descriptor: descriptor[formItemProp.value] || null,
                         },
                     ]);
                 }
