@@ -18,11 +18,25 @@
                 ]"
             />
         </FFormItem>
+        <FFormItem label="是否开启斑马线条纹:">
+            <FRadioGroup
+                v-model="striped"
+                :options="[
+                    { label: '是', value: true },
+                    { label: '否(默认)', value: false },
+                ]"
+            />
+        </FFormItem>
     </FForm>
 
     <FDivider></FDivider>
 
-    <FTable :data="data" :layout="layout" :hoverable="hoverable">
+    <FTable
+        :data="data"
+        :layout="layout"
+        :hoverable="hoverable"
+        :striped="striped"
+    >
         <FTableColumn prop="date" label="日期">
             <template #default="{ row }">
                 {{ row.date }}
@@ -46,4 +60,5 @@ const data = reactive(
 );
 const layout = ref('fixed');
 const hoverable = ref(true);
+const striped = ref(true);
 </script>

@@ -109,6 +109,9 @@ export default ({
                 ? rowClassName({ row, rowIndex })
                 : rowClassName,
         );
+        if (props.striped && rowIndex % 2 === 1) {
+            classList.push('is-striped');
+        }
         return classList.filter(Boolean);
     };
 
