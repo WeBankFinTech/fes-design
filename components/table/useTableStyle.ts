@@ -103,7 +103,6 @@ export default ({
         if (expandColumn.value) {
             classList.push(isExpandOpened({ row }) && 'is-opened');
         }
-        classList.push(props.hoverable && 'is-hoverable');
         classList.push(
             typeof rowClassName === 'function'
                 ? rowClassName({ row, rowIndex })

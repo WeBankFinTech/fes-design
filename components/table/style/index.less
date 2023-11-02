@@ -124,12 +124,16 @@
     }
 
     & &-body {
-        .@{table-prefix}-row {
-            &.is-hoverable:hover {
-                .@{table-prefix}-td {
-                    background-color: var(--f-component-bg-color);
+        &.is-hoverable {
+            .@{table-prefix}-row {
+                &:hover {
+                    .@{table-prefix}-td {
+                        background-color: var(--f-hover-color-light);
+                    }
                 }
             }
+        }
+        .@{table-prefix}-row {
             &.is-striped {
                 .@{table-prefix}-td {
                     background-color: var(--f-component-bg-color);
