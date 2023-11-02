@@ -123,6 +123,16 @@
         }
     }
 
+    & &-body {
+        .@{table-prefix}-row {
+            &.is-hoverable:hover {
+                .@{table-prefix}-td {
+                    background-color: var(--f-component-bg-color);
+                }
+            }
+        }
+    }
+
     &.is-bordered {
         border: @table-border;
     }

@@ -167,6 +167,7 @@ resizable.vue
 | expandedKeys(v-model) | 展开的节点的 key 的数组                                                                                 | Array<string \| number>                                                                                          | -                | `[]`       |
 | checkedKeys(v-model)  | 勾选节点 key 的数组                                                                                     | Array<string \| number>                                                                                          | -                | `[]`       |
 | columns               | 列的配置信息                                                                                            | Array\<ColumnChildren\>                                                                                          | -                | `-`        |
+| hoverable             | 是否开启 hover 行样式                                                                                   | boolean                                                                                                          | -                | `true`     |
 
 ## FTable Slots
 
