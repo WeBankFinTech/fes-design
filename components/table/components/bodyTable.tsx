@@ -88,7 +88,10 @@ export default defineComponent({
         const renderTable = () => {
             return (
                 <table
-                    class={`${prefixCls}-body`}
+                    class={[
+                        `${prefixCls}-body`,
+                        rootProps.hoverable && 'is-hoverable',
+                    ]}
                     style={[
                         bodyStyle.value,
                         {

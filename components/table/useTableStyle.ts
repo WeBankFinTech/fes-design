@@ -98,17 +98,20 @@ export default ({
         row: RowType;
         rowIndex: number;
     }) => {
-        const defaultClass = [`${prefixCls}-row`];
+        const classList = [`${prefixCls}-row`];
         const rowClassName = props.rowClassName;
         if (expandColumn.value) {
-            defaultClass.push(isExpandOpened({ row }) && ' is-opened');
+            classList.push(isExpandOpened({ row }) && 'is-opened');
         }
-        defaultClass.push(
+        classList.push(
             typeof rowClassName === 'function'
                 ? rowClassName({ row, rowIndex })
                 : rowClassName,
         );
-        return defaultClass;
+        if (props.striped && rowIndex % 2 === 1) {
+            classList.push('is-striped');
+        }
+        return classList.filter(Boolean);
     };
 
     const getRowStyle = ({

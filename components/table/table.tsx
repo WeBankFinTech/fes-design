@@ -92,6 +92,14 @@ export const tableProps = {
         type: Boolean,
         default: false,
     },
+    hoverable: {
+        type: Boolean,
+        default: true,
+    },
+    striped: {
+        type: Boolean,
+        default: false,
+    },
 } as const;
 
 export type TableProps = ExtractPublicPropTypes<typeof tableProps>;
