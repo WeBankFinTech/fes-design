@@ -121,6 +121,10 @@ export default {
                 text: '数据展示组件',
                 items: [
                     {
+                        text: 'Calendar 日历',
+                        link: '/zh/components/calendar',
+                    },
+                    {
                         text: 'Card 卡片',
                         link: '/zh/components/card',
                     },
