@@ -22,7 +22,7 @@
 
         &.@{drawer-prefix-cls}-no-header {
             .@{drawer-prefix-cls}-wrapper {
-                padding-top: 22px;
+                padding-top: @padding-lg;
             }
         }
     }
@@ -31,6 +31,7 @@
         position: relative;
         display: flex;
         flex-direction: column;
+        box-sizing: border-box;
         background: var(--f-body-bg-color);
         border-radius: var(--f-border-radius-base);
         box-shadow: @shadow-down;
