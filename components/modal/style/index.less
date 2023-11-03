@@ -2,7 +2,6 @@
 @import '../../style/mixins/index';
 @import './mixin.less';
 
-
 @modal-prefix-cls: ~'@{cls-prefix}-modal';
 
 .@{modal-prefix-cls} {
@@ -25,6 +24,12 @@
         padding-top: 0;
         overflow: auto;
 
+        &.@{modal-prefix-cls}-no-header {
+            .@{modal-prefix-cls}-wrapper {
+                padding-top: calc(@padding-md + @padding-lg);
+            }
+        }
+
         &.@{modal-prefix-cls}-vertical-center {
             align-items: center;
         }
@@ -35,7 +40,7 @@
             .@{modal-prefix-cls}-wrapper {
                 padding: calc(@padding-md + @padding-xs) @padding-md;
             }
-            
+
             .@{modal-prefix-cls}-header {
                 justify-content: center;
             }
@@ -54,7 +59,7 @@
 
     &-fullscreen {
         padding: 0;
-        
+
         .@{modal-prefix-cls}-wrapper {
             display: flex;
             flex-direction: column;
@@ -67,17 +72,17 @@
         .@{modal-prefix-cls}-body {
             flex: 1;
         }
-
     }
-    
+
     &-wrapper {
         position: relative;
+        box-sizing: border-box;
         padding: calc(@padding-md + @padding-xs);
         background: var(--f-body-bg-color);
         border-radius: var(--f-border-radius-base);
         box-shadow: @shadow-down;
     }
-    
+
     &-header {
         position: relative;
 
@@ -163,7 +168,7 @@
     &-mask-fade-enter-active {
         transition: opacity @animation-duration-slow @ease-base-in;
     }
-    
+
     &-mask-fade-leave-to,
     &-mask-fade-enter-from {
         opacity: 0;
@@ -173,11 +178,10 @@
     &-fade-enter-active {
         transition: all @animation-duration-slow @ease-base-out;
     }
-    
+
     &-fade-leave-to,
     &-fade-enter-from {
         transform: scale(0);
         opacity: 0;
     }
-
 }
