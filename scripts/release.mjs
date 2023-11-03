@@ -1,18 +1,23 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+import fs from 'fs';
+import path from 'path';
+import minimist from 'minimist';
+import chalk from 'chalk';
+import semver from 'semver';
+import enquirer from 'enquirer';
+import execa from 'execa';
+import { loadJsonFile } from './utils.mjs';
+const prompt = enquirer.prompt;
 
-const args = require('minimist')(process.argv.slice(2));
-const fs = require('fs');
-const path = require('path');
-const chalk = require('chalk');
-const semver = require('semver');
-const { prompt } = require('enquirer');
-const execa = require('execa');
-const currentVersion = require('../package.json').version;
+const args = minimist(process.argv.slice(2));
+
+const rootDir = process.cwd();
+const packageJsonPath = path.join(rootDir, './package.json');
+const packageJson = loadJsonFile(packageJsonPath);
+const currentVersion = packageJson.version;
 
 const preId =
     args.preid ||
     (semver.prerelease(currentVersion) && semver.prerelease(currentVersion)[0]);
-const skipTests = args.skipTests;
 const skipBuild = args.skipBuild;
 
 const versionIncrements = [
@@ -23,21 +28,19 @@ const versionIncrements = [
 ];
 
 const inc = (i) => semver.inc(currentVersion, i, preId);
-const bin = (name) => path.resolve(__dirname, `../node_modules/.bin/${name}`);
 const run = (rBin, rArgs, opts = {}) =>
     execa(rBin, rArgs, { stdio: 'inherit', ...opts });
 const step = (msg) => console.log(chalk.cyan(msg));
 
-function updatePackage(pkgRoot, version) {
-    const pkgPath = path.resolve(pkgRoot, 'package.json');
-    const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
+function updatePackage(version) {
+    const pkg = loadJsonFile(packageJsonPath);
     pkg.version = version;
-    fs.writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`);
+    fs.writeFileSync(packageJsonPath, `${JSON.stringify(pkg, null, 2)}\n`);
 }
 
 function updateVersions(version) {
     // 1. update root package.json
-    updatePackage(path.resolve(__dirname, '..'), version);
+    updatePackage(version);
 }
 
 async function publish(version) {
@@ -118,15 +121,6 @@ async function main() {
     if (!yes) {
         return;
     }
-
-    // run tests before release
-    // step('\nRunning tests...');
-    // if (!skipTests) {
-    //     await run(bin('jest'), ['--clearCache']);
-    //     await run('pnpm', ['test', '--', '--bail']);
-    // } else {
-    //     console.log(`(skipped)`);
-    // }
 
     // update all package versions and inter-dependencies
     step('\nUpdating cross dependencies...');
