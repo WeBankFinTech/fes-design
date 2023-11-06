@@ -15,7 +15,7 @@
     "gen:icon": "node scripts/genIcons.mjs",
     "build:version": "node scripts/genVersion.mjs",
     "build:esm": "node scripts/build-esm.mjs",
-    "build:esm-browser": "node scripts/build-browser.js",
+    "build:esm-browser": "node scripts/build-browser.mjs",
     "build:umd": "node scripts/build-umd.js",
     "build:style": "node scripts/build-style.js",
     "build:type": "node scripts/build-types.js",
