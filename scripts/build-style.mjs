@@ -1,13 +1,12 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+import path from 'path';
+import csso from 'csso';
+import fse from 'fs-extra';
 
-const csso = require('csso');
-const fse = require('fs-extra');
-const path = require('path');
+import { compilerCss } from './compilerCss.mjs';
+import { OUTPUT_DIR } from './build-shard.mjs';
 
-const { compilerCss } = require('./compilerCss');
-const { OUTPUT_DIR } = require('./build-shard');
-
-const STYLE_SOURCE = path.join(__dirname, '../components/_style.ts');
+const rootDir = process.cwd();
+const STYLE_SOURCE = path.join(rootDir, './components/_style.ts');
 
 fse.mkdirsSync(OUTPUT_DIR);
 
