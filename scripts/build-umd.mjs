@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const fse = require('fs-extra');
-const path = require('path');
-const rollup = require('rollup');
-const replace = require('@rollup/plugin-replace');
-const { minify } = require('terser');
+import path from 'path';
+import fse from 'fs-extra';
+import { rollup } from 'rollup';
+import replace from '@rollup/plugin-replace';
+import { minify } from 'terser';
 
-const { getRollupConfig, OUTPUT_DIR } = require('./build-shard');
+import { getRollupConfig, OUTPUT_DIR } from './build-shard.mjs';
 
 fse.mkdirsSync(OUTPUT_DIR);
 
@@ -14,9 +14,10 @@ async function compiler() {
     rollupConfig.plugins.push(
         replace({
             'process.env.NODE_ENV': JSON.stringify('production'),
+            preventAssignment: true,
         }),
     );
-    const bundle = await rollup.rollup(rollupConfig);
+    const bundle = await rollup(rollupConfig);
     const outputFilePath = path.join(OUTPUT_DIR, 'fes-design.js');
 
     await bundle.write({
