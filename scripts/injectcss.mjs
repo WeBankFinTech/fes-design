@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const path = require('path');
-const fs = require('fs');
+import path from 'path';
+import fs from 'fs';
 
 function injectCss() {
     return {
@@ -23,4 +23,4 @@ function injectCss() {
     };
 }
 
-module.exports = injectCss;
+export default injectCss;

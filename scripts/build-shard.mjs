@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path');
-const json = require('@rollup/plugin-json');
-const { nodeResolve } = require('@rollup/plugin-node-resolve');
-const vuePlugin = require('rollup-plugin-vue');
-const commonjs = require('@rollup/plugin-commonjs');
-const babel = require('@rollup/plugin-babel');
+import path from 'path';
+import json from '@rollup/plugin-json';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import vuePlugin from 'rollup-plugin-vue';
+import commonjs from '@rollup/plugin-commonjs';
+import babel from '@rollup/plugin-babel';
+import postcss from 'rollup-plugin-postcss';
 
-const postcss = require('rollup-plugin-postcss');
-
-const SOURCE_PATH = path.join(__dirname, '../components/index.ts');
-const OUTPUT_DIR = path.join(__dirname, '../dist');
+const rootDir = process.cwd();
+const SOURCE_PATH = path.join(rootDir, './components/index.ts');
+const OUTPUT_DIR = path.join(rootDir, './dist');
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx', '.vue', '.json'];
 
@@ -68,9 +68,4 @@ const getRollupConfig = (config = {}) => ({
     ...config,
 });
 
-module.exports = {
-    OUTPUT_DIR,
-    SOURCE_PATH,
-    getRollupConfig,
-    extensions,
-};
+export { OUTPUT_DIR, SOURCE_PATH, getRollupConfig, extensions };

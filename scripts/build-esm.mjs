@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const fs = require('fs');
-const fse = require('fs-extra');
-const path = require('path');
-const compiler = require('./esm-jsc');
-const { compilerStyleDir } = require('./compilerCss');
+import fs from 'fs';
+import path from 'path';
+import fse from 'fs-extra';
+import compiler from './esm-jsc.mjs';
+import { compilerStyleDir } from './compilerCss.mjs';
 
-const SOURCE = path.join(__dirname, '../components');
-const OUTPUT_DIR = path.join(__dirname, '../es');
+const rootDir = process.cwd();
+const SOURCE = path.join(rootDir, './components');
+const OUTPUT_DIR = path.join(rootDir, './es');
 
 fse.removeSync(OUTPUT_DIR);
 

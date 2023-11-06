@@ -1,12 +1,12 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path');
-const rollup = require('rollup');
-const fse = require('fs-extra');
-const { nodeResolve } = require('@rollup/plugin-node-resolve');
-const postcss = require('rollup-plugin-postcss');
+import path from 'path';
+import { rollup } from 'rollup';
+import fse from 'fs-extra';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import postcss from 'rollup-plugin-postcss';
+import autoprefixer from 'autoprefixer';
 
 async function compilerCss(entryPath, outputPath) {
-    const bundle = await rollup.rollup({
+    const bundle = await rollup({
         input: entryPath,
         plugins: [
             nodeResolve({
@@ -15,7 +15,7 @@ async function compilerCss(entryPath, outputPath) {
             postcss({
                 modules: false,
                 extract: true,
-                plugins: [require('autoprefixer')],
+                plugins: [autoprefixer],
             }),
         ],
         onwarn(warning, warn) {
@@ -52,7 +52,4 @@ async function compilerStyleDir(codePath, outputDir) {
     }
 }
 
-module.exports = {
-    compilerStyleDir,
-    compilerCss,
-};
+export { compilerStyleDir, compilerCss };

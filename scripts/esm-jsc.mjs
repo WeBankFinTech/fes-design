@@ -1,15 +1,12 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+import path from 'path';
+import { rollup } from 'rollup';
+import babel from '@rollup/plugin-babel';
+import vuePlugin from 'rollup-plugin-vue';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import renameExtensions from '@betit/rollup-plugin-rename-extensions';
 
-const path = require('path');
-const rollup = require('rollup');
-const babel = require('@rollup/plugin-babel');
-const vuePlugin = require('rollup-plugin-vue');
-const { nodeResolve } = require('@rollup/plugin-node-resolve');
-const renameExtensions =
-    require('@betit/rollup-plugin-rename-extensions').default;
-
-const { extensions } = require('./build-shard');
-const injectCss = require('./injectcss');
+import { extensions } from './build-shard.mjs';
+import injectCss from './injectcss.mjs';
 
 async function compiler(codePath, outputDir) {
     const extname = path.extname(codePath);
@@ -17,7 +14,7 @@ async function compiler(codePath, outputDir) {
         outputDir,
         `${path.basename(codePath, extname)}.js`,
     );
-    const bundle = await rollup.rollup({
+    const bundle = await rollup({
         input: codePath,
         onwarn(warning, warn) {
             // 跳过未使用模块的警告（tree-shaking 会将其移除）
@@ -36,7 +33,7 @@ async function compiler(codePath, outputDir) {
             nodeResolve({
                 extensions,
             }),
-            renameExtensions({
+            renameExtensions.default({
                 mappings: {
                     '.vue': '.js',
                     '.ts': '.js',
@@ -87,4 +84,4 @@ async function compiler(codePath, outputDir) {
     await bundle.close();
 }
 
-module.exports = compiler;
+export default compiler;
