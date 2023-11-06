@@ -7,7 +7,7 @@
   "scripts": {
     "prepare": "husky install",
     "docs:dev": "vitepress dev docs",
-    "docs:build": "NODE_ENV=production node scripts/genComponentDoc.js && vitepress build docs",
+    "docs:build": "NODE_ENV=production node scripts/genComponentDoc.mjs && vitepress build docs",
     "docs:serve": "vitepress serve docs --port 8999",
     "test": "jest",
     "test:watch": "jest --watch",

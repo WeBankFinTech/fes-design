@@ -1,10 +1,13 @@
-const path = require('node:path');
-const process = require('node:process');
-const vueJsx = require('@vitejs/plugin-vue-jsx');
-const { withPwa } = require('@vite-pwa/vitepress');
-const { navbar, sidebar } = require('./configs');
-const { genComponentDoc } = require('./scripts/genComponentDoc');
-const { pwa } = require('./scripts/pwa');
+import path from 'path';
+import process from 'process';
+import vueJsx from '@vitejs/plugin-vue-jsx';
+import { withPwa } from '@vite-pwa/vitepress';
+
+import { navbar, sidebar } from './configs/index.mjs';
+import { genComponentDoc } from './scripts/genComponentDoc.mjs';
+import { pwa } from './scripts/pwa.mjs';
+
+const rootDir = process.cwd();
 
 function ssrTransformCustomDir() {
     return {
@@ -17,7 +20,7 @@ genComponentDoc();
 
 const BASE_URL = process.env.NODE_ENV === 'production' ? '/' : '/';
 
-module.exports = withPwa({
+export default withPwa({
     pwa: pwa(),
     base: BASE_URL,
     lang: 'zh-CN',
@@ -50,10 +53,7 @@ module.exports = withPwa({
         resolve: {
             extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
             alias: {
-                '@fesjs/fes-design': path.resolve(
-                    __dirname,
-                    '../../components',
-                ),
+                '@fesjs/fes-design': path.resolve(rootDir, './components'),
             },
         },
         json: {

@@ -1,6 +1,12 @@
-import { version } from '../../../../package.json';
+import path from 'path';
+import { loadJsonFile } from '../../../../scripts/utils.mjs';
 
-module.exports = {
+const rootDir = process.cwd();
+const packageJsonPath = path.join(rootDir, './package.json');
+const packageJson = loadJsonFile(packageJsonPath);
+const currentVersion = packageJson.version;
+
+export default {
     zh: [
         {
             text: '文档',
@@ -13,7 +19,7 @@ module.exports = {
             link: '/zh/components/button',
         },
         {
-            text: `v${version}`,
+            text: `v${currentVersion}`,
             items: [
                 {
                     text: '更新日志',

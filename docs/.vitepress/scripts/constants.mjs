@@ -1,10 +1,10 @@
-exports.SCRIPT_TEMPLATE = `
+export const SCRIPT_TEMPLATE = `
 <script setup>
 IMPORT_EXPRESSION
 </script>
 `;
 
-exports.DEMO_ENTRY_FILE = `
+export const DEMO_ENTRY_FILE = `
 <template>
     <Demo />
 </template>

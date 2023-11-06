@@ -1,12 +1,13 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path');
-const fse = require('fs-extra');
-const shiki = require('shiki');
+import path from 'path';
+import fse from 'fs-extra';
+import shiki from 'shiki';
+import cheapWatch from 'cheap-watch';
 
-const { SCRIPT_TEMPLATE, DEMO_ENTRY_FILE } = require('./constants');
+import { SCRIPT_TEMPLATE, DEMO_ENTRY_FILE } from './constants.mjs';
 
+const rootDir = process.cwd();
 const CODE_PATH = path.join(
-    process.cwd(),
+    rootDir,
     './docs/.vitepress/theme/components/demoCode.json',
 );
 
@@ -172,7 +173,7 @@ async function genComponents(src) {
 }
 
 async function watch(src) {
-    const watcher = new (require('cheap-watch'))({
+    const watcher = new cheapWatch({
         dir: src,
         debounce: 50,
     });
@@ -224,7 +225,7 @@ async function watch(src) {
     watcher.on('-', handleDelete);
 }
 
-exports.genComponentDoc = async () => {
+export const genComponentDoc = async () => {
     const src = path.join(process.cwd(), './docs/.vitepress/components');
     await genComponents(src);
 
