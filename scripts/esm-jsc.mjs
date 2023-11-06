@@ -3,10 +3,13 @@ import { rollup } from 'rollup';
 import babel from '@rollup/plugin-babel';
 import vuePlugin from 'rollup-plugin-vue';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
-import renameExtensions from '@betit/rollup-plugin-rename-extensions';
+import pluginRenameExtensions from '@betit/rollup-plugin-rename-extensions';
 
 import { extensions } from './build-shard.mjs';
 import injectCss from './injectcss.mjs';
+
+const renameExtensions =
+    pluginRenameExtensions.default || pluginRenameExtensions;
 
 async function compiler(codePath, outputDir) {
     const extname = path.extname(codePath);
@@ -33,7 +36,7 @@ async function compiler(codePath, outputDir) {
             nodeResolve({
                 extensions,
             }),
-            renameExtensions.default({
+            renameExtensions({
                 mappings: {
                     '.vue': '.js',
                     '.ts': '.js',
