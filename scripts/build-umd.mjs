@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import path from 'path';
 import fse from 'fs-extra';
 import { rollup } from 'rollup';

@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const fse = require('fs-extra');
 const path = require('path');
+const fse = require('fs-extra');
 const rollup = require('rollup');
 
 const { getRollupConfig, OUTPUT_DIR } = require('./build-shard');

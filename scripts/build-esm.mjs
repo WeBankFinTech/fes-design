@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-
 import fs from 'fs';
 import path from 'path';
 import fse from 'fs-extra';
