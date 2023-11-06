@@ -1,15 +1,16 @@
-const path = require('path');
-const fse = require('fs-extra');
-const rollup = require('rollup');
+import path from 'path';
+import fse from 'fs-extra';
+import { rollup } from 'rollup';
 
-const { getRollupConfig, OUTPUT_DIR } = require('./build-shard');
+import { getRollupConfig, OUTPUT_DIR } from './build-shard.mjs';
 
-const SOURCE_PATH = path.join(__dirname, '../components/icon/index.ts');
+const rootDir = process.cwd();
+const SOURCE_PATH = path.join(rootDir, './components/icon/index.ts');
 
 fse.mkdirsSync(OUTPUT_DIR);
 
 async function compiler() {
-    const bundle = await rollup.rollup(
+    const bundle = await rollup(
         getRollupConfig({
             input: SOURCE_PATH,
         }),
