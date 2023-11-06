@@ -1,3 +1,22 @@
+## [0.8.13](https://github.com/WeBankFinTech/fes-design/compare/v0.8.12...v0.8.13) (2023-11-06)
+
+
+### Bug Fixes
+
+* **Draggable:** 修复可同时拖拽多个元素、和不可放置时跨容器拖拽报错的问题 ([#494](https://github.com/WeBankFinTech/fes-design/issues/494)) ([18839e5](https://github.com/WeBankFinTech/fes-design/commit/18839e5d9e33f39d50ad8ce70bd99b07fd794fa6))
+* **Form:** 修复表单嵌套时必填项样式设置的问题 ([#499](https://github.com/WeBankFinTech/fes-design/issues/499)) ([7827186](https://github.com/WeBankFinTech/fes-design/commit/7827186a739fd3ff31efd2f27290bc68c9ae2a70))
+* **Form:** 异步表单校验支持 ([#496](https://github.com/WeBankFinTech/fes-design/issues/496)) ([42798f2](https://github.com/WeBankFinTech/fes-design/commit/42798f253aa2229f6c8ac3255e20891c1ff93034))
+* **Modal:** 解决无标题情况下，关闭按钮不可点击的问题 ([#504](https://github.com/WeBankFinTech/fes-design/issues/504)) ([3594717](https://github.com/WeBankFinTech/fes-design/commit/359471783feda0475249e19950dfbb51193d2f33))
+
+
+### Features
+
+* 上传组件 Upload 禁用样式优化，表单项组件 FormItem 支持 align 配置项 及 支持多行文本展示 ([#493](https://github.com/WeBankFinTech/fes-design/issues/493)) ([896ac17](https://github.com/WeBankFinTech/fes-design/commit/896ac1761334b04b56d184c50edaaea3ff730ceb))
+* **Table:** 增加 hover行样式、斑马线条纹 配置项 ([#502](https://github.com/WeBankFinTech/fes-design/issues/502)) ([732dc5d](https://github.com/WeBankFinTech/fes-design/commit/732dc5d74dc5aeb954f35e1589659c26b0f2129a))
+* **Table:** 展开行图标，修改及增加hover态交互 ([#501](https://github.com/WeBankFinTech/fes-design/issues/501)) ([e90d683](https://github.com/WeBankFinTech/fes-design/commit/e90d68300c2fd8be847f441445e1c15fc789438d))
+
+
+
 ## [0.8.12](https://github.com/WeBankFinTech/fes-design/compare/v0.8.11...v0.8.12) (2023-10-30)
 
 
