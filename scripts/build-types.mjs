@@ -1,8 +1,10 @@
-const path = require('path');
-const fs = require('fs');
-const glob = require('fast-glob');
-const { Project } = require('ts-morph');
-const { parse, compileScript } = require('@vue/compiler-sfc');
+import path from 'path';
+import fs from 'fs';
+import glob from 'fast-glob';
+import { Project } from 'ts-morph';
+import { parse, compileScript } from '@vue/compiler-sfc';
+
+const rootDir = process.cwd();
 
 let index = 1;
 
@@ -24,7 +26,7 @@ async function main() {
                 'async-validator': ['node_modules/async-validator'],
             },
         },
-        tsConfigFilePath: path.resolve(__dirname, '../tsconfig.json'),
+        tsConfigFilePath: path.resolve(rootDir, './tsconfig.json'),
         skipAddingFilesFromTsConfig: true,
     });
 
@@ -37,7 +39,7 @@ async function main() {
     const sourceFiles = [];
 
     sourceFiles.push(
-        project.addSourceFileAtPath(path.resolve(__dirname, '../global.d.ts')),
+        project.addSourceFileAtPath(path.resolve(rootDir, './global.d.ts')),
     );
 
     await Promise.all(
