@@ -1,21 +1,21 @@
 // 使用方式: npm run gen:component component-name
-
 import { join } from 'path';
 import { pathExistsSync, outputFileSync, copySync } from 'fs-extra';
-import { INDEX_TPL } from './constants';
+import { INDEX_TPL } from './constants.mjs';
+import { getProjectRootDir } from './utils.mjs';
 
-function hyphenate(str: string) {
+function hyphenate(str) {
     return str.replace(/\B([A-Z])/g, '-$1').toLowerCase();
 }
 
-function getCamel(str: string) {
+function getCamel(str) {
     str = str.replace(/-([a-z])/g, (keb, item) => item.toUpperCase());
     return str[0].toUpperCase() + str.slice(1);
 }
 
 const componentName = hyphenate(process.argv[2]);
 
-const rootPath = process.cwd();
+const rootPath = getProjectRootDir();
 const componentsPath = join(rootPath, 'components');
 const componentPath = join(componentsPath, componentName);
 const docPath = join(
@@ -34,8 +34,6 @@ if (pathExistsSync(join(componentsPath, componentName))) {
 } else {
     // write docs
     outputFileSync(docPath, `# ${componentName}`);
-
-    console.log('x', INDEX_TPL);
 
     outputFileSync(
         join(componentPath, 'index.ts'),

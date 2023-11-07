@@ -4,8 +4,9 @@ import fse from 'fs-extra';
 
 import { compilerCss } from './compilerCss.mjs';
 import { OUTPUT_DIR } from './build-shard.mjs';
+import { getProjectRootDir } from './utils.mjs';
 
-const rootDir = process.cwd();
+const rootDir = getProjectRootDir();
 const STYLE_SOURCE = path.join(rootDir, './components/_style.ts');
 
 fse.mkdirsSync(OUTPUT_DIR);

@@ -2,8 +2,8 @@ import { join, basename } from 'path';
 import { readdirSync, writeFileSync } from 'fs';
 
 import optimizeSvg from './optimizeSvg.mjs';
-import { getProjectRootDir, stringToCamelCase } from './utils';
-import { SVG_COMPONENT_TMPLATE } from './constants';
+import { getProjectRootDir, stringToCamelCase } from './utils.mjs';
+import { SVG_COMPONENT_TMPLATE } from './constants.mjs';
 
 const rootDir = getProjectRootDir();
 const outputPath = join(rootDir, './components/icon');
@@ -14,7 +14,7 @@ const exportAllIconPath = join(
 const iconFileBase = join(rootDir, './icons');
 const iconFiles = readdirSync(iconFileBase);
 
-function genExportAllIconFile(iconNames: string[]) {
+function genExportAllIconFile(iconNames) {
     const content = iconNames
         .map(
             (item) =>
@@ -25,7 +25,7 @@ function genExportAllIconFile(iconNames: string[]) {
     writeFileSync(exportAllIconPath, content);
 }
 
-function genIconIndex(iconNames: string[]) {
+function genIconIndex(iconNames) {
     const content = iconNames.map(
         (item) => `export { default as ${item} } from './${item}';`,
     );
@@ -36,7 +36,7 @@ function gen() {
     const svgDatas = optimizeSvg(
         iconFiles.map((item) => join(iconFileBase, item)),
     );
-    const iconNames: string[] = [];
+    const iconNames = [];
     for (const { fileName, data } of svgDatas) {
         const iconName = stringToCamelCase(basename(fileName, '.svg'));
         iconNames.push(iconName);

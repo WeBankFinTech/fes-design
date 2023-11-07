@@ -3,8 +3,9 @@ import path from 'path';
 import fse from 'fs-extra';
 import compiler from './esm-jsc.mjs';
 import { compilerStyleDir } from './compilerCss.mjs';
+import { getProjectRootDir } from './utils.mjs';
 
-const rootDir = process.cwd();
+const rootDir = getProjectRootDir();
 const SOURCE = path.join(rootDir, './components');
 const OUTPUT_DIR = path.join(rootDir, './es');
 

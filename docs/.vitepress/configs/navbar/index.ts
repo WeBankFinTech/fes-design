@@ -1,4 +1,4 @@
-import { getPackageJsonVersion } from '../../../../scripts/utils';
+import { getPackageJsonVersion } from '../../../../scripts/utils.mjs';
 
 const currentVersion = getPackageJsonVersion();
 

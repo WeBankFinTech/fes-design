@@ -5,8 +5,9 @@ import vuePlugin from 'rollup-plugin-vue';
 import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
 import postcss from 'rollup-plugin-postcss';
+import { getProjectRootDir } from './utils.mjs';
 
-const rootDir = process.cwd();
+const rootDir = getProjectRootDir();
 const SOURCE_PATH = path.join(rootDir, './components/index.ts');
 const OUTPUT_DIR = path.join(rootDir, './dist');
 
@@ -28,7 +29,6 @@ const getRollupConfig = (config = {}) => ({
             extensions,
         }),
         vuePlugin({
-            compileTemplate: true,
             preprocessStyles: false,
             target: 'browser',
         }),

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { getProjectRootDir, getPackageJsonVersion } from './utils';
+import { getProjectRootDir, getPackageJsonVersion } from './utils.mjs';
 
 const rootDir = getProjectRootDir();
 const currentVersion = getPackageJsonVersion();

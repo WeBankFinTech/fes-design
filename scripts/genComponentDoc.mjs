@@ -1,21 +1,19 @@
 import path from 'path';
 import fse from 'fs-extra';
-import { getHighlighter, Highlighter } from 'shiki';
+import { getHighlighter } from 'shiki';
 import cheapWatch from 'cheap-watch';
 
-import { getProjectRootDir } from '../../../scripts/utils';
-import { SCRIPT_TEMPLATE, DEMO_ENTRY_FILE } from './constants';
-import type { Stats } from 'fs';
-
-interface CheapWatchFile {
-    path: string;
-    stats: Stats;
-}
+import { getProjectRootDir } from './utils.mjs';
+import { SCRIPT_TEMPLATE, DEMO_ENTRY_FILE } from './constants.mjs';
 
 const rootDir = getProjectRootDir();
 const CODE_PATH = path.join(
     rootDir,
     './docs/.vitepress/theme/components/demoCode.json',
+);
+export const componentDocSrc = path.join(
+    rootDir,
+    './docs/.vitepress/components',
 );
 
 function getDemoCode() {
@@ -30,11 +28,11 @@ function getDemoCode() {
 
 const code = getDemoCode();
 
-function genOutputPath(name: string) {
-    return path.join(process.cwd(), `./docs/zh/components/${name}.md`);
+function genOutputPath(name) {
+    return path.join(rootDir, `./docs/zh/components/${name}.md`);
 }
 
-function handleCompDoc(compCode: string, compName: string, demoName: string) {
+function handleCompDoc(compCode, compName, demoName) {
     const codeName = `${compName}.${demoName}`;
     const codeSrc = encodeURIComponent(code[`${codeName}`]);
     const codeFormat = encodeURIComponent(code[`${codeName}-code`]);
@@ -53,12 +51,12 @@ const htmlEscapes = {
     "'": '&#39;',
 };
 
-function escapeHtml(html: string) {
+function escapeHtml(html) {
     return html.replace(/[&<>"']/g, (chr) => htmlEscapes[chr]);
 }
 
-let highlighter: Highlighter;
-const highlight = async (code: string, lang = 'vue') => {
+let highlighter;
+const highlight = async (code, lang = 'vue') => {
     if (!lang || lang === 'text') {
         return `<pre v-pre><code>${escapeHtml(code)}</code></pre>`;
     }
@@ -72,7 +70,7 @@ const highlight = async (code: string, lang = 'vue') => {
         .replace(/^<pre.*?>/, '<pre v-pre>');
 };
 
-async function genComponentExample(dir: string, name: string) {
+async function genComponentExample(dir, name) {
     const output = genOutputPath(name);
     const indexPath = path.join(dir, 'index.md');
     if (!fse.existsSync(indexPath)) return;
@@ -80,11 +78,8 @@ async function genComponentExample(dir: string, name: string) {
     let fileContent = fse.readFileSync(indexPath, 'utf-8');
 
     const demos = fse.readdirSync(dir);
-    const demoMDStrs: string[] = [];
-    const scriptCode: {
-        imports: string[];
-        components: string[];
-    } = {
+    const demoMDStrs = [];
+    const scriptCode = {
         imports: [],
         components: [],
     };
@@ -95,7 +90,7 @@ async function genComponentExample(dir: string, name: string) {
             fse.statSync(fullPath).isFile() &&
             path.extname(fullPath) === '.vue'
         ) {
-            const demoContent: string[] = [];
+            const demoContent = [];
             const demoName = path.basename(fullPath, '.vue');
 
             const compName = demoName.replace(/^\S/, (s) => s.toUpperCase());
@@ -175,14 +170,14 @@ async function genComponentExample(dir: string, name: string) {
     }
 }
 
-async function genComponents(src: string) {
+async function genComponents(src) {
     const components = fse.readdirSync(src);
     for (const name of components) {
         await genComponentExample(path.join(src, name), name);
     }
 }
 
-async function watch(src: string) {
+export async function genComponentDocWatch(src) {
     const watcher = new cheapWatch({
         dir: src,
         debounce: 50,
@@ -190,7 +185,7 @@ async function watch(src: string) {
 
     await watcher.init();
 
-    const handleGen = (file: CheapWatchFile) => {
+    const handleGen = (file) => {
         // 只监听目录变更
         if (file.stats.isDirectory()) {
             const pathSeps = file.path.split(path.sep);
@@ -198,7 +193,7 @@ async function watch(src: string) {
             genComponentExample(path.join(src, pkgName), pkgName);
         }
     };
-    const handleDelete = (file: CheapWatchFile) => {
+    const handleDelete = (file) => {
         const pathSeps = file.path.split(path.sep);
 
         // 删除组件文档
@@ -236,10 +231,7 @@ async function watch(src: string) {
 }
 
 export const genComponentDoc = async () => {
-    const src = path.join(process.cwd(), './docs/.vitepress/components');
-    await genComponents(src);
-
-    if (process.env.NODE_ENV !== 'production') {
-        watch(src);
-    }
+    await genComponents(componentDocSrc);
 };
+
+genComponentDoc();

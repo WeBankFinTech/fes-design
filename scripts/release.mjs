@@ -9,7 +9,7 @@ import {
     getProjectRootDir,
     getPackageJsonVersion,
     loadJsonFile,
-} from './utils';
+} from './utils.mjs';
 const prompt = enquirer.prompt;
 
 const args = minimist(process.argv.slice(2));
@@ -30,24 +30,24 @@ const versionIncrements = [
     ...(preId ? ['prepatch', 'preminor', 'premajor', 'prerelease'] : []),
 ];
 
-const inc = (i: string) => semver.inc(currentVersion, i, preId);
-const run = (rBin: string, rArgs: string[], opts: execa.Options = {}) =>
+const inc = (i) => semver.inc(currentVersion, i, preId);
+const run = (rBin, rArgs, opts = {}) =>
     execa(rBin, rArgs, { stdio: 'inherit', ...opts });
-const step = (msg: string) => console.log(chalk.cyan(msg));
+const step = (msg) => console.log(chalk.cyan(msg));
 
-function updatePackage(version: string) {
+function updatePackage(version) {
     const pkg = loadJsonFile(packageJsonPath);
     pkg.version = version;
     fs.writeFileSync(packageJsonPath, `${JSON.stringify(pkg, null, 2)}\n`);
 }
 
-function updateVersions(version: string) {
+function updateVersions(version) {
     // 1. update root package.json
     updatePackage(version);
 }
 
-async function publish(version: string) {
-    let releaseTag: null | string = null;
+async function publish(version) {
+    let releaseTag = null;
     if (args.tag) {
         releaseTag = args.tag;
     } else if (version.includes('alpha')) {
@@ -84,27 +84,27 @@ async function publish(version: string) {
 }
 
 async function main() {
-    let targetVersion: any = args._[0];
+    let targetVersion = args._[0];
 
     if (!targetVersion) {
         // no explicit version, offer suggestions
-        const { release } = (await prompt({
+        const { release } = await prompt({
             type: 'select',
             name: 'release',
             message: 'Select release type',
             choices: versionIncrements
                 .map((i) => `${i} (${inc(i)})`)
                 .concat(['custom']),
-        })) as { release: string };
+        });
 
         if (release === 'custom') {
             targetVersion = (
-                (await prompt({
+                await prompt({
                     type: 'input',
                     name: 'version',
                     message: 'Input custom version',
                     initial: currentVersion,
-                })) as { version: string }
+                })
             ).version;
         } else {
             targetVersion = release.match(/\((.*)\)/)?.[1];
@@ -115,11 +115,11 @@ async function main() {
         throw new Error(`invalid target version: ${targetVersion}`);
     }
 
-    const { yes } = (await prompt({
+    const { yes } = await prompt({
         type: 'confirm',
         name: 'yes',
         message: `Releasing v${targetVersion}. Confirm?`,
-    })) as { yes: boolean };
+    });
 
     if (!yes) {
         return;

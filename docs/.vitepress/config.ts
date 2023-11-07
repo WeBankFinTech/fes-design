@@ -2,10 +2,13 @@ import path from 'path';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { withPwa } from '@vite-pwa/vitepress';
 
-import { getProjectRootDir } from '../../scripts/utils';
+import { getProjectRootDir } from '../../scripts/utils.mjs';
+import {
+    componentDocSrc,
+    genComponentDocWatch,
+} from '../../scripts/genComponentDoc.mjs';
 import { navbar, sidebar } from './configs/index';
-import { genComponentDoc } from './scripts/genComponentDoc';
-import { pwa } from './scripts/pwa';
+import { pwa } from './pwa';
 
 const rootDir = getProjectRootDir();
 
@@ -16,9 +19,11 @@ function ssrTransformCustomDir() {
     };
 }
 
-genComponentDoc();
-
 const BASE_URL = process.env.NODE_ENV === 'production' ? '/' : '/';
+
+if (process.env.NODE_ENV !== 'production') {
+    genComponentDocWatch(componentDocSrc);
+}
 
 export default withPwa({
     pwa: pwa(),

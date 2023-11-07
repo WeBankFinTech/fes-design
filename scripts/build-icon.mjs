@@ -1,10 +1,11 @@
 import path from 'path';
 import fse from 'fs-extra';
 import { rollup } from 'rollup';
+import { getProjectRootDir } from './utils.mjs';
 
 import { getRollupConfig, OUTPUT_DIR } from './build-shard.mjs';
 
-const rootDir = process.cwd();
+const rootDir = getProjectRootDir();
 const SOURCE_PATH = path.join(rootDir, './components/icon/index.ts');
 
 fse.mkdirsSync(OUTPUT_DIR);

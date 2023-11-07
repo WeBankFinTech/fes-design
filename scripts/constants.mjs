@@ -24,3 +24,23 @@ export default (props?: IconProps) => (
     </IconWrapper>
 );
 `;
+
+// docs scripts
+export const SCRIPT_TEMPLATE = `
+<script setup>
+IMPORT_EXPRESSION
+</script>
+`;
+
+// docs demo
+export const DEMO_ENTRY_FILE = `
+<template>
+    <Demo />
+</template>
+
+<script setup>
+import {setupFesDesign } from './fes-design.js';
+import Demo from './demo.vue';
+setupFesDesign();
+</script>
+`;
