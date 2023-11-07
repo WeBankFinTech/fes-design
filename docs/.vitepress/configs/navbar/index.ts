@@ -1,10 +1,6 @@
-import path from 'path';
-import { loadJsonFile } from '../../../../scripts/utils.mjs';
+import { getPackageJsonVersion } from '../../../../scripts/utils';
 
-const rootDir = process.cwd();
-const packageJsonPath = path.join(rootDir, './package.json');
-const packageJson = loadJsonFile(packageJsonPath);
-const currentVersion = packageJson.version;
+const currentVersion = getPackageJsonVersion();
 
 export default {
     zh: [

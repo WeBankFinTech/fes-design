@@ -5,15 +5,18 @@ import chalk from 'chalk';
 import semver from 'semver';
 import enquirer from 'enquirer';
 import execa from 'execa';
-import { loadJsonFile } from './utils.mjs';
+import {
+    getProjectRootDir,
+    getPackageJsonVersion,
+    loadJsonFile,
+} from './utils';
 const prompt = enquirer.prompt;
 
 const args = minimist(process.argv.slice(2));
 
-const rootDir = process.cwd();
+const rootDir = getProjectRootDir();
 const packageJsonPath = path.join(rootDir, './package.json');
-const packageJson = loadJsonFile(packageJsonPath);
-const currentVersion = packageJson.version;
+const currentVersion = getPackageJsonVersion();
 
 const preId =
     args.preid ||
@@ -27,24 +30,24 @@ const versionIncrements = [
     ...(preId ? ['prepatch', 'preminor', 'premajor', 'prerelease'] : []),
 ];
 
-const inc = (i) => semver.inc(currentVersion, i, preId);
-const run = (rBin, rArgs, opts = {}) =>
+const inc = (i: string) => semver.inc(currentVersion, i, preId);
+const run = (rBin: string, rArgs: string[], opts: execa.Options = {}) =>
     execa(rBin, rArgs, { stdio: 'inherit', ...opts });
-const step = (msg) => console.log(chalk.cyan(msg));
+const step = (msg: string) => console.log(chalk.cyan(msg));
 
-function updatePackage(version) {
+function updatePackage(version: string) {
     const pkg = loadJsonFile(packageJsonPath);
     pkg.version = version;
     fs.writeFileSync(packageJsonPath, `${JSON.stringify(pkg, null, 2)}\n`);
 }
 
-function updateVersions(version) {
+function updateVersions(version: string) {
     // 1. update root package.json
     updatePackage(version);
 }
 
-async function publish(version) {
-    let releaseTag = null;
+async function publish(version: string) {
+    let releaseTag: null | string = null;
     if (args.tag) {
         releaseTag = args.tag;
     } else if (version.includes('alpha')) {
@@ -81,30 +84,30 @@ async function publish(version) {
 }
 
 async function main() {
-    let targetVersion = args._[0];
+    let targetVersion: any = args._[0];
 
     if (!targetVersion) {
         // no explicit version, offer suggestions
-        const { release } = await prompt({
+        const { release } = (await prompt({
             type: 'select',
             name: 'release',
             message: 'Select release type',
             choices: versionIncrements
                 .map((i) => `${i} (${inc(i)})`)
                 .concat(['custom']),
-        });
+        })) as { release: string };
 
         if (release === 'custom') {
             targetVersion = (
-                await prompt({
+                (await prompt({
                     type: 'input',
                     name: 'version',
                     message: 'Input custom version',
                     initial: currentVersion,
-                })
+                })) as { version: string }
             ).version;
         } else {
-            targetVersion = release.match(/\((.*)\)/)[1];
+            targetVersion = release.match(/\((.*)\)/)?.[1];
         }
     }
 
@@ -112,11 +115,11 @@ async function main() {
         throw new Error(`invalid target version: ${targetVersion}`);
     }
 
-    const { yes } = await prompt({
+    const { yes } = (await prompt({
         type: 'confirm',
         name: 'yes',
         message: `Releasing v${targetVersion}. Confirm?`,
-    });
+    })) as { yes: boolean };
 
     if (!yes) {
         return;
@@ -153,7 +156,7 @@ async function main() {
 
     // publish packages
     step('\nPublishing...');
-    await publish(targetVersion, run);
+    await publish(targetVersion);
 
     // push to GitHub
     step('\nPushing to GitHub...');

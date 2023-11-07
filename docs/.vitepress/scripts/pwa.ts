@@ -1,4 +1,6 @@
-export const pwa = () => {
+import { PwaOptions } from '@vite-pwa/vitepress';
+
+export const pwa: () => PwaOptions = () => {
     return {
         outDir: '.vitepress/dist', // 输出目录
         registerType: 'autoUpdate', // 注册类型为自动更新

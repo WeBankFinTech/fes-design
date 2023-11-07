@@ -1,13 +1,13 @@
 import path from 'path';
-import process from 'process';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { withPwa } from '@vite-pwa/vitepress';
 
-import { navbar, sidebar } from './configs/index.mjs';
-import { genComponentDoc } from './scripts/genComponentDoc.mjs';
-import { pwa } from './scripts/pwa.mjs';
+import { getProjectRootDir } from '../../scripts/utils';
+import { navbar, sidebar } from './configs/index';
+import { genComponentDoc } from './scripts/genComponentDoc';
+import { pwa } from './scripts/pwa';
 
-const rootDir = process.cwd();
+const rootDir = getProjectRootDir();
 
 function ssrTransformCustomDir() {
     return {
@@ -66,7 +66,6 @@ export default withPwa({
     },
     vue: {
         template: {
-            ssr: true,
             compilerOptions: {
                 directiveTransforms: {
                     drag: ssrTransformCustomDir,

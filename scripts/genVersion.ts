@@ -1,11 +1,9 @@
 import fs from 'fs';
 import path from 'path';
-import { loadJsonFile } from './utils.mjs';
+import { getProjectRootDir, getPackageJsonVersion } from './utils';
 
-const rootDir = process.cwd();
-const packageJsonPath = path.join(rootDir, './package.json');
-const packageJson = loadJsonFile(packageJsonPath);
-const currentVersion = packageJson.version;
+const rootDir = getProjectRootDir();
+const currentVersion = getPackageJsonVersion();
 
 const versionFilePath = path.join(rootDir, 'components/version/index.ts');
 const versionFileContent = fs.readFileSync(versionFilePath, 'utf-8');

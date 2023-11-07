@@ -1,32 +1,20 @@
-/* eslint import/no-extraneous-dependencies: 0 */
-
 import { join, basename } from 'path';
 import { readdirSync, writeFileSync } from 'fs';
 
 import optimizeSvg from './optimizeSvg.mjs';
-import { stringToCamelCase } from './utils.mjs';
+import { getProjectRootDir, stringToCamelCase } from './utils';
+import { SVG_COMPONENT_TMPLATE } from './constants';
 
-const outputPath = join(process.cwd(), './components/icon');
+const rootDir = getProjectRootDir();
+const outputPath = join(rootDir, './components/icon');
 const exportAllIconPath = join(
-    process.cwd(),
+    rootDir,
     './docs/.vitepress/theme/IconDoc/icons.js',
 );
-const iconFileBase = join(process.cwd(), './icons');
+const iconFileBase = join(rootDir, './icons');
 const iconFiles = readdirSync(iconFileBase);
 
-const SVG_COMPONENT_TMPLATE = `
-import IconWrapper from './IconWrapper';
-import type { IconProps } from './IconWrapper';
-import './style';
-
-export default (props?: IconProps) => (
-    <IconWrapper {...props} ATTRS>
-        SVG
-    </IconWrapper>
-);
-`;
-
-function genExportAllIconFile(iconNames) {
+function genExportAllIconFile(iconNames: string[]) {
     const content = iconNames
         .map(
             (item) =>
@@ -37,7 +25,7 @@ function genExportAllIconFile(iconNames) {
     writeFileSync(exportAllIconPath, content);
 }
 
-function genIconIndex(iconNames) {
+function genIconIndex(iconNames: string[]) {
     const content = iconNames.map(
         (item) => `export { default as ${item} } from './${item}';`,
     );
@@ -48,8 +36,7 @@ function gen() {
     const svgDatas = optimizeSvg(
         iconFiles.map((item) => join(iconFileBase, item)),
     );
-    const iconNames = [];
-    // eslint-disable-next-line
+    const iconNames: string[] = [];
     for (const { fileName, data } of svgDatas) {
         const iconName = stringToCamelCase(basename(fileName, '.svg'));
         iconNames.push(iconName);
