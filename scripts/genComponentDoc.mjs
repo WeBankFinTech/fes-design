@@ -233,8 +233,7 @@ export const genComponentDoc = async () => {
     await genComponents(componentDocSrc);
 };
 
-if (process.env.NODE_ENV === 'production') {
-    genComponentDoc();
-} else {
+genComponentDoc();
+if (process.env.NODE_ENV !== 'production') {
     await genComponentDocWatch(componentDocSrc);
 }
