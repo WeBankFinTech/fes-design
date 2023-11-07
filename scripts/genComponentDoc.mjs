@@ -2,7 +2,6 @@ import path from 'path';
 import fse from 'fs-extra';
 import { getHighlighter } from 'shiki';
 import cheapWatch from 'cheap-watch';
-
 import { getProjectRootDir } from './utils.mjs';
 import { SCRIPT_TEMPLATE, DEMO_ENTRY_FILE } from './constants.mjs';
 
@@ -234,4 +233,8 @@ export const genComponentDoc = async () => {
     await genComponents(componentDocSrc);
 };
 
-genComponentDoc();
+if (process.env.NODE_ENV === 'production') {
+    genComponentDoc();
+} else {
+    await genComponentDocWatch(componentDocSrc);
+}
