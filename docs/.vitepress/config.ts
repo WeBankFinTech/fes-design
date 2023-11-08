@@ -2,6 +2,7 @@ import path from 'path';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { withPwa } from '@vite-pwa/vitepress';
 import { getProjectRootDir } from '../../scripts/utils.mjs';
+import { genComponentDocWatch } from '../../scripts/genComponentDoc.mjs';
 import { navbar, sidebar } from './configs/index';
 import { pwa } from './pwa';
 
@@ -15,6 +16,11 @@ function ssrTransformCustomDir() {
 }
 
 const BASE_URL = process.env.NODE_ENV === 'production' ? '/' : '/';
+
+// 开发模式，监听文档文件变更
+if (process.env.NODE_ENV !== 'production') {
+    genComponentDocWatch();
+}
 
 export default withPwa({
     pwa: pwa(),

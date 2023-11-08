@@ -6,7 +6,7 @@
   "module": "es/index.js",
   "scripts": {
     "prepare": "husky install",
-    "docs:dev": "node scripts/genComponentDoc.mjs & vitepress dev docs",
+    "docs:dev": "node scripts/genComponentDoc.mjs && vitepress dev docs",
     "docs:build": "NODE_ENV=production node scripts/genComponentDoc.mjs && vitepress build docs",
     "docs:serve": "vitepress serve docs --port 8999",
     "test": "jest",

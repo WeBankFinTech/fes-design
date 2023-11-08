@@ -10,10 +10,7 @@ const CODE_PATH = path.join(
     rootDir,
     './docs/.vitepress/theme/components/demoCode.json',
 );
-export const componentDocSrc = path.join(
-    rootDir,
-    './docs/.vitepress/components',
-);
+const componentDocSrc = path.join(rootDir, './docs/.vitepress/components');
 
 function getDemoCode() {
     if (fse.existsSync(CODE_PATH)) {
@@ -176,7 +173,7 @@ async function genComponents(src) {
     }
 }
 
-export async function genComponentDocWatch(src) {
+export async function watch(src) {
     const watcher = new cheapWatch({
         dir: src,
         debounce: 50,
@@ -232,8 +229,8 @@ export async function genComponentDocWatch(src) {
 export const genComponentDoc = async () => {
     await genComponents(componentDocSrc);
 };
+export const genComponentDocWatch = async () => {
+    await watch(componentDocSrc);
+};
 
 genComponentDoc();
-if (process.env.NODE_ENV !== 'production') {
-    await genComponentDocWatch(componentDocSrc);
-}
