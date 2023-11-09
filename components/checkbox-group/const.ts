@@ -15,7 +15,7 @@ export const checkboxGroupProps = {
     vertical: Boolean,
     disabled: Boolean,
     options: {
-        type: Array as PropType<Option[]>,
+        type: Array as PropType<Option[] | null>,
         default: () => [] as Option[],
     },
     valueField: {
