@@ -44,7 +44,7 @@ export type ExtractPublicPropTypes<T> = Omit<
 >;
 
 export interface Option {
-    value: string | number | boolean;
-    label: string | number;
+    value?: string | number | boolean;
+    label?: string | number;
     disabled?: boolean;
 }
