@@ -79,7 +79,6 @@ import {
     defineComponent,
 } from 'vue';
 import { isNil } from 'lodash-es';
-import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel, useArrayModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
@@ -87,13 +86,11 @@ import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
 import { useLocale } from '../config-provider/useLocale';
-import { key } from './const';
+import { key, prefixCls } from './const';
 import OptionList from './optionList';
 import { selectProps } from './props';
 
 import type { SelectValue, SelectOption, OptionChildren } from './interface';
-
-const prefixCls = getPrefixCls('select');
 
 export default defineComponent({
     name: 'FSelect',

@@ -14,12 +14,14 @@
         >
             <template #trigger>
                 <SelectTrigger
+                    ref="triggerDomRef"
                     :selectedOptions="selectedOptions"
                     :disabled="innerDisabled"
                     :clearable="clearable"
                     :isOpened="isOpened"
                     :multiple="multiple"
                     :placeholder="inputPlaceholder"
+                    :filterable="innerFilterable"
                     :collapseTags="collapseTags"
                     :collapseTagsLimit="collapseTagsLimit"
                     :tagBordered="tagBordered"
@@ -30,10 +32,13 @@
                     @clear="handleClear"
                     @focus="focus"
                     @blur="blur"
+                    @input="handleFilterTextChange"
                 />
             </template>
             <template #default>
                 <Cascader
+                    v-show="!filterText"
+                    ref="cascaderRef"
                     :selectedKeys="selectedKeys"
                     :checkedKeys="checkedKeys"
                     :initLoadKeys="initLoadKeys"
@@ -57,14 +62,31 @@
                     @check="handleCheck"
                     @mousedown.prevent
                 ></Cascader>
+                <OptionList
+                    v-show="filterText"
+                    :options="filteredOptions"
+                    :prefixCls="selectPrefixCls"
+                    :containerStyle="filterDropdownStyle"
+                    :isSelect="filterIsSelect"
+                    :onSelect="handleFilterSelect"
+                    :emptyText="filterEmptyText"
+                    @mousedown.prevent
+                />
             </template>
         </Popper>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, unref, watch, computed } from 'vue';
-import { isArray } from 'lodash-es';
+import {
+    defineComponent,
+    ref,
+    unref,
+    watch,
+    computed,
+    CSSProperties,
+} from 'vue';
+import { isArray, debounce } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel, useArrayModel } from '../_util/use/useModel';
@@ -83,6 +105,8 @@ import {
 } from '../cascader/helper';
 import { useLocale } from '../config-provider/useLocale';
 import { CHECK_STRATEGY } from '../cascader/const';
+import OptionList from '../select/optionList';
+import { prefixCls as selectPrefixCls } from '../select/const';
 import {
     getCurrentValueByKeys,
     getKeysByCurrentValue,
@@ -90,9 +114,11 @@ import {
     getExpandedKeysBySelectedKeys,
 } from './helper';
 
+import { SELECT_CASCADER_NAME, LABEL_SEPARATOR } from './const';
 import type { SelectValue } from '../select/interface';
 import type {
     CascaderNodeList,
+    InnerCascaderOption,
     SelectParams,
     CheckParams,
     CascaderNodeKey,
@@ -117,6 +143,7 @@ export default defineComponent({
         Popper,
         SelectTrigger,
         Cascader,
+        OptionList,
     },
     props: selectCascaderProps,
     emits: [
@@ -138,17 +165,41 @@ export default defineComponent({
             ? useArrayModel(props, emit)
             : useNormalModel(props, emit);
 
-        const { t } = useLocale();
-        const inputPlaceholder = computed(
-            () => props.placeholder || t('select.placeholder'),
-        );
-
         const innerDisabled = computed(
             () => props.disabled || isFormDisabled.value,
         );
 
+        const cascaderRef = ref();
+        const triggerDomRef = ref();
+        const triggerWidth = ref(0);
+
+        const innerFilterable = computed(() => {
+            if (props.filterable && props.remote) {
+                console.warn(
+                    `[${SELECT_CASCADER_NAME}]: remote 被设定时, filterable 不生效`,
+                );
+            }
+            return props.filterable && !props.remote && !innerDisabled.value;
+        });
+        const filterText = ref('');
+        const filteredOptions = ref<InnerCascaderOption[]>([]);
+
+        const { t } = useLocale();
+        const inputPlaceholder = computed(
+            () => props.placeholder || t('select.placeholder'),
+        );
+        const listEmptyText = computed(
+            () => props.emptyText || t('select.emptyText'),
+        );
+        const filterEmptyText = computed(() => t('select.filterEmptyText'));
+
         watch(isOpened, () => {
             emit('visibleChange', unref(isOpened));
+
+            // trigger 在 mounted 之后可能会改变
+            if (isOpened.value && triggerDomRef.value) {
+                triggerWidth.value = triggerDomRef.value.$el.offsetWidth;
+            }
         });
 
         const handleChange = () => {
@@ -161,6 +212,18 @@ export default defineComponent({
         const onChangeNodeList = (data: CascaderNodeList) => {
             nodeList.value = data;
         };
+        // 为避免过滤项之间选中操作相互干扰，这里仅过滤叶子节点
+        const filterNodeList = computed(() => {
+            const list: InnerCascaderOption[] = [];
+            if (innerFilterable.value) {
+                Object.keys(nodeList.value).forEach((key) => {
+                    if (!nodeList.value[key].hasChildren) {
+                        list.push(nodeList.value[key]);
+                    }
+                });
+            }
+            return list;
+        });
 
         const cascaderSelectable = computed(() => !props.multiple);
         const cascaderCheckable = computed(() => props.multiple);
@@ -249,6 +312,8 @@ export default defineComponent({
                 updateCurrentValue(value);
                 handleChange();
             }
+
+            filterText.value = '';
             emit('clear');
         };
 
@@ -340,7 +405,7 @@ export default defineComponent({
                     const formatLabel = props.showPath
                         ? (path as CascaderOption[])
                               .map((item) => `${item.label}`)
-                              .join(' / ')
+                              .join(LABEL_SEPARATOR)
                         : label;
                     return {
                         value,
@@ -359,12 +424,74 @@ export default defineComponent({
             if (isOpened.value) {
                 isOpened.value = false;
             }
+            filterText.value = '';
             emit('blur', e);
             validate('blur');
         };
 
+        const handleFilterTextChange = (val: string) => {
+            filterText.value = val;
+        };
+        watch(
+            filterText,
+            debounce(() => {
+                let currentNodeList: InnerCascaderOption[] = [];
+                if (innerFilterable.value && filterText.value) {
+                    filterNodeList.value.forEach((node) => {
+                        let isFilter = false;
+                        const labelList = node.path.map(
+                            (item: any) => item.label,
+                        );
+                        if (props.filter) {
+                            isFilter = props.filter(filterText.value, node);
+                        } else {
+                            isFilter = labelList.some((label: any) =>
+                                String(label).includes(filterText.value),
+                            );
+                        }
+                        if (isFilter) {
+                            currentNodeList.push({
+                                value: node.value,
+                                label: labelList.join(LABEL_SEPARATOR),
+                                disabled: node.disabled,
+                            });
+                        }
+                    });
+                }
+                filteredOptions.value = currentNodeList;
+            }, 600),
+        );
+        const filterIsSelect = (value: CascaderNodeKey) => {
+            const optVal = unref(value);
+            if (cascaderSelectable.value) {
+                return selectedKeys.value.includes(optVal);
+            }
+            if (cascaderCheckable.value) {
+                return checkedKeys.value.includes(optVal);
+            }
+        };
+        const filterDropdownStyle = computed(() => {
+            const style: CSSProperties = {};
+            if (triggerWidth.value) {
+                style['min-width'] = `${triggerWidth.value}px`;
+            }
+            return style;
+        });
+        const handleFilterSelect = (value: CascaderNodeKey) => {
+            if (cascaderSelectable.value) {
+                cascaderRef.value?.selectNode(value);
+                filterText.value = '';
+            }
+            if (cascaderCheckable.value) {
+                cascaderRef.value?.checkNode(value);
+            }
+        };
+
         return {
+            triggerDomRef,
+            cascaderRef,
             prefixCls,
+            selectPrefixCls,
             isOpened,
             currentValue,
             handleRemove,
@@ -372,6 +499,7 @@ export default defineComponent({
             selectedOptions,
             focus,
             blur,
+            handleFilterTextChange,
             cascaderSelectable,
             selectedKeys,
             expandedKeys,
@@ -385,6 +513,14 @@ export default defineComponent({
             initLoadKeys,
             attrs,
             innerDisabled,
+            innerFilterable,
+            listEmptyText,
+            filterEmptyText,
+            filterText,
+            filteredOptions,
+            filterIsSelect,
+            filterDropdownStyle,
+            handleFilterSelect,
         };
     },
 });
