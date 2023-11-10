@@ -2,8 +2,8 @@
     <FForm :labelWidth="160">
         <FFormItem label="是否可搜索:">
             <FRadioGroup v-model="filterable">
-                <FRadio :value="false">false(默认)</FRadio>
-                <FRadio :value="true">true</FRadio>
+                <FRadio :value="false">否(默认)</FRadio>
+                <FRadio :value="true">是</FRadio>
             </FRadioGroup>
         </FFormItem>
     </FForm>

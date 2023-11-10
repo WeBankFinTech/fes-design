@@ -2,8 +2,8 @@
     <FForm :labelWidth="160">
         <FFormItem label="多选是否折叠展示：">
             <FRadioGroup v-model="collapseTags">
-                <FRadio :value="false">false(默认)</FRadio>
-                <FRadio :value="true">true</FRadio>
+                <FRadio :value="false">否(默认)</FRadio>
+                <FRadio :value="true">是</FRadio>
             </FRadioGroup>
         </FFormItem>
         <FFormItem v-if="collapseTags" label="折叠项限制：">
