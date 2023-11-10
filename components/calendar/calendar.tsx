@@ -1,9 +1,10 @@
-import { SlotsType, VNode, computed, defineComponent } from 'vue';
+import { SlotsType, VNode, VNodeChild, computed, defineComponent } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import { useLocale } from '../config-provider/useLocale';
 import FRadioGroup from '../radio-group';
 import FSpace from '../space';
 import FButton from '../button';
+import { isValidRenderResult } from '../timeline/utils';
 import { CALENDAR_MODE_OPTIONS, COMPONENT_NAME, prefixCls } from './const';
 import {
     cls,
@@ -11,7 +12,7 @@ import {
     isSameDate,
     isSameMonth,
 } from './utils';
-import { CalenderEvent, calendarProps, CalendarSlots as Slots } from './props';
+import { CalendarEvent, calendarProps, CalendarSlots as Slots } from './props';
 import { CalendarDate } from './types';
 import useWeekNames from './useWeekNames';
 import CalendarNavigator from './calendarNavigator';
@@ -21,10 +22,10 @@ export default defineComponent({
     name: COMPONENT_NAME,
     props: calendarProps,
     emits: [
-        CalenderEvent.UPDATE_DATE,
-        CalenderEvent.UPDATE_MODE,
-        CalenderEvent.UPDATE_ACTIVE_DATE,
-        CalenderEvent.CELL_CLICK,
+        CalendarEvent.UPDATE_DATE,
+        CalendarEvent.UPDATE_MODE,
+        CalendarEvent.UPDATE_ACTIVE_DATE,
+        CalendarEvent.CELL_CLICK,
     ],
     slots: Object as SlotsType<Slots>,
     setup: (props, { emit, slots }) => {
@@ -44,12 +45,45 @@ export default defineComponent({
 
         const { weekNames } = useWeekNames(startDay, mode);
 
-        const renderCalenderCellContent = (cellDate: CalendarDate): string => {
-            if (mode.value === 'date') {
-                return cellDate.date.toString();
-            } else {
-                return t(`datePicker.month${cellDate.month + 1}`);
+        const renderCalendarCellContent = (
+            cellDate: CalendarDate,
+        ): VNodeChild => {
+            // 插槽渲染
+            if (slots.cellMainContent) {
+                const customContent = slots.cellMainContent({
+                    mode: mode.value,
+                    date: convertCalendarDateToUnixTime(cellDate),
+                });
+                if (isValidRenderResult(customContent)) {
+                    return customContent;
+                }
             }
+
+            let mainContent: string;
+            if (mode.value === 'date') {
+                mainContent = cellDate.date.toString();
+            } else {
+                mainContent = t(`datePicker.month${cellDate.month + 1}`);
+            }
+            return (
+                <div class={cls('panel-cell-main-content')}>{mainContent}</div>
+            );
+        };
+
+        const renderCalendarAppendantContent = (
+            cellDate: CalendarDate,
+        ): VNodeChild => {
+            if (!slots.cellAppendantContent) {
+                return undefined;
+            }
+            return (
+                <div class={cls('panel-cell-appendant-content')}>
+                    {slots.cellAppendantContent({
+                        mode: mode.value,
+                        date: convertCalendarDateToUnixTime(cellDate),
+                    })}
+                </div>
+            );
         };
 
         // 组件的 class
@@ -139,19 +173,8 @@ export default defineComponent({
                                 class={calculateCellClassList(cell)}
                                 onClick={() => handleCellClick(cell)}
                             >
-                                <div class={cls('panel-cell-main-content')}>
-                                    {renderCalenderCellContent(cell)}
-                                </div>
-                                <div
-                                    class={cls('panel-cell-appendant-content')}
-                                >
-                                    {slots.cell?.({
-                                        mode: mode.value,
-                                        date: convertCalendarDateToUnixTime(
-                                            cell,
-                                        ),
-                                    })}
-                                </div>
+                                {renderCalendarCellContent(cell)}
+                                {renderCalendarAppendantContent(cell)}
                             </div>
                         ))}
                     </div>

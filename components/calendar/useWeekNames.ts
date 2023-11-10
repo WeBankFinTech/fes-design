@@ -1,10 +1,10 @@
 import { Ref, computed } from 'vue';
 import { Day } from 'date-fns';
 import { useLocale } from '../config-provider/useLocale';
-import { CalenderMode } from './props';
+import { CalendarMode } from './props';
 
 const WEEK_NAMES = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-const useWeekNames = (startDay: Ref<Day>, mode: Ref<CalenderMode>) => {
+const useWeekNames = (startDay: Ref<Day>, mode: Ref<CalendarMode>) => {
     const { t } = useLocale();
 
     const weekNames = computed(() => {

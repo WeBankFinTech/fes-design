@@ -2,7 +2,7 @@ import { computed, ref } from 'vue';
 import { Day } from 'date-fns';
 import { isNil } from 'lodash-es';
 import { useNormalModel } from '../_util/use/useModel';
-import { CalendarInnerProps, CalenderEvent, CalenderShortcut } from './props';
+import { CalendarInnerProps, CalendarEvent, CalendarShortcut } from './props';
 import {
     UseNormalModelReturn,
     convertCalendarDateToUnixTime,
@@ -18,7 +18,7 @@ import { CALENDAR_ROW_NUM } from './const';
 const useCalendarData = (
     props: CalendarInnerProps,
     emit: (
-        event: (typeof CalenderEvent)[keyof typeof CalenderEvent],
+        event: (typeof CalendarEvent)[keyof typeof CalendarEvent],
         ...args: any[]
     ) => void,
 ) => {
@@ -79,7 +79,7 @@ const useCalendarData = (
     });
 
     // 快捷选项点击时
-    const handleShortcutClick = (time: CalenderShortcut['time']): void => {
+    const handleShortcutClick = (time: CalendarShortcut['time']): void => {
         let targetTime: UnixTime;
 
         if (typeof time === 'function') {
@@ -97,7 +97,7 @@ const useCalendarData = (
 
     // 日历格子点击时
     const handleCellClick = (cellDate: CalendarDate): void => {
-        emit(CalenderEvent.CELL_CLICK, {
+        emit(CalendarEvent.CELL_CLICK, {
             date: convertCalendarDateToUnixTime(cellDate, propDate.value),
             mode: mode.value,
         });

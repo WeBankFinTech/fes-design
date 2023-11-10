@@ -8,7 +8,17 @@
             },
         ]"
     >
-        <template #cell="{ date, mode }">
+        <template #cellMainContent="{ date, mode }">
+            <FTag
+                v-if="mode === 'date' && isKingDay(date)"
+                size="small"
+                type="warning"
+                effect="dark"
+            >
+                1+1
+            </FTag>
+        </template>
+        <template #cellAppendantContent="{ date, mode }">
             <div v-if="mode === 'date'" :style="{ padding: '8px 0' }">
                 <FTag v-if="isKingDay(date)" size="small" type="warning">
                     星期三

@@ -27,22 +27,23 @@ app.use(FCalendar);
 
 ## Props
 
-| 属性               | 说明                   | 类型                                | 默认值 |
-| ------------------ | ---------------------- | ----------------------------------- | ------ |
-| v-model:date       | 控制日历当前显示的月份 | `number` (UnixTime)                 | 今天   |
-| v-model:mode       | 显示模式（日历、月历） | `month` `date`                      | `date` |
-| v-model:activeDate | 当前高亮标记的日期     | `number` (UnixTime)                 | 今天   |
-| splitLine          | 是否展示分割线         | `boolean`                           | `true` |
-| shortcuts          | 快捷选项               | `{ label: string, time: number }[]` | `[]`   |
+| 属性               | 说明                        | 类型                                | 默认值 |
+|--------------------|---------------------------|-------------------------------------|--------|
+| v-model:date       | 控制日历当前显示的月份      | `number` (UnixTime)                 | 今天   |
+| v-model:mode       | 显示模式（按月展示、按年展示） | `month` `date`                      | `date` |
+| v-model:activeDate | 当前高亮标记的日期          | `number` (UnixTime)                 | 今天   |
+| splitLine          | 是否展示分割线              | `boolean`                           | `true` |
+| shortcuts          | 快捷选项                    | `{ label: string, time: number }[]` | `[]`   |
 
 ## Slots
 
-| 名称 | 说明     | 参数  |
-| ---- | -------- | ----- |
-| cell | 单元格 | `{ date: UnixTime, mode: 'month' \| 'date' }` |
+| 名称                 | 说明                     | 参数                                          |
+|----------------------|------------------------|-----------------------------------------------|
+| cellMainContent      | 单元格主要内容（日期部分） | `{ date: UnixTime, mode: 'month' \| 'date' }` |
+| cellAppendantContent | 单元格附加内容           | `{ date: UnixTime, mode: 'month' \| 'date' }` |
 
 ## Events
 
 | 事件名称  | 说明           | 回调参数                                     |
-| --------- | -------------- | -------------------------------------------- |
+|-----------|--------------|----------------------------------------------|
 | cellClick | 点击日历中格子 | `{ date: UnixTime, mode: 'month' \|'date' }` |

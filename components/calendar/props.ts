@@ -14,9 +14,9 @@ import type { ComponentProps } from '../timeline/utilTypes';
  * month - 月历
  * date - 日历
  */
-export type CalenderMode = 'month' | 'date';
+export type CalendarMode = 'month' | 'date';
 
-export type CalenderShortcut = {
+export type CalendarShortcut = {
     label: string;
     time: UnixTime | (() => UnixTime);
 };
@@ -34,11 +34,11 @@ export const calendarProps = {
     },
     /** 显示模式 */
     mode: {
-        type: String as PropType<CalenderMode>,
+        type: String as PropType<CalendarMode>,
         default: 'date',
         validator: (value) =>
-            (['date', 'month'] satisfies CalenderMode[]).includes(
-                value as unknown as CalenderMode,
+            (['date', 'month'] satisfies CalendarMode[]).includes(
+                value as unknown as CalendarMode,
             ),
     },
     /** 是否展示分割线 */
@@ -48,8 +48,8 @@ export const calendarProps = {
     },
     /** 快捷选项 */
     shortcuts: {
-        type: Object as PropType<CalenderShortcut[]>,
-        default: () => [] as CalenderShortcut[],
+        type: Object as PropType<CalendarShortcut[]>,
+        default: () => [] as CalendarShortcut[],
     },
 } as const satisfies ComponentObjectPropsOptions;
 
@@ -60,7 +60,7 @@ export type CalendarInnerProps = Parameters<
     DefineComponent<typeof calendarProps>['setup']
 >[0];
 
-export const CalenderEvent = {
+export const CalendarEvent = {
     UPDATE_DATE: 'update:date',
     UPDATE_MODE: 'update:mode',
     UPDATE_ACTIVE_DATE: 'update:activeDate',
@@ -68,7 +68,10 @@ export const CalenderEvent = {
 } as const;
 
 export type CalendarSlots = {
-    cell: { date: UnixTime; mode: CalenderMode };
+    // 	单元格
+    cellMainContent: { date: UnixTime; mode: CalendarMode };
+    // 单元格附加内容
+    cellAppendantContent: { date: UnixTime; mode: CalendarMode };
 };
 
 export type CalendarUnboxSlots = SetupContext<

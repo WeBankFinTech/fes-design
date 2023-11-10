@@ -92,8 +92,10 @@
                     transition: none @animation-duration-base @ease-base-in;
                     transition-property: background, color;
                     user-select: none;
+                }
 
-                    &:hover {
+                &:hover {
+                    & > .@{calendar-panel-cell}-main-content {
                         background-color: var(--f-hover-color-light);
                     }
                 }

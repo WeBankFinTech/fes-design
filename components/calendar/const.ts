@@ -1,6 +1,6 @@
 import getPrefixCls from '../_util/getPrefixCls';
 import { Option } from '../_util/interface';
-import { CalenderMode } from './props';
+import { CalendarMode } from './props';
 
 export const COMPONENT_NAME = 'FCalendar';
 
@@ -22,4 +22,4 @@ export const CALENDAR_MODE_OPTIONS: Option[] = [
     { label: '月', value: 'date' },
     // 月历模式
     { label: '年', value: 'month' },
-] satisfies { label: Option['label']; value: CalenderMode }[];
+] satisfies { label: Option['label']; value: CalendarMode }[];
