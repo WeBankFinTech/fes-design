@@ -43,7 +43,7 @@
                     :checkedKeys="checkedKeys"
                     :initLoadKeys="initLoadKeys"
                     :data="data"
-                    :emptyText="emptyText"
+                    :emptyText="listEmptyText"
                     :expandedKeys="expandedKeys"
                     :selectable="cascaderSelectable"
                     :checkable="cascaderCheckable"
@@ -459,7 +459,7 @@ export default defineComponent({
                     });
                 }
                 filteredOptions.value = currentNodeList;
-            }, 600),
+            }, 300),
         );
         const filterIsSelect = (value: CascaderNodeKey) => {
             const optVal = unref(value);
