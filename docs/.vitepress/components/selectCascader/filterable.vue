@@ -26,6 +26,7 @@
                 class="select-cascader"
                 :data="data"
                 :filterable="filterable"
+                :filter="filter"
             ></FSelectCascader>
         </div>
     </FSpace>
@@ -52,6 +53,7 @@
                 :data="data"
                 :filterable="filterable"
                 :multiple="true"
+                :filter="filter"
                 showPath
                 emitPath
             ></FSelectCascader>
@@ -88,6 +90,8 @@ export default {
         const value2 = ref();
 
         const data = reactive(createData(4));
+
+        // 默认会匹配所有节点描述，这里仅匹配叶子节点描述
         const filter = (text, option) => {
             return option.label.indexOf(text) !== -1;
         };
