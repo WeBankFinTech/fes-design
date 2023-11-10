@@ -49,8 +49,8 @@ export default defineComponent({
             cellDate: CalendarDate,
         ): VNodeChild => {
             // 插槽渲染
-            if (slots.cellMainContent) {
-                const customContent = slots.cellMainContent({
+            if (slots.cellMain) {
+                const customContent = slots.cellMain({
                     mode: mode.value,
                     date: convertCalendarDateToUnixTime(cellDate),
                 });
@@ -73,12 +73,12 @@ export default defineComponent({
         const renderCalendarAppendantContent = (
             cellDate: CalendarDate,
         ): VNodeChild => {
-            if (!slots.cellAppendantContent) {
+            if (!slots.cellAppendant) {
                 return undefined;
             }
             return (
                 <div class={cls('panel-cell-appendant-content')}>
-                    {slots.cellAppendantContent({
+                    {slots.cellAppendant({
                         mode: mode.value,
                         date: convertCalendarDateToUnixTime(cellDate),
                     })}

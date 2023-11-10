@@ -69,9 +69,9 @@ export const CalendarEvent = {
 
 export type CalendarSlots = {
     // 	单元格
-    cellMainContent: { date: UnixTime; mode: CalendarMode };
+    cellMain: { date: UnixTime; mode: CalendarMode };
     // 单元格附加内容
-    cellAppendantContent: { date: UnixTime; mode: CalendarMode };
+    cellAppendant: { date: UnixTime; mode: CalendarMode };
 };
 
 export type CalendarUnboxSlots = SetupContext<

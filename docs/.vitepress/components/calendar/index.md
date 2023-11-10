@@ -37,10 +37,10 @@ app.use(FCalendar);
 
 ## Slots
 
-| 名称                 | 说明                     | 参数                                          |
-|----------------------|------------------------|-----------------------------------------------|
-| cellMainContent      | 单元格主要内容（日期部分） | `{ date: UnixTime, mode: 'month' \| 'date' }` |
-| cellAppendantContent | 单元格附加内容           | `{ date: UnixTime, mode: 'month' \| 'date' }` |
+| 名称          | 说明                     | 参数                                          |
+|---------------|------------------------|-----------------------------------------------|
+| cellMain      | 单元格主要内容（日期部分） | `{ date: UnixTime, mode: 'month' \| 'date' }` |
+| cellAppendant | 单元格附加内容           | `{ date: UnixTime, mode: 'month' \| 'date' }` |
 
 ## Events
 
