@@ -68,7 +68,7 @@ function createData(level = 4, baseKey = '') {
     return Array.apply(null, { length: 10 - level }).map((_, index) => {
         const key = '' + baseKey + level + index;
         return {
-            label: createLabel(level),
+            label: `${key}-${createLabel(level)}`,
             value: key,
             children: createData(level - 1, key),
             disabled: level === 1 && index === 0,
