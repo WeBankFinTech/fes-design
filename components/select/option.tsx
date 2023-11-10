@@ -17,6 +17,7 @@ export const optionProps = {
         type: [String, Number, Boolean, Object] as PropType<
             string | number | boolean | object
         >,
+        default: undefined as undefined,
     },
     label: String,
     disabled: Boolean,

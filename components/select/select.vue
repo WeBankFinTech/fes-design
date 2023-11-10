@@ -186,14 +186,17 @@ export default defineComponent({
         };
 
         const baseOptions = computed(() => {
-            const allOptions = [...childOptions, ...(props.options || [])];
-            return allOptions.map((option) => {
-                return {
-                    ...option,
-                    value: option[props.valueField],
-                    label: option[props.labelField],
-                };
-            });
+            const allOptions = [
+                ...childOptions,
+                ...(props.options || []).map((option) => {
+                    return {
+                        ...option,
+                        value: option[props.valueField],
+                        label: option[props.labelField],
+                    };
+                }),
+            ];
+            return allOptions;
         });
 
         const cacheOptionsForTag = computed(() => {
