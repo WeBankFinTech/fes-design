@@ -18,7 +18,7 @@
                 time: Date.now(),
             },
             {
-                label: '周三国王日',
+                label: '星期三',
                 time: () => {
                     const today = new Date();
                     const kingDay = new Date();

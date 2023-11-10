@@ -61,7 +61,7 @@ const useCalendarData = (
 
     // TODO: 后续支持传参修改
     // 默认从周一开始
-    const startDay = ref<Day>(0);
+    const startDay = ref<Day>(1);
 
     // 获取今天的日期
     const today = getToday();

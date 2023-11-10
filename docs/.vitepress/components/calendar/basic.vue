@@ -7,7 +7,7 @@
                 time: Date.now(),
             },
             {
-                label: '疯狂星期四',
+                label: '星期四',
                 time: () => {
                     const today = new Date();
                     const crazyDay = new Date();

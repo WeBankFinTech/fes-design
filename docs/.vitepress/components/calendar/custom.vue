@@ -11,10 +11,10 @@
         <template #cell="{ date, mode }">
             <div v-if="mode === 'date'" :style="{ padding: '8px 0' }">
                 <FTag v-if="isKingDay(date)" size="small" type="warning">
-                    汉堡王
+                    星期三
                 </FTag>
                 <FTag v-if="isCrazyDay(date)" size="small" type="danger">
-                    肯德基
+                    星期四
                 </FTag>
             </div>
         </template>
