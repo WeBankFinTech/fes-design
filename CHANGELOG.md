@@ -1,3 +1,13 @@
+## [0.8.15](https://github.com/WeBankFinTech/fes-design/compare/v0.8.14...v0.8.15) (2023-11-10)
+
+
+### Bug Fixes
+
+* checkbox和radio支持option为null & option类型修复 ([#510](https://github.com/WeBankFinTech/fes-design/issues/510)) ([463ac71](https://github.com/WeBankFinTech/fes-design/commit/463ac71015de05b09a1eeceabed3d4d742a91971))
+* **select:** Option组件没有配置value默认为undefined & Foption无需处理valueField和labelField ([#512](https://github.com/WeBankFinTech/fes-design/issues/512)) ([5e803f4](https://github.com/WeBankFinTech/fes-design/commit/5e803f45c0a122409e2ce28bfb7c2817371edc4b))
+
+
+
 ## [0.8.14](https://github.com/WeBankFinTech/fes-design/compare/v0.8.13...v0.8.14) (2023-11-08)
 
 
