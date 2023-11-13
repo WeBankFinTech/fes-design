@@ -50,3 +50,4 @@ import './radio-button/style';
 import './card/style';
 import './text/style';
 import './timeline/style';
+import './calendar/style';

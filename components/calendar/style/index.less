@@ -1,0 +1,213 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+
+@calendar: ~'@{cls-prefix}-calendar';
+@calendar-action-bar: ~'@{calendar}-action-bar';
+
+@calendar-panel: ~'@{calendar}-panel';
+@calendar-week-name-header: ~'@{calendar}-week-name-header';
+@calendar-date-panel: ~'@{calendar}-date-panel';
+@calendar-month-panel: ~'@{calendar}-month-panel';
+
+@calendar-panel-cell: ~'@{calendar}-panel-cell';
+@calendar-panel-cell-padding: var(--f-padding-xsmall);
+
+@calendar-cell-main-content-side-length: 24px;
+@calendar-panel-cell-mark-side-length: 3px;
+@calendar-panel-cell-mark-space: 3px;
+
+@border: var(--f-border-width-base) var(--f-border-style-base) var(--f-border-color-split);
+
+.@{calendar} {
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .@{calendar-action-bar} {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: var(--f-padding-middle);
+    }
+
+    .@{calendar-panel} {
+        display: flex;
+        flex-direction: column;
+        
+        flex-grow: 1;
+        font-size: var(--f-font-size-base);
+        border: @border;
+        border-radius: var(--f-border-radius-base);
+
+        // 日历的星期栏
+        & > .@{calendar-week-name-header} {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            border-bottom: @border;
+
+            .@{calendar-week-name-header}-cell {
+                padding: @calendar-panel-cell-padding;
+                border-right: @border;
+
+                &:last-child {
+                    border-right: none;
+                }
+
+                & > .@{calendar-week-name-header}-cell-main-content {
+                    @side-length: @calendar-cell-main-content-side-length;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: @side-length;
+                    height: @side-length;
+                }
+            }
+        }
+
+        // 日历、月历的共同样式
+        & > .@{calendar-date-panel}, & > .@{calendar-month-panel} {
+            display: grid;
+            flex-grow: 1;
+
+            & > .@{calendar-panel-cell} {
+                padding: @calendar-panel-cell-padding;
+                border-right: @border;
+                border-bottom: @border;
+                cursor: pointer;
+
+                & > .@{calendar-panel-cell}-main-content {
+                    @side-length: @calendar-cell-main-content-side-length;
+                    
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: @side-length;
+                    height: @side-length;
+                    border-radius: var(--f-border-radius-base);
+                    transition: none @animation-duration-base @ease-base-in;
+                    transition-property: background, color;
+                    user-select: none;
+                }
+
+                &:hover {
+                    & > .@{calendar-panel-cell}-main-content {
+                        background-color: var(--f-hover-color-light);
+                    }
+                }
+
+                &.@{calendar-panel-cell}-today {
+                    & > .@{calendar-panel-cell}-main-content {
+                        position: relative;
+                        color: var(--f-primary-color);
+                        background-color: var(--f-hover-color-light);
+
+                        &::after {
+                            position: absolute;
+                            top: @calendar-panel-cell-mark-space;
+                            right: @calendar-panel-cell-mark-space;
+                            width: @calendar-panel-cell-mark-side-length;
+                            height: @calendar-panel-cell-mark-side-length;
+                            background-color: var(--f-primary-color);
+                            border-radius: 50%;
+                            content: '';
+                        }
+                    }
+                }
+
+                &.@{calendar-panel-cell}-active {
+                    & > .@{calendar-panel-cell}-main-content {
+                        color: var(--f-white) !important;
+                        background-color: var(--f-primary-color);
+                    }
+                }
+                
+                &.@{calendar-panel-cell}-secondary:not(.@{calendar-panel-cell}-today),
+                &.@{calendar-panel-cell}-secondary:not(.@{calendar-panel-cell}-active) {
+                    & > .@{calendar-panel-cell}-main-content {
+                        color: var(--f-text-color-disabled);
+                    }
+                }
+            }
+        }
+
+        // 日历
+        & > .@{calendar-date-panel} {
+            grid-template-rows: repeat(6, 1fr);
+            grid-template-columns: repeat(7, 1fr);
+
+            & > .@{calendar-panel-cell} {
+                // 日历最右侧的格子，即每行第 7 个元素
+                &:nth-child(7n) {
+                    border-right: unset;
+                }
+
+                // 日历最后一行的格子，日历展示一共 6×7=42 个格子，即第 36 格开始
+                &:nth-child(n+36) {
+                    border-bottom: unset;
+                }
+            }
+        }
+
+        // 月历
+        & > .@{calendar-month-panel} {
+            grid-template-rows: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
+
+            & > .@{calendar-panel-cell} {
+                // 日历最右侧的格子，即每行第 3 个元素
+                &:nth-child(3n) {
+                    border-right: unset;
+                }
+
+                // 日历最后一行的格子，日历展示一共 4×3=12 个格子，即第 10 格开始
+                &:nth-child(n+10) {
+                    border-bottom: unset;
+                }
+
+                & > .@{calendar-panel-cell}-main-content {
+                    width: calc(@calendar-cell-main-content-side-length * 2);
+                }
+            }
+        }
+    }
+
+    // 不展示分割线
+    &.@{calendar}-without-split-line {
+        .@{calendar-week-name-header}-cell {
+            border-color: transparent !important;
+        }
+
+        .@{calendar-panel-cell} {
+            border-right: unset !important;
+            border-bottom: unset !important;
+        }
+    }
+}
+
+@calendar-navigator: ~'@{cls-prefix}-calendar-navigator';
+
+.@{calendar-navigator} {
+    display: flex;
+    align-items: center;
+
+    .@{calendar-navigator}-current-date {
+        padding: 0 var(--f-padding-large);
+        font-weight: 500;
+    }
+
+    .@{calendar-navigator}-btn {
+        color: var(--f-text-color-secondary);
+        font-size: var(--f-font-size-base);
+        cursor: pointer;
+
+        &:hover {
+            color: var(--f-primary-color);
+        }
+    }
+}

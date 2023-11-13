@@ -113,7 +113,7 @@ import { useRange, useSelectStatus } from './useRange';
 import { useDisable } from './use';
 import { PickerType, pickerFactory } from './pickerHandler';
 
-const prefixCls = getPrefixCls('calendars');
+const prefixCls = getPrefixCls('date-picker-calendars');
 
 const calendarsProps = {
     ...COMMON_PROPS,

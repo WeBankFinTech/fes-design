@@ -158,7 +158,7 @@ import { pickerFactory } from './pickerHandler';
 import type { DayItem, DateObj, UpdateSelectedDates } from './interface';
 import type { Picker } from './pickerHandler';
 
-const prefixCls = getPrefixCls('calendar');
+const prefixCls = getPrefixCls('date-picker-calendar');
 
 const MONTHS_NAMES = [
     'jan',
