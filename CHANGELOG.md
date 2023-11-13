@@ -1,3 +1,13 @@
+## [0.8.16](https://github.com/WeBankFinTech/fes-design/compare/v0.8.15...v0.8.16) (2023-11-13)
+
+
+### Features
+
+* 新增日历组件 ([#509](https://github.com/WeBankFinTech/fes-design/issues/509)) ([f890b05](https://github.com/WeBankFinTech/fes-design/commit/f890b05993e99ffedfb4063bf896320b02f3c2d9))
+* **Cascader:** 支持本地数据项搜索 ([#511](https://github.com/WeBankFinTech/fes-design/issues/511)) ([4993058](https://github.com/WeBankFinTech/fes-design/commit/4993058c8a89fe15abff11a66b0bfe48f9654965))
+
+
+
 ## [0.8.15](https://github.com/WeBankFinTech/fes-design/compare/v0.8.14...v0.8.15) (2023-11-10)
 
 
