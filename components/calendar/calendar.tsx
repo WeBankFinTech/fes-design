@@ -1,11 +1,10 @@
 import { SlotsType, VNode, VNodeChild, computed, defineComponent } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import { useLocale } from '../config-provider/useLocale';
-import FRadioGroup from '../radio-group';
 import FSpace from '../space';
 import FButton from '../button';
 import { isValidRenderResult } from '../timeline/utils';
-import { CALENDAR_MODE_OPTIONS, COMPONENT_NAME, prefixCls } from './const';
+import { COMPONENT_NAME, prefixCls } from './const';
 import {
     cls,
     convertCalendarDateToUnixTime,
@@ -22,9 +21,8 @@ export default defineComponent({
     name: COMPONENT_NAME,
     props: calendarProps,
     emits: [
-        CalendarEvent.UPDATE_DATE,
+        CalendarEvent.UPDATE_MODEL,
         CalendarEvent.UPDATE_MODE,
-        CalendarEvent.UPDATE_ACTIVE_DATE,
         CalendarEvent.CELL_CLICK,
     ],
     slots: Object as SlotsType<Slots>,
@@ -33,12 +31,12 @@ export default defineComponent({
         const { t } = useLocale();
 
         const {
-            date,
-            mode,
             activeDate,
+            mode,
+            displayAnchorDate,
+            displayCalendar,
             today,
             startDay,
-            displayCalendar,
             handleShortcutClick,
             handleCellClick,
         } = useCalendarData(props, emit);
@@ -107,7 +105,7 @@ export default defineComponent({
             }
 
             if (mode.value === 'date') {
-                if (!isSameMonth(cell, date.value)) {
+                if (!isSameMonth(cell, displayAnchorDate.value)) {
                     classList.push(cls('panel-cell-secondary'));
                 }
             }
@@ -120,7 +118,7 @@ export default defineComponent({
             <div class={cls('action-bar')}>
                 <div class={cls('action-bar-left')}>
                     <CalendarNavigator
-                        v-model={[date.value, 'date']}
+                        v-model={[displayAnchorDate.value, 'date']}
                         navUnit={mode.value === 'date' ? 'month' : 'year'}
                     />
                 </div>
@@ -130,12 +128,6 @@ export default defineComponent({
                             {label}
                         </FButton>
                     ))}
-                    <FRadioGroup
-                        v-model={mode.value}
-                        optionType="button"
-                        options={CALENDAR_MODE_OPTIONS}
-                        cancelable={false}
-                    />
                 </FSpace>
             </div>
         );

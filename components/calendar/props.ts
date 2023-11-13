@@ -5,6 +5,7 @@ import {
     SetupContext,
     SlotsType,
 } from 'vue';
+import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import { UnixTime } from './types';
 import type { ComponentProps } from '../timeline/utilTypes';
 
@@ -22,13 +23,8 @@ export type CalendarShortcut = {
 };
 
 export const calendarProps = {
-    /** 控制日历当前显示的月份（date 所在的月份） */
-    date: {
-        type: Number as PropType<UnixTime>,
-        default: () => Date.now(),
-    },
     /** 当前高亮标记的日期 */
-    activeDate: {
+    modelValue: {
         type: Number as PropType<UnixTime>,
         default: () => Date.now(),
     },
@@ -61,9 +57,8 @@ export type CalendarInnerProps = Parameters<
 >[0];
 
 export const CalendarEvent = {
-    UPDATE_DATE: 'update:date',
+    UPDATE_MODEL: UPDATE_MODEL_EVENT,
     UPDATE_MODE: 'update:mode',
-    UPDATE_ACTIVE_DATE: 'update:activeDate',
     CELL_CLICK: 'cellClick',
 } as const;
 

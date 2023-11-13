@@ -2,7 +2,7 @@ import { computed, ref } from 'vue';
 import { Day } from 'date-fns';
 import { isNil } from 'lodash-es';
 import { useNormalModel } from '../_util/use/useModel';
-import { CalendarInnerProps, CalendarEvent, CalendarShortcut } from './props';
+import { CalendarEvent, CalendarInnerProps, CalendarShortcut } from './props';
 import {
     UseNormalModelReturn,
     convertCalendarDateToUnixTime,
@@ -22,23 +22,11 @@ const useCalendarData = (
         ...args: any[]
     ) => void,
 ) => {
-    const [propDate, setPropDate]: UseNormalModelReturn<typeof props, 'date'> =
-        useNormalModel(props, emit, {
-            prop: 'date',
-        });
-    const date = computed({
-        get: () => convertUnixTimeToCalendarDate(propDate.value),
-        set: (nextDate) =>
-            setPropDate(
-                convertCalendarDateToUnixTime(nextDate, propDate.value),
-            ),
-    });
-
     const [propActiveDate, setPropActiveDate]: UseNormalModelReturn<
         typeof props,
-        'activeDate'
+        'modelValue'
     > = useNormalModel(props, emit, {
-        prop: 'activeDate',
+        prop: 'modelValue',
     });
     const activeDate = computed({
         get: () => convertUnixTimeToCalendarDate(propActiveDate.value),
@@ -66,12 +54,15 @@ const useCalendarData = (
     // 获取今天的日期
     const today = getToday();
 
+    // 以此为锚定计算需要展示的日历
+    const displayAnchorDate = ref<CalendarDate>(today);
+
     // 日历当前展示的 date
     const displayCalendar = computed<CalendarDate[]>(() => {
         if (mode.value === 'month') {
-            return generateCalendarMonths(date.value);
+            return generateCalendarMonths(displayAnchorDate.value);
         } else {
-            return generateCalendarDates(date.value, {
+            return generateCalendarDates(displayAnchorDate.value, {
                 startDay: startDay.value,
                 weekNum: CALENDAR_ROW_NUM,
             });
@@ -90,31 +81,35 @@ const useCalendarData = (
             targetTime = time;
         }
 
+        // 当前显示的日历跳转到指定的日期
+        displayAnchorDate.value = convertUnixTimeToCalendarDate(targetTime);
         // 直接操作 props 中的数据，因为只有 props 中的是 UnixTime
-        setPropDate(targetTime);
         setPropActiveDate(targetTime);
     };
 
     // 日历格子点击时
     const handleCellClick = (cellDate: CalendarDate): void => {
         emit(CalendarEvent.CELL_CLICK, {
-            date: convertCalendarDateToUnixTime(cellDate, propDate.value),
+            date: convertCalendarDateToUnixTime(cellDate, propActiveDate.value),
             mode: mode.value,
         });
 
-        if (!isSameMonth(cellDate, date.value)) {
-            date.value = cellDate;
+        if (
+            mode.value === 'date' &&
+            !isSameMonth(cellDate, displayAnchorDate.value)
+        ) {
+            displayAnchorDate.value = cellDate;
         }
         activeDate.value = cellDate;
     };
 
     return {
-        date,
-        mode,
         activeDate,
+        mode,
+        displayAnchorDate,
+        displayCalendar,
         today,
         startDay,
-        displayCalendar,
         handleShortcutClick,
         handleCellClick,
     };

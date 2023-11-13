@@ -11,9 +11,17 @@ app.use(FCalendar);
 
 ## 代码演示
 
+Calendar 组件的实现使用了 grid 布局，可以根据父级容器的尺寸灵活展示日历。
+
+因此，如果想要组件是固定的尺寸，需手动给组件指定 `height`、`minHeight` 等宽高样式。
+
 ### 基础用法
 
 --BASIC
+
+### 按年展示
+
+--MODEMONTH
 
 ### 分割线的展示
 
@@ -27,13 +35,12 @@ app.use(FCalendar);
 
 ## Props
 
-| 属性               | 说明                        | 类型                                | 默认值 |
-|--------------------|---------------------------|-------------------------------------|--------|
-| v-model:date       | 控制日历当前显示的月份      | `number` (UnixTime)                 | 今天   |
-| v-model:mode       | 显示模式（按月展示、按年展示） | `month` `date`                      | `date` |
-| v-model:activeDate | 当前高亮标记的日期          | `number` (UnixTime)                 | 今天   |
-| splitLine          | 是否展示分割线              | `boolean`                           | `true` |
-| shortcuts          | 快捷选项                    | `{ label: string, time: number }[]` | `[]`   |
+| 属性         | 说明                        | 类型                                | 默认值 |
+|--------------|---------------------------|-------------------------------------|--------|
+| v-model      | 当前高亮标记的日期          | `number` (UnixTime)                 | 今天   |
+| v-model:mode | 显示模式（按月展示、按年展示） | `date` `month`                      | `date` |
+| splitLine    | 是否展示分割线              | `boolean`                           | `true` |
+| shortcuts    | 快捷选项                    | `{ label: string, time: number }[]` | `[]`   |
 
 ## Slots
 
