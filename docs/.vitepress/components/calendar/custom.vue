@@ -1,6 +1,5 @@
 <template>
     <FCalendar
-        :style="{ minHeight: '500px', maxHeight: '600px' }"
         :shortcuts="[
             {
                 label: '今天',

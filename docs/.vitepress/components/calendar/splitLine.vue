@@ -10,7 +10,6 @@
     <FDivider></FDivider>
 
     <FCalendar
-        :style="{ height: '500px' }"
         :splitLine="splitLineVisible"
         :shortcuts="[
             {

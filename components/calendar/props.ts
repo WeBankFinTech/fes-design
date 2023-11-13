@@ -42,6 +42,10 @@ export const calendarProps = {
         type: Boolean,
         default: true,
     },
+    /** 组件高度 */
+    height: {
+        type: [String, Number] as PropType<string | number>,
+    },
     /** 快捷选项 */
     shortcuts: {
         type: Object as PropType<CalendarShortcut[]>,

@@ -1,4 +1,12 @@
-import { SlotsType, VNode, VNodeChild, computed, defineComponent } from 'vue';
+import {
+    CSSProperties,
+    SlotsType,
+    VNode,
+    VNodeChild,
+    computed,
+    defineComponent,
+} from 'vue';
+import { isNumber } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
 import { useLocale } from '../config-provider/useLocale';
 import FSpace from '../space';
@@ -90,6 +98,11 @@ export default defineComponent({
             props.splitLine ? '' : cls('without-split-line'),
         ]);
 
+        // 组件的样式
+        const styles = computed<CSSProperties>(() => ({
+            height: isNumber(props.height) ? `${props.height}px` : props.height,
+        }));
+
         // 日历格子的样式
         const calculateCellClassList = (cell: CalendarDate): string[] => {
             const classList = [cls('panel-cell')];
@@ -153,7 +166,7 @@ export default defineComponent({
         };
 
         return () => (
-            <div class={classList.value}>
+            <div class={classList.value} style={styles.value}>
                 {renderActionBar()}
                 <div class={cls('panel')}>
                     {/* 星期栏 */}

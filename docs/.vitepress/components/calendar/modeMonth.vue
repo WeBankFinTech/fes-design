@@ -1,3 +1,3 @@
 <template>
-    <FCalendar mode="month" :style="{ height: '400px' }" />
+    <FCalendar mode="month" />
 </template>
