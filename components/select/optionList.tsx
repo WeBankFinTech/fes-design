@@ -79,7 +79,28 @@ export default defineComponent({
             return null;
         };
 
+        // 渲染option分组
+        const renderOptionGroup = (option: SelectOption) => {
+            const prefixCls = `${props.prefixCls}-option-group`;
+            return (
+                <div>
+                    <div class={`${prefixCls}-label`}>
+                        {option.slots ?? option.label}
+                    </div>
+                    <div class={`${prefixCls}-container`}>
+                        {option.options.map((opt) => renderOption(opt))}
+                    </div>
+                </div>
+            );
+        };
+
+        // 渲染每个option
         const renderOption = (option: SelectOption) => {
+            // 有options说明是有选项分组的
+            if (option.options) {
+                return renderOptionGroup(option);
+            }
+
             const value = option.value;
             const isSelected = props.isSelect(value);
             const isHover = props.hoverOptionValue === option.value;

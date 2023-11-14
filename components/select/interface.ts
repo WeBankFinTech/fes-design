@@ -9,6 +9,7 @@ export interface SelectOption {
     disabled?: boolean;
     __cache?: boolean;
     [key: string]: any;
+    options?: Omit<SelectOption, 'options'>[];
 }
 
 export interface OptionChildren extends ToRefs<OptionProps> {

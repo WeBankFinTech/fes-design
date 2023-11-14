@@ -36,6 +36,9 @@ export default defineComponent({
 
         const { addOption, removeOption } = parent;
 
+        // 获取是否有optionGroup标签包裹
+        const group = inject('optionGroup', null);
+
         const optionRef = ref<HTMLElement>();
 
         onBeforeMount(() => {
@@ -52,7 +55,13 @@ export default defineComponent({
                 //TODO: 检测 text 变更
                 return el?.textContent || '';
             });
-            addOption(option);
+
+            // 如果是选项组包裹的，则收集包裹下面的option
+            if (group) {
+                group.options.push(option);
+            } else {
+                addOption(option);
+            }
         });
 
         onBeforeUnmount(() => {

@@ -309,7 +309,11 @@ export default defineComponent({
             ([newValue, newOptions]) => {
                 const getOption = (val: SelectValue) => {
                     let cacheOption;
-                    if (newOptions && newOptions.length) {
+                    if (
+                        newOptions &&
+                        newOptions.length &&
+                        newValue !== undefined // optionGroup newValue会是undefined
+                    ) {
                         cacheOption = newOptions.find(
                             (option) => option.value === val,
                         );

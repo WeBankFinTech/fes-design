@@ -90,6 +90,12 @@ app.use(FSelect);
 
 --ADDON
 
+### 选项组
+
+选项组配置,支持options配置和插槽使用
+
+--OPTIONGROUP
+
 --CODE
 
 ## Select Props
@@ -116,6 +122,11 @@ app.use(FSelect);
 | valueField           | 替代 `Option` 中的 `value` 字段名                             | string                                       | `value`               |
 | labelField           | 替代 `Option` 中的 `label` 字段名                             | string                                       | `label`               |
 | popperClass          | 弹出框容器样式                                                | string                                       | -                     |
+
+## OptionGroup Props
+| 属性                 | 说明                                                          | 类型                                         | 默认值                |
+| -------------------- | -------------------------------------------------------------| --------------------------------------------| --------------------- |
+| label                | 选项组标签                                                     | string                                      | ''                |
 
 ## Select Events
 
