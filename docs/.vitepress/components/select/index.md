@@ -16,87 +16,115 @@ app.use(FSelect);
 
 适用广泛的基础单选
 
---COMMON
+:::demo
+common.vue
+:::
 
 ### 配置方式
 
 通过配置`options`直接生成选项，当数据量大于 `50` 时使用 `VirtualList`组件实现虚拟列表，性能更优，推荐用配置`options`直接生成选项！
 
---OPTIONS
+:::demo
+options.vue
+:::
 
 ### 基础多选
 
 适用性较广的基础多选，用 `Tag` 展示已选项
 
---MULTIPLE
+:::demo
+multiple.vue
+:::
 
 ### 限制多选个数
 
 当选择达到上限时无法再继续选择新的
 
---LIMIT
+:::demo
+limit.vue
+:::
 
 ### 自定义选项模板
 
 可以自定义备选项模板，`FOption`子组件是针对每一项单独配置，而 `slots.option` 插槽则是通用配置。
 
---CUSTOMOPTION
+:::demo
+customOption.vue
+:::
 
 ### 自定义回填内容
 
---CUSTOMTAG
+:::demo
+customTag.vue
+:::
 
 ### 可过滤
 
 可以利用搜索功能快速查找选项
 
---FILTERABLE
+:::demo
+filterable.vue
+:::
 
 ### 动态创建选项
 
 使用 `tag` & `filterable` 来允许动态创建选项。
 
---TAG
+:::demo
+tag.vue
+:::
 
 ### 远程搜索
 
---REMOTE
+:::demo
+remote.vue
+:::
 
 ### 禁用选项
 
 禁止选择某一项
 
---OPTIONDISABLED
+:::demo
+optionDisabled.vue
+:::
 
 ### 禁用选择器
 
 选择器不可用状态
 
---DISABLED
+:::demo
+disabled.vue
+:::
 
 ### 可清空
 
 包含清空按钮，可将选择器清空为初始状态
 
---CLEARABLE
+:::demo
+clearable.vue
+:::
 
 ### 无数据
 
---NODATA
+:::demo
+nodata.vue
+:::
 
 ### 底部插槽
 
 如果你点开了这个例子，可能你需要它
 
---ADDON
+:::demo
+addon.vue
+:::
 
 ### 选项组
 
-选项组配置,支持options配置和插槽使用
+选项组配置，支持options配置和插槽使用
 
---OPTIONGROUP
-
---CODE
+:::demo
+optionGroup.vue
+:::
 
 ## Select Props
 

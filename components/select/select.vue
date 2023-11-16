@@ -225,14 +225,35 @@ export default defineComponent({
             return [...cacheOptionsForTag.value, ...baseOptions.value];
         });
 
+        const searchOptions = (
+            options: SelectOption[],
+            text: string,
+            filter: (pattern: string, option: object) => boolean,
+        ): SelectOption[] => {
+            let result: SelectOption[] = [];
+            for (let i = 0; i < options.length; i++) {
+                if (options[i].options) {
+                    // 如果当前项有子选项，递归地搜索子选项
+                    result = result.concat(
+                        searchOptions(options[i].options, text, filter),
+                    );
+                } else if (filter(text, options[i])) {
+                    // 如果过滤函数返回 true，把当前项添加到结果中
+                    result.push(options[i]);
+                }
+            }
+            return result;
+        };
+
         const filteredOptions = computed(() => {
             if (!props.remote && props.filterable && filterText.value) {
-                return allOptions.value.filter((option) => {
-                    if (props.filter) {
-                        return props.filter(filterText.value, option);
-                    }
-                    return String(option.label).includes(filterText.value);
-                });
+                return searchOptions(
+                    allOptions.value,
+                    filterText.value,
+                    props.filter ||
+                        ((text: string, option: SelectOption) =>
+                            String(option.label).includes(text)),
+                );
             }
             return allOptions.value;
         });

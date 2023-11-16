@@ -18,7 +18,12 @@
     </FSpace>
 
     <FSpace>
-        <FSelect v-model="value2" style="width: 200px" :options="options">
+        <FSelect
+            v-model="value2"
+            style="width: 200px"
+            :options="options"
+            filterable
+        >
         </FSelect>
     </FSpace>
 </template>
