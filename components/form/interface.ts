@@ -44,6 +44,10 @@ export const formProps = {
         type: Boolean,
         default: false,
     },
+    align: {
+        type: String as PropType<(typeof FORM_ITEM_ALIGN)[number]>,
+        default: FORM_ITEM_ALIGN[0],
+    },
 } as const;
 
 export type FormProps = ExtractPublicPropTypes<typeof formProps>;
@@ -74,7 +78,7 @@ export const formItemProps = {
     },
     align: {
         type: String as PropType<(typeof FORM_ITEM_ALIGN)[number]>,
-        default: FORM_ITEM_ALIGN[0],
+        default: null as string,
     },
 } as const;
 
