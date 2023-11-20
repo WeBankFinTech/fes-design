@@ -154,7 +154,7 @@ export default defineComponent({
                 {renderSymbol()}
                 <div class={`${prefixCls}-content`}>
                     <div class={`${prefixCls}-title`}>
-                        {slots.title?.() || props.title}
+                        {slots.title?.() || `${props.title}`}
                         {!parent.props.vertical && (
                             <div class={`${prefixCls}-tail`}></div>
                         )}
