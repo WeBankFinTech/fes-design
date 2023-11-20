@@ -1,3 +1,12 @@
+## [0.8.17](https://github.com/WeBankFinTech/fes-design/compare/v0.8.16...v0.8.17) (2023-11-20)
+
+
+### Features
+
+* **Form:** 表单组件增加对齐方式 align 配置项 ([#514](https://github.com/WeBankFinTech/fes-design/issues/514)) ([2f58c80](https://github.com/WeBankFinTech/fes-design/commit/2f58c808ec88f40a9ca489660c2df83fb40d1161))
+
+
+
 ## [0.8.16](https://github.com/WeBankFinTech/fes-design/compare/v0.8.15...v0.8.16) (2023-11-13)
 
 
