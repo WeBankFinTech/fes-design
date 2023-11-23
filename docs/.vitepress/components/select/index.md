@@ -120,7 +120,7 @@ addon.vue
 
 ### 选项组
 
-选项组配置，支持options配置和插槽使用
+选项组配置，支持options配置和插槽使用，也支持使用filterable 过滤出对应选项的值
 
 :::demo
 optionGroup.vue

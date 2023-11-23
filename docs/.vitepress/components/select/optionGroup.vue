@@ -5,14 +5,22 @@
                 <template #label>
                     <span class="label-color">Admin</span>
                 </template>
-                <FOption value="lucy">lucy</FOption>
-                <FOption value="tom">tom</FOption>
-                <FOption value="jack">jack</FOption>
-            </FOptionGroup>
-            <FOptionGroup label="Manager">
                 <FOption value="bob">bob</FOption>
                 <FOption value="tina">tina</FOption>
                 <FOption value="peter">peter</FOption>
+            </FOptionGroup>
+            <FOptionGroup
+                v-for="group in options"
+                :key="group.label"
+                :label="group.label"
+            >
+                <FOption
+                    v-for="item in group.options"
+                    :key="item.label"
+                    :value="item.value"
+                >
+                    {{ item.label }}
+                </FOption>
             </FOptionGroup>
         </FSelect>
     </FSpace>
@@ -42,11 +50,11 @@ export default {
                 options: [
                     {
                         value: 'jack',
-                        label: 'Jack',
+                        label: 'jack',
                     },
                     {
                         value: 'lucy',
-                        label: 'Lucy',
+                        label: 'lucy',
                     },
                 ],
             },
