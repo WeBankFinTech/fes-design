@@ -120,7 +120,7 @@ addon.vue
 
 ### 选项组
 
-选项组配置，支持options配置和插槽使用，也支持使用filterable 过滤出对应选项的值
+选项组配置，支持options配置和插槽使用，也支持使用filterable 过滤出对应选项的值，支持组disabled
 
 :::demo
 optionGroup.vue
@@ -154,7 +154,8 @@ optionGroup.vue
 ## OptionGroup Props
 | 属性                 | 说明                                                          | 类型                                         | 默认值                |
 | -------------------- | -------------------------------------------------------------| --------------------------------------------| --------------------- |
-| label                | 选项组标签                                                     | string                                      | ''                |
+| label                | 选项组标签                                                     | string                                      | `''`                |
+| disabled             | 选项组禁用，不可选择                                             | boolean                                     |  `false`               |
 
 ## Select Events
 

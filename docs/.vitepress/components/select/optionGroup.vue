@@ -34,6 +34,15 @@
         >
         </FSelect>
     </FSpace>
+    <FSpace>
+        <FSelect v-model="value3" style="width: 200px" filterable>
+            <FOptionGroup label="User" disabled>
+                <FOption value="bob">bob</FOption>
+                <FOption value="tina">tina</FOption>
+                <FOption value="peter">peter</FOption>
+            </FOptionGroup>
+        </FSelect>
+    </FSpace>
 </template>
 
 <script>
@@ -43,6 +52,8 @@ export default {
         const value1 = ref('');
 
         const value2 = ref('');
+
+        const value3 = ref('');
 
         const options = [
             {
@@ -73,6 +84,7 @@ export default {
             options,
             value1,
             value2,
+            value3,
         };
     },
 };

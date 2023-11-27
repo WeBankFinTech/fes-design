@@ -16,6 +16,10 @@ export const optionGroupProps = {
         type: String,
         default: '',
     },
+    disabled: {
+        type: Boolean,
+        default: false,
+    },
 } as const;
 
 export type OptionGroupProps = ExtractPublicPropTypes<typeof optionGroupProps>;
@@ -40,6 +44,7 @@ export default defineComponent({
             label: props.label,
             options: [],
             slots: null,
+            disabled: props.disabled,
         });
 
         const optionGroupRef = ref<HTMLElement>();

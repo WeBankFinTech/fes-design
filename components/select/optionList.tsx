@@ -5,7 +5,6 @@ import VirtualList from '../virtual-list/virtualList';
 import CheckOutlined from '../icon/CheckOutlined';
 import { noop } from '../_util/utils';
 import { useLocale } from '../config-provider/useLocale';
-
 import type { SelectOption, SelectValue } from './interface';
 
 const optionListProps = {
@@ -88,6 +87,7 @@ export default defineComponent({
                         {option.slots ?? option.label}
                     </div>
                     <div class={`${prefixCls}-container`}>
+                        {/* 格式缩进，渲染子选项 */}
                         {option.options.map((opt) => renderOption(opt))}
                     </div>
                 </div>
@@ -98,6 +98,12 @@ export default defineComponent({
         const renderOption = (option: SelectOption) => {
             // 有options说明是有选项分组的
             if (option.options) {
+                // 如果组disabled,则子选项全部disable
+                if (option.disabled) {
+                    option.options = option.options.map((item) => {
+                        return { ...item, disabled: true };
+                    });
+                }
                 return renderOptionGroup(option);
             }
 
