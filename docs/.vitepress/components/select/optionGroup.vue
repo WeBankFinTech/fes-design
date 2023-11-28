@@ -30,7 +30,9 @@
             v-model="value2"
             style="width: 200px"
             :options="options"
+            tag
             filterable
+            multiple
         >
         </FSelect>
     </FSpace>
@@ -51,13 +53,13 @@ export default {
     setup() {
         const value1 = ref('');
 
-        const value2 = ref('');
+        const value2 = ref([]);
 
         const value3 = ref('');
 
         const options = [
             {
-                label: 'Manager',
+                label: 'User',
                 options: [
                     {
                         value: 'jack',

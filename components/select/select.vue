@@ -196,11 +196,12 @@ export default defineComponent({
             });
         });
 
+        // 自定义选项
         const cacheOptionsForTag = computed(() => {
             if (props.filterable && props.tag) {
                 if (
                     filterText.value &&
-                    baseOptions.value.every((option) => {
+                    flatAllOptions(baseOptions.value).every((option) => {
                         return option.label !== filterText.value;
                     }) &&
                     cacheOptions.value.every((option) => {
@@ -225,30 +226,40 @@ export default defineComponent({
             return [...cacheOptionsForTag.value, ...baseOptions.value];
         });
 
+        // 拍平选项数据结构层级
+        const flatAllOptions = (optionList: SelectOption[] = []) => {
+            return optionList.reduce((acc: SelectOption[], option) => {
+                if (option.options) {
+                    return acc.concat(
+                        option.options.map(
+                            (subOption: SelectOption) =>
+                                ({
+                                    ...subOption,
+                                    type: 'group',
+                                } as SelectOption),
+                        ),
+                    );
+                } else {
+                    // 如果当前项没有子选项，直接添加到结果中
+                    return acc.concat({
+                        ...option,
+                    } as SelectOption);
+                }
+            }, []);
+        };
+
         const searchOptions = (
             options: SelectOption[],
             text: string,
             filter: (pattern: string, option: object) => boolean,
         ): SelectOption[] => {
-            let result: SelectOption[] = [];
-            for (let i = 0; i < options.length; i++) {
-                if (options[i].options) {
-                    // 如果当前项有子选项，递归地搜索子选项
-                    result = result.concat(
-                        searchOptions(options[i].options, text, filter),
-                    );
-                } else if (filter(text, options[i])) {
-                    // 如果过滤函数返回 true，把当前项添加到结果中
-                    result.push(options[i]);
-                }
-            }
-            return result;
+            return options.filter((opt) => filter(text, opt));
         };
 
         const filteredOptions = computed(() => {
             if (!props.remote && props.filterable && filterText.value) {
                 return searchOptions(
-                    allOptions.value,
+                    flatAllOptions(allOptions.value), // 拍平选项后过滤
                     filterText.value,
                     props.filter ||
                         ((text: string, option: SelectOption) =>
