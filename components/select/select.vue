@@ -266,7 +266,6 @@ export default defineComponent({
             };
 
             return baseOptions.value.reduce((acc: SelectOption[], option) => {
-                console.log('0000', acc, option);
                 return acc.concat(getFlatOptions([option]));
             }, []);
         });
