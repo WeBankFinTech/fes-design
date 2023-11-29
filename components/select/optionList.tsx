@@ -79,7 +79,7 @@ export default defineComponent({
         };
 
         // 渲染option分组
-        const renderOptionGroup = (option: SelectOption) => {
+        const renderSelectGroupOption = (option: SelectOption) => {
             const prefixCls = `${props.prefixCls}-option-group`;
             return (
                 <div>
@@ -104,7 +104,7 @@ export default defineComponent({
                         return { ...item, disabled: true };
                     });
                 }
-                return renderOptionGroup(option);
+                return renderSelectGroupOption(option);
             }
 
             const value = option.value;

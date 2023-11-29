@@ -8,10 +8,10 @@ import {
     getCurrentInstance,
     ref,
 } from 'vue';
-import { key } from './const';
+import { key, selectGroupOptionKey } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
-export const optionGroupProps = {
+export const selectGroupOptionProps = {
     label: {
         type: String,
         default: '',
@@ -22,11 +22,13 @@ export const optionGroupProps = {
     },
 } as const;
 
-export type OptionGroupProps = ExtractPublicPropTypes<typeof optionGroupProps>;
+export type SelectGroupOptionProps = ExtractPublicPropTypes<
+    typeof selectGroupOptionProps
+>;
 
 export default defineComponent({
-    name: 'FOptionGroup',
-    props: optionGroupProps,
+    name: 'FSelectGroupOption',
+    props: selectGroupOptionProps,
     setup(props, ctx) {
         const parent = inject(key, null);
         if (!parent) {
@@ -39,7 +41,7 @@ export default defineComponent({
 
         const { addOption, removeOption } = parent;
 
-        const optionGroup = reactive({
+        const selectGroupOption = reactive({
             id: instance.uid,
             label: props.label,
             options: [],
@@ -47,14 +49,14 @@ export default defineComponent({
             disabled: props.disabled,
         });
 
-        const optionGroupRef = ref<HTMLElement>();
-        provide('optionGroup', optionGroup);
+        const selectGroupOptionRef = ref<HTMLElement>();
+        provide(selectGroupOptionKey, selectGroupOption);
 
         onBeforeMount(() => {
             if (ctx.slots.label) {
-                optionGroup.slots = ctx.slots.label();
+                selectGroupOption.slots = ctx.slots.label();
             }
-            addOption(optionGroup);
+            addOption(selectGroupOption);
         });
 
         onBeforeUnmount(() => {
@@ -63,7 +65,7 @@ export default defineComponent({
 
         return () => {
             return (
-                <div ref={optionGroupRef}>
+                <div ref={selectGroupOptionRef}>
                     <div>{ctx.slots.default?.()}</div>
                 </div>
             );

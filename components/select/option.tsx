@@ -9,7 +9,7 @@ import {
     PropType,
     ref,
 } from 'vue';
-import { key } from './const';
+import { key, selectGroupOptionKey } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const optionProps = {
@@ -36,8 +36,8 @@ export default defineComponent({
 
         const { addOption, removeOption } = parent;
 
-        // 获取是否有optionGroup标签包裹
-        const group = inject('optionGroup', null);
+        // 获取是否有 SelectGroupOption 标签包裹
+        const group = inject(selectGroupOptionKey, null);
 
         const optionRef = ref<HTMLElement>();
 

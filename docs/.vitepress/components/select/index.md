@@ -120,10 +120,10 @@ addon.vue
 
 ### 选项组
 
-选项组配置，支持options配置和插槽使用，也支持使用filterable 过滤出对应选项的值，支持组disabled
+选项组配置，支持 options 配置和插槽使用，也支持使用 filterable 过滤出对应选项的值，支持组 disabled
 
 :::demo
-optionGroup.vue
+selectGroupOption.vue
 :::
 
 ## Select Props
@@ -151,12 +151,6 @@ optionGroup.vue
 | labelField           | 替代 `Option` 中的 `label` 字段名                             | string                                       | `label`               |
 | popperClass          | 弹出框容器样式                                                | string                                       | -                     |
 
-## OptionGroup Props
-| 属性                 | 说明                                                          | 类型                                         | 默认值                |
-| -------------------- | -------------------------------------------------------------| --------------------------------------------| --------------------- |
-| label                | 选项组标签                                                     | string                                      | `''`                |
-| disabled             | 选项组禁用，不可选择                                             | boolean                                     |  `false`               |
-
 ## Select Events
 
 | 事件名称      | 说明                                                                         | 回调参数           |
@@ -174,7 +168,7 @@ optionGroup.vue
 
 | 名称    | 说明                                           | 参数                                         |
 | ------- | ---------------------------------------------- | -------------------------------------------- |
-| default | option 组件列表                                | -                                            |
+| default | option 和 selectGroupOption 组件列表                 | -                                            |
 | empty   | 无选项的内容                                   | -                                            |
 | option  | 自定义 `Option` 内容                           | _{ value, label, disabled, isSelected }_     |
 | tag     | 控制标签的渲染，自定义选中选项在选择框如何展示 | _{ option: Option, handleClose: ()=> void }_ |
@@ -194,3 +188,16 @@ optionGroup.vue
 | value    | 选项的值，需要唯一                        | string / number / boolean / object | -       |
 | label    | 选项的标签，若不设置则默认与 `value` 相同 | string / number                    | -       |
 | disabled | 是否禁用                                  | boolean                            | `false` |
+
+## SelectGroupOption Props
+
+| 属性     | 说明                 | 类型    | 默认值  |
+| -------- | -------------------- | ------- | ------- |
+| label    | 选项组标签           | string  | -       |
+| disabled | 选项组禁用，不可选择 | boolean | `false` |
+
+## SelectGroupOption Slots
+
+| 名称  | 说明       | 参数 |
+| ----- | ---------- | ---- |
+| label | 选项的标签 | -    |

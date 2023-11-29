@@ -344,7 +344,7 @@ export default defineComponent({
                     if (
                         newOptions &&
                         newOptions.length &&
-                        newValue !== undefined // optionGroup newValue会是undefined
+                        newValue !== undefined // SelectGroupOption newValue 会是 undefined
                     ) {
                         cacheOption = newOptions.find(
                             (option) => option.value === val,
