@@ -196,6 +196,12 @@ selectGroupOption.vue
 | label    | 选项组标签                   | string  | -       |
 | disabled | 选项组禁用，子选项都不可选择 | boolean | `false` |
 
+## SelectGroupOption Slots
+
+| 属性  | 说明                              |
+| ----- | --------------------------------- |
+| label | 自定义分组标签，优先级比 props.label 高 |
+
 ## SelectOption
 
 | 属性     | 说明                     | 类型                               |
