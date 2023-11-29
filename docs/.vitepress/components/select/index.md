@@ -120,7 +120,7 @@ addon.vue
 
 ### 选项组
 
-选项组配置，支持 options 配置和插槽使用，也支持使用 filterable 过滤出对应选项的值，支持组 disabled
+选项组配置，支持 options 配置和插槽使用
 
 :::demo
 selectGroupOption.vue
@@ -146,9 +146,9 @@ selectGroupOption.vue
 | filter               | 自定义过滤函数                                                | (pattern: string, option: object) => boolean | `-`                   |
 | tag                  | 是否可以创建新的选项，需要和 `filterable` 一起使用            | boolean                                      | `false`               |
 | remote               | 是否远程搜索，当输入内容时触发`search`事件                    | boolean                                      | `false`               |
-| options              | 选项配置                                                      | array\<Option\>                              | `[]`                  |
-| valueField           | 替代 `Option` 中的 `value` 字段名                             | string                                       | `value`               |
-| labelField           | 替代 `Option` 中的 `label` 字段名                             | string                                       | `label`               |
+| options              | 选项配置                                                      | array\<SelectOption\>                        | `[]`                  |
+| valueField           | 替代 `SelectOption` 中的 `value` 字段名                       | string                                       | `value`               |
+| labelField           | 替代 `SelectOption` 中的 `label` 字段名                       | string                                       | `label`               |
 | popperClass          | 弹出框容器样式                                                | string                                       | -                     |
 
 ## Select Events
@@ -166,13 +166,13 @@ selectGroupOption.vue
 
 ## Select Slots
 
-| 名称    | 说明                                           | 参数                                         |
-| ------- | ---------------------------------------------- | -------------------------------------------- |
-| default | option 和 selectGroupOption 组件列表                 | -                                            |
-| empty   | 无选项的内容                                   | -                                            |
-| option  | 自定义 `Option` 内容                           | _{ value, label, disabled, isSelected }_     |
-| tag     | 控制标签的渲染，自定义选中选项在选择框如何展示 | _{ option: Option, handleClose: ()=> void }_ |
-| addon   | 弹框底部显示自定义的内容                       | -                                            |
+| 名称    | 说明                                           | 参数                                               |
+| ------- | ---------------------------------------------- | -------------------------------------------------- |
+| default | option 和 selectGroupOption 组件列表           | -                                                  |
+| empty   | 无选项的内容                                   | -                                                  |
+| option  | 自定义 `Option` 内容                           | _{ value, label, disabled, isSelected }_           |
+| tag     | 控制标签的渲染，自定义选中选项在选择框如何展示 | _{ option: SelectOption, handleClose: ()=> void }_ |
+| addon   | 弹框底部显示自定义的内容                       | -                                                  |
 
 ## Select Methods
 
@@ -191,13 +191,17 @@ selectGroupOption.vue
 
 ## SelectGroupOption Props
 
-| 属性     | 说明                 | 类型    | 默认值  |
-| -------- | -------------------- | ------- | ------- |
-| label    | 选项组标签           | string  | -       |
-| disabled | 选项组禁用，不可选择 | boolean | `false` |
+| 属性     | 说明                         | 类型    | 默认值  |
+| -------- | ---------------------------- | ------- | ------- |
+| label    | 选项组标签                   | string  | -       |
+| disabled | 选项组禁用，子选项都不可选择 | boolean | `false` |
 
-## SelectGroupOption Slots
+## SelectOption
 
-| 名称  | 说明       | 参数 |
-| ----- | ---------- | ---- |
-| label | 选项的标签 | -    |
+| 属性     | 说明                     | 类型                               | 默认值  |
+| -------- | ------------------------ | ---------------------------------- | ------- |
+| value    | 非分组选项的值，需要唯一 | string / number / boolean / object | -       |
+| label    | 选项的标签               | string / number                    | -       |
+| disabled | 是否禁用                 | boolean                            | `false` |
+| isGroup  | 是否是分组               | boolean                            | `false` |
+| children | 分组子选项列表           | `Array<SelectOption>`              | -       |

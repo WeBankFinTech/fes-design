@@ -5,6 +5,7 @@ import VirtualList from '../virtual-list/virtualList';
 import CheckOutlined from '../icon/CheckOutlined';
 import { noop } from '../_util/utils';
 import { useLocale } from '../config-provider/useLocale';
+import { PADDING_LEFT_BASE, PADDING_LEFT_INDENT } from './const';
 import type { SelectOption, SelectValue } from './interface';
 
 const optionListProps = {
@@ -45,14 +46,26 @@ export default defineComponent({
     setup(props, { emit }) {
         const { t } = useLocale();
 
+        const getOptionStyle = ({ level = 1 }) => {
+            return {
+                paddingLeft: `${
+                    PADDING_LEFT_BASE + (level - 1) * PADDING_LEFT_INDENT
+                }px`,
+            };
+        };
+
         const renderLabel = (
             option: SelectOption,
             isSelected: boolean,
             prefixCls: string,
         ) => {
-            if ((option as any).slots?.default) {
+            if (option.isGroup && (option as any).slots?.label) {
+                return (option as any).slots.label({ ...option, isSelected });
+            }
+            if (!option.isGroup && (option as any).slots?.default) {
                 return (option as any).slots.default({ ...option, isSelected });
             }
+
             if (props.renderOption) {
                 return props.renderOption({ ...option, isSelected });
             }
@@ -78,35 +91,24 @@ export default defineComponent({
             return null;
         };
 
-        // 渲染option分组
-        const renderSelectGroupOption = (option: SelectOption) => {
-            const prefixCls = `${props.prefixCls}-option-group`;
+        // 渲染每个分组
+        const renderGroupOption = (option: SelectOption) => {
+            const isSelected = false;
+            const prefixCls = `${props.prefixCls}-group-option`;
+            const classList = [prefixCls].filter(Boolean);
+
             return (
-                <div>
-                    <div class={`${prefixCls}-label`}>
-                        {option.slots ?? option.label}
-                    </div>
-                    <div class={`${prefixCls}-container`}>
-                        {/* 格式缩进，渲染子选项 */}
-                        {option.options.map((opt) => renderOption(opt))}
-                    </div>
+                <div
+                    class={classList}
+                    style={getOptionStyle({ level: option.__level })}
+                >
+                    {renderLabel(option, isSelected, prefixCls)}
                 </div>
             );
         };
 
         // 渲染每个option
         const renderOption = (option: SelectOption) => {
-            // 有options说明是有选项分组的
-            if (option.options) {
-                // 如果组disabled,则子选项全部disable
-                if (option.disabled) {
-                    option.options = option.options.map((item) => {
-                        return { ...item, disabled: true };
-                    });
-                }
-                return renderSelectGroupOption(option);
-            }
-
             const value = option.value;
             const isSelected = props.isSelect(value);
             const isHover = props.hoverOptionValue === option.value;
@@ -118,9 +120,11 @@ export default defineComponent({
                 (option.disabled || (!isSelected && props.isLimit)) &&
                     'is-disabled',
             ].filter(Boolean);
+
             return (
                 <div
                     class={classList}
+                    style={getOptionStyle({ level: option.__level })}
                     onClick={() => {
                         if (option.disabled) {
                             return;
@@ -140,7 +144,7 @@ export default defineComponent({
         };
 
         const renderDefault = ({ source }: { source: SelectOption }) =>
-            renderOption(source);
+            source.isGroup ? renderGroupOption(source) : renderOption(source);
 
         return () =>
             props.options.length > 50 ? (
@@ -164,7 +168,11 @@ export default defineComponent({
                     containerStyle={props.containerStyle}
                     containerClass={`${props.prefixCls}-dropdown`}
                 >
-                    {props.options.map((option) => renderOption(option))}
+                    {props.options.map((option) => {
+                        return option.isGroup
+                            ? renderGroupOption(option)
+                            : renderOption(option);
+                    })}
                 </Scrollbar>
             ) : props.renderEmpty ? (
                 <div

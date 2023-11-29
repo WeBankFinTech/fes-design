@@ -1,7 +1,7 @@
 import { withInstall, withNoopInstall } from '../_util/withInstall';
 import Select from './select.vue';
 import Option from './option';
-import SelectGroupOption from './selectGroupOption';
+import SelectGroupOption from './groupOption';
 
 import type { SFCWithInstall } from '../_util/interface';
 
@@ -20,8 +20,8 @@ export { optionProps } from './option';
 export type { OptionProps } from './option';
 export const FOption = withNoopInstall<OptionType>(Option as OptionType);
 
-export { selectGroupOptionProps } from './selectGroupOption';
-export type { SelectGroupOptionProps } from './selectGroupOption';
+export { selectGroupOptionProps } from './groupOption';
+export type { SelectGroupOptionProps } from './groupOption';
 export const FSelectGroupOption = withNoopInstall<SelectGroupOptionType>(
     SelectGroupOption as SelectGroupOptionType,
 );

@@ -9,7 +9,7 @@
                     :disabled="group.disabled"
                 >
                     <FOption
-                        v-for="item in group.options"
+                        v-for="item in group.children"
                         :key="item.label"
                         :value="item.value"
                     >
@@ -42,7 +42,7 @@
         </FFormItem>
         <FFormItem label="多级嵌套:">
             <FSelect
-                v-model="value2"
+                v-model="value4"
                 style="width: 200px"
                 :options="cityOptions"
                 tag
@@ -57,14 +57,16 @@
 import { ref } from 'vue';
 export default {
     setup() {
-        const value1 = ref('');
+        const value1 = ref();
         const value2 = ref([]);
-        const value3 = ref('');
+        const value3 = ref();
+        const value4 = ref([]);
 
         const options = [
             {
                 label: '华中地区',
-                options: [
+                isGroup: true,
+                children: [
                     {
                         value: '湖北',
                         label: '湖北',
@@ -86,7 +88,8 @@ export default {
             {
                 label: '华南地区',
                 disabled: true,
-                options: [
+                isGroup: true,
+                children: [
                     {
                         value: '广东',
                         label: '广东',
@@ -103,7 +106,8 @@ export default {
             },
             {
                 label: '华北地区',
-                options: [
+                isGroup: true,
+                children: [
                     {
                         value: '北京',
                         label: '北京',
@@ -128,7 +132,8 @@ export default {
             },
             {
                 label: '华东地区',
-                options: [
+                isGroup: true,
+                children: [
                     {
                         value: '山东',
                         label: '山东',
@@ -160,7 +165,8 @@ export default {
         const cityOptions = [
             {
                 label: '华中地区',
-                options: [
+                isGroup: true,
+                children: [
                     {
                         value: '1.1',
                         label: '湖南',
@@ -168,7 +174,8 @@ export default {
                     {
                         value: '1.2',
                         label: '湖北',
-                        options: [
+                        isGroup: true,
+                        children: [
                             {
                                 label: '武汉',
                                 value: '1.2.1',
@@ -183,7 +190,8 @@ export default {
             },
             {
                 label: '华南地区',
-                options: [
+                isGroup: true,
+                children: [
                     {
                         value: '1.3',
                         label: '深圳',
@@ -202,6 +210,7 @@ export default {
             value1,
             value2,
             value3,
+            value4,
         };
     },
 };

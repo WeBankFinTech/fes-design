@@ -7,6 +7,7 @@ import {
     onBeforeUnmount,
     getCurrentInstance,
     ref,
+    toRefs,
 } from 'vue';
 import { key, selectGroupOptionKey } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
@@ -43,19 +44,16 @@ export default defineComponent({
 
         const selectGroupOption = reactive({
             id: instance.uid,
-            label: props.label,
-            options: [],
-            slots: null,
-            disabled: props.disabled,
+            ...toRefs(props),
+            slots: ctx.slots,
+            isGroup: true,
+            children: [],
         });
 
         const selectGroupOptionRef = ref<HTMLElement>();
         provide(selectGroupOptionKey, selectGroupOption);
 
         onBeforeMount(() => {
-            if (ctx.slots.label) {
-                selectGroupOption.slots = ctx.slots.label();
-            }
             addOption(selectGroupOption);
         });
 
@@ -65,9 +63,7 @@ export default defineComponent({
 
         return () => {
             return (
-                <div ref={selectGroupOptionRef}>
-                    <div>{ctx.slots.default?.()}</div>
-                </div>
+                <span ref={selectGroupOptionRef}>{ctx.slots.default?.()}</span>
             );
         };
     },

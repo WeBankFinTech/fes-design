@@ -35,7 +35,8 @@
     &-addon {
         .text();
         padding: @padding-xs;
-        border-top: var(--f-border-width-base) var(--f-border-style-base) var(--f-border-color-split);
+        border-top: var(--f-border-width-base) var(--f-border-style-base)
+            var(--f-border-color-split);
     }
     &-null {
         text-align: center;
@@ -77,16 +78,17 @@
         }
     }
 
-    &-option-group {
+    &-group-option {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: @select-height;
+        padding: 0 @padding-xs;
+        color: var(--f-text-color-disabled);
+        line-height: @select-height;
+        background: var(--f-white);
         &-label {
-            line-height: @select-height;
-            background: var(--f-white);
-            color: var(--f-text-color-secondary);
-            font-size: @font-size-caption ;
-            padding: 0 @padding-xs;  
-        }
-        &-container {
-            padding: 0 @padding-xs;
+            flex: auto;
         }
     }
 }

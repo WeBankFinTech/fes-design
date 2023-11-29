@@ -95,6 +95,12 @@ import type { SelectValue, SelectOption, OptionChildren } from './interface';
 
 const prefixCls = getPrefixCls('select');
 
+let seed = 0;
+const now = Date.now();
+function genUid() {
+    return `select_group_${now}_${seed++}`;
+}
+
 export default defineComponent({
     name: 'FSelect',
     components: {
@@ -172,28 +178,97 @@ export default defineComponent({
 
         const childOptions = reactive([]);
 
-        const addOption = (option: OptionChildren) => {
-            if (!childOptions.includes(option)) {
-                childOptions.push(option);
+        const addOption = (
+            option: OptionChildren,
+            groupOption?: OptionChildren,
+        ) => {
+            if (groupOption) {
+                if (!groupOption.children.includes(option)) {
+                    groupOption.children.push(option);
+                }
+            } else {
+                if (!childOptions.includes(option)) {
+                    childOptions.push(option);
+                }
             }
         };
 
-        const removeOption = (id: number | string) => {
-            const colIndex = childOptions.findIndex((item) => item.id === id);
-            if (colIndex !== -1) {
-                childOptions.splice(colIndex, 1);
+        const removeOption = (
+            id: number | string,
+            groupOption: OptionChildren,
+        ) => {
+            if (groupOption) {
+                const colIndex = groupOption.children.findIndex(
+                    (item) => item.id === id,
+                );
+                if (colIndex !== -1) {
+                    groupOption.children.splice(colIndex, 1);
+                }
+            } else {
+                const colIndex = childOptions.findIndex(
+                    (item) => item.id === id,
+                );
+                if (colIndex !== -1) {
+                    childOptions.splice(colIndex, 1);
+                }
             }
         };
 
         const baseOptions = computed(() => {
             const allOptions = [...childOptions, ...(props.options || [])];
-            return allOptions.map((option) => {
-                return {
+
+            const getOption = (
+                option: SelectOption,
+                groupOption?: SelectOption,
+            ) => {
+                const currentOption = {
                     ...option,
                     value: option[props.valueField],
                     label: option[props.labelField],
+                    // 当分组禁用时，子选项都禁用
+                    disabled: groupOption?.disabled || option.disabled,
+                    __level: (groupOption?.__level || 0) + 1,
                 };
-            });
+                if (option.isGroup) {
+                    currentOption.value = currentOption.value || genUid();
+
+                    const children = (currentOption.children || []).map(
+                        (subOption) => {
+                            return getOption(subOption, currentOption);
+                        },
+                    );
+
+                    currentOption.children = children;
+                }
+                return currentOption;
+            };
+
+            return allOptions.reduce((acc: SelectOption[], option) => {
+                return acc.concat(getOption(option));
+            }, []);
+        });
+
+        const flatBaseOptions = computed(() => {
+            const getFlatOptions = (options: SelectOption[]) => {
+                let flatOptions: SelectOption[] = [];
+
+                options.forEach((option) => {
+                    if (option.isGroup) {
+                        flatOptions = flatOptions.concat(
+                            [option].concat(getFlatOptions(option.children)),
+                        );
+                    } else {
+                        flatOptions.push(option);
+                    }
+                });
+
+                return flatOptions;
+            };
+
+            return baseOptions.value.reduce((acc: SelectOption[], option) => {
+                console.log('0000', acc, option);
+                return acc.concat(getFlatOptions([option]));
+            }, []);
         });
 
         // 自定义选项
@@ -201,7 +276,7 @@ export default defineComponent({
             if (props.filterable && props.tag) {
                 if (
                     filterText.value &&
-                    flatAllOptions(baseOptions.value).every((option) => {
+                    flatBaseOptions.value.every((option) => {
                         return option.label !== filterText.value;
                     }) &&
                     cacheOptions.value.every((option) => {
@@ -223,48 +298,21 @@ export default defineComponent({
         });
 
         const allOptions = computed(() => {
-            return [...cacheOptionsForTag.value, ...baseOptions.value];
+            return [...cacheOptionsForTag.value, ...flatBaseOptions.value];
         });
-
-        // 拍平选项数据结构层级
-        const flatAllOptions = (optionList: SelectOption[] = []) => {
-            return optionList.reduce((acc: SelectOption[], option) => {
-                if (option.options) {
-                    return acc.concat(
-                        option.options.map(
-                            (subOption: SelectOption) =>
-                                ({
-                                    ...subOption,
-                                    type: 'group',
-                                } as SelectOption),
-                        ),
-                    );
-                } else {
-                    // 如果当前项没有子选项，直接添加到结果中
-                    return acc.concat({
-                        ...option,
-                    } as SelectOption);
-                }
-            }, []);
-        };
-
-        const searchOptions = (
-            options: SelectOption[],
-            text: string,
-            filter: (pattern: string, option: object) => boolean,
-        ): SelectOption[] => {
-            return options.filter((opt) => filter(text, opt));
-        };
 
         const filteredOptions = computed(() => {
             if (!props.remote && props.filterable && filterText.value) {
-                return searchOptions(
-                    flatAllOptions(allOptions.value), // 拍平选项后过滤
-                    filterText.value,
-                    props.filter ||
-                        ((text: string, option: SelectOption) =>
-                            String(option.label).includes(text)),
-                );
+                return allOptions.value.filter((option) => {
+                    if (option.isGroup) {
+                        return false;
+                    } else {
+                        if (props.filter) {
+                            return props.filter(filterText.value, option);
+                        }
+                        return String(option.label).includes(filterText.value);
+                    }
+                });
             }
             return allOptions.value;
         });
@@ -341,11 +389,7 @@ export default defineComponent({
             ([newValue, newOptions]) => {
                 const getOption = (val: SelectValue) => {
                     let cacheOption;
-                    if (
-                        newOptions &&
-                        newOptions.length &&
-                        newValue !== undefined // SelectGroupOption newValue 会是 undefined
-                    ) {
+                    if (newOptions && newOptions.length) {
                         cacheOption = newOptions.find(
                             (option) => option.value === val,
                         );
@@ -354,7 +398,7 @@ export default defineComponent({
                         }
                     }
                     cacheOption = selectedOptionsRef.value.find(
-                        (option) => option.value === val,
+                        (option) => !option.isGroup && option.value === val,
                     );
                     if (cacheOption) {
                         return cacheOption;
@@ -435,11 +479,15 @@ export default defineComponent({
             }
             let index = 0;
             while (index < len) {
-                if (!filteredOptions.value[index].disabled) {
+                if (
+                    !filteredOptions.value[index].isGroup &&
+                    !filteredOptions.value[index].disabled
+                ) {
                     break;
                 }
                 index++;
             }
+
             if (index < len) {
                 return filteredOptions.value[index];
             }
@@ -474,7 +522,10 @@ export default defineComponent({
         const onKeyDown = () => {
             if (!isNil(hoverOptionValue.value)) {
                 const option = allOptions.value.find((option: SelectOption) => {
-                    return option.value === hoverOptionValue.value;
+                    return (
+                        !option.isGroup &&
+                        option.value === hoverOptionValue.value
+                    );
                 });
                 onSelect(hoverOptionValue.value, option);
             }

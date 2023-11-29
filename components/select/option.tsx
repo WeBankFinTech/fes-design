@@ -37,7 +37,7 @@ export default defineComponent({
         const { addOption, removeOption } = parent;
 
         // 获取是否有 SelectGroupOption 标签包裹
-        const group = inject(selectGroupOptionKey, null);
+        const groupOption = inject(selectGroupOptionKey, null);
 
         const optionRef = ref<HTMLElement>();
 
@@ -57,15 +57,11 @@ export default defineComponent({
             });
 
             // 如果是选项组包裹的，则收集包裹下面的option
-            if (group) {
-                group.options.push(option);
-            } else {
-                addOption(option);
-            }
+            addOption(option, groupOption);
         });
 
         onBeforeUnmount(() => {
-            removeOption(instance.uid);
+            removeOption(instance.uid, groupOption);
         });
 
         return () => {
