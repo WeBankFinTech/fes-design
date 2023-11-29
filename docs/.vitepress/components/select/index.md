@@ -198,10 +198,10 @@ selectGroupOption.vue
 
 ## SelectOption
 
-| 属性     | 说明                     | 类型                               | 默认值  |
-| -------- | ------------------------ | ---------------------------------- | ------- |
-| value    | 非分组选项的值，需要唯一 | string / number / boolean / object | -       |
-| label    | 选项的标签               | string / number                    | -       |
-| disabled | 是否禁用                 | boolean                            | `false` |
-| isGroup  | 是否是分组               | boolean                            | `false` |
-| children | 分组子选项列表           | `Array<SelectOption>`              | -       |
+| 属性     | 说明                     | 类型                               |
+| -------- | ------------------------ | ---------------------------------- |
+| value    | 非分组选项的值，需要唯一 | string / number / boolean / object |
+| label    | 选项的标签               | string / number                    |
+| disabled | 是否禁用                 | boolean                            |
+| isGroup  | 是否是分组               | boolean                            |
+| children | 分组子选项列表           | `Array<SelectOption>`              |
