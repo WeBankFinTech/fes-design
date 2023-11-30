@@ -9,9 +9,6 @@ type Arrayable<T> = T | T[];
 export type CollapseModelValue = Arrayable<CollapseActiveName>;
 export type Mutable<T> = { -readonly [P in keyof T]: T[P] }; // 移除只读特性
 
-const mutable = <T extends readonly any[] | Record<string, unknown>>(val: T) =>
-    val as Mutable<typeof val>;
-
 export const emitChangeFn = (value: CollapseModelValue) =>
     typeof isNumber(value) || isString(value) || Array.isArray(value);
 
@@ -23,7 +20,6 @@ export const collapseProps = {
     },
     modelValue: {
         type: definePropType<CollapseModelValue>([Array, String, Number]),
-        default: () => mutable([] as const), // 常量
     },
     embedded: {
         type: Boolean,

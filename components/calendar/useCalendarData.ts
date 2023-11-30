@@ -1,10 +1,9 @@
 import { computed, ref } from 'vue';
 import { Day } from 'date-fns';
 import { isNil } from 'lodash-es';
-import { useNormalModel } from '../_util/use/useModel';
+import { UseNormalModelReturn, useNormalModel } from '../_util/use/useModel';
 import { CalendarEvent, CalendarInnerProps, CalendarShortcut } from './props';
 import {
-    UseNormalModelReturn,
     convertCalendarDateToUnixTime,
     convertUnixTimeToCalendarDate,
     generateCalendarDates,

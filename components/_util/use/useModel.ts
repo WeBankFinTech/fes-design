@@ -8,6 +8,12 @@ type UseNormalModelOptions = {
     defaultValue?: any;
 };
 
+// TODO: 后续考虑如何并入 useNormalModel
+export type UseNormalModelReturn<
+    Props extends Record<string, unknown>,
+    Key extends keyof Props,
+> = [WritableComputedRef<Props[Key]>, (value: Props[Key]) => void];
+
 export const useNormalModel = (
     props: Record<string, any>,
     emit: any,

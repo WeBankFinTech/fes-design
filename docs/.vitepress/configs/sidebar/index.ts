@@ -34,7 +34,7 @@ export default {
                         link: '/zh/components/layout',
                     },
                     {
-                        text: 'Grid 删格',
+                        text: 'Grid 栅格',
                         link: '/zh/components/grid',
                     },
                     {

@@ -1,5 +1,7 @@
 import type { InjectionKey, PropType, Ref } from 'vue';
 
+export const COMPONENT_NAME = 'FCollapse';
+
 export const definePropType = <T>(val: any): PropType<T> => val;
 
 export const generateId = (): number => Math.floor(Math.random() * 10000);

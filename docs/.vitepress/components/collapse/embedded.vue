@@ -1,11 +1,7 @@
 <template>
     <div class="demo-collapse">
         <FSwitch v-model="embedded"></FSwitch>
-        <FCollapse
-            v-model="activeNames"
-            :embedded="embedded"
-            @change="handleChange"
-        >
+        <FCollapse v-model="activeNames" :embedded="embedded">
             <FCollapseItem title="Consistency" name="1">
                 <div>
                     岁月静好，浅笑安然。打开记忆的闸门，仿佛又回到了那年那月那时光，仿佛又见到你送给我的那盆清香茉莉，在细雨潇潇的夜晚，所呈现出来的洁净和楚楚动人。以前的过往总是在记忆深处，以固有的姿态，以从未稍离的执着提醒我，生命中有一种存在，叫以前。
@@ -36,14 +32,10 @@ import { ref } from 'vue';
 export default {
     setup() {
         const activeNames = ref(['1']);
-        const handleChange = (value) => {
-            console.log('[collapse.embedded] [handleChange] value:', value);
-        };
         const embedded = ref(false);
         return {
             embedded,
             activeNames,
-            handleChange,
         };
     },
 };
