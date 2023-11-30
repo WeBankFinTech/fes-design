@@ -1,5 +1,5 @@
 import { reactive, computed } from 'vue';
-import { isArray, isUndefined } from 'lodash-es';
+import { isArray } from 'lodash-es';
 import type { SelectProps } from './props';
 import type { SelectOption, OptionChildren } from './interface';
 
@@ -52,20 +52,20 @@ export default ({ props }: { props: SelectProps }) => {
     };
 
     const baseOptions = computed(() => {
-        const allOptions = [...childOptions, ...(props.options || [])];
-
-        const getOption = (
-            option: SelectOption,
-            groupOption?: SelectOption,
-        ) => {
+        const getOption = ({
+            option,
+            groupOption,
+            isChildOption,
+        }: {
+            option: SelectOption;
+            groupOption?: SelectOption;
+            isChildOption?: boolean;
+        }) => {
+            // Option 组件没有配置 value 默认为 undefined & Foption 无需处理 valueField 和 labelField
             const currentOption = {
                 ...option,
-                value: isUndefined(option.value)
-                    ? option[props.valueField]
-                    : option.value,
-                label: isUndefined(option.label)
-                    ? option[props.labelField]
-                    : option.label,
+                value: isChildOption ? option.value : option[props.valueField],
+                label: isChildOption ? option.label : option[props.labelField],
                 // 当分组禁用时，子选项都禁用
                 disabled: groupOption?.disabled || option.disabled,
                 __level: (groupOption?.__level || 0) + 1,
@@ -76,7 +76,11 @@ export default ({ props }: { props: SelectProps }) => {
                 currentOption.value = currentOption.value || genUid();
 
                 const children = currentOption.children.map((subOption) => {
-                    return getOption(subOption, currentOption);
+                    return getOption({
+                        option: subOption,
+                        groupOption: currentOption,
+                        isChildOption,
+                    });
                 });
 
                 currentOption.children = children;
@@ -86,9 +90,20 @@ export default ({ props }: { props: SelectProps }) => {
             return currentOption;
         };
 
-        return allOptions.reduce((acc: SelectOption[], option) => {
-            return acc.concat(getOption(option));
-        }, []);
+        const currentChildOptions = [...childOptions].reduce(
+            (acc: SelectOption[], option) => {
+                return acc.concat(getOption({ option, isChildOption: true }));
+            },
+            [],
+        );
+        const currentPropsOptions = [...(props.options || [])].reduce(
+            (acc: SelectOption[], option) => {
+                return acc.concat(getOption({ option, isChildOption: false }));
+            },
+            [],
+        );
+
+        return [...currentChildOptions, ...currentPropsOptions];
     });
 
     const flatBaseOptions = computed(() => {
