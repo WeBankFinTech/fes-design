@@ -1,5 +1,5 @@
 import { reactive, computed } from 'vue';
-import { isArray, isNil } from 'lodash-es';
+import { isArray, isUndefined } from 'lodash-es';
 import type { SelectProps } from './props';
 import type { SelectOption, OptionChildren } from './interface';
 
@@ -60,10 +60,10 @@ export default ({ props }: { props: SelectProps }) => {
         ) => {
             const currentOption = {
                 ...option,
-                value: isNil(option.value)
+                value: isUndefined(option.value)
                     ? option[props.valueField]
                     : option.value,
-                label: isNil(option.label)
+                label: isUndefined(option.label)
                     ? option[props.labelField]
                     : option.label,
                 // 当分组禁用时，子选项都禁用
