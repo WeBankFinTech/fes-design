@@ -32,11 +32,22 @@
             <FSelect v-model="value3" style="width: 200px">
                 <FSelectGroupOption>
                     <template #label>
-                        <span class="label-text">Admin</span>
+                        <span class="label-text">华中地区</span>
                     </template>
-                    <FOption value="bob">bob</FOption>
-                    <FOption value="tina">tina</FOption>
-                    <FOption value="peter">peter</FOption>
+                    <FSelectGroupOption label="湖南">
+                        <FOption value="长沙">长沙</FOption>
+                    </FSelectGroupOption>
+                    <FSelectGroupOption label="湖北">
+                        <FOption value="武汉">武汉</FOption>
+                        <FOption value="孝感">孝感</FOption>
+                    </FSelectGroupOption>
+                </FSelectGroupOption>
+                <FSelectGroupOption>
+                    <template #label>
+                        <span class="label-text">华南地区</span>
+                    </template>
+                    <FOption value="深圳">深圳</FOption>
+                    <FOption value="广州">广州</FOption>
                 </FSelectGroupOption>
             </FSelect>
         </FFormItem>
@@ -165,6 +176,12 @@ export default {
                     {
                         value: '1.1',
                         label: '湖南',
+                        children: [
+                            {
+                                label: '长沙',
+                                value: '1.1.1',
+                            },
+                        ],
                     },
                     {
                         value: '1.2',

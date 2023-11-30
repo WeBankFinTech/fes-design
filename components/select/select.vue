@@ -72,13 +72,12 @@ import {
     ref,
     provide,
     unref,
-    reactive,
     watch,
     computed,
     CSSProperties,
     defineComponent,
 } from 'vue';
-import { isArray, isNil } from 'lodash-es';
+import { isNil } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel, useArrayModel } from '../_util/use/useModel';
@@ -87,19 +86,13 @@ import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
 import { useLocale } from '../config-provider/useLocale';
-import { PROVIDE_KEY } from './const';
+import { SELECT_PROVIDE_KEY } from './const';
 import OptionList from './optionList';
 import { selectProps } from './props';
-
-import type { SelectValue, SelectOption, OptionChildren } from './interface';
+import useOptions from './useOptions';
+import type { SelectValue, SelectOption } from './interface';
 
 const prefixCls = getPrefixCls('select');
-
-let seed = 0;
-const now = Date.now();
-function genUid() {
-    return `select_group_${now}_${seed++}`;
-}
 
 export default defineComponent({
     name: 'FSelect',
@@ -176,100 +169,13 @@ export default defineComponent({
             () => props.emptyText || t('select.emptyText'),
         );
 
-        const childOptions = reactive([]);
-
-        const addOption = (
-            option: OptionChildren,
-            groupOption?: OptionChildren,
-        ) => {
-            if (groupOption) {
-                if (!groupOption.children.includes(option)) {
-                    groupOption.children.push(option);
-                }
-            } else {
-                if (!childOptions.includes(option)) {
-                    childOptions.push(option);
-                }
-            }
-        };
-
-        const removeOption = (
-            id: number | string,
-            groupOption: OptionChildren,
-        ) => {
-            if (groupOption) {
-                const colIndex = groupOption.children.findIndex(
-                    (item) => item.id === id,
-                );
-                if (colIndex !== -1) {
-                    groupOption.children.splice(colIndex, 1);
-                }
-            } else {
-                const colIndex = childOptions.findIndex(
-                    (item) => item.id === id,
-                );
-                if (colIndex !== -1) {
-                    childOptions.splice(colIndex, 1);
-                }
-            }
-        };
-
-        const baseOptions = computed(() => {
-            const allOptions = [...childOptions, ...(props.options || [])];
-
-            const getOption = (
-                option: SelectOption,
-                groupOption?: SelectOption,
-            ) => {
-                const currentOption = {
-                    ...option,
-                    value: option[props.valueField],
-                    label: option[props.labelField],
-                    // 当分组禁用时，子选项都禁用
-                    disabled: groupOption?.disabled || option.disabled,
-                    __level: (groupOption?.__level || 0) + 1,
-                };
-                if (isArray(currentOption.children)) {
-                    currentOption.__isGroup = true;
-                    // 虚拟滚动，需要指定 value
-                    currentOption.value = currentOption.value || genUid();
-
-                    const children = currentOption.children.map((subOption) => {
-                        return getOption(subOption, currentOption);
-                    });
-
-                    currentOption.children = children;
-                } else {
-                    currentOption.__isGroup = false;
-                }
-                return currentOption;
-            };
-
-            return allOptions.reduce((acc: SelectOption[], option) => {
-                return acc.concat(getOption(option));
-            }, []);
+        const { addOption, removeOption, flatBaseOptions } = useOptions({
+            props,
         });
 
-        const flatBaseOptions = computed(() => {
-            const getFlatOptions = (options: SelectOption[]) => {
-                let flatOptions: SelectOption[] = [];
-
-                options.forEach((option) => {
-                    if (option.__isGroup) {
-                        flatOptions = flatOptions.concat(
-                            [option].concat(getFlatOptions(option.children)),
-                        );
-                    } else {
-                        flatOptions.push(option);
-                    }
-                });
-
-                return flatOptions;
-            };
-
-            return baseOptions.value.reduce((acc: SelectOption[], option) => {
-                return acc.concat(getFlatOptions([option]));
-            }, []);
+        provide(SELECT_PROVIDE_KEY, {
+            addOption,
+            removeOption,
         });
 
         // 自定义选项
@@ -423,11 +329,6 @@ export default defineComponent({
                 deep: true,
             },
         );
-
-        provide(PROVIDE_KEY, {
-            addOption,
-            removeOption,
-        });
 
         const focus = (e: Event) => {
             emit('focus', e);
