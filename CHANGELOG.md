@@ -1,3 +1,36 @@
+## [0.8.17](https://github.com/WeBankFinTech/fes-design/compare/v0.8.16...v0.8.17) (2023-11-20)
+
+
+### Features
+
+* **Form:** 表单组件增加对齐方式 align 配置项 ([#514](https://github.com/WeBankFinTech/fes-design/issues/514)) ([2f58c80](https://github.com/WeBankFinTech/fes-design/commit/2f58c808ec88f40a9ca489660c2df83fb40d1161))
+
+
+
+## [0.8.16](https://github.com/WeBankFinTech/fes-design/compare/v0.8.15...v0.8.16) (2023-11-13)
+
+
+### Features
+
+* 新增日历组件 ([#509](https://github.com/WeBankFinTech/fes-design/issues/509)) ([f890b05](https://github.com/WeBankFinTech/fes-design/commit/f890b05993e99ffedfb4063bf896320b02f3c2d9))
+* **Cascader:** 支持本地数据项搜索 ([#511](https://github.com/WeBankFinTech/fes-design/issues/511)) ([4993058](https://github.com/WeBankFinTech/fes-design/commit/4993058c8a89fe15abff11a66b0bfe48f9654965))
+
+
+
+## [0.8.15](https://github.com/WeBankFinTech/fes-design/compare/v0.8.14...v0.8.15) (2023-11-10)
+
+
+### Bug Fixes
+
+* checkbox和radio支持option为null & option类型修复 ([#510](https://github.com/WeBankFinTech/fes-design/issues/510)) ([463ac71](https://github.com/WeBankFinTech/fes-design/commit/463ac71015de05b09a1eeceabed3d4d742a91971))
+* **select:** Option组件没有配置value默认为undefined & Foption无需处理valueField和labelField ([#512](https://github.com/WeBankFinTech/fes-design/issues/512)) ([5e803f4](https://github.com/WeBankFinTech/fes-design/commit/5e803f45c0a122409e2ce28bfb7c2817371edc4b))
+
+
+
+## [0.8.14](https://github.com/WeBankFinTech/fes-design/compare/v0.8.13...v0.8.14) (2023-11-08)
+
+
+
 ## [0.8.13](https://github.com/WeBankFinTech/fes-design/compare/v0.8.12...v0.8.13) (2023-11-06)
 
 

@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-
+// 使用方式: npm run gen:component component-name
 import { join } from 'path';
-import pkg from 'fs-extra';
-
-const { pathExistsSync, outputFileSync, copySync } = pkg;
+import { pathExistsSync, outputFileSync, copySync } from 'fs-extra';
+import { INDEX_TPL } from './constants.mjs';
+import { getProjectRootDir } from './utils.mjs';
 
 function hyphenate(str) {
     return str.replace(/\B([A-Z])/g, '-$1').toLowerCase();
@@ -16,7 +15,7 @@ function getCamel(str) {
 
 const componentName = hyphenate(process.argv[2]);
 
-const rootPath = process.cwd();
+const rootPath = getProjectRootDir();
 const componentsPath = join(rootPath, 'components');
 const componentPath = join(componentsPath, componentName);
 const docPath = join(
@@ -36,25 +35,12 @@ if (pathExistsSync(join(componentsPath, componentName))) {
     // write docs
     outputFileSync(docPath, `# ${componentName}`);
 
-    // index.ts
-    const indexTpl = `
-    import { withInstall } from '../_util/withInstall';
-import COMPONENT_CAMEL_NAME from './COMPONENT_NAME';
-import type { SFCWithInstall } from '../_util/interface';
-
-type COMPONENT_CAMEL_NAMEType = SFCWithInstall<typeof COMPONENT_CAMEL_NAME>;
-
-export const FCOMPONENT_CAMEL_NAME = withInstall<COMPONENT_CAMEL_NAMEType>(
-    COMPONENT_CAMEL_NAME as COMPONENT_CAMEL_NAMEType,
-);
-
-export default FCOMPONENT_CAMEL_NAME;
-`;
     outputFileSync(
         join(componentPath, 'index.ts'),
-        indexTpl
-            .replaceAll('COMPONENT_CAMEL_NAME', getCamel(componentName))
-            .replaceAll('COMPONENT_NAME', componentName),
+        INDEX_TPL.replace(
+            /COMPONENT_CAMEL_NAME/g,
+            getCamel(componentName),
+        ).replace(/COMPONENT_NAME/g, componentName),
     );
 
     outputFileSync(

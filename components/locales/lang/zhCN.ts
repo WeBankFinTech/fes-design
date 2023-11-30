@@ -5,6 +5,7 @@ export default {
         emptyText: '暂无数据',
         placeholder: '请选择',
         tagOption: '自定义',
+        filterEmptyText: '暂无匹配数据',
     },
     empty: {
         emptyText: '暂无数据',

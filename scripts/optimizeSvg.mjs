@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { extname, basename } from 'path';
 import { statSync, readFileSync } from 'fs';
 

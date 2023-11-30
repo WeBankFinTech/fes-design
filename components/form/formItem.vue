@@ -68,6 +68,7 @@ export default defineComponent({
             labelClass,
             labelPosition,
             disabled,
+            align,
             addField,
             removeField,
         } = inject(provideKey);
@@ -128,8 +129,8 @@ export default defineComponent({
                 labelPosition.value !== LABEL_POSITION.LEFT &&
                     `${prefixCls}-${labelPosition.value}`,
                 validateStatus.value === VALIDATE_STATUS.ERROR && 'is-error', // 校验错误: is-error
-                FORM_ITEM_ALIGN.includes(props.align) &&
-                    `${prefixCls}-align-${props.align}`,
+                FORM_ITEM_ALIGN.includes(props.align || align.value) &&
+                    `${prefixCls}-align-${props.align || align.value}`,
             ].filter(Boolean),
         );
         const formItemLabelClass = computed(() =>

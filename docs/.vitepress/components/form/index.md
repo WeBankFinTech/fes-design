@@ -74,19 +74,20 @@ nestValidator.vue
 
 ## Form Props
 
-| 属性            | 说明                                                            | 类型                       | 默认值       |
-| --------------- | --------------------------------------------------------------- | -------------------------- | ------------ |
-| model           | 表单数对象                                                      | object                     | -            |
-| rules           | 表单验证规则，可查看`Form-Item Rule Type`                       | object                     | -            |
-| layout          | 表单布局，可选值为`horizontal`、`inline`                        | string                     | `horizontal` |
-| inlineItemWidth | 仅在 `inline` 表单中有效。统一定义 FormItem 固定宽度            | string、number             | -            |
-| inlineItemGap   | 仅在 `inline` 表单中有效。统一定义整行 FormItem 的间距          | string、number             | 11px         |
-| span            | 仅在 `inline` 表单中有效。统一定义 FormItem 占据列数，共 24 列  | number                     | 6            |
-| labelPosition   | 表单域标签的位置，可选值为`left`、`top`、`right`                | string                     | `left`       |
-| labelWidth      | 表单域标签的宽度。作为 Form 直接子元素的 form-item 会继承该值。 | string(100px)、number(100) | -            |
-| labelClass      | 表单域标签自定义 class                                          | string                     | -            |
-| showMessage     | 是否显示校验错误信息                                            | boolean                    | `true`       |
-| disabled        | 表单是否可用                                                    | boolean                    | `false`      |
+| 属性            | 说明                                                                                                        | 类型                       | 默认值       |
+| --------------- | ----------------------------------------------------------------------------------------------------------- | -------------------------- | ------------ |
+| model           | 表单数对象                                                                                                  | object                     | -            |
+| rules           | 表单验证规则，可查看`Form-Item Rule Type`                                                                   | object                     | -            |
+| layout          | 表单布局，可选值为`horizontal`、`inline`                                                                    | string                     | `horizontal` |
+| inlineItemWidth | 仅在 `inline` 表单中有效。统一定义 FormItem 固定宽度                                                        | string、number             | -            |
+| inlineItemGap   | 仅在 `inline` 表单中有效。统一定义整行 FormItem 的间距                                                      | string、number             | 11px         |
+| span            | 仅在 `inline` 表单中有效。统一定义 FormItem 占据列数，共 24 列                                              | number                     | 6            |
+| labelPosition   | 表单域标签的位置，可选值为`left`、`top`、`right`                                                            | string                     | `left`       |
+| labelWidth      | 表单域标签的宽度。作为 Form 直接子元素的 form-item 会继承该值。                                             | string(100px)、number(100) | -            |
+| labelClass      | 表单域标签自定义 class                                                                                      | string                     | -            |
+| showMessage     | 是否显示校验错误信息                                                                                        | boolean                    | `true`       |
+| disabled        | 表单是否可用                                                                                                | boolean                    | `false`      |
+| align           | 仅在 `labelPosition` 为 `left` 或 `right` 时有效。垂直排列方式，可选值为 `flex-start`、`baseline`、`center` | string                     | `flex-start` |
 
 ## Form Methods
 

@@ -39,20 +39,24 @@
             :labelWidth="labelPosition === 'top' ? undefined : 100"
             :labelPosition="labelPosition"
             :span="layout === 'inline' ? 12 : undefined"
+            :align="currentAlign"
         >
-            <FFormItem label="姓名" :align="currentAlign">
+            <FFormItem label="展示信息">
+                <div>这是一段表单项内容信息</div>
+            </FFormItem>
+            <FFormItem label="姓名">
                 <FInput placeholder="请输入姓名"></FInput>
             </FFormItem>
-            <FFormItem label="手机号码" :align="currentAlign">
+            <FFormItem label="手机号码">
                 <FInput placeholder="请输入手机号码"></FInput>
             </FFormItem>
-            <FFormItem label="这是一段长的表单项描述" :align="currentAlign">
+            <FFormItem label="这是一段长的表单项描述">
                 <FInput placeholder="请输入"></FInput>
             </FFormItem>
-            <FFormItem label="备注" :align="currentAlign">
+            <FFormItem label="备注">
                 <FInput type="textarea" placeholder="请输入备注信息"></FInput>
             </FFormItem>
-            <FFormItem label="年龄范围" :align="currentAlign">
+            <FFormItem label="自定义对齐" align="center">
                 <FCheckboxGroup>
                     <FCheckbox :value="1 - 5">1 - 5</FCheckbox>
                     <FCheckbox :value="6 - 10">6 - 10</FCheckbox>

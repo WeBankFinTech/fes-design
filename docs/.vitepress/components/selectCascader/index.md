@@ -16,47 +16,69 @@ app.use(FSelectCascader);
 
 适用广泛的基础单选。
 
---COMMON
+:::demo
+common.vue
+:::
 
 ### 可清空
 
 包含清空按钮，可将选择器清空为初始状态。
 
---CLEARABLE
+:::demo
+clearable.vue
+:::
 
 ### 基础多选
 
 适用性较广的基础多选，用 `Tag` 展示已选项。
 
---MULTIPLE
+:::demo
+multiple.vue
+:::
+
+### 可搜索
+
+可以利用搜索功能快速查找选项
+
+:::demo
+filterable.vue
+:::
 
 ### emitPath 返回节点菜单路径
 
 适用于异步加载初始化展示等场景。
 
---EMITPATH
+:::demo
+emitPath.vue
+:::
 
 ### 异步加载
 
 若需要自动加载节点展示，则需要 `emitPath` 置为 `true`。
 
---ASYNC
+:::demo
+async.vue
+:::
 
 ### 禁用状态
 
 选择器不可用状态。
 
---DISABLED
+:::demo
+disabled.vue
+:::
 
 ### 自定义选项及控制回填内容
 
---CUSTOM
+:::demo
+custom.vue
+:::
 
 ### 无数据
 
---NODATA
-
---CODE
+:::demo
+nodata.vue
+:::
 
 ## SelectCascader Props
 
@@ -67,6 +89,8 @@ app.use(FSelectCascader);
 | appendToContainer     | 弹窗内容是否添加到指定的 DOM 元素                                                                                                                                                                                         | boolean                                                       | `true`                |
 | clearable             | 是否显示清除按钮                                                                                                                                                                                                          | boolean                                                       | `false`               |
 | disabled              | 是否禁用                                                                                                                                                                                                                  | boolean                                                       | `false`               |
+| filterable            | 是否支持过滤选项（`remote`被设定时不生效）                                                                                                                                                                                | boolean                                                       | `false`               |
+| filter                | 自定义过滤函数                                                                                                                                                                                                            | (pattern: string, option: TreeOption) => boolean              | `-`                   |
 | collapseTags          | 多选时选中项是否折叠展示                                                                                                                                                                                                  | boolean                                                       | `false`               |
 | collapseTagsLimit     | 多选时选中项超出限制个数后才会折叠                                                                                                                                                                                        | number                                                        | `1`                   |
 | tagBordered           | 多选时，选中项展示是否有边框（disabled 为 true 时强制有边框）                                                                                                                                                             | boolean                                                       | `false`               |

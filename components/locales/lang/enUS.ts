@@ -5,6 +5,7 @@ export default {
         emptyText: 'No Data',
         placeholder: 'Select',
         tagOption: 'Custom',
+        filterEmptyText: 'No Matching Data',
     },
     empty: {
         emptyText: 'No Data',

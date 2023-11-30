@@ -25,7 +25,7 @@ import type {
     UpdateSelectedDates,
 } from './interface';
 
-const prefixCls = getPrefixCls('calendar');
+const prefixCls = getPrefixCls('date-picker-calendar');
 const WEEK_NAMES = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 
 type UpdateCurrentDate = (date: Partial<DateObj>) => void;

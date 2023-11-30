@@ -54,13 +54,15 @@ export default defineComponent({
         ]);
 
         const optionsRef = computed(() =>
-            props.options.map((opt: any) => {
-                return {
-                    ...opt,
-                    value: opt[props.valueField],
-                    label: opt[props.labelField],
-                };
-            }),
+            props.options
+                ? props.options.map((opt: any) => {
+                      return {
+                          ...opt,
+                          value: opt[props.valueField],
+                          label: opt[props.labelField],
+                      };
+                  })
+                : [],
         );
 
         return {
