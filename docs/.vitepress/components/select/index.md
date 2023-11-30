@@ -198,16 +198,15 @@ selectGroupOption.vue
 
 ## SelectGroupOption Slots
 
-| 属性  | 说明                              |
-| ----- | --------------------------------- |
+| 属性  | 说明                                    |
+| ----- | --------------------------------------- |
 | label | 自定义分组标签，优先级比 props.label 高 |
 
 ## SelectOption
 
-| 属性     | 说明                     | 类型                               |
-| -------- | ------------------------ | ---------------------------------- |
-| value    | 非分组选项的值，需要唯一 | string / number / boolean / object |
-| label    | 选项的标签               | string / number                    |
-| disabled | 是否禁用                 | boolean                            |
-| isGroup  | 是否是分组               | boolean                            |
-| children | 分组子选项列表           | `Array<SelectOption>`              |
+| 属性     | 说明                                 | 类型                               |
+| -------- | ------------------------------------ | ---------------------------------- |
+| value    | 非分组选项的值，需要唯一             | string / number / boolean / object |
+| label    | 选项的标签                           | string / number                    |
+| disabled | 是否禁用                             | boolean                            |
+| children | 若为数组类型，则当前项为分组选项 | `Array<SelectOption>`              |

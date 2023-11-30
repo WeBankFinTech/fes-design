@@ -46,8 +46,7 @@ export default defineComponent({
             id: instance.uid,
             ...toRefs(props),
             slots: ctx.slots,
-            isGroup: true,
-            children: [],
+            children: [], // 若 children 为数组类型，则自动判断 __isGroup 为 true
         });
 
         const selectGroupOptionRef = ref<HTMLElement>();

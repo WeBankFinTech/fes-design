@@ -78,7 +78,7 @@ import {
     CSSProperties,
     defineComponent,
 } from 'vue';
-import { isNil } from 'lodash-es';
+import { isArray, isNil } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel, useArrayModel } from '../_util/use/useModel';
@@ -229,16 +229,18 @@ export default defineComponent({
                     disabled: groupOption?.disabled || option.disabled,
                     __level: (groupOption?.__level || 0) + 1,
                 };
-                if (option.isGroup) {
+                if (isArray(currentOption.children)) {
+                    currentOption.__isGroup = true;
+                    // 虚拟滚动，需要指定 value
                     currentOption.value = currentOption.value || genUid();
 
-                    const children = (currentOption.children || []).map(
-                        (subOption) => {
-                            return getOption(subOption, currentOption);
-                        },
-                    );
+                    const children = currentOption.children.map((subOption) => {
+                        return getOption(subOption, currentOption);
+                    });
 
                     currentOption.children = children;
+                } else {
+                    currentOption.__isGroup = false;
                 }
                 return currentOption;
             };
@@ -253,7 +255,7 @@ export default defineComponent({
                 let flatOptions: SelectOption[] = [];
 
                 options.forEach((option) => {
-                    if (option.isGroup) {
+                    if (option.__isGroup) {
                         flatOptions = flatOptions.concat(
                             [option].concat(getFlatOptions(option.children)),
                         );
@@ -303,7 +305,7 @@ export default defineComponent({
         const filteredOptions = computed(() => {
             if (!props.remote && props.filterable && filterText.value) {
                 return allOptions.value.filter((option) => {
-                    if (option.isGroup) {
+                    if (option.__isGroup) {
                         return false;
                     } else {
                         if (props.filter) {
@@ -397,7 +399,7 @@ export default defineComponent({
                         }
                     }
                     cacheOption = selectedOptionsRef.value.find(
-                        (option) => !option.isGroup && option.value === val,
+                        (option) => !option.__isGroup && option.value === val,
                     );
                     if (cacheOption) {
                         return cacheOption;
@@ -479,7 +481,7 @@ export default defineComponent({
             let index = 0;
             while (index < len) {
                 if (
-                    !filteredOptions.value[index].isGroup &&
+                    !filteredOptions.value[index].__isGroup &&
                     !filteredOptions.value[index].disabled
                 ) {
                     break;
@@ -522,7 +524,7 @@ export default defineComponent({
             if (!isNil(hoverOptionValue.value)) {
                 const option = allOptions.value.find((option: SelectOption) => {
                     return (
-                        !option.isGroup &&
+                        !option.__isGroup &&
                         option.value === hoverOptionValue.value
                     );
                 });

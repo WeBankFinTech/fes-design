@@ -59,10 +59,10 @@ export default defineComponent({
             isSelected: boolean,
             prefixCls: string,
         ) => {
-            if (option.isGroup && (option as any).slots?.label) {
+            if (option.__isGroup && (option as any).slots?.label) {
                 return (option as any).slots.label({ ...option, isSelected });
             }
-            if (!option.isGroup && (option as any).slots?.default) {
+            if (!option.__isGroup && (option as any).slots?.default) {
                 return (option as any).slots.default({ ...option, isSelected });
             }
 
@@ -144,7 +144,7 @@ export default defineComponent({
         };
 
         const renderDefault = ({ source }: { source: SelectOption }) =>
-            source.isGroup ? renderGroupOption(source) : renderOption(source);
+            source.__isGroup ? renderGroupOption(source) : renderOption(source);
 
         return () =>
             props.options.length > 50 ? (
@@ -169,7 +169,7 @@ export default defineComponent({
                     containerClass={`${props.prefixCls}-dropdown`}
                 >
                     {props.options.map((option) => {
-                        return option.isGroup
+                        return option.__isGroup
                             ? renderGroupOption(option)
                             : renderOption(option);
                     })}

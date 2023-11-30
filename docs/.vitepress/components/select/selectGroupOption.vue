@@ -65,7 +65,6 @@ export default {
         const options = [
             {
                 label: '华中地区',
-                isGroup: true,
                 children: [
                     {
                         value: '湖北',
@@ -88,7 +87,6 @@ export default {
             {
                 label: '华南地区',
                 disabled: true,
-                isGroup: true,
                 children: [
                     {
                         value: '广东',
@@ -106,7 +104,6 @@ export default {
             },
             {
                 label: '华北地区',
-                isGroup: true,
                 children: [
                     {
                         value: '北京',
@@ -132,7 +129,6 @@ export default {
             },
             {
                 label: '华东地区',
-                isGroup: true,
                 children: [
                     {
                         value: '山东',
@@ -165,7 +161,6 @@ export default {
         const cityOptions = [
             {
                 label: '华中地区',
-                isGroup: true,
                 children: [
                     {
                         value: '1.1',
@@ -174,7 +169,6 @@ export default {
                     {
                         value: '1.2',
                         label: '湖北',
-                        isGroup: true,
                         children: [
                             {
                                 label: '武汉',
@@ -190,7 +184,6 @@ export default {
             },
             {
                 label: '华南地区',
-                isGroup: true,
                 children: [
                     {
                         value: '1.3',
