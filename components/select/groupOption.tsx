@@ -9,7 +9,7 @@ import {
     ref,
     toRefs,
 } from 'vue';
-import { key, selectGroupOptionKey } from './const';
+import { PROVIDE_KEY } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const selectGroupOptionProps = {
@@ -31,7 +31,7 @@ export default defineComponent({
     name: 'FSelectGroupOption',
     props: selectGroupOptionProps,
     setup(props, ctx) {
-        const parent = inject(key, null);
+        const parent = inject(PROVIDE_KEY, null);
         if (!parent) {
             console.warn(
                 '[FSelectGroupOption]: FSelectGroupOption 必须搭配 FSelect 组件使用！',
@@ -50,7 +50,11 @@ export default defineComponent({
         });
 
         const selectGroupOptionRef = ref<HTMLElement>();
-        provide(selectGroupOptionKey, selectGroupOption);
+        provide(PROVIDE_KEY, {
+            addOption,
+            removeOption,
+            selectGroupOption,
+        });
 
         onBeforeMount(() => {
             addOption(selectGroupOption);

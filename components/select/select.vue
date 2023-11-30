@@ -87,7 +87,7 @@ import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
 import { useLocale } from '../config-provider/useLocale';
-import { key } from './const';
+import { PROVIDE_KEY } from './const';
 import OptionList from './optionList';
 import { selectProps } from './props';
 
@@ -424,7 +424,7 @@ export default defineComponent({
             },
         );
 
-        provide(key, {
+        provide(PROVIDE_KEY, {
             addOption,
             removeOption,
         });

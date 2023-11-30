@@ -32,7 +32,7 @@
             <FSelect v-model="value3" style="width: 200px">
                 <FSelectGroupOption>
                     <template #label>
-                        <span class="label-color">Admin</span>
+                        <span class="label-text">Admin</span>
                     </template>
                     <FOption value="bob">bob</FOption>
                     <FOption value="tina">tina</FOption>
@@ -210,7 +210,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.label-color {
-    color: red;
+.label-text {
+    color: black;
+    opacity: 0.5;
+    font-weight: 600;
 }
 </style>

@@ -9,7 +9,7 @@ import {
     PropType,
     ref,
 } from 'vue';
-import { key, selectGroupOptionKey } from './const';
+import { PROVIDE_KEY } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const optionProps = {
@@ -28,16 +28,13 @@ export default defineComponent({
     name: 'FOption',
     props: optionProps,
     setup(props, ctx) {
-        const parent = inject(key, null);
+        const parent = inject(PROVIDE_KEY, null);
         if (!parent) {
             console.warn('[FOption]: FOption 必须搭配 FSelect 组件使用！');
         }
         const instance = getCurrentInstance();
 
-        const { addOption, removeOption } = parent;
-
-        // 获取是否有 SelectGroupOption 标签包裹
-        const groupOption = inject(selectGroupOptionKey, null);
+        const { addOption, removeOption, selectGroupOption } = parent;
 
         const optionRef = ref<HTMLElement>();
 
@@ -57,11 +54,11 @@ export default defineComponent({
             });
 
             // 如果是选项组包裹的，则收集包裹下面的option
-            addOption(option, groupOption);
+            addOption(option, selectGroupOption);
         });
 
         onBeforeUnmount(() => {
-            removeOption(instance.uid, groupOption);
+            removeOption(instance.uid, selectGroupOption);
         });
 
         return () => {
