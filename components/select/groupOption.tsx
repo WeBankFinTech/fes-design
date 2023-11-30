@@ -34,7 +34,7 @@ export default defineComponent({
         const parent = inject(key, null);
         if (!parent) {
             console.warn(
-                '[FOptionGroup]: FOptionGroup 必须搭配 FSelect 组件使用！',
+                '[FSelectGroupOption]: FSelectGroupOption 必须搭配 FSelect 组件使用！',
             );
         }
 
