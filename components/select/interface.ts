@@ -7,7 +7,10 @@ export interface SelectOption {
     value?: string | number | boolean | object;
     label?: string | number;
     disabled?: boolean;
+    children?: SelectOption[];
     __cache?: boolean;
+    __isGroup?: boolean;
+    __level?: number;
     [key: string]: any;
 }
 
@@ -17,4 +20,6 @@ export interface OptionChildren extends ToRefs<OptionProps> {
         [key: string]: () => VNodeChild;
     };
     label: Ref<string>;
+    disabled?: Ref<boolean>;
+    children?: OptionChildren[];
 }

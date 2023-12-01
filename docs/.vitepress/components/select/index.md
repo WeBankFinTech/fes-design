@@ -16,81 +16,115 @@ app.use(FSelect);
 
 适用广泛的基础单选
 
---COMMON
+:::demo
+common.vue
+:::
 
 ### 配置方式
 
 通过配置`options`直接生成选项，当数据量大于 `50` 时使用 `VirtualList`组件实现虚拟列表，性能更优，推荐用配置`options`直接生成选项！
 
---OPTIONS
+:::demo
+options.vue
+:::
 
 ### 基础多选
 
 适用性较广的基础多选，用 `Tag` 展示已选项
 
---MULTIPLE
+:::demo
+multiple.vue
+:::
 
 ### 限制多选个数
 
 当选择达到上限时无法再继续选择新的
 
---LIMIT
+:::demo
+limit.vue
+:::
 
 ### 自定义选项模板
 
 可以自定义备选项模板，`FOption`子组件是针对每一项单独配置，而 `slots.option` 插槽则是通用配置。
 
---CUSTOMOPTION
+:::demo
+customOption.vue
+:::
 
 ### 自定义回填内容
 
---CUSTOMTAG
+:::demo
+customTag.vue
+:::
 
 ### 可过滤
 
 可以利用搜索功能快速查找选项
 
---FILTERABLE
+:::demo
+filterable.vue
+:::
 
 ### 动态创建选项
 
 使用 `tag` & `filterable` 来允许动态创建选项。
 
---TAG
+:::demo
+tag.vue
+:::
 
 ### 远程搜索
 
---REMOTE
+:::demo
+remote.vue
+:::
 
 ### 禁用选项
 
 禁止选择某一项
 
---OPTIONDISABLED
+:::demo
+optionDisabled.vue
+:::
 
 ### 禁用选择器
 
 选择器不可用状态
 
---DISABLED
+:::demo
+disabled.vue
+:::
 
 ### 可清空
 
 包含清空按钮，可将选择器清空为初始状态
 
---CLEARABLE
+:::demo
+clearable.vue
+:::
 
 ### 无数据
 
---NODATA
+:::demo
+nodata.vue
+:::
 
 ### 底部插槽
 
 如果你点开了这个例子，可能你需要它
 
---ADDON
+:::demo
+addon.vue
+:::
 
---CODE
+### 选项组
+
+选项组配置，支持 options 配置和插槽使用
+
+:::demo
+selectGroupOption.vue
+:::
 
 ## Select Props
 
@@ -112,9 +146,9 @@ app.use(FSelect);
 | filter               | 自定义过滤函数                                                | (pattern: string, option: object) => boolean | `-`                   |
 | tag                  | 是否可以创建新的选项，需要和 `filterable` 一起使用            | boolean                                      | `false`               |
 | remote               | 是否远程搜索，当输入内容时触发`search`事件                    | boolean                                      | `false`               |
-| options              | 选项配置                                                      | array\<Option\>                              | `[]`                  |
-| valueField           | 替代 `Option` 中的 `value` 字段名                             | string                                       | `value`               |
-| labelField           | 替代 `Option` 中的 `label` 字段名                             | string                                       | `label`               |
+| options              | 选项配置                                                      | array\<SelectOption\>                        | `[]`                  |
+| valueField           | 替代 `SelectOption` 中的 `value` 字段名                       | string                                       | `value`               |
+| labelField           | 替代 `SelectOption` 中的 `label` 字段名                       | string                                       | `label`               |
 | popperClass          | 弹出框容器样式                                                | string                                       | -                     |
 
 ## Select Events
@@ -132,13 +166,13 @@ app.use(FSelect);
 
 ## Select Slots
 
-| 名称    | 说明                                           | 参数                                         |
-| ------- | ---------------------------------------------- | -------------------------------------------- |
-| default | option 组件列表                                | -                                            |
-| empty   | 无选项的内容                                   | -                                            |
-| option  | 自定义 `Option` 内容                           | _{ value, label, disabled, isSelected }_     |
-| tag     | 控制标签的渲染，自定义选中选项在选择框如何展示 | _{ option: Option, handleClose: ()=> void }_ |
-| addon   | 弹框底部显示自定义的内容                       | -                                            |
+| 名称    | 说明                                           | 参数                                               |
+| ------- | ---------------------------------------------- | -------------------------------------------------- |
+| default | option 和 selectGroupOption 组件列表           | -                                                  |
+| empty   | 无选项的内容                                   | -                                                  |
+| option  | 自定义 `Option` 内容                           | _{ value, label, disabled, isSelected }_           |
+| tag     | 控制标签的渲染，自定义选中选项在选择框如何展示 | _{ option: SelectOption, handleClose: ()=> void }_ |
+| addon   | 弹框底部显示自定义的内容                       | -                                                  |
 
 ## Select Methods
 
@@ -154,3 +188,25 @@ app.use(FSelect);
 | value    | 选项的值，需要唯一                        | string / number / boolean / object | -       |
 | label    | 选项的标签，若不设置则默认与 `value` 相同 | string / number                    | -       |
 | disabled | 是否禁用                                  | boolean                            | `false` |
+
+## SelectGroupOption Props
+
+| 属性     | 说明                         | 类型    | 默认值  |
+| -------- | ---------------------------- | ------- | ------- |
+| label    | 选项组标签                   | string  | -       |
+| disabled | 选项组禁用，子选项都不可选择 | boolean | `false` |
+
+## SelectGroupOption Slots
+
+| 属性  | 说明                                    |
+| ----- | --------------------------------------- |
+| label | 自定义分组标签，优先级比 props.label 高 |
+
+## SelectOption
+
+| 属性     | 说明                                 | 类型                               |
+| -------- | ------------------------------------ | ---------------------------------- |
+| value    | 非分组选项的值，需要唯一             | string / number / boolean / object |
+| label    | 选项的标签                           | string / number                    |
+| disabled | 是否禁用                             | boolean                            |
+| children | 若为数组类型，则当前项为分组选项 | `Array<SelectOption>`              |

@@ -9,7 +9,7 @@ import {
     PropType,
     ref,
 } from 'vue';
-import { key } from './const';
+import { SELECT_PROVIDE_KEY } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const optionProps = {
@@ -29,13 +29,13 @@ export default defineComponent({
     name: 'FOption',
     props: optionProps,
     setup(props, ctx) {
-        const parent = inject(key, null);
+        const parent = inject(SELECT_PROVIDE_KEY, null);
         if (!parent) {
             console.warn('[FOption]: FOption 必须搭配 FSelect 组件使用！');
         }
         const instance = getCurrentInstance();
 
-        const { addOption, removeOption } = parent;
+        const { addOption, removeOption, parentGroupOption } = parent;
 
         const optionRef = ref<HTMLElement>();
 
@@ -53,11 +53,13 @@ export default defineComponent({
                 //TODO: 检测 text 变更
                 return el?.textContent || '';
             });
-            addOption(option);
+
+            // 如果是选项组包裹的，则收集包裹下面的option
+            addOption(option, parentGroupOption);
         });
 
         onBeforeUnmount(() => {
-            removeOption(instance.uid);
+            removeOption(instance.uid, parentGroupOption);
         });
 
         return () => {

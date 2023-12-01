@@ -72,7 +72,6 @@ import {
     ref,
     provide,
     unref,
-    reactive,
     watch,
     computed,
     CSSProperties,
@@ -86,11 +85,11 @@ import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
 import { useLocale } from '../config-provider/useLocale';
-import { key, prefixCls } from './const';
+import { SELECT_PROVIDE_KEY, prefixCls } from './const';
 import OptionList from './optionList';
 import { selectProps } from './props';
-
-import type { SelectValue, SelectOption, OptionChildren } from './interface';
+import useOptions from './useOptions';
+import type { SelectValue, SelectOption } from './interface';
 
 export default defineComponent({
     name: 'FSelect',
@@ -167,40 +166,21 @@ export default defineComponent({
             () => props.emptyText || t('select.emptyText'),
         );
 
-        const childOptions = reactive([]);
-
-        const addOption = (option: OptionChildren) => {
-            if (!childOptions.includes(option)) {
-                childOptions.push(option);
-            }
-        };
-
-        const removeOption = (id: number | string) => {
-            const colIndex = childOptions.findIndex((item) => item.id === id);
-            if (colIndex !== -1) {
-                childOptions.splice(colIndex, 1);
-            }
-        };
-
-        const baseOptions = computed(() => {
-            const allOptions = [
-                ...childOptions,
-                ...(props.options || []).map((option) => {
-                    return {
-                        ...option,
-                        value: option[props.valueField],
-                        label: option[props.labelField],
-                    };
-                }),
-            ];
-            return allOptions;
+        const { addOption, removeOption, flatBaseOptions } = useOptions({
+            props,
         });
 
+        provide(SELECT_PROVIDE_KEY, {
+            addOption,
+            removeOption,
+        });
+
+        // 自定义选项
         const cacheOptionsForTag = computed(() => {
             if (props.filterable && props.tag) {
                 if (
                     filterText.value &&
-                    baseOptions.value.every((option) => {
+                    flatBaseOptions.value.every((option) => {
                         return option.label !== filterText.value;
                     }) &&
                     cacheOptions.value.every((option) => {
@@ -222,16 +202,20 @@ export default defineComponent({
         });
 
         const allOptions = computed(() => {
-            return [...cacheOptionsForTag.value, ...baseOptions.value];
+            return [...cacheOptionsForTag.value, ...flatBaseOptions.value];
         });
 
         const filteredOptions = computed(() => {
             if (!props.remote && props.filterable && filterText.value) {
                 return allOptions.value.filter((option) => {
-                    if (props.filter) {
-                        return props.filter(filterText.value, option);
+                    if (option.__isGroup) {
+                        return false;
+                    } else {
+                        if (props.filter) {
+                            return props.filter(filterText.value, option);
+                        }
+                        return String(option.label).includes(filterText.value);
                     }
-                    return String(option.label).includes(filterText.value);
                 });
             }
             return allOptions.value;
@@ -318,7 +302,7 @@ export default defineComponent({
                         }
                     }
                     cacheOption = selectedOptionsRef.value.find(
-                        (option) => option.value === val,
+                        (option) => !option.__isGroup && option.value === val,
                     );
                     if (cacheOption) {
                         return cacheOption;
@@ -342,11 +326,6 @@ export default defineComponent({
                 deep: true,
             },
         );
-
-        provide(key, {
-            addOption,
-            removeOption,
-        });
 
         const focus = (e: Event) => {
             emit('focus', e);
@@ -399,11 +378,15 @@ export default defineComponent({
             }
             let index = 0;
             while (index < len) {
-                if (!filteredOptions.value[index].disabled) {
+                if (
+                    !filteredOptions.value[index].__isGroup &&
+                    !filteredOptions.value[index].disabled
+                ) {
                     break;
                 }
                 index++;
             }
+
             if (index < len) {
                 return filteredOptions.value[index];
             }
@@ -438,7 +421,10 @@ export default defineComponent({
         const onKeyDown = () => {
             if (!isNil(hoverOptionValue.value)) {
                 const option = allOptions.value.find((option: SelectOption) => {
-                    return option.value === hoverOptionValue.value;
+                    return (
+                        !option.__isGroup &&
+                        option.value === hoverOptionValue.value
+                    );
                 });
                 onSelect(hoverOptionValue.value, option);
             }
