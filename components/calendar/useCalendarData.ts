@@ -1,10 +1,7 @@
 import { computed, ref } from 'vue';
 import { isNil } from 'lodash-es';
 import { type Day } from 'date-fns';
-import {
-    type UseNormalModelReturn,
-    useNormalModel,
-} from '../_util/use/useModel';
+import { useNormalModel } from '../_util/use/useModel';
 import {
     CalendarEvent,
     type CalendarInnerProps,
@@ -28,12 +25,7 @@ const useCalendarData = (
         ...args: any[]
     ) => void,
 ) => {
-    const [propActiveDate, setPropActiveDate]: UseNormalModelReturn<
-        typeof props,
-        'modelValue'
-    > = useNormalModel(props, emit, {
-        prop: 'modelValue',
-    });
+    const [propActiveDate, setPropActiveDate] = useNormalModel(props, emit);
     const activeDate = computed({
         get: () => convertUnixTimeToCalendarDate(propActiveDate.value),
         set: (nextActiveDate) =>
@@ -45,13 +37,7 @@ const useCalendarData = (
             ),
     });
 
-    const [mode]: UseNormalModelReturn<typeof props, 'mode'> = useNormalModel(
-        props,
-        emit,
-        {
-            prop: 'mode',
-        },
-    );
+    const [mode] = useNormalModel(props, emit, { prop: 'mode' });
 
     // TODO: 后续支持传参修改
     // 默认从周一开始

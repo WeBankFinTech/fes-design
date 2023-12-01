@@ -8,10 +8,7 @@
 import { provide, defineComponent, computed, watch } from 'vue';
 import { isNil } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
-import {
-    type UseNormalModelReturn,
-    useNormalModel,
-} from '../_util/use/useModel';
+import { useNormalModel } from '../_util/use/useModel';
 import { collapseEmits, collapseProps } from './collapseExpose';
 import { useNamespace } from './useNamespace';
 import { COMPONENT_NAME, arrowPositionKey, collapseContextKey } from './common';
@@ -24,10 +21,7 @@ export default defineComponent({
     setup(props, { emit }) {
         useTheme();
 
-        const [modelValue, setModelValue]: UseNormalModelReturn<
-            typeof props,
-            'modelValue'
-        > = useNormalModel(props, emit);
+        const [modelValue, setModelValue] = useNormalModel(props, emit);
 
         const activeNames = computed<(string | number)[]>({
             get: () => {

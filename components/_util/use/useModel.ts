@@ -1,12 +1,5 @@
-import { ref, watch, computed, type WritableComputedRef } from 'vue';
+import { ref, watch, computed, type WritableComputedRef, type Ref } from 'vue';
 import { isEqual as isEqualFunc, isArray, isUndefined } from 'lodash-es';
-
-type UseNormalModelOptions = {
-    prop?: string;
-    isEqual?: boolean;
-    deep?: boolean;
-    defaultValue?: any;
-};
 
 // TODO: 后续考虑如何并入 useNormalModel
 export type UseNormalModelReturn<
@@ -14,22 +7,36 @@ export type UseNormalModelReturn<
     Key extends keyof Props,
 > = [WritableComputedRef<Props[Key]>, (value: Props[Key]) => void];
 
-export const useNormalModel = (
-    props: Record<string, any>,
-    emit: any,
-    config: UseNormalModelOptions = {},
-): [WritableComputedRef<any>, (val: any) => void] => {
+type ModelValuePropKey = 'modelValue';
+
+export const useNormalModel = <
+    Props extends Record<string, any>,
+    Key extends Extract<
+        keyof Props | ModelValuePropKey,
+        string
+    > = ModelValuePropKey,
+>(
+    props: Props,
+    emit: (eventName: string, ...args: any[]) => void,
+    config: {
+        prop?: Key;
+        isEqual?: boolean;
+        deep?: boolean;
+        defaultValue?: Props[Key];
+    } = {},
+): [WritableComputedRef<Props[Key]>, (val: Props[Key]) => void] => {
     const {
         prop = 'modelValue',
         deep = false,
         isEqual = false,
         defaultValue,
     } = config;
-    const usingProp = prop;
-    const currentValue = ref(
+    const usingProp = prop as Key; // 实际使用中 'modelValue' 本就应该在 Key 中
+    // NOTE: 不可以使用 ref<Type> 的写法，currentValue 会被直接推导成 Props[Key]
+    const currentValue: Ref<Props[Key]> = ref(
         !isUndefined(props[usingProp]) ? props[usingProp] : defaultValue,
     );
-    const pureUpdateCurrentValue = (value: any) => {
+    const pureUpdateCurrentValue = (value: Props[Key]) => {
         if (
             value === currentValue.value ||
             (isEqual && isEqualFunc(value, currentValue.value))
@@ -38,7 +45,8 @@ export const useNormalModel = (
         }
         currentValue.value = value;
     };
-    const updateCurrentValue = (value: any) => {
+
+    const updateCurrentValue = (value: Props[Key]) => {
         pureUpdateCurrentValue(value);
         emit(`update:${usingProp}`, currentValue.value);
     };
@@ -67,6 +75,13 @@ export const useNormalModel = (
         }),
         updateCurrentValue,
     ];
+};
+
+type UseNormalModelOptions = {
+    prop?: string;
+    isEqual?: boolean;
+    deep?: boolean;
+    defaultValue?: any;
 };
 
 export const useArrayModel = (
