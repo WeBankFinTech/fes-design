@@ -1,16 +1,9 @@
 import { Day, addMonths, getDaysInMonth, set, subDays } from 'date-fns';
 import { isNil } from 'lodash-es';
-import { WritableComputedRef } from 'vue';
 import { prefixCls } from './const';
 import { CalendarDate, UnixTime } from './types';
 
 export const cls = (className: string) => `${prefixCls}-${className}`;
-
-// TODO: 后续考虑如何并入 useNormalModel
-export type UseNormalModelReturn<
-    Props extends Record<string, unknown>,
-    Key extends keyof Props,
-> = [WritableComputedRef<Props[Key]>, (value: Props[Key]) => void];
 
 /**
  * 根据一个 Date，计算其所在月份日历

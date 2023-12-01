@@ -1,6 +1,11 @@
 <template>
-    <div class="demo-collapse">
-        <FCollapse v-model="activeName" accordion :embedded="false">
+    <FSpace vertical>
+        <FSwitch v-model="accordion">手风琴模式</FSwitch>
+        <FCollapse
+            v-model="activeName"
+            :accordion="accordion"
+            :embedded="false"
+        >
             <FCollapseItem title="Consistency" name="1">
                 <div>
                     岁月静好，浅笑安然。打开记忆的闸门，仿佛又回到了那年那月那时光，仿佛又见到你送给我的那盆清香茉莉，在细雨潇潇的夜晚，所呈现出来的洁净和楚楚动人。以前的过往总是在记忆深处，以固有的姿态，以从未稍离的执着提醒我，生命中有一种存在，叫以前。
@@ -22,17 +27,19 @@
                 </div>
             </FCollapseItem>
         </FCollapse>
-    </div>
+    </FSpace>
 </template>
 
-<script>
-import { ref } from 'vue';
-export default {
-    setup() {
-        const activeName = ref('1');
-        return {
-            activeName,
-        };
-    },
-};
+<script setup>
+import { ref, watch } from 'vue';
+const accordion = ref(true);
+
+const activeName = ref('1');
+
+watch(activeName, (name) =>
+    console.log(
+        '[FCollapse.accordion] activeName',
+        JSON.parse(JSON.stringify(name)),
+    ),
+);
 </script>
