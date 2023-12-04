@@ -1,3 +1,19 @@
+## [0.8.18](https://github.com/WeBankFinTech/fes-design/compare/v0.8.17...v0.8.18) (2023-12-04)
+
+
+### Bug Fixes
+
+* 可能是vue-jsx的bug,当title从对象变成字符串,会渲染异常 ([#515](https://github.com/WeBankFinTech/fes-design/issues/515)) ([53557fe](https://github.com/WeBankFinTech/fes-design/commit/53557fe2f699e11352ff3c9c49fc3e49f554ba89))
+* 修复组件使用useArrayModel做双向绑定,在组件外重置双向绑定属性为undefined无效 ([#521](https://github.com/WeBankFinTech/fes-design/issues/521)) ([dad99c3](https://github.com/WeBankFinTech/fes-design/commit/dad99c341027b823068b5f202d104fddd8bc1fe0))
+* **Collapse:** 手风琴模式下，modelValue 数据处理异常 ([#522](https://github.com/WeBankFinTech/fes-design/issues/522)) ([194428b](https://github.com/WeBankFinTech/fes-design/commit/194428b9889215f555eb5a719ec0c91e31cc5ae1))
+
+
+### Features
+
+* **Select:** 新增选项分组功能 ([#513](https://github.com/WeBankFinTech/fes-design/issues/513)) ([dd36fe7](https://github.com/WeBankFinTech/fes-design/commit/dd36fe706e1d016a284e60af12ea2fd30fd01af5))
+
+
+
 ## [0.8.17](https://github.com/WeBankFinTech/fes-design/compare/v0.8.16...v0.8.17) (2023-11-20)
 
 
