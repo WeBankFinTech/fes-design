@@ -1,0 +1,17 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "allowJs": true,
+    },
+    "include": [
+        // 与 tsconfig.json 保持一致
+        "global.d.ts",
+        "components/**/*.ts",
+        "components/**/*.tsx",
+        "components/**/*.vue",
+        "docs/.vitepress/components/**/*.vue",
+
+        "./.eslintrc.js",
+        "scripts/**/*.mjs",
+    ]
+}
