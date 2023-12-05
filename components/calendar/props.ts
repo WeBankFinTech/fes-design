@@ -1,9 +1,9 @@
 import {
-    ComponentObjectPropsOptions,
-    DefineComponent,
-    PropType,
-    SetupContext,
-    SlotsType,
+    type ComponentObjectPropsOptions,
+    type DefineComponent,
+    type PropType,
+    type SetupContext,
+    type SlotsType,
 } from 'vue';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import { type UnixTime } from './types';

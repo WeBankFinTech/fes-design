@@ -1,4 +1,4 @@
-import { inject, defineComponent, Fragment, PropType } from 'vue';
+import { inject, defineComponent, Fragment, type PropType } from 'vue';
 import FCheckbox from '../../checkbox/checkbox.vue';
 import { provideKey } from '../const';
 import useResize from '../useResize';

@@ -7,7 +7,7 @@ import {
     onUnmounted,
     inject,
     getCurrentInstance,
-    ComputedRef,
+    type ComputedRef,
 } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import {

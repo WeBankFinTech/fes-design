@@ -1,4 +1,4 @@
-import { onBeforeUnmount, onMounted, Ref } from 'vue';
+import { onBeforeUnmount, onMounted, type Ref } from 'vue';
 
 export default function useScrollX(targetRef: Ref<HTMLElement>) {
     function handleWheelEvent(event: WheelEvent) {

@@ -10,9 +10,9 @@ import {
     watch,
     withDirectives,
     onMounted,
-    VNode,
-    ComponentPublicInstance,
-    Slots,
+    type VNode,
+    type ComponentPublicInstance,
+    type Slots,
 } from 'vue';
 import {
     CLOSE_EVENT,

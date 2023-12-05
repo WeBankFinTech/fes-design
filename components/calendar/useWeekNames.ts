@@ -1,4 +1,4 @@
-import { Ref, computed } from 'vue';
+import { type Ref, computed } from 'vue';
 import { type Day } from 'date-fns';
 import { useLocale } from '../config-provider/useLocale';
 import { type CalendarMode } from './props';

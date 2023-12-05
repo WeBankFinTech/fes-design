@@ -13,7 +13,7 @@ import {
     defineComponent,
     computed,
     onMounted,
-    PropType,
+    type PropType,
     nextTick,
     ref,
 } from 'vue';

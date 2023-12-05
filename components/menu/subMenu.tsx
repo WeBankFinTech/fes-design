@@ -8,7 +8,7 @@ import {
     watch,
     provide,
 } from 'vue';
-import { PropType } from 'vue';
+import { type PropType } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import FadeInExpandTransition from '../_util/components/fadeInExpandTransition';
 import Popper from '../popper/popper';

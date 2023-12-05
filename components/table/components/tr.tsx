@@ -1,4 +1,4 @@
-import { defineComponent, Fragment, inject, PropType } from 'vue';
+import { defineComponent, Fragment, inject, type PropType } from 'vue';
 import { provideKey } from '../const';
 import Td from './td';
 import ExpandTr from './expandTr';

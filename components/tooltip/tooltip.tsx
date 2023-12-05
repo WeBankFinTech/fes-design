@@ -1,4 +1,4 @@
-import { computed, defineComponent, PropType } from 'vue';
+import { computed, defineComponent, type PropType } from 'vue';
 import { isNil } from 'lodash-es';
 import Popper from '../popper/popper';
 import getPrefixCls from '../_util/getPrefixCls';

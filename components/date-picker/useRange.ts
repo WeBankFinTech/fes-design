@@ -1,4 +1,4 @@
-import { watch, ref, Ref } from 'vue';
+import { watch, ref, type Ref } from 'vue';
 
 import { getTimestampFromFormat, isBeyondRangeTime } from './helper';
 import { SELECTED_STATUS, RANGE_POSITION } from './const';

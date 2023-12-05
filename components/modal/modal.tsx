@@ -6,9 +6,9 @@ import {
     ref,
     watch,
     nextTick,
-    PropType,
-    VNode,
-    VNodeChild,
+    type PropType,
+    type VNode,
+    type VNodeChild,
 } from 'vue';
 import { isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';

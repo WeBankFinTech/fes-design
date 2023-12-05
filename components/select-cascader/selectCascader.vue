@@ -84,7 +84,7 @@ import {
     unref,
     watch,
     computed,
-    CSSProperties,
+    type CSSProperties,
 } from 'vue';
 import { isArray, debounce } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';

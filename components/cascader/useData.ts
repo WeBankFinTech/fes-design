@@ -1,4 +1,4 @@
-import { ref, reactive, watch, computed, Ref, nextTick } from 'vue';
+import { ref, reactive, watch, computed, type Ref, nextTick } from 'vue';
 import { isArray, isEmpty, isNil } from 'lodash-es';
 import { ROOT_MENU_KEY } from './const';
 import type {

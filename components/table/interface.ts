@@ -1,12 +1,12 @@
-import { Ref, SetupContext } from 'vue';
-import { getCellValue } from './helper';
-import useTableColumn from './useTableColumn';
-import useTableEvent from './useTableEvent';
-import useTableSelect from './useTableSelect';
-import useTableExpand from './useTableExpand';
-import useTableStyle from './useTableStyle';
-import useTableDrag from './useTableDrag';
-import useTableSort from './useTableSort';
+import { type Ref, type SetupContext } from 'vue';
+import { type getCellValue } from './helper';
+import type useTableColumn from './useTableColumn';
+import type useTableEvent from './useTableEvent';
+import type useTableSelect from './useTableSelect';
+import type useTableExpand from './useTableExpand';
+import type useTableStyle from './useTableStyle';
+import type useTableDrag from './useTableDrag';
+import type useTableSort from './useTableSort';
 import type { TableProps } from './table';
 
 export type RowType = Record<string, any>;

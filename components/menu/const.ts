@@ -1,4 +1,4 @@
-import { PropType, InjectionKey, ComputedRef } from 'vue';
+import { type PropType, type InjectionKey, type ComputedRef } from 'vue';
 
 import type { MenuOption } from './interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';

@@ -5,9 +5,9 @@ import {
     onMounted,
     ref,
     TransitionGroup,
-    CSSProperties,
-    VNodeChild,
-    VNode,
+    type CSSProperties,
+    type VNodeChild,
+    type VNode,
     cloneVNode,
 } from 'vue';
 import {

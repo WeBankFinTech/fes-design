@@ -1,4 +1,4 @@
-import { defineComponent, provide, VNodeChild } from 'vue';
+import { defineComponent, provide, type VNodeChild } from 'vue';
 import { isFunction, isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';

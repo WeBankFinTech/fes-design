@@ -2,8 +2,8 @@ import {
     defineComponent,
     provide,
     computed,
-    PropType,
-    CSSProperties,
+    type PropType,
+    type CSSProperties,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { DESCRIPTIONS_PROVIDE_KEY } from './constants';

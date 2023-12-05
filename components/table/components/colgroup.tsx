@@ -1,4 +1,4 @@
-import { defineComponent, PropType, inject } from 'vue';
+import { defineComponent, type PropType, inject } from 'vue';
 import { provideKey } from '../const';
 import type { ColumnInst } from '../column';
 

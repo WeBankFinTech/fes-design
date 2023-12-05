@@ -1,11 +1,11 @@
 import {
     defineComponent,
     computed,
-    ExtractPropTypes,
-    ComputedRef,
-    StyleValue,
-    HTMLAttributes,
-    PropType,
+    type ExtractPropTypes,
+    type ComputedRef,
+    type StyleValue,
+    type HTMLAttributes,
+    type PropType,
 } from 'vue';
 import { isNil } from 'lodash-es';
 

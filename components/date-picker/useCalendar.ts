@@ -1,4 +1,4 @@
-import { watch, watchEffect, ref, reactive, computed, Ref } from 'vue';
+import { watch, watchEffect, ref, reactive, computed, type Ref } from 'vue';
 import { isNil } from 'lodash-es';
 import { endOfMonth } from 'date-fns';
 import getPrefixCls from '../_util/getPrefixCls';

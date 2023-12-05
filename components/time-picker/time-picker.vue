@@ -73,7 +73,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, computed, PropType } from 'vue';
+import { defineComponent, ref, watch, computed, type PropType } from 'vue';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import getPrefixCls from '../_util/getPrefixCls';

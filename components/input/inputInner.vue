@@ -68,7 +68,13 @@
 </template>
 
 <script lang="ts">
-import { computed, ref, defineComponent, Ref, ExtractPropTypes } from 'vue';
+import {
+    computed,
+    ref,
+    defineComponent,
+    type Ref,
+    type ExtractPropTypes,
+} from 'vue';
 import { debounce } from 'lodash-es';
 import { EyeOutlined, EyeInvisibleOutlined, CloseCircleFilled } from '../icon';
 import getPrefixCls from '../_util/getPrefixCls';

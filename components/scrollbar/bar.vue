@@ -26,10 +26,10 @@ import {
     ref,
     onMounted,
     nextTick,
-    CSSProperties,
+    type CSSProperties,
     defineComponent,
-    PropType,
-    StyleValue,
+    type PropType,
+    type StyleValue,
 } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import getPrefixCls from '../_util/getPrefixCls';

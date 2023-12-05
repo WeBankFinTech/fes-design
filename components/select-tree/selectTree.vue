@@ -124,8 +124,8 @@ import {
     unref,
     watch,
     computed,
-    CSSProperties,
-    PropType,
+    type CSSProperties,
+    type PropType,
 } from 'vue';
 import { debounce } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';

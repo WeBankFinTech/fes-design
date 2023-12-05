@@ -6,7 +6,7 @@ import {
     onBeforeUnmount,
     toRefs,
     defineComponent,
-    PropType,
+    type PropType,
     ref,
 } from 'vue';
 import { SELECT_PROVIDE_KEY } from './const';

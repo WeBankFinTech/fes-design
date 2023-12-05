@@ -4,8 +4,8 @@ import {
     ref,
     watch,
     onBeforeUnmount,
-    PropType,
-    CSSProperties,
+    type PropType,
+    type CSSProperties,
 } from 'vue';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import getPrefixCls from '../_util/getPrefixCls';

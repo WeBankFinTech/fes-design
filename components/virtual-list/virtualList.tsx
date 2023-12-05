@@ -11,7 +11,7 @@ import {
     ref,
     createVNode,
     computed,
-    CSSProperties,
+    type CSSProperties,
 } from 'vue';
 import { isNil, throttle } from 'lodash-es';
 import FScrollbar from '../scrollbar/scrollbar.vue';

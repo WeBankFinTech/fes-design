@@ -1,4 +1,4 @@
-import { defineComponent, computed, PropType } from 'vue';
+import { defineComponent, computed, type PropType } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import type { ExtractPublicPropTypes } from '../_util/interface';

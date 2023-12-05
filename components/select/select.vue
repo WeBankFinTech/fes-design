@@ -74,7 +74,7 @@ import {
     unref,
     watch,
     computed,
-    CSSProperties,
+    type CSSProperties,
     defineComponent,
 } from 'vue';
 import { isNil } from 'lodash-es';

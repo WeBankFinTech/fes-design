@@ -2,9 +2,9 @@ import {
     defineComponent,
     computed,
     ref,
-    PropType,
-    CSSProperties,
-    StyleValue,
+    type PropType,
+    type CSSProperties,
+    type StyleValue,
 } from 'vue';
 import { isObject } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';

@@ -1,4 +1,4 @@
-import { ref, Transition, computed, defineComponent, PropType } from 'vue';
+import { ref, Transition, computed, defineComponent, type PropType } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import CloseCircleOutlined from '../icon/CloseCircleOutlined';
 import { CLOSE_EVENT } from '../_util/constants';

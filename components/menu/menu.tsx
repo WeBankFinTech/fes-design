@@ -3,8 +3,8 @@ import {
     onMounted,
     provide,
     defineComponent,
-    Ref,
-    VNodeChild,
+    type Ref,
+    type VNodeChild,
 } from 'vue';
 import { isFunction } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';

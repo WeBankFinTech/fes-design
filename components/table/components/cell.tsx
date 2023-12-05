@@ -2,8 +2,8 @@ import {
     defineComponent,
     Fragment,
     inject,
-    PropType,
-    ExtractPropTypes,
+    type PropType,
+    type ExtractPropTypes,
 } from 'vue';
 import { isNil, isArray, isFunction, isPlainObject } from 'lodash-es';
 import Button from '../../button/button';

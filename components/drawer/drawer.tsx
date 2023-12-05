@@ -6,9 +6,9 @@ import {
     ref,
     watch,
     nextTick,
-    PropType,
-    Component,
-    CSSProperties,
+    type PropType,
+    type Component,
+    type CSSProperties,
     reactive,
 } from 'vue';
 import { isNumber } from 'lodash-es';

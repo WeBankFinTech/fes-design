@@ -1,4 +1,4 @@
-import { defineComponent, inject, PropType } from 'vue';
+import { defineComponent, inject, type PropType } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import { provideKey } from '../const';
 import Colgroup from './colgroup';

@@ -1,7 +1,7 @@
 import {
-    CSSProperties,
-    InjectionKey,
-    Ref,
+    type CSSProperties,
+    type InjectionKey,
+    type Ref,
     computed,
     inject,
     onUnmounted,

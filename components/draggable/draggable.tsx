@@ -2,8 +2,8 @@ import {
     computed,
     defineComponent,
     ref,
-    SetupContext,
-    PropType,
+    type SetupContext,
+    type PropType,
     cloneVNode,
 } from 'vue';
 import { mergeWith } from 'lodash-es';

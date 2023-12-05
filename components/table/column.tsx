@@ -6,13 +6,13 @@ import {
     onBeforeMount,
     onBeforeUnmount,
     getCurrentInstance,
-    VNode,
-    PropType,
-    useSlots,
+    type VNode,
+    type PropType,
+    type useSlots,
 } from 'vue';
 import {
-    COL_TYPE,
-    ALIGN,
+    type COL_TYPE,
+    type ALIGN,
     TABLE_NAME,
     TABLE_COLUMN_NAME,
     provideKey,

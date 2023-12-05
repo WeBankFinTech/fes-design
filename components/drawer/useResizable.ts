@@ -1,4 +1,4 @@
-import { computed, onMounted, ref, ComputedRef } from 'vue';
+import { computed, onMounted, ref, type ComputedRef } from 'vue';
 import { useEventListener } from '@vueuse/core';
 
 export const useResizable = (config: {

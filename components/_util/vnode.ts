@@ -3,10 +3,10 @@ import {
     Text,
     Comment,
     createTextVNode,
-    VNode,
-    VNodeChild,
+    type VNode,
+    type VNodeChild,
     isVNode,
-    Slots,
+    type Slots,
 } from 'vue';
 
 const TEMPLATE = 'template';

@@ -7,10 +7,10 @@
 <script lang="ts">
 import {
     computed,
-    CSSProperties,
+    type CSSProperties,
     defineComponent,
     inject,
-    PropType,
+    type PropType,
 } from 'vue';
 import { isNumber, isObject, isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';

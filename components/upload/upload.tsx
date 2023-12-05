@@ -1,4 +1,4 @@
-import { defineComponent, PropType, SetupContext } from 'vue';
+import { defineComponent, type PropType, type SetupContext } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import Trigger from './trigger.vue';
 import FileList from './fileList.vue';

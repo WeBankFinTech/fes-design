@@ -92,11 +92,11 @@ import {
     computed,
     ref,
     watch,
-    Ref,
+    type Ref,
     defineComponent,
-    PropType,
-    ComputedRef,
-    ComponentPublicInstance,
+    type PropType,
+    type ComputedRef,
+    type ComponentPublicInstance,
 } from 'vue';
 import { format, isValid } from 'date-fns';
 import { isEqual, isNil, isArray } from 'lodash-es';

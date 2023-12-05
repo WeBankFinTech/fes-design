@@ -1,4 +1,4 @@
-import { ref, Ref } from 'vue';
+import { ref, type Ref } from 'vue';
 import { isFunction } from 'lodash-es';
 import type { TreeNodeKey, InnerTreeOption } from './interface';
 import type { TreeProps } from './props';

@@ -2,12 +2,12 @@ import {
     computed,
     reactive,
     ref,
-    SetupContext,
+    type SetupContext,
     watch,
-    DirectiveBinding,
+    type DirectiveBinding,
 } from 'vue';
 import {
-    DraggableItem,
+    type DraggableItem,
     DRAG_END_EVENT,
     DRAG_START_EVENT,
     UPDATE_MODEL_EVENT,

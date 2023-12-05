@@ -1,4 +1,4 @@
-import { defineComponent, inject, PropType, computed } from 'vue';
+import { defineComponent, inject, type PropType, computed } from 'vue';
 import FScrollbar from '../../scrollbar/scrollbar.vue';
 import Draggable from '../../draggable/draggable';
 import { provideKey } from '../const';

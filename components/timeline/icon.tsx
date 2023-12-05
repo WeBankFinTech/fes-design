@@ -1,9 +1,9 @@
 import {
-    PropType,
-    VNodeChild,
+    type PropType,
+    type VNodeChild,
     computed,
     defineComponent,
-    ComponentObjectPropsOptions,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { COMPONENT_NAME, ICON_DEFAULT_COLOR } from './const';
 import { cls, isPresetIconTypes, isValidRenderResult } from './utils';

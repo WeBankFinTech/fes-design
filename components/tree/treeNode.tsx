@@ -2,9 +2,9 @@ import {
     defineComponent,
     computed,
     ref,
-    ExtractPropTypes,
-    PropType,
-    CSSProperties,
+    type ExtractPropTypes,
+    type PropType,
+    type CSSProperties,
 } from 'vue';
 import { isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';

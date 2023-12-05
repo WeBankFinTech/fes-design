@@ -1,4 +1,4 @@
-import { SetupContext } from 'vue';
+import { type SetupContext } from 'vue';
 import type { TableProps } from './table';
 
 export default ({ props, ctx }: { props: TableProps; ctx: SetupContext }) => {

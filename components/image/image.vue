@@ -46,9 +46,9 @@ import {
     ref,
     nextTick,
     inject,
-    ImgHTMLAttributes,
+    type ImgHTMLAttributes,
     defineComponent,
-    PropType,
+    type PropType,
     onUnmounted,
     reactive,
 } from 'vue';

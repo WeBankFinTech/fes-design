@@ -141,10 +141,10 @@ import {
     ref,
     computed,
     defineComponent,
-    PropType,
+    type PropType,
     watch,
     nextTick,
-    VNodeChild,
+    type VNodeChild,
 } from 'vue';
 import { isEqual } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
