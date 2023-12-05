@@ -100,7 +100,7 @@ export const tableProps = {
         type: Boolean,
         default: false,
     },
-    always: {
+    alwaysScrollbar: {
         type: Boolean,
         default: false,
     },

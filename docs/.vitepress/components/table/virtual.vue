@@ -31,7 +31,7 @@
         </FFormItem>
         <FFormItem label="总是显示滚动条：">
             <FRadioGroup
-                v-model="always"
+                v-model="alwaysScrollbar"
                 :options="[
                     { label: '否(默认)', value: false },
                     { label: '是', value: true },
@@ -47,7 +47,7 @@
         :height="isFixedHeight ? height : undefined"
         rowKey="date"
         :data="data"
-        :always="always"
+        :alwaysScrollbar="alwaysScrollbar"
     >
         <FTableColumn prop="date" label="日期" :width="150" ellipsis fixed>
         </FTableColumn>
@@ -88,7 +88,7 @@ export default {
         const virtualScroll = ref(true);
         const isFixedHeight = ref(true);
         const height = ref(250);
-        const always = ref(false);
+        const alwaysScrollbar = ref(false);
 
         const data = reactive(createData(200));
         const action = [
@@ -111,7 +111,7 @@ export default {
             virtualScroll,
             isFixedHeight,
             height,
-            always,
+            alwaysScrollbar,
         };
     },
 };
