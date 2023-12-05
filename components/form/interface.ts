@@ -1,4 +1,9 @@
-import { ExtractPropTypes, PropType, ToRefs, Ref } from 'vue';
+import {
+    type ExtractPropTypes,
+    type PropType,
+    type ToRefs,
+    type Ref,
+} from 'vue';
 import { FORM_LAYOUT, LABEL_POSITION, FORM_ITEM_ALIGN } from './const';
 import type { RuleItem, Rules } from 'async-validator';
 import type { ExtractPublicPropTypes } from '../_util/interface';

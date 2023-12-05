@@ -4,8 +4,8 @@ import {
     inject,
     defineComponent,
     ref,
-    PropType,
-    CSSProperties,
+    type PropType,
+    type CSSProperties,
     onMounted,
     onUnmounted,
 } from 'vue';

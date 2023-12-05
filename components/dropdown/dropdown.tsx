@@ -2,15 +2,15 @@ import {
     defineComponent,
     computed,
     watch,
-    PropType,
-    VNodeTypes,
+    type PropType,
+    type VNodeTypes,
     ref,
-    Ref,
+    type Ref,
 } from 'vue';
 import { isFunction } from 'lodash-es';
 import CheckOutlined from '../icon/CheckOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
-import { TRIGGER, PLACEMENT } from '../_util/constants';
+import { type TRIGGER, type PLACEMENT } from '../_util/constants';
 import { useNormalModel } from '../_util/use/useModel';
 import { useTheme } from '../_theme/useTheme';
 import Popper from '../popper/popper';

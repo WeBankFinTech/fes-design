@@ -1,4 +1,4 @@
-import { ComputedRef, Ref } from 'vue';
+import { type ComputedRef, type Ref } from 'vue';
 
 export type Value = string | number;
 export type Position = 'left' | 'top' | 'right' | 'bottom';

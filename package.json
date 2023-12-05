@@ -70,7 +70,7 @@
     "@vue/repl": "^2.5.5",
     "@vue/test-utils": "2.0.0-rc.17",
     "@vue/vue3-jest": "27.0.0-alpha.4",
-    "@webank/eslint-config-ts": "^1.1.2",
+    "@webank/eslint-config-ts": "^1.2.0",
     "autoprefixer": "^10.4.0",
     "babel-jest": "^27.5.1",
     "body-scroll-lock": "4.0.0-beta.0",

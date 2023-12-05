@@ -1,4 +1,10 @@
-import { Ref, CSSProperties, ToRefs, PropType, InjectionKey } from 'vue';
+import {
+    type Ref,
+    type CSSProperties,
+    type ToRefs,
+    type PropType,
+    type InjectionKey,
+} from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export enum COMPONENT_NAME {

@@ -51,8 +51,8 @@ import {
     watch,
     ref,
     defineComponent,
-    PropType,
-    ExtractPropTypes,
+    type PropType,
+    type ExtractPropTypes,
     nextTick,
 } from 'vue';
 import { isArray } from 'lodash-es';

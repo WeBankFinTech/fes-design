@@ -1,4 +1,4 @@
-import useCarousel from './useCarousel';
+import type useCarousel from './useCarousel';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export type Placement = 'top' | 'bottom' | 'left' | 'right';

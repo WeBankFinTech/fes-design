@@ -85,8 +85,8 @@ import {
     computed,
     watch,
     defineComponent,
-    PropType,
-    CSSProperties,
+    type PropType,
+    type CSSProperties,
 } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import { throttle } from 'lodash-es';

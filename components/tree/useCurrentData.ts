@@ -1,4 +1,4 @@
-import { Ref, ref, watch } from 'vue';
+import { type Ref, ref, watch } from 'vue';
 import { debounce } from 'lodash-es';
 import { concat } from '../_util/utils';
 import { getBrotherKeys } from './helper';

@@ -1,4 +1,4 @@
-import { computed, ref, reactive, Ref, CSSProperties } from 'vue';
+import { computed, ref, reactive, type Ref, type CSSProperties } from 'vue';
 import { isFunction, isPlainObject, throttle } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { getCellValue } from './helper';

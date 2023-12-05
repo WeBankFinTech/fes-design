@@ -32,7 +32,7 @@ import {
     nextTick,
     watch,
     onMounted,
-    PropType,
+    type PropType,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import FScrollbar from '../scrollbar/scrollbar.vue';

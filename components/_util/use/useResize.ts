@@ -3,7 +3,7 @@ import {
     watch,
     computed,
     unref,
-    Ref,
+    type Ref,
     onMounted,
     nextTick,
 } from 'vue';

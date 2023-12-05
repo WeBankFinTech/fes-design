@@ -1,4 +1,4 @@
-import { PropType, StyleValue } from 'vue';
+import { type PropType, type StyleValue } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const PROVIDE_KEY = Symbol('scrollbar');

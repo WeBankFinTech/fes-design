@@ -1,4 +1,4 @@
-import { defineComponent, watch, ref, PropType } from 'vue';
+import { defineComponent, watch, ref, type PropType } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import useResize from '../_util/use/useResize';
 import { CAROUSEL_NAME, CHANGE_EVENT } from './const';

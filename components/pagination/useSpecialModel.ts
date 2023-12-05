@@ -1,4 +1,4 @@
-import { ref, watch, computed, WritableComputedRef } from 'vue';
+import { ref, watch, computed, type WritableComputedRef } from 'vue';
 import { isEqual } from 'lodash-es';
 
 export default (

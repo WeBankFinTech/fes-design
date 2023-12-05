@@ -1,4 +1,4 @@
-import { Ref, onMounted, onUnmounted } from 'vue';
+import { type Ref, onMounted, onUnmounted } from 'vue';
 import { getScrollParent } from '../_util/utils';
 
 export default function useScroll(

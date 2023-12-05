@@ -1,4 +1,4 @@
-import { Ref, shallowRef, onMounted } from 'vue';
+import { type Ref, shallowRef, onMounted } from 'vue';
 import { cloneDeep } from 'lodash-es';
 import { getBrotherKeys } from './helper';
 import type { TreeNodeKey, InnerTreeOption } from './interface';

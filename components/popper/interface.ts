@@ -1,4 +1,4 @@
-import { PLACEMENT } from '../_util/constants';
+import { type PLACEMENT } from '../_util/constants';
 import type { VModelEvent } from '../_util/interface';
 
 export type PopperEmits = {

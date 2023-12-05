@@ -115,9 +115,9 @@ import {
     watch,
     computed,
     defineComponent,
-    PropType,
-    ExtractPropTypes,
-    Ref,
+    type PropType,
+    type ExtractPropTypes,
+    type Ref,
 } from 'vue';
 import { isValid, format } from 'date-fns';
 import {
@@ -141,7 +141,7 @@ import {
     RANGE_POSITION,
     COMMON_PROPS,
     YEAR_COUNT,
-    SELECTED_STATUS,
+    type SELECTED_STATUS,
 } from './const';
 
 import {

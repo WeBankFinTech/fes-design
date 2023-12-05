@@ -1,4 +1,4 @@
-import { SetupContext, reactive, Ref, readonly } from 'vue';
+import { type SetupContext, reactive, type Ref, readonly } from 'vue';
 import type { RowType } from './interface';
 import type { ColumnInst, SortOrderType, SorterType } from './column';
 

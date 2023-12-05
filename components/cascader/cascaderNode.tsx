@@ -2,8 +2,8 @@ import {
     defineComponent,
     computed,
     ref,
-    ExtractPropTypes,
-    PropType,
+    type ExtractPropTypes,
+    type PropType,
     nextTick,
 } from 'vue';
 import { isArray, isUndefined } from 'lodash-es';

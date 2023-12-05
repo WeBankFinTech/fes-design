@@ -1,4 +1,10 @@
-import { computed, CSSProperties, defineComponent, PropType, Ref } from 'vue';
+import {
+    computed,
+    type CSSProperties,
+    defineComponent,
+    type PropType,
+    type Ref,
+} from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { flatten, getSlot, isValidElementNode } from '../_util/vnode';

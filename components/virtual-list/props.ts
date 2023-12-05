@@ -2,7 +2,7 @@
  * props declaration for default, item and slot component
  */
 
-import { PropType, VNode } from 'vue';
+import { type PropType, type VNode } from 'vue';
 import { COMMON_PROPS } from '../scrollbar/const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 

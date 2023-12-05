@@ -1,11 +1,11 @@
 import {
     defineComponent,
-    ExtractPropTypes,
+    type ExtractPropTypes,
     nextTick,
     onMounted,
-    PropType,
+    type PropType,
     ref,
-    VNodeChild,
+    type VNodeChild,
     watch,
 } from 'vue';
 import { isFunction, isString } from 'lodash-es';

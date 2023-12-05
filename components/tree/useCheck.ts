@@ -1,4 +1,4 @@
-import { Ref, shallowRef, watch } from 'vue';
+import { type Ref, shallowRef, watch } from 'vue';
 import { cloneDeep } from 'lodash-es';
 import { CHECK_STRATEGY } from './const';
 import { getChildrenByValues, getParentByValues } from './helper';

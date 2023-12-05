@@ -1,5 +1,12 @@
 import { isFunction } from 'lodash-es';
-import { nextTick, watch, Ref, ComputedRef, SetupContext, reactive } from 'vue';
+import {
+    nextTick,
+    watch,
+    type Ref,
+    type ComputedRef,
+    type SetupContext,
+    reactive,
+} from 'vue';
 
 export const UPDATE_MODEL_EVENT = 'update:modelValue';
 export const DRAG_START_EVENT = 'dragstart';

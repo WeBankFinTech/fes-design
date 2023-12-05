@@ -1,4 +1,4 @@
-import { defineComponent, PropType, CSSProperties } from 'vue';
+import { defineComponent, type PropType, type CSSProperties } from 'vue';
 import Scrollbar from '../scrollbar/scrollbar.vue';
 import Ellipsis from '../ellipsis/ellipsis';
 import VirtualList from '../virtual-list/virtualList';

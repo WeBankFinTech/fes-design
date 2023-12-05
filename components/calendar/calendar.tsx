@@ -1,8 +1,8 @@
 import {
-    CSSProperties,
-    SlotsType,
-    VNode,
-    VNodeChild,
+    type CSSProperties,
+    type SlotsType,
+    type VNode,
+    type VNodeChild,
     computed,
     defineComponent,
 } from 'vue';

@@ -82,8 +82,8 @@ import {
     nextTick,
     onMounted,
     defineComponent,
-    PropType,
-    Ref,
+    type PropType,
+    type Ref,
 } from 'vue';
 
 import { UPDATE_MODEL_EVENT } from '../_util/constants';

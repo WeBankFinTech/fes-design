@@ -1,6 +1,6 @@
 import {
-    ComponentObjectPropsOptions,
-    PropType,
+    type ComponentObjectPropsOptions,
+    type PropType,
     computed,
     defineComponent,
 } from 'vue';

@@ -3,7 +3,7 @@ import {
     inject,
     computed,
     getCurrentInstance,
-    ComponentInternalInstance,
+    type ComponentInternalInstance,
 } from 'vue';
 import { MENU_KEY } from './const';
 import type { MenuNode } from './const';

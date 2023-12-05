@@ -1,4 +1,4 @@
-import { Ref, computed, inject, ref, unref } from 'vue';
+import { type Ref, computed, inject, ref, unref } from 'vue';
 import { collapseContextKey, generateId } from './common';
 import { useNamespace } from './useNamespace';
 import type { CollapseItemProps } from './collapseItemExpose';

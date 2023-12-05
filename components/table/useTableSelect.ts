@@ -1,4 +1,4 @@
-import { watch, computed, SetupContext, Ref } from 'vue';
+import { watch, computed, type SetupContext, type Ref } from 'vue';
 import { isFunction } from 'lodash-es';
 import { useNormalModel } from '../_util/use/useModel';
 import { TABLE_NAME } from './const';

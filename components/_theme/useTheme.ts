@@ -1,4 +1,4 @@
-import { Ref, ref, watch } from 'vue';
+import { type Ref, ref, watch } from 'vue';
 import { createSharedComposable } from '@vueuse/core';
 
 import { useConfig } from '../config-provider';

@@ -1,4 +1,10 @@
-import { defineComponent, inject, VNode, PropType, createVNode } from 'vue';
+import {
+    defineComponent,
+    inject,
+    type VNode,
+    type PropType,
+    createVNode,
+} from 'vue';
 import VirtualList from '../../virtual-list/virtualList';
 import { provideKey } from '../const';
 import Colgroup from './colgroup';

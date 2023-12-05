@@ -1,4 +1,4 @@
-import { computed, ComputedRef } from 'vue';
+import { computed, type ComputedRef } from 'vue';
 import type { Direction } from './interface';
 
 interface UseCarouselStyleType {

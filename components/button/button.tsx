@@ -1,4 +1,4 @@
-import { defineComponent, computed, ref, PropType } from 'vue';
+import { defineComponent, computed, ref, type PropType } from 'vue';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useAnimate } from '../_util/use/useAnimate';

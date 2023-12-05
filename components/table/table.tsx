@@ -1,7 +1,13 @@
-import { defineComponent, computed, PropType, SetupContext, watch } from 'vue';
+import {
+    defineComponent,
+    computed,
+    type PropType,
+    type SetupContext,
+    watch,
+} from 'vue';
 import { isUndefined } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
-import { TABLE_NAME, SIZE } from './const';
+import { TABLE_NAME, type SIZE } from './const';
 import useTable from './useTable';
 import HeaderTable from './components/headerTable';
 import BodyTable from './components/bodyTable';

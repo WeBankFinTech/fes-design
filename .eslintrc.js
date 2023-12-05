@@ -1,5 +1,13 @@
 module.exports = {
     extends: ['@webank/eslint-config-ts/vue.js'],
+
+    parserOptions: {
+        // https://typescript-eslint.io/linting/troubleshooting/#i-get-errors-telling-me-eslint-was-configured-to-run--however-that-tsconfig-does-not--none-of-those-tsconfigs-include-this-file
+        project: './tsconfig.eslint.json',
+        // https://typescript-eslint.io/linting/troubleshooting/#i-use-a-framework-like-vue-that-requires-custom-file-extensions-and-i-get-errors-like-you-should-add-parseroptionsextrafileextensions-to-your-config
+        extraFileExtensions: ['.vue'],
+    },
+
     overrides: [
         {
             files: [
@@ -47,5 +55,11 @@ module.exports = {
         // 保留现状，允许 vue 文件中 :a="{ b: { c: 500 } }" 的写法
         'vue/object-curly-spacing': 'off',
         'no-unused-expressions': 'off',
+        // import, export type
+        '@typescript-eslint/consistent-type-exports': 'warn',
+        '@typescript-eslint/consistent-type-imports': [
+            'warn',
+            { fixStyle: 'inline-type-imports' },
+        ],
     },
 };

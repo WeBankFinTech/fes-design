@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { PropType, computed, defineComponent } from 'vue';
+import { type PropType, computed, defineComponent } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import useSelect from '../_util/use/useSelect';
 import { name, checkboxGroupKey } from '../checkbox-group/const';

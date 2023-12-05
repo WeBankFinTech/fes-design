@@ -97,8 +97,8 @@ import {
     computed,
     watch,
     defineComponent,
-    PropType,
-    ExtractPropTypes,
+    type PropType,
+    type ExtractPropTypes,
 } from 'vue';
 import { isFunction, isArray, isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';

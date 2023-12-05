@@ -1,4 +1,4 @@
-import { inject, defineComponent, ref, computed, PropType } from 'vue';
+import { inject, defineComponent, ref, computed, type PropType } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import { useLocale } from '../config-provider/useLocale';
 import FMessage from '../message';

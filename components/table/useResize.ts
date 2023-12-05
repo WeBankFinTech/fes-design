@@ -1,4 +1,4 @@
-import { Ref, ref } from 'vue';
+import { type Ref, ref } from 'vue';
 import { cloneDeep } from 'lodash-es';
 import { useEventListener } from '@vueuse/core';
 import { depx } from '../_util/utils';

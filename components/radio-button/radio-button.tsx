@@ -1,4 +1,4 @@
-import { computed, defineComponent, PropType } from 'vue';
+import { computed, defineComponent, type PropType } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { name, radioGroupKey } from '../radio-group/const';
 import useSelect from '../_util/use/useSelect';

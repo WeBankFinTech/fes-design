@@ -1,7 +1,7 @@
 import { withInstall } from '../_util/withInstall';
 import Card from './card.vue';
 
-import { cardProps } from './props';
+import { type cardProps } from './props';
 import type {
     SFCWithInstall,
     ExtractPublicPropTypes,

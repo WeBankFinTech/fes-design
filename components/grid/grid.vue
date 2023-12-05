@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { computed, CSSProperties, defineComponent, provide } from 'vue';
+import { computed, type CSSProperties, defineComponent, provide } from 'vue';
 import { isArray } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
 

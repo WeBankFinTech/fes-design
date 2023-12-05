@@ -1,4 +1,4 @@
-import { computed, watch, SetupContext, Ref } from 'vue';
+import { computed, watch, type SetupContext, type Ref } from 'vue';
 import { useNormalModel } from '../_util/use/useModel';
 import { TABLE_NAME } from './const';
 
