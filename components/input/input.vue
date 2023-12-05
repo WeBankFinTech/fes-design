@@ -23,6 +23,7 @@
                 @focus="handleFocus"
                 @blur="handleBlur"
                 @keydown="handleKeydown"
+                @clear="handleInputClear"
             >
                 <template v-if="$slots.prefix" #prefix>
                     <slot name="prefix"></slot>
@@ -254,6 +255,10 @@ export default defineComponent({
             currentInput.value.blur();
         };
 
+        const handleInputClear = () => {
+            emit('clear');
+        };
+
         return {
             innerDisabled,
             isError,
@@ -275,6 +280,7 @@ export default defineComponent({
             handleTextareaChange,
             handleChange,
             handleKeydown,
+            handleInputClear,
 
             onMouseLeave,
             onMouseEnter,
