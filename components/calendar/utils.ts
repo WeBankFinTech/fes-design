@@ -1,7 +1,7 @@
-import { Day, addMonths, getDaysInMonth, set, subDays } from 'date-fns';
+import { type Day, addMonths, getDaysInMonth, set, subDays } from 'date-fns';
 import { isNil } from 'lodash-es';
 import { prefixCls } from './const';
-import { CalendarDate, UnixTime } from './types';
+import { type CalendarDate, type UnixTime } from './types';
 
 export const cls = (className: string) => `${prefixCls}-${className}`;
 

@@ -6,7 +6,7 @@ import {
     SlotsType,
 } from 'vue';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
-import { UnixTime } from './types';
+import { type UnixTime } from './types';
 import type { ComponentProps } from '../timeline/utilTypes';
 
 /**

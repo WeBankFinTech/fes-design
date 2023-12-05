@@ -8,7 +8,10 @@
 import { provide, defineComponent, computed, watch } from 'vue';
 import { isNil } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
-import { UseNormalModelReturn, useNormalModel } from '../_util/use/useModel';
+import {
+    type UseNormalModelReturn,
+    useNormalModel,
+} from '../_util/use/useModel';
 import { collapseEmits, collapseProps } from './collapseExpose';
 import { useNamespace } from './useNamespace';
 import { COMPONENT_NAME, arrowPositionKey, collapseContextKey } from './common';
