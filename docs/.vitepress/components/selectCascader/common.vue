@@ -6,10 +6,10 @@
                 <FRadio value="hover">hover</FRadio>
             </FRadioGroup>
         </FFormItem>
-        <FFormItem label="父节点可选中：">
-            <FRadioGroup v-model="checkStrictly">
-                <FRadio value="all">是</FRadio>
-                <FRadio value="">否(默认)</FRadio>
+        <FFormItem label="勾选策略：">
+            <FRadioGroup v-model="checkStrictly" :cancelable="false">
+                <FRadio value="all">all</FRadio>
+                <FRadio value="child">child(默认)</FRadio>
             </FRadioGroup>
         </FFormItem>
         <FFormItem label="是否展示路径：">
@@ -60,7 +60,7 @@ export default {
     setup() {
         const data = reactive(createData(4));
         const expandTrigger = ref('click');
-        const checkStrictly = ref('');
+        const checkStrictly = ref('child');
         const showPath = ref(false);
         return {
             data,

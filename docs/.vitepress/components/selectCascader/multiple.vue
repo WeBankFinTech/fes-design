@@ -7,7 +7,7 @@
             </FRadioGroup>
         </FFormItem>
         <FFormItem v-if="cascade" label="勾选策略：">
-            <FRadioGroup v-model="checkStrictly">
+            <FRadioGroup v-model="checkStrictly" :cancelable="false">
                 <FRadio value="all">all</FRadio>
                 <FRadio value="parent">parent</FRadio>
                 <FRadio value="child">child(默认)</FRadio>

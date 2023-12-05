@@ -4,7 +4,7 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useLocale } from '../config-provider/useLocale';
 import CascaderMenu from './cascaderMenu';
-import { COMPONENT_NAME, CHECK_STRATEGY } from './const';
+import { COMPONENT_NAME, CHECK_STRATEGY, type CheckStrictly } from './const';
 import useData from './useData';
 import useState from './useState';
 import { cascaderProps, CASCADER_PROVIDE_KEY } from './props';
@@ -30,6 +30,53 @@ export default defineComponent({
     ],
     setup(props, { emit, expose }) {
         useTheme();
+
+        watch(
+            [
+                () => props.multiple,
+                () => props.cascade,
+                () => props.checkStrictly,
+            ],
+            () => {
+                const multipleCheckStrictlyList = [
+                    CHECK_STRATEGY.ALL,
+                    CHECK_STRATEGY.PARENT,
+                    CHECK_STRATEGY.CHILD,
+                ] as CheckStrictly[];
+                const singleCheckStrictlyList = [
+                    CHECK_STRATEGY.ALL,
+                    CHECK_STRATEGY.CHILD,
+                ] as CheckStrictly[];
+                if (
+                    props.multiple &&
+                    props.cascade &&
+                    !multipleCheckStrictlyList.includes(props.checkStrictly)
+                ) {
+                    console.warn(
+                        `[${
+                            COMPONENT_NAME.CASCADER
+                        }]: multiple 和 cascade 为 true 时, checkStrictly 仅支持 ${multipleCheckStrictlyList.join(
+                            '、',
+                        )}`,
+                    );
+                }
+                if (
+                    !props.multiple &&
+                    !singleCheckStrictlyList.includes(props.checkStrictly)
+                ) {
+                    console.warn(
+                        `[${
+                            COMPONENT_NAME.CASCADER
+                        }]: multiple 为 false 时, checkStrictly 仅支持 ${singleCheckStrictlyList.join(
+                            '、',
+                        )}`,
+                    );
+                }
+            },
+            {
+                immediate: true,
+            },
+        );
 
         const {
             currentExpandedKeys,

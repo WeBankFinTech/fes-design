@@ -10,6 +10,9 @@ export const CHECK_STRATEGY = {
     CHILD: 'child',
 } as const;
 
+export type CheckStrictly =
+    (typeof CHECK_STRATEGY)[keyof typeof CHECK_STRATEGY];
+
 export const ROOT_MENU_KEY = 'root';
 
 export const EXPAND_TRIGGER = {
