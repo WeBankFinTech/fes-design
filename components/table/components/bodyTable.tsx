@@ -141,6 +141,7 @@ export default defineComponent({
                             x: noFixedColumn.value,
                             y: true,
                         }}
+                        always={rootProps.always}
                         onScroll={onScroll}
                     >
                         {renderTable()}

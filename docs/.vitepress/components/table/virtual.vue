@@ -1,5 +1,5 @@
 <template>
-    <FForm labelWidth="100px">
+    <FForm labelWidth="120px">
         <FFormItem label="是否虚拟滚动:">
             <FRadioGroup
                 v-model="virtualScroll"
@@ -29,6 +29,15 @@
             ></FInputNumber>
             <span style="margin-left: 10px">px</span>
         </FFormItem>
+        <FFormItem label="总是显示滚动条：">
+            <FRadioGroup
+                v-model="always"
+                :options="[
+                    { label: '否(默认)', value: false },
+                    { label: '是', value: true },
+                ]"
+            />
+        </FFormItem>
     </FForm>
 
     <FDivider></FDivider>
@@ -38,6 +47,7 @@
         :height="isFixedHeight ? height : undefined"
         rowKey="date"
         :data="data"
+        :always="always"
     >
         <FTableColumn prop="date" label="日期" :width="150" ellipsis fixed>
         </FTableColumn>
@@ -78,6 +88,7 @@ export default {
         const virtualScroll = ref(true);
         const isFixedHeight = ref(true);
         const height = ref(250);
+        const always = ref(false);
 
         const data = reactive(createData(200));
         const action = [
@@ -100,6 +111,7 @@ export default {
             virtualScroll,
             isFixedHeight,
             height,
+            always,
         };
     },
 };

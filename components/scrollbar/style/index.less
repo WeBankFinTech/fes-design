@@ -4,7 +4,7 @@
 
 @scrollbar-prefix-cls: ~'@{cls-prefix}-scrollbar';
 @scrollbar-track-cls: ~'@{scrollbar-prefix-cls}-track';
-@scrollbar-width: 5px;
+@scrollbar-width: 6px;
 @scrollbar-hover-width: 8px;
 @scrollbar-bg: var(--f-scrollbar-bg-color);
 @scrollbar-active-bg: var(--f-scrollbar-active-color);
@@ -78,7 +78,7 @@
         width: 0;
         height: 0;
         background-color: @scrollbar-bg;
-        border-radius: var(--f-border-radius-sm);
+        border-radius: var(--f-border-radius-base);
         cursor: pointer;
         transition: @animation-duration-slow background-color;
     }

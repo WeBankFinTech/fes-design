@@ -100,6 +100,10 @@ export const tableProps = {
         type: Boolean,
         default: false,
     },
+    always: {
+        type: Boolean,
+        default: false,
+    },
 } as const;
 
 export type TableProps = ExtractPublicPropTypes<typeof tableProps>;

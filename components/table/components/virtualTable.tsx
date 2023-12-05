@@ -91,6 +91,7 @@ export default defineComponent({
                     wrapTag={'table'}
                     wrapClass={`${prefixCls}-body`}
                     wrapStyle={bodyStyle.value}
+                    always={rootProps.always}
                     renderItemList={renderItemList}
                     v-slots={{ default: renderDefault }}
                 />
