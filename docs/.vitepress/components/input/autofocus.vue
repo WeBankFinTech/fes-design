@@ -2,7 +2,12 @@
     <FButton class="mb-10" type="primary" @click="handleFocus">
         手动聚焦
     </FButton>
-    <FInput ref="inputRef" placeholder="请输入"></FInput>
+    <FInput
+        ref="inputRef"
+        placeholder="请输入"
+        @blur="handleInputBlur"
+        @focus="handleInputFocus"
+    ></FInput>
 </template>
 
 <script>
@@ -22,9 +27,18 @@ export default {
             }, 5000);
         };
 
+        const handleInputBlur = (e) => {
+            console.log('[input.autofocus] [blur] e:', e);
+        };
+        const handleInputFocus = (e) => {
+            console.log('[input.autofocus] [focus] e:', e);
+        };
+
         return {
             inputRef,
             handleFocus,
+            handleInputBlur,
+            handleInputFocus,
         };
     },
 };
