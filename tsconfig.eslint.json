@@ -1,17 +1,20 @@
 {
-    "extends": "./tsconfig.json",
+    "extends": "./tsconfig.base.json",
     "compilerOptions": {
         "allowJs": true,
     },
     "include": [
-        // 与 tsconfig.json 保持一致
         "global.d.ts",
         "components/**/*.ts",
         "components/**/*.tsx",
         "components/**/*.vue",
         "docs/.vitepress/components/**/*.vue",
-
-        "./.eslintrc.js",
         "scripts/**/*.mjs",
+        "./.eslintrc.js",
+        "./.prettierrc.js",
+        "./babel.config.js",
+        "./commitlint.config.js",
+        "./jest.config.js",
+        "./jest.setup.js"
     ]
 }
