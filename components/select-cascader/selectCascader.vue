@@ -138,7 +138,7 @@ export type SelectCascaderProps = ExtractPublicPropTypes<
 >;
 
 export default defineComponent({
-    name: 'FSelectCascader',
+    name: SELECT_CASCADER_NAME,
     components: {
         Popper,
         SelectTrigger,
