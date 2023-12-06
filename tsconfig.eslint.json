@@ -4,11 +4,13 @@
         "allowJs": true,
     },
     "include": [
+        /* 与 tsconfig.json 保持一致 Start */
         "global.d.ts",
         "components/**/*.ts",
         "components/**/*.tsx",
         "components/**/*.vue",
         "docs/.vitepress/components/**/*.vue",
+        /* 与 tsconfig.json 保持一致 End */
         "scripts/**/*.mjs",
         "./.eslintrc.js",
         "./.prettierrc.js",
