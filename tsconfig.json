@@ -1,37 +1,10 @@
 {
-    "compilerOptions": {
-        "strict": true,
-        "strictNullChecks": false,
-        "jsx": "preserve",
-        "module": "ES6",
-        "moduleResolution": "Node",
-        "declaration": true,
-        "declarationDir": "./types",
-        "allowSyntheticDefaultImports": true,
-        "forceConsistentCasingInFileNames": true,
-        "composite": true,
-        "target": "ES6",
-        "types": [
-            "jest"
-        ],
-        "paths": {
-            "@fesjs/fes-design": [
-                "./components/index.ts"
-            ]
-        },
-        "lib": [
-            "ESNext",
-            "DOM"
-        ]
-    },
+    "extends": "./tsconfig.base.json",
     "include": [
         "global.d.ts",
         "components/**/*.ts",
         "components/**/*.tsx",
         "components/**/*.vue",
         "docs/.vitepress/components/**/*.vue"
-    ],
-    "exclude": [
-        "node_modules"
     ]
 }

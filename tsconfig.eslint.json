@@ -1,17 +1,22 @@
 {
-    "extends": "./tsconfig.json",
+    "extends": "./tsconfig.base.json",
     "compilerOptions": {
         "allowJs": true,
     },
     "include": [
-        // 与 tsconfig.json 保持一致
+        /* 与 tsconfig.json 保持一致 Start */
         "global.d.ts",
         "components/**/*.ts",
         "components/**/*.tsx",
         "components/**/*.vue",
         "docs/.vitepress/components/**/*.vue",
-
-        "./.eslintrc.js",
+        /* 与 tsconfig.json 保持一致 End */
         "scripts/**/*.mjs",
+        "./.eslintrc.js",
+        "./.prettierrc.js",
+        "./babel.config.js",
+        "./commitlint.config.js",
+        "./jest.config.js",
+        "./jest.setup.js"
     ]
 }
