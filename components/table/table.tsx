@@ -106,6 +106,10 @@ export const tableProps = {
         type: Boolean,
         default: false,
     },
+    alwaysScrollbar: {
+        type: Boolean,
+        default: false,
+    },
 } as const;
 
 export type TableProps = ExtractPublicPropTypes<typeof tableProps>;
