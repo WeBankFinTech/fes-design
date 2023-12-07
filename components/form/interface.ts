@@ -60,9 +60,10 @@ export type FormProps = ExtractPublicPropTypes<typeof formProps>;
 export const formItemProps = {
     prop: String,
     value: {
-        type: [String, Number, Boolean, Array, Object] as PropType<unknown>,
-        // eslint-disable-next-line no-undefined
-        default: undefined as boolean,
+        type: [String, Number, Boolean, Object] as PropType<
+            string | number | boolean | object
+        >,
+        default: undefined as undefined,
     },
     label: String,
     labelWidth: [String, Number] as PropType<string | number>,
