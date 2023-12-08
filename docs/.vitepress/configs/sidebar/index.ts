@@ -121,6 +121,10 @@ export default {
                 text: '数据展示组件',
                 items: [
                     {
+                        text: 'Badge 徽标',
+                        link: '/zh/components/badge',
+                    },
+                    {
                         text: 'Calendar 日历',
                         link: '/zh/components/calendar',
                     },

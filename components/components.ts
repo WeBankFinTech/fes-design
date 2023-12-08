@@ -49,3 +49,4 @@ export * from './virtual-list';
 export * from './text';
 export * from './timeline';
 export * from './calendar';
+export * from './badge';
