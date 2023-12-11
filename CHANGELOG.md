@@ -1,3 +1,20 @@
+## [0.8.19](https://github.com/WeBankFinTech/fes-design/compare/v0.8.18...v0.8.19) (2023-12-11)
+
+
+### Bug Fixes
+
+* **Cascader:** 勾选策略配置项不识别及增加校验提示 ([#529](https://github.com/WeBankFinTech/fes-design/issues/529)) ([d81380e](https://github.com/WeBankFinTech/fes-design/commit/d81380e42cff143916a54749e6e524a74a47ba63))
+* **FormItem:** value类型不识别问题修复 ([#534](https://github.com/WeBankFinTech/fes-design/issues/534)) ([5ca78ac](https://github.com/WeBankFinTech/fes-design/commit/5ca78ac7a4b007ff0f2a5408761392fdcf8f86d0))
+* **Input:** 修复clear事件不触发的问题 ([#527](https://github.com/WeBankFinTech/fes-design/issues/527)) ([50f289c](https://github.com/WeBankFinTech/fes-design/commit/50f289c3daf1c96177c42046511624db7238167d))
+* **Radio:** 禁用时文本样式修复 ([#535](https://github.com/WeBankFinTech/fes-design/issues/535)) ([d4eb9d1](https://github.com/WeBankFinTech/fes-design/commit/d4eb9d1af70955c616df895994fd0d7dc430fa96))
+
+
+### Features
+
+* 滚动条组件宽度修改及 table 组件增加 总是显示滚动条 配置项 ([#525](https://github.com/WeBankFinTech/fes-design/issues/525)) ([442596b](https://github.com/WeBankFinTech/fes-design/commit/442596b20283a476bf4b6e5cdd37ff25eb496c9e))
+
+
+
 ## [0.8.18](https://github.com/WeBankFinTech/fes-design/compare/v0.8.17...v0.8.18) (2023-12-04)
 
 
