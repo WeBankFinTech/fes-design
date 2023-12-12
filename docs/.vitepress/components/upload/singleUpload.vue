@@ -2,7 +2,7 @@
     <FUpload
         ref="uploadRef"
         v-model:fileList="fileList"
-        action="https://run.mocky.io/v3/2d9d9844-4a46-4145-8f57-07e13768f565"
+        action="https://run.mocky.io/v3/cbe5b01d-8a6d-46f9-a5e4-6c70e45ba6d0"
         :multipleLimit="1"
         :accept="accept"
         :beforeUpload="beforeUpload"

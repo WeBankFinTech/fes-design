@@ -17,6 +17,7 @@
             :multiple="multiple"
             :accept="acceptStr"
             @change="handleChange"
+            @click.stop
         />
     </div>
 </template>
@@ -38,9 +39,14 @@ const handleClick = () => {
     inputRef.value.click();
 };
 const handleChange = (e: Event) => {
-    const files = (e.target as any).files;
+    const target = e.target as HTMLInputElement;
+
+    const files = target.files;
     if (!files) return;
     onUploadFiles(files);
+
+    // 若不重置，重复选择相同文件，change 事件可能不触发
+    target.value = null;
 };
 
 const { t } = useLocale();
