@@ -1,6 +1,6 @@
 <template>
-    <FBadge dot>
+    <FBadge isDot>
         <UserOutlined />
     </FBadge>
-    <FBadge dot> 消息 </FBadge>
+    <FBadge isDot> 消息 </FBadge>
 </template>

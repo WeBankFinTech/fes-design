@@ -1,17 +1,17 @@
 <template>
     <FBadge>
-        <template #count>
+        <template #content>
             <ClockCircleOutlined />
         </template>
         <a href="#" class="example" />
     </FBadge>
     <FBadge>
-        <template #count>
+        <template #content>
             <span>Good</span>
         </template>
         <a href="#" class="example" />
     </FBadge>
-    <FBadge count="New">
+    <FBadge value="New">
         <a href="#" class="example" />
     </FBadge>
 </template>

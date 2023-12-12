@@ -1,11 +1,14 @@
 <template>
-    <FBadge :count="9" color="#00CB91">
+    <FBadge :value="9" color="pink">
         <a href="#" class="example" />
     </FBadge>
-    <FBadge :count="9" color="blue">
+    <FBadge :value="9" color="blue">
         <a href="#" class="example" />
     </FBadge>
-    <FBadge :count="9" color="#F29360">
+    <FBadge :value="9" color="green">
+        <a href="#" class="example" />
+    </FBadge>
+    <FBadge :value="9" color="#39B023">
         <a href="#" class="example" />
     </FBadge>
 </template>

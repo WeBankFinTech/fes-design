@@ -2,7 +2,6 @@
 @import '../../style/mixins/index';
 
 @badge: ~'@{cls-prefix}-badge';
-@color: #ff4d4f; // 默认颜色
 @wrapper: ~'@{badge}-wrapper';
 @badge-font-size: calc(var(--f-font-size-base) - 2px); // 12px
 
@@ -18,7 +17,6 @@
         top: 0;
         color: var(--f-white);
         font-size: @badge-font-size;
-        background-color: @color;
         text-align: center;
         display: flex;
         align-items: center;
@@ -26,7 +24,6 @@
         box-sizing: border-box;
         transform: translate(50%, -50%);
         transform-origin: 100% 0;
-
         min-width: 20px;
         height: 20px;
         line-height: 20px;
@@ -42,7 +39,7 @@
         }
 
         // 单独使用，移除偏移量
-        &-standalone {
+        &-alone {
             position: static;
             transform: none;
         }
@@ -52,6 +49,22 @@
             width: 8px;
             height: 8px;
             min-width: 8px;
+        }
+
+        &-success {
+            background-color: var(--f-success-color);
+        }
+
+        &-danger {
+            background-color: var(--f-danger-color);
+        }
+
+        &-warning {
+            background-color: var(--f-warning-color);
+        }
+
+        &-primary {
+            background-color: var(--f-primary-color);
         }
     }
 }

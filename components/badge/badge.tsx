@@ -12,24 +12,23 @@ export default defineComponent({
         useTheme();
         // 徽标展示内容
         const displayCount = computed(() => {
-            if (props.dot) return '';
-            // 超过阈值展示阈值+
-            if (
-                typeof props.count === 'number' &&
-                props.count > props.overflowCount
-            )
-                return `${props.overflowCount}+`;
-            return props.count;
+            if (props.isDot) return '';
+            // 只有在value是数值类型，才生效 超过阈值展示阈值+
+            if (typeof props.value === 'number' && props.value > props.max)
+                return `${props.max}+`;
+            return props.value;
         });
 
         const shouldShowCount = computed(() => {
+            // 如果是hidden，直接false，不展示
+            if (props.hidden) return false;
             // 有插槽就直接展示自定义插槽内容
             return (
-                slots.count ||
-                props.dot ||
-                typeof props.count === 'string' ||
-                (props.count === 0 && props.showZero) ||
-                props.count > 0
+                slots.content ||
+                props.isDot ||
+                typeof props.value === 'string' ||
+                (props.value === 0 && props.showZero) ||
+                props.value > 0
             );
         });
 
@@ -37,9 +36,10 @@ export default defineComponent({
         const classList = computed(() => {
             return [
                 `${prefixCls}-wrapper`,
-                props.dot ? `${prefixCls}-wrapper-dot` : '',
+                `${prefixCls}-wrapper-${props.type}`,
+                props.isDot ? `${prefixCls}-wrapper-dot` : '',
                 props.size === 'small' ? `${prefixCls}-wrapper-small` : '',
-                !slots.default ? `${prefixCls}-wrapper-standalone` : '',
+                !slots.default ? `${prefixCls}-wrapper-alone` : '',
             ];
         });
 
@@ -51,7 +51,7 @@ export default defineComponent({
                         class={classList.value}
                         style={{ backgroundColor: props.color }}
                     >
-                        {slots.count ? slots.count() : displayCount.value}
+                        {slots.content ? slots.content() : displayCount.value}
                     </span>
                 )}
             </div>

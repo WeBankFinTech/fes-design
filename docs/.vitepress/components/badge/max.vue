@@ -1,20 +1,15 @@
 <template>
     <FSpace>
-        <FBadge :value="val">
+        <FBadge :value="100">
+            <a href="#" class="example" />
+        </FBadge>
+    </FSpace>
+    <FSpace>
+        <FBadge :value="val" :max="9">
             <a href="#" class="example" />
         </FBadge>
         <FButton @click="add">+1</FButton>
-    </FSpace>
-    <FSpace>
-        <FBadge :value="0">
-            <a href="#" class="example" />
-        </FBadge>
-        <FBadge :value="0" showZero>
-            <a href="#" class="example" />
-        </FBadge>
-        <FBadge isDot>
-            <a href="#" class="example" />
-        </FBadge>
+        <FButton @click="reduce">-1</FButton>
     </FSpace>
 </template>
 
@@ -28,9 +23,14 @@ export default {
         const add = () => {
             val.value += 1;
         };
+
+        const reduce = () => {
+            val.value -= 1;
+        };
         return {
             val,
             add,
+            reduce,
         };
     },
 };

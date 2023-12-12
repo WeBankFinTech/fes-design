@@ -1,5 +1,5 @@
 <template>
-    <FBadge :count="9" />
-    <FBadge count="New" />
-    <FBadge dot />
+    <FBadge :value="9" />
+    <FBadge value="New" />
+    <FBadge isDot />
 </template>

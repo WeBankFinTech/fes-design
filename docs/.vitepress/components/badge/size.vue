@@ -1,8 +1,8 @@
 <template>
-    <FBadge :count="9">
+    <FBadge :value="9">
         <a href="#" class="example" />
     </FBadge>
-    <FBadge :count="9" size="small">
+    <FBadge :value="9" size="small">
         <a href="#" class="example" />
     </FBadge>
 </template>

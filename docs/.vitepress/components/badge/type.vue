@@ -1,20 +1,18 @@
 <template>
     <FSpace>
-        <FBadge :value="val">
+        <FBadge :value="val" type="primary">
             <a href="#" class="example" />
         </FBadge>
-        <FButton @click="add">+1</FButton>
-    </FSpace>
-    <FSpace>
-        <FBadge :value="0">
+        <FBadge :value="val" type="success">
             <a href="#" class="example" />
         </FBadge>
-        <FBadge :value="0" showZero>
+        <FBadge :value="val" type="warning">
             <a href="#" class="example" />
         </FBadge>
-        <FBadge isDot>
+        <FBadge :value="val" type="danger">
             <a href="#" class="example" />
         </FBadge>
+        <FButton @click="onClick">+1</FButton>
     </FSpace>
 </template>
 
@@ -23,14 +21,14 @@ import { ref } from 'vue';
 
 export default {
     setup() {
-        const val = ref(0);
+        const val = ref(9);
 
-        const add = () => {
+        const onClick = () => {
             val.value += 1;
         };
         return {
             val,
-            add,
+            onClick,
         };
     },
 };
