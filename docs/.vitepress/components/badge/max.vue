@@ -11,7 +11,7 @@
     <FDivider></FDivider>
 
     <FSpace>
-        <FBadge :value="value" type="primary" :max="max">
+        <FBadge :value="value" type="primary" :max="max" class="item">
             <FButton> Primary </FButton>
         </FBadge>
     </FSpace>
@@ -24,4 +24,8 @@ const max = ref(100);
 const value = ref(100);
 </script>
 
-<style></style>
+<style>
+.item {
+    margin-right: 20px;
+}
+</style>

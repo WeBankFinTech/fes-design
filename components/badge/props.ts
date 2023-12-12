@@ -6,28 +6,25 @@ type Size = 'middle' | 'small';
 type Type = 'primary' | 'success' | 'danger' | 'warning';
 
 export const badgeProps = {
-    color: {
-        type: String,
-    },
+    // 显示内容
     value: {
         type: [String, Number] as PropType<string | number>,
     },
-    // 不展示数字，只有一个红点
+    // 是否红点模式
     isDot: {
         type: Boolean,
         default: false,
     },
-    // hidden 默认为false,可以手动控制徽标显隐
+    // 自定义背景色
+    backgroundColor: {
+        type: String,
+    },
+    // 是否隐藏
     hidden: {
         type: Boolean,
         default: false,
     },
-    // 为0 默认不展示，可以手动控制是否展示0的场景
-    showZero: {
-        type: Boolean,
-        default: false,
-    },
-    // 封顶的数字
+    // 封顶阈值
     max: {
         type: Number,
         default: 99,

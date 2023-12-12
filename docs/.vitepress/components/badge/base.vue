@@ -38,6 +38,7 @@
             :hidden="hidden"
             :value="10"
             type="primary"
+            class="item"
         >
             <FButton> Primary </FButton>
         </FBadge>
@@ -47,6 +48,7 @@
             :hidden="hidden"
             :value="50"
             type="success"
+            class="item"
         >
             <FButton> Success </FButton>
         </FBadge>
@@ -56,10 +58,17 @@
             :hidden="hidden"
             :value="80"
             type="warning"
+            class="item"
         >
             <FButton> Warning </FButton>
         </FBadge>
-        <FBadge :size="size" :isDot="isDot" :hidden="hidden" :value="100">
+        <FBadge
+            :size="size"
+            :isDot="isDot"
+            :hidden="hidden"
+            :value="100"
+            class="item"
+        >
             <FButton> Danger </FButton>
         </FBadge>
     </FSpace>
@@ -73,4 +82,8 @@ const isDot = ref(false);
 const hidden = ref(false);
 </script>
 
-<style></style>
+<style>
+.item {
+    margin-right: 20px;
+}
+</style>

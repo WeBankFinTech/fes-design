@@ -2,40 +2,39 @@
 @import '../../style/mixins/index';
 
 @badge: ~'@{cls-prefix}-badge';
-@wrapper: ~'@{badge}-wrapper';
+@sup: ~'@{badge}-sup';
 @badge-font-size: calc(var(--f-font-size-base) - 2px); // 12px
 
 .@{badge} {
     position: relative;
     display: inline-block;
-    margin-right: 20px;
 
-    .@{wrapper} {
+    .@{sup} {
         position: absolute;
-        z-index: 1;
-        right: 0;
         top: 0;
-        color: var(--f-white);
-        font-size: @badge-font-size;
-        text-align: center;
+        right: 0;
+        z-index: 1;
         display: flex;
         align-items: center;
         justify-content: center;
         box-sizing: border-box;
-        transform: translate(50%, -50%);
-        transform-origin: 100% 0;
         min-width: 20px;
         height: 20px;
-        line-height: 20px;
-        border-radius: 10px;
         padding: 0 6px;
+        color: var(--f-white);
+        font-size: @badge-font-size;
+        line-height: 20px;
+        text-align: center;
+        border-radius: 10px;
+        transform: translate(50%, -50%);
+        transform-origin: 100% 0;
 
-        &-small {
+        &-size-small {
             min-width: 16px;
             height: 16px;
+            padding: 0 4px;
             line-height: 16px;
             border-radius: 8px;
-            padding: 0 4px;
         }
 
         // 单独使用，移除偏移量
@@ -45,25 +44,25 @@
         }
 
         &-dot {
-            padding: 0;
             width: 8px;
-            height: 8px;
             min-width: 8px;
+            height: 8px;
+            padding: 0;
         }
 
-        &-success {
+        &-type-success {
             background-color: var(--f-success-color);
         }
 
-        &-danger {
+        &-type-danger {
             background-color: var(--f-danger-color);
         }
 
-        &-warning {
+        &-type-warning {
             background-color: var(--f-warning-color);
         }
 
-        &-primary {
+        &-type-primary {
             background-color: var(--f-primary-color);
         }
     }

@@ -36,12 +36,12 @@ max.vue
 content.vue
 :::
 
-### 自定义颜色
+### 自定义背景色
 
-不仅通过类型可以设定颜色，也可以自定义颜色
+不仅通过类型可以设定默认支持的背景色，也可以自定义背景色
 
 :::demo
-color.vue
+backgroundColor.vue
 :::
 
 ### 单独使用
@@ -52,15 +52,15 @@ alone.vue
 
 ## Props
 
-| 属性   | 说明                                                  | 类型              | 默认值   |
-| ------ | ----------------------------------------------------- | ----------------- | -------- |
-| value  | 内容                                                  | `string` `number` | `-`      |
-| isDot  | 是否红点模式                                          | `boolean`         | `false`  |
-| hidden | 是否隐藏                                              | `boolean`         | `false`  |
-| max    | 设定封顶阈值，只有 value 是 number 情况下才会生效     | `number`          | `99`     |
-| size   | 尺寸，可选值为 `small` `middle`                       | `string`          | `middle` |
-| type   | 类型，可选值为 `primary` `success` `warning` `danger` | `string`          | `danger` |
-| color  | 自定义颜色                                            | `string`          | `-`      |
+| 属性            | 说明                                                  | 类型              | 默认值   |
+| --------------- | ----------------------------------------------------- | ----------------- | -------- |
+| value           | 内容                                                  | `string` `number` | `-`      |
+| isDot           | 是否红点模式                                          | `boolean`         | `false`  |
+| hidden          | 是否隐藏                                              | `boolean`         | `false`  |
+| max             | 设定封顶阈值，只有 value 是 number 情况下才会生效     | `number`          | `99`     |
+| size            | 尺寸，可选值为 `small` `middle`                       | `string`          | `middle` |
+| type            | 类型，可选值为 `primary` `success` `warning` `danger` | `string`          | `danger` |
+| backgroundColor | 自定义背景色                                          | `string`          | `-`      |
 
 ## Slots
 
