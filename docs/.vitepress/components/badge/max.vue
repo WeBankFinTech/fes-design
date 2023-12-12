@@ -1,48 +1,27 @@
 <template>
+    <FForm :labelWidth="100">
+        <FFormItem label="封顶阈值:">
+            <FInputNumber v-model="max" :step="1"></FInputNumber>
+        </FFormItem>
+        <FFormItem label="内容值:">
+            <FInputNumber v-model="value" :step="1"></FInputNumber>
+        </FFormItem>
+    </FForm>
+
+    <FDivider></FDivider>
+
     <FSpace>
-        <FBadge :value="100">
-            <a href="#" class="example" />
+        <FBadge :value="value" type="primary" :max="max">
+            <FButton> Primary </FButton>
         </FBadge>
-    </FSpace>
-    <FSpace>
-        <FBadge :value="val" :max="9">
-            <a href="#" class="example" />
-        </FBadge>
-        <FButton @click="add">+1</FButton>
-        <FButton @click="reduce">-1</FButton>
     </FSpace>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue';
 
-export default {
-    setup() {
-        const val = ref(0);
-
-        const add = () => {
-            val.value += 1;
-        };
-
-        const reduce = () => {
-            val.value -= 1;
-        };
-        return {
-            val,
-            add,
-            reduce,
-        };
-    },
-};
+const max = ref(100);
+const value = ref(100);
 </script>
 
-<style>
-.example {
-    width: 42px;
-    height: 42px;
-    border-radius: 4px;
-    background: #eee;
-    display: inline-block;
-    vertical-align: middle;
-}
-</style>
+<style></style>

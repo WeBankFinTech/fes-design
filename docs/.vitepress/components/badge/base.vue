@@ -1,48 +1,76 @@
 <template>
+    <FForm :labelWidth="100">
+        <FFormItem label="尺寸:">
+            <FRadioGroup
+                v-model="size"
+                :options="[
+                    { label: 'small', value: 'small' },
+                    { label: 'middle(默认)', value: 'middle' },
+                ]"
+            />
+        </FFormItem>
+        <FFormItem label="是否红点模式:">
+            <FRadioGroup
+                v-model="isDot"
+                :options="[
+                    { label: '否(默认)', value: false },
+                    { label: '是', value: true },
+                ]"
+            />
+        </FFormItem>
+        <FFormItem label="是否隐藏:">
+            <FRadioGroup
+                v-model="hidden"
+                :options="[
+                    { label: '否(默认)', value: false },
+                    { label: '是', value: true },
+                ]"
+            />
+        </FFormItem>
+    </FForm>
+
+    <FDivider></FDivider>
+
     <FSpace>
-        <FBadge :value="val">
-            <a href="#" class="example" />
+        <FBadge
+            :size="size"
+            :isDot="isDot"
+            :hidden="hidden"
+            :value="10"
+            type="primary"
+        >
+            <FButton> Primary </FButton>
         </FBadge>
-        <FButton @click="add">+1</FButton>
-    </FSpace>
-    <FSpace>
-        <FBadge :value="0">
-            <a href="#" class="example" />
+        <FBadge
+            :size="size"
+            :isDot="isDot"
+            :hidden="hidden"
+            :value="50"
+            type="success"
+        >
+            <FButton> Success </FButton>
         </FBadge>
-        <FBadge :value="0" showZero>
-            <a href="#" class="example" />
+        <FBadge
+            :size="size"
+            :isDot="isDot"
+            :hidden="hidden"
+            :value="80"
+            type="warning"
+        >
+            <FButton> Warning </FButton>
         </FBadge>
-        <FBadge isDot>
-            <a href="#" class="example" />
+        <FBadge :size="size" :isDot="isDot" :hidden="hidden" :value="100">
+            <FButton> Danger </FButton>
         </FBadge>
     </FSpace>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue';
 
-export default {
-    setup() {
-        const val = ref(0);
-
-        const add = () => {
-            val.value += 1;
-        };
-        return {
-            val,
-            add,
-        };
-    },
-};
+const size = ref('middle');
+const isDot = ref(false);
+const hidden = ref(false);
 </script>
 
-<style>
-.example {
-    width: 42px;
-    height: 42px;
-    border-radius: 4px;
-    background: #eee;
-    display: inline-block;
-    vertical-align: middle;
-}
-</style>
+<style></style>

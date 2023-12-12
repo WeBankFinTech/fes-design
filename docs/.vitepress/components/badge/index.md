@@ -13,17 +13,27 @@ app.use(FBadge);
 ## 代码演示
 
 ### 基础用法
-展示数值，小红点展示，默认情况下数值0不展示
+
+展示数值，小红点展示，默认情况下数值 0 不展示
 
 :::demo
 base.vue
 :::
 
-### 类型
-根据类型展示对应类型的颜色徽标
+### 设定阈值
+
+超出阈值展示阈值+，只有在 value 是 number 的情况下，才会生效
 
 :::demo
-type.vue
+max.vue
+:::
+
+### 自定义内容
+
+通过插槽指定徽标内容
+
+:::demo
+content.vue
 :::
 
 ### 自定义颜色
@@ -34,57 +44,26 @@ type.vue
 color.vue
 :::
 
-### 自定义内容
-
-通过插槽指定徽标内容
-
-:::demo
-customContent.vue
-:::
-
-### 控制显示/隐藏
-
-:::demo
-visible.vue
-:::
-
-### 设定阈值
-
-超出阈值展示阈值+，默认阈值99，只有在value是number的情况下，才会生效
-
-:::demo
-max.vue
-:::
-
-### 尺寸大小
-
-可设定两种尺寸，默认和small
-
-:::demo
-size.vue
-:::
-
-### 小红点的应用
-
-:::demo
-dot.vue
-:::
-
 ### 单独使用
 
 :::demo
 alone.vue
 :::
 
-## 组件Props
+## Props
 
-| 属性     | 说明                                          | 类型                                              | 默认值    |
-| -------- | --------------------------------------------- | ------------------------------------------------- | --------- |
-| value    | 徽标内容                                      | `number \| number`                                | `-`       |
-| color    | 徽标颜色                                      | `string`                                          | `#FF4D4F` |
-| isDot    | 红点模式                                      | `boolean`                                         | `false`   |
-| hidden   | 是否隐藏                                      | `boolean`                                         | `false`   |
-| showZero | 值为0是否展示                                 | `boolean`                                         | `false`   |
-| max      | 设定封顶阈值，只有value是number情况下才会生效 | `number`                                          | `99`      |
-| size     | 尺寸                                          | `middle \| small`                                 | `middle`  |
-| type     | 徽标类型                                      | `primary \| success \| danger \| warning` | `danger`  |
+| 属性   | 说明                                                  | 类型              | 默认值   |
+| ------ | ----------------------------------------------------- | ----------------- | -------- |
+| value  | 内容                                                  | `string` `number` | `-`      |
+| isDot  | 是否红点模式                                          | `boolean`         | `false`  |
+| hidden | 是否隐藏                                              | `boolean`         | `false`  |
+| max    | 设定封顶阈值，只有 value 是 number 情况下才会生效     | `number`          | `99`     |
+| size   | 尺寸，可选值为 `small` `middle`                       | `string`          | `middle` |
+| type   | 类型，可选值为 `primary` `success` `warning` `danger` | `string`          | `danger` |
+| color  | 自定义颜色                                            | `string`          | `-`      |
+
+## Slots
+
+| slot 名称 | 说明           |
+| --------- | -------------- |
+| content   | 自定义显示内容 |

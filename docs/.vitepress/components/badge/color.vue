@@ -1,25 +1,18 @@
 <template>
-    <FBadge :value="9" color="pink">
-        <a href="#" class="example" />
-    </FBadge>
-    <FBadge :value="9" color="blue">
-        <a href="#" class="example" />
-    </FBadge>
-    <FBadge :value="9" color="green">
-        <a href="#" class="example" />
-    </FBadge>
-    <FBadge :value="9" color="#39B023">
-        <a href="#" class="example" />
-    </FBadge>
+    <FSpace>
+        <FBadge :value="10" color="blue">
+            <FButton> Primary </FButton>
+        </FBadge>
+        <FBadge :value="50" color="green">
+            <FButton> Success </FButton>
+        </FBadge>
+        <FBadge :value="80" color="orange">
+            <FButton> Warning </FButton>
+        </FBadge>
+        <FBadge :value="100" color="#FF0000">
+            <FButton> Danger </FButton>
+        </FBadge>
+    </FSpace>
 </template>
 
-<style>
-.example {
-    width: 42px;
-    height: 42px;
-    border-radius: 4px;
-    background: #eee;
-    display: inline-block;
-    vertical-align: middle;
-}
-</style>
+<style></style>
