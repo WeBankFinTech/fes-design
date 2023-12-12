@@ -1,4 +1,4 @@
-import type { InjectionKey, PropType, Ref } from 'vue';
+import type { InjectionKey, PropType, Ref, ComputedRef } from 'vue';
 
 export const COMPONENT_NAME = 'FCollapse';
 
@@ -14,8 +14,8 @@ export type contextType = {
 };
 
 export type ArrowType = {
-    arrow: string;
-    embedded: Ref<boolean>;
+    arrow: ComputedRef<string>;
+    embedded: ComputedRef<boolean>;
 };
 
 export const collapseContextKey: InjectionKey<contextType> =

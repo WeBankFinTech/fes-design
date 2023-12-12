@@ -97,7 +97,7 @@ export default defineComponent({
         const rootKls = computed(() => ns.b());
 
         provide(arrowPositionKey, {
-            arrow: props?.arrow,
+            arrow: computed(() => props?.arrow),
             embedded: computed(() => props?.embedded),
         });
 
