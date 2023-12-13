@@ -11,7 +11,7 @@ export const badgeProps = {
         type: [String, Number] as PropType<string | number>,
     },
     // 是否红点模式
-    isDot: {
+    dot: {
         type: Boolean,
         default: false,
     },

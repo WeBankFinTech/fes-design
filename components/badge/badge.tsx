@@ -13,7 +13,7 @@ export default defineComponent({
         useTheme();
         // 展示内容
         const badgeValue = computed(() => {
-            if (props.isDot) return '';
+            if (props.dot) return '';
             // 只有在 value 是数值类型，才生效 超过阈值展示阈值+
             if (isNumber(props.value) && props.value > props.max)
                 return `${props.max}+`;
@@ -26,7 +26,7 @@ export default defineComponent({
             // 有插槽就直接展示自定义插槽内容
             return (
                 slots.content ||
-                props.isDot ||
+                props.dot ||
                 isString(props.value) ||
                 isNumber(props.value)
             );
@@ -37,7 +37,7 @@ export default defineComponent({
             return [
                 `${prefixCls}-sup`,
                 `${prefixCls}-sup-type-${props.type}`,
-                props.isDot ? `${prefixCls}-sup-dot` : '',
+                props.dot ? `${prefixCls}-sup-dot` : '',
                 props.size === 'small' ? `${prefixCls}-sup-size-small` : '',
                 !slots.default ? `${prefixCls}-sup-alone` : '',
             ].filter(Boolean);
@@ -55,7 +55,7 @@ export default defineComponent({
                 {slots.default?.()}
                 {showBadge.value && (
                     <span class={badgeClassList.value} style={badgeStyle.value}>
-                        {slots.content ? slots.content() : badgeValue.value}
+                        {slots.content?.() ?? badgeValue.value}
                     </span>
                 )}
             </div>

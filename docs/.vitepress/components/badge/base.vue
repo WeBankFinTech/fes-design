@@ -11,7 +11,7 @@
         </FFormItem>
         <FFormItem label="是否红点模式:">
             <FRadioGroup
-                v-model="isDot"
+                v-model="dot"
                 :options="[
                     { label: '否(默认)', value: false },
                     { label: '是', value: true },
@@ -34,7 +34,7 @@
     <FSpace>
         <FBadge
             :size="size"
-            :isDot="isDot"
+            :dot="dot"
             :hidden="hidden"
             :value="10"
             type="primary"
@@ -44,7 +44,7 @@
         </FBadge>
         <FBadge
             :size="size"
-            :isDot="isDot"
+            :dot="dot"
             :hidden="hidden"
             :value="50"
             type="success"
@@ -54,7 +54,7 @@
         </FBadge>
         <FBadge
             :size="size"
-            :isDot="isDot"
+            :dot="dot"
             :hidden="hidden"
             :value="80"
             type="warning"
@@ -64,7 +64,7 @@
         </FBadge>
         <FBadge
             :size="size"
-            :isDot="isDot"
+            :dot="dot"
             :hidden="hidden"
             :value="100"
             class="item"
@@ -78,7 +78,7 @@
 import { ref } from 'vue';
 
 const size = ref('middle');
-const isDot = ref(false);
+const dot = ref(false);
 const hidden = ref(false);
 </script>
 

@@ -55,7 +55,7 @@ alone.vue
 | 属性            | 说明                                                  | 类型              | 默认值   |
 | --------------- | ----------------------------------------------------- | ----------------- | -------- |
 | value           | 内容                                                  | `string` `number` | `-`      |
-| isDot           | 是否红点模式                                          | `boolean`         | `false`  |
+| dot             | 是否红点模式                                          | `boolean`         | `false`  |
 | hidden          | 是否隐藏                                              | `boolean`         | `false`  |
 | max             | 设定封顶阈值，只有 value 是 number 情况下才会生效     | `number`          | `99`     |
 | size            | 尺寸，可选值为 `small` `middle`                       | `string`          | `middle` |
