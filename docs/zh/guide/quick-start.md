@@ -4,13 +4,17 @@
 
 ## 安装
 
-```bash
+::: code-group
+
+```bash [npm]
 npm i @fesjs/fes-design
 ```
 
-```bash
+```bash [pnpm]
 pnpm i @fesjs/fes-design
 ```
+
+:::
 
 ## 在 SFC 中使用
 
@@ -21,8 +25,8 @@ pnpm i @fesjs/fes-design
 </template>
 
 <script setup>
-import {FButton} from '@fesjs/fes-design';
-import {CloseCircleFilled} from '@fesjs/fes-design/icon';
+import { FButton } from '@fesjs/fes-design';
+import { CloseCircleFilled } from '@fesjs/fes-design/icon';
 </script>
 ```
 

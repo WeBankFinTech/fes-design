@@ -1,57 +1,13 @@
-import {
-    computed,
-    type CSSProperties,
-    defineComponent,
-    type PropType,
-    type Ref,
-} from 'vue';
-import getPrefixCls from '../_util/getPrefixCls';
+import { computed, defineComponent, type Ref } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import { flatten, getSlot, isValidElementNode } from '../_util/vnode';
 import { createKey } from '../_util/createKey';
 import { depx } from '../_util/utils';
+import { COMPONENT_NAME, prefixCls } from './const';
+import { type SpaceInnerProps, spaceProps } from './props';
 import type { TThemeVars } from '../_theme/base';
-import type { ExtractPublicPropTypes } from '../_util/interface';
 
-const prefixCls = getPrefixCls('space');
-
-type Align =
-    | 'stretch'
-    | 'baseline'
-    | 'start'
-    | 'end'
-    | 'center'
-    | 'flex-end'
-    | 'flex-start';
-
-type Justify = 'start' | 'end' | 'center' | 'space-around' | 'space-between';
-
-type Size = 'xsmall' | 'small' | 'middle' | 'large';
-
-export const spaceProps = {
-    align: String as PropType<Align>,
-    justify: {
-        type: String as PropType<Justify>,
-        default: 'start',
-    },
-    inline: Boolean,
-    vertical: Boolean, // 是否垂直布局
-    size: {
-        type: [String, Number, Array] as PropType<
-            Size | number | [number, number]
-        >,
-        default: 'small',
-    },
-    itemStyle: [String, Object] as PropType<string | CSSProperties>,
-    wrap: {
-        type: Boolean,
-        default: true,
-    },
-} as const;
-
-export type SpaceProps = ExtractPublicPropTypes<typeof spaceProps>;
-
-const useMargin = (props: SpaceProps, themeVarsRef: Ref<TThemeVars>) => {
+const useMargin = (props: SpaceInnerProps, themeVarsRef: Ref<TThemeVars>) => {
     const margin = computed(() => {
         const { size } = props;
         let horizontal = 0;
@@ -86,8 +42,7 @@ const useMargin = (props: SpaceProps, themeVarsRef: Ref<TThemeVars>) => {
 };
 
 export default defineComponent({
-    name: 'FSpace',
-    components: {},
+    name: COMPONENT_NAME,
     props: spaceProps,
     setup(props) {
         const { themeVars } = useTheme();
@@ -129,7 +84,7 @@ export default defineComponent({
                         : justify,
                     alignItems: align,
                     flexWrap: !wrap || vertical ? 'nowrap' : 'wrap',
-                    marginTop: vertical ? '' : `-${margin.semiHorizontal}`,
+                    marginTop: vertical ? '' : `-${margin.semiVertical}`,
                     marginBottom: vertical ? '' : `-${margin.semiVertical}`,
                 }}
             >
