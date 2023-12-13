@@ -5,7 +5,7 @@ import type { ExtractPublicPropTypes } from '../_util/interface';
 export const checkboxGroupKey = Symbol('FCheckboxGroup');
 export const name = 'FCheckboxGroup';
 
-type OptionValue = string | number | boolean;
+export type OptionValue = Option['value'];
 
 export const checkboxGroupProps = {
     modelValue: {
