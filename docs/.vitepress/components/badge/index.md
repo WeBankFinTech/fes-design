@@ -14,7 +14,7 @@ app.use(FBadge);
 
 ### 基础用法
 
-展示数值，小红点展示，默认情况下数值 0 不展示
+展示数值，小红点模式，显示隐藏，徽标类型，默认情况下数值 0 不展示
 
 :::demo
 base.vue
@@ -56,7 +56,8 @@ alone.vue
 | --------------- | ----------------------------------------------------- | ----------------- | -------- |
 | value           | 内容                                                  | `string` `number` | `-`      |
 | dot             | 是否红点模式                                          | `boolean`         | `false`  |
-| hidden          | 是否隐藏                                              | `boolean`         | `false`  |
+| showZero        | 是否展示数值0，如果 hidden为true，该属性不会生效      | `boolean`         | `false`  |
+| hidden          | 是否隐藏徽标，判定优先级高于showZero                  | `boolean`         | `false`  |
 | max             | 设定封顶阈值，只有 value 是 number 情况下才会生效     | `number`          | `99`     |
 | size            | 尺寸，可选值为 `small` `middle`                       | `string`          | `middle` |
 | type            | 类型，可选值为 `primary` `success` `warning` `danger` | `string`          | `danger` |

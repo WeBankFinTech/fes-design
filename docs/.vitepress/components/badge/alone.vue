@@ -1,7 +1,7 @@
 <template>
     <FBadge :value="9" class="item" />
     <FBadge value="New" class="item" />
-    <FBadge isDot class="item" />
+    <FBadge dot class="item" />
 </template>
 
 <style>

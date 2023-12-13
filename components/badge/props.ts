@@ -19,6 +19,11 @@ export const badgeProps = {
     backgroundColor: {
         type: String,
     },
+    // 是否展示数据0的情况
+    showZero: {
+        type: Boolean,
+        default: false,
+    },
     // 是否隐藏
     hidden: {
         type: Boolean,

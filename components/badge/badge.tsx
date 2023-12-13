@@ -28,7 +28,8 @@ export default defineComponent({
                 slots.content ||
                 props.dot ||
                 isString(props.value) ||
-                isNumber(props.value)
+                (props.value === 0 && props.showZero) ||
+                (props.value !== 0 && isNumber(props.value))
             );
         });
 
