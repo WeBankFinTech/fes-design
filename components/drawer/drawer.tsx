@@ -6,13 +6,11 @@ import {
     ref,
     watch,
     nextTick,
-    type PropType,
     type Component,
     type CSSProperties,
     reactive,
 } from 'vue';
 import { isNumber } from 'lodash-es';
-import getPrefixCls from '../_util/getPrefixCls';
 import FButton from '../button';
 import FScrollbar from '../scrollbar';
 import { CloseOutlined } from '../icon';
@@ -21,81 +19,17 @@ import useLockScreen from '../_util/use/useLockScreen';
 import { useConfig } from '../config-provider';
 import { useTheme } from '../_theme/useTheme';
 import { useResizable } from './useResizable';
-import type { ExtractPublicPropTypes } from '../_util/interface';
-
-const prefixCls = getPrefixCls('drawer');
-const UPDATE_SHOW_EVENT = 'update:show';
-const OK_EVENT = 'ok';
-const CANCEL_EVENT = 'cancel';
-const AFTER_LEAVE_EVENT = 'after-leave';
-
-// 通用的属性
-export const drawerProps = {
-    show: Boolean,
-    displayDirective: {
-        type: String as PropType<'show' | 'if'>,
-        default: 'show',
-    },
-    closable: {
-        type: Boolean,
-        default: true,
-    },
-    mask: {
-        type: Boolean,
-        default: true,
-    },
-    maskClosable: {
-        type: Boolean,
-        default: true,
-    },
-    title: String,
-    okText: {
-        type: String,
-        default: '确定',
-    },
-    okLoading: Boolean,
-    cancelText: {
-        type: String,
-        default: '取消',
-    },
-    showCancel: {
-        type: Boolean,
-        default: true,
-    },
-    width: {
-        type: [String, Number] as PropType<string | number>,
-        default: 520,
-    },
-    height: {
-        type: [String, Number] as PropType<string | number>,
-        default: 520,
-    },
-    footer: {
-        type: Boolean,
-        default: false,
-    },
-    footerBorder: {
-        type: Boolean,
-        default: false,
-    },
-    getContainer: {
-        type: Function,
-    },
-    placement: {
-        type: String as PropType<'top' | 'right' | 'bottom' | 'left'>,
-        default: 'right',
-    },
-    contentClass: String,
-    resizable: {
-        type: Boolean,
-        default: false,
-    },
-} as const;
-
-export type DrawerProps = ExtractPublicPropTypes<typeof drawerProps>;
+import { COMPONENT_NAME, prefixCls } from './const';
+import {
+    AFTER_LEAVE_EVENT,
+    CANCEL_EVENT,
+    OK_EVENT,
+    UPDATE_SHOW_EVENT,
+    drawerProps,
+} from './props';
 
 const Drawer = defineComponent({
-    name: 'FDrawer',
+    name: COMPONENT_NAME,
     props: drawerProps,
     emits: [UPDATE_SHOW_EVENT, OK_EVENT, CANCEL_EVENT, AFTER_LEAVE_EVENT],
     setup(props, ctx) {
