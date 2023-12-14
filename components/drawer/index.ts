@@ -6,7 +6,7 @@ import type { SFCWithInstall } from '../_util/interface';
 type DrawerType = SFCWithInstall<typeof Drawer>;
 export const FDrawer = withInstall<DrawerType>(Drawer as DrawerType);
 
-export { drawerProps } from './drawer';
-export type { DrawerProps } from './drawer';
+export { drawerProps } from './props';
+export type { DrawerProps } from './props';
 
 export default FDrawer;

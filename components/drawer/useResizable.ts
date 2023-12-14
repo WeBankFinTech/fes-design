@@ -1,9 +1,26 @@
 import { computed, onMounted, ref, type ComputedRef } from 'vue';
 import { useEventListener } from '@vueuse/core';
+import { type DrawerPlacement } from './props';
+import { DRAWER_CLIENT_MAX_SPACE, DRAWER_MIN_SIZE } from './const';
+
+// 获取抽屉拖拽时距离窗口边缘的距离
+const getDrawerClientSpace = (
+    drawerSize: number,
+    placement: DrawerPlacement,
+): number => {
+    switch (placement) {
+        case 'left':
+        case 'right':
+            return window.innerWidth - drawerSize;
+        case 'top':
+        case 'bottom':
+            return window.innerHeight - drawerSize;
+    }
+};
 
 export const useResizable = (config: {
     propsKey: ComputedRef<'width' | 'height'>;
-    placement: ComputedRef<string>;
+    placement: ComputedRef<DrawerPlacement>;
     drawerSize: {
         width: string | number;
         height: string | number;
@@ -68,14 +85,30 @@ export const useResizable = (config: {
             (propsKey.value === 'width' ? event.clientX : event.clientY) -
             start;
 
+        let nextSize: number;
         // 根据 位置 偏移量正负加减
         if (['left', 'top'].includes(placement.value)) {
             // 鼠标移动时改变宽度或者高度
-            drawerSize[propsKey.value] = lastSizeValue + offset;
+            nextSize = lastSizeValue + offset;
         } else {
             // 鼠标移动时改变宽度或者高度
-            drawerSize[propsKey.value] = lastSizeValue - offset;
+            nextSize = lastSizeValue - offset;
         }
+
+        // 限制抽屉最小、最大可拖拽尺寸
+        if (nextSize < DRAWER_MIN_SIZE) {
+            nextSize = DRAWER_MIN_SIZE;
+        } else if (
+            getDrawerClientSpace(nextSize, placement.value) <
+            DRAWER_CLIENT_MAX_SPACE
+        ) {
+            nextSize =
+                (['left', 'right'].includes(placement.value)
+                    ? window.innerWidth
+                    : window.innerHeight) - DRAWER_CLIENT_MAX_SPACE;
+        }
+
+        drawerSize[propsKey.value] = nextSize;
     };
 
     // 拖拽的dom 的位置和样式
