@@ -54,7 +54,6 @@ export default defineComponent({
                         getCellStyle({
                             row,
                             column,
-                            columnIndex,
                             columns: props.columns,
                         }),
                         getCustomCellStyle({
@@ -68,7 +67,6 @@ export default defineComponent({
                         `${prefixCls}-td`,
                         ...getCellClass({
                             column,
-                            columnIndex,
                             columns: props.columns,
                         }),
                         ...getCustomCellClass({

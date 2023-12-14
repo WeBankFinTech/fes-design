@@ -54,14 +54,12 @@ export default defineComponent({
                             column.props.sortable && `${prefixCls}-th-sortable`,
                             ...getCellClass({
                                 column,
-                                columnIndex,
                                 columns: props.columns,
                             }),
                         ]}
                         style={[
                             getCellStyle({
                                 column,
-                                columnIndex,
                                 columns: props.columns,
                             }),
                             getCustomCellStyle({ column }),

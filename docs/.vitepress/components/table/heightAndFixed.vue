@@ -16,7 +16,8 @@
         <FTableColumn prop="province" label="省份" :width="150"></FTableColumn>
         <FTableColumn prop="city" label="市区" :width="150"> </FTableColumn>
         <FTableColumn prop="address" label="地址" :width="800"></FTableColumn>
-        <FTableColumn prop="zip" label="邮编" :width="120"> </FTableColumn>
+        <FTableColumn prop="zip" label="邮编" :width="120" fixed="right">
+        </FTableColumn>
         <FTableColumn
             label="操作"
             align="center"
