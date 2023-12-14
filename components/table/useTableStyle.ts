@@ -133,13 +133,13 @@ export default ({
     const getCellClass = ({
         column,
         columns,
-        columnIndex,
     }: {
         column: ColumnInst;
         columns: ColumnInst[];
-        columnIndex: number;
     }) => {
         const arr = [`${prefixCls}-cell`, column.id];
+        // 兼容多级表头的情况
+        const columnIndex = columns.findIndex((item) => item.id === column.id);
         if (layout.isScrollX.value && column.fixedLeft) {
             arr.push(`${prefixCls}-fixed-left`);
             if (!columns[columnIndex + 1]?.fixedLeft) {
@@ -184,14 +184,14 @@ export default ({
     const getCellStyle = ({
         column,
         columns,
-        columnIndex,
         row,
     }: {
         column: ColumnInst;
         columns: ColumnInst[];
-        columnIndex: number;
         row?: RowType;
     }): CSSProperties => {
+        // 兼容多级表头的情况
+        const columnIndex = columns.findIndex((item) => item.id === column.id);
         const align = column.props.align;
         const alignStyle: CSSProperties = {
             'text-align': !row && column.colSpan > 1 ? 'center' : align,
