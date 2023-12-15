@@ -36,6 +36,7 @@ import {
     defineComponent,
     getCurrentInstance,
     ref,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { FScrollbar } from '../scrollbar';
 import LeftOutlined from '../icon/LeftOutlined';
@@ -51,6 +52,9 @@ export type AsidePlacement = 'left' | 'right' | '';
 const prefixCls = getPrefixCls('layout');
 
 export const layoutAsideProps = {
+    collapsed: {
+        type: Boolean,
+    },
     collapsible: {
         type: Boolean,
         default: false,
@@ -79,7 +83,7 @@ export const layoutAsideProps = {
         type: Boolean,
         default: true,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type LayoutAsideProps = ExtractPublicPropTypes<typeof layoutAsideProps>;
 

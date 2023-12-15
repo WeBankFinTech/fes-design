@@ -30,7 +30,7 @@ import { computeTabBarStyle } from './helper';
 import FTab from './tab';
 
 import TabPane from './tab-pane.vue';
-import type { PropType } from 'vue';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import type { Value, Position, TabCloseMode } from './interface';
 import type { TabProps } from './helper';
 
@@ -40,7 +40,7 @@ const prefixCls = getPrefixCls('tabs');
 const ADD_EVENT = 'add';
 function mapTabPane(
     tabPaneVNodes: VNode[] = [],
-    tabValue: string | number,
+    tabValue: Value,
     tabPaneLazyCache: Record<string, boolean>,
 ) {
     const children: VNode[] = [];
@@ -106,7 +106,7 @@ export const tabsProps = {
         type: Array as PropType<TabPaneProps>,
         default: (): TabPaneProps[] => [],
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type TabsProps = ExtractPublicPropTypes<typeof tabsProps>;
 
@@ -144,7 +144,7 @@ export default defineComponent({
             if (el) tabRefs.value[index] = el;
         }
 
-        function handleTabClick(key: string | number) {
+        function handleTabClick(key: Value) {
             updateCurrentValue(key);
             ctx.emit(CHANGE_EVENT, key);
         }
@@ -153,7 +153,7 @@ export default defineComponent({
             ctx.emit(ADD_EVENT, event);
         }
 
-        function handleClose(key: string | number) {
+        function handleClose(key: Value) {
             ctx.emit(CLOSE_EVENT, key);
         }
 
@@ -202,7 +202,7 @@ export default defineComponent({
         }
 
         // 当没有默认值时，设置第一项为默认值，在Tab组件调用
-        const setDefaultValue = (value: unknown) => {
+        const setDefaultValue = (value: Value) => {
             if (!currentValue.value && currentValue.value !== 0) {
                 updateCurrentValue(value);
             }

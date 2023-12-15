@@ -1,11 +1,15 @@
 import { watch, computed, type SetupContext, type Ref } from 'vue';
 import { isFunction } from 'lodash-es';
 import { useNormalModel } from '../_util/use/useModel';
+import { type ArrayUnionToUnionArray } from '../_util/interface';
 import { TABLE_NAME } from './const';
 
 import type { TableProps } from './table';
 import type { RowType } from './interface';
 import type { ColumnInst } from './column';
+
+// string[] | number[] 不能直接调用数组的大部分方法，因此转换为 (string | number)[] 后使用
+type CheckedKey = ArrayUnionToUnionArray<TableProps['checkedKeys']>[number];
 
 export default ({
     props,
@@ -62,7 +66,9 @@ export default ({
             selectableData.value.length > 0 &&
             selectableData.value.every((_row) => {
                 const _rowKey = getRowKey({ row: _row });
-                return currentCheckedKeys.value.includes(_rowKey);
+                return (currentCheckedKeys.value as CheckedKey[]).includes(
+                    _rowKey as CheckedKey,
+                );
             })
         );
     });
@@ -70,7 +76,9 @@ export default ({
     const isCurrentDataAnySelected = computed(() => {
         return selectableData.value.some((_row) => {
             const _rowKey = getRowKey({ row: _row });
-            return currentCheckedKeys.value.includes(_rowKey);
+            return (currentCheckedKeys.value as CheckedKey[]).includes(
+                _rowKey as CheckedKey,
+            );
         });
     });
 
@@ -91,14 +99,16 @@ export default ({
 
     const isSelected = ({ row }: { row: RowType }) => {
         const _rowKey = getRowKey({ row });
-        return currentCheckedKeys.value.includes(_rowKey);
+        return (currentCheckedKeys.value as CheckedKey[]).includes(
+            _rowKey as CheckedKey,
+        );
     };
 
     const handleSelect = ({ row }: { row: RowType }) => {
         if (isSelectDisabled({ row })) return;
         const rowKey = getRowKey({ row });
-        const selectionList = currentCheckedKeys.value;
-        const index = selectionList.indexOf(rowKey);
+        const selectionList = currentCheckedKeys.value as CheckedKey[];
+        const index = selectionList.indexOf(rowKey as CheckedKey);
         if (index !== -1) {
             selectionList.splice(index, 1);
             ctx.emit('select', {
@@ -107,7 +117,7 @@ export default ({
                 checked: false,
             });
         } else {
-            selectionList.push(rowKey);
+            selectionList.push(rowKey as CheckedKey);
             ctx.emit('select', {
                 selection: selectionList,
                 row,
@@ -118,8 +128,8 @@ export default ({
 
     function splice(row: RowType) {
         const rowKey = getRowKey({ row });
-        const selectionList = currentCheckedKeys.value;
-        const index = selectionList.indexOf(rowKey);
+        const selectionList = currentCheckedKeys.value as CheckedKey[];
+        const index = selectionList.indexOf(rowKey as CheckedKey);
         if (index !== -1) {
             selectionList.splice(index, 1);
         }
@@ -127,10 +137,10 @@ export default ({
 
     function push(row: RowType) {
         const rowKey = getRowKey({ row });
-        const selectionList = currentCheckedKeys.value;
-        const index = selectionList.indexOf(rowKey);
+        const selectionList = currentCheckedKeys.value as CheckedKey[];
+        const index = selectionList.indexOf(rowKey as CheckedKey);
         if (index === -1) {
-            selectionList.push(rowKey);
+            selectionList.push(rowKey as CheckedKey);
         }
     }
 

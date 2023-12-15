@@ -48,3 +48,14 @@ export interface Option {
     label?: string | number;
     disabled?: boolean;
 }
+
+/**
+ * 将多个数组类型的联合类型，转换成数组成员类型为各数组成员的数组
+ *
+ * @example
+ * ```ts
+ * type Result = ArrayUnionToUnionArray<string[] | number[]>;
+ * type Result = (string | number)[];
+ * ```
+ */
+export type ArrayUnionToUnionArray<U> = (U extends (infer I)[] ? I : never)[];

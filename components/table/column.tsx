@@ -98,7 +98,7 @@ export const columnProps = {
         default: 'default',
     },
     selectable: Function as PropType<
-        ({ row, index }: { row: RowType; index: number }) => void
+        ({ row, rowIndex }: { row: RowType; rowIndex: number }) => void
     >,
     action: [Object, Array] as PropType<ActionType | ActionType[]>,
     ellipsis: {

@@ -1,10 +1,14 @@
 import { computed, watch, type SetupContext, type Ref } from 'vue';
 import { useNormalModel } from '../_util/use/useModel';
+import { type ArrayUnionToUnionArray } from '../_util/interface';
 import { TABLE_NAME } from './const';
 
 import type { TableProps } from './table';
 import type { RowType } from './interface';
 import type { ColumnInst } from './column';
+
+// string[] | number[] 不能直接调用数组的大部分方法，因此转换为 (string | number)[] 后使用
+type ExpandedKey = ArrayUnionToUnionArray<TableProps['expandedKeys']>[number];
 
 export default ({
     props,
@@ -40,17 +44,19 @@ export default ({
 
     const isExpandOpened = ({ row }: { row: RowType }) => {
         const rowKey = getRowKey({ row });
-        return currentExpandedKeys.value.includes(rowKey);
+        return (currentExpandedKeys.value as ExpandedKey[]).includes(
+            rowKey as ExpandedKey,
+        );
     };
 
     const toggleRowExpend = ({ row }: { row: RowType }) => {
         const rowKey = getRowKey({ row });
-        const expandOpenedList = currentExpandedKeys.value;
-        const index = expandOpenedList.indexOf(rowKey);
+        const expandOpenedList = currentExpandedKeys.value as ExpandedKey[];
+        const index = expandOpenedList.indexOf(rowKey as ExpandedKey);
         if (index !== -1) {
             expandOpenedList.splice(index, 1);
         } else {
-            expandOpenedList.push(rowKey);
+            expandOpenedList.push(rowKey as ExpandedKey);
         }
         return index === -1;
     };

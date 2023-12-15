@@ -12,5 +12,5 @@ export interface TabsInject {
     tabsLength: Ref<number>;
     handleTabClick: (key: string | number) => void;
     handleClose: (key: string | number) => void;
-    setDefaultValue: (value: unknown) => void;
+    setDefaultValue: (value: Value) => void;
 }

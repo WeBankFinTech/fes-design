@@ -79,6 +79,8 @@ export const useNormalModel = <
 };
 
 type ArrayOrItem<T> = [T] extends [unknown[]] ? T | T[number] : T[] | T;
+// type IncludeArray<U> = U extends unknown[] ? U : never;
+// type ExtractArray<U> = U extends unknown[] ? U : never;
 type GetKeysIsArrayType<Props> = keyof {
     [Key in keyof Props as Props[Key] extends unknown[]
         ? Key

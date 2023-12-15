@@ -38,9 +38,12 @@ export default defineComponent({
         const pages = computed(() => {
             const res = [];
             let count = 0;
-            const currentVal = Number.isNaN(parseInt(currentPage.value, 10))
+            // 如下处理仅为兼容现存旧逻辑
+            const currentVal = Number.isNaN(currentPage.value)
+                ? currentPage.value
+                : Number.isNaN(parseInt(`${currentPage.value}`, 10))
                 ? 1
-                : parseInt(currentPage.value, 10);
+                : parseInt(`${currentPage.value}`, 10);
             let start = currentVal - Math.floor(STEP / 2);
             while (count < STEP) {
                 res.push(start);
@@ -82,7 +85,7 @@ export default defineComponent({
 
         const getClassList = (cur: number) =>
             `${prefixCls}-pager-item${
-                cur === parseInt(currentPage.value, 10) ? ' is-active' : ''
+                cur === parseInt(`${currentPage.value}`, 10) ? ' is-active' : ''
             }`;
         const getBtnElement = () =>
             pages.value.map((item) => (
