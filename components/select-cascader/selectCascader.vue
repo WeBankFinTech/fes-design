@@ -133,8 +133,7 @@ export const selectCascaderProps = {
     ...cascaderProps,
     modelValue: {
         type: [String, Number, Array] as PropType<
-            | string
-            | number
+            | CascaderNodeKey
             | Array<CascaderNodeKey>
             | Array<Array<CascaderNodeKey>>
         >,
