@@ -85,6 +85,7 @@ import {
     watch,
     computed,
     type CSSProperties,
+    type PropType,
 } from 'vue';
 import { isArray, debounce } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -115,7 +116,6 @@ import {
 } from './helper';
 
 import { SELECT_CASCADER_NAME, LABEL_SEPARATOR } from './const';
-import type { SelectValue } from '../select/interface';
 import type {
     CascaderNodeList,
     InnerCascaderOption,
@@ -131,6 +131,14 @@ const prefixCls = getPrefixCls('select-cascader');
 export const selectCascaderProps = {
     ...selectProps,
     ...cascaderProps,
+    modelValue: {
+        type: [String, Number, Array] as PropType<
+            | string
+            | number
+            | Array<CascaderNodeKey>
+            | Array<Array<CascaderNodeKey>>
+        >,
+    },
 } as const;
 
 export type SelectCascaderProps = ExtractPublicPropTypes<
@@ -339,7 +347,7 @@ export default defineComponent({
             handleChange();
         };
 
-        const handleRemove = (value: SelectValue) => {
+        const handleRemove = (value: CascaderNodeKey) => {
             if (!props.multiple) {
                 return;
             }
