@@ -142,3 +142,12 @@ export const useArrayModel = <
 
     return [computedValue, updateItem];
 };
+
+/**
+ * useArrayModel 的返回值
+ * 用于 modelValue 混杂了 useNormalModel 类型的情况，用于手动指明 useArrayModel 需要的 modelValue 类型
+ */
+export type UseArrayModelReturn<ModelValue> = [
+    WritableComputedRef<ModelValue>,
+    (val: ArrayOrItem<ModelValue>) => void,
+];

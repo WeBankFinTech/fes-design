@@ -79,7 +79,11 @@ import {
 } from 'vue';
 import { isNil } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
-import { useNormalModel, useArrayModel } from '../_util/use/useModel';
+import {
+    useNormalModel,
+    useArrayModel,
+    type UseArrayModelReturn,
+} from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
@@ -120,7 +124,10 @@ export default defineComponent({
         );
         const isOpenedRef = ref(false);
         const [currentValue, updateCurrentValue] = props.multiple
-            ? useArrayModel(props, emit)
+            ? // 与 props 中 modelValue 类型保持一致
+              (useArrayModel(props, emit) as unknown as UseArrayModelReturn<
+                  SelectValue[]
+              >)
             : useNormalModel(props, emit);
 
         const triggerRef = ref();
@@ -147,7 +154,7 @@ export default defineComponent({
             const value: null | [] = props.multiple ? [] : null;
             if (
                 props.multiple
-                    ? currentValue.value.length
+                    ? (currentValue.value as SelectValue[]).length
                     : currentValue.value !== null
             ) {
                 updateCurrentValue(value);
@@ -222,7 +229,7 @@ export default defineComponent({
         });
 
         const isSelect = (value: SelectValue) => {
-            const selectVal = unref(currentValue);
+            const selectVal = unref(currentValue) as SelectValue[];
             const optVal = unref(value);
             if (selectVal === null) {
                 return false;
@@ -234,7 +241,7 @@ export default defineComponent({
         };
 
         const isLimitRef = computed(() => {
-            const selectVal = unref(currentValue);
+            const selectVal = unref(currentValue) as SelectValue[];
             return (
                 props.multipleLimit > 0 &&
                 props.multipleLimit === selectVal.length
@@ -314,7 +321,7 @@ export default defineComponent({
                     const option = getOption(newValue);
                     selectedOptionsRef.value = option ? [option] : [];
                 } else {
-                    selectedOptionsRef.value = newValue
+                    selectedOptionsRef.value = (newValue as SelectValue[])
                         .map((value: SelectValue) => {
                             return getOption(value);
                         })
@@ -395,8 +402,10 @@ export default defineComponent({
         watch(isOpenedRef, () => {
             if (isOpenedRef.value) {
                 if (props.multiple) {
-                    if (currentValue.value.length > 0) {
-                        hoverOptionValue.value = currentValue.value[0];
+                    const currentSelectValues =
+                        currentValue.value as SelectValue[];
+                    if (currentSelectValues.length > 0) {
+                        hoverOptionValue.value = currentSelectValues[0];
                     }
                 } else if (!isNil(currentValue.value)) {
                     hoverOptionValue.value = currentValue.value;

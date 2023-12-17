@@ -1,4 +1,5 @@
 import { defineComponent, computed, toRefs, watch } from 'vue';
+import { isNumber } from 'lodash-es';
 import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import LeftOutlined from '../icon/LeftOutlined';
@@ -39,7 +40,7 @@ export default defineComponent({
             const res = [];
             let count = 0;
             // 如下处理仅为兼容现存旧逻辑
-            const currentVal = Number.isNaN(currentPage.value)
+            const currentVal = isNumber(currentPage.value)
                 ? currentPage.value
                 : Number.isNaN(parseInt(`${currentPage.value}`, 10))
                 ? 1
