@@ -1,3 +1,22 @@
+## [0.8.20](https://github.com/WeBankFinTech/fes-design/compare/v0.8.19...v0.8.20) (2023-12-18)
+
+
+### Bug Fixes
+
+* 修复多个组件中类型错误问题 ([#552](https://github.com/WeBankFinTech/fes-design/issues/552)) ([4962fce](https://github.com/WeBankFinTech/fes-design/commit/4962fce5480e90d1dd3cdb5ebd874c9d7f994c8d))
+* **collapse:** arrow无法响应式更新 ([#544](https://github.com/WeBankFinTech/fes-design/issues/544)) ([58e23c6](https://github.com/WeBankFinTech/fes-design/commit/58e23c6908d6ffb258c9dadce8627d6da64cbd95))
+* **Space:** 垂直间距补偿值计算问题修复 ([#548](https://github.com/WeBankFinTech/fes-design/issues/548)) ([5de7603](https://github.com/WeBankFinTech/fes-design/commit/5de76031e199f977e5508ae66956d3fcddb5fa3a))
+* **Table:** 多级表头固定样式异常修复 ([#550](https://github.com/WeBankFinTech/fes-design/issues/550)) ([3021d02](https://github.com/WeBankFinTech/fes-design/commit/3021d029b2d5381e8fd3b46eed4f4f1811033b6c))
+* **Upload:** 重复上传文件，change事件可能不触发 ([#537](https://github.com/WeBankFinTech/fes-design/issues/537)) ([512e978](https://github.com/WeBankFinTech/fes-design/commit/512e9783273e9d01e9ebaecc9e090c1d78484470))
+
+
+### Features
+
+* **Badge:** 新增徽标组件 ([#538](https://github.com/WeBankFinTech/fes-design/issues/538)) ([c887247](https://github.com/WeBankFinTech/fes-design/commit/c887247698375cfd613809cd96728ae6a6624306))
+* **Drawer:** 限制抽屉可拖拽的最大最小尺寸 ([#549](https://github.com/WeBankFinTech/fes-design/issues/549)) ([c47de2d](https://github.com/WeBankFinTech/fes-design/commit/c47de2da808dd7415500a794b8cf10864bee8bbb))
+
+
+
 ## [0.8.19](https://github.com/WeBankFinTech/fes-design/compare/v0.8.18...v0.8.19) (2023-12-11)
 
 
