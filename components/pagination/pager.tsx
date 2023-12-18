@@ -1,4 +1,5 @@
 import { defineComponent, computed, toRefs, watch } from 'vue';
+import { isNumber } from 'lodash-es';
 import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import LeftOutlined from '../icon/LeftOutlined';
@@ -38,9 +39,12 @@ export default defineComponent({
         const pages = computed(() => {
             const res = [];
             let count = 0;
-            const currentVal = Number.isNaN(parseInt(currentPage.value, 10))
+            // 如下处理仅为兼容现存旧逻辑
+            const currentVal = isNumber(currentPage.value)
+                ? currentPage.value
+                : Number.isNaN(parseInt(`${currentPage.value}`, 10))
                 ? 1
-                : parseInt(currentPage.value, 10);
+                : parseInt(`${currentPage.value}`, 10);
             let start = currentVal - Math.floor(STEP / 2);
             while (count < STEP) {
                 res.push(start);
@@ -82,7 +86,7 @@ export default defineComponent({
 
         const getClassList = (cur: number) =>
             `${prefixCls}-pager-item${
-                cur === parseInt(currentPage.value, 10) ? ' is-active' : ''
+                cur === parseInt(`${currentPage.value}`, 10) ? ' is-active' : ''
             }`;
         const getBtnElement = () =>
             pages.value.map((item) => (

@@ -85,11 +85,16 @@ import {
     watch,
     computed,
     type CSSProperties,
+    type PropType,
 } from 'vue';
 import { isArray, debounce } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
-import { useNormalModel, useArrayModel } from '../_util/use/useModel';
+import {
+    useNormalModel,
+    useArrayModel,
+    type UseArrayModelReturn,
+} from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
@@ -115,7 +120,6 @@ import {
 } from './helper';
 
 import { SELECT_CASCADER_NAME, LABEL_SEPARATOR } from './const';
-import type { SelectValue } from '../select/interface';
 import type {
     CascaderNodeList,
     InnerCascaderOption,
@@ -131,6 +135,13 @@ const prefixCls = getPrefixCls('select-cascader');
 export const selectCascaderProps = {
     ...selectProps,
     ...cascaderProps,
+    modelValue: {
+        type: [String, Number, Array] as PropType<
+            | CascaderNodeKey
+            | Array<CascaderNodeKey>
+            | Array<Array<CascaderNodeKey>>
+        >,
+    },
 } as const;
 
 export type SelectCascaderProps = ExtractPublicPropTypes<
@@ -162,7 +173,10 @@ export default defineComponent({
         });
         const isOpened = ref(false);
         const [currentValue, updateCurrentValue] = props.multiple
-            ? useArrayModel(props, emit)
+            ? // 与 props 中 modelValue 类型保持一致
+              (useArrayModel(props, emit) as unknown as UseArrayModelReturn<
+                  Array<CascaderNodeKey> | Array<Array<CascaderNodeKey>>
+              >)
             : useNormalModel(props, emit);
 
         const innerDisabled = computed(
@@ -339,7 +353,7 @@ export default defineComponent({
             handleChange();
         };
 
-        const handleRemove = (value: SelectValue) => {
+        const handleRemove = (value: CascaderNodeKey) => {
             if (!props.multiple) {
                 return;
             }

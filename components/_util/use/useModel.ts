@@ -79,6 +79,8 @@ export const useNormalModel = <
 };
 
 type ArrayOrItem<T> = [T] extends [unknown[]] ? T | T[number] : T[] | T;
+// type IncludeArray<U> = U extends unknown[] ? U : never;
+// type ExtractArray<U> = U extends unknown[] ? U : never;
 type GetKeysIsArrayType<Props> = keyof {
     [Key in keyof Props as Props[Key] extends unknown[]
         ? Key
@@ -140,3 +142,12 @@ export const useArrayModel = <
 
     return [computedValue, updateItem];
 };
+
+/**
+ * useArrayModel 的返回值
+ * 用于 modelValue 混杂了 useNormalModel 类型的情况，用于手动指明 useArrayModel 需要的 modelValue 类型
+ */
+export type UseArrayModelReturn<ModelValue> = [
+    WritableComputedRef<ModelValue>,
+    (val: ArrayOrItem<ModelValue>) => void,
+];

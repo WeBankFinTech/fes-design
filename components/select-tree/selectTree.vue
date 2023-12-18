@@ -130,7 +130,11 @@ import {
 import { debounce } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
-import { useNormalModel, useArrayModel } from '../_util/use/useModel';
+import {
+    useNormalModel,
+    useArrayModel,
+    type UseArrayModelReturn,
+} from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
@@ -151,12 +155,15 @@ import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('select-tree');
 
+/** multiple 时，modelValue 的类型 */
+type MultipleModelValue = Array<TreeNodeKey> | Array<Array<TreeNodeKey>>;
+
 export const selectTreeProps = {
     ...selectProps,
     ...treeProps,
     modelValue: {
         type: [String, Number, Array] as PropType<
-            string | number | Array<TreeNodeKey> | Array<Array<TreeNodeKey>>
+            string | number | MultipleModelValue
         >,
     },
     showPath: {
@@ -196,7 +203,10 @@ export default defineComponent({
         });
         const isOpened = ref(false);
         const [currentValue, updateCurrentValue] = props.multiple
-            ? useArrayModel(props, emit)
+            ? // 与 props 中 modelValue 类型保持一致
+              (useArrayModel(props, emit) as unknown as UseArrayModelReturn<
+                  Array<TreeNodeKey> | Array<Array<TreeNodeKey>>
+              >)
             : useNormalModel(props, emit);
         const filterText = ref('');
 
@@ -234,7 +244,9 @@ export default defineComponent({
             triggerRef(nodeList);
         };
 
-        const getCurrentValueByKeys = (keys: TreeNodeKey[] = []) => {
+        const getCurrentValueByKeys = (
+            keys: TreeNodeKey[] = [],
+        ): string | number | MultipleModelValue => {
             if (props.multiple) {
                 return keys.map((key) => {
                     if (props.emitPath) {
@@ -242,7 +254,7 @@ export default defineComponent({
                         return [...(node?.indexPath || [key])];
                     }
                     return key;
-                });
+                }) as MultipleModelValue;
             }
 
             return props.emitPath
@@ -262,11 +274,15 @@ export default defineComponent({
             return [];
         });
         const checkedKeys = computed(() => {
-            if (props.multiple && currentValue.value?.length) {
-                const keys = currentValue.value.map((item: [] | string) =>
-                    props.emitPath && Array.isArray(item)
-                        ? item[item.length - 1]
-                        : item,
+            if (
+                props.multiple &&
+                (currentValue.value as MultipleModelValue)?.length
+            ) {
+                const keys = (currentValue.value as MultipleModelValue).map(
+                    (item) =>
+                        props.emitPath && Array.isArray(item)
+                            ? item[item.length - 1]
+                            : item,
                 );
                 return keys;
             }
@@ -284,7 +300,7 @@ export default defineComponent({
             const value: null | [] = props.multiple ? [] : null;
             if (
                 props.multiple
-                    ? currentValue.value.length
+                    ? (currentValue.value as MultipleModelValue).length
                     : currentValue.value !== null
             ) {
                 updateCurrentValue(value);
@@ -316,13 +332,13 @@ export default defineComponent({
         /** 节点目标值 */
         const targetValues = computed((): TreeNodeKey[] => {
             let values = props.multiple
-                ? currentValue.value
+                ? (currentValue.value as MultipleModelValue)
                 : [currentValue.value];
             if (props.emitPath) {
                 // 获取选中节点
-                return values.map((item: []) => item[item.length - 1]);
+                return values.map((item: any) => item[item.length - 1]); // TODO: TreeNodeKey 类型是否不应包含 number
             }
-            return values;
+            return values as TreeNodeKey[];
         });
 
         const handleRemove = (value: SelectValue) => {
