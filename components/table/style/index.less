@@ -1,11 +1,16 @@
 @import '../../style/themes/index';
 @import '../../style/mixins/index';
+@import '../../scrollbar/style/mixin.less';
 @import './mixin.less';
 
 @table-prefix: ~'@{cls-prefix}-table';
 @table-border-color: var(--f-border-color-split);
 @table-border: var(--f-border-width-base) var(--f-border-style-base)
     @table-border-color;
+@column-shadow-right: 2px 2px var(--f-shadow-radius-sm) -1px var(--f-shadow-color-sm);
+@column-shadow-left: -1px 2px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
+@scrollbar-shadow-size: 4px;
+@scrollbar-shadow-z-index: 3; // 与 bodyTable, virtualTable 中的 z-index 保持一致
 
 .@{table-prefix} {
     position: relative;
@@ -29,6 +34,7 @@
 
     & &-header-wrapper,
     & &-body-wrapper {
+        position: relative;
         width: 100%;
         height: auto;
         overflow: hidden;
@@ -36,16 +42,25 @@
 
         &.is-scrolling-x-left,
         &.is-scrolling-x-middle {
+            &.columns-fixed-left::after {
+                .shadow(@scrollbar-shadow-size, 'right');
+                z-index: @scrollbar-shadow-z-index;
+            }
+
             .@{table-prefix}-fixed-right.is-first {
-                box-shadow: -1px 2px var(--f-shadow-radius-sm)
-                    var(--f-shadow-color-sm);
+                box-shadow: @column-shadow-left;
             }
         }
 
         &.is-scrolling-x-right,
         &.is-scrolling-x-middle {
+            &.columns-fixed-right::after {
+                .shadow(@scrollbar-shadow-size, 'left');
+                z-index: @scrollbar-shadow-z-index;
+            }
+
             .@{table-prefix}-fixed-left.is-last {
-                box-shadow: 2px 2px var(--f-shadow-radius-sm) -1px var(--f-shadow-color-sm);
+                box-shadow: @column-shadow-right;
             }
         }
 
