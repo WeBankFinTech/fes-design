@@ -53,6 +53,26 @@ export default ({
         x: 'left',
     });
 
+    const columnsFixed = computed<'left' | 'right' | 'both' | 'none'>(() => {
+        const mappedColumns = columns.value
+            .map<'left' | 'right' | ''>((column) => {
+                if (column.fixedLeft) return 'left';
+                if (column.fixedRight) return 'right';
+                return '';
+            })
+            .filter<'left' | 'right'>(
+                (fixedStatus): fixedStatus is 'left' | 'right' => !!fixedStatus,
+            );
+        const uniqueColumns = Array.from(new Set(mappedColumns));
+
+        // 没有固定列
+        if (uniqueColumns.length === 0) return 'none';
+        // 两侧都有固定列
+        if (uniqueColumns.length !== 1) return 'both';
+        // 仅有一侧有固定列
+        return uniqueColumns[0];
+    });
+
     const headerWrapperClass = computed(() => {
         const arr = [`${prefixCls}-header-wrapper`];
         if (scrollState.x) {
@@ -65,6 +85,9 @@ export default ({
         const arr = [`${prefixCls}-body-wrapper`];
         if (scrollState.x) {
             arr.push(`is-scrolling-x-${scrollState.x}`);
+        }
+        if (columnsFixed.value !== 'none') {
+            arr.push(`columns-fixed-${columnsFixed.value}`);
         }
         return arr;
     });
