@@ -219,7 +219,11 @@ const Drawer = defineComponent({
                                             onMousedown={onMousedown}
                                             onMouseenter={onMouseenter}
                                             onMouseleave={onMouseleave}
-                                        ></div>
+                                        >
+                                            <div
+                                                class={`${prefixCls}-drag-icon`}
+                                            />
+                                        </div>
                                     )}
                                     {getHeader()}
                                     <FScrollbar

@@ -170,41 +170,65 @@
     &-drag {
         position: absolute;
         z-index: 999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-        &-hover {
-            background: var(--f-primary-color);
+        @drag-icon-width: 6px;
+        @drag-icon-height: 16px;
+        @drag-icon-padding: 4px;
+        @drag-area-width: calc(@drag-icon-width + @drag-icon-padding * 2);
+        @drag-area-height: 100%;
+
+        & > &-icon {
+            display: flex;
+            justify-content: space-between;
+            width: @drag-icon-width;
+            height: @drag-icon-height;
+            
+            &::before, &::after {
+                width: 2px;
+                height: 100%;
+                background-color: var(--f-text-color-disabled);
+                border-radius: 2px;
+                content: '';
+            }
+        }
+
+        &-top > &-icon, &-bottom > &-icon {
+            transform: rotate(90deg);
+        }
+
+        &-left, &-right {
+            width: @drag-area-width;
+            height: @drag-area-height;
+            cursor: col-resize;
         }
 
         &-left {
             top: 0;
             right: 0;
-            width: 2px;
-            height: 100%;
-            cursor: col-resize;
         }
 
         &-right {
             top: 0;
             left: 0;
-            width: 2px;
-            height: 100%;
-            cursor: col-resize;
+        }
+
+        &-top, &-bottom {
+            width: @drag-area-height;
+            height: @drag-area-width;
+            cursor: row-resize;
         }
 
         &-top {
             bottom: 0;
             left: 0;
-            width: 100%;
-            height: 2px;
-            cursor: row-resize;
         }
 
         &-bottom {
             top: 0;
             left: 0;
-            width: 100%;
-            height: 2px;
-            cursor: row-resize;
         }
     }
 }
