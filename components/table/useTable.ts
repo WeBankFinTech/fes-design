@@ -62,6 +62,7 @@ export default (props: TableProps, ctx: SetupContext) => {
     const styleState = useTableStyle({
         props,
         columns: columnState.columns,
+        columnsFixed: columnState.columnsFixed,
         expandColumn: expandState.expandColumn,
         isExpandOpened: expandState.isExpandOpened,
         showData,

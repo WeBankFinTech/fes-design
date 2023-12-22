@@ -201,9 +201,13 @@
                 border-right: @table-border;
             }
             .@{table-prefix}-row {
-                .@{table-prefix}-td,
-                .@{table-prefix}-th {
+                .@{table-prefix}-td {
                     &:last-child {
+                        border-right: none;
+                    }
+                }
+                .@{table-prefix}-th {
+                    &.@{table-prefix}-th-last {
                         border-right: none;
                     }
                 }
