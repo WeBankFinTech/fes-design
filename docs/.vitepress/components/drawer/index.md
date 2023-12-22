@@ -14,39 +14,58 @@ app.use(FDrawer);
 
 ### 基础用法
 
---COMMON
+:::demo
+common.vue
+:::
 
 ### 位置
 
 自定义位置，点击触发按钮抽屉从相应的位置滑出，点击遮罩区关闭，默认是 right
 
---PLACEMENT
+:::demo
+placement.vue
+:::
 
 ### 拖拽
 
 可设置宽度或者高度可拖拽，默认 resizable 是 false
 
---RESIZABLE
+:::demo
+resizable.vue
+:::
 
 ### 自定义头部
 
 通过 slot `title`可以自定义页脚内容
 
---CUSTOMTITLE
+:::demo
+customTitle.vue
+:::
 
 ### 自定义页脚
 
 通过 slot `footer`可以自定义页脚内容
 
---CUSTOMFOOTER
+:::demo
+customFooter.vue
+:::
 
 ### 异步提交
 
 针对抽屉确认提交操作。
 
---ASYNCSUBMIT
+:::demo
+asyncSubmit.vue
+:::
 
---CODE
+### 交互其他UI
+
+仅在mask为false生效，在没有蒙层时，可交互其他UI
+
+:::demo
+operable.vue
+:::
+
 
 ## Drawer Props
 
@@ -57,6 +76,7 @@ app.use(FDrawer);
 | closable         | 是否显示右上角关闭图标                                                         | Boolean           | `true`                                  |
 | mask             | 是否显示蒙层                                                                   | Boolean           | `true`                                  |
 | maskClosable     | 点击蒙层是否允许关闭                                                           | Boolean           | `true`                                  |
+| operable         | 仅在mask为false生效，在不显示蒙层的时候，操作其他UI的能力                      | Boolean           | `false`                                 |
 | title            | 标题                                                                           | String            | -                                       |
 | footer           | 是否显示底部内容                                                               | Boolean           | `false`                                 |
 | footerBorder     | 是否显示底部分割线                                                             | Boolean           | `false`                                 |

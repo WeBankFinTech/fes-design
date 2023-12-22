@@ -27,6 +27,10 @@
         }
     }
 
+    &-operable {
+        pointer-events: none;
+    }
+
     &-wrapper {
         position: relative;
         display: flex;
@@ -35,6 +39,7 @@
         background: var(--f-body-bg-color);
         border-radius: var(--f-border-radius-base);
         box-shadow: @shadow-down;
+        pointer-events: auto; 
     }
 
     &-header {
