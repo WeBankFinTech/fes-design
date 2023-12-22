@@ -49,6 +49,7 @@
                     <slot name="addon" :activeTime="activeTime">
                         <div :class="`${prefixCls}-addon-inner`">
                             <FButton
+                                v-if="showNowShortcut"
                                 type="link"
                                 size="small"
                                 @mousedown.prevent
@@ -252,6 +253,20 @@ export default defineComponent({
 
         const showControl = computed(() => props.control || slots.addon);
 
+        const showNowShortcut = computed(() => {
+            // format 中的 token 需要与 TimeSelect 中的 canSelectHours 保持一致
+            if (props.format.includes('H') && props.hourStep !== 1) {
+                return false;
+            }
+            if (props.format.includes('m') && props.minuteStep !== 1) {
+                return false;
+            }
+            if (props.format.includes('s') && props.secondStep !== 1) {
+                return false;
+            }
+            return true;
+        });
+
         const tempValue = ref();
 
         const { t } = useLocale();
@@ -333,6 +348,7 @@ export default defineComponent({
             clear,
             changeTime,
             showControl,
+            showNowShortcut,
             setCurrentTime,
             confirmChangeTime,
 
