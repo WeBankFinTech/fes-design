@@ -14,7 +14,9 @@ app.use(FTimeline);
 
 ### 基础用法
 
---BASIC
+:::demo
+basic.vue
+:::
 
 ### 时间轴方向
 
@@ -26,7 +28,9 @@ app.use(FTimeline);
 -   `row` 轴水平向右
 -   `row` 轴水平向左
 
---DIRECTION
+:::demo
+direction.vue
+:::
 
 ### 标题位置
 
@@ -37,7 +41,9 @@ app.use(FTimeline);
 -   `start` 表示书写方向的开始，如：`direction: row` 时，`start` 为纵轴的上方
 -   `end` 表示书写方向的末尾，如：`direction: column` 时，`end` 为横轴的右侧
 
---TITLEPOSITION
+:::demo
+titlePosition.vue
+:::
 
 ### 辅助描述位置
 
@@ -49,22 +55,29 @@ app.use(FTimeline);
 
 _当轴为水平方向时，不支持辅助说明与标题同行_
 
---DESCPOSITION
+:::demo
+descPosition.vue
+:::
 
 ### 自定义辅助描述
 
---CUSTOMDESC
+:::demo
+customDesc.vue
+:::
 
 ### 轴点-自定义颜色
 
 支持预设的 `info`、`success`、`error`、`warning`，此外还可以使用如 `#ff007f` 这样的能被 CSS 的 `color` 接受的颜色值
---CUSTOMICONCOLOR
+
+:::demo
+customIconColor.vue
+:::
 
 ### 轴点-自定义图标
 
---CUSTOMICON
-
---CODE
+:::demo
+customIcon.vue
+:::
 
 ## Props
 
