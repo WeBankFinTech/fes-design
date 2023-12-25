@@ -193,6 +193,9 @@ const Drawer = defineComponent({
                                 v-show={visible.value}
                                 class={{
                                     [`${prefixCls}-container`]: true,
+                                    // 没有蒙层时，该属性才生效
+                                    [`${prefixCls}-operable`]:
+                                        !props.mask && props.operable,
                                     [`${prefixCls}-no-header`]:
                                         !hasHeader.value,
                                     [`${prefixCls}-no-footer`]: !props.footer,
