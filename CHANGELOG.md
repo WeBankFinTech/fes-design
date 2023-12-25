@@ -1,3 +1,18 @@
+## [0.8.21](https://github.com/WeBankFinTech/fes-design/compare/v0.8.20...v0.8.21) (2023-12-25)
+
+
+### Bug Fixes
+
+* **Table:** 修复仅单侧固定列时，对侧滚动阴影丢失问题 ([#553](https://github.com/WeBankFinTech/fes-design/issues/553)) ([f6416b0](https://github.com/WeBankFinTech/fes-design/commit/f6416b084426ce206314ed8a01021a724d2fcdb9))
+* **TimePicker:** 设置了 step 相关属性时，不展示「此刻」快捷按钮 ([#556](https://github.com/WeBankFinTech/fes-design/issues/556)) ([a7f6f70](https://github.com/WeBankFinTech/fes-design/commit/a7f6f70111e0af4f570a58541f83793665ff3261))
+
+
+### Features
+
+* **Drawer:** 修改抽屉拖拽样式，调整最大拖拽尺寸限制 ([#555](https://github.com/WeBankFinTech/fes-design/issues/555)) ([06ec476](https://github.com/WeBankFinTech/fes-design/commit/06ec4766c996a3433e93cd2000c71500f4142260))
+
+
+
 ## [0.8.20](https://github.com/WeBankFinTech/fes-design/compare/v0.8.19...v0.8.20) (2023-12-18)
 
 
