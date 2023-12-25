@@ -68,11 +68,32 @@ export default function (props: TableProps) {
         }),
     );
 
+    const columnsFixed = computed<'left' | 'right' | 'both' | 'none'>(() => {
+        const mappedColumns = columns.value
+            .map<'left' | 'right' | ''>((column) => {
+                if (column.fixedLeft) return 'left';
+                if (column.fixedRight) return 'right';
+                return '';
+            })
+            .filter<'left' | 'right'>(
+                (fixedStatus): fixedStatus is 'left' | 'right' => !!fixedStatus,
+            );
+        const uniqueColumns = Array.from(new Set(mappedColumns));
+
+        // 没有固定列
+        if (uniqueColumns.length === 0) return 'none';
+        // 两侧都有固定列
+        if (uniqueColumns.length !== 1) return 'both';
+        // 仅有一侧有固定列
+        return uniqueColumns[0];
+    });
+
     return {
         addColumn,
         removeColumn,
         headerRows,
         columns,
         noFixedColumn,
+        columnsFixed,
     };
 }

@@ -1,4 +1,10 @@
-import { inject, defineComponent, Fragment, type PropType } from 'vue';
+import {
+    inject,
+    defineComponent,
+    Fragment,
+    type PropType,
+    computed,
+} from 'vue';
 import FCheckbox from '../../checkbox/checkbox.vue';
 import { provideKey } from '../const';
 import useResize from '../useResize';
@@ -32,6 +38,24 @@ export default defineComponent({
             layout.widthList,
         );
 
+        /**
+         * 实际渲染布局中，出现在行尾的 column
+         *
+         * 实现思路为，从 column 树（即 headerRows) 根节点出发，递归找到每个子树中最后一个 column 结点
+         */
+        const displayLastColumnIds = computed(() => {
+            const getLastColumns = (columns: ColumnInst[]): ColumnInst[] => {
+                const lastColumn = columns[columns.length - 1];
+                if (!lastColumn) return [];
+                return [
+                    lastColumn,
+                    ...getLastColumns(lastColumn.children ?? []),
+                ];
+            };
+
+            return getLastColumns(headerRows.value[0]).map((c) => c.id);
+        });
+
         const renderHeader = ({
             column,
             columnIndex,
@@ -52,6 +76,8 @@ export default defineComponent({
                         class={[
                             `${prefixCls}-th`,
                             column.props.sortable && `${prefixCls}-th-sortable`,
+                            displayLastColumnIds.value.includes(column.id) &&
+                                `${prefixCls}-th-last`,
                             ...getCellClass({
                                 column,
                                 columns: props.columns,

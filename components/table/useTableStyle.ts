@@ -6,6 +6,7 @@ import useTableLayout from './useTableLayout';
 
 const prefixCls = getPrefixCls('table');
 
+import type useTableColumn from './useTableColumn';
 import type { TableProps } from './table';
 import type { RowType } from './interface';
 import type { ColumnInst } from './column';
@@ -13,6 +14,7 @@ import type { ColumnInst } from './column';
 export default ({
     props,
     columns,
+    columnsFixed,
     expandColumn,
     isExpandOpened,
     showData,
@@ -20,6 +22,7 @@ export default ({
     showData: Ref<object[]>;
     props: TableProps;
     columns: Ref<ColumnInst[]>;
+    columnsFixed: ReturnType<typeof useTableColumn>['columnsFixed'];
     expandColumn: Ref<ColumnInst>;
     isExpandOpened: ({ row }: { row: RowType }) => boolean;
 }) => {
@@ -51,26 +54,6 @@ export default ({
 
     const scrollState = reactive({
         x: 'left',
-    });
-
-    const columnsFixed = computed<'left' | 'right' | 'both' | 'none'>(() => {
-        const mappedColumns = columns.value
-            .map<'left' | 'right' | ''>((column) => {
-                if (column.fixedLeft) return 'left';
-                if (column.fixedRight) return 'right';
-                return '';
-            })
-            .filter<'left' | 'right'>(
-                (fixedStatus): fixedStatus is 'left' | 'right' => !!fixedStatus,
-            );
-        const uniqueColumns = Array.from(new Set(mappedColumns));
-
-        // 没有固定列
-        if (uniqueColumns.length === 0) return 'none';
-        // 两侧都有固定列
-        if (uniqueColumns.length !== 1) return 'both';
-        // 仅有一侧有固定列
-        return uniqueColumns[0];
     });
 
     const headerWrapperClass = computed(() => {
