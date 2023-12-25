@@ -1,4 +1,5 @@
 import { isNumber, isString } from 'lodash-es';
+import { type ComponentObjectPropsOptions } from 'vue';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import { definePropType } from './common';
 import type { CollapseActiveName } from './common';
@@ -25,7 +26,7 @@ export const collapseProps = {
         type: Boolean,
         default: true,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type CollapseProps = ExtractPublicPropTypes<typeof collapseProps>;
 

@@ -1,4 +1,10 @@
-import { defineComponent, computed, toRefs, watch } from 'vue';
+import {
+    defineComponent,
+    computed,
+    toRefs,
+    watch,
+    type ComponentObjectPropsOptions,
+} from 'vue';
 import { isNumber } from 'lodash-es';
 import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
@@ -31,7 +37,7 @@ export default defineComponent({
             type: Number,
             default: 0,
         },
-    },
+    } satisfies ComponentObjectPropsOptions,
     emits: [UPDATE_MODEL_EVENT],
     setup(props, { emit }) {
         const { total } = toRefs(props);

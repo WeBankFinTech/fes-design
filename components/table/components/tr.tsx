@@ -1,4 +1,10 @@
-import { defineComponent, Fragment, inject, type PropType } from 'vue';
+import {
+    type ComponentObjectPropsOptions,
+    defineComponent,
+    Fragment,
+    inject,
+    type PropType,
+} from 'vue';
 import { provideKey } from '../const';
 import Td from './td';
 import ExpandTr from './expandTr';
@@ -26,7 +32,7 @@ export default defineComponent({
             type: Boolean,
             default: true,
         },
-    },
+    } satisfies ComponentObjectPropsOptions,
     setup(props) {
         const {
             handleRowClick,

@@ -4,6 +4,7 @@ import {
     Fragment,
     type PropType,
     computed,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import FCheckbox from '../../checkbox/checkbox.vue';
 import { provideKey } from '../const';
@@ -16,7 +17,7 @@ export default defineComponent({
             type: Array as PropType<ColumnInst[]>,
             required: true,
         },
-    },
+    } satisfies ComponentObjectPropsOptions,
     setup(props) {
         const {
             headerRows,

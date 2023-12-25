@@ -65,7 +65,7 @@ import { PREVIEW_PROVIDE_KEY } from './props';
 import Preview from './preview.vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
-import type { CSSProperties } from 'vue';
+import type { CSSProperties, ComponentObjectPropsOptions } from 'vue';
 
 const prefixCls = getPrefixCls('img');
 
@@ -105,7 +105,7 @@ export const imageProps = {
     },
     height: [String, Number] as PropType<string | number>,
     width: [String, Number] as PropType<string | number>,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type ImageProps = ExtractPublicPropTypes<typeof imageProps>;
 

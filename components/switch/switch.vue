@@ -16,6 +16,7 @@ import {
     type PropType,
     nextTick,
     ref,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isEqual, isFunction } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
@@ -54,7 +55,7 @@ export const switchProps = {
         type: String as PropType<SwitchSize>,
         default: 'normal',
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type SwitchProps = ExtractPublicPropTypes<typeof switchProps>;
 

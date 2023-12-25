@@ -1,4 +1,9 @@
-import { defineComponent, inject, type PropType } from 'vue';
+import {
+    type ComponentObjectPropsOptions,
+    defineComponent,
+    inject,
+    type PropType,
+} from 'vue';
 import { DownOutlined } from '../../icon';
 import FCheckbox from '../../checkbox/checkbox.vue';
 import { provideKey } from '../const';
@@ -24,7 +29,7 @@ export default defineComponent({
         },
         columnIndex: Number,
         onClick: Function as PropType<(e: Event) => void>,
-    },
+    } satisfies ComponentObjectPropsOptions,
     setup(props) {
         const {
             prefixCls,

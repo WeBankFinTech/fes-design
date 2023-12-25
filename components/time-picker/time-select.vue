@@ -34,7 +34,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, watch, type PropType } from 'vue';
+import {
+    defineComponent,
+    reactive,
+    computed,
+    watch,
+    type PropType,
+    type ComponentObjectPropsOptions,
+} from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import PickerItem from './picker-item.vue';
 
@@ -110,7 +117,7 @@ const timeSelectProps = {
         type: Number,
         default: 8,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export default defineComponent({
     components: {

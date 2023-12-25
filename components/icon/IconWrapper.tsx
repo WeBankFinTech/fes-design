@@ -6,6 +6,7 @@ import {
     type StyleValue,
     type HTMLAttributes,
     type PropType,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isNil } from 'lodash-es';
 
@@ -19,7 +20,7 @@ const iconProps = {
     tabIndex: Number,
     size: Number,
     color: String,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type IconProps = Partial<ExtractPropTypes<typeof iconProps>> &
     HTMLAttributes;

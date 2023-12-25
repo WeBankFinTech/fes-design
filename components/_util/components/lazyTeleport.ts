@@ -1,4 +1,12 @@
-import { Teleport, h, ref, watch, computed, defineComponent } from 'vue';
+import {
+    Teleport,
+    h,
+    ref,
+    watch,
+    computed,
+    defineComponent,
+    type ComponentObjectPropsOptions,
+} from 'vue';
 import { getSlot } from '../vnode';
 export default defineComponent({
     name: 'LazyTeleport',
@@ -12,7 +20,7 @@ export default defineComponent({
             type: Boolean,
             required: true,
         },
-    },
+    } satisfies ComponentObjectPropsOptions,
     setup(props) {
         const showTeleport = ref(props.show);
         watch(

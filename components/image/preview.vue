@@ -87,6 +87,7 @@ import {
     defineComponent,
     type PropType,
     type CSSProperties,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import { throttle } from 'lodash-es';
@@ -131,7 +132,7 @@ const previewProps = {
     },
     size: Object as PropType<{ width: number; height: number }>,
     name: String,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export default defineComponent({
     name: 'FPreview',

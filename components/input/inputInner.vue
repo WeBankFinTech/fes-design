@@ -74,6 +74,7 @@ import {
     defineComponent,
     type Ref,
     type ExtractPropTypes,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { debounce } from 'lodash-es';
 import { EyeOutlined, EyeInvisibleOutlined, CloseCircleFilled } from '../icon';
@@ -95,7 +96,7 @@ const inputInnerProps = {
         type: Boolean,
         default: true,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 const prefixCls = getPrefixCls('input-inner');
 

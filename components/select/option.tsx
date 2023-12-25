@@ -8,6 +8,7 @@ import {
     defineComponent,
     type PropType,
     ref,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { SELECT_PROVIDE_KEY } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
@@ -21,7 +22,7 @@ export const optionProps = {
     },
     label: String,
     disabled: Boolean,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type OptionProps = ExtractPublicPropTypes<typeof optionProps>;
 

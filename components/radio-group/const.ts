@@ -1,4 +1,4 @@
-import type { PropType } from 'vue';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import type { Size, Type, OptionType } from './interface';
 import type { Option } from '../_util/interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';
@@ -49,6 +49,6 @@ export const radioGroupProps = {
         type: Boolean,
         default: false,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type RadioGroupProps = ExtractPublicPropTypes<typeof radioGroupProps>;

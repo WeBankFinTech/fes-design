@@ -1,5 +1,5 @@
 import { type TRIGGER, type PLACEMENT } from '../_util/constants';
-import type { PropType } from 'vue';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const popperProps = {
@@ -50,6 +50,6 @@ export const popperProps = {
     onlyShowTrigger: {
         type: Boolean,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type PopperProps = ExtractPublicPropTypes<typeof popperProps>;

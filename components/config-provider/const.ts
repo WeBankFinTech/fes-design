@@ -1,5 +1,10 @@
 import { defaultContainer } from '../_util/utils';
-import type { InjectionKey, PropType, Ref } from 'vue';
+import type {
+    ComponentObjectPropsOptions,
+    InjectionKey,
+    PropType,
+    Ref,
+} from 'vue';
 import type { TypeLanguage } from '../locales';
 import type { Theme } from '../_theme/interface';
 import type { GetContainer } from '../_util/interface';
@@ -26,7 +31,7 @@ export const configProviderProps = {
     },
     theme: String,
     themeOverrides: Object as PropType<Theme>,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type ConfigProviderProps = ExtractPublicPropTypes<
     typeof configProviderProps

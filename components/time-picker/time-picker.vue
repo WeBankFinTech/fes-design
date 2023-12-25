@@ -74,7 +74,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, computed, type PropType } from 'vue';
+import {
+    defineComponent,
+    ref,
+    watch,
+    computed,
+    type PropType,
+    type ComponentObjectPropsOptions,
+} from 'vue';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -204,7 +211,7 @@ export const timePickerProps = {
     inputClass: {
         type: [String, Object, Array] as PropType<string | object | []>,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type TimePickerProps = ExtractPublicPropTypes<typeof timePickerProps>;
 

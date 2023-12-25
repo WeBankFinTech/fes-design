@@ -11,7 +11,7 @@ import { useTheme } from '../_theme/useTheme';
 
 import getPrefixCls from '../_util/getPrefixCls';
 import { ALIGN, JUSTIFY, GRID_KEY } from './const';
-import type { PropType } from 'vue';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('grid');
@@ -30,7 +30,7 @@ export const gridProps = {
         default: JUSTIFY[0],
     },
     wrap: Boolean,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type GridProps = ExtractPublicPropTypes<typeof gridProps>;
 

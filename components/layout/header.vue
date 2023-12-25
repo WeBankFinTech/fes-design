@@ -4,7 +4,13 @@
     </header>
 </template>
 <script lang="ts">
-import { computed, inject, getCurrentInstance, defineComponent } from 'vue';
+import {
+    computed,
+    inject,
+    getCurrentInstance,
+    defineComponent,
+    type ComponentObjectPropsOptions,
+} from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { noop } from '../_util/utils';
 import { COMPONENT_NAME, LAYOUT_PROVIDE_KEY } from './const';
@@ -25,7 +31,7 @@ export const layoutHeaderProps = {
         type: Boolean,
         default: false,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type LayoutHeaderProps = ExtractPublicPropTypes<
     typeof layoutHeaderProps

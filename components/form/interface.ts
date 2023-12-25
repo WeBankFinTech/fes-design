@@ -3,6 +3,7 @@ import {
     type PropType,
     type ToRefs,
     type Ref,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { FORM_LAYOUT, LABEL_POSITION, FORM_ITEM_ALIGN } from './const';
 import type { RuleItem, Rules } from 'async-validator';
@@ -53,7 +54,7 @@ export const formProps = {
         type: String as PropType<(typeof FORM_ITEM_ALIGN)[number]>,
         default: FORM_ITEM_ALIGN[0],
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type FormProps = ExtractPublicPropTypes<typeof formProps>;
 
@@ -86,7 +87,7 @@ export const formItemProps = {
         type: String as PropType<(typeof FORM_ITEM_ALIGN)[number]>,
         default: null as string,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type FormItemProps = ExtractPublicPropTypes<typeof formItemProps>;
 

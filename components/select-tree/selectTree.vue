@@ -126,6 +126,7 @@ import {
     computed,
     type CSSProperties,
     type PropType,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { debounce } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -174,7 +175,7 @@ export const selectTreeProps = {
         type: Boolean,
         default: false,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type SelectTreeProps = ExtractPublicPropTypes<typeof selectTreeProps>;
 

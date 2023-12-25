@@ -4,6 +4,7 @@ import {
     type PropType,
     type SetupContext,
     watch,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isUndefined } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
@@ -110,7 +111,7 @@ export const tableProps = {
         type: Boolean,
         default: false,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type TableProps = ExtractPublicPropTypes<typeof tableProps>;
 

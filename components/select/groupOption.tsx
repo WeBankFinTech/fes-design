@@ -8,6 +8,7 @@ import {
     getCurrentInstance,
     ref,
     toRefs,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { SELECT_PROVIDE_KEY } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
@@ -21,7 +22,7 @@ export const selectGroupOptionProps = {
         type: Boolean,
         default: false,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type SelectGroupOptionProps = ExtractPublicPropTypes<
     typeof selectGroupOptionProps

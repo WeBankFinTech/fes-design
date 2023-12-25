@@ -4,6 +4,7 @@ import {
     inject,
     type PropType,
     type ExtractPropTypes,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isNil, isArray, isFunction, isPlainObject } from 'lodash-es';
 import Button from '../../button/button';
@@ -34,7 +35,7 @@ const cellProps = {
         Function,
         Symbol,
     ] as PropType<any>,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type CellProps = Partial<ExtractPropTypes<typeof cellProps>>;
 

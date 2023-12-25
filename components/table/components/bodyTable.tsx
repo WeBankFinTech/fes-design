@@ -1,4 +1,10 @@
-import { defineComponent, inject, type PropType, computed } from 'vue';
+import {
+    defineComponent,
+    inject,
+    type PropType,
+    computed,
+    type ComponentObjectPropsOptions,
+} from 'vue';
 import FScrollbar from '../../scrollbar/scrollbar.vue';
 import Draggable from '../../draggable/draggable';
 import { provideKey } from '../const';
@@ -18,7 +24,7 @@ export default defineComponent({
             type: Array as PropType<ColumnInst[]>,
             required: true,
         },
-    },
+    } satisfies ComponentObjectPropsOptions,
     setup(props) {
         const {
             layout,

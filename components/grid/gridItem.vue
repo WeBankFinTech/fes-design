@@ -11,6 +11,7 @@ import {
     defineComponent,
     inject,
     type PropType,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isNumber, isObject, isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -64,7 +65,7 @@ export const gridItemProps = {
     xl: [Number, Object] as PropType<number | ColSize>,
     xxl: [Number, Object] as PropType<number | ColSize>,
     xxxl: [Number, Object] as PropType<number | ColSize>,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type GridItemProps = ExtractPublicPropTypes<typeof gridItemProps>;
 

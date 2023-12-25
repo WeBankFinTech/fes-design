@@ -1,4 +1,10 @@
-import { defineComponent, computed, ref, type PropType } from 'vue';
+import {
+    defineComponent,
+    computed,
+    ref,
+    type PropType,
+    type ComponentObjectPropsOptions,
+} from 'vue';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useAnimate } from '../_util/use/useAnimate';
@@ -41,7 +47,7 @@ export const buttonProps = {
         type: String as PropType<Type>,
         default: 'default',
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type ButtonProps = ExtractPublicPropTypes<typeof buttonProps>;
 

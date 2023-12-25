@@ -85,6 +85,7 @@ import {
     defineComponent,
     type PropType,
     type Ref,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
@@ -126,7 +127,7 @@ export const inputProps = {
     resize: String as PropType<
         'none' | 'both' | 'horizontal' | 'vertical' | 'block' | 'inline'
     >,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type InputProps = ExtractPublicPropTypes<typeof inputProps>;
 

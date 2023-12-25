@@ -1,4 +1,4 @@
-import type { PropType } from 'vue';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import type { Position } from './interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
@@ -18,7 +18,7 @@ export const tabProps = {
         type: String as PropType<'if' | 'show' | 'show:lazy'>,
         default: 'if',
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type TabProps = ExtractPublicPropTypes<typeof tabProps>;
 

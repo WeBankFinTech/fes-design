@@ -1,6 +1,11 @@
 import { extractPropsDefaultValue } from '../_util/utils';
 import { CHECK_STRATEGY } from './const';
-import type { PropType, InjectionKey, Ref } from 'vue';
+import type {
+    PropType,
+    InjectionKey,
+    Ref,
+    ComponentObjectPropsOptions,
+} from 'vue';
 
 import type { ExtractPublicPropTypes } from '../_util/interface';
 import type {
@@ -105,7 +110,7 @@ export const treeProps = {
         type: Boolean,
         default: false,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export const treePropsDefaultValue = extractPropsDefaultValue(treeProps);
 

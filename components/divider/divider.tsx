@@ -1,4 +1,9 @@
-import { defineComponent, computed, type PropType } from 'vue';
+import {
+    defineComponent,
+    computed,
+    type PropType,
+    type ComponentObjectPropsOptions,
+} from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import type { ExtractPublicPropTypes } from '../_util/interface';
@@ -18,7 +23,7 @@ export const dividerProps = {
         type: String as PropType<TitlePlacement>,
         default: 'center',
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type DividerProps = ExtractPublicPropTypes<typeof dividerProps>;
 

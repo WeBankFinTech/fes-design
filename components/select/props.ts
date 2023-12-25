@@ -1,5 +1,5 @@
 import { extractPropsDefaultValue } from '../_util/utils';
-import type { PropType } from 'vue';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
 
 import type { SelectOption, SelectValue } from './interface';
 import type { GetContainer } from '../_util/interface';
@@ -87,7 +87,7 @@ export const selectProps = {
         default: false,
     },
     popperClass: [String, Array, Object] as PropType<string | [] | object>,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export const selectPropsDefaultValue = extractPropsDefaultValue(selectProps);
 

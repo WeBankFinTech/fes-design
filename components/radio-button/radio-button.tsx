@@ -1,4 +1,9 @@
-import { computed, defineComponent, type PropType } from 'vue';
+import {
+    type ComponentObjectPropsOptions,
+    computed,
+    defineComponent,
+    type PropType,
+} from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { name, radioGroupKey } from '../radio-group/const';
 import useSelect from '../_util/use/useSelect';
@@ -19,7 +24,7 @@ export const radioButtonProps = {
     label: {
         type: [String, Number] as PropType<string | number>,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type RadioButtonProps = ExtractPublicPropTypes<typeof radioButtonProps>;
 

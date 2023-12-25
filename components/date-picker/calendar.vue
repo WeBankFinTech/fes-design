@@ -118,6 +118,7 @@ import {
     type PropType,
     type ExtractPropTypes,
     type Ref,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isValid, format } from 'date-fns';
 import {
@@ -190,7 +191,7 @@ const calendarProps = {
             (date: Date, format: string, flagDate?: Date) => boolean | undefined
         >,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type CalendarProps = Partial<ExtractPropTypes<typeof calendarProps>>;
 

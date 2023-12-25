@@ -1,4 +1,4 @@
-import { defineComponent, toRefs } from 'vue';
+import { type ComponentObjectPropsOptions, defineComponent, toRefs } from 'vue';
 import { useLocale } from '../config-provider/useLocale';
 
 import getPrefixCls from '../_util/getPrefixCls';
@@ -13,7 +13,7 @@ export default defineComponent({
             type: Number,
             default: 0,
         },
-    },
+    } satisfies ComponentObjectPropsOptions,
     setup(props) {
         const { total } = toRefs(props);
         const { t } = useLocale();

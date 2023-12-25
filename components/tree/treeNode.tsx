@@ -5,6 +5,7 @@ import {
     type ExtractPropTypes,
     type PropType,
     type CSSProperties,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -47,7 +48,7 @@ const treeNodeProps = {
         type: Boolean,
         default: false,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type TreeNodeProps = Partial<ExtractPropTypes<typeof treeNodeProps>>;
 

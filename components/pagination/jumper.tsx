@@ -1,4 +1,9 @@
-import { defineComponent, toRefs, ref } from 'vue';
+import {
+    defineComponent,
+    toRefs,
+    ref,
+    type ComponentObjectPropsOptions,
+} from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import InputInner from '../input/inputInner.vue';
 import { useLocale } from '../config-provider/useLocale';
@@ -16,7 +21,7 @@ export default defineComponent({
             type: Number,
             default: 0,
         },
-    },
+    } satisfies ComponentObjectPropsOptions,
     emits: ['change'],
     setup(props, { emit }) {
         const current = ref();

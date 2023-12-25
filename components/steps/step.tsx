@@ -8,6 +8,7 @@ import {
     type CSSProperties,
     onMounted,
     onUnmounted,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isNil } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -28,7 +29,7 @@ export const stepProps = {
     status: {
         type: String as PropType<(typeof STATUS)[keyof typeof STATUS]>,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type StepProps = ExtractPublicPropTypes<typeof stepProps>;
 

@@ -1,4 +1,9 @@
-import { defineComponent, type PropType, inject } from 'vue';
+import {
+    defineComponent,
+    type PropType,
+    inject,
+    type ComponentObjectPropsOptions,
+} from 'vue';
 import { provideKey } from '../const';
 import type { ColumnInst } from '../column';
 
@@ -8,7 +13,7 @@ export default defineComponent({
             type: Array as PropType<ColumnInst[]>,
             required: true,
         },
-    },
+    } satisfies ComponentObjectPropsOptions,
     setup(props) {
         const { layout } = inject(provideKey);
         const renderColgroup = (columns: ColumnInst[]) => (

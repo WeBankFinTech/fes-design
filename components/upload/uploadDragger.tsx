@@ -1,4 +1,11 @@
-import { inject, defineComponent, ref, computed, type PropType } from 'vue';
+import {
+    inject,
+    defineComponent,
+    ref,
+    computed,
+    type PropType,
+    type ComponentObjectPropsOptions,
+} from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import { useLocale } from '../config-provider/useLocale';
 import FMessage from '../message';
@@ -10,7 +17,7 @@ export const uploadDraggerProps = {
     onFileTypeInvalid: {
         type: Function as PropType<(files: File[]) => void>,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type UploadDraggerProps = ExtractPublicPropTypes<
     typeof uploadDraggerProps

@@ -1,3 +1,4 @@
+import { type ComponentObjectPropsOptions } from 'vue';
 import type useCarousel from './useCarousel';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
@@ -13,7 +14,7 @@ export const carouselItemProps = {
         type: String,
         default: '',
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type CarouselItemProps = ExtractPublicPropTypes<
     typeof carouselItemProps

@@ -5,6 +5,7 @@ import {
     type PropType,
     type CSSProperties,
     type StyleValue,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isObject } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -35,7 +36,7 @@ export const ellipsisProps = {
             return {};
         },
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type EllipsisProps = ExtractPublicPropTypes<typeof ellipsisProps>;
 
