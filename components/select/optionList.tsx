@@ -1,4 +1,9 @@
-import { defineComponent, type PropType, type CSSProperties } from 'vue';
+import {
+    defineComponent,
+    type PropType,
+    type CSSProperties,
+    type ComponentObjectPropsOptions,
+} from 'vue';
 import Scrollbar from '../scrollbar/scrollbar.vue';
 import Ellipsis from '../ellipsis/ellipsis';
 import VirtualList from '../virtual-list/virtualList';
@@ -38,7 +43,7 @@ const optionListProps = {
     renderOption: Function,
     renderEmpty: Function,
     hoverOptionValue: [String, Number, Object] as PropType<SelectValue>,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export default defineComponent({
     props: optionListProps,

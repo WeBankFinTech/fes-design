@@ -33,6 +33,7 @@ import {
     watch,
     onMounted,
     type PropType,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import FScrollbar from '../scrollbar/scrollbar.vue';
@@ -61,7 +62,7 @@ const pickerItemProps = {
         type: Number,
         default: 8,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export default defineComponent({
     components: {

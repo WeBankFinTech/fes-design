@@ -1,4 +1,5 @@
 import {
+    type ComponentObjectPropsOptions,
     computed,
     defineComponent,
     mergeProps,
@@ -34,7 +35,7 @@ export const skeletonProps = {
         type: Boolean,
         default: true,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type SkeletonProps = ExtractPublicPropTypes<typeof skeletonProps>;
 

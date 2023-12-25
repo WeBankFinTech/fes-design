@@ -13,7 +13,12 @@
 </template>
 
 <script lang="ts">
-import { type PropType, computed, defineComponent } from 'vue';
+import {
+    type PropType,
+    computed,
+    defineComponent,
+    type ComponentObjectPropsOptions,
+} from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import useSelect from '../_util/use/useSelect';
@@ -33,7 +38,7 @@ export const radioProps = {
     value: [String, Number, Boolean] as PropType<string | number | boolean>,
     label: [String, Number] as PropType<string | number>,
     disabled: Boolean,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type RadioProps = ExtractPublicPropTypes<typeof radioProps>;
 

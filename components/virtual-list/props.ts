@@ -2,7 +2,11 @@
  * props declaration for default, item and slot component
  */
 
-import { type PropType, type VNode } from 'vue';
+import {
+    type ComponentObjectPropsOptions,
+    type PropType,
+    type VNode,
+} from 'vue';
 import { COMMON_PROPS } from '../scrollbar/const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
@@ -74,7 +78,7 @@ export const virtualProps = {
         type: Function as PropType<(itemVNodes: VNode[]) => VNode[]>,
     },
     ...COMMON_PROPS,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type VirtualProps = ExtractPublicPropTypes<typeof virtualProps>;
 
@@ -95,4 +99,4 @@ export const itemProps = {
         type: Boolean,
         default: true,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;

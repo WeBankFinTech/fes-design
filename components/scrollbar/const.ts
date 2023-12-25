@@ -1,4 +1,8 @@
-import { type PropType, type StyleValue } from 'vue';
+import {
+    type ComponentObjectPropsOptions,
+    type PropType,
+    type StyleValue,
+} from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const PROVIDE_KEY = Symbol('scrollbar');
@@ -52,7 +56,7 @@ export const COMMON_PROPS = {
         type: Number,
         default: 20,
     },
-};
+} satisfies ComponentObjectPropsOptions;
 
 export const scrollbarProps = {
     containerClass: [Array, Object, String] as PropType<string | object | []>,
@@ -64,6 +68,6 @@ export const scrollbarProps = {
     thumbStyle: [String, Array, Object] as PropType<StyleValue>,
     noresize: Boolean,
     ...COMMON_PROPS,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type ScrollbarProps = ExtractPublicPropTypes<typeof scrollbarProps>;

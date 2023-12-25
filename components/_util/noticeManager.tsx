@@ -9,6 +9,7 @@ import {
     type VNodeChild,
     type VNode,
     cloneVNode,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import {
     InfoCircleFilled,
@@ -49,7 +50,7 @@ const Notification = defineComponent({
     props: {
         maxCount: Number,
         transitionName: String,
-    },
+    } satisfies ComponentObjectPropsOptions,
     setup(props) {
         const notices = ref<Notice[]>([]);
 

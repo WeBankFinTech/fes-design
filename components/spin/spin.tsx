@@ -6,6 +6,7 @@ import {
     onBeforeUnmount,
     type PropType,
     type CSSProperties,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -35,7 +36,7 @@ export const spinProps = {
         type: Boolean,
         default: true,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type SpinProps = ExtractPublicPropTypes<typeof spinProps>;
 

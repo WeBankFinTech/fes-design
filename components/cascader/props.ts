@@ -1,6 +1,11 @@
 import { extractPropsDefaultValue } from '../_util/utils';
 import { CHECK_STRATEGY, EXPAND_TRIGGER, type CheckStrictly } from './const';
-import type { PropType, InjectionKey, Ref } from 'vue';
+import type {
+    PropType,
+    InjectionKey,
+    Ref,
+    ComponentObjectPropsOptions,
+} from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 import type {
     CascaderOption,
@@ -104,7 +109,7 @@ export const cascaderProps = {
         type: Boolean,
         default: true,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type CascaderProps = ExtractPublicPropTypes<typeof cascaderProps>;
 

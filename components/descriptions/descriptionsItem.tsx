@@ -4,6 +4,7 @@ import {
     computed,
     type PropType,
     type CSSProperties,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { DESCRIPTIONS_PROVIDE_KEY } from './constants';
@@ -19,7 +20,7 @@ export const descriptionsItemProps = {
         type: Number,
         default: 1,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type DescriptionsItemProps = ExtractPublicPropTypes<
     typeof descriptionsItemProps

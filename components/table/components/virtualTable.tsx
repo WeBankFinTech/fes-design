@@ -4,6 +4,7 @@ import {
     type VNode,
     type PropType,
     createVNode,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import VirtualList from '../../virtual-list/virtualList';
 import { provideKey } from '../const';
@@ -18,7 +19,7 @@ export default defineComponent({
             type: Array as PropType<ColumnInst[]>,
             required: true,
         },
-    },
+    } satisfies ComponentObjectPropsOptions,
     setup(props) {
         const {
             showData,

@@ -1,4 +1,9 @@
-import { defineComponent, inject, type PropType } from 'vue';
+import {
+    type ComponentObjectPropsOptions,
+    defineComponent,
+    inject,
+    type PropType,
+} from 'vue';
 import { useEventListener } from '@vueuse/core';
 import { provideKey } from '../const';
 import Colgroup from './colgroup';
@@ -12,7 +17,7 @@ export default defineComponent({
             type: Array as PropType<ColumnInst[]>,
             required: true,
         },
-    },
+    } satisfies ComponentObjectPropsOptions,
     setup(props) {
         const {
             prefixCls,

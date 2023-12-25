@@ -1,4 +1,9 @@
-import { defineComponent, inject, computed } from 'vue';
+import {
+    defineComponent,
+    inject,
+    computed,
+    type ComponentObjectPropsOptions,
+} from 'vue';
 import { throttle } from 'lodash-es';
 import { provideKey } from './const';
 import type { CarouselItemData } from './interface';
@@ -16,7 +21,7 @@ export default defineComponent({
         placement: String,
         indicatorType: String,
         type: String,
-    },
+    } satisfies ComponentObjectPropsOptions,
     emits: [INDICATOR_MOUSE_EVENT],
     setup(props, { emit }) {
         const { prefixCls, slideChildren } = inject(provideKey);

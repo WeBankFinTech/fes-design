@@ -7,6 +7,7 @@ import {
     getCurrentInstance,
     watch,
     provide,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { type PropType } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -44,7 +45,7 @@ export default defineComponent({
             default: null,
         },
         label: String,
-    },
+    } satisfies ComponentObjectPropsOptions,
     setup(props, { slots }) {
         const instance = getCurrentInstance();
         const { indexPath } = useMenu(instance);

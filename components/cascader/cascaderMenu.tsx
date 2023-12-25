@@ -7,6 +7,7 @@ import {
     ref,
     type VNodeChild,
     watch,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isFunction, isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -30,7 +31,7 @@ const cascaderMenuProps = {
     },
     initialLoaded: Boolean,
     listEmptyText: String,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type CascaderMenuProps = Partial<
     ExtractPropTypes<typeof cascaderMenuProps>

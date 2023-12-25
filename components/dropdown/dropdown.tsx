@@ -6,6 +6,7 @@ import {
     type VNodeTypes,
     ref,
     type Ref,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isFunction } from 'lodash-es';
 import CheckOutlined from '../icon/CheckOutlined';
@@ -81,7 +82,7 @@ export const dropdownProps = {
         type: Boolean,
         default: false,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type DropdownProps = ExtractPublicPropTypes<typeof dropdownProps>;
 

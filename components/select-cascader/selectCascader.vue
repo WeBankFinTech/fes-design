@@ -86,6 +86,7 @@ import {
     computed,
     type CSSProperties,
     type PropType,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isArray, debounce } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -142,7 +143,7 @@ export const selectCascaderProps = {
             | Array<Array<CascaderNodeKey>>
         >,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type SelectCascaderProps = ExtractPublicPropTypes<
     typeof selectCascaderProps

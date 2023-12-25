@@ -5,6 +5,7 @@ import {
     type SetupContext,
     type PropType,
     cloneVNode,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { mergeWith } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -33,7 +34,7 @@ export const draggableProps = {
         type: String,
         default: 'div',
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type DraggableProps = ExtractPublicPropTypes<typeof draggableProps>;
 

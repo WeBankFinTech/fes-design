@@ -1,4 +1,9 @@
-import { type PropType, type InjectionKey, type ComputedRef } from 'vue';
+import {
+    type PropType,
+    type InjectionKey,
+    type ComputedRef,
+    type ComponentObjectPropsOptions,
+} from 'vue';
 
 import type { MenuOption } from './interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';
@@ -70,6 +75,6 @@ export const menuProps = {
             return [];
         },
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type MenuProps = ExtractPublicPropTypes<typeof menuProps>;

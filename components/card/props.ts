@@ -1,4 +1,4 @@
-import type { PropType, StyleValue } from 'vue';
+import type { ComponentObjectPropsOptions, PropType, StyleValue } from 'vue';
 
 import type { Size, Shadow } from './interface';
 
@@ -27,4 +27,4 @@ export const cardProps = {
         type: Boolean,
         default: true,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;

@@ -1,4 +1,9 @@
-import { defineComponent, inject, type PropType } from 'vue';
+import {
+    type ComponentObjectPropsOptions,
+    defineComponent,
+    inject,
+    type PropType,
+} from 'vue';
 import { provideKey } from '../const';
 
 import type { ColumnInst } from '../column';
@@ -16,7 +21,7 @@ export default defineComponent({
         },
         rowIndex: Number,
         length: Number,
-    },
+    } satisfies ComponentObjectPropsOptions,
     setup(props) {
         const { prefixCls } = inject(provideKey);
         return () => {

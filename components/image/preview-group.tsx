@@ -1,4 +1,11 @@
-import { computed, ref, reactive, provide, defineComponent } from 'vue';
+import {
+    computed,
+    ref,
+    reactive,
+    provide,
+    defineComponent,
+    type ComponentObjectPropsOptions,
+} from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import Preview from './preview.vue';
 import { PREVIEW_PROVIDE_KEY } from './props';
@@ -12,7 +19,7 @@ export const previewGroupProps = {
         type: Boolean,
         default: false,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type PreviewGroupProps = ExtractPublicPropTypes<
     typeof previewGroupProps

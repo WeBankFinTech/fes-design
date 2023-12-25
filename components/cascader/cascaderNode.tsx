@@ -5,6 +5,7 @@ import {
     type ExtractPropTypes,
     type PropType,
     nextTick,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isArray, isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -47,7 +48,7 @@ const cascaderNodeProps = {
         type: Number,
         default: 0,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type CascaderNodeProps = Partial<
     ExtractPropTypes<typeof cascaderNodeProps>

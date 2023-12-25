@@ -12,7 +12,7 @@ import { noop } from '../_util/utils';
 import { COMPONENT_NAME, SUB_MENU_KEY } from './const';
 import useChildren from './useChildren';
 import useMenu from './useMenu';
-import type { PropType } from 'vue';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('menu-item');
@@ -38,7 +38,7 @@ export default defineComponent({
             required: true,
         },
         label: String,
-    },
+    } satisfies ComponentObjectPropsOptions,
     setup(props, { slots }) {
         const instance = getCurrentInstance();
         const { indexPath } = useMenu(instance);

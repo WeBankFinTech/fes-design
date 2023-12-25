@@ -1,4 +1,11 @@
-import { computed, provide, defineComponent, ref, type PropType } from 'vue';
+import {
+    computed,
+    provide,
+    defineComponent,
+    ref,
+    type PropType,
+    type ComponentObjectPropsOptions,
+} from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { useTheme } from '../_theme/useTheme';
@@ -27,7 +34,7 @@ export const stepsProps = {
         type: Number,
         default: 1,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type StepsProps = ExtractPublicPropTypes<typeof stepsProps>;
 

@@ -9,6 +9,7 @@ import {
     type VNode,
     type PropType,
     type useSlots,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import {
     type COL_TYPE,
@@ -109,7 +110,7 @@ export const columnProps = {
         type: Boolean,
         default: true,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type ColumnProps = ExtractPublicPropTypes<typeof columnProps>;
 

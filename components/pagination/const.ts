@@ -1,4 +1,4 @@
-import type { PropType } from 'vue';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const COMPONENT_NAME = {
@@ -60,6 +60,6 @@ export const paginationProps = {
         type: Boolean,
         default: false,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type PaginationProps = ExtractPublicPropTypes<typeof paginationProps>;

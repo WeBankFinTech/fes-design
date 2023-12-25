@@ -1,4 +1,11 @@
-import { ref, Transition, computed, defineComponent, type PropType } from 'vue';
+import {
+    ref,
+    Transition,
+    computed,
+    defineComponent,
+    type PropType,
+    type ComponentObjectPropsOptions,
+} from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import CloseCircleOutlined from '../icon/CloseCircleOutlined';
 import { CLOSE_EVENT } from '../_util/constants';
@@ -22,7 +29,7 @@ export const alertProps = {
         type: Function,
         default: () => true,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type AlertProps = ExtractPublicPropTypes<typeof alertProps>;
 

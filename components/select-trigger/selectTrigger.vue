@@ -145,6 +145,7 @@ import {
     watch,
     nextTick,
     type VNodeChild,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isEqual } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -180,7 +181,7 @@ const selectTriggerProps = {
         type: Boolean,
         default: false,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export default defineComponent({
     name: 'FSelect',

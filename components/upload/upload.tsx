@@ -1,4 +1,9 @@
-import { defineComponent, type PropType, type SetupContext } from 'vue';
+import {
+    type ComponentObjectPropsOptions,
+    defineComponent,
+    type PropType,
+    type SetupContext,
+} from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import Trigger from './trigger.vue';
 import FileList from './fileList.vue';
@@ -63,7 +68,7 @@ export const uploadProps = {
         default: request,
     },
     transformResponse: Function,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type UploadProps = ExtractPublicPropTypes<typeof uploadProps>;
 

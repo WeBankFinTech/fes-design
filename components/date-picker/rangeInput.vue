@@ -54,6 +54,7 @@ import {
     type PropType,
     type ExtractPropTypes,
     nextTick,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isArray } from 'lodash-es';
 import { format, isValid } from 'date-fns';
@@ -81,7 +82,7 @@ const rangeInputProps = {
     placeholder: [String, Array] as PropType<string | string[]>,
     innerIsFocus: Boolean,
     innerIsError: Boolean,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 type RangeInputProps = Partial<ExtractPropTypes<typeof rangeInputProps>>;
 

@@ -1,4 +1,8 @@
-import { defineComponent, type PropType } from 'vue';
+import {
+    type ComponentObjectPropsOptions,
+    defineComponent,
+    type PropType,
+} from 'vue';
 
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
@@ -18,7 +22,7 @@ const pagerSizeProps = {
     pageSizeOption: {
         type: Array as PropType<number[]>,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export default defineComponent({
     name: COMPONENT_NAME.PAGINATION_SIZES,

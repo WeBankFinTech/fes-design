@@ -4,6 +4,7 @@ import {
     computed,
     onMounted,
     onBeforeUnmount,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import Ellipsis from '../ellipsis/ellipsis';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -20,7 +21,7 @@ export const menuGroupProps = {
     label: {
         type: String,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type MenuGroupProps = ExtractPublicPropTypes<typeof menuGroupProps>;
 

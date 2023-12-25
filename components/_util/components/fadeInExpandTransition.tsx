@@ -4,6 +4,7 @@ import {
     TransitionGroup,
     defineComponent,
     type PropType,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 
 export default defineComponent({
@@ -19,7 +20,7 @@ export default defineComponent({
         // reverse mode is only used in tree
         // it make it from expanded to collapsed after mounted
         reverse: Boolean,
-    },
+    } satisfies ComponentObjectPropsOptions,
     setup(props, { slots }) {
         function handleBeforeLeave(el: HTMLElement): void {
             if (props.width) {

@@ -1,3 +1,4 @@
+import { type ComponentObjectPropsOptions } from 'vue';
 import { definePropType, generateId } from './common';
 import type { CollapseActiveName } from './common';
 import type { ExtractPublicPropTypes } from '../_util/interface';
@@ -12,7 +13,7 @@ export const collapseItemProps = {
         default: () => generateId(),
     },
     disabled: Boolean,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 export type CollapseItemProps = ExtractPublicPropTypes<
     typeof collapseItemProps
 >;

@@ -97,6 +97,7 @@ import {
     type PropType,
     type ComputedRef,
     type ComponentPublicInstance,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { format, isValid } from 'date-fns';
 import { isEqual, isNil, isArray } from 'lodash-es';
@@ -150,7 +151,7 @@ export const datePickerProps = {
     disabledDate: Function as PropType<(date: Date) => boolean>,
     ...COMMON_PROPS,
     ...RANGE_PROPS,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 const useTmpSelectedDates = () => {
     const tmpSelectedDates = ref();

@@ -1,4 +1,4 @@
-import type { PropType } from 'vue';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import type { Option } from '../_util/interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
@@ -26,7 +26,7 @@ export const checkboxGroupProps = {
         type: String,
         default: 'label',
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type CheckboxGroupProps = ExtractPublicPropTypes<
     typeof checkboxGroupProps

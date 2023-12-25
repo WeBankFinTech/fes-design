@@ -4,6 +4,7 @@ import {
     computed,
     type PropType,
     type CSSProperties,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { DESCRIPTIONS_PROVIDE_KEY } from './constants';
@@ -39,7 +40,7 @@ export const descriptionsProps = {
     },
     title: String,
     bordered: Boolean,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type DescriptionsProps = ExtractPublicPropTypes<
     typeof descriptionsProps

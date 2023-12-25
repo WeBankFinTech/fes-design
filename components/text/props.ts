@@ -1,4 +1,4 @@
-import type { PropType } from 'vue';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
 
 import type { Type, Size } from './interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';
@@ -18,6 +18,6 @@ export const textProps = {
         type: String,
         default: 'span',
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type TextProps = ExtractPublicPropTypes<typeof textProps>;

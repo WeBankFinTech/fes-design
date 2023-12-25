@@ -9,6 +9,7 @@ import {
     type PropType,
     type VNode,
     type VNodeChild,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -40,7 +41,7 @@ const globalModalProps = {
     content: String as PropType<string | VNode | (() => VNodeChild)>,
     forGlobal: Boolean, // 标记是否API调用
     cancelLoading: Boolean,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 // 通用的属性
 export const modalProps = {
@@ -94,7 +95,7 @@ export const modalProps = {
         default: false,
     },
     contentClass: String,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type ModalProps = ExtractPublicPropTypes<typeof modalProps>;
 

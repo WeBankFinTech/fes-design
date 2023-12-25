@@ -10,6 +10,7 @@ import {
     computed,
     getCurrentInstance,
     defineComponent,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { noop } from '../_util/utils';
@@ -23,7 +24,7 @@ export const layoutMainProps = {
         type: Boolean,
         default: false,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type LayoutMainProps = ExtractPublicPropTypes<typeof layoutMainProps>;
 

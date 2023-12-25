@@ -1,4 +1,9 @@
-import { defineComponent, toRefs, watch } from 'vue';
+import {
+    type ComponentObjectPropsOptions,
+    defineComponent,
+    toRefs,
+    watch,
+} from 'vue';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import LeftOutlined from '../icon/LeftOutlined';
 import RightOutlined from '../icon/RightOutlined';
@@ -25,7 +30,7 @@ export default defineComponent({
             type: Number,
             default: 0,
         },
-    },
+    } satisfies ComponentObjectPropsOptions,
     emits: [UPDATE_MODEL_EVENT],
     setup(props, { emit }) {
         const { total } = toRefs(props);

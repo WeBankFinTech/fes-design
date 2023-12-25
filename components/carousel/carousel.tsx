@@ -1,4 +1,10 @@
-import { defineComponent, watch, ref, type PropType } from 'vue';
+import {
+    defineComponent,
+    watch,
+    ref,
+    type PropType,
+    type ComponentObjectPropsOptions,
+} from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import useResize from '../_util/use/useResize';
 import { CAROUSEL_NAME, CHANGE_EVENT } from './const';
@@ -59,7 +65,7 @@ export const carouselProps = {
         type: Boolean,
         default: true,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type CarouselProps = ExtractPublicPropTypes<typeof carouselProps>;
 

@@ -99,6 +99,7 @@ import {
     defineComponent,
     type PropType,
     type ExtractPropTypes,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isFunction, isArray, isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -128,7 +129,7 @@ const calendarsProps = {
     },
     control: Boolean,
     shortcuts: Object,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type CalendarsProps = Partial<ExtractPropTypes<typeof calendarsProps>>;
 

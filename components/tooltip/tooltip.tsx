@@ -1,4 +1,9 @@
-import { computed, defineComponent, type PropType } from 'vue';
+import {
+    type ComponentObjectPropsOptions,
+    computed,
+    defineComponent,
+    type PropType,
+} from 'vue';
 import { isNil } from 'lodash-es';
 import Popper from '../popper/popper';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -38,7 +43,7 @@ export const toolTipProps = {
         type: Number,
         default: 8,
     },
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type ToolTipProps = ExtractPublicPropTypes<typeof toolTipProps>;
 

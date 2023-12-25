@@ -4,6 +4,7 @@ import {
     type ToRefs,
     type PropType,
     type InjectionKey,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
@@ -32,7 +33,7 @@ export const layoutProps = {
     },
     containerClass: [Array, Object, String] as PropType<CSSProperties>,
     containerStyle: Object as PropType<CSSProperties>,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type LayoutProps = ExtractPublicPropTypes<typeof layoutProps>;
 

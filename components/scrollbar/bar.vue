@@ -30,6 +30,7 @@ import {
     defineComponent,
     type PropType,
     type StyleValue,
+    type ComponentObjectPropsOptions,
 } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -64,7 +65,7 @@ const barProps = {
     scrollbarRef: Array as PropType<HTMLElement[]>,
     containerRef: Object as PropType<HTMLElement>,
     thumbStyle: [String, Array, Object] as PropType<StyleValue>,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export default defineComponent({
     name: 'FBar',

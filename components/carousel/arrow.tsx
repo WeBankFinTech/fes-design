@@ -1,4 +1,11 @@
-import { defineComponent, computed, inject, Fragment, Transition } from 'vue';
+import {
+    defineComponent,
+    computed,
+    inject,
+    Fragment,
+    Transition,
+    type ComponentObjectPropsOptions,
+} from 'vue';
 import { throttle } from 'lodash-es';
 import { LeftOutlined, RightOutlined } from '../icon';
 import { provideKey } from './const';
@@ -16,7 +23,7 @@ export default defineComponent({
             required: true,
         },
         activeIndex: Number,
-    },
+    } satisfies ComponentObjectPropsOptions,
     setup(props) {
         const {
             prefixCls,

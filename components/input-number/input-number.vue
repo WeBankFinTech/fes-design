@@ -52,7 +52,13 @@
 </template>
 
 <script lang="ts">
-import { computed, ref, nextTick, defineComponent } from 'vue';
+import {
+    computed,
+    ref,
+    nextTick,
+    defineComponent,
+    type ComponentObjectPropsOptions,
+} from 'vue';
 import { isNumber } from 'lodash-es';
 import { UpOutlined, DownOutlined } from '../icon';
 import { useTheme } from '../_theme/useTheme';
@@ -86,7 +92,7 @@ export const inputNumberProps = {
     precision: Number,
     disabled: Boolean,
     placeholder: String,
-} as const;
+} as const satisfies ComponentObjectPropsOptions;
 
 export type InputNumberProps = ExtractPublicPropTypes<typeof inputNumberProps>;
 
