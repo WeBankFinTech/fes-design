@@ -58,9 +58,9 @@ customFooter.vue
 asyncSubmit.vue
 :::
 
-### 交互其他 UI
+### 交互
 
-仅在 mask 为 false 生效，在没有蒙层时，可交互其他 UI
+仅 mask 为 false 时生效，不显示蒙层时，页面是否可交互
 
 :::demo
 operable.vue
@@ -75,7 +75,7 @@ operable.vue
 | closable         | 是否显示右上角关闭图标                                                         | Boolean           | `true`                                  |
 | mask             | 是否显示蒙层                                                                   | Boolean           | `true`                                  |
 | maskClosable     | 点击蒙层是否允许关闭                                                           | Boolean           | `true`                                  |
-| operable         | 仅在 mask 为 false 生效，在不显示蒙层的时候，操作其他 UI 的能力                | Boolean           | `false`                                 |
+| operable         | 仅 mask 为 false 时生效，不显示蒙层时，页面是否可交互                          | Boolean           | `false`                                 |
 | title            | 标题                                                                           | String            | -                                       |
 | footer           | 是否显示底部内容                                                               | Boolean           | `false`                                 |
 | footerBorder     | 是否显示底部分割线                                                             | Boolean           | `false`                                 |

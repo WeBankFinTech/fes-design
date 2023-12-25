@@ -19,16 +19,19 @@
     &-container {
         .fixed-full();
         display: flex;
+        cursor: not-allowed;
+        pointer-events: auto;
 
         &.@{drawer-prefix-cls}-no-header {
             .@{drawer-prefix-cls}-wrapper {
                 padding-top: @padding-lg;
             }
         }
-    }
 
-    &-operable {
-        pointer-events: none;
+        &.@{drawer-prefix-cls}-operable {
+            cursor: auto;
+            pointer-events: none;
+        }
     }
 
     &-wrapper {
@@ -39,7 +42,8 @@
         background: var(--f-body-bg-color);
         border-radius: var(--f-border-radius-base);
         box-shadow: @shadow-down;
-        pointer-events: auto; 
+        cursor: auto;
+        pointer-events: auto;
     }
 
     &-header {

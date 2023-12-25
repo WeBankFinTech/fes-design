@@ -1,11 +1,24 @@
 <template>
     <FSpace>
-        <FForm :labelWidth="100">
-            <FFormItem label="蒙层开关:">
-                <FSwitch v-model="mask"></FSwitch>
+        <FForm :labelWidth="120">
+            <FFormItem label="是否显示蒙层:">
+                <FRadioGroup
+                    v-model="mask"
+                    :options="[
+                        { label: '是(默认)', value: true },
+                        { label: '否', value: false },
+                    ]"
+                />
             </FFormItem>
-            <FFormItem label="可交互开关:">
-                <FSwitch v-model="operable"></FSwitch>
+            <FFormItem label="页面是否可交互:">
+                <FRadioGroup
+                    v-model="operable"
+                    :disabled="mask"
+                    :options="[
+                        { label: '是', value: true },
+                        { label: '否(默认)', value: false },
+                    ]"
+                />
             </FFormItem>
         </FForm>
     </FSpace>
@@ -28,6 +41,6 @@
 <script setup>
 import { ref } from 'vue';
 const show = ref(false);
-const mask = ref(false);
-const operable = ref(true);
+const mask = ref(true);
+const operable = ref(false);
 </script>
