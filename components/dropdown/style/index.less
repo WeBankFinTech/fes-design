@@ -44,9 +44,17 @@
             width: var(--f-font-size-base);
             margin-right: @padding-xs;
         }
-        &-checked-icon {
+        &-selected-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: @font-size-head;
+            height: @font-size-head;
             margin-left: @padding-xs;
-            font-size: @font-size-head;
+            .@{dropdown-prefix-cls}-option-selected-icon {
+                display: none;
+                font-size: @font-size-head;
+            }
         }
         &:hover {
             background: @dropdown-option-hover-color;
@@ -57,9 +65,13 @@
             background: var(--f-white);
             cursor: not-allowed;
         }
-        &.is-checked {
+        &.is-selected {
             color: var(--f-primary-color);
             transition: color @animation-duration-fast @ease-base-in;
+
+            .@{dropdown-prefix-cls}-option-selected-icon {
+                display: inline-block;
+            }
         }
     }
 }
