@@ -16,45 +16,55 @@ app.use(FDropdown);
 
 简单的下拉菜单。
 
---COMMON
+:::demo
+common.vue
+:::
 
 ### 选中效果
 
 展示选中选项
 
---CHECK
+:::demo
+check.vue
+:::
 
 ### 图标
 
 菜单项可配置图标。
 
---ICON
+:::demo
+icon.vue
+:::
 
 ### 触发方式
 
 触发下拉菜单弹出的行为有`hover`、`click`、`focus`、`contextmenu`
 
---TRIGGER
+:::demo
+trigger.vue
+:::
 
 ### 弹出位置
 
 弹出位置，可选`auto`、`auto-start`、`auto-end`、`top`、`top-start`、`top-end`、`bottom`、`bottom-start`、`bottom-end`、`right`、`right-start`、`right-end`、`left`、`left-start`、`left-end`
 
---PLACEMENT
+:::demo
+placement.vue
+:::
 
 ### 禁用
 
 下拉菜单无法弹出。
 
---DISABLED
-
---CODE
+:::demo
+disabled.vue
+:::
 
 ## Props
 
 | 属性               | 说明                                                                                                                                                       | 类型                    | 默认值                |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- | --------------------- |
-| options            | 下拉菜单选项配置                                                                                                                                           | array\<DropdownOption\> | `[]`                  |
+| options            | 下拉菜单选项配置                                                                                                                                           | Array\<DropdownOption\> | `[]`                  |
 | valueField         | value 的属性名                                                                                                                                             | string                  | `value`               |
 | labelField         | label 的属性名                                                                                                                                             | string                  | `label`               |
 | visible            | 是否弹出                                                                                                                                                   | boolean                 | `false`               |

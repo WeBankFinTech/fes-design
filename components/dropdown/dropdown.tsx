@@ -1,90 +1,13 @@
-import {
-    defineComponent,
-    computed,
-    watch,
-    type PropType,
-    type VNodeTypes,
-    ref,
-    type Ref,
-    type ComponentObjectPropsOptions,
-} from 'vue';
+import { defineComponent, computed, watch, ref } from 'vue';
 import { isFunction } from 'lodash-es';
 import CheckOutlined from '../icon/CheckOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
-import { type TRIGGER, type PLACEMENT } from '../_util/constants';
 import { useNormalModel } from '../_util/use/useModel';
 import { useTheme } from '../_theme/useTheme';
 import Popper from '../popper/popper';
-import type { ExtractPublicPropTypes } from '../_util/interface';
+import { type DropdownOption as Option, dropdownProps } from './props';
 
 const prefixCls = getPrefixCls('dropdown');
-
-type Option = {
-    value: string | number;
-    label: string | number | ((option: Option) => VNodeTypes);
-    disabled?: boolean;
-    icon?: () => VNodeTypes;
-    [key: string]:
-        | string
-        | number
-        | boolean
-        | ((option: Option) => VNodeTypes)
-        | undefined;
-};
-
-export const dropdownProps = {
-    visible: {
-        type: Boolean,
-        default: false,
-    },
-    appendToContainer: {
-        type: Boolean,
-        default: true,
-    },
-    getContainer: {
-        type: Function,
-    },
-    trigger: {
-        type: String as PropType<(typeof TRIGGER)[number]>,
-        default: 'hover',
-    },
-    placement: {
-        type: String as PropType<(typeof PLACEMENT)[number]>,
-        default: 'bottom',
-    },
-    offset: {
-        type: Number,
-        default: 6,
-    },
-    options: {
-        type: Array as PropType<Option[]>,
-        default(): Option[] {
-            return [];
-        },
-    },
-    disabled: {
-        type: Boolean,
-        default: false,
-    },
-    valueField: {
-        type: String,
-        default: 'value',
-    },
-    labelField: {
-        type: String,
-        default: 'label',
-    },
-    arrow: {
-        type: Boolean,
-        default: false,
-    },
-    showSelectedOption: {
-        type: Boolean,
-        default: false,
-    },
-} as const satisfies ComponentObjectPropsOptions;
-
-export type DropdownProps = ExtractPublicPropTypes<typeof dropdownProps>;
 
 export default defineComponent({
     name: 'FDropdown',
@@ -92,13 +15,16 @@ export default defineComponent({
     emits: ['click', 'visibleChange', 'update:visible'],
     setup(props, { slots, emit }) {
         useTheme();
-        const currentValue: Ref<string | number> = ref();
+
+        const currentValue = ref<Option['value']>();
         const [visible, updateVisible] = useNormalModel(props, emit, {
             prop: 'visible',
         });
+
         const hasIcon = computed(() =>
             props.options.some((option) => option.icon),
         );
+
         const handleClick = (option: Option, event: Event) => {
             event.stopPropagation();
             if (option.disabled) return;
@@ -107,9 +33,11 @@ export default defineComponent({
             updateVisible(false);
             emit('click', value);
         };
+
         watch(visible, () => {
             emit('visibleChange', visible.value);
         });
+
         const renderOptions = () => (
             <div
                 class={[
@@ -120,13 +48,13 @@ export default defineComponent({
                 {props.options.map((option) => {
                     const value = option[props.valueField] as Option['value'];
                     const label = option[props.labelField] as Option['label'];
-                    const isChecked =
+                    const isSelected =
                         props.showSelectedOption &&
                         currentValue.value === value;
                     const optionClassList = [
                         `${prefixCls}-option`,
                         option.disabled && 'is-disabled',
-                        isChecked && 'is-checked',
+                        isSelected && 'is-selected',
                     ].filter(Boolean);
                     return (
                         <div
@@ -143,16 +71,21 @@ export default defineComponent({
                             <span class={`${prefixCls}-option-label`}>
                                 {isFunction(label) ? label(option) : label}
                             </span>
-                            {isChecked && (
-                                <CheckOutlined
-                                    class={`${prefixCls}-checked-icon`}
-                                />
+                            {props.showSelectedOption && (
+                                <span
+                                    class={`${prefixCls}-option-selected-wrapper`}
+                                >
+                                    <CheckOutlined
+                                        class={`${prefixCls}-option-selected-icon`}
+                                    />
+                                </span>
                             )}
                         </div>
                     );
                 })}
             </div>
         );
+
         return () => (
             <Popper
                 v-model={visible.value}
