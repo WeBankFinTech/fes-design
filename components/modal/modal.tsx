@@ -148,13 +148,25 @@ const Modal = defineComponent({
         });
 
         const { modalRef, modalHeaderRef, modalFooterRef, maxHeight } =
-            useBodyMaxHeight(
-                {
-                    styles: styles,
-                    visible: visible,
-                },
-                props,
+            useBodyMaxHeight(styles, props);
+
+        const getBody = () => {
+            const baseBody = (
+                <div class={`${prefixCls}-body`}>
+                    {ctx.slots.default
+                        ? ctx.slots.default()
+                        : props.forGlobal && props.content}
+                </div>
             );
+            if (props.maxHeight) {
+                return (
+                    <FScrollbar maxHeight={maxHeight.value}>
+                        {baseBody}
+                    </FScrollbar>
+                );
+            }
+            return baseBody;
+        };
 
         const showDom = computed(
             () =>
@@ -212,17 +224,7 @@ const Modal = defineComponent({
                                     ref={modalRef}
                                 >
                                     {getHeader()}
-                                    <FScrollbar
-                                        height={props.height}
-                                        maxHeight={maxHeight.value}
-                                    >
-                                        <div class={`${prefixCls}-body`}>
-                                            {ctx.slots.default
-                                                ? ctx.slots.default()
-                                                : props.forGlobal &&
-                                                  props.content}
-                                        </div>
-                                    </FScrollbar>
+                                    {getBody()}
                                     {getFooter()}
                                 </div>
                             </div>

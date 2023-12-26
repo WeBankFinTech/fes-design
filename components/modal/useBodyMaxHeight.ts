@@ -1,15 +1,9 @@
-import {
-    ref,
-    watch,
-    nextTick,
-    computed,
-    type ComputedRef,
-    type Ref,
-} from 'vue';
+import { ref, computed, watch, type ComputedRef } from 'vue';
 import { isNumber } from 'lodash-es';
+import useResize from '../_util/use/useResize';
 import { type ModalInnerProps } from './props';
 
-type UseBodyMaxHeightProps = {
+export const useBodyMaxHeight = (
     styles: ComputedRef<
         | {
               width?: undefined;
@@ -21,60 +15,76 @@ type UseBodyMaxHeightProps = {
               marginTop: string | number;
               marginBottom: string | number;
           }
-    >;
-    visible: Ref<boolean>;
-};
-
-export const useBodyMaxHeight = (
-    config: UseBodyMaxHeightProps,
+    >,
     props: ModalInnerProps,
 ) => {
-    const { visible, styles } = config;
-
     const modalRef = ref<HTMLElement | null>(null);
     const modalHeaderRef = ref<HTMLElement | null>(null);
     const modalFooterRef = ref<HTMLElement | null>(null);
-    const modalHeight = ref(0);
+    const modalHight = ref(0);
 
-    // 为了不让外部出现滚动条，最大高度场景modal+上下margin 等于window.innerHeight
-    const maxHeight = computed(() => {
-        const marginTop = isNumber(styles.value.marginTop)
+    const isMax = ref(false);
+
+    const marginTop = computed(() => {
+        return isNumber(styles.value.marginTop)
             ? styles.value.marginTop
             : parseFloat(styles.value.marginTop);
-        const marginBottom = isNumber(styles.value.marginBottom)
+    });
+
+    const marginBottom = computed(() => {
+        return isNumber(styles.value.marginBottom)
             ? styles.value.marginBottom
             : parseFloat(styles.value.marginBottom);
+    });
 
-        if (modalHeight.value + marginTop + marginBottom > window.innerHeight) {
-            const modalStyle = window.getComputedStyle(modalRef.value);
-            const paddingTop = parseFloat(modalStyle.paddingTop);
-            const paddingBottom = parseFloat(modalStyle.paddingBottom);
+    // 拿到modal相关的高度，计算得到最大的maxHeight
+    const getMaxContentHeight = () => {
+        const modalStyle = window.getComputedStyle(modalRef.value);
+        const paddingTop = parseFloat(modalStyle.paddingTop);
+        const paddingBottom = parseFloat(modalStyle.paddingBottom);
 
-            // 算出该场景下的内容最大高,减去padding和头尾高度
-            return (
-                window.innerHeight -
-                marginTop -
-                marginBottom -
-                modalHeaderRef.value.offsetHeight -
-                modalFooterRef.value.offsetHeight -
-                paddingTop -
-                paddingBottom // modal的上下padding
-            );
+        return (
+            window.innerHeight -
+            marginTop.value -
+            marginBottom.value -
+            modalHeaderRef.value.offsetHeight -
+            modalFooterRef.value.offsetHeight -
+            paddingTop -
+            paddingBottom
+        );
+    };
+
+    // 如果赋值了，最大高度场景modal+上下margin 等于window.innerHeight
+    const maxHeight = computed(() => {
+        // 最大高度的场景
+        if (
+            modalHight.value + marginTop.value + marginBottom.value >
+            window.innerHeight
+        ) {
+            isMax.value = true;
+            return getMaxContentHeight();
         }
-        // 其他场景不做额外处理
+        isMax.value = false;
+        // 其他场景不做处理
         return props.maxHeight;
     });
 
     watch(
-        () => visible.value,
+        () => props.maxHeight,
         () => {
-            nextTick().then(() => {
-                if (modalRef.value) {
-                    // 此处赋值会触发maxHeight 的重新计算赋值
-                    modalHeight.value = modalRef.value.offsetHeight;
-                }
-            });
+            isMax.value = false;
         },
+    );
+
+    useResize(
+        modalRef,
+        () => {
+            // 防止死循环，isMax.value = false 才更新 modalHight.value
+            if (!isMax.value) {
+                modalHight.value = modalRef.value.offsetHeight;
+            }
+        },
+        Boolean(props.maxHeight),
     );
 
     return {

@@ -43,6 +43,14 @@
                 ></FInputNumber>
                 <span style="margin-left: 10px">px</span>
             </FFormItem>
+            <FFormItem v-if="setMaxHeight" label="最大内容高度">
+                <FInputNumber
+                    v-model="maxHeight"
+                    :max="800"
+                    :step="100"
+                ></FInputNumber>
+                <span style="margin-left: 10px">px</span>
+            </FFormItem>
         </FForm>
     </FSpace>
     <FSpace>

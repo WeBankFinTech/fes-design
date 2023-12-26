@@ -18,7 +18,7 @@ export interface ModalConfig {
     onOk?: (event: MouseEvent) => void | Promise<any>;
     onCancel?: (event: MouseEvent) => void | Promise<any>;
     width?: string | number;
-    height?: string | number;
+    maxHeight?: string | number;
     center?: boolean;
     getContainer?: () => HTMLElement;
 }
