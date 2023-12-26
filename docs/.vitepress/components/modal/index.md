@@ -14,43 +14,64 @@ app.use(FModal);
 
 ### 基础用法
 
---COMMON
+:::demo
+common.vue
+:::
 
 ### 自定义头部
 
 通过 slot `title`可以自定义页脚内容
 
---CUSTOMTITLE
+:::demo
+customTitle.vue
+:::
 
 ### 自定义页脚
 
 通过 slot `footer`可以自定义页脚内容
 
---CUSTOMFOOTER
+:::demo
+customFooter.vue
+:::
 
 ### 全局方法 - 确认对话框
 
 使用 `confirm()` 可以快捷地弹出确认框。
 
---CONFIRM
+:::demo
+confirm.vue
+:::
 
 ### 全局方法 - 信息反馈
 
 各种类型的信息提示
 
---FEEDBACK
+:::demo
+feedback.vue
+:::
 
 ### 异步提交
 
 针对弹窗确认提交操作。
 
---ASYNCSUBMIT
+:::demo
+asyncSubmit.vue
+:::
 
 ### 是否展示取消按钮
 
---SHOWCANCEL
+:::demo
+showCancel.vue
+:::
 
---CODE
+### 自定义弹窗的高度
+
+默认是auto，弹窗内容高度由内容撑开。如果为固定高度，则超出后，内容区域自动滚动条。
+固定高度，支持屏幕百分比高度vh，支持固定值px。
+
+:::demo
+customHeight.vue
+:::
 
 ## Modal Props
 
@@ -61,19 +82,20 @@ app.use(FModal);
 | closable         | 是否显示右上角关闭图标                                                         | Boolean           | `true`                |
 | mask             | 是否显示蒙层                                                                   | Boolean           | `true`                |
 | maskClosable     | 点击蒙层是否允许关闭                                                           | Boolean           | `true`                |
-| type             | 类型，可选值为`info` `success` `error` `warning` `warn` `confirm`              | string            | -                     |
-| title            | 标题                                                                           | String            | -                     |
+| type             | 类型，可选值为`info` `success` `error` `warning` `warn` `confirm`              | string            | `-`                   |
+| title            | 标题                                                                           | String            | `-`                   |
 | footer           | 是否显示底部内容                                                               | Boolean           | `true`                |
 | okText           | 确认按钮文字                                                                   | String            | 确定                  |
 | okLoading        | 确认按钮 Loading 状态                                                          | Boolean           | `false`               |
 | showCancel       | 是否展示取消按钮                                                               | Boolean           | `true`                |
 | cancelText       | 取消按钮文字                                                                   | String            | 取消                  |
 | width            | 宽度                                                                           | String/Number     | 520                   |
+| height           | 高度，超出固定高度，内容区域出现滚动条                                          | String/Number     | `auto`                |
 | top              | 距离顶部                                                                       | String/Number     | 50                    |
-| verticalCenter   | 垂直居中                                                                       | Boolean           | false                 |
+| verticalCenter   | 垂直居中                                                                       | Boolean           | `false`               |
 | center           | 标题、内容、按钮居中                                                           | Boolean           | `false`               |
 | fullScreen       | 全屏显示                                                                       | Boolean           | `false`               |
-| contentClass     | 可用于设置内容的类名                                                           | String            | -                     |
+| contentClass     | 可用于设置内容的类名                                                           | String            | `-`                   |
 | getContainer     | 指定 `Modal` 挂载的 HTML 节点                                                  | () => HTMLElement | `() => document.body` |
 
 ## Modal Event

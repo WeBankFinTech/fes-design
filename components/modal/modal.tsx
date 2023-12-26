@@ -77,6 +77,10 @@ export const modalProps = {
         type: [String, Number] as PropType<string | number>,
         default: 520,
     },
+    height: {
+        type: [String, Number] as PropType<string | number>,
+        default: 'auto',
+    },
     top: {
         type: [String, Number] as PropType<string | number>,
         default: 50,
@@ -215,6 +219,16 @@ const Modal = defineComponent({
                 props.displayDirective === 'show',
         );
 
+        // 内容元素的外层样式,固定高度则超出后，内容区域自动滚动条
+        const scrollContainerStyle = computed(() => {
+            return {
+                height: isNumber(props.height)
+                    ? `${props.height}px`
+                    : props.height,
+                overflow: 'auto',
+            };
+        });
+
         return () => (
             <Teleport
                 disabled={!getContainer.value?.()}
@@ -264,10 +278,13 @@ const Modal = defineComponent({
                                     onClick={(event) => event.stopPropagation()}
                                 >
                                     {getHeader()}
-                                    <div class={`${prefixCls}-body`}>
-                                        {ctx.slots.default
-                                            ? ctx.slots.default()
-                                            : props.forGlobal && props.content}
+                                    <div style={scrollContainerStyle.value}>
+                                        <div class={`${prefixCls}-body`}>
+                                            {ctx.slots.default
+                                                ? ctx.slots.default()
+                                                : props.forGlobal &&
+                                                  props.content}
+                                        </div>
                                     </div>
                                     {getFooter()}
                                 </div>
