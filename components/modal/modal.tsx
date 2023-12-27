@@ -13,6 +13,7 @@ import {
 } from 'vue';
 import { isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
+import { FScrollbar } from '../scrollbar';
 import FButton from '../button/button';
 import { CloseOutlined } from '../icon';
 import { useTheme } from '../_theme/useTheme';
@@ -219,14 +220,14 @@ const Modal = defineComponent({
                 props.displayDirective === 'show',
         );
 
-        // 内容元素的外层样式,固定高度则超出后，内容区域自动滚动条
-        const scrollContainerStyle = computed(() => {
-            return {
-                height: isNumber(props.height)
-                    ? `${props.height}px`
-                    : props.height,
-                overflow: 'auto',
-            };
+        // 内容的高度
+        const scrollContainerHeight = computed(() => {
+            if (isNumber(props.height)) {
+                return props.height > window.innerHeight
+                    ? `${window.innerHeight}px`
+                    : `${props.height}px`;
+            }
+            return props.height;
         });
 
         return () => (
@@ -278,14 +279,16 @@ const Modal = defineComponent({
                                     onClick={(event) => event.stopPropagation()}
                                 >
                                     {getHeader()}
-                                    <div style={scrollContainerStyle.value}>
+                                    <FScrollbar
+                                        height={scrollContainerHeight.value}
+                                    >
                                         <div class={`${prefixCls}-body`}>
                                             {ctx.slots.default
                                                 ? ctx.slots.default()
                                                 : props.forGlobal &&
                                                   props.content}
                                         </div>
-                                    </div>
+                                    </FScrollbar>
                                     {getFooter()}
                                 </div>
                             </div>
