@@ -73,6 +73,7 @@ export const useSelectedDates = (
     const selectedDates = ref<DateObj[]>([]);
     const updateRangeSelectedDates = (date: DateObj, index: number) => {
         if (
+            !selectedDates.value.length ||
             (index === 0 &&
                 transformDateToTimestamp(date) >
                     transformDateToTimestamp(selectedDates.value[1])) ||
@@ -91,9 +92,11 @@ export const useSelectedDates = (
         option = {},
     ) => {
         const newDate = Object.assign({}, selectedDates.value[index], date);
-        if (
+        if (picker.value.isRange && option.isTime) {
+            updateRangeSelectedDates(newDate, index);
+        } else if (
             picker.value.isRange &&
-            (option.isTime || option.isDateInput) &&
+            option.isDateInput &&
             props.selectedStatus === SELECTED_STATUS.END
         ) {
             updateRangeSelectedDates(newDate, index);
