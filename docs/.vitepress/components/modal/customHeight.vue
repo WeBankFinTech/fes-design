@@ -10,6 +10,15 @@
                     ]"
                 />
             </FFormItem>
+            <FFormItem label="设置最大内容高度">
+                <FRadioGroup
+                    v-model="setMaxHeight"
+                    :options="[
+                        { label: '不设置（默认）', value: false },
+                        { label: '设置', value: true },
+                    ]"
+                />
+            </FFormItem>
             <FFormItem v-if="customHeight" label="自定义高度类型">
                 <FRadioGroup
                     v-model="customHeightType"
@@ -26,7 +35,7 @@
                 <FInputNumber
                     v-model="percent"
                     :min="10"
-                    :max="80"
+                    :max="100"
                     :step="10"
                 ></FInputNumber>
                 <span style="margin-left: 10px">vh</span>
@@ -43,6 +52,14 @@
                 ></FInputNumber>
                 <span style="margin-left: 10px">px</span>
             </FFormItem>
+            <FFormItem v-if="setMaxHeight" label="最大内容高度">
+                <FInputNumber
+                    v-model="maxHeight"
+                    :max="800"
+                    :step="100"
+                ></FInputNumber>
+                <span style="margin-left: 10px">px</span>
+            </FFormItem>
         </FForm>
     </FSpace>
     <FSpace>
@@ -50,6 +67,7 @@
         <FModal
             v-model:show="show"
             title="弹窗标题"
+            :maxHeight="setMaxHeight ? maxHeight : undefined"
             :height="
                 customHeight
                     ? customHeightType === 1
@@ -70,16 +88,20 @@ import { ref } from 'vue';
 export default {
     setup() {
         const show = ref(false);
+        const setMaxHeight = ref(false);
         const percent = ref(20);
         // 固定高度
         const height = ref(200);
+        const maxHeight = ref(300);
         const customHeight = ref(false);
         const customHeightType = ref(1);
 
         return {
             show,
+            setMaxHeight,
             percent,
             height,
+            maxHeight,
             customHeight,
             customHeightType,
         };

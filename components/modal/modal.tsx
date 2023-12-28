@@ -14,6 +14,7 @@ import {
 import { isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { FScrollbar } from '../scrollbar';
+import '../scrollbar/style';
 import FButton from '../button/button';
 import { CloseOutlined } from '../icon';
 import { useTheme } from '../_theme/useTheme';
@@ -78,11 +79,20 @@ export const modalProps = {
         type: [String, Number] as PropType<string | number>,
         default: 520,
     },
+    // 内容区域的高度，不是modal整体的高
     height: {
         type: [String, Number] as PropType<string | number>,
         default: 'auto',
     },
+    // 类型保持和scrollbar maxHeight一致
+    maxHeight: {
+        type: [String, Number] as PropType<string | number>,
+    },
     top: {
+        type: [String, Number] as PropType<string | number>,
+        default: 50,
+    },
+    bottom: {
         type: [String, Number] as PropType<string | number>,
         default: 50,
     },
@@ -211,6 +221,9 @@ const Modal = defineComponent({
                     : isNumber(props.top)
                     ? `${props.top}px`
                     : props.top,
+                marginBottom: isNumber(props.bottom)
+                    ? `${props.bottom}px`
+                    : props.bottom,
             };
         });
 
@@ -219,16 +232,6 @@ const Modal = defineComponent({
                 (props.displayDirective === 'if' && visible.value) ||
                 props.displayDirective === 'show',
         );
-
-        // 内容的高度
-        const scrollContainerHeight = computed(() => {
-            if (isNumber(props.height)) {
-                return props.height > window.innerHeight
-                    ? `${window.innerHeight}px`
-                    : `${props.height}px`;
-            }
-            return props.height;
-        });
 
         return () => (
             <Teleport
@@ -280,7 +283,8 @@ const Modal = defineComponent({
                                 >
                                     {getHeader()}
                                     <FScrollbar
-                                        height={scrollContainerHeight.value}
+                                        height={props.height}
+                                        maxHeight={props.maxHeight}
                                     >
                                         <div class={`${prefixCls}-body`}>
                                             {ctx.slots.default
