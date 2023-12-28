@@ -1,4 +1,8 @@
-import { type PropType, type ComponentObjectPropsOptions } from 'vue';
+import {
+    type PropType,
+    type ComponentObjectPropsOptions,
+    type DefineComponent,
+} from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export type DrawerPlacement = 'top' | 'right' | 'bottom' | 'left';
@@ -69,9 +73,19 @@ export const drawerProps = {
         type: Boolean,
         default: false,
     },
+    resizeMax: {
+        type: [String, Number] as PropType<string | number>,
+    },
+    resizeMin: {
+        type: [String, Number] as PropType<string | number>,
+    },
 } as const satisfies ComponentObjectPropsOptions;
 
 export type DrawerProps = ExtractPublicPropTypes<typeof drawerProps>;
+
+export type DrawerInnerProps = Parameters<
+    DefineComponent<typeof drawerProps>['setup']
+>[0];
 
 export const UPDATE_SHOW_EVENT = 'update:show';
 export const OK_EVENT = 'ok';
