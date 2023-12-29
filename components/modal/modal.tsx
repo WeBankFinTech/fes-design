@@ -14,7 +14,6 @@ import {
 import { isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { FScrollbar } from '../scrollbar';
-import '../scrollbar/style';
 import FButton from '../button/button';
 import { CloseOutlined } from '../icon';
 import { useTheme } from '../_theme/useTheme';
