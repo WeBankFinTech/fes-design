@@ -141,13 +141,7 @@ export class DateMonthRangePicker implements Picker {
         return leftDate.year === rightDate.year;
     }
     getRangeSelectedDate(date: Partial<DateObj>, preDate: DateObj) {
-        return Object.assign(
-            date,
-            {
-                day: preDate.day,
-            },
-            pickTime(preDate),
-        ) as DateObj;
+        return Object.assign(date, pickTime(preDate)) as DateObj;
     }
 }
 
