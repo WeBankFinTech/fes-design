@@ -45,13 +45,18 @@ export const drawerProps = {
         type: Boolean,
         default: true,
     },
+    dimension: {
+        type: [String, Number] as PropType<string | number>,
+        // TODO: 废弃 height 和 width 以后，恢复此处默认值
+        // default: 520,
+    },
+    // DEPRECATED: 后续仅支持 dimension
     width: {
         type: [String, Number] as PropType<string | number>,
-        default: 520,
     },
+    // DEPRECATED: 后续仅支持 dimension
     height: {
         type: [String, Number] as PropType<string | number>,
-        default: 520,
     },
     footer: {
         type: Boolean,
