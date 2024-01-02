@@ -91,7 +91,7 @@ customHeight.vue
 | cancelText       | 取消按钮文字                                                                   | String            | 取消                  |
 | width            | 宽度                                                                           | String/Number     | 520                   |
 | height           | 高度，超出固定高度，内容区域出现滚动条                                         | String/Number     | `auto`                |
-| maxHeight        | 最大高度，如果设定的height或者实际内容的height高于maxHeight，以maxHeight为准   | String/Number     | `auto`                |
+| maxHeight        | 最大高度，如果设定的height或者实际内容的height高于maxHeight，以maxHeight为准   | String/Number     | `-`                |
 | top              | 距离顶部                                                                       | String/Number     | 50                    |
 | bottom           | 距离底部，为了防止弹窗底部贴边，可自定义                                       | String/Number     | 50                    |
 | verticalCenter   | 垂直居中                                                                       | Boolean           | `false`               |
