@@ -1,3 +1,22 @@
+## [0.8.22](https://github.com/WeBankFinTech/fes-design/compare/v0.8.21...v0.8.22) (2024-01-02)
+
+
+### Bug Fixes
+
+* **DatePicker:** datetimerange 模式中时间更新直接触发更新，与 selectedStatus 解耦 ([#566](https://github.com/WeBankFinTech/fes-design/issues/566)) ([2287c48](https://github.com/WeBankFinTech/fes-design/commit/2287c489dd40b4051da1602d3598242a1d859032))
+* **Dropdown:** 显示选中选项时，预留选中图标空间 ([#563](https://github.com/WeBankFinTech/fes-design/issues/563)) ([ba7e9e0](https://github.com/WeBankFinTech/fes-design/commit/ba7e9e06267766ff7074c477844298b353e8c693))
+* FDatePicker组件月份范围选择异常 ([#571](https://github.com/WeBankFinTech/fes-design/issues/571)) ([3ad8118](https://github.com/WeBankFinTech/fes-design/commit/3ad811825cb09721e89be688f93ac05d14890e8a))
+* **Table:** 修复 verticalLine 打开时，多级表头的部分 th 右边框显示问题 ([#557](https://github.com/WeBankFinTech/fes-design/issues/557)) ([e041099](https://github.com/WeBankFinTech/fes-design/commit/e0410990216adbaec0050d30d7ad93cd6e63e21b))
+
+
+### Features
+
+* 抽屉组件新增无蒙层下,交互其他ui能力 ([#558](https://github.com/WeBankFinTech/fes-design/issues/558)) ([2bf6d29](https://github.com/WeBankFinTech/fes-design/commit/2bf6d29507c56e58d6341d8937425058f4615637))
+* **Drawer:** 增加鼠标不可点击样式 ([#560](https://github.com/WeBankFinTech/fes-design/issues/560)) ([c581433](https://github.com/WeBankFinTech/fes-design/commit/c5814332b0743e9033d1f3f3b3d2b21fb7f4fec9))
+* **Drawer:** 支持配置可拖拽范围 ([#568](https://github.com/WeBankFinTech/fes-design/issues/568)) ([5d94a92](https://github.com/WeBankFinTech/fes-design/commit/5d94a923d200de8995458e0b5cee40f71e798958))
+
+
+
 ## [0.8.21](https://github.com/WeBankFinTech/fes-design/compare/v0.8.20...v0.8.21) (2023-12-25)
 
 
