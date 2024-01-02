@@ -83,8 +83,9 @@ operable.vue
 | okLoading        | 确认按钮 Loading 状态                                                       | boolean                                 | `false`               |
 | showCancel       | 是否展示取消按钮                                                            | boolean                                 | `true`                |
 | cancelText       | 取消按钮文字                                                                | string                                  | 取消                  |
-| width            | 宽度                                                                        | string/number                           | 520                   |
-| hight            | 高度，在 placement 为 top 或 bottom 时使用                                   | string/number                           | 520                   |
+| dimension        | 抽屉尺寸                                                                    | string/number                           | 520                   |
+| width            | 宽度<br/>（即将废弃，推荐使用 dimension）                                      | string/number                           | 520                   |
+| hight            | 高度，在 placement 为 top 或 bottom 时使用<br/>（即将废弃，推荐使用 dimension） | string/number                           | 520                   |
 | placement        | 抽屉方向                                                                    | `'right'` `'bottom'` `'left'` `'right'` | `'right'`             |
 | contentClass     | 可用于设置内容的类名                                                        | string                                  | -                     |
 | getContainer     | 指定 `Drawer` 挂载的 HTML 节点                                              | () => HTMLElement                       | `() => document.body` |

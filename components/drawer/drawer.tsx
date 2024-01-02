@@ -8,9 +8,7 @@ import {
     nextTick,
     type Component,
     type CSSProperties,
-    reactive,
 } from 'vue';
-import { isNumber } from 'lodash-es';
 import FButton from '../button';
 import FScrollbar from '../scrollbar';
 import { CloseOutlined } from '../icon';
@@ -27,6 +25,7 @@ import {
     UPDATE_SHOW_EVENT,
     drawerProps,
 } from './props';
+import { useDrawerDimension } from './useDimension';
 
 const Drawer = defineComponent({
     name: COMPONENT_NAME,
@@ -120,24 +119,17 @@ const Drawer = defineComponent({
             );
         }
 
-        const drawerSize = reactive({
-            width: props.width,
-            height: props.height,
-        });
-
-        const propsKey = computed(() => {
-            return ['top', 'bottom'].includes(props.placement)
-                ? 'height'
-                : 'width';
-        });
+        const drawerDimension = useDrawerDimension(props);
 
         const styles = computed(() => {
-            const sty: CSSProperties = { width: '100%', height: '100%' };
-            // 初始化的时候 数字直接拼px，如果是字符串直接应用，拖拽后数值覆盖
-            sty[propsKey.value] = isNumber(drawerSize[propsKey.value])
-                ? `${drawerSize[propsKey.value]}px`
-                : drawerSize[propsKey.value];
-            return sty;
+            const sizeStyle: CSSProperties = { width: '100%', height: '100%' };
+
+            const dimensionKey = ['top', 'bottom'].includes(props.placement)
+                ? 'height'
+                : 'width';
+            sizeStyle[dimensionKey] = `${drawerDimension.value}px`;
+
+            return sizeStyle;
         });
 
         const {
@@ -148,8 +140,7 @@ const Drawer = defineComponent({
             dragClass,
         } = useResizable({
             props,
-            propsKey,
-            drawerSize,
+            drawerDimension,
         });
 
         const showDom = computed(
@@ -157,12 +148,6 @@ const Drawer = defineComponent({
                 (props.displayDirective === 'if' && visible.value) ||
                 props.displayDirective === 'show',
         );
-
-        // 监听宽高改变的时候，宽高要生效
-        watch([() => props.height, () => props.width], () => {
-            drawerSize.width = props.width;
-            drawerSize.height = props.height;
-        });
 
         return () => (
             <Teleport

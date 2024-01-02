@@ -1,12 +1,12 @@
-import { computed, onMounted, ref, type ComputedRef, type Ref } from 'vue';
+import { computed, onMounted, ref, type Ref } from 'vue';
 import { useEventListener, useWindowSize } from '@vueuse/core';
 import { isNil, isNumber } from 'lodash-es';
-import { depx } from '../_util/utils';
 import { type DrawerInnerProps as Props } from './props';
 import { COMPONENT_NAME, DRAWER_MIN_SIZE, prefixCls } from './const';
 
 const calcResizableRange = (
     props: Props,
+    drawerDimension: Ref<number>,
     windowDimension: Ref<number>,
 ): { max?: number; min?: number } => {
     if (!props.resizable) return {};
@@ -40,14 +40,11 @@ const calcResizableRange = (
         return {};
     }
 
-    const propSize = ['left', 'right'].includes(props.placement)
-        ? props.width
-        : props.height;
     if (!isNil(max)) {
-        max = Math.max(max, depx(propSize));
+        max = Math.max(max, drawerDimension.value);
     }
     if (!isNil(min)) {
-        min = Math.min(min, depx(propSize));
+        min = Math.min(min, drawerDimension.value);
     }
 
     return { max, min };
@@ -55,27 +52,28 @@ const calcResizableRange = (
 
 export const useResizable = ({
     props,
-    propsKey,
-    drawerSize,
+    drawerDimension,
 }: {
     props: Props;
-    propsKey: ComputedRef<'width' | 'height'>;
-    drawerSize: {
-        width: string | number;
-        height: string | number;
-    };
+    drawerDimension: Ref<number>;
 }) => {
     const drawerRef = ref<HTMLElement | null>(null);
     const placement = computed(() => props.placement);
     const resizable = computed(() => props.resizable);
 
+    const popDirection = computed(() =>
+        ['top', 'bottom'].includes(props.placement) ? 'vertical' : 'horizontal',
+    );
+
     const { height: windowHeight, width: windowWidth } = useWindowSize();
     const windowDimension = computed(() =>
-        propsKey.value === 'height' ? windowHeight.value : windowWidth.value,
+        popDirection.value === 'vertical'
+            ? windowHeight.value
+            : windowWidth.value,
     );
 
     const resizableRange = computed(() =>
-        calcResizableRange(props, windowDimension),
+        calcResizableRange(props, drawerDimension, windowDimension),
     );
 
     let start = 0;
@@ -102,13 +100,13 @@ export const useResizable = ({
     const onMousedown = (e: MouseEvent) => {
         if (drawerRef.value) {
             // 鼠标按下时的初始位置
-            start = propsKey.value === 'width' ? e.clientX : e.clientY;
+            start = popDirection.value === 'horizontal' ? e.clientX : e.clientY;
 
             isActive.value = true;
 
             // 拖拽的时候拿到实时的宽度或者高度
             lastSizeValue =
-                propsKey.value === 'width'
+                popDirection.value === 'horizontal'
                     ? drawerRef.value.offsetWidth
                     : drawerRef.value.offsetHeight;
         }
@@ -128,8 +126,9 @@ export const useResizable = ({
 
         // 偏移量
         const offset =
-            (propsKey.value === 'width' ? event.clientX : event.clientY) -
-            start;
+            (popDirection.value === 'horizontal'
+                ? event.clientX
+                : event.clientY) - start;
 
         let nextSize: number;
         // 根据 位置 偏移量正负加减
@@ -157,7 +156,7 @@ export const useResizable = ({
             nextSize = maxSize;
         }
 
-        drawerSize[propsKey.value] = nextSize;
+        drawerDimension.value = nextSize;
     };
 
     // 拖拽的 dom 的位置和样式

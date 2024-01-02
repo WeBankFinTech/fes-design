@@ -24,7 +24,7 @@
     <FDrawer
         v-model:show="show"
         title="这里是标题"
-        width="600px"
+        dimension="600px"
         :placement="placement"
         resizable
         :resizeMax="max"
