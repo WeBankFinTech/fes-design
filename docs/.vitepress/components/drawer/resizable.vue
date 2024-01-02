@@ -8,6 +8,14 @@
                 <FRadio value="right">right</FRadio>
             </FRadioGroup>
         </FFormItem>
+        <FFormItem label="最大尺寸:">
+            <FInputNumber v-model="max"></FInputNumber>
+            <span style="margin-left: 10px">px</span>
+        </FFormItem>
+        <FFormItem label="最小尺寸:">
+            <FInputNumber v-model="min"></FInputNumber>
+            <span style="margin-left: 10px">px</span>
+        </FFormItem>
     </FForm>
 
     <FDivider></FDivider>
@@ -16,9 +24,11 @@
     <FDrawer
         v-model:show="show"
         title="这里是标题"
-        resizable
-        :placement="placement"
         width="600px"
+        :placement="placement"
+        resizable
+        :resizeMax="max"
+        :resizeMin="min"
         @ok="show = false"
     >
         <div>我是内容...</div>
@@ -27,22 +37,15 @@
     </FDrawer>
 </template>
 
-<script>
+<script setup lang="ts">
 import { ref } from 'vue';
 
-export default {
-    setup() {
-        const show = ref(false);
-        const placement = ref('right');
+const show = ref(false);
+const placement = ref('right');
+const max = ref();
+const min = ref();
 
-        const open = () => {
-            show.value = true;
-        };
-        return {
-            show,
-            open,
-            placement,
-        };
-    },
+const open = () => {
+    show.value = true;
 };
 </script>

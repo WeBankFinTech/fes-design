@@ -39,8 +39,14 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 const show = ref(false);
 const mask = ref(true);
 const operable = ref(false);
+
+watch(mask, (nextMask) => {
+    if (nextMask) {
+        operable.value = false;
+    }
+});
 </script>
