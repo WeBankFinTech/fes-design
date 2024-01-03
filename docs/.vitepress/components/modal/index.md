@@ -64,13 +64,24 @@ asyncSubmit.vue
 showCancel.vue
 :::
 
-### 自定义弹窗的高度
+### 自定义内容高度
 
-默认是auto，不设置最大高度。弹窗内容高度由内容撑开。如果为固定高度，则超出后，内容区域自动滚动条。
-固定高度，支持屏幕百分比高度vh，支持固定值px。
+`height`默认是auto，弹窗内容高度由内容撑开。  
+如果给定`height`，内容高度超出后，内容区域可滚动。  
+支持屏幕百分比高度vh，支持固定值px。  
+
 
 :::demo
 customHeight.vue
+:::
+
+### 内容的最大高度
+`maxHeight`默认不设置，如果设定的`height`或者实际内容的`height`高于`maxHeight`，以`maxHeight`为准  
+modal整体高度加上margin边距，不得高于视窗高度（innerHeight），过大的内容高度、`height`或者`maxHeight`设置将失效。
+
+
+:::demo
+maxHeight.vue
 :::
 
 ## Modal Props

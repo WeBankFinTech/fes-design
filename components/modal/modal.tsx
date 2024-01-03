@@ -126,6 +126,7 @@ const Modal = defineComponent({
             () => props.show,
             () => {
                 if (props.show) zIndex.value = PopupManager.nextZIndex();
+
                 nextTick(() => {
                     visible.value = props.show;
                 });
@@ -165,7 +166,7 @@ const Modal = defineComponent({
             if (!hasHeader.value) return closeJsx;
             const header = ctx.slots.title?.() || props.title;
             return (
-                <div class={`${prefixCls}-header`}>
+                <div class={`${prefixCls}-header`} ref={modalHeaderRef}>
                     {props.type && (
                         <div
                             class={`${prefixCls}-icon ${prefixCls}-status-${props.type}`}
@@ -208,7 +209,11 @@ const Modal = defineComponent({
                     </>
                 );
             }
-            return <div class={`${prefixCls}-footer`}>{footer}</div>;
+            return (
+                <div class={`${prefixCls}-footer`} ref={modalFooterRef}>
+                    {footer}
+                </div>
+            );
         }
 
         const styles = computed(() => {
@@ -220,7 +225,9 @@ const Modal = defineComponent({
                     : isNumber(props.top)
                     ? `${props.top}px`
                     : props.top,
-                marginBottom: isNumber(props.bottom)
+                marginBottom: props.verticalCenter
+                    ? 0
+                    : isNumber(props.bottom)
                     ? `${props.bottom}px`
                     : props.bottom,
             };
@@ -230,6 +237,55 @@ const Modal = defineComponent({
             () =>
                 (props.displayDirective === 'if' && visible.value) ||
                 props.displayDirective === 'show',
+        );
+
+        const modalRef = ref<HTMLElement | null>(null);
+        const modalHeaderRef = ref<HTMLElement | null>(null);
+        const modalFooterRef = ref<HTMLElement | null>(null);
+        const modalHeight = ref(0);
+
+        // 为了不让外部出现滚动条，最大高度场景modal+上下margin 等于window.innerHeight
+        const maxHeight = computed(() => {
+            const marginTop = isNumber(styles.value.marginTop)
+                ? styles.value.marginTop
+                : parseFloat(styles.value.marginTop);
+            const marginBottom = isNumber(styles.value.marginBottom)
+                ? styles.value.marginBottom
+                : parseFloat(styles.value.marginBottom);
+            if (
+                modalHeight.value + marginTop + marginBottom >
+                window.innerHeight
+            ) {
+                const modalStyle = window.getComputedStyle(modalRef.value);
+                const paddingTop = parseFloat(modalStyle.paddingTop);
+                const paddingBottom = parseFloat(modalStyle.paddingBottom);
+
+                // 算出该场景下的内容最大高,减去padding和头尾高度
+                return (
+                    window.innerHeight -
+                    marginTop -
+                    marginBottom -
+                    modalHeaderRef.value.offsetHeight -
+                    modalFooterRef.value.offsetHeight -
+                    paddingTop -
+                    paddingBottom // modal的上下padding
+                );
+            }
+
+            // 其他场景不做额外处理
+            return props.maxHeight;
+        });
+
+        watch(
+            () => visible.value,
+            () => {
+                nextTick().then(() => {
+                    if (modalRef.value) {
+                        // 此处赋值会触发maxHeight 的重新计算赋值
+                        modalHeight.value = modalRef.value.offsetHeight;
+                    }
+                });
+            },
         );
 
         return () => (
@@ -279,11 +335,12 @@ const Modal = defineComponent({
                                     }`}
                                     style={styles.value}
                                     onClick={(event) => event.stopPropagation()}
+                                    ref={modalRef}
                                 >
                                     {getHeader()}
                                     <FScrollbar
                                         height={props.height}
-                                        maxHeight={props.maxHeight}
+                                        maxHeight={maxHeight.value}
                                     >
                                         <div class={`${prefixCls}-body`}>
                                             {ctx.slots.default

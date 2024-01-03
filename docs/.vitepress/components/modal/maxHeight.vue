@@ -10,6 +10,15 @@
                     ]"
                 />
             </FFormItem>
+            <FFormItem label="设置最大内容高度">
+                <FRadioGroup
+                    v-model="setMaxHeight"
+                    :options="[
+                        { label: '不设置（默认）', value: false },
+                        { label: '设置', value: true },
+                    ]"
+                />
+            </FFormItem>
             <FFormItem v-if="customHeight" label="自定义高度类型">
                 <FRadioGroup
                     v-model="customHeightType"
@@ -43,13 +52,23 @@
                 ></FInputNumber>
                 <span style="margin-left: 10px">px</span>
             </FFormItem>
+            <FFormItem v-if="setMaxHeight" label="最大内容高度">
+                <FInputNumber
+                    v-model="maxHeight"
+                    :max="1000"
+                    :step="100"
+                ></FInputNumber>
+                <span style="margin-left: 10px">px</span>
+            </FFormItem>
         </FForm>
     </FSpace>
     <FSpace>
         <FButton @click="show = true">打开弹窗</FButton>
+        <FButton @click="show1 = true">居中弹窗</FButton>
         <FModal
             v-model:show="show"
             title="弹窗标题"
+            :maxHeight="setMaxHeight ? maxHeight : undefined"
             :height="
                 customHeight
                     ? customHeightType === 1
@@ -59,7 +78,23 @@
             "
             @ok="show = false"
         >
-            <div v-for="n in 30" :key="n">我是内容...</div>
+            <div v-for="n in 50" :key="n">我是内容...</div>
+        </FModal>
+        <FModal
+            v-model:show="show1"
+            title="居中弹窗"
+            vertical-center
+            :maxHeight="setMaxHeight ? maxHeight : undefined"
+            :height="
+                customHeight
+                    ? customHeightType === 1
+                        ? `${percent}vh`
+                        : height
+                    : 'auto'
+            "
+            @ok="show = false"
+        >
+            <div v-for="n in 50" :key="n">我是内容...</div>
         </FModal>
     </FSpace>
 </template>
@@ -70,15 +105,22 @@ import { ref } from 'vue';
 export default {
     setup() {
         const show = ref(false);
+        const show1 = ref(false);
+        const setMaxHeight = ref(false);
         const percent = ref(20);
+        // 固定高度
         const height = ref(200);
+        const maxHeight = ref(300);
         const customHeight = ref(false);
         const customHeightType = ref(1);
 
         return {
             show,
+            show1,
+            setMaxHeight,
             percent,
             height,
+            maxHeight,
             customHeight,
             customHeightType,
         };
