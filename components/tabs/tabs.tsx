@@ -205,6 +205,45 @@ export default defineComponent({
 
         return () => {
             const children = mergeRenderPans();
+
+            let navItems = children.map((vNode, index) => {
+                const tabSlot = (vNode.children as any)?.tab;
+                return (
+                    <FTab
+                        {...(vNode.props as any)}
+                        ref={(el: ComponentPublicInstance) =>
+                            setTabRefs(el, index)
+                        }
+                        v-slots={{ default: tabSlot }}
+                    />
+                );
+            });
+            if (isCard.value) {
+                if (props.addable) {
+                    navItems.push(
+                        <div
+                            onClick={handleAddClick}
+                            class={`${prefixCls}-tab ${prefixCls}-tab-card addable`}
+                        >
+                            <PlusOutlined />
+                        </div>,
+                    );
+                }
+                // 添加 card pad
+                navItems = navItems
+                    .map((item, index) => [
+                        item,
+                        <div
+                            class={
+                                index !== navItems.length - 1
+                                    ? `${prefixCls}-tab-pad`
+                                    : `${prefixCls}-tab-pad--last`
+                            }
+                        />,
+                    ])
+                    .flat(1);
+            }
+
             return (
                 <div
                     class={{
@@ -233,26 +272,7 @@ export default defineComponent({
                                 onScroll={handleTabNavScroll}
                                 ref={tabNavRef}
                             >
-                                {children.map((vNode, index) => {
-                                    const tabSlot = (vNode.children as any)
-                                        ?.tab;
-                                    return (
-                                        <>
-                                            {index > 0 && isCard.value && (
-                                                <div
-                                                    class={`${prefixCls}-tab-pad`}
-                                                ></div>
-                                            )}
-                                            <FTab
-                                                {...(vNode.props as any)}
-                                                ref={(
-                                                    el: ComponentPublicInstance,
-                                                ) => setTabRefs(el, index)}
-                                                v-slots={{ default: tabSlot }}
-                                            />
-                                        </>
-                                    );
-                                })}
+                                {navItems}
                                 {!isCard.value && (
                                     <div
                                         class={`${prefixCls}-nav-bar`}
@@ -261,27 +281,10 @@ export default defineComponent({
                                 )}
                             </div>
                         </div>
-
-                        {isCard.value && props.addable && (
-                            <>
-                                <div class={`${prefixCls}-tab-pad`}></div>
-                                <div
-                                    onClick={handleAddClick}
-                                    class={`${prefixCls}-tab ${prefixCls}-tab-card addable`}
-                                >
-                                    <PlusOutlined />
-                                </div>
-                            </>
-                        )}
-
-                        {ctx.slots.suffix ? (
+                        {ctx.slots.suffix && (
                             <div class={`${prefixCls}-nav-suffix`}>
                                 {ctx.slots.suffix()}
                             </div>
-                        ) : (
-                            isCard.value && (
-                                <div class={`${prefixCls}-tab-pad--last`}></div>
-                            )
                         )}
                     </div>
                     <div class={`${prefixCls}-tab-pane-wrapper`}>
