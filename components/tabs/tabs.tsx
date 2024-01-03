@@ -6,11 +6,8 @@ import {
     ref,
     toRef,
     TransitionGroup,
-    vShow,
     watch,
-    withDirectives,
     onMounted,
-    type VNode,
     type ComponentPublicInstance,
     type Slots,
 } from 'vue';
@@ -26,89 +23,14 @@ import { flatten } from '../_util/vnode';
 import { useTheme } from '../_theme/useTheme';
 import PlusOutlined from '../icon/PlusOutlined';
 import { TABS_INJECTION_KEY } from './constants';
-import { computeTabBarStyle } from './helper';
+import { computeTabBarStyle, mapTabPane } from './helper';
 import FTab from './tab';
-
 import TabPane from './tab-pane.vue';
-import type { ComponentObjectPropsOptions, PropType } from 'vue';
-import type { Value, Position, TabCloseMode } from './interface';
-import type { TabProps } from './helper';
-
-import type { ExtractPublicPropTypes } from '../_util/interface';
+import { tabsProps } from './props';
+import type { Value } from './interface';
 
 const prefixCls = getPrefixCls('tabs');
 const ADD_EVENT = 'add';
-function mapTabPane(
-    tabPaneVNodes: VNode[] = [],
-    tabValue: Value,
-    tabPaneLazyCache: Record<string, boolean>,
-) {
-    const children: VNode[] = [];
-    tabPaneVNodes.forEach((vNode) => {
-        const {
-            value,
-            'display-directive': _displayDirective,
-            displayDirective,
-        } = vNode.props;
-        if (!vNode.key) vNode.key = value;
-        if (!vNode.props.key) vNode.props.key = value;
-        const show = value === tabValue;
-        const directive = _displayDirective || displayDirective;
-        if (directive === 'show') {
-            children.push(withDirectives(vNode, [[vShow, show]]));
-        } else if (
-            directive === 'show:lazy' &&
-            (tabPaneLazyCache[value] || show)
-        ) {
-            tabPaneLazyCache[value] = true;
-            children.push(withDirectives(vNode, [[vShow, show]]));
-        } else if (show) {
-            children.push(vNode);
-        }
-    });
-    return children;
-}
-
-type TabType = 'line' | 'card';
-
-type TabPaneProps = TabProps & {
-    render?: (props: TabProps) => VNode[];
-    renderTab?: (props: TabProps) => VNode[];
-};
-
-export const tabsProps = {
-    modelValue: [String, Number] as PropType<Value>,
-    position: {
-        type: String as PropType<Position>,
-        default: 'top',
-    },
-    type: {
-        type: String as PropType<TabType>,
-        default: 'line',
-    },
-    closable: {
-        type: Boolean,
-        default: false,
-    },
-    closeMode: {
-        type: String as PropType<TabCloseMode>,
-        default: 'visible',
-    },
-    addable: {
-        type: Boolean,
-        default: false,
-    },
-    transition: {
-        type: [String, Boolean] as PropType<string | boolean>,
-        default: true,
-    },
-    panes: {
-        type: Array as PropType<TabPaneProps>,
-        default: (): TabPaneProps[] => [],
-    },
-} as const satisfies ComponentObjectPropsOptions;
-
-export type TabsProps = ExtractPublicPropTypes<typeof tabsProps>;
 
 export default defineComponent({
     name: 'FTabs',

@@ -16,61 +16,71 @@ app.use(FTabs);
 
 默认选中第一项。
 
---COMMON
+:::demo
+common.vue
+:::
 
 ### 禁用
 
 禁用某一项。
 
---DISABLED
+:::demo
+disabled.vue
+:::
 
 ### 图标
 
 有图标的标签。
 
---WITHICON
+:::demo
+withIcon.vue
+:::
 
 ### 展示指令
 
 可以制定标签页展示的指令为 if 、 show 或者 show:lazy 。使用 show 的时候标签页内容不会随着切换重置。使用 show:lazy 的时候显示效果跟 show 一致，不过内容会进行延迟加载。
 
---IFORSHOW
+:::demo
+ifOrShow.vue
+:::
 
-### 滚动
+### 位置
 
-可以左右、上下滑动，容纳更多标签。
+指定标签的位置，`position = 'left' | 'top' | 'right' | 'bottom'`
 
---WITHSCROLL
+:::demo
+position.vue
+:::
 
 ### 前缀 & 后缀
 
 使用 prefix、suffix slot 来添加前后缀。
 
---EXTEND
-
-### 位置
-
-指定标签的位置，position = 'left' | 'top' | 'right' | 'bottom'
-
---POSITION
+:::demo
+extend.vue
+:::
 
 ### 卡片式页签
 
-另一种样式的页签，仅支持 position = 'top'
+另一种样式的页签，仅支持 `position = 'top'`
 
---CARD
+:::demo
+card.vue
+:::
 
 ### 可关闭或增加页签
 
 卡片式页签，设置了可删除后，hover 时显示删除按钮
 
---CLOSABLE
+:::demo
+closable.vue
+:::
 
 ### 使用配置
 
---PANES
-
---CODE
+:::demo
+panes.vue
+:::
 
 ## Tabs Props
 

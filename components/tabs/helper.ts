@@ -1,26 +1,36 @@
-import type { ComponentObjectPropsOptions, PropType } from 'vue';
-import type { Position } from './interface';
-import type { ExtractPublicPropTypes } from '../_util/interface';
+import { vShow, withDirectives, type VNode } from 'vue';
+import type { Position, Value } from './interface';
 
-export const tabProps = {
-    key: [String, Number, Symbol] as PropType<string | number | symbol>,
-    value: {
-        type: [String, Number] as PropType<string | number>,
-        required: true,
-    },
-    name: [String, Number] as PropType<string | number>,
-    disabled: Boolean,
-    closable: {
-        type: Boolean as PropType<boolean | undefined>,
-        default: null as null,
-    },
-    displayDirective: {
-        type: String as PropType<'if' | 'show' | 'show:lazy'>,
-        default: 'if',
-    },
-} as const satisfies ComponentObjectPropsOptions;
-
-export type TabProps = ExtractPublicPropTypes<typeof tabProps>;
+export function mapTabPane(
+    tabPaneVNodes: VNode[] = [],
+    tabValue: Value,
+    tabPaneLazyCache: Record<string, boolean>,
+) {
+    const children: VNode[] = [];
+    tabPaneVNodes.forEach((vNode) => {
+        const {
+            value,
+            'display-directive': _displayDirective,
+            displayDirective,
+        } = vNode.props;
+        if (!vNode.key) vNode.key = value;
+        if (!vNode.props.key) vNode.props.key = value;
+        const show = value === tabValue;
+        const directive = _displayDirective || displayDirective;
+        if (directive === 'show') {
+            children.push(withDirectives(vNode, [[vShow, show]]));
+        } else if (
+            directive === 'show:lazy' &&
+            (tabPaneLazyCache[value] || show)
+        ) {
+            tabPaneLazyCache[value] = true;
+            children.push(withDirectives(vNode, [[vShow, show]]));
+        } else if (show) {
+            children.push(vNode);
+        }
+    });
+    return children;
+}
 
 /**
  * 计算TabBar样式
