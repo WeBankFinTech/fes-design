@@ -94,8 +94,9 @@ export default defineComponent({
 
             showBeforeScrollBar.value = scrollLeft > 0 || scrollTop > 0;
             showAfterScrollBar.value =
-                scrollLeft + offsetWidth < scrollWidth ||
-                scrollTop + offsetHeight < scrollHeight;
+                // 猜测可能是浏览器触发 scroll 事件的时机不一致，此处允许 1px 的误差
+                Math.abs(scrollLeft + offsetWidth - scrollWidth) > 1 ||
+                Math.abs(scrollTop + offsetHeight - scrollHeight) > 1;
         }
 
         function autoScrollTab(el?: HTMLElement) {
