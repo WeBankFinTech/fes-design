@@ -6,10 +6,6 @@ import {
     ref,
     watch,
     nextTick,
-    type PropType,
-    type VNode,
-    type VNodeChild,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -18,100 +14,18 @@ import FButton from '../button/button';
 import { CloseOutlined } from '../icon';
 import { useTheme } from '../_theme/useTheme';
 import useEsc from '../_util/use/useEsc';
-import { iconComponentMap } from '../_util/noticeManager';
 import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
 import { useConfig } from '../config-provider';
 import { useLocale } from '../config-provider/useLocale';
-import type { ExtractPublicPropTypes } from '../_util/interface';
+import { useBodyMaxHeight } from './useBodyMaxHeight';
+import { globalModalProps, modalProps, modalIconMap } from './props';
 
 const prefixCls = getPrefixCls('modal');
 const UPDATE_SHOW_EVENT = 'update:show';
 const OK_EVENT = 'ok';
 const CANCEL_EVENT = 'cancel';
 const AFTER_LEAVE_EVENT = 'after-leave';
-const modalIconMap = {
-    ...iconComponentMap,
-    confirm: iconComponentMap.warning,
-} as const;
-
-export type ModalType = keyof typeof modalIconMap;
-
-// 全局方法的特有属性
-const globalModalProps = {
-    content: String as PropType<string | VNode | (() => VNodeChild)>,
-    forGlobal: Boolean, // 标记是否API调用
-    cancelLoading: Boolean,
-} as const satisfies ComponentObjectPropsOptions;
-
-// 通用的属性
-export const modalProps = {
-    show: Boolean,
-    displayDirective: {
-        type: String as PropType<'show' | 'if'>,
-        default: 'show',
-    },
-    closable: {
-        type: Boolean,
-        default: true,
-    },
-    mask: {
-        type: Boolean,
-        default: true,
-    },
-    maskClosable: {
-        type: Boolean,
-        default: true,
-    },
-    type: {
-        type: String as PropType<ModalType>,
-    },
-    title: String as PropType<string | VNode | (() => VNodeChild)>,
-    okText: String,
-    okLoading: Boolean,
-    cancelText: String,
-    showCancel: {
-        type: Boolean,
-        default: true,
-    },
-    width: {
-        type: [String, Number] as PropType<string | number>,
-        default: 520,
-    },
-    // 内容区域的高度，不是modal整体的高
-    height: {
-        type: [String, Number] as PropType<string | number>,
-        default: 'auto',
-    },
-    // 类型保持和scrollbar maxHeight一致
-    maxHeight: {
-        type: [String, Number] as PropType<string | number>,
-    },
-    top: {
-        type: [String, Number] as PropType<string | number>,
-        default: 50,
-    },
-    bottom: {
-        type: [String, Number] as PropType<string | number>,
-        default: 50,
-    },
-    verticalCenter: Boolean,
-    center: Boolean,
-    footer: {
-        type: Boolean,
-        default: true,
-    },
-    getContainer: {
-        type: Function as PropType<() => HTMLElement>,
-    },
-    fullScreen: {
-        type: Boolean,
-        default: false,
-    },
-    contentClass: String,
-} as const satisfies ComponentObjectPropsOptions;
-
-export type ModalProps = ExtractPublicPropTypes<typeof modalProps>;
 
 const Modal = defineComponent({
     name: 'FModal',
@@ -233,59 +147,19 @@ const Modal = defineComponent({
             };
         });
 
+        const { modalRef, modalHeaderRef, modalFooterRef, maxHeight } =
+            useBodyMaxHeight(
+                {
+                    styles: styles,
+                    visible: visible,
+                },
+                props,
+            );
+
         const showDom = computed(
             () =>
                 (props.displayDirective === 'if' && visible.value) ||
                 props.displayDirective === 'show',
-        );
-
-        const modalRef = ref<HTMLElement | null>(null);
-        const modalHeaderRef = ref<HTMLElement | null>(null);
-        const modalFooterRef = ref<HTMLElement | null>(null);
-        const modalHeight = ref(0);
-
-        // 为了不让外部出现滚动条，最大高度场景modal+上下margin 等于window.innerHeight
-        const maxHeight = computed(() => {
-            const marginTop = isNumber(styles.value.marginTop)
-                ? styles.value.marginTop
-                : parseFloat(styles.value.marginTop);
-            const marginBottom = isNumber(styles.value.marginBottom)
-                ? styles.value.marginBottom
-                : parseFloat(styles.value.marginBottom);
-            if (
-                modalHeight.value + marginTop + marginBottom >
-                window.innerHeight
-            ) {
-                const modalStyle = window.getComputedStyle(modalRef.value);
-                const paddingTop = parseFloat(modalStyle.paddingTop);
-                const paddingBottom = parseFloat(modalStyle.paddingBottom);
-
-                // 算出该场景下的内容最大高,减去padding和头尾高度
-                return (
-                    window.innerHeight -
-                    marginTop -
-                    marginBottom -
-                    modalHeaderRef.value.offsetHeight -
-                    modalFooterRef.value.offsetHeight -
-                    paddingTop -
-                    paddingBottom // modal的上下padding
-                );
-            }
-
-            // 其他场景不做额外处理
-            return props.maxHeight;
-        });
-
-        watch(
-            () => visible.value,
-            () => {
-                nextTick().then(() => {
-                    if (modalRef.value) {
-                        // 此处赋值会触发maxHeight 的重新计算赋值
-                        modalHeight.value = modalRef.value.offsetHeight;
-                    }
-                });
-            },
         );
 
         return () => (

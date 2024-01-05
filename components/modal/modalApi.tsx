@@ -1,8 +1,7 @@
 import { render, type VNode, type VNodeChild } from 'vue';
 import { isFunction, isUndefined } from 'lodash-es';
 import Modal from './modal';
-
-import type { ModalType } from './modal';
+import type { ModalType } from './props';
 
 export interface ModalConfig {
     closable?: boolean;
