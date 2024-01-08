@@ -52,3 +52,4 @@ import './text/style';
 import './timeline/style';
 import './calendar/style';
 import './badge/style';
+import './rate/style';
