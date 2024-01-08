@@ -55,7 +55,7 @@ export const useBodyMaxHeight = (
     };
 
     // 如果赋值了，最大高度场景modal+上下margin 等于window.innerHeight
-    const maxHeight = computed(() => {
+    const maxContentHeight = computed(() => {
         // 最大高度的场景
         if (
             modalHeight.value + marginTop.value + marginBottom.value >
@@ -66,11 +66,11 @@ export const useBodyMaxHeight = (
         }
         isMax.value = false;
         // 其他场景不做处理
-        return props.maxHeight;
+        return props.maxContentHeight;
     });
 
     watch(
-        () => props.maxHeight,
+        () => props.maxContentHeight,
         () => {
             isMax.value = false;
         },
@@ -84,13 +84,13 @@ export const useBodyMaxHeight = (
                 modalHeight.value = modalRef.value.offsetHeight;
             }
         },
-        Boolean(props.maxHeight),
+        Boolean(props.maxContentHeight),
     );
 
     return {
         modalRef,
         modalHeaderRef,
         modalFooterRef,
-        maxHeight,
+        maxContentHeight,
     };
 };
