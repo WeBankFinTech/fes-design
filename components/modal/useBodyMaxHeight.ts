@@ -21,7 +21,7 @@ export const useBodyMaxHeight = (
     const modalRef = ref<HTMLElement | null>(null);
     const modalHeaderRef = ref<HTMLElement | null>(null);
     const modalFooterRef = ref<HTMLElement | null>(null);
-    const modalHight = ref(0);
+    const modalHeight = ref(0);
 
     const isMax = ref(false);
 
@@ -58,7 +58,7 @@ export const useBodyMaxHeight = (
     const maxHeight = computed(() => {
         // 最大高度的场景
         if (
-            modalHight.value + marginTop.value + marginBottom.value >
+            modalHeight.value + marginTop.value + marginBottom.value >
             window.innerHeight
         ) {
             isMax.value = true;
@@ -79,9 +79,9 @@ export const useBodyMaxHeight = (
     useResize(
         modalRef,
         () => {
-            // 防止死循环，isMax.value = false 才更新 modalHight.value
+            // 防止死循环，isMax.value = false 才更新 modalHeight.value
             if (!isMax.value) {
-                modalHight.value = modalRef.value.offsetHeight;
+                modalHeight.value = modalRef.value.offsetHeight;
             }
         },
         Boolean(props.maxHeight),
