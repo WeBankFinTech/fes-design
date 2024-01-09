@@ -1,16 +1,16 @@
 <template>
     <FSpace>
         <FForm :labelWidth="120">
-            <FFormItem label="设置最大内容高度">
+            <FFormItem label="设置最大弹窗高度">
                 <FRadioGroup
-                    v-model="setMaxContentHeight"
+                    v-model="setMaxHeight"
                     :options="[
                         { label: '不设置（默认）', value: false },
                         { label: '设置', value: true },
                     ]"
                 />
             </FFormItem>
-            <FFormItem v-if="setMaxContentHeight" label="内容高度类型">
+            <FFormItem v-if="setMaxHeight" label="内容高度类型">
                 <FRadioGroup
                     v-model="type"
                     :options="[
@@ -19,10 +19,7 @@
                     ]"
                 />
             </FFormItem>
-            <FFormItem
-                v-if="type === 1 && setMaxContentHeight"
-                label="屏幕百分比"
-            >
+            <FFormItem v-if="type === 1 && setMaxHeight" label="屏幕百分比">
                 <FInputNumber
                     v-model="percent"
                     :min="10"
@@ -31,9 +28,9 @@
                 ></FInputNumber>
                 <span style="margin-left: 10px">vh</span>
             </FFormItem>
-            <FFormItem v-if="type === 2 && setMaxContentHeight" label="固定值">
+            <FFormItem v-if="type === 2 && setMaxHeight" label="固定值">
                 <FInputNumber
-                    v-model="maxContentHeight"
+                    v-model="maxHeight"
                     :min="100"
                     :max="1000"
                     :step="100"
@@ -48,11 +45,11 @@
         <FModal
             v-model:show="show"
             title="弹窗标题"
-            :maxContentHeight="
-                setMaxContentHeight
+            :maxHeight="
+                setMaxHeight
                     ? type === 1
                         ? `${percent}vh`
-                        : maxContentHeight
+                        : maxHeight
                     : undefined
             "
             @ok="show = false"
@@ -65,11 +62,11 @@
             v-model:show="show1"
             title="居中弹窗"
             vertical-center
-            :maxContentHeight="
-                setMaxContentHeight
+            :maxHeight="
+                setMaxHeight
                     ? type === 1
                         ? `${percent}vh`
-                        : maxContentHeight
+                        : maxHeight
                     : undefined
             "
             @ok="show = false"
@@ -88,9 +85,9 @@ export default {
     setup() {
         const show = ref(false);
         const show1 = ref(false);
-        const setMaxContentHeight = ref(false);
+        const setMaxHeight = ref(false);
         const percent = ref(20);
-        const maxContentHeight = ref(300);
+        const maxHeight = ref(300);
         const type = ref(1);
         const count = ref(5);
 
@@ -105,9 +102,9 @@ export default {
         return {
             show,
             show1,
-            setMaxContentHeight,
+            setMaxHeight,
             percent,
-            maxContentHeight,
+            maxHeight,
             type,
             count,
             add,

@@ -147,7 +147,7 @@ const Modal = defineComponent({
             };
         });
 
-        const { modalRef, modalHeaderRef, modalFooterRef, maxContentHeight } =
+        const { modalRef, modalHeaderRef, modalFooterRef, contentMaxHeight } =
             useBodyMaxHeight(styles, props);
 
         const getBody = () => {
@@ -158,9 +158,9 @@ const Modal = defineComponent({
                         : props.forGlobal && props.content}
                 </div>
             );
-            if (props.maxContentHeight) {
+            if (props.maxHeight) {
                 return (
-                    <FScrollbar maxHeight={maxContentHeight.value}>
+                    <FScrollbar maxHeight={contentMaxHeight.value}>
                         {baseBody}
                     </FScrollbar>
                 );

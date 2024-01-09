@@ -64,12 +64,12 @@ asyncSubmit.vue
 showCancel.vue
 :::
 
-### 内容的最大高度
-`maxContentHeight`默认不设置，如果实际内容的`height`高于`maxContentHeight`，以`maxContentHeight`为准，内容滚动。
+### 最大弹窗高度
+`maxHeight`默认不设置，如果实际弹窗的`height`高于`maxHeight`，以`maxHeight`为准，弹窗内容滚动。
 
 
 :::demo
-maxContentHeight.vue
+maxHeight.vue
 :::
 
 ## Modal Props
@@ -89,7 +89,7 @@ maxContentHeight.vue
 | showCancel       | 是否展示取消按钮                                                               | Boolean           | `true`                |
 | cancelText       | 取消按钮文字                                                                   | String            | 取消                  |
 | width            | 宽度                                                                           | String/Number     | 520                   |
-| maxContentHeight | 最大内容高度，如果实际内容的高度大于maxContentHeight，内容滚动                 | String/Number     | `-`                   |
+| maxHeight        | 最大弹窗高度，如果实际高度大于maxHeight，内容滚动                              | String/Number     | `-`                   |
 | top              | 距离顶部                                                                       | String/Number     | 50                    |
 | bottom           | 距离底部，为了防止弹窗底部贴边，可自定义                                       | String/Number     | 50                    |
 | verticalCenter   | 垂直居中                                                                       | Boolean           | `false`               |
@@ -131,29 +131,29 @@ maxContentHeight.vue
 
 参数如下：
 
-| 参数             | 说明                                                           | 类型                       | 默认值                                       |
-| ---------------- | -------------------------------------------------------------- | -------------------------- | -------------------------------------------- |
-| closable         | 是否显示右上角关闭图标                                         | Boolean                    | false                                        |
-| mask             | 是否显示蒙层                                                   | Boolean                    | true                                         |
-| maskClosable     | 点击蒙层是否允许关闭                                           | Boolean                    | false                                        |
-| title            | 标题                                                           | string / vNode / ()=>VNode |
-| content          | 内容                                                           | string / vNode / ()=>VNode | -                                            |
-| footer           | 页脚                                                           | string / vNode / ()=>VNode | -                                            |
-| okText           | 确认按钮文字                                                   | String                     | 确定                                         |
-| okLoading        | 确认按钮 Loading 状态                                          | Boolean                    | `false`                                      |
-| showCancel       | 是否展示取消按钮                                               | Boolean                    | confim 方法默认`true`，其他方法默认为`false` |
-| cancelText       | 取消按钮文字                                                   | String                     | 取消                                         |
-| cancelLoading    | 取消按钮 Loading 状态                                          | Boolean                    | `false`                                      |
-| onOk             | 点击确定                                                       | Function                   | -                                            |
-| onCancel         | 点击遮罩层或右上角叉或取消按钮的回调                           | Function                   | -                                            |
-| width            | 宽度                                                           | String/Number              | 400                                          |
-| maxContentHeight | 最大内容高度，如果实际内容的高度大于maxContentHeight，内容滚动 | String/Number              | `-`                                          |
-| top              | 距离顶部                                                       | String/Number              | 50                                           |
-| verticalCenter   | 垂直居中                                                       | Boolean                    | false                                        |
-| center           | 标题、内容、按钮居中                                           | Boolean                    | false                                        |
-| fullScreen       | 全屏显示                                                       | Boolean                    | `false`                                      |
-| contentClass     | 可用于设置内容的类名                                           | String                     | -                                            |
-| getContainer     | 指定 `Modal` 挂载的 HTML 节点                                  | () => HTMLElement          | `() => document.body`                        |
+| 参数           | 说明                                              | 类型                       | 默认值                                       |
+| -------------- | ------------------------------------------------- | -------------------------- | -------------------------------------------- |
+| closable       | 是否显示右上角关闭图标                            | Boolean                    | false                                        |
+| mask           | 是否显示蒙层                                      | Boolean                    | true                                         |
+| maskClosable   | 点击蒙层是否允许关闭                              | Boolean                    | false                                        |
+| title          | 标题                                              | string / vNode / ()=>VNode |
+| content        | 内容                                              | string / vNode / ()=>VNode | -                                            |
+| footer         | 页脚                                              | string / vNode / ()=>VNode | -                                            |
+| okText         | 确认按钮文字                                      | String                     | 确定                                         |
+| okLoading      | 确认按钮 Loading 状态                             | Boolean                    | `false`                                      |
+| showCancel     | 是否展示取消按钮                                  | Boolean                    | confim 方法默认`true`，其他方法默认为`false` |
+| cancelText     | 取消按钮文字                                      | String                     | 取消                                         |
+| cancelLoading  | 取消按钮 Loading 状态                             | Boolean                    | `false`                                      |
+| onOk           | 点击确定                                          | Function                   | -                                            |
+| onCancel       | 点击遮罩层或右上角叉或取消按钮的回调              | Function                   | -                                            |
+| width          | 宽度                                              | String/Number              | 400                                          |
+| maxHeight      | 最大内容高度，如果实际高度大于maxHeight，内容滚动 | String/Number              | `-`                                          |
+| top            | 距离顶部                                          | String/Number              | 50                                           |
+| verticalCenter | 垂直居中                                          | Boolean                    | false                                        |
+| center         | 标题、内容、按钮居中                              | Boolean                    | false                                        |
+| fullScreen     | 全屏显示                                          | Boolean                    | `false`                                      |
+| contentClass   | 可用于设置内容的类名                              | String                     | -                                            |
+| getContainer   | 指定 `Modal` 挂载的 HTML 节点                     | () => HTMLElement          | `() => document.body`                        |
 
 以上函数调用后，会返回一个引用，可以通过该引用更新和关闭弹窗。
 
