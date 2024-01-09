@@ -23,7 +23,7 @@ export const useBodyMaxHeight = (
     const modalFooterRef = ref<HTMLElement | null>(null);
     const modalHeight = ref(0);
 
-    const isMax = ref(false);
+    let isMax = false;
 
     const marginTop = computed(() => {
         return isNumber(styles.value.marginTop)
@@ -61,30 +61,34 @@ export const useBodyMaxHeight = (
             modalHeight.value + marginTop.value + marginBottom.value >
             window.innerHeight
         ) {
-            isMax.value = true;
+            isMax = true;
             return getMaxContentHeight();
         }
-        isMax.value = false;
+        isMax = false;
         // 其他场景不做处理
         return props.maxContentHeight;
     });
 
+    const isHasMaxContentHeight = computed(() =>
+        Boolean(props.maxContentHeight),
+    );
+
     watch(
         () => props.maxContentHeight,
         () => {
-            isMax.value = false;
+            isMax = false;
         },
     );
 
     useResize(
         modalRef,
         () => {
-            // 防止死循环，isMax.value = false 才更新 modalHeight.value
-            if (!isMax.value) {
+            // 防止死循环，isMax = false 才更新 modalHeight.value
+            if (!isMax) {
                 modalHeight.value = modalRef.value.offsetHeight;
             }
         },
-        Boolean(props.maxContentHeight),
+        isHasMaxContentHeight.value,
     );
 
     return {
