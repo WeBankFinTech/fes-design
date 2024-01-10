@@ -17,6 +17,25 @@
 
 
 
+## [0.8.23](https://github.com/WeBankFinTech/fes-design/compare/v0.8.22...v0.8.23) (2024-01-10)
+
+
+### Bug Fixes
+
+* **input:** 修复当input未设置modelValue时输入autosize不生效问题 ([#583](https://github.com/WeBankFinTech/fes-design/issues/583)) ([591d0b6](https://github.com/WeBankFinTech/fes-design/commit/591d0b6983265ffd03702634a4355610fea90f0e))
+* **Tabs:** 修复 Card 模式样式问题 ([#577](https://github.com/WeBankFinTech/fes-design/issues/577)) ([4b79b98](https://github.com/WeBankFinTech/fes-design/commit/4b79b987ad06d500568459134084c1eb377102dd))
+* **Tabs:** 修复滚动内阴影展示计算问题 ([#575](https://github.com/WeBankFinTech/fes-design/issues/575)) ([819b299](https://github.com/WeBankFinTech/fes-design/commit/819b299bed1f928d2e1507f0b2d159c7a5146bc9))
+* **Tabs:** 修复后缀布局问题 ([#574](https://github.com/WeBankFinTech/fes-design/issues/574)) ([25c2d42](https://github.com/WeBankFinTech/fes-design/commit/25c2d427695edd57444a48bd5e2a5c61110fcc61))
+
+
+### Features
+
+* **Drawer:** 新增 dimension 属性替代 height 和 width, 后两者标为废弃 ([#572](https://github.com/WeBankFinTech/fes-design/issues/572)) ([64933f8](https://github.com/WeBankFinTech/fes-design/commit/64933f89e570c967762ace420d583ade02bb653f))
+* **Modal:** 新增 height, maxHeight, bottom 配置项 ([#565](https://github.com/WeBankFinTech/fes-design/issues/565)) ([bea8668](https://github.com/WeBankFinTech/fes-design/commit/bea86681f726e583e4b9aab0b5d74fea6b2eb6c7))
+* **modal:** 移除height配置项，更改modal最大高度内部逻辑 ([#581](https://github.com/WeBankFinTech/fes-design/issues/581)) ([76c84fe](https://github.com/WeBankFinTech/fes-design/commit/76c84fe0d435eeb1ad662a8fc1443e0fdb141e1f))
+
+
+
 ## [0.8.22](https://github.com/WeBankFinTech/fes-design/compare/v0.8.21...v0.8.22) (2024-01-02)
 
 
