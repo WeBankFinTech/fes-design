@@ -18,7 +18,7 @@ import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
 import { useConfig } from '../config-provider';
 import { useLocale } from '../config-provider/useLocale';
-import { useBodyMaxHeight } from './useBodyMaxHeight';
+import { useContentMaxHeight } from './useContentMaxHeight';
 import { globalModalProps, modalProps, modalIconMap } from './props';
 
 const prefixCls = getPrefixCls('modal');
@@ -148,28 +148,33 @@ const Modal = defineComponent({
         });
 
         // 获取最大的内容高度
-        const { modalRef, modalHeaderRef, modalFooterRef, contentMaxHeight } =
-            useBodyMaxHeight(styles, props);
+        const {
+            modalRef,
+            modalHeaderRef,
+            modalFooterRef,
+            contentMaxHeight,
+            hasMaxHeight,
+        } = useContentMaxHeight(styles, props);
 
         const getBody = () => {
-            const baseBody = (
+            const modalBody = (
                 <div class={`${prefixCls}-body`}>
                     {ctx.slots.default
                         ? ctx.slots.default()
                         : props.forGlobal && props.content}
                 </div>
             );
-            if (props.maxHeight) {
+            if (hasMaxHeight.value) {
                 return (
                     <FScrollbar
                         maxHeight={contentMaxHeight.value}
                         shadow={true}
                     >
-                        {baseBody}
+                        {modalBody}
                     </FScrollbar>
                 );
             }
-            return baseBody;
+            return modalBody;
         };
 
         const showDom = computed(

@@ -16,8 +16,8 @@
             @ok="show = false"
         >
             <FSpace>
-                <FForm :labelWidth="120">
-                    <FFormItem label="设置最大弹窗高度">
+                <FForm :labelWidth="130">
+                    <FFormItem label="设置最大弹窗高度：">
                         <FRadioGroup
                             v-model="setMaxHeight"
                             :options="[
@@ -26,7 +26,7 @@
                             ]"
                         />
                     </FFormItem>
-                    <FFormItem v-if="setMaxHeight" label="内容高度类型">
+                    <FFormItem v-if="setMaxHeight" label="高度值类型：">
                         <FRadioGroup
                             v-model="type"
                             :options="[
@@ -37,7 +37,7 @@
                     </FFormItem>
                     <FFormItem
                         v-if="type === 1 && setMaxHeight"
-                        label="屏幕百分比"
+                        label="窗口百分比："
                     >
                         <FInputNumber
                             v-model="percent"
@@ -47,7 +47,10 @@
                         ></FInputNumber>
                         <span style="margin-left: 10px">%</span>
                     </FFormItem>
-                    <FFormItem v-if="type === 2 && setMaxHeight" label="固定值">
+                    <FFormItem
+                        v-if="type === 2 && setMaxHeight"
+                        label="固定值："
+                    >
                         <FInputNumber
                             v-model="maxHeight"
                             :min="100"
@@ -58,7 +61,7 @@
                     </FFormItem>
                 </FForm>
             </FSpace>
-            <FDivider></FDivider>
+            <FDivider class="divider"></FDivider>
             <FSpace>
                 <FButton @click="add">内容 + 1</FButton>
                 <FButton @click="reduce">内容 - 1</FButton>
@@ -76,10 +79,10 @@ export default {
     setup() {
         const show = ref(false);
         const setMaxHeight = ref(false);
-        const percent = ref(50);
-        const maxHeight = ref(300);
+        const percent = ref(60);
+        const maxHeight = ref(600);
         const type = ref(1);
-        const count = ref(5);
+        const count = ref(15);
         const verticalCenter = ref(false);
 
         const add = () => {
@@ -110,3 +113,9 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+.divider {
+    margin-top: 0px;
+}
+</style>

@@ -1,10 +1,11 @@
-import { ref, computed, watch, type ComputedRef } from 'vue';
-import { isNumber } from 'lodash-es';
+import { ref, computed, nextTick, type ComputedRef } from 'vue';
+import { isNumber, isString } from 'lodash-es';
 import { useWindowSize } from '@vueuse/core';
 import useResize from '../_util/use/useResize';
+import { depx } from '../_util/utils';
 import { type ModalInnerProps } from './props';
 
-export const useBodyMaxHeight = (
+export const useContentMaxHeight = (
     styles: ComputedRef<
         | {
               width?: undefined;
@@ -22,14 +23,13 @@ export const useBodyMaxHeight = (
     const modalRef = ref<HTMLElement | null>(null);
     const modalHeaderRef = ref<HTMLElement | null>(null);
     const modalFooterRef = ref<HTMLElement | null>(null);
-    const modalHeight = ref(0);
     const modalHeaderHight = ref(0);
     const modalFooterHight = ref(0);
 
     // 获取响应式的窗口高度
     const { height: windowHeight } = useWindowSize();
 
-    let isCalculate = false;
+    // let isCalculate = false;
 
     const marginTop = computed(() => {
         return isNumber(styles.value.marginTop)
@@ -55,27 +55,30 @@ export const useBodyMaxHeight = (
         return parseFloat(modalStyle.value?.paddingBottom);
     });
 
-    // 拿到modal相关的高度，计算得到最大的maxContentHeight
-    const getMaxContentHeight = () => {
-        return (
-            windowHeight.value -
-            marginTop.value -
-            marginBottom.value -
-            modalHeaderHight.value -
-            modalFooterHight.value -
-            paddingTop.value -
-            paddingBottom.value
-        );
-    };
+    // 最大场景的弹窗高度
+    const realMaxHeight = computed(() => {
+        return windowHeight.value - marginTop.value - marginBottom.value;
+    });
 
     // 用户设定的最大弹窗高度，支持百分比 'xxx%'字符串和固定值数字,算出来具体的px
-    const setMaxHeight = computed(() => {
+    const currentMaxModalHeight = computed(() => {
         if (props.maxHeight) {
             if (isNumber(props.maxHeight)) {
                 return props.maxHeight;
-            } else {
-                // 解析字符串的数字
+            } else if (
+                isString(props.maxHeight) &&
+                props.maxHeight.endsWith('px')
+            ) {
+                // px字符串 解析字符串的数字
+                return depx(props.maxHeight);
+            } else if (
+                isString(props.maxHeight) &&
+                props.maxHeight.endsWith('%')
+            ) {
+                //%字符串 解析字符串的数字，算出百分比对应的高度px
                 return (parseFloat(props.maxHeight) / 100) * windowHeight.value;
+            } else {
+                console.warn('[FModal] maxHeight 仅支持 px、%、数值格式');
             }
         }
         return undefined;
@@ -83,29 +86,24 @@ export const useBodyMaxHeight = (
 
     // 实际滚动区域的高度
     const contentMaxHeight = computed(() => {
-        if (!setMaxHeight.value) {
-            // 没有设置也不出现滚动条
-            return undefined;
-        }
+        // 最大场景的内容高度
+        const maxContentHeight =
+            windowHeight.value -
+            marginTop.value -
+            marginBottom.value -
+            modalHeaderHight.value -
+            modalFooterHight.value -
+            paddingTop.value -
+            paddingBottom.value;
 
-        // 边界场景，最大高度场景modal高度+上下margin 等于window 视窗高度
-        if (
-            setMaxHeight.value + marginTop.value + marginBottom.value >
-            windowHeight.value
-        ) {
-            // 最大场景的内容高度
-            return getMaxContentHeight();
-        }
-
-        // maxHeight 大于弹窗现有高度，不出现滚动条
-        if (setMaxHeight.value > modalHeight.value) {
-            return undefined;
+        if (maxContentHeight < 100) {
+            return 100;
+            // 如果最大场景的弹窗高度 小于用户设定的弹窗高度值，返回最大场景的内容高
+        } else if (realMaxHeight.value <= currentMaxModalHeight.value) {
+            return maxContentHeight;
         } else {
-            // 没有到达最大场景，且滚动高度是自动计算的场景
-            isCalculate = true;
-            // 计算出该滚动场景下的内容高度
             return (
-                setMaxHeight.value -
+                currentMaxModalHeight.value -
                 modalHeaderHight.value -
                 modalFooterHight.value -
                 paddingTop.value -
@@ -114,29 +112,24 @@ export const useBodyMaxHeight = (
         }
     });
 
-    const isHasMaxHeight = computed(() => Boolean(props.maxHeight));
+    const hasMaxHeight = computed(() => Boolean(currentMaxModalHeight.value));
 
-    watch(
-        () => props.maxHeight,
-        () => {
-            isCalculate = false;
-        },
-    );
-
+    // 监听头部和底部的变化
     useResize(
-        modalRef,
-        () => {
+        modalHeaderRef,
+        async () => {
+            await nextTick();
             modalHeaderHight.value = modalHeaderRef.value?.offsetHeight;
-            modalFooterHight.value = modalFooterRef.value?.offsetHeight;
-
-            // 防止死循环，isCalculate为false才更新 modalHeight.value
-            // 出现滚动后 不再变更 modalHeight.value
-            if (!isCalculate) {
-                // 弹窗实际的高度
-                modalHeight.value = modalRef.value.offsetHeight;
-            }
         },
-        isHasMaxHeight.value,
+        hasMaxHeight.value,
+    );
+    useResize(
+        modalFooterRef,
+        async () => {
+            await nextTick();
+            modalFooterHight.value = modalFooterRef.value?.offsetHeight;
+        },
+        hasMaxHeight.value,
     );
 
     return {
@@ -144,5 +137,6 @@ export const useBodyMaxHeight = (
         modalHeaderRef,
         modalFooterRef,
         contentMaxHeight,
+        hasMaxHeight,
     };
 };
