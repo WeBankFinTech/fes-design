@@ -230,12 +230,9 @@ export default defineComponent({
                 };
             }
         };
-        watch(
-            () => props.modelValue,
-            () => {
-                nextTick(resizeTextarea);
-            },
-        );
+        watch(currentValue, () => {
+            nextTick(resizeTextarea);
+        });
         onMounted(() => {
             nextTick(resizeTextarea);
         });
