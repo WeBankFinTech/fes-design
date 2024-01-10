@@ -26,7 +26,7 @@
                     :max="100"
                     :step="10"
                 ></FInputNumber>
-                <span style="margin-left: 10px">vh</span>
+                <span style="margin-left: 10px">%</span>
             </FFormItem>
             <FFormItem v-if="type === 2 && setMaxHeight" label="固定值">
                 <FInputNumber
@@ -48,7 +48,7 @@
             :maxHeight="
                 setMaxHeight
                     ? type === 1
-                        ? `${percent}vh`
+                        ? `${percent}%`
                         : maxHeight
                     : undefined
             "
@@ -65,7 +65,7 @@
             :maxHeight="
                 setMaxHeight
                     ? type === 1
-                        ? `${percent}vh`
+                        ? `${percent}%`
                         : maxHeight
                     : undefined
             "

@@ -64,7 +64,7 @@ export const useBodyMaxHeight = (
         );
     };
 
-    // 用户设定的最大弹窗高度，支持百分比 'xxxvh'字符串和固定值数字,算出来具体的px
+    // 用户设定的最大弹窗高度，支持百分比 'xxx%'字符串和固定值数字,算出来具体的px
     const setMaxHeight = computed(() => {
         if (props.maxHeight) {
             if (isNumber(props.maxHeight)) {
