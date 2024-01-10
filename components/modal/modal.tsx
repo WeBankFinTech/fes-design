@@ -147,6 +147,7 @@ const Modal = defineComponent({
             };
         });
 
+        // 获取最大的内容高度
         const { modalRef, modalHeaderRef, modalFooterRef, contentMaxHeight } =
             useBodyMaxHeight(styles, props);
 
@@ -160,7 +161,10 @@ const Modal = defineComponent({
             );
             if (props.maxHeight) {
                 return (
-                    <FScrollbar maxHeight={contentMaxHeight.value}>
+                    <FScrollbar
+                        maxHeight={contentMaxHeight.value}
+                        shadow={true}
+                    >
                         {baseBody}
                     </FScrollbar>
                 );

@@ -1,5 +1,6 @@
 import { ref, computed, watch, type ComputedRef } from 'vue';
 import { isNumber } from 'lodash-es';
+import { useWindowSize } from '@vueuse/core';
 import useResize from '../_util/use/useResize';
 import { type ModalInnerProps } from './props';
 
@@ -25,7 +26,10 @@ export const useBodyMaxHeight = (
     const modalHeaderHight = ref(0);
     const modalFooterHight = ref(0);
 
-    let needScrollbar = false;
+    // 获取响应式的窗口高度
+    const { height: windowHeight } = useWindowSize();
+
+    let isCalculate = false;
 
     const marginTop = computed(() => {
         return isNumber(styles.value.marginTop)
@@ -54,7 +58,7 @@ export const useBodyMaxHeight = (
     // 拿到modal相关的高度，计算得到最大的maxContentHeight
     const getMaxContentHeight = () => {
         return (
-            window.innerHeight -
+            windowHeight.value -
             marginTop.value -
             marginBottom.value -
             modalHeaderHight.value -
@@ -71,7 +75,7 @@ export const useBodyMaxHeight = (
                 return props.maxHeight;
             } else {
                 // 解析字符串的数字
-                return (parseFloat(props.maxHeight) / 100) * window.innerHeight;
+                return (parseFloat(props.maxHeight) / 100) * windowHeight.value;
             }
         }
         return undefined;
@@ -83,19 +87,22 @@ export const useBodyMaxHeight = (
             // 没有设置也不出现滚动条
             return undefined;
         }
+
+        // 边界场景，最大高度场景modal高度+上下margin 等于window 视窗高度
+        if (
+            setMaxHeight.value + marginTop.value + marginBottom.value >
+            windowHeight.value
+        ) {
+            // 最大场景的内容高度
+            return getMaxContentHeight();
+        }
+
         // maxHeight 大于弹窗现有高度，不出现滚动条
         if (setMaxHeight.value > modalHeight.value) {
             return undefined;
         } else {
-            needScrollbar = true;
-            // 边界场景，最大高度场景modal高度+上下margin 等于window.innerHeight
-            if (
-                setMaxHeight.value + marginTop.value + marginBottom.value >
-                window.innerHeight
-            ) {
-                // 最大场景的内容高度
-                return getMaxContentHeight();
-            }
+            // 没有到达最大场景，且滚动高度是自动计算的场景
+            isCalculate = true;
             // 计算出该滚动场景下的内容高度
             return (
                 setMaxHeight.value -
@@ -112,7 +119,7 @@ export const useBodyMaxHeight = (
     watch(
         () => props.maxHeight,
         () => {
-            needScrollbar = false;
+            isCalculate = false;
         },
     );
 
@@ -122,9 +129,9 @@ export const useBodyMaxHeight = (
             modalHeaderHight.value = modalHeaderRef.value?.offsetHeight;
             modalFooterHight.value = modalFooterRef.value?.offsetHeight;
 
-            // 防止死循环，needScrollbar为false才更新 modalHeight.value
+            // 防止死循环，isCalculate为false才更新 modalHeight.value
             // 出现滚动后 不再变更 modalHeight.value
-            if (!needScrollbar) {
+            if (!isCalculate) {
                 // 弹窗实际的高度
                 modalHeight.value = modalRef.value.offsetHeight;
             }
