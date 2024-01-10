@@ -18,7 +18,7 @@ import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
 import { useConfig } from '../config-provider';
 import { useLocale } from '../config-provider/useLocale';
-import { useBodyMaxHeight } from './useBodyMaxHeight';
+import { useContentMaxHeight } from './useContentMaxHeight';
 import { globalModalProps, modalProps, modalIconMap } from './props';
 
 const prefixCls = getPrefixCls('modal');
@@ -147,14 +147,35 @@ const Modal = defineComponent({
             };
         });
 
-        const { modalRef, modalHeaderRef, modalFooterRef, maxHeight } =
-            useBodyMaxHeight(
-                {
-                    styles: styles,
-                    visible: visible,
-                },
-                props,
+        // 获取最大的内容高度
+        const {
+            modalRef,
+            modalHeaderRef,
+            modalFooterRef,
+            contentMaxHeight,
+            hasMaxHeight,
+        } = useContentMaxHeight(styles, props);
+
+        const getBody = () => {
+            const modalBody = (
+                <div class={`${prefixCls}-body`}>
+                    {ctx.slots.default
+                        ? ctx.slots.default()
+                        : props.forGlobal && props.content}
+                </div>
             );
+            if (hasMaxHeight.value) {
+                return (
+                    <FScrollbar
+                        maxHeight={contentMaxHeight.value}
+                        shadow={true}
+                    >
+                        {modalBody}
+                    </FScrollbar>
+                );
+            }
+            return modalBody;
+        };
 
         const showDom = computed(
             () =>
@@ -212,17 +233,7 @@ const Modal = defineComponent({
                                     ref={modalRef}
                                 >
                                     {getHeader()}
-                                    <FScrollbar
-                                        height={props.height}
-                                        maxHeight={maxHeight.value}
-                                    >
-                                        <div class={`${prefixCls}-body`}>
-                                            {ctx.slots.default
-                                                ? ctx.slots.default()
-                                                : props.forGlobal &&
-                                                  props.content}
-                                        </div>
-                                    </FScrollbar>
+                                    {getBody()}
                                     {getFooter()}
                                 </div>
                             </div>

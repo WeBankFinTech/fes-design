@@ -1,100 +1,73 @@
 <template>
     <FSpace>
-        <FForm :labelWidth="120">
-            <FFormItem label="弹窗内容高度类型">
-                <FRadioGroup
-                    v-model="customHeight"
-                    :options="[
-                        { label: '自适应（默认）', value: false },
-                        { label: '自定义高度', value: true },
-                    ]"
-                />
-            </FFormItem>
-            <FFormItem label="设置最大内容高度">
-                <FRadioGroup
-                    v-model="setMaxHeight"
-                    :options="[
-                        { label: '不设置（默认）', value: false },
-                        { label: '设置', value: true },
-                    ]"
-                />
-            </FFormItem>
-            <FFormItem v-if="customHeight" label="自定义高度类型">
-                <FRadioGroup
-                    v-model="customHeightType"
-                    :options="[
-                        { label: '百分比', value: 1 },
-                        { label: '固定高度', value: 2 },
-                    ]"
-                />
-            </FFormItem>
-            <FFormItem
-                v-if="customHeightType === 1 && customHeight"
-                label="屏幕百分比高度"
-            >
-                <FInputNumber
-                    v-model="percent"
-                    :min="10"
-                    :max="100"
-                    :step="10"
-                ></FInputNumber>
-                <span style="margin-left: 10px">vh</span>
-            </FFormItem>
-            <FFormItem
-                v-if="customHeightType === 2 && customHeight"
-                label="固定高度"
-            >
-                <FInputNumber
-                    v-model="height"
-                    :min="100"
-                    :max="1000"
-                    :step="100"
-                ></FInputNumber>
-                <span style="margin-left: 10px">px</span>
-            </FFormItem>
-            <FFormItem v-if="setMaxHeight" label="最大内容高度">
-                <FInputNumber
-                    v-model="maxHeight"
-                    :max="1000"
-                    :step="100"
-                ></FInputNumber>
-                <span style="margin-left: 10px">px</span>
-            </FFormItem>
-        </FForm>
-    </FSpace>
-    <FSpace>
         <FButton @click="show = true">打开弹窗</FButton>
-        <FButton @click="show1 = true">居中弹窗</FButton>
+        <FButton @click="verticalCenterBtnClick">居中弹窗</FButton>
         <FModal
             v-model:show="show"
             title="弹窗标题"
-            :maxHeight="setMaxHeight ? maxHeight : undefined"
-            :height="
-                customHeight
-                    ? customHeightType === 1
-                        ? `${percent}vh`
-                        : height
-                    : 'auto'
+            :vertical-center="verticalCenter"
+            :maxHeight="
+                setMaxHeight
+                    ? type === 1
+                        ? `${percent}%`
+                        : maxHeight
+                    : undefined
             "
             @ok="show = false"
         >
-            <div v-for="n in 50" :key="n">我是内容...</div>
-        </FModal>
-        <FModal
-            v-model:show="show1"
-            title="居中弹窗"
-            vertical-center
-            :maxHeight="setMaxHeight ? maxHeight : undefined"
-            :height="
-                customHeight
-                    ? customHeightType === 1
-                        ? `${percent}vh`
-                        : height
-                    : 'auto'
-            "
-            @ok="show = false"
-        >
-            <div v-for="n in 50" :key="n">我是内容...</div>
+            <FSpace>
+                <FForm :labelWidth="130">
+                    <FFormItem label="设置最大弹窗高度：">
+                        <FRadioGroup
+                            v-model="setMaxHeight"
+                            :options="[
+                                { label: '不设置（默认）', value: false },
+                                { label: '设置', value: true },
+                            ]"
+                        />
+                    </FFormItem>
+                    <FFormItem v-if="setMaxHeight" label="高度值类型：">
+                        <FRadioGroup
+                            v-model="type"
+                            :options="[
+                                { label: '百分比', value: 1 },
+                                { label: '固定值', value: 2 },
+                            ]"
+                        />
+                    </FFormItem>
+                    <FFormItem
+                        v-if="type === 1 && setMaxHeight"
+                        label="窗口百分比："
+                    >
+                        <FInputNumber
+                            v-model="percent"
+                            :min="10"
+                            :max="100"
+                            :step="10"
+                        ></FInputNumber>
+                        <span style="margin-left: 10px">%</span>
+                    </FFormItem>
+                    <FFormItem
+                        v-if="type === 2 && setMaxHeight"
+                        label="固定值："
+                    >
+                        <FInputNumber
+                            v-model="maxHeight"
+                            :min="100"
+                            :max="1000"
+                            :step="100"
+                        ></FInputNumber>
+                        <span style="margin-left: 10px">px</span>
+                    </FFormItem>
+                </FForm>
+            </FSpace>
+            <FDivider class="divider"></FDivider>
+            <FSpace>
+                <FButton @click="add">内容 + 1</FButton>
+                <FButton @click="reduce">内容 - 1</FButton>
+            </FSpace>
+            <FDivider></FDivider>
+            <div v-for="n in count" :key="n">我是内容...</div>
         </FModal>
     </FSpace>
 </template>
@@ -105,25 +78,44 @@ import { ref } from 'vue';
 export default {
     setup() {
         const show = ref(false);
-        const show1 = ref(false);
         const setMaxHeight = ref(false);
-        const percent = ref(20);
-        // 固定高度
-        const height = ref(200);
-        const maxHeight = ref(300);
-        const customHeight = ref(false);
-        const customHeightType = ref(1);
+        const percent = ref(60);
+        const maxHeight = ref(600);
+        const type = ref(1);
+        const count = ref(15);
+        const verticalCenter = ref(false);
+
+        const add = () => {
+            count.value += 1;
+        };
+
+        const reduce = () => {
+            count.value -= 1;
+        };
+
+        const verticalCenterBtnClick = () => {
+            verticalCenter.value = true;
+            show.value = true;
+        };
 
         return {
             show,
-            show1,
             setMaxHeight,
             percent,
-            height,
             maxHeight,
-            customHeight,
-            customHeightType,
+            type,
+            count,
+            add,
+            reduce,
+            verticalCenter,
+            verticalCenterBtnClick,
         };
     },
 };
 </script>
+
+<style scoped>
+.divider {
+    margin-top: 0px;
+}
+</style>

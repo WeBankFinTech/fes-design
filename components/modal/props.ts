@@ -56,12 +56,7 @@ export const modalProps = {
         type: [String, Number] as PropType<string | number>,
         default: 520,
     },
-    // 内容区域的高度，不是modal整体的高
-    height: {
-        type: [String, Number] as PropType<string | number>,
-        default: 'auto',
-    },
-    // 类型保持和scrollbar maxHeight一致
+    // modal的整体最大高度
     maxHeight: {
         type: [String, Number] as PropType<string | number>,
     },
