@@ -23,7 +23,7 @@
 
     <FTabs :position="position" style="height: 300px">
         <FTabPane
-            v-for="i in 20"
+            v-for="i in 2"
             :key="i"
             :name="'Tab ' + i"
             :value="i"
