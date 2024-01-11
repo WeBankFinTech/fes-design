@@ -6,6 +6,36 @@
                 <FRadio value="custom">自定义</FRadio>
             </FRadioGroup>
         </FFormItem>
+        <FFormItem label="表格边框:">
+            <FRadioGroup
+                v-model="bordered"
+                :cancelable="false"
+                :options="[
+                    { label: '否(默认)', value: false },
+                    { label: '是', value: true },
+                ]"
+            />
+        </FFormItem>
+        <FFormItem label="水平分割线:">
+            <FRadioGroup
+                v-model="horizontalLine"
+                :cancelable="false"
+                :options="[
+                    { label: '否', value: false },
+                    { label: '是(默认)', value: true },
+                ]"
+            />
+        </FFormItem>
+        <FFormItem label="垂直分割线:">
+            <FRadioGroup
+                v-model="verticalLine"
+                :cancelable="false"
+                :options="[
+                    { label: '否(默认)', value: false },
+                    { label: '是', value: true },
+                ]"
+            />
+        </FFormItem>
         <FFormItem label="间距大小：">
             <FRadioGroup v-model="size">
                 <FRadio value="middle">middle(默认)</FRadio>
@@ -23,8 +53,10 @@
         v-if="emptyType === 'normal'"
         :data="data"
         :size="size"
+        :bordered="bordered"
+        :horizontalLine="horizontalLine"
+        :verticalLine="verticalLine"
         :emptyText="emptyText || '暂无数据'"
-        bordered
     >
         <FTableColumn :width="200" prop="date" label="日期"></FTableColumn>
         <FTableColumn :width="200" prop="name" label="姓名"></FTableColumn>
@@ -37,7 +69,9 @@
         v-if="emptyType === 'custom'"
         :data="data"
         :size="size"
-        verticalLine
+        :bordered="bordered"
+        :horizontalLine="horizontalLine"
+        :verticalLine="verticalLine"
     >
         <template #empty>
             <FEmpty :description="emptyText" />
@@ -49,21 +83,16 @@
         <FTableColumn :width="200" prop="postcode" label="邮编"></FTableColumn>
     </FTable>
 </template>
-<script>
+<script setup>
 import { ref, reactive } from 'vue';
-export default {
-    setup() {
-        const emptyType = ref('normal');
-        const size = ref('middle');
-        const emptyText = ref();
 
-        const data = reactive([]);
-        return {
-            emptyType,
-            data,
-            size,
-            emptyText,
-        };
-    },
-};
+const emptyType = ref('normal');
+const size = ref('middle');
+const emptyText = ref();
+
+const bordered = ref(false);
+const horizontalLine = ref(true);
+const verticalLine = ref(false);
+
+const data = reactive([]);
 </script>
