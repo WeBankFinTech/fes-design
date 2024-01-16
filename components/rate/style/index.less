@@ -15,50 +15,50 @@
         align-items: center;
 
         .rate-icon {
+            position: relative;
             display: flex;
             align-items: center;
-            position: relative;
             cursor: pointer;
 
             .half-icon {
                 position: absolute;
-                left: 0;
                 top: 0;
                 bottom: 0;
-                margin: auto 0;
+                left: 0;
                 width: 50%;
+                margin: auto 0;
                 overflow: hidden;
             }
 
             // 半星下的背景icon
             .background-icon {
                 position: relative;
-                left: 0;
                 top: 0;
                 bottom: 0;
+                left: 0;
                 margin: auto 0;
             }
         }
     }
 
     &-text {
-        font-size: var(--f-font-size-base);
         margin-left: 10px;
+        font-size: var(--f-font-size-base);
     }
 
     &-small {
-        line-height: @small-line-height;
         height: @small-line-height ;
+        line-height: @small-line-height;
     }
 
     &-medium {
-        line-height: @medium-line-height;
         height: @medium-line-height ;
+        line-height: @medium-line-height;
     }
 
     &-large {
-        line-height: @large-line-height;
         height: @large-line-height ;
+        line-height: @large-line-height;
     }
 
 }
