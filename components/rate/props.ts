@@ -14,23 +14,43 @@ export const rateProps = {
     },
     color: {
         type: String,
-        default: '#F29360',
     },
     count: {
         type: Number,
         default: 5,
     },
-
     // 评分被激活的个数
     value: {
         type: Number,
-        default: 0,
+    },
+    readonly: {
+        type: Boolean,
+        default: false,
+    },
+    clearable: {
+        type: Boolean,
+        default: false,
+    },
+    // 辅助文字
+    texts: {
+        type: Array as PropType<string[]>,
+    },
+    showText: {
+        type: Boolean,
+        default: false,
+    },
+    lineStyle: {
+        type: Boolean,
+        default: false,
     },
 } as const satisfies ComponentObjectPropsOptions;
 
 // 组件暴露给外部的 props 类型
 export type RateProps = ComponentProps<typeof rateProps>;
 
+// 评分对象
 export type RateItem = {
     active: boolean;
+    hover?: boolean;
+    half?: boolean;
 };

@@ -1,7 +1,11 @@
 <template>
-    <FRate size="small"></FRate>
-    <FRate></FRate>
-    <FRate size="large"></FRate>
+    <FRate v-model:value="value" size="small"></FRate>
+    <FRate v-model:value="value"></FRate>
+    <FRate v-model:value="value" size="large"></FRate>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from 'vue';
+
+const value = ref(3);
+</script>

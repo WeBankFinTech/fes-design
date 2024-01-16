@@ -2,17 +2,63 @@
 @import '../../style/mixins/index';
 
 @rate: ~'@{cls-prefix}-rate';
+@small-line-height: 16px;
+@medium-line-height: 22px;
+@large-line-height: 26px;
 
 .@{rate} {
+    display: flex;
+    align-items: center;
 
     &-container {
         display: flex;
         align-items: center;
 
-        .icon {
-                display: inline-block;
-                cursor: pointer;
+        .rate-icon {
+            display: flex;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+
+            .half-icon {
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                margin: auto 0;
+                width: 50%;
+                overflow: hidden;
+            }
+
+            // 半星下的背景icon
+            .background-icon {
+                position: relative;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                margin: auto 0;
+            }
         }
+    }
+
+    &-text {
+        font-size: var(--f-font-size-base);
+        margin-left: 10px;
+    }
+
+    &-small {
+        line-height: @small-line-height;
+        height: @small-line-height ;
+    }
+
+    &-medium {
+        line-height: @medium-line-height;
+        height: @medium-line-height ;
+    }
+
+    &-large {
+        line-height: @large-line-height;
+        height: @large-line-height ;
     }
 
 }

@@ -1,7 +1,7 @@
 export const sizeMap = {
-    small: '16px',
-    medium: '22px',
-    large: '26px',
+    small: 16,
+    medium: 22,
+    large: 26,
 };
 
 export const defaultColorMap = {

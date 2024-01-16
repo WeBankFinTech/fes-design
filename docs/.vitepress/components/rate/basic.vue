@@ -1,5 +1,11 @@
 <template>
-    <FRate :value="3"></FRate>
+    <FRate v-model:value="value"></FRate>
+    <FRate v-model:value="value" line-style></FRate>
+    <span>value值：{{ value }}</span>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from 'vue';
+
+const value = ref(3);
+</script>
