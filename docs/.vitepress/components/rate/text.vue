@@ -1,10 +1,10 @@
 <template>
     <FSpace>
-        <FRate v-model:value="value" :texts="texts" show-text></FRate>
+        <FRate v-model="value" :texts="texts" show-text></FRate>
     </FSpace>
 
     <FSpace>
-        <FRate v-model:value="value2" :texts="texts2" show-text></FRate>
+        <FRate v-model="value2" :texts="texts2" show-text></FRate>
     </FSpace>
 </template>
 

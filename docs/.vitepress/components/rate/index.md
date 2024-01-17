@@ -12,18 +12,11 @@ app.use(FRate);
 ## 代码演示
 
 ### 基础用法
-提供两种空白的图标的样式，通过line-style区分，默认为实心star
 
 :::demo
 basic.vue
 :::
 
-### 个数
-默认个数为5
-
-:::demo
-count.vue
-:::
 
 ### 尺寸
 size属性给定了三种，`small`，`medium`，`large`
@@ -32,25 +25,11 @@ size属性给定了三种，`small`，`medium`，`large`
 size.vue
 :::
 
-### 可清除
-clearable默认为false，设置为true时点击当前value对应的图标可以将值置为null
-
-:::demo
-clearable.vue
-:::
-
 ### 颜色
 可以自定义颜色，色号
 
 :::demo
 color.vue
-:::
-
-### 只读
-readonly默认为false，设置为true时，不可交互
-
-:::demo
-readonly.vue
 :::
 
 ### 自定义图标
@@ -69,27 +48,34 @@ texts 为一个数组，长度应等于评级图标个数。
 text.vue
 :::
 
-### 半星
-可以开启半星模式，默认情况下不开启
+### 事件监听
+提供change，clear事件  
+注意一点，clear事件也会触发change事件，只不过value为null
 
 :::demo
-half.vue
+event.vue
 :::
 
 ## Props
 
-| 属性      | 说明                                    | 类型       | 默认值   |
-| --------- | --------------------------------------- | ---------- | -------- |
-| value     | 值                                      | `number`   | `-`      |
-| half      | 是否启用半星模式                        | `boolean`  | `false`  |
-| lineStyle | 线性风格                                | `boolean`  | `false`  |
-| readonly  | 是否只读                                | `boolean`  | `false`  |
-| count     | 图标个数                                | `number`   | `5`      |
-| size      | 尺寸，可选值为 `small` `medium` `large` | `string`   | `medium` |
-| color     | 颜色                                    | `string`   | `danger` |
-| clearable | 是否可以清除                            | `boolean`  | `false`    |
-| texts     | 辅助文字                                | `string[]` | `-`      |
-| showText  | 是否展示文字                            | `boolean`  | `false`  |
+| 属性        | 说明                                    | 类型       | 默认值   |
+| ----------- | --------------------------------------- | ---------- | -------- |
+| allowHalf   | 是否启用半星模式                        | `boolean`  | `false`  |
+| colorFilled | 颜色填充风格                            | `boolean`  | `true`   |
+| readonly    | 是否只读                                | `boolean`  | `false`  |
+| count       | 图标个数                                | `number`   | `5`      |
+| size        | 尺寸，可选值为 `small` `medium` `large` | `string`   | `medium` |
+| color       | 颜色                                    | `string`   | `danger` |
+| clearable   | 是否可以清除                            | `boolean`  | `false`  |
+| texts       | 辅助文字                                | `string[]` | `-`      |
+| showText    | 是否展示文字                            | `boolean`  | `false`  |
+
+## Events
+
+| 事件名称 | 说明                                  | 回调参数           |
+| -------- | ------------------------------------- | ------------------ |
+| change   | 在组件value值变更时触发               | (newValue) => void |
+| clear    | `clearable` 属性生效，清空value时触发 | () => void         |
 
 ## Slots
 

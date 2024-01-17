@@ -1,7 +1,13 @@
 <template>
-    <FRate v-model:value="value" size="small"></FRate>
-    <FRate v-model:value="value"></FRate>
-    <FRate v-model:value="value" size="large"></FRate>
+    <FSpace>
+        <FRate v-model="value" size="small"></FRate>
+    </FSpace>
+    <FSpace>
+        <FRate v-model="value"></FRate>
+    </FSpace>
+    <FSpace>
+        <FRate v-model="value" size="large"></FRate>
+    </FSpace>
 </template>
 
 <script setup>

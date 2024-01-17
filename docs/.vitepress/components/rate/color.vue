@@ -1,13 +1,19 @@
 <template>
-    <FRate v-model:value="value" color="#ff4d4f"></FRate>
-    <FRate v-model:value="value" color="orange"></FRate>
-    <FRate v-model:value="value" color="yellow"></FRate>
-    <FRate v-model:value="value" color="#00cb91"></FRate>
-    <FRate v-model:value="value" color="#5384ff"></FRate>
+    <FSpace>
+        <FInput placeholder="请输入颜色或者色号" @change="change" />
+    </FSpace>
+    <FSpace>
+        <FRate v-model="value" :color="color"></FRate>
+    </FSpace>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+const color = ref();
 
 const value = ref(4);
+
+const change = (val) => {
+    color.value = val;
+};
 </script>

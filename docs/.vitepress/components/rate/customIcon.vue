@@ -1,24 +1,33 @@
 <template>
-    <FRate v-model:value="value">
-        <template #content="slotProps">
-            <StarOutlined :size="slotProps.size" :color="slotProps.color" />
-        </template>
-    </FRate>
+    <FSpace>
+        <FRate v-model="value">
+            <template #content="slotProps">
+                <CheckCircleOutlined
+                    :size="slotProps.size"
+                    :color="slotProps.color"
+                />
+            </template>
+        </FRate>
+    </FSpace>
 
-    <FRate v-model:value="value" color="#5384ff" size="large">
-        <template #content="slotProps">
-            <StarOutlined :size="slotProps.size" :color="slotProps.color" />
-        </template>
-    </FRate>
+    <FSpace>
+        <FRate v-model="value" color="#5384ff" size="large">
+            <template #content="slotProps">
+                <StarOutlined :size="slotProps.size" :color="slotProps.color" />
+            </template>
+        </FRate>
+    </FSpace>
 
-    <FRate v-model:value="value" color="#5384ff">
-        <template #content="slotProps">
-            <QuestionCircleOutlined
-                :size="slotProps.size"
-                :color="slotProps.color"
-            />
-        </template>
-    </FRate>
+    <FSpace>
+        <FRate v-model="value" color="#5384ff">
+            <template #content="slotProps">
+                <QuestionCircleOutlined
+                    :size="slotProps.size"
+                    :color="slotProps.color"
+                />
+            </template>
+        </FRate>
+    </FSpace>
 </template>
 
 <script setup>

@@ -1,9 +1,11 @@
-import { defineComponent, computed, ref, watch } from 'vue';
+import { defineComponent, computed, watch } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
+import { useTheme } from '../_theme/useTheme';
 import { rateProps, type RateItem } from './props';
 import { sizeMap, defaultColorMap } from './const';
 import Star from './svg/star.vue';
 import LineStar from './svg/line-star.vue';
+import { useRate } from './useRate';
 
 const prefixCls = getPrefixCls('rate');
 
@@ -14,96 +16,19 @@ export default defineComponent({
         LineStar,
     },
     props: rateProps,
+    emits: ['update:modelValue', 'change', 'clear'],
     setup(props, { emit, slots }) {
-        const rateItemArr = ref<RateItem[]>([]);
+        const {
+            rateItemArr,
+            isHover,
+            curActiveIndex,
+            getRateArr,
+            rateClick,
+            hoverLeave,
+            hoverMove,
+        } = useRate(props, emit);
 
-        const isHover = ref(false);
-
-        // 根据props 生成评分数组
-        const getRateArr = () => {
-            const res: RateItem[] = [];
-            // 向下取整是满星数 Math.floor(null) 为 0
-            const fullStarsNum = Math.floor(props.value);
-            // 半星数最多为1
-            const halfStar = props.value
-                ? Math.floor(props.value) === props.value
-                    ? 0
-                    : 1
-                : 0;
-
-            const emptyStarsNum = props.count - fullStarsNum - halfStar;
-            fullStarsNum &&
-                [...Array(fullStarsNum)].map(() => {
-                    res.push({
-                        active: true,
-                        hover: true,
-                    });
-                });
-            // 存在半星情况
-            if (halfStar) {
-                res.push({
-                    active: true,
-                    hover: true,
-                    half: true,
-                });
-            }
-
-            if (emptyStarsNum >= 0) {
-                [...Array(emptyStarsNum)].map(() => {
-                    res.push({
-                        active: false,
-                    });
-                });
-            }
-
-            rateItemArr.value = res;
-        };
-
-        const clearRate = () => {
-            rateItemArr.value = rateItemArr.value.map(() => {
-                return {
-                    active: false,
-                };
-            });
-        };
-
-        const curActiveIndex = computed(() => {
-            if (!props.half) {
-                return props.value - 1;
-            } else {
-                return Math.ceil(props.value) - 1;
-            }
-        });
-
-        // 判断是否能取消
-        const handleHalfClearable = (isLeft: boolean, index: number) => {
-            if (props.clearable && !isLeft && props.value === index + 1) {
-                return true;
-            }
-            // 半星可以取消的场景
-            if (props.clearable && isLeft && props.value === index + 0.5) {
-                return true;
-            }
-
-            return false;
-        };
-
-        // 点击事件，点击的第几个，第几个之前的全亮
-        const rateClick = (event: MouseEvent, index: number) => {
-            const target = event.currentTarget as HTMLElement;
-            const halfWidth = target.offsetWidth / 2;
-            // 非半星模式不做判断
-            const isLeft = props.half ? event.offsetX <= halfWidth : false;
-            // 设定 clearable 后，点击当前值对应的图标后值会被设为null。
-            if (handleHalfClearable(isLeft, index)) {
-                clearRate();
-                emit('update:value', null);
-                return;
-            }
-
-            // 改变value值，改变了value，视图的rateItemArr会自动变更
-            emit('update:value', isLeft ? index + 0.5 : index + 1);
-        };
+        useTheme();
 
         // 只读状态改变鼠标样式
         const iconStyle = computed(() => {
@@ -124,7 +49,7 @@ export default defineComponent({
         });
 
         watch(
-            [() => props.value, () => props.count],
+            [() => props.modelValue, () => props.count],
             () => {
                 getRateArr();
             },
@@ -151,7 +76,7 @@ export default defineComponent({
 
         // 渲染半星
         const renderHalfStar = () => {
-            const emptyIcon = props.lineStyle ? (
+            const emptyIcon = !props.colorFilled ? (
                 <LineStar size={iconSize.value}></LineStar>
             ) : slots?.content ? (
                 slots?.content({
@@ -185,8 +110,8 @@ export default defineComponent({
 
         // 渲染空星
         const renderEmptyStar = () => {
-            // 线性空星样式
-            if (props.lineStyle) {
+            // 空心样式
+            if (!props.colorFilled) {
                 return <LineStar size={iconSize.value}></LineStar>;
             }
             return (
@@ -206,57 +131,6 @@ export default defineComponent({
             );
         };
 
-        // hover 会改变rate组件的展示，但是只要不点击，鼠标移开后仍然维持原状
-        const hoverMove = (event: MouseEvent, curIndex: number) => {
-            const target = event.currentTarget as HTMLElement;
-            const halfWidth = target.offsetWidth / 2;
-            // 非半星模式不做判断
-            const isLeft = props.half ? event.offsetX <= halfWidth : false;
-
-            rateItemArr.value.forEach((item, i) => {
-                if (i < curIndex) {
-                    rateItemArr.value[i] = {
-                        ...item,
-                        hover: true,
-                        half: false,
-                    };
-                }
-                if (i === curIndex) {
-                    rateItemArr.value[i] = {
-                        ...item,
-                        hover: true,
-                        half: isLeft,
-                    };
-                }
-                if (i > curIndex) {
-                    rateItemArr.value[i] = {
-                        ...item,
-                        hover: false,
-                        half: false,
-                    };
-                }
-            });
-        };
-
-        const hoverLeave = () => {
-            rateItemArr.value = rateItemArr.value.map((item, index) => {
-                if (
-                    index === curActiveIndex.value &&
-                    Math.floor(props.value) !== props.value
-                ) {
-                    // 半星场景 hover离开
-                    return {
-                        ...item,
-                        half: true,
-                    };
-                }
-                return {
-                    ...item,
-                    half: false,
-                };
-            });
-        };
-
         const containerHoverEnter = () => {
             isHover.value = true;
         };
@@ -265,9 +139,16 @@ export default defineComponent({
             isHover.value = false;
         };
 
-        // 渲染hover状态下的item
-        const renderItem = (item: RateItem, isHover: boolean) => {
-            const judgment = isHover ? item.hover : item.active;
+        // 渲染item
+        const renderItem = (item: RateItem) => {
+            let judgment: boolean;
+
+            // 非只读状态下，如果是hover状态就只看hover属性的boolean确认高亮效果
+            if (isHover.value && !props.readonly) {
+                judgment = item.hover;
+            } else {
+                judgment = item.active;
+            }
             if (judgment && item.half) {
                 return renderHalfStar();
             }
@@ -280,7 +161,7 @@ export default defineComponent({
         };
 
         // 根据状态渲染
-        const renderRateByStatus = (isHover: boolean) => {
+        const renderRateByStatus = () => {
             return (
                 <div
                     class={`${prefixCls}-container`}
@@ -300,7 +181,7 @@ export default defineComponent({
                                     !props.readonly && hoverLeave()
                                 }
                             >
-                                {renderItem(item, isHover)}
+                                {renderItem(item)}
                             </div>
                         );
                     })}
@@ -321,12 +202,12 @@ export default defineComponent({
 
         // 容器样式
         const containerClass = computed(() => {
-            return [prefixCls, `${prefixCls}-${props.size}`];
+            return [prefixCls, `${prefixCls}-size-${props.size}`];
         });
 
         return () => (
             <div class={containerClass.value}>
-                {renderRateByStatus(isHover.value)}
+                {renderRateByStatus()}
                 {renderText()}
             </div>
         );

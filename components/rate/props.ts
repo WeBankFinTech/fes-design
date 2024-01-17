@@ -1,4 +1,8 @@
-import { type ComponentObjectPropsOptions, type PropType } from 'vue';
+import {
+    type ComponentObjectPropsOptions,
+    type PropType,
+    type DefineComponent,
+} from 'vue';
 import type { ComponentProps } from '../timeline/utilTypes';
 
 type Size = 'large' | 'medium' | 'small';
@@ -6,9 +10,9 @@ type Size = 'large' | 'medium' | 'small';
 export const rateProps = {
     size: {
         type: String as PropType<Size>,
-        default: 'medium',
+        default: 'medium' satisfies Size,
     },
-    half: {
+    allowHalf: {
         type: Boolean,
         default: false,
     },
@@ -20,7 +24,7 @@ export const rateProps = {
         default: 5,
     },
     // 评分被激活的个数
-    value: {
+    modelValue: {
         type: Number,
     },
     readonly: {
@@ -39,14 +43,19 @@ export const rateProps = {
         type: Boolean,
         default: false,
     },
-    lineStyle: {
+    // 颜色填充
+    colorFilled: {
         type: Boolean,
-        default: false,
+        default: true,
     },
 } as const satisfies ComponentObjectPropsOptions;
 
 // 组件暴露给外部的 props 类型
 export type RateProps = ComponentProps<typeof rateProps>;
+
+export type RateInnerProps = Parameters<
+    DefineComponent<typeof rateProps>['setup']
+>[0];
 
 // 评分对象
 export type RateItem = {
