@@ -616,7 +616,7 @@ export const useQuarter = (
             (selectedDate) =>
                 selectedDate &&
                 selectedDate.year === currentDate.year &&
-                item.value === selectedDate.month / 3 + 1,
+                item.value === Math.floor(selectedDate.month / 3) + 1,
         );
 
     const isNow = (item: QuarterItem) => {
