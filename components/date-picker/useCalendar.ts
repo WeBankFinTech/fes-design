@@ -580,6 +580,8 @@ export const useQuarter = (
         value: number;
     };
 
+    const format = 'yyyy-MM';
+
     const quarterList = [
         {
             name: 'Q1',
@@ -625,10 +627,19 @@ export const useQuarter = (
         );
     };
 
+    // 季度置灰判断
+    const isDisabled = (item: QuarterItem) => {
+        const year = currentDate.year;
+        const month = (item.value - 1) * 3;
+        const date = new Date(year, month);
+        return props.disabledDate && props.disabledDate(date, format);
+    };
+
     const quarterCls = (item: QuarterItem) => ({
         [`${prefixCls}-date`]: true,
         [`${prefixCls}-date-selected`]: isSelected(item),
         [`${prefixCls}-date-now`]: isNow(item),
+        [`${prefixCls}-date-disabled`]: isDisabled(item),
     });
     return {
         isQuarterSelect,
