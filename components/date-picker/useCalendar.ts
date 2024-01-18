@@ -1,4 +1,4 @@
-import { watch, watchEffect, ref, reactive, computed, type Ref } from 'vue';
+import { watch, ref, reactive, computed, type Ref } from 'vue';
 import { isNil } from 'lodash-es';
 import { endOfMonth } from 'date-fns';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -213,13 +213,8 @@ export function useYear({
     currentDate: DateObj;
     updateCurrentDate: UpdateCurrentDate;
 }) {
-    const isYearSelect = ref(false);
+    const isYearSelect = computed(() => props.type === PickerType.year);
     // 年份相关
-    watchEffect(() => {
-        if (props.type === PickerType.year) {
-            isYearSelect.value = true;
-        }
-    });
     const selectYear = (year: number) => {
         updateCurrentDate({
             year,
