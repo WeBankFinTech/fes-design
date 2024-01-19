@@ -32,6 +32,15 @@
         display: none;
     }
 
+    #wrapper-inner-shadow-left() {
+        .shadow(@scrollbar-shadow-size, 'right');
+        z-index: @scrollbar-shadow-z-index;
+    }
+    #wrapper-inner-shadow-right() {
+        .shadow(@scrollbar-shadow-size, 'left');
+        z-index: @scrollbar-shadow-z-index;
+    }
+
     & &-header-wrapper,
     & &-body-wrapper {
         position: relative;
@@ -42,11 +51,6 @@
 
         &.is-scrolling-x-left,
         &.is-scrolling-x-middle {
-            &.columns-fixed-left::after {
-                .shadow(@scrollbar-shadow-size, 'right');
-                z-index: @scrollbar-shadow-z-index;
-            }
-
             .@{table-prefix}-fixed-right.is-first {
                 box-shadow: @column-shadow-left;
             }
@@ -54,11 +58,6 @@
 
         &.is-scrolling-x-right,
         &.is-scrolling-x-middle {
-            &.columns-fixed-right::after {
-                .shadow(@scrollbar-shadow-size, 'left');
-                z-index: @scrollbar-shadow-z-index;
-            }
-
             .@{table-prefix}-fixed-left.is-last {
                 box-shadow: @column-shadow-right;
             }
@@ -68,6 +67,31 @@
             display: none;
         }
     }
+
+    & &-body-wrapper {
+        &.is-scrolling-x-left,
+        &.is-scrolling-x-middle {
+            &.columns-fixed-left::after {
+                #wrapper-inner-shadow-left();
+            }
+        }
+
+        &.is-scrolling-x-right,
+        &.is-scrolling-x-middle {
+            &.columns-fixed-right::after {
+                #wrapper-inner-shadow-right();
+            }
+        }
+    }
+
+    // shadow 为 position: absolute，依赖 table 的 position: relative
+    & &-header-shadow-left {
+        #wrapper-inner-shadow-left();
+    }
+    & &-header-shadow-right {
+        #wrapper-inner-shadow-right();
+    }
+
     & &-no-data {
         text-align: center;
     }
