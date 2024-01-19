@@ -61,6 +61,7 @@ export default ({
         prop: 'checkedKeys',
     });
 
+    // 是否是全选了
     const isAllSelected = computed(() => {
         return (
             selectableData.value.length > 0 &&
@@ -92,6 +93,29 @@ export default ({
         },
     );
 
+    // 是否单选模式
+    const isSingleSelect = computed(() => {
+        return (
+            selectionColumn.value &&
+            selectionColumn.value.props.selectType === 'single'
+        );
+    });
+
+    // 模式变更，单选只能有一个被选择
+    watch(
+        () => isSingleSelect.value,
+        () => {
+            // 如果是单选模式，但是选择数据中有多个，取第一个选中
+            if (isSingleSelect.value && currentCheckedKeys.value.length > 1) {
+                const selectionList = currentCheckedKeys.value as CheckedKey[];
+                selectionList.splice(1);
+            }
+        },
+        {
+            immediate: true,
+        },
+    );
+
     const isSelectDisabled = ({ row }: { row: RowType }) => {
         if (!selectionColumn.value) return false;
         return !selectableData.value.includes(row);
@@ -104,11 +128,20 @@ export default ({
         );
     };
 
+    // 选择框的点击事件
     const handleSelect = ({ row }: { row: RowType }) => {
         if (isSelectDisabled({ row })) return;
+
         const rowKey = getRowKey({ row });
         const selectionList = currentCheckedKeys.value as CheckedKey[];
         const index = selectionList.indexOf(rowKey as CheckedKey);
+        // 如果是单选模式
+        if (isSingleSelect.value) {
+            // 如果是单选直接先置空
+            selectionList.length = 0;
+        }
+
+        // 点击的是已有的，则取消
         if (index !== -1) {
             selectionList.splice(index, 1);
             ctx.emit('select', {

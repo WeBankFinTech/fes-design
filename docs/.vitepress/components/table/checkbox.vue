@@ -7,7 +7,11 @@
         rowKey="id"
         @selectionChange="selectionChange"
     >
-        <FTableColumn type="selection" :selectable="selectable"></FTableColumn>
+        <FTableColumn
+            type="selection"
+            :selectable="selectable"
+            :selectType="selectType"
+        ></FTableColumn>
         <FTableColumn prop="date" label="日期"></FTableColumn>
         <FTableColumn prop="name" label="姓名"></FTableColumn>
         <FTableColumn prop="address" label="地址"></FTableColumn>
@@ -15,6 +19,7 @@
     <div style="margin-top: 10px">
         <FButton @click="toggleSelection(data[0])">切换第一行</FButton>
         <FButton @click="toggleSelection(null)">取消选择</FButton>
+        <FButton @click="changeSelectType">单选/多选</FButton>
     </div>
 </template>
 <script>
@@ -22,6 +27,8 @@ import { reactive, ref } from 'vue';
 export default {
     setup() {
         const checkedKeys = ref([1]);
+
+        const selectType = ref('multiple');
         const data = reactive(
             Array.from([1, 2, 3], (i) => {
                 return {
@@ -35,10 +42,10 @@ export default {
         const selectable = ({ rowIndex }) => {
             return rowIndex !== 1;
         };
-        const selectionChange = (selecton) => {
+        const selectionChange = (selection) => {
             console.log(
-                '[table.checkbox] [selectionChange] selecton:',
-                selecton,
+                '[table.checkbox] [selectionChange] selection:',
+                selection,
             );
         };
         const multipleTable = ref(null);
@@ -49,13 +56,24 @@ export default {
                 multipleTable.value.clearSelection();
             }
         };
+
+        const changeSelectType = () => {
+            if (selectType.value === 'multiple') {
+                selectType.value = 'single';
+            } else {
+                selectType.value = 'multiple';
+            }
+        };
+
         return {
             checkedKeys,
             data,
             selectable,
+            selectType,
             multipleTable,
             toggleSelection,
             selectionChange,
+            changeSelectType,
         };
     },
 };
