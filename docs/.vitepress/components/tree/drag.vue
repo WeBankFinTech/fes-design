@@ -11,7 +11,7 @@ function createData(level = 1, baseKey = '', prefix, suffix) {
     return Array.apply(null, { length: 2 }).map((_, index) => {
         const key = '' + baseKey + level + index;
         return {
-            label: createLabel(level),
+            label: key + createLabel(level),
             value: key,
             children: createData(level - 1, key, prefix, suffix),
             prefix: prefix ? () => h(PictureOutlined) : null,
@@ -45,27 +45,32 @@ export default {
     setup() {
         const data = reactive(createData(4));
 
-        const onDrop = ({ node, dragNode, position }) => {
+        const onDrop = ({ originNode, originDragNode, position }) => {
             const [dragNodeSiblings, dragNodeIndex] = findSiblingsAndIndex(
-                dragNode,
+                originDragNode,
                 data,
             );
             if (dragNodeSiblings === null || dragNodeIndex === null) return;
             dragNodeSiblings.splice(dragNodeIndex, 1);
             if (position === 'before') {
                 const [nodeSiblings, nodeIndex] = findSiblingsAndIndex(
-                    node,
+                    originNode,
                     data,
                 );
                 if (nodeSiblings === null || nodeIndex === null) return;
-                nodeSiblings.splice(nodeIndex, 0, dragNode.origin);
+                nodeSiblings.splice(nodeIndex, 0, originDragNode);
             } else if (position === 'after') {
                 const [nodeSiblings, nodeIndex] = findSiblingsAndIndex(
-                    node,
+                    originNode,
                     data,
                 );
                 if (nodeSiblings === null || nodeIndex === null) return;
-                nodeSiblings.splice(nodeIndex + 1, 0, dragNode.origin);
+                nodeSiblings.splice(nodeIndex + 1, 0, originDragNode);
+            } else if (position === 'inside') {
+                if (!originNode.children) {
+                    originNode.children = [];
+                }
+                originNode.children.splice(0, 0, originDragNode);
             }
         };
 

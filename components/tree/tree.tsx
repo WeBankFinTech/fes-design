@@ -108,6 +108,7 @@ export default defineComponent({
             handleDragend,
             handleDrop,
             dragOverInfo,
+            dragHighlightNode,
         } = useDrag({ nodeList, emit, expandNode });
 
         if (expose) {
@@ -133,6 +134,7 @@ export default defineComponent({
             handleDragend,
             handleDrop,
             dragOverInfo,
+            dragHighlightNode,
         });
 
         const renderNode = (value: TreeNodeKey) => {

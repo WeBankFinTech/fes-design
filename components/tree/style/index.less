@@ -50,6 +50,19 @@
                 margin-left: 0;
             }
         }
+        &.is-highlight {
+            &::after {
+                position: absolute;
+                top: 4px;
+                right: 0;
+                bottom: 4px;
+                left: 0;
+                z-index: 1;
+                border: 2px solid var(--f-primary-color);
+                border-radius: var(--f-border-radius-sm);
+                content: "";
+            }
+        }
     }
     &-node-indent {
         width: @tree-indent;
@@ -95,7 +108,7 @@
         position: absolute;
         right: 0;
         left: 0;
-        height: 1px;
+        height: 2px;
         background: var(--f-primary-color);
         &::before{
             position: absolute;
@@ -103,8 +116,8 @@
             left: -5px;
             z-index: 1;
             display: block;
-            width: 4px;
-            height: 4px;
+            width: 6px;
+            height: 6px;
             border: 1px solid var(--f-primary-color);
             border-radius: 50%;
             content: "";
