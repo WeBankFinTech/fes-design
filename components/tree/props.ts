@@ -5,6 +5,7 @@ import type {
     InjectionKey,
     Ref,
     ComponentObjectPropsOptions,
+    ComputedRef,
 } from 'vue';
 
 import type { ExtractPublicPropTypes } from '../_util/interface';
@@ -133,6 +134,7 @@ export interface TreeInst {
         node: InnerTreeOption;
         position: DropPosition;
     }>;
+    dragHighlightNode: ComputedRef<InnerTreeOption | undefined>;
 }
 
 export const TREE_PROVIDE_KEY: InjectionKey<TreeInst> = Symbol('FTree');

@@ -85,6 +85,8 @@ export default defineComponent({
                 isSelected.value && 'is-selected',
                 isInline.value && 'is-inline',
                 isFirst.value && 'is-inline-first',
+                root.dragHighlightNode.value?.value === props.value &&
+                    'is-highlight',
             ].filter(Boolean),
         );
 
@@ -143,8 +145,14 @@ export default defineComponent({
         const handleStopClickPrefix = (event: Event) => {
             event.stopPropagation();
         };
-        const renderDrag = () => {
+        const renderDragTag = () => {
             const dragOverInfo = root.dragOverInfo.value;
+            if (!dragOverInfo) {
+                return;
+            }
+            if (dragOverInfo.position === 'inside') {
+                return;
+            }
             if (dragOverInfo?.node.value === props.value) {
                 const style: CSSProperties = {};
                 if (dragOverInfo?.position === 'before') {
@@ -240,7 +248,7 @@ export default defineComponent({
                     root.handleDrop(props.value, event);
                 }}
             >
-                {renderDrag()}
+                {renderDragTag()}
                 {renderSwitcher()}
                 {renderCheckbox()}
                 <span

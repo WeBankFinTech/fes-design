@@ -75,16 +75,22 @@ export default ({
                             const index = currentData.value.indexOf(
                                 brotherNode.value,
                             );
-                            deleteNode(brotherNode.childrenPath, index + 1);
+                            if (brotherNode.childrenPath) {
+                                deleteNode(brotherNode.childrenPath, index + 1);
+                            }
                             brotherNode.isExpanded.value = false;
                         }
                     });
                 }
                 const index = currentData.value.indexOf(node.value);
-                addNode(node.children, index + 1);
+                if (node.children) {
+                    addNode(node.children, index + 1);
+                }
             } else {
                 const index = currentData.value.indexOf(node.value);
-                deleteNode(node.childrenPath, index + 1);
+                if (node.childrenPath) {
+                    deleteNode(node.childrenPath, index + 1);
+                }
             }
             expandingNode.value = null;
             return;

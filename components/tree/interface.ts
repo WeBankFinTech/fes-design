@@ -18,6 +18,7 @@ export interface TreeOption {
 
 export interface InnerTreeOption extends TreeOption {
     origin?: TreeOption;
+    parent?: TreeOption;
     level?: number;
     hasChildren?: boolean;
     indexPath?: TreeNodeKey[];

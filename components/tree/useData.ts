@@ -79,9 +79,12 @@ export default ({ props, emit }: { props: TreeProps; emit: any }) => {
         children: InnerTreeOption[] = [],
         indexPath: TreeNodeKey[] = [],
         level = 1,
+        parent: InnerTreeOption = undefined,
     ) =>
         nodes.reduce((res, node) => {
             const copy = transformNode(node, indexPath, level);
+            // 收集 parent
+            copy.parent = parent;
             // 扁平化
             nodeList.set(copy.value, copy);
             res.push(copy.value);
@@ -93,6 +96,7 @@ export default ({ props, emit }: { props: TreeProps; emit: any }) => {
                     children,
                     copy.indexPath,
                     level + 1,
+                    copy,
                 );
                 copy.children = children;
                 copy.childrenPath = keys;
