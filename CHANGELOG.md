@@ -1,19 +1,19 @@
-## [0.8.23](https://github.com/WeBankFinTech/fes-design/compare/v0.8.22...v0.8.23) (2024-01-10)
+## [0.8.24](https://github.com/WeBankFinTech/fes-design/compare/v0.8.23...v0.8.24) (2024-01-22)
 
 
 ### Bug Fixes
 
-* **input:** 修复当input未设置modelValue时输入autosize不生效问题 ([#583](https://github.com/WeBankFinTech/fes-design/issues/583)) ([591d0b6](https://github.com/WeBankFinTech/fes-design/commit/591d0b6983265ffd03702634a4355610fea90f0e))
-* **Tabs:** 修复 Card 模式样式问题 ([#577](https://github.com/WeBankFinTech/fes-design/issues/577)) ([4b79b98](https://github.com/WeBankFinTech/fes-design/commit/4b79b987ad06d500568459134084c1eb377102dd))
-* **Tabs:** 修复滚动内阴影展示计算问题 ([#575](https://github.com/WeBankFinTech/fes-design/issues/575)) ([819b299](https://github.com/WeBankFinTech/fes-design/commit/819b299bed1f928d2e1507f0b2d159c7a5146bc9))
-* **Tabs:** 修复后缀布局问题 ([#574](https://github.com/WeBankFinTech/fes-design/issues/574)) ([25c2d42](https://github.com/WeBankFinTech/fes-design/commit/25c2d427695edd57444a48bd5e2a5c61110fcc61))
+* **DatePicker:** 修复 type 由 year 切换至其他时，内部 calendar 渲染异常 ([#598](https://github.com/WeBankFinTech/fes-design/issues/598)) ([d2d2fd2](https://github.com/WeBankFinTech/fes-design/commit/d2d2fd240dce08237cfdb990a3f332d56a33089e))
+* **DatePicker:** 修复季度无法置灰问题 ([#599](https://github.com/WeBankFinTech/fes-design/issues/599)) ([1dfe8b4](https://github.com/WeBankFinTech/fes-design/commit/1dfe8b496ed8dfb9ce1ccac56250f956b3a8c8e0))
+* **Image:** 修复 preview 拖拽、缩放动画延迟问题 ([#591](https://github.com/WeBankFinTech/fes-design/issues/591)) ([f5783e7](https://github.com/WeBankFinTech/fes-design/commit/f5783e7d843620fa0b55abaa7eecc83897aa7f7f))
+* **Table:** 无数据组件去掉 border 样式 ([#586](https://github.com/WeBankFinTech/fes-design/issues/586)) ([5e033c5](https://github.com/WeBankFinTech/fes-design/commit/5e033c526d361fb39f7c5c73da14d6f5dddefa62))
+* **Tabs:** 移除 pane-wrapper 中的 white-space ([#587](https://github.com/WeBankFinTech/fes-design/issues/587)) ([5fb5fec](https://github.com/WeBankFinTech/fes-design/commit/5fb5fec5afa31b6d7398b201a8f6155587ab6e46))
+* **Tabs:** 优化前缀、后缀 demo ([#588](https://github.com/WeBankFinTech/fes-design/issues/588)) ([a6d923c](https://github.com/WeBankFinTech/fes-design/commit/a6d923cecae11cedb5761e3c64fa11a602e74d72))
 
 
 ### Features
 
-* **Drawer:** 新增 dimension 属性替代 height 和 width, 后两者标为废弃 ([#572](https://github.com/WeBankFinTech/fes-design/issues/572)) ([64933f8](https://github.com/WeBankFinTech/fes-design/commit/64933f89e570c967762ace420d583ade02bb653f))
-* **Modal:** 新增 height, maxHeight, bottom 配置项 ([#565](https://github.com/WeBankFinTech/fes-design/issues/565)) ([bea8668](https://github.com/WeBankFinTech/fes-design/commit/bea86681f726e583e4b9aab0b5d74fea6b2eb6c7))
-* **modal:** 移除height配置项，更改modal最大高度内部逻辑 ([#581](https://github.com/WeBankFinTech/fes-design/issues/581)) ([76c84fe](https://github.com/WeBankFinTech/fes-design/commit/76c84fe0d435eeb1ad662a8fc1443e0fdb141e1f))
+* Tree拖拽支持inside ([#603](https://github.com/WeBankFinTech/fes-design/issues/603)) ([255c740](https://github.com/WeBankFinTech/fes-design/commit/255c7407cd6be2a67bedec1b2a3a72938608d543))
 
 
 
