@@ -134,7 +134,8 @@ export default defineComponent({
                             </Fragment>
                         )}
                         {column.props.type === 'selection' &&
-                            column.props.selectType === 'multiple' && (
+                            // 多选场景展示头部全选
+                            column.props.multiple && (
                                 <div class={`${prefixCls}-center`}>
                                     <FCheckbox
                                         modelValue={isAllSelected.value}

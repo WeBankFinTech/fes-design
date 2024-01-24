@@ -32,6 +32,3 @@ export interface TableInst
     tableId: string;
     showData: Ref<object[]>;
 }
-
-// 选择模式下，单选和多选两类
-export type SelectionType = 'multiple' | 'single';

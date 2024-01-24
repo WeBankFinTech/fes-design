@@ -1,4 +1,14 @@
 <template>
+    <FSpace>
+        是否多选:
+        <FRadioGroup
+            v-model="multiple"
+            :options="[
+                { label: '是（默认）', value: true },
+                { label: '否', value: false },
+            ]"
+        />
+    </FSpace>
     <div style="margin-bottom: 10px">选中的keys: {{ checkedKeys }}</div>
     <FTable
         ref="multipleTable"
@@ -10,7 +20,7 @@
         <FTableColumn
             type="selection"
             :selectable="selectable"
-            :selectType="selectType"
+            :multiple="multiple"
         ></FTableColumn>
         <FTableColumn prop="date" label="日期"></FTableColumn>
         <FTableColumn prop="name" label="姓名"></FTableColumn>
@@ -19,7 +29,6 @@
     <div style="margin-top: 10px">
         <FButton @click="toggleSelection(data[0])">切换第一行</FButton>
         <FButton @click="toggleSelection(null)">取消选择</FButton>
-        <FButton @click="changeSelectType">单选/多选</FButton>
     </div>
 </template>
 <script>
@@ -28,7 +37,7 @@ export default {
     setup() {
         const checkedKeys = ref([1]);
 
-        const selectType = ref('multiple');
+        const multiple = ref(true);
         const data = reactive(
             Array.from([1, 2, 3], (i) => {
                 return {
@@ -57,23 +66,14 @@ export default {
             }
         };
 
-        const changeSelectType = () => {
-            if (selectType.value === 'multiple') {
-                selectType.value = 'single';
-            } else {
-                selectType.value = 'multiple';
-            }
-        };
-
         return {
             checkedKeys,
             data,
             selectable,
-            selectType,
+            multiple,
             multipleTable,
             toggleSelection,
             selectionChange,
-            changeSelectType,
         };
     },
 };

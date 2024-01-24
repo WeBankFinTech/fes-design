@@ -95,21 +95,16 @@ export default ({
 
     // 是否单选模式
     const isSingleSelect = computed(() => {
-        return (
-            selectionColumn.value &&
-            selectionColumn.value.props.selectType === 'single'
-        );
+        return selectionColumn.value && !selectionColumn.value.props.multiple;
     });
 
     // 模式变更，单选只能有一个被选择
     watch(
-        () => isSingleSelect.value,
+        isSingleSelect,
         () => {
-            // 如果是单选模式，但是选择数据中有多个，取第一个选中
-            if (isSingleSelect.value && currentCheckedKeys.value.length > 1) {
-                const selectionList = currentCheckedKeys.value as CheckedKey[];
-                selectionList.splice(1);
-            }
+            // 切换后，清空当前选择
+            const selectionList = currentCheckedKeys.value as CheckedKey[];
+            selectionList.length = 0;
         },
         {
             immediate: true,

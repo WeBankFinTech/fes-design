@@ -21,7 +21,7 @@ import {
 import type { EllipsisProps } from '../ellipsis';
 
 import type { CellProps } from './components/cell';
-import type { RowType, ActionType, SelectionType } from './interface';
+import type { RowType, ActionType } from './interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export type SortOrderType = 'descend' | 'ascend' | false;
@@ -35,9 +35,9 @@ export const columnProps = {
         default: 'default',
     },
     // 默认多选，仅在type = 'selection'生效
-    selectType: {
-        type: String as PropType<SelectionType>,
-        default: 'multiple' satisfies SelectionType,
+    multiple: {
+        type: Boolean,
+        default: true,
     },
     align: {
         type: String as PropType<(typeof ALIGN)[number]>,
