@@ -84,6 +84,10 @@ export default {
                         link: '/zh/components/radio',
                     },
                     {
+                        text: 'Rate 评分组件',
+                        link: '/zh/components/rate',
+                    },
+                    {
                         text: 'Select 选择器',
                         link: '/zh/components/select',
                     },

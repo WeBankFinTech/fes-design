@@ -1,0 +1,73 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+
+@rate: ~'@{cls-prefix}-rate';
+@small-line-height: 16px;
+@medium-line-height: 22px;
+@large-line-height: 26px;
+
+.@{rate} {
+    display: flex;
+    align-items: center;
+
+    &-container {
+        display: flex;
+        align-items: center;
+
+        .rate-icon {
+            position: relative;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+
+            .half-icon {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                width: 50%;
+                margin: auto 0;
+                overflow: hidden;
+            }
+
+            // 半星下的背景icon
+            .background-icon {
+                position: relative;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                margin: auto 0;
+                color: var(--f-text-color-disabled-light);
+            }
+        }
+
+        .empty-icon {
+            color: var(--f-text-color-disabled-light);
+        }
+
+        .full-icon {
+            color: var(--f-warning-color);
+        }
+    }
+
+    &-text {
+        margin-left: 10px;
+        font-size: var(--f-font-size-base);
+    }
+
+    &-size-small {
+        height: @small-line-height ;
+        line-height: @small-line-height;
+    }
+
+    &-size-medium {
+        height: @medium-line-height ;
+        line-height: @medium-line-height;
+    }
+
+    &-size-large {
+        height: @large-line-height ;
+        line-height: @large-line-height;
+    }
+
+}
