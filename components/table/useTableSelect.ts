@@ -98,19 +98,6 @@ export default ({
         return selectionColumn.value && !selectionColumn.value.props.multiple;
     });
 
-    // 模式变更，单选只能有一个被选择
-    watch(
-        isSingleSelect,
-        () => {
-            // 切换后，清空当前选择
-            const selectionList = currentCheckedKeys.value as CheckedKey[];
-            selectionList.length = 0;
-        },
-        {
-            immediate: true,
-        },
-    );
-
     const isSelectDisabled = ({ row }: { row: RowType }) => {
         if (!selectionColumn.value) return false;
         return !selectableData.value.includes(row);
@@ -133,7 +120,7 @@ export default ({
         // 如果是单选模式
         if (isSingleSelect.value) {
             // 如果是单选直接先置空
-            selectionList.length = 0;
+            clearSelect();
         }
 
         // 点击的是已有的，则取消
@@ -187,6 +174,18 @@ export default ({
     const clearSelect = () => {
         currentCheckedKeys.value.length = 0;
     };
+
+    // 模式变更，单选只能有一个被选择
+    watch(
+        isSingleSelect,
+        () => {
+            // 切换后，清空当前选择
+            clearSelect();
+        },
+        {
+            immediate: true,
+        },
+    );
 
     return {
         isSelectDisabled,
