@@ -60,9 +60,10 @@ heightAndFixed.vue
 multiHeader.vue
 :::
 
-### 多选
+### 行选择
 
-选择多行数据时使用 Checkbox。
+选择行数据时使用 Checkbox，type为`selection`生效。  
+在该模式下，可以设置`multiple`，设置单选和多选。
 
 :::demo
 checkbox.vue
@@ -205,26 +206,27 @@ resizable.vue
 
 ## FTableColumn Props
 
-| 属性           | 说明                                                                                                  | 类型                                                                                                             | 可选值                | 默认值                  |
-| -------------- | ----------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | --------------------- | ----------------------- |
-| action         | 操作                                                                                                  | array \| object                                                                                                  | -                     | -                       |
-| align          | 对齐方式                                                                                              | string                                                                                                           | left / center / right | `left`                  |
-| colClassName   | 列的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。                         | string \| object \| array \| ({ row, column, rowIndex, columnIndex, cellValue })=> ( object \| array \| string ) | -                     | -                       |
-| colStyle       | 列的 style 的回调方法，也可以使用一个固定的 Object 为所有行设置一样的 Style。                         | object \| ({ row, column, rowIndex, columnIndex, cellValue }) => object                                          | -                     | -                       |
-| fixed          | 列是否固定在左侧或者右侧，true 表示固定在左侧                                                         | string \| boolean                                                                                                | true / left / right   | -                       |
-| formatter      | 用来格式化内容                                                                                        | ({row, column, rowIndex, columnIndex, cellValue}) => any                                                         | -                     | -                       |
-| label          | 列的标题，也可以使用 `#header` 自定义                                                                 | string                                                                                                           | -                     | -                       |
-| minWidth       | 列最小的宽度，如果容器宽度够大，则会自适应补偿                                                        | number                                                                                                           | -                     | -                       |
-| prop           | 列内容的字段名                                                                                        | string                                                                                                           | -                     | -                       |
-| selectable     | 仅对 type=selection 的列有效，Function 的返回值用来决定这一行的 CheckBox 是否可以勾选                 | ({row, rowIndex}) => boolean                                                                                     | -                     | -                       |
-| type           | 列的类型，如果设置为`selection`则显示选择器，如果设置为`expand`则显示一个展开按钮                     | string                                                                                                           | selection / expand    | `false`                 |
-| width          | 对应列的宽度，优先级大于 minWidth                                                                     | number                                                                                                           | -                     | -                       |
-| ellipsis       | 设置宽度后，如果文本溢出后出现省略号，设置为对象时参考 Ellipsis 组件配置                              | boolean \| Object                                                                                                | -                     | `false`                 |
-| visible        | 是否显示列                                                                                            | boolean                                                                                                          | -                     | `true`                  |
-| sortable       | 是否排序列                                                                                            | boolean                                                                                                          | -                     | `false`                 |
-| sorter         | 排序方法，如果设为 'default' 表格将会使用一个内置的排序函数；其他工作的方式类似 Array.sort 的对比函数 | ((a: RowType, b: RowType) => boolean) \| 'default'                                                               | -                     | `default`               |
-| sortDirections | 支持的排序方式                                                                                        | string[]                                                                                                         | -                     | `['ascend', 'descend']` |
-| resizable      | 列是否可设置大小                                                                                      | boolean                                                                                                          | -                     | `false`                 |
+| 属性           | 说明                                                                                                  | 类型                                                                                                             | 可选值                       | 默认值                  |
+| -------------- | ----------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------------------- |
+| action         | 操作                                                                                                  | array \| object                                                                                                  | -                            | -                       |
+| align          | 对齐方式                                                                                              | string                                                                                                           | left / center / right        | `left`                  |
+| colClassName   | 列的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。                         | string \| object \| array \| ({ row, column, rowIndex, columnIndex, cellValue })=> ( object \| array \| string ) | -                            | -                       |
+| colStyle       | 列的 style 的回调方法，也可以使用一个固定的 Object 为所有行设置一样的 Style。                         | object \| ({ row, column, rowIndex, columnIndex, cellValue }) => object                                          | -                            | -                       |
+| fixed          | 列是否固定在左侧或者右侧，true 表示固定在左侧                                                         | string \| boolean                                                                                                | true / left / right          | -                       |
+| formatter      | 用来格式化内容                                                                                        | ({row, column, rowIndex, columnIndex, cellValue}) => any                                                         | -                            | -                       |
+| label          | 列的标题，也可以使用 `#header` 自定义                                                                 | string                                                                                                           | -                            | -                       |
+| minWidth       | 列最小的宽度，如果容器宽度够大，则会自适应补偿                                                        | number                                                                                                           | -                            | -                       |
+| prop           | 列内容的字段名                                                                                        | string                                                                                                           | -                            | -                       |
+| selectable     | 仅对 type=selection 的列有效，Function 的返回值用来决定这一行的 CheckBox 是否可以勾选                 | ({row, rowIndex}) => boolean                                                                                     | -                            | -                       |
+| type           | 列的类型，如果设置为`selection`则显示选择器，如果设置为`expand`则显示一个展开按钮                     | string                                                                                                           | default / selection / expand | `default`               |
+| multiple       | 列选择类型，type为`selection`时，可以设置单选和多选行模式                                             | string                                                                                                           | boolean                      | `true`                  |
+| width          | 对应列的宽度，优先级大于 minWidth                                                                     | number                                                                                                           | -                            | -                       |
+| ellipsis       | 设置宽度后，如果文本溢出后出现省略号，设置为对象时参考 Ellipsis 组件配置                              | boolean \| Object                                                                                                | -                            | `false`                 |
+| visible        | 是否显示列                                                                                            | boolean                                                                                                          | -                            | `true`                  |
+| sortable       | 是否排序列                                                                                            | boolean                                                                                                          | -                            | `false`                 |
+| sorter         | 排序方法，如果设为 'default' 表格将会使用一个内置的排序函数；其他工作的方式类似 Array.sort 的对比函数 | ((a: RowType, b: RowType) => boolean) \| 'default'                                                               | -                            | `default`               |
+| sortDirections | 支持的排序方式                                                                                        | string[]                                                                                                         | -                            | `['ascend', 'descend']` |
+| resizable      | 列是否可设置大小                                                                                      | boolean                                                                                                          | -                            | `false`                 |
 
 ## FTableColumn Slots
 

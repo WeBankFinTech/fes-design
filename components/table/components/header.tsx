@@ -133,18 +133,20 @@ export default defineComponent({
                                 )}
                             </Fragment>
                         )}
-                        {column.props.type === 'selection' && (
-                            <div class={`${prefixCls}-center`}>
-                                <FCheckbox
-                                    modelValue={isAllSelected.value}
-                                    indeterminate={
-                                        !isAllSelected.value &&
-                                        isCurrentDataAnySelected.value
-                                    }
-                                    onClick={handleSelectAll}
-                                />
-                            </div>
-                        )}
+                        {column.props.type === 'selection' &&
+                            // 多选场景展示头部全选
+                            column.props.multiple && (
+                                <div class={`${prefixCls}-center`}>
+                                    <FCheckbox
+                                        modelValue={isAllSelected.value}
+                                        indeterminate={
+                                            !isAllSelected.value &&
+                                            isCurrentDataAnySelected.value
+                                        }
+                                        onClick={handleSelectAll}
+                                    />
+                                </div>
+                            )}
                         {column.props.resizable && (
                             <span
                                 class={[

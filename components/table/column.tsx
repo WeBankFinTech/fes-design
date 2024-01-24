@@ -34,6 +34,11 @@ export const columnProps = {
         type: String as PropType<(typeof COL_TYPE)[number]>,
         default: 'default',
     },
+    // 默认多选，仅在type = 'selection'生效
+    multiple: {
+        type: Boolean,
+        default: true,
+    },
     align: {
         type: String as PropType<(typeof ALIGN)[number]>,
         default: 'left',
