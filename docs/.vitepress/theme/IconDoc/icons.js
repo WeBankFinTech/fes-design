@@ -84,6 +84,7 @@ export { default as SettingOutlined } from '../../../../components/icon/SettingO
 export { default as ShareOutlined } from '../../../../components/icon/ShareOutlined';
 export { default as SortOutlined } from '../../../../components/icon/SortOutlined';
 export { default as StarOutlined } from '../../../../components/icon/StarOutlined';
+export { default as StarFilled } from '../../../../components/icon/StarFilled';
 export { default as StopFilled } from '../../../../components/icon/StopFilled';
 export { default as StopOutlined } from '../../../../components/icon/StopOutlined';
 export { default as SwapLeftOutlined } from '../../../../components/icon/SwapLeftOutlined';

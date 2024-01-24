@@ -84,6 +84,7 @@ export { default as SettingOutlined } from './SettingOutlined';
 export { default as ShareOutlined } from './ShareOutlined';
 export { default as SortOutlined } from './SortOutlined';
 export { default as StarOutlined } from './StarOutlined';
+export { default as StarFilled } from './StarFilled';
 export { default as StopFilled } from './StopFilled';
 export { default as StopOutlined } from './StopOutlined';
 export { default as SwapLeftOutlined } from './SwapLeftOutlined';
