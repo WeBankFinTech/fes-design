@@ -5,7 +5,7 @@ import {
     computed,
     type ComponentObjectPropsOptions,
 } from 'vue';
-import FScrollbar from '../../scrollbar/scrollbar.vue';
+import Scrollbar from '../../scrollbar/scrollbar.vue';
 import Draggable from '../../draggable/draggable';
 import { provideKey } from '../const';
 import Colgroup from './colgroup';
@@ -131,7 +131,7 @@ export default defineComponent({
                 layout.isScrollY.value
             ) {
                 return (
-                    <FScrollbar
+                    <Scrollbar
                         ref={(el: any) => {
                             if (el) {
                                 scrollbarRef.value = el;
@@ -151,7 +151,7 @@ export default defineComponent({
                         onScroll={onScroll}
                     >
                         {renderTable()}
-                    </FScrollbar>
+                    </Scrollbar>
                 );
             }
             return (

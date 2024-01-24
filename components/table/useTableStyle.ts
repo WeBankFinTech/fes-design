@@ -6,10 +6,10 @@ import useTableLayout from './useTableLayout';
 
 const prefixCls = getPrefixCls('table');
 
-import type useTableColumn from './useTableColumn';
-import type { TableProps } from './table';
-import type { RowType } from './interface';
-import type { ColumnInst } from './column';
+import { type TableProps } from './table';
+import { type RowType } from './interface';
+import { type ColumnInst } from './column';
+import { type ColumnFixedStatus } from './useTableColumn';
 
 export default ({
     props,
@@ -22,7 +22,7 @@ export default ({
     showData: Ref<object[]>;
     props: TableProps;
     columns: Ref<ColumnInst[]>;
-    columnsFixed: ReturnType<typeof useTableColumn>['columnsFixed'];
+    columnsFixed: Ref<ColumnFixedStatus>;
     expandColumn: Ref<ColumnInst>;
     isExpandOpened: ({ row }: { row: RowType }) => boolean;
 }) => {
@@ -64,12 +64,49 @@ export default ({
         return arr;
     });
 
+    /**
+     * HeaderTable 不使用 Scrollbar
+     * 因此需要处理 left, right, none 三种情况下的滚动内阴影
+     * both 的情况由 cell 绘制阴影
+     */
+    const headerShadowVisible = computed<{ left: boolean; right: boolean }>(
+        () => {
+            if (columnsFixed.value === 'both') {
+                return { left: false, right: false };
+            }
+
+            if (columnsFixed.value === 'none') {
+                return {
+                    left: ['left', 'middle'].includes(scrollState.x),
+                    right: ['right', 'middle'].includes(scrollState.x),
+                };
+            }
+
+            let left = false;
+            let right = false;
+
+            if (columnsFixed.value === 'left') {
+                left = ['left', 'middle'].includes(scrollState.x);
+            } else if (columnsFixed.value === 'right') {
+                right = ['right', 'middle'].includes(scrollState.x);
+            }
+
+            return { left, right };
+        },
+    );
+
     const bodyWrapperClass = computed(() => {
         const arr = [`${prefixCls}-body-wrapper`];
         if (scrollState.x) {
             arr.push(`is-scrolling-x-${scrollState.x}`);
         }
-        if (columnsFixed.value !== 'none') {
+        /**
+         * BodyTable 使用 Scrollbar
+         * 仅处理单侧有固定列的情况
+         * none 的情况由 Scrollbar 绘制阴影
+         * both 的情况由 cell 绘制阴影
+         */
+        if (['left', 'right'].includes(columnsFixed.value)) {
             arr.push(`columns-fixed-${columnsFixed.value}`);
         }
         return arr;
@@ -339,6 +376,7 @@ export default ({
         getCellStyle,
         getCustomCellStyle,
         syncPosition,
+        headerShadowVisible,
         handleHeaderMousewheel,
         headerWrapperClass,
         bodyWrapperClass,

@@ -5,6 +5,8 @@ import { getDefaultColProps } from './column';
 import type { ColumnInst, ColumnChildren } from './column';
 import type { TableProps } from './table';
 
+export type ColumnFixedStatus = 'left' | 'right' | 'both' | 'none';
+
 let seed = 0;
 
 // 递归扁平化 columns
@@ -68,7 +70,7 @@ export default function (props: TableProps) {
         }),
     );
 
-    const columnsFixed = computed<'left' | 'right' | 'both' | 'none'>(() => {
+    const columnsFixed = computed<ColumnFixedStatus>(() => {
         const mappedColumns = columns.value
             .map<'left' | 'right' | ''>((column) => {
                 if (column.fixedLeft) return 'left';
