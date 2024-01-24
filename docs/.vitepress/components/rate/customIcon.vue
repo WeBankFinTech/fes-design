@@ -1,30 +1,16 @@
 <template>
     <FSpace>
-        <FRate v-model="value">
+        <FRate v-model="value" allow-half>
             <template #content="slotProps">
-                <CheckCircleOutlined
-                    :size="slotProps.size"
-                    :color="slotProps.color"
-                />
+                <CheckCircleOutlined :size="slotProps.size" />
             </template>
         </FRate>
     </FSpace>
 
     <FSpace>
-        <FRate v-model="value" color="#5384ff" size="large">
+        <FRate v-model="value" color="#5384ff" allow-half>
             <template #content="slotProps">
-                <StarOutlined :size="slotProps.size" :color="slotProps.color" />
-            </template>
-        </FRate>
-    </FSpace>
-
-    <FSpace>
-        <FRate v-model="value" color="#5384ff">
-            <template #content="slotProps">
-                <QuestionCircleOutlined
-                    :size="slotProps.size"
-                    :color="slotProps.color"
-                />
+                <QuestionCircleOutlined :size="slotProps.size" />
             </template>
         </FRate>
     </FSpace>

@@ -1,20 +1,15 @@
 import { defineComponent, computed, watch } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
+import { StarFilled, StarOutlined } from '../icon';
 import { rateProps, type RateItem } from './props';
-import { sizeMap, defaultColorMap } from './const';
-import Star from './svg/star.vue';
-import LineStar from './svg/line-star.vue';
+import { sizeMap } from './const';
 import { useRate } from './useRate';
 
 const prefixCls = getPrefixCls('rate');
 
 export default defineComponent({
     name: 'FRate',
-    components: {
-        Star,
-        LineStar,
-    },
     props: rateProps,
     emits: ['update:modelValue', 'change', 'clear'],
     setup(props, { emit, slots }) {
@@ -30,17 +25,25 @@ export default defineComponent({
 
         useTheme();
 
-        // 只读状态改变鼠标样式
-        const iconStyle = computed(() => {
+        const getCommonStyle = () => {
             return {
                 cursor: props.readonly && 'auto',
                 height: `${sizeMap[props.size]}px`,
             };
+        };
+
+        // 只读状态改变鼠标样式
+        const iconStyle = computed(() => {
+            return {
+                ...getCommonStyle(),
+                color: props.color,
+            };
         });
 
-        // 评分图标激活时颜色
-        const activeColor = computed(() => {
-            return props.color || defaultColorMap['default'];
+        const emptyIconStyle = computed(() => {
+            return {
+                ...getCommonStyle(),
+            };
         });
 
         // icon尺寸
@@ -58,17 +61,28 @@ export default defineComponent({
             },
         );
 
+        const emptyIcon = computed(() => {
+            return !props.colorFilled ? (
+                <StarOutlined size={iconSize.value}></StarOutlined>
+            ) : slots?.content ? (
+                slots?.content({
+                    size: iconSize.value,
+                })
+            ) : (
+                <StarFilled size={iconSize.value} />
+            );
+        });
+
         // 渲染满星
         const renderFullStar = () => {
             return (
-                <div class="rate-icon" style={iconStyle.value}>
+                <div class="rate-icon full-icon" style={iconStyle.value}>
                     {slots?.content ? (
                         slots?.content({
                             size: iconSize.value,
-                            color: activeColor.value,
                         })
                     ) : (
-                        <Star size={iconSize.value} color={activeColor.value} />
+                        <StarFilled size={iconSize.value} />
                     )}
                 </div>
             );
@@ -76,32 +90,16 @@ export default defineComponent({
 
         // 渲染半星
         const renderHalfStar = () => {
-            const emptyIcon = !props.colorFilled ? (
-                <LineStar size={iconSize.value}></LineStar>
-            ) : slots?.content ? (
-                slots?.content({
-                    size: iconSize.value,
-                    color: defaultColorMap['empty'],
-                })
-            ) : (
-                <Star size={iconSize.value} color={defaultColorMap['empty']} />
-            );
-
             return (
-                <div class="rate-icon" style={iconStyle.value}>
-                    <div class="background-icon">{emptyIcon}</div>
-
+                <div class="rate-icon full-icon" style={iconStyle.value}>
+                    <div class="background-icon">{emptyIcon.value}</div>
                     <div class="half-icon">
                         {slots?.content ? (
                             slots?.content({
                                 size: iconSize.value,
-                                color: activeColor.value,
                             })
                         ) : (
-                            <Star
-                                size={iconSize.value}
-                                color={activeColor.value}
-                            />
+                            <StarFilled size={iconSize.value} />
                         )}
                     </div>
                 </div>
@@ -110,23 +108,9 @@ export default defineComponent({
 
         // 渲染空星
         const renderEmptyStar = () => {
-            // 空心样式
-            if (!props.colorFilled) {
-                return <LineStar size={iconSize.value}></LineStar>;
-            }
             return (
-                <div class="rate-icon" style={iconStyle.value}>
-                    {slots?.content ? (
-                        slots?.content({
-                            size: iconSize.value,
-                            color: defaultColorMap['empty'],
-                        })
-                    ) : (
-                        <Star
-                            size={iconSize.value}
-                            color={defaultColorMap['empty']}
-                        />
-                    )}
+                <div class="rate-icon empty-icon" style={emptyIconStyle.value}>
+                    {emptyIcon.value}
                 </div>
             );
         };
