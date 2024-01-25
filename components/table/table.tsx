@@ -36,7 +36,6 @@ export const tableProps = {
     },
     emptyText: {
         type: String,
-        default: '暂无数据',
     },
     size: {
         type: String as PropType<(typeof SIZE)[number]>,
