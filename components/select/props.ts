@@ -66,6 +66,10 @@ export const selectProps = {
             return [];
         },
     },
+    virtualScroll: {
+        type: [Boolean, Number] as PropType<boolean | number>,
+        default: true,
+    },
     remote: {
         type: Boolean,
         default: false,
