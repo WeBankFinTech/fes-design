@@ -14,19 +14,27 @@ app.use(FDescriptions);
 
 ### 基础用法
 
---common
+:::demo
+common.vue
+:::
 
 ### label 在上方
 
---top
+:::demo
+top.vue
+:::
 
 ### 跨度
 
---span
+:::demo
+span.vue
+:::
 
 ### 边框
 
---CODE
+:::demo
+borded.vue
+:::
 
 ## Props
 

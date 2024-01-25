@@ -1,16 +1,10 @@
-import type { InjectionKey, CSSProperties, ComputedRef } from 'vue';
+import getPrefixCls from '../_util/getPrefixCls';
+import { type DescriptionsProvide } from './interface';
+import type { InjectionKey } from 'vue';
 
-export type LabelAlign = 'center' | 'left' | 'right';
-export type LabelPlacement = 'top' | 'left';
+export const DESCRIPTIONS_PROVIDE_KEY: InjectionKey<DescriptionsProvide> =
+    Symbol('DESCRIPTIONS_PROVIDE_KEY');
 
-export const DESCRIPTIONS_PROVIDE_KEY: InjectionKey<{
-    parentProps: ComputedRef<{
-        column: number;
-        contentStyle: CSSProperties | string;
-        labelAlign: LabelAlign;
-        labelPlacement: LabelPlacement;
-        labelStyle: CSSProperties | string;
-        separator: string;
-        bordered: boolean;
-    }>;
-}> = Symbol('DESCRIPTIONS_PROVIDE_KEY');
+export const DESCRIPTIONS_ITEM_DEFAULT_SPAN = 1;
+
+export const DESCRIPTIONS_PREFIX_CLASS = getPrefixCls('descriptions');
