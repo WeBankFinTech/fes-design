@@ -4,7 +4,9 @@
         title="Playground"
         display-directive="show"
         :mask-closable="false"
-        width="90%"
+        :dimension="1020"
+        :resizable="true"
+        :resizeMin="960"
         @ok="isShow = false"
     >
         <Repl
