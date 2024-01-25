@@ -49,6 +49,7 @@
                     :emptyText="listEmptyText"
                     :renderOption="$slots.option"
                     :renderEmpty="$slots.empty"
+                    :virtualScroll="virtualScroll"
                     @scroll="onScroll"
                     @mousedown.prevent
                 />

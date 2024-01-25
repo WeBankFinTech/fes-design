@@ -3,6 +3,7 @@ import {
     type PropType,
     type CSSProperties,
     type ComponentObjectPropsOptions,
+    computed,
 } from 'vue';
 import Scrollbar from '../scrollbar/scrollbar.vue';
 import Ellipsis from '../ellipsis/ellipsis';
@@ -11,6 +12,7 @@ import CheckOutlined from '../icon/CheckOutlined';
 import { noop } from '../_util/utils';
 import { useLocale } from '../config-provider/useLocale';
 import { PADDING_LEFT_BASE, PADDING_LEFT_INDENT } from './const';
+import { selectProps } from './props';
 import type { SelectOption, SelectValue } from './interface';
 
 const optionListProps = {
@@ -24,6 +26,7 @@ const optionListProps = {
             return [];
         },
     },
+    virtualScroll: selectProps['virtualScroll'],
     isSelect: {
         type: Function,
         default: noop,
@@ -58,6 +61,16 @@ export default defineComponent({
                 }px`,
             };
         };
+
+        const enableVirtualScroll = computed(() => {
+            if (typeof props.virtualScroll === 'boolean') {
+                return props.virtualScroll ? props.options.length > 50 : false;
+            }
+            if (typeof props.virtualScroll === 'number') {
+                return props.options.length > props.virtualScroll;
+            }
+            return true;
+        });
 
         const renderLabel = (
             option: SelectOption,
@@ -152,7 +165,7 @@ export default defineComponent({
             source.__isGroup ? renderGroupOption(source) : renderOption(source);
 
         return () =>
-            props.options.length > 50 ? (
+            enableVirtualScroll.value ? (
                 <VirtualList
                     onScroll={(event: Event) => {
                         emit('scroll', event);
