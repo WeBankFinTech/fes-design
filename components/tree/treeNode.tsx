@@ -155,13 +155,16 @@ export default defineComponent({
             }
             if (dragOverInfo?.node.value === props.value) {
                 const style: CSSProperties = {};
-                if (dragOverInfo?.position === 'before') {
-                    style['top'] = '2px';
-                } else if (dragOverInfo?.position === 'after') {
-                    style['bottom'] = '2px';
-                }
                 style['left'] = `${props.level * INDENT + 9}px`;
-                return <div class={`${prefixCls}-drag-over`} style={style} />;
+                return (
+                    <div
+                        class={[
+                            `${prefixCls}-drag-over`,
+                            `is-${dragOverInfo?.position}`,
+                        ]}
+                        style={style}
+                    />
+                );
             }
             return null;
         };

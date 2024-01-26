@@ -71,7 +71,10 @@ export default ({
             event.preventDefault();
             return;
         }
-        emit('dragend', { node, event });
+        emit('dragend', {
+            node,
+            event,
+        });
     };
 
     function getTargetNode(value: TreeNodeKey) {
@@ -153,9 +156,7 @@ export default ({
             clearTimeout(timer);
         }
         timer = setTimeout(() => {
-            if (dragOverInfo.value?.node === node) {
-                dragOverInfo.value = null;
-            }
+            dragOverInfo.value = null;
         }, 300);
     };
 
