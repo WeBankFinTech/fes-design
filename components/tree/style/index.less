@@ -110,17 +110,11 @@
         left: 0;
         height: 2px;
         background: var(--f-primary-color);
-        &::before{
-            position: absolute;
-            top: -2px;
-            left: -5px;
-            z-index: 1;
-            display: block;
-            width: 6px;
-            height: 6px;
-            border: 1px solid var(--f-primary-color);
-            border-radius: 50%;
-            content: "";
+        &.is-before {
+            top: 2px;
+        }
+        &.is-after {
+            bottom: 2px;
         }
     }
 }
