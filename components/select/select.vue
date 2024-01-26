@@ -37,6 +37,13 @@
                 />
             </template>
             <template #default>
+                <div
+                    v-if="$slots.header"
+                    :class="`${prefixCls}-addon ${prefixCls}-option-header`"
+                    @mousedown.prevent
+                >
+                    <slot name="header" />
+                </div>
                 <OptionList
                     :hoverOptionValue="hoverOptionValue"
                     :options="filteredOptions"
@@ -54,10 +61,18 @@
                     @mousedown.prevent
                 />
                 <div
-                    v-if="$slots.addon"
-                    :class="`${prefixCls}-addon`"
+                    v-if="$slots.footer"
+                    :class="`${prefixCls}-addon ${prefixCls}-option-footer`"
                     @mousedown.prevent
                 >
+                    <slot name="footer" />
+                </div>
+                <div
+                    v-else-if="$slots.addon"
+                    :class="`${prefixCls}-addon ${prefixCls}-option-footer`"
+                    @mousedown.prevent
+                >
+                    {{ warnDeprecatedSlot() }}
                     <slot name="addon" />
                 </div>
             </template>
@@ -440,6 +455,11 @@ export default defineComponent({
             }
         };
 
+        const warnDeprecatedSlot = () =>
+            console.warn(
+                '[FSelect]: addon 插槽即将废弃，请使用 footer 插槽代替',
+            );
+
         return {
             prefixCls,
             isOpenedRef,
@@ -465,6 +485,7 @@ export default defineComponent({
             hoverOptionValue,
             onHover,
             onKeyDown,
+            warnDeprecatedSlot,
         };
     },
 });

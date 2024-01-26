@@ -118,7 +118,7 @@ clearable.vue
 nodata.vue
 :::
 
-### 底部插槽
+### 顶部、底部插槽
 
 如果你点开了这个例子，可能你需要它
 
@@ -175,13 +175,15 @@ selectGroupOption.vue
 
 ## Select Slots
 
-| 名称    | 说明                                           | 参数                                               |
-| ------- | ---------------------------------------------- | -------------------------------------------------- |
-| default | option 和 selectGroupOption 组件列表           | -                                                  |
-| empty   | 无选项的内容                                   | -                                                  |
-| option  | 自定义 `Option` 内容                           | _{ value, label, disabled, isSelected }_           |
+| 名称    | 说明                                          | 参数                                               |
+|---------|---------------------------------------------|----------------------------------------------------|
+| default | option 和 selectGroupOption 组件列表          | -                                                  |
+| empty   | 无选项的内容                                  | -                                                  |
+| option  | 自定义 `Option` 内容                          | _{ value, label, disabled, isSelected }_           |
 | tag     | 控制标签的渲染，自定义选中选项在选择框如何展示 | _{ option: SelectOption, handleClose: ()=> void }_ |
-| addon   | 弹框底部显示自定义的内容                       | -                                                  |
+| header  | 弹框顶部显示自定义的内容                      | -                                                  |
+| footer  | 弹框底部显示自定义的内容                      | -                                                  |
+| addon   | 即将废弃，请使用 footer                        | -                                                  |
 
 ## Select Methods
 
