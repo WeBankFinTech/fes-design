@@ -1,3 +1,22 @@
+## [0.8.25](https://github.com/WeBankFinTech/fes-design/compare/v0.8.24...v0.8.25) (2024-01-26)
+
+
+### Bug Fixes
+
+* **Descriptions:** 修复 Item 的 span 计算逻辑 ([#609](https://github.com/WeBankFinTech/fes-design/issues/609)) ([e9456ad](https://github.com/WeBankFinTech/fes-design/commit/e9456adc823724a01bf8efd142ec8be4ccbfee2c))
+* **Table:** 固定表头水平滚动时，增加表头的内阴影 ([#601](https://github.com/WeBankFinTech/fes-design/issues/601)) ([c5b5a40](https://github.com/WeBankFinTech/fes-design/commit/c5b5a40bd5f2ff605c5a5b56cf59101623808ed4))
+* **Tree:** 修复Tree拖拽到最后一位会导致滚动 & 拖拽到Tree之外还有拖拽位置效果 ([#613](https://github.com/WeBankFinTech/fes-design/issues/613)) ([336d0ae](https://github.com/WeBankFinTech/fes-design/commit/336d0aece3c9e6d4303f1a1ccc5a22a5e8abc558))
+
+
+### Features
+
+* **rate:** 新增rate评分组件 ([#592](https://github.com/WeBankFinTech/fes-design/issues/592)) ([74806a2](https://github.com/WeBankFinTech/fes-design/commit/74806a2467cb191885bac99a01c80f5d18532196))
+* **Select:** 虚拟滚动可配置开启 ([#611](https://github.com/WeBankFinTech/fes-design/issues/611)) ([6a8935f](https://github.com/WeBankFinTech/fes-design/commit/6a8935f1c8fbef0eebce975dcb4bd7f07b2d900f))
+* **Table:** 无数据文案支持国际化 ([#612](https://github.com/WeBankFinTech/fes-design/issues/612)) ([7fbfe2d](https://github.com/WeBankFinTech/fes-design/commit/7fbfe2d77c5bb4ad714853d63ce0968b54476d5e))
+* **Table:** 新增table组件单选行功能 ([#602](https://github.com/WeBankFinTech/fes-design/issues/602)) ([87ce5a2](https://github.com/WeBankFinTech/fes-design/commit/87ce5a2a0b2abaf911785e5c19db4e912c808669))
+
+
+
 ## [0.8.24](https://github.com/WeBankFinTech/fes-design/compare/v0.8.23...v0.8.24) (2024-01-22)
 
 
