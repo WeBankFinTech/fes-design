@@ -1,7 +1,7 @@
 <template>
     <FForm :labelWidth="100">
         <FFormItem label="手动更改value:">
-            <FInputNumber v-model="value" :max="10"></FInputNumber>
+            <FInputNumber v-model="value" :max="count" :min="0"></FInputNumber>
         </FFormItem>
         <FFormItem label="个数:">
             <FInputNumber v-model="count" :min="3" :max="10"></FInputNumber>
