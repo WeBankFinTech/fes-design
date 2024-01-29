@@ -61,7 +61,7 @@ export default defineComponent({
             },
         );
 
-        const emptyIcon = computed(() => {
+        const emptyIcon = () => {
             return !props.colorFilled ? (
                 <StarOutlined size={iconSize.value}></StarOutlined>
             ) : slots?.content ? (
@@ -71,7 +71,7 @@ export default defineComponent({
             ) : (
                 <StarFilled size={iconSize.value} />
             );
-        });
+        };
 
         // 渲染满星
         const renderFullStar = () => {
@@ -92,7 +92,7 @@ export default defineComponent({
         const renderHalfStar = () => {
             return (
                 <div class="rate-icon full-icon" style={iconStyle.value}>
-                    <div class="background-icon">{emptyIcon.value}</div>
+                    <div class="background-icon"> {emptyIcon()}</div>
                     <div class="half-icon">
                         {slots?.content ? (
                             slots?.content({
@@ -110,7 +110,7 @@ export default defineComponent({
         const renderEmptyStar = () => {
             return (
                 <div class="rate-icon empty-icon" style={emptyIconStyle.value}>
-                    {emptyIcon.value}
+                    {emptyIcon()}
                 </div>
             );
         };
@@ -140,7 +140,6 @@ export default defineComponent({
             if (judgment && !item.half) {
                 return renderFullStar();
             }
-
             return renderEmptyStar();
         };
 
