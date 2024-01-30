@@ -1,3 +1,12 @@
+## [0.8.27](https://github.com/WeBankFinTech/fes-design/compare/v0.8.26...v0.8.27) (2024-01-30)
+
+
+### Bug Fixes
+
+* **Description:** 修复 Item 注册逻辑, 移除 span 相关告警提示 ([#618](https://github.com/WeBankFinTech/fes-design/issues/618)) ([157d0ec](https://github.com/WeBankFinTech/fes-design/commit/157d0ec55ab63f624cca0bc46469164bc65baf7c))
+
+
+
 ## [0.8.26](https://github.com/WeBankFinTech/fes-design/compare/v0.8.25...v0.8.26) (2024-01-30)
 
 
