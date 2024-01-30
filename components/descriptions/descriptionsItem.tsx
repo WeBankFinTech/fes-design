@@ -54,7 +54,7 @@ export default defineComponent({
             const index = bodyVNodeChildren[0].children.findIndex(
                 (itemVNode) => {
                     if (!isVNode(itemVNode)) return false;
-                    return itemVNode?.component.uid === instance.uid;
+                    return itemVNode.component?.uid === instance.uid;
                 },
             );
             if (index === -1) {
@@ -104,9 +104,6 @@ export default defineComponent({
                     span = resultSpanSum - restItemsSpanSum;
                 } else {
                     span = props.span;
-                    console.warn(
-                        `[${COMPONENT_NAME}]: 建议最后一项 Item 的 span 值由组件内部自动计算`,
-                    );
                 }
             } else {
                 span = props.span ?? DESCRIPTIONS_ITEM_DEFAULT_SPAN;
