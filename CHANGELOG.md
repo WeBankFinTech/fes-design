@@ -14,6 +14,22 @@
 
 
 
+## [0.8.26](https://github.com/WeBankFinTech/fes-design/compare/v0.8.25...v0.8.26) (2024-01-30)
+
+
+### Bug Fixes
+
+* **Description:** VNode解析报错修复 ([#617](https://github.com/WeBankFinTech/fes-design/issues/617)) ([1c4a0cb](https://github.com/WeBankFinTech/fes-design/commit/1c4a0cb4ffc8ae413733d0fe6fa87654b550856b))
+* **Rate:** 空星渲染方式修正 ([#615](https://github.com/WeBankFinTech/fes-design/issues/615)) ([2577943](https://github.com/WeBankFinTech/fes-design/commit/25779439dc97cada4d68b8a3d4fd4a444574fe05))
+
+
+### Features
+
+* 新增icon ([#616](https://github.com/WeBankFinTech/fes-design/issues/616)) ([26d8b56](https://github.com/WeBankFinTech/fes-design/commit/26d8b56a3324935523d5f826f247c0f813959bdc))
+* **Select:** 增加顶部插槽 header 配置项 ([#614](https://github.com/WeBankFinTech/fes-design/issues/614)) ([9772603](https://github.com/WeBankFinTech/fes-design/commit/97726036181c2b9c01f5d4f9c920e5690d08dbac))
+
+
+
 ## [0.8.25](https://github.com/WeBankFinTech/fes-design/compare/v0.8.24...v0.8.25) (2024-01-26)
 
 
