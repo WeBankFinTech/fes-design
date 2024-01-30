@@ -40,7 +40,7 @@ export default defineComponent({
                 parentChildren
                     .filter(isVNode)
                     .find((c) =>
-                        c.props.class.includes(
+                        c.props?.class.includes(
                             `${DESCRIPTIONS_PREFIX_CLASS}-body`,
                         ),
                     )?.children ?? [];
@@ -54,7 +54,7 @@ export default defineComponent({
             const index = bodyVNodeChildren[0].children.findIndex(
                 (itemVNode) => {
                     if (!isVNode(itemVNode)) return false;
-                    return itemVNode.component.uid === instance.uid;
+                    return itemVNode?.component.uid === instance.uid;
                 },
             );
             if (index === -1) {
