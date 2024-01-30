@@ -45,7 +45,7 @@
                         :disabled="disabled"
                         @input="handleInput"
                         @compositionstart="handleCompositionStart"
-                        @compositionupdate="handelCompositionUpdate"
+                        @compositionupdate="handleCompositionUpdate"
                         @compositionend="handleCompositionEnd"
                     />
                     <div
@@ -73,20 +73,69 @@
                     :option="tag"
                     @close="handleRemove(index)"
                 >
-                    <Tag
-                        type="info"
-                        size="small"
-                        :closable="tag.closable"
-                        :class="`${prefixCls}-label-item`"
-                        :bordered="hasTagBordered"
-                        @close="handleRemove(index)"
-                    >
-                        <Ellipsis
-                            :class="`${prefixCls}-label-text`"
-                            :content="tag.label"
+                    <template v-if="tag.isCollapsed">
+                        <Tooltip
+                            mode="popover"
+                            placement="top"
+                            trigger="hover"
+                            :offset="11"
+                            :popper-class="`${prefixCls}-collapsed-item-popper`"
                         >
-                        </Ellipsis>
-                    </Tag>
+                            <Tag
+                                type="info"
+                                size="small"
+                                :closable="tag.closable"
+                                :class="`${prefixCls}-label-item`"
+                                :bordered="hasTagBordered"
+                                @close="handleRemove(index)"
+                            >
+                                {{ tag.label }}
+                            </Tag>
+                            <template #content>
+                                <Tag
+                                    v-for="(
+                                        collapsedTag, collapsedTagIndex
+                                    ) in tag.collapsedOptions"
+                                    :key="collapsedTagIndex"
+                                    type="info"
+                                    size="small"
+                                    :class="[
+                                        `${prefixCls}-label-item`,
+                                        `${prefixCls}-label-collapsed-item`,
+                                    ]"
+                                    :closable="collapsedTag.closable"
+                                    :bordered="hasTagBordered"
+                                    @close="
+                                        handleRemove(
+                                            calcCollapseTagIndex(
+                                                collapsedTagIndex,
+                                            ),
+                                        )
+                                    "
+                                >
+                                    <Ellipsis
+                                        :class="`${prefixCls}-label-text`"
+                                        :content="collapsedTag.label"
+                                    />
+                                </Tag>
+                            </template>
+                        </Tooltip>
+                    </template>
+                    <template v-else>
+                        <Tag
+                            type="info"
+                            size="small"
+                            :closable="tag.closable"
+                            :class="`${prefixCls}-label-item`"
+                            :bordered="hasTagBordered"
+                            @close="handleRemove(index)"
+                        >
+                            <Ellipsis
+                                :class="`${prefixCls}-label-text`"
+                                :content="tag.label"
+                            />
+                        </Tag>
+                    </template>
                 </RenderTag>
                 <div
                     v-if="
@@ -112,7 +161,7 @@
                     :disabled="disabled"
                     @compositionstart="handleCompositionStart"
                     @compositionend="handleCompositionEnd"
-                    @compositionupdate="handelCompositionUpdate"
+                    @compositionupdate="handleCompositionUpdate"
                     @input="handleInput"
                 />
             </template>
@@ -147,17 +196,22 @@ import {
     type VNodeChild,
     type ComponentObjectPropsOptions,
 } from 'vue';
-import { isEqual } from 'lodash-es';
+import { isEqual, isNil } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import Ellipsis from '../ellipsis';
+import Tooltip from '../tooltip';
 import Tag from '../tag/tag.vue';
 import UpOutlined from '../icon/UpOutlined';
 import DownOutlined from '../icon/DownOutlined';
 import CloseCircleFilled from '../icon/CloseCircleFilled';
 import RenderTag from './renderTag';
 
-import type { SelectOption, RenderTagParam } from './interface';
+import type {
+    SelectOption,
+    RenderTagParam,
+    SelectTagWithCollapse,
+} from './interface';
 
 const prefixCls = getPrefixCls('select-trigger');
 
@@ -188,6 +242,7 @@ export default defineComponent({
     components: {
         Tag,
         Ellipsis,
+        Tooltip,
         UpOutlined,
         DownOutlined,
         CloseCircleFilled,
@@ -229,11 +284,23 @@ export default defineComponent({
             'is-multiple': props.multiple,
         }));
 
-        const genTag = (option: SelectOption) => {
+        const genTag = (option: SelectOption): SelectTagWithCollapse => {
             const { label, value } = option;
+
+            let tagLabel: SelectTagWithCollapse['label'] = '';
+            if (!isNil(label)) {
+                tagLabel = label;
+            } else if (!isNil(value)) {
+                if (typeof value === 'string' || typeof value === 'number') {
+                    tagLabel = value;
+                } else {
+                    tagLabel = value.toString();
+                }
+            }
+
             return {
                 ...option,
-                label: label ?? value ?? '',
+                label: tagLabel,
                 closable: !props.disabled,
             };
         };
@@ -248,7 +315,7 @@ export default defineComponent({
 
         const multiLabelRef = computed(() => {
             const options = props.selectedOptions;
-            const tags = [];
+            const tags: SelectTagWithCollapse[] = [];
 
             if (props.collapseTags) {
                 const showOptions = options.slice(0, props.collapseTagsLimit);
@@ -260,6 +327,7 @@ export default defineComponent({
                 if (restCount > 0) {
                     tags.push({
                         isCollapsed: true,
+                        collapsedOptions: rest.map(genTag),
                         value: null,
                         label: `+ ${restCount}`,
                         closable: false,
@@ -271,6 +339,9 @@ export default defineComponent({
 
             return tags;
         });
+
+        const calcCollapseTagIndex = (collapseTagIndex: number): number =>
+            collapseTagIndex + props.collapseTagsLimit;
 
         const hasTagBordered = computed(() => {
             return props.disabled || props.tagBordered;
@@ -314,7 +385,7 @@ export default defineComponent({
             isComposingRef.value = true;
             compositionValueRef.value = '';
         };
-        const handelCompositionUpdate = (event: Event) => {
+        const handleCompositionUpdate = (event: Event) => {
             if (isComposingRef.value) {
                 compositionValueRef.value = (
                     event.target as HTMLInputElement
@@ -373,11 +444,12 @@ export default defineComponent({
             inputRef,
             filterTextRef,
             handleCompositionStart,
-            handelCompositionUpdate,
+            handleCompositionUpdate,
             handleCompositionEnd,
             handleInput,
             labelTextRef,
             multiLabelRef,
+            calcCollapseTagIndex,
             handleMouseDown,
             isComposingRef,
             compositionValueRef,
