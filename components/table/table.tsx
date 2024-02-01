@@ -121,6 +121,7 @@ export default defineComponent({
         'cellClick',
         'expandChange',
         'headerClick',
+        'headerResize',
         'rowClick',
         'select',
         'selectAll',

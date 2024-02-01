@@ -22,6 +22,7 @@ export default defineComponent({
         const {
             headerRows,
             handleHeaderClick,
+            handleHeaderResize,
             getCellClass,
             getCellStyle,
             getCustomCellStyle,
@@ -37,6 +38,7 @@ export default defineComponent({
         const { current, onMousedown } = useResize(
             props.columns,
             layout.widthList,
+            handleHeaderResize,
         );
 
         /**
