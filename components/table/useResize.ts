@@ -6,14 +6,16 @@ import type useTableEvent from './useTableEvent';
 import type { ColumnInst, ColumnProps } from './column';
 import type { WidthItem } from './useTableLayout';
 
-export type ColumnResizeInfo = Required<Pick<ColumnProps, 'prop' | 'width'>> & {
+export type ColumnResizeInfo = {
+    prop: ColumnProps['prop'];
+    width: WidthItem['width'];
     index: number;
 };
 
 export default (
     columns: ColumnInst[],
     widthList: Ref<Record<string, WidthItem>>,
-    onHeaderResize: ReturnType<typeof useTableEvent>['handleHeaderResize'],
+    handleHeaderResize: ReturnType<typeof useTableEvent>['handleHeaderResize'],
 ) => {
     const current = ref<{
         id: number;
@@ -75,7 +77,7 @@ export default (
         );
         if (!currentColumnInstance) return;
 
-        onHeaderResize(
+        handleHeaderResize(
             {
                 current: {
                     prop: currentColumnInstance.props.prop,
