@@ -1,3 +1,18 @@
+## [0.8.28](https://github.com/WeBankFinTech/fes-design/compare/v0.8.27...v0.8.28) (2024-02-02)
+
+
+### Bug Fixes
+
+* **Drawer:** 更新光标逻辑，有蒙层可以点击蒙层关闭展示常规光标 ([#628](https://github.com/WeBankFinTech/fes-design/issues/628)) ([d924883](https://github.com/WeBankFinTech/fes-design/commit/d9248836d274c8a1c891e3f8f506e909ccec537b))
+
+
+### Features
+
+* **SelectTrigger:** 折叠的 Tag 增加弹出框展示 ([#600](https://github.com/WeBankFinTech/fes-design/issues/600)) ([d87fa29](https://github.com/WeBankFinTech/fes-design/commit/d87fa29373d16eb9b02cfb45defeafbeeb4237a2))
+* **Table:** 增加 headerResize 事件 ([4423dc5](https://github.com/WeBankFinTech/fes-design/commit/4423dc57aef57057107a942f91fc4a688e7bc9ae))
+
+
+
 ## [0.8.27](https://github.com/WeBankFinTech/fes-design/compare/v0.8.26...v0.8.27) (2024-01-30)
 
 
