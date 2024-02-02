@@ -108,8 +108,7 @@ async function genComponentExample(dir, name) {
             );
             scriptCode.components.push(compName);
 
-            // 防止文档样式覆盖组件样式，详见：https://vitepress.dev/guide/markdown#raw
-            demoContent.push(`::: raw\n<${compName} />\n:::`);
+            demoContent.push(`<${compName} />`);
 
             const rawCode = fse.readFileSync(fullPath, 'utf-8');
             tempCode[`${name}.${demoName}`] = rawCode;

@@ -9,10 +9,7 @@
         "components/**/*.ts",
         "components/**/*.tsx",
         "components/**/*.vue",
-        "docs/*.mjs",
-        "docs/.vitepress/**/*.ts",
-        "docs/.vitepress/**/*.tsx",
-        "docs/.vitepress/**/*.vue",
+        "docs/.vitepress/components/**/*.vue",
         /* 与 tsconfig.json 保持一致 End */
         "scripts/**/*.mjs",
         "./.eslintrc.js",
@@ -21,10 +18,5 @@
         "./commitlint.config.js",
         "./jest.config.js",
         "./jest.setup.js"
-    ],
-    "exclude": [
-        "docs/.vitepress/cache/**/*",
-        "docs/.vitepress/.temp/**/*",
-        "docs/zh/components/**/*",
     ]
 }
