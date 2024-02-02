@@ -125,6 +125,10 @@ export default {
                 text: '数据展示组件',
                 items: [
                     {
+                        text: 'Avatar 头像',
+                        link: '/zh/components/avatar',
+                    },
+                    {
                         text: 'Badge 徽标',
                         link: '/zh/components/badge',
                     },
