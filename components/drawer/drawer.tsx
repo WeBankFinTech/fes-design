@@ -176,6 +176,8 @@ const Drawer = defineComponent({
                                     // 没有蒙层时，该属性才生效
                                     [`${prefixCls}-operable`]:
                                         !props.mask && props.operable,
+                                    [`${prefixCls}-mask-closable`]:
+                                        props.mask && props.maskClosable,
                                     [`${prefixCls}-no-header`]:
                                         !hasHeader.value,
                                     [`${prefixCls}-no-footer`]: !props.footer,
