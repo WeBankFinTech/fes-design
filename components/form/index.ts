@@ -4,6 +4,7 @@ import Form from './form.vue';
 import FormItem from './formItem.vue';
 
 import type { SFCWithInstall } from '../_util/interface';
+import { provideKey } from './const';
 
 type FormType = SFCWithInstall<typeof Form>;
 type FormItemType = SFCWithInstall<typeof FormItem>;
@@ -17,5 +18,7 @@ export type { FormItemProps } from './interface';
 export const FFormItem = withNoopInstall<FormItemType>(
     FormItem as FormItemType,
 );
+
+export const formProvideKey = provideKey;
 
 export default FForm;
