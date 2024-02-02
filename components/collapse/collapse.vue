@@ -9,7 +9,8 @@ import { provide, defineComponent, computed, watch } from 'vue';
 import { isNil } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel } from '../_util/use/useModel';
-import { collapseEmits, collapseProps } from './collapseExpose';
+import { UPDATE_MODEL_EVENT } from '../_util/constants';
+import { collapseProps } from './collapseExpose';
 import { useNamespace } from './useNamespace';
 import { COMPONENT_NAME, arrowPositionKey, collapseContextKey } from './common';
 import type { CollapseActiveName } from './common';
@@ -17,7 +18,7 @@ import type { CollapseActiveName } from './common';
 export default defineComponent({
     name: COMPONENT_NAME,
     props: collapseProps,
-    emits: collapseEmits,
+    emits: [UPDATE_MODEL_EVENT],
     setup(props, { emit }) {
         useTheme();
 

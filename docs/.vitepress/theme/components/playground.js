@@ -14,6 +14,7 @@ export default async function playground({ codeName, codeSrc }) {
         codeName,
         codeSrc,
     });
+
     render(vm, container);
 
     document.body.appendChild(container);

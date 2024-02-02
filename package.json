@@ -8,7 +8,7 @@
     "prepare": "husky install",
     "docs:dev": "node scripts/genComponentDoc.mjs && vitepress dev docs",
     "docs:build": "NODE_ENV=production node scripts/genComponentDoc.mjs && vitepress build docs",
-    "docs:serve": "vitepress serve docs --port 8999",
+    "docs:preview": "vitepress preview docs --port 8999",
     "test": "jest",
     "test:watch": "jest --watch",
     "gen:component": "node scripts/createComponent.mjs",
