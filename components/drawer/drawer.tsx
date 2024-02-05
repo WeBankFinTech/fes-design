@@ -127,18 +127,12 @@ const Drawer = defineComponent({
             const dimensionKey = ['top', 'bottom'].includes(props.placement)
                 ? 'height'
                 : 'width';
-            sizeStyle[dimensionKey] = `${drawerDimension.value}px`;
+            sizeStyle[dimensionKey] = drawerDimension.value;
 
             return sizeStyle;
         });
 
-        const {
-            onMouseenter,
-            onMouseleave,
-            onMousedown,
-            drawerRef,
-            dragClass,
-        } = useResizable({
+        const { onMousedown, drawerRef, dragClass } = useResizable({
             props,
             drawerDimension,
         });
@@ -202,8 +196,6 @@ const Drawer = defineComponent({
                                         <div
                                             class={dragClass.value}
                                             onMousedown={onMousedown}
-                                            onMouseenter={onMouseenter}
-                                            onMouseleave={onMouseleave}
                                         >
                                             <div
                                                 class={`${prefixCls}-drag-icon`}

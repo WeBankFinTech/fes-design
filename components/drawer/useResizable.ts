@@ -6,7 +6,7 @@ import { COMPONENT_NAME, DRAWER_MIN_SIZE, prefixCls } from './const';
 
 const calcResizableRange = (
     props: Props,
-    drawerDimension: Ref<number>,
+    drawerDimension: Ref<Props['dimension']>,
     windowDimension: Ref<number>,
 ): { max?: number; min?: number } => {
     if (!props.resizable) return {};
@@ -40,11 +40,14 @@ const calcResizableRange = (
         return {};
     }
 
-    if (!isNil(max)) {
-        max = Math.max(max, drawerDimension.value);
-    }
-    if (!isNil(min)) {
-        min = Math.min(min, drawerDimension.value);
+    const calculatedDimension = formatSize(drawerDimension.value);
+    if (!isNil(calculatedDimension)) {
+        if (!isNil(max)) {
+            max = Math.max(max, calculatedDimension);
+        }
+        if (!isNil(min)) {
+            min = Math.min(min, calculatedDimension);
+        }
     }
 
     return { max, min };
@@ -55,7 +58,7 @@ export const useResizable = ({
     drawerDimension,
 }: {
     props: Props;
-    drawerDimension: Ref<number>;
+    drawerDimension: Ref<Props['dimension']>;
 }) => {
     const drawerRef = ref<HTMLElement | null>(null);
     const placement = computed(() => props.placement);
@@ -81,21 +84,6 @@ export const useResizable = ({
     let lastSizeValue: number | undefined;
 
     const isActive = ref(false);
-
-    const isHover = ref(false);
-
-    let timer: number | undefined;
-
-    const onMouseenter = () => {
-        timer = setTimeout(() => {
-            isHover.value = true;
-        }, 300);
-    };
-
-    const onMouseleave = () => {
-        isHover.value = false;
-        if (timer) clearTimeout(timer);
-    };
 
     const onMousedown = (e: MouseEvent) => {
         if (drawerRef.value) {
@@ -188,8 +176,6 @@ export const useResizable = ({
     });
 
     return {
-        onMouseenter,
-        onMouseleave,
         onMousedown,
         drawerRef,
         dragClass,
