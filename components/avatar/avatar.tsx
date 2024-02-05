@@ -52,7 +52,7 @@ export default defineComponent({
             // 计算并设置缩放值
             const parentWidth = element.offsetWidth;
             const contentWidth = contentElement.scrollWidth;
-            const scaleVal = (parentWidth * 0.7) / contentWidth; // 始终保持最大宽度的70%，这个数值比较美观
+            const scaleVal = (parentWidth * 0.6) / contentWidth; // 始终保持最大宽度的60%，这个数值比较美观
             contentElement.style.transform = 'scale(' + scaleVal + ')';
         };
 
@@ -109,7 +109,9 @@ export default defineComponent({
 
         return () => (
             <div ref={avatarRef} class={avatarCls.value} style={style.value}>
-                <div ref={contentRef}>{slots.default?.()}</div>
+                <div ref={contentRef} class={`${prefixCls}-content`}>
+                    {slots.default?.()}
+                </div>
                 {props.src ? (
                     imgLoadingFailed.value ? (
                         // 图片加载失败,且没有兜底图片

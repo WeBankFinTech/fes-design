@@ -7,10 +7,8 @@
     ],
     // 每次保存的时候将代码按 eslint 格式进行修复
     "editor.codeActionsOnSave": {
-        // For ESLint
-        "source.fixAll.eslint": true,
-        // 文件保存时开启 stylelint 自动修复程序
-        "source.fixAll.stylelint": true,
+        "source.fixAll.eslint": "explicit",
+        "source.fixAll.stylelint": "explicit"
     },
     // json 文件按 prettier 规范格式化
     "[json]": {

@@ -41,6 +41,13 @@ fallbackSrc.vue
 fit.vue
 :::
 
+### 头像组
+
+
+:::demo
+avatarGroup.vue
+:::
+
 ## Props
 
 | 属性            | 说明                                                                    | 类型     | 默认值   |

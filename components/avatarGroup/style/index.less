@@ -1,0 +1,19 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+
+@avatar-group: ~'@{cls-prefix}-avatar-group';
+@avatar: ~'@{cls-prefix}-avatar';
+
+.@{avatar-group} {
+    position: relative;
+    display: inline-flex;
+    flex-wrap: nowrap;
+
+    .@{avatar} {
+        border: 1px solid white;
+    }
+
+    .@{avatar}:not(:first-child) {
+        margin-left: -10px;
+    }
+}
