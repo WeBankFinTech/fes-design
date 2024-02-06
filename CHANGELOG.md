@@ -1,3 +1,12 @@
+## [0.8.30](https://github.com/WeBankFinTech/fes-design/compare/v0.8.29...v0.8.30) (2024-02-06)
+
+
+### Bug Fixes
+
+* **Drawer:** 尺寸补充支持百分数 ([#631](https://github.com/WeBankFinTech/fes-design/issues/631)) ([1a7d3e3](https://github.com/WeBankFinTech/fes-design/commit/1a7d3e37937f7e4fc658d12a65217f0759f58ddd))
+
+
+
 ## [0.8.29](https://github.com/WeBankFinTech/fes-design/compare/v0.8.28...v0.8.29) (2024-02-02)
 
 
