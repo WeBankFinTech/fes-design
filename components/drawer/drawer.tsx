@@ -9,6 +9,7 @@ import {
     type Component,
     type CSSProperties,
 } from 'vue';
+import { isNumber } from 'lodash-es';
 import FButton from '../button';
 import FScrollbar from '../scrollbar';
 import { CloseOutlined } from '../icon';
@@ -16,6 +17,7 @@ import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
 import { useConfig } from '../config-provider';
 import { useTheme } from '../_theme/useTheme';
+import { pxfy } from '../_util/utils';
 import { useResizable } from './useResizable';
 import { COMPONENT_NAME, prefixCls } from './const';
 import {
@@ -127,7 +129,9 @@ const Drawer = defineComponent({
             const dimensionKey = ['top', 'bottom'].includes(props.placement)
                 ? 'height'
                 : 'width';
-            sizeStyle[dimensionKey] = drawerDimension.value;
+            sizeStyle[dimensionKey] = isNumber(drawerDimension.value)
+                ? pxfy(drawerDimension.value)
+                : drawerDimension.value;
 
             return sizeStyle;
         });
