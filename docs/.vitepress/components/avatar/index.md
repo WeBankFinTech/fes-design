@@ -42,13 +42,19 @@ fit.vue
 :::
 
 ### 头像组
-
+可以通过包裹头像组件的方式，或者给头像组组件传递options方式，渲染头像组，优先渲染包裹的头像
 
 :::demo
 avatarGroup.vue
 :::
 
-## Props
+### 展示hover信息
+
+:::demo
+showHoverTip.vue
+:::
+
+## Avatar Props
 
 | 属性            | 说明                                                                    | 类型     | 默认值   |
 | --------------- | ----------------------------------------------------------------------- | -------- | -------- |
@@ -61,3 +67,12 @@ avatarGroup.vue
 | fit             | 图片适应容器方式，可选值为 `fill` `cover` `contain` `none` `scale-down` | `string` | `fill`   |
 
 
+## AvatarGroup Props
+
+| 属性         | 说明                                        | 类型      | 默认值   |
+| ------------ | ------------------------------------------- | --------- | -------- |
+| size         | 头像组统一尺寸                              | `number`  | `24`     |
+| shape        | 头像形状，可选值为`circle` `square`         | `string`  | `circle` |
+| max          | 最大展示头像数，超过的省略展示              | `number`  | `3`      |
+| options      | 可以通过options传递包裹头像的属性，生成头像 | `array`   | `[]`     |
+| showHoverTip | 是否hover展示name                           | `boolean` | `false`  |

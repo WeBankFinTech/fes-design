@@ -1,7 +1,7 @@
 import { type ComponentObjectPropsOptions, type PropType } from 'vue';
 import type { ComponentProps } from '../timeline/utilTypes';
 
-type Shape = 'square' | 'circle';
+export type Shape = 'square' | 'circle';
 
 type Fit = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down';
 

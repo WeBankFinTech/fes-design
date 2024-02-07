@@ -1,9 +1,12 @@
 import { type ComponentObjectPropsOptions, type PropType } from 'vue';
+import { type Shape } from '../avatar/props';
 import type { ComponentProps } from '../timeline/utilTypes';
 
 type Avatar = {
     name?: string;
     src?: string;
+    text?: string | number;
+    icon?: string;
 };
 
 // 头像组
@@ -12,6 +15,11 @@ export const avatarGroupProps = {
     size: {
         type: Number,
         default: 24,
+    },
+    // 默认圆形
+    shape: {
+        type: String as PropType<Shape>, // 引用头像组件的类型，保持一致
+        default: 'circle' satisfies Shape,
     },
     // 组内展示头像的最大数，超过展示+xxx
     max: {

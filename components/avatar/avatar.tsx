@@ -47,12 +47,10 @@ export default defineComponent({
         ) => {
             if (!element || !contentElement) return;
 
-            if (!element || !contentElement) return;
-
             // 计算并设置缩放值
             const parentWidth = element.offsetWidth;
             const contentWidth = contentElement.scrollWidth;
-            const scaleVal = (parentWidth * 0.6) / contentWidth; // 始终保持最大宽度的60%，这个数值比较美观
+            const scaleVal = (parentWidth * 0.7) / contentWidth; // 始终保持最大宽度的70%，这个数值比较美观
             contentElement.style.transform = 'scale(' + scaleVal + ')';
         };
 
