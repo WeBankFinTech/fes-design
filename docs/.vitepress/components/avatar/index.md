@@ -76,3 +76,9 @@ showHoverTip.vue
 | max          | 最大展示头像数，超过的省略展示              | `number`  | `3`      |
 | options      | 可以通过options传递包裹头像的属性，生成头像 | `array`   | `[]`     |
 | showHoverTip | 是否hover展示name                           | `boolean` | `false`  |
+
+## Avatar Events
+
+| 事件名称 | 说明                          | 回调参数   |
+| -------- | ----------------------------- | ---------- |
+| error    | 在src属性加载的图片失败的回调 | () => void |
