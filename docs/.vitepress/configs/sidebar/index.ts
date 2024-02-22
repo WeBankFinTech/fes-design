@@ -223,6 +223,10 @@ const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
                         text: 'Message 全局提示',
                         link: '/zh/components/message',
                     },
+                    {   
+                        text:'Progress 进度条',
+                        link:'/zh/components/progress',
+                    },
                     {
                         text: 'Spin 加载中',
                         link: '/zh/components/spin',

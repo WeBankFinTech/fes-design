@@ -1,0 +1,84 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+
+@progress: ~'@{cls-prefix}-progress';
+
+.@{progress} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    .line-progress-container {
+        display: flex;
+        align-items: center;
+        width: 100%;
+
+        .line-progress-bar {
+            position: relative;
+            flex:1;
+            background: var(--f-shadow-color);
+
+            .progress {
+                position: relative;
+                display: flex;
+                width: 100%;
+                background: transparent;
+
+                .progress-item {
+                    position: absolute;
+                    background: var(--f-primary-color);
+                    transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+                }
+            }
+        }
+
+        .out-value {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            margin-left: 8px;
+            font-size: 12px;
+        }
+
+        .inner-value {
+            display: inline-block;
+            float: right;
+            margin-right: 8px;
+            color: var(--f-white);
+            font-size: 12px;
+        }
+    }
+
+    .circle-progress{
+        transform: rotate(-90deg);
+
+        .slot-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            transform: rotate(90deg);
+        }
+
+        .background {
+            fill: transparent;
+            stroke: var(--f-shadow-color);
+        }
+
+        .progress {
+            transition: stroke-dashoffset 0.3s ease-out;
+            fill: transparent;
+            stroke: var(--f-primary-color);
+            stroke-linecap: round;
+        }
+
+        .progress-text {
+            font-size: 18px;
+            transform: rotate(90deg);
+            transform-origin: center;
+            text-anchor: middle;
+            dominant-baseline: central;
+        }
+    }
+}

@@ -55,3 +55,4 @@ import './badge/style';
 import './rate/style';
 import './avatar/style';
 import './avatarGroup/style';
+import './progress/style';

@@ -53,3 +53,4 @@ export * from './badge';
 export * from './rate';
 export * from './avatar';
 export * from './avatarGroup';
+export * from './progress';
