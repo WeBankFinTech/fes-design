@@ -284,7 +284,6 @@ export default defineComponent({
             onMouseEnter,
 
             textareaStyle,
-            resizeTextarea,
 
             ...useWordLimit(currentValue, props),
         };
