@@ -29,7 +29,8 @@ export default defineComponent({
                     <FTooltip
                         content={avatar.name}
                         placement="top"
-                        disabled={!props.showHoverTip}
+                        // 没有name 也不展示
+                        disabled={!props.expandOnHover || !avatar.name}
                     >
                         <FAvatar
                             src={avatar.src}
@@ -51,10 +52,12 @@ export default defineComponent({
             return avatarList;
         };
 
+        // 标签的头像个数
         const slotsAvatarCount = computed(() => {
             return slots.default?.().length || 0;
         });
 
+        // option 个数
         const optionAvatarCount = computed(() => {
             return props.options?.length || 0;
         });
@@ -64,16 +67,45 @@ export default defineComponent({
             return slotsAvatarCount.value + optionAvatarCount.value;
         });
 
+        // 应该渲染option个数
+        const shouldRenderOptionNum = computed(() => {
+            const res = props.max - slotsAvatarCount.value;
+            return res > 0 ? res : 0;
+        });
+
+        // 渲染未展示的option的name信息
+        const renderHiddenTooltip = () => {
+            const tooltipContent = props.options.map((avatar, index) => {
+                if (index >= shouldRenderOptionNum.value && avatar.name) {
+                    return <div>{avatar.name}</div>;
+                }
+                return null;
+            });
+            return tooltipContent.filter(Boolean);
+        };
+
         // 渲染未展示数
         const renderHiddenAvatar = (num: number) => {
             return (
-                <FAvatar
-                    size={props.size}
-                    shape={props.shape}
-                    style={{ zIndex: avatarCount.value }}
+                <FTooltip
+                    placement="top"
+                    v-slots={{
+                        content: renderHiddenTooltip,
+                    }}
+                    disabled={
+                        !props.expandOnHover || !renderHiddenTooltip().length
+                    }
                 >
-                    +{num}
-                </FAvatar>
+                    <FAvatar
+                        size={props.size}
+                        shape={props.shape}
+                        style={{
+                            zIndex: avatarCount.value,
+                        }}
+                    >
+                        +{num}
+                    </FAvatar>
+                </FTooltip>
             );
         };
 
@@ -113,12 +145,12 @@ export default defineComponent({
             } else {
                 // 渲染全部插槽和部分option，未展示的 以+xx表示
                 // 需要渲染option的个数
-                const optionNum = props.max - slotsAvatarCount.value;
+                // const optionNum = props.max - slotsAvatarCount.value;
                 const hiddenNum = avatarCount.value - props.max;
                 return (
                     <div class={prefixCls}>
                         {clonedSlotsContent}
-                        {renderAvatarByOption(optionNum)}
+                        {renderAvatarByOption(shouldRenderOptionNum.value)}
                         {hiddenNum != 0 ? renderHiddenAvatar(hiddenNum) : null}
                     </div>
                 );

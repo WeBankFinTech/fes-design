@@ -7,6 +7,12 @@
             @error="handleError"
         ></FAvatar>
         <FAvatar :size="size" src="empty.png" @error="handleError"></FAvatar>
+        <FAvatar
+            :size="size"
+            src="empty.png"
+            fallback-src="empty.png"
+            @error="handleError"
+        ></FAvatar>
     </FSpace>
 </template>
 

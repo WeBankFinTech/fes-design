@@ -7,11 +7,14 @@
             <FFormItem label="字体色:">
                 <FInput v-model="color"></FInput>
             </FFormItem>
+            <FFormItem label="内容:">
+                <FInput v-model="text"></FInput>
+            </FFormItem>
         </FForm>
     </FSpace>
     <FSpace>
         <FAvatar :size="32" :color="color" :backgroundColor="backgroundColor">
-            M
+            {{ text }}
         </FAvatar>
     </FSpace>
 </template>
@@ -21,4 +24,5 @@ import { ref } from 'vue';
 
 const color = ref('#fff');
 const backgroundColor = ref('#ff4d4f');
+const text = ref('M');
 </script>

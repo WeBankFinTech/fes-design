@@ -2,7 +2,15 @@
     <FSpace>
         <FForm :labelWidth="100">
             <FFormItem label="尺寸:">
-                <FInputNumber v-model="size" :step="10"></FInputNumber> px
+                <!-- <FInputNumber v-model="size" :step="10"></FInputNumber> px -->
+                <FRadioGroup
+                    v-model="size"
+                    :options="[
+                        { label: 'small', value: 'small' },
+                        { label: 'middle', value: 'middle' },
+                        { label: 'large', value: 'large' },
+                    ]"
+                />
             </FFormItem>
             <FFormItem label="形状:">
                 <FRadioGroup
@@ -20,11 +28,7 @@
         <FAvatar :size="size" :shape="shape">
             <UserOutlined />
         </FAvatar>
-    </FSpace>
-    <FSpace>
         <FAvatar :size="size" :shape="shape">M</FAvatar>
-    </FSpace>
-    <FSpace>
         <FAvatar
             :size="size"
             :shape="shape"
@@ -36,6 +40,6 @@
 <script setup>
 import { ref } from 'vue';
 
-const size = ref(24);
+const size = ref('middle');
 const shape = ref('circle');
 </script>

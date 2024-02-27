@@ -2,19 +2,21 @@ import { type ComponentObjectPropsOptions, type PropType } from 'vue';
 import { type Shape } from '../avatar/props';
 import type { ComponentProps } from '../timeline/utilTypes';
 
-type Avatar = {
-    name?: string;
-    src?: string;
-    text?: string | number;
-    icon?: string;
+type AvatarOption = {
+    name: string;
+    src: string;
+    text: string;
+    icon: string;
 };
+
+type Size = 'small' | 'middle' | 'large' | number;
 
 // 头像组
 export const avatarGroupProps = {
     // 统一展示的头像大小
     size: {
-        type: Number,
-        default: 24,
+        type: [String, Number] as PropType<Size>,
+        default: 'middle' satisfies Size,
     },
     // 默认圆形
     shape: {
@@ -27,10 +29,10 @@ export const avatarGroupProps = {
         default: 3,
     },
     options: {
-        type: Array as PropType<Avatar[]>,
+        type: Array as PropType<Partial<AvatarOption>[]>,
     },
     // 是否展示hover气泡
-    showHoverTip: {
+    expandOnHover: {
         type: Boolean,
         default: false,
     },

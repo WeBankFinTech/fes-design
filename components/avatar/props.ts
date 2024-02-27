@@ -5,6 +5,8 @@ export type Shape = 'square' | 'circle';
 
 type Fit = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down';
 
+type Size = 'small' | 'middle' | 'large' | number;
+
 export const avatarProps = {
     // 自定义背景色
     backgroundColor: {
@@ -15,8 +17,8 @@ export const avatarProps = {
         type: String,
     },
     size: {
-        type: Number,
-        default: 24,
+        type: [String, Number] as PropType<Size>,
+        default: 'middle' satisfies Size,
     },
     // 默认圆形
     shape: {

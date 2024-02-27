@@ -8,8 +8,9 @@ import {
     watch,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
-import { LoadingOutlined } from '../icon';
+import { PictureFailOutlined } from '../icon';
 import { avatarProps } from './props';
+import { sizeMap } from './const';
 
 const prefixCls = getPrefixCls('avatar');
 
@@ -22,15 +23,21 @@ export default defineComponent({
             return [
                 `${prefixCls}`,
                 props.shape === 'square'
-                    ? `${prefixCls}-square`
-                    : `${prefixCls}-circle`,
+                    ? `${prefixCls}-shape-square`
+                    : `${prefixCls}-shape-circle`,
             ];
+        });
+
+        const avatarSize = computed(() => {
+            return typeof props.size === 'number'
+                ? props.size
+                : sizeMap[props.size];
         });
 
         const style = computed(() => {
             return {
-                width: `${props.size}px`,
-                height: `${props.size}px`,
+                width: `${avatarSize.value}px`,
+                height: `${avatarSize.value}px`,
                 backgroundColor: props.backgroundColor,
                 color: props.color,
             };
@@ -66,11 +73,14 @@ export default defineComponent({
 
         // 渲染头像图片
         const renderImg = () => {
+            let fallbackAttempted = false;
+
             // img 加载出错回调
             const handleError = (event: Event) => {
-                if (props.fallbackSrc) {
+                if (props.fallbackSrc && !fallbackAttempted) {
                     // 替换成错误场景的图片路径
                     (event.target as HTMLImageElement).src = props.fallbackSrc;
+                    fallbackAttempted = true;
                 } else {
                     imgLoadingFailed.value = true;
                 }
@@ -113,7 +123,7 @@ export default defineComponent({
                 {props.src ? (
                     imgLoadingFailed.value ? (
                         // 图片加载失败,且没有兜底图片
-                        <LoadingOutlined />
+                        <PictureFailOutlined />
                     ) : (
                         renderImg()
                     )
