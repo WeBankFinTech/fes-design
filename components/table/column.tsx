@@ -109,7 +109,7 @@ export const columnProps = {
     action: [Object, Array] as PropType<ActionType | ActionType[]>,
     ellipsis: {
         type: [Boolean, Object] as PropType<boolean | EllipsisProps>,
-        default: false,
+        default: false as boolean | EllipsisProps,
     },
     visible: {
         type: Boolean,

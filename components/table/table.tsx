@@ -68,7 +68,7 @@ export const tableProps = {
         default: 'fixed',
     },
     draggable: {
-        type: Boolean as PropType<boolean>,
+        type: Boolean,
         default: false,
     },
     beforeDragend: Function as PropType<BeforeDragEnd>,
