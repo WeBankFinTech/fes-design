@@ -3,6 +3,7 @@
         "strict": true,
         "strictNullChecks": false,
         "jsx": "preserve",
+        "jsxImportSource": "vue",
         "module": "ES6",
         "moduleResolution": "Node",
         "declaration": true,
