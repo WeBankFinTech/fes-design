@@ -100,7 +100,7 @@ export default defineComponent({
             opacity: 1;
             height: auto;
             padding: 16px;
-            background-color: #292d3e;
+            background-color: var(--vp-c-code-block-bg);
         }
     }
 }

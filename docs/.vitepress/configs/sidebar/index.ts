@@ -1,4 +1,6 @@
-export default {
+import { type DefaultTheme } from 'vitepress';
+
+const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
     zh: {
         '/zh/components/': [
             {
@@ -236,7 +238,12 @@ export default {
                     },
                 ],
             },
-        ],
+        ].map((sidebarItem) => {
+            sidebarItem.items.sort(({ text: text1 }, { text: text2 }) =>
+                text1 < text2 ? -1 : 1,
+            );
+            return sidebarItem;
+        }),
         '/zh/guide/': [
             {
                 text: '快速上手',
@@ -254,3 +261,5 @@ export default {
         ],
     },
 };
+
+export default sidebarConfig;
