@@ -122,7 +122,7 @@ export const inputProps = {
     },
     autosize: {
         type: [Boolean, Object] as PropType<boolean | Autosize>,
-        default: false,
+        default: false as boolean | Autosize,
     },
     resize: String as PropType<
         'none' | 'both' | 'horizontal' | 'vertical' | 'block' | 'inline'
