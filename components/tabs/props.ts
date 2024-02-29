@@ -53,7 +53,6 @@ export type TabsProps = ExtractPublicPropTypes<typeof tabsProps>;
 // ----- Tab -----
 
 export const tabProps = {
-    key: [String, Number, Symbol] as PropType<string | number | symbol>,
     value: {
         type: [String, Number] as PropType<string | number>,
         required: true,
