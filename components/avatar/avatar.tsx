@@ -31,10 +31,10 @@ export default defineComponent({
         const avatarSize = computed(() => {
             return typeof props.size === 'number'
                 ? props.size
-                : sizeMap[props.size];
+                : sizeMap[props.size] ?? sizeMap['middle'];
         });
 
-        const style = computed(() => {
+        const avatarStyle = computed(() => {
             return {
                 width: `${avatarSize.value}px`,
                 height: `${avatarSize.value}px`,
@@ -116,7 +116,11 @@ export default defineComponent({
         });
 
         return () => (
-            <div ref={avatarRef} class={avatarCls.value} style={style.value}>
+            <div
+                ref={avatarRef}
+                class={avatarCls.value}
+                style={avatarStyle.value}
+            >
                 <div ref={contentRef} class={`${prefixCls}-content`}>
                     {slots.default?.()}
                 </div>

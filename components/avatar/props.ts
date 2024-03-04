@@ -5,7 +5,7 @@ export type Shape = 'square' | 'circle';
 
 type Fit = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down';
 
-type Size = 'small' | 'middle' | 'large' | number;
+export type Size = 'small' | 'middle' | 'large' | number;
 
 export const avatarProps = {
     // 自定义背景色

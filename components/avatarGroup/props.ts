@@ -1,5 +1,5 @@
 import { type ComponentObjectPropsOptions, type PropType } from 'vue';
-import { type Shape } from '../avatar/props';
+import { type Shape, type Size } from '../avatar/props';
 import type { ComponentProps } from '../timeline/utilTypes';
 
 type AvatarOption = {
@@ -8,8 +8,6 @@ type AvatarOption = {
     text: string;
     icon: string;
 };
-
-type Size = 'small' | 'middle' | 'large' | number;
 
 // 头像组
 export const avatarGroupProps = {
