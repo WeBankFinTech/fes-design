@@ -62,7 +62,4 @@
 .tooltip-wrapper .mt-20 {
     margin-top: 20px;
 }
-.porper {
-    width: 100px;
-}
 </style>
