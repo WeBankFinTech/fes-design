@@ -51,3 +51,5 @@ export * from './timeline';
 export * from './calendar';
 export * from './badge';
 export * from './rate';
+export * from './avatar';
+export * from './avatarGroup';
