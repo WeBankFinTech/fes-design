@@ -1,6 +1,8 @@
 <template>
     <FSpace>
-        <FTooltip content="hover"><FButton>hover</FButton></FTooltip>
+        <FTooltip content="hover">
+            <FButton>hover</FButton>
+        </FTooltip>
         <FTooltip content="click" trigger="click">
             <FButton class="ml-20">click</FButton>
         </FTooltip>

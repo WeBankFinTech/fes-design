@@ -32,6 +32,10 @@ export const popperProps = {
         default: true,
     },
     popperClass: [String, Array, Object] as PropType<string | [] | object>,
+    popperStyle: {
+        type: Object,
+        default: () => ({}),
+    },
     showAfter: {
         type: Number,
         default: 0,
