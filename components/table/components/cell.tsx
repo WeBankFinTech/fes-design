@@ -8,7 +8,7 @@ import {
 } from 'vue';
 import { isNil, isArray, isFunction, isPlainObject } from 'lodash-es';
 import Button from '../../button/button';
-import Ellipsis from '../../ellipsis/ellipsis';
+import Ellipsis, { type EllipsisProps } from '../../ellipsis/ellipsis';
 import { provideKey } from '../const';
 
 import type { ActionType } from '../interface';
@@ -77,7 +77,7 @@ export default defineComponent({
                 !isNil(column.props.ellipsis) &&
                 column.props.ellipsis !== false;
             const ellipsisProps = isPlainObject(column.props.ellipsis)
-                ? column.props.ellipsis
+                ? (column.props.ellipsis as EllipsisProps)
                 : {};
             if (column?.slots?.default) {
                 return hasEllipsis ? (
