@@ -56,15 +56,21 @@ export const COMMON_PROPS = {
         type: Number,
         default: 20,
     },
+    horizontalRatioStyle: {
+        type: [String, Array, Object] as PropType<StyleValue>,
+    },
+    verticalRatioStyle: {
+        type: [String, Array, Object] as PropType<StyleValue>,
+    },
+    shadowStyle: {
+        type: [String, Array, Object] as PropType<StyleValue>,
+    },
 } satisfies ComponentObjectPropsOptions;
 
 export const scrollbarProps = {
     containerClass: [Array, Object, String] as PropType<string | object | []>,
     containerStyle: [String, Array, Object] as PropType<StyleValue>,
     contentStyle: [String, Array, Object] as PropType<StyleValue>,
-    horizontalRatioStyle: [String, Array, Object] as PropType<StyleValue>,
-    verticalRatioStyle: [String, Array, Object] as PropType<StyleValue>,
-    shadowStyle: [String, Array, Object] as PropType<StyleValue>,
     thumbStyle: [String, Array, Object] as PropType<StyleValue>,
     noresize: Boolean,
     ...COMMON_PROPS,

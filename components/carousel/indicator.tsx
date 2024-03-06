@@ -8,7 +8,7 @@ import { throttle } from 'lodash-es';
 import { provideKey } from './const';
 import type { CarouselItemData } from './interface';
 
-const INDICATOR_MOUSE_EVENT = 'mouse-operate';
+const INDICATOR_MOUSE_EVENT = 'mouseOperate'; // 与使用处 jsx 中的 camelCase 对应，不使用 kebab-case
 export default defineComponent({
     name: 'FCarouselIndicator',
     props: {
