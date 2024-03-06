@@ -169,21 +169,24 @@ export default defineComponent({
             return null;
         };
         const renderSwitcher = () => {
+            const switcherClassList = [
+                `${prefixCls}-switcher`,
+                root.hasNoExpandableNode.value && 'no-expand',
+            ].filter(Boolean);
+
             if (props.isLeaf) {
-                return <span class={`${prefixCls}-switcher`} />;
+                return <span class={switcherClassList} />;
             }
             return (
-                <span
-                    class={`${prefixCls}-switcher`}
-                    onClick={handleClickSwitcher}
-                >
+                <span class={switcherClassList} onClick={handleClickSwitcher}>
                     {isLoading.value ? (
                         <LoadingOutlined />
                     ) : (
                         <CaretDownOutlined
-                            class={`${prefixCls}-switcher-icon ${
-                                isExpanded.value ? 'is-expanded' : ''
-                            }`}
+                            class={[
+                                `${prefixCls}-switcher-icon`,
+                                isExpanded.value ? 'is-expanded' : '',
+                            ]}
                         />
                     )}
                 </span>
