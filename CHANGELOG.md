@@ -1,3 +1,22 @@
+## [0.8.32](https://github.com/WeBankFinTech/fes-design/compare/v0.8.31...v0.8.32) (2024-03-06)
+
+
+### Bug Fixes
+
+* 修复 ExtractPublicPropTypes 推导组件 Props 类型问题 ([#644](https://github.com/WeBankFinTech/fes-design/issues/644)) ([c48fc19](https://github.com/WeBankFinTech/fes-design/commit/c48fc19bc8f721113ee9ba091c39d1f8b10f8778))
+* 修复因 vue 版本升级引起的类型报错 ([#654](https://github.com/WeBankFinTech/fes-design/issues/654)) ([c8a4424](https://github.com/WeBankFinTech/fes-design/commit/c8a4424e3fac4d76c88576d026965bdb968a7c46))
+* **Input:** word limit 样式优化 ([#638](https://github.com/WeBankFinTech/fes-design/issues/638)) ([7052bc9](https://github.com/WeBankFinTech/fes-design/commit/7052bc9a2e2a7cf7029bfbc84f889dc92f4f18cb))
+* **Tabs:** 移除 props 中的 key 配置项，由于是 vue 的保留字段 ([#646](https://github.com/WeBankFinTech/fes-design/issues/646)) ([525e822](https://github.com/WeBankFinTech/fes-design/commit/525e822de34bdf1d0596b25d1bcd8d53736e6a46))
+
+
+### Features
+
+* 日期选择器minDate,maxDate传时间戳 ([#634](https://github.com/WeBankFinTech/fes-design/issues/634)) ([cc3624b](https://github.com/WeBankFinTech/fes-design/commit/cc3624b54a7a15cd7faf931a08958eef9497d452))
+* **Avatar:** 新增头像，头像组组件 ([#633](https://github.com/WeBankFinTech/fes-design/issues/633)) ([676dfec](https://github.com/WeBankFinTech/fes-design/commit/676dfec6c465cda5320a632f4ccbbfc195b3978c))
+* **Popper:** 新增 popperStyle prop ([#652](https://github.com/WeBankFinTech/fes-design/issues/652)) ([287dab8](https://github.com/WeBankFinTech/fes-design/commit/287dab8a1572ff8e500646999037c3fa98b9628c))
+
+
+
 ## [0.8.31](https://github.com/WeBankFinTech/fes-design/compare/v0.8.30...v0.8.31) (2024-02-06)
 
 
