@@ -56,6 +56,7 @@ export default defineComponent({
             currentSelectedKeys,
             updateSelectedKeys,
             hasSelected,
+            hasNoExpandableNode,
         } = useState({ props, emit });
 
         const { filter, filteredExpandedKeys, filteredKeys, isSearchingRef } =
@@ -126,6 +127,7 @@ export default defineComponent({
             expandNode,
             checkNode,
             hasSelected,
+            hasNoExpandableNode,
             nodeList,
             handleDragstart,
             handleDragenter,

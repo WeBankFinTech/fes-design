@@ -1,3 +1,4 @@
+import { computed } from 'vue';
 import { useNormalModel } from '../_util/use/useModel';
 
 import type { TreeNodeKey } from './interface';
@@ -25,6 +26,14 @@ export default ({ props, emit }: { props: TreeProps; emit: any }) => {
     const hasSelected = (value: TreeNodeKey) =>
         currentSelectedKeys.value.includes(value);
 
+    const hasNoExpandableNode = computed<boolean>(() =>
+        props.data.every(
+            (firstLevelNode) =>
+                !firstLevelNode.children ||
+                firstLevelNode.children.length === 0,
+        ),
+    );
+
     return {
         currentExpandedKeys,
         updateExpandedKeys,
@@ -33,5 +42,6 @@ export default ({ props, emit }: { props: TreeProps; emit: any }) => {
         currentSelectedKeys,
         updateSelectedKeys,
         hasSelected,
+        hasNoExpandableNode,
     };
 };

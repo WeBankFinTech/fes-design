@@ -78,6 +78,9 @@
     &-node-switcher {
         width: @tree-switcher-width;
         font-size: @font-size-head;
+        &.no-expand {
+            width: 0; // 保留 margin-right，使得没有 switcher 的时候 tree node 仍有一定左边距
+        }
         &-icon {
             transform: rotate(-90deg);
             transition: all @animation-duration-base @ease-base-in;
