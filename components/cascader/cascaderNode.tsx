@@ -211,7 +211,7 @@ export default defineComponent({
                             <Checkbox
                                 indeterminate={isIndeterminate.value}
                                 modelValue={isChecked.value}
-                                onClick={handleClickCheckbox}
+                                onChange={handleClickCheckbox}
                                 disabled={props.disabled}
                             />
                         ) : (
@@ -241,7 +241,7 @@ export default defineComponent({
                     <span class={`${prefixCls}-radio`}>
                         <Radio
                             modelValue={isSelected.value}
-                            onClick={handleClickRadio}
+                            onChange={handleClickRadio}
                             disabled={props.disabled}
                         />
                     </span>

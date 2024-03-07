@@ -199,7 +199,7 @@ export default defineComponent({
                         <Checkbox
                             indeterminate={isIndeterminate.value}
                             modelValue={isChecked.value}
-                            onClick={handleClickCheckbox}
+                            onChange={handleClickCheckbox}
                             disabled={props.disabled}
                         />
                     </span>
