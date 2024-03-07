@@ -1,3 +1,17 @@
+## [0.8.33](https://github.com/WeBankFinTech/fes-design/compare/v0.8.32...v0.8.33) (2024-03-07)
+
+
+### Bug Fixes
+
+* 修复 FCheckbox 和 FRadio 的 onClick 为 onChange ([#661](https://github.com/WeBankFinTech/fes-design/issues/661)) ([cbe302c](https://github.com/WeBankFinTech/fes-design/commit/cbe302c234c78633b8c624703cb09c469191ba18))
+
+
+### Features
+
+* **Tree:** 结构只有一层时，不显示展开图标 ([#657](https://github.com/WeBankFinTech/fes-design/issues/657)) ([00bc7aa](https://github.com/WeBankFinTech/fes-design/commit/00bc7aab683c5ab7fb8fe9615a9e731d9a22b01f))
+
+
+
 ## [0.8.32](https://github.com/WeBankFinTech/fes-design/compare/v0.8.31...v0.8.32) (2024-03-06)
 
 
