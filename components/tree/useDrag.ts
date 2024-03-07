@@ -1,8 +1,16 @@
-import { onUnmounted, ref } from 'vue';
+import { computed, onUnmounted, ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import type { InnerTreeOption, TreeNodeKey, DropPosition } from './interface';
 
 const prefixCls = getPrefixCls('tree-node');
+
+function allowDrop(node: InnerTreeOption, dropPosition: DropPosition): boolean {
+    if (node.isLeaf === false) return true;
+    if (node.children) {
+        return true;
+    }
+    return dropPosition !== 'inside';
+}
 
 export default ({
     nodeList,
@@ -20,6 +28,18 @@ export default ({
         position: DropPosition;
     }>();
     let timer: number;
+
+    const dragHighlightNode = computed(() => {
+        if (!dragOverInfo.value) {
+            return;
+        }
+        const node = dragOverInfo.value.node;
+        const position = dragOverInfo.value.position;
+        if (position === 'after' || position === 'before') {
+            return node.parent;
+        }
+        return node;
+    });
 
     onUnmounted(() => {
         if (timer) {
@@ -51,7 +71,10 @@ export default ({
             event.preventDefault();
             return;
         }
-        emit('dragend', { node, event });
+        emit('dragend', {
+            node,
+            event,
+        });
     };
 
     function getTargetNode(value: TreeNodeKey) {
@@ -105,11 +128,25 @@ export default ({
         // 焦点节点大小位置信息
         const { top: elClientTop } = targeEl.getBoundingClientRect();
         const eventOffsetY = event.clientY - elClientTop;
-        if (eventOffsetY <= targetElOffsetHeight / 2) {
-            mousePosition = 'before';
+
+        const allowDropInside = allowDrop(node, 'inside');
+
+        if (allowDropInside) {
+            if (eventOffsetY <= 8) {
+                mousePosition = 'before';
+            } else if (eventOffsetY >= targetElOffsetHeight - 8) {
+                mousePosition = 'after';
+            } else {
+                mousePosition = 'inside';
+            }
         } else {
-            mousePosition = 'after';
+            if (eventOffsetY <= targetElOffsetHeight / 2) {
+                mousePosition = 'before';
+            } else {
+                mousePosition = 'after';
+            }
         }
+
         dragOverInfo.value = {
             node: node,
             position: mousePosition,
@@ -119,9 +156,7 @@ export default ({
             clearTimeout(timer);
         }
         timer = setTimeout(() => {
-            if (dragOverInfo.value?.node === node) {
-                dragOverInfo.value = null;
-            }
+            dragOverInfo.value = null;
         }, 300);
     };
 
@@ -131,7 +166,14 @@ export default ({
         if (!dragOverInfo.value) {
             return;
         }
-        emit('drop', { ...dragOverInfo.value, dragNode, event });
+        emit('drop', {
+            position: dragOverInfo.value.position,
+            node: dragOverInfo.value.node,
+            dragNode: dragNode,
+            originNode: dragOverInfo.value.node.origin,
+            originDragNode: dragNode.origin,
+            event,
+        });
     };
 
     return {
@@ -142,5 +184,6 @@ export default ({
         handleDragend,
         handleDrop,
         dragOverInfo,
+        dragHighlightNode,
     };
 };

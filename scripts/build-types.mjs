@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import glob from 'fast-glob';
 import { Project } from 'ts-morph';
-import { parse, compileScript } from '@vue/compiler-sfc';
+import { parse, compileScript } from 'vue/compiler-sfc';
 import { getProjectRootDir } from './utils.mjs';
 
 const rootDir = getProjectRootDir();
@@ -46,7 +46,7 @@ async function main() {
     await Promise.all(
         files.map(async (file) => {
             if (/\.vue$/.test(file)) {
-                // 对于 vue 文件，借助 @vue/compiler-sfc 的 parse 进行解析
+                // 对于 vue 文件，借助 vue/compiler-sfc 的 parse 进行解析
                 const sfc = parse(await fs.promises.readFile(file, 'utf-8'));
                 // 提取出 script 中的内容
                 const { script, scriptSetup } = sfc.descriptor;

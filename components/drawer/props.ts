@@ -1,4 +1,8 @@
-import { type PropType, type ComponentObjectPropsOptions } from 'vue';
+import {
+    type PropType,
+    type ComponentObjectPropsOptions,
+    type DefineComponent,
+} from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export type DrawerPlacement = 'top' | 'right' | 'bottom' | 'left';
@@ -41,13 +45,18 @@ export const drawerProps = {
         type: Boolean,
         default: true,
     },
+    dimension: {
+        type: [String, Number] as PropType<string | number>,
+        // TODO: 废弃 height 和 width 以后，恢复此处默认值
+        // default: 520,
+    },
+    // DEPRECATED: 后续仅支持 dimension
     width: {
         type: [String, Number] as PropType<string | number>,
-        default: 520,
     },
+    // DEPRECATED: 后续仅支持 dimension
     height: {
         type: [String, Number] as PropType<string | number>,
-        default: 520,
     },
     footer: {
         type: Boolean,
@@ -69,9 +78,19 @@ export const drawerProps = {
         type: Boolean,
         default: false,
     },
+    resizeMax: {
+        type: [String, Number] as PropType<string | number>,
+    },
+    resizeMin: {
+        type: [String, Number] as PropType<string | number>,
+    },
 } as const satisfies ComponentObjectPropsOptions;
 
 export type DrawerProps = ExtractPublicPropTypes<typeof drawerProps>;
+
+export type DrawerInnerProps = Parameters<
+    DefineComponent<typeof drawerProps>['setup']
+>[0];
 
 export const UPDATE_SHOW_EVENT = 'update:show';
 export const OK_EVENT = 'ok';

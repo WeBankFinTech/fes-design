@@ -84,6 +84,7 @@ export { default as SettingOutlined } from '../../../../components/icon/SettingO
 export { default as ShareOutlined } from '../../../../components/icon/ShareOutlined';
 export { default as SortOutlined } from '../../../../components/icon/SortOutlined';
 export { default as StarOutlined } from '../../../../components/icon/StarOutlined';
+export { default as StarFilled } from '../../../../components/icon/StarFilled';
 export { default as StopFilled } from '../../../../components/icon/StopFilled';
 export { default as StopOutlined } from '../../../../components/icon/StopOutlined';
 export { default as SwapLeftOutlined } from '../../../../components/icon/SwapLeftOutlined';
@@ -99,3 +100,9 @@ export { default as UserManagementOutlined } from '../../../../components/icon/U
 export { default as UserOutlined } from '../../../../components/icon/UserOutlined';
 export { default as VerticalLeftOutlined } from '../../../../components/icon/VerticalLeftOutlined';
 export { default as VerticalRightOutlined } from '../../../../components/icon/VerticalRightOutlined';
+export { default as LikeOutlined } from '../../../../components/icon/LikeOutlined';
+export { default as LikeFilled } from '../../../../components/icon/LikeFilled';
+export { default as MailOutlined } from '../../../../components/icon/MailOutlined';
+export { default as PlayOutlined } from '../../../../components/icon/PlayOutlined';
+export { default as PlayFilled } from '../../../../components/icon/PlayFilled';
+export { default as CodeOutlined } from '../../../../components/icon/CodeOutlined';

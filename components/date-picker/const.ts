@@ -23,10 +23,10 @@ export const COMMON_PROPS = {
         default: 'date',
     },
     minDate: {
-        type: Date,
+        type: [Date, Number],
     },
     maxDate: {
-        type: Date,
+        type: [Date, Number],
     },
     disabledDate: {
         type: Function as PropType<(date: Date) => boolean>,

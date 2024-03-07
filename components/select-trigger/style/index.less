@@ -141,4 +141,18 @@
             pointer-events: none;
         }
     }
+    &-collapsed-item-popper {
+        @tag-gap: 4px;
+        @result-padding: var(--f-padding-middle);
+        @padding-with-offset: calc(@result-padding - @tag-gap);
+
+        max-width: 300px;
+        padding: @result-padding @padding-with-offset @padding-with-offset @result-padding;
+
+        .@{select-trigger-prefix-cls}-label-collapsed-item {
+            max-width: calc(100% - @tag-gap);
+            margin-right: @tag-gap;
+            margin-bottom: @tag-gap;
+        }
+    }
 }

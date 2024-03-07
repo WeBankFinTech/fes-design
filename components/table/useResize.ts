@@ -2,12 +2,20 @@ import { type Ref, ref } from 'vue';
 import { cloneDeep } from 'lodash-es';
 import { useEventListener } from '@vueuse/core';
 import { depx } from '../_util/utils';
-import type { ColumnInst } from './column';
+import type useTableEvent from './useTableEvent';
+import type { ColumnInst, ColumnProps } from './column';
 import type { WidthItem } from './useTableLayout';
+
+export type ColumnResizeInfo = {
+    prop: ColumnProps['prop'];
+    width: WidthItem['width'];
+    index: number;
+};
 
 export default (
     columns: ColumnInst[],
     widthList: Ref<Record<string, WidthItem>>,
+    handleHeaderResize: ReturnType<typeof useTableEvent>['handleHeaderResize'],
 ) => {
     const current = ref<{
         id: number;
@@ -60,8 +68,35 @@ export default (
         }
     };
 
-    const onMouseup = () => {
+    const onMouseup = (event: MouseEvent) => {
         if (!current.value) return;
+
+        // emit header resize event
+        const currentColumnInstance = columns.find(
+            (c) => c.id === current.value.id,
+        );
+        if (!currentColumnInstance) return;
+
+        handleHeaderResize(
+            {
+                current: {
+                    prop: currentColumnInstance.props.prop,
+                    width: current.value.width,
+                    index: current.value.columnIndex,
+                },
+                columns: columns.map((c, i) => {
+                    const width = widthList.value[c.id].width;
+                    return {
+                        width,
+                        prop: c.props.prop,
+                        index: i,
+                    };
+                }),
+            },
+            event,
+        );
+
+        // reset current
         current.value = null;
     };
 

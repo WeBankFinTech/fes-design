@@ -50,6 +50,19 @@
                 margin-left: 0;
             }
         }
+        &.is-highlight {
+            &::after {
+                position: absolute;
+                top: 4px;
+                right: 0;
+                bottom: 4px;
+                left: 0;
+                z-index: 1;
+                border: 2px solid var(--f-primary-color);
+                border-radius: var(--f-border-radius-sm);
+                content: "";
+            }
+        }
     }
     &-node-indent {
         width: @tree-indent;
@@ -65,6 +78,9 @@
     &-node-switcher {
         width: @tree-switcher-width;
         font-size: @font-size-head;
+        &.no-expand {
+            width: 0; // 保留 margin-right，使得没有 switcher 的时候 tree node 仍有一定左边距
+        }
         &-icon {
             transform: rotate(-90deg);
             transition: all @animation-duration-base @ease-base-in;
@@ -95,19 +111,13 @@
         position: absolute;
         right: 0;
         left: 0;
-        height: 1px;
+        height: 2px;
         background: var(--f-primary-color);
-        &::before{
-            position: absolute;
-            top: -2px;
-            left: -5px;
-            z-index: 1;
-            display: block;
-            width: 4px;
-            height: 4px;
-            border: 1px solid var(--f-primary-color);
-            border-radius: 50%;
-            content: "";
+        &.is-before {
+            top: 2px;
+        }
+        &.is-after {
+            bottom: 2px;
         }
     }
 }

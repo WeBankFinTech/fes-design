@@ -6,11 +6,8 @@ import {
     ref,
     toRef,
     TransitionGroup,
-    vShow,
     watch,
-    withDirectives,
     onMounted,
-    type VNode,
     type ComponentPublicInstance,
     type Slots,
 } from 'vue';
@@ -26,89 +23,14 @@ import { flatten } from '../_util/vnode';
 import { useTheme } from '../_theme/useTheme';
 import PlusOutlined from '../icon/PlusOutlined';
 import { TABS_INJECTION_KEY } from './constants';
-import { computeTabBarStyle } from './helper';
+import { computeTabBarStyle, mapTabPane } from './helper';
 import FTab from './tab';
-
 import TabPane from './tab-pane.vue';
-import type { ComponentObjectPropsOptions, PropType } from 'vue';
-import type { Value, Position, TabCloseMode } from './interface';
-import type { TabProps } from './helper';
-
-import type { ExtractPublicPropTypes } from '../_util/interface';
+import { tabsProps } from './props';
+import type { Value } from './interface';
 
 const prefixCls = getPrefixCls('tabs');
 const ADD_EVENT = 'add';
-function mapTabPane(
-    tabPaneVNodes: VNode[] = [],
-    tabValue: Value,
-    tabPaneLazyCache: Record<string, boolean>,
-) {
-    const children: VNode[] = [];
-    tabPaneVNodes.forEach((vNode) => {
-        const {
-            value,
-            'display-directive': _displayDirective,
-            displayDirective,
-        } = vNode.props;
-        if (!vNode.key) vNode.key = value;
-        if (!vNode.props.key) vNode.props.key = value;
-        const show = value === tabValue;
-        const directive = _displayDirective || displayDirective;
-        if (directive === 'show') {
-            children.push(withDirectives(vNode, [[vShow, show]]));
-        } else if (
-            directive === 'show:lazy' &&
-            (tabPaneLazyCache[value] || show)
-        ) {
-            tabPaneLazyCache[value] = true;
-            children.push(withDirectives(vNode, [[vShow, show]]));
-        } else if (show) {
-            children.push(vNode);
-        }
-    });
-    return children;
-}
-
-type TabType = 'line' | 'card';
-
-type TabPaneProps = TabProps & {
-    render?: (props: TabProps) => VNode[];
-    renderTab?: (props: TabProps) => VNode[];
-};
-
-export const tabsProps = {
-    modelValue: [String, Number] as PropType<Value>,
-    position: {
-        type: String as PropType<Position>,
-        default: 'top',
-    },
-    type: {
-        type: String as PropType<TabType>,
-        default: 'line',
-    },
-    closable: {
-        type: Boolean,
-        default: false,
-    },
-    closeMode: {
-        type: String as PropType<TabCloseMode>,
-        default: 'visible',
-    },
-    addable: {
-        type: Boolean,
-        default: false,
-    },
-    transition: {
-        type: [String, Boolean] as PropType<string | boolean>,
-        default: true,
-    },
-    panes: {
-        type: Array as PropType<TabPaneProps>,
-        default: (): TabPaneProps[] => [],
-    },
-} as const satisfies ComponentObjectPropsOptions;
-
-export type TabsProps = ExtractPublicPropTypes<typeof tabsProps>;
 
 export default defineComponent({
     name: 'FTabs',
@@ -172,8 +94,9 @@ export default defineComponent({
 
             showBeforeScrollBar.value = scrollLeft > 0 || scrollTop > 0;
             showAfterScrollBar.value =
-                scrollLeft + offsetWidth < scrollWidth ||
-                scrollTop + offsetHeight < scrollHeight;
+                // 猜测可能是浏览器触发 scroll 事件的时机不一致，此处允许 1px 的误差
+                Math.abs(scrollLeft + offsetWidth - scrollWidth) > 1 ||
+                Math.abs(scrollTop + offsetHeight - scrollHeight) > 1;
         }
 
         function autoScrollTab(el?: HTMLElement) {
@@ -282,6 +205,45 @@ export default defineComponent({
 
         return () => {
             const children = mergeRenderPans();
+
+            let navItems = children.map((vNode, index) => {
+                const tabSlot = (vNode.children as any)?.tab;
+                return (
+                    <FTab
+                        {...(vNode.props as any)}
+                        ref={(el: ComponentPublicInstance) =>
+                            setTabRefs(el, index)
+                        }
+                        v-slots={{ default: tabSlot }}
+                    />
+                );
+            });
+            if (isCard.value) {
+                if (props.addable) {
+                    navItems.push(
+                        <div
+                            onClick={handleAddClick}
+                            class={`${prefixCls}-tab ${prefixCls}-tab-card addable`}
+                        >
+                            <PlusOutlined />
+                        </div>,
+                    );
+                }
+                // 添加 card pad
+                navItems = navItems
+                    .map((item, index) => [
+                        item,
+                        <div
+                            class={
+                                index !== navItems.length - 1
+                                    ? `${prefixCls}-tab-pad`
+                                    : `${prefixCls}-tab-pad--last`
+                            }
+                        />,
+                    ])
+                    .flat(1);
+            }
+
             return (
                 <div
                     class={{
@@ -310,26 +272,7 @@ export default defineComponent({
                                 onScroll={handleTabNavScroll}
                                 ref={tabNavRef}
                             >
-                                {children.map((vNode, index) => {
-                                    const tabSlot = (vNode.children as any)
-                                        ?.tab;
-                                    return (
-                                        <>
-                                            {index > 0 && isCard.value && (
-                                                <div
-                                                    class={`${prefixCls}-tab-pad`}
-                                                ></div>
-                                            )}
-                                            <FTab
-                                                {...(vNode.props as any)}
-                                                ref={(
-                                                    el: ComponentPublicInstance,
-                                                ) => setTabRefs(el, index)}
-                                                v-slots={{ default: tabSlot }}
-                                            />
-                                        </>
-                                    );
-                                })}
+                                {navItems}
                                 {!isCard.value && (
                                     <div
                                         class={`${prefixCls}-nav-bar`}
@@ -338,27 +281,10 @@ export default defineComponent({
                                 )}
                             </div>
                         </div>
-
-                        {isCard.value && props.addable && (
-                            <>
-                                <div class={`${prefixCls}-tab-pad`}></div>
-                                <div
-                                    onClick={handleAddClick}
-                                    class={`${prefixCls}-tab ${prefixCls}-tab-card addable`}
-                                >
-                                    <PlusOutlined />
-                                </div>
-                            </>
-                        )}
-
-                        {ctx.slots.suffix ? (
+                        {ctx.slots.suffix && (
                             <div class={`${prefixCls}-nav-suffix`}>
                                 {ctx.slots.suffix()}
                             </div>
-                        ) : (
-                            isCard.value && (
-                                <div class={`${prefixCls}-tab-pad--last`}></div>
-                            )
                         )}
                     </div>
                     <div class={`${prefixCls}-tab-pane-wrapper`}>

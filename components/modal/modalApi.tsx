@@ -1,8 +1,7 @@
 import { render, type VNode, type VNodeChild } from 'vue';
 import { isFunction, isUndefined } from 'lodash-es';
 import Modal from './modal';
-
-import type { ModalType } from './modal';
+import type { ModalType } from './props';
 
 export interface ModalConfig {
     closable?: boolean;
@@ -19,6 +18,7 @@ export interface ModalConfig {
     onOk?: (event: MouseEvent) => void | Promise<any>;
     onCancel?: (event: MouseEvent) => void | Promise<any>;
     width?: string | number;
+    maxHeight?: string | number;
     center?: boolean;
     getContainer?: () => HTMLElement;
 }

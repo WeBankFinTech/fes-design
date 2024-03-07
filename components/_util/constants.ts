@@ -5,6 +5,8 @@ export const UPDATE_MODEL_EVENT = 'update:modelValue';
 
 export const CHANGE_EVENT = 'change';
 
+export const CLICK_EVENT = 'click';
+
 export const CLOSE_EVENT = 'close';
 
 export const OK_EVENT = 'ok' as const;

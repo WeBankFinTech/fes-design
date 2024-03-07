@@ -85,6 +85,8 @@ export default defineComponent({
                 isSelected.value && 'is-selected',
                 isInline.value && 'is-inline',
                 isFirst.value && 'is-inline-first',
+                root.dragHighlightNode.value?.value === props.value &&
+                    'is-highlight',
             ].filter(Boolean),
         );
 
@@ -143,36 +145,48 @@ export default defineComponent({
         const handleStopClickPrefix = (event: Event) => {
             event.stopPropagation();
         };
-        const renderDrag = () => {
+        const renderDragTag = () => {
             const dragOverInfo = root.dragOverInfo.value;
+            if (!dragOverInfo) {
+                return;
+            }
+            if (dragOverInfo.position === 'inside') {
+                return;
+            }
             if (dragOverInfo?.node.value === props.value) {
                 const style: CSSProperties = {};
-                if (dragOverInfo?.position === 'before') {
-                    style['top'] = '2px';
-                } else if (dragOverInfo?.position === 'after') {
-                    style['bottom'] = '2px';
-                }
                 style['left'] = `${props.level * INDENT + 9}px`;
-                return <div class={`${prefixCls}-drag-over`} style={style} />;
+                return (
+                    <div
+                        class={[
+                            `${prefixCls}-drag-over`,
+                            `is-${dragOverInfo?.position}`,
+                        ]}
+                        style={style}
+                    />
+                );
             }
             return null;
         };
         const renderSwitcher = () => {
+            const switcherClassList = [
+                `${prefixCls}-switcher`,
+                root.hasNoExpandableNode.value && 'no-expand',
+            ].filter(Boolean);
+
             if (props.isLeaf) {
-                return <span class={`${prefixCls}-switcher`} />;
+                return <span class={switcherClassList} />;
             }
             return (
-                <span
-                    class={`${prefixCls}-switcher`}
-                    onClick={handleClickSwitcher}
-                >
+                <span class={switcherClassList} onClick={handleClickSwitcher}>
                     {isLoading.value ? (
                         <LoadingOutlined />
                     ) : (
                         <CaretDownOutlined
-                            class={`${prefixCls}-switcher-icon ${
-                                isExpanded.value ? 'is-expanded' : ''
-                            }`}
+                            class={[
+                                `${prefixCls}-switcher-icon`,
+                                isExpanded.value ? 'is-expanded' : '',
+                            ]}
                         />
                     )}
                 </span>
@@ -185,7 +199,7 @@ export default defineComponent({
                         <Checkbox
                             indeterminate={isIndeterminate.value}
                             modelValue={isChecked.value}
-                            onClick={handleClickCheckbox}
+                            onChange={handleClickCheckbox}
                             disabled={props.disabled}
                         />
                     </span>
@@ -240,7 +254,7 @@ export default defineComponent({
                     root.handleDrop(props.value, event);
                 }}
             >
-                {renderDrag()}
+                {renderDragTag()}
                 {renderSwitcher()}
                 {renderCheckbox()}
                 <span

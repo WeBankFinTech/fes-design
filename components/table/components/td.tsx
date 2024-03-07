@@ -7,6 +7,7 @@ import {
 import { DownOutlined } from '../../icon';
 import FCheckbox from '../../checkbox/checkbox.vue';
 import { provideKey } from '../const';
+import FRadio from '../../radio';
 import Cell from './cell';
 
 import type { ColumnInst } from '../column';
@@ -94,13 +95,23 @@ export default defineComponent({
                     )}
                     {column.props.type === 'selection' && (
                         <div class={`${prefixCls}-center`}>
-                            <FCheckbox
-                                modelValue={isSelected({ row })}
-                                disabled={isSelectDisabled({ row })}
-                                onClick={() => {
-                                    handleSelect({ row });
-                                }}
-                            />
+                            {column.props.multiple ? (
+                                <FCheckbox
+                                    modelValue={isSelected({ row })}
+                                    disabled={isSelectDisabled({ row })}
+                                    onChange={() => {
+                                        handleSelect({ row });
+                                    }}
+                                />
+                            ) : (
+                                <FRadio
+                                    modelValue={isSelected({ row })}
+                                    disabled={isSelectDisabled({ row })}
+                                    onChange={() => {
+                                        handleSelect({ row });
+                                    }}
+                                ></FRadio>
+                            )}
                         </div>
                     )}
                     {column.props.type === 'expand' && (

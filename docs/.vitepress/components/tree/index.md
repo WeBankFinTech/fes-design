@@ -114,7 +114,7 @@ app.use(FTree);
 | dragenter | dragenter 时触发时调用   | ({ node: TreeOption, event: DragEvent }) => void                                                      |
 | dragleave | dragleave 时触发时调用   | ({ node: TreeOption, event: DragEvent }) => void                                                      |
 | dragover  | dragover 时触发时调用    | ({ node: TreeOption, event: DragEvent }) => void                                                      |
-| drop      | drop 时触发时调用        | ({ node: TreeOption, dragNode: TreeOption, position: 'before' \| 'after', event: DragEvent }) => void |
+| drop      | drop 时触发时调用        | ({ node: TreeOption, dragNode: TreeOption, originNode, originDragNode, position: 'before' \| 'after', event: DragEvent }) => void |
 
 ## Tree Methods
 

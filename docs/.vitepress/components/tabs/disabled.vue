@@ -11,3 +11,11 @@
         </FTabPane>
     </FTabs>
 </template>
+
+<style scoped>
+.tab-content {
+    background: #fff;
+    line-height: 60px;
+    text-align: center;
+}
+</style>

@@ -1,3 +1,4 @@
+import { type ColumnResizeInfo } from './useResize';
 import type { SetupContext } from 'vue';
 
 export default function useTableEvent(ctx: SetupContext) {
@@ -13,9 +14,20 @@ export default function useTableEvent(ctx: SetupContext) {
         ctx.emit('rowClick', { ...params, event });
     };
 
+    const handleHeaderResize = (
+        params: {
+            current: ColumnResizeInfo;
+            columns: ColumnResizeInfo[];
+        },
+        event: Event,
+    ) => {
+        ctx.emit('headerResize', { ...params, event });
+    };
+
     return {
         handleCellClick,
         handleHeaderClick,
+        handleHeaderResize,
         handleRowClick,
     };
 }

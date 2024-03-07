@@ -16,33 +16,41 @@ FMessage.info('这是一条消息');
 
 包括普通、成功、失败、警告信息。
 
---COMMON
+:::demo
+common.vue
+:::
 
 ### 可以关闭
 
 显示关闭按钮，手动关闭和自动关闭都可以回调 afterClose
 
---CLOSE
+:::demo
+close.vue
+:::
 
 ### 自定义时长
 
 自定义时长 `10s`，默认时长为`3s`。
 
---CLOSETIME
+:::demo
+closeTime.vue
+:::
 
 ### 彩色样式
 
 包括彩色的背景样式。
 
---COLOR
+:::demo
+color.vue
+:::
 
 ### 自定义消息内容
 
 消息内容和图标都支持自定义`() => VNode`
 
---CONTENT
-
---CODE
+:::demo
+content.vue
+:::
 
 ## 全局方法
 

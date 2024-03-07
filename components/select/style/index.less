@@ -35,8 +35,15 @@
     &-addon {
         .text();
         padding: @padding-xs;
-        border-top: var(--f-border-width-base) var(--f-border-style-base)
+
+        @border-line:var(--f-border-width-base) var(--f-border-style-base)
             var(--f-border-color-split);
+        &.@{select-prefix-cls}-option-header {
+            border-bottom: @border-line;
+        }
+        &.@{select-prefix-cls}-option-footer {
+            border-top: @border-line;
+        }
     }
     &-null {
         text-align: center;

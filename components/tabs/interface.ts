@@ -3,6 +3,7 @@ import { type ComputedRef, type Ref } from 'vue';
 export type Value = string | number;
 export type Position = 'left' | 'top' | 'right' | 'bottom';
 export type TabCloseMode = 'hover' | 'visible';
+export type TabDisplayDirective = 'if' | 'show' | 'show:lazy';
 
 export interface TabsInject {
     valueRef: Ref<Value>;

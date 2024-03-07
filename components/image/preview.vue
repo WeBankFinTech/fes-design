@@ -39,11 +39,11 @@
             <div :class="`${prefixCls}__toolBar`">
                 <SearchMinusOutlined
                     :class="`${prefixCls}-zoom-out`"
-                    @click="handleActions('zoomOut')"
+                    @click="handleActions('zoomOut', { zoomRate: 1.2 })"
                 />
                 <SearchPlusOutlined
                     :class="`${prefixCls}-zoom-in`"
-                    @click="handleActions('zoomIn')"
+                    @click="handleActions('zoomIn', { zoomRate: 1.2 })"
                 />
                 <a
                     v-if="download"
@@ -71,8 +71,6 @@
                 :src="src"
                 :style="previewStyle"
                 @mousedown="handleMouseDown"
-                @mousemove="handleMouseMove"
-                @mouseup="handleMouseUp"
             />
         </div>
     </teleport>
@@ -90,7 +88,6 @@ import {
     type ComponentObjectPropsOptions,
 } from 'vue';
 import { useEventListener } from '@vueuse/core';
-import { throttle } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { noop, requestAnimationFrame } from '../_util/utils';
 import PopupManager from '../_util/popupManager';
@@ -107,6 +104,7 @@ import {
 import { CLOSE_EVENT } from '../_util/constants';
 import { useConfig } from '../config-provider';
 import { PREVIEW_PROVIDE_KEY } from './props';
+import usePreviewImageDrag from './useDrag';
 
 const prefixCls = getPrefixCls('preview');
 
@@ -158,6 +156,7 @@ export default defineComponent({
             rotateDeg: 0,
             offsetX: 0,
             offsetY: 0,
+            enableTransition: false,
         });
         const { isGroup, next, prev } = inject(PREVIEW_PROVIDE_KEY, {
             isGroup: ref(false),
@@ -171,13 +170,18 @@ export default defineComponent({
         );
 
         const previewStyle = computed(() => {
-            const { scale, rotateDeg, offsetX, offsetY } = transform.value;
+            const { scale, rotateDeg, offsetX, offsetY, enableTransition } =
+                transform.value;
+
             const style: CSSProperties = {
-                transform: `scale(${scale}) rotate(${rotateDeg}deg)`,
-                transition: 'transform .3s',
-                'margin-left': `${offsetX}px`,
-                'margin-top': `${offsetY}px`,
+                transform: [
+                    `translate(${offsetX}px, ${offsetY}px)`,
+                    `scale(${scale})`,
+                    `rotate(${rotateDeg}deg)`,
+                ].join(' '),
+                transition: enableTransition ? 'transform .3s' : '',
             };
+
             if (
                 props.size.height > clientHeight ||
                 props.size.width > clientWidth
@@ -197,23 +201,32 @@ export default defineComponent({
             return style;
         });
 
-        const handleActions = (action: string, option?: object) => {
-            const { zoomRate, rotateDeg } = {
-                zoomRate: 0.2,
+        const handleActions = (
+            action: string,
+            option?: {
+                zoomRate?: number;
+                rotateDeg?: number;
+                enableTransition?: boolean;
+            },
+        ) => {
+            const { zoomRate, rotateDeg, enableTransition } = {
+                zoomRate: 1.1,
                 rotateDeg: 90,
+                enableTransition: true,
                 ...option,
             };
             switch (action) {
                 case 'zoomOut':
-                    if (transform.value.scale > 0.2) {
-                        transform.value.scale = parseFloat(
-                            (transform.value.scale - zoomRate).toFixed(3),
-                        );
+                    if (transform.value.scale < 0.2) {
+                        break;
                     }
+                    transform.value.scale = parseFloat(
+                        (transform.value.scale / zoomRate).toFixed(3),
+                    );
                     break;
                 case 'zoomIn':
                     transform.value.scale = parseFloat(
-                        (transform.value.scale + zoomRate).toFixed(3),
+                        (transform.value.scale * zoomRate).toFixed(3),
                     );
                     break;
                 case 'rotateLeft':
@@ -224,6 +237,7 @@ export default defineComponent({
                     break;
                 default:
             }
+            transform.value.enableTransition = enableTransition;
         };
 
         const reset = () => {
@@ -232,6 +246,7 @@ export default defineComponent({
                 rotateDeg: 0,
                 offsetX: 0,
                 offsetY: 0,
+                enableTransition: false,
             };
         };
 
@@ -242,15 +257,9 @@ export default defineComponent({
                 e.preventDefault();
                 requestAnimationFrame(() => {
                     const delta = e.deltaY ? e.deltaY : e.detail;
-                    if (delta < 0) {
-                        handleActions('zoomIn', {
-                            zoomRate: 0.015,
-                        });
-                    } else {
-                        handleActions('zoomOut', {
-                            zoomRate: 0.015,
-                        });
-                    }
+                    handleActions(delta < 0 ? 'zoomIn' : 'zoomOut', {
+                        enableTransition: false,
+                    });
                 });
             },
             {
@@ -258,42 +267,7 @@ export default defineComponent({
             },
         );
 
-        let isMouseDown = false;
-        let startX: number;
-        let startY: number;
-        let imgOffsetX: number;
-        let imgOffsetY: number;
-
-        const handleMouseDown = (event: MouseEvent) => {
-            // 取消默认图片拖拽的行为
-            event.preventDefault();
-            isMouseDown = true;
-            // 存储鼠标按下的偏移量和事件发生坐标
-            const { offsetX, offsetY } = transform.value;
-            startX = event.pageX;
-            startY = event.pageY;
-            imgOffsetX = offsetX;
-            imgOffsetY = offsetY;
-        };
-
-        const dragHandle = (event: MouseEvent) => {
-            transform.value = {
-                ...transform.value,
-                offsetX: imgOffsetX + event.pageX - startX,
-                offsetY: imgOffsetY + event.pageY - startY,
-            };
-        };
-        // 节流0.1s 改变一次图片拖动位置
-        const throttleDrag = throttle(dragHandle, 100);
-
-        const handleMouseMove = (event: MouseEvent) => {
-            if (!isMouseDown) return;
-            throttleDrag(event);
-        };
-
-        const handleMouseUp = () => {
-            isMouseDown = false;
-        };
+        const { handleMouseDown } = usePreviewImageDrag(transform);
 
         const handleClose = () => {
             emit(CLOSE_EVENT);
@@ -317,8 +291,6 @@ export default defineComponent({
             previewStyle,
             zIndex,
             handleMouseDown,
-            handleMouseMove,
-            handleMouseUp,
             getContainer,
         };
     },

@@ -28,11 +28,6 @@ import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('radio');
 
-// type RadioEmits = {
-//     (e: VModelEvent, value: string | number | boolean): void;
-//     (e: ChangeEvent, value: string | number | boolean): void;
-// };
-
 export const radioProps = {
     modelValue: Boolean,
     value: [String, Number, Boolean] as PropType<string | number | boolean>,

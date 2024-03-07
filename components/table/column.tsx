@@ -34,6 +34,11 @@ export const columnProps = {
         type: String as PropType<(typeof COL_TYPE)[number]>,
         default: 'default',
     },
+    // 默认多选，仅在type = 'selection'生效
+    multiple: {
+        type: Boolean,
+        default: true,
+    },
     align: {
         type: String as PropType<(typeof ALIGN)[number]>,
         default: 'left',
@@ -104,7 +109,7 @@ export const columnProps = {
     action: [Object, Array] as PropType<ActionType | ActionType[]>,
     ellipsis: {
         type: [Boolean, Object] as PropType<boolean | EllipsisProps>,
-        default: false,
+        default: false as boolean | EllipsisProps,
     },
     visible: {
         type: Boolean,

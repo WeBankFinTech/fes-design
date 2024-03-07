@@ -1,8 +1,9 @@
+import { type DefaultTheme } from 'vitepress';
 import { getPackageJsonVersion } from '../../../../scripts/utils.mjs';
 
 const currentVersion = getPackageJsonVersion();
 
-export default {
+const navbarConfig: Record<string, DefaultTheme.Config['nav']> = {
     zh: [
         {
             text: '文档',
@@ -38,3 +39,5 @@ export default {
         },
     ],
 };
+
+export default navbarConfig;

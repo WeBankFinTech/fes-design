@@ -10,6 +10,15 @@
                     ]"
                 />
             </FFormItem>
+            <FFormItem label="点击蒙层关闭:">
+                <FRadioGroup
+                    v-model="maskClosable"
+                    :options="[
+                        { label: '是(默认)', value: true },
+                        { label: '否', value: false },
+                    ]"
+                />
+            </FFormItem>
             <FFormItem label="页面是否可交互:">
                 <FRadioGroup
                     v-model="operable"
@@ -30,6 +39,7 @@
         title="抽屉组件"
         :mask="mask"
         :operable="operable"
+        :maskClosable="maskClosable"
         @ok="show = false"
     >
         <div>我是内容...</div>
@@ -39,8 +49,15 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 const show = ref(false);
 const mask = ref(true);
+const maskClosable = ref(true);
 const operable = ref(false);
+
+watch(mask, (nextMask) => {
+    if (nextMask) {
+        operable.value = false;
+    }
+});
 </script>

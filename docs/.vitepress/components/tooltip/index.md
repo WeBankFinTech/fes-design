@@ -40,22 +40,23 @@ placement 设置弹出位置，分别是`top` `top-start` `top-end` `bottom` `bo
 
 ## Tooltip Props
 
-| 属性          | 说明                                                                                                                                                  | 类型                      | 默认值                |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | --------------------- |
-| v-model       | 手动控制显示                                                                                                                                          | boolean                   | `false`               |
+| 属性          | 说明                                                                                                                                                 | 类型                      | 默认值                |
+|---------------|----------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------|-----------------------|
+| v-model       | 手动控制显示                                                                                                                                         | boolean                   | `false`               |
 | mode          | 主题模式，可选`text` `confirm` `popover`                                                                                                              | string                    | `text`                |
-| popperClass   | 弹出框的样式类名                                                                                                                                      | string \| object \| Array | -                     |
-| title         | 标题(mode 为`text`不可用)                                                                                                                             | string \| number          | -                     |
-| content       | 显示的内容                                                                                                                                            | string \| number          | -                     |
+| popperClass   | 弹出框的样式类名                                                                                                                                     | string \| object \| Array | -                     |
+| popperStyle   | 弹出框的样式                                                                                                                                         | object                    | -                     |
+| title         | 标题(mode 为`text`不可用)                                                                                                                            | string \| number          | -                     |
+| content       | 显示的内容                                                                                                                                           | string \| number          | -                     |
 | placement     | 出现的位置，可选值有`top` `top-start` `top-end` `bottom` `bottom-start` `bottom-end` `right` `right-start` `right-end` `left` `left-start` `left-end` | string                    | `auto`                |
-| trigger       | 触发类型`hover` `click` `focus`, confirm 模式下只能是`click`                                                                                          | string                    | `hover`               |
-| disabled      | 是否可用                                                                                                                                              | boolean                   | `false`               |
-| offset        | 出现位置的偏移量                                                                                                                                      | number                    | `8`                   |
-| showAfter     | 显示的延迟时间                                                                                                                                        | number                    | `0`                   |
-| hideAfter     | 隐藏的延迟时间                                                                                                                                        | number                    | `0`                   |
-| arrow         | 是否显示箭头                                                                                                                                          | boolean                   | `true`                |
-| confirmOption | mode 为`confirm`的配置                                                                                                                                | object                    | -                     |
-| getContainer  | 配置渲染节点的输出位置                                                                                                                                | () => HTMLElement         | `() => document.body` |
+| trigger       | 触发类型`hover` `click` `focus`, confirm 模式下只能是`click`                                                                                         | string                    | `hover`               |
+| disabled      | 是否可用                                                                                                                                             | boolean                   | `false`               |
+| offset        | 出现位置的偏移量                                                                                                                                     | number                    | `8`                   |
+| showAfter     | 显示的延迟时间                                                                                                                                       | number                    | `0`                   |
+| hideAfter     | 隐藏的延迟时间                                                                                                                                       | number                    | `0`                   |
+| arrow         | 是否显示箭头                                                                                                                                         | boolean                   | `true`                |
+| confirmOption | mode 为`confirm`的配置                                                                                                                               | object                    | -                     |
+| getContainer  | 配置渲染节点的输出位置                                                                                                                               | () => HTMLElement         | `() => document.body` |
 
 ### confirmOption 属性
 

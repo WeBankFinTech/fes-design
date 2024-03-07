@@ -8,7 +8,6 @@ import {
     nextTick,
     type Component,
     type CSSProperties,
-    reactive,
 } from 'vue';
 import { isNumber } from 'lodash-es';
 import FButton from '../button';
@@ -18,6 +17,7 @@ import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
 import { useConfig } from '../config-provider';
 import { useTheme } from '../_theme/useTheme';
+import { pxfy } from '../_util/utils';
 import { useResizable } from './useResizable';
 import { COMPONENT_NAME, prefixCls } from './const';
 import {
@@ -27,6 +27,7 @@ import {
     UPDATE_SHOW_EVENT,
     drawerProps,
 } from './props';
+import { useDrawerDimension } from './useDimension';
 
 const Drawer = defineComponent({
     name: COMPONENT_NAME,
@@ -120,41 +121,24 @@ const Drawer = defineComponent({
             );
         }
 
-        const drawerSize = reactive({
-            width: props.width,
-            height: props.height,
-        });
-
-        const propsKey = computed(() => {
-            return ['top', 'bottom'].includes(props.placement)
-                ? 'height'
-                : 'width';
-        });
-
-        const placement = computed(() => props.placement);
-        const resizable = computed(() => props.resizable);
+        const drawerDimension = useDrawerDimension(props);
 
         const styles = computed(() => {
-            const sty: CSSProperties = { width: '100%', height: '100%' };
-            // 初始化的时候 数字直接拼px，如果是字符串直接应用，拖拽后数值覆盖
-            sty[propsKey.value] = isNumber(drawerSize[propsKey.value])
-                ? `${drawerSize[propsKey.value]}px`
-                : drawerSize[propsKey.value];
-            return sty;
+            const sizeStyle: CSSProperties = { width: '100%', height: '100%' };
+
+            const dimensionKey = ['top', 'bottom'].includes(props.placement)
+                ? 'height'
+                : 'width';
+            sizeStyle[dimensionKey] = isNumber(drawerDimension.value)
+                ? pxfy(drawerDimension.value)
+                : drawerDimension.value;
+
+            return sizeStyle;
         });
 
-        const {
-            onMouseenter,
-            onMouseleave,
-            onMousedown,
-            drawerRef,
-            dragClass,
-        } = useResizable({
-            propsKey,
-            placement,
-            drawerSize,
-            resizable,
-            prefixCls,
+        const { onMousedown, drawerRef, dragClass } = useResizable({
+            props,
+            drawerDimension,
         });
 
         const showDom = computed(
@@ -162,12 +146,6 @@ const Drawer = defineComponent({
                 (props.displayDirective === 'if' && visible.value) ||
                 props.displayDirective === 'show',
         );
-
-        // 监听宽高改变的时候，宽高要生效
-        watch([() => props.height, () => props.width], () => {
-            drawerSize.width = props.width;
-            drawerSize.height = props.height;
-        });
 
         return () => (
             <Teleport
@@ -196,6 +174,8 @@ const Drawer = defineComponent({
                                     // 没有蒙层时，该属性才生效
                                     [`${prefixCls}-operable`]:
                                         !props.mask && props.operable,
+                                    [`${prefixCls}-mask-closable`]:
+                                        props.mask && props.maskClosable,
                                     [`${prefixCls}-no-header`]:
                                         !hasHeader.value,
                                     [`${prefixCls}-no-footer`]: !props.footer,
@@ -220,8 +200,6 @@ const Drawer = defineComponent({
                                         <div
                                             class={dragClass.value}
                                             onMousedown={onMousedown}
-                                            onMouseenter={onMouseenter}
-                                            onMouseleave={onMouseleave}
                                         >
                                             <div
                                                 class={`${prefixCls}-drag-icon`}

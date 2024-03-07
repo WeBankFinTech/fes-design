@@ -32,6 +32,7 @@ function handleCompDoc(compCode, compName, demoName) {
     const codeName = `${compName}.${demoName}`;
     const codeSrc = encodeURIComponent(code[`${codeName}`]);
     const codeFormat = encodeURIComponent(code[`${codeName}-code`]);
+
     return compCode.replace(
         /<template>([\s\S]*)<\/template>/,
         (match, p1) =>
@@ -52,17 +53,20 @@ function escapeHtml(html) {
 }
 
 let highlighter;
+const codeTheme = 'material-theme-palenight';
 const highlight = async (code, lang = 'vue') => {
     if (!lang || lang === 'text') {
         return `<pre v-pre><code>${escapeHtml(code)}</code></pre>`;
     }
+
     if (!highlighter) {
         highlighter = await getHighlighter({
-            theme: 'material-palenight',
+            langs: ['vue'],
+            themes: [codeTheme],
         });
     }
     return highlighter
-        .codeToHtml(code, { lang })
+        .codeToHtml(code, { lang, theme: codeTheme })
         .replace(/^<pre.*?>/, '<pre v-pre>');
 };
 
@@ -108,7 +112,8 @@ async function genComponentExample(dir, name) {
             );
             scriptCode.components.push(compName);
 
-            demoContent.push(`<${compName} />`);
+            // 防止文档样式覆盖组件样式，详见：https://vitepress.dev/guide/markdown#raw
+            demoContent.push(`::: raw\n<${compName} />\n:::`);
 
             const rawCode = fse.readFileSync(fullPath, 'utf-8');
             tempCode[`${name}.${demoName}`] = rawCode;

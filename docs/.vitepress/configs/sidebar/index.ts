@@ -1,4 +1,6 @@
-export default {
+import { type DefaultTheme } from 'vitepress';
+
+const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
     zh: {
         '/zh/components/': [
             {
@@ -84,6 +86,10 @@ export default {
                         link: '/zh/components/radio',
                     },
                     {
+                        text: 'Rate 评分组件',
+                        link: '/zh/components/rate',
+                    },
+                    {
                         text: 'Select 选择器',
                         link: '/zh/components/select',
                     },
@@ -120,6 +126,10 @@ export default {
             {
                 text: '数据展示组件',
                 items: [
+                    {
+                        text: 'Avatar 头像',
+                        link: '/zh/components/avatar',
+                    },
                     {
                         text: 'Badge 徽标',
                         link: '/zh/components/badge',
@@ -232,7 +242,12 @@ export default {
                     },
                 ],
             },
-        ],
+        ].map((sidebarItem) => {
+            sidebarItem.items.sort(({ text: text1 }, { text: text2 }) =>
+                text1 < text2 ? -1 : 1,
+            );
+            return sidebarItem;
+        }),
         '/zh/guide/': [
             {
                 text: '快速上手',
@@ -250,3 +265,5 @@ export default {
         ],
     },
 };
+
+export default sidebarConfig;

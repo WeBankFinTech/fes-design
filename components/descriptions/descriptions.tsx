@@ -1,50 +1,45 @@
+import { defineComponent, provide, computed, ref } from 'vue';
 import {
-    defineComponent,
-    provide,
-    computed,
-    type PropType,
-    type CSSProperties,
-    type ComponentObjectPropsOptions,
-} from 'vue';
-import getPrefixCls from '../_util/getPrefixCls';
-import { DESCRIPTIONS_PROVIDE_KEY } from './constants';
-import type { LabelAlign, LabelPlacement } from './constants';
-import type { ExtractPublicPropTypes } from '../_util/interface';
+    DESCRIPTIONS_PREFIX_CLASS,
+    DESCRIPTIONS_PROVIDE_KEY,
+} from './constants';
+import { descriptionsProps } from './props';
+import { type DescriptionsItemInst } from './interface';
 
-const prefixCls = getPrefixCls('descriptions');
+const prefixCls = DESCRIPTIONS_PREFIX_CLASS;
 
-export const descriptionsProps = {
-    column: {
-        type: Number,
-        default: 3,
-    },
-    contentStyle: [Object, String] as PropType<CSSProperties | string>,
-    labelAlign: {
-        type: String as PropType<LabelAlign>,
-        default: 'left',
-        validator(value: string) {
-            return ['left', 'right', 'center'].includes(value);
-        },
-    },
-    labelPlacement: {
-        type: String as PropType<LabelPlacement>,
-        default: 'left',
-        validator(value: string) {
-            return ['left', 'top'].includes(value);
-        },
-    },
-    labelStyle: [Object, String] as PropType<CSSProperties | string>,
-    separator: {
-        type: String,
-        default: ':',
-    },
-    title: String,
-    bordered: Boolean,
-} as const satisfies ComponentObjectPropsOptions;
+const useItems = () => {
+    const instances = ref<DescriptionsItemInst[]>([]);
 
-export type DescriptionsProps = ExtractPublicPropTypes<
-    typeof descriptionsProps
->;
+    const add = (instance: DescriptionsItemInst) => {
+        const nextInstances = [...instances.value];
+
+        nextInstances.push(instance);
+        nextInstances.sort(
+            ({ index: indexA }, { index: indexB }) => indexA - indexB,
+        );
+
+        instances.value = nextInstances;
+    };
+
+    const remove = (id: DescriptionsItemInst['id']) => {
+        const index = instances.value.findIndex((i) => i.id === id);
+        if (index === -1) return;
+
+        const nextInstances = [...instances.value];
+        nextInstances.splice(index, 1);
+        instances.value = nextInstances.map((instance, index) => ({
+            ...instance,
+            index,
+        }));
+    };
+
+    return {
+        items: instances,
+        addItem: add,
+        removeItem: remove,
+    };
+};
 
 export default defineComponent({
     name: 'FDescriptions',
@@ -64,6 +59,8 @@ export default defineComponent({
             return null;
         };
 
+        const { items, addItem, removeItem } = useItems();
+
         provide(DESCRIPTIONS_PROVIDE_KEY, {
             parentProps: computed(() => {
                 return {
@@ -76,6 +73,9 @@ export default defineComponent({
                     bordered: props.bordered,
                 };
             }),
+            items,
+            addItem,
+            removeItem,
         });
 
         return () => {

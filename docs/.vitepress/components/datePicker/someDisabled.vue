@@ -20,6 +20,12 @@
             type="month"
             placeholder="选择月份"
         />
+        最大季度选择为当前季度：
+        <FDatePicker
+            :maxDate="new Date()"
+            type="quarter"
+            placeholder="选择季度"
+        />
         最大年份为当前年份：
         <FDatePicker :maxDate="new Date()" type="year" placeholder="选择年份" />
     </FSpace>

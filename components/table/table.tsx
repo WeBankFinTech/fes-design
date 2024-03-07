@@ -36,7 +36,6 @@ export const tableProps = {
     },
     emptyText: {
         type: String,
-        default: '暂无数据',
     },
     size: {
         type: String as PropType<(typeof SIZE)[number]>,
@@ -69,7 +68,7 @@ export const tableProps = {
         default: 'fixed',
     },
     draggable: {
-        type: Boolean as PropType<boolean>,
+        type: Boolean,
         default: false,
     },
     beforeDragend: Function as PropType<BeforeDragEnd>,
@@ -122,6 +121,7 @@ export default defineComponent({
         'cellClick',
         'expandChange',
         'headerClick',
+        'headerResize',
         'rowClick',
         'select',
         'selectAll',

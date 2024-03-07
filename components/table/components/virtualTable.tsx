@@ -85,9 +85,9 @@ export default defineComponent({
                         x: noFixedColumn.value,
                         y: true,
                     }}
-                    horizontalRatioStyle={{ zIndex: 3 }}
-                    verticalRatioStyle={{ zIndex: 3 }}
                     shadowStyle={{ zIndex: 3 }}
+                    verticalRatioStyle={{ zIndex: 3 }}
+                    horizontalRatioStyle={{ zIndex: 3 }}
                     onScroll={onScroll}
                     dataSources={showData.value}
                     dataKey={rootProps.rowKey}

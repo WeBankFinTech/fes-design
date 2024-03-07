@@ -1,44 +1,21 @@
 <template>
-    <FSelect
-        filterable
-        valueField="key"
-        labelField="name"
-        :options="optionList"
-    >
-        <template #addon>
-            <div class="addon">如果你点开了这个例子，可能你需要它</div>
+    <FSelect filterable :options="optionList">
+        <template #header>
+            <div>如果你点开了这个例子</div>
+        </template>
+        <template #footer>
+            <div>可能你需要它</div>
         </template>
     </FSelect>
 </template>
-<script>
-import { reactive } from 'vue';
+<script setup lang="ts">
+import { ref } from 'vue';
 
-const TOTAL_COUNT = 10000;
+const TOTAL_COUNT = 20;
 
-const DataItems = [];
-let count = TOTAL_COUNT;
-while (count--) {
-    const index = TOTAL_COUNT - count;
-    DataItems.push({
-        name: index,
-        key: index,
-    });
-}
-
-export default {
-    setup() {
-        const optionList = reactive(DataItems);
-        return {
-            optionList,
-        };
-    },
-};
+const optionList = ref(
+    new Array(TOTAL_COUNT)
+        .fill(undefined)
+        .map((_, index) => ({ value: index + 1, label: index + 1 })),
+);
 </script>
-<style scoped>
-.fes-select {
-    width: 200px;
-}
-.action {
-    border-top: 1px;
-}
-</style>

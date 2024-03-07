@@ -2,61 +2,166 @@ import {
     defineComponent,
     inject,
     computed,
-    type PropType,
     type CSSProperties,
-    type ComponentObjectPropsOptions,
+    getCurrentInstance,
+    onBeforeMount,
+    onBeforeUnmount,
+    isVNode,
 } from 'vue';
+import { isNil } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
-import { DESCRIPTIONS_PROVIDE_KEY } from './constants';
-import type { ExtractPublicPropTypes } from '../_util/interface';
+import {
+    DESCRIPTIONS_ITEM_DEFAULT_SPAN,
+    DESCRIPTIONS_PREFIX_CLASS,
+    DESCRIPTIONS_PROVIDE_KEY,
+} from './constants';
+import { descriptionsItemProps } from './props';
 
 const prefixCls = getPrefixCls('descriptions-item');
-
-export const descriptionsItemProps = {
-    contentStyle: [Object, String] as PropType<CSSProperties | string>,
-    label: String,
-    labelStyle: [Object, String] as PropType<CSSProperties | string>,
-    span: {
-        type: Number,
-        default: 1,
-    },
-} as const satisfies ComponentObjectPropsOptions;
-
-export type DescriptionsItemProps = ExtractPublicPropTypes<
-    typeof descriptionsItemProps
->;
+const COMPONENT_NAME = 'FDescriptionsItem';
 
 export default defineComponent({
-    name: 'FDescriptionsItem',
+    name: COMPONENT_NAME,
     props: descriptionsItemProps,
     setup(props, { slots }) {
-        const { parentProps } = inject(DESCRIPTIONS_PROVIDE_KEY);
+        const { parentProps, addItem, removeItem, items } = inject(
+            DESCRIPTIONS_PROVIDE_KEY,
+        );
+
+        // register Item component
+        const instance = getCurrentInstance();
+
+        onBeforeMount(() => {
+            // 父组件结构变动，需相应调整此处查找逻辑
+            const parentChildren = instance.parent.subTree.children;
+            if (!Array.isArray(parentChildren)) return;
+
+            const bodyVNodeChildren =
+                parentChildren
+                    .filter(isVNode)
+                    .find((c) =>
+                        c.props?.class.includes(
+                            `${DESCRIPTIONS_PREFIX_CLASS}-body`,
+                        ),
+                    )?.children ?? [];
+            if (
+                !Array.isArray(bodyVNodeChildren) ||
+                !isVNode(bodyVNodeChildren[0]) ||
+                !Array.isArray(bodyVNodeChildren[0].children)
+            ) {
+                return;
+            }
+            const index = bodyVNodeChildren[0].children.findIndex(
+                (itemVNode) => {
+                    if (!isVNode(itemVNode)) return false;
+                    return itemVNode.component?.uid === instance.uid;
+                },
+            );
+            if (index === -1) {
+                return;
+            }
+
+            addItem({
+                id: instance.uid,
+                index,
+                props,
+                slots,
+            });
+        });
+
+        onBeforeUnmount(() => {
+            removeItem(instance.uid);
+        });
+
+        const isLastItem = computed<boolean>(
+            () => items.value[items.value.length - 1]?.id === instance.uid,
+        );
+
+        const span = computed<number>(() => {
+            let span: number;
+
+            const column = parentProps.value.column;
+            if (isLastItem.value) {
+                if (isNil(props.span)) {
+                    const restItemsSpanSum = items.value.reduce(
+                        (sum, { props }, index) => {
+                            if (index === items.value.length - 1) return sum;
+                            return (
+                                sum +
+                                (props.span ?? DESCRIPTIONS_ITEM_DEFAULT_SPAN)
+                            );
+                        },
+                        0,
+                    );
+                    let resultSpanSum;
+                    if (restItemsSpanSum % column === 0) {
+                        resultSpanSum =
+                            (restItemsSpanSum / column + 1) * column;
+                    } else {
+                        resultSpanSum =
+                            Math.ceil(restItemsSpanSum / column) * column;
+                    }
+                    span = resultSpanSum - restItemsSpanSum;
+                } else {
+                    span = props.span;
+                }
+            } else {
+                span = props.span ?? DESCRIPTIONS_ITEM_DEFAULT_SPAN;
+            }
+
+            if (span > column) {
+                span = column;
+            }
+
+            return span;
+        });
+
         const style = computed<CSSProperties>(() => {
+            const flexDirection =
+                parentProps.value.labelPlacement === 'left' ? 'row' : 'column';
+
             return {
                 display: 'flex',
-                'flex-direction':
-                    parentProps.value.labelPlacement === 'left'
-                        ? 'row'
-                        : 'column',
-                'grid-column-start': `span ${
-                    props.span <= parentProps.value.column
-                        ? props.span
-                        : parentProps.value.column
-                }`,
+                'flex-direction': flexDirection,
+                'grid-column-start': `span ${span.value}`,
             };
         });
-        const innerContentStyle = computed(() => {
-            return [parentProps.value.contentStyle, props.contentStyle].filter(
-                Boolean,
-            );
-        });
         const innerLabelStyle = computed(() => {
+            let appendStyle: CSSProperties = {
+                textAlign: parentProps.value.labelAlign,
+            };
+            if (
+                parentProps.value.bordered &&
+                parentProps.value.labelPlacement === 'left'
+            ) {
+                appendStyle = {
+                    ...appendStyle,
+                    flexBasis: `${(1 / (span.value * 2)) * 100}%`,
+                };
+            }
+
             return [
                 parentProps.value.labelStyle,
                 props.labelStyle,
-                {
-                    textAlign: parentProps.value.labelAlign,
-                },
+                appendStyle,
+            ].filter(Boolean);
+        });
+        const innerContentStyle = computed(() => {
+            let appendStyle: CSSProperties = {};
+            if (
+                parentProps.value.bordered &&
+                parentProps.value.labelPlacement === 'left'
+            ) {
+                appendStyle = {
+                    ...appendStyle,
+                    flexBasis: `${100 - (1 / (span.value * 2)) * 100}%`,
+                };
+            }
+
+            return [
+                parentProps.value.contentStyle,
+                props.contentStyle,
+                appendStyle,
             ].filter(Boolean);
         });
 

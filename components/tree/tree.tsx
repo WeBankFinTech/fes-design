@@ -56,6 +56,7 @@ export default defineComponent({
             currentSelectedKeys,
             updateSelectedKeys,
             hasSelected,
+            hasNoExpandableNode,
         } = useState({ props, emit });
 
         const { filter, filteredExpandedKeys, filteredKeys, isSearchingRef } =
@@ -108,6 +109,7 @@ export default defineComponent({
             handleDragend,
             handleDrop,
             dragOverInfo,
+            dragHighlightNode,
         } = useDrag({ nodeList, emit, expandNode });
 
         if (expose) {
@@ -125,6 +127,7 @@ export default defineComponent({
             expandNode,
             checkNode,
             hasSelected,
+            hasNoExpandableNode,
             nodeList,
             handleDragstart,
             handleDragenter,
@@ -133,6 +136,7 @@ export default defineComponent({
             handleDragend,
             handleDrop,
             dragOverInfo,
+            dragHighlightNode,
         });
 
         const renderNode = (value: TreeNodeKey) => {

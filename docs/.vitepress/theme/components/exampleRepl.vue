@@ -4,7 +4,9 @@
         title="Playground"
         display-directive="show"
         :mask-closable="false"
-        width="90%"
+        :dimension="1440"
+        :resizable="true"
+        :resizeMin="960"
         @ok="isShow = false"
     >
         <Repl
@@ -24,7 +26,6 @@ import { ref, version, watch } from 'vue';
 
 import CodeMirror from '@vue/repl/codemirror-editor';
 import { Repl, ReplStore } from '@vue/repl';
-import '@vue/repl/style.css';
 
 import { FDrawer } from '@fesjs/fes-design';
 import { DEMO_ENTRY_FILE, FES_DESIGN_SETUP } from './constants';
@@ -85,7 +86,7 @@ defineExpose({
 });
 </script>
 
-<style scoped>
+<style>
 .vue-repl {
     border-right: 1px solid var(--vt-c-divider-light);
     height: calc(100vh - 88px);

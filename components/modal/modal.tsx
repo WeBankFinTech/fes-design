@@ -6,98 +6,26 @@ import {
     ref,
     watch,
     nextTick,
-    type PropType,
-    type VNode,
-    type VNodeChild,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
+import { FScrollbar } from '../scrollbar';
 import FButton from '../button/button';
 import { CloseOutlined } from '../icon';
 import { useTheme } from '../_theme/useTheme';
 import useEsc from '../_util/use/useEsc';
-import { iconComponentMap } from '../_util/noticeManager';
 import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
 import { useConfig } from '../config-provider';
 import { useLocale } from '../config-provider/useLocale';
-import type { ExtractPublicPropTypes } from '../_util/interface';
+import { useContentMaxHeight } from './useContentMaxHeight';
+import { globalModalProps, modalProps, modalIconMap } from './props';
 
 const prefixCls = getPrefixCls('modal');
 const UPDATE_SHOW_EVENT = 'update:show';
 const OK_EVENT = 'ok';
 const CANCEL_EVENT = 'cancel';
 const AFTER_LEAVE_EVENT = 'after-leave';
-const modalIconMap = {
-    ...iconComponentMap,
-    confirm: iconComponentMap.warning,
-} as const;
-
-export type ModalType = keyof typeof modalIconMap;
-
-// 全局方法的特有属性
-const globalModalProps = {
-    content: String as PropType<string | VNode | (() => VNodeChild)>,
-    forGlobal: Boolean, // 标记是否API调用
-    cancelLoading: Boolean,
-} as const satisfies ComponentObjectPropsOptions;
-
-// 通用的属性
-export const modalProps = {
-    show: Boolean,
-    displayDirective: {
-        type: String as PropType<'show' | 'if'>,
-        default: 'show',
-    },
-    closable: {
-        type: Boolean,
-        default: true,
-    },
-    mask: {
-        type: Boolean,
-        default: true,
-    },
-    maskClosable: {
-        type: Boolean,
-        default: true,
-    },
-    type: {
-        type: String as PropType<ModalType>,
-    },
-    title: String as PropType<string | VNode | (() => VNodeChild)>,
-    okText: String,
-    okLoading: Boolean,
-    cancelText: String,
-    showCancel: {
-        type: Boolean,
-        default: true,
-    },
-    width: {
-        type: [String, Number] as PropType<string | number>,
-        default: 520,
-    },
-    top: {
-        type: [String, Number] as PropType<string | number>,
-        default: 50,
-    },
-    verticalCenter: Boolean,
-    center: Boolean,
-    footer: {
-        type: Boolean,
-        default: true,
-    },
-    getContainer: {
-        type: Function as PropType<() => HTMLElement>,
-    },
-    fullScreen: {
-        type: Boolean,
-        default: false,
-    },
-    contentClass: String,
-} as const satisfies ComponentObjectPropsOptions;
-
-export type ModalProps = ExtractPublicPropTypes<typeof modalProps>;
 
 const Modal = defineComponent({
     name: 'FModal',
@@ -112,6 +40,7 @@ const Modal = defineComponent({
             () => props.show,
             () => {
                 if (props.show) zIndex.value = PopupManager.nextZIndex();
+
                 nextTick(() => {
                     visible.value = props.show;
                 });
@@ -151,7 +80,7 @@ const Modal = defineComponent({
             if (!hasHeader.value) return closeJsx;
             const header = ctx.slots.title?.() || props.title;
             return (
-                <div class={`${prefixCls}-header`}>
+                <div class={`${prefixCls}-header`} ref={modalHeaderRef}>
                     {props.type && (
                         <div
                             class={`${prefixCls}-icon ${prefixCls}-status-${props.type}`}
@@ -194,7 +123,11 @@ const Modal = defineComponent({
                     </>
                 );
             }
-            return <div class={`${prefixCls}-footer`}>{footer}</div>;
+            return (
+                <div class={`${prefixCls}-footer`} ref={modalFooterRef}>
+                    {footer}
+                </div>
+            );
         }
 
         const styles = computed(() => {
@@ -206,8 +139,43 @@ const Modal = defineComponent({
                     : isNumber(props.top)
                     ? `${props.top}px`
                     : props.top,
+                marginBottom: props.verticalCenter
+                    ? 0
+                    : isNumber(props.bottom)
+                    ? `${props.bottom}px`
+                    : props.bottom,
             };
         });
+
+        // 获取最大的内容高度
+        const {
+            modalRef,
+            modalHeaderRef,
+            modalFooterRef,
+            contentMaxHeight,
+            hasMaxHeight,
+        } = useContentMaxHeight(styles, props);
+
+        const getBody = () => {
+            const modalBody = (
+                <div class={`${prefixCls}-body`}>
+                    {ctx.slots.default
+                        ? ctx.slots.default()
+                        : props.forGlobal && props.content}
+                </div>
+            );
+            if (hasMaxHeight.value) {
+                return (
+                    <FScrollbar
+                        maxHeight={contentMaxHeight.value}
+                        shadow={true}
+                    >
+                        {modalBody}
+                    </FScrollbar>
+                );
+            }
+            return modalBody;
+        };
 
         const showDom = computed(
             () =>
@@ -262,13 +230,10 @@ const Modal = defineComponent({
                                     }`}
                                     style={styles.value}
                                     onClick={(event) => event.stopPropagation()}
+                                    ref={modalRef}
                                 >
                                     {getHeader()}
-                                    <div class={`${prefixCls}-body`}>
-                                        {ctx.slots.default
-                                            ? ctx.slots.default()
-                                            : props.forGlobal && props.content}
-                                    </div>
+                                    {getBody()}
                                     {getFooter()}
                                 </div>
                             </div>

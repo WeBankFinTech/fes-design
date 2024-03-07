@@ -5,6 +5,7 @@ import type {
     InjectionKey,
     Ref,
     ComponentObjectPropsOptions,
+    ComputedRef,
 } from 'vue';
 
 import type { ExtractPublicPropTypes } from '../_util/interface';
@@ -122,6 +123,7 @@ export interface TreeInst {
     expandNode: (value: TreeNodeKey, event: Event) => void;
     checkNode: (value: TreeNodeKey, event: Event) => void;
     hasSelected: (value: TreeNodeKey) => boolean;
+    hasNoExpandableNode: ComputedRef<boolean>;
     nodeList: Map<TreeNodeKey, InnerTreeOption>;
     handleDragstart: (value: TreeNodeKey, event: DragEvent) => void;
     handleDragenter: (value: TreeNodeKey, event: DragEvent) => void;
@@ -133,6 +135,7 @@ export interface TreeInst {
         node: InnerTreeOption;
         position: DropPosition;
     }>;
+    dragHighlightNode: ComputedRef<InnerTreeOption | undefined>;
 }
 
 export const TREE_PROVIDE_KEY: InjectionKey<TreeInst> = Symbol('FTree');

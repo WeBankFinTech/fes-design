@@ -14,19 +14,27 @@ app.use(FDescriptions);
 
 ### 基础用法
 
---common
+:::demo
+common.vue
+:::
 
 ### label 在上方
 
---top
+:::demo
+top.vue
+:::
 
 ### 跨度
 
---span
+:::demo
+span.vue
+:::
 
 ### 边框
 
---CODE
+:::demo
+borded.vue
+:::
 
 ## Props
 
@@ -45,12 +53,12 @@ app.use(FDescriptions);
 
 ### DescriptionItem Props
 
-| 属性         | 说明       | 类型            | 默认值 |
-| ------------ | ---------- | --------------- | ------ |
-| contentStyle | 内容样式   | string / object | -      |
-| label        | label 值   | string          | -      |
-| labelStyle   | label 样式 | string / object | -      |
-| span         | 所占列数   | number          | 1      |
+| 属性         | 说明                                                      | 类型            | 默认值 |
+|--------------|----------------------------------------------------------|-----------------|--------|
+| contentStyle | 内容样式                                                  | string / object | -      |
+| label        | label 值                                                  | string          | -      |
+| labelStyle   | label 样式                                                | string / object | -      |
+| span         | 所占列数<br/>（建议不设置最后一项 Item，由组件内部自动计算） | number          | 1      |
 
 ## Slots
 

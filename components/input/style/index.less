@@ -121,11 +121,12 @@
     &-count {
         position: absolute;
         right: 8px;
-        bottom: 2px;
         color: var(--f-text-color);
         font-size: @font-size-caption;
         text-align: right;
         background-color: #fff;
+        // 不使用 top 或 bottom，而是让 word-count 根据 <template> 中的声明顺序，自动跟随在 textarea 下方，再使用 transform 调整位置至 textarea 内部
+        transform: translateY(calc(0px - 100% - 2px)); 
         opacity: 0.4;
         pointer-events: none;
     }

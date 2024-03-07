@@ -1,8 +1,8 @@
 import { contrastDate, isBeyondRangeTime } from './helper';
 
 export function useDisable(props: {
-    minDate?: Date;
-    maxDate?: Date;
+    minDate?: Date | number;
+    maxDate?: Date | number;
     maxRange?: string;
     disabledDate?: (date: Date) => boolean;
 }) {
