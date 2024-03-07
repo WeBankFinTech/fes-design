@@ -99,7 +99,7 @@ export default defineComponent({
                                 <FCheckbox
                                     modelValue={isSelected({ row })}
                                     disabled={isSelectDisabled({ row })}
-                                    onClick={() => {
+                                    onChange={() => {
                                         handleSelect({ row });
                                     }}
                                 />
@@ -107,7 +107,7 @@ export default defineComponent({
                                 <FRadio
                                     modelValue={isSelected({ row })}
                                     disabled={isSelectDisabled({ row })}
-                                    onClick={() => {
+                                    onChange={() => {
                                         handleSelect({ row });
                                     }}
                                 ></FRadio>

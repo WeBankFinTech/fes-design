@@ -145,7 +145,7 @@ export default defineComponent({
                                             !isAllSelected.value &&
                                             isCurrentDataAnySelected.value
                                         }
-                                        onClick={handleSelectAll}
+                                        onChange={handleSelectAll}
                                     />
                                 </div>
                             )}

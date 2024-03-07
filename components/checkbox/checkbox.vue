@@ -23,11 +23,7 @@ import getPrefixCls from '../_util/getPrefixCls';
 import useSelect from '../_util/use/useSelect';
 import { name, checkboxGroupKey } from '../checkbox-group/const';
 import { useTheme } from '../_theme/useTheme';
-import {
-    UPDATE_MODEL_EVENT,
-    CHANGE_EVENT,
-    CLICK_EVENT,
-} from '../_util/constants';
+import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('checkbox');
@@ -45,7 +41,7 @@ export type CheckboxProps = ExtractPublicPropTypes<typeof checkboxProps>;
 export default defineComponent({
     name: 'FCheckbox',
     props: checkboxProps,
-    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, CLICK_EVENT],
+    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT],
     setup(props, { emit }) {
         useTheme();
         const {

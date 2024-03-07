@@ -23,19 +23,10 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import useSelect from '../_util/use/useSelect';
 import { name, radioGroupKey } from '../radio-group/const';
-import {
-    UPDATE_MODEL_EVENT,
-    CHANGE_EVENT,
-    CLICK_EVENT,
-} from '../_util/constants';
+import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('radio');
-
-// type RadioEmits = {
-//     (e: VModelEvent, value: string | number | boolean): void;
-//     (e: ChangeEvent, value: string | number | boolean): void;
-// };
 
 export const radioProps = {
     modelValue: Boolean,
@@ -49,7 +40,7 @@ export type RadioProps = ExtractPublicPropTypes<typeof radioProps>;
 export default defineComponent({
     name: 'FRadio',
     props: radioProps,
-    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, CLICK_EVENT],
+    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT],
     setup(props, { emit }) {
         useTheme();
         const {
