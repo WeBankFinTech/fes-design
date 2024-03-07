@@ -1,0 +1,165 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+
+@transfer: ~'@{cls-prefix}-transfer';
+@transfer-one-way: ~'@{transfer}-one-way';
+@transfer-two-way: ~'@{transfer}-two-way';
+
+@border-color: var(--f-border-color-disabled);
+@border-radius: var(--f-border-radius-base);
+@border-style: 1px solid @border-color;
+
+@panel-padding: var(--f-padding-middle);
+@panel-header-height: 22px;
+@panel-block-gap: var(--f-padding-middle);
+@option-height: @data-input-height-base;
+@option-inline-padding: var(--f-padding-xsmall);
+
+.@{transfer} {
+    box-sizing: border-box;
+    min-height: 350px;
+
+    .@{transfer}-panel {
+        padding: @panel-padding;
+
+        .@{transfer}-panel-header {
+            display: flex;
+            align-items: center;
+            height: @panel-header-height;
+            font-size: var(--f-font-size-base);
+
+            .@{transfer}-panel-count {
+                margin-left: var(--f-padding-middle);
+                color: var(--f-sub-head-color);
+            }
+        }
+
+        &.@{transfer}-empty-panel {
+            position: relative;
+
+            .@{transfer}-empty {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .@{transfer}-panel-filter,
+        .@{transfer}-panel-list {
+            margin-top: @panel-block-gap;
+        }
+
+        .@{transfer}-panel-list {
+            // Tree 本身自带一点左边距，Transfer 反向缩回去
+            margin-left: calc(0px - @option-inline-padding);
+            width: calc(100% + @option-inline-padding * 2);
+
+            .@{transfer}-option {
+                height: @option-height;
+                padding: 0 @option-inline-padding;
+                font-size: var(--f-font-size-base);
+
+                &:hover {
+                    background-color: var(--f-hover-color-light);
+                }
+            }
+        }
+    }
+
+    &.@{transfer-one-way} {
+        display: flex;
+        border: @border-style;
+        border-radius: @border-radius;
+
+        & > .@{transfer}-panel {
+            flex: 1 0 50%;
+
+            &.@{transfer}-source-panel {
+                border-right: @border-style;
+            }
+
+            &.@{transfer}-target-panel {
+                .@{transfer}-panel-header {
+                    justify-content: space-between;
+                    color: var(--f-sub-head-color);
+    
+                    .@{transfer}-panel-clear-button {
+                        cursor: pointer;
+                        transition: color @animation-duration-slow @ease-in-out;
+    
+                        &:hover {
+                            color: var(--f-primary-color);
+                        }
+                    }
+                }
+
+                .@{transfer}-panel-list {
+                    .@{transfer}-checked-option {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+
+                        .@{transfer}-checked-option-remove-button {
+                            display: none;
+                            color: var(--f-text-color-disabled);
+                            cursor: pointer;
+                        }
+
+                        &:hover {
+                            .@{transfer}-checked-option-remove-button {
+                                display: block;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &.@{transfer-two-way} {
+        @action-button-side-length: 32px;
+        @panel-gap: var(--f-padding-xsmall);
+
+        display: flex;
+        align-items: stretch;
+
+        & > .@{transfer}-panel {
+            flex: 1 0 calc(50% - @action-button-side-length / 2 - @panel-gap);
+            border: @border-style;
+            border-radius: @border-radius;
+
+            .@{transfer}-panel-list {
+                .@{transfer}-option {
+                    display: flex;
+                    align-items: center;
+
+                    .@{transfer}-option-label {
+                        margin-left: @option-inline-padding;
+                    }
+                }
+            }
+        }
+
+        & > .@{transfer}-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            align-self: center;
+            justify-content: space-between;
+            height: calc( @action-button-side-length * 2 + @panel-gap);
+            padding: 0 @panel-gap;
+
+            & > .@{transfer}-action-button {
+                width: @action-button-side-length;
+                min-width: @action-button-side-length;
+                height: @action-button-side-length;
+                padding: unset;
+
+                & > .@{transfer}-action-button-icon {
+                    margin-right: unset;
+                }
+            }
+        }
+    }
+}
