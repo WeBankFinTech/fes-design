@@ -1,13 +1,15 @@
 import {
     type ComponentObjectPropsOptions,
-    type DefineComponent,
     type PropType,
     type SetupContext,
     type SlotsType,
 } from 'vue';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
+import {
+    type ExtractPublicPropTypes,
+    type ComponentInnerProps,
+} from '../_util/interface';
 import { type UnixTime } from './types';
-import type { ComponentProps } from '../timeline/utilTypes';
 
 /**
  * Calendar 显示模式
@@ -54,11 +56,10 @@ export const calendarProps = {
 } as const satisfies ComponentObjectPropsOptions;
 
 // 组件暴露给外部的 props 类型
-export type CalendarProps = ComponentProps<typeof calendarProps>;
+export type CalendarProps = ExtractPublicPropTypes<typeof calendarProps>;
 
-export type CalendarInnerProps = Parameters<
-    DefineComponent<typeof calendarProps>['setup']
->[0];
+// 组件内部 setup 使用的 props 类型
+export type CalendarInnerProps = ComponentInnerProps<typeof calendarProps>;
 
 export const CalendarEvent = {
     UPDATE_MODEL: UPDATE_MODEL_EVENT,

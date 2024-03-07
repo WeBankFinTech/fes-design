@@ -3,6 +3,7 @@
         v-model:show="isShow"
         title="Playground"
         display-directive="show"
+        contentClass="fes-repl-drawer-content"
         :mask-closable="false"
         :dimension="1440"
         :resizable="true"
@@ -86,9 +87,17 @@ defineExpose({
 });
 </script>
 
-<style>
+<style lang="less">
 .vue-repl {
     border-right: 1px solid var(--vt-c-divider-light);
-    height: calc(100vh - 88px);
+    height: calc(100vh - 55px); // 55px 是 drawer header 的宽度
+}
+
+.fes-repl-drawer-content {
+    .fes-drawer-body-container {
+        padding-top: 0;
+        padding-right: 0;
+        padding-bottom: 0;
+    }
 }
 </style>
