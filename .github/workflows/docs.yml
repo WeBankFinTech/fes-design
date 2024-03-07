@@ -13,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v3 # https://github.com/marketplace/actions/checkout
+      uses: actions/checkout@v4 # https://github.com/marketplace/actions/checkout
 
     - name: Setup Node
-      uses: actions/setup-node@v3 # https://github.com/marketplace/actions/setup-node-js-environment
+      uses: actions/setup-node@v4 # https://github.com/marketplace/actions/setup-node-js-environment
       with: 
         node-version: 20
     

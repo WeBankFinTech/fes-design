@@ -1,6 +1,6 @@
 import { type ComponentObjectPropsOptions, type PropType } from 'vue';
 import { type Shape, type Size } from '../avatar/props';
-import type { ComponentProps } from '../timeline/utilTypes';
+import { type ExtractPublicPropTypes } from '../_util/interface';
 
 type AvatarOption = {
     name: string;
@@ -37,4 +37,4 @@ export const avatarGroupProps = {
 } as const satisfies ComponentObjectPropsOptions;
 
 // 组件暴露给外部的 props 类型
-export type AvatarGroupProps = ComponentProps<typeof avatarGroupProps>;
+export type AvatarGroupProps = ExtractPublicPropTypes<typeof avatarGroupProps>;

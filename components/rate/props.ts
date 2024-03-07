@@ -1,9 +1,8 @@
+import { type ComponentObjectPropsOptions, type PropType } from 'vue';
 import {
-    type ComponentObjectPropsOptions,
-    type PropType,
-    type DefineComponent,
-} from 'vue';
-import type { ComponentProps } from '../timeline/utilTypes';
+    type ExtractPublicPropTypes,
+    type ComponentInnerProps,
+} from '../_util/interface';
 
 type Size = 'large' | 'medium' | 'small';
 
@@ -51,11 +50,9 @@ export const rateProps = {
 } as const satisfies ComponentObjectPropsOptions;
 
 // 组件暴露给外部的 props 类型
-export type RateProps = ComponentProps<typeof rateProps>;
+export type RateProps = ExtractPublicPropTypes<typeof rateProps>;
 
-export type RateInnerProps = Parameters<
-    DefineComponent<typeof rateProps>['setup']
->[0];
+export type RateInnerProps = ComponentInnerProps<typeof rateProps>;
 
 // 评分对象
 export type RateItem = {

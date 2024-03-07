@@ -1,5 +1,5 @@
 import { type ComponentObjectPropsOptions, type PropType } from 'vue';
-import type { ComponentProps } from '../timeline/utilTypes';
+import { type ExtractPublicPropTypes } from '../_util/interface';
 
 type Size = 'middle' | 'small';
 
@@ -45,4 +45,4 @@ export const badgeProps = {
 } as const satisfies ComponentObjectPropsOptions;
 
 // 组件暴露给外部的 props 类型
-export type BadgeProps = ComponentProps<typeof badgeProps>;
+export type BadgeProps = ExtractPublicPropTypes<typeof badgeProps>;

@@ -7,7 +7,8 @@ import {
 } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import useResize from '../_util/use/useResize';
-import { CAROUSEL_NAME, CHANGE_EVENT } from './const';
+import { CHANGE_EVENT } from '../_util/constants';
+import { CAROUSEL_NAME } from './const';
 import Arrow from './arrow';
 import Indicator from './indicator';
 import useCarousel from './useCarousel';

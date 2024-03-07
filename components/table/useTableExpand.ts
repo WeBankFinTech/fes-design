@@ -1,6 +1,6 @@
 import { computed, watch, type SetupContext, type Ref } from 'vue';
 import { useNormalModel } from '../_util/use/useModel';
-import { type ArrayUnionToUnionArray } from '../_util/interface';
+import { type ArrayUnionToUnionArray } from '../_util/types';
 import { TABLE_NAME } from './const';
 
 import type { TableProps } from './table';
