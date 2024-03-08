@@ -53,7 +53,11 @@ const data = reactive(
     Array.from([1, 2, 3], (i) => {
         return {
             date: `2016-05-${i < 10 ? '0' + i : i}`,
-            name: '王小虎',
+            name: [
+                {
+                    name: 1,
+                },
+            ],
             address: '上海市普陀区金沙江路 1516 弄',
         };
     }),
