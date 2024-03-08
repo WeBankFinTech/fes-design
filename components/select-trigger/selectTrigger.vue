@@ -280,7 +280,7 @@ export default defineComponent({
         const triggerClass = computed(() => ({
             [`${prefixCls}`]: true,
             'is-active': props.isOpened || isFocusRef.value,
-            'is-disabled': props.disabled,
+            'is-disabled': props.disabled === true,
             'is-multiple': props.multiple,
         }));
 

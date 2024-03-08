@@ -136,7 +136,7 @@ export default defineComponent({
             valueType: computed(() => (props.multiple ? 'array' : 'string')),
         });
         const innerDisabled = computed(
-            () => props.disabled || isFormDisabled.value,
+            () => props.disabled === true || isFormDisabled.value,
         );
         const isOpenedRef = ref(false);
         const [currentValue, updateCurrentValue] = props.multiple
@@ -265,7 +265,7 @@ export default defineComponent({
         });
 
         const onSelect = (value: SelectValue, option?: SelectOption) => {
-            if (props.disabled || isFormDisabled.value) return;
+            if (innerDisabled.value) return;
             if (props.multiple) {
                 filterText.value = '';
                 if (isSelect(value)) {
