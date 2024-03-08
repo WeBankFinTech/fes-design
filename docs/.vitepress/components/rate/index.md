@@ -50,7 +50,7 @@ text.vue
 
 ### 事件监听
 提供change，clear事件  
-注意一点，clear事件也会触发change事件，只不过value为null
+注意一点，clear事件也会触发change事件，会将value设置为0
 
 :::demo
 event.vue

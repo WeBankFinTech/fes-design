@@ -1,18 +1,21 @@
 import { computed, ref, watch } from 'vue';
-import { type RateItem, type RateInnerProps } from './props';
 import { useNormalModel } from '../_util/use/useModel';
+import { type RateItem, type RateInnerProps } from './props';
 
 export const useRate = (props: RateInnerProps, emit: any) => {
     const rateItemArr = ref<RateItem[]>([]);
 
     const isHover = ref(false);
     const [modelValue, setModelValue] = useNormalModel(props, emit, {
-        defaultValue: 0
-    })
-    
-    watch(() => modelValue.value, () => {
-        getRateArr()
-    })
+        defaultValue: 0,
+    });
+
+    watch(
+        () => modelValue.value,
+        () => {
+            getRateArr();
+        },
+    );
 
     // 根据props 生成评分数组
     const getRateArr = () => {
@@ -43,14 +46,14 @@ export const useRate = (props: RateInnerProps, emit: any) => {
             });
         }
 
-        if (emptyStarsNum >= 0) { 
+        if (emptyStarsNum >= 0) {
             [...Array(emptyStarsNum)].map(() => {
                 res.push({
                     active: false,
                 });
             });
         }
-        
+
         rateItemArr.value = res;
     };
 
@@ -91,17 +94,19 @@ export const useRate = (props: RateInnerProps, emit: any) => {
         const isLeft = props.allowHalf ? event.offsetX <= halfWidth : false;
 
         const newValue = isLeft ? index + 0.5 : index + 1;
- 
+
         // 设定 clearable 后，点击当前值对应的图标后值会被设为null。
         if (handleHalfClearable(isLeft, index)) {
             clearRate();
-            setModelValue(0)
+            setModelValue(0);
+            emit('change', 0);
             emit('clear');
             return;
         }
-        
+
         if (newValue !== modelValue.value) {
-            setModelValue(newValue)
+            emit('change', newValue);
+            setModelValue(newValue);
         }
     };
 
