@@ -1,40 +1,27 @@
 import { computed, ref, watch } from 'vue';
 import { type RateItem, type RateInnerProps } from './props';
+import { useNormalModel } from '../_util/use/useModel';
 
 export const useRate = (props: RateInnerProps, emit: any) => {
     const rateItemArr = ref<RateItem[]>([]);
 
     const isHover = ref(false);
-    // 通过此状态来控制星星数量
-    const innerValue = ref(0)
+    const [modelValue, setModelValue] = useNormalModel(props, emit, {
+        defaultValue: 0
+    })
     
-    watch(() => props.modelValue, (newValue) => {
-        if (newValue === innerValue.value) return
-        if (newValue && typeof newValue === 'number' && !isNaN(newValue)) {
-            innerValue.value = newValue
-        } else {
-            innerValue.value = 0
-        }
-    }, {
-        immediate: true
+    watch(() => modelValue.value, () => {
+        getRateArr()
     })
 
-    // 只通过内部状态innerValue的变化去改变modelValue
-    watch(() => innerValue.value, (newValue) => {
-        getRateArr()
-        if (newValue === props.modelValue) return
-        emit('update:modelValue', newValue);
-        // clear事件也会触发change事件
-        emit('change', newValue);
-    })
     // 根据props 生成评分数组
     const getRateArr = () => {
         const res: RateItem[] = [];
         // 向下取整是满星数 Math.floor(null) 为 0
-        const fullStarsNum = Math.floor(innerValue.value);
+        const fullStarsNum = Math.floor(modelValue.value);
         // 半星数最多为1
-        const halfStar = innerValue.value
-            ? Math.floor(innerValue.value) === innerValue.value
+        const halfStar = modelValue.value
+            ? Math.floor(modelValue.value) === modelValue.value
                 ? 0
                 : 1
             : 0;
@@ -85,11 +72,11 @@ export const useRate = (props: RateInnerProps, emit: any) => {
 
     // 判断是否能取消
     const handleHalfClearable = (isLeft: boolean, index: number) => {
-        if (props.clearable && !isLeft && innerValue.value === index + 1) {
+        if (props.clearable && !isLeft && modelValue.value === index + 1) {
             return true;
         }
         // 半星可以取消的场景
-        if (props.clearable && isLeft && innerValue.value === index + 0.5) {
+        if (props.clearable && isLeft && modelValue.value === index + 0.5) {
             return true;
         }
 
@@ -108,13 +95,13 @@ export const useRate = (props: RateInnerProps, emit: any) => {
         // 设定 clearable 后，点击当前值对应的图标后值会被设为null。
         if (handleHalfClearable(isLeft, index)) {
             clearRate();
-            innerValue.value = 0
+            setModelValue(0)
             emit('clear');
             return;
         }
         
-        if (newValue !== innerValue.value) {
-            innerValue.value = newValue
+        if (newValue !== modelValue.value) {
+            setModelValue(newValue)
         }
     };
 
@@ -154,7 +141,7 @@ export const useRate = (props: RateInnerProps, emit: any) => {
         rateItemArr.value = rateItemArr.value.map((item, index) => {
             if (
                 index === curActiveIndex.value &&
-                Math.floor(innerValue.value) !== innerValue.value
+                Math.floor(modelValue.value) !== modelValue.value
             ) {
                 // 半星场景 hover离开
                 return {
