@@ -93,7 +93,11 @@ export default defineComponent({
             return hasEllipsis ? (
                 <Ellipsis {...ellipsisProps}></Ellipsis>
             ) : (
-                <Fragment> {result} </Fragment>
+                <Fragment>
+                    {typeof result === 'object'
+                        ? JSON.stringify(result)
+                        : result}
+                </Fragment>
             );
         };
     },
