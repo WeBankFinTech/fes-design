@@ -29,8 +29,8 @@ export default ({ props, emit }: { props: TreeProps; emit: any }) => {
         indexPath: TreeNodeKey[],
         level: number,
     ) => {
-        const value = item[props.valueField];
-        const label = item[props.labelField];
+        const value = item[props.valueField] as InnerTreeOption['value'];
+        const label = item[props.labelField] as InnerTreeOption['label'];
         const children = item[props.childrenField];
         const hasChildren = !!(Array.isArray(children) && children.length);
         let isLeaf;

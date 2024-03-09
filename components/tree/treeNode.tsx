@@ -6,8 +6,9 @@ import {
     type PropType,
     type CSSProperties,
     type ComponentObjectPropsOptions,
+    type VNodeChild,
 } from 'vue';
-import { isUndefined } from 'lodash-es';
+import { isFunction, isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import CaretDownOutlined from '../icon/CaretDownOutlined';
 import LoadingOutlined from '../icon/LoadingOutlined';
@@ -24,7 +25,7 @@ const treeNodeProps = {
         required: true,
     },
     label: {
-        type: String,
+        type: [String, Function] as PropType<string | (() => VNodeChild)>,
         required: true,
     },
     disabled: {
@@ -229,6 +230,23 @@ export default defineComponent({
                 </span>
             );
         };
+
+        const renderLabel = () => {
+            if (isFunction(props.label)) {
+                return (
+                    <span class={`${prefixCls}-content-label`}>
+                        {props.label()}
+                    </span>
+                );
+            }
+            return (
+                <FEllipsis
+                    class={`${prefixCls}-content-label`}
+                    content={props.label}
+                />
+            );
+        };
+
         return () => (
             <div
                 class={classList.value}
@@ -262,10 +280,7 @@ export default defineComponent({
                     onClick={handleClickContent}
                 >
                     {renderPrefix()}
-                    <FEllipsis
-                        class={`${prefixCls}-content-label`}
-                        content={props.label}
-                    />
+                    {renderLabel()}
                     {renderSuffix()}
                 </span>
             </div>

@@ -104,16 +104,16 @@ app.use(FTree);
 
 ## Tree Events
 
-| 事件名称  | 说明                     | 回调参数                                                                                              |
-| --------- | ------------------------ | ----------------------------------------------------------------------------------------------------- |
-| check     | 点击节点中的选择框时触发 | ({ checkedKeys, node, event, checked }) => void                                                       |
-| expand    | 展开、收起节点时触发     | ({ expandedKeys, node, event, expanded }) => void                                                     |
-| select    | 点击节点内容时触发       | ({ selectedKeys, node, event, selected }) => void                                                     |
-| dragstart | 开始拖拽时调用           | ({ node: TreeOption, event: DragEvent }) => void                                                      |
-| dragend   | dragend 时触发时调用     | ({ node: TreeOption, event: DragEvent }) => void                                                      |
-| dragenter | dragenter 时触发时调用   | ({ node: TreeOption, event: DragEvent }) => void                                                      |
-| dragleave | dragleave 时触发时调用   | ({ node: TreeOption, event: DragEvent }) => void                                                      |
-| dragover  | dragover 时触发时调用    | ({ node: TreeOption, event: DragEvent }) => void                                                      |
+| 事件名称  | 说明                     | 回调参数                                                                                                                          |
+| --------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| check     | 点击节点中的选择框时触发 | ({ checkedKeys, node, event, checked }) => void                                                                                   |
+| expand    | 展开、收起节点时触发     | ({ expandedKeys, node, event, expanded }) => void                                                                                 |
+| select    | 点击节点内容时触发       | ({ selectedKeys, node, event, selected }) => void                                                                                 |
+| dragstart | 开始拖拽时调用           | ({ node: TreeOption, event: DragEvent }) => void                                                                                  |
+| dragend   | dragend 时触发时调用     | ({ node: TreeOption, event: DragEvent }) => void                                                                                  |
+| dragenter | dragenter 时触发时调用   | ({ node: TreeOption, event: DragEvent }) => void                                                                                  |
+| dragleave | dragleave 时触发时调用   | ({ node: TreeOption, event: DragEvent }) => void                                                                                  |
+| dragover  | dragover 时触发时调用    | ({ node: TreeOption, event: DragEvent }) => void                                                                                  |
 | drop      | drop 时触发时调用        | ({ node: TreeOption, dragNode: TreeOption, originNode, originDragNode, position: 'before' \| 'after', event: DragEvent }) => void |
 
 ## Tree Methods
@@ -130,7 +130,7 @@ app.use(FTree);
 | 属性        | 说明                                                   | 类型                        | 默认值  |
 | ----------- | ------------------------------------------------------ | --------------------------- | ------- |
 | value       | 节点的 `key`，需要唯一，可使用 `valueField` 修改字段名 | string / number             | `-`     |
-| label       | 节点的内容，可使用 `labelField` 修改字段名             | string                      | `-`     |
+| label       | 节点的内容，可使用 `labelField` 修改字段名             | string / (() => VNodeChild) | `-`     |
 | children?   | 节点的子节点                                           | TreeOption[]                | `[]`    |
 | disabled?   | 是否禁用节点                                           | boolean                     | `-`     |
 | selectable? | 是否禁用选中节点，默认为`Tree`组件的`selectable`       | boolean                     | `-`     |

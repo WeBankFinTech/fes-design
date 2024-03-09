@@ -4,7 +4,7 @@ export type TreeNodeKey = string | number;
 
 export interface TreeOption {
     value?: TreeNodeKey;
-    label?: string;
+    label?: string | (() => VNodeChild);
     children?: TreeOption[];
     disabled?: boolean;
     selectable?: boolean;
