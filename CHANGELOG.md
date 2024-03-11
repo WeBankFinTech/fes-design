@@ -1,3 +1,19 @@
+## [0.8.34](https://github.com/WeBankFinTech/fes-design/compare/v0.8.33...v0.8.34) (2024-03-11)
+
+
+### Bug Fixes
+
+* **Select:** disabled 判断逻辑修正，样式与交互一致 ([#664](https://github.com/WeBankFinTech/fes-design/issues/664)) ([c41d36d](https://github.com/WeBankFinTech/fes-design/commit/c41d36ddcfb08b80bd350920925ca850e16c5bab))
+* **Table:** 列值为 object 类型时，会导致组件渲染异常 ([#667](https://github.com/WeBankFinTech/fes-design/issues/667)) ([c43e20e](https://github.com/WeBankFinTech/fes-design/commit/c43e20ec4e77e51a078d097ece2516448c2c53ae))
+
+
+### Features
+
+* **Progress:** 新增进度条组件 ([#648](https://github.com/WeBankFinTech/fes-design/issues/648)) ([ced87d1](https://github.com/WeBankFinTech/fes-design/commit/ced87d191b662edec87e0901f65933a863118d41))
+* **Tree:** label 支持 VNode([#668](https://github.com/WeBankFinTech/fes-design/issues/668)) ([41075da](https://github.com/WeBankFinTech/fes-design/commit/41075da77df7c35411b8c20622cf40decd84ce44))
+
+
+
 ## [0.8.33](https://github.com/WeBankFinTech/fes-design/compare/v0.8.32...v0.8.33) (2024-03-07)
 
 
