@@ -20,7 +20,7 @@ app.use(FTree);
 
 ### 虚拟列表
 
-设置`virtualList`属性，处理大数据。
+设置 `virtualList` 属性，处理大数据。
 
 --VIRTUALLIST
 
@@ -42,7 +42,7 @@ app.use(FTree);
 
 #### 展开部分 + 默认选中 + 默认勾选
 
-通过`expandedKeys`配置默认展开节点，通过`selectedKeys`配置默认选择节点，通过`checkedKeys`配置默认勾选节点。
+通过 `expandedKeys` 配置默认展开节点，通过 `selectedKeys` 配置默认选择节点，通过 `checkedKeys` 配置默认勾选节点。
 
 --DEFAULT
 
@@ -127,15 +127,15 @@ app.use(FTree);
 
 ## TreeOption props
 
-| 属性        | 说明                                                   | 类型                        | 默认值  |
-| ----------- | ------------------------------------------------------ | --------------------------- | ------- |
+| 属性        | 说明                                                 | 类型                        | 默认值  |
+|-------------|----------------------------------------------------|-----------------------------|---------|
 | value       | 节点的 `key`，需要唯一，可使用 `valueField` 修改字段名 | string / number             | `-`     |
-| label       | 节点的内容，可使用 `labelField` 修改字段名             | string / (() => VNodeChild) | `-`     |
-| children?   | 节点的子节点                                           | TreeOption[]                | `[]`    |
-| disabled?   | 是否禁用节点                                           | boolean                     | `-`     |
-| selectable? | 是否禁用选中节点，默认为`Tree`组件的`selectable`       | boolean                     | `-`     |
-| checkable?  | 是否禁用勾选节点，默认为`Tree`组件的`checkable`        | boolean                     | `-`     |
-| draggable?  | 节点是否能被拖拽，默认为 true                          | boolean                     | `true`  |
-| isLeaf?     | 节点是否是叶节点，在 remote 模式下是必须的             | boolean                     | `false` |
-| prefix?     | 节点的前缀                                             | string / (() => VNodeChild) | `null`  |
-| suffix?     | 节点的后缀                                             | string / (() => VNodeChild) | `null`  |
+| label       | 节点的内容，可使用 `labelField` 修改字段名            | string / (() => VNodeChild) | `-`     |
+| children?   | 节点的子节点                                         | TreeOption[]                | `[]`    |
+| disabled?   | 是否禁用节点                                         | boolean                     | `-`     |
+| selectable? | 是否禁用选中节点，默认为 `Tree` 组件的 `selectable`   | boolean                     | `-`     |
+| checkable?  | 是否显示勾选节点，默认为 `Tree` 组件的 `checkable`    | boolean                     | `-`     |
+| draggable?  | 节点是否能被拖拽，默认为 true                         | boolean                     | `true`  |
+| isLeaf?     | 节点是否是叶节点，在 remote 模式下是必须的            | boolean                     | `false` |
+| prefix?     | 节点的前缀                                           | string / (() => VNodeChild) | `null`  |
+| suffix?     | 节点的后缀                                           | string / (() => VNodeChild) | `null`  |
