@@ -194,19 +194,17 @@ export default defineComponent({
             );
         };
         const renderCheckbox = () => {
-            if (root.props.checkable) {
-                return (
-                    <span class={`${prefixCls}-checkbox`}>
-                        <Checkbox
-                            indeterminate={isIndeterminate.value}
-                            modelValue={isChecked.value}
-                            onChange={handleClickCheckbox}
-                            disabled={props.disabled}
-                        />
-                    </span>
-                );
-            }
-            return null;
+            if (!checkable.value) return null;
+            return (
+                <span class={`${prefixCls}-checkbox`}>
+                    <Checkbox
+                        indeterminate={isIndeterminate.value}
+                        modelValue={isChecked.value}
+                        onChange={handleClickCheckbox}
+                        disabled={props.disabled}
+                    />
+                </span>
+            );
         };
         const renderPrefix = () => {
             if (!slots.prefix) return null;
