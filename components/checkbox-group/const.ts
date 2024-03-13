@@ -1,33 +1,10 @@
-import type { ComponentObjectPropsOptions, PropType } from 'vue';
-import type { Option } from '../_util/interface';
-import type { ExtractPublicPropTypes } from '../_util/interface';
+import { type InjectionKey } from 'vue';
+import { type ParentGroupInjection } from '../_util/use/useSelect';
+import { type CheckboxValue } from '../checkbox/props';
+import { type CheckboxGroupInnerProps } from './props';
 
-export const checkboxGroupKey = Symbol('FCheckboxGroup');
-export const name = 'FCheckboxGroup';
+export const COMPONENT_NAME = 'FCheckboxGroup';
 
-export type OptionValue = Option['value'];
-
-export const checkboxGroupProps = {
-    modelValue: {
-        type: Array as PropType<OptionValue[]>,
-        default: () => [] as OptionValue[],
-    },
-    vertical: Boolean,
-    disabled: Boolean,
-    options: {
-        type: Array as PropType<Option[] | null>,
-        default: () => [] as Option[],
-    },
-    valueField: {
-        type: String,
-        default: 'value',
-    },
-    labelField: {
-        type: String,
-        default: 'label',
-    },
-} as const satisfies ComponentObjectPropsOptions;
-
-export type CheckboxGroupProps = ExtractPublicPropTypes<
-    typeof checkboxGroupProps
->;
+export const checkboxGroupKey: InjectionKey<
+    ParentGroupInjection<CheckboxValue, CheckboxGroupInnerProps>
+> = Symbol('FCheckboxGroup');

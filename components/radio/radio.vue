@@ -13,29 +13,18 @@
 </template>
 
 <script lang="ts">
-import {
-    type PropType,
-    computed,
-    defineComponent,
-    type ComponentObjectPropsOptions,
-} from 'vue';
+import { computed, defineComponent } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import useSelect from '../_util/use/useSelect';
-import { name, radioGroupKey } from '../radio-group/const';
+import {
+    COMPONENT_NAME as radioGroupName,
+    radioGroupKey,
+} from '../radio-group/const';
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
-import type { ExtractPublicPropTypes } from '../_util/interface';
+import { radioProps } from './props';
 
 const prefixCls = getPrefixCls('radio');
-
-export const radioProps = {
-    modelValue: Boolean,
-    value: [String, Number, Boolean] as PropType<string | number | boolean>,
-    label: [String, Number] as PropType<string | number>,
-    disabled: Boolean,
-} as const satisfies ComponentObjectPropsOptions;
-
-export type RadioProps = ExtractPublicPropTypes<typeof radioProps>;
 
 export default defineComponent({
     name: 'FRadio',
@@ -55,7 +44,7 @@ export default defineComponent({
         } = useSelect({
             props,
             emit,
-            parent: { groupKey: radioGroupKey, name },
+            parent: { groupKey: radioGroupKey, name: radioGroupName },
         });
         const wrapperClass = computed(() => {
             const arr = [`${prefixCls}`];

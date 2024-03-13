@@ -16,18 +16,20 @@ import { computed, defineComponent } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';
 import Checkbox from '../checkbox';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import { useCheckboxGroup } from './useCheckboxGroup';
-import { name, checkboxGroupProps } from './const';
+import { COMPONENT_NAME } from './const';
+import { checkboxGroupProps } from './props';
 
 const prefixCls = getPrefixCls('checkbox-group');
 
 export default defineComponent({
-    name,
+    name: COMPONENT_NAME,
     components: {
         Checkbox,
     },
     props: checkboxGroupProps,
-    emits: ['update:modelValue', 'change'],
+    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT],
     setup(props, { emit }) {
         useTheme();
         const { isFormDisabled } = useCheckboxGroup(props, emit);

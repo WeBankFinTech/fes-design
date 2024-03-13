@@ -5,7 +5,7 @@ import {
     type ComponentObjectPropsOptions,
 } from 'vue';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
-import Checkbox, { type CheckboxProps } from '../checkbox/checkbox.vue';
+import Checkbox, { type CheckboxProps } from '../checkbox';
 import { COMPONENT_NAME } from './const';
 
 type InnerCheckboxModelValue = NonNullable<CheckboxProps['modelValue']>;

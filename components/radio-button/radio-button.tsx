@@ -1,32 +1,16 @@
-import {
-    type ComponentObjectPropsOptions,
-    computed,
-    defineComponent,
-    type PropType,
-} from 'vue';
+import { computed, defineComponent } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
-import { name, radioGroupKey } from '../radio-group/const';
+import {
+    COMPONENT_NAME as radioGroupName,
+    radioGroupKey,
+} from '../radio-group/const';
 import useSelect from '../_util/use/useSelect';
 import { useTheme } from '../_theme/useTheme';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
-import type { ExtractPublicPropTypes } from '../_util/interface';
+import { radioButtonProps } from './props';
 
 // 样式字符串
 const prefixCls = getPrefixCls('radio-button');
-
-export const radioButtonProps = {
-    disabled: {
-        type: Boolean,
-    },
-    value: {
-        type: [String, Number, Boolean] as PropType<string | number | boolean>,
-    },
-    label: {
-        type: [String, Number] as PropType<string | number>,
-    },
-} as const satisfies ComponentObjectPropsOptions;
-
-export type RadioButtonProps = ExtractPublicPropTypes<typeof radioButtonProps>;
 
 export default defineComponent({
     name: 'FRadioButton',
@@ -36,7 +20,7 @@ export default defineComponent({
         const { checked, innerDisabled, handleClick, group } = useSelect({
             props,
             emit,
-            parent: { groupKey: radioGroupKey, name },
+            parent: { groupKey: radioGroupKey, name: radioGroupName },
         });
 
         useTheme();

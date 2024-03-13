@@ -2,13 +2,15 @@ import { provide, unref } from 'vue';
 import { useArrayModel } from '../_util/use/useModel';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import { CHANGE_EVENT } from '../_util/constants';
-import { checkboxGroupKey, name } from './const';
-import type { CheckboxGroupProps } from './const';
-
+import { type UnboxInjection } from '../_util/interface';
+import { checkboxGroupKey, COMPONENT_NAME } from './const';
+import type { CheckboxGroupInnerProps } from './props';
 import type { CheckboxGroupEmits } from './interface';
 
+type GroupInjection = UnboxInjection<typeof checkboxGroupKey>;
+
 export const useCheckboxGroup = (
-    props: CheckboxGroupProps,
+    props: CheckboxGroupInnerProps,
     emit: CheckboxGroupEmits,
 ) => {
     const { validate, isFormDisabled } = useFormAdaptor({
@@ -23,7 +25,7 @@ export const useCheckboxGroup = (
         validate(CHANGE_EVENT);
     };
 
-    const isSelect = (value: string | number | boolean) => {
+    const isSelect: GroupInjection['isSelect'] = (value) => {
         const groupVal = unref(currentValue);
         const itemVal = unref(value);
         if (groupVal === null || itemVal === null) {
@@ -32,13 +34,17 @@ export const useCheckboxGroup = (
         return groupVal.includes(itemVal);
     };
 
-    const onSelect = (value: string | number | boolean) => {
+    const onSelect: GroupInjection['onSelect'] = (
+        value,
+        afterSelectHandler,
+    ) => {
         updateItem(unref(value));
         handleChange();
+        afterSelectHandler();
     };
 
     provide(checkboxGroupKey, {
-        name,
+        name: COMPONENT_NAME,
         isSelect,
         onSelect,
         props,

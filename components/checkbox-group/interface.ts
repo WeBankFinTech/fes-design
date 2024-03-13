@@ -1,5 +1,6 @@
-import { type OptionValue } from './const';
-import type { VModelEvent, ChangeEvent } from '../_util/interface';
+import type { Option, VModelEvent, ChangeEvent } from '../_util/interface';
+
+export type OptionValue = Option['value'];
 
 export type CheckboxGroupEmits = {
     (e: VModelEvent, value: OptionValue[]): void;

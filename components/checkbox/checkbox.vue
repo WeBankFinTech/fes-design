@@ -13,30 +13,18 @@
 </template>
 
 <script lang="ts">
-import {
-    type PropType,
-    computed,
-    defineComponent,
-    type ComponentObjectPropsOptions,
-} from 'vue';
+import { computed, defineComponent } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import useSelect from '../_util/use/useSelect';
-import { name, checkboxGroupKey } from '../checkbox-group/const';
+import {
+    COMPONENT_NAME as checkboxGroupName,
+    checkboxGroupKey,
+} from '../checkbox-group/const';
 import { useTheme } from '../_theme/useTheme';
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
-import type { ExtractPublicPropTypes } from '../_util/interface';
+import { checkboxProps } from './props';
 
 const prefixCls = getPrefixCls('checkbox');
-
-export const checkboxProps = {
-    modelValue: Boolean,
-    indeterminate: Boolean,
-    value: [String, Number, Boolean] as PropType<string | number | boolean>,
-    label: [String, Number] as PropType<string | number>,
-    disabled: Boolean,
-} as const satisfies ComponentObjectPropsOptions;
-
-export type CheckboxProps = ExtractPublicPropTypes<typeof checkboxProps>;
 
 export default defineComponent({
     name: 'FCheckbox',
@@ -56,7 +44,7 @@ export default defineComponent({
         } = useSelect({
             props,
             emit,
-            parent: { groupKey: checkboxGroupKey, name },
+            parent: { groupKey: checkboxGroupKey, name: checkboxGroupName },
         });
         const wrapperClass = computed(() => {
             const arr = [`${prefixCls}`];

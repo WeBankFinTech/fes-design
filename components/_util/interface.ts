@@ -7,6 +7,7 @@ import type {
     App,
     Plugin,
     ExtractPropTypes,
+    InjectionKey,
 } from 'vue';
 
 export type Emit = SetupContext['emit'];
@@ -32,6 +33,9 @@ export type ComponentInstall = DefineComponent & {
 export type GetContainer = () => HTMLElement;
 
 export type SFCWithInstall<T> = T & Plugin;
+
+export type UnboxInjection<Key extends InjectionKey<unknown>> =
+    Key extends InjectionKey<infer I> ? I : never;
 
 export type ExtractPublicPropTypes<T> = Omit<
     Partial<RemoveReadonly<ExtractPropTypes<T>>>,

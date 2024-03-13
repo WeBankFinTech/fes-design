@@ -1,29 +1,46 @@
-import { inject, ref, computed } from 'vue';
+import { inject, ref, computed, type InjectionKey } from 'vue';
 import { CHANGE_EVENT } from '../constants';
 import { useNormalModel } from './useModel';
 import useFormAdaptor from './useFormAdaptor';
 
 import type { VModelEvent, ChangeEvent } from '../interface';
 
-export default function useSelect({
+export type ParentGroupInjection<
+    Value,
+    ParentGroupProps extends {
+        disabled?: boolean;
+    },
+> = {
+    name: string;
+    props: ParentGroupProps;
+    isSelect: (value: Value) => void;
+    onSelect: (value: Value, afterSelect: () => void) => void;
+};
+
+export default function useSelect<
+    Value,
+    ParentGroupProps extends {
+        disabled?: boolean;
+    },
+>({
     props,
     emit,
     parent,
 }: {
     props: any;
     emit: {
-        (e: VModelEvent, value: any): void;
-        (e: ChangeEvent, value: any): void;
+        (e: VModelEvent, ...args: any[]): void;
+        (e: ChangeEvent, ...args: any[]): void;
     };
     parent: {
-        groupKey: symbol;
+        groupKey: InjectionKey<ParentGroupInjection<Value, ParentGroupProps>>;
         name: string;
     };
 }) {
     const { validate, isFormDisabled } = useFormAdaptor({
         valueType: 'boolean',
     });
-    const group = inject(parent.groupKey, null) as any;
+    const group = inject(parent.groupKey, null);
     const focus = ref(false);
     const hover = ref(false);
     const isGroup = group !== null;
@@ -45,7 +62,10 @@ export default function useSelect({
             return;
         }
         if (isGroup) {
-            group.onSelect(props.value);
+            group.onSelect(props.value, () => {
+                const newVal = group.isSelect(props.value);
+                emit(CHANGE_EVENT, newVal);
+            });
         } else {
             const newVal = !currentValue.value;
             updateCurrentValue(newVal);
