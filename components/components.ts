@@ -54,3 +54,4 @@ export * from './rate';
 export * from './avatar';
 export * from './avatarGroup';
 export * from './progress';
+export * from './transfer';

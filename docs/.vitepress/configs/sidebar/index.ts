@@ -86,7 +86,7 @@ const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
                         link: '/zh/components/radio',
                     },
                     {
-                        text: 'Rate 评分组件',
+                        text: 'Rate 评分',
                         link: '/zh/components/rate',
                     },
                     {
@@ -116,6 +116,10 @@ const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
                     {
                         text: 'SelectCascader 级联选择器',
                         link: '/zh/components/selectCascader',
+                    },
+                    {
+                        text: 'Transfer 穿梭框',
+                        link: '/zh/components/transfer',
                     },
                     {
                         text: 'Form 表单',
@@ -223,9 +227,9 @@ const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
                         text: 'Message 全局提示',
                         link: '/zh/components/message',
                     },
-                    {   
-                        text:'Progress 进度条',
-                        link:'/zh/components/progress',
+                    {
+                        text: 'Progress 进度条',
+                        link: '/zh/components/progress',
                     },
                     {
                         text: 'Spin 加载中',
