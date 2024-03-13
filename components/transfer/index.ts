@@ -8,4 +8,4 @@ export { transferProps } from './props';
 type TransferType = SFCWithInstall<typeof Transfer>;
 
 export const FTransfer = withInstall<TransferType>(Transfer as TransferType);
-export default Transfer;
+export default FTransfer;

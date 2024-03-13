@@ -2,12 +2,15 @@ import { provide, unref } from 'vue';
 import { useNormalModel } from '../_util/use/useModel';
 import { CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
-import { radioGroupKey, name } from './const';
-import type { RadioGroupProps } from './const';
+import { type UnboxInjection } from '../_util/interface';
+import { radioGroupKey, COMPONENT_NAME } from './const';
+import type { RadioGroupInnerProps } from './props';
 import type { RadioGroupEmits } from './interface';
 
+type GroupInjection = UnboxInjection<typeof radioGroupKey>;
+
 export const useRadioGroup = (
-    props: RadioGroupProps,
+    props: RadioGroupInnerProps,
     emit: RadioGroupEmits,
 ) => {
     const { validate, isFormDisabled } = useFormAdaptor({
@@ -21,13 +24,16 @@ export const useRadioGroup = (
         validate(CHANGE_EVENT);
     };
 
-    const isSelect = (value: string | number | boolean) => {
+    const isSelect: GroupInjection['isSelect'] = (value) => {
         const radioGroupVal = unref(currentValue);
         const radioVal = unref(value);
         return radioGroupVal === radioVal;
     };
 
-    const onSelect = (value: string | number | boolean) => {
+    const onSelect: GroupInjection['onSelect'] = (
+        value,
+        afterSelectHandler,
+    ) => {
         const radioGroupVal = unref(currentValue);
         const radioVal = unref(value);
         if (radioGroupVal === radioVal) {
@@ -39,10 +45,11 @@ export const useRadioGroup = (
             updateCurrentValue(radioVal);
         }
         handleChange();
+        afterSelectHandler();
     };
 
     provide(radioGroupKey, {
-        name,
+        name: COMPONENT_NAME,
         isSelect,
         onSelect,
         props,

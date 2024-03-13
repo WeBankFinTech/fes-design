@@ -30,12 +30,13 @@ import { useTheme } from '../_theme/useTheme';
 import FRadio from '../radio';
 import RadioButton from '../radio-button';
 import { useRadioGroup } from './useRadioGroup';
-import { name, radioGroupProps } from './const';
+import { COMPONENT_NAME } from './const';
+import { radioGroupProps } from './props';
 
 const prefixCls = getPrefixCls('radio-group');
 
 export default defineComponent({
-    name,
+    name: COMPONENT_NAME,
     components: {
         FRadio,
         RadioButton,

@@ -5,8 +5,8 @@ import type { SFCWithInstall } from '../_util/interface';
 
 type RadioGroupType = SFCWithInstall<typeof RadioGroup>;
 
-export { radioGroupProps } from './const';
-export type { RadioGroupProps } from './const';
+export { radioGroupProps } from './props';
+export type { RadioGroupProps } from './props';
 export const FRadioGroup = withInstall<RadioGroupType>(
     RadioGroup as RadioGroupType,
 );
