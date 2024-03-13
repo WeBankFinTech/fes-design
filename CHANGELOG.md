@@ -1,3 +1,17 @@
+## [0.8.35](https://github.com/WeBankFinTech/fes-design/compare/v0.8.34...v0.8.35) (2024-03-13)
+
+
+### Bug Fixes
+
+* **Tree:** 修复 Option 的 checkable 不生效的问题 ([#670](https://github.com/WeBankFinTech/fes-design/issues/670)) ([f69e9b3](https://github.com/WeBankFinTech/fes-design/commit/f69e9b300e2af316c0d1148ab457e78aace8d414))
+
+
+### Features
+
+* **Transfer:** 增加穿梭框组件 ([#669](https://github.com/WeBankFinTech/fes-design/issues/669)) ([aada840](https://github.com/WeBankFinTech/fes-design/commit/aada8405c7aebc54f62e47e917bf14820f74bdd9))
+
+
+
 ## [0.8.34](https://github.com/WeBankFinTech/fes-design/compare/v0.8.33...v0.8.34) (2024-03-11)
 
 
