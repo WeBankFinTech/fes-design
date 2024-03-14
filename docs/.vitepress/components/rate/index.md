@@ -1,4 +1,5 @@
 # Rate 评分
+
 评分组件用于评分行为
 
 ## 组件注册
@@ -17,15 +18,16 @@ app.use(FRate);
 basic.vue
 :::
 
-
 ### 尺寸
-size属性给定了三种，`small`，`medium`，`large`
+
+size 属性给定了三种，`small`，`medium`，`large`
 
 :::demo
 size.vue
 :::
 
 ### 颜色
+
 可以自定义颜色，色号
 
 :::demo
@@ -33,13 +35,15 @@ color.vue
 :::
 
 ### 自定义图标
-替换rate的图标icon
+
+替换 rate 的图标 icon
 
 :::demo
 customIcon.vue
 :::
 
 ### 辅助文字
+
 为组件设置 show-text 属性会在右侧显示辅助文字。 通过设置 texts 可以为每一个分值指定对应的辅助文字。  
 texts 为一个数组，长度应等于评级图标个数。  
 未匹配文字的评级，则不展示文字部分。
@@ -49,8 +53,9 @@ text.vue
 :::
 
 ### 事件监听
-提供change，clear事件  
-注意一点，clear事件也会触发change事件，会将value设置为0
+
+提供 change，clear 事件  
+注意一点，clear 事件也会触发 change 事件，会将 value 设置为 0
 
 :::demo
 event.vue
@@ -58,25 +63,25 @@ event.vue
 
 ## Props
 
-| 属性        | 说明                                    | 类型       | 默认值   |
-| ----------- | --------------------------------------- | ---------- | -------- |
-| modelValue / v-model  | 已激活图标个数                |  `number`  |  `0`  |
-| allowHalf   | 是否启用半星模式                        | `boolean`  | `false`  |
-| colorFilled | 颜色填充风格                            | `boolean`  | `true`   |
-| readonly    | 是否只读                                | `boolean`  | `false`  |
-| count       | 图标个数                                | `number`   | `5`      |
-| size        | 尺寸，可选值为 `small` `medium` `large` | `string`   | `medium` |
-| color       | 颜色                                    | `string`   | `danger` |
-| clearable   | 是否可以清除                            | `boolean`  | `false`  |
-| texts       | 辅助文字                                | `string[]` | `-`      |
-| showText    | 是否展示文字                            | `boolean`  | `false`  |
+| 属性                 | 说明                                    | 类型       | 默认值   |
+| -------------------- | --------------------------------------- | ---------- | -------- |
+| modelValue / v-model | 已激活图标个数                          | `number`   | `0`      |
+| allowHalf            | 是否启用半星模式                        | `boolean`  | `false`  |
+| colorFilled          | 颜色填充风格                            | `boolean`  | `true`   |
+| readonly             | 是否只读                                | `boolean`  | `false`  |
+| count                | 图标个数                                | `number`   | `5`      |
+| size                 | 尺寸，可选值为 `small` `medium` `large` | `string`   | `medium` |
+| color                | 颜色                                    | `string`   | `danger` |
+| clearable            | 是否可以清除                            | `boolean`  | `false`  |
+| texts                | 辅助文字                                | `string[]` | `-`      |
+| showText             | 是否展示文字                            | `boolean`  | `false`  |
 
 ## Events
 
-| 事件名称 | 说明                                  | 回调参数           |
-| -------- | ------------------------------------- | ------------------ |
-| change   | 在组件value值变更时触发               | (newValue) => void |
-| clear    | `clearable` 属性生效，清空value时触发 | () => void         |
+| 事件名称 | 说明                                    | 回调参数           |
+| -------- | --------------------------------------- | ------------------ |
+| change   | 在组件 value 值变更时触发               | (newValue) => void |
+| clear    | `clearable` 属性生效，清空 value 时触发 | () => void         |
 
 ## Slots
 
