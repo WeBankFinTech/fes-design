@@ -1,3 +1,13 @@
+## [0.8.37](https://github.com/WeBankFinTech/fes-design/compare/v0.8.36...v0.8.37) (2024-03-14)
+
+
+### Bug Fixes
+
+* **SelectTree:** 修复 TreeOption 的 label 为自定义渲染时，过滤函数的逻辑 ([#676](https://github.com/WeBankFinTech/fes-design/issues/676)) ([5f6d61c](https://github.com/WeBankFinTech/fes-design/commit/5f6d61c1dde6f44b653bda182bc772b66da5d733))
+* **Tabs:** 滚动条复用 Scrollbar 组件，同时修复 Win 下横向滚动问题 ([#675](https://github.com/WeBankFinTech/fes-design/issues/675)) ([afdb821](https://github.com/WeBankFinTech/fes-design/commit/afdb82149785642e829f7550a82d12760c52df86))
+
+
+
 ## [0.8.36](https://github.com/WeBankFinTech/fes-design/compare/v0.8.35...v0.8.36) (2024-03-14)
 
 
