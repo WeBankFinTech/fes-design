@@ -2,54 +2,18 @@
 @import '../../style/mixins/index';
 @import './mixin.less';
 
-
 @tabs-prefix-cls: ~'@{cls-prefix}-tabs';
 @tabs-border-color: var(--f-border-color-split);
 @tabs-border: var(--f-border-width-base) var(--f-border-style-base) @tabs-border-color;
+
 @tab-active-color: var(--f-primary-color);
+@tab-active-bar-width: 2px;
+@tab-padding-small: 4px;
+@tab-padding-large: 16px;
+@horizon-tab-padding: @tab-padding-small @tab-padding-large;
+@vertical-tab-padding: @tab-padding-large;
+
 @text-color-disabled: var(--f-text-color-disabled);
-
-.scroll-x-before {
-    &::before {
-        bottom: 0;
-        left: 0;
-        z-index: 1;
-        width: 20px;
-        height: 100%;
-        box-shadow: inset 10px 0 8px -8px var(--f-border-color-base);
-    }
-}
-
-.scroll-x-after {
-    &::after {
-        right: 0;
-        bottom: 0;
-        z-index: 1;
-        width: 20px;
-        height: 100%;
-        box-shadow: inset -10px 0 8px -8px var(--f-border-color-base);
-    }
-}
-
-.scroll-y-before {
-    &::before {
-        top: 0;
-        z-index: 1;
-        width: 100%;
-        height: 20px;
-        box-shadow: inset 0 10px 8px -8px var(--f-border-color-base);
-    }
-}
-
-.scroll-y-after {
-    &::after {
-        bottom: 0;
-        z-index: 1;
-        width: 100%;
-        height: 20px;
-        box-shadow: inset 0 -10px 8px -8px var(--f-border-color-base);
-    }
-}
 
 .@{tabs-prefix-cls} {
     display: flex;
@@ -60,6 +24,7 @@
     &-nav {
         position: relative;
         display: flex;
+        align-items: center;
 
         &::before {
             position: absolute;
@@ -70,45 +35,20 @@
 
         &-prefix,
         &-suffix {
-            padding: 4px 16px;
+            padding: @horizon-tab-padding;
         }
 
-        &-wrapper {
-            position: relative;
-            flex: 1;
-            overflow: hidden;
-            &::after,
-            &::before {
-                position: absolute;
-                content: "";
-                pointer-events: none;
+        .@{tabs-prefix-cls}-nav-scroll {
+            .@{tabs-prefix-cls}-nav-scroll-content {
+                display: flex;
+                flex-wrap: nowrap;
+                align-items: center;
             }
-        }
-
-        &-scroll {
-            position: relative;
-            display: flex;
-            flex-wrap: nowrap;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            &::-webkit-scrollbar {
-                display: none;
-            }
-        }
-
-        &-bar {
-            position: absolute;
-            background: @tab-active-color;
-            transition: transform @animation-duration-slow;
         }
     }
 
     &-tab {
-        padding: 4px 16px;
+        padding: @horizon-tab-padding;
         color: var(--f-font-color-base);
         font-size: var(--f-font-size-base);
         cursor: pointer;
@@ -139,9 +79,15 @@
         }
 
         &-label {
+            position: relative;
             display: flex;
             flex-wrap: nowrap;
             white-space: nowrap;
+
+            &::before {
+                position: absolute;
+                background-color: @tab-active-color;
+            }
         }
 
         &-close {
@@ -165,6 +111,16 @@
         }
     }
 
+    &-top, &-bottom {
+        .@{tabs-prefix-cls}-nav {
+            .@{tabs-prefix-cls}-nav-scroll {
+                .@{tabs-prefix-cls}-nav-scroll-content {
+                    flex-direction: row;
+                }
+            }
+        }
+    }
+
     &-top {
         flex-direction: column;
         
@@ -178,21 +134,17 @@
                 height: 1px;
             }
 
-            &-scroll {
-                overflow-x: auto;
-            }
-            
-            &-wrapper--before {
-                .scroll-x-before()
-            }
-
-            &-wrapper--after {
-                .scroll-x-after()
-            }
-
-            &-bar {
-                bottom: 0;
-                left: 0;
+            .@{tabs-prefix-cls}-tab-active:not(.@{tabs-prefix-cls}-tab-card)  {
+                .@{tabs-prefix-cls}-tab-label {
+                    &::before {
+                        bottom: 0;
+                        left: 0;
+                        width: 100%;
+                        height: @tab-active-bar-width;
+                        transform: translateY(@tab-padding-small);
+                        content: '';
+                    }
+                }
             }
         }
     }
@@ -202,6 +154,7 @@
 
         .@{tabs-prefix-cls}-nav {
             align-items: flex-end;
+
             &::before {
                 top: 0;
                 left: 0;
@@ -209,21 +162,42 @@
                 height: 1px;
             }
 
-            &-scroll {
-                overflow-x: auto;
+            .@{tabs-prefix-cls}-tab-active:not(.@{tabs-prefix-cls}-tab-card)  {
+                .@{tabs-prefix-cls}-tab-label {
+                    &::before {
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: @tab-active-bar-width;
+                        transform: translateY(0 - @tab-padding-small);
+                        content: '';
+                    }
+                }
+            }
+        }
+    }
+
+    &-left, &-right {
+        .@{tabs-prefix-cls}-nav {
+            .@{tabs-prefix-cls}-nav-scroll {
+                .@{tabs-prefix-cls}-nav-scroll-content {
+                    flex-direction: column;
+
+                    .@{tabs-prefix-cls}-tab {
+                        width: 100%;
+
+                        &-label {
+                            justify-content: center;
+                        }
+                    }
+                }
             }
 
-            &-wrapper--before {
-                .scroll-x-before()
-            }
-
-            &-wrapper--after {
-                .scroll-x-after()
-            }
-
-            &-bar {
-                top: 0;
-                left: 0;
+            &-prefix,
+            &-suffix {
+                width: 100%;
+                padding: 16px;
+                text-align: center;
             }
         }
     }
@@ -232,7 +206,6 @@
         flex-direction: row;
         .@{tabs-prefix-cls}-nav {
             flex-direction: column;
-            align-items: flex-end;
 
             &::before {
                 top: 0;
@@ -240,39 +213,24 @@
                 width: 1px;
                 height: 100%;
             }
-
-            &-scroll {
-                flex-direction: column;
-                overflow-y: auto;
-            }
-
-            &-wrapper--before {
-                .scroll-y-before()
-            }
-
-            &-wrapper--after {
-                .scroll-y-after()
-            }
-
-            &-bar {
-                top: 0;
-                right: 0;
-            }
-
-            &-prefix,
-            &-suffix {
-                padding: 16px;
-            }
         }
 
         .@{tabs-prefix-cls}-tab {
-            padding: 16px;
+            padding: @vertical-tab-padding;
             text-align: right;
 
-            &-label {
-                justify-content: flex-end;
+            &.@{tabs-prefix-cls}-tab-active:not(.@{tabs-prefix-cls}-tab-card) {
+                .@{tabs-prefix-cls}-tab-label {
+                    &::before {
+                        top: 0;
+                        right: 0;
+                        width: @tab-active-bar-width;
+                        height: 100%;
+                        transform: translateX(@tab-padding-large);
+                        content: '';
+                    }
+                }
             }
-
         }
     }
 
@@ -280,7 +238,6 @@
         flex-direction: row-reverse;
         .@{tabs-prefix-cls}-nav {
             flex-direction: column;
-            align-items: flex-start;
 
             &::before {
                 top: 0;
@@ -288,39 +245,24 @@
                 width: 1px;
                 height: 100%;
             }
-    
-            &-scroll {
-                flex-direction: column;
-                overflow-y: auto;
-            }
-
-            &-wrapper--before {
-                .scroll-y-before()
-            }
-
-            &-wrapper--after {
-                .scroll-y-after()
-            }
-
-            &-bar {
-                top: 0;
-                left: 0;
-            }
-
-            &-prefix,
-            &-suffix {
-                padding: 16px;
-            }
         }
 
         .@{tabs-prefix-cls}-tab {
-            padding: 16px;
+            padding: @vertical-tab-padding;
             text-align: left;
 
-            &-label {
-                justify-content: flex-start;
+            &.@{tabs-prefix-cls}-tab-active:not(.@{tabs-prefix-cls}-tab-card) {
+                .@{tabs-prefix-cls}-tab-label {
+                    &::before {
+                        top: 0;
+                        left: 0;
+                        width: @tab-active-bar-width;
+                        height: 100%;
+                        transform: translateX(0 - @tab-padding-large);
+                        content: '';
+                    }
+                }
             }
-
         }
     }
     

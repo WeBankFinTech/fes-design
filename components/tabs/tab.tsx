@@ -29,15 +29,15 @@ export default defineComponent({
 
         setDefaultValue(props.value);
 
-        function handleClick() {
+        const handleClick = () => {
             if (props.disabled) return;
             handleTabClick(props.value);
-        }
+        };
 
-        function handleCloseClick(event: Event) {
+        const handleCloseClick = (event: Event) => {
             event.stopPropagation();
             handleClose(props.value);
-        }
+        };
 
         tabsLength.value = tabsLength.value + 1;
         onBeforeUnmount(() => {

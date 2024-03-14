@@ -7,8 +7,6 @@ import {
     toRef,
     TransitionGroup,
     watch,
-    onMounted,
-    type ComponentPublicInstance,
     type Slots,
 } from 'vue';
 import {
@@ -18,111 +16,79 @@ import {
 } from '../_util/constants';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
-import useScrollX from '../_util/use/useScrollX';
 import { flatten } from '../_util/vnode';
 import { useTheme } from '../_theme/useTheme';
 import PlusOutlined from '../icon/PlusOutlined';
-import { TABS_INJECTION_KEY } from './constants';
-import { computeTabBarStyle, mapTabPane } from './helper';
-import FTab from './tab';
+import Scrollbar from '../scrollbar';
+import { ADD_EVENT, COMPONENT_NAME, TABS_INJECTION_KEY } from './constants';
+import { mapTabPane } from './helper';
+import Tab from './tab';
 import TabPane from './tab-pane.vue';
 import { tabsProps } from './props';
 import type { Value } from './interface';
 
 const prefixCls = getPrefixCls('tabs');
-const ADD_EVENT = 'add';
 
 export default defineComponent({
-    name: 'FTabs',
+    name: COMPONENT_NAME,
     props: tabsProps,
     emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, CLOSE_EVENT, ADD_EVENT],
-    setup(props, ctx) {
+    setup(props, { emit, slots }) {
         useTheme();
+        const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
         const tabPaneLazyCache: Record<string, boolean> = {};
-        const tabRefs = ref([]);
-        const isScroll = ref(false);
-        const [currentValue, updateCurrentValue] = useNormalModel(
-            props,
-            ctx.emit,
-        );
-        const tabsLength = ref(0);
+        const tabRefs = ref<InstanceType<typeof Tab>[]>([]);
+        const tabNavRef = ref<InstanceType<typeof Scrollbar> | null>(null);
+        const tabsLength = ref<number>(0);
+
         const isCard = computed(() => props.type === 'card');
         const position = computed(() =>
             isCard.value ? 'top' : props.position,
         );
 
-        const showBeforeScrollBar = ref(false);
-        const showAfterScrollBar = ref(false);
-        const tabNavRef = ref(null);
-
-        onMounted(() => {
-            if (!tabNavRef.value) return;
-            useScrollX(tabNavRef);
-        });
-
-        const barStyle = ref({});
-
-        function setTabRefs(el?: ComponentPublicInstance, index?: number) {
+        const setTabRefs = (el?: InstanceType<typeof Tab>, index?: number) => {
             if (el) tabRefs.value[index] = el;
-        }
+        };
 
-        function handleTabClick(key: Value) {
+        const handleTabClick = (key: Value) => {
             updateCurrentValue(key);
-            ctx.emit(CHANGE_EVENT, key);
-        }
+            emit(CHANGE_EVENT, key);
+        };
 
-        function handleAddClick(event: Event) {
-            ctx.emit(ADD_EVENT, event);
-        }
+        const handleAddClick = (event: Event) => {
+            emit(ADD_EVENT, event);
+        };
 
-        function handleClose(key: Value) {
-            ctx.emit(CLOSE_EVENT, key);
-        }
+        const handleClose = (key: Value) => {
+            emit(CLOSE_EVENT, key);
+        };
 
-        function handleTabNavScroll(event?: Event) {
-            event?.preventDefault();
-            if (!tabNavRef.value) return;
-            if (!isScroll.value) return;
-            const {
-                scrollWidth,
-                scrollHeight,
-                scrollLeft,
-                scrollTop,
-                offsetWidth,
-                offsetHeight,
-            } = tabNavRef.value;
-
-            showBeforeScrollBar.value = scrollLeft > 0 || scrollTop > 0;
-            showAfterScrollBar.value =
-                // 猜测可能是浏览器触发 scroll 事件的时机不一致，此处允许 1px 的误差
-                Math.abs(scrollLeft + offsetWidth - scrollWidth) > 1 ||
-                Math.abs(scrollTop + offsetHeight - scrollHeight) > 1;
-        }
-
-        function autoScrollTab(el?: HTMLElement) {
+        const autoScrollTab = (el?: HTMLElement) => {
             if (!tabNavRef.value || !el) return;
-            if (!isScroll.value) return;
+
             const { scrollLeft, scrollTop, offsetWidth, offsetHeight } =
-                tabNavRef.value;
+                tabNavRef.value.containerRef;
+
             if (
                 ['top', 'bottom'].includes(props.position) &&
                 (scrollLeft + offsetWidth < el.offsetLeft + el.offsetWidth ||
                     el.offsetLeft < scrollLeft)
             ) {
-                tabNavRef.value.scrollTo({
-                    left: el.offsetLeft - offsetWidth + el.offsetWidth,
-                });
+                tabNavRef.value.setScrollLeft(
+                    el.offsetLeft - offsetWidth + el.offsetWidth,
+                    0,
+                );
             } else if (
                 ['left', 'right'].includes(props.position) &&
                 (scrollTop + offsetHeight < el.offsetTop + el.offsetHeight ||
                     el.offsetTop < scrollTop)
             ) {
-                tabNavRef.value.scrollTo({
-                    top: el.offsetTop - offsetHeight + el.offsetHeight,
-                });
+                tabNavRef.value.setScrollTop(
+                    el.offsetTop - offsetHeight + el.offsetHeight,
+                    0,
+                );
             }
-            handleTabNavScroll();
-        }
+        };
 
         // 当没有默认值时，设置第一项为默认值，在Tab组件调用
         const setDefaultValue = (value: Value) => {
@@ -149,33 +115,16 @@ export default defineComponent({
                     const tab = tabRefs.value.find(
                         (item) => item.value === currentValue.value,
                     );
-                    if (!isCard.value) {
-                        barStyle.value = computeTabBarStyle(
-                            tab?.$el,
-                            position.value,
-                        );
-                    }
                     autoScrollTab(tab?.$el);
                 });
             },
             { immediate: true },
         );
 
-        watch(tabsLength, () => {
-            nextTick(() => {
-                if (!tabNavRef.value) return;
-                const { scrollWidth, offsetWidth, scrollHeight, offsetHeight } =
-                    tabNavRef.value;
-                if (scrollWidth > offsetWidth || scrollHeight > offsetHeight) {
-                    isScroll.value = true;
-                }
-            });
-        });
-
-        const mergeRenderPans = () => {
+        const mergeRenderPanes = () => {
             const children =
-                (ctx.slots.default &&
-                    flatten(ctx.slots.default()).filter(
+                (slots.default &&
+                    flatten(slots.default()).filter(
                         (vNode) => (vNode.type as any).name === 'FTabPane',
                     )) ||
                 [];
@@ -184,7 +133,9 @@ export default defineComponent({
                     props.panes.map((pane) => {
                         const { render, renderTab, ...paneProps } = pane;
                         if (!render) {
-                            console.warn('[FTab]: panes需要提供render');
+                            console.warn(
+                                `[${COMPONENT_NAME}]: panes 需要提供 render`,
+                            );
                         }
                         const slots: Slots = {
                             default: () => render?.(paneProps),
@@ -204,14 +155,14 @@ export default defineComponent({
         };
 
         return () => {
-            const children = mergeRenderPans();
+            const children = mergeRenderPanes();
 
             let navItems = children.map((vNode, index) => {
                 const tabSlot = (vNode.children as any)?.tab;
                 return (
-                    <FTab
+                    <Tab
                         {...(vNode.props as any)}
-                        ref={(el: ComponentPublicInstance) =>
+                        ref={(el: InstanceType<typeof Tab>) =>
                             setTabRefs(el, index)
                         }
                         v-slots={{ default: tabSlot }}
@@ -253,37 +204,23 @@ export default defineComponent({
                     }}
                 >
                     <div class={`${prefixCls}-nav`}>
-                        {ctx.slots.prefix && (
+                        {slots.prefix && (
                             <div class={`${prefixCls}-nav-prefix`}>
-                                {ctx.slots.prefix()}
+                                {slots.prefix()}
                             </div>
                         )}
-                        <div
-                            class={{
-                                [`${prefixCls}-nav-wrapper`]: true,
-                                [`${prefixCls}-nav-wrapper--before`]:
-                                    showBeforeScrollBar.value,
-                                [`${prefixCls}-nav-wrapper--after`]:
-                                    showAfterScrollBar.value,
-                            }}
+                        <Scrollbar
+                            ref={tabNavRef}
+                            class={`${prefixCls}-nav-scroll`}
+                            shadow={true}
                         >
-                            <div
-                                class={`${prefixCls}-nav-scroll`}
-                                onScroll={handleTabNavScroll}
-                                ref={tabNavRef}
-                            >
+                            <div class={`${prefixCls}-nav-scroll-content`}>
                                 {navItems}
-                                {!isCard.value && (
-                                    <div
-                                        class={`${prefixCls}-nav-bar`}
-                                        style={barStyle.value}
-                                    ></div>
-                                )}
                             </div>
-                        </div>
-                        {ctx.slots.suffix && (
+                        </Scrollbar>
+                        {slots.suffix && (
                             <div class={`${prefixCls}-nav-suffix`}>
-                                {ctx.slots.suffix()}
+                                {slots.suffix()}
                             </div>
                         )}
                     </div>
