@@ -125,6 +125,32 @@ const TwoWayTransfer = defineComponent({
             filter: filter.value,
         });
 
+        // modelValue 变化时，更新 panel 的 options 和 checkValue
+        watch(
+            modelValue,
+            (nextValue) => {
+                sourcePanel.options.value = rootProps.options.filter(
+                    ({ value }) => !nextValue.includes(value),
+                );
+                targetPanel.options.value = rootProps.options.filter(
+                    ({ value }) => nextValue.includes(value),
+                );
+
+                sourcePanel.checkValue.value =
+                    sourcePanel.checkValue.value.filter(
+                        (value) => !nextValue.includes(value),
+                    );
+                targetPanel.checkValue.value =
+                    targetPanel.checkValue.value.filter((value) =>
+                        nextValue.includes(value),
+                    );
+            },
+            {
+                immediate: true,
+                deep: true,
+            },
+        );
+
         // options 变化时，重置所有数据
         watch(
             () => rootProps.options,
@@ -134,9 +160,6 @@ const TwoWayTransfer = defineComponent({
 
                 sourcePanel.options.value = nextOptions;
                 targetPanel.options.value = [];
-            },
-            {
-                immediate: true,
             },
         );
 
@@ -230,34 +253,23 @@ const TwoWayTransfer = defineComponent({
             );
         };
 
-        const handleTransfer = (
-            fromPanel: PanelData,
-            toPanel: PanelData,
-        ): void => {
-            const transferValue = [...fromPanel.checkValue.value];
+        // 仅更新 modelValue，panel 的数据更新由 watch 完成
+        const handleTransfer = (from: PanelData['type']): void => {
+            let nextValue: TransferOptionValue[];
+            if (from === 'source') {
+                nextValue = [
+                    ...targetPanel.options.value.map(({ value }) => value),
+                    ...sourcePanel.checkValue.value,
+                ];
+            } else {
+                nextValue = targetPanel.options.value
+                    .map(({ value }) => value)
+                    .filter(
+                        (value) =>
+                            !targetPanel.checkValue.value.includes(value),
+                    );
+            }
 
-            // from panel
-            const nextFromOptions = [...fromPanel.options.value];
-            fromPanel.options.value = nextFromOptions.filter(
-                (o) => !transferValue.includes(o.value),
-            );
-            fromPanel.checkValue.value = [];
-            fromPanel.updateCheckboxStatus();
-
-            // to panel
-            const nextToValue = [
-                ...toPanel.options.value.map(({ value }) => value),
-                ...transferValue,
-            ];
-            toPanel.options.value = rootProps.options.filter(
-                // 从 props.options 计算，保证顺序按照 options 中的顺序
-                ({ value }) => nextToValue.includes(value),
-            );
-
-            // update modelValue
-            const nextValue = targetPanel.options.value.map(
-                ({ value }) => value,
-            );
             modelValue.value = nextValue;
             handleChange({ nextValue });
         };
@@ -269,7 +281,7 @@ const TwoWayTransfer = defineComponent({
                         class={cls('action-button')}
                         type="primary"
                         disabled={sourcePanel.checkValue.value.length === 0}
-                        onClick={() => handleTransfer(sourcePanel, targetPanel)}
+                        onClick={() => handleTransfer('source')}
                         v-slots={{
                             icon: () => (
                                 <RightOutlined
@@ -282,7 +294,7 @@ const TwoWayTransfer = defineComponent({
                         class={cls('action-button')}
                         type="primary"
                         disabled={targetPanel.checkValue.value.length === 0}
-                        onClick={() => handleTransfer(targetPanel, sourcePanel)}
+                        onClick={() => handleTransfer('target')}
                         v-slots={{
                             icon: () => (
                                 <LeftOutlined
