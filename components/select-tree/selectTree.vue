@@ -145,6 +145,7 @@ import Scrollbar from '../scrollbar/scrollbar.vue';
 import { selectProps } from '../select/props';
 import { treeProps } from '../tree/props';
 import { useLocale } from '../config-provider/useLocale';
+import { noop } from '../_util/utils';
 import type { SelectValue } from '../select/interface';
 import type {
     SelectParams,
@@ -179,8 +180,10 @@ export const selectTreeProps = {
 
 export type SelectTreeProps = ExtractPublicPropTypes<typeof selectTreeProps>;
 
+const COMPONENT_NAME = 'FSelectTree';
+
 export default defineComponent({
-    name: 'FSelectTree',
+    name: COMPONENT_NAME,
     components: {
         Popper,
         SelectTrigger,
@@ -404,10 +407,17 @@ export default defineComponent({
             }, 300),
         );
         const filterMethod = computed(() => {
-            const defaultMethod = (value: string, node: InnerTreeOption) => {
-                return node.label.indexOf(value) !== -1;
+            if (!props.filterable) return noop;
+            if (props.filter) return props.filter;
+            if (props.data.some(({ label }) => typeof label !== 'string')) {
+                console.warn(
+                    `[${COMPONENT_NAME}]：label 存在自定义渲染，需要传入 filter`,
+                );
+                return () => false;
+            }
+            return (value: string, node: InnerTreeOption) => {
+                return (node.label as string).indexOf(value) !== -1;
             };
-            return props.filter || defaultMethod;
         });
 
         const triggerDomRef = ref();
