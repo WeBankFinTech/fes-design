@@ -1,3 +1,14 @@
+## [0.8.36](https://github.com/WeBankFinTech/fes-design/compare/v0.8.35...v0.8.36) (2024-03-14)
+
+
+### Bug Fixes
+
+* **Radio, Checkbox:** 修复在 Group 组件内无法触发 change 事件的问题 ([#671](https://github.com/WeBankFinTech/fes-design/issues/671)) ([e648a6d](https://github.com/WeBankFinTech/fes-design/commit/e648a6d3c2c3aa04601aee4c8c2a5a0beb6000dc))
+* **Rate:** 修复未传入 v-model 的情况 ([#672](https://github.com/WeBankFinTech/fes-design/issues/672)) ([ec38c49](https://github.com/WeBankFinTech/fes-design/commit/ec38c498d93ecefd48dff063768b2aa255ae3b9c))
+* **Transfer:** 优化双向穿梭的 modelValue 数据流变化逻辑，修复 v-model 不生效问题 ([#673](https://github.com/WeBankFinTech/fes-design/issues/673)) ([cf27cfd](https://github.com/WeBankFinTech/fes-design/commit/cf27cfd6d22e6760ad3e868f7cd8ad7456bcc1fe))
+
+
+
 ## [0.8.35](https://github.com/WeBankFinTech/fes-design/compare/v0.8.34...v0.8.35) (2024-03-13)
 
 
