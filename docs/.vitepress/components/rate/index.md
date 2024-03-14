@@ -50,7 +50,7 @@ text.vue
 
 ### 事件监听
 提供change，clear事件  
-注意一点，clear事件也会触发change事件，只不过value为null
+注意一点，clear事件也会触发change事件，会将value设置为0
 
 :::demo
 event.vue
@@ -60,6 +60,7 @@ event.vue
 
 | 属性        | 说明                                    | 类型       | 默认值   |
 | ----------- | --------------------------------------- | ---------- | -------- |
+| modelValue / v-model  | 已激活图标个数                |  `number`  |  `0`  |
 | allowHalf   | 是否启用半星模式                        | `boolean`  | `false`  |
 | colorFilled | 颜色填充风格                            | `boolean`  | `true`   |
 | readonly    | 是否只读                                | `boolean`  | `false`  |

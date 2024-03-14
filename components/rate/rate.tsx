@@ -52,7 +52,7 @@ export default defineComponent({
         });
 
         watch(
-            [() => props.modelValue, () => props.count],
+            () => props.count,
             () => {
                 getRateArr();
             },

@@ -25,6 +25,7 @@ export const rateProps = {
     // 评分被激活的个数
     modelValue: {
         type: Number,
+        default: 0,
     },
     readonly: {
         type: Boolean,
