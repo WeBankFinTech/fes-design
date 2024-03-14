@@ -1,6 +1,8 @@
 <template>
     <FTabs>
-        <FTabPane name="T恤" value="T恤"> </FTabPane>
+        <FTabPane name="T恤" value="T恤">
+            <div class="tab-content">T恤</div>
+        </FTabPane>
         <FTabPane name="卫衣啊卫衣" value="卫衣" displayDirective="show">
             <div class="tab-content">卫衣</div>
         </FTabPane>
