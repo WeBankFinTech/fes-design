@@ -235,7 +235,7 @@ export default defineComponent({
                             }
                         >
                             {mapTabPane(
-                                children,
+                                mergeRenderPanes(), // TODO: 待优化
                                 currentValue.value,
                                 tabPaneLazyCache,
                             )}
