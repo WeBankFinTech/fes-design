@@ -1,3 +1,12 @@
+## [0.8.38](https://github.com/WeBankFinTech/fes-design/compare/v0.8.37...v0.8.38) (2024-03-15)
+
+
+### Bug Fixes
+
+* **Tabs:** 修复展示指令失效的问题 ([#677](https://github.com/WeBankFinTech/fes-design/issues/677)) ([9181d42](https://github.com/WeBankFinTech/fes-design/commit/9181d42fa0e97f965bf3c6f1627db3a1ffd02f94))
+
+
+
 ## [0.8.37](https://github.com/WeBankFinTech/fes-design/compare/v0.8.36...v0.8.37) (2024-03-14)
 
 
