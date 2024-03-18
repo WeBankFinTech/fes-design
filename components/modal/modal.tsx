@@ -183,6 +183,21 @@ const Modal = defineComponent({
                 props.displayDirective === 'show',
         );
 
+        // 鼠标在弹窗内按下
+        const mouseDownInsideChild = ref(false);
+
+        // 遮罩层点击关闭的逻辑
+        const handleClickMask = (event: MouseEvent) => {
+            if (
+                props.maskClosable &&
+                props.mask &&
+                !mouseDownInsideChild.value
+            ) {
+                handleCancel(event);
+            }
+            mouseDownInsideChild.value = false;
+        };
+
         return () => (
             <Teleport
                 disabled={!getContainer.value?.()}
@@ -218,11 +233,7 @@ const Modal = defineComponent({
                                     [`${prefixCls}-no-footer`]: !props.footer,
                                 }}
                                 style={{ zIndex: zIndex.value }}
-                                onClick={(event) =>
-                                    props.maskClosable &&
-                                    props.mask &&
-                                    handleCancel(event)
-                                }
+                                onClick={(event) => handleClickMask(event)}
                             >
                                 <div
                                     class={`${prefixCls}-wrapper ${
@@ -230,6 +241,12 @@ const Modal = defineComponent({
                                     }`}
                                     style={styles.value}
                                     onClick={(event) => event.stopPropagation()}
+                                    onMousedown={() => {
+                                        mouseDownInsideChild.value = true;
+                                    }}
+                                    onMouseup={() => {
+                                        mouseDownInsideChild.value = false;
+                                    }}
                                     ref={modalRef}
                                 >
                                     {getHeader()}
