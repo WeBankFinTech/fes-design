@@ -185,11 +185,9 @@ const Modal = defineComponent({
 
         // 鼠标在弹窗内按下
         const mouseDownInsideChild = ref(false);
-        // 鼠标在弹窗内弹起
-        const mouseUpInsideChild = ref(false);
 
         // 遮罩层点击关闭的逻辑
-        const maskClick = (event: MouseEvent) => {
+        const handleClickMask = (event: MouseEvent) => {
             if (
                 props.maskClosable &&
                 props.mask &&
@@ -198,7 +196,6 @@ const Modal = defineComponent({
                 handleCancel(event);
             }
             mouseDownInsideChild.value = false;
-            mouseUpInsideChild.value = false;
         };
 
         return () => (
@@ -236,7 +233,7 @@ const Modal = defineComponent({
                                     [`${prefixCls}-no-footer`]: !props.footer,
                                 }}
                                 style={{ zIndex: zIndex.value }}
-                                onClick={(event) => maskClick(event)}
+                                onClick={(event) => handleClickMask(event)}
                             >
                                 <div
                                     class={`${prefixCls}-wrapper ${
@@ -248,7 +245,6 @@ const Modal = defineComponent({
                                         mouseDownInsideChild.value = true;
                                     }}
                                     onMouseup={() => {
-                                        mouseUpInsideChild.value = true;
                                         mouseDownInsideChild.value = false;
                                     }}
                                     ref={modalRef}
