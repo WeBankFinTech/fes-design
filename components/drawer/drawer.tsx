@@ -18,6 +18,7 @@ import useLockScreen from '../_util/use/useLockScreen';
 import { useConfig } from '../config-provider';
 import { useTheme } from '../_theme/useTheme';
 import { pxfy } from '../_util/utils';
+import useEsc from '../_util/use/useEsc';
 import { useResizable } from './useResizable';
 import { COMPONENT_NAME, prefixCls } from './const';
 import {
@@ -53,10 +54,14 @@ const Drawer = defineComponent({
             () => props.getContainer || config.getContainer?.value,
         );
 
-        function handleCancel(event: MouseEvent) {
+        function handleCancel(event: MouseEvent | KeyboardEvent) {
             ctx.emit(UPDATE_SHOW_EVENT, false);
             ctx.emit(CANCEL_EVENT, event);
         }
+
+        const escClosable = computed(() => props.escClosable);
+
+        useEsc(handleCancel, escClosable);
 
         function handleOk(event: MouseEvent) {
             ctx.emit(OK_EVENT, event);

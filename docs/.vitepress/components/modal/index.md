@@ -72,6 +72,13 @@ showCancel.vue
 maxHeight.vue
 :::
 
+### 关闭弹窗
+通过配置项可以控制弹窗的关闭方式。
+
+:::demo
+closable.vue
+:::
+
 ## Modal Props
 
 | 属性             | 说明                                                                           | 类型              | 默认值                |
@@ -81,6 +88,7 @@ maxHeight.vue
 | closable         | 是否显示右上角关闭图标                                                         | Boolean           | `true`                |
 | mask             | 是否显示蒙层                                                                   | Boolean           | `true`                |
 | maskClosable     | 点击蒙层是否允许关闭                                                           | Boolean           | `true`                |
+| escClosable      | 按下ESC是否允许关闭                                                            | boolean           | `true`                |
 | type             | 类型，可选值为`info` `success` `error` `warning` `warn` `confirm`              | string            | `-`                   |
 | title            | 标题                                                                           | String            | `-`                   |
 | footer           | 是否显示底部内容                                                               | Boolean           | `true`                |

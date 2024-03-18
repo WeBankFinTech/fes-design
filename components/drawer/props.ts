@@ -26,6 +26,10 @@ export const drawerProps = {
         type: Boolean,
         default: true,
     },
+    escClosable: {
+        type: Boolean,
+        default: true,
+    },
     // 没有遮罩层，页面其他交互是否可操作
     operable: {
         type: Boolean,

@@ -59,7 +59,9 @@ const Modal = defineComponent({
             ctx.emit(CANCEL_EVENT, event);
         }
 
-        useEsc(handleCancel);
+        const escClosable = computed(() => props.escClosable);
+
+        useEsc(handleCancel, escClosable);
 
         function handleOk(event: MouseEvent) {
             ctx.emit(OK_EVENT, event);

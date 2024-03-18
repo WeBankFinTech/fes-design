@@ -41,6 +41,10 @@ export const modalProps = {
         type: Boolean,
         default: true,
     },
+    escClosable: {
+        type: Boolean,
+        default: true,
+    },
     type: {
         type: String as PropType<ModalType>,
     },
