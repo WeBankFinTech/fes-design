@@ -64,9 +64,9 @@ export default function useTableLayout({
                         remainBodyHeight -= 2;
                     }
                     const bodyWrapperHeight = $bodyWrapper.offsetHeight;
-
                     bodyHeight.value = remainBodyHeight;
                     // 渲染后重新执行，会出现 remainBodyHeight === bodyWrapperHeight 的情况
+                    // 下面的逻辑会影响table渲染，决定是否启用滚动条，会影响bodyWrapperRef的取值
                     if (remainBodyHeight <= bodyWrapperHeight) {
                         isScrollY.value = true;
                     } else {
@@ -170,6 +170,15 @@ export default function useTableLayout({
         ],
         () => {
             nextTick(computeY);
+        },
+    );
+
+    // 数据变化的时候，要重置滚动的变量，不然数据不足的时候还是会用之前旧的 bodyWrapperRef
+    watch(
+        () => showData.value.length,
+        () => {
+            isScrollY.value = false;
+            isScrollX.value = false;
         },
     );
 
