@@ -206,10 +206,8 @@
             .@{table-prefix}-header,
             .@{table-prefix}-body {
                 tbody .@{table-prefix}-row {
-                    &:last-child {
-                        .@{table-prefix}-td {
-                            border-bottom: none;
-                        }
+                    .@{table-prefix}-td.is-last-row {
+                        border-bottom: none;
                     }
                 }
             }
@@ -227,10 +225,8 @@
                 border-right: @table-border;
             }
             .@{table-prefix}-row {
-                .@{table-prefix}-td {
-                    &:last-child {
-                        border-right: none;
-                    }
+                .@{table-prefix}-td.is-last-column {
+                    border-right: none;
                 }
                 .@{table-prefix}-th {
                     &.@{table-prefix}-th-last {
