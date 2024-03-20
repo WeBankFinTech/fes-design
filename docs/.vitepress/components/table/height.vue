@@ -18,6 +18,13 @@
             ></FInputNumber>
             <span style="margin-left: 10px">px</span>
         </FFormItem>
+        <FFormItem label="数据行数：">
+            <FInputNumber
+                v-model="rowLength"
+                :min="0"
+                :max="100"
+            ></FInputNumber>
+        </FFormItem>
         <FFormItem label="姓名列描述：">
             <FInput v-model="nameLabel" :maxlength="30" showWordLimit></FInput>
         </FFormItem>
@@ -56,24 +63,31 @@
     </FTable>
 </template>
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 export default {
     setup() {
         const fixedHeader = ref(true);
         const height = ref(250);
-        const nameLabel = ref('姓名');
+        const nameLabel = ref('自定义列描述');
 
-        const data = Array.from([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], (i) => {
-            return {
-                id: i,
-                date: `2016-05-2016-05-2016-05-2016-05-${i < 10 ? '0' + i : i}`,
-                name: '王小虎',
-                province: '上海',
-                city: '普陀区',
-                address: '上海市普陀区金沙江路 1518 弄',
-                zip: 200333,
-            };
+        const rowLength = ref(5);
+
+        const data = computed(() => {
+            return Array.from({ length: rowLength.value }, (_, i) => {
+                return {
+                    id: i,
+                    date: `2016-05-2016-05-2016-05-2016-05-${
+                        i < 10 ? '0' + i : i
+                    }`,
+                    name: '王小虎',
+                    province: '上海',
+                    city: '普陀区',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    zip: 200333,
+                };
+            });
         });
+
         const action = [
             {
                 label: '编辑',
@@ -94,6 +108,7 @@ export default {
             nameLabel,
             data,
             action,
+            rowLength,
         };
     },
 };

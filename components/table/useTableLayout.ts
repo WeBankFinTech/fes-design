@@ -64,7 +64,6 @@ export default function useTableLayout({
                         remainBodyHeight -= 2;
                     }
                     const bodyWrapperHeight = $bodyWrapper.offsetHeight;
-
                     bodyHeight.value = remainBodyHeight;
                     // 渲染后重新执行，会出现 remainBodyHeight === bodyWrapperHeight 的情况
                     if (remainBodyHeight <= bodyWrapperHeight) {
@@ -166,9 +165,17 @@ export default function useTableLayout({
             wrapperRef,
             bodyWrapperRef,
             headerWrapperRef,
-            () => showData.value.length,
         ],
         () => {
+            nextTick(computeY);
+        },
+    );
+
+    // 数据变化的时候，要重置滚动的变量，不然数据不足的时候还是会用之前旧的 bodyWrapperRef
+    watch(
+        () => showData.value.length,
+        () => {
+            isScrollY.value = false;
             nextTick(computeY);
         },
     );
