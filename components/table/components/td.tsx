@@ -34,6 +34,8 @@ export default defineComponent({
     setup(props) {
         const {
             prefixCls,
+            showData,
+            columns,
             getCellSpan,
             getCellClass,
             getCustomCellClass,
@@ -52,6 +54,12 @@ export default defineComponent({
             if (!rowspan || !colspan) {
                 return null;
             }
+
+            const isLastRow =
+                rowIndex + Number(rowspan) >= showData.value.length;
+            const isLastColumn =
+                columnIndex + Number(colspan) >= columns.value.length;
+
             return (
                 <td
                     rowspan={rowspan}
@@ -71,6 +79,8 @@ export default defineComponent({
                     ]}
                     class={[
                         `${prefixCls}-td`,
+                        isLastRow && 'is-last-row',
+                        isLastColumn && 'is-last-column',
                         ...getCellClass({
                             column,
                             columns: props.columns,
