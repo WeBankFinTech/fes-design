@@ -69,6 +69,10 @@
         &-checked-icon {
             margin-left: @padding-xs;
             font-size: @font-size-head;
+            visibility: hidden;
+            &.is-selected {
+                visibility: visible;
+            }
         }
         &.is-hover {
             background: @select-option-hover-color;

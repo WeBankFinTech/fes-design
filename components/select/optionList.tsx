@@ -98,11 +98,11 @@ export default defineComponent({
                                 </span>
                             )}
                         </Ellipsis>
-                        {isSelected && (
-                            <CheckOutlined
-                                class={`${prefixCls}-checked-icon`}
-                            />
-                        )}
+                        <CheckOutlined
+                            class={`${prefixCls}-checked-icon ${
+                                isSelected ? 'is-selected' : ''
+                            }`}
+                        />
                     </>
                 );
             }
