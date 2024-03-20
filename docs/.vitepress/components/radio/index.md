@@ -16,33 +16,41 @@ app.use(FRadioButton);
 
 单独使用可以表示两种状态之间的切换，写在标签中的内容为 `radio` 按钮后的介绍。
 
---COMMON
+:::demo
+common.vue
+:::
 
 ### 组合用法
 
 适用于多个勾选框绑定到同一个数组的情景，通过是否勾选来表示这一组选项中选中的项。
 
---GROUP
+:::demo
+group.vue
+:::
 
 #### 垂直方向
 
---VERTICAL
+:::demo
+vertical.vue
+:::
 
 #### 按钮组
 
-单选按钮组，可通过`size`设置按钮组整体大小，对于单个按钮可以通过`disabled` 设置是否禁用。  
-按钮样式分为两种，可以通过`type`进行设置。  
-按钮组分为有边框和无边框两种，可以通过进行`bordered`设置。
+单选按钮组，可通过 `size` 设置按钮组整体大小，对于单个按钮可以通过 `disabled` 设置是否禁用。  
+按钮样式分为两种，可以通过 `type` 进行设置。  
+按钮组分为有边框和无边框两种，可以通过进行 `bordered` 设置。
 
---BUTTON
+:::demo
+button.vue
+:::
 
 #### 配置方式
 
-通过配置`options`直接生成选项,可以通过`optionType`设置生成项的类型
+通过配置 `options` 直接生成选项,可以通过 `optionType` 设置生成项的类型
 
---OPTIONS
-
---CODE
+:::demo
+options.vue
+:::
 
 ## Radio Props
 

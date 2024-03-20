@@ -6,6 +6,8 @@
 @radio-prefix-cls: ~'@{cls-prefix}-radio';
 @radio-button-prefix-cls: ~'@{cls-prefix}-radio-button';
 
+@radio-button-border-radius: var(--f-border-radius-base);
+
 .@{radio-group-prefix-cls} {
     display: inline-flex;
     flex-wrap: wrap;
@@ -17,11 +19,15 @@
     }
     & > .@{radio-button-prefix-cls} {
         &:first-child {
-            border-radius: 4px 0 0 4px;
+            border-radius: @radio-button-border-radius 0 0 @radio-button-border-radius;
         }
 
         &:last-child {
-            border-radius: 0 4px 4px 0;
+            border-radius: 0 @radio-button-border-radius @radio-button-border-radius 0;
+        }
+
+        &:only-child {
+            border-radius: @radio-button-border-radius;
         }
     }
 
