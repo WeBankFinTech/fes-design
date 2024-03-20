@@ -9,6 +9,7 @@ import {
 } from 'vue';
 import { computePosition, offset, shift, flip, arrow } from '@floating-ui/dom';
 import { isBoolean, isFunction } from 'lodash-es';
+import { useIntersectionObserver } from '@vueuse/core';
 import { useNormalModel } from '../_util/use/useModel';
 import popupManager from '../_util/popupManager';
 import getElementFromVueInstance from '../_util/getElementFromVueInstance';
@@ -40,6 +41,13 @@ export default (props: PopperProps, emit: any) => {
         return `fes-slide-${
             MAP[placementValue.split('-')[0] as keyof typeof MAP]
         }`;
+    });
+
+    // 若触发元素已经被移除或隐藏，则关闭提示信息，否则会导致动画执行异常
+    useIntersectionObserver(triggerRef, ([{ isIntersecting }]) => {
+        if (!isIntersecting) {
+            updateVisible(false);
+        }
     });
 
     const computePopper = () => {
