@@ -11,7 +11,7 @@
             :value="item.value"
             :disabled="item.disabled"
         >
-            {{ item.label }}
+            <FEllipsis style="max-width: 300px"> {{ item.label }}</FEllipsis>
         </FOption>
     </FSelect>
 </template>
@@ -23,7 +23,7 @@ export default {
         const optionList = reactive([
             {
                 value: 'HuNan',
-                label: '湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南',
+                label: '湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南',
             },
             {
                 value: 'HuBei',
