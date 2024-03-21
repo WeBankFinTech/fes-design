@@ -37,7 +37,7 @@ export default defineComponent({
 
         const { current, onMousedown } = useResize(
             props.columns,
-            layout.widthList,
+            layout.widthMap,
             handleHeaderResize,
         );
 

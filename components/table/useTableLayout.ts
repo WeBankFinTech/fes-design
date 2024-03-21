@@ -39,7 +39,7 @@ export default function useTableLayout({
     columns: Ref<ColumnInst[]>;
 }) {
     const bodyWidth = ref(0);
-    const widthList = ref<Record<string, WidthItem>>({});
+    const widthMap = ref<Record<string, WidthItem>>({});
     const isScrollX = ref(false);
     const isScrollY = ref(false);
     const bodyHeight = ref(0);
@@ -87,8 +87,8 @@ export default function useTableLayout({
                 : _wrapperWidth;
             let bodyMinWidth = 0;
 
-            Object.keys(widthList.value).forEach((id) => {
-                const widthObj = widthList.value[id];
+            Object.keys(widthMap.value).forEach((id) => {
+                const widthObj = widthMap.value[id];
                 bodyMinWidth += widthObj.width ?? widthObj.minWidth ?? min;
             });
 
@@ -123,8 +123,8 @@ export default function useTableLayout({
             newWidthList[column.id] = widthObj;
         });
         // 如果值一样则没必要再次渲染，可减少一次多余渲染
-        if (!isEqual(newWidthList, widthList.value)) {
-            widthList.value = newWidthList;
+        if (!isEqual(newWidthList, widthMap.value)) {
+            widthMap.value = newWidthList;
         }
         nextTick(() => {
             initRef.value = true;
@@ -154,11 +154,11 @@ export default function useTableLayout({
     // 根据列数据，计算列宽度
     watch([columns, wrapperRef], computeColumnWidth);
 
-    watch([widthList, wrapperRef, () => props.bordered], computeX);
+    watch([widthMap, wrapperRef, () => props.bordered], computeX);
 
     watch(
         [
-            widthList,
+            widthMap,
             () => props.height,
             () => props.showHeader,
             () => props.bordered,
@@ -181,7 +181,7 @@ export default function useTableLayout({
     );
 
     return {
-        widthList,
+        widthMap,
         bodyWidth,
         bodyHeight,
         isScrollX,
