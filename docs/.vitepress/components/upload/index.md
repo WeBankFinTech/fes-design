@@ -32,7 +32,7 @@ default.vue
 
 ### 拖拽上传
 
-当自定义上传触发器使用`FUploadDragger`时开启拖拽上传。
+当自定义上传触发器使用 `FUploadDragger` 时开启拖拽上传。
 
 :::demo
 drag.vue
@@ -103,12 +103,12 @@ singleUpload.vue
 
 ## Upload Slots
 
-| 名称     | 说明                                         |
-| -------- | -------------------------------------------- |
-| default  | 触发文件选择框的内容, 参数为 { uploadFiles } |
-| tip      | 提示说明文字                                 |
-| fileList | 自定义文件的展示, 参数为 { uploadFiles }     |
-| file     | 自定义上传后的文件展示, 参数为 { file }      |
+| 名称     | 说明                                           |
+|----------|----------------------------------------------|
+| default  | 触发文件选择框的内容, 参数为 `{ uploadFiles }` |
+| tip      | 提示说明文字                                   |
+| fileList | 自定义文件的展示, 参数为 `{ uploadFiles }`     |
+| file     | 自定义上传后的文件展示, 参数为 `{ file }`      |
 
 ## Upload Methods
 

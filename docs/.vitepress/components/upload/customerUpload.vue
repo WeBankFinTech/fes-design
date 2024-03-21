@@ -102,14 +102,14 @@ export default {
                 if (options.transformResponse) {
                     res = options.transformResponse(res);
                 }
-                //  调用 onProgress 告知 upload 内部上传进度，这里只是 demo 实际请通知具体上传进度
+                // 调用 onProgress 告知 upload 内部上传进度，这里只是 demo 实际请通知具体上传进度
                 options.onProgress({
                     percent: 100,
                 });
                 // 调用 onSuccess 告知 upload 内部上传响应结果
                 options.onSuccess(res);
             } catch (e) {
-                // 调用 onSuccess 告知 upload 内部上传失败情况
+                // 调用 onError 告知 upload 内部上传失败情况
                 options.onError(e);
             }
 

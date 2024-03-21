@@ -4,6 +4,7 @@ import { noop, hasOwn } from '../_util/utils';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
+import defaultRequest from './ajax';
 import { key } from './const';
 
 import type { UploadProps } from './upload';
@@ -156,8 +157,10 @@ export default (props: UploadProps, emit: any) => {
         }
     }
 
+    const httpRequest = computed(() => props.httpRequest ?? defaultRequest);
+
     const post = (rawFile: UploadFile) => {
-        if (!props.action) {
+        if (!props.httpRequest && !props.action) {
             onRemove(rawFile);
             console.error('[FUpload] 需配置action地址，才能执行上传');
             return;
@@ -193,7 +196,7 @@ export default (props: UploadProps, emit: any) => {
                 delete requestList.value[uid];
             },
         };
-        const req = props.httpRequest(options);
+        const req = httpRequest.value(options);
         requestList.value[uid] = req;
         if (req instanceof Promise) {
             req.then(options.onSuccess, options.onError);
