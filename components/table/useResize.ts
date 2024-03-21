@@ -14,7 +14,7 @@ export type ColumnResizeInfo = {
 
 export default (
     columns: ColumnInst[],
-    widthList: Ref<Record<string, WidthItem>>,
+    widthMap: Ref<Record<string, WidthItem>>,
     handleHeaderResize: ReturnType<typeof useTableEvent>['handleHeaderResize'],
 ) => {
     const current = ref<{
@@ -41,16 +41,16 @@ export default (
 
     const onMousemove = (event: MouseEvent) => {
         if (!current.value) return;
-        const _widthList = cloneDeep(widthList.value);
+        const _widthMap = cloneDeep(widthMap.value);
         const leftColumns = columns
             .slice(0, current.value.columnIndex)
             .filter((col) => {
-                return !_widthList[col.id].width;
+                return !_widthMap[col.id].width;
             });
         const rightColumns = columns
             .slice(current.value.columnIndex + 1)
             .filter((col) => {
-                return !_widthList[col.id].width;
+                return !_widthMap[col.id].width;
             });
         const offsetX =
             ((event.clientX - current.value.clientX) *
@@ -62,9 +62,9 @@ export default (
             currentColumn.props.minWidth &&
             width >= currentColumn.props.minWidth
         ) {
-            _widthList[current.value.id].width = width;
-            _widthList[current.value.id].minWidth = width;
-            widthList.value = _widthList;
+            _widthMap[current.value.id].width = width;
+            _widthMap[current.value.id].minWidth = width;
+            widthMap.value = _widthMap;
         }
     };
 
@@ -85,7 +85,7 @@ export default (
                     index: current.value.columnIndex,
                 },
                 columns: columns.map((c, i) => {
-                    const width = widthList.value[c.id].width;
+                    const width = widthMap.value[c.id].width;
                     return {
                         width,
                         prop: c.props.prop,
