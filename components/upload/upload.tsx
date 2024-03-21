@@ -7,7 +7,6 @@ import {
 import { useTheme } from '../_theme/useTheme';
 import Trigger from './trigger.vue';
 import FileList from './fileList.vue';
-import request from './ajax';
 import useUpload from './useUpload';
 
 import type { ExtractPublicPropTypes } from '../_util/interface';
@@ -65,7 +64,6 @@ export const uploadProps = {
     },
     httpRequest: {
         type: Function,
-        default: request,
     },
     transformResponse: Function,
 } as const satisfies ComponentObjectPropsOptions;
