@@ -1,3 +1,22 @@
+## [0.8.39](https://github.com/WeBankFinTech/fes-design/compare/v0.8.38...v0.8.39) (2024-03-21)
+
+
+### Bug Fixes
+
+* **FSelect:** 选项值选中时，提示信息会闪跳 ([#686](https://github.com/WeBankFinTech/fes-design/issues/686)) ([6334a92](https://github.com/WeBankFinTech/fes-design/commit/6334a928b5b40d6caf2bfc12e366d5e258a72b1f))
+* **Modal:** 修复 modal 蒙层关闭逻辑 ([#678](https://github.com/WeBankFinTech/fes-design/issues/678)) ([221283e](https://github.com/WeBankFinTech/fes-design/commit/221283e2413e18fb8f0287aeca013173bd4a1905))
+* **Radio:** 修复按钮组仅有一项时样式错误 ([#683](https://github.com/WeBankFinTech/fes-design/issues/683)) ([3b919b4](https://github.com/WeBankFinTech/fes-design/commit/3b919b42a56a66726a0f0d5c5a46b608c624092a))
+* **Table:** 修复 table 在数据行数变更的时候,高度异常问题 ([#681](https://github.com/WeBankFinTech/fes-design/issues/681)) ([d37cc67](https://github.com/WeBankFinTech/fes-design/commit/d37cc67ec1f18ab9d267165420fe40b46dde504f))
+* **Table:** 修复合并单元格时边框样式错误问题 ([#687](https://github.com/WeBankFinTech/fes-design/issues/687)) ([9463646](https://github.com/WeBankFinTech/fes-design/commit/9463646eb4d56ded678cd868b1f140c9ce261b78))
+* **Tooltip:** 修复触发元素隐藏后，提示信息动画执行异常的问题 ([#688](https://github.com/WeBankFinTech/fes-design/issues/688)) ([8af9898](https://github.com/WeBankFinTech/fes-design/commit/8af9898eb5e520c381ce67864d10a6514afbe245))
+
+
+### Features
+
+* Drawer 和 Modal 添加 Esc 快捷关闭配置项 ([#680](https://github.com/WeBankFinTech/fes-design/issues/680)) ([72ca443](https://github.com/WeBankFinTech/fes-design/commit/72ca443f60a3e38c5314278ce1c57c3a07305aec))
+
+
+
 ## [0.8.38](https://github.com/WeBankFinTech/fes-design/compare/v0.8.37...v0.8.38) (2024-03-15)
 
 
