@@ -78,6 +78,10 @@ const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
                         link: '/zh/components/inputNumber',
                     },
                     {
+                        text: 'InputFile 文件选择',
+                        link: '/zh/components/inputFile',
+                    },
+                    {
                         text: 'Checkbox 多选框',
                         link: '/zh/components/checkbox',
                     },
