@@ -8,6 +8,7 @@ import {
 import getPrefixCls from '../_util/getPrefixCls';
 import { FAvatar } from '../avatar';
 import { FTooltip } from '../tooltip';
+import { useTheme } from '../_theme/useTheme';
 import { avatarGroupProps } from './props';
 
 const prefixCls = getPrefixCls('avatar-group');
@@ -16,6 +17,7 @@ export default defineComponent({
     name: 'FAvatarGroup',
     props: avatarGroupProps,
     setup(props, { slots }) {
+        useTheme();
         // 渲染option
         const renderAvatarByOption = (num?: number) => {
             const avatarList = props.options.map((avatar, index) => {

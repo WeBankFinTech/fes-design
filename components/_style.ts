@@ -58,3 +58,4 @@ import './avatarGroup/style';
 import './progress/style';
 import './transfer/style';
 import './input-file/style';
+import './breadcrumb/style';

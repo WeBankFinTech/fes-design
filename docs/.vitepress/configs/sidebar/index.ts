@@ -49,12 +49,16 @@ const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
                 text: '导航组件',
                 items: [
                     {
-                        text: 'Menu 导航菜单',
-                        link: '/zh/components/menu',
+                        text: 'Breadcrumb 面包屑',
+                        link: '/zh/components/breadcrumb',
                     },
                     {
                         text: 'Dropdown 下拉菜单',
                         link: '/zh/components/dropdown',
+                    },
+                    {
+                        text: 'Menu 导航菜单',
+                        link: '/zh/components/menu',
                     },
                     {
                         text: 'Steps 步骤条',
