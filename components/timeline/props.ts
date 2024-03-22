@@ -1,11 +1,11 @@
 import {
     type CSSProperties,
     type PropType,
-    type SetupContext,
-    type SlotsType,
     type VNodeChild,
     type ComponentObjectPropsOptions,
+    type SlotsType,
 } from 'vue';
+import { type ComponentSlots } from '../_util/interface';
 import type { ComponentInnerProps, ComponentProps } from './utilTypes';
 
 /** 严格版本的 Extract */
@@ -93,12 +93,11 @@ export type TimelineProps = ComponentProps<typeof timelineProps>;
 // 组件内部使用的 props 类型（包含了 default）
 export type TimelineInnerProps = ComponentInnerProps<typeof timelineProps>;
 
-export type TimelineSlots = {
+export type TimelineSlotsParams = {
     desc: TimelineNodeSlotCommonParams;
     icon: TimelineNodeSlotCommonParams;
 };
 
-export type TimelineUnboxSlots = SetupContext<
-    unknown,
-    SlotsType<TimelineSlots>
->['slots'];
+export type TimelineSlots = SlotsType<TimelineSlotsParams>;
+
+export type TimelineUnboxSlots = ComponentSlots<TimelineSlotsParams>;

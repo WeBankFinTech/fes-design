@@ -1,13 +1,13 @@
 import {
+    type SlotsType,
     type ComponentObjectPropsOptions,
     type PropType,
-    type SetupContext,
-    type SlotsType,
 } from 'vue';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import {
     type ExtractPublicPropTypes,
     type ComponentInnerProps,
+    type ComponentSlots,
 } from '../_util/interface';
 import { type UnixTime } from './types';
 
@@ -67,14 +67,13 @@ export const CalendarEvent = {
     CELL_CLICK: 'cellClick',
 } as const;
 
-export type CalendarSlots = {
-    // 	单元格
+export type CalendarSlotsParams = {
+    // 单元格
     cellMain: { date: UnixTime; mode: CalendarMode };
     // 单元格附加内容
     cellAppendant: { date: UnixTime; mode: CalendarMode };
 };
 
-export type CalendarUnboxSlots = SetupContext<
-    unknown,
-    SlotsType<CalendarSlots>
->['slots'];
+export type CalendarSlots = SlotsType<CalendarSlotsParams>;
+
+export type CalendarUnboxSlots = ComponentSlots<CalendarSlotsParams>;
