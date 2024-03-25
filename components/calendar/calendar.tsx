@@ -1,6 +1,5 @@
 import {
     type CSSProperties,
-    type SlotsType,
     type VNode,
     type VNodeChild,
     computed,
@@ -19,11 +18,7 @@ import {
     isSameDate,
     isSameMonth,
 } from './utils';
-import {
-    CalendarEvent,
-    calendarProps,
-    type CalendarSlots as Slots,
-} from './props';
+import { CalendarEvent, calendarProps, type CalendarSlots } from './props';
 import { type CalendarDate } from './types';
 import useWeekNames from './useWeekNames';
 import CalendarNavigator from './calendarNavigator';
@@ -37,7 +32,7 @@ export default defineComponent({
         CalendarEvent.UPDATE_MODE,
         CalendarEvent.CELL_CLICK,
     ],
-    slots: Object as SlotsType<Slots>,
+    slots: Object as CalendarSlots,
     setup: (props, { emit, slots }) => {
         useTheme();
         const { t } = useLocale();

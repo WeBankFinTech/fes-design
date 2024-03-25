@@ -1,6 +1,5 @@
 import {
     type CSSProperties,
-    type SlotsType,
     type VNode,
     type VNodeChild,
     computed,
@@ -175,7 +174,7 @@ const renderNode = (nodeProps: {
 export default defineComponent({
     name: COMPONENT_NAME,
     props: timelineProps,
-    slots: Object as SlotsType<Slots>,
+    slots: Object as Slots,
     setup: (props: Props, { slots }) => {
         useTheme();
 

@@ -8,6 +8,7 @@ import type {
     Plugin,
     ExtractPropTypes,
     InjectionKey,
+    SlotsType,
 } from 'vue';
 
 export type Emit = SetupContext['emit'];
@@ -44,6 +45,16 @@ export type ExtractPublicPropTypes<T> = Omit<
 
 /** defineComponent 中 setup 函数的 props 参数类型 */
 export type ComponentInnerProps<P> = Parameters<DefineComponent<P>['setup']>[0];
+
+/** defineComponent 中 setup 函数的 slots 参数类型 */
+export type ComponentSlots<SlotParams extends Record<string, unknown>> =
+    SetupContext<unknown, SlotsType<SlotParams>>['slots'];
+
+/** defineComponent 中 setup 函数的 emit 参数类型 */
+export type ComponentEmit<EmitEvents extends readonly string[]> = (
+    event: EmitEvents[number],
+    ...args: any[]
+) => void;
 
 export interface Option {
     value?: string | number | boolean;
