@@ -14,36 +14,42 @@ app.use(FSpin);
 
 ### 基础用法
 
---COMMON
+:::demo
+common.vue
+:::
 
 ### 颜色
 
---COLOR
+:::demo
+color.vue
+:::
 
 ### 卡片加载中
 
---LOADING
+:::demo
+loading.vue
+:::
 
 ### 各种大小
 
---SIZE
-
---CODE
+:::demo
+size.vue
+:::
 
 ## Spin Props
 
-| 属性        | 说明                                             | 类型    | 默认值   |
-| ----------- | ------------------------------------------------ | ------- | -------- |
-| size        | 大小，可选有`small`、`middle`、`large`           | string  | `middle` |
-| description | 描述                                             | string  | -        |
-| stroke      | 颜色                                             | string  | -        |
-| show        | 是否显示                                         | boolean | `true`   |
-| delay       | 延迟多少毫秒显示，用于防止页面加载过快导致的闪烁 | number  | `0`      |
+| 属性        | 说明                                | 类型    | 默认值   |
+|-------------|-----------------------------------|---------|----------|
+| size        | 大小，可选有`small`、`middle`、`large` | string  | `middle` |
+| description | 描述                                | string  | -        |
+| stroke      | 颜色                                | string  | -        |
+| show        | 是否显示                            | boolean | `true`   |
+| delay       | 延迟显示加载效果的时间, 单位为毫秒<br/>（避免闪烁，如果是反馈交互操作产生的闪烁，是符合预期的）  | number  | `0`      |
 
 ## Spin Slots
 
-| 名称        | 说明                              |
-| ----------- | --------------------------------- |
+| 名称        | 说明                             |
+|-------------|--------------------------------|
 | default     | 如果填入，`Spin` 会包裹填入的内容 |
-| icon        | 自定义加载图标                    |
-| description | 描述信息                          |
+| icon        | 自定义加载图标                   |
+| description | 描述信息                         |
