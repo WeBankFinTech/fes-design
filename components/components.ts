@@ -55,3 +55,4 @@ export * from './avatar';
 export * from './avatarGroup';
 export * from './progress';
 export * from './transfer';
+export * from './input-file';
