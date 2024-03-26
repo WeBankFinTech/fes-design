@@ -7,7 +7,14 @@ import {
     nextTick,
     computed,
 } from 'vue';
-import { computePosition, offset, shift, flip, arrow } from '@floating-ui/dom';
+import {
+    computePosition,
+    offset,
+    shift,
+    flip,
+    arrow,
+    type ReferenceElement,
+} from '@floating-ui/dom';
 import { isBoolean, isFunction } from 'lodash-es';
 import { useNormalModel } from '../_util/use/useModel';
 import popupManager from '../_util/popupManager';
@@ -49,29 +56,29 @@ export default (props: PopperProps, emit: any) => {
         popperStyle.zIndex = popupManager.nextZIndex();
 
         nextTick(() => {
-            const triggerEl = virtualRect.value
-                ? {
-                      getBoundingClientRect: () =>
-                          virtualRect.value && {
-                              width: 0,
-                              height: 0,
-                              top: virtualRect.value.y,
-                              right: virtualRect.value.x,
-                              bottom: virtualRect.value.y,
-                              left: virtualRect.value.x,
-                          },
-                      contextElement: getElementFromVueInstance(
-                          triggerRef.value,
-                      ),
-                  }
-                : getElementFromVueInstance(triggerRef.value);
-
-            const triggerRect = triggerEl.getBoundingClientRect();
+            const rawTriggerEl = getElementFromVueInstance(triggerRef.value);
+            const triggerRect = rawTriggerEl.getBoundingClientRect();
             // trigger 不可见的时候立即隐藏，允许误差
             if (triggerRect.width <= 1 && triggerRect.height <= 1) {
                 updateVisible(false);
                 return;
             }
+
+            const triggerEl: ReferenceElement =
+                props.trigger === 'contextmenu' // 仅在右键时，使用鼠标具体触发位置
+                    ? {
+                          getBoundingClientRect: () =>
+                              virtualRect.value && {
+                                  width: 0,
+                                  height: 0,
+                                  top: virtualRect.value.y,
+                                  right: virtualRect.value.x,
+                                  bottom: virtualRect.value.y,
+                                  left: virtualRect.value.x,
+                              },
+                          contextElement: rawTriggerEl,
+                      }
+                    : rawTriggerEl;
 
             const popperEl = popperRef.value;
             computePosition(triggerEl, popperEl, {
