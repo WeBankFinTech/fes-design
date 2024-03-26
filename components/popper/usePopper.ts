@@ -9,7 +9,6 @@ import {
 } from 'vue';
 import { computePosition, offset, shift, flip, arrow } from '@floating-ui/dom';
 import { isBoolean, isFunction } from 'lodash-es';
-import { useIntersectionObserver } from '@vueuse/core';
 import { useNormalModel } from '../_util/use/useModel';
 import popupManager from '../_util/popupManager';
 import getElementFromVueInstance from '../_util/getElementFromVueInstance';
@@ -43,13 +42,6 @@ export default (props: PopperProps, emit: any) => {
         }`;
     });
 
-    // 若触发元素已经被移除或隐藏，则关闭提示信息，否则会导致动画执行异常
-    useIntersectionObserver(triggerRef, ([{ isIntersecting }]) => {
-        if (!isIntersecting) {
-            updateVisible(false);
-        }
-    });
-
     const computePopper = () => {
         if (isBoolean(props.disabled) && props.disabled) return;
         if (isFunction(props.disabled) && props.disabled()) return;
@@ -73,6 +65,14 @@ export default (props: PopperProps, emit: any) => {
                       ),
                   }
                 : getElementFromVueInstance(triggerRef.value);
+
+            const triggerRect = triggerEl.getBoundingClientRect();
+            // trigger 不可见的时候立即隐藏，允许误差
+            if (triggerRect.width <= 1 && triggerRect.height <= 1) {
+                updateVisible(false);
+                return;
+            }
+
             const popperEl = popperRef.value;
             computePosition(triggerEl, popperEl, {
                 placement: props.placement,
