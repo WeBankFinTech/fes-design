@@ -1,3 +1,19 @@
+## [0.8.40](https://github.com/WeBankFinTech/fes-design/compare/v0.8.39...v0.8.40) (2024-03-26)
+
+
+### Bug Fixes
+
+* **Popper:** 修复位置计算逻辑，如 trigger 不可见立即隐藏 Popper([#701](https://github.com/WeBankFinTech/fes-design/issues/701)) ([6f24e55](https://github.com/WeBankFinTech/fes-design/commit/6f24e55eae041ac55325f6724d4ca4089cd3ce65))
+* **Upload:** 修复有自定义上传逻辑时，action 属性校验必填的报错 ([#693](https://github.com/WeBankFinTech/fes-design/issues/693)) ([f2c834d](https://github.com/WeBankFinTech/fes-design/commit/f2c834d17cf1b02cf51251173c88c6bcdfd683e4))
+
+
+### Features
+
+* **InputFile:** 增加文件选择组件 ([#698](https://github.com/WeBankFinTech/fes-design/issues/698)) ([c9743d7](https://github.com/WeBankFinTech/fes-design/commit/c9743d77bd2e332d43b39e244cd7bf7987fc2cff))
+* **utils:** 新增 slots、emit 的工具类型函数 ([#695](https://github.com/WeBankFinTech/fes-design/issues/695)) ([1eba6ea](https://github.com/WeBankFinTech/fes-design/commit/1eba6ea29917e49519b6ace7a854bdd23ade4322))
+
+
+
 ## [0.8.39](https://github.com/WeBankFinTech/fes-design/compare/v0.8.38...v0.8.39) (2024-03-21)
 
 
