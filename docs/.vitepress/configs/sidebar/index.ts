@@ -243,6 +243,10 @@ const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
                         text: 'Skeleton 骨架屏',
                         link: '/zh/components/skeleton',
                     },
+                    {
+                        text: 'Popper 弹出信息',
+                        link: '/zh/components/popper',
+                    },
                 ],
             },
             {
