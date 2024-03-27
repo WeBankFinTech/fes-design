@@ -1,5 +1,5 @@
 import { ref, provide, watch, computed, toRefs } from 'vue';
-import { isEqual, isFunction } from 'lodash-es';
+import { isArray, isEqual, isFunction } from 'lodash-es';
 import { noop, hasOwn } from '../_util/utils';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -275,6 +275,9 @@ export default (props: UploadProps, emit: any) => {
     watch(
         () => props.fileList,
         (fileList) => {
+            if (!isArray(fileList)) {
+                fileList = [];
+            }
             if (!isEqual(uploadFiles.value, fileList)) {
                 uploadFiles.value = fileList.map((file) => {
                     return {
