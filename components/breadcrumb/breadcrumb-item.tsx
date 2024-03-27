@@ -1,13 +1,10 @@
 import { computed, defineComponent, inject, ref } from 'vue';
-import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import DownOutlined from '../icon/DownOutlined';
 import UpOutlined from '../icon/UpOutlined';
-import { FTooltip } from '../tooltip';
+import Popper from '../popper/popper';
 import { breadcrumbItemProps } from './props';
-import { BREAD_CRUMB_KEY } from './const';
-
-const prefixCls = getPrefixCls('breadcrumb-item');
+import { BREAD_CRUMB_KEY, itemCls, prefixCls } from './const';
 
 export default defineComponent({
     name: 'FBreadcrumbItem',
@@ -19,6 +16,7 @@ export default defineComponent({
 
         const itemStyle = computed(() => {
             return {
+                fontSize: `${parentProps.fontSize}px`,
                 height: `${parentProps.fontSize}px`,
                 lineHeight: `${parentProps.fontSize}px`,
             };
@@ -43,7 +41,7 @@ export default defineComponent({
                 .map((item) => {
                     return (
                         <div
-                            class="menu-item"
+                            class={`${prefixCls}-menu-item`}
                             style={itemStyle.value}
                             onClick={() => handleClick(item.path)}
                         >
@@ -54,7 +52,7 @@ export default defineComponent({
                 .filter(Boolean);
         };
 
-        const trigger = ref();
+        const trigger = ref<HTMLElement | null>();
 
         const getContainer = () => trigger.value;
 
@@ -65,29 +63,29 @@ export default defineComponent({
             } else {
                 return (
                     <div ref={trigger}>
-                        <FTooltip
-                            mode="popover"
+                        <Popper
                             arrow={false}
                             popperClass={`${prefixCls}-menu`}
                             getContainer={getContainer}
                             v-slots={{
-                                content: renderMenu,
+                                default: renderMenu,
+                                trigger: () => (
+                                    <div class="content">
+                                        {slots.default?.()}
+                                        <div
+                                            style={itemStyle.value}
+                                            class="content-icon"
+                                        >
+                                            {isHover.value ? (
+                                                <UpOutlined />
+                                            ) : (
+                                                <DownOutlined />
+                                            )}
+                                        </div>
+                                    </div>
+                                ),
                             }}
-                        >
-                            <div class="content">
-                                {slots.default?.()}
-                                <div
-                                    style={itemStyle.value}
-                                    class="content-icon"
-                                >
-                                    {isHover.value ? (
-                                        <UpOutlined />
-                                    ) : (
-                                        <DownOutlined />
-                                    )}
-                                </div>
-                            </div>
-                        </FTooltip>
+                        ></Popper>
                     </div>
                 );
             }
@@ -95,7 +93,7 @@ export default defineComponent({
 
         return () => (
             <div
-                class={prefixCls}
+                class={itemCls}
                 style={itemStyle.value}
                 onClick={() => handleClick(props.to)}
                 onMouseenter={() => (isHover.value = true)}

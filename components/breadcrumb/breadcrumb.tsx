@@ -1,13 +1,9 @@
 import { computed, defineComponent, provide } from 'vue';
-import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import AppstoreOutlined from '../icon/AppstoreOutlined';
-
 import HomeOutlined from '../icon/HomeOutlined';
 import { breadcrumbProps } from './props';
-import { BREAD_CRUMB_KEY } from './const';
-
-const prefixCls = getPrefixCls('breadcrumb');
+import { BREAD_CRUMB_KEY, prefixCls } from './const';
 
 export default defineComponent({
     name: 'FBreadcrumb',
@@ -32,6 +28,10 @@ export default defineComponent({
             };
         });
 
+        const breadItemArr = computed(() => {
+            return slots.default ? slots.default() : [];
+        });
+
         // 渲染icon
         const renderIcon = (index: number) => {
             return (
@@ -44,8 +44,7 @@ export default defineComponent({
 
         // 渲染所有的层级
         const renderAllItem = () => {
-            const len = slots.default().length;
-            return slots.default().map((item, index) => {
+            return breadItemArr.value.map((item, index) => {
                 return (
                     <div class={`${prefixCls}-child`}>
                         {/* 渲染icon */}
@@ -55,7 +54,8 @@ export default defineComponent({
                             class={`${prefixCls}-separator`}
                             style={iconStyle.value}
                         >
-                            {index !== len - 1 && props.separator}
+                            {index !== breadItemArr.value.length - 1 &&
+                                props.separator}
                         </div>
                     </div>
                 );

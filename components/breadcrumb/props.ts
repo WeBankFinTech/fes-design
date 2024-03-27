@@ -1,5 +1,8 @@
 import { type ComponentObjectPropsOptions, type PropType } from 'vue';
-import { type ExtractPublicPropTypes } from '../_util/interface';
+import {
+    type ExtractPublicPropTypes,
+    type ComponentInnerProps,
+} from '../_util/interface';
 
 export const breadcrumbProps = {
     // 分隔符，默认为/
@@ -19,6 +22,8 @@ export const breadcrumbProps = {
 } as const satisfies ComponentObjectPropsOptions;
 
 export type BreadcrumbProps = ExtractPublicPropTypes<typeof breadcrumbProps>;
+
+type BreadcrumbInnerProps = ComponentInnerProps<typeof breadcrumbProps>;
 
 // 面包屑的菜单数据
 type Menu = {
@@ -48,5 +53,5 @@ export type BreadcrumbItemProps = ExtractPublicPropTypes<
 >;
 
 export type BreadcrumbInject = {
-    props: BreadcrumbProps;
+    props: BreadcrumbInnerProps;
 };

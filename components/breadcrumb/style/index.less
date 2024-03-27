@@ -4,7 +4,7 @@
 @breadcrumb: ~'@{cls-prefix}-breadcrumb';
 @text-color: var(--f-sub-head-color);
 
-@breadcrumbItem: ~'@{cls-prefix}-breadcrumb-item';
+@breadcrumb-item: ~'@{cls-prefix}-breadcrumb-item';
 @hover-text-color: var(--f-font-color-base);
 
 .@{breadcrumb} {
@@ -28,7 +28,7 @@
     }
 }
 
-.@{breadcrumbItem} {
+.@{breadcrumb-item} {
     margin: 4px 0;
 
     .content {
@@ -47,12 +47,13 @@
     }
 }
 
-.@{breadcrumbItem}-menu {
+.@{breadcrumb}-menu {
     padding: 10px 0;
 }
 
-.menu-item {
+.@{breadcrumb}-menu-item {
     box-sizing: content-box;
     padding: 6px 10px;
+    color: var(--f-font-color-base);
     cursor: pointer;
 }
