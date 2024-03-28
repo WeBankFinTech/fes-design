@@ -1,11 +1,4 @@
-import {
-    type VNode,
-    defineComponent,
-    inject,
-    ref,
-    computed,
-    type Ref,
-} from 'vue';
+import { type VNode, defineComponent, inject, computed, type Ref } from 'vue';
 import { isNil } from 'lodash-es';
 import Tree from '../tree';
 import Empty from '../empty';
@@ -22,13 +15,13 @@ import {
 import { TransferCheckbox, calcCheckStatus } from './checkbox';
 import {
     type TreeFilter,
-    type TransferFilter,
     type TransferInjection,
     type TransferOption,
 } from './interface';
 import { cls, flattenTree, isTree } from './utils';
 import { useTreeFilter } from './useTreeFilter';
 import { useCheckValueWithCheckbox } from './useCheckValueWithCheckbox';
+import { useOptionsFilter } from './useOptionsFilter';
 
 const useData = ({
     modelValue,
@@ -51,29 +44,6 @@ const useData = ({
         handleCheckStatusChange: handleCheckboxChange,
         handleTreeCheck: handleCheck,
     };
-};
-
-// 右边 TargetList 需要的 filter
-const useCheckedOptionsFilter = ({
-    checkedOptions,
-    filter,
-    rootProps,
-}: Pick<TransferInjection, 'rootProps'> & {
-    checkedOptions: Ref<TransferOption[]>;
-    filter: TransferFilter;
-}) => {
-    const filterText = ref<string>('');
-
-    const displayCheckedOptions = computed<TransferOption[]>(() => {
-        if (!rootProps.filterable) {
-            return checkedOptions.value;
-        }
-        return checkedOptions.value.filter((option) =>
-            filter(filterText.value, option),
-        );
-    });
-
-    return { filter, filterText, displayCheckedOptions };
 };
 
 const OneWayTransfer = defineComponent({
@@ -107,12 +77,15 @@ const OneWayTransfer = defineComponent({
             rootProps,
         });
 
-        const { displayCheckedOptions, filterText: checkedOptionsFilterText } =
-            useCheckedOptionsFilter({
-                checkedOptions,
-                rootProps,
-                filter: filter.value,
-            });
+        // 右边 TargetList 需要的 filter
+        const {
+            displayOptions: displayCheckedOptions,
+            filterText: checkedOptionsFilterText,
+        } = useOptionsFilter({
+            options: checkedOptions,
+            rootProps,
+            filter: filter.value,
+        });
 
         const handleClear = (): void => {
             modelValue.value = [];
