@@ -1,21 +1,22 @@
 import { ref, type Ref } from 'vue';
 import { CAROUSEL_NAME } from './const';
 import type { CarouselItemData } from './interface';
+import type { CarouselProps } from './carousel';
 
 interface UseCarouselItemType {
-    loop: boolean;
+    props: CarouselProps;
     activeIndex: Ref<number>;
 }
 
 export default function useCarouselItem({
-    loop,
+    props,
     activeIndex,
 }: UseCarouselItemType) {
     // 子项集合
     const slideChildren: Ref<CarouselItemData[]> = ref([]);
 
     const resetItemPosition = (oldIndex?: number | unknown): void => {
-        slideChildren.value.forEach((item, index) => {
+        slideChildren.value.forEach((item: CarouselItemData, index: number) => {
             item.translateItem(index, activeIndex.value, oldIndex);
         });
     };
@@ -31,9 +32,9 @@ export default function useCarouselItem({
         const childrenCount = slideChildren.value.length;
         const oldIndex = activeIndex.value;
         if (index < 0) {
-            activeIndex.value = loop ? childrenCount - 1 : 0;
+            activeIndex.value = props.loop ? childrenCount - 1 : 0;
         } else if (index >= childrenCount) {
-            activeIndex.value = loop ? 0 : childrenCount - 1;
+            activeIndex.value = props.loop ? 0 : childrenCount - 1;
         } else {
             activeIndex.value = index;
         }
@@ -55,7 +56,9 @@ export default function useCarouselItem({
     }
 
     function removeItem(uid: number) {
-        const index = slideChildren.value.findIndex((item) => item.uid === uid);
+        const index = slideChildren.value.findIndex(
+            (item: CarouselItemData) => item.uid === uid,
+        );
         if (index !== -1) {
             slideChildren.value.splice(index, 1);
             if (activeIndex.value === index) next();

@@ -1,10 +1,4 @@
-import {
-    defineComponent,
-    watch,
-    ref,
-    type PropType,
-    type ComponentObjectPropsOptions,
-} from 'vue';
+import { defineComponent, watch, ref } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import useResize from '../_util/use/useResize';
 import { CHANGE_EVENT } from '../_util/constants';
@@ -14,7 +8,8 @@ import Indicator from './indicator';
 import useCarousel from './useCarousel';
 import useCarouselStyle from './useCarouselStyle';
 import useCarouselPlay from './useCarouselPlay';
-import type { Placement } from './interface';
+import type { PropType, ComponentObjectPropsOptions } from 'vue';
+import type { Placement, ArrowType } from './interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const carouselProps = {
@@ -51,7 +46,7 @@ export const carouselProps = {
         default: '',
     },
     showArrow: {
-        type: String,
+        type: String as PropType<ArrowType>,
         default: 'hover',
     },
     type: {
@@ -79,6 +74,7 @@ export default defineComponent({
     emits: [CHANGE_EVENT],
     setup(props, { slots, emit, expose }) {
         useTheme();
+
         const {
             prefixCls,
             wrapperRef,
@@ -92,17 +88,13 @@ export default defineComponent({
         } = useCarousel(props);
 
         const { wrapperClass, carouselStyle } = useCarouselStyle({
+            props,
             prefixCls,
-            height: props.height,
-            type: props.type,
             direction,
         });
 
         const { startTimer, pauseTimer } = useCarouselPlay({
-            interval: props.interval,
-            initialIndex: props.initialIndex,
-            autoplay: props.autoplay,
-            loop: props.loop,
+            props,
             activeIndex,
             slideChildren,
         });
@@ -164,6 +156,7 @@ export default defineComponent({
                 <div class={`${prefixCls}-slides`}>
                     <Arrow
                         hover={carouselHover.value}
+                        showArrow={props.showArrow}
                         activeIndex={activeIndex.value}
                     />
                     <div

@@ -4,13 +4,14 @@ import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export type Placement = 'top' | 'bottom' | 'left' | 'right';
 export type Direction = 'horizontal' | 'vertical' | '';
+export type ArrowType = 'hover' | 'always' | 'never';
 
 export interface CarouselInst extends ReturnType<typeof useCarousel> {
     carouselId?: string;
 }
 
 export const carouselItemProps = {
-    key: {
+    itemkey: {
         type: String,
         default: '',
     },
