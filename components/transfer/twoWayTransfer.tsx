@@ -1,4 +1,4 @@
-import { type VNode, defineComponent, inject, ref, watch, computed } from 'vue';
+import { type VNode, defineComponent, inject, ref, watch } from 'vue';
 import { isNil } from 'lodash-es';
 import Button from '../button';
 import { LeftOutlined, RightOutlined } from '../icon';
@@ -22,6 +22,7 @@ import {
     type TransferFilter,
 } from './interface';
 import { useCheckValueWithCheckbox } from './useCheckValueWithCheckbox';
+import { useOptionsFilter } from './useOptionsFilter';
 
 const usePanelData = ({
     rootProps,
@@ -45,7 +46,7 @@ const usePanelData = ({
             },
         });
 
-    const handleListChange = (
+    const handleListOptionChange = (
         optionValue: TransferOption['value'],
         nextValue: boolean,
     ): void => {
@@ -72,15 +73,10 @@ const usePanelData = ({
         );
     };
 
-    const filterText = ref<string>('');
-
-    const displayOptions = computed<TransferOption[]>(() => {
-        if (!rootProps.filterable) {
-            return options.value;
-        }
-        return options.value.filter((option) =>
-            filter(filterText.value, option),
-        );
+    const { filterText, displayOptions } = useOptionsFilter({
+        options,
+        filter,
+        rootProps,
     });
 
     return {
@@ -89,7 +85,7 @@ const usePanelData = ({
         options,
         checkboxStatus,
         handleCheckboxChange,
-        handleListChange,
+        handleListOptionChange,
         filterText,
         displayOptions,
         updateCheckboxStatus,
@@ -125,32 +121,6 @@ const TwoWayTransfer = defineComponent({
             filter: filter.value,
         });
 
-        // modelValue 变化时，更新 panel 的 options 和 checkValue
-        watch(
-            modelValue,
-            (nextValue) => {
-                sourcePanel.options.value = rootProps.options.filter(
-                    ({ value }) => !nextValue.includes(value),
-                );
-                targetPanel.options.value = rootProps.options.filter(
-                    ({ value }) => nextValue.includes(value),
-                );
-
-                sourcePanel.checkValue.value =
-                    sourcePanel.checkValue.value.filter(
-                        (value) => !nextValue.includes(value),
-                    );
-                targetPanel.checkValue.value =
-                    targetPanel.checkValue.value.filter((value) =>
-                        nextValue.includes(value),
-                    );
-            },
-            {
-                immediate: true,
-                deep: true,
-            },
-        );
-
         // options 变化时，重置所有数据
         watch(
             () => rootProps.options,
@@ -174,7 +144,10 @@ const TwoWayTransfer = defineComponent({
                         option.value,
                     )}
                     onChange={(nextValue) =>
-                        panelData.handleListChange(option.value, nextValue)
+                        panelData.handleListOptionChange(
+                            option.value,
+                            nextValue,
+                        )
                     }
                 />
                 <span class={cls('option-label')}>{renderLabel(option)}</span>
@@ -273,6 +246,35 @@ const TwoWayTransfer = defineComponent({
             modelValue.value = nextValue;
             handleChange({ nextValue });
         };
+
+        // modelValue 变化时，更新 panel 的 options 和 checkValue
+        watch(
+            modelValue,
+            (nextValue) => {
+                sourcePanel.options.value = rootProps.options.filter(
+                    ({ value }) => !nextValue.includes(value),
+                );
+                targetPanel.options.value = rootProps.options.filter(
+                    ({ value }) => nextValue.includes(value),
+                );
+
+                sourcePanel.checkValue.value =
+                    sourcePanel.checkValue.value.filter(
+                        (value) => !nextValue.includes(value),
+                    );
+                targetPanel.checkValue.value =
+                    targetPanel.checkValue.value.filter((value) =>
+                        nextValue.includes(value),
+                    );
+
+                sourcePanel.updateCheckboxStatus();
+                targetPanel.updateCheckboxStatus();
+            },
+            {
+                immediate: true,
+                deep: true,
+            },
+        );
 
         const renderActions = (): VNode => {
             return (
