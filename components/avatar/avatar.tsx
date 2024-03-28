@@ -9,6 +9,7 @@ import {
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { PictureFailOutlined } from '../icon';
+import { useTheme } from '../_theme/useTheme';
 import { avatarProps } from './props';
 import { sizeMap } from './const';
 
@@ -19,6 +20,7 @@ export default defineComponent({
     props: avatarProps,
     emits: ['error'],
     setup(props, { emit, slots }) {
+        useTheme();
         const avatarCls = computed(() => {
             return [
                 `${prefixCls}`,
