@@ -1,15 +1,9 @@
-import {
-    defineComponent,
-    computed,
-    inject,
-    Fragment,
-    Transition,
-    type ComponentObjectPropsOptions,
-} from 'vue';
+import { defineComponent, computed, inject, Fragment, Transition } from 'vue';
 import { throttle } from 'lodash-es';
 import { LeftOutlined, RightOutlined } from '../icon';
 import { provideKey } from './const';
-import type { CarouselItemData } from './interface';
+import type { PropType, ComponentObjectPropsOptions } from 'vue';
+import type { CarouselItemData, ArrowType } from './interface';
 
 export default defineComponent({
     name: 'FCarouselArrow',
@@ -22,32 +16,36 @@ export default defineComponent({
             type: Boolean,
             required: true,
         },
+        showArrow: {
+            type: String as PropType<ArrowType>,
+            default: 'hover',
+        },
+        loop: {
+            type: Boolean,
+            default: true,
+        },
         activeIndex: Number,
     } satisfies ComponentObjectPropsOptions,
     setup(props) {
-        const {
-            prefixCls,
-            direction,
-            slideChildren,
-            showArrow,
-            loop,
-            setActiveItem,
-        } = inject(provideKey);
+        const { prefixCls, direction, slideChildren, setActiveItem } =
+            inject(provideKey);
 
         const arrowVisible = computed(
-            () => showArrow !== 'never' && direction.value === 'horizontal',
+            () =>
+                props.showArrow !== 'never' && direction.value === 'horizontal',
         );
 
         const arrowLeftShow = computed(
             () =>
-                (showArrow === 'always' || props.hover) &&
-                (loop || props.activeIndex > 0),
+                (props.showArrow === 'always' || props.hover) &&
+                (props.loop || props.activeIndex > 0),
         );
 
         const arrowRightShow = computed(
             () =>
-                (showArrow === 'always' || props.hover) &&
-                (loop || props.activeIndex < slideChildren.value.length - 1),
+                (props.showArrow === 'always' || props.hover) &&
+                (props.loop ||
+                    props.activeIndex < slideChildren.value.length - 1),
         );
 
         const slideItemInStage = (

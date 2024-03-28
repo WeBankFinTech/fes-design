@@ -54,10 +54,10 @@ export default defineComponent({
         }, 300);
 
         return () => (
-            <ul class={indicatorsClass.value}>
+            <div class={indicatorsClass.value}>
                 {slideChildren.value.map(
                     (item: CarouselItemData, index: number) => (
-                        <li
+                        <div
                             key={index}
                             class={[
                                 `${prefixCls}-indicator`,
@@ -73,10 +73,10 @@ export default defineComponent({
                                 type="button"
                                 class={`${prefixCls}-indicator-btn`}
                             ></button>
-                        </li>
+                        </div>
                     ),
                 )}
-            </ul>
+            </div>
         );
     },
 });

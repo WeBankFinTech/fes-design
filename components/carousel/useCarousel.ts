@@ -1,4 +1,4 @@
-import { ref, computed, provide } from 'vue';
+import { ref, toRef, computed, provide } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { provideKey } from './const';
 import useCarouselItem from './useCarouselItem';
@@ -30,7 +30,7 @@ export default function useCarousel(props: CarouselProps) {
     });
 
     const itemState = useCarouselItem({
-        loop: props.loop,
+        props,
         activeIndex,
     });
 
@@ -38,9 +38,8 @@ export default function useCarousel(props: CarouselProps) {
         prefixCls,
         wrapperRef,
         direction,
-        type: props.type,
-        loop: props.loop,
-        showArrow: props.showArrow,
+        parentType: toRef(props.type),
+        loop: toRef(props.loop),
         activeIndex,
         ...itemState,
     };

@@ -1,29 +1,25 @@
-import { computed, type ComputedRef } from 'vue';
+import { computed } from 'vue';
+import type { ComputedRef } from 'vue';
 import type { Direction } from './interface';
+import type { CarouselProps } from './carousel';
 
 interface UseCarouselStyleType {
+    props: CarouselProps;
     prefixCls: string;
-    height: string;
-    type: string;
     direction: ComputedRef<Direction>;
 }
 
-export default ({
-    prefixCls,
-    height,
-    type,
-    direction,
-}: UseCarouselStyleType) => {
+export default ({ props, prefixCls, direction }: UseCarouselStyleType) => {
     const wrapperClass = computed(() => {
         const classes = [prefixCls, `${prefixCls}-${direction.value}`];
-        if (type === 'card') {
+        if (props.type === 'card') {
             classes.push(`${prefixCls}-card`);
         }
         return classes;
     });
 
     const carouselStyle = computed(() => {
-        const style = { height };
+        const style = { height: props.height };
         return style;
     });
 
