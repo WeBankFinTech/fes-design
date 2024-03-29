@@ -1,3 +1,21 @@
+## [0.8.41](https://github.com/WeBankFinTech/fes-design/compare/v0.8.40...v0.8.41) (2024-03-29)
+
+
+### Bug Fixes
+
+* **Drawer:** 调整关闭按钮样式 ([#704](https://github.com/WeBankFinTech/fes-design/issues/704)) ([bccfa2e](https://github.com/WeBankFinTech/fes-design/commit/bccfa2e5392393460ff2fc93fd6414a1c00634bd))
+* **Dropdown:** 修复 popper 位置计算函数中的错误逻辑 ([#702](https://github.com/WeBankFinTech/fes-design/issues/702)) ([a8976fc](https://github.com/WeBankFinTech/fes-design/commit/a8976fc4b00fe8844309eddde80509bd3c481582))
+* **Transfer:** 修复双向穿梭时，checkbox 数据更新异常 ([#711](https://github.com/WeBankFinTech/fes-design/issues/711)) ([f752734](https://github.com/WeBankFinTech/fes-design/commit/f7527342257aa62a7d7237c8bbf894d9035d56bb))
+* **Upload:** 兼容 fileList 传非数组的情况 ([#705](https://github.com/WeBankFinTech/fes-design/issues/705)) ([7e01b0c](https://github.com/WeBankFinTech/fes-design/commit/7e01b0cb91c3e2ea55e827978a89f33e3d00e489))
+
+
+### Features
+
+* **Form:** FormItem 支持自定义 content 样式 ([#714](https://github.com/WeBankFinTech/fes-design/issues/714)) ([5e64cad](https://github.com/WeBankFinTech/fes-design/commit/5e64cad097f59e7fd43a32bedb6b3e8666cb0acb))
+* **Popper:** 文档上增加弹出信息组件 ([#709](https://github.com/WeBankFinTech/fes-design/issues/709)) ([f0b06ac](https://github.com/WeBankFinTech/fes-design/commit/f0b06ac9cbbeb7139f5648bf40c80ae99a759fba))
+
+
+
 ## [0.8.40](https://github.com/WeBankFinTech/fes-design/compare/v0.8.39...v0.8.40) (2024-03-26)
 
 
