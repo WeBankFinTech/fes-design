@@ -46,15 +46,16 @@ app.use(FInputNumber);
 
 ## Props
 
-| 属性        | 说明             | 类型    | 默认值      |
-| :---------- | :--------------- | :------ | :---------- |
-| modelValue  | v-model 双向绑定 | number  | -           |
-| min         | 计数器最小值     | number  | `-infinity` |
-| max         | 计数器最大值     | number  | `infinity`  |
-| step        | 计数器步长       | number  | `1`         |
-| disabled    | 是否禁用         | boolean | `false`     |
-| placeholder | 输入框默认提示   | string  | -           |
-| precision   | 数值精度         | number  | -           |
+| 属性           | 说明             | 类型    | 默认值      |
+|:---------------|:---------------|:--------|:------------|
+| modelValue     | v-model 双向绑定 | number  | -           |
+| min            | 计数器最小值     | number  | `-infinity` |
+| max            | 计数器最大值     | number  | `infinity`  |
+| step           | 计数器步长       | number  | `1`         |
+| showStepAction | 显示步进按钮     | boolean | `true`      |
+| disabled       | 是否禁用         | boolean | `false`     |
+| placeholder    | 输入框默认提示   | string  | -           |
+| precision      | 数值精度         | number  | -           |
 
 ## Slots
 
