@@ -19,7 +19,7 @@
                 <FRadio :value="2">女</FRadio>
             </FRadioGroup>
         </FFormItem>
-        <FFormItem label="这是一段长的表单项描述" align="center">
+        <FFormItem label="这是一段长的表单项描述">
             <FInput placeholder="请输入"></FInput>
         </FFormItem>
         <FFormItem label="年龄范围">
@@ -40,6 +40,15 @@
                 <FCheckbox :value="56 - 60">56 - 60</FCheckbox>
                 <FCheckbox :value="61 - 65">61 - 65</FCheckbox>
             </FCheckboxGroup>
+        </FFormItem>
+        <FFormItem label="上传" :contentStyle="{ display: 'block' }">
+            <FUpload>
+                <template #tip>
+                    <div class="f-upload__tip">
+                        只能上传 jpg/png 等图片文件，且不超过 5KB
+                    </div>
+                </template>
+            </FUpload>
         </FFormItem>
         <FFormItem label=" ">
             <FButton type="primary">Submit</FButton>
