@@ -1,47 +1,53 @@
 import { watch, onMounted, onBeforeUnmount, nextTick, type Ref } from 'vue';
+import type { CarouselProps } from './carousel';
 
 interface UseCarouselPlayType {
-    loop: boolean;
-    autoplay: boolean;
-    interval: number;
-    initialIndex: number;
+    props: CarouselProps;
     activeIndex: Ref<number>;
     slideChildren: Ref<object[]>;
 }
 
 // control play
-export default ({
-    loop,
-    autoplay,
-    interval,
-    initialIndex,
-    activeIndex,
-    slideChildren,
-}: UseCarouselPlayType) => {
+export default ({ props, activeIndex, slideChildren }: UseCarouselPlayType) => {
     const play = () => {
         if (activeIndex.value < slideChildren.value.length - 1) {
             activeIndex.value = activeIndex.value + 1;
-        } else if (loop) {
+        } else if (props.loop) {
             activeIndex.value = 0;
         }
     };
 
     let playTimer: number = null;
     const startTimer = () => {
-        if (interval <= 0 || !autoplay || playTimer) return;
-        playTimer = window.setInterval(play, interval);
+        if (props.interval <= 0 || !props.autoplay || playTimer) return;
+        playTimer = window.setInterval(play, props.interval);
     };
 
+    // 暂停定时器
     const pauseTimer = () => {
         clearInterval(playTimer);
         playTimer = null;
     };
 
+    // 清除定时器
+    const clearTimer = () => {
+        if (playTimer) pauseTimer();
+    };
+
+    // 监听是否自动播放
     watch(
-        () => autoplay,
+        () => props.autoplay,
         (current) => {
-            // eslint-disable-next-line no-unused-expressions
             current ? startTimer() : pauseTimer();
+        },
+    );
+
+    // 监听间隔时间变化，重新调整自动切换时间
+    watch(
+        () => props.interval,
+        () => {
+            clearTimer();
+            startTimer();
         },
     );
 
@@ -49,17 +55,17 @@ export default ({
     onMounted(() => {
         nextTick(() => {
             if (
-                initialIndex >= 0 &&
-                initialIndex < slideChildren.value.length
+                props.initialIndex >= 0 &&
+                props.initialIndex < slideChildren.value.length
             ) {
-                activeIndex.value = initialIndex;
+                activeIndex.value = props.initialIndex;
             }
             startTimer();
         });
     });
 
     onBeforeUnmount(() => {
-        pauseTimer();
+        clearTimer();
     });
 
     return {

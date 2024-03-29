@@ -18,6 +18,12 @@ app.use(FCarousel);
 
 --Default
 
+### 参数控制
+
+常用参数控制。
+
+--Params
+
 ### 鼠标经过指示点切换轮播图
 
 设定 `trigger` 为 `hover` 鼠标经过指示点时触发切换。

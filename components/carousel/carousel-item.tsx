@@ -59,8 +59,7 @@ export default defineComponent({
             prefixCls,
             direction,
             wrapperRef,
-            type: parentType,
-            loop,
+            rootProps,
             slideChildren,
             setActiveItem,
             addItem,
@@ -130,16 +129,15 @@ export default defineComponent({
             oldIndex: number,
         ) => {
             const length = slideChildren.value.length;
-            // eslint-disable-next-line no-undefined
-            if (parentType !== 'card' && oldIndex !== undefined) {
+            if (rootProps.type !== 'card' && oldIndex !== undefined) {
                 itemStatus.animating =
                     index === activeIndex || index === oldIndex;
             }
-            if (index !== activeIndex && length > 2 && loop) {
+            if (index !== activeIndex && length > 2 && rootProps.loop) {
                 index = processIndex(index, activeIndex, length);
             }
 
-            if (parentType === 'card') {
+            if (rootProps.type === 'card') {
                 if (direction.value === 'vertical') {
                     console.warn(
                         `[${CAROUSEL_ITEM_NAME}]: ${CAROUSEL_NAME} vertical direction is not supported in card mode.`,
@@ -164,7 +162,7 @@ export default defineComponent({
         };
 
         const onClickSlide = () => {
-            if (parentType === 'card') {
+            if (rootProps.type === 'card') {
                 const index = slideChildren.value
                     .map((item: CarouselItemData) => item.uid)
                     .indexOf(instance.uid);
@@ -175,7 +173,7 @@ export default defineComponent({
         onMounted(() => {
             addItem({
                 uid: instance.uid,
-                key: props.key,
+                itemkey: props.itemkey,
                 states: itemStatus,
                 translateItem,
             } as CarouselItemData);
@@ -191,7 +189,7 @@ export default defineComponent({
                 v-show={itemReady.value}
                 class={{
                     [`${prefixCls}-item`]: true,
-                    [`${prefixCls}-item-card`]: parentType === 'card',
+                    [`${prefixCls}-item-card`]: rootProps.type === 'card',
                     'is-in-stage': itemStatus.inStage,
                     'is-hover': itemStatus.hover,
                     'is-active': itemStatus.active,
@@ -200,7 +198,7 @@ export default defineComponent({
                 style={itemStyle.value}
                 onClick={onClickSlide}
             >
-                {parentType === 'card' && (
+                {rootProps.type === 'card' && (
                     <div
                         v-show={!itemStatus.active}
                         class={`${prefixCls}-item-mask`}

@@ -25,20 +25,10 @@
     </FSpace>
 </template>
 
-<script>
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-    setup() {
-        const onChange = (current) => {
-            console.log('[carousel.default] [onChange] current:', current);
-        };
-
-        return {
-            onChange,
-        };
-    },
-});
+<script setup>
+const onChange = (current) => {
+    console.log('[carousel.default] [onChange] current:', current);
+};
 </script>
 
 <style scope>

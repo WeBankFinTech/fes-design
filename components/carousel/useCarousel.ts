@@ -30,7 +30,7 @@ export default function useCarousel(props: CarouselProps) {
     });
 
     const itemState = useCarouselItem({
-        loop: props.loop,
+        props,
         activeIndex,
     });
 
@@ -38,9 +38,7 @@ export default function useCarousel(props: CarouselProps) {
         prefixCls,
         wrapperRef,
         direction,
-        type: props.type,
-        loop: props.loop,
-        showArrow: props.showArrow,
+        rootProps: props,
         activeIndex,
         ...itemState,
     };
