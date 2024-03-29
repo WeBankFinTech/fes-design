@@ -1,15 +1,13 @@
-import { computed, defineComponent, inject, ref } from 'vue';
+import { computed, defineComponent, inject } from 'vue';
 import { useTheme } from '../_theme/useTheme';
-import DownOutlined from '../icon/DownOutlined';
-import UpOutlined from '../icon/UpOutlined';
-import Popper from '../popper/popper';
 import { breadcrumbItemProps } from './props';
-import { BREAD_CRUMB_KEY, itemCls, prefixCls } from './const';
+import { BREAD_CRUMB_KEY, itemCls } from './const';
 
 export default defineComponent({
     name: 'FBreadcrumbItem',
     props: breadcrumbItemProps,
-    setup(props, { slots }) {
+    emits: ['click'],
+    setup(props, { emit, slots }) {
         useTheme();
 
         const { props: parentProps } = inject(BREAD_CRUMB_KEY);
@@ -24,6 +22,8 @@ export default defineComponent({
 
         // 处理点击跳转的事件
         const handleClick = (url: string) => {
+            // 触发用户自定义的click事件
+            emit('click');
             if (!url) return;
             if (props.replace) {
                 window.location.replace(url);
@@ -32,74 +32,13 @@ export default defineComponent({
             }
         };
 
-        // 用于判断菜单箭头icon
-        const isHover = ref(false);
-
-        // 渲染菜单
-        const renderMenu = () => {
-            return props.menu
-                .map((item) => {
-                    return (
-                        <div
-                            class={`${prefixCls}-menu-item`}
-                            style={itemStyle.value}
-                            onClick={() => handleClick(item.path)}
-                        >
-                            {item.name}
-                        </div>
-                    );
-                })
-                .filter(Boolean);
-        };
-
-        const trigger = ref<HTMLElement | null>();
-
-        const getContainer = () => trigger.value;
-
-        // 渲染内容
-        const renderContent = () => {
-            if (props.menu.length === 0) {
-                return slots.default?.();
-            } else {
-                return (
-                    <div ref={trigger}>
-                        <Popper
-                            arrow={false}
-                            popperClass={`${prefixCls}-menu`}
-                            getContainer={getContainer}
-                            v-slots={{
-                                default: renderMenu,
-                                trigger: () => (
-                                    <div class="content">
-                                        {slots.default?.()}
-                                        <div
-                                            style={itemStyle.value}
-                                            class="content-icon"
-                                        >
-                                            {isHover.value ? (
-                                                <UpOutlined />
-                                            ) : (
-                                                <DownOutlined />
-                                            )}
-                                        </div>
-                                    </div>
-                                ),
-                            }}
-                        ></Popper>
-                    </div>
-                );
-            }
-        };
-
         return () => (
             <div
                 class={itemCls}
                 style={itemStyle.value}
                 onClick={() => handleClick(props.to)}
-                onMouseenter={() => (isHover.value = true)}
-                onMouseleave={() => (isHover.value = false)}
             >
-                {renderContent()}
+                {slots.default?.()}
             </div>
         );
     },

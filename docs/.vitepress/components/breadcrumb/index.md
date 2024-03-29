@@ -18,39 +18,30 @@ app.use(FBreadcrumb);
 base.vue
 :::
 
-### 点击跳转
-配置to属性，指定跳转的路由。  
-replace属性默认为false，开启true，跳转行为将不会留下历史记录。
+### 跳转
+to为路由跳转目标，同vue-router的to属性
 
 :::demo
 to.vue
 :::
 
-### menu菜单
-可以配置面包屑的子菜单，跳转行为保持一致。
+### 自定义点击事件
+自定义某个路径的点击事件，可以和 vue-router 一起结合使用。
 
 :::demo
-menu.vue
+click.vue
 :::
 
 ## Breadcrumb Props
 
-| 属性      | 说明              | 类型      | 默认值  |
-| --------- | ----------------- | --------- | ------- |
-| separator | 分隔符，默认为`/` | `string`  | `-`     |
-| fontSize  | 字体大小          | `number`  | `14`    |
-| icon      | 是否展示icon      | `boolean` | `false` |
+| 属性      | 说明              | 类型     | 默认值 |
+| --------- | ----------------- | -------- | ------ |
+| separator | 分隔符，默认为`/` | `string` | `-`    |
+| fontSize  | 字体大小          | `number` | `14`   |
 
 ## BreadcrumbItem Props
 
-| 属性    | 说明                      | 类型          | 默认值  |
-| ------- | ------------------------- | ------------- | ------- |
-| replace | 跳转行为，是否开启replace | `boolean`     | `false` |
-| to      | 前往的路由                | `string`      | `-`     |
-| menu    | 子菜单数据                | `Array<Menu>` | `[]`    |
-
-## Menu
-| 属性 | 说明       | 类型     | 默认值 |
-| ---- | ---------- | -------- | ------ |
-| name | 子菜单名称 | `string` | `-`    |
-| path | 前往的路由 | `string` | `-`    |
+| 属性    | 说明                                 | 类型      | 默认值  |
+| ------- | ------------------------------------ | --------- | ------- |
+| replace | 如果设置该属性为 true, 导航将不会留下历史记录          | `boolean` | `false` |
+| to      | 路由跳转目标，同`vue-router`的to属性 | `string`  | `-`     |

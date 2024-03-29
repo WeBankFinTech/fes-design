@@ -25,35 +25,16 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        min-width: 14px;
+        margin: 0 4px;
     }
 }
 
 .@{breadcrumb-item} {
     margin: 4px 0;
 
-    .content {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        &-icon {
-            margin-left: 4px;
-        }
-    }
-
     &:hover {
         color: @hover-text-color;
         cursor: pointer;
     }
-}
-
-.@{breadcrumb}-menu {
-    padding: 10px 0;
-}
-
-.@{breadcrumb}-menu-item {
-    box-sizing: content-box;
-    padding: 6px 10px;
-    color: var(--f-font-color-base);
-    cursor: pointer;
 }

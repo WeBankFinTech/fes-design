@@ -6,18 +6,9 @@
         <FFormItem label="字体大小:">
             <FInputNumber v-model="fontSize" class="form-item"></FInputNumber>
         </FFormItem>
-        <FFormItem label="展示icon:">
-            <FRadioGroup
-                v-model="icon"
-                :options="[
-                    { label: 'true', value: true },
-                    { label: 'false(默认)', value: false },
-                ]"
-            />
-        </FFormItem>
     </FForm>
     <FDivider></FDivider>
-    <FBreadcrumb :separator="separator" :fontSize="fontSize" :icon="icon">
+    <FBreadcrumb :separator="separator" :fontSize="fontSize">
         <FBreadcrumbItem>首页</FBreadcrumbItem>
         <FBreadcrumbItem>二级页面 </FBreadcrumbItem>
         <FBreadcrumbItem>三级页面</FBreadcrumbItem>
@@ -32,8 +23,6 @@ import { ref } from 'vue';
 const separator = ref('/');
 
 const fontSize = ref(14);
-
-const icon = ref(false);
 </script>
 
 <style>
