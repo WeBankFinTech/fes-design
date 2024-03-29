@@ -20,15 +20,16 @@ export default defineComponent({
             type: String as PropType<ArrowType>,
             default: 'hover',
         },
-        loop: {
-            type: Boolean,
-            default: true,
-        },
         activeIndex: Number,
     } satisfies ComponentObjectPropsOptions,
     setup(props) {
-        const { prefixCls, direction, slideChildren, setActiveItem } =
-            inject(provideKey);
+        const {
+            prefixCls,
+            direction,
+            rootProps,
+            slideChildren,
+            setActiveItem,
+        } = inject(provideKey);
 
         const arrowVisible = computed(
             () =>
@@ -38,13 +39,13 @@ export default defineComponent({
         const arrowLeftShow = computed(
             () =>
                 (props.showArrow === 'always' || props.hover) &&
-                (props.loop || props.activeIndex > 0),
+                (rootProps.loop || props.activeIndex > 0),
         );
 
         const arrowRightShow = computed(
             () =>
                 (props.showArrow === 'always' || props.hover) &&
-                (props.loop ||
+                (rootProps.loop ||
                     props.activeIndex < slideChildren.value.length - 1),
         );
 

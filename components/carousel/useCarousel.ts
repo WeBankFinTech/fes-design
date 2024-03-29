@@ -38,8 +38,7 @@ export default function useCarousel(props: CarouselProps) {
         prefixCls,
         wrapperRef,
         direction,
-        parentType: computed(() => props.type),
-        loop: computed(() => props.loop),
+        rootProps: props,
         activeIndex,
         ...itemState,
     };

@@ -59,8 +59,7 @@ export default defineComponent({
             prefixCls,
             direction,
             wrapperRef,
-            parentType,
-            loop,
+            rootProps,
             slideChildren,
             setActiveItem,
             addItem,
@@ -130,15 +129,15 @@ export default defineComponent({
             oldIndex: number,
         ) => {
             const length = slideChildren.value.length;
-            if (parentType.value !== 'card' && oldIndex !== undefined) {
+            if (rootProps.type !== 'card' && oldIndex !== undefined) {
                 itemStatus.animating =
                     index === activeIndex || index === oldIndex;
             }
-            if (index !== activeIndex && length > 2 && loop.value) {
+            if (index !== activeIndex && length > 2 && rootProps.loop) {
                 index = processIndex(index, activeIndex, length);
             }
 
-            if (parentType.value === 'card') {
+            if (rootProps.type === 'card') {
                 if (direction.value === 'vertical') {
                     console.warn(
                         `[${CAROUSEL_ITEM_NAME}]: ${CAROUSEL_NAME} vertical direction is not supported in card mode.`,
@@ -163,7 +162,7 @@ export default defineComponent({
         };
 
         const onClickSlide = () => {
-            if (parentType.value === 'card') {
+            if (rootProps.type === 'card') {
                 const index = slideChildren.value
                     .map((item: CarouselItemData) => item.uid)
                     .indexOf(instance.uid);
@@ -190,7 +189,7 @@ export default defineComponent({
                 v-show={itemReady.value}
                 class={{
                     [`${prefixCls}-item`]: true,
-                    [`${prefixCls}-item-card`]: parentType.value === 'card',
+                    [`${prefixCls}-item-card`]: rootProps.type === 'card',
                     'is-in-stage': itemStatus.inStage,
                     'is-hover': itemStatus.hover,
                     'is-active': itemStatus.active,
@@ -199,7 +198,7 @@ export default defineComponent({
                 style={itemStyle.value}
                 onClick={onClickSlide}
             >
-                {parentType.value === 'card' && (
+                {rootProps.type === 'card' && (
                     <div
                         v-show={!itemStatus.active}
                         class={`${prefixCls}-item-mask`}
