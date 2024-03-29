@@ -23,15 +23,31 @@ export default ({ props, activeIndex, slideChildren }: UseCarouselPlayType) => {
         playTimer = window.setInterval(play, props.interval);
     };
 
+    // 暂停定时器
     const pauseTimer = () => {
         clearInterval(playTimer);
         playTimer = null;
     };
 
+    // 清除定时器
+    const clearTimer = () => {
+        if (playTimer) pauseTimer();
+    };
+
+    // 监听是否自动播放
     watch(
         () => props.autoplay,
         (current) => {
             current ? startTimer() : pauseTimer();
+        },
+    );
+
+    // 监听间隔时间变化，重新调整自动切换时间
+    watch(
+        () => props.interval,
+        () => {
+            clearTimer();
+            startTimer();
         },
     );
 
@@ -49,7 +65,7 @@ export default ({ props, activeIndex, slideChildren }: UseCarouselPlayType) => {
     });
 
     onBeforeUnmount(() => {
-        pauseTimer();
+        clearTimer();
     });
 
     return {
