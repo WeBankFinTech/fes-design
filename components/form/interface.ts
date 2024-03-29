@@ -4,6 +4,7 @@ import {
     type ToRefs,
     type Ref,
     type ComponentObjectPropsOptions,
+    type CSSProperties,
 } from 'vue';
 import { FORM_LAYOUT, LABEL_POSITION, FORM_ITEM_ALIGN } from './const';
 import type { RuleItem, Rules } from 'async-validator';
@@ -40,12 +41,12 @@ export const formProps = {
         >,
         default: LABEL_POSITION.LEFT,
     },
+    labelWidth: [String, Number] as PropType<string | number>,
+    labelClass: String,
     showMessage: {
         type: Boolean,
         default: true,
     },
-    labelWidth: [String, Number] as PropType<string | number>,
-    labelClass: String,
     disabled: {
         type: Boolean,
         default: false,
@@ -69,6 +70,14 @@ export const formItemProps = {
     label: String,
     labelWidth: [String, Number] as PropType<string | number>,
     labelClass: String,
+    contentStyle: {
+        type: [String, Array, Object] as PropType<
+            string | CSSProperties[] | CSSProperties
+        >,
+        default() {
+            return {};
+        },
+    },
     span: {
         type: Number,
         default: null as number,

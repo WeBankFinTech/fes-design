@@ -9,7 +9,7 @@
                 {{ label }}
             </slot>
         </span>
-        <div :class="`${prefixCls}-content`">
+        <div :class="`${prefixCls}-content`" :style="contentStyle">
             <slot></slot>
             <transition name="fes-fade">
                 <div v-if="formItemShowMessage" :class="`${prefixCls}-error`">
