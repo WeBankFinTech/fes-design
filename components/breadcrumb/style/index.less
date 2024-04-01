@@ -1,0 +1,42 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+
+@breadcrumb: ~'@{cls-prefix}-breadcrumb';
+@text-color: var(--f-sub-head-color);
+
+@breadcrumb-item: ~'@{cls-prefix}-breadcrumb-item';
+@hover-text-color: var(--f-font-color-base);
+
+.@{breadcrumb} {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    color: @text-color;
+
+    &-child {
+        display: flex;
+        align-items: center;
+
+        .icon {
+            margin-right: 4px;
+        }
+    }
+
+    &-separator {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 14px;
+        margin: 0 4px;
+        line-height: 1;
+    }
+}
+
+.@{breadcrumb-item} {
+    margin: 4px 0;
+
+    &:hover {
+        color: @hover-text-color;
+        cursor: pointer;
+    }
+}
