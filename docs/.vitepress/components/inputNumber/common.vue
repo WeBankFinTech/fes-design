@@ -1,19 +1,19 @@
 <template>
-    <FSpace>
-        <FInputNumber v-model="val" :max="100"></FInputNumber>
-        {{ val }}
-    </FSpace>
+    <FForm>
+        <FFormItem label="显示步进箭头">
+            <FSwitch v-model="showStepAction" />
+        </FFormItem>
+    </FForm>
+    <FInputNumber
+        v-model="val"
+        :max="100"
+        :showStepAction="showStepAction"
+    ></FInputNumber>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue';
 
-export default {
-    setup() {
-        const val = ref(10);
-        return {
-            val,
-        };
-    },
-};
+const val = ref(10);
+const showStepAction = ref(true);
 </script>

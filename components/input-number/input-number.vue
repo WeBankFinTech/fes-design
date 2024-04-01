@@ -16,6 +16,7 @@
             <template #suffix>
                 <slot name="suffix"></slot>
                 <div
+                    v-if="showStepAction"
                     :class="[
                         `${prefixCls}-actions`,
                         $slots.suffix && `${prefixCls}-actions-suffix`,
@@ -88,6 +89,10 @@ export const inputNumberProps = {
     step: {
         type: Number,
         default: 1,
+    },
+    showStepAction: {
+        type: Boolean,
+        default: true,
     },
     precision: Number,
     disabled: Boolean,
