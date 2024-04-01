@@ -3,8 +3,8 @@ import Breadcrumb from './breadcrumb';
 import BreadcrumbItem from './breadcrumb-item';
 import type { SFCWithInstall } from '../_util/interface';
 
-export { breadcrumbProps, breadcrumbItemProps } from './props';
-export type { BreadcrumbProps, BreadcrumbItemProps } from './props';
+export { breadcrumbProps } from './props';
+export type { BreadcrumbProps } from './props';
 
 type BreadcrumbType = SFCWithInstall<typeof Breadcrumb>;
 export const FBreadcrumb = withInstall<BreadcrumbType>(

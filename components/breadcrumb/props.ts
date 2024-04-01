@@ -20,23 +20,6 @@ export type BreadcrumbProps = ExtractPublicPropTypes<typeof breadcrumbProps>;
 
 type BreadcrumbInnerProps = ComponentInnerProps<typeof breadcrumbProps>;
 
-// 子层级的props
-export const breadcrumbItemProps = {
-    // 跳转行为
-    replace: {
-        type: Boolean,
-        default: false,
-    },
-    // 跳转的路由
-    to: {
-        type: String,
-    },
-} as const satisfies ComponentObjectPropsOptions;
-
-export type BreadcrumbItemProps = ExtractPublicPropTypes<
-    typeof breadcrumbItemProps
->;
-
 export type BreadcrumbInject = {
     props: BreadcrumbInnerProps;
 };
