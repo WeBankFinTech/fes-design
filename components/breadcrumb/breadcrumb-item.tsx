@@ -1,7 +1,7 @@
 import { computed, defineComponent, inject } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import { breadcrumbItemProps } from './props';
-import { BREAD_CRUMB_KEY, itemCls } from './const';
+import { BREADCRUMB_KEY, itemCls } from './const';
 
 export default defineComponent({
     name: 'FBreadcrumbItem',
@@ -10,13 +10,12 @@ export default defineComponent({
     setup(props, { emit, slots }) {
         useTheme();
 
-        const { props: parentProps } = inject(BREAD_CRUMB_KEY);
+        const { props: parentProps } = inject(BREADCRUMB_KEY);
 
         const itemStyle = computed(() => {
             return {
                 fontSize: `${parentProps.fontSize}px`,
-                height: `${parentProps.fontSize}px`,
-                lineHeight: `${parentProps.fontSize}px`,
+                lineHeight: 1,
             };
         });
 

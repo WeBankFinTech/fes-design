@@ -19,14 +19,15 @@ base.vue
 :::
 
 ### 跳转
-to为路由跳转目标，同vue-router的to属性
+to为路由跳转目标，同vue-router的to属性。
 
 :::demo
 to.vue
 :::
 
 ### 自定义点击事件
-自定义某个路径的点击事件，可以和 vue-router 一起结合使用。
+自定义某个item的点击事件。  
+同时点击行为，也可以和 vue-router 一起结合使用。
 
 :::demo
 click.vue
