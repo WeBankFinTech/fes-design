@@ -1,3 +1,18 @@
+## [0.8.42](https://github.com/WeBankFinTech/fes-design/compare/v0.8.41...v0.8.42) (2024-04-03)
+
+
+### Bug Fixes
+
+* **Carousel:** 修复部分属性响应性失效问题 ([#713](https://github.com/WeBankFinTech/fes-design/issues/713)) ([b06058a](https://github.com/WeBankFinTech/fes-design/commit/b06058a7425752d2ed9471ad0c8c39e08fca91cc))
+
+
+### Features
+
+* **Breadcrumb:** 新增面包屑组件 ([#706](https://github.com/WeBankFinTech/fes-design/issues/706)) ([96192c1](https://github.com/WeBankFinTech/fes-design/commit/96192c1f1727c93da1952ce0ea57655936458840))
+* **InputNumber:** 增加控制显示步进箭头按钮的配置 ([#715](https://github.com/WeBankFinTech/fes-design/issues/715)) ([a5eb9ee](https://github.com/WeBankFinTech/fes-design/commit/a5eb9eeed2e4f9683243c6aa928f89e2a39745e0))
+
+
+
 ## [0.8.41](https://github.com/WeBankFinTech/fes-design/compare/v0.8.40...v0.8.41) (2024-03-29)
 
 
