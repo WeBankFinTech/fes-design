@@ -124,6 +124,10 @@ export const inputProps = {
         type: [Boolean, Object] as PropType<boolean | Autosize>,
         default: false as boolean | Autosize,
     },
+    autofocus: {
+        type: Boolean,
+        default: false,
+    },
     resize: String as PropType<
         'none' | 'both' | 'horizontal' | 'vertical' | 'block' | 'inline'
     >,
@@ -256,6 +260,12 @@ export default defineComponent({
         const handleInputClear = () => {
             emit('clear');
         };
+
+        onMounted(() => {
+            if (props.autofocus) {
+                focus();
+            }
+        });
 
         return {
             innerDisabled,

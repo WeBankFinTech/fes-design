@@ -1,6 +1,7 @@
 <template>
     <div :class="classes" @dragstart.prevent>
         <InputInner
+            ref="inputRef"
             :modelValue="displayValue"
             :disabled="innerDisabled"
             :placeholder="placeholder"
@@ -58,6 +59,7 @@ import {
     ref,
     nextTick,
     defineComponent,
+    onMounted,
     type ComponentObjectPropsOptions,
 } from 'vue';
 import { isNumber } from 'lodash-es';
@@ -97,6 +99,10 @@ export const inputNumberProps = {
     precision: Number,
     disabled: Boolean,
     placeholder: String,
+    autofocus: {
+        type: Boolean,
+        default: false,
+    },
 } as const satisfies ComponentObjectPropsOptions;
 
 export type InputNumberProps = ExtractPublicPropTypes<typeof inputNumberProps>;
@@ -129,6 +135,7 @@ export default defineComponent({
             ),
         );
 
+        const inputRef = ref();
         const tempValue = ref();
         const displayValue = computed(() => {
             if (tempValue.value != null) return tempValue.value;
@@ -246,6 +253,15 @@ export default defineComponent({
             setCurrentValue(_calculationNum(currentValue.value || 0, type));
         };
 
+        const focus = () => {
+            inputRef.value.focus();
+        };
+        onMounted(() => {
+            if (props.autofocus) {
+                focus();
+            }
+        });
+
         return {
             prefixCls,
             isError,
@@ -260,6 +276,7 @@ export default defineComponent({
             displayValue,
             minDisabled,
             maxDisabled,
+            inputRef,
         };
     },
 });

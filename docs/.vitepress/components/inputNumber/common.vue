@@ -8,6 +8,7 @@
         v-model="val"
         :max="100"
         :showStepAction="showStepAction"
+        :autofocus="true"
     ></FInputNumber>
 </template>
 

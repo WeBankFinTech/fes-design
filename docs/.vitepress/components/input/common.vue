@@ -4,6 +4,7 @@
             ref="inputRef"
             v-model="inputValue"
             placeholder="请输入"
+            :autofocus="true"
             @keydown="handleKeydown"
             @input="handleInput"
             @change="handleChange"

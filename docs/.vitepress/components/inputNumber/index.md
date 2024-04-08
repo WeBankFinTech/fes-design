@@ -47,7 +47,7 @@ app.use(FInputNumber);
 ## Props
 
 | 属性           | 说明             | 类型    | 默认值      |
-|:---------------|:---------------|:--------|:------------|
+| :------------- | :--------------- | :------ | :---------- |
 | modelValue     | v-model 双向绑定 | number  | -           |
 | min            | 计数器最小值     | number  | `-infinity` |
 | max            | 计数器最大值     | number  | `infinity`  |
@@ -56,6 +56,7 @@ app.use(FInputNumber);
 | disabled       | 是否禁用         | boolean | `false`     |
 | placeholder    | 输入框默认提示   | string  | -           |
 | precision      | 数值精度         | number  | -           |
+| autofocus      | 是否自动获取焦点 | boolean | `false`     |
 
 ## Slots
 
