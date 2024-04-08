@@ -69,7 +69,7 @@ event.vue
 ### 聚焦和失焦
 
 :::demo
-autofocus.vue
+handleFocus.vue
 :::
 
 ## Props
@@ -88,6 +88,7 @@ autofocus.vue
 | showWordLimit | 是否显示输入数字统计，只在 `type="textarea"` 时有效                                        | boolean         | false   |
 | showPassword  | 是否显示切换密码图标，仅`type`非`textarea`时有效                                           | boolean         | false   |
 | autosize      | 自适应内容高度，只在 `type="textarea"` 时有效，可输入对象，入 `{ minRows: 2, maxRows: 3 }` | boolean、object | false   |
+| autofocus     | 是否自动获取焦点                                                                           | boolean         | `false` |
 
 ## Slots
 

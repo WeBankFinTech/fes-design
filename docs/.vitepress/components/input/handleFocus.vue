@@ -28,10 +28,10 @@ export default {
         };
 
         const handleInputBlur = (e) => {
-            console.log('[input.autofocus] [blur] e:', e);
+            console.log('[input.handleFocus] [blur] e:', e);
         };
         const handleInputFocus = (e) => {
-            console.log('[input.autofocus] [focus] e:', e);
+            console.log('[input.handleFocus] [focus] e:', e);
         };
 
         return {
