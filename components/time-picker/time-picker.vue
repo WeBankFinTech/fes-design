@@ -34,7 +34,7 @@
         <template #default>
             <div :class="`${prefixCls}-dropdown`" @mousedown.prevent>
                 <TimeSelect
-                    ref="timeSelect"
+                    ref="timeSelectRef"
                     :visible="isOpened"
                     :modelValue="currentValue"
                     :format="format"
@@ -300,15 +300,17 @@ export default defineComponent({
             }
         };
         // 获取 实例
-        const timeSelect = ref();
+        const timeSelectRef = ref();
 
         // 解耦 与设置值的方法分开
         const clear = () => {
             tempValue.value = '';
             updateCurrentValue('');
             activeTime.value = '';
+            emit('change', '');
+            validate('change');
             // 重置时间
-            timeSelect.value.resetTime();
+            timeSelectRef.value.resetTime();
         };
 
         watch(isOpened, () => {
@@ -374,7 +376,7 @@ export default defineComponent({
             inputPlaceholder,
             t,
             attrs,
-            timeSelect,
+            timeSelectRef,
         };
     },
 });
