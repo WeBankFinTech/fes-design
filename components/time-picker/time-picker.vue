@@ -34,6 +34,7 @@
         <template #default>
             <div :class="`${prefixCls}-dropdown`" @mousedown.prevent>
                 <TimeSelect
+                    ref="timeSelect"
                     :visible="isOpened"
                     :modelValue="currentValue"
                     :format="format"
@@ -148,7 +149,8 @@ function validateTime(data: string, format: string) {
 
 export const timePickerProps = {
     modelValue: {
-        type: [String, Array] as PropType<string | string[] | number[]>,
+        // timePicker 目前仅支持string
+        type: String,
         default: '',
     },
     open: {
@@ -274,6 +276,7 @@ export default defineComponent({
             return true;
         });
 
+        // 临时的值
         const tempValue = ref();
 
         const { t } = useLocale();
@@ -296,11 +299,20 @@ export default defineComponent({
                 activeTime.value = val;
             }
         };
+        // 获取 实例
+        const timeSelect = ref();
+
+        // 解耦 与设置值的方法分开
         const clear = () => {
-            setCurrentValue('');
+            tempValue.value = '';
+            updateCurrentValue('');
+            activeTime.value = '';
+            // 重置时间
+            timeSelect.value.resetTime();
         };
 
         watch(isOpened, () => {
+            // 关闭将选中的数据赋值，因此确认按钮只用关闭弹窗即可
             if (!isOpened.value && activeTime.value) {
                 setCurrentValue(activeTime.value);
             }
@@ -321,7 +333,9 @@ export default defineComponent({
             closePopper();
         };
 
+        // 输入框展示的值
         const displayValue = computed(() => {
+            // 目前没有范围选择
             if (props.isRange) {
                 return currentValue.value || [];
             }
@@ -347,9 +361,7 @@ export default defineComponent({
             displayValue,
             isOpened,
             currentValue,
-
             tempValue,
-
             handleInput,
             handleBlur,
             clear,
@@ -358,12 +370,11 @@ export default defineComponent({
             showNowShortcut,
             setCurrentTime,
             confirmChangeTime,
-
             activeTime,
             inputPlaceholder,
             t,
-
             attrs,
+            timeSelect,
         };
     },
 });

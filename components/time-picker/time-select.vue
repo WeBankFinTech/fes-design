@@ -118,6 +118,12 @@ const timeSelectProps = {
         default: 8,
     },
 } as const satisfies ComponentObjectPropsOptions;
+// 初始选择的时间
+const initialSelectedTime: SelectedTime = {
+    hour: null,
+    minute: null,
+    seconds: null,
+};
 
 export default defineComponent({
     components: {
@@ -132,14 +138,18 @@ export default defineComponent({
             4: -1,
         });
 
-        const initialSelectedTime: SelectedTime = {
-            hour: null,
-            minute: null,
-            seconds: null,
-        };
+        // 被选中的时间
         const selectedTime = reactive<SelectedTime>({ ...initialSelectedTime });
+
         const formatSingleTime = (timeFormat: string) =>
             props.format.indexOf(timeFormat) !== -1 ? '00' : '0';
+
+        // 重置时间
+        const resetTime = () => {
+            Object.assign(selectedTime, initialSelectedTime);
+        };
+
+        // 解析时间
         const parseTime = () => {
             if (!props.modelValue) {
                 Object.assign(selectedTime, initialSelectedTime);
@@ -271,6 +281,7 @@ export default defineComponent({
             changeSelectedSeconds,
             focusKey,
             selectedTime,
+            resetTime,
         };
     },
 });
