@@ -1,3 +1,12 @@
+## [0.8.43](https://github.com/WeBankFinTech/fes-design/compare/v0.8.42...v0.8.43) (2024-04-09)
+
+
+### Features
+
+* **Input & InputNumber:** 增加 autofocus 配置项 ([#721](https://github.com/WeBankFinTech/fes-design/issues/721)) ([2c6f549](https://github.com/WeBankFinTech/fes-design/commit/2c6f54918ee42ea278bf2367d0fae9e8cd5eea32))
+
+
+
 ## [0.8.42](https://github.com/WeBankFinTech/fes-design/compare/v0.8.41...v0.8.42) (2024-04-03)
 
 
