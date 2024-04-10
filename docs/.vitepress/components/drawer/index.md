@@ -96,6 +96,7 @@ closable.vue
 | hight            | 高度，在 placement 为 top 或 bottom 时使用<br/>（即将废弃，推荐使用 dimension） | string/number                           | 520                   |
 | placement        | 抽屉方向                                                                        | `'right'` `'bottom'` `'left'` `'right'` | `'right'`             |
 | contentClass     | 可用于设置内容的类名                                                            | string                                  | -                     |
+| wrapperClass     | 可用于设置内容容器的自定义样式的类名，支持传字符串，对象，数组                  | String/Object/Array                     | `-`                   |
 | getContainer     | 指定 `Drawer` 挂载的 HTML 节点                                                  | () => HTMLElement                       | `() => document.body` |
 | resizable        | 是否支持宽度/高度可拖拽                                                         | boolean                                 | `false`               |
 | resizeMax        | 可拖拽的最大尺寸（如：`100`、`'200px'`、`'30%'`）                               | number/string                           | -                     |

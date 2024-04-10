@@ -82,30 +82,31 @@ closable.vue
 
 ## Modal Props
 
-| 属性             | 说明                                                                           | 类型              | 默认值                |
-| ---------------- | ------------------------------------------------------------------------------ | ----------------- | --------------------- |
-| show             | v-model:show，是否显示模态框                                                   | Boolean           | `false`               |
-| displayDirective | 选择渲染使用的指令，if 对应 v-if，show 对应 v-show，使用 show 的时候不会被重置 | string            | `show`                |
-| closable         | 是否显示右上角关闭图标                                                         | Boolean           | `true`                |
-| mask             | 是否显示蒙层                                                                   | Boolean           | `true`                |
-| maskClosable     | 点击蒙层是否允许关闭                                                           | Boolean           | `true`                |
-| escClosable      | 按下 ESC 是否允许关闭                                                          | boolean           | `true`                |
-| type             | 类型，可选值为`info` `success` `error` `warning` `warn` `confirm`              | string            | `-`                   |
-| title            | 标题                                                                           | String            | `-`                   |
-| footer           | 是否显示底部内容                                                               | Boolean           | `true`                |
-| okText           | 确认按钮文字                                                                   | String            | 确定                  |
-| okLoading        | 确认按钮 Loading 状态                                                          | Boolean           | `false`               |
-| showCancel       | 是否展示取消按钮                                                               | Boolean           | `true`                |
-| cancelText       | 取消按钮文字                                                                   | String            | 取消                  |
-| width            | 宽度                                                                           | String/Number     | 520                   |
-| maxHeight        | 最大弹窗高度，如果实际高度大于 maxHeight，内容滚动                             | String/Number     | `-`                   |
-| top              | 距离顶部                                                                       | String/Number     | 50                    |
-| bottom           | 距离底部，为了防止弹窗底部贴边，可自定义                                       | String/Number     | 50                    |
-| verticalCenter   | 垂直居中                                                                       | Boolean           | `false`               |
-| center           | 标题、内容、按钮居中                                                           | Boolean           | `false`               |
-| fullScreen       | 全屏显示                                                                       | Boolean           | `false`               |
-| contentClass     | 可用于设置内容的类名                                                           | String            | `-`                   |
-| getContainer     | 指定 `Modal` 挂载的 HTML 节点                                                  | () => HTMLElement | `() => document.body` |
+| 属性             | 说明                                                                           | 类型                | 默认值                |
+| ---------------- | ------------------------------------------------------------------------------ | ------------------- | --------------------- |
+| show             | v-model:show，是否显示模态框                                                   | Boolean             | `false`               |
+| displayDirective | 选择渲染使用的指令，if 对应 v-if，show 对应 v-show，使用 show 的时候不会被重置 | string              | `show`                |
+| closable         | 是否显示右上角关闭图标                                                         | Boolean             | `true`                |
+| mask             | 是否显示蒙层                                                                   | Boolean             | `true`                |
+| maskClosable     | 点击蒙层是否允许关闭                                                           | Boolean             | `true`                |
+| escClosable      | 按下 ESC 是否允许关闭                                                          | boolean             | `true`                |
+| type             | 类型，可选值为`info` `success` `error` `warning` `warn` `confirm`              | string              | `-`                   |
+| title            | 标题                                                                           | String              | `-`                   |
+| footer           | 是否显示底部内容                                                               | Boolean             | `true`                |
+| okText           | 确认按钮文字                                                                   | String              | 确定                  |
+| okLoading        | 确认按钮 Loading 状态                                                          | Boolean             | `false`               |
+| showCancel       | 是否展示取消按钮                                                               | Boolean             | `true`                |
+| cancelText       | 取消按钮文字                                                                   | String              | 取消                  |
+| width            | 宽度                                                                           | String/Number       | 520                   |
+| maxHeight        | 最大弹窗高度，如果实际高度大于 maxHeight，内容滚动                             | String/Number       | `-`                   |
+| top              | 距离顶部                                                                       | String/Number       | 50                    |
+| bottom           | 距离底部，为了防止弹窗底部贴边，可自定义                                       | String/Number       | 50                    |
+| verticalCenter   | 垂直居中                                                                       | Boolean             | `false`               |
+| center           | 标题、内容、按钮居中                                                           | Boolean             | `false`               |
+| fullScreen       | 全屏显示                                                                       | Boolean             | `false`               |
+| contentClass     | 可用于设置内容的类名                                                           | String              | `-`                   |
+| wrapperClass     | 可用于设置内容容器的自定义样式的类名，支持传字符串，对象，数组                 | String/Object/Array | `-`                   |
+| getContainer     | 指定 `Modal` 挂载的 HTML 节点                                                  | () => HTMLElement   | `() => document.body` |
 
 ## Modal Event
 

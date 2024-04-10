@@ -152,6 +152,14 @@ const Drawer = defineComponent({
                 props.displayDirective === 'show',
         );
 
+        const wrapperClass = computed(() => {
+            return [
+                `${prefixCls}-wrapper`,
+                props.contentClass,
+                props.wrapperClass,
+            ].filter(Boolean);
+        });
+
         return () => (
             <Teleport
                 disabled={!getContainer.value?.()}
@@ -193,9 +201,7 @@ const Drawer = defineComponent({
                                 }
                             >
                                 <div
-                                    class={`${prefixCls}-wrapper ${
-                                        props.contentClass || ''
-                                    }`}
+                                    class={wrapperClass.value}
                                     ref={drawerRef}
                                     style={styles.value}
                                     onClick={(event) => event.stopPropagation()}

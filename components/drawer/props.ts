@@ -78,6 +78,9 @@ export const drawerProps = {
         default: 'right' satisfies DrawerPlacement,
     },
     contentClass: String,
+    wrapperClass: {
+        type: [String, Object, Array] as PropType<string | object | []>,
+    },
     resizable: {
         type: Boolean,
         default: false,

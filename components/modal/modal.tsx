@@ -210,6 +210,15 @@ const Modal = defineComponent({
             mouseDownInsideChild.value = false;
         };
 
+        // wrapper样式
+        const wrapperClass = computed(() => {
+            return [
+                `${prefixCls}-wrapper`,
+                props.contentClass,
+                props.wrapperClass,
+            ].filter(Boolean);
+        });
+
         return () => (
             <Teleport
                 disabled={!getContainer.value?.()}
@@ -249,9 +258,7 @@ const Modal = defineComponent({
                                 onClick={(event) => handleClickMask(event)}
                             >
                                 <div
-                                    class={`${prefixCls}-wrapper ${
-                                        props.contentClass || ''
-                                    }`}
+                                    class={wrapperClass.value}
                                     style={styles.value}
                                     onClick={(event) => event.stopPropagation()}
                                     onMousedown={() => {

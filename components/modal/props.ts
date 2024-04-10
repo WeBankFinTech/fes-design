@@ -86,6 +86,9 @@ export const modalProps = {
         default: false,
     },
     contentClass: String,
+    wrapperClass: {
+        type: [String, Object, Array] as PropType<string | object | []>,
+    },
 } as const satisfies ComponentObjectPropsOptions;
 
 export type ModalProps = ExtractPublicPropTypes<typeof modalProps>;
