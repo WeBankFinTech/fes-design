@@ -22,6 +22,7 @@ import useEsc from '../_util/use/useEsc';
 import { useResizable } from './useResizable';
 import { COMPONENT_NAME, prefixCls } from './const';
 import {
+    AFTER_ENTER_EVENT,
     AFTER_LEAVE_EVENT,
     CANCEL_EVENT,
     OK_EVENT,
@@ -33,7 +34,13 @@ import { useDrawerDimension } from './useDimension';
 const Drawer = defineComponent({
     name: COMPONENT_NAME,
     props: drawerProps,
-    emits: [UPDATE_SHOW_EVENT, OK_EVENT, CANCEL_EVENT, AFTER_LEAVE_EVENT],
+    emits: [
+        UPDATE_SHOW_EVENT,
+        OK_EVENT,
+        CANCEL_EVENT,
+        AFTER_ENTER_EVENT,
+        AFTER_LEAVE_EVENT,
+    ],
     setup(props, ctx) {
         useTheme();
         const zIndex = ref(PopupManager.nextZIndex());
@@ -67,6 +74,9 @@ const Drawer = defineComponent({
             ctx.emit(OK_EVENT, event);
         }
 
+        function handleTransitionAfterEnter(el: Element) {
+            ctx.emit(AFTER_ENTER_EVENT, el);
+        }
         function handleTransitionAfterLeave(el: Element) {
             ctx.emit(AFTER_LEAVE_EVENT, el);
         }
@@ -169,6 +179,7 @@ const Drawer = defineComponent({
                     </Transition>
                     <Transition
                         name={`${prefixCls}-fade`}
+                        onAfterEnter={handleTransitionAfterEnter}
                         onAfterLeave={handleTransitionAfterLeave}
                     >
                         {showDom.value && (

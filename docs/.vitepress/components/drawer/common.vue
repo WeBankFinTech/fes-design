@@ -8,14 +8,22 @@
         <FDrawer
             v-model:show="show[0]"
             title="常规"
-            displayDirective="if"
+            displayDirective="show"
             @ok="show[0] = false"
+            @afterEnter="handleAfterEnter"
+            @afterLeave="handleAfterLeave"
         >
             <div>我是内容...</div>
             <div>我是内容...</div>
             <div>我是内容...</div>
         </FDrawer>
-        <FDrawer v-model:show="show[1]" @ok="show[1] = true">
+        <FDrawer
+            v-model:show="show[1]"
+            displayDirective="if"
+            @ok="show[1] = true"
+            @afterEnter="handleAfterEnter"
+            @afterLeave="handleAfterLeave"
+        >
             <FAlert
                 style="margin-bottom: 10px"
                 type="info"
@@ -66,8 +74,18 @@ import { reactive } from 'vue';
 export default {
     setup() {
         const show = reactive([]);
+
+        const handleAfterEnter = (e) => {
+            console.log('[modal.common] handleAfterEnter, e:', e);
+        };
+        const handleAfterLeave = (e) => {
+            console.log('[modal.common] handleAfterLeave, e:', e);
+        };
+
         return {
             show,
+            handleAfterEnter,
+            handleAfterLeave,
         };
     },
 };

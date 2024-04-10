@@ -10,7 +10,7 @@
         <FModal
             v-model:show="show[0]"
             title="常规"
-            displayDirective="if"
+            displayDirective="show"
             @ok="show[0] = false"
             @afterEnter="handleAfterEnter"
             @afterLeave="handleAfterLeave"
@@ -21,7 +21,7 @@
         </FModal>
         <FModal
             v-model:show="show[1]"
-            displayDirective="show"
+            displayDirective="if"
             @ok="show[1] = false"
             @afterEnter="handleAfterEnter"
             @afterLeave="handleAfterLeave"

@@ -99,4 +99,5 @@ export type DrawerInnerProps = Parameters<
 export const UPDATE_SHOW_EVENT = 'update:show';
 export const OK_EVENT = 'ok';
 export const CANCEL_EVENT = 'cancel';
+export const AFTER_ENTER_EVENT = 'after-enter';
 export const AFTER_LEAVE_EVENT = 'after-leave';
