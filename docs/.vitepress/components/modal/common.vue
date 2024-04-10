@@ -12,12 +12,20 @@
             title="常规"
             displayDirective="if"
             @ok="show[0] = false"
+            @afterEnter="handleAfterEnter"
+            @afterLeave="handleAfterLeave"
         >
             <div>我是内容...</div>
             <div>我是内容...</div>
             <div>我是内容...</div>
         </FModal>
-        <FModal v-model:show="show[1]" @ok="show[1] = true">
+        <FModal
+            v-model:show="show[1]"
+            displayDirective="show"
+            @ok="show[1] = false"
+            @afterEnter="handleAfterEnter"
+            @afterLeave="handleAfterLeave"
+        >
             <FAlert
                 style="margin-bottom: 10px"
                 type="info"
@@ -91,8 +99,18 @@ import { reactive } from 'vue';
 export default {
     setup() {
         const show = reactive([]);
+
+        const handleAfterEnter = (e) => {
+            console.log('[modal.common] handleAfterEnter, e:', e);
+        };
+        const handleAfterLeave = (e) => {
+            console.log('[modal.common] handleAfterLeave, e:', e);
+        };
+
         return {
             show,
+            handleAfterEnter,
+            handleAfterLeave,
         };
     },
 };
