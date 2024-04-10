@@ -67,6 +67,7 @@ operable.vue
 :::
 
 ### 关闭抽屉
+
 通过配置项可以控制抽屉的关闭方式。
 
 :::demo
@@ -82,7 +83,7 @@ closable.vue
 | closable         | 是否显示右上角关闭图标                                                          | boolean                                 | `true`                |
 | mask             | 是否显示蒙层                                                                    | boolean                                 | `true`                |
 | maskClosable     | 点击蒙层是否允许关闭                                                            | boolean                                 | `true`                |
-| escClosable      | 按下ESC是否允许关闭                                                             | boolean                                 | `true`                |
+| escClosable      | 按下 ESC 是否允许关闭                                                           | boolean                                 | `true`                |
 | operable         | 仅 mask 为 false 时生效，不显示蒙层时，页面是否可交互                           | boolean                                 | `false`               |
 | title            | 标题                                                                            | string                                  | -                     |
 | footer           | 是否显示底部内容                                                                | boolean                                 | `false`               |
@@ -103,10 +104,12 @@ closable.vue
 
 ## Drawer Event
 
-| 事件名称 | 说明                                 | 回调参数 |
-| -------- | ------------------------------------ | -------- |
-| cancel   | 点击遮罩层或右上角叉或取消按钮的回调 | event    |
-| ok       | 点击确定回调                         | event    |
+| 事件名称   | 说明                                 | 回调参数 |
+| ---------- | ------------------------------------ | -------- |
+| cancel     | 点击遮罩层或右上角叉或取消按钮的回调 | event    |
+| ok         | 点击确定回调                         | event    |
+| afterEnter | Drawer 出现后的回调                  | event    |
+| afterLeave | Drawer 关闭后的回调                  | event    |
 
 ## Drawer Slots
 
