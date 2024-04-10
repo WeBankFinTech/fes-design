@@ -25,12 +25,19 @@ const prefixCls = getPrefixCls('modal');
 const UPDATE_SHOW_EVENT = 'update:show';
 const OK_EVENT = 'ok';
 const CANCEL_EVENT = 'cancel';
+const AFTER_ENTER_EVENT = 'after-enter';
 const AFTER_LEAVE_EVENT = 'after-leave';
 
 const Modal = defineComponent({
     name: 'FModal',
     props: { ...globalModalProps, ...modalProps },
-    emits: [UPDATE_SHOW_EVENT, OK_EVENT, CANCEL_EVENT, AFTER_LEAVE_EVENT],
+    emits: [
+        UPDATE_SHOW_EVENT,
+        OK_EVENT,
+        CANCEL_EVENT,
+        AFTER_ENTER_EVENT,
+        AFTER_LEAVE_EVENT,
+    ],
     setup(props, ctx) {
         useTheme();
         const zIndex = ref(PopupManager.nextZIndex());
@@ -67,6 +74,9 @@ const Modal = defineComponent({
             ctx.emit(OK_EVENT, event);
         }
 
+        function handleTransitionAfterEnter(el: Element) {
+            ctx.emit(AFTER_ENTER_EVENT, el);
+        }
         function handleTransitionAfterLeave(el: Element) {
             ctx.emit(AFTER_LEAVE_EVENT, el);
         }
@@ -217,6 +227,7 @@ const Modal = defineComponent({
                     </Transition>
                     <Transition
                         name={`${prefixCls}-fade`}
+                        onAfterEnter={handleTransitionAfterEnter}
                         onAfterLeave={handleTransitionAfterLeave}
                     >
                         {showDom.value && (
