@@ -245,6 +245,15 @@
         &.is-active {
             > .@{menu-item-prefix-cls}-wrapper {
                 background-color: @menu-light-active-background-color;
+                &::after {
+                    position: absolute;
+                    top: (@menu-item-height/2);
+                    right: 0;
+                    bottom: (@menu-item-height/2);
+                    width: 2px;
+                    background-color: var(--f-primary-color);
+                    content: '';
+                }
             }
         }
     }
