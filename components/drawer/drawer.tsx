@@ -153,9 +153,13 @@ const Drawer = defineComponent({
         );
 
         const wrapperClass = computed(() => {
+            return [`${prefixCls}-wrapper`, props.contentClass].filter(Boolean);
+        });
+
+        const rootClass = computed(() => {
             return [
-                `${prefixCls}-wrapper`,
-                props.contentClass,
+                prefixCls,
+                `${prefixCls}-${props.placement}`,
                 props.wrapperClass,
             ].filter(Boolean);
         });
@@ -165,7 +169,7 @@ const Drawer = defineComponent({
                 disabled={!getContainer.value?.()}
                 to={getContainer.value?.()}
             >
-                <div class={`${prefixCls} ${prefixCls}-${props.placement}`}>
+                <div class={rootClass.value}>
                     <Transition name={`${prefixCls}-mask-fade`}>
                         {props.mask && showDom.value && (
                             <div

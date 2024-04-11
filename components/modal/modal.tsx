@@ -210,13 +210,13 @@ const Modal = defineComponent({
             mouseDownInsideChild.value = false;
         };
 
-        // wrapper样式
+        // 最外层类名
+        const rootClass = computed(() => {
+            return [prefixCls, props.wrapperClass].filter(Boolean);
+        });
+
         const wrapperClass = computed(() => {
-            return [
-                `${prefixCls}-wrapper`,
-                props.contentClass,
-                props.wrapperClass,
-            ].filter(Boolean);
+            return [`${prefixCls}-wrapper`, props.contentClass].filter(Boolean);
         });
 
         return () => (
@@ -224,7 +224,7 @@ const Modal = defineComponent({
                 disabled={!getContainer.value?.()}
                 to={getContainer.value?.()}
             >
-                <div class={`${prefixCls}`}>
+                <div class={rootClass.value}>
                     <Transition name={`${prefixCls}-mask-fade`}>
                         {props.mask && showDom.value && (
                             <div

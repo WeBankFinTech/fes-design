@@ -85,10 +85,10 @@ export const modalProps = {
         type: Boolean,
         default: false,
     },
+    // 内容外层类名
     contentClass: String,
-    wrapperClass: {
-        type: [String, Object, Array] as PropType<string | object | []>,
-    },
+    // 根类名
+    wrapperClass: String,
 } as const satisfies ComponentObjectPropsOptions;
 
 export type ModalProps = ExtractPublicPropTypes<typeof modalProps>;

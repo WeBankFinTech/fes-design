@@ -77,10 +77,10 @@ export const drawerProps = {
         type: String as PropType<DrawerPlacement>,
         default: 'right' satisfies DrawerPlacement,
     },
+    // 内容外层类名
     contentClass: String,
-    wrapperClass: {
-        type: [String, Object, Array] as PropType<string | object | []>,
-    },
+    // 根类名
+    wrapperClass: String,
     resizable: {
         type: Boolean,
         default: false,
