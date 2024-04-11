@@ -85,7 +85,10 @@ export const modalProps = {
         type: Boolean,
         default: false,
     },
+    // 内容外层类名
     contentClass: String,
+    // 根类名
+    wrapperClass: String,
 } as const satisfies ComponentObjectPropsOptions;
 
 export type ModalProps = ExtractPublicPropTypes<typeof modalProps>;

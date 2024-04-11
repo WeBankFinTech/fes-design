@@ -210,12 +210,21 @@ const Modal = defineComponent({
             mouseDownInsideChild.value = false;
         };
 
+        // 最外层类名
+        const rootClass = computed(() => {
+            return [prefixCls, props.wrapperClass].filter(Boolean);
+        });
+
+        const wrapperClass = computed(() => {
+            return [`${prefixCls}-wrapper`, props.contentClass].filter(Boolean);
+        });
+
         return () => (
             <Teleport
                 disabled={!getContainer.value?.()}
                 to={getContainer.value?.()}
             >
-                <div class={`${prefixCls}`}>
+                <div class={rootClass.value}>
                     <Transition name={`${prefixCls}-mask-fade`}>
                         {props.mask && showDom.value && (
                             <div
@@ -249,9 +258,7 @@ const Modal = defineComponent({
                                 onClick={(event) => handleClickMask(event)}
                             >
                                 <div
-                                    class={`${prefixCls}-wrapper ${
-                                        props.contentClass || ''
-                                    }`}
+                                    class={wrapperClass.value}
                                     style={styles.value}
                                     onClick={(event) => event.stopPropagation()}
                                     onMousedown={() => {

@@ -105,6 +105,7 @@ closable.vue
 | center           | 标题、内容、按钮居中                                                           | Boolean           | `false`               |
 | fullScreen       | 全屏显示                                                                       | Boolean           | `false`               |
 | contentClass     | 可用于设置内容的类名                                                           | String            | `-`                   |
+| wrapperClass     | 可用于设置组件根类名                                                           | String            | `-`                   |
 | getContainer     | 指定 `Modal` 挂载的 HTML 节点                                                  | () => HTMLElement | `() => document.body` |
 
 ## Modal Event
