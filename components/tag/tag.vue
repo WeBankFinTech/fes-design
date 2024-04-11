@@ -9,7 +9,7 @@
                 v-show="!isHover"
                 :class="`${prefixCls}__close`"
                 @click.stop="handleClose"
-                @mouseover="mouseCloseOver"
+                @mouseenter="mouseCloseEnter"
             />
             <CloseCircleFilled
                 v-show="isHover"
@@ -62,7 +62,7 @@ export default defineComponent({
             emit('click', event);
         };
 
-        const { isHover, mouseCloseOver, mouseCloseLeave } = useHover();
+        const { isHover, mouseCloseEnter, mouseCloseLeave } = useHover();
 
         return {
             prefixCls,
@@ -70,7 +70,7 @@ export default defineComponent({
             handleClose,
             handleClick,
             isHover,
-            mouseCloseOver,
+            mouseCloseEnter,
             mouseCloseLeave,
         };
     },
