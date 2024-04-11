@@ -9,6 +9,7 @@
 @text-color-info: var(--f-primary-color);
 @text-color-warning: var(--f-warning-color);
 @text-color-danger: var(--f-danger-color);
+@text-color-tag-mark: var(--f-primary-color);
 
 @text-font-size-sm: @font-size-caption;
 @text-font-size-lg: @font-size-head;
@@ -48,5 +49,9 @@
     }
     &-text--italic {
         font-style: italic
+    }
+    &-tag--mark {
+        --f-text-text-color: @text-color-tag-mark;
+        background:var(--f-hover-color-light) ;
     }
 }

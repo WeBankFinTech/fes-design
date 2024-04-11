@@ -195,6 +195,10 @@ const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
                         link: '/zh/components/text',
                     },
                     {
+                        text: 'TextHighlight 文本高亮',
+                        link: '/zh/components/text-highlight',
+                    },
+                    {
                         text: 'Tree 树形控件',
                         link: '/zh/components/tree',
                     },

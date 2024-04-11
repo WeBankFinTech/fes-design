@@ -21,6 +21,7 @@ export default defineComponent({
             [`${prefixCls}-size--${props.size}`]: props.size,
             [`${prefixCls}-text--strong`]: props.strong,
             [`${prefixCls}-text--italic`]: props.italic,
+            [`${prefixCls}-tag--mark`]: props.tag === 'mark', // 定义mark样式
         }));
 
         return {
@@ -31,7 +32,7 @@ export default defineComponent({
     render() {
         const children = getSlot(this.$slots);
         return h(
-            this.tag || 'span',
+            this.tag,
             {
                 class: this.textClass,
             },
