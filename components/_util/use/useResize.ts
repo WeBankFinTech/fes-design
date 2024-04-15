@@ -38,8 +38,19 @@ export default (
             ro.unobserve(observedDom);
         }
         if (dom) {
-            ro.observe(dom);
-            observedDom = dom;
+            try {
+                ro.observe(dom);
+                observedDom = dom;
+            } catch (err) {
+                console.warn(
+                    '[useResize] observe dom fail, dom:',
+                    dom,
+                    ' dom.parentNode:',
+                    dom.parentNode,
+                    ' error:',
+                    err,
+                );
+            }
         }
     };
 
