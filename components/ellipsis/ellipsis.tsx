@@ -74,10 +74,17 @@ export default defineComponent({
         });
 
         const toolTipPropsRef = computed(() => {
-            if (isObject(props.tooltip)) {
-                return props.tooltip;
-            }
-            return {};
+            const currentTooltipProps = isObject(props.tooltip)
+                ? props.tooltip
+                : {};
+
+            // 增加默认样式
+            currentTooltipProps.popperStyle = {
+                'max-width': '600px',
+                ...currentTooltipProps.popperStyle,
+            };
+
+            return currentTooltipProps;
         });
 
         // 元素可能是隐藏的，当hover时需要重新计算下
