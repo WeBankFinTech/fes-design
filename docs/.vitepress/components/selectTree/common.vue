@@ -1,7 +1,7 @@
 <template>
-    <FSelectTree :modelValue="'40'" :data="data"></FSelectTree>
+    <FSelectTree :modelValue="'40'" :data="data" />
 </template>
-<script>
+<script setup>
 import { ref, h } from 'vue';
 // eslint-disable-next-line import/no-unresolved
 import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
@@ -27,17 +27,10 @@ function createLabel(level) {
     if (level === 1) return '三生万物';
 }
 
-export default {
-    setup() {
-        const data = ref([]);
-        setTimeout(() => {
-            data.value = createData(4);
-        });
-        return {
-            data,
-        };
-    },
-};
+const data = ref([]);
+setTimeout(() => {
+    data.value = createData(4);
+});
 </script>
 <style scoped>
 .fes-select-tree {

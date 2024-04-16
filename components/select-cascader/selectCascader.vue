@@ -39,12 +39,12 @@
                 <Cascader
                     v-show="!filterText"
                     ref="cascaderRef"
+                    v-model:expandedKeys="expandedKeys"
                     :selectedKeys="selectedKeys"
                     :checkedKeys="checkedKeys"
                     :initLoadKeys="initLoadKeys"
                     :data="data"
                     :emptyText="listEmptyText"
-                    :expandedKeys="expandedKeys"
                     :selectable="cascaderSelectable"
                     :checkable="cascaderCheckable"
                     :checkStrictly="checkStrictly"
@@ -161,6 +161,7 @@ export default defineComponent({
     emits: [
         UPDATE_MODEL_EVENT,
         CHANGE_EVENT,
+        'update:expandedKeys',
         'removeTag',
         'visibleChange',
         'focus',
@@ -173,6 +174,7 @@ export default defineComponent({
             valueType: computed(() => (props.multiple ? 'array' : 'string')),
         });
         const isOpened = ref(false);
+
         const [currentValue, updateCurrentValue] = props.multiple
             ? // 与 props 中 modelValue 类型保持一致
               (useArrayModel(props, emit) as unknown as UseArrayModelReturn<
@@ -248,14 +250,19 @@ export default defineComponent({
             }
             return [];
         });
-        const expandedKeys = computed(() => {
-            if (!props.multiple) {
-                return getExpandedKeysBySelectedKeys(
-                    nodeList.value,
-                    selectedKeys.value as CascaderNodeKey[],
-                );
-            }
-            return [];
+        const expandedKeys = computed({
+            get: () => {
+                if (!props.multiple) {
+                    return getExpandedKeysBySelectedKeys(
+                        nodeList.value,
+                        selectedKeys.value as CascaderNodeKey[],
+                    );
+                }
+                return [];
+            },
+            set: (nextValue) => {
+                emit('update:expandedKeys', nextValue);
+            },
         });
         const checkedKeys = computed(() => {
             if (props.multiple) {

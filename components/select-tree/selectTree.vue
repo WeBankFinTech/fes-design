@@ -40,11 +40,11 @@
                     <Tree
                         v-show="data.length"
                         ref="refTree"
+                        v-model:expandedKeys="currentExpandedKeys"
                         :selectedKeys="selectedKeys"
                         :checkedKeys="checkedKeys"
                         :data="data"
                         :defaultExpandAll="defaultExpandAll"
-                        :expandedKeys="expandedKeys"
                         :accordion="accordion"
                         :selectable="treeSelectable"
                         :checkable="treeCheckable"
@@ -83,11 +83,11 @@
                         <Tree
                             v-show="data.length"
                             ref="refTree"
+                            v-model:expandedKeys="currentExpandedKeys"
                             :selectedKeys="selectedKeys"
                             :checkedKeys="checkedKeys"
                             :data="data"
                             :defaultExpandAll="defaultExpandAll"
-                            :expandedKeys="expandedKeys"
                             :accordion="accordion"
                             :selectable="treeSelectable"
                             :checkable="treeCheckable"
@@ -194,6 +194,7 @@ export default defineComponent({
     emits: [
         UPDATE_MODEL_EVENT,
         CHANGE_EVENT,
+        'update:expandedKeys',
         'removeTag',
         'visibleChange',
         'focus',
@@ -206,12 +207,17 @@ export default defineComponent({
             valueType: computed(() => (props.multiple ? 'array' : 'string')),
         });
         const isOpened = ref(false);
+
         const [currentValue, updateCurrentValue] = props.multiple
             ? // 与 props 中 modelValue 类型保持一致
               (useArrayModel(props, emit) as unknown as UseArrayModelReturn<
                   Array<TreeNodeKey> | Array<Array<TreeNodeKey>>
               >)
             : useNormalModel(props, emit);
+        const [currentExpandedKeys] = useNormalModel(props, emit, {
+            prop: 'expandedKeys',
+        });
+
         const filterText = ref('');
 
         const { t } = useLocale();
@@ -434,6 +440,7 @@ export default defineComponent({
             prefixCls,
             isOpened,
             currentValue,
+            currentExpandedKeys,
             handleRemove,
             handleClear,
             selectedOptions,
