@@ -218,9 +218,18 @@ function useFocusBlur(
     const onBlur = (e: FocusEvent) => {
         // 延迟 blur，防止 focus 内部的 input 触发 blur
         nextTick(() => {
-            if (isFocus.value && !againFocusFlag) {
-                isFocus.value = false;
-                emit('blur', e);
+            if (isFocus.value) {
+                if (!againFocusFlag) {
+                    isFocus.value = false;
+                    emit('blur', e);
+                } else {
+                    // 再延迟 blur，并且重置 againFocusFlag
+                    nextTick(() => {
+                        againFocusFlag = false;
+                        isFocus.value = false;
+                        emit('blur', e);
+                    });
+                }
             }
         });
     };
