@@ -6,10 +6,10 @@ import useTableLayout from './useTableLayout';
 
 const prefixCls = getPrefixCls('table');
 
-import { type TableProps } from './table';
-import { type RowType } from './interface';
-import { type ColumnInst } from './column';
-import { type ColumnFixedStatus } from './useTableColumn';
+import type { ColumnFixedStatus } from './useTableColumn';
+import type { TableProps } from './table';
+import type { RowType } from './interface';
+import type { ColumnInst } from './column';
 
 export default ({
     props,

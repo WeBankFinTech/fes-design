@@ -3,10 +3,10 @@ import {
     type ComponentInnerProps,
     type ExtractPublicPropTypes,
 } from '../_util/interface';
-import {
-    type TransferFilter,
-    type TransferOption,
-    type TransferOptionValue,
+import type {
+    TransferFilter,
+    TransferOption,
+    TransferOptionValue,
 } from './interface';
 
 export const transferProps = {
