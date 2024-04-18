@@ -127,6 +127,7 @@ export default defineComponent({
         'selectAll',
         'selectionChange',
         'sortChange',
+        'afterSort',
         'dragstart',
         'dragend',
         'update:checkedKeys',

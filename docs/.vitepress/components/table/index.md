@@ -193,6 +193,7 @@ resizable.vue
 | dragstart       | 拖拽开始触发                                 | (event, item, index) => void                                                             |
 | dragend         | 拖拽结束触发                                 | (event, item, index) => void                                                             |
 | sortChange      | 点击排序后触发                               | ({prop?: string; order?: 'descend' \| 'ascend'; sorter?: Function \| 'default'}) => void |
+| afterSort       | 排序完成后触发                               | (data) => void                                                                           |
 
 ## FTable Methods
 
