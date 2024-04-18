@@ -92,32 +92,34 @@
                                 {{ tag.label }}
                             </Tag>
                             <template #content>
-                                <Tag
-                                    v-for="(
-                                        collapsedTag, collapsedTagIndex
-                                    ) in tag.collapsedOptions"
-                                    :key="collapsedTagIndex"
-                                    type="info"
-                                    size="small"
-                                    :class="[
-                                        `${prefixCls}-label-item`,
-                                        `${prefixCls}-label-collapsed-item`,
-                                    ]"
-                                    :closable="collapsedTag.closable"
-                                    :bordered="hasTagBordered"
-                                    @close="
-                                        handleRemove(
-                                            calcCollapseTagIndex(
-                                                collapsedTagIndex,
-                                            ),
-                                        )
-                                    "
-                                >
-                                    <Ellipsis
-                                        :class="`${prefixCls}-label-text`"
-                                        :content="collapsedTag.label"
-                                    />
-                                </Tag>
+                                <Scrollbar :maxHeight="500">
+                                    <Tag
+                                        v-for="(
+                                            collapsedTag, collapsedTagIndex
+                                        ) in tag.collapsedOptions"
+                                        :key="collapsedTagIndex"
+                                        type="info"
+                                        size="small"
+                                        :class="[
+                                            `${prefixCls}-label-item`,
+                                            `${prefixCls}-label-collapsed-item`,
+                                        ]"
+                                        :closable="collapsedTag.closable"
+                                        :bordered="hasTagBordered"
+                                        @close="
+                                            handleRemove(
+                                                calcCollapseTagIndex(
+                                                    collapsedTagIndex,
+                                                ),
+                                            )
+                                        "
+                                    >
+                                        <Ellipsis
+                                            :class="`${prefixCls}-label-text`"
+                                            :content="collapsedTag.label"
+                                        />
+                                    </Tag>
+                                </Scrollbar>
                             </template>
                         </Tooltip>
                     </template>
@@ -201,7 +203,8 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import Ellipsis from '../ellipsis';
 import Tooltip from '../tooltip';
-import Tag from '../tag/tag.vue';
+import Tag from '../tag';
+import Scrollbar from '../scrollbar';
 import UpOutlined from '../icon/UpOutlined';
 import DownOutlined from '../icon/DownOutlined';
 import CloseCircleFilled from '../icon/CloseCircleFilled';
@@ -241,6 +244,7 @@ export default defineComponent({
     name: 'FSelect',
     components: {
         Tag,
+        Scrollbar,
         Ellipsis,
         Tooltip,
         UpOutlined,
