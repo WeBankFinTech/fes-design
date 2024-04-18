@@ -2,7 +2,7 @@ import { type CSSProperties, type Ref, type VNodeChild } from 'vue';
 import { type TreeOption } from '../tree/interface';
 import { type TreeProps } from '../tree/props';
 import { type RequiredByKeys } from '../_util/types';
-import { type TransferInnerProps } from './props';
+import type { TransferInnerProps } from './props';
 
 export type TreeFilter = TreeProps['filterMethod'];
 
