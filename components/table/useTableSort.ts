@@ -19,8 +19,10 @@ export default ({
 
     const handleRowDataBySort = (data: RowType[], param: SortStateType) => {
         const { prop, order, sorter } = param;
+
+        let nextData = data;
         if (order === 'ascend') {
-            return data.sort((a: RowType, b: RowType) => {
+            nextData = data.sort((a: RowType, b: RowType) => {
                 let res = 0;
                 if (typeof sorter === 'function') {
                     try {
@@ -34,7 +36,7 @@ export default ({
             });
         }
         if (order === 'descend') {
-            return data.sort((a: RowType, b: RowType) => {
+            nextData = data.sort((a: RowType, b: RowType) => {
                 let res = 0;
                 if (typeof sorter === 'function') {
                     try {
@@ -47,7 +49,9 @@ export default ({
                 return res;
             });
         }
-        return data;
+
+        ctx.emit('afterSort', readonly(nextData));
+        return nextData;
     };
 
     const handleClickSortHeader = ({ column }: { column: ColumnInst }) => {
