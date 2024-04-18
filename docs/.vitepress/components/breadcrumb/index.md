@@ -5,9 +5,11 @@
 ## 组件注册
 
 ```js
-import { FBreadcrumb } from '@fesjs/fes-design';
+import { FBreadcrumb,FBreadcrumbItem } from '@fesjs/fes-design';
 
 app.use(FBreadcrumb);
+app.use(FBreadcrumbItem);
+
 ```
 
 ## 代码演示
@@ -33,3 +35,14 @@ click.vue
 | separator | 分隔符，默认为`/` | `string` | `-`    |
 | fontSize  | 字体大小          | `number` | `14`   |
 
+## Breadcrumb Slots
+
+| 名称    | 说明                |
+| ------- | ------------------- |
+| default | BreadcrumbItem 组件 |
+
+## BreadcrumbItem Slots
+
+| 名称    | 说明           |
+| ------- | -------------- |
+| default | 用户自定义内容 |

@@ -11,9 +11,9 @@ export const FBreadcrumb = withInstall<BreadcrumbType>(
     Breadcrumb as BreadcrumbType,
 );
 
-type BreadCrumbItemType = SFCWithInstall<typeof BreadcrumbItem>;
-export const FBreadCrumbItem = withInstall<BreadCrumbItemType>(
-    BreadcrumbItem as BreadCrumbItemType,
+type BreadcrumbItemType = SFCWithInstall<typeof BreadcrumbItem>;
+export const FBreadcrumbItem = withInstall<BreadcrumbItemType>(
+    BreadcrumbItem as BreadcrumbItemType,
 );
 
 export default FBreadcrumb;
