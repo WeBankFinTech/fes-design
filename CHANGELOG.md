@@ -1,3 +1,29 @@
+## [0.8.44](https://github.com/WeBankFinTech/fes-design/compare/v0.8.43...v0.8.44) (2024-04-19)
+
+
+### Bug Fixes
+
+* 面包屑组件命名问题,补充文档 ([#743](https://github.com/WeBankFinTech/fes-design/issues/743)) ([40dbf37](https://github.com/WeBankFinTech/fes-design/commit/40dbf37c9fb91a0a89e5ff937f7171e1827c1a04))
+* 修复 useResize 元素无法监听的报错情况 ([#735](https://github.com/WeBankFinTech/fes-design/issues/735)) ([25f8d86](https://github.com/WeBankFinTech/fes-design/commit/25f8d86cc2f516033c51aa931db204bce4c1c2d2))
+* 修复暗黑模式下，输入框样式黑色背景的问题 ([#725](https://github.com/WeBankFinTech/fes-design/issues/725)) ([872ad6a](https://github.com/WeBankFinTech/fes-design/commit/872ad6a85df680aa660bb37815cfec4794b4caa6))
+* **Table, Transfer:** 解决 build:esm-browser 报错循环依赖问题 ([#748](https://github.com/WeBankFinTech/fes-design/issues/748)) ([07552a6](https://github.com/WeBankFinTech/fes-design/commit/07552a6d1c14ca4bf8ef86bbf3729264c2ec5b9e))
+* **TimePicker:** 修复 FTimePicker 组件清空值, 选择时间没有消失的问题 ([#723](https://github.com/WeBankFinTech/fes-design/issues/723)) ([6e6b22e](https://github.com/WeBankFinTech/fes-design/commit/6e6b22e20f5c579bd8ef5e83eef9ccaaf393cffc))
+
+
+### Features
+
+* **Drawer:** 增加 onAfterEnter 和 onAfterLeave 事件回调 ([#730](https://github.com/WeBankFinTech/fes-design/issues/730)) ([c50a1e9](https://github.com/WeBankFinTech/fes-design/commit/c50a1e9f5f6c462b75c58f50be1d5beee0255b31))
+* **Ellipsis:** 增加默认 Tooltip 样式 ([#739](https://github.com/WeBankFinTech/fes-design/issues/739)) ([d546665](https://github.com/WeBankFinTech/fes-design/commit/d546665b092930448105d3bfb831b624f41b632e))
+* **FormItem:** label 文字颜色设置为默认文字颜色，兼容跟随系统样式 ([#736](https://github.com/WeBankFinTech/fes-design/issues/736)) ([f39e4a1](https://github.com/WeBankFinTech/fes-design/commit/f39e4a1d56345c7fe08042df229e52154e00db1c))
+* **Menu:** 垂直方向时，补充选中菜单项样式 ([#732](https://github.com/WeBankFinTech/fes-design/issues/732)) ([83150c2](https://github.com/WeBankFinTech/fes-design/commit/83150c254067663ec821407adc2920f9ab786182))
+* **Modal & Drawer:** modal, drawer 组件新增 wrapperClass 配置 ([#731](https://github.com/WeBankFinTech/fes-design/issues/731)) ([8cae208](https://github.com/WeBankFinTech/fes-design/commit/8cae208c7e3bcc41021f40c53da1dd415563a69e))
+* **Modal:** 增加 onAfterEnter 和 onAfterLeave 事件回调 ([#727](https://github.com/WeBankFinTech/fes-design/issues/727)) ([ddff280](https://github.com/WeBankFinTech/fes-design/commit/ddff280760e9ed632b3582a3b9e760f9bd0adbaf))
+* **SelectTree, SelectCascader:** expandedKeys 支持 v-model ([#737](https://github.com/WeBankFinTech/fes-design/issues/737)) ([cd281e2](https://github.com/WeBankFinTech/fes-design/commit/cd281e252ff9b3325153e9913127a4d8b1c7d320))
+* **SelectTrigger:** 折叠的 Tag 弹出框增加滚动条 ([#749](https://github.com/WeBankFinTech/fes-design/issues/749)) ([08a310d](https://github.com/WeBankFinTech/fes-design/commit/08a310d7c119d0c2aac6ce8bbd195f5f1504a94d))
+* **Table:** 增加 afterSort 事件 ([#744](https://github.com/WeBankFinTech/fes-design/issues/744)) ([097f37b](https://github.com/WeBankFinTech/fes-design/commit/097f37bc2fb53db66627c366b0c6da83bf0629fc))
+
+
+
 ## [0.8.43](https://github.com/WeBankFinTech/fes-design/compare/v0.8.42...v0.8.43) (2024-04-09)
 
 
