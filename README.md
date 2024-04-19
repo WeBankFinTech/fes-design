@@ -39,4 +39,4 @@ import {CloseCircleFilled} from '@fesjs/fes-design/icon';
 
 | Github Issue  | Fes.js开源运营小助手 |
 | --- | --- |
-| [@fesjs/fes-design](../../issues) | <img src="https://cos-1254145788.cos.ap-guangzhou.myqcloud.com/WechatIMG104.jpeg" height="250"/> 
+| [@fesjs/fes-design](../../issues) | <img src="https://cos-1254145788.cos.ap-guangzhou.myqcloud.com/WechatIMG104.jpeg" height="250"/>

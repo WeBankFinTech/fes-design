@@ -1,8 +1,9 @@
+import { join } from 'node:path';
+import process from 'node:process';
 // 使用方式: npm run gen:component component-name
-import { join } from 'path';
-import { pathExistsSync, outputFileSync, copySync } from 'fs-extra';
-import { INDEX_TPL } from './constants.mjs';
-import { getProjectRootDir } from './utils.mjs';
+import { copySync, outputFileSync, pathExistsSync } from 'fs-extra';
+import { INDEX_TPL } from './constants.js';
+import { getProjectRootDir } from './utils.js';
 
 function hyphenate(str) {
     return str.replace(/\B([A-Z])/g, '-$1').toLowerCase();
@@ -51,7 +52,7 @@ if (pathExistsSync(join(componentsPath, componentName))) {
     // test
     outputFileSync(
         join(componentPath, '__tests__', `${componentName}.ts`),
-        "import { mount } from '@vue/test-utils'",
+        'import { mount } from "@vue/test-utils"',
     );
 
     copySync(join(rootPath, 'scripts/styleTpl'), join(componentPath, 'style'));

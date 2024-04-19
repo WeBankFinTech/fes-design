@@ -1,10 +1,11 @@
-import path from 'path';
+import path from 'node:path';
+
 import csso from 'csso';
 import fse from 'fs-extra';
 
-import { compilerCss } from './compilerCss.mjs';
-import { OUTPUT_DIR } from './build-shard.mjs';
-import { getProjectRootDir } from './utils.mjs';
+import { OUTPUT_DIR } from './build-shard.js';
+import { compilerCss } from './compilerCss.js';
+import { getProjectRootDir } from './utils.js';
 
 const rootDir = getProjectRootDir();
 const STYLE_SOURCE = path.join(rootDir, './components/_style.ts');

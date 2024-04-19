@@ -1,11 +1,12 @@
-import path from 'path';
+import path from 'node:path';
+
+import babel from '@rollup/plugin-babel';
+import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
-import vuePlugin from 'rollup-plugin-vue';
-import commonjs from '@rollup/plugin-commonjs';
-import babel from '@rollup/plugin-babel';
 import postcss from 'rollup-plugin-postcss';
-import { getProjectRootDir } from './utils.mjs';
+import vuePlugin from 'rollup-plugin-vue';
+import { getProjectRootDir } from './utils.js';
 
 const rootDir = getProjectRootDir();
 const SOURCE_PATH = path.join(rootDir, './components/index.ts');
@@ -17,7 +18,9 @@ const getRollupConfig = (config = {}) => ({
     input: SOURCE_PATH,
     onwarn(warning, warn) {
         // 跳过未使用模块的警告（tree-shaking 会将其移除）
-        if (warning.code === 'UNUSED_EXTERNAL_IMPORT') return;
+        if (warning.code === 'UNUSED_EXTERNAL_IMPORT') {
+            return;
+        }
 
         // Use default for everything else
         warn(warning);
@@ -67,4 +70,4 @@ const getRollupConfig = (config = {}) => ({
     ...config,
 });
 
-export { OUTPUT_DIR, SOURCE_PATH, getRollupConfig, extensions };
+export { OUTPUT_DIR, SOURCE_PATH, extensions, getRollupConfig };

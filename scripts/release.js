@@ -1,15 +1,18 @@
-import fs from 'fs';
-import path from 'path';
-import minimist from 'minimist';
+import fs from 'node:fs';
+import path from 'node:path';
+import process from 'node:process';
+
 import chalk from 'chalk';
-import semver from 'semver';
 import enquirer from 'enquirer';
 import execa from 'execa';
+import minimist from 'minimist';
+import semver from 'semver';
 import {
-    getProjectRootDir,
     getPackageJsonVersion,
+    getProjectRootDir,
     loadJsonFile,
-} from './utils.mjs';
+} from './utils.js';
+
 const prompt = enquirer.prompt;
 
 const args = minimist(process.argv.slice(2));
@@ -18,9 +21,9 @@ const rootDir = getProjectRootDir();
 const packageJsonPath = path.join(rootDir, './package.json');
 const currentVersion = getPackageJsonVersion();
 
-const preId =
-    args.preid ||
-    (semver.prerelease(currentVersion) && semver.prerelease(currentVersion)[0]);
+const preId
+    = args.preid
+    || (semver.prerelease(currentVersion) && semver.prerelease(currentVersion)[0]);
 const skipBuild = args.skipBuild;
 
 const versionIncrements = [
@@ -31,8 +34,9 @@ const versionIncrements = [
 ];
 
 const inc = (i) => semver.inc(currentVersion, i, preId);
-const run = (rBin, rArgs, opts = {}) =>
-    execa(rBin, rArgs, { stdio: 'inherit', ...opts });
+function run(rBin, rArgs, opts = {}) {
+    return execa(rBin, rArgs, { stdio: 'inherit', ...opts });
+}
 const step = (msg) => console.log(chalk.cyan(msg));
 
 function updatePackage(version) {
