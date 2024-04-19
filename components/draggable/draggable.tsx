@@ -63,9 +63,11 @@ export default defineComponent({
         const tag = props.tag || 'div';
 
         const renderItem = (item: unknown, index: number) => {
-            const vNodes = flatten(ctx.slots.default({ item, index }))?.filter(
-                (node) => !isComment(node),
-            );
+            const vNodes = flatten(
+                ctx.slots.default?.({ item, index }) ||
+                    ctx.slots.item?.({ item, index }) ||
+                    [],
+            )?.filter((node) => !isComment(node));
             if (!vNodes || !vNodes.length) return;
             if (vNodes.length > 1) {
                 console.warn(
