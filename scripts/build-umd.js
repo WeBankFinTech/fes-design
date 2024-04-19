@@ -1,10 +1,11 @@
-import path from 'path';
+import path from 'node:path';
+
+import replace from '@rollup/plugin-replace';
 import fse from 'fs-extra';
 import { rollup } from 'rollup';
-import replace from '@rollup/plugin-replace';
 import { minify } from 'terser';
 
-import { getRollupConfig, OUTPUT_DIR } from './build-shard.mjs';
+import { OUTPUT_DIR, getRollupConfig } from './build-shard.js';
 
 fse.mkdirsSync(OUTPUT_DIR);
 
@@ -13,7 +14,7 @@ async function compiler() {
     rollupConfig.plugins.push(
         replace({
             'process.env.NODE_ENV': JSON.stringify('production'),
-            preventAssignment: true,
+            'preventAssignment': true,
         }),
     );
     const bundle = await rollup(rollupConfig);

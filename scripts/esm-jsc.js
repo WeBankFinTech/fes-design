@@ -1,15 +1,16 @@
-import path from 'path';
-import { rollup } from 'rollup';
-import babel from '@rollup/plugin-babel';
-import vuePlugin from 'rollup-plugin-vue';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
+import path from 'node:path';
+
 import pluginRenameExtensions from '@betit/rollup-plugin-rename-extensions';
+import babel from '@rollup/plugin-babel';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import { rollup } from 'rollup';
+import vuePlugin from 'rollup-plugin-vue';
 
-import { extensions } from './build-shard.mjs';
-import injectCss from './injectcss.mjs';
+import { extensions } from './build-shard.js';
+import injectCss from './injectcss.js';
 
-const renameExtensions =
-    pluginRenameExtensions.default || pluginRenameExtensions;
+const renameExtensions
+    = pluginRenameExtensions.default || pluginRenameExtensions;
 
 async function compiler(codePath, outputDir) {
     const extname = path.extname(codePath);
@@ -21,13 +22,15 @@ async function compiler(codePath, outputDir) {
         input: codePath,
         onwarn(warning, warn) {
             // 跳过未使用模块的警告（tree-shaking 会将其移除）
-            if (warning.code === 'UNUSED_EXTERNAL_IMPORT') return;
+            if (warning.code === 'UNUSED_EXTERNAL_IMPORT') {
+                return;
+            }
 
             // Use default for everything else
             warn(warning);
         },
         external: (id) => {
-            if (id.indexOf(codePath) !== -1) {
+            if (id.includes(codePath)) {
                 return false;
             }
             return true;

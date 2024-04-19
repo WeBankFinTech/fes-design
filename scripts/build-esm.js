@@ -1,9 +1,10 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
+
 import fse from 'fs-extra';
-import compiler from './esm-jsc.mjs';
-import { compilerStyleDir } from './compilerCss.mjs';
-import { getProjectRootDir } from './utils.mjs';
+import { compilerStyleDir } from './compilerCss.js';
+import compiler from './esm-jsc.js';
+import { getProjectRootDir } from './utils.js';
 
 const rootDir = getProjectRootDir();
 const SOURCE = path.join(rootDir, './components');

@@ -1,9 +1,9 @@
-import { join, basename } from 'path';
-import { readdirSync, writeFileSync } from 'fs';
+import { readdirSync, writeFileSync } from 'node:fs';
+import { basename, join } from 'node:path';
 
-import optimizeSvg from './optimizeSvg.mjs';
-import { getProjectRootDir, stringToCamelCase } from './utils.mjs';
-import { SVG_COMPONENT_TMPLATE } from './constants.mjs';
+import { SVG_COMPONENT_TMPLATE } from './constants.js';
+import optimizeSvg from './optimizeSvg.js';
+import { getProjectRootDir, stringToCamelCase } from './utils.js';
 
 const rootDir = getProjectRootDir();
 const outputPath = join(rootDir, './components/icon');
@@ -45,6 +45,7 @@ function gen() {
         if (iconName.startsWith('Loading')) {
             attrs = 'spin';
         }
+
         writeFileSync(
             `${outputPath}/${iconName}.tsx`,
             SVG_COMPONENT_TMPLATE.replace('SVG', data).replace('ATTRS', attrs),

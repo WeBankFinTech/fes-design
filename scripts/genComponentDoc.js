@@ -1,9 +1,10 @@
-import path from 'path';
+import path from 'node:path';
+
+import cheapWatch from 'cheap-watch';
 import fse from 'fs-extra';
 import { getHighlighter } from 'shiki';
-import cheapWatch from 'cheap-watch';
-import { getProjectRootDir } from './utils.mjs';
-import { SCRIPT_TEMPLATE, DEMO_ENTRY_FILE } from './constants.mjs';
+import { DEMO_ENTRY_FILE, SCRIPT_TEMPLATE } from './constants.js';
+import { getProjectRootDir } from './utils.js';
 
 const rootDir = getProjectRootDir();
 const CODE_PATH = path.join(
@@ -45,7 +46,7 @@ const htmlEscapes = {
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
-    "'": '&#39;',
+    '\'': '&#39;',
 };
 
 function escapeHtml(html) {
@@ -73,7 +74,9 @@ const highlight = async (code, lang = 'vue') => {
 async function genComponentExample(dir, name) {
     const output = genOutputPath(name);
     const indexPath = path.join(dir, 'index.md');
-    if (!fse.existsSync(indexPath)) return;
+    if (!fse.existsSync(indexPath)) {
+        return;
+    }
 
     let fileContent = fse.readFileSync(indexPath, 'utf-8');
 
@@ -87,8 +90,8 @@ async function genComponentExample(dir, name) {
     for (const filename of demos) {
         const fullPath = path.join(dir, filename);
         if (
-            fse.statSync(fullPath).isFile() &&
-            path.extname(fullPath) === '.vue'
+            fse.statSync(fullPath).isFile()
+            && path.extname(fullPath) === '.vue'
         ) {
             const demoContent = [];
             const demoName = path.basename(fullPath, '.vue');
@@ -126,8 +129,8 @@ async function genComponentExample(dir, name) {
             );
 
             if (
-                dashMatchRegExp.test(fileContent) ||
-                colonMatchRegExp.test(fileContent)
+                dashMatchRegExp.test(fileContent)
+                || colonMatchRegExp.test(fileContent)
             ) {
                 fileContent = fileContent
                     .replace(dashMatchRegExp, demoContent.join('\n\n\n'))
@@ -149,8 +152,8 @@ async function genComponentExample(dir, name) {
     const colonCodeMatchRegExp = new RegExp(`:::code[\\s\\S]*:::`);
     if (
         !(
-            dashCodeMatchRegExp.test(fileContent) ||
-            colonCodeMatchRegExp.test(fileContent)
+            dashCodeMatchRegExp.test(fileContent)
+            || colonCodeMatchRegExp.test(fileContent)
         )
     ) {
         const appendContent = '\n\n:::code:::\n\n';
@@ -211,6 +214,7 @@ export async function watch(src) {
             if (hasDeleteCode) {
                 fse.writeFileSync(CODE_PATH, JSON.stringify(code, null, 2));
             }
+
             const outputPath = genOutputPath(name);
             if (fse.existsSync(outputPath)) {
                 fse.unlinkSync(outputPath);
