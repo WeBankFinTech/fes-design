@@ -1,4 +1,4 @@
-import { type DefaultTheme } from 'vitepress';
+import type { DefaultTheme } from 'vitepress';
 
 const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
     zh: {
@@ -132,6 +132,10 @@ const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
                     {
                         text: 'Form 表单',
                         link: '/zh/components/form',
+                    },
+                    {
+                        text: 'Slider 滑动选择',
+                        link: '/zh/components/slider',
                     },
                 ],
             },
