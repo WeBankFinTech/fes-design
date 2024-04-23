@@ -123,7 +123,6 @@ export default antfu({
         'style/indent': 'off',
         'style/arrow-parens': 'off',
         'curly': 'off',
-        'no-unneeded-ternary': 'off',
         'object-shorthand': 'off',
         'array-callback-return': 'off',
         'prefer-promise-reject-errors': 'off',

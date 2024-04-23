@@ -57,7 +57,7 @@ export default (
             filteredExpandedKeys.value = [];
             filteredKeys.value = [];
         }
-        isSearchingRef.value = filterText ? true : false;
+        isSearchingRef.value = !!filterText;
     };
 
     return {

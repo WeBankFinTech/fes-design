@@ -74,17 +74,13 @@ export default {
                                 name: `${node.name}1`,
                                 id: `${node.id}-1`,
                                 isLeaf:
-                                    node.id.split('-').length > 1
-                                        ? true
-                                        : false,
+                                    node.id.split('-').length > 1,
                             },
                             {
                                 name: `${node.name}2`,
                                 id: `${node.id}-2`,
                                 isLeaf:
-                                    node.id.split('-').length > 1
-                                        ? true
-                                        : false,
+                                    node.id.split('-').length > 1,
                             },
                         ];
                     } else {

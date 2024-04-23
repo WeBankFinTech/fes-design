@@ -37,17 +37,13 @@ export default {
                                 label: `${node.label}1`,
                                 value: `${node.value}-1`,
                                 isLeaf:
-                                    node.value.split('-').length > 1
-                                        ? true
-                                        : false,
+                                    node.value.split('-').length > 1,
                             },
                             {
                                 label: `${node.label}2`,
                                 value: `${node.value}-2`,
                                 isLeaf:
-                                    node.value.split('-').length > 1
-                                        ? true
-                                        : false,
+                                    node.value.split('-').length > 1,
                             },
                         ];
                     } else {

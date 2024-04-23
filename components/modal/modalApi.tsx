@@ -87,7 +87,7 @@ function create(type: ModalType, config: ModalConfig) {
         // 更新 props
         Object.assign(mergeProps, options || {});
         if (isUndefined(options.showCancel)) {
-            mergeProps.showCancel = type === 'confirm' ? true : false;
+            mergeProps.showCancel = type === 'confirm';
         }
         mergeProps.onOk = (event: MouseEvent) =>
             handleCallBack(event, options.onOk);
