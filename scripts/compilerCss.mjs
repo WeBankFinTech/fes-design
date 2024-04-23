@@ -1,10 +1,9 @@
-import path from 'node:path';
-
-import { nodeResolve } from '@rollup/plugin-node-resolve';
-import autoprefixer from 'autoprefixer';
-import fse from 'fs-extra';
+import path from 'path';
 import { rollup } from 'rollup';
+import fse from 'fs-extra';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import postcss from 'rollup-plugin-postcss';
+import autoprefixer from 'autoprefixer';
 
 async function compilerCss(entryPath, outputPath) {
     const bundle = await rollup({
@@ -20,9 +19,7 @@ async function compilerCss(entryPath, outputPath) {
             }),
         ],
         onwarn(warning, warn) {
-            if (warning.code === 'FILE_NAME_CONFLICT') {
-                return;
-            }
+            if (warning.code === 'FILE_NAME_CONFLICT') return;
             warn(warning);
         },
     });
@@ -55,4 +52,4 @@ async function compilerStyleDir(codePath, outputDir) {
     }
 }
 
-export { compilerCss, compilerStyleDir };
+export { compilerStyleDir, compilerCss };

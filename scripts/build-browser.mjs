@@ -1,9 +1,8 @@
-import path from 'node:path';
-
+import path from 'path';
 import fse from 'fs-extra';
 import { rollup } from 'rollup';
 
-import { OUTPUT_DIR, getRollupConfig } from './build-shard.js';
+import { getRollupConfig, OUTPUT_DIR } from './build-shard.mjs';
 
 fse.mkdirsSync(OUTPUT_DIR);
 

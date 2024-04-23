@@ -1,0 +1,6 @@
+!docs/.vitepress
+es
+lib
+dist
+empty.ts
+docs/.vitepress/vueTheme

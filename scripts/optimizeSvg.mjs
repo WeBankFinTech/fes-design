@@ -1,5 +1,5 @@
-import { readFileSync, statSync } from 'node:fs';
-import { basename, extname } from 'node:path';
+import { extname, basename } from 'path';
+import { statSync, readFileSync } from 'fs';
 
 import { optimize } from 'svgo';
 

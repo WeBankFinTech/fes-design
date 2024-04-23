@@ -1,10 +1,9 @@
-import fs from 'node:fs';
-import path from 'node:path';
-
+import path from 'path';
+import fs from 'fs';
 import glob from 'fast-glob';
 import { Project } from 'ts-morph';
-import { compileScript, parse } from 'vue/compiler-sfc';
-import { getProjectRootDir } from './utils.js';
+import { parse, compileScript } from 'vue/compiler-sfc';
+import { getProjectRootDir } from './utils.mjs';
 
 const rootDir = getProjectRootDir();
 
@@ -63,15 +62,11 @@ async function main() {
 
                         content += compiled.content;
 
-                        if (scriptSetup.lang === 'ts') {
-                            isTs = true;
-                        }
+                        if (scriptSetup.lang === 'ts') isTs = true;
                     } else if (script && script.content) {
                         content += script.content;
 
-                        if (script.lang === 'ts') {
-                            isTs = true;
-                        }
+                        if (script.lang === 'ts') isTs = true;
                     }
 
                     sourceFiles.push(
