@@ -63,14 +63,24 @@ export default defineComponent({
             },
             {
                 prop: 'name',
-                label: '姓名',
+                label: '姓名1',
                 render: ({ row }) => {
+                    return h(FTag, {}, () => row.name);
+                },
+            },
+            {
+                prop: 'name',
+                label: '姓名2',
+                formatter: ({ row }) => {
                     return h(FTag, {}, () => row.name);
                 },
             },
             {
                 prop: 'address',
                 label: '地址',
+                formatter: ({ row }) => {
+                    return row.address;
+                },
             },
             {
                 prop: 'action',

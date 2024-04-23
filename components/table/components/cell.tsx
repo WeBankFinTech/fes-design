@@ -2,6 +2,7 @@ import {
     defineComponent,
     Fragment,
     inject,
+    isVNode,
     type PropType,
     type ExtractPropTypes,
     type ComponentObjectPropsOptions,
@@ -88,7 +89,15 @@ export default defineComponent({
                     <Fragment>{column.slots.default(props)}</Fragment>
                 );
             }
-            const result = column?.props?.formatter?.(props) ?? cellValue;
+            const formatterResult = column?.props?.formatter?.(props);
+            if (isVNode(formatterResult)) {
+                return (
+                    <Fragment>
+                        {formatterResult}
+                    </Fragment>
+                );
+            }
+            const result = formatterResult ?? cellValue;
             Object.assign(ellipsisProps, { content: result });
             return hasEllipsis ? (
                 <Ellipsis {...ellipsisProps}></Ellipsis>
