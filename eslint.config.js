@@ -138,7 +138,6 @@ export default antfu({
         'prefer-promise-reject-errors': 'off',
         'unicorn/throw-new-error': 'off',
         'no-unexpected-multiline': 'off',
-        'ts/method-signature-style': 'off',
         'antfu/consistent-list-newline': 'off',
         'unicorn/no-new-array': 'off',
     },

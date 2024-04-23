@@ -20,11 +20,11 @@ export interface Picker {
     format: string;
     isRange: boolean;
     hasTime: boolean;
-    getDateFromStr(val: string): Date;
-    getLeftActiveDate?(rightActiveDate: number): number;
-    getRightActiveDate?(leftActiveDate: number): number;
-    isInSamePanel?(left: number, right: number): boolean;
-    getRangeSelectedDate?(date: Partial<DateObj>, preDate: DateObj): DateObj;
+    getDateFromStr: (val: string) => Date;
+    getLeftActiveDate?: (rightActiveDate: number) => number;
+    getRightActiveDate?: (leftActiveDate: number) => number;
+    isInSamePanel?: (left: number, right: number) => boolean;
+    getRangeSelectedDate?: (date: Partial<DateObj>, preDate: DateObj) => DateObj;
 }
 
 export class DatePicker implements Picker {
