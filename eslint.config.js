@@ -139,7 +139,6 @@ export default antfu({
         'unicorn/prefer-number-properties': 'off',
         'jsdoc/multiline-blocks': 'off',
         'prefer-promise-reject-errors': 'off',
-        'style/lines-between-class-members': 'off',
         'unicorn/throw-new-error': 'off',
         'no-unexpected-multiline': 'off',
         'ts/method-signature-style': 'off',

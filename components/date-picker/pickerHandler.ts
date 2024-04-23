@@ -67,10 +67,12 @@ class DateRange {
         const endDate = new Date(rightActiveDate);
         return endDate.setMonth(endDate.getMonth() - 1, 1);
     }
+
     getRightActiveDate(leftActiveDate: number) {
         const endDate = new Date(leftActiveDate);
         return endDate.setMonth(endDate.getMonth() + 1, 1);
     }
+
     isInSamePanel(left: number, right: number) {
         const leftDate = parseDate(left);
         const rightDate = parseDate(right);
@@ -79,6 +81,7 @@ class DateRange {
             && leftDate.month === rightDate.month
         );
     }
+
     getRangeSelectedDate(date: Partial<DateObj>, preDate: DateObj) {
         return Object.assign(date, pickTime(preDate)) as DateObj;
     }
@@ -91,6 +94,7 @@ export class DateRangePicker extends DateRange implements Picker {
         'datePicker.selectStartDate',
         'datePicker.selectEndDate',
     ];
+
     format = 'yyyy-MM-dd';
     isRange = true;
     hasTime = false;
@@ -106,6 +110,7 @@ export class DateTimeRangePicker extends DateRange implements Picker {
         'datePicker.selectStartDateTime',
         'datePicker.selectEndDateTime',
     ];
+
     format = 'yyyy-MM-dd HH:mm:ss';
     isRange = true;
     hasTime = true;
@@ -121,25 +126,30 @@ export class DateMonthRangePicker implements Picker {
         'datePicker.selectStartDateMonth',
         'datePicker.selectEndDateMonth',
     ];
+
     format = 'yyyy-MM';
     isRange = true;
     hasTime = false;
     getDateFromStr(val: string): Date {
         return new Date(val);
     }
+
     getLeftActiveDate(rightActiveDate: number) {
         const endDate = new Date(rightActiveDate);
         return endDate.setFullYear(endDate.getFullYear() - 1, 0, 1);
     }
+
     getRightActiveDate(leftActiveDate: number) {
         const endDate = new Date(leftActiveDate);
         return endDate.setFullYear(endDate.getFullYear() + 1, 0, 1);
     }
+
     isInSamePanel(left: number, right: number) {
         const leftDate = parseDate(left);
         const rightDate = parseDate(right);
         return leftDate.year === rightDate.year;
     }
+
     getRangeSelectedDate(date: Partial<DateObj>, preDate: DateObj) {
         return Object.assign(date, pickTime(preDate)) as DateObj;
     }
