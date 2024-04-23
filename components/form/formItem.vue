@@ -92,7 +92,8 @@ export default defineComponent({
             return _rules;
         });
 
-        /** 规则校验结果逻辑: 仅存最后一条校验规则的逻辑
+        /**
+         * 规则校验结果逻辑: 仅存最后一条校验规则的逻辑
          *      存在问题: 如果同时触发两个规则 A|B，规则 A 先触发校验且不通过，接着规则 B 触发校验且通过，规则 A 结果会不展示
          */
         const validateDisabled = ref(false); // 是否触发校验的标志
@@ -158,7 +159,8 @@ export default defineComponent({
                 return;
             }
 
-            /** 过滤符合条件的 triggersRules
+            /**
+             * 过滤符合条件的 triggersRules
              *
              *  未指定具体 trigger 类型，则直接返回 rule 规则
              *  指定具体 trigger 类型:

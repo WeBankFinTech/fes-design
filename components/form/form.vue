@@ -95,7 +95,8 @@ export default defineComponent({
             }
         };
 
-        /** 表单校验
+        /**
+         * 表单校验
          *    fieldProps { string[] }    指定校验字段的 props 数组
          *    return    { Promise }   校验结果
          */

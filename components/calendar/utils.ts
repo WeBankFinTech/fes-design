@@ -9,8 +9,10 @@ export const cls = (className: string) => `${prefixCls}-${className}`;
  * 根据一个 Date，计算其所在月份日历
  *
  * @param date 输入的 Date
- * @param startDay 由星期几为一周的第一天
- * @param weekNum 日历的周数，超过则计算下一个月
+ * @param options 选项
+ * @param options.startDay 一周的第一天，默认为周一
+ * @param options.weekNum 一个月的周数，默认为 6
+ * @returns 日历数据
  */
 export const generateCalendarDates = (
     date: CalendarDate,
