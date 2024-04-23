@@ -7,7 +7,7 @@ module.exports = {
     plugins: ['stylelint-declaration-block-no-ignored-properties'],
     // https://stylelint.docschina.org/user-guide/rules/
     rules: {
-        indentation: 4,
+        'indentation': 4,
         'no-empty-source': null,
         'max-empty-lines': 2,
         'no-duplicate-selectors': null,
