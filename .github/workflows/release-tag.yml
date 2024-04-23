@@ -25,7 +25,7 @@ jobs:
 
       - name: Generate Release Notes
         run: |
-          ./.github/workflows/release-notes.mjs ${{ env.RELEASE_VERSION }}
+          ./.github/workflows/release-notes.js ${{ env.RELEASE_VERSION }}
           cat notes-${{ env.RELEASE_VERSION }}.md
 
       - name: Create Release for Tag

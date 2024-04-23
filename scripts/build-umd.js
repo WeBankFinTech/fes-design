@@ -1,10 +1,10 @@
-import path from 'path';
+import path from 'node:path';
 import fse from 'fs-extra';
 import { rollup } from 'rollup';
 import replace from '@rollup/plugin-replace';
 import { minify } from 'terser';
 
-import { getRollupConfig, OUTPUT_DIR } from './build-shard.mjs';
+import { getRollupConfig, OUTPUT_DIR } from './build-shard.js';
 
 fse.mkdirsSync(OUTPUT_DIR);
 

@@ -1,11 +1,11 @@
-import path from 'path';
+import path from 'node:path';
 import json from '@rollup/plugin-json';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import vuePlugin from 'rollup-plugin-vue';
 import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
 import postcss from 'rollup-plugin-postcss';
-import { getProjectRootDir } from './utils.mjs';
+import { getProjectRootDir } from './utils.js';
 
 const rootDir = getProjectRootDir();
 const SOURCE_PATH = path.join(rootDir, './components/index.ts');

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     extends: ['@webank/eslint-config-ts/vue'],
 
     parserOptions: {
