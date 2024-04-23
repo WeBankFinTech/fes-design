@@ -14,11 +14,11 @@ import {
 } from './const';
 import { cls } from './utils';
 import { TransferCheckbox, calcCheckStatus } from './checkbox';
-import {
-    type TransferFilter,
-    type TransferInjection,
-    type TransferOption,
-    type TransferOptionValue,
+import type {
+    TransferFilter,
+    TransferInjection,
+    TransferOption,
+    TransferOptionValue,
 } from './interface';
 import { useCheckValueWithCheckbox } from './useCheckValueWithCheckbox';
 import { useOptionsFilter } from './useOptionsFilter';

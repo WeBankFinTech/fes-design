@@ -1,7 +1,7 @@
 import { type CSSProperties, type VNodeChild, isVNode } from 'vue';
 import { isNil } from 'lodash-es';
 import { isValidElementNode } from '../_util/vnode';
-import { type StrictExtract } from '../_util/types';
+import type { StrictExtract } from '../_util/types';
 import { COMPONENT_NAME, prefixCls } from './const';
 import type {
     TimelineInnerProps as ComponentProps,

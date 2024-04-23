@@ -15,10 +15,10 @@ import { transferProps } from './props';
 import OneWayTransfer from './oneWayTransfer';
 import TwoWayTransfer from './twoWayTransfer';
 import { defaultFilter, isTree } from './utils';
-import {
-    type TransferFilter,
-    type TransferInjection,
-    type TransferOption,
+import type {
+    TransferFilter,
+    TransferInjection,
+    TransferOption,
 } from './interface';
 
 const Transfer = defineComponent({

@@ -1,9 +1,9 @@
-import {
-    type ComponentObjectPropsOptions,
-    type DefineComponent,
-    type PropType,
-    type VNode,
-    type VNodeChild,
+import type {
+    ComponentObjectPropsOptions,
+    DefineComponent,
+    PropType,
+    VNode,
+    VNodeChild,
 } from 'vue';
 import { iconComponentMap } from '../_util/noticeManager';
 import type { ExtractPublicPropTypes } from '../_util/interface';

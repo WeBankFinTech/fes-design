@@ -1,6 +1,6 @@
-import { type InjectionKey } from 'vue';
+import type { InjectionKey } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
-import { type BreadcrumbInject } from './props';
+import type { BreadcrumbInject } from './props';
 
 export const prefixCls = getPrefixCls('breadcrumb');
 

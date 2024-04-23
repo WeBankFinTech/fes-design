@@ -1,7 +1,7 @@
 import { type Ref, type SetupContext, computed, watch } from 'vue';
 import { isFunction } from 'lodash-es';
 import { useNormalModel } from '../_util/use/useModel';
-import { type ArrayUnionToUnionArray } from '../_util/types';
+import type { ArrayUnionToUnionArray } from '../_util/types';
 import { TABLE_NAME } from './const';
 
 import type { TableProps } from './table';

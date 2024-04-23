@@ -1,4 +1,4 @@
-import { type ComponentObjectPropsOptions, type PropType } from 'vue';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 import { PROGRESS_TYPE } from './const';
 

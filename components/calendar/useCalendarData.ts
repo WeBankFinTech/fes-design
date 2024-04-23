@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue';
 import { isNil } from 'lodash-es';
-import { type Day } from 'date-fns';
+import type { Day } from 'date-fns';
 import { useNormalModel } from '../_util/use/useModel';
 import {
     CalendarEvent,
@@ -15,7 +15,7 @@ import {
     getToday,
     isSameMonth,
 } from './utils';
-import { type CalendarDate, type UnixTime } from './types';
+import type { CalendarDate, UnixTime } from './types';
 import { CALENDAR_ROW_NUM } from './const';
 
 const useCalendarData = (

@@ -1,7 +1,7 @@
 import { type Ref, ref, watch } from 'vue';
 import { isNil, isNumber } from 'lodash-es';
 import { pxfy } from '../_util/utils';
-import { type DrawerInnerProps as Props } from './props';
+import type { DrawerInnerProps as Props } from './props';
 import { COMPONENT_NAME } from './const';
 
 // TODO: 废弃 height 和 width 以后，移除此处默认值，恢复 props 中的

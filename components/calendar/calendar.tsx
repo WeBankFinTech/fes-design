@@ -19,7 +19,7 @@ import {
     isSameMonth,
 } from './utils';
 import { CalendarEvent, type CalendarSlots, calendarProps } from './props';
-import { type CalendarDate } from './types';
+import type { CalendarDate } from './types';
 import useWeekNames from './useWeekNames';
 import CalendarNavigator from './calendarNavigator';
 import useCalendarData from './useCalendarData';

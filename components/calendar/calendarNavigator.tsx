@@ -19,7 +19,7 @@ import {
     convertDateToCalendarDate,
     getToday,
 } from './utils';
-import { type CalendarDate } from './types';
+import type { CalendarDate } from './types';
 
 /** 切换日期的最小单位，按月、按年 */
 export type CalendarNavUnit = 'month' | 'year';

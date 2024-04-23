@@ -3,7 +3,7 @@ import { isNumber, isString } from 'lodash-es';
 import { useWindowSize } from '@vueuse/core';
 import useResize from '../_util/use/useResize';
 import { depx } from '../_util/utils';
-import { type ModalInnerProps } from './props';
+import type { ModalInnerProps } from './props';
 
 export const useContentMaxHeight = (
     styles: ComputedRef<

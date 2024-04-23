@@ -8,9 +8,9 @@ import {
     ref,
     watch,
 } from 'vue';
-import {
-    type ComponentObjectPropsOptions,
-    type PropType,
+import type {
+    ComponentObjectPropsOptions,
+    PropType,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import FadeInExpandTransition from '../_util/components/fadeInExpandTransition';

@@ -1,10 +1,10 @@
-import {
-    type CSSProperties,
-    type ComponentObjectPropsOptions,
-    type ExtractPropTypes,
-    type PropType,
-    type Ref,
-    type ToRefs,
+import type {
+    CSSProperties,
+    ComponentObjectPropsOptions,
+    ExtractPropTypes,
+    PropType,
+    Ref,
+    ToRefs,
 } from 'vue';
 import type { RuleItem, Rules } from 'async-validator';
 import type { ExtractPublicPropTypes } from '../_util/interface';

@@ -4,7 +4,7 @@ import {
     DESCRIPTIONS_PROVIDE_KEY,
 } from './constants';
 import { descriptionsProps } from './props';
-import { type DescriptionsItemInst } from './interface';
+import type { DescriptionsItemInst } from './interface';
 
 const prefixCls = DESCRIPTIONS_PREFIX_CLASS;
 

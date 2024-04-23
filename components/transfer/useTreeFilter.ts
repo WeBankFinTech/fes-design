@@ -1,7 +1,7 @@
 import { ref, watch } from 'vue';
-import { type TreeProps } from '../tree';
+import type { TreeProps } from '../tree';
 import type useFilter from '../tree/useFilter';
-import { type TransferInjection } from './interface';
+import type { TransferInjection } from './interface';
 
 // TODO: InstanceType<typeof Tree> 无法拿到 expose 的类型，这里暂时使用手动的写法
 interface TreeInstance {

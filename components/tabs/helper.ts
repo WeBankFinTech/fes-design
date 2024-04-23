@@ -1,5 +1,5 @@
 import { type VNode, vShow, withDirectives } from 'vue';
-import { type Value } from './interface';
+import type { Value } from './interface';
 
 export function mapTabPane(
     tabPaneVNodes: VNode[] = [],

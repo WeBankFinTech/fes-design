@@ -1,7 +1,7 @@
-import {
-    type CSSProperties,
-    type ComponentObjectPropsOptions,
-    type PropType,
+import type {
+    CSSProperties,
+    ComponentObjectPropsOptions,
+    PropType,
 } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 import type { LabelAlign, LabelPlacement } from './interface';

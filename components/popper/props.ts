@@ -1,5 +1,5 @@
 import type { ComponentObjectPropsOptions, PropType } from 'vue';
-import { type PLACEMENT, type TRIGGER } from '../_util/constants';
+import type { PLACEMENT, TRIGGER } from '../_util/constants';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const popperProps = {

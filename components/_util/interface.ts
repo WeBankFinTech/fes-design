@@ -9,7 +9,7 @@ import type {
     SetupContext,
     SlotsType,
 } from 'vue';
-import { type RemoveReadonly } from './types';
+import type { RemoveReadonly } from './types';
 
 export type Emit = SetupContext['emit'];
 

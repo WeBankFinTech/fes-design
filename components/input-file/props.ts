@@ -1,12 +1,12 @@
-import {
-    type ComponentObjectPropsOptions,
-    type PropType,
-    type SlotsType,
+import type {
+    ComponentObjectPropsOptions,
+    PropType,
+    SlotsType,
 } from 'vue';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
-import {
-    type ComponentEmit,
-    type ExtractPublicPropTypes,
+import type {
+    ComponentEmit,
+    ExtractPublicPropTypes,
 } from '../_util/interface';
 
 const commonProps = {

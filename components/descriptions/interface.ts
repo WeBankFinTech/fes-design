@@ -1,11 +1,11 @@
-import {
-    type CSSProperties,
-    type ComponentInternalInstance,
-    type ComputedRef,
-    type Ref,
-    type SetupContext,
+import type {
+    CSSProperties,
+    ComponentInternalInstance,
+    ComputedRef,
+    Ref,
+    SetupContext,
 } from 'vue';
-import { type DescriptionsItemProps } from './props';
+import type { DescriptionsItemProps } from './props';
 
 export type LabelAlign = 'center' | 'left' | 'right';
 export type LabelPlacement = 'top' | 'left';

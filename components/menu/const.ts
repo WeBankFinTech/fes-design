@@ -1,8 +1,8 @@
-import {
-    type ComponentObjectPropsOptions,
-    type ComputedRef,
-    type InjectionKey,
-    type PropType,
+import type {
+    ComponentObjectPropsOptions,
+    ComputedRef,
+    InjectionKey,
+    PropType,
 } from 'vue';
 
 import type { ExtractPublicPropTypes } from '../_util/interface';

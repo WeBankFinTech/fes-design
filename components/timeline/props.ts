@@ -1,11 +1,11 @@
-import {
-    type CSSProperties,
-    type ComponentObjectPropsOptions,
-    type PropType,
-    type SlotsType,
-    type VNodeChild,
+import type {
+    CSSProperties,
+    ComponentObjectPropsOptions,
+    PropType,
+    SlotsType,
+    VNodeChild,
 } from 'vue';
-import { type ComponentSlots } from '../_util/interface';
+import type { ComponentSlots } from '../_util/interface';
 import type { ComponentInnerProps, ComponentProps } from './utilTypes';
 
 /** 严格版本的 Extract */

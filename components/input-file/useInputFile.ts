@@ -2,7 +2,7 @@ import { computed, ref } from 'vue';
 import { CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import { useNormalModel } from '../_util/use/useModel';
-import { type InputFileEmit, type InputFileProps } from './props';
+import type { InputFileEmit, InputFileProps } from './props';
 
 //  <input type="file" /> 所需的数据
 export const useInputFile = (props: InputFileProps, emit: InputFileEmit) => {

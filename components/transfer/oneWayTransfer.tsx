@@ -4,7 +4,7 @@ import Tree from '../tree';
 import Empty from '../empty';
 import { CloseCircleOutlined, SearchOutlined } from '../icon';
 import Input from '../input';
-import { type TreeOption } from '../tree/interface';
+import type { TreeOption } from '../tree/interface';
 import VirtualList from '../virtual-list';
 import {
     COMPONENT_CLASS,
@@ -13,10 +13,10 @@ import {
     TRANSFER_INJECT_KEY,
 } from './const';
 import { TransferCheckbox, calcCheckStatus } from './checkbox';
-import {
-    type TransferInjection,
-    type TransferOption,
-    type TreeFilter,
+import type {
+    TransferInjection,
+    TransferOption,
+    TreeFilter,
 } from './interface';
 import { cls, flattenTree, isTree } from './utils';
 import { useTreeFilter } from './useTreeFilter';

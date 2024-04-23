@@ -1,6 +1,6 @@
-import { type InjectionKey } from 'vue';
+import type { InjectionKey } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
-import { type TransferInjection } from './interface';
+import type { TransferInjection } from './interface';
 
 export const COMPONENT_NAME = 'FTransfer';
 

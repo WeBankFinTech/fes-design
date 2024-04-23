@@ -1,10 +1,10 @@
-import {
-    type CSSProperties,
-    type ComponentObjectPropsOptions,
-    type InjectionKey,
-    type PropType,
-    type Ref,
-    type ToRefs,
+import type {
+    CSSProperties,
+    ComponentObjectPropsOptions,
+    InjectionKey,
+    PropType,
+    Ref,
+    ToRefs,
 } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 

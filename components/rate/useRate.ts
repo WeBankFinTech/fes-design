@@ -1,6 +1,6 @@
 import { computed, ref, watch } from 'vue';
 import { useNormalModel } from '../_util/use/useModel';
-import { type RateInnerProps, type RateItem } from './props';
+import type { RateInnerProps, RateItem } from './props';
 
 export const useRate = (props: RateInnerProps, emit: any) => {
     const rateItemArr = ref<RateItem[]>([]);

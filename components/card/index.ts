@@ -5,7 +5,7 @@ import type {
 } from '../_util/interface';
 import Card from './card.vue';
 
-import { type cardProps } from './props';
+import type { cardProps } from './props';
 
 export { cardProps } from './props';
 export type CardProps = ExtractPublicPropTypes<typeof cardProps>;

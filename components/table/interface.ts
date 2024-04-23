@@ -1,5 +1,5 @@
-import { type Ref, type SetupContext } from 'vue';
-import { type getCellValue } from './helper';
+import type { Ref, SetupContext } from 'vue';
+import type { getCellValue } from './helper';
 import type useTableColumn from './useTableColumn';
 import type useTableEvent from './useTableEvent';
 import type useTableSelect from './useTableSelect';

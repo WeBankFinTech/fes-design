@@ -1,7 +1,7 @@
-import {
-    type ComponentObjectPropsOptions,
-    type PropType,
-    type StyleValue,
+import type {
+    ComponentObjectPropsOptions,
+    PropType,
+    StyleValue,
 } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 

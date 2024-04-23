@@ -1,7 +1,7 @@
 import { type Ref, computed, onMounted, ref } from 'vue';
 import { useEventListener, useWindowSize } from '@vueuse/core';
 import { isNil, isNumber } from 'lodash-es';
-import { type DrawerInnerProps as Props } from './props';
+import type { DrawerInnerProps as Props } from './props';
 import { COMPONENT_NAME, DRAWER_MIN_SIZE, prefixCls } from './const';
 
 const calcResizableRange = (

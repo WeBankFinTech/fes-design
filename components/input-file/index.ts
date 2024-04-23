@@ -1,5 +1,5 @@
 import { withInstall } from '../_util/withInstall';
-import { type SFCWithInstall } from '../_util/interface';
+import type { SFCWithInstall } from '../_util/interface';
 import InputFile from './inputFile';
 import InputFileDragger from './inputFileDragger';
 

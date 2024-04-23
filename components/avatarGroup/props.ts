@@ -1,6 +1,6 @@
-import { type ComponentObjectPropsOptions, type PropType } from 'vue';
-import { type Shape, type Size } from '../avatar/props';
-import { type ExtractPublicPropTypes } from '../_util/interface';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
+import type { Shape, Size } from '../avatar/props';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 interface AvatarOption {
     name: string;

@@ -1,7 +1,7 @@
-import { type ComponentObjectPropsOptions, type PropType } from 'vue';
-import {
-    type ComponentInnerProps,
-    type ExtractPublicPropTypes,
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
+import type {
+    ComponentInnerProps,
+    ExtractPublicPropTypes,
 } from '../_util/interface';
 import type {
     TransferFilter,

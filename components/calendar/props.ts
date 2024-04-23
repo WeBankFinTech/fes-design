@@ -1,15 +1,15 @@
-import {
-    type ComponentObjectPropsOptions,
-    type PropType,
-    type SlotsType,
+import type {
+    ComponentObjectPropsOptions,
+    PropType,
+    SlotsType,
 } from 'vue';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
-import {
-    type ComponentInnerProps,
-    type ComponentSlots,
-    type ExtractPublicPropTypes,
+import type {
+    ComponentInnerProps,
+    ComponentSlots,
+    ExtractPublicPropTypes,
 } from '../_util/interface';
-import { type UnixTime } from './types';
+import type { UnixTime } from './types';
 
 /**
  * Calendar 显示模式

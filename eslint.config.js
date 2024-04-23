@@ -112,22 +112,23 @@ export default antfu({
 
         'test/consistent-test-it': 'off',
         'test/no-identical-title': 'off',
+        'test/prefer-lowercase-title': 'off',
 
         'style/jsx-curly-brace-presence': 'off',
         'style/jsx-one-expression-per-line': 'off',
         'style/jsx-curly-newline': 'off',
         'style/jsx-closing-tag-location': 'off',
 
-        'multiline-ternary': 'off',
+        'antfu/consistent-list-newline': 'off',
+        'antfu/top-level-function': 'off',
         'antfu/if-newline': 'off',
+
+        'multiline-ternary': 'off',
         'style/brace-style': 'off',
         'style/multiline-ternary': 'off',
         'style/indent': 'off',
-        'curly': 'off',
         'style/arrow-parens': 'off',
-        'antfu/top-level-function': 'off',
-        'test/prefer-lowercase-title': 'off',
-        'ts/no-import-type-side-effects': 'off',
+        'curly': 'off',
         'symbol-description': 'off',
         'no-empty-pattern': 'off',
         'no-unneeded-ternary': 'off',
