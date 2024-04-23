@@ -305,7 +305,7 @@ export const useDraggable = (
         if (
             item &&
             (Math.abs(event.x - mousedownEvent.x) ||
-                Math.abs(event.y - mousedownEvent.y))
+            Math.abs(event.y - mousedownEvent.y))
         ) {
             item.setOpacity();
         }

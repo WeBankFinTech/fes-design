@@ -80,7 +80,7 @@ export default defineComponent({
                             `${prefixCls}-th`,
                             column.props.sortable && `${prefixCls}-th-sortable`,
                             displayLastColumnIds.value.includes(column.id) &&
-                                `${prefixCls}-th-last`,
+                            `${prefixCls}-th-last`,
                             ...getCellClass({
                                 column,
                                 columns: props.columns,
@@ -110,10 +110,10 @@ export default defineComponent({
                                                 class={[
                                                     `${prefixCls}-sorter-up`,
                                                     sortState.prop ===
-                                                        column.props.prop &&
-                                                        sortState.order ===
-                                                            'ascend' &&
-                                                        'is-active',
+                                                    column.props.prop &&
+                                                    sortState.order ===
+                                                    'ascend' &&
+                                                    'is-active',
                                                 ]}
                                             />
                                         )}
@@ -124,10 +124,10 @@ export default defineComponent({
                                                 class={[
                                                     `${prefixCls}-sorter-down`,
                                                     sortState.prop ===
-                                                        column.props.prop &&
-                                                        sortState.order ===
-                                                            'descend' &&
-                                                        'is-active',
+                                                    column.props.prop &&
+                                                    sortState.order ===
+                                                    'descend' &&
+                                                    'is-active',
                                                 ]}
                                             />
                                         )}
@@ -137,24 +137,24 @@ export default defineComponent({
                         )}
                         {column.props.type === 'selection' &&
                             // 多选场景展示头部全选
-                            column.props.multiple && (
-                                <div class={`${prefixCls}-center`}>
-                                    <FCheckbox
-                                        modelValue={isAllSelected.value}
-                                        indeterminate={
+                        column.props.multiple && (
+                            <div class={`${prefixCls}-center`}>
+                                <FCheckbox
+                                    modelValue={isAllSelected.value}
+                                    indeterminate={
                                             !isAllSelected.value &&
                                             isCurrentDataAnySelected.value
                                         }
-                                        onChange={handleSelectAll}
-                                    />
-                                </div>
+                                    onChange={handleSelectAll}
+                                />
+                            </div>
                             )}
                         {column.props.resizable && (
                             <span
                                 class={[
                                     `${prefixCls}-resize-button`,
                                     current.value?.id === column.id &&
-                                        'is-active',
+                                    'is-active',
                                 ]}
                                 onMousedown={(e) =>
                                     onMousedown(column, columnIndex, e)

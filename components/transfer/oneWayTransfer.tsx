@@ -143,7 +143,7 @@ const OneWayTransfer = defineComponent({
 
             const filterForTree = rootProps.filterable
                 ? (rootProps.filter as TreeFilter | undefined) ?? // TODO: is not assignable
-                  defaultFilterForTree()
+                defaultFilterForTree()
                 : undefined;
 
             return (

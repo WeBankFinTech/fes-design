@@ -33,7 +33,7 @@ const renderNodeContent = ({
     descClass,
     appendantStyle,
 }: Pick<TimelineNode, 'title' | 'titlePosition'> &
-    Pick<Props, 'descPosition' | 'titleClass' | 'descClass'> & {
+Pick<Props, 'descPosition' | 'titleClass' | 'descClass'> & {
         desc?: VNodeChild;
         appendantStyle?: CSSProperties;
     }): VNode => {

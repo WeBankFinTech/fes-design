@@ -10,9 +10,9 @@ export function wrapValidator(
             const validateResult = validator(...args);
             if (
                 (!async &&
-                    (typeof validateResult === 'boolean' ||
-                        validateResult instanceof Error ||
-                        Array.isArray(validateResult))) || // Error[]
+                (typeof validateResult === 'boolean' ||
+                validateResult instanceof Error ||
+                Array.isArray(validateResult))) || // Error[]
                 (typeof validateResult !== 'boolean' && validateResult?.then)
             ) {
                 return validateResult;
@@ -31,8 +31,8 @@ export function wrapValidator(
             console.warn(
                 'form-item/validate',
                 'An error is catched in the validation, ' +
-                    "so the validation won't be done. Your callback in `validate` method of " +
-                    "`form` or `form-item` won't be called in this validation.",
+                "so the validation won't be done. Your callback in `validate` method of " +
+                "`form` or `form-item` won't be called in this validation.",
             );
             console.error(err);
             // If returns undefined, async-validator won't trigger callback

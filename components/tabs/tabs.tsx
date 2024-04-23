@@ -72,7 +72,7 @@ export default defineComponent({
             if (
                 ['top', 'bottom'].includes(props.position) &&
                 (scrollLeft + offsetWidth < el.offsetLeft + el.offsetWidth ||
-                    el.offsetLeft < scrollLeft)
+                el.offsetLeft < scrollLeft)
             ) {
                 tabNavRef.value.setScrollLeft(
                     el.offsetLeft - offsetWidth + el.offsetWidth,
@@ -81,7 +81,7 @@ export default defineComponent({
             } else if (
                 ['left', 'right'].includes(props.position) &&
                 (scrollTop + offsetHeight < el.offsetTop + el.offsetHeight ||
-                    el.offsetTop < scrollTop)
+                el.offsetTop < scrollTop)
             ) {
                 tabNavRef.value.setScrollTop(
                     el.offsetTop - offsetHeight + el.offsetHeight,
@@ -124,10 +124,10 @@ export default defineComponent({
         const mergeRenderPanes = () => {
             const children =
                 (slots.default &&
-                    flatten(slots.default()).filter(
+                flatten(slots.default()).filter(
                         (vNode) => (vNode.type as any).name === 'FTabPane',
                     )) ||
-                [];
+                    [];
             if (props.panes?.length) {
                 return children.concat(
                     props.panes.map((pane) => {

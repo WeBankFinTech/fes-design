@@ -147,7 +147,7 @@ const TwoWayTransfer = defineComponent({
                         panelData.handleListOptionChange(
                             option.value,
                             nextValue,
-                        )
+                    )
                     }
                 />
                 <span class={cls('option-label')}>{renderLabel(option)}</span>

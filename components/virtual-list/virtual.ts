@@ -137,7 +137,7 @@ export default class Virtual {
         ) {
             if (
                 this.sizes.size <
-                Math.min(this.param.keeps, this.param.uniqueIds.length)
+                    Math.min(this.param.keeps, this.param.uniqueIds.length)
             ) {
                 this.firstRangeTotalSize = [...this.sizes.values()].reduce(
                     (acc, val) => acc + val,

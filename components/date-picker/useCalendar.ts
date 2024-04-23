@@ -75,11 +75,11 @@ export const useSelectedDates = (
         if (
             !selectedDates.value.length ||
             (index === 0 &&
-                transformDateToTimestamp(date) >
-                    transformDateToTimestamp(selectedDates.value[1])) ||
+            transformDateToTimestamp(date) >
+            transformDateToTimestamp(selectedDates.value[1])) ||
             (index === 1 &&
-                transformDateToTimestamp(date) <
-                    transformDateToTimestamp(selectedDates.value[0]))
+            transformDateToTimestamp(date) <
+                transformDateToTimestamp(selectedDates.value[0]))
         ) {
             selectedDates.value = [date, { ...date }];
         } else {
@@ -103,7 +103,7 @@ export const useSelectedDates = (
         } else if (
             picker.value.isRange &&
             (!selectedDates.value.length ||
-                props.selectedStatus === SELECTED_STATUS.END)
+            props.selectedStatus === SELECTED_STATUS.END)
         ) {
             const anotherDate = fillDate({
                 dateObj: newDate,

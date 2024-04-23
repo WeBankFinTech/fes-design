@@ -32,7 +32,7 @@ export const useRate = (props: RateInnerProps, emit: any) => {
 
         const emptyStarsNum = props.count - fullStarsNum - halfStar;
         fullStarsNum &&
-            [...Array(fullStarsNum)].map(() => {
+        [...Array(fullStarsNum)].map(() => {
                 res.push({
                     active: true,
                     hover: true,

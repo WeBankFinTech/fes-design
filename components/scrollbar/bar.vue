@@ -110,7 +110,7 @@ export default defineComponent({
 
             const offset =
                 (barRef.value.getBoundingClientRect()[barMap.value.direction] -
-                    e[barMap.value.client]) *
+                e[barMap.value.client]) *
                 -1;
             const thumbClickPosition =
                 thumbRef.value[barMap.value.offset] - prevPage;
@@ -119,7 +119,7 @@ export default defineComponent({
                 barRef.value[barMap.value.offset];
             containerRef.value[barMap.value.scroll] =
                 (thumbPositionPercentage *
-                    containerRef.value[barMap.value.scrollSize]) /
+                containerRef.value[barMap.value.scrollSize]) /
                 100;
         };
 
@@ -190,7 +190,7 @@ export default defineComponent({
                 barRef.value[barMap.value.offset];
             containerRef.value[barMap.value.scroll] =
                 (thumbPositionPercentage *
-                    containerRef.value[barMap.value.scrollSize]) /
+                containerRef.value[barMap.value.scrollSize]) /
                 100;
         };
 
@@ -205,7 +205,7 @@ export default defineComponent({
             barStore.value[barMap.value.axis] =
                 (e.currentTarget as HTMLElement)[barMap.value.offset] -
                 (e[barMap.value.client] -
-                    (e.currentTarget as HTMLElement).getBoundingClientRect()[
+                (e.currentTarget as HTMLElement).getBoundingClientRect()[
                         barMap.value.direction
                     ]);
         };

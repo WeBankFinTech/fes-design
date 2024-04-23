@@ -46,7 +46,7 @@ export default defineComponent({
             () =>
                 (props.showArrow === 'always' || props.hover) &&
                 (rootProps.loop ||
-                    props.activeIndex < slideChildren.value.length - 1),
+                props.activeIndex < slideChildren.value.length - 1),
         );
 
         const slideItemInStage = (
@@ -56,21 +56,21 @@ export default defineComponent({
             const length = slideChildren.value.length;
             if (
                 (index === length - 1 &&
-                    slideItem.states.inStage &&
-                    slideChildren.value[0].states.active) ||
+                slideItem.states.inStage &&
+                slideChildren.value[0].states.active) ||
                 (slideItem.states.inStage &&
-                    slideChildren.value[index + 1] &&
-                    slideChildren.value[index + 1].states.active)
+                slideChildren.value[index + 1] &&
+                slideChildren.value[index + 1].states.active)
             ) {
                 return 'left';
             }
             if (
                 (index === 0 &&
-                    slideItem.states.inStage &&
-                    slideChildren.value[length - 1].states.active) ||
+                slideItem.states.inStage &&
+                slideChildren.value[length - 1].states.active) ||
                 (slideItem.states.inStage &&
-                    slideChildren.value[index - 1] &&
-                    slideChildren.value[index - 1].states.active)
+                slideChildren.value[index - 1] &&
+                slideChildren.value[index - 1].states.active)
             ) {
                 return 'right';
             }

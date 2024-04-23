@@ -16,7 +16,7 @@ export default function useEsc(
         watch(open, () => {
             if (open.value) {
                 escClosable.value &&
-                    window.addEventListener('keydown', onGlobalKeyDown);
+                window.addEventListener('keydown', onGlobalKeyDown);
             } else {
                 window.removeEventListener('keydown', onGlobalKeyDown);
             }

@@ -44,7 +44,7 @@ export default function useLockScreen(trigger: Ref<boolean>) {
             scrollBarWidth = getScrollBarWidth();
             const bodyHasOverflow =
                 document.documentElement.clientHeight <
-                document.body.scrollHeight;
+                    document.body.scrollHeight;
             const bodyOverflowY = getStyle(document.body, 'overflowY');
             if (
                 scrollBarWidth > 0 &&

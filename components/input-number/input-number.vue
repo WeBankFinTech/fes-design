@@ -232,7 +232,7 @@ export default defineComponent({
         const minDisabled = computed(
             () =>
                 _calculationNum(currentValue.value, ActionEnum.REDUCE) <
-                props.min,
+                    props.min,
         );
         // 是否已加到最大值
         const maxDisabled = computed(

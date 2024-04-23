@@ -61,7 +61,7 @@ export default (props: ScrollbarProps) => {
             scrollYRatio.value =
                 containerRefValue.scrollTop /
                 (containerRefValue.scrollHeight -
-                    containerRefValue.offsetHeight);
+                containerRefValue.offsetHeight);
 
             scrollX.value =
                 containerRefValue.scrollWidth > containerRefValue.offsetWidth;

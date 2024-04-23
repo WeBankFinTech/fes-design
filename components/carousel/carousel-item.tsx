@@ -100,7 +100,7 @@ export default defineComponent({
             if (itemStatus.inStage) {
                 return (
                     (parentWidth *
-                        ((2 - CARD_SCALE) * (index - activeIndex) + 1)) /
+                    ((2 - CARD_SCALE) * (index - activeIndex) + 1)) /
                     4
                 );
             }

@@ -59,13 +59,13 @@ export default {
             } else if (disabledOption.value === 'parent') {
                 allNodes.forEach((item) => {
                     item.children &&
-                        item.children.length &&
-                        (item.disabled = true);
+                    item.children.length &&
+                    (item.disabled = true);
                 });
             } else if (disabledOption.value === 'leaf') {
                 allNodes.forEach((item) => {
                     !(item.children && item.children.length) &&
-                        (item.disabled = true);
+                    (item.disabled = true);
                 });
             }
 

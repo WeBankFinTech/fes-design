@@ -142,8 +142,8 @@
                 <div
                     v-if="
                         unSelectedRef &&
-                        !filterTextRef.length &&
-                        !isComposingRef
+                            !filterTextRef.length &&
+                            !isComposingRef
                     "
                     :class="[
                         `${prefixCls}-label-placeholder`,

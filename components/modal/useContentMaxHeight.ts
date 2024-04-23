@@ -12,7 +12,7 @@ export const useContentMaxHeight = (
               marginTop?: undefined;
               marginBottom?: undefined;
           }
-        | {
+          | {
               width: string;
               marginTop: string | number;
               marginBottom: string | number;

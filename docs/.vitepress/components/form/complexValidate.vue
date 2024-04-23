@@ -155,8 +155,8 @@ export default {
         const validatePasswordStartWith = (rule, value) => {
             return Boolean(
                 modelForm.password &&
-                    modelForm.password.startsWith(value) &&
-                    modelForm.password.length >= value.length,
+                modelForm.password.startsWith(value) &&
+                modelForm.password.length >= value.length,
             );
         };
         const rules = computed(() => {

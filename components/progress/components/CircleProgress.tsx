@@ -40,15 +40,15 @@ export default defineComponent({
                     />
                     {/* 在svg中渲染html插槽 */}
                     {props.showCircleText &&
-                        (slots.text ? (
-                            <foreignObject
-                                x="0"
-                                y="0"
-                                width={radius * 2}
-                                height={radius * 2}
-                            >
-                                <div class="slot-content">{slots.text()}</div>
-                            </foreignObject>
+                    (slots.text ? (
+                        <foreignObject
+                            x="0"
+                            y="0"
+                            width={radius * 2}
+                            height={radius * 2}
+                        >
+                            <div class="slot-content">{slots.text()}</div>
+                        </foreignObject>
                         ) : (
                             <text x="50%" y="50%" class="progress-text">
                                 {`${props.percent}%`}

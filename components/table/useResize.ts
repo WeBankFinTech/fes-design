@@ -54,7 +54,7 @@ export default (
             });
         const offsetX =
             ((event.clientX - current.value.clientX) *
-                (leftColumns.length + rightColumns.length)) /
+            (leftColumns.length + rightColumns.length)) /
             rightColumns.length;
         const width = current.value.width + offsetX;
         const currentColumn = columns[current.value.columnIndex];

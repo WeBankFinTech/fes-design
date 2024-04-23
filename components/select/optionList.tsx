@@ -136,7 +136,7 @@ export default defineComponent({
                 isSelected && 'is-checked',
                 isHover && 'is-hover',
                 (option.disabled || (!isSelected && props.isLimit)) &&
-                    'is-disabled',
+                'is-disabled',
             ].filter(Boolean);
 
             return (

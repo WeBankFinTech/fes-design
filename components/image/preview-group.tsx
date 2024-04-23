@@ -70,8 +70,8 @@ export default defineComponent({
                 setCurrent(
                     previewUrlsKeys.value[
                         previewUrlsKeys.value.length -
-                            currentPreviewIndex.value -
-                            1
+                        currentPreviewIndex.value -
+                        1
                     ],
                 );
             }
@@ -88,8 +88,8 @@ export default defineComponent({
                 setCurrent(
                     previewUrlsKeys.value[
                         previewUrlsKeys.value.length -
-                            currentPreviewIndex.value -
-                            1
+                        currentPreviewIndex.value -
+                        1
                     ],
                 );
             }

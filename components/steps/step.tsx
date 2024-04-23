@@ -162,7 +162,7 @@ export default defineComponent({
                     </div>
                     <div class={`${prefixCls}-description`}>
                         {(slots.description || props.description) &&
-                            (slots.description?.() || props.description)}
+                        (slots.description?.() || props.description)}
                     </div>
                 </div>
             </div>

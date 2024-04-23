@@ -196,7 +196,7 @@ export default defineComponent({
                         class={[
                             `${prefixCls}-label`,
                             parentProps.value.labelPlacement === 'top' &&
-                                'is-top',
+                            'is-top',
                             parentProps.value.bordered && 'is-bordered',
                         ]}
                         style={innerLabelStyle.value}

@@ -87,7 +87,7 @@ export default defineComponent({
                 isInline.value && 'is-inline',
                 isFirst.value && 'is-inline-first',
                 root.dragHighlightNode.value?.value === props.value &&
-                    'is-highlight',
+                'is-highlight',
             ].filter(Boolean),
         );
 
