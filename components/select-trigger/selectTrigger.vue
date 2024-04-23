@@ -139,9 +139,9 @@
                 </RenderTag>
                 <div
                     v-if="
-                        unSelectedRef &&
-                            !filterTextRef.length &&
-                            !isComposingRef
+                        unSelectedRef
+                            && !filterTextRef.length
+                            && !isComposingRef
                     "
                     :class="[
                         `${prefixCls}-label-placeholder`,
