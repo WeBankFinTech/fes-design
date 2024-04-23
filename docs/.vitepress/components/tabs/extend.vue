@@ -25,7 +25,7 @@
         <FTabPane
             v-for="i in 2"
             :key="i"
-            :name="'Tab ' + i"
+            :name="`Tab ${i}`"
             :value="i"
             closable
         >

@@ -60,7 +60,7 @@ export default defineComponent({
             const parentWidth = element.offsetWidth;
             const contentWidth = contentElement.scrollWidth;
             const scaleVal = (parentWidth * 0.7) / contentWidth; // 始终保持最大宽度的70%，这个数值比较美观
-            contentElement.style.transform = 'scale(' + scaleVal + ')';
+            contentElement.style.transform = `scale(${scaleVal})`;
         };
 
         // 图片加载失败,且没有兜底图片

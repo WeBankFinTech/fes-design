@@ -25,10 +25,10 @@ function createData(level = 4, baseKey = '') {
 }
 
 function createLabel(level, index) {
-    if (level === 4) return '道生一_' + index;
-    if (level === 3) return '一生二_' + index;
-    if (level === 2) return '二生三_' + index;
-    if (level === 1) return '三生万物_' + index;
+    if (level === 4) return `道生一_${index}`;
+    if (level === 3) return `一生二_${index}`;
+    if (level === 2) return `二生三_${index}`;
+    if (level === 1) return `三生万物_${index}`;
 }
 
 export default {

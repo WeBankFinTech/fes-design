@@ -80,7 +80,7 @@ export default defineComponent({
                     display: inline ? 'inline-flex' : 'flex',
                     flexDirection: vertical ? 'column' : 'row',
                     justifyContent: ['start', 'end'].includes(justify)
-                        ? 'flex-' + justify
+                        ? `flex-${justify}`
                         : justify,
                     alignItems: align,
                     flexWrap: !wrap || vertical ? 'nowrap' : 'wrap',

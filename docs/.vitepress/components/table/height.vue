@@ -77,7 +77,7 @@ export default {
                 return {
                     id: i,
                     date: `2016-05-2016-05-2016-05-2016-05-${
-                        i < 10 ? '0' + i : i
+                        i < 10 ? `0${i}` : i
                     }`,
                     name: '王小虎',
                     province: '上海',

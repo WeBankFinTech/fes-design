@@ -94,7 +94,6 @@ export default antfu({
 
     // Other flat configs...
     rules: {
-        'prefer-template': 'off',
         'multiline-ternary': 'off',
         'antfu/if-newline': 'off',
         'style/brace-style': 'off',
@@ -112,7 +111,6 @@ export default antfu({
         'antfu/top-level-function': 'off',
         'vue/singleline-html-element-content-newline': 'off',
         'vue/block-order': 'off',
-        'vue/prefer-template': 'off',
         'test/prefer-lowercase-title': 'off',
         'ts/consistent-type-definitions': 'off',
         'ts/no-import-type-side-effects': 'off',

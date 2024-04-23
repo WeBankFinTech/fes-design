@@ -65,7 +65,7 @@ export default {
         const data = Array.from([1, 2, 3], (i) => {
             return {
                 id: i,
-                date: `2016-05-2016-05-2016-05-2016-05-${i < 10 ? '0' + i : i}`,
+                date: `2016-05-2016-05-2016-05-2016-05-${i < 10 ? `0${i}` : i}`,
                 name: '王小虎',
                 province: '上海',
                 city: '普陀区',

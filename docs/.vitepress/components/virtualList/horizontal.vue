@@ -9,7 +9,7 @@
         <template #default="{ source }">
             <div
                 class="item-inner-horizontal"
-                :style="{ width: source.size + 'px' }"
+                :style="{ width: `${source.size}px` }"
             >
                 <div class="index"># {{ source.index }}</div>
                 <div class="size">{{ source.size }}</div>

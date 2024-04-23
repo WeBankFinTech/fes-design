@@ -84,7 +84,7 @@ export default defineComponent({
         const data = Array.from([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], (i) => {
             return {
                 date: `2016-05-2016-05-2016-05-2016-05-2016-05-2016-05-2016-05-2016-05-${
-                    i < 10 ? '0' + i : i
+                    i < 10 ? `0${i}` : i
                 }`,
                 name: '王小虎',
                 province: '上海',

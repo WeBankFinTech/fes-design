@@ -29,7 +29,7 @@ export default defineComponent({
                     <circle
                         class="progress"
                         stroke-width={strokeWidth}
-                        stroke-dasharray={circumference + ' ' + circumference}
+                        stroke-dasharray={`${circumference} ${circumference}`}
                         style={{
                             strokeDashoffset,
                             stroke: props.color,

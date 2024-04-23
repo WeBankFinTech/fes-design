@@ -8,7 +8,7 @@ import { PictureOutlined } from '@fesjs/fes-design/icon';
 function createData(level = 1, baseKey = '', prefix, suffix) {
     if (!level) return undefined;
     return Array.apply(null, { length: 2 }).map((_, index) => {
-        const key = '' + baseKey + level + index;
+        const key = `${baseKey}${level}${index}`;
         const children = createData(level - 1, key, prefix, suffix);
         return {
             label: createLabel(level),

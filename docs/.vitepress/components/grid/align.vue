@@ -5,8 +5,8 @@
                 class="col-demo"
                 :style="{
                     padding: 0,
-                    height: item * 40 + 'px',
-                    'line-height': item * 40 + 'px',
+                    height: `${item * 40}px`,
+                    'line-height': `${item * 40}px`,
                 }"
             >
                 {{ a }}

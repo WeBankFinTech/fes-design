@@ -39,7 +39,7 @@ export default {
         }
 
         function handleAddTab() {
-            tabs.push('New Tab' + (tabs.length + 1));
+            tabs.push(`New Tab${tabs.length + 1}`);
             activeTab.value = tabs.length - 1;
         }
         const handleChangeTab = (key) => {

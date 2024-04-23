@@ -11,7 +11,7 @@ function repeatString(str, n) {
 function createData(level = 1, baseKey = '') {
     if (!level) return undefined;
     return Array.apply(null, { length: 2 }).map((_, index) => {
-        const key = '' + baseKey + level + index;
+        const key = `${baseKey}${level}${index}`;
         return {
             label: repeatString(createLabel(level), 10),
             value: key,

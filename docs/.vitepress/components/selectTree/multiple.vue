@@ -22,7 +22,7 @@ import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
 function createData(level = 1, baseKey = '', prefix = null, suffix = null) {
     if (!level) return undefined;
     return Array.apply(null, { length: 2 }).map((_, index) => {
-        const key = '' + baseKey + level + index;
+        const key = `${baseKey}${level}${index}`;
         return {
             label: createLabel(level),
             value: key,

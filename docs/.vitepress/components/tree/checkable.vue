@@ -24,7 +24,7 @@ const createLabel = (level) => {
 const createData = (level = 1, baseKey = '') => {
     if (!level) return undefined;
     return new Array(3).fill(null).map((_, index) => {
-        const key = '' + baseKey + level + index;
+        const key = `${baseKey}${level}${index}`;
         return {
             label: createLabel(level),
             value: key,

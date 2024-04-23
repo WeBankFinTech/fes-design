@@ -16,7 +16,7 @@
                 >
                     <span
                         :class="`${prefixCls}-list-progress-inner`"
-                        :style="{ width: file.percentage + '%' }"
+                        :style="{ width: `${file.percentage}%` }"
                     ></span>
                 </div>
             </div>
