@@ -75,7 +75,7 @@ export const useContentMaxHeight = (
                 isString(props.maxHeight) &&
                 props.maxHeight.endsWith('%')
             ) {
-                //%字符串 解析字符串的数字，算出百分比对应的高度px
+                // %字符串 解析字符串的数字，算出百分比对应的高度px
                 return (parseFloat(props.maxHeight) / 100) * windowHeight.value;
             } else {
                 console.warn('[FModal] maxHeight 仅支持 px、%、数值格式');

@@ -51,7 +51,7 @@ export default defineComponent({
                     return props.label;
                 }
                 const el = optionRef.value;
-                //TODO: 检测 text 变更
+                // TODO: 检测 text 变更
                 return el?.textContent || '';
             });
 
