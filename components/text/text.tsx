@@ -29,8 +29,6 @@ export default defineComponent({
         };
     },
     render() {
-        const {} = this;
-
         const children = getSlot(this.$slots);
         return h(
             this.tag || 'span',

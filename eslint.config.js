@@ -123,7 +123,6 @@ export default antfu({
         'style/arrow-parens': 'off',
         'curly': 'off',
         'symbol-description': 'off',
-        'no-empty-pattern': 'off',
         'no-unneeded-ternary': 'off',
         'object-shorthand': 'off',
         'prefer-const': 'off',
