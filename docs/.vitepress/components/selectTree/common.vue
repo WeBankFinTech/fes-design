@@ -1,5 +1,5 @@
 <template>
-    <FSelectTree :modelValue="'40'" :data="data" />
+    <FSelectTree modelValue="40" :data="data" />
 </template>
 <script setup>
 import { h, ref } from 'vue';

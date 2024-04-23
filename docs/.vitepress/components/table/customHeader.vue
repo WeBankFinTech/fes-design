@@ -7,7 +7,7 @@
                 </div>
             </template>
         </FTableColumn>
-        <FTableColumn prop="name" :label="'姓名'" :width="150"></FTableColumn>
+        <FTableColumn prop="name" label="姓名" :width="150"></FTableColumn>
         <FTableColumn prop="province" label="省份" :width="150"></FTableColumn>
         <FTableColumn prop="city" label="市区" :width="150"> </FTableColumn>
         <FTableColumn prop="address" label="地址" :width="800"></FTableColumn>
