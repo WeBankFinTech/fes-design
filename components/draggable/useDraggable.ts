@@ -104,7 +104,6 @@ function findElement(target?: Element, parent?: Element) {
             return { el: el as Element, index };
         }
     }
-    return;
 }
 export class DraggableItem {
     draggable = null as unknown;
