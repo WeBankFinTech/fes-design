@@ -4,12 +4,12 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { getCellValue } from './helper';
 import useTableLayout from './useTableLayout';
 
-const prefixCls = getPrefixCls('table');
-
 import type { ColumnFixedStatus } from './useTableColumn';
 import type { TableProps } from './table';
 import type { RowType } from './interface';
 import type { ColumnInst } from './column';
+
+const prefixCls = getPrefixCls('table');
 
 export default ({
     props,

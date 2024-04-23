@@ -103,7 +103,6 @@ export default antfu({
         'curly': 'off',
         'style/operator-linebreak': 'off',
         'style/arrow-parens': 'off',
-        'import/first': 'off',
         'vue/html-self-closing': 'off',
         'antfu/top-level-function': 'off',
         'vue/singleline-html-element-content-newline': 'off',

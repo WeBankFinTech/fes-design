@@ -9,9 +9,9 @@ import { key } from './const';
 
 import type { UploadProps } from './upload';
 
-const prefixCls = getPrefixCls('upload');
-
 import type { FileItem, UploadFile, UploadProgressEvent } from './interface';
+
+const prefixCls = getPrefixCls('upload');
 
 function genUid(seed: number) {
     return Date.now() + seed;
