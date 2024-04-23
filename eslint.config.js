@@ -92,6 +92,9 @@ export default antfu({
 
     // Other flat configs...
     rules: {
+        "vue/block-order": ["error", {
+            "order": [["template", "script"], "style"],
+        }],
         'multiline-ternary': 'off',
         'antfu/if-newline': 'off',
         'style/brace-style': 'off',
@@ -103,10 +106,8 @@ export default antfu({
         'style/arrow-parens': 'off',
         'import/first': 'off',
         'vue/html-self-closing': 'off',
-        'vue/block-order': 'off',
         'antfu/top-level-function': 'off',
         'vue/singleline-html-element-content-newline': 'off',
-        'vue/block-order': 'off',
         'test/prefer-lowercase-title': 'off',
         'ts/consistent-type-definitions': 'off',
         'ts/no-import-type-side-effects': 'off',
