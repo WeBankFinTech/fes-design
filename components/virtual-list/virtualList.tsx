@@ -393,13 +393,13 @@ export default defineComponent({
 
         // wrap style
         const horizontalStyle = {
-            display: 'flex',
+            'display': 'flex',
             'flex-direction': 'row',
-            position: 'absolute',
-            bottom: 0,
-            top: 0,
-            left: `${padFront}px`,
-            right: `${padBehind}px`,
+            'position': 'absolute',
+            'bottom': 0,
+            'top': 0,
+            'left': `${padFront}px`,
+            'right': `${padBehind}px`,
         };
         const verticalStyle = {
             position: 'absolute',

@@ -92,15 +92,14 @@ export default antfu({
 
     // Other flat configs...
     rules: {
-        "vue/block-order": ["error", {
-            "order": [["template", "script"], "style"],
+        'vue/block-order': ['error', {
+            order: [['template', 'script'], 'style'],
         }],
         'multiline-ternary': 'off',
         'antfu/if-newline': 'off',
         'style/brace-style': 'off',
         'style/multiline-ternary': 'off',
         'style/indent': 'off',
-        'style/quote-props': 'off',
         'curly': 'off',
         'style/operator-linebreak': 'off',
         'style/arrow-parens': 'off',
@@ -146,7 +145,6 @@ export default antfu({
         'no-console': 'off',
         'vue/padding-line-between-blocks': 'off',
         'unicorn/prefer-number-properties': 'off',
-        'style/quotes': 'off',
         'jsdoc/multiline-blocks': 'off',
         'prefer-promise-reject-errors': 'off',
         'style/lines-between-class-members': 'off',
@@ -172,6 +170,5 @@ export default antfu({
         'prefer-spread': 'off',
         'vue/no-useless-v-bind': 'off',
         'no-async-promise-executor': 'off',
-        'vue/quote-props': 'off',
     },
 });

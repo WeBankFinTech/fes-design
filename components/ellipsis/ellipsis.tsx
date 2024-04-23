@@ -65,7 +65,7 @@ export default defineComponent({
             const ellStyle: StyleValue =
                 line.value > 1
                     ? {
-                          display: '-webkit-inline-box',
+                          'display': '-webkit-inline-box',
                           '-webkit-line-clamp': line.value,
                           '-webkit-box-orient': 'vertical',
                       }

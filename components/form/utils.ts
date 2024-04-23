@@ -31,8 +31,8 @@ export function wrapValidator(
             console.warn(
                 'form-item/validate',
                 'An error is catched in the validation, ' +
-                "so the validation won't be done. Your callback in `validate` method of " +
-                "`form` or `form-item` won't be called in this validation.",
+                'so the validation won\'t be done. Your callback in `validate` method of ' +
+                '`form` or `form-item` won\'t be called in this validation.',
             );
             console.error(err);
             // If returns undefined, async-validator won't trigger callback

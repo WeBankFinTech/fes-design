@@ -121,7 +121,7 @@ export default defineComponent({
                 parentProps.value.labelPlacement === 'left' ? 'row' : 'column';
 
             return {
-                display: 'flex',
+                'display': 'flex',
                 'flex-direction': flexDirection,
                 'grid-column-start': `span ${span.value}`,
             };

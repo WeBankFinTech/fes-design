@@ -4,8 +4,8 @@
             <div
                 class="col-demo"
                 :style="{
-                    padding: 0,
-                    height: `${item * 40}px`,
+                    'padding': 0,
+                    'height': `${item * 40}px`,
                     'line-height': `${item * 40}px`,
                 }"
             >
