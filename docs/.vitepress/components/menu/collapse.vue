@@ -64,6 +64,7 @@
         </f-menu>
     </div>
 </template>
+
 <script>
 import { defineComponent, ref } from 'vue';
 

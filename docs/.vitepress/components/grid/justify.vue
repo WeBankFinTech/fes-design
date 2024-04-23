@@ -5,6 +5,7 @@
         </FGridItem>
     </FGrid>
 </template>
+
 <script>
 import {} from 'vue';
 

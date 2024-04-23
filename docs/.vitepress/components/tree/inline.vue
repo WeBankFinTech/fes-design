@@ -1,6 +1,7 @@
 <template>
     <FTree :data="data" inline defaultExpandAll />
 </template>
+
 <script>
 import { h, reactive } from 'vue';
 import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';

@@ -83,6 +83,7 @@
         <FTableColumn :width="200" prop="postcode" label="邮编" />
     </FTable>
 </template>
+
 <script setup>
 import { reactive, ref } from 'vue';
 

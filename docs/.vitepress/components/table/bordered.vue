@@ -42,6 +42,7 @@
         <FTableColumn prop="address" label="地址" />
     </FTable>
 </template>
+
 <script>
 import { defineComponent, reactive, ref } from 'vue';
 

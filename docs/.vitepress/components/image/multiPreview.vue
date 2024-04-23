@@ -29,9 +29,11 @@
         </div>
     </FPreviewGroup>
 </template>
+
 <script>
 export default {};
 </script>
+
 <style>
 .group-wrapper {
     display: flex;

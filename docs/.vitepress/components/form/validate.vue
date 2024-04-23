@@ -371,6 +371,7 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 .more-label-text {
     color: #9e9e9e;

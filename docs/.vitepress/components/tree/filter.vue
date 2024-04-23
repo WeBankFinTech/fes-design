@@ -2,6 +2,7 @@
     <FInput v-model="filterText" placeholder="请输入" />
     <FTree ref="refTree" :data="data" checkable :filterMethod="filterMethod" />
 </template>
+
 <script>
 import { h, reactive, ref, watch } from 'vue';
 import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';

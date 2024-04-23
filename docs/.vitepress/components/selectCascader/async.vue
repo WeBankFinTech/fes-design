@@ -36,6 +36,7 @@
         <FFormItem label="modelValue：">{{ value2 }}</FFormItem>
     </FForm>
 </template>
+
 <script>
 import { reactive, ref } from 'vue';
 
@@ -121,6 +122,7 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 .fes-select-cascader {
     width: 200px;

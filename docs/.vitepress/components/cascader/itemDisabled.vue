@@ -13,6 +13,7 @@
 
     <FCascader :data="data" checkable />
 </template>
+
 <script>
 import { computed, ref } from 'vue';
 import { cloneDeep } from 'lodash-es';

@@ -3,6 +3,7 @@
         <slot />
     </header>
 </template>
+
 <script lang="ts">
 import {
     type ComponentObjectPropsOptions,

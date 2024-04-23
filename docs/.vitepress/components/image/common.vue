@@ -50,6 +50,7 @@
         </template>
     </FImage>
 </template>
+
 <script>
 import { ref } from 'vue';
 

@@ -11,6 +11,7 @@
         </div>
     </FSpace>
 </template>
+
 <script>
 import { reactive } from 'vue';
 
@@ -49,6 +50,7 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 .fes-select {
     width: 200px;

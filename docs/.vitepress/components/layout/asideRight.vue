@@ -14,6 +14,7 @@
         </f-layout>
     </f-layout>
 </template>
+
 <script>
 import { ref } from 'vue';
 
@@ -26,6 +27,7 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 .fes-layout-main {
     padding: 24px 24px 0;

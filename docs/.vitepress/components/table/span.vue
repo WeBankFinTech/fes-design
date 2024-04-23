@@ -7,6 +7,7 @@
         <FTableColumn prop="amount3" label="数值 3（元）" />
     </FTable>
 </template>
+
 <script setup>
 const data = [
     {

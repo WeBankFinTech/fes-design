@@ -21,6 +21,7 @@
         </FTable>
     </f-space>
 </template>
+
 <script>
 import { ref } from 'vue';
 

@@ -74,6 +74,7 @@ const style = reactive({
 const datetime = ref();
 const datemonth = ref(Date.now());
 </script>
+
 <style scope>
 .date-picker {
     width: 200px;

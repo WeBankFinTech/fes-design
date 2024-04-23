@@ -9,6 +9,7 @@
         checkStrictly="parent"
     />
 </template>
+
 <script>
 import { reactive, ref } from 'vue';
 
@@ -42,6 +43,7 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 .fes-tree {
     height: 300px;

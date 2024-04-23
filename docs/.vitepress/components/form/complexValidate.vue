@@ -255,6 +255,7 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 .complex-validate-item {
     margin: 10px 0 20px 60px;

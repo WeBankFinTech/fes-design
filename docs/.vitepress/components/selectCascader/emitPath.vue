@@ -33,6 +33,7 @@
         <FFormItem label="modelValue：">{{ value2 }}</FFormItem>
     </FForm>
 </template>
+
 <script>
 import { h, reactive, ref } from 'vue';
 import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
@@ -84,6 +85,7 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 .fes-select-cascader {
     width: 200px;

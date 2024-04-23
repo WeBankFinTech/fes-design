@@ -19,6 +19,7 @@
         />
     </FSpace>
 </template>
+
 <script>
 import { h, reactive, ref } from 'vue';
 import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
@@ -57,6 +58,7 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 .fes-select-tree {
     width: 200px;

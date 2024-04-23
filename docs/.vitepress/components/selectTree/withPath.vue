@@ -46,6 +46,7 @@
         </FFormItem>
     </FForm>
 </template>
+
 <script>
 import { h, ref } from 'vue';
 import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
@@ -97,6 +98,7 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 .fes-select-tree {
     width: 200px;

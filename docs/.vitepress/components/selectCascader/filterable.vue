@@ -60,6 +60,7 @@
         </div>
     </FSpace>
 </template>
+
 <script>
 import { reactive, ref } from 'vue';
 
@@ -105,6 +106,7 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 .select-cascader {
     width: 200px;

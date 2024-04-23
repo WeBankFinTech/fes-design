@@ -1,6 +1,7 @@
 <template>
     <FSelectCascader :data="data" clearable />
 </template>
+
 <script>
 import { h, reactive } from 'vue';
 import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
@@ -35,6 +36,7 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 .fes-select-cascader {
     width: 200px;

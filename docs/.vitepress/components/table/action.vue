@@ -11,6 +11,7 @@
         />
     </FTable>
 </template>
+
 <script>
 import { reactive } from 'vue';
 

@@ -26,6 +26,7 @@
         />
     </FTable>
 </template>
+
 <script>
 import {} from 'vue';
 

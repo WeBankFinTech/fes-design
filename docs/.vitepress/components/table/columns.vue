@@ -8,6 +8,7 @@
         :columns="columns"
     />
 </template>
+
 <script>
 import { defineComponent, h } from 'vue';
 

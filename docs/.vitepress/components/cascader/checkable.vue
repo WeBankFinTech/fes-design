@@ -17,6 +17,7 @@
         :selectable="false"
     />
 </template>
+
 <script>
 import { reactive, ref } from 'vue';
 

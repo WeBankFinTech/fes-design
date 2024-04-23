@@ -1,6 +1,7 @@
 <template>
     <FSwitch v-model="val" @change="handleChange" />
 </template>
+
 <script>
 import { ref } from 'vue';
 

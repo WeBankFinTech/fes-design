@@ -1,6 +1,7 @@
 <template>
     <FSelectTree :data="data" virtualList defaultExpandAll />
 </template>
+
 <script>
 import { reactive } from 'vue';
 
@@ -32,6 +33,7 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 .fes-select-tree {
     width: 200px;

@@ -55,6 +55,7 @@
         </FFormItem>
     </FForm>
 </template>
+
 <script>
 export default {
     setup() {
@@ -85,4 +86,5 @@ export default {
     },
 };
 </script>
+
 <style scoped></style>

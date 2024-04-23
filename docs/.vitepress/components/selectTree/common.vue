@@ -1,6 +1,7 @@
 <template>
     <FSelectTree modelValue="40" :data="data" />
 </template>
+
 <script setup>
 import { h, ref } from 'vue';
 import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
@@ -31,6 +32,7 @@ setTimeout(() => {
     data.value = createData(4);
 });
 </script>
+
 <style scoped>
 .fes-select-tree {
     width: 200px;

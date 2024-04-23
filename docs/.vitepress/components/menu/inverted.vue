@@ -48,6 +48,7 @@
         </f-menu>
     </FSpace>
 </template>
+
 <script>
 import { defineComponent, ref } from 'vue';
 

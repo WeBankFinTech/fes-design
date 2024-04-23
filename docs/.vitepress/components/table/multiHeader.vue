@@ -73,6 +73,7 @@
         />
     </FTable>
 </template>
+
 <script>
 import { defineComponent, ref } from 'vue';
 

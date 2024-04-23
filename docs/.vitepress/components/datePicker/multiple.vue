@@ -26,6 +26,7 @@ const changeMultipleData = () => {
     );
 };
 </script>
+
 <style scope>
 .date-picker-1 {
     width: 320px;

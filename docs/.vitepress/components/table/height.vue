@@ -62,6 +62,7 @@
         />
     </FTable>
 </template>
+
 <script>
 import { computed, ref } from 'vue';
 

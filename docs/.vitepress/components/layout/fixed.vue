@@ -44,6 +44,7 @@
         </f-footer>
     </f-layout>
 </template>
+
 <script>
 import { reactive } from 'vue';
 
@@ -84,6 +85,7 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 .fes-layout-main {
     min-height: 500px;

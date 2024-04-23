@@ -5,6 +5,7 @@
         style="max-width: 240px"
     />
 </template>
+
 <script>
 import { ref } from 'vue';
 

@@ -18,6 +18,7 @@
 
     <FTable :data="data" :columns="columns" />
 </template>
+
 <script>
 import { defineComponent, h } from 'vue';
 import { ClockCircleOutlined } from '@fesjs/fes-design/icon';
@@ -84,6 +85,7 @@ export default defineComponent({
     },
 });
 </script>
+
 <style>
 .table-custom-header-date {
     display: flex;

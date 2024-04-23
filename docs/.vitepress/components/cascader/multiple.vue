@@ -12,6 +12,7 @@
 
     <FCascader :data="data" :multiple="multiple" />
 </template>
+
 <script>
 import { reactive, ref } from 'vue';
 

@@ -1,6 +1,7 @@
 <template>
     <FTree :data="data" :loadData="loadData" checkable cascade remote />
 </template>
+
 <script>
 import { h, reactive } from 'vue';
 import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';

@@ -7,6 +7,7 @@
         checkable
     />
 </template>
+
 <script>
 import { h, reactive, ref } from 'vue';
 import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';

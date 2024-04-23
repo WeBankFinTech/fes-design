@@ -21,6 +21,7 @@
         <FButton @click="next">下一步</FButton>
     </FSpace>
 </template>
+
 <script>
 import { ref } from 'vue';
 

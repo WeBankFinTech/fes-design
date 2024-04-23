@@ -1,6 +1,7 @@
 <template>
     <FSwitch :beforeChange="beforeChange" />
 </template>
+
 <script>
 export default {
     setup() {
