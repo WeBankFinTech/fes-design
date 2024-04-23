@@ -58,7 +58,7 @@ export default defineComponent({
         const triggerElement = computed(() => {
             const elm = getElementFromVueInstance(triggerRef.value);
             if (elm instanceof Text) {
-                throw TypeError(
+                throw new TypeError(
                     `FPopper: trigger must be a Element, but get Text(${elm.nodeValue})`,
                 );
             }
