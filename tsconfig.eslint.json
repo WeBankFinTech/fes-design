@@ -17,10 +17,11 @@
         "docs/.vitepress/**/*.vue",
         /* 与 tsconfig.json 保持一致 End */
         "scripts/**/*.js",
-        "./.eslintrc.js",
-        "./.prettierrc.js",
-        "./babel.config.js",
-        "./commitlint.config.js",
+        "./.eslintrc.cjs",
+        "./.prettierrc.cjs",
+        "./.stylelintrc.cjs",
+        "./babel.config.cjs",
+        "./commitlint.config.cjs",
         "./jest.config.cjs",
         "./jest.setup.cjs"
     ],
