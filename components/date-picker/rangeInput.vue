@@ -47,14 +47,14 @@
 
 <script lang="ts">
 import {
-    computed,
-    watch,
-    ref,
-    defineComponent,
-    type PropType,
-    type ExtractPropTypes,
-    nextTick,
     type ComponentObjectPropsOptions,
+    type ExtractPropTypes,
+    type PropType,
+    computed,
+    defineComponent,
+    nextTick,
+    ref,
+    watch,
 } from 'vue';
 import { isArray } from 'lodash-es';
 import { format, isValid } from 'date-fns';
@@ -62,7 +62,7 @@ import { format, isValid } from 'date-fns';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useInput } from '../_util/use/useInput';
 import { CloseCircleFilled } from '../icon';
-import { isEmptyValue, strictParse, isBeyondRangeTime } from './helper';
+import { isBeyondRangeTime, isEmptyValue, strictParse } from './helper';
 
 const prefixCls = getPrefixCls('range-input');
 

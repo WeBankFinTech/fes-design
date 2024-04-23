@@ -3,7 +3,7 @@ import { useArrayModel } from '../_util/use/useModel';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import { CHANGE_EVENT } from '../_util/constants';
 import { type UnboxInjection } from '../_util/interface';
-import { checkboxGroupKey, COMPONENT_NAME } from './const';
+import { COMPONENT_NAME, checkboxGroupKey } from './const';
 import type { CheckboxGroupInnerProps } from './props';
 import type { CheckboxGroupEmits } from './interface';
 

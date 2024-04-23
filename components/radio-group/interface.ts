@@ -1,4 +1,4 @@
-import type { VModelEvent, ChangeEvent } from '../_util/interface';
+import type { ChangeEvent, VModelEvent } from '../_util/interface';
 
 export type RadioGroupEmits = {
     (e: VModelEvent, value: string | number | boolean): void;

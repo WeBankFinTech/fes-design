@@ -1,5 +1,5 @@
 import { concat } from '../_util/utils';
-import type { TreeNodeKey, InnerTreeOption } from './interface';
+import type { InnerTreeOption, TreeNodeKey } from './interface';
 import type { TreeProps } from './props';
 
 export const getChildrenByValues = (

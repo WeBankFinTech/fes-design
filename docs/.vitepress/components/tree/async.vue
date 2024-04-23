@@ -2,7 +2,7 @@
     <FTree :data="data" :loadData="loadData" checkable cascade remote></FTree>
 </template>
 <script>
-import { reactive, h } from 'vue';
+import { h, reactive } from 'vue';
 import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
 
 function createData(level = 1, baseKey = '', prefix, suffix) {

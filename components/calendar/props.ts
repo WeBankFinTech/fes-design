@@ -1,13 +1,13 @@
 import {
-    type SlotsType,
     type ComponentObjectPropsOptions,
     type PropType,
+    type SlotsType,
 } from 'vue';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import {
-    type ExtractPublicPropTypes,
     type ComponentInnerProps,
     type ComponentSlots,
+    type ExtractPublicPropTypes,
 } from '../_util/interface';
 import { type UnixTime } from './types';
 

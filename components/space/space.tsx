@@ -1,4 +1,4 @@
-import { computed, defineComponent, type Ref } from 'vue';
+import { type Ref, computed, defineComponent } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import { flatten, getSlot, isValidElementNode } from '../_util/vnode';
 import { createKey } from '../_util/createKey';

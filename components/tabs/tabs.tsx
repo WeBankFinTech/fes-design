@@ -1,17 +1,17 @@
 import {
+    type Slots,
+    TransitionGroup,
     computed,
     defineComponent,
     nextTick,
     provide,
     ref,
     toRef,
-    TransitionGroup,
     watch,
-    type Slots,
 } from 'vue';
 import {
-    CLOSE_EVENT,
     CHANGE_EVENT,
+    CLOSE_EVENT,
     UPDATE_MODEL_EVENT,
 } from '../_util/constants';
 import getPrefixCls from '../_util/getPrefixCls';

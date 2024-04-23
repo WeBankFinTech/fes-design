@@ -1,4 +1,4 @@
-import { defineComponent, watch, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import useResize from '../_util/use/useResize';
 import { CHANGE_EVENT } from '../_util/constants';
@@ -8,8 +8,8 @@ import Indicator from './indicator';
 import useCarousel from './useCarousel';
 import useCarouselStyle from './useCarouselStyle';
 import useCarouselPlay from './useCarouselPlay';
-import type { PropType, ComponentObjectPropsOptions } from 'vue';
-import type { Placement, ArrowType } from './interface';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
+import type { ArrowType, Placement } from './interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const carouselProps = {

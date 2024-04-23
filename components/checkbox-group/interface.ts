@@ -1,4 +1,4 @@
-import type { Option, VModelEvent, ChangeEvent } from '../_util/interface';
+import type { ChangeEvent, Option, VModelEvent } from '../_util/interface';
 
 export type OptionValue = Option['value'];
 

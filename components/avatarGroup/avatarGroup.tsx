@@ -1,9 +1,9 @@
 import {
-    defineComponent,
-    computed,
-    resolveComponent,
-    h,
     cloneVNode,
+    computed,
+    defineComponent,
+    h,
+    resolveComponent,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { FAvatar } from '../avatar';

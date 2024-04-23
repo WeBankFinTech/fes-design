@@ -1,5 +1,5 @@
-import { ref, watch, computed, type WritableComputedRef, type Ref } from 'vue';
-import { isEqual as isEqualFunc, isArray, isUndefined } from 'lodash-es';
+import { type Ref, type WritableComputedRef, computed, ref, watch } from 'vue';
+import { isArray, isEqual as isEqualFunc, isUndefined } from 'lodash-es';
 
 type ModelValuePropKey = 'modelValue';
 

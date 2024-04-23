@@ -1,8 +1,8 @@
 import {
-    type PropType,
-    type InjectionKey,
-    type ComputedRef,
     type ComponentObjectPropsOptions,
+    type ComputedRef,
+    type InjectionKey,
+    type PropType,
 } from 'vue';
 
 import type { MenuOption } from './interface';

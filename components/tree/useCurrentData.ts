@@ -2,7 +2,7 @@ import { type Ref, ref, watch } from 'vue';
 import { debounce } from 'lodash-es';
 import { concat } from '../_util/utils';
 import { getBrotherKeys } from './helper';
-import type { TreeNodeKey, InnerTreeOption } from './interface';
+import type { InnerTreeOption, TreeNodeKey } from './interface';
 import type { TreeProps } from './props';
 
 export default ({

@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { computed, ref } from 'vue';
 const sizeType = ref('same');
 const sizeHV = ref(20);
 const sizeH = ref(30);

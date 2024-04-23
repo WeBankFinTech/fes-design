@@ -19,8 +19,8 @@ import Icon from './icon';
 import type {
     TimelineInnerProps as Props,
     TimelineSlots as Slots,
-    TimelineUnboxSlots as UnboxSlots,
     TimelineNode,
+    TimelineUnboxSlots as UnboxSlots,
 } from './props';
 
 /** 渲染标题、辅助描述 */

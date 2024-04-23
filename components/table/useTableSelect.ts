@@ -1,4 +1,4 @@
-import { watch, computed, type SetupContext, type Ref } from 'vue';
+import { type Ref, type SetupContext, computed, watch } from 'vue';
 import { isFunction } from 'lodash-es';
 import { useNormalModel } from '../_util/use/useModel';
 import { type ArrayUnionToUnionArray } from '../_util/types';

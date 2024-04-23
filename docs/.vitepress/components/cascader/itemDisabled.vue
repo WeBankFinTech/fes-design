@@ -14,7 +14,7 @@
     <FCascader :data="data" checkable></FCascader>
 </template>
 <script>
-import { ref, computed } from 'vue';
+import { computed, ref } from 'vue';
 import { cloneDeep } from 'lodash-es';
 
 function createData(level = 1, baseKey = '') {

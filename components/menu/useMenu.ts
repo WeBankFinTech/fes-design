@@ -1,9 +1,9 @@
 import {
-    provide,
-    inject,
+    type ComponentInternalInstance,
     computed,
     getCurrentInstance,
-    type ComponentInternalInstance,
+    inject,
+    provide,
 } from 'vue';
 import { MENU_KEY } from './const';
 import type { MenuNode } from './const';

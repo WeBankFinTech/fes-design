@@ -1,4 +1,4 @@
-import type { InjectionKey, PropType, Ref, ComputedRef } from 'vue';
+import type { ComputedRef, InjectionKey, PropType, Ref } from 'vue';
 
 export const COMPONENT_NAME = 'FCollapse';
 

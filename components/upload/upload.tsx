@@ -1,8 +1,8 @@
 import {
     type ComponentObjectPropsOptions,
-    defineComponent,
     type PropType,
     type SetupContext,
+    defineComponent,
 } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import Trigger from './trigger.vue';

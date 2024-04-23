@@ -1,4 +1,4 @@
-import { type TRIGGER, type PLACEMENT } from '../_util/constants';
+import { type PLACEMENT, type TRIGGER } from '../_util/constants';
 import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 

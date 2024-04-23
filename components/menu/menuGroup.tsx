@@ -1,10 +1,10 @@
 import {
+    type ComponentObjectPropsOptions,
+    computed,
     defineComponent,
     getCurrentInstance,
-    computed,
-    onMounted,
     onBeforeUnmount,
-    type ComponentObjectPropsOptions,
+    onMounted,
 } from 'vue';
 import Ellipsis from '../ellipsis/ellipsis';
 import getPrefixCls from '../_util/getPrefixCls';

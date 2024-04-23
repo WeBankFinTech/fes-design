@@ -133,7 +133,7 @@
 </template>
 
 <script>
-import { ref, reactive, computed } from 'vue';
+import { computed, reactive, ref } from 'vue';
 
 export default {
     setup() {

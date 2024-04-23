@@ -1,10 +1,10 @@
 import {
-    computed,
-    ref,
-    reactive,
-    provide,
-    defineComponent,
     type ComponentObjectPropsOptions,
+    computed,
+    defineComponent,
+    provide,
+    reactive,
+    ref,
 } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import Preview from './preview.vue';

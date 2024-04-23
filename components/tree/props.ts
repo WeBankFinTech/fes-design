@@ -1,19 +1,19 @@
 import { extractPropsDefaultValue } from '../_util/utils';
 import { CHECK_STRATEGY } from './const';
 import type {
-    PropType,
-    InjectionKey,
-    Ref,
     ComponentObjectPropsOptions,
     ComputedRef,
+    InjectionKey,
+    PropType,
+    Ref,
 } from 'vue';
 
 import type { ExtractPublicPropTypes } from '../_util/interface';
 import type {
-    TreeOption,
-    TreeNodeKey,
-    InnerTreeOption,
     DropPosition,
+    InnerTreeOption,
+    TreeNodeKey,
+    TreeOption,
 } from './interface';
 
 export const treeProps = {

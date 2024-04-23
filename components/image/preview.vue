@@ -78,28 +78,28 @@
 
 <script lang="ts">
 import {
-    inject,
-    ref,
-    computed,
-    watch,
-    defineComponent,
-    type PropType,
     type CSSProperties,
     type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
+    defineComponent,
+    inject,
+    ref,
+    watch,
 } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import getPrefixCls from '../_util/getPrefixCls';
 import { noop, requestAnimationFrame } from '../_util/utils';
 import PopupManager from '../_util/popupManager';
 import {
-    LeftOutlined,
-    RightOutlined,
     CloseOutlined,
-    ReloadOutlined,
-    RotateLeftOutlined,
-    SearchPlusOutlined,
-    SearchMinusOutlined,
     DownloadOutlined,
+    LeftOutlined,
+    ReloadOutlined,
+    RightOutlined,
+    RotateLeftOutlined,
+    SearchMinusOutlined,
+    SearchPlusOutlined,
 } from '../icon';
 import { CLOSE_EVENT } from '../_util/constants';
 import { useConfig } from '../config-provider';

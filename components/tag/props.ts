@@ -1,6 +1,6 @@
 import type { ComponentObjectPropsOptions, PropType } from 'vue';
 
-import type { Type, Size, Effect } from './interface';
+import type { Effect, Size, Type } from './interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const tagProps = {

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { ref, nextTick } from 'vue';
+import { nextTick, ref } from 'vue';
 
 export default {
     setup() {

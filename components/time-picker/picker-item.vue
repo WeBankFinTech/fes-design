@@ -26,14 +26,14 @@
 
 <script lang="ts">
 import {
-    defineComponent,
-    ref,
-    computed,
-    nextTick,
-    watch,
-    onMounted,
-    type PropType,
     type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
+    defineComponent,
+    nextTick,
+    onMounted,
+    ref,
+    watch,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import FScrollbar from '../scrollbar/scrollbar.vue';

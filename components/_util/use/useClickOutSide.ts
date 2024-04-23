@@ -1,4 +1,4 @@
-import { unref, watch, onBeforeUnmount, ref, type Ref } from 'vue';
+import { type Ref, onBeforeUnmount, ref, unref, watch } from 'vue';
 import getElementFromVueInstance from '../getElementFromVueInstance';
 
 export default function useClickOutSide(

@@ -8,10 +8,10 @@ import { addMonths, addYears, subMonths, subYears } from 'date-fns';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useLocale } from '../config-provider/useLocale';
 import {
-    LeftOutlined,
-    RightOutlined,
     DoubleLeftOutlined,
     DoubleRightOutlined,
+    LeftOutlined,
+    RightOutlined,
 } from '../icon';
 import { COMPONENT_NAME } from './const';
 import {

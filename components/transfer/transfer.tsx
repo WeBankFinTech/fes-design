@@ -1,10 +1,10 @@
 import {
+    type CSSProperties,
     type SlotsType,
+    type VNodeChild,
     computed,
     defineComponent,
     provide,
-    type VNodeChild,
-    type CSSProperties,
 } from 'vue';
 import { isFunction, isUndefined } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
@@ -16,9 +16,9 @@ import OneWayTransfer from './oneWayTransfer';
 import TwoWayTransfer from './twoWayTransfer';
 import { defaultFilter, isTree } from './utils';
 import {
-    type TransferOption,
     type TransferFilter,
     type TransferInjection,
+    type TransferOption,
 } from './interface';
 
 const Transfer = defineComponent({

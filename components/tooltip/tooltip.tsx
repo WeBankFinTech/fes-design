@@ -1,8 +1,8 @@
 import {
     type ComponentObjectPropsOptions,
+    type PropType,
     computed,
     defineComponent,
-    type PropType,
 } from 'vue';
 import { isNil } from 'lodash-es';
 import Popper from '../popper/popper';

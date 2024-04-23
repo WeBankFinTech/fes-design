@@ -76,16 +76,16 @@
 
 <script lang="ts">
 import {
+    type ComponentObjectPropsOptions,
+    type PropType,
+    type Ref,
     computed,
+    defineComponent,
+    nextTick,
+    onMounted,
     ref,
     shallowRef,
     watch,
-    nextTick,
-    onMounted,
-    defineComponent,
-    type PropType,
-    type Ref,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 
 import { UPDATE_MODEL_EVENT } from '../_util/constants';

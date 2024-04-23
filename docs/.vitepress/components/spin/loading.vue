@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { ref, reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 export default {
     setup() {

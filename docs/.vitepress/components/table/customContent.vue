@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import { h, reactive, defineComponent } from 'vue';
+import { defineComponent, h, reactive } from 'vue';
 import { ClockCircleOutlined } from '@fesjs/fes-design/icon';
-import { FEllipsis, FTag, FButton } from '@fesjs/fes-design';
+import { FButton, FEllipsis, FTag } from '@fesjs/fes-design';
 
 export default defineComponent({
     comments: {

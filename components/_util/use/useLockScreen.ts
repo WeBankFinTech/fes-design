@@ -1,4 +1,4 @@
-import { watch, onUnmounted, type Ref } from 'vue';
+import { type Ref, onUnmounted, watch } from 'vue';
 import {
     addClass,
     getScrollBarWidth,

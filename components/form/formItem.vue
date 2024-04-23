@@ -22,29 +22,29 @@
 
 <script lang="ts">
 import {
-    provide,
-    ref,
-    inject,
     computed,
-    onBeforeUnmount,
-    nextTick,
     defineComponent,
     getCurrentInstance,
+    inject,
+    nextTick,
+    onBeforeUnmount,
+    provide,
+    ref,
 } from 'vue';
 import Schema from 'async-validator';
-import { isArray, cloneDeep, get, set } from 'lodash-es';
+import { cloneDeep, get, isArray, set } from 'lodash-es';
 import { pxfy } from '../_util/utils';
 import getPrefixCls from '../_util/getPrefixCls';
 import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
 import {
-    provideKey,
+    FORM_ITEM_ALIGN,
     FORM_LAYOUT,
     LABEL_POSITION,
-    TRIGGER_TYPE_DEFAULT,
     RULE_TYPE_DEFAULT,
-    VALIDATE_STATUS,
+    TRIGGER_TYPE_DEFAULT,
     VALIDATE_MESSAGE_DEFAULT,
-    FORM_ITEM_ALIGN,
+    VALIDATE_STATUS,
+    provideKey,
 } from './const';
 import { wrapValidator } from './utils';
 import { FORM_ITEM_NAME } from './const';

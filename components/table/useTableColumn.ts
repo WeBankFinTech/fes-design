@@ -1,8 +1,8 @@
-import { reactive, computed } from 'vue';
+import { computed, reactive } from 'vue';
 import { omit } from 'lodash-es';
-import { getHeaderRows, getColumns } from './helper';
+import { getColumns, getHeaderRows } from './helper';
 import { getDefaultColProps } from './column';
-import type { ColumnInst, ColumnChildren } from './column';
+import type { ColumnChildren, ColumnInst } from './column';
 import type { TableProps } from './table';
 
 export type ColumnFixedStatus = 'left' | 'right' | 'both' | 'none';

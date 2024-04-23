@@ -1,4 +1,4 @@
-import { inject, computed, type ComputedRef } from 'vue';
+import { type ComputedRef, computed, inject } from 'vue';
 import { CHILDREN_KEY, COMPONENT_NAME } from './const';
 import type { MenuNode } from './const';
 

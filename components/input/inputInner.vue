@@ -69,15 +69,15 @@
 
 <script lang="ts">
 import {
-    computed,
-    ref,
-    defineComponent,
-    type Ref,
-    type ExtractPropTypes,
     type ComponentObjectPropsOptions,
+    type ExtractPropTypes,
+    type Ref,
+    computed,
+    defineComponent,
+    ref,
 } from 'vue';
 import { debounce } from 'lodash-es';
-import { EyeOutlined, EyeInvisibleOutlined, CloseCircleFilled } from '../icon';
+import { CloseCircleFilled, EyeInvisibleOutlined, EyeOutlined } from '../icon';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';

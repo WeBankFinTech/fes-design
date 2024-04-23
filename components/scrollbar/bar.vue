@@ -22,15 +22,15 @@
 
 <script lang="ts">
 import {
-    computed,
-    ref,
-    onMounted,
-    nextTick,
     type CSSProperties,
-    defineComponent,
+    type ComponentObjectPropsOptions,
     type PropType,
     type StyleValue,
-    type ComponentObjectPropsOptions,
+    computed,
+    defineComponent,
+    nextTick,
+    onMounted,
+    ref,
 } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import getPrefixCls from '../_util/getPrefixCls';

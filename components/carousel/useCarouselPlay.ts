@@ -1,4 +1,4 @@
-import { watch, onMounted, onBeforeUnmount, nextTick, type Ref } from 'vue';
+import { type Ref, nextTick, onBeforeUnmount, onMounted, watch } from 'vue';
 import type { CarouselProps } from './carousel';
 
 interface UseCarouselPlayType {

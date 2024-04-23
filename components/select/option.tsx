@@ -1,14 +1,14 @@
 import {
+    type ComponentObjectPropsOptions,
+    type PropType,
     computed,
+    defineComponent,
     getCurrentInstance,
     inject,
     onBeforeMount,
     onBeforeUnmount,
-    toRefs,
-    defineComponent,
-    type PropType,
     ref,
-    type ComponentObjectPropsOptions,
+    toRefs,
 } from 'vue';
 import { SELECT_PROVIDE_KEY } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';

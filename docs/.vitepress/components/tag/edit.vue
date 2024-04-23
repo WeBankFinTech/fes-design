@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { reactive, nextTick, ref } from 'vue';
+import { nextTick, reactive, ref } from 'vue';
 
 const useDynamicTags = (inputRef) => {
     const state = reactive({

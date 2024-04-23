@@ -1,9 +1,9 @@
 import {
-    defineComponent,
+    type ComponentObjectPropsOptions,
     computed,
+    defineComponent,
     toRefs,
     watch,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isNumber } from 'lodash-es';
 import { useNormalModel } from '../_util/use/useModel';

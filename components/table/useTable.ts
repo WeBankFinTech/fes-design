@@ -1,7 +1,7 @@
-import { provide, type SetupContext, watch, ref } from 'vue';
+import { type SetupContext, provide, ref, watch } from 'vue';
 import { isArray } from 'lodash-es';
 import { getRowKey as _getRowKey, getCellValue } from './helper';
-import { provideKey, TABLE_NAME } from './const';
+import { TABLE_NAME, provideKey } from './const';
 import useTableColumn from './useTableColumn';
 import useTableEvent from './useTableEvent';
 import useTableSelect from './useTableSelect';

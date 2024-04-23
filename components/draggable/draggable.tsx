@@ -1,11 +1,11 @@
 import {
+    type ComponentObjectPropsOptions,
+    type PropType,
+    type SetupContext,
+    cloneVNode,
     computed,
     defineComponent,
     ref,
-    type SetupContext,
-    type PropType,
-    cloneVNode,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { mergeWith } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';

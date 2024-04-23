@@ -1,4 +1,4 @@
-import { type VNode, defineComponent, inject, computed, type Ref } from 'vue';
+import { type Ref, type VNode, computed, defineComponent, inject } from 'vue';
 import { isNil } from 'lodash-es';
 import Tree from '../tree';
 import Empty from '../empty';
@@ -14,9 +14,9 @@ import {
 } from './const';
 import { TransferCheckbox, calcCheckStatus } from './checkbox';
 import {
-    type TreeFilter,
     type TransferInjection,
     type TransferOption,
+    type TreeFilter,
 } from './interface';
 import { cls, flattenTree, isTree } from './utils';
 import { useTreeFilter } from './useTreeFilter';

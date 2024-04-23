@@ -1,9 +1,9 @@
 import { useNormalModel } from '../_util/use/useModel';
 import { getCascadeChildrenByKeys } from './helper';
 import type {
-    InnerCascaderOption,
     CascaderNodeKey,
     CascaderNodeList,
+    InnerCascaderOption,
 } from './interface';
 import type { CascaderProps } from './props';
 

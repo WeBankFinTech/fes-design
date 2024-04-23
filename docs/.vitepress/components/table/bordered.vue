@@ -43,7 +43,7 @@
     </FTable>
 </template>
 <script>
-import { reactive, defineComponent, ref } from 'vue';
+import { defineComponent, reactive, ref } from 'vue';
 
 export default defineComponent({
     setup() {

@@ -12,5 +12,5 @@
 </template>
 
 <script setup>
-import { SearchOutlined, DownloadOutlined } from '@fesjs/fes-design/icon';
+import { DownloadOutlined, SearchOutlined } from '@fesjs/fes-design/icon';
 </script>

@@ -94,7 +94,6 @@ export default antfu({
 
     // Other flat configs...
     rules: {
-        'sort-imports': 'off',
         'dot-notation': 'off',
         'prefer-template': 'off',
         'multiline-ternary': 'off',

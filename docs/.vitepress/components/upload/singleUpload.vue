@@ -21,7 +21,7 @@
     </FUpload>
 </template>
 <script>
-import { ref, nextTick } from 'vue';
+import { nextTick, ref } from 'vue';
 import { FMessage } from '@fesjs/fes-design';
 
 export default {

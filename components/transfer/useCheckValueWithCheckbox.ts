@@ -1,6 +1,6 @@
-import { ref, type Ref } from 'vue';
+import { type Ref, ref } from 'vue';
 import { type TransferOption, type TransferOptionValue } from './interface';
-import { calcCheckStatus, type CheckStatus } from './checkbox';
+import { type CheckStatus, calcCheckStatus } from './checkbox';
 
 /** 数据是仅和其关联的 Checkbox 的值相关，与组件的 modelValue 无关 */
 export const useCheckValueWithCheckbox = ({

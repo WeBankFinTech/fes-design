@@ -1,19 +1,19 @@
 import {
+    type ComputedRef,
     computed,
     defineComponent,
-    ref,
-    reactive,
+    getCurrentInstance,
+    inject,
     onMounted,
     onUnmounted,
-    inject,
-    getCurrentInstance,
-    type ComputedRef,
+    reactive,
+    ref,
 } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import {
-    CAROUSEL_NAME,
-    CAROUSEL_ITEM_NAME,
     CARD_SCALE,
+    CAROUSEL_ITEM_NAME,
+    CAROUSEL_NAME,
     provideKey,
 } from './const';
 

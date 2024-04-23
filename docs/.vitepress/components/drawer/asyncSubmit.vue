@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { ref, nextTick } from 'vue';
+import { nextTick, ref } from 'vue';
 
 function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));

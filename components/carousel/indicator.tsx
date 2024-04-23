@@ -1,8 +1,8 @@
 import {
+    type ComponentObjectPropsOptions,
+    computed,
     defineComponent,
     inject,
-    computed,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { throttle } from 'lodash-es';
 import { provideKey } from './const';

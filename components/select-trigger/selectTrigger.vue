@@ -189,14 +189,14 @@
 
 <script lang="ts">
 import {
-    ref,
+    type ComponentObjectPropsOptions,
+    type PropType,
+    type VNodeChild,
     computed,
     defineComponent,
-    type PropType,
-    watch,
     nextTick,
-    type VNodeChild,
-    type ComponentObjectPropsOptions,
+    ref,
+    watch,
 } from 'vue';
 import { isEqual, isNil } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -211,8 +211,8 @@ import CloseCircleFilled from '../icon/CloseCircleFilled';
 import RenderTag from './renderTag';
 
 import type {
-    SelectOption,
     RenderTagParam,
+    SelectOption,
     SelectTagWithCollapse,
 } from './interface';
 

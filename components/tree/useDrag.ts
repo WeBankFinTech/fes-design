@@ -1,6 +1,6 @@
 import { computed, onUnmounted, ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
-import type { InnerTreeOption, TreeNodeKey, DropPosition } from './interface';
+import type { DropPosition, InnerTreeOption, TreeNodeKey } from './interface';
 
 const prefixCls = getPrefixCls('tree-node');
 

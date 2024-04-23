@@ -1,13 +1,13 @@
 import {
-    defineComponent,
+    type ComponentObjectPropsOptions,
+    type ExtractPropTypes,
     Fragment,
+    type PropType,
+    defineComponent,
     inject,
     isVNode,
-    type PropType,
-    type ExtractPropTypes,
-    type ComponentObjectPropsOptions,
 } from 'vue';
-import { isNil, isArray, isFunction, isPlainObject } from 'lodash-es';
+import { isArray, isFunction, isNil, isPlainObject } from 'lodash-es';
 import Button from '../../button/button';
 import Ellipsis, { type EllipsisProps } from '../../ellipsis/ellipsis';
 import { provideKey } from '../const';

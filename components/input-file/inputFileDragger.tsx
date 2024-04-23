@@ -1,4 +1,4 @@
-import { defineComponent, type StyleValue, type VNodeChild } from 'vue';
+import { type StyleValue, type VNodeChild, defineComponent } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import getPrefixCls from '../_util/getPrefixCls';

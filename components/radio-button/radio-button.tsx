@@ -1,8 +1,8 @@
 import { computed, defineComponent } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import {
-    COMPONENT_NAME as radioGroupName,
     radioGroupKey,
+    COMPONENT_NAME as radioGroupName,
 } from '../radio-group/const';
 import useSelect from '../_util/use/useSelect';
 import { useTheme } from '../_theme/useTheme';

@@ -1,8 +1,8 @@
 import {
     type ComponentObjectPropsOptions,
+    type PropType,
     defineComponent,
     inject,
-    type PropType,
 } from 'vue';
 import { DownOutlined } from '../../icon';
 import FCheckbox from '../../checkbox/checkbox.vue';

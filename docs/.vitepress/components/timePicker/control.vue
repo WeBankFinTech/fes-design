@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { watch, ref } from 'vue';
+import { ref, watch } from 'vue';
 
 export default {
     setup() {

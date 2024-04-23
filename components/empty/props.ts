@@ -1,4 +1,4 @@
-import type { PropType, StyleValue, ComponentObjectPropsOptions } from 'vue';
+import type { ComponentObjectPropsOptions, PropType, StyleValue } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const emptyProps = {

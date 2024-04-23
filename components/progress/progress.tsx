@@ -1,8 +1,8 @@
-import { defineComponent, computed } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { isNumber } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
 import { progressProps } from './props';
-import { prefixCls, PROGRESS_TYPE } from './const';
+import { PROGRESS_TYPE, prefixCls } from './const';
 import LineProgress from './components/LineProgress';
 import CircleProgress from './components/CircleProgress';
 

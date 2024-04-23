@@ -2,7 +2,7 @@
     <FCascader :data="data" checkable></FCascader>
 </template>
 <script>
-import { reactive, h } from 'vue';
+import { h, reactive } from 'vue';
 import { PictureOutlined } from '@fesjs/fes-design/icon';
 
 function createData(level = 1, baseKey = '', prefix, suffix) {

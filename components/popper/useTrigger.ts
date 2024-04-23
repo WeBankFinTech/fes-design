@@ -1,4 +1,4 @@
-import { ref, type Ref, watch } from 'vue';
+import { type Ref, ref, watch } from 'vue';
 import { isBoolean, isFunction } from 'lodash-es';
 import type { PopperProps } from './props';
 import type { VirtualRect } from './interface';

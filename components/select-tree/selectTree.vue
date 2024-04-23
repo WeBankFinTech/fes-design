@@ -117,26 +117,26 @@
 
 <script lang="ts">
 import {
+    type CSSProperties,
+    type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
     defineComponent,
     ref,
     shallowRef,
     triggerRef,
     unref,
     watch,
-    computed,
-    type CSSProperties,
-    type PropType,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { debounce } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import {
-    useNormalModel,
-    useArrayModel,
     type UseArrayModelReturn,
+    useArrayModel,
+    useNormalModel,
 } from '../_util/use/useModel';
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
@@ -148,9 +148,9 @@ import { useLocale } from '../config-provider/useLocale';
 import { noop } from '../_util/utils';
 import type { SelectValue } from '../select/interface';
 import type {
-    SelectParams,
     CheckParams,
     InnerTreeOption,
+    SelectParams,
     TreeNodeKey,
 } from '../tree/interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';

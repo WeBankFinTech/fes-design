@@ -4,21 +4,21 @@
  */
 
 import {
+    type CSSProperties,
+    computed,
+    createVNode,
     defineComponent,
-    watch,
     onActivated,
     onMounted,
     ref,
-    createVNode,
-    computed,
-    type CSSProperties,
+    watch,
 } from 'vue';
 import { isNil, throttle } from 'lodash-es';
 import FScrollbar from '../scrollbar/scrollbar.vue';
 import {
-    TO_TOP_EVENT,
-    TO_BOTTOM_EVENT,
     RESIZED_EVENT,
+    TO_BOTTOM_EVENT,
+    TO_TOP_EVENT,
 } from '../_util/constants';
 import getPrefixCls from '../_util/getPrefixCls';
 import Virtual from './virtual';

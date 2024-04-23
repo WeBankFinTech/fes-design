@@ -1,15 +1,15 @@
 import {
+    type ComponentObjectPropsOptions,
     type PropType,
     type VNodeChild,
     computed,
     defineComponent,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { COMPONENT_NAME, ICON_DEFAULT_COLOR } from './const';
 import { cls, isPresetIconTypes, isValidRenderResult } from './utils';
 import { useCustomIconRegister } from './useCustomIcons';
 import type { ComponentInnerProps } from './utilTypes';
-import type { TimelineUnboxSlots as UnboxSlots, TimelineNode } from './props';
+import type { TimelineNode, TimelineUnboxSlots as UnboxSlots } from './props';
 
 const iconProps = {
     index: { type: Number, required: true },

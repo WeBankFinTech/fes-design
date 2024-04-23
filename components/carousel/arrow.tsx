@@ -1,9 +1,9 @@
-import { defineComponent, computed, inject, Fragment, Transition } from 'vue';
+import { Fragment, Transition, computed, defineComponent, inject } from 'vue';
 import { throttle } from 'lodash-es';
 import { LeftOutlined, RightOutlined } from '../icon';
 import { provideKey } from './const';
-import type { PropType, ComponentObjectPropsOptions } from 'vue';
-import type { CarouselItemData, ArrowType } from './interface';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
+import type { ArrowType, CarouselItemData } from './interface';
 
 export default defineComponent({
     name: 'FCarouselArrow',

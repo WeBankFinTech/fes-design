@@ -1,8 +1,8 @@
 import {
+    type ComponentObjectPropsOptions,
     type PropType,
     computed,
     defineComponent,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import Checkbox, { type CheckboxProps } from '../checkbox';

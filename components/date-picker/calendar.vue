@@ -111,21 +111,21 @@
 
 <script lang="ts">
 import {
-    ref,
-    watch,
+    type ComponentObjectPropsOptions,
+    type ExtractPropTypes,
+    type PropType,
+    type Ref,
     computed,
     defineComponent,
-    type PropType,
-    type ExtractPropTypes,
-    type Ref,
-    type ComponentObjectPropsOptions,
+    ref,
+    watch,
 } from 'vue';
-import { isValid, format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import {
-    LeftOutlined,
-    RightOutlined,
     DoubleLeftOutlined,
     DoubleRightOutlined,
+    LeftOutlined,
+    RightOutlined,
 } from '../icon';
 import TimePicker from '../time-picker';
 import InputInner from '../input/inputInner.vue';
@@ -133,30 +133,30 @@ import getPrefixCls from '../_util/getPrefixCls';
 
 import { useLocale } from '../config-provider/useLocale';
 import {
+    getDefaultTime,
     parseDate,
     strictParse,
     transformDateToTimestamp,
-    getDefaultTime,
 } from './helper';
 import {
-    RANGE_POSITION,
     COMMON_PROPS,
-    YEAR_COUNT,
+    RANGE_POSITION,
     type SELECTED_STATUS,
+    YEAR_COUNT,
 } from './const';
 
 import {
     useCurrentDate,
-    useSelectedDates,
-    useYear,
-    useMonth,
     useDay,
+    useMonth,
     useQuarter,
+    useSelectedDates,
     useTime,
+    useYear,
 } from './useCalendar';
 
 import { pickerFactory } from './pickerHandler';
-import type { DayItem, DateObj, UpdateSelectedDates } from './interface';
+import type { DateObj, DayItem, UpdateSelectedDates } from './interface';
 import type { Picker } from './pickerHandler';
 
 const prefixCls = getPrefixCls('date-picker-calendar');

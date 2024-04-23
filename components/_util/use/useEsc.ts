@@ -1,4 +1,4 @@
-import { isRef, onBeforeUnmount, watch, ref, type Ref } from 'vue';
+import { type Ref, isRef, onBeforeUnmount, ref, watch } from 'vue';
 
 export default function useEsc(
     action: (event: KeyboardEvent) => void,

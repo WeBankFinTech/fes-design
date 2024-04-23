@@ -1,14 +1,14 @@
 import {
-    defineComponent,
-    computed,
+    type ComponentObjectPropsOptions,
     type PropType,
     type SetupContext,
+    computed,
+    defineComponent,
     watch,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isUndefined } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
-import { TABLE_NAME, type SIZE } from './const';
+import { type SIZE, TABLE_NAME } from './const';
 import useTable from './useTable';
 import HeaderTable from './components/headerTable';
 import BodyTable from './components/bodyTable';
@@ -18,7 +18,7 @@ import type { ColumnChildren } from './column';
 import type { BeforeDragEnd } from '../draggable/useDraggable';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
-import type { RowType, RowKey } from './interface';
+import type { RowKey, RowType } from './interface';
 
 export const tableProps = {
     data: {

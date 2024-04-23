@@ -1,12 +1,12 @@
 import {
+    type CSSProperties,
+    type ComponentObjectPropsOptions,
     type ExtractPropTypes,
     type PropType,
-    type ToRefs,
     type Ref,
-    type ComponentObjectPropsOptions,
-    type CSSProperties,
+    type ToRefs,
 } from 'vue';
-import { FORM_LAYOUT, LABEL_POSITION, FORM_ITEM_ALIGN } from './const';
+import { FORM_ITEM_ALIGN, FORM_LAYOUT, LABEL_POSITION } from './const';
 import type { RuleItem, Rules } from 'async-validator';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 

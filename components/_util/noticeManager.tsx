@@ -1,20 +1,20 @@
 import {
+    type CSSProperties,
+    type ComponentObjectPropsOptions,
+    TransitionGroup,
+    type VNode,
+    type VNodeChild,
+    cloneVNode,
     createApp,
     defineComponent,
     onMounted,
     ref,
-    TransitionGroup,
-    type CSSProperties,
-    type VNodeChild,
-    type VNode,
-    cloneVNode,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import {
-    InfoCircleFilled,
-    CloseCircleFilled,
     CheckCircleFilled,
+    CloseCircleFilled,
     ExclamationCircleFilled,
+    InfoCircleFilled,
 } from '../icon';
 import { useTheme } from '../_theme/useTheme';
 import { getFirstValidNode } from './vnode';

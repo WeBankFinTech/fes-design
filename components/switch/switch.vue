@@ -10,13 +10,13 @@
 
 <script lang="ts">
 import {
-    defineComponent,
-    computed,
-    onMounted,
-    type PropType,
-    nextTick,
-    ref,
     type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
+    defineComponent,
+    nextTick,
+    onMounted,
+    ref,
 } from 'vue';
 import { isEqual, isFunction } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';

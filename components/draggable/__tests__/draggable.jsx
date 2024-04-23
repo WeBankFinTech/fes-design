@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import { ref, nextTick, h, defineComponent } from 'vue';
+import { defineComponent, h, nextTick, ref } from 'vue';
 import FDraggable from '../draggable.vue';
 import vDrag from '../directive';
 

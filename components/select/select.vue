@@ -85,22 +85,22 @@
 
 <script lang="ts">
 import {
-    ref,
+    type CSSProperties,
+    computed,
+    defineComponent,
     provide,
+    ref,
     unref,
     watch,
-    computed,
-    type CSSProperties,
-    defineComponent,
 } from 'vue';
 import { isNil } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
 import {
-    useNormalModel,
-    useArrayModel,
     type UseArrayModelReturn,
+    useArrayModel,
+    useNormalModel,
 } from '../_util/use/useModel';
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
@@ -109,7 +109,7 @@ import { SELECT_PROVIDE_KEY, prefixCls } from './const';
 import OptionList from './optionList';
 import { selectProps } from './props';
 import useOptions from './useOptions';
-import type { SelectValue, SelectOption } from './interface';
+import type { SelectOption, SelectValue } from './interface';
 
 export default defineComponent({
     name: 'FSelect',

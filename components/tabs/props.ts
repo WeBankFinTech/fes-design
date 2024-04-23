@@ -1,9 +1,9 @@
 import type { ComponentObjectPropsOptions, PropType, VNode } from 'vue';
 import type {
-    Value,
     Position,
     TabCloseMode,
     TabDisplayDirective,
+    Value,
 } from './interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 

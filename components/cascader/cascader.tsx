@@ -1,14 +1,14 @@
-import { defineComponent, provide, watch, computed } from 'vue';
+import { computed, defineComponent, provide, watch } from 'vue';
 import { cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useLocale } from '../config-provider/useLocale';
 import CascaderMenu from './cascaderMenu';
-import { COMPONENT_NAME, CHECK_STRATEGY, type CheckStrictly } from './const';
+import { CHECK_STRATEGY, COMPONENT_NAME, type CheckStrictly } from './const';
 import useData from './useData';
 import useState from './useState';
-import { cascaderProps, CASCADER_PROVIDE_KEY } from './props';
-import { handleParent, handleChildren } from './helper';
+import { CASCADER_PROVIDE_KEY, cascaderProps } from './props';
+import { handleChildren, handleParent } from './helper';
 import type { CascaderNodeKey } from './interface';
 
 const prefixCls = getPrefixCls('cascader');

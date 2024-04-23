@@ -1,4 +1,4 @@
-import { parse, format, endOfMonth, isValid } from 'date-fns';
+import { endOfMonth, format, isValid, parse } from 'date-fns';
 import { isNumber } from 'lodash-es';
 
 import { RANGE_POSITION } from './const';

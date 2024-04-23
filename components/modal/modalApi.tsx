@@ -1,4 +1,4 @@
-import { render, type VNode, type VNodeChild } from 'vue';
+import { type VNode, type VNodeChild, render } from 'vue';
 import { isFunction, isUndefined } from 'lodash-es';
 import Modal from './modal';
 import type { ModalType } from './props';

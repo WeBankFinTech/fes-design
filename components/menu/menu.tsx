@@ -1,14 +1,14 @@
 import {
-    computed,
-    onMounted,
-    provide,
-    defineComponent,
     type Ref,
     type VNodeChild,
+    computed,
+    defineComponent,
+    onMounted,
+    provide,
 } from 'vue';
 import { isFunction } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
-import { useNormalModel, useArrayModel } from '../_util/use/useModel';
+import { useArrayModel, useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import { concat } from '../_util/utils';
 import { useTheme } from '../_theme/useTheme';

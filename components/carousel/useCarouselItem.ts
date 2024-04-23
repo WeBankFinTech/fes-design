@@ -1,4 +1,4 @@
-import { ref, type Ref } from 'vue';
+import { type Ref, ref } from 'vue';
 import { CAROUSEL_NAME } from './const';
 import type { CarouselItemData } from './interface';
 import type { CarouselProps } from './carousel';

@@ -1,5 +1,5 @@
 import type { ComponentObjectPropsOptions, PropType } from 'vue';
-import type { Size, Type, OptionType } from './interface';
+import type { OptionType, Size, Type } from './interface';
 import type {
     ComponentInnerProps,
     ExtractPublicPropTypes,

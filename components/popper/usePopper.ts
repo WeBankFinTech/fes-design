@@ -1,19 +1,19 @@
 import {
-    onMounted,
+    computed,
+    nextTick,
     onActivated,
+    onMounted,
+    reactive,
     ref,
     watch,
-    reactive,
-    nextTick,
-    computed,
 } from 'vue';
 import {
+    type ReferenceElement,
+    arrow,
     computePosition,
+    flip,
     offset,
     shift,
-    flip,
-    arrow,
-    type ReferenceElement,
 } from '@floating-ui/dom';
 import { isBoolean, isFunction } from 'lodash-es';
 import { useNormalModel } from '../_util/use/useModel';

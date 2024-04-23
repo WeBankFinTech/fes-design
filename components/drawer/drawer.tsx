@@ -1,13 +1,13 @@
 import {
-    computed,
-    defineComponent,
+    type CSSProperties,
+    type Component,
     Teleport,
     Transition,
+    computed,
+    defineComponent,
+    nextTick,
     ref,
     watch,
-    nextTick,
-    type Component,
-    type CSSProperties,
 } from 'vue';
 import { isNumber } from 'lodash-es';
 import FButton from '../button';

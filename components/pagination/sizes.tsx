@@ -1,7 +1,7 @@
 import {
     type ComponentObjectPropsOptions,
-    defineComponent,
     type PropType,
+    defineComponent,
 } from 'vue';
 
 import getPrefixCls from '../_util/getPrefixCls';

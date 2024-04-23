@@ -79,24 +79,24 @@
 
 <script lang="ts">
 import {
+    type CSSProperties,
+    type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
     defineComponent,
     ref,
     unref,
     watch,
-    computed,
-    type CSSProperties,
-    type PropType,
-    type ComponentObjectPropsOptions,
 } from 'vue';
-import { isArray, debounce } from 'lodash-es';
+import { debounce, isArray } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import {
-    useNormalModel,
-    useArrayModel,
     type UseArrayModelReturn,
+    useArrayModel,
+    useNormalModel,
 } from '../_util/use/useModel';
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
@@ -106,8 +106,8 @@ import { cascaderProps } from '../cascader/props';
 import {
     getCascadeChildrenByKeys,
     getCascadeParentByKeys,
-    handleParent,
     handleChildren,
+    handleParent,
 } from '../cascader/helper';
 import { useLocale } from '../config-provider/useLocale';
 import { CHECK_STRATEGY } from '../cascader/const';
@@ -115,19 +115,19 @@ import OptionList from '../select/optionList';
 import { prefixCls as selectPrefixCls } from '../select/const';
 import {
     getCurrentValueByKeys,
+    getExpandedKeysBySelectedKeys,
     getKeysByCurrentValue,
     getNotMatchedPathByKey,
-    getExpandedKeysBySelectedKeys,
 } from './helper';
 
-import { SELECT_CASCADER_NAME, LABEL_SEPARATOR } from './const';
+import { LABEL_SEPARATOR, SELECT_CASCADER_NAME } from './const';
 import type {
+    CascaderNodeKey,
     CascaderNodeList,
+    CascaderOption,
+    CheckParams,
     InnerCascaderOption,
     SelectParams,
-    CheckParams,
-    CascaderNodeKey,
-    CascaderOption,
 } from '../cascader/interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 

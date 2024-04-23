@@ -2,7 +2,7 @@ import { computed, inject, unref } from 'vue';
 import { get, isString, isUndefined } from 'lodash-es';
 import { zhCN } from '../locales';
 import { CONFIG_PROVIDER_INJECTION_KEY } from './const';
-import type { TranslatorType, TranslatorOptionType } from './const';
+import type { TranslatorOptionType, TranslatorType } from './const';
 import type { TypeLanguage } from '../locales';
 import type { MaybeRef } from '@vueuse/core';
 

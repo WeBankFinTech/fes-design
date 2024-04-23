@@ -1,10 +1,10 @@
 import {
-    ref,
+    type ComponentObjectPropsOptions,
+    type PropType,
     Transition,
     computed,
     defineComponent,
-    type PropType,
-    type ComponentObjectPropsOptions,
+    ref,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import CloseCircleOutlined from '../icon/CloseCircleOutlined';

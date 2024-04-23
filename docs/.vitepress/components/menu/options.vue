@@ -2,7 +2,7 @@
     <f-menu v-model="value" :options="options"></f-menu>
 </template>
 <script>
-import { ref, h } from 'vue';
+import { h, ref } from 'vue';
 import { AppstoreOutlined } from '@fesjs/fes-design/icon';
 export default {
     setup() {

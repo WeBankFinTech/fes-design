@@ -1,10 +1,10 @@
 import {
-    inject,
-    defineComponent,
-    ref,
-    computed,
-    type PropType,
     type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
+    defineComponent,
+    inject,
+    ref,
 } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import { useLocale } from '../config-provider/useLocale';

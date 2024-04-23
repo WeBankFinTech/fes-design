@@ -41,24 +41,24 @@
 </template>
 <script lang="ts">
 import {
-    computed,
-    watch,
-    ref,
-    nextTick,
-    inject,
     type ImgHTMLAttributes,
-    defineComponent,
     type PropType,
+    computed,
+    defineComponent,
+    inject,
+    nextTick,
     onUnmounted,
     reactive,
+    ref,
+    watch,
 } from 'vue';
 import { useEventListener, useThrottleFn } from '@vueuse/core';
 import { isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
-import { PictureOutlined, PictureFailOutlined } from '../icon';
-import { isHtmlElement, getScrollContainer, isInContainer } from '../_util/dom';
+import { PictureFailOutlined, PictureOutlined } from '../icon';
+import { getScrollContainer, isHtmlElement, isInContainer } from '../_util/dom';
 import { noop, noopInNoop, pxfy } from '../_util/utils';
-import { CLOSE_EVENT, LOAD_EVENT, ERROR_EVENT } from '../_util/constants';
+import { CLOSE_EVENT, ERROR_EVENT, LOAD_EVENT } from '../_util/constants';
 import download from '../_util/download';
 import { useTheme } from '../_theme/useTheme';
 import { PREVIEW_PROVIDE_KEY } from './props';

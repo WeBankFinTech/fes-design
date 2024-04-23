@@ -1,20 +1,20 @@
 import {
+    type CSSProperties,
+    type ComponentObjectPropsOptions,
+    type PropType,
     computed,
+    defineComponent,
     getCurrentInstance,
     inject,
-    defineComponent,
-    ref,
-    type PropType,
-    type CSSProperties,
     onMounted,
     onUnmounted,
-    type ComponentObjectPropsOptions,
+    ref,
 } from 'vue';
 import { isNil } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { noop } from '../_util/utils';
-import { CloseOutlined, CheckOutlined } from '../icon';
-import { COMPONENT_NAME, STATUS, PROVIDE_KEY } from './const';
+import { CheckOutlined, CloseOutlined } from '../icon';
+import { COMPONENT_NAME, PROVIDE_KEY, STATUS } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('step');

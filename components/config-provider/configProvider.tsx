@@ -1,10 +1,10 @@
 import {
-    ref,
     defineComponent,
-    provide,
-    inject,
-    toRefs,
     getCurrentInstance,
+    inject,
+    provide,
+    ref,
+    toRefs,
 } from 'vue';
 import { defaultContainer } from '../_util/utils';
 import { CONFIG_PROVIDER_INJECTION_KEY, configProviderProps } from './const';

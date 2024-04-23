@@ -89,18 +89,18 @@
 
 <script lang="ts">
 import {
+    type ComponentObjectPropsOptions,
+    type ComponentPublicInstance,
+    type ComputedRef,
+    type PropType,
+    type Ref,
     computed,
+    defineComponent,
     ref,
     watch,
-    type Ref,
-    defineComponent,
-    type PropType,
-    type ComputedRef,
-    type ComponentPublicInstance,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { format, isValid } from 'date-fns';
-import { isEqual, isNil, isArray } from 'lodash-es';
+import { isArray, isEqual, isNil } from 'lodash-es';
 import InputInner from '../input/inputInner.vue';
 import Popper from '../popper';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
@@ -114,7 +114,7 @@ import { COMMON_PROPS, RANGE_PROPS } from './const';
 import { isEmptyValue, strictParse } from './helper';
 import Calendars from './calendars.vue';
 import RangeInput from './rangeInput.vue';
-import { pickerFactory, PickerType } from './pickerHandler';
+import { PickerType, pickerFactory } from './pickerHandler';
 import { useDisable } from './use';
 import type { GetContainer } from '../_util/interface';
 import type { Picker } from './pickerHandler';

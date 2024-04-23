@@ -55,15 +55,15 @@
 
 <script lang="ts">
 import {
-    computed,
-    ref,
-    nextTick,
-    defineComponent,
-    onMounted,
     type ComponentObjectPropsOptions,
+    computed,
+    defineComponent,
+    nextTick,
+    onMounted,
+    ref,
 } from 'vue';
 import { isNumber } from 'lodash-es';
-import { UpOutlined, DownOutlined } from '../icon';
+import { DownOutlined, UpOutlined } from '../icon';
 import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';

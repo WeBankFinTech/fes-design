@@ -1,4 +1,4 @@
-import { defineComponent, computed, toRefs, watch, ref } from 'vue';
+import { computed, defineComponent, ref, toRefs, watch } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { CHANGE_EVENT } from '../_util/constants';
 import { useTheme } from '../_theme/useTheme';

@@ -1,5 +1,5 @@
-import { inject, isRef, watch, ref, type Ref, provide } from 'vue';
-import { isString, isFunction } from 'lodash-es';
+import { type Ref, inject, isRef, provide, ref, watch } from 'vue';
+import { isFunction, isString } from 'lodash-es';
 import { noop } from '../utils';
 import { FORM_ITEM_INJECTION_KEY } from '../constants';
 

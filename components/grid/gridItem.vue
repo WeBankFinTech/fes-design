@@ -6,12 +6,12 @@
 
 <script lang="ts">
 import {
-    computed,
     type CSSProperties,
+    type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
     defineComponent,
     inject,
-    type PropType,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isNumber, isObject, isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';

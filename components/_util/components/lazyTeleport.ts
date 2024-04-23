@@ -1,11 +1,11 @@
 import {
+    type ComponentObjectPropsOptions,
     Teleport,
+    computed,
+    defineComponent,
     h,
     ref,
     watch,
-    computed,
-    defineComponent,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { getSlot } from '../vnode';
 export default defineComponent({

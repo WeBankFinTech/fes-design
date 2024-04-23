@@ -2,7 +2,7 @@
  * item component, we need to know their size change at any time
  */
 
-import { defineComponent, ref, cloneVNode, computed } from 'vue';
+import { cloneVNode, computed, defineComponent, ref } from 'vue';
 import useResize from '../_util/use/useResize';
 import { getFirstValidNode } from '../_util/vnode';
 import getElementFromVueInstance from '../_util/getElementFromVueInstance';

@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
-import { FMenu, FSubMenu, FMenuGroup, FMenuItem } from '../index';
+import { FMenu, FMenuGroup, FMenuItem, FSubMenu } from '../index';
 import getPrefixCls from '../../_util/getPrefixCls';
 import AppstoreOutlined from '../../icon/AppstoreOutlined';
 

@@ -31,12 +31,12 @@
 
 <script lang="ts">
 import {
+    type ComponentObjectPropsOptions,
     computed,
-    inject,
     defineComponent,
     getCurrentInstance,
+    inject,
     ref,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { FScrollbar } from '../scrollbar';
 import LeftOutlined from '../icon/LeftOutlined';

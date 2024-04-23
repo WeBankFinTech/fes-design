@@ -1,11 +1,11 @@
 import { isFunction } from 'lodash-es';
 import {
-    nextTick,
-    watch,
-    type Ref,
     type ComputedRef,
+    type Ref,
     type SetupContext,
+    nextTick,
     reactive,
+    watch,
 } from 'vue';
 
 export const UPDATE_MODEL_EVENT = 'update:modelValue';

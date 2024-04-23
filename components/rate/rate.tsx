@@ -1,8 +1,8 @@
-import { defineComponent, computed, watch } from 'vue';
+import { computed, defineComponent, watch } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { StarFilled, StarOutlined } from '../icon';
-import { rateProps, type RateItem } from './props';
+import { type RateItem, rateProps } from './props';
 import { sizeMap } from './const';
 import { useRate } from './useRate';
 

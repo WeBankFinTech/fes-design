@@ -1,4 +1,4 @@
-import { inject, computed } from 'vue';
+import { computed, inject } from 'vue';
 import { CASCADER_PROVIDE_KEY } from './props';
 
 import { ROOT_MENU_KEY } from './const';

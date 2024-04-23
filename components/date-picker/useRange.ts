@@ -1,7 +1,7 @@
-import { watch, ref, type Ref } from 'vue';
+import { type Ref, ref, watch } from 'vue';
 
 import { getTimestampFromFormat, isBeyondRangeTime } from './helper';
-import { SELECTED_STATUS, RANGE_POSITION } from './const';
+import { RANGE_POSITION, SELECTED_STATUS } from './const';
 import type { Picker } from './pickerHandler';
 
 import type { CalendarsProps } from './calendars.vue';

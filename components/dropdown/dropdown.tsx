@@ -1,4 +1,4 @@
-import { defineComponent, computed, watch, ref } from 'vue';
+import { computed, defineComponent, ref, watch } from 'vue';
 import { isFunction } from 'lodash-es';
 import CheckOutlined from '../icon/CheckOutlined';
 import getPrefixCls from '../_util/getPrefixCls';

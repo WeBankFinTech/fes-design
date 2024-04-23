@@ -3,8 +3,8 @@ import Card from './card.vue';
 
 import { type cardProps } from './props';
 import type {
-    SFCWithInstall,
     ExtractPublicPropTypes,
+    SFCWithInstall,
 } from '../_util/interface';
 
 export { cardProps } from './props';

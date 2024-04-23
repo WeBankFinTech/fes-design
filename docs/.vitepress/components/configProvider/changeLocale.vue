@@ -40,7 +40,7 @@
 
 <script>
 import { defineComponent, ref, watch } from 'vue';
-import { zhCN, enUS } from '@fesjs/fes-design';
+import { enUS, zhCN } from '@fesjs/fes-design';
 
 export default defineComponent({
     setup() {

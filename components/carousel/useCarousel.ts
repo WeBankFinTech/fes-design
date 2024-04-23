@@ -1,4 +1,4 @@
-import { ref, computed, provide } from 'vue';
+import { computed, provide, ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { provideKey } from './const';
 import useCarouselItem from './useCarouselItem';

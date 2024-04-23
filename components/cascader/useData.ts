@@ -1,11 +1,11 @@
-import { ref, reactive, watch, computed, type Ref, nextTick } from 'vue';
+import { type Ref, computed, nextTick, reactive, ref, watch } from 'vue';
 import { isArray, isEmpty, isNil } from 'lodash-es';
 import { ROOT_MENU_KEY } from './const';
 import type {
-    InnerCascaderOption,
-    CascaderOption,
     CascaderNodeKey,
     CascaderNodeList,
+    CascaderOption,
+    InnerCascaderOption,
 } from './interface';
 import type { CascaderProps } from './props';
 

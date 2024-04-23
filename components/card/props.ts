@@ -1,6 +1,6 @@
 import type { ComponentObjectPropsOptions, PropType, StyleValue } from 'vue';
 
-import type { Size, Shadow } from './interface';
+import type { Shadow, Size } from './interface';
 
 export const cardProps = {
     header: {

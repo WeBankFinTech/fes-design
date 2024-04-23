@@ -1,4 +1,4 @@
-import { inject, computed } from 'vue';
+import { computed, inject } from 'vue';
 import { isNil } from 'lodash-es';
 import { TREE_PROVIDE_KEY } from './props';
 

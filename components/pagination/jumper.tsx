@@ -1,8 +1,8 @@
 import {
-    defineComponent,
-    toRefs,
-    ref,
     type ComponentObjectPropsOptions,
+    defineComponent,
+    ref,
+    toRefs,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import InputInner from '../input/inputInner.vue';

@@ -1,15 +1,15 @@
 import {
-    computed,
-    provide,
-    defineComponent,
-    ref,
-    type PropType,
     type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
+    defineComponent,
+    provide,
+    ref,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { useTheme } from '../_theme/useTheme';
-import { PROVIDE_KEY, COMPONENT_NAME, type STATUS, type TYPE } from './const';
+import { COMPONENT_NAME, PROVIDE_KEY, type STATUS, type TYPE } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('steps');

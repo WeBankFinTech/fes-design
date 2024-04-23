@@ -1,9 +1,9 @@
 import {
     type CSSProperties,
-    type PropType,
-    type VNodeChild,
     type ComponentObjectPropsOptions,
+    type PropType,
     type SlotsType,
+    type VNodeChild,
 } from 'vue';
 import { type ComponentSlots } from '../_util/interface';
 import type { ComponentInnerProps, ComponentProps } from './utilTypes';

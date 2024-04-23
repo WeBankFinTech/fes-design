@@ -1,6 +1,6 @@
 import {
-    type PropType,
     type ComponentObjectPropsOptions,
+    type PropType,
     type SlotsType,
 } from 'vue';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';

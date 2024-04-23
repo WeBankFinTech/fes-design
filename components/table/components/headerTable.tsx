@@ -1,8 +1,8 @@
 import {
     type ComponentObjectPropsOptions,
+    type PropType,
     defineComponent,
     inject,
-    type PropType,
 } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import { provideKey } from '../const';

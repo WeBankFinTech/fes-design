@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import { ref, defineComponent, computed } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 
 export default defineComponent({
     setup() {

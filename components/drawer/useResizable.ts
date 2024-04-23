@@ -1,4 +1,4 @@
-import { computed, onMounted, ref, type Ref } from 'vue';
+import { type Ref, computed, onMounted, ref } from 'vue';
 import { useEventListener, useWindowSize } from '@vueuse/core';
 import { isNil, isNumber } from 'lodash-es';
 import { type DrawerInnerProps as Props } from './props';

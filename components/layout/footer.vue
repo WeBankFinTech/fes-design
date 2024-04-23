@@ -5,12 +5,12 @@
 </template>
 <script lang="ts">
 import {
-    inject,
-    computed,
-    getCurrentInstance,
-    ref,
-    defineComponent,
     type ComponentObjectPropsOptions,
+    computed,
+    defineComponent,
+    getCurrentInstance,
+    inject,
+    ref,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { noop } from '../_util/utils';

@@ -1,4 +1,4 @@
-import { defineComponent, provide, type VNodeChild } from 'vue';
+import { type VNodeChild, defineComponent, provide } from 'vue';
 import { isFunction, isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -14,7 +14,7 @@ import useSelect from './useSelect';
 import useCheck from './useCheck';
 import useCurrentData from './useCurrentData';
 
-import { treeProps, TREE_PROVIDE_KEY } from './props';
+import { TREE_PROVIDE_KEY, treeProps } from './props';
 
 import type { TreeNodeKey } from './interface';
 

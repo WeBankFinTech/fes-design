@@ -1,4 +1,4 @@
-import { defineComponent, provide, computed, ref } from 'vue';
+import { computed, defineComponent, provide, ref } from 'vue';
 import {
     DESCRIPTIONS_PREFIX_CLASS,
     DESCRIPTIONS_PROVIDE_KEY,

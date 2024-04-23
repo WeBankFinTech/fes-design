@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
-import { FLayout, FHeader, FMain, FAside, FFooter } from '../index';
+import { FAside, FFooter, FHeader, FLayout, FMain } from '../index';
 
 import getPrefixCls from '../../_util/getPrefixCls';
 

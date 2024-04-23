@@ -1,13 +1,13 @@
 import {
-    ref,
+    type ComponentObjectPropsOptions,
     computed,
     defineComponent,
-    onMounted,
-    onBeforeUnmount,
     getCurrentInstance,
-    watch,
+    onBeforeUnmount,
+    onMounted,
     provide,
-    type ComponentObjectPropsOptions,
+    ref,
+    watch,
 } from 'vue';
 import { type PropType } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';

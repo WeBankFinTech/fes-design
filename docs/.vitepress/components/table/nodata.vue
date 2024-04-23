@@ -84,7 +84,7 @@
     </FTable>
 </template>
 <script setup>
-import { ref, reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 const emptyType = ref('normal');
 const size = ref('middle');

@@ -1,6 +1,6 @@
-import { ref, provide, watch, computed, toRefs } from 'vue';
+import { computed, provide, ref, toRefs, watch } from 'vue';
 import { isArray, isEqual, isFunction } from 'lodash-es';
-import { noop, hasOwn } from '../_util/utils';
+import { hasOwn, noop } from '../_util/utils';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
@@ -11,7 +11,7 @@ import type { UploadProps } from './upload';
 
 const prefixCls = getPrefixCls('upload');
 
-import type { UploadFile, FileItem, UploadProgressEvent } from './interface';
+import type { FileItem, UploadFile, UploadProgressEvent } from './interface';
 
 function genUid(seed: number) {
     return Date.now() + seed;

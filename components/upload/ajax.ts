@@ -1,7 +1,7 @@
 import { hasOwn } from '../_util/utils';
 import type { UploadProgressEvent } from './interface';
 
-import type { UploadOption, UploadError } from './interface';
+import type { UploadError, UploadOption } from './interface';
 
 function getError(action: string, option: UploadOption, xhr: XMLHttpRequest) {
     let msg;

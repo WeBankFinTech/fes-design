@@ -1,10 +1,10 @@
 import {
-    defineComponent,
     computed,
-    ref,
-    onMounted,
+    defineComponent,
     nextTick,
+    onMounted,
     onUpdated,
+    ref,
     watch,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';

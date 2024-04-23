@@ -5,12 +5,12 @@
 </template>
 
 <script lang="ts">
-import { computed, type CSSProperties, defineComponent, provide } from 'vue';
+import { type CSSProperties, computed, defineComponent, provide } from 'vue';
 import { isArray } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
 
 import getPrefixCls from '../_util/getPrefixCls';
-import { ALIGN, JUSTIFY, GRID_KEY } from './const';
+import { ALIGN, GRID_KEY, JUSTIFY } from './const';
 import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 

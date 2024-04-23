@@ -63,7 +63,7 @@
     </FTable>
 </template>
 <script>
-import { ref, computed } from 'vue';
+import { computed, ref } from 'vue';
 export default {
     setup() {
         const fixedHeader = ref(true);

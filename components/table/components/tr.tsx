@@ -1,9 +1,9 @@
 import {
     type ComponentObjectPropsOptions,
-    defineComponent,
     Fragment,
-    inject,
     type PropType,
+    defineComponent,
+    inject,
 } from 'vue';
 import { provideKey } from '../const';
 import Td from './td';

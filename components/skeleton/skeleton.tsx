@@ -1,10 +1,10 @@
 import {
     type ComponentObjectPropsOptions,
+    type PropType,
+    type StyleValue,
     computed,
     defineComponent,
     mergeProps,
-    type PropType,
-    type StyleValue,
 } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import getPrefixCls from '../_util/getPrefixCls';

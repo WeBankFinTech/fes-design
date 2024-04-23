@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, computed } from 'vue';
+import { computed, inject } from 'vue';
 import Button from '../button/button';
 import UploadOutlined from '../icon/UploadOutlined';
 import { useLocale } from '../config-provider/useLocale';

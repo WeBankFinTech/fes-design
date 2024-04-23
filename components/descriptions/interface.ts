@@ -1,9 +1,9 @@
 import {
-    type SetupContext,
-    type ComponentInternalInstance,
     type CSSProperties,
+    type ComponentInternalInstance,
     type ComputedRef,
     type Ref,
+    type SetupContext,
 } from 'vue';
 import { type DescriptionsItemProps } from './props';
 

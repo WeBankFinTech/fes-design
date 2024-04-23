@@ -1,10 +1,10 @@
 import {
-    nextTick,
-    ref,
-    watch,
     type Ref,
+    nextTick,
     onActivated,
     onDeactivated,
+    ref,
+    watch,
 } from 'vue';
 import { isEqual } from 'lodash-es';
 import useResize from '../_util/use/useResize';

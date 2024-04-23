@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { provide, defineComponent, computed, watch } from 'vue';
+import { computed, defineComponent, provide, watch } from 'vue';
 import { isNil } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel } from '../_util/use/useModel';

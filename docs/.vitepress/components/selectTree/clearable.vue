@@ -2,7 +2,7 @@
     <FSelectTree :data="data" clearable></FSelectTree>
 </template>
 <script>
-import { reactive, h } from 'vue';
+import { h, reactive } from 'vue';
 import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
 
 function createData(level = 1, baseKey = '', prefix = null, suffix = null) {

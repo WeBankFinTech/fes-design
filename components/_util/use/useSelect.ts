@@ -1,9 +1,9 @@
-import { inject, ref, computed, type InjectionKey } from 'vue';
+import { type InjectionKey, computed, inject, ref } from 'vue';
 import { CHANGE_EVENT } from '../constants';
 import { useNormalModel } from './useModel';
 import useFormAdaptor from './useFormAdaptor';
 
-import type { VModelEvent, ChangeEvent } from '../interface';
+import type { ChangeEvent, VModelEvent } from '../interface';
 
 export type ParentGroupInjection<
     Value,

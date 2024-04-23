@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import { defineComponent, ref, watch, computed } from 'vue';
+import { computed, defineComponent, ref, watch } from 'vue';
 import { mergeWith } from 'lodash-es';
-import { zhCN, enUS } from '@fesjs/fes-design';
+import { enUS, zhCN } from '@fesjs/fes-design';
 
 export default defineComponent({
     setup() {

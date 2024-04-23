@@ -1,12 +1,12 @@
 import {
-    Fragment,
-    Text,
     Comment,
-    createTextVNode,
+    Fragment,
+    type Slots,
+    Text,
     type VNode,
     type VNodeChild,
+    createTextVNode,
     isVNode,
-    type Slots,
 } from 'vue';
 
 const TEMPLATE = 'template';

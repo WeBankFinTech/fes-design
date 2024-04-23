@@ -1,11 +1,11 @@
 import {
-    defineComponent,
-    computed,
-    ref,
+    type ComponentObjectPropsOptions,
     type ExtractPropTypes,
     type PropType,
+    computed,
+    defineComponent,
     nextTick,
-    type ComponentObjectPropsOptions,
+    ref,
 } from 'vue';
 import { isArray, isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';

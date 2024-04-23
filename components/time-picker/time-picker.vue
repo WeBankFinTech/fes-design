@@ -76,12 +76,12 @@
 
 <script lang="ts">
 import {
+    type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
     defineComponent,
     ref,
     watch,
-    computed,
-    type PropType,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';

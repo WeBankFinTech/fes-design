@@ -1,9 +1,9 @@
 import {
-    defineComponent,
-    inject,
+    type ComponentObjectPropsOptions,
     type PropType,
     computed,
-    type ComponentObjectPropsOptions,
+    defineComponent,
+    inject,
 } from 'vue';
 import Scrollbar from '../../scrollbar/scrollbar.vue';
 import Draggable from '../../draggable/draggable';

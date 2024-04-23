@@ -1,7 +1,7 @@
 import { type ComponentObjectPropsOptions, type PropType } from 'vue';
 import {
-    type ExtractPublicPropTypes,
     type ComponentInnerProps,
+    type ExtractPublicPropTypes,
 } from '../_util/interface';
 
 type Size = 'large' | 'medium' | 'small';

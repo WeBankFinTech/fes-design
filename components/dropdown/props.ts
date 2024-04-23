@@ -1,10 +1,10 @@
 import {
-    type VNodeTypes,
     type ComponentObjectPropsOptions,
     type ExtractPublicPropTypes,
     type PropType,
+    type VNodeTypes,
 } from 'vue';
-import { type TRIGGER, type PLACEMENT } from '../_util/constants';
+import { type PLACEMENT, type TRIGGER } from '../_util/constants';
 
 export type DropdownOption = {
     value: string | number;

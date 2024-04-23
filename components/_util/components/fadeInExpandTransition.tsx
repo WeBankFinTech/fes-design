@@ -1,10 +1,10 @@
 import {
-    h,
+    type ComponentObjectPropsOptions,
+    type PropType,
     Transition,
     TransitionGroup,
     defineComponent,
-    type PropType,
-    type ComponentObjectPropsOptions,
+    h,
 } from 'vue';
 
 export default defineComponent({

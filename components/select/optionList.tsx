@@ -1,9 +1,9 @@
 import {
-    defineComponent,
-    type PropType,
     type CSSProperties,
     type ComponentObjectPropsOptions,
+    type PropType,
     computed,
+    defineComponent,
 } from 'vue';
 import Scrollbar from '../scrollbar/scrollbar.vue';
 import Ellipsis from '../ellipsis/ellipsis';

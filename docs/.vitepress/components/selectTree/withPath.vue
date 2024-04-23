@@ -47,7 +47,7 @@
     </FForm>
 </template>
 <script>
-import { ref, h } from 'vue';
+import { h, ref } from 'vue';
 import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
 
 function createData(level = 1, baseKey = '', prefix = null, suffix = null) {

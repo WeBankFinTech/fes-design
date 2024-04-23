@@ -1,27 +1,27 @@
 import {
-    defineComponent,
-    h,
+    type ComponentObjectPropsOptions,
     Fragment,
+    type PropType,
+    type VNode,
+    defineComponent,
+    getCurrentInstance,
+    h,
     inject,
     onBeforeMount,
     onBeforeUnmount,
-    getCurrentInstance,
-    type VNode,
-    type PropType,
     type useSlots,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import {
-    type COL_TYPE,
     type ALIGN,
-    TABLE_NAME,
+    type COL_TYPE,
     TABLE_COLUMN_NAME,
+    TABLE_NAME,
     provideKey,
 } from './const';
 import type { EllipsisProps } from '../ellipsis';
 
 import type { CellProps } from './components/cell';
-import type { RowType, ActionType } from './interface';
+import type { ActionType, RowType } from './interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export type SortOrderType = 'descend' | 'ascend' | false;

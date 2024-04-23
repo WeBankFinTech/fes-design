@@ -1,11 +1,11 @@
 import {
-    computed,
-    defineComponent,
     Teleport,
     Transition,
+    computed,
+    defineComponent,
+    nextTick,
     ref,
     watch,
-    nextTick,
 } from 'vue';
 import { isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -19,7 +19,7 @@ import useLockScreen from '../_util/use/useLockScreen';
 import { useConfig } from '../config-provider';
 import { useLocale } from '../config-provider/useLocale';
 import { useContentMaxHeight } from './useContentMaxHeight';
-import { globalModalProps, modalProps, modalIconMap } from './props';
+import { globalModalProps, modalIconMap, modalProps } from './props';
 
 const prefixCls = getPrefixCls('modal');
 const UPDATE_SHOW_EVENT = 'update:show';

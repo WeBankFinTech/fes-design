@@ -1,4 +1,4 @@
-import { inject, computed } from 'vue';
+import { computed, inject } from 'vue';
 import { CASCADER_PROVIDE_KEY } from './props';
 
 import type { CascaderNodeProps } from './cascaderNode';

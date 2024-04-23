@@ -3,7 +3,7 @@
 ## 组件注册
 
 ```js
-import { FRadio, FRadioGroup, FRadioButton } from '@fesjs/fes-design';
+import { FRadio, FRadioButton, FRadioGroup } from '@fesjs/fes-design';
 
 app.use(FRadio);
 app.use(FRadioGroup);

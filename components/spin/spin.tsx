@@ -1,12 +1,12 @@
 import {
-    defineComponent,
-    computed,
-    ref,
-    watch,
-    onBeforeUnmount,
-    type PropType,
     type CSSProperties,
     type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
+    defineComponent,
+    onBeforeUnmount,
+    ref,
+    watch,
 } from 'vue';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import getPrefixCls from '../_util/getPrefixCls';

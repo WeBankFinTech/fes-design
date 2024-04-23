@@ -1,13 +1,13 @@
 import {
-    defineComponent,
+    type ComponentObjectPropsOptions,
     type ExtractPropTypes,
+    type PropType,
+    type VNodeChild,
+    defineComponent,
     nextTick,
     onMounted,
-    type PropType,
     ref,
-    type VNodeChild,
     watch,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isFunction, isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';

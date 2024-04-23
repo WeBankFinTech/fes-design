@@ -2,7 +2,7 @@
     <FSelectTree :modelValue="'40'" :data="data" />
 </template>
 <script setup>
-import { ref, h } from 'vue';
+import { h, ref } from 'vue';
 import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
 
 function createData(level = 1, baseKey = '', prefix = null, suffix = null) {

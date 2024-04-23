@@ -1,10 +1,10 @@
 import {
-    inject,
-    defineComponent,
+    type ComponentObjectPropsOptions,
     Fragment,
     type PropType,
     computed,
-    type ComponentObjectPropsOptions,
+    defineComponent,
+    inject,
 } from 'vue';
 import FCheckbox from '../../checkbox/checkbox.vue';
 import { provideKey } from '../const';

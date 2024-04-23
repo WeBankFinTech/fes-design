@@ -1,15 +1,15 @@
 import {
+    type DirectiveBinding,
+    type SetupContext,
     computed,
     reactive,
     ref,
-    type SetupContext,
     watch,
-    type DirectiveBinding,
 } from 'vue';
 import {
-    type DraggableItem,
     DRAG_END_EVENT,
     DRAG_START_EVENT,
+    type DraggableItem,
     UPDATE_MODEL_EVENT,
     useDraggable,
 } from './useDraggable';

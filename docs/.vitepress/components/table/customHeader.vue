@@ -19,7 +19,7 @@
     <FTable :data="data" :columns="columns"> </FTable>
 </template>
 <script>
-import { h, defineComponent } from 'vue';
+import { defineComponent, h } from 'vue';
 import { ClockCircleOutlined } from '@fesjs/fes-design/icon';
 
 export default defineComponent({

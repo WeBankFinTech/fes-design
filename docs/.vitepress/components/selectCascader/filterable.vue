@@ -61,7 +61,7 @@
     </FSpace>
 </template>
 <script>
-import { ref, reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 function createData(level = 4, baseKey = '') {
     if (!level) return undefined;

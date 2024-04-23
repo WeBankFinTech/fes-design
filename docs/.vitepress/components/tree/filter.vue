@@ -4,7 +4,7 @@
     </FTree>
 </template>
 <script>
-import { ref, reactive, h, watch } from 'vue';
+import { h, reactive, ref, watch } from 'vue';
 import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
 
 function createData(level = 1, baseKey = '', prefix, suffix) {

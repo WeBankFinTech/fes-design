@@ -1,9 +1,9 @@
 import {
-    defineComponent,
-    computed,
-    ref,
-    type PropType,
     type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
+    defineComponent,
+    ref,
 } from 'vue';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -11,7 +11,7 @@ import { useAnimate } from '../_util/use/useAnimate';
 import { useTheme } from '../_theme/useTheme';
 
 import useFormAdaptor from '../_util/use/useFormAdaptor';
-import type { Type, Size } from './interface';
+import type { Size, Type } from './interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('btn');
