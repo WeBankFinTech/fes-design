@@ -36,7 +36,7 @@ export default function useLockScreen(trigger: Ref<boolean>) {
             withoutHiddenClass = !hasClass(document.body, cls);
             if (withoutHiddenClass) {
                 bodyPaddingRight = document.body.style.paddingRight;
-                computedBodyPaddingRight = parseInt(
+                computedBodyPaddingRight = Number.parseInt(
                     getStyle(document.body, 'paddingRight'),
                     10,
                 );

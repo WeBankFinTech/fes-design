@@ -43,8 +43,8 @@ export default {
         };
 
         const doRandomUpdateItem = () => {
-            let op = parseInt(Math.random() * 10) % 2;
-            let index = parseInt(Math.random() * 100) % list.value.length;
+            let op = Number.parseInt(Math.random() * 10) % 2;
+            let index = Number.parseInt(Math.random() * 100) % list.value.length;
             if (list.value.length === 0) {
                 op = 0;
                 index = 0;

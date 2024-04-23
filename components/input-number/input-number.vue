@@ -82,11 +82,11 @@ export const inputNumberProps = {
     modelValue: Number,
     min: {
         type: Number,
-        default: -Infinity,
+        default: Number.NEGATIVE_INFINITY,
     },
     max: {
         type: Number,
-        default: Infinity,
+        default: Number.POSITIVE_INFINITY,
     },
     step: {
         type: Number,

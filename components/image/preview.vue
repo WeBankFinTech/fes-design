@@ -219,12 +219,12 @@ export default defineComponent({
                     if (transform.value.scale < 0.2) {
                         break;
                     }
-                    transform.value.scale = parseFloat(
+                    transform.value.scale = Number.parseFloat(
                         (transform.value.scale / zoomRate).toFixed(3),
                     );
                     break;
                 case 'zoomIn':
-                    transform.value.scale = parseFloat(
+                    transform.value.scale = Number.parseFloat(
                         (transform.value.scale * zoomRate).toFixed(3),
                     );
                     break;

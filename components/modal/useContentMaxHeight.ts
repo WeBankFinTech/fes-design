@@ -34,13 +34,13 @@ export const useContentMaxHeight = (
     const marginTop = computed(() => {
         return isNumber(styles.value.marginTop)
             ? styles.value.marginTop
-            : parseFloat(styles.value.marginTop);
+            : Number.parseFloat(styles.value.marginTop);
     });
 
     const marginBottom = computed(() => {
         return isNumber(styles.value.marginBottom)
             ? styles.value.marginBottom
-            : parseFloat(styles.value.marginBottom);
+            : Number.parseFloat(styles.value.marginBottom);
     });
 
     const modalStyle = computed(() => {
@@ -48,11 +48,11 @@ export const useContentMaxHeight = (
     });
 
     const paddingTop = computed(() => {
-        return parseFloat(modalStyle.value?.paddingTop);
+        return Number.parseFloat(modalStyle.value?.paddingTop);
     });
 
     const paddingBottom = computed(() => {
-        return parseFloat(modalStyle.value?.paddingBottom);
+        return Number.parseFloat(modalStyle.value?.paddingBottom);
     });
 
     // 最大场景的弹窗高度
@@ -76,7 +76,7 @@ export const useContentMaxHeight = (
                 && props.maxHeight.endsWith('%')
             ) {
                 // %字符串 解析字符串的数字，算出百分比对应的高度px
-                return (parseFloat(props.maxHeight) / 100) * windowHeight.value;
+                return (Number.parseFloat(props.maxHeight) / 100) * windowHeight.value;
             } else {
                 console.warn('[FModal] maxHeight 仅支持 px、%、数值格式');
             }

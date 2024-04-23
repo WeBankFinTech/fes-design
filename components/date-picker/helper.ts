@@ -13,7 +13,7 @@ export function strictParse(
     const result = parse(string, pattern, backup);
     if (!isValid(result)) return result;
     else if (format(result, pattern) === string) return result;
-    else return new Date(NaN);
+    else return new Date(Number.NaN);
 }
 
 export const isEmptyValue = (val: any) => {

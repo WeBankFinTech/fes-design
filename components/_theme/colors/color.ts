@@ -26,18 +26,18 @@ class Color {
             this.rgb = [];
             rgb.match(/.{2}/g)!.forEach((c, i) => {
                 if (i < 3) {
-                    this.rgb.push(parseInt(c, 16));
+                    this.rgb.push(Number.parseInt(c, 16));
                 } else {
-                    this.alpha = parseInt(c, 16) / 255;
+                    this.alpha = Number.parseInt(c, 16) / 255;
                 }
             });
         } else {
             this.rgb = [];
             rgb.split('').forEach((c, i) => {
                 if (i < 3) {
-                    this.rgb.push(parseInt(c + c, 16));
+                    this.rgb.push(Number.parseInt(c + c, 16));
                 } else {
-                    this.alpha = parseInt(c + c, 16) / 255;
+                    this.alpha = Number.parseInt(c + c, 16) / 255;
                 }
             });
         }

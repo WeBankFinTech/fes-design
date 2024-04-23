@@ -104,6 +104,7 @@ export default antfu({
         'prefer-spread': 'off',
         'no-case-declarations': 'off',
         'one-var': 'off',
+        'unicorn/prefer-includes': 'off',
 
         'ts/no-use-before-define': 'off',
 
@@ -122,7 +123,6 @@ export default antfu({
         'style/jsx-curly-newline': 'off',
         'style/jsx-closing-tag-location': 'off',
         'symbol-description': 'off',
-        'unicorn/prefer-includes': 'off',
         'test/consistent-test-it': 'off',
         'no-empty-pattern': 'off',
         'test/no-identical-title': 'off',
@@ -131,10 +131,7 @@ export default antfu({
         'unicorn/no-instanceof-array': 'off',
         'prefer-const': 'off',
         'array-callback-return': 'off',
-        '@typescript-eslint/ban-types': 'off',
-        'unicorn/prefer-number-properties': 'off',
         'no-console': 'off',
-        'unicorn/prefer-number-properties': 'off',
         'prefer-promise-reject-errors': 'off',
         'unicorn/throw-new-error': 'off',
         'no-unexpected-multiline': 'off',

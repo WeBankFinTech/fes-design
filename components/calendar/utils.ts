@@ -33,7 +33,7 @@ export const generateCalendarDates = (
     // 上一个月
     calendarDates.push(
         ...new Array(Math.abs(monthFirstDate.getDay() - startDay))
-            .fill(NaN)
+            .fill(Number.NaN)
             .map((_, index) => ({
                 year: calendarFirstDate.getFullYear(),
                 month: calendarFirstDate.getMonth(),
@@ -44,7 +44,7 @@ export const generateCalendarDates = (
     // 当前月
     calendarDates.push(
         ...new Array(getDaysInMonth(monthFirstDate))
-            .fill(NaN)
+            .fill(Number.NaN)
             .map((_, index) => ({
                 year: monthFirstDate.getFullYear(),
                 month: monthFirstDate.getMonth(),
@@ -63,7 +63,7 @@ export const generateCalendarDates = (
     const nextMonthFirstDate = addMonths(monthFirstDate, 1);
     calendarDates.push(
         ...new Array(calendarDateNum - calendarDates.length)
-            .fill(NaN)
+            .fill(Number.NaN)
             .map((_, index) => ({
                 year: nextMonthFirstDate.getFullYear(),
                 month: nextMonthFirstDate.getMonth(),

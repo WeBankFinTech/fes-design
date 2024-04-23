@@ -27,7 +27,7 @@ export default defineComponent({
         const current = ref();
         const { total } = toRefs(props);
         const handleChange = (val: string) => {
-            const cur = parseInt(val, 10);
+            const cur = Number.parseInt(val, 10);
             if (Number.isNaN(cur)) {
                 return;
             }
