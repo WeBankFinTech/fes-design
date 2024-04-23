@@ -16,11 +16,11 @@ import Popper from '../popper/popper';
 import DownOutlined from '../icon/DownOutlined';
 import RightOutlined from '../icon/RightOutlined';
 import Ellipsis from '../ellipsis/ellipsis';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import { COMPONENT_NAME, SUB_MENU_KEY } from './const';
 import useChildren from './useChildren';
 import useParent from './useParent';
 import useMenu from './useMenu';
-import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('sub-menu');
 

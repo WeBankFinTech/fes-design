@@ -1,10 +1,10 @@
-import { defaultContainer } from '../_util/utils';
 import type {
     ComponentObjectPropsOptions,
     InjectionKey,
     PropType,
     Ref,
 } from 'vue';
+import { defaultContainer } from '../_util/utils';
 import type { TypeLanguage } from '../locales';
 import type { Theme } from '../_theme/interface';
 import type { GetContainer } from '../_util/interface';

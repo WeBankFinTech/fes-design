@@ -1,16 +1,16 @@
 import { defineComponent, ref, watch } from 'vue';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import useResize from '../_util/use/useResize';
 import { CHANGE_EVENT } from '../_util/constants';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import { CAROUSEL_NAME } from './const';
 import Arrow from './arrow';
 import Indicator from './indicator';
 import useCarousel from './useCarousel';
 import useCarouselStyle from './useCarouselStyle';
 import useCarouselPlay from './useCarouselPlay';
-import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import type { ArrowType, Placement } from './interface';
-import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const carouselProps = {
     height: {

@@ -6,9 +6,9 @@ import {
     type Ref,
     type ToRefs,
 } from 'vue';
-import { FORM_ITEM_ALIGN, FORM_LAYOUT, LABEL_POSITION } from './const';
 import type { RuleItem, Rules } from 'async-validator';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { FORM_ITEM_ALIGN, FORM_LAYOUT, LABEL_POSITION } from './const';
 
 export interface FFormRuleItem extends RuleItem {
     trigger?: string | string[];

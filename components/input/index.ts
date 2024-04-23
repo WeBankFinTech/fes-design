@@ -1,7 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import Input from './input.vue';
-
 import type { SFCWithInstall } from '../_util/interface';
+import Input from './input.vue';
 
 type InputType = SFCWithInstall<typeof Input>;
 

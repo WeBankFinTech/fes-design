@@ -1,6 +1,6 @@
 import { type ComponentObjectPropsOptions } from 'vue';
-import type useCarousel from './useCarousel';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import type useCarousel from './useCarousel';
 
 export type Placement = 'top' | 'bottom' | 'left' | 'right';
 export type Direction = 'horizontal' | 'vertical' | '';

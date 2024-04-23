@@ -7,12 +7,12 @@
 <script lang="ts">
 import { type CSSProperties, computed, defineComponent, provide } from 'vue';
 import { isArray } from 'lodash-es';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 
 import getPrefixCls from '../_util/getPrefixCls';
-import { ALIGN, GRID_KEY, JUSTIFY } from './const';
-import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { ALIGN, GRID_KEY, JUSTIFY } from './const';
 
 const prefixCls = getPrefixCls('grid');
 

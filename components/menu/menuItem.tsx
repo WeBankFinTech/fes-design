@@ -6,14 +6,14 @@ import {
     onBeforeUnmount,
     onMounted,
 } from 'vue';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import Ellipsis from '../ellipsis/ellipsis';
 import getPrefixCls from '../_util/getPrefixCls';
 import { noop } from '../_util/utils';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import { COMPONENT_NAME, SUB_MENU_KEY } from './const';
 import useChildren from './useChildren';
 import useMenu from './useMenu';
-import type { ComponentObjectPropsOptions, PropType } from 'vue';
-import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('menu-item');
 

@@ -1,8 +1,7 @@
 import { withInstall, withNoopInstall } from '../_util/withInstall';
+import type { SFCWithInstall } from '../_util/interface';
 import Tabs from './tabs';
 import TabPane from './tab-pane.vue';
-
-import type { SFCWithInstall } from '../_util/interface';
 
 type TabsType = SFCWithInstall<typeof Tabs>;
 type TabPaneType = SFCWithInstall<typeof TabPane>;

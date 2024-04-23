@@ -1,7 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import Scrollbar from './scrollbar.vue';
-
 import type { SFCWithInstall } from '../_util/interface';
+import Scrollbar from './scrollbar.vue';
 
 type ScrollbarType = SFCWithInstall<typeof Scrollbar>;
 

@@ -1,5 +1,5 @@
-import { type ColumnResizeInfo } from './useResize';
 import type { SetupContext } from 'vue';
+import { type ColumnResizeInfo } from './useResize';
 
 export default function useTableEvent(ctx: SetupContext) {
     const handleCellClick = (params: object, event: Event) => {

@@ -11,6 +11,8 @@ import {
     onBeforeUnmount,
     type useSlots,
 } from 'vue';
+import type { EllipsisProps } from '../ellipsis';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import {
     type ALIGN,
     type COL_TYPE,
@@ -18,11 +20,9 @@ import {
     TABLE_NAME,
     provideKey,
 } from './const';
-import type { EllipsisProps } from '../ellipsis';
 
 import type { CellProps } from './components/cell';
 import type { ActionType, RowType } from './interface';
-import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export type SortOrderType = 'descend' | 'ascend' | false;
 export type SorterType = ((a: RowType, b: RowType) => boolean) | 'default';

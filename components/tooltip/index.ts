@@ -1,7 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import Tooltip from './tooltip';
-
 import type { SFCWithInstall } from '../_util/interface';
+import Tooltip from './tooltip';
 
 type TooltipType = SFCWithInstall<typeof Tooltip>;
 

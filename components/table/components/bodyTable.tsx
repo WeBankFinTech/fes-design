@@ -8,11 +8,10 @@ import {
 import Scrollbar from '../../scrollbar/scrollbar.vue';
 import Draggable from '../../draggable/draggable';
 import { provideKey } from '../const';
+import type { ColumnInst } from '../column';
 import Colgroup from './colgroup';
 import Header from './header';
 import Tr from './tr';
-
-import type { ColumnInst } from '../column';
 
 export default defineComponent({
     props: {

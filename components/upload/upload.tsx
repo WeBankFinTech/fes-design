@@ -5,11 +5,11 @@ import {
     defineComponent,
 } from 'vue';
 import { useTheme } from '../_theme/useTheme';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import Trigger from './trigger.vue';
 import FileList from './fileList.vue';
 import useUpload from './useUpload';
 
-import type { ExtractPublicPropTypes } from '../_util/interface';
 import type { FileItem } from './interface';
 
 type UploadListType = 'text' | 'picture-card';

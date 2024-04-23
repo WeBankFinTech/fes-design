@@ -1,6 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import Transfer from './transfer';
 import type { SFCWithInstall } from '../_util/interface';
+import Transfer from './transfer';
 
 export type { TransferProps } from './props';
 export { transferProps } from './props';

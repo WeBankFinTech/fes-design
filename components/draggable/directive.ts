@@ -6,6 +6,7 @@ import {
     ref,
     watch,
 } from 'vue';
+import type { FObjectDirective } from '../_util/interface';
 import {
     DRAG_END_EVENT,
     DRAG_START_EVENT,
@@ -14,8 +15,6 @@ import {
     useDraggable,
 } from './useDraggable';
 import type { BeforeDragEnd } from './useDraggable';
-
-import type { FObjectDirective } from '../_util/interface';
 
 const dragInstanceMap = new WeakMap();
 

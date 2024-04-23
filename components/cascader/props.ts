@@ -1,12 +1,12 @@
-import { extractPropsDefaultValue } from '../_util/utils';
-import { CHECK_STRATEGY, type CheckStrictly, EXPAND_TRIGGER } from './const';
 import type {
     ComponentObjectPropsOptions,
     InjectionKey,
     PropType,
     Ref,
 } from 'vue';
+import { extractPropsDefaultValue } from '../_util/utils';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { CHECK_STRATEGY, type CheckStrictly, EXPAND_TRIGGER } from './const';
 import type {
     CascaderNodeKey,
     CascaderNodeList,

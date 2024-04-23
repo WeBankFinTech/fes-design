@@ -6,10 +6,9 @@ import {
 } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import { provideKey } from '../const';
+import type { ColumnInst } from '../column';
 import Colgroup from './colgroup';
 import Header from './header';
-
-import type { ColumnInst } from '../column';
 
 export default defineComponent({
     props: {

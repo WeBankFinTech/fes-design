@@ -1,8 +1,7 @@
 import { withInstall } from '../_util/withInstall';
+import type { SFCWithInstall } from '../_util/interface';
 import Draggable from './draggable';
 import vDrag from './directive';
-
-import type { SFCWithInstall } from '../_util/interface';
 
 type DraggableType = SFCWithInstall<typeof Draggable>;
 export const FDraggable = withInstall<DraggableType>(

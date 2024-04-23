@@ -1,7 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import TimePicker from './time-picker.vue';
-
 import type { SFCWithInstall } from '../_util/interface';
+import TimePicker from './time-picker.vue';
 
 type TimePickerType = SFCWithInstall<typeof TimePicker>;
 

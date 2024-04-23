@@ -94,11 +94,11 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel } from '../_util/use/useModel';
 import { useInput } from '../_util/use/useInput';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import calcTextareaHeight from './calcTextareaHeight';
 import InputInner from './inputInner.vue';
 import { commonInputProps } from './props';
 import { useFocus, useMouse } from './useInput';
-import type { ExtractPublicPropTypes } from '../_util/interface';
 
 import type { InputValue } from './interface';
 

@@ -1,8 +1,8 @@
 import { Fragment, Transition, computed, defineComponent, inject } from 'vue';
 import { throttle } from 'lodash-es';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import { LeftOutlined, RightOutlined } from '../icon';
 import { provideKey } from './const';
-import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import type { ArrowType, CarouselItemData } from './interface';
 
 export default defineComponent({

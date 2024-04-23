@@ -113,14 +113,6 @@ import { useLocale } from '../config-provider/useLocale';
 import { CHECK_STRATEGY } from '../cascader/const';
 import OptionList from '../select/optionList';
 import { prefixCls as selectPrefixCls } from '../select/const';
-import {
-    getCurrentValueByKeys,
-    getExpandedKeysBySelectedKeys,
-    getKeysByCurrentValue,
-    getNotMatchedPathByKey,
-} from './helper';
-
-import { LABEL_SEPARATOR, SELECT_CASCADER_NAME } from './const';
 import type {
     CascaderNodeKey,
     CascaderNodeList,
@@ -130,6 +122,14 @@ import type {
     SelectParams,
 } from '../cascader/interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import {
+    getCurrentValueByKeys,
+    getExpandedKeysBySelectedKeys,
+    getKeysByCurrentValue,
+    getNotMatchedPathByKey,
+} from './helper';
+
+import { LABEL_SEPARATOR, SELECT_CASCADER_NAME } from './const';
 
 const prefixCls = getPrefixCls('select-cascader');
 

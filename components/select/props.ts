@@ -1,9 +1,9 @@
-import { extractPropsDefaultValue } from '../_util/utils';
 import type { ComponentObjectPropsOptions, PropType } from 'vue';
+import { extractPropsDefaultValue } from '../_util/utils';
 
-import type { SelectOption, SelectValue } from './interface';
 import type { GetContainer } from '../_util/interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import type { SelectOption, SelectValue } from './interface';
 
 export const selectProps = {
     modelValue: {

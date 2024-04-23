@@ -1,5 +1,3 @@
-import { extractPropsDefaultValue } from '../_util/utils';
-import { CHECK_STRATEGY } from './const';
 import type {
     ComponentObjectPropsOptions,
     ComputedRef,
@@ -7,8 +5,10 @@ import type {
     PropType,
     Ref,
 } from 'vue';
-
+import { extractPropsDefaultValue } from '../_util/utils';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { CHECK_STRATEGY } from './const';
+
 import type {
     DropPosition,
     InnerTreeOption,

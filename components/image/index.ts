@@ -1,8 +1,7 @@
 import { withInstall } from '../_util/withInstall';
+import type { SFCWithInstall } from '../_util/interface';
 import Image from './image.vue';
 import PreviewGroup from './preview-group';
-
-import type { SFCWithInstall } from '../_util/interface';
 
 type ImageType = SFCWithInstall<typeof Image>;
 type PreviewGroupType = SFCWithInstall<typeof PreviewGroup>;

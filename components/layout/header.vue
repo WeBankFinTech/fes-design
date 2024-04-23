@@ -13,8 +13,8 @@ import {
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { noop } from '../_util/utils';
-import { COMPONENT_NAME, LAYOUT_PROVIDE_KEY } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { COMPONENT_NAME, LAYOUT_PROVIDE_KEY } from './const';
 
 const prefixCls = getPrefixCls('layout');
 

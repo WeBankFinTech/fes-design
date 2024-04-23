@@ -1,7 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import Tag from './tag.vue';
-
 import type { SFCWithInstall } from '../_util/interface';
+import Tag from './tag.vue';
 
 type TagType = SFCWithInstall<typeof Tag>;
 

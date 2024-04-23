@@ -7,10 +7,10 @@ import {
     ref,
 } from 'vue';
 import { useTheme } from '../_theme/useTheme';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import Preview from './preview.vue';
 import { PREVIEW_PROVIDE_KEY } from './props';
 import type { PreviewImageType } from './props';
-import type { ExtractPublicPropTypes } from '../_util/interface';
 
 let prevOverflow = '';
 

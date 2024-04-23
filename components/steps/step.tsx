@@ -14,8 +14,8 @@ import { isNil } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { noop } from '../_util/utils';
 import { CheckOutlined, CloseOutlined } from '../icon';
-import { COMPONENT_NAME, PROVIDE_KEY, STATUS } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { COMPONENT_NAME, PROVIDE_KEY, STATUS } from './const';
 
 const prefixCls = getPrefixCls('step');
 

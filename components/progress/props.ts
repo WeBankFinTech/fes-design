@@ -1,6 +1,6 @@
 import { type ComponentObjectPropsOptions, type PropType } from 'vue';
-import { PROGRESS_TYPE } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { PROGRESS_TYPE } from './const';
 
 type ProgressType = 'line' | 'circle';
 

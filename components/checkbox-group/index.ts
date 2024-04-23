@@ -1,7 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import CheckboxGroup from './checkbox-group.vue';
-
 import type { SFCWithInstall } from '../_util/interface';
+import CheckboxGroup from './checkbox-group.vue';
 
 export { checkboxGroupProps } from './props';
 export type { CheckboxGroupProps } from './props';

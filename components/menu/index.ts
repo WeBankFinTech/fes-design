@@ -1,10 +1,9 @@
 import { withInstall, withNoopInstall } from '../_util/withInstall';
+import type { SFCWithInstall } from '../_util/interface';
 import Menu from './menu';
 import MenuItem from './menuItem';
 import MenuGroup from './menuGroup';
 import SubMenu from './subMenu';
-
-import type { SFCWithInstall } from '../_util/interface';
 
 type MenuType = SFCWithInstall<typeof Menu>;
 type MenuItemType = SFCWithInstall<typeof MenuItem>;

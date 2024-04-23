@@ -1,7 +1,7 @@
 import type { ComponentObjectPropsOptions, PropType } from 'vue';
 
-import type { Size, Type } from './interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import type { Size, Type } from './interface';
 
 export const textProps = {
     type: {

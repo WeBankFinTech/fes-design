@@ -11,8 +11,8 @@ import { useAnimate } from '../_util/use/useAnimate';
 import { useTheme } from '../_theme/useTheme';
 
 import useFormAdaptor from '../_util/use/useFormAdaptor';
-import type { Size, Type } from './interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import type { Size, Type } from './interface';
 
 const prefixCls = getPrefixCls('btn');
 

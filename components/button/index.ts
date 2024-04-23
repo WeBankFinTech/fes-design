@@ -1,7 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import Button from './button';
-
 import type { SFCWithInstall } from '../_util/interface';
+import Button from './button';
 
 export { buttonProps } from './button';
 export type { ButtonProps } from './button';

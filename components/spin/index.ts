@@ -1,7 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import Spin from './spin';
-
 import type { SFCWithInstall } from '../_util/interface';
+import Spin from './spin';
 
 type SpinType = SFCWithInstall<typeof Spin>;
 

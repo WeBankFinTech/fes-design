@@ -1,10 +1,10 @@
 import type { ComponentObjectPropsOptions, PropType } from 'vue';
-import type { OptionType, Size, Type } from './interface';
 import type {
     ComponentInnerProps,
     ExtractPublicPropTypes,
     Option,
 } from '../_util/interface';
+import type { OptionType, Size, Type } from './interface';
 
 export const radioGroupProps = {
     modelValue: {

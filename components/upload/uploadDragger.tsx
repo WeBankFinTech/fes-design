@@ -9,9 +9,9 @@ import {
 import { useTheme } from '../_theme/useTheme';
 import { useLocale } from '../config-provider/useLocale';
 import FMessage from '../message';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import { key } from './const';
 import { matchType } from './utils';
-import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const uploadDraggerProps = {
     onFileTypeInvalid: {

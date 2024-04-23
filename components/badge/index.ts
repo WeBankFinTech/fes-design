@@ -1,6 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import Badge from './badge';
 import type { SFCWithInstall } from '../_util/interface';
+import Badge from './badge';
 
 export { badgeProps } from './props';
 export type { BadgeProps } from './props';

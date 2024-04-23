@@ -10,8 +10,8 @@ import {
     ref,
     toRefs,
 } from 'vue';
-import { SELECT_PROVIDE_KEY } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { SELECT_PROVIDE_KEY } from './const';
 
 export const optionProps = {
     value: {

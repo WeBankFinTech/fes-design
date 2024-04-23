@@ -9,8 +9,8 @@ import {
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { useTheme } from '../_theme/useTheme';
-import { COMPONENT_NAME, PROVIDE_KEY, type STATUS, type TYPE } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { COMPONENT_NAME, PROVIDE_KEY, type STATUS, type TYPE } from './const';
 
 const prefixCls = getPrefixCls('steps');
 

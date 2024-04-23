@@ -5,8 +5,8 @@ import {
     type PropType,
 } from 'vue';
 
-import type { MenuOption } from './interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import type { MenuOption } from './interface';
 
 export const MODE = ['horizontal', 'vertical'] as const;
 

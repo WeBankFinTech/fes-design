@@ -6,10 +6,9 @@ import {
     inject,
 } from 'vue';
 import { provideKey } from '../const';
+import type { ColumnInst } from '../column';
 import Td from './td';
 import ExpandTr from './expandTr';
-
-import type { ColumnInst } from '../column';
 
 export default defineComponent({
     components: {

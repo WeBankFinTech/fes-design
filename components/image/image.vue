@@ -54,6 +54,7 @@ import {
 } from 'vue';
 import { useEventListener, useThrottleFn } from '@vueuse/core';
 import { isString } from 'lodash-es';
+import type { CSSProperties, ComponentObjectPropsOptions } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { PictureFailOutlined, PictureOutlined } from '../icon';
 import { getScrollContainer, isHtmlElement, isInContainer } from '../_util/dom';
@@ -61,11 +62,9 @@ import { noop, noopInNoop, pxfy } from '../_util/utils';
 import { CLOSE_EVENT, ERROR_EVENT, LOAD_EVENT } from '../_util/constants';
 import download from '../_util/download';
 import { useTheme } from '../_theme/useTheme';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import { PREVIEW_PROVIDE_KEY } from './props';
 import Preview from './preview.vue';
-import type { ExtractPublicPropTypes } from '../_util/interface';
-
-import type { CSSProperties, ComponentObjectPropsOptions } from 'vue';
 
 const prefixCls = getPrefixCls('img');
 

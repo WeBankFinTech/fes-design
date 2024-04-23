@@ -96,7 +96,6 @@ export default antfu({
         'antfu/if-newline': 'off',
         'style/brace-style': 'off',
         'style/multiline-ternary': 'off',
-        'import/order': 'off',
         'style/indent': 'off',
         'style/quote-props': 'off',
         'curly': 'off',

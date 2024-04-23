@@ -1,7 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import Cascader from './cascader';
-
 import type { SFCWithInstall } from '../_util/interface';
+import Cascader from './cascader';
 
 export { cascaderProps } from './props';
 export type { CascaderProps } from './props';

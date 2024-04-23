@@ -1,7 +1,7 @@
 import { withInstall } from '../_util/withInstall';
+import type { SFCWithInstall } from '../_util/interface';
 import Breadcrumb from './breadcrumb';
 import BreadcrumbItem from './breadcrumb-item';
-import type { SFCWithInstall } from '../_util/interface';
 
 export { breadcrumbProps } from './props';
 export type { BreadcrumbProps } from './props';

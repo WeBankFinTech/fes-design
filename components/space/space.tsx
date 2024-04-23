@@ -3,9 +3,9 @@ import { useTheme } from '../_theme/useTheme';
 import { flatten, getSlot, isValidElementNode } from '../_util/vnode';
 import { createKey } from '../_util/createKey';
 import { depx } from '../_util/utils';
+import type { TThemeVars } from '../_theme/base';
 import { COMPONENT_NAME, prefixCls } from './const';
 import { type SpaceInnerProps, spaceProps } from './props';
-import type { TThemeVars } from '../_theme/base';
 
 const useMargin = (props: SpaceInnerProps, themeVarsRef: Ref<TThemeVars>) => {
     const margin = computed(() => {

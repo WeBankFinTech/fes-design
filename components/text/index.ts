@@ -1,7 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import Text from './text';
-
 import type { SFCWithInstall } from '../_util/interface';
+import Text from './text';
 
 type TextType = SFCWithInstall<typeof Text>;
 

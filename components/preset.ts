@@ -1,5 +1,5 @@
-import * as components from './components';
 import type { App, Plugin } from 'vue';
+import * as components from './components';
 
 export const install = function (app: App) {
     Object.keys(components).forEach((key) => {

@@ -1,7 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import Pagination from './pagination';
-
 import type { SFCWithInstall } from '../_util/interface';
+import Pagination from './pagination';
 
 type PaginationType = SFCWithInstall<typeof Pagination>;
 

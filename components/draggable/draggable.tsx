@@ -11,6 +11,7 @@ import { mergeWith } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { flatten, isComment } from '../_util/vnode';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import {
     DRAG_END_EVENT,
     DRAG_START_EVENT,
@@ -18,7 +19,6 @@ import {
     useDraggable,
 } from './useDraggable';
 import type { BeforeDragEnd } from './useDraggable';
-import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('draggable');
 

@@ -1,6 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import Empty from './empty.vue';
 import type { SFCWithInstall } from '../_util/interface';
+import Empty from './empty.vue';
 
 type EmptyType = SFCWithInstall<typeof Empty>;
 

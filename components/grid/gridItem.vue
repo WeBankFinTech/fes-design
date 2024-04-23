@@ -15,8 +15,8 @@ import {
 } from 'vue';
 import { isNumber, isObject, isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
-import { GRID_KEY } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { GRID_KEY } from './const';
 
 const prefixCls = getPrefixCls('grid-item');
 

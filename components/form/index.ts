@@ -1,9 +1,9 @@
 import { withInstall, withNoopInstall } from '../_util/withInstall';
 export { default as useFormAdaptor } from '../_util/use/useFormAdaptor';
+import type { SFCWithInstall } from '../_util/interface';
 import Form from './form.vue';
 import FormItem from './formItem.vue';
 
-import type { SFCWithInstall } from '../_util/interface';
 import { provideKey } from './const';
 
 type FormType = SFCWithInstall<typeof Form>;

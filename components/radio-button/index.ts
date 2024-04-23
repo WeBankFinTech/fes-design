@@ -1,7 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import RadioButton from './radio-button';
-
 import type { SFCWithInstall } from '../_util/interface';
+import RadioButton from './radio-button';
 
 type RadioButtonType = SFCWithInstall<typeof RadioButton>;
 

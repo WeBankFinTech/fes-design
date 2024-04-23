@@ -44,8 +44,8 @@ import RightOutlined from '../icon/RightOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { noop } from '../_util/utils';
-import { COMPONENT_NAME, LAYOUT_PROVIDE_KEY } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { COMPONENT_NAME, LAYOUT_PROVIDE_KEY } from './const';
 
 export type AsidePlacement = 'left' | 'right' | '';
 

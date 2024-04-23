@@ -1,7 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import Divider from './divider';
-
 import type { SFCWithInstall } from '../_util/interface';
+import Divider from './divider';
 
 export { dividerProps } from './divider';
 export type { DividerProps } from './divider';
