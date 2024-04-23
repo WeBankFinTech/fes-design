@@ -4,6 +4,7 @@ import Form from './form.vue';
 import FormItem from './formItem.vue';
 
 import { provideKey } from './const';
+
 export { default as useFormAdaptor } from '../_util/use/useFormAdaptor';
 
 type FormType = SFCWithInstall<typeof Form>;

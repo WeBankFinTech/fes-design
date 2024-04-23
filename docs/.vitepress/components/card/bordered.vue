@@ -15,6 +15,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+
 const bordered = ref(true);
 </script>
 

@@ -49,6 +49,7 @@
 
 <script setup>
 import { reactive, ref } from 'vue';
+
 const data = reactive(
     Array.from([1, 2, 3], (i) => {
         return {

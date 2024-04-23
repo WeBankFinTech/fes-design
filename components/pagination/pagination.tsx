@@ -9,6 +9,7 @@ import Sizes from './sizes';
 import Jumper from './jumper';
 import Total from './total';
 import { COMPONENT_NAME, paginationProps } from './const';
+
 const prefixCls = getPrefixCls('pagination');
 
 export default defineComponent({

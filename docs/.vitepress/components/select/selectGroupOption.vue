@@ -66,6 +66,7 @@
 
 <script>
 import { ref } from 'vue';
+
 export default {
     setup() {
         const value1 = ref();

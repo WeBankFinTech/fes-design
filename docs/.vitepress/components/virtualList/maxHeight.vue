@@ -49,6 +49,7 @@
 
 <script>
 import { ref, watch } from 'vue';
+
 export default {
     setup() {
         const heightType = ref('maxHeight');

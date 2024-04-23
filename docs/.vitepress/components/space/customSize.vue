@@ -63,6 +63,7 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
+
 const sizeType = ref('same');
 const sizeHV = ref(20);
 const sizeH = ref(30);

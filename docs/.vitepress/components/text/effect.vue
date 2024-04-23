@@ -25,6 +25,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+
 const isStrong = ref(true);
 const IsItalic = ref(true);
 </script>

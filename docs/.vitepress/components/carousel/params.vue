@@ -117,6 +117,7 @@
 
 <script setup>
 import { ref } from 'vue';
+
 const showArrow = ref('hover');
 const indicatorType = ref('linear');
 const indicatorPlacement = ref('bottom');

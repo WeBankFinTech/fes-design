@@ -64,6 +64,7 @@
 </template>
 <script>
 import { computed, ref } from 'vue';
+
 export default {
     setup() {
         const fixedHeader = ref(true);

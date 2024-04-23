@@ -8,6 +8,7 @@ import {
     watch,
 } from 'vue';
 import { getSlot } from '../vnode';
+
 export default defineComponent({
     name: 'LazyTeleport',
     props: {

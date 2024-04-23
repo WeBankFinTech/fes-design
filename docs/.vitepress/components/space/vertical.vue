@@ -47,6 +47,7 @@
 
 <script setup>
 import { ref } from 'vue';
+
 const align = ref('');
 const justify = ref('start');
 </script>

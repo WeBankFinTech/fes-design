@@ -67,6 +67,7 @@
 
 <script setup>
 import { ref } from 'vue';
+
 const align = ref('center');
 const justify = ref('start');
 const wrap = ref(true);

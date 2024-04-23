@@ -4,6 +4,7 @@
 <script>
 import { h, ref } from 'vue';
 import { AppstoreOutlined } from '@fesjs/fes-design/icon';
+
 export default {
     setup() {
         const value = ref(2);

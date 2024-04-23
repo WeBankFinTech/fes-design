@@ -14,6 +14,7 @@
 
 <script>
 import { FMessage } from '@fesjs/fes-design';
+
 export default {
     setup() {
         let messageInfo = null;

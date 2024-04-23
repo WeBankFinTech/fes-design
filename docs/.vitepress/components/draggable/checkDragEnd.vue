@@ -35,6 +35,7 @@
 <script>
 import { ref } from 'vue';
 import { FMessage } from '@fesjs/fes-design';
+
 export default {
     setup() {
         const mlist = ref([1, 2, 3, 4]);

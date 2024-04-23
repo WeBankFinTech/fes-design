@@ -8,6 +8,7 @@
 </template>
 <script setup lang="ts">
 import { reactive } from 'vue';
+
 const data = reactive(
     Array.from([1, 2, 3], (i) => {
         return {

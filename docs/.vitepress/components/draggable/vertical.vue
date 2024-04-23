@@ -28,6 +28,7 @@
 <script>
 import { ref } from 'vue';
 import { FMessage } from '@fesjs/fes-design';
+
 let seed = 6;
 export default {
     setup() {

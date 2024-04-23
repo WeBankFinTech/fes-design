@@ -9,6 +9,7 @@
 
 <script setup>
 import { ref } from 'vue';
+
 const color = ref();
 
 const value = ref(4);
