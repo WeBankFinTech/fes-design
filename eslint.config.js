@@ -80,13 +80,6 @@ export default antfu({
             '@typescript-eslint/no-var-requires': 'off',
             // 保留现状，允许 vue 文件中 :a="{ b: { c: 500 } }" 的写法
             'vue/object-curly-spacing': 'off',
-            'no-unused-expressions': 'off',
-            // import, export type
-            '@typescript-eslint/consistent-type-exports': 'warn',
-            '@typescript-eslint/consistent-type-imports': [
-                'warn',
-                { fixStyle: 'inline-type-imports' },
-            ],
         },
     }),
 
@@ -133,7 +126,6 @@ export default antfu({
         'no-empty-pattern': 'off',
         'no-unneeded-ternary': 'off',
         'object-shorthand': 'off',
-        'unicorn/no-instanceof-array': 'off',
         'prefer-const': 'off',
         'array-callback-return': 'off',
         'prefer-promise-reject-errors': 'off',

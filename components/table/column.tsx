@@ -183,7 +183,7 @@ export default defineComponent({
                 columnIndex: -1,
                 cellValue: null,
             });
-            if (renderDefault instanceof Array) {
+            if (Array.isArray(renderDefault)) {
                 renderDefault.forEach((childNode) => {
                     if (
                         (childNode.type as any)?.name === TABLE_COLUMN_NAME
@@ -192,7 +192,7 @@ export default defineComponent({
                         children.push(childNode);
                     } else if (
                         childNode.type === Fragment
-                        && childNode.children instanceof Array
+                        && Array.isArray(childNode.children)
                     ) {
                         children.push(...(childNode.children as VNode[]));
                     }
