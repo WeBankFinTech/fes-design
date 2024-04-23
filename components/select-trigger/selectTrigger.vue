@@ -350,13 +350,17 @@ export default defineComponent({
         });
 
         const handleFocus = (event: Event) => {
-            if (props.disabled) return;
+            if (props.disabled) {
+                return;
+            }
             isFocusRef.value = true;
             emit('focus', event);
         };
 
         const handleBlur = (event: Event) => {
-            if (props.disabled) return;
+            if (props.disabled) {
+                return;
+            }
             isFocusRef.value = false;
             if (filterTextRef.value) {
                 filterTextRef.value = '';
@@ -368,17 +372,23 @@ export default defineComponent({
         };
 
         const handleRemove = (index: number) => {
-            if (props.disabled) return;
+            if (props.disabled) {
+                return;
+            }
             emit('remove', props.selectedOptions[index].value);
         };
 
         const handleClear = () => {
-            if (props.disabled) return;
+            if (props.disabled) {
+                return;
+            }
             emit('clear');
         };
 
         const handleInput = (e: Event) => {
-            if (props.disabled || isComposingRef.value) return;
+            if (props.disabled || isComposingRef.value) {
+                return;
+            }
             filterTextRef.value = (e.target as HTMLInputElement).value;
             emit('input', filterTextRef.value);
         };
@@ -413,8 +423,12 @@ export default defineComponent({
             (isOpened) => {
                 if (isOpened) {
                     nextTick(() => {
-                        if (!inputRef.value) return;
-                        if (!props.filterable) return;
+                        if (!inputRef.value) {
+                            return;
+                        }
+                        if (!props.filterable) {
+                            return;
+                        }
                         inputRef.value.focus();
                     });
                 }

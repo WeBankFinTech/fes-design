@@ -99,7 +99,9 @@ const OneWayTransfer = defineComponent({
         ): void => {
             const nextModelValue = [...modelValue.value];
             const index = nextModelValue.findIndex((v) => v === optionValue);
-            if (index === -1) return;
+            if (index === -1) {
+                return;
+            }
             nextModelValue.splice(index, 1);
 
             // 更新值
@@ -113,7 +115,9 @@ const OneWayTransfer = defineComponent({
         };
 
         const renderFilterInput = (filterText: Ref<string>): VNode => {
-            if (!rootProps.filterable) return undefined;
+            if (!rootProps.filterable) {
+                return undefined;
+            }
             return (
                 <Input
                     v-model={filterText.value}
@@ -136,9 +140,9 @@ const OneWayTransfer = defineComponent({
 
             const virtualScrollConfig = !isNil(scrollContentHeight.value)
                 ? {
-                      virtualList: true,
-                      style: { height: `${scrollContentHeight.value}px` },
-                  }
+                        virtualList: true,
+                        style: { height: `${scrollContentHeight.value}px` },
+                    }
                 : {};
 
             const filterForTree = rootProps.filterable

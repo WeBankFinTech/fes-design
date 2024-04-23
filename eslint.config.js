@@ -96,6 +96,9 @@ export default antfu({
         'no-console': 'off',
         'unicorn/no-new-array': 'off',
         'symbol-description': 'off',
+        'prefer-promise-reject-errors': 'off',
+        'array-callback-return': 'off',
+        'curly': ['error', 'all'],
 
         'vue/singleline-html-element-content-newline': 'off',
         'vue/attribute-hyphenation': 'off',
@@ -112,18 +115,12 @@ export default antfu({
         'style/jsx-one-expression-per-line': 'off',
         'style/jsx-curly-newline': 'off',
         'style/jsx-closing-tag-location': 'off',
+        'style/brace-style': ['error', '1tbs'],
+        'style/arrow-parens': ['error', 'always'],
+        'style/multiline-ternary': 'off',
 
         'antfu/consistent-list-newline': 'off',
         'antfu/top-level-function': 'off',
         'antfu/if-newline': 'off',
-
-        'multiline-ternary': 'off',
-        'style/brace-style': 'off',
-        'style/multiline-ternary': 'off',
-        'style/indent': 'off',
-        'style/arrow-parens': 'off',
-        'curly': 'off',
-        'array-callback-return': 'off',
-        'prefer-promise-reject-errors': 'off',
     },
 });

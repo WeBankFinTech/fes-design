@@ -53,7 +53,9 @@ export default defineComponent({
         const handleInputChange = (val: string) => {
             // 如果用户输入是非数字的字符，则不做任何行为
             const inputValue = Number(val);
-            if (Number.isNaN(inputValue)) return;
+            if (Number.isNaN(inputValue)) {
+                return;
+            }
             handleCurrentChange(inputValue);
         };
 

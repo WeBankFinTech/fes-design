@@ -218,19 +218,25 @@ export default defineComponent({
 
         const loadImage = () => {
             // loading 为true 才会加载图片
-            if (!loading.value) return;
+            if (!loading.value) {
+                return;
+            }
 
             const img = new Image();
 
             const imageId = ++currentImageId;
             img.addEventListener('load', (e) => {
                 // 检查 imageId 是否与 currentImageId 相同
-                if (imageId !== currentImageId) return;
+                if (imageId !== currentImageId) {
+                    return;
+                }
                 handleLoaded(e, img);
             });
             img.addEventListener('error', (e) => {
                 // 检查 imageId 是否与 currentImageId 相同
-                if (imageId !== currentImageId) return;
+                if (imageId !== currentImageId) {
+                    return;
+                }
                 handleError(e);
             });
 

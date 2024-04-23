@@ -24,7 +24,9 @@ const useItems = () => {
 
     const remove = (id: DescriptionsItemInst['id']) => {
         const index = instances.value.findIndex((i) => i.id === id);
-        if (index === -1) return;
+        if (index === -1) {
+            return;
+        }
 
         const nextInstances = [...instances.value];
         nextInstances.splice(index, 1);

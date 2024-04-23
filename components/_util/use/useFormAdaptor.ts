@@ -29,7 +29,9 @@ export default (formAdaptorConfig?: FormAdaptorConfig) => {
             watch(
                 valueType,
                 () => {
-                    if (valueType.value) setRuleDefaultType(valueType.value);
+                    if (valueType.value) {
+                        setRuleDefaultType(valueType.value);
+                    }
                 },
                 {
                     immediate: true,

@@ -49,7 +49,9 @@ export default defineComponent({
         const displayLastColumnIds = computed(() => {
             const getLastColumns = (columns: ColumnInst[]): ColumnInst[] => {
                 const lastColumn = columns[columns.length - 1];
-                if (!lastColumn) return [];
+                if (!lastColumn) {
+                    return [];
+                }
                 return [
                     lastColumn,
                     ...getLastColumns(lastColumn.children ?? []),
@@ -136,7 +138,7 @@ export default defineComponent({
                             </Fragment>
                         )}
                         {column.props.type === 'selection'
-                            // 多选场景展示头部全选
+                        // 多选场景展示头部全选
                         && column.props.multiple && (
                             <div class={`${prefixCls}-center`}>
                                 <FCheckbox
@@ -148,7 +150,7 @@ export default defineComponent({
                                     onChange={handleSelectAll}
                                 />
                             </div>
-                            )}
+                        )}
                         {column.props.resizable && (
                             <span
                                 class={[

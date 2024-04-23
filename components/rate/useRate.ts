@@ -33,11 +33,11 @@ export const useRate = (props: RateInnerProps, emit: any) => {
         const emptyStarsNum = props.count - fullStarsNum - halfStar;
         fullStarsNum
         && [...Array(fullStarsNum)].map(() => {
-                res.push({
-                    active: true,
-                    hover: true,
-                });
+            res.push({
+                active: true,
+                hover: true,
             });
+        });
         // 存在半星情况
         if (halfStar) {
             res.push({

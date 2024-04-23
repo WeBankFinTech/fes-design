@@ -98,29 +98,29 @@ export default defineComponent({
                             },
                             vertical
                                 ? {
-                                      marginBottom:
+                                        marginBottom:
                                           index !== lastIndex
                                               ? margin.vertical
                                               : '',
-                                  }
+                                    }
                                 : {
-                                      marginRight: isJustifySpace
-                                          ? justify === 'space-between'
-                                          && index === lastIndex
-                                              ? ''
-                                              : margin.semiHorizontal
-                                          : index !== lastIndex
-                                          ? margin.horizontal
-                                          : '',
-                                      marginLeft: isJustifySpace
-                                          ? justify === 'space-between'
-                                          && index === 0
-                                              ? ''
-                                              : margin.semiHorizontal
-                                          : '',
-                                      paddingTop: margin.semiVertical,
-                                      paddingBottom: margin.semiVertical,
-                                  },
+                                        marginRight: isJustifySpace
+                                            ? justify === 'space-between'
+                                            && index === lastIndex
+                                                ? ''
+                                                : margin.semiHorizontal
+                                            : index !== lastIndex
+                                                ? margin.horizontal
+                                                : '',
+                                        marginLeft: isJustifySpace
+                                            ? justify === 'space-between'
+                                            && index === 0
+                                                ? ''
+                                                : margin.semiHorizontal
+                                            : '',
+                                        paddingTop: margin.semiVertical,
+                                        paddingBottom: margin.semiVertical,
+                                    },
                         ]}
                     >
                         {child}

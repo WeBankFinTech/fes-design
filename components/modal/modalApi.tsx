@@ -73,10 +73,14 @@ function create(type: ModalType, config: ModalConfig) {
         event: MouseEvent,
         cbFunc?: (event: MouseEvent) => void | Promise<any>,
     ) {
-        if (cbFuncEnd) return;
+        if (cbFuncEnd) {
+            return;
+        }
         cbFuncEnd = true;
         try {
-            if (isFunction(cbFunc)) await cbFunc(event);
+            if (isFunction(cbFunc)) {
+                await cbFunc(event);
+            }
             mergeProps.show = false;
             renderModal();
         } catch (error) {}

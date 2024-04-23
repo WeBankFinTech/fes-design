@@ -123,7 +123,9 @@ export default defineComponent({
             }
         };
         const handleClickContent = (event: Event) => {
-            if (disabled.value) return;
+            if (disabled.value) {
+                return;
+            }
             // 默认 select 行为
             if (selectable.value) {
                 return root.selectNode(props.value, event);
@@ -138,7 +140,9 @@ export default defineComponent({
             }
         };
         const handleClickCheckbox = (event: Event) => {
-            if (disabled.value) return;
+            if (disabled.value) {
+                return;
+            }
             if (checkable.value) {
                 return root.checkNode(props.value, event);
             }
@@ -194,7 +198,9 @@ export default defineComponent({
             );
         };
         const renderCheckbox = () => {
-            if (!checkable.value) return null;
+            if (!checkable.value) {
+                return null;
+            }
             return (
                 <span class={`${prefixCls}-checkbox`}>
                     <Checkbox
@@ -207,7 +213,9 @@ export default defineComponent({
             );
         };
         const renderPrefix = () => {
-            if (!slots.prefix) return null;
+            if (!slots.prefix) {
+                return null;
+            }
             return (
                 <span
                     class={`${prefixCls}-content-prefix`}
@@ -218,7 +226,9 @@ export default defineComponent({
             );
         };
         const renderSuffix = () => {
-            if (!slots.suffix) return null;
+            if (!slots.suffix) {
+                return null;
+            }
             return (
                 <span
                     class={`${prefixCls}-content-suffix`}

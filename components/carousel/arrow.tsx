@@ -79,7 +79,9 @@ export default defineComponent({
 
         // 当鼠标进入箭头按钮
         const onEnterArrowButton = (arrow: string) => {
-            if (direction.value === 'vertical') return;
+            if (direction.value === 'vertical') {
+                return;
+            }
             slideChildren.value.forEach((item, index) => {
                 if (arrow === slideItemInStage(item, index)) {
                     item.states.hover = true;
@@ -89,7 +91,9 @@ export default defineComponent({
 
         // 当鼠标离开箭头按钮
         const onLeaveArrowButton = () => {
-            if (direction.value === 'vertical') return;
+            if (direction.value === 'vertical') {
+                return;
+            }
             slideChildren.value.forEach((item) => {
                 item.states.hover = false;
             });

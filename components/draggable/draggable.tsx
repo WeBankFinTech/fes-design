@@ -66,7 +66,9 @@ export default defineComponent({
                 || ctx.slots.item?.({ item, index })
                 || [],
             )?.filter((node) => !isComment(node));
-            if (!vNodes || !vNodes.length) return;
+            if (!vNodes || !vNodes.length) {
+                return;
+            }
             if (vNodes.length > 1) {
                 console.warn(
                     '[FDraggable]: default slot must be a root element',

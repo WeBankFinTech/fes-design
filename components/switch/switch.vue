@@ -105,7 +105,9 @@ export default defineComponent({
         );
 
         const toggle = async () => {
-            if (innerDisabled.value) return;
+            if (innerDisabled.value) {
+                return;
+            }
             if (isFunction(props.beforeChange)) {
                 loadingRef.value = true;
                 try {

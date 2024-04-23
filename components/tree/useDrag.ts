@@ -5,7 +5,9 @@ import type { DropPosition, InnerTreeOption, TreeNodeKey } from './interface';
 const prefixCls = getPrefixCls('tree-node');
 
 function allowDrop(node: InnerTreeOption, dropPosition: DropPosition): boolean {
-    if (node.isLeaf === false) return true;
+    if (node.isLeaf === false) {
+        return true;
+    }
     if (node.children) {
         return true;
     }
@@ -78,22 +80,32 @@ export default ({
     };
 
     function getTargetNode(value: TreeNodeKey) {
-        if (!dragNode) return;
+        if (!dragNode) {
+            return;
+        }
         const node = nodeList.get(value);
-        if (!node) return;
-        if (node.indexPath.includes(dragNode.value)) return;
+        if (!node) {
+            return;
+        }
+        if (node.indexPath.includes(dragNode.value)) {
+            return;
+        }
         return node;
     }
 
     const handleDragenter = (value: TreeNodeKey, event: DragEvent) => {
         const node = getTargetNode(value);
-        if (!node) return;
+        if (!node) {
+            return;
+        }
         emit('dragenter', { node, event });
     };
 
     const handleDragleave = (value: TreeNodeKey, event: DragEvent) => {
         const node = getTargetNode(value);
-        if (!node) return;
+        if (!node) {
+            return;
+        }
         emit('dragleave', { node, event });
     };
 
@@ -162,7 +174,9 @@ export default ({
 
     const handleDrop = (value: TreeNodeKey, event: DragEvent) => {
         const node = getTargetNode(value);
-        if (!node) return;
+        if (!node) {
+            return;
+        }
         if (!dragOverInfo.value) {
             return;
         }

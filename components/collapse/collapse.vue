@@ -26,7 +26,9 @@ export default defineComponent({
 
         const activeNames = computed<(string | number)[]>({
             get: () => {
-                if (isNil(modelValue.value)) return [];
+                if (isNil(modelValue.value)) {
+                    return [];
+                }
 
                 if (props.accordion) {
                     if (Array.isArray(modelValue.value)) {

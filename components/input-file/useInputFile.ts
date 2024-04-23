@@ -21,7 +21,9 @@ export const useInputFile = (props: InputFileProps, emit: InputFileEmit) => {
     const multiple = computed(() => props.multiple);
 
     const openFileExplorer = () => {
-        if (disabled.value) return;
+        if (disabled.value) {
+            return;
+        }
         inputRef.value.click();
     };
 
@@ -29,7 +31,9 @@ export const useInputFile = (props: InputFileProps, emit: InputFileEmit) => {
         const target = e.target as HTMLInputElement;
 
         const files = Array.from(target.files);
-        if (!files) return;
+        if (!files) {
+            return;
+        }
 
         updateCurrentFiles(files);
         emit(CHANGE_EVENT, files);

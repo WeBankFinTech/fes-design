@@ -34,7 +34,9 @@ export default defineComponent({
         onBeforeMount(() => {
             // 父组件结构变动，需相应调整此处查找逻辑
             const parentChildren = instance.parent.subTree.children;
-            if (!Array.isArray(parentChildren)) return;
+            if (!Array.isArray(parentChildren)) {
+                return;
+            }
 
             const bodyVNodeChildren
                 = parentChildren
@@ -53,7 +55,9 @@ export default defineComponent({
             }
             const index = bodyVNodeChildren[0].children.findIndex(
                 (itemVNode) => {
-                    if (!isVNode(itemVNode)) return false;
+                    if (!isVNode(itemVNode)) {
+                        return false;
+                    }
                     return itemVNode.component?.uid === instance.uid;
                 },
             );
@@ -85,7 +89,9 @@ export default defineComponent({
                 if (isNil(props.span)) {
                     const restItemsSpanSum = items.value.reduce(
                         (sum, { props }, index) => {
-                            if (index === items.value.length - 1) return sum;
+                            if (index === items.value.length - 1) {
+                                return sum;
+                            }
                             return (
                                 sum
                                 + (props.span ?? DESCRIPTIONS_ITEM_DEFAULT_SPAN)

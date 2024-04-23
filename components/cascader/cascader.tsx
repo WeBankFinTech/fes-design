@@ -176,26 +176,26 @@ export default defineComponent({
         function getCheckedKeys(arr: CascaderNodeKey[]) {
             return props.cascade
                 ? arr.filter((key) => {
-                      const node = nodeList[key];
-                      // 兼容异步加载，未匹配到节点的情况
-                      if (!node) {
-                          return false; // 清除未匹配到的选中项
-                      }
-                      if (props.checkStrictly === CHECK_STRATEGY.ALL) {
-                          return true;
-                      }
-                      if (props.checkStrictly === CHECK_STRATEGY.PARENT) {
-                          return (
-                              node.indexPath.filter((path) =>
-                                  arr.includes(path),
-                              ).length === 1
-                          );
-                      }
-                      if (props.checkStrictly === CHECK_STRATEGY.CHILD) {
-                          return node.isLeaf;
-                      }
-                      return true;
-                  })
+                    const node = nodeList[key];
+                    // 兼容异步加载，未匹配到节点的情况
+                    if (!node) {
+                        return false; // 清除未匹配到的选中项
+                    }
+                    if (props.checkStrictly === CHECK_STRATEGY.ALL) {
+                        return true;
+                    }
+                    if (props.checkStrictly === CHECK_STRATEGY.PARENT) {
+                        return (
+                            node.indexPath.filter((path) =>
+                                arr.includes(path),
+                            ).length === 1
+                        );
+                    }
+                    if (props.checkStrictly === CHECK_STRATEGY.CHILD) {
+                        return node.isLeaf;
+                    }
+                    return true;
+                })
                 : arr;
         }
 

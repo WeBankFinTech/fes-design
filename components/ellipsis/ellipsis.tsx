@@ -65,10 +65,10 @@ export default defineComponent({
             const ellStyle: StyleValue
                 = line.value > 1
                     ? {
-                          'display': '-webkit-inline-box',
-                          '-webkit-line-clamp': line.value,
-                          '-webkit-box-orient': 'vertical',
-                      }
+                            'display': '-webkit-inline-box',
+                            '-webkit-line-clamp': line.value,
+                            '-webkit-box-orient': 'vertical',
+                        }
                     : { 'text-overflow': 'ellipsis', 'white-space': 'nowrap' };
             return [props.style, ellStyle];
         });
@@ -91,7 +91,9 @@ export default defineComponent({
         const getDisabled = () => {
             let isEllipsis = true;
             const { value: trigger } = triggerRef;
-            if (!trigger) return true;
+            if (!trigger) {
+                return true;
+            }
             const { offsetHeight, scrollHeight, offsetWidth } = trigger;
             if (offsetHeight && offsetWidth) {
                 if (line.value > 1) {

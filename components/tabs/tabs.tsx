@@ -47,7 +47,9 @@ export default defineComponent({
         );
 
         const setTabRefs = (el?: InstanceType<typeof Tab>, index?: number) => {
-            if (el) tabRefs.value[index] = el;
+            if (el) {
+                tabRefs.value[index] = el;
+            }
         };
 
         const handleTabClick = (key: Value) => {
@@ -64,7 +66,9 @@ export default defineComponent({
         };
 
         const autoScrollTab = (el?: HTMLElement) => {
-            if (!tabNavRef.value || !el) return;
+            if (!tabNavRef.value || !el) {
+                return;
+            }
 
             const { scrollLeft, scrollTop, offsetWidth, offsetHeight }
                 = tabNavRef.value.containerRef;
@@ -125,9 +129,9 @@ export default defineComponent({
             const children
                 = (slots.default
                 && flatten(slots.default()).filter(
-                        (vNode) => (vNode.type as any).name === 'FTabPane',
-                    ))
-                    || [];
+                    (vNode) => (vNode.type as any).name === 'FTabPane',
+                ))
+                || [];
             if (props.panes?.length) {
                 return children.concat(
                     props.panes.map((pane) => {

@@ -16,8 +16,12 @@ export const calcCheckStatus = (
     checkedNum: number,
     optionNum: number,
 ): CheckStatus => {
-    if (checkedNum === 0) return 'none';
-    if (checkedNum === optionNum) return 'all';
+    if (checkedNum === 0) {
+        return 'none';
+    }
+    if (checkedNum === optionNum) {
+        return 'all';
+    }
     return 'some';
 };
 

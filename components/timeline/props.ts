@@ -52,7 +52,9 @@ type Color = CSSProperties['color'];
  * - #desc
  * - #icon
  */
-export interface TimelineNodeSlotCommonParams { index: number }
+export interface TimelineNodeSlotCommonParams {
+    index: number;
+}
 
 /** 时间轴结点的参数 */
 export interface TimelineNode {

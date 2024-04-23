@@ -58,7 +58,9 @@ export default (props: UploadProps, emit: any) => {
         } else {
             Object.keys(_requestList).forEach((uid) => {
                 const _uid = uid as keyof typeof _requestList;
-                if (_requestList[_uid]) _requestList[_uid].abort();
+                if (_requestList[_uid]) {
+                    _requestList[_uid].abort();
+                }
                 delete _requestList[_uid];
             });
         }
@@ -106,7 +108,9 @@ export default (props: UploadProps, emit: any) => {
         rawFile: UploadFile;
     }) {
         const file = getFile(rawFile, uploadFiles.value);
-        if (!file) return;
+        if (!file) {
+            return;
+        }
         file.status = 'success';
         file.response = response;
         emit('success', { response, file, fileList: uploadFiles.value });
@@ -122,7 +126,9 @@ export default (props: UploadProps, emit: any) => {
     }) {
         const uploadFilesValue = uploadFiles.value;
         const file = getFile(rawFile, uploadFilesValue);
-        if (!file) return;
+        if (!file) {
+            return;
+        }
         file.status = 'error';
         emit('error', { error, file, fileList: uploadFilesValue });
         emit('change', { file, fileList: uploadFilesValue });

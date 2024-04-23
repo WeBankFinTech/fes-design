@@ -49,7 +49,9 @@ const Drawer = defineComponent({
         watch(
             () => props.show,
             () => {
-                if (props.show) zIndex.value = PopupManager.nextZIndex();
+                if (props.show) {
+                    zIndex.value = PopupManager.nextZIndex();
+                }
                 nextTick(() => {
                     visible.value = props.show;
                 });
@@ -89,7 +91,9 @@ const Drawer = defineComponent({
                     <CloseOutlined />
                 </div>
             );
-            if (!hasHeader.value) return closeJsx;
+            if (!hasHeader.value) {
+                return closeJsx;
+            }
             const header = ctx.slots.title?.() || props.title;
             return (
                 <div class={`${prefixCls}-header`}>
@@ -100,7 +104,9 @@ const Drawer = defineComponent({
         }
 
         function getFooter() {
-            if (!props.footer) return null;
+            if (!props.footer) {
+                return null;
+            }
             let footer: Component;
             if (ctx.slots.footer) {
                 footer = ctx.slots.footer();

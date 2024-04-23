@@ -138,13 +138,17 @@ export default defineComponent({
         const inputRef = ref();
         const tempValue = ref();
         const displayValue = computed(() => {
-            if (tempValue.value != null) return tempValue.value;
+            if (tempValue.value != null) {
+                return tempValue.value;
+            }
             return currentValue.value;
         });
 
         // 获取输入值的小数位数
         const getPrecision = (val: number) => {
-            if (val == null) return 0;
+            if (val == null) {
+                return 0;
+            }
             const valueString = val.toString();
             const dotPosition = valueString.indexOf('.');
             let valuePrecision = 0;
@@ -173,7 +177,9 @@ export default defineComponent({
 
         // 保留指定的小数位数
         const toPrecision = (num: number, pre?: number): number => {
-            if (pre == null) pre = numPrecision.value;
+            if (pre == null) {
+                pre = numPrecision.value;
+            }
             return Math.round(num * 10 ** pre) / 10 ** pre;
         };
 
@@ -182,9 +188,15 @@ export default defineComponent({
             if (isNumber(newVal) && props.precision != null) {
                 newVal = toPrecision(newVal, props.precision);
             }
-            if (newVal != null && newVal >= props.max) newVal = props.max;
-            if (newVal != null && newVal <= props.min) newVal = props.min;
-            if (oldVal === newVal) return;
+            if (newVal != null && newVal >= props.max) {
+                newVal = props.max;
+            }
+            if (newVal != null && newVal <= props.min) {
+                newVal = props.min;
+            }
+            if (oldVal === newVal) {
+                return;
+            }
 
             tempValue.value = null;
             updateCurrentValue(newVal);
@@ -195,7 +207,9 @@ export default defineComponent({
         };
 
         const handleBlur = (e: Event) => {
-            if (tempValue.value) tempValue.value = null;
+            if (tempValue.value) {
+                tempValue.value = null;
+            }
             emit('blur', e);
             validate('blur');
         };
@@ -218,7 +232,9 @@ export default defineComponent({
         };
 
         const _calculationNum = (val: number, type: ActionEnum) => {
-            if (!isNumber(val) && val != null) return tempValue.value;
+            if (!isNumber(val) && val != null) {
+                return tempValue.value;
+            }
             const precisionFactor = 10 ** numPrecision.value;
             let tmp;
             if (type === ActionEnum.PLUS) {
@@ -247,8 +263,9 @@ export default defineComponent({
                 || (maxDisabled.value && type === ActionEnum.PLUS)
                 || (minDisabled.value && type === ActionEnum.REDUCE)
                 || isFormDisabled.value
-            )
+            ) {
                 return;
+            }
             tempValue.value = null;
             setCurrentValue(_calculationNum(currentValue.value || 0, type));
         };

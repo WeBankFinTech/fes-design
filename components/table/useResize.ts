@@ -40,7 +40,9 @@ export default (
     };
 
     const onMousemove = (event: MouseEvent) => {
-        if (!current.value) return;
+        if (!current.value) {
+            return;
+        }
         const _widthMap = cloneDeep(widthMap.value);
         const leftColumns = columns
             .slice(0, current.value.columnIndex)
@@ -69,13 +71,17 @@ export default (
     };
 
     const onMouseup = (event: MouseEvent) => {
-        if (!current.value) return;
+        if (!current.value) {
+            return;
+        }
 
         // emit header resize event
         const currentColumnInstance = columns.find(
             (c) => c.id === current.value.id,
         );
-        if (!currentColumnInstance) return;
+        if (!currentColumnInstance) {
+            return;
+        }
 
         handleHeaderResize(
             {

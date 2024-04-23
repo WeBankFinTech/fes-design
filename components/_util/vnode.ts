@@ -60,7 +60,9 @@ export function flatten(
     key?: string,
 ) {
     vNodes.forEach((vNode) => {
-        if (vNode === null) return;
+        if (vNode === null) {
+            return;
+        }
         if (typeof vNode !== 'object') {
             if (typeof vNode === 'string' || typeof vNode === 'number') {
                 result.push(createTextVNode(String(vNode)));
@@ -72,7 +74,9 @@ export function flatten(
             return;
         }
         if (vNode.type === Fragment) {
-            if (vNode.children === null) return;
+            if (vNode.children === null) {
+                return;
+            }
             const currentKey = key
                 ? `${key}_${String(vNode.key)}`
                 : String(vNode.key);
@@ -86,9 +90,8 @@ export function flatten(
                 });
                 flatten(vNode.children, result, currentKey);
             }
-        }
-        // rawSlot
-        else if (vNode.type !== Comment) {
+        } else if (vNode.type !== Comment) {
+            // rawSlot
             result.push(vNode);
         }
     });

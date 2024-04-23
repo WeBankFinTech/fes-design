@@ -46,7 +46,9 @@ export default ({
     // 能被选择 && 展示 的数据
     const selectableData = computed(() =>
         showData.value.filter((row, rowIndex) => {
-            if (!selectionColumn.value) return false;
+            if (!selectionColumn.value) {
+                return false;
+            }
             if (isFunction(selectionColumn.value?.props?.selectable)) {
                 return selectionColumn.value.props.selectable({
                     row,
@@ -99,7 +101,9 @@ export default ({
     });
 
     const isSelectDisabled = ({ row }: { row: RowType }) => {
-        if (!selectionColumn.value) return false;
+        if (!selectionColumn.value) {
+            return false;
+        }
         return !selectableData.value.includes(row);
     };
 
@@ -112,7 +116,9 @@ export default ({
 
     // 选择框的点击事件
     const handleSelect = ({ row }: { row: RowType }) => {
-        if (isSelectDisabled({ row })) return;
+        if (isSelectDisabled({ row })) {
+            return;
+        }
 
         const rowKey = getRowKey({ row });
         const selectionList = currentCheckedKeys.value as CheckedKey[];

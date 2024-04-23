@@ -179,7 +179,9 @@ export default defineComponent({
 
         // 渲染文字
         const renderText = () => {
-            if (!props.showText) return null;
+            if (!props.showText) {
+                return null;
+            }
             return <div class={`${prefixCls}-text`}>{getCurrentText()}</div>;
         };
 

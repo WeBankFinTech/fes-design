@@ -12,7 +12,9 @@ export default function useScroll(
         let cursor: Element | Document | null = targetRef.value;
         while (true) {
             cursor = getScrollParent(cursor);
-            if (cursor === null) break;
+            if (cursor === null) {
+                break;
+            }
             scrollableNodes.push(cursor);
         }
         for (const el of scrollableNodes) {

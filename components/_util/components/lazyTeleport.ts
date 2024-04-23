@@ -42,13 +42,13 @@ export default defineComponent({
             ? this.disabled
                 ? getSlot(this.$slots)
                 : h(
-                      Teleport,
-                      {
-                          disabled: this.disabled,
-                          to: this.mergedTo,
-                      },
-                      getSlot(this.$slots),
-                  )
+                    Teleport,
+                    {
+                        disabled: this.disabled,
+                        to: this.mergedTo,
+                    },
+                    getSlot(this.$slots),
+                )
             : null;
     },
 });

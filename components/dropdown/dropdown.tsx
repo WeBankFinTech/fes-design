@@ -27,7 +27,9 @@ export default defineComponent({
 
         const handleClick = (option: Option, event: Event) => {
             event.stopPropagation();
-            if (option.disabled) return;
+            if (option.disabled) {
+                return;
+            }
             const value = option[props.valueField] as Option['value'];
             currentValue.value = value;
             updateVisible(false);

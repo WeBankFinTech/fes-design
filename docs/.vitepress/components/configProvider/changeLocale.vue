@@ -48,7 +48,9 @@ export default defineComponent({
         const locale = ref(zhCN);
 
         watch(lang, () => {
-            if (!lang.value) return;
+            if (!lang.value) {
+                return;
+            }
             if (lang.value === zhCN.name) {
                 locale.value = zhCN;
             } else {

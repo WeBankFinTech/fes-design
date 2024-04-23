@@ -265,13 +265,17 @@ export default defineComponent({
         });
 
         const onSelect = (value: SelectValue, option?: SelectOption) => {
-            if (innerDisabled.value) return;
+            if (innerDisabled.value) {
+                return;
+            }
             if (props.multiple) {
                 filterText.value = '';
                 if (isSelect(value)) {
                     emit('removeTag', value);
                 } else {
-                    if (isLimitRef.value) return;
+                    if (isLimitRef.value) {
+                        return;
+                    }
                 }
             } else {
                 // 体验更好

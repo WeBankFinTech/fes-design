@@ -21,7 +21,9 @@ import type {
 const dragInstanceMap = new WeakMap();
 
 const updateStyle = (el: HTMLElement, items: DraggableItem[]) => {
-    if (!el?.children?.length) return;
+    if (!el?.children?.length) {
+        return;
+    }
     for (let index = 0; index < el.children.length; index++) {
         const node = el.children[index] as HTMLElement;
         const item = items[index];
@@ -43,7 +45,9 @@ const updateStyle = (el: HTMLElement, items: DraggableItem[]) => {
 };
 
 const init = (el: HTMLElement, binding: DirectiveBinding<any>) => {
-    if (binding.modifiers.disabled) return;
+    if (binding.modifiers.disabled) {
+        return;
+    }
     const bindArg = binding.arg as unknown as {
         onDragstart: (...args: unknown[]) => void;
         beforeDragend?: BeforeDragEnd;

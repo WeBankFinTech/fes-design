@@ -146,7 +146,9 @@ export default defineComponent({
 
         // 星期栏
         const renderWeekNameHeader = (): VNode => {
-            if (mode.value === 'month') return undefined;
+            if (mode.value === 'month') {
+                return undefined;
+            }
             return (
                 <div class={cls('week-name-header')}>
                     {weekNames.value.map((weekName) => (

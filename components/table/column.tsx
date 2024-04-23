@@ -50,34 +50,34 @@ export const columnProps = {
         | []
         | object
         | (({
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-              cellValue,
-          }: {
-              row: RowType;
-              column: ColumnInst;
-              rowIndex: number;
-              columnIndex: number;
-              cellValue: any;
-          }) => string | [] | object)
+            row,
+            column,
+            rowIndex,
+            columnIndex,
+            cellValue,
+        }: {
+            row: RowType;
+            column: ColumnInst;
+            rowIndex: number;
+            columnIndex: number;
+            cellValue: any;
+        }) => string | [] | object)
     >,
     colStyle: [Function, Object] as PropType<
         | object
         | (({
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-              cellValue,
-          }: {
-              row: RowType;
-              column: ColumnInst;
-              rowIndex: number;
-              columnIndex: number;
-              cellValue: any;
-          }) => object)
+            row,
+            column,
+            rowIndex,
+            columnIndex,
+            cellValue,
+        }: {
+            row: RowType;
+            column: ColumnInst;
+            rowIndex: number;
+            columnIndex: number;
+            cellValue: any;
+        }) => object)
     >,
     fixed: {
         type: [Boolean, String] as PropType<'left' | 'right' | true | false>,

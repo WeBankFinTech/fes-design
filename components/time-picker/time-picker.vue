@@ -116,7 +116,9 @@ const getCurrentTime = (format: string) => {
 };
 
 function validator(val: string | undefined, cellFormat: string, max: number) {
-    if (!val) return false;
+    if (!val) {
+        return false;
+    }
     if (
         val.length > 3
         || !/^\d{1,2}$/.test(val)
@@ -138,9 +140,13 @@ function validateTime(data: string, format: string) {
     for (let i = 0; i < cellFormats.length; ++i) {
         const cellFormat = cellFormats[i];
         if (/[Hh]/.test(cellFormat)) {
-            if (!validator(times.shift(), cellFormat, 23)) return false;
+            if (!validator(times.shift(), cellFormat, 23)) {
+                return false;
+            }
         } else {
-            if (!validator(times.shift(), cellFormat, 59)) return false;
+            if (!validator(times.shift(), cellFormat, 59)) {
+                return false;
+            }
         }
     }
     return true;

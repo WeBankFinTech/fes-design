@@ -89,7 +89,9 @@ export default defineComponent({
 
         const renderIcon = () => slots.icon?.() || <LoadingOutlined />;
         const renderDesc = () => {
-            if (!slots.description && !props.description) return null;
+            if (!slots.description && !props.description) {
+                return null;
+            }
             return (
                 <span class={`${prefixCls}-description`}>
                     {slots.description?.() || props.description}

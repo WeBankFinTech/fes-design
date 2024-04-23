@@ -83,7 +83,9 @@ export const depx = (value: string | number): number => {
     }
 
     console.warn('[depx] 转换失败，原始值为：', value);
-    if (isUndefined(value) || isNull(value)) return undefined;
+    if (isUndefined(value) || isNull(value)) {
+        return undefined;
+    }
     return value as number;
 };
 
@@ -96,7 +98,9 @@ export const pxfy = (value: string | number): string => {
         return `${Number(value)}px`;
     }
 
-    if (isUndefined(value) || isNull(value)) return undefined;
+    if (isUndefined(value) || isNull(value)) {
+        return undefined;
+    }
     return value as string;
 };
 
@@ -111,7 +115,9 @@ export function getParentNode(node: Node): Node | null {
 export function getScrollParent(
     node: Node | null,
 ): HTMLElement | Document | null {
-    if (node == null) return null;
+    if (node == null) {
+        return null;
+    }
 
     const parentNode = getParentNode(node);
 

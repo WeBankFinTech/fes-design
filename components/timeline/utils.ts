@@ -70,8 +70,12 @@ export const calcDescPosition = (
 export const calcInlineStartProp = (
     axisDirection: ComponentProps['direction'],
 ): StrictExtract<keyof CSSProperties, 'top' | 'left' | 'right'> => {
-    if (axisDirection === 'row') return 'left';
-    if (axisDirection === 'row-reverse') return 'right';
+    if (axisDirection === 'row') {
+        return 'left';
+    }
+    if (axisDirection === 'row-reverse') {
+        return 'right';
+    }
     return 'top';
 };
 

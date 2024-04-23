@@ -50,9 +50,15 @@ export default (props: PopperProps, emit: any) => {
     });
 
     const computePopper = () => {
-        if (isBoolean(props.disabled) && props.disabled) return;
-        if (isFunction(props.disabled) && props.disabled()) return;
-        if (!visible.value) return;
+        if (isBoolean(props.disabled) && props.disabled) {
+            return;
+        }
+        if (isFunction(props.disabled) && props.disabled()) {
+            return;
+        }
+        if (!visible.value) {
+            return;
+        }
         popperStyle.zIndex = popupManager.nextZIndex();
 
         nextTick(() => {
@@ -67,17 +73,17 @@ export default (props: PopperProps, emit: any) => {
             const triggerEl: ReferenceElement
                 = props.trigger === 'contextmenu' // 仅在右键时，使用鼠标具体触发位置
                     ? {
-                          getBoundingClientRect: () =>
-                              virtualRect.value && {
-                                  width: 0,
-                                  height: 0,
-                                  top: virtualRect.value.y,
-                                  right: virtualRect.value.x,
-                                  bottom: virtualRect.value.y,
-                                  left: virtualRect.value.x,
-                              },
-                          contextElement: rawTriggerEl,
-                      }
+                            getBoundingClientRect: () =>
+                                virtualRect.value && {
+                                    width: 0,
+                                    height: 0,
+                                    top: virtualRect.value.y,
+                                    right: virtualRect.value.x,
+                                    bottom: virtualRect.value.y,
+                                    left: virtualRect.value.x,
+                                },
+                            contextElement: rawTriggerEl,
+                        }
                     : rawTriggerEl;
 
             const popperEl = popperRef.value;

@@ -415,15 +415,15 @@ export default defineComponent({
         );
         const rootStyle: CSSProperties = isHorizontal
             ? {
-                  position: 'relative',
-                  width: `${fullHeight}px`,
-                  height: '100%',
-              }
+                    position: 'relative',
+                    width: `${fullHeight}px`,
+                    height: '100%',
+                }
             : {
-                  position: 'relative',
-                  height: `${fullHeight}px`,
-                  width: '100%',
-              };
+                    position: 'relative',
+                    height: `${fullHeight}px`,
+                    width: '100%',
+                };
 
         const wrapNode = createVNode(
             wrapTag,

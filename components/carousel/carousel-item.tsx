@@ -38,7 +38,9 @@ const useItemStyle = (direction: ComputedRef<Direction>) => {
 
     const setItemStyle = (translate: number, scale?: number) => {
         itemStyleState.translate = translate;
-        if (scale) itemStyleState.scale = scale;
+        if (scale) {
+            itemStyleState.scale = scale;
+        }
     };
 
     return {

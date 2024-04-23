@@ -103,10 +103,14 @@ export default defineComponent({
         const cursorDown = ref();
         let onselectstartStore: GlobalEventHandlers['onselectstart'] = null;
         const mouseMoveDocumentHandler = (e: MouseEvent) => {
-            if (cursorDown.value === false) return;
+            if (cursorDown.value === false) {
+                return;
+            }
             const prevPage = barStore.value[barMap.value.axis];
 
-            if (!prevPage) return;
+            if (!prevPage) {
+                return;
+            }
 
             const offset
                 = (barRef.value.getBoundingClientRect()[barMap.value.direction]
@@ -206,8 +210,8 @@ export default defineComponent({
                 = (e.currentTarget as HTMLElement)[barMap.value.offset]
                 - (e[barMap.value.client]
                 - (e.currentTarget as HTMLElement).getBoundingClientRect()[
-                        barMap.value.direction
-                    ]);
+                    barMap.value.direction
+                ]);
         };
 
         return {

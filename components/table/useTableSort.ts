@@ -55,7 +55,9 @@ export default ({
     };
 
     const handleClickSortHeader = ({ column }: { column: ColumnInst }) => {
-        if (!column.props.sortable) return;
+        if (!column.props.sortable) {
+            return;
+        }
         if (sortState.prop !== column.props.prop) {
             const order = column.props.sortDirections[0];
             Object.assign(sortState, {
@@ -78,7 +80,9 @@ export default ({
         const column = columns.value.find((col) => {
             return col.props.prop === prop;
         });
-        if (!column.props.sortable) return;
+        if (!column.props.sortable) {
+            return;
+        }
         Object.assign(sortState, {
             prop,
             order,

@@ -2,9 +2,12 @@ import { camelize } from '@vue/shared';
 
 /* istanbul ignore next */
 export function hasClass(el: HTMLElement, cls: string) {
-    if (!el || !cls) return false;
-    if (cls.indexOf(' ') !== -1)
+    if (!el || !cls) {
+        return false;
+    }
+    if (cls.indexOf(' ') !== -1) {
         throw new Error('className should not contain space.');
+    }
     if (el.classList) {
         return el.classList.contains(cls);
     }
@@ -13,13 +16,17 @@ export function hasClass(el: HTMLElement, cls: string) {
 
 /* istanbul ignore next */
 export function addClass(el: HTMLElement, cls: string) {
-    if (!el) return;
+    if (!el) {
+        return;
+    }
     let curClass = el.className;
     const classes = (cls || '').split(' ');
 
     for (let i = 0, j = classes.length; i < j; i++) {
         const clsName = classes[i];
-        if (!clsName) continue;
+        if (!clsName) {
+            continue;
+        }
 
         if (el.classList) {
             el.classList.add(clsName);
@@ -34,13 +41,17 @@ export function addClass(el: HTMLElement, cls: string) {
 
 /* istanbul ignore next */
 export function removeClass(el: HTMLElement, cls: string) {
-    if (!el || !cls) return;
+    if (!el || !cls) {
+        return;
+    }
     const classes = cls.split(' ');
     let curClass = ` ${el.className} `;
 
     for (let i = 0, j = classes.length; i < j; i++) {
         const clsName = classes[i];
-        if (!clsName) continue;
+        if (!clsName) {
+            continue;
+        }
 
         if (el.classList) {
             el.classList.remove(clsName);
@@ -59,14 +70,18 @@ export function removeClass(el: HTMLElement, cls: string) {
 // camelize(s: string)
 // Same as the return type
 export const getStyle = function (element: HTMLElement, styleName: string) {
-    if (!element || !styleName) return '';
+    if (!element || !styleName) {
+        return '';
+    }
     styleName = camelize(styleName);
     if (styleName === 'float') {
         styleName = 'cssFloat';
     }
     try {
         const style = element.style[styleName as any];
-        if (style) return style;
+        if (style) {
+            return style;
+        }
         const computed = document.defaultView!.getComputedStyle(element, '');
         return computed ? computed[styleName as any] : '';
     } catch (e) {
@@ -76,7 +91,9 @@ export const getStyle = function (element: HTMLElement, styleName: string) {
 
 let scrollBarWidth: number;
 export function getScrollBarWidth() {
-    if (scrollBarWidth || scrollBarWidth === 0) return scrollBarWidth;
+    if (scrollBarWidth || scrollBarWidth === 0) {
+        return scrollBarWidth;
+    }
     const outer = document.createElement('div');
     outer.className = 'el-scrollbar__wrap';
     outer.style.visibility = 'hidden';
@@ -131,7 +148,9 @@ export function getScrollContainer(el: HTMLElement, isVertical?: boolean) {
 
 export function isInContainer(el: HTMLElement, container: HTMLElement) {
     // 仅适用从右往左进入视口和从下往上进入视口
-    if (!el || !container) return false;
+    if (!el || !container) {
+        return false;
+    }
 
     const elRect = el.getBoundingClientRect();
 

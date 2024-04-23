@@ -227,7 +227,9 @@ export default defineComponent({
         };
 
         const handleMousedown = (e: MouseEvent) => {
-            if (props.disabled) return;
+            if (props.disabled) {
+                return;
+            }
             const { tagName } = e.target as HTMLElement;
             if (tagName !== 'INPUT' && tagName !== 'TEXTAREA') {
                 e.preventDefault();

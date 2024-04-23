@@ -40,7 +40,9 @@ const usePanelData = ({
             checkValue,
             options,
             onCheckboxChange: () => {
-                if (type === 'source') return;
+                if (type === 'source') {
+                    return;
+                }
                 handleChange({ nextValue: checkValue.value });
             },
         });
@@ -57,7 +59,9 @@ const usePanelData = ({
         } else {
             // remove
             const index = nextCheckValue.findIndex((v) => v === optionValue);
-            if (index === -1) return;
+            if (index === -1) {
+                return;
+            }
             nextCheckValue.splice(index, 1);
         }
 
@@ -142,11 +146,12 @@ const TwoWayTransfer = defineComponent({
                     modelValue={panelData.checkValue.value.includes(
                         option.value,
                     )}
-                    onChange={(nextValue) =>
+                    onChange={(nextValue) => {
                         panelData.handleListOptionChange(
                             option.value,
                             nextValue,
-                    )
+                        );
+                    }
                     }
                 />
                 <span class={cls('option-label')}>{renderLabel(option)}</span>

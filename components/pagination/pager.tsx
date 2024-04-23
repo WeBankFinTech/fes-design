@@ -49,8 +49,8 @@ export default defineComponent({
             const currentVal = isNumber(currentPage.value)
                 ? currentPage.value
                 : Number.isNaN(Number.parseInt(`${currentPage.value}`, 10))
-                ? 1
-                : Number.parseInt(`${currentPage.value}`, 10);
+                    ? 1
+                    : Number.parseInt(`${currentPage.value}`, 10);
             let start = currentVal - Math.floor(STEP / 2);
             while (count < STEP) {
                 res.push(start);

@@ -18,7 +18,9 @@ function _useTheme() {
             () => config.themeOverrides?.value,
         ],
         ([getContainer, theme, themeOverrides]) => {
-            if (!getContainer) return;
+            if (!getContainer) {
+                return;
+            }
             const { themeVars: currentThemeVars } = applyTheme(
                 getContainer(),
                 theme,

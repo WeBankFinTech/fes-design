@@ -67,8 +67,9 @@ export default defineComponent({
                 || props.disabled
                 || props.loading
                 || isFormDisabled.value
-            )
+            ) {
                 return;
+            }
 
             handelAnimate();
 

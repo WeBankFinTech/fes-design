@@ -43,7 +43,9 @@ export function wrapValidator(
 }
 
 export function allPromiseFinish(promiseList: Promise<any>[]) {
-    if (!promiseList.length) return Promise.resolve([]);
+    if (!promiseList.length) {
+        return Promise.resolve([]);
+    }
 
     let hasError = false;
     let count = promiseList.length;
@@ -60,9 +62,13 @@ export function allPromiseFinish(promiseList: Promise<any>[]) {
                     count -= 1;
                     results[index] = result;
 
-                    if (count > 0) return;
+                    if (count > 0) {
+                        return;
+                    }
 
-                    if (hasError) reject(results);
+                    if (hasError) {
+                        reject(results);
+                    }
 
                     resolve(results);
                 });

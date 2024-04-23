@@ -49,11 +49,11 @@ export default defineComponent({
                         >
                             <div class="slot-content">{slots.text()}</div>
                         </foreignObject>
-                        ) : (
-                            <text x="50%" y="50%" class="progress-text">
-                                {`${props.percent}%`}
-                            </text>
-                        ))}
+                    ) : (
+                        <text x="50%" y="50%" class="progress-text">
+                            {`${props.percent}%`}
+                        </text>
+                    ))}
                 </svg>
             );
         };

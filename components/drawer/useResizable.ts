@@ -9,14 +9,20 @@ const calcResizableRange = (
     drawerDimension: Ref<Props['dimension']>,
     windowDimension: Ref<number>,
 ): { max?: number; min?: number } => {
-    if (!props.resizable) return {};
+    if (!props.resizable) {
+        return {};
+    }
 
     const clientMaxSize = windowDimension.value;
     const formatSize = (
         size: Props['resizeMax'] | Props['resizeMin'],
     ): number | undefined => {
-        if (isNil(size)) return undefined;
-        if (isNumber(size)) return size;
+        if (isNil(size)) {
+            return undefined;
+        }
+        if (isNumber(size)) {
+            return size;
+        }
 
         const pixelStrMatch = size.match(/^(\d+)px$/);
         if (pixelStrMatch) {
@@ -101,14 +107,18 @@ export const useResizable = ({
     };
 
     const onMouseup = () => {
-        if (!isActive.value) return;
+        if (!isActive.value) {
+            return;
+        }
 
         start = 0;
         isActive.value = false;
     };
 
     const doResize = (event: MouseEvent) => {
-        if (!isActive.value) return;
+        if (!isActive.value) {
+            return;
+        }
 
         event.preventDefault();
 

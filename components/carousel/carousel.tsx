@@ -104,7 +104,9 @@ export default defineComponent({
         const handleMouseEnter = (event: MouseEvent) => {
             event.stopPropagation();
             carouselHover.value = true;
-            if (props.pauseOnHover) pauseTimer();
+            if (props.pauseOnHover) {
+                pauseTimer();
+            }
         };
 
         const handleMouseLeave = (event: MouseEvent) => {

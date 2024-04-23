@@ -32,8 +32,12 @@ export default function useTrigger(
         if (props.onlyShowTrigger) {
             return;
         }
-        if (isBoolean(props.disabled) && props.disabled) return;
-        if (isFunction(props.disabled) && props.disabled()) return;
+        if (isBoolean(props.disabled) && props.disabled) {
+            return;
+        }
+        if (isFunction(props.disabled) && props.disabled()) {
+            return;
+        }
         clearTimers();
         if (props.hideAfter) {
             hideTimer = setTimeout(() => {
@@ -45,8 +49,12 @@ export default function useTrigger(
     };
 
     const show = () => {
-        if (isBoolean(props.disabled) && props.disabled) return;
-        if (isFunction(props.disabled) && props.disabled()) return;
+        if (isBoolean(props.disabled) && props.disabled) {
+            return;
+        }
+        if (isFunction(props.disabled) && props.disabled()) {
+            return;
+        }
         clearTimers();
         if (props.showAfter) {
             showTimer = setTimeout(() => {
@@ -150,7 +158,9 @@ export default function useTrigger(
             = trigger === 'click'
             || trigger === 'focus'
             || trigger === 'contextmenu';
-        if (shouldPrevent) return;
+        if (shouldPrevent) {
+            return;
+        }
         hide();
     }
 

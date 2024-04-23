@@ -20,7 +20,7 @@ describe('Tabs', () => {
                 modelValue: 1,
             },
             slots: {
-                default: () => tabs.map(item => <TabPane {...item}>{item.value}</TabPane>),
+                default: () => tabs.map((item) => <TabPane {...item}>{item.value}</TabPane>),
             },
         });
         await nextTick();
@@ -44,7 +44,7 @@ describe('Tabs', () => {
                 modelValue: 1,
             },
             slots: {
-                default: () => tabs.map(item => <TabPane {...item}>{item.value}</TabPane>),
+                default: () => tabs.map((item) => <TabPane {...item}>{item.value}</TabPane>),
             },
         });
         await nextTick();
@@ -63,7 +63,7 @@ describe('Tabs', () => {
                 type: 'card',
             },
             slots: {
-                default: () => tabs.map(item => <TabPane {...item}>{item.value}</TabPane>),
+                default: () => tabs.map((item) => <TabPane {...item}>{item.value}</TabPane>),
             },
         });
         await nextTick();
@@ -81,7 +81,7 @@ describe('Tabs', () => {
                 type: 'card',
             },
             slots: {
-                default: () => tabs.map(item => <TabPane {...item}>{item.value}</TabPane>),
+                default: () => tabs.map((item) => <TabPane {...item}>{item.value}</TabPane>),
             },
         });
         await nextTick();

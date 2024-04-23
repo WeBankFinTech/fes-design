@@ -54,7 +54,9 @@ export default defineComponent({
             element: HTMLElement | null,
             contentElement: HTMLElement | null,
         ) => {
-            if (!element || !contentElement) return;
+            if (!element || !contentElement) {
+                return;
+            }
 
             // 计算并设置缩放值
             const parentWidth = element.offsetWidth;

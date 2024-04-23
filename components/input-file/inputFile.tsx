@@ -45,7 +45,9 @@ const InputFile = defineComponent({
         };
 
         const renderFileList = (files: File[]): VNodeChild => {
-            if (files.length === 0) return null;
+            if (files.length === 0) {
+                return null;
+            }
 
             if (slots.fileList) {
                 return slots.fileList({ files });

@@ -8,15 +8,15 @@ import type { ModalInnerProps } from './props';
 export const useContentMaxHeight = (
     styles: ComputedRef<
         | {
-              width?: undefined;
-              marginTop?: undefined;
-              marginBottom?: undefined;
-          }
-          | {
-              width: string;
-              marginTop: string | number;
-              marginBottom: string | number;
-          }
+            width?: undefined;
+            marginTop?: undefined;
+            marginBottom?: undefined;
+        }
+        | {
+            width: string;
+            marginTop: string | number;
+            marginBottom: string | number;
+        }
     >,
     props: ModalInnerProps,
 ) => {

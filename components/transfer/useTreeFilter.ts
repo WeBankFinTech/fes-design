@@ -15,7 +15,9 @@ export const useTreeFilter = ({
     const filterText = ref<string>('');
 
     watch(filterText, (text) => {
-        if (!treeRef.value) return;
+        if (!treeRef.value) {
+            return;
+        }
         treeRef.value.filter(text);
     });
 
@@ -24,7 +26,9 @@ export const useTreeFilter = ({
             const transferOption = rootProps.options.find(
                 ({ value }) => value === treeNode.value,
             );
-            if (!transferOption) return false;
+            if (!transferOption) {
+                return false;
+            }
             return transferOption.label.includes(filterText);
         };
 

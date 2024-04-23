@@ -346,8 +346,8 @@ export function useMonth({
                     || props.rangePosition === RANGE_POSITION.LEFT
                         ? 1
                         : endOfMonth(
-                              new Date(currentDate.year, month, 1),
-                          ).getDate(),
+                            new Date(currentDate.year, month, 1),
+                        ).getDate(),
             },
             activeIndex.value,
         );
@@ -650,7 +650,9 @@ export const useQuarter = (
 };
 
 const transformDateToTime = (selectedDate: DateObj) => {
-    if (!selectedDate) return '';
+    if (!selectedDate) {
+        return '';
+    }
     const times = [];
     if (!isNil(selectedDate.hour)) {
         times.push(`${selectedDate.hour}`.padStart(2, '0'));
@@ -712,7 +714,9 @@ export const useTime = ({
     };
 
     const innerDisabledTime = computed(() => {
-        if (!props.disabledTime) return null;
+        if (!props.disabledTime) {
+            return null;
+        }
         if (picker.value.isRange) {
             return props.disabledTime(
                 new Date(

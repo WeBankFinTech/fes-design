@@ -47,12 +47,12 @@ export const tableProps = {
         | []
         | object
         | (({
-              row,
-              rowIndex,
-          }: {
-              row: RowType;
-              rowIndex: number;
-          }) => string | [] | object)
+            row,
+            rowIndex,
+        }: {
+            row: RowType;
+            rowIndex: number;
+        }) => string | [] | object)
     >,
     rowStyle: [Function, Object] as PropType<
         | object

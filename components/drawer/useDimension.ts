@@ -8,8 +8,12 @@ import { COMPONENT_NAME } from './const';
 const DEFAULT_DIMENSION = 520;
 
 const formatSize = (size: Props['dimension']) => {
-    if (isNil(size)) return pxfy(DEFAULT_DIMENSION);
-    if (isNumber(size)) return pxfy(size);
+    if (isNil(size)) {
+        return pxfy(DEFAULT_DIMENSION);
+    }
+    if (isNumber(size)) {
+        return pxfy(size);
+    }
 
     return size;
 };

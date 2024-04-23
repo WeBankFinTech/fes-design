@@ -61,7 +61,9 @@ export default function useCarouselItem({
         );
         if (index !== -1) {
             slideChildren.value.splice(index, 1);
-            if (activeIndex.value === index) next();
+            if (activeIndex.value === index) {
+                next();
+            }
         }
     }
 

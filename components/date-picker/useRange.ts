@@ -61,7 +61,9 @@ export const useRange = ({
     picker: Ref<Picker>;
 }) => {
     // TODO 日期组件通过组件区分，不通过 type 区分
-    if (!picker.value.isRange) return {};
+    if (!picker.value.isRange) {
+        return {};
+    }
     const leftActiveDate = ref(
         getTimestampFromFormat(
             tempCurrentValue.value[0] && new Date(tempCurrentValue.value[0]),

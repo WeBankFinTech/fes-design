@@ -44,7 +44,9 @@ export const FVirtualListItem = defineComponent({
             vNode,
             {
                 ref: (el) => {
-                    if (el) this.itemRef = getElementFromVueInstance(el);
+                    if (el) {
+                        this.itemRef = getElementFromVueInstance(el);
+                    }
                 },
             },
             true,

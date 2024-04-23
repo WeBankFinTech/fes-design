@@ -48,7 +48,9 @@ export default defineComponent({
         watch(
             lang,
             () => {
-                if (!lang.value) return;
+                if (!lang.value) {
+                    return;
+                }
                 if (lang.value === zhCN.name) {
                     locale.value = mergeWith(
                         {},

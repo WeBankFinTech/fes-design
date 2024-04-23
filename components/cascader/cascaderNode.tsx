@@ -139,7 +139,9 @@ export default defineComponent({
                 return handleClickSwitcher(event);
             }
 
-            if (disabled.value) return;
+            if (disabled.value) {
+                return;
+            }
             // 再 select 行为
             if (selectable.value) {
                 return root.selectNode(props.value, event);
@@ -159,13 +161,17 @@ export default defineComponent({
             }
         };
         const handleClickCheckbox = (event: Event) => {
-            if (disabled.value) return;
+            if (disabled.value) {
+                return;
+            }
             if (checkable.value && isCheckLoaded.value) {
                 return root.checkNode(props.value, event);
             }
         };
         const handleClickRadio = (event: Event) => {
-            if (disabled.value) return;
+            if (disabled.value) {
+                return;
+            }
             // 仅 select 行为
             if (selectable.value) {
                 return root.selectNode(props.value, event);
@@ -250,7 +256,9 @@ export default defineComponent({
             return null;
         };
         const renderPrefix = () => {
-            if (!slots.prefix) return null;
+            if (!slots.prefix) {
+                return null;
+            }
             return (
                 <span
                     class={`${prefixCls}-content-prefix`}
@@ -261,7 +269,9 @@ export default defineComponent({
             );
         };
         const renderSuffix = () => {
-            if (!slots.suffix) return null;
+            if (!slots.suffix) {
+                return null;
+            }
             return (
                 <span
                     class={`${prefixCls}-content-suffix`}

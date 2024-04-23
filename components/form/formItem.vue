@@ -78,10 +78,14 @@ export default defineComponent({
         });
         const fieldValue = computed(() => {
             // 优先获取 value 的值
-            if (props.value !== undefined) return props.value;
+            if (props.value !== undefined) {
+                return props.value;
+            }
 
             // 不存在时获取 model[prop] 的值
-            if (!model.value || !formItemProp.value) return;
+            if (!model.value || !formItemProp.value) {
+                return;
+            }
             return get(model.value, formItemProp.value);
         });
         const initialValue = cloneDeep(fieldValue.value);
@@ -170,12 +174,12 @@ export default defineComponent({
             const triggersRules = !trigger
                 ? formItemRules.value
                 : formItemRules.value.filter(
-                      (rule) =>
-                          !rule.trigger
-                          || (isArray(rule.trigger)
-                              ? rule.trigger.includes(trigger)
-                              : rule.trigger === trigger),
-                  );
+                    (rule) =>
+                        !rule.trigger
+                        || (isArray(rule.trigger)
+                            ? rule.trigger.includes(trigger)
+                            : rule.trigger === trigger),
+                );
 
             // 处理 rule 规则里面是自定义 validator
             const activeRules = triggersRules.map((rule) => {
@@ -198,7 +202,9 @@ export default defineComponent({
                 return shallowClonedRule;
             });
 
-            if (!activeRules.length) return Promise.resolve();
+            if (!activeRules.length) {
+                return Promise.resolve();
+            }
 
             // 开始规则校验
             const descriptor: any = {};

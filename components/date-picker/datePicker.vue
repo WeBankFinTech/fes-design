@@ -248,7 +248,9 @@ const usePlaceholder = (
     const { t } = useLocale();
 
     const innerPlaceHolder = computed(() => {
-        if (props.placeholder) return props.placeholder;
+        if (props.placeholder) {
+            return props.placeholder;
+        }
         const placeholderLang = picker.value.placeholderLang;
         if (Array.isArray(placeholderLang)) {
             return placeholderLang.map((item) => t(item));

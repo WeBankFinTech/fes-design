@@ -46,7 +46,9 @@ export const useCustomIconRegister = (
     );
 
     useResize(iconRef, (entries) => {
-        if (!isIconCustom.value) return;
+        if (!isIconCustom.value) {
+            return;
+        }
         const iconRect = entries[0].contentRect;
         updateIcon(nodeIndex, iconRect);
     });
@@ -96,10 +98,12 @@ export const useCustomIcons = (
         const customIconIndexes = Array.from(customIconRectMap.keys());
 
         return nodes.reduce((result, _, currentIndex) => {
-            if (customIconIndexes.includes(currentIndex))
+            if (customIconIndexes.includes(currentIndex)) {
                 return [...result, currentIndex];
-            if (customIconIndexes.includes(currentIndex + 1))
+            }
+            if (customIconIndexes.includes(currentIndex + 1)) {
                 return [...result, currentIndex];
+            }
 
             return result;
         }, [] as number[]);

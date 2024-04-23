@@ -49,7 +49,9 @@ const Transfer = defineComponent({
 
         // 滚动部分的高度，决定是否开启虚拟滚动
         const scrollContentHeight = computed<number | null>(() => {
-            if (isUndefined(props.height)) return null;
+            if (isUndefined(props.height)) {
+                return null;
+            }
             let contentHeight
                 = props.height
                 - TransferStyle.PANEL_PADDING * 2

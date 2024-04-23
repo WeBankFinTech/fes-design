@@ -63,7 +63,9 @@ export default ({
     watch(
         [currentCheckedKeys, allKeys],
         () => {
-            if (!props.checkable) return;
+            if (!props.checkable) {
+                return;
+            }
             if (unwatchCurrent) {
                 unwatchCurrent = false;
                 return;
@@ -79,7 +81,9 @@ export default ({
     watch(
         _keys,
         (newKeys, oldKeys) => {
-            if (!props.checkable) return;
+            if (!props.checkable) {
+                return;
+            }
             if (unwatch) {
                 unwatch = false;
                 return;

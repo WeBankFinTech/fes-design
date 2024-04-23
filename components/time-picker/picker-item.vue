@@ -146,7 +146,9 @@ export default defineComponent({
         );
 
         const selectedTime = (e: MouseEvent) => {
-            if (!e.target) return;
+            if (!e.target) {
+                return;
+            }
             const key = (e.target as HTMLElement).getAttribute('data-key');
             const option = props.times.find((item) => item.value === key);
             if (option && !option.disabled) {

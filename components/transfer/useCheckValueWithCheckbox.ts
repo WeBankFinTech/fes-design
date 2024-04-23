@@ -18,7 +18,9 @@ export const useCheckValueWithCheckbox = ({
 
     // 处理组件的事件，而不是 watch 组件的 modelValue。防止 watch 之间互相依赖，循环触发
     const handleCheckboxChange = (status: CheckStatus): void => {
-        if (status === 'some') return;
+        if (status === 'some') {
+            return;
+        }
 
         checkValue.value
             = status === 'all' ? options.value.map(({ value }) => value) : [];

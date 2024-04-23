@@ -24,7 +24,9 @@ export const getParentByValues = (
     const res: Record<string, TreeNodeKey[]> = {};
     values.forEach((value) => {
         const node = nodeList.get(value);
-        if (!node) return;
+        if (!node) {
+            return;
+        }
         if (!res[node.level]) {
             res[node.level] = [];
         }

@@ -66,11 +66,19 @@ export default defineComponent({
         });
 
         useScroll(triggerElement, (e: Event) => {
-            if (disabledWatch.value) return;
-            if (isFunction(props.disabled) && props.disabled()) return;
+            if (disabledWatch.value) {
+                return;
+            }
+            if (isFunction(props.disabled) && props.disabled()) {
+                return;
+            }
             // 不挂载在container上
-            if (!props.appendToContainer) return;
-            if (e.target === getContainer.value?.()) return;
+            if (!props.appendToContainer) {
+                return;
+            }
+            if (e.target === getContainer.value?.()) {
+                return;
+            }
             computePopper();
         });
         useClickOutSide(

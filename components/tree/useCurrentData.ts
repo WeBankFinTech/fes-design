@@ -124,7 +124,9 @@ export default ({
     watch(
         [filteredExpandedKeys, filteredKeys],
         debounce(() => {
-            if (!isSearchingRef.value) return;
+            if (!isSearchingRef.value) {
+                return;
+            }
             computeCurrentData();
         }, 10),
     );
@@ -133,7 +135,9 @@ export default ({
     watch(
         [currentExpandedKeys, allKeys],
         debounce(() => {
-            if (isSearchingRef.value) return;
+            if (isSearchingRef.value) {
+                return;
+            }
             computeCurrentData();
         }, 10),
         {

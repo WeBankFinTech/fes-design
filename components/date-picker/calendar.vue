@@ -222,9 +222,9 @@ function useDateInput({
     const getDateStr = (i: number) => {
         return selectedDates.value[i]
             ? format(
-                  transformDateToTimestamp(selectedDates.value[i]),
-                  'yyyy-MM-dd',
-              )
+                transformDateToTimestamp(selectedDates.value[i]),
+                'yyyy-MM-dd',
+            )
             : '';
     };
     watch(

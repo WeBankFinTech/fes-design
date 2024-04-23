@@ -13,8 +13,12 @@ export function mapTabPane(
             'display-directive': _displayDirective,
             displayDirective,
         } = vNode.props;
-        if (!vNode.key) vNode.key = value;
-        if (!vNode.props.key) vNode.props.key = value;
+        if (!vNode.key) {
+            vNode.key = value;
+        }
+        if (!vNode.props.key) {
+            vNode.props.key = value;
+        }
         const show = value === tabValue;
         const directive = _displayDirective || displayDirective;
         if (directive === 'show') {

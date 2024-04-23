@@ -208,7 +208,7 @@ export default defineComponent({
         });
         const isOpened = ref(false);
 
-         // 与 props 中 modelValue 类型保持一致
+        // 与 props 中 modelValue 类型保持一致
         const [currentValue, updateCurrentValue] = props.multiple
             ? (useArrayModel(props, emit) as unknown as UseArrayModelReturn<
                   Array<TreeNodeKey> | Array<Array<TreeNodeKey>>
@@ -320,7 +320,9 @@ export default defineComponent({
         };
 
         const handleSelect = (data: SelectParams) => {
-            if (innerDisabled.value) return;
+            if (innerDisabled.value) {
+                return;
+            }
             filterText.value = '';
             if (!props.multiple) {
                 isOpened.value = false;
@@ -330,7 +332,9 @@ export default defineComponent({
         };
 
         const handleCheck = (data: CheckParams) => {
-            if (innerDisabled.value) return;
+            if (innerDisabled.value) {
+                return;
+            }
             filterText.value = '';
             if (!props.multiple) {
                 isOpened.value = false;
@@ -370,7 +374,9 @@ export default defineComponent({
             return targetValues.value
                 .map((val: TreeNodeKey) => {
                     const node = nodeListValue.get(val);
-                    if (!node) return;
+                    if (!node) {
+                        return;
+                    }
                     if (props.showPath) {
                         return {
                             ...node,
@@ -413,8 +419,12 @@ export default defineComponent({
             }, 300),
         );
         const filterMethod = computed(() => {
-            if (!props.filterable) return noop;
-            if (props.filter) return props.filter;
+            if (!props.filterable) {
+                return noop;
+            }
+            if (props.filter) {
+                return props.filter;
+            }
             if (props.data.some(({ label }) => typeof label !== 'string')) {
                 console.warn(
                     `[${COMPONENT_NAME}]：label 存在自定义渲染，需要传入 filter`,

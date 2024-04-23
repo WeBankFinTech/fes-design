@@ -340,7 +340,9 @@ export default defineComponent({
         };
 
         const handleSelect = (data: SelectParams) => {
-            if (innerDisabled.value) return;
+            if (innerDisabled.value) {
+                return;
+            }
             if (!props.multiple) {
                 isOpened.value = false;
             }
@@ -351,7 +353,9 @@ export default defineComponent({
         };
 
         const handleCheck = (data: CheckParams) => {
-            if (innerDisabled.value) return;
+            if (innerDisabled.value) {
+                return;
+            }
             if (!props.multiple) {
                 isOpened.value = false;
             }
@@ -426,8 +430,8 @@ export default defineComponent({
                     };
                     const formatLabel = props.showPath
                         ? (path as CascaderOption[])
-                              .map((item) => `${item.label}`)
-                              .join(LABEL_SEPARATOR)
+                                .map((item) => `${item.label}`)
+                                .join(LABEL_SEPARATOR)
                         : label;
                     return {
                         value,

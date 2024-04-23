@@ -67,7 +67,9 @@ const useCalendarData = (
 
         if (typeof time === 'function') {
             const result = time();
-            if (isNil(result)) return;
+            if (isNil(result)) {
+                return;
+            }
             targetTime = result;
         } else {
             targetTime = time;

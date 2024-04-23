@@ -16,7 +16,9 @@ export function matchType(
     return acceptAtoms.some((acceptAtom) => {
         if (acceptAtom.startsWith('.')) {
             // suffix
-            if (name.endsWith(acceptAtom)) return true;
+            if (name.endsWith(acceptAtom)) {
+                return true;
+            }
         } else if (acceptAtom.includes('/')) {
             // mime type
             const [type, subtype] = mimeType.split('/');

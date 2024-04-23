@@ -214,12 +214,12 @@ export default ({
         return [
             typeof colClassName === 'function'
                 ? colClassName({
-                      row,
-                      column,
-                      rowIndex,
-                      columnIndex,
-                      cellValue,
-                  })
+                    row,
+                    column,
+                    rowIndex,
+                    columnIndex,
+                    cellValue,
+                })
                 : colClassName,
         ];
     };
@@ -331,7 +331,9 @@ export default ({
     // 同步两个table的位移
     const syncPosition = throttle((e: Event) => {
         const $bodyWrapper = e.target as HTMLElement;
-        if (!$bodyWrapper) return;
+        if (!$bodyWrapper) {
+            return;
+        }
         const { scrollLeft, offsetWidth, scrollWidth } = $bodyWrapper;
         const $headerWrapper = headerWrapperRef.value;
         if ($headerWrapper) {

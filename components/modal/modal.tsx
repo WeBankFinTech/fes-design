@@ -46,7 +46,9 @@ const Modal = defineComponent({
         watch(
             () => props.show,
             () => {
-                if (props.show) zIndex.value = PopupManager.nextZIndex();
+                if (props.show) {
+                    zIndex.value = PopupManager.nextZIndex();
+                }
 
                 nextTick(() => {
                     visible.value = props.show;
@@ -89,7 +91,9 @@ const Modal = defineComponent({
                     <CloseOutlined />
                 </div>
             );
-            if (!hasHeader.value) return closeJsx;
+            if (!hasHeader.value) {
+                return closeJsx;
+            }
             const header = ctx.slots.title?.() || props.title;
             return (
                 <div class={`${prefixCls}-header`} ref={modalHeaderRef}>
@@ -107,7 +111,9 @@ const Modal = defineComponent({
         }
 
         function getFooter() {
-            if (!props.footer) return null;
+            if (!props.footer) {
+                return null;
+            }
             let footer = null;
             if (ctx.slots.footer) {
                 footer = ctx.slots.footer();
@@ -143,19 +149,21 @@ const Modal = defineComponent({
         }
 
         const styles = computed(() => {
-            if (props.fullScreen) return {};
+            if (props.fullScreen) {
+                return {};
+            }
             return {
                 width: isNumber(props.width) ? `${props.width}px` : props.width,
                 marginTop: props.verticalCenter
                     ? 0
                     : isNumber(props.top)
-                    ? `${props.top}px`
-                    : props.top,
+                        ? `${props.top}px`
+                        : props.top,
                 marginBottom: props.verticalCenter
                     ? 0
                     : isNumber(props.bottom)
-                    ? `${props.bottom}px`
-                    : props.bottom,
+                        ? `${props.bottom}px`
+                        : props.bottom,
             };
         });
 

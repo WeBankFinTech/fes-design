@@ -34,19 +34,21 @@ export default defineComponent({
         const formStyle = computed(() => {
             const tempColStyle = props.layout === FORM_LAYOUT.INLINE
                 && props.inlineItemWidth && {
-                    'grid-template-columns': `repeat(auto-fit, ${pxfy(
+                'grid-template-columns': `repeat(auto-fit, ${pxfy(
                         props.inlineItemWidth,
                     )})`,
-                };
+            };
             const gapStyle = props.layout === FORM_LAYOUT.INLINE
                 && props.inlineItemGap && {
-                    'grid-gap': `${pxfy(props.inlineItemGap)}`,
-                };
+                'grid-gap': `${pxfy(props.inlineItemGap)}`,
+            };
             return { ...tempColStyle, ...gapStyle };
         });
 
         const addField = (formItemProp: string, formItemContext: Field) => {
-            if (formItemProp) formFields[formItemProp] = formItemContext;
+            if (formItemProp) {
+                formFields[formItemProp] = formItemContext;
+            }
         };
         const removeField = (formItemProp: string) => {
             delete formFields[formItemProp];
@@ -55,16 +57,18 @@ export default defineComponent({
             fieldProps?: string[],
             trigger = TRIGGER_TYPE_DEFAULT,
         ) => {
-            if (!props.model)
+            if (!props.model) {
                 return Promise.reject(
                     'Form `model` is required for resetFields to work.',
                 );
+            }
             const specifyPropsFlag = Boolean(fieldProps.length); // 是否指定prop: 【部分】表单字段校验调用会指定; 【整个】表单校验调用则不会指定
             const promiseList: Promise<any>[] = []; // 原始校验结果
 
             Object.values(formFields).forEach((formField) => {
-                if (specifyPropsFlag && !fieldProps.includes(formField.prop))
-                    return; // Skip if Specify prop but not include
+                if (specifyPropsFlag && !fieldProps.includes(formField.prop)) {
+                    return;
+                } // Skip if Specify prop but not include
 
                 const promise = formField.validateRules(trigger);
                 promiseList.push(
@@ -105,10 +109,11 @@ export default defineComponent({
 
         /** 移除表单项的校验结果 */
         const clearValidate = () => {
-            if (!props.model)
+            if (!props.model) {
                 return Promise.reject(
                     'Form `model` is required for resetFields to work.',
                 );
+            }
             Object.values(formFields).forEach((formField) => {
                 formField.clearValidate();
             });
@@ -116,10 +121,11 @@ export default defineComponent({
 
         /** 对整个表单进行重置，将所有字段值重置为初始值并移除校验结果 */
         const resetFields = () => {
-            if (!props.model)
+            if (!props.model) {
                 return Promise.reject(
                     'Form `model` is required for resetFields to work.',
                 );
+            }
             Object.values(formFields).forEach((formField) => {
                 formField.resetField();
             });

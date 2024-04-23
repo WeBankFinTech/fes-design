@@ -63,7 +63,9 @@ const Notification = defineComponent({
         }
 
         function append(notice: Notice) {
-            if (!notice.key) notice.key = genUid();
+            if (!notice.key) {
+                notice.key = genUid();
+            }
             if (props.maxCount && notices.value.length >= props.maxCount) {
                 notices.value.shift();
             }
@@ -91,7 +93,9 @@ const Notification = defineComponent({
                     ? notice.children()
                     : notice.children;
             vNode = getFirstValidNode([vNode]);
-            if (vNode) return cloneVNode(vNode, { key: notice.key });
+            if (vNode) {
+                return cloneVNode(vNode, { key: notice.key });
+            }
         });
         return (
             <TransitionGroup name={transitionName} tag="div">
@@ -130,7 +134,9 @@ export function createManager(opt: {
                     },
                     exited() {
                         // 容器是否存在
-                        if (!getContainer) return true;
+                        if (!getContainer) {
+                            return true;
+                        }
                         try {
                             if (!getContainer()) {
                                 instance.destroy();
