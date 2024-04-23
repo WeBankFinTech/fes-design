@@ -16,9 +16,6 @@
     "[md]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "[typescriptreact]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
     "prettier.printWidth": 180,
 
     // Enable eslint for all supported languages
