@@ -156,7 +156,7 @@ export default defineComponent({
             }
             if (dragOverInfo?.node.value === props.value) {
                 const style: CSSProperties = {};
-                style['left'] = `${props.level * INDENT + 9}px`;
+                style.left = `${props.level * INDENT + 9}px`;
                 return (
                     <div
                         class={[

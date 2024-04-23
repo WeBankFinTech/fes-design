@@ -27,12 +27,12 @@ describe('FCheckboxGroup', () => {
         const wrapper = _mount();
         await wrapper.find(`.trigger`).trigger('click');
         expect(wrapper.emitted()).toHaveProperty('change');
-        expect(wrapper.emitted()['change'][0][0]).toEqual([1]);
+        expect(wrapper.emitted().change[0][0]).toEqual([1]);
         expect(wrapper.emitted()).toHaveProperty('update:modelValue');
         expect(wrapper.emitted()['update:modelValue'][0][0]).toEqual([1]);
         await wrapper.find(`.trigger`).trigger('click');
         expect(wrapper.emitted()).toHaveProperty('change');
-        expect(wrapper.emitted()['change'][1][0]).toEqual([]);
+        expect(wrapper.emitted().change[1][0]).toEqual([]);
         expect(wrapper.emitted()).toHaveProperty('update:modelValue');
         expect(wrapper.emitted()['update:modelValue'][1][0]).toEqual([]);
     });

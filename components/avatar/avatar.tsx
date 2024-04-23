@@ -33,7 +33,7 @@ export default defineComponent({
         const avatarSize = computed(() => {
             return typeof props.size === 'number'
                 ? props.size
-                : sizeMap[props.size] ?? sizeMap['middle'];
+                : sizeMap[props.size] ?? sizeMap.middle;
         });
 
         const avatarStyle = computed(() => {

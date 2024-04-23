@@ -129,7 +129,7 @@ export default defineComponent({
                 _style['padding-right'] = `${rowProps.gutterX.value / 2}px`;
             }
             if (props.order) {
-                _style['order'] = props.order;
+                _style.order = props.order;
             }
             return _style;
         });

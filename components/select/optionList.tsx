@@ -26,7 +26,7 @@ const optionListProps = {
             return [];
         },
     },
-    virtualScroll: selectProps['virtualScroll'],
+    virtualScroll: selectProps.virtualScroll,
     isSelect: {
         type: Function,
         default: noop,
