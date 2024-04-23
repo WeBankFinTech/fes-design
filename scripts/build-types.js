@@ -3,7 +3,7 @@ import path from 'node:path';
 import glob from 'fast-glob';
 import { Project } from 'ts-morph';
 import { parse, compileScript } from 'vue/compiler-sfc';
-import { getProjectRootDir } from './utils.mjs';
+import { getProjectRootDir } from './utils.js';
 
 const rootDir = getProjectRootDir();
 
