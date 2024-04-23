@@ -9,7 +9,6 @@
 </template>
 <script>
 import { ref, reactive, h } from 'vue';
-// eslint-disable-next-line import/no-unresolved
 import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
 
 function createData(level = 1, baseKey = '', prefix, suffix) {

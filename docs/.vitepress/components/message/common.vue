@@ -11,7 +11,6 @@
 </template>
 
 <script>
-// eslint-disable-next-line import/no-unresolved
 import { FMessage } from '@fesjs/fes-design';
 
 export default {

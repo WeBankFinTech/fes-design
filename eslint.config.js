@@ -178,5 +178,9 @@ export default antfu({
         'unused-imports/no-unused-vars': 'off',
         'no-case-declarations': 'off',
         'eqeqeq': 'off',
+        'prefer-spread': 'off',
+        'vue/no-useless-v-bind': 'off',
+        'no-async-promise-executor': 'off',
+        'vue/quote-props': 'off',
     },
 });
