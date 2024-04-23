@@ -1,5 +1,5 @@
 <template>
-    <FSelectCascader :data="data" clearable></FSelectCascader>
+    <FSelectCascader :data="data" clearable />
 </template>
 <script>
 import { h, reactive } from 'vue';

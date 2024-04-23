@@ -8,14 +8,14 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FCascader
         :data="data"
         checkable
         :cascade="cascade"
         :selectable="false"
-    ></FCascader>
+    />
 </template>
 <script>
 import { reactive, ref } from 'vue';

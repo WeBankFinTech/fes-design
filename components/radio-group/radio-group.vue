@@ -8,7 +8,7 @@
                 :value="opt.value"
                 :label="opt.label"
                 :disabled="opt.disabled || isFormDisabled"
-            ></FRadio>
+            />
         </template>
         <template v-else>
             <RadioButton
@@ -17,7 +17,7 @@
                 :value="opt.value"
                 :label="opt.label"
                 :disabled="opt.disabled || isFormDisabled"
-            ></RadioButton>
+            />
         </template>
     </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-    <FTabs :panes="tabPanes"></FTabs>
+    <FTabs :panes="tabPanes" />
 </template>
 
 <script setup>

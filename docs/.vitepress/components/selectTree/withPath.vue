@@ -25,7 +25,7 @@
                 :emitPath="emitPath"
                 :showPath="showPath"
                 :data="data"
-            ></FSelectTree>
+            />
         </FFormItem>
         <FFormItem label="modelValue：">
             {{ singleValue }}
@@ -39,7 +39,7 @@
                 :data="data"
                 cascade
                 multiple
-            ></FSelectTree>
+            />
         </FFormItem>
         <FFormItem label="modelValue：">
             {{ multipleValue }}

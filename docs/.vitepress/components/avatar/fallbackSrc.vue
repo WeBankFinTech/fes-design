@@ -5,14 +5,14 @@
             src="empty.png"
             fallback-src="https://fes-design.mumblefe.cn/images/fes-logo.svg"
             @error="handleError"
-        ></FAvatar>
-        <FAvatar :size="size" src="empty.png" @error="handleError"></FAvatar>
+        />
+        <FAvatar :size="size" src="empty.png" @error="handleError" />
         <FAvatar
             :size="size"
             src="empty.png"
             fallback-src="empty.png"
             @error="handleError"
-        ></FAvatar>
+        />
     </FSpace>
 </template>
 

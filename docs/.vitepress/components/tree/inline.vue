@@ -1,5 +1,5 @@
 <template>
-    <FTree :data="data" inline defaultExpandAll></FTree>
+    <FTree :data="data" inline defaultExpandAll />
 </template>
 <script>
 import { h, reactive } from 'vue';

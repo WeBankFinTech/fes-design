@@ -20,14 +20,14 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FCascader
         :data="data"
         :cancelable="cancelable"
         :expandTrigger="expandTrigger"
         :checkStrictly="checkStrictly"
-    ></FCascader>
+    />
 </template>
 <script>
 import { reactive, ref } from 'vue';

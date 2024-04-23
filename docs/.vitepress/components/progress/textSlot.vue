@@ -4,7 +4,7 @@
             <span class="text">这是自定义文案</span>
         </template>
     </FProgress>
-    <FDivider></FDivider>
+    <FDivider />
     <FProgress :percent="percent" type="circle" showCircleText>
         <template #text>
             <div class="text">

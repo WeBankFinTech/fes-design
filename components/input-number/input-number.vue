@@ -12,10 +12,10 @@
             @blur="handleBlur"
         >
             <template v-if="$slots.prefix" #prefix>
-                <slot name="prefix"></slot>
+                <slot name="prefix" />
             </template>
             <template #suffix>
-                <slot name="suffix"></slot>
+                <slot name="suffix" />
                 <div
                     v-if="showStepAction"
                     :class="[

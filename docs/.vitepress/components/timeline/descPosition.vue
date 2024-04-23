@@ -18,7 +18,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FTimeline
         :data="data"

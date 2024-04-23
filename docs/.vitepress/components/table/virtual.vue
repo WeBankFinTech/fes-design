@@ -26,7 +26,7 @@
                 :min="50"
                 :max="1000"
                 :step="50"
-            ></FInputNumber>
+            />
             <span style="margin-left: 10px">px</span>
         </FFormItem>
         <FFormItem label="总是显示滚动条：">
@@ -40,7 +40,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FTable
         :virtualScroll="virtualScroll"
@@ -49,20 +49,19 @@
         :data="data"
         :alwaysScrollbar="alwaysScrollbar"
     >
-        <FTableColumn prop="date" label="日期" :width="150" ellipsis fixed>
-        </FTableColumn>
-        <FTableColumn prop="name" label="姓名" :width="150"></FTableColumn>
-        <FTableColumn prop="province" label="省份" :width="150"></FTableColumn>
-        <FTableColumn prop="city" label="市区" :width="150"> </FTableColumn>
-        <FTableColumn prop="address" label="地址" :width="800"></FTableColumn>
-        <FTableColumn prop="zip" label="邮编" :width="120"> </FTableColumn>
+        <FTableColumn prop="date" label="日期" :width="150" ellipsis fixed />
+        <FTableColumn prop="name" label="姓名" :width="150" />
+        <FTableColumn prop="province" label="省份" :width="150" />
+        <FTableColumn prop="city" label="市区" :width="150" />
+        <FTableColumn prop="address" label="地址" :width="800" />
+        <FTableColumn prop="zip" label="邮编" :width="120" />
         <FTableColumn
             label="操作"
             align="center"
             :width="200"
             :action="action"
             fixed="right"
-        ></FTableColumn>
+        />
     </FTable>
 </template>
 <script>

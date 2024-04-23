@@ -12,7 +12,7 @@
     >
         <!-- 前置内容 -->
         <span v-if="$slots.prefix" :class="`${prefixCls}-prefix`">
-            <slot name="prefix"></slot>
+            <slot name="prefix" />
         </span>
         <input
             ref="inputRefEl"
@@ -36,7 +36,7 @@
             @focus="handleFocus"
             @blur="handleBlur"
             @keydown="handleKeydown"
-        />
+        >
         <!-- 后置内容 -->
         <span
             v-if="suffixVisible"
@@ -44,7 +44,7 @@
             @mousedown.prevent
         >
             <template v-if="!showClear && !showPwdSwitchIcon">
-                <slot name="suffix"></slot>
+                <slot name="suffix" />
             </template>
             <CloseCircleFilled
                 v-if="showClear"

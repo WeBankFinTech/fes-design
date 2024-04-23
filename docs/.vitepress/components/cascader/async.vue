@@ -1,5 +1,5 @@
 <template>
-    <FCascader :data="data" :loadData="loadData" checkable remote></FCascader>
+    <FCascader :data="data" :loadData="loadData" checkable remote />
 </template>
 <script>
 import { reactive } from 'vue';

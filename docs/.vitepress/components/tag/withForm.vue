@@ -19,8 +19,7 @@
                         class="input-tag"
                         size="small"
                         @change="dynamicTags.handleInputConfirm"
-                    >
-                    </FInput>
+                    />
                     <FButton
                         v-show="!dynamicTags.state.inputVisible"
                         class="button-tag"

@@ -61,7 +61,7 @@
                     @select="handleSelect"
                     @check="handleCheck"
                     @mousedown.prevent
-                ></Cascader>
+                />
                 <OptionList
                     v-show="filterText"
                     :options="filteredOptions"

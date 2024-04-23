@@ -35,7 +35,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace :justify="justify" :align="align" :wrap="wrap">
         <FButton>Text</FButton>
@@ -48,7 +48,7 @@
         </FButton>
     </FSpace>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <div class="space-wrapper">
         <FSpace :justify="justify" :align="align" :wrap="wrap">

@@ -1,7 +1,7 @@
 <template>
     <section :class="classList">
         <div :class="containerClassRef" :style="containerStyle">
-            <slot></slot>
+            <slot />
         </div>
     </section>
 </template>

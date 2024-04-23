@@ -9,9 +9,9 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
-    <FCascader :data="data" checkable></FCascader>
+    <FCascader :data="data" checkable />
 </template>
 <script>
 import { computed, ref } from 'vue';

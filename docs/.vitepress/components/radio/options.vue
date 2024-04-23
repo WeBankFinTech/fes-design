@@ -5,8 +5,7 @@
             :cancelable="false"
             :options="options"
             @change="handleChange"
-        >
-        </FRadioGroup>
+        />
     </FSpace>
     <FSpace>
         <FRadioGroup
@@ -15,8 +14,7 @@
             :options="options"
             optionType="button"
             @change="handleChange"
-        >
-        </FRadioGroup>
+        />
     </FSpace>
 </template>
 <script>

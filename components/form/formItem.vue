@@ -10,7 +10,7 @@
             </slot>
         </span>
         <div :class="`${prefixCls}-content`" :style="contentStyle">
-            <slot></slot>
+            <slot />
             <transition name="fes-fade">
                 <div v-if="formItemShowMessage" :class="`${prefixCls}-error`">
                     {{ validateMessage }}

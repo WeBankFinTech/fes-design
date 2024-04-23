@@ -4,7 +4,7 @@
         <FRadio :value="false">无分割线</FRadio>
     </FRadioGroup>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <div class="card-wrapper">
         <FCard header="这里是标题" :divider="divider">

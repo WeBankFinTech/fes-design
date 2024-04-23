@@ -44,7 +44,7 @@
                             :min="10"
                             :max="100"
                             :step="10"
-                        ></FInputNumber>
+                        />
                         <span style="margin-left: 10px">%</span>
                     </FFormItem>
                     <FFormItem
@@ -56,17 +56,17 @@
                             :min="100"
                             :max="1000"
                             :step="100"
-                        ></FInputNumber>
+                        />
                         <span style="margin-left: 10px">px</span>
                     </FFormItem>
                 </FForm>
             </FSpace>
-            <FDivider class="divider"></FDivider>
+            <FDivider class="divider" />
             <FSpace>
                 <FButton @click="add">内容 + 1</FButton>
                 <FButton @click="reduce">内容 - 1</FButton>
             </FSpace>
-            <FDivider></FDivider>
+            <FDivider />
             <div v-for="n in count" :key="n">我是内容...</div>
         </FModal>
     </FSpace>

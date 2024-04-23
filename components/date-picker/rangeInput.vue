@@ -23,9 +23,9 @@
             @input="onLeftInput"
             @focus="onFocus"
             @blur="onBlur"
-        />
+        >
         <span :class="`${prefixCls}-separator`">
-            <slot name="separator"></slot>
+            <slot name="separator" />
         </span>
         <input
             :class="`${prefixCls}-inner`"
@@ -37,10 +37,10 @@
             @input="onRightInput"
             @focus="onFocus"
             @blur="onBlur"
-        />
+        >
         <span :class="`${prefixCls}-suffix`" @mousedown.prevent>
             <CloseCircleFilled v-if="showClear" @click.stop="clear" />
-            <slot v-else name="suffix"></slot>
+            <slot v-else name="suffix" />
         </span>
     </span>
 </template>

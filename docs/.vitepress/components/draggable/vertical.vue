@@ -1,7 +1,7 @@
 <template>
     <FForm labelWidth="100px">
         <FFormItem label="是否禁用:">
-            <FSwitch v-model="disabled"></FSwitch>
+            <FSwitch v-model="disabled" />
         </FFormItem>
     </FForm>
     <FSpace>
@@ -10,7 +10,7 @@
         <FButton type="primary" @click="doRandomUpdateItem"> 随机更新 </FButton>
     </FSpace>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <div class="container">
         <FDraggable

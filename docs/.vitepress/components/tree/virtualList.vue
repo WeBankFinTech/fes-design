@@ -7,7 +7,7 @@
         checkable
         cascade
         checkStrictly="parent"
-    ></FTree>
+    />
 </template>
 <script>
 import { reactive, ref } from 'vue';

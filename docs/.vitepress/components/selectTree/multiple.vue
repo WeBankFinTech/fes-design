@@ -5,15 +5,14 @@
         <FRadio value="parent">parent</FRadio>
         <FRadio value="child">child</FRadio>
     </FRadioGroup>
-    <br />
+    <br>
     <FSelectTree
         :data="data"
         multiple
         cascade
         :checkStrictly="checkStrictly"
         clearable
-    >
-    </FSelectTree>
+    />
 </template>
 <script>
 import { h, reactive, ref } from 'vue';

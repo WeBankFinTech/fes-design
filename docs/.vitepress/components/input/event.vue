@@ -1,24 +1,24 @@
 <template>
     <FSpace vertical>
         change 事件:
-        <FInput placeholder="请输入" @change="textChange"></FInput>
+        <FInput placeholder="请输入" @change="textChange" />
         keydown 事件:
-        <FInput placeholder="请输入" @keydown="keyDown"></FInput>
+        <FInput placeholder="请输入" @keydown="keyDown" />
         input 事件:
-        <FInput placeholder="请输入" @input="inputChange"></FInput>
+        <FInput placeholder="请输入" @input="inputChange" />
         enter 事件:
         <FInput
             placeholder="请输入"
             @keyup.enter="keyupEnter"
             @change="keyupEnterChange"
-        ></FInput>
+        />
         clear 事件:
         <FInput
             placeholder="请输入"
             clearable
             @clear="textClear"
             @input="textClearInput"
-        ></FInput>
+        />
     </FSpace>
 </template>
 

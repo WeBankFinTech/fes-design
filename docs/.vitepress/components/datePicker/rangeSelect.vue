@@ -6,12 +6,11 @@
                 clearable
                 style="width: 200px"
                 :options="formatOptions"
-            >
-            </FSelect>
+            />
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace vertical>
         <FDatePicker

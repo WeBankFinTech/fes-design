@@ -8,7 +8,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace>
         <div>
@@ -18,7 +18,7 @@
                 class="select-cascader"
                 :data="data"
                 :filterable="filterable"
-            ></FSelectCascader>
+            />
         </div>
         <div>
             单选自定义过滤函数：
@@ -27,11 +27,11 @@
                 :data="data"
                 :filterable="filterable"
                 :filter="filter"
-            ></FSelectCascader>
+            />
         </div>
     </FSpace>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace vertical>
         <div>
@@ -44,7 +44,7 @@
                 :multiple="true"
                 showPath
                 emitPath
-            ></FSelectCascader>
+            />
         </div>
         <div>
             多选自定义过滤函数：
@@ -56,7 +56,7 @@
                 :filter="filter"
                 showPath
                 emitPath
-            ></FSelectCascader>
+            />
         </div>
     </FSpace>
 </template>

@@ -3,7 +3,7 @@
     <div :class="classes" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
         <template v-if="type !== 'textarea'">
             <div v-if="$slots.prepend" :class="`${prefixCls}-prepend`">
-                <slot name="prepend"></slot>
+                <slot name="prepend" />
             </div>
             <InputInner
                 ref="inputRef"
@@ -26,10 +26,10 @@
                 @clear="handleInputClear"
             >
                 <template v-if="$slots.prefix" #prefix>
-                    <slot name="prefix"></slot>
+                    <slot name="prefix" />
                 </template>
                 <template v-if="$slots.suffix || isWordLimitVisible" #suffix>
-                    <slot name="suffix"></slot>
+                    <slot name="suffix" />
                     <span
                         v-if="isWordLimitVisible"
                         :class="`${prefixCls}-count`"
@@ -40,7 +40,7 @@
             </InputInner>
 
             <div v-if="$slots.append" :class="`${prefixCls}-append`">
-                <slot name="append"></slot>
+                <slot name="append" />
             </div>
         </template>
 
@@ -63,8 +63,7 @@
             @focus="handleFocus"
             @blur="handleBlur"
             @keydown="handleKeydown"
-        >
-        </textarea>
+        />
         <span
             v-if="isWordLimitVisible && type === 'textarea'"
             :class="`${textareaPrefixCls}-count`"

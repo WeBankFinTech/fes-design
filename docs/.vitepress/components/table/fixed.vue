@@ -20,39 +20,38 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FTable rowKey="id" :data="data" bordered>
         <FTableColumn
             type="selection"
             :width="30"
             :fixed="fixedLeft ? 'left' : undefined"
-        ></FTableColumn>
+        />
         <FTableColumn
             prop="date"
             label="日期"
             ellipsis
             :width="150"
             :fixed="fixedLeft ? true : undefined"
-        ></FTableColumn>
-        <FTableColumn prop="name" label="姓名" :width="150"></FTableColumn>
-        <FTableColumn prop="province" label="省份" :width="150"></FTableColumn>
-        <FTableColumn prop="city" label="市区" :width="150"> </FTableColumn>
-        <FTableColumn prop="address" label="地址" :width="800"></FTableColumn>
+        />
+        <FTableColumn prop="name" label="姓名" :width="150" />
+        <FTableColumn prop="province" label="省份" :width="150" />
+        <FTableColumn prop="city" label="市区" :width="150" />
+        <FTableColumn prop="address" label="地址" :width="800" />
         <FTableColumn
             prop="zip"
             label="邮编"
             :width="120"
             :fixed="fixedRight ? 'right' : undefined"
-        >
-        </FTableColumn>
+        />
         <FTableColumn
             label="操作"
             align="center"
             :width="200"
             :action="action"
             :fixed="fixedRight ? 'right' : undefined"
-        ></FTableColumn>
+        />
     </FTable>
 </template>
 <script>

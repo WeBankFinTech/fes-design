@@ -4,7 +4,7 @@
         <FRadio :value="true">inline-flex</FRadio>
     </FRadioGroup>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace class="space-wrapper" :inline="inline">
         <FButton>Text</FButton>

@@ -6,7 +6,7 @@
                 :min="50"
                 :max="300"
                 :step="10"
-            ></FInputNumber>
+            />
             <span style="margin-left: 10px">px</span>
         </FFormItem>
         <FFormItem label="高度：">
@@ -15,7 +15,7 @@
                 :min="50"
                 :max="300"
                 :step="10"
-            ></FInputNumber>
+            />
             <span style="margin-left: 10px">px</span>
         </FFormItem>
         <FFormItem label="适应方式：">
@@ -28,11 +28,11 @@
             </FRadioGroup>
         </FFormItem>
         <FFormItem label="图像描述：">
-            <FInput v-model="alt"></FInput>
+            <FInput v-model="alt" />
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FImage
         :src="src"

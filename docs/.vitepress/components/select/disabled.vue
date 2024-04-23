@@ -6,7 +6,7 @@
                 :key="index"
                 :value="item.value"
                 :label="item.label"
-            ></FOption>
+            />
         </FSelect>
         <FSelect v-model="value2" multiple disabled>
             <FOption
@@ -14,7 +14,7 @@
                 :key="index"
                 :value="item.value"
                 :label="item.label"
-            ></FOption>
+            />
         </FSelect>
         <FSelect v-model="value2" multiple disabled collapseTags>
             <FOption
@@ -22,7 +22,7 @@
                 :key="index"
                 :value="item.value"
                 :label="item.label"
-            ></FOption>
+            />
         </FSelect>
         <FSelect
             v-model="value2"
@@ -36,7 +36,7 @@
                 :key="index"
                 :value="item.value"
                 :label="item.label"
-            ></FOption>
+            />
         </FSelect>
     </FSpace>
 </template>

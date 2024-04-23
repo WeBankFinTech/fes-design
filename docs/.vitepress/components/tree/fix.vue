@@ -1,5 +1,5 @@
 <template>
-    <FTree :data="data" checkable> </FTree>
+    <FTree :data="data" checkable />
 </template>
 <script>
 import { h, reactive } from 'vue';

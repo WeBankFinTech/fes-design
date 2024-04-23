@@ -1,9 +1,9 @@
 <template>
     啊
-    <FDivider vertical></FDivider>
+    <FDivider vertical />
     啊
-    <FDivider vertical></FDivider>
+    <FDivider vertical />
     啊
-    <FDivider vertical></FDivider>
+    <FDivider vertical />
     啊
 </template>

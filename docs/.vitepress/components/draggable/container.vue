@@ -22,7 +22,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <div class="container">
         <FDraggable

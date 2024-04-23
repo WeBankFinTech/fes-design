@@ -21,7 +21,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSelect
         v-model="arr"
@@ -36,7 +36,7 @@
             :key="index"
             :value="item.value"
             :label="item.label"
-        ></FOption>
+        />
     </FSelect>
 </template>
 <script>

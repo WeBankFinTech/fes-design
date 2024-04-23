@@ -1,5 +1,5 @@
 <template>
-    <FSelectCascader></FSelectCascader>
+    <FSelectCascader />
 </template>
 <style scoped>
 .fes-select-cascader {

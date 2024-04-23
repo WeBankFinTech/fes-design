@@ -6,7 +6,7 @@
                 :min="0"
                 :max="50"
                 :step="10"
-            ></FInputNumber>
+            />
             <span style="margin-left: 10px">px</span>
         </FFormItem>
         <FFormItem label="触发 toBottom 事件阈值：">
@@ -15,7 +15,7 @@
                 :min="0"
                 :max="50"
                 :step="10"
-            ></FInputNumber>
+            />
             <span style="margin-left: 10px">px</span>
         </FFormItem>
         <FFormItem label="是否原生滚动条：">
@@ -34,7 +34,7 @@
         </FSpace>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FVirtualList
         ref="virtualList"
@@ -64,7 +64,7 @@
         </template>
     </FVirtualList>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace vertical>
         <span>第50项高度: {{ getSize }}</span>

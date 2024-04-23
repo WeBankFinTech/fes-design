@@ -1,11 +1,11 @@
 <template>
     <FForm labelWidth="100px">
         <FFormItem label="是否禁用:">
-            <FSwitch v-model="disabled"></FSwitch>
+            <FSwitch v-model="disabled" />
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <div class="container">
         <FDraggable

@@ -5,7 +5,7 @@
         show-quick-jumper
         show-total
         @change="handleChange"
-    ></FPagination>
+    />
 </template>
 
 <script>

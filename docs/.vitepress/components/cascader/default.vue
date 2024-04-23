@@ -5,7 +5,7 @@
         v-model:checkedKeys="checkedKeys"
         :data="data"
         checkable
-    ></FCascader>
+    />
 </template>
 <script>
 import { reactive, ref } from 'vue';

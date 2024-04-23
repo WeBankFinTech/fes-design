@@ -5,7 +5,7 @@
         <FRadio value="large">large</FRadio>
     </FRadioGroup>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <div class="card-wrapper">
         <FCard header="这里是标题" :size="size">

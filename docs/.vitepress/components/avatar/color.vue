@@ -2,13 +2,13 @@
     <FSpace>
         <FForm :labelWidth="100">
             <FFormItem label="背景色:">
-                <FInput v-model="backgroundColor"></FInput>
+                <FInput v-model="backgroundColor" />
             </FFormItem>
             <FFormItem label="字体色:">
-                <FInput v-model="color"></FInput>
+                <FInput v-model="color" />
             </FFormItem>
             <FFormItem label="内容:">
-                <FInput v-model="text"></FInput>
+                <FInput v-model="text" />
             </FFormItem>
         </FForm>
     </FSpace>

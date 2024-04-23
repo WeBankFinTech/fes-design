@@ -11,34 +11,31 @@
                         :width="150"
                         ellipsis
                         fixed
-                    >
-                    </f-table-column>
+                    />
                     <f-table-column
                         prop="name"
                         label="姓名"
                         :width="150"
-                    ></f-table-column>
+                    />
                     <f-table-column
                         prop="province"
                         label="省份"
                         :width="150"
-                    ></f-table-column>
-                    <f-table-column prop="city" label="市区" :width="150">
-                    </f-table-column>
+                    />
+                    <f-table-column prop="city" label="市区" :width="150" />
                     <f-table-column
                         prop="address"
                         label="地址"
                         :width="800"
-                    ></f-table-column>
-                    <f-table-column prop="zip" label="邮编" :width="120">
-                    </f-table-column>
+                    />
+                    <f-table-column prop="zip" label="邮编" :width="120" />
                     <f-table-column
                         label="操作"
                         align="center"
                         :width="200"
                         :action="action"
                         fixed="right"
-                    ></f-table-column>
+                    />
                 </f-table>
             </f-main>
         </f-layout>

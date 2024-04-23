@@ -9,16 +9,16 @@
             </FRadioGroup>
         </FFormItem>
         <FFormItem label="最大尺寸:">
-            <FInputNumber v-model="max"></FInputNumber>
+            <FInputNumber v-model="max" />
             <span style="margin-left: 10px">px</span>
         </FFormItem>
         <FFormItem label="最小尺寸:">
-            <FInputNumber v-model="min"></FInputNumber>
+            <FInputNumber v-model="min" />
             <span style="margin-left: 10px">px</span>
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FButton @click="open">打开抽屉</FButton>
     <FDrawer

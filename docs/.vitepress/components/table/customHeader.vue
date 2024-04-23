@@ -7,16 +7,16 @@
                 </div>
             </template>
         </FTableColumn>
-        <FTableColumn prop="name" label="姓名" :width="150"></FTableColumn>
-        <FTableColumn prop="province" label="省份" :width="150"></FTableColumn>
-        <FTableColumn prop="city" label="市区" :width="150"> </FTableColumn>
-        <FTableColumn prop="address" label="地址" :width="800"></FTableColumn>
-        <FTableColumn prop="zip" label="邮编" :width="120"> </FTableColumn>
+        <FTableColumn prop="name" label="姓名" :width="150" />
+        <FTableColumn prop="province" label="省份" :width="150" />
+        <FTableColumn prop="city" label="市区" :width="150" />
+        <FTableColumn prop="address" label="地址" :width="800" />
+        <FTableColumn prop="zip" label="邮编" :width="120" />
     </FTable>
 
-    <FDivider></FDivider>
+    <FDivider />
 
-    <FTable :data="data" :columns="columns"> </FTable>
+    <FTable :data="data" :columns="columns" />
 </template>
 <script>
 import { defineComponent, h } from 'vue';

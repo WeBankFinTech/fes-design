@@ -21,7 +21,7 @@
                 />
             </FFormItem>
             <FFormItem label="展示个数:">
-                <FInputNumber v-model="max" :min="0"></FInputNumber>
+                <FInputNumber v-model="max" :min="0" />
             </FFormItem>
             <FFormItem label="展示hover信息:">
                 <FRadioGroup
@@ -44,7 +44,7 @@
         >
             <FAvatar
                 src="https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg"
-            ></FAvatar>
+            />
             <FAvatar>M</FAvatar>
         </FAvatarGroup>
     </FSpace>

@@ -1,6 +1,6 @@
 <template>
     <header :class="classList">
-        <slot></slot>
+        <slot />
     </header>
 </template>
 <script lang="ts">

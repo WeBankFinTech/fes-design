@@ -1,6 +1,6 @@
 <template>
     <FSpace>
-        <FInputNumber :min="min" :max="max"></FInputNumber>
+        <FInputNumber :min="min" :max="max" />
     </FSpace>
 </template>
 

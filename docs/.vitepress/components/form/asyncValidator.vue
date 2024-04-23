@@ -12,7 +12,7 @@
                 placeholder="请输入姓名"
                 :maxlength="30"
                 showWordLimit
-            ></FInput>
+            />
             <LoadingOutlined
                 v-show="modelForm.nameLoading"
                 style="margin-left: 10px"
@@ -24,7 +24,7 @@
                 placeholder="请输入手机号"
                 :maxlength="11"
                 showWordLimit
-            ></FInput>
+            />
             <LoadingOutlined
                 v-show="modelForm.phoneLoading"
                 style="margin-left: 10px"

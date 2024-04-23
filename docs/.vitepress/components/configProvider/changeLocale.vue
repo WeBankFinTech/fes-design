@@ -10,7 +10,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FConfigProvider :locale="locale">
         <FSpace vertical>
@@ -19,8 +19,8 @@
                 show-size-changer
                 show-quick-jumper
                 show-total
-            ></FPagination>
-            <FTimePicker></FTimePicker>
+            />
+            <FTimePicker />
             <FSpace>
                 <FDatePicker :control="true" />
                 <FDatePicker type="month" :control="true" />

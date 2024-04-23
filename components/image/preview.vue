@@ -70,7 +70,7 @@
                 :src="src"
                 :style="previewStyle"
                 @mousedown="handleMouseDown"
-            />
+            >
         </div>
     </teleport>
 </template>

@@ -9,28 +9,28 @@
         <FTooltip content="top-end" placement="top-end">
             <FButton class="w-100 ml-20">top-end</FButton>
         </FTooltip>
-        <br />
+        <br>
         <FTooltip content="left-start" placement="left-start">
             <FButton class="w-100 mt-20">left-start</FButton>
         </FTooltip>
         <FTooltip content="right-start" placement="right-start">
             <FButton class="w-100 mt-20 ml-340">right-start</FButton>
         </FTooltip>
-        <br />
+        <br>
         <FTooltip content="left" placement="left">
             <FButton class="w-100 mt-20">left</FButton>
         </FTooltip>
         <FTooltip content="right" placement="right">
             <FButton class="w-100 mt-20 ml-340">right</FButton>
         </FTooltip>
-        <br />
+        <br>
         <FTooltip content="left-end" placement="left-end">
             <FButton class="w-100 mt-20">left-end</FButton>
         </FTooltip>
         <FTooltip content="right-end" placement="right-end">
             <FButton class="w-100 mt-20 ml-340">right-end</FButton>
         </FTooltip>
-        <br />
+        <br>
         <FTooltip content="bottom-start" placement="bottom-start">
             <FButton class="w-100 mt-20 ml-100">bottom-start</FButton>
         </FTooltip>

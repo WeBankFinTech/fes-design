@@ -1,6 +1,5 @@
 <template>
-    <FSelect multiple :options="optionsRef" remote @search="fetchData">
-    </FSelect>
+    <FSelect multiple :options="optionsRef" remote @search="fetchData" />
 </template>
 <script>
 import { ref } from 'vue';

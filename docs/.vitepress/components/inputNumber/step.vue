@@ -4,7 +4,7 @@
             :step="step"
             :max="12"
             :precision="precision"
-        ></FInputNumber>
+        />
     </FSpace>
 </template>
 

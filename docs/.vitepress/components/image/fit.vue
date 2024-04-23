@@ -2,8 +2,7 @@
     <div class="fit-demo">
         <div v-for="fit in fits" :key="fit" class="block">
             <span class="demonstration">{{ fit }}</span>
-            <FImage style="width: 100px; height: 100px" :src="url" :fit="fit">
-            </FImage>
+            <FImage style="width: 100px; height: 100px" :src="url" :fit="fit" />
         </div>
     </div>
 </template>

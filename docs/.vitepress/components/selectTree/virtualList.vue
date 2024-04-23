@@ -1,5 +1,5 @@
 <template>
-    <FSelectTree :data="data" virtualList defaultExpandAll></FSelectTree>
+    <FSelectTree :data="data" virtualList defaultExpandAll />
 </template>
 <script>
 import { reactive } from 'vue';

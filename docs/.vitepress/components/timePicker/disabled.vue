@@ -1,6 +1,6 @@
 <template>
     <FSpace vertical>
-        <FTimePicker placeholder="请输入" disabled></FTimePicker>
-        <FTimePicker modelValue="23:00:00" disabled></FTimePicker>
+        <FTimePicker placeholder="请输入" disabled />
+        <FTimePicker modelValue="23:00:00" disabled />
     </FSpace>
 </template>

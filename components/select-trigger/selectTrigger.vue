@@ -25,8 +25,7 @@
                         <Ellipsis
                             :class="`${prefixCls}-label-text`"
                             :content="labelTextRef"
-                        >
-                        </Ellipsis>
+                        />
                     </RenderTag>
                     <div v-else :class="`${prefixCls}-label-placeholder`">
                         {{ placeholder }}
@@ -47,7 +46,7 @@
                         @compositionstart="handleCompositionStart"
                         @compositionupdate="handleCompositionUpdate"
                         @compositionend="handleCompositionEnd"
-                    />
+                    >
                     <div
                         v-if="!(unSelectedRef || isOpened)"
                         :class="`${prefixCls}-label-overlay`"
@@ -59,8 +58,7 @@
                             <Ellipsis
                                 :class="`${prefixCls}-label-text`"
                                 :content="labelTextRef"
-                            >
-                            </Ellipsis>
+                            />
                         </RenderTag>
                     </div>
                 </template>
@@ -165,7 +163,7 @@
                     @compositionend="handleCompositionEnd"
                     @compositionupdate="handleCompositionUpdate"
                     @input="handleInput"
-                />
+                >
             </template>
         </div>
         <div :class="`${prefixCls}-icons`" @mousedown.prevent>

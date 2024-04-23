@@ -5,7 +5,7 @@
         <FRadio value="never">never</FRadio>
     </FRadioGroup>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <div class="card-wrapper">
         <FCard header="这里是标题" :shadow="shadow">

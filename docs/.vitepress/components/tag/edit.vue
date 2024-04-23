@@ -16,8 +16,7 @@
                 class="input-tag"
                 size="small"
                 @change="dynamicTags.handleInputConfirm"
-            >
-            </FInput>
+            />
             <FButton v-else class="button-tag" @click="dynamicTags.showInput">
                 + New Tag
             </FButton>

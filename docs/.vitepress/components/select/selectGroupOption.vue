@@ -26,7 +26,7 @@
                 tag
                 filterable
                 multiple
-            ></FSelect>
+            />
         </FFormItem>
         <FFormItem label="自定义标签:">
             <FSelect v-model="value3" style="width: 200px">
@@ -59,7 +59,7 @@
                 tag
                 filterable
                 multiple
-            ></FSelect>
+            />
         </FFormItem>
     </FForm>
 </template>

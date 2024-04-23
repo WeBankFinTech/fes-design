@@ -5,7 +5,7 @@
             placeholder="请输入"
             :disabledHours="disabledHours"
             :control="false"
-        ></FTimePicker>
+        />
     </FSpace>
 </template>
 

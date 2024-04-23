@@ -6,8 +6,7 @@
         verticalLine
         layout="auto"
         :columns="columns"
-    >
-    </FTable>
+    />
 </template>
 <script>
 import { defineComponent, h } from 'vue';

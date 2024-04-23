@@ -1,5 +1,5 @@
 <template>
-    <FCascader :data="data"></FCascader>
+    <FCascader :data="data" />
 </template>
 <script>
 import { reactive, ref } from 'vue';

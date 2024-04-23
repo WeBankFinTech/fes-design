@@ -1,3 +1,3 @@
 <template>
-    <FUpload disabled></FUpload>
+    <FUpload disabled />
 </template>

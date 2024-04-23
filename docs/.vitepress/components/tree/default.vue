@@ -5,7 +5,7 @@
         v-model:checkedKeys="checkedKeys"
         :data="data"
         checkable
-    ></FTree>
+    />
 </template>
 <script>
 import { h, reactive, ref } from 'vue';

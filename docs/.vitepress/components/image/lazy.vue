@@ -8,7 +8,7 @@
                     :src="url"
                     lazy
                     style="min-height: 200px"
-                ></FImage>
+                />
             </slot>
         </FScrollbar>
     </div>

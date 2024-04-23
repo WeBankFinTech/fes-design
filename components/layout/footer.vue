@@ -1,6 +1,6 @@
 <template>
     <footer :class="classList">
-        <slot></slot>
+        <slot />
     </footer>
 </template>
 <script lang="ts">

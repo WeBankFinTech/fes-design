@@ -2,11 +2,11 @@
     <FGrid>
         <FGridItem :span="12">
             默认为可选中：
-            <FTree :data="data"></FTree>
+            <FTree :data="data" />
         </FGridItem>
         <FGridItem :span="12">
             选中后无法取消：
-            <FTree :data="data" :cancelable="false"></FTree>
+            <FTree :data="data" :cancelable="false" />
         </FGridItem>
     </FGrid>
 </template>

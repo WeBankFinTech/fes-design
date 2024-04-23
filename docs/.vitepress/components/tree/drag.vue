@@ -1,5 +1,5 @@
 <template>
-    <FTree :data="data" draggable @drop="onDrop"></FTree>
+    <FTree :data="data" draggable @drop="onDrop" />
 </template>
 <script>
 import { h, reactive } from 'vue';

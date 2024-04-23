@@ -4,7 +4,7 @@
         :pageSizeOption="pageSizeOption"
         :total-count="1000"
         @change="handleChange"
-    ></FPagination>
+    />
 </template>
 
 <script>

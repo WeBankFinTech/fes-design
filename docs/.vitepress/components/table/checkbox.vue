@@ -21,10 +21,10 @@
             type="selection"
             :selectable="selectable"
             :multiple="multiple"
-        ></FTableColumn>
-        <FTableColumn prop="date" label="日期"></FTableColumn>
-        <FTableColumn prop="name" label="姓名"></FTableColumn>
-        <FTableColumn prop="address" label="地址"></FTableColumn>
+        />
+        <FTableColumn prop="date" label="日期" />
+        <FTableColumn prop="name" label="姓名" />
+        <FTableColumn prop="address" label="地址" />
     </FTable>
     <div style="margin-top: 10px">
         <FButton @click="toggleSelection(data[0])">切换第一行</FButton>

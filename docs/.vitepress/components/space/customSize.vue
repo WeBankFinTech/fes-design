@@ -12,7 +12,7 @@
                 :min="5"
                 :max="50"
                 :step="5"
-            ></FInputNumber>
+            />
             <span style="margin-left: 10px">px</span>
         </FFormItem>
         <FFormItem v-if="sizeType === 'diff'" label="水平间距：">
@@ -21,7 +21,7 @@
                 :min="5"
                 :max="50"
                 :step="5"
-            ></FInputNumber>
+            />
             <span style="margin-left: 10px">px</span>
         </FFormItem>
         <FFormItem v-if="sizeType === 'diff'" label="垂直间距：">
@@ -30,12 +30,12 @@
                 :min="5"
                 :max="50"
                 :step="5"
-            ></FInputNumber>
+            />
             <span style="margin-left: 10px">px</span>
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace :size="size">
         <FButton>Text</FButton>
@@ -52,7 +52,7 @@
         <FButton>Text</FButton>
     </FSpace>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace vertical :size="size">
         <FButton>Text</FButton>

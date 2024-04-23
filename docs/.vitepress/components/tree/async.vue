@@ -1,5 +1,5 @@
 <template>
-    <FTree :data="data" :loadData="loadData" checkable cascade remote></FTree>
+    <FTree :data="data" :loadData="loadData" checkable cascade remote />
 </template>
 <script>
 import { h, reactive } from 'vue';

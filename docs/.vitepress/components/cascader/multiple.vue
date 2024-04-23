@@ -8,9 +8,9 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
-    <FCascader :data="data" :multiple="multiple"></FCascader>
+    <FCascader :data="data" :multiple="multiple" />
 </template>
 <script>
 import { reactive, ref } from 'vue';

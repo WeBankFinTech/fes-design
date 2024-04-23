@@ -5,13 +5,13 @@
         <FRadio value="large">large</FRadio>
     </FRadioGroup>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace vertical>
-        <FSkeleton :size="size"></FSkeleton>
-        <FSkeleton :width="200" :size="size" :sharp="false"></FSkeleton>
-        <FSkeleton round :size="size"></FSkeleton>
-        <FSkeleton circle :size="size"></FSkeleton>
+        <FSkeleton :size="size" />
+        <FSkeleton :width="200" :size="size" :sharp="false" />
+        <FSkeleton round :size="size" />
+        <FSkeleton circle :size="size" />
     </FSpace>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-    <FSelectTree :data="data" clearable></FSelectTree>
+    <FSelectTree :data="data" clearable />
 </template>
 <script>
 import { h, reactive } from 'vue';

@@ -6,7 +6,7 @@
             :disabled="item.disabled"
             :value="item.value"
             :label="item.label"
-        ></FOption>
+        />
     </FSelect>
 </template>
 <script>

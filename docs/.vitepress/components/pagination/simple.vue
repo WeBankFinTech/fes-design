@@ -3,7 +3,7 @@
         :total-count="totalCount"
         simple
         @change="handleChange"
-    ></FPagination>
+    />
 </template>
 
 <script>

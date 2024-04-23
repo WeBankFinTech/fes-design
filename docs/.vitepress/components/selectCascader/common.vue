@@ -20,7 +20,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSelectCascader
         class="select-cascader"
@@ -28,7 +28,7 @@
         :expandTrigger="expandTrigger"
         :checkStrictly="checkStrictly"
         :showPath="showPath"
-    ></FSelectCascader>
+    />
 </template>
 <script>
 import { h, reactive, ref } from 'vue';

@@ -18,7 +18,7 @@
             :accept="acceptStr"
             @change="handleChange"
             @click.stop
-        />
+        >
     </div>
 </template>
 

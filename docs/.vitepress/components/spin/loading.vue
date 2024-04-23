@@ -11,9 +11,9 @@
             description="加载中"
         >
             <f-table :data="data">
-                <f-table-column prop="date" label="日期"></f-table-column>
-                <f-table-column prop="name" label="姓名"></f-table-column>
-                <f-table-column prop="address" label="地址"></f-table-column>
+                <f-table-column prop="date" label="日期" />
+                <f-table-column prop="name" label="姓名" />
+                <f-table-column prop="address" label="地址" />
             </f-table>
         </FSpin>
     </FSpace>

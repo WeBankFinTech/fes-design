@@ -1,16 +1,14 @@
 <template>
     <FSpace>
-        <FSelectTree v-model="value1" :data="data" disabled> </FSelectTree>
-        <FSelectTree v-model="value2" :data="data" multiple disabled>
-        </FSelectTree>
+        <FSelectTree v-model="value1" :data="data" disabled />
+        <FSelectTree v-model="value2" :data="data" multiple disabled />
         <FSelectTree
             v-model="value2"
             :data="data"
             multiple
             disabled
             collapseTags
-        >
-        </FSelectTree>
+        />
         <FSelectTree
             v-model="value2"
             :data="data"
@@ -18,8 +16,7 @@
             disabled
             collapseTags
             :collapseTagsLimit="2"
-        >
-        </FSelectTree>
+        />
     </FSpace>
 </template>
 <script>

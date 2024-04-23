@@ -65,7 +65,7 @@
                         @select="handleSelect"
                         @check="handleCheck"
                         @mousedown.prevent
-                    ></Tree>
+                    />
                     <div
                         v-show="!data.length"
                         :class="`${prefixCls}-null`"
@@ -104,7 +104,7 @@
                             @update:nodeList="onChangeNodeList"
                             @select="handleSelect"
                             @check="handleCheck"
-                        ></Tree>
+                        />
                         <div v-show="!data.length" :class="`${prefixCls}-null`">
                             {{ listEmptyText }}
                         </div>

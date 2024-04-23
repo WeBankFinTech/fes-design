@@ -1,7 +1,7 @@
 <template>
     <FForm :labelWidth="100">
         <FFormItem label="输入姓名">
-            <FInput placeholder="请输入"></FInput>
+            <FInput placeholder="请输入" />
         </FFormItem>
         <FFormItem label="选择城市">
             <FSelect clearable placeholder="请单选">
@@ -10,7 +10,7 @@
                     :key="index"
                     :value="item.value"
                     :label="item.label"
-                ></FOption>
+                />
             </FSelect>
         </FFormItem>
         <FFormItem label="选择性别">
@@ -20,7 +20,7 @@
             </FRadioGroup>
         </FFormItem>
         <FFormItem label="这是一段长的表单项描述">
-            <FInput placeholder="请输入"></FInput>
+            <FInput placeholder="请输入" />
         </FFormItem>
         <FFormItem label="年龄范围">
             <FCheckboxGroup>

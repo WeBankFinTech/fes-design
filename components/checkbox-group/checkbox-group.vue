@@ -7,7 +7,7 @@
             :value="opt.value"
             :label="opt.label"
             :disabled="opt.disabled"
-        ></Checkbox>
+        />
     </div>
 </template>
 

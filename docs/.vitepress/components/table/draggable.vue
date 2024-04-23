@@ -16,8 +16,8 @@
                     {{ row.date }}
                 </template>
             </FTableColumn>
-            <FTableColumn prop="name" label="姓名"></FTableColumn>
-            <FTableColumn prop="address" label="地址"></FTableColumn>
+            <FTableColumn prop="name" label="姓名" />
+            <FTableColumn prop="address" label="地址" />
         </FTable>
     </f-space>
 </template>

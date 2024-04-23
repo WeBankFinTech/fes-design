@@ -4,7 +4,7 @@
             v-model="arr"
             :options="options"
             @change="handleChange"
-        ></FCheckboxGroup>
+        />
     </FSpace>
 </template>
 <script>

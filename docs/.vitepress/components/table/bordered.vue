@@ -29,7 +29,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FTable
         :bordered="bordered"
@@ -37,9 +37,9 @@
         :verticalLine="verticalLine"
         :data="data"
     >
-        <FTableColumn prop="date" label="日期"></FTableColumn>
-        <FTableColumn prop="name" label="姓名"></FTableColumn>
-        <FTableColumn prop="address" label="地址"></FTableColumn>
+        <FTableColumn prop="date" label="日期" />
+        <FTableColumn prop="name" label="姓名" />
+        <FTableColumn prop="address" label="地址" />
     </FTable>
 </template>
 <script>

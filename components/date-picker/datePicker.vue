@@ -32,11 +32,11 @@
                 @clear="clear"
             >
                 <template #separator>
-                    <slot v-if="$slots.separator" name="separator"></slot>
+                    <slot v-if="$slots.separator" name="separator" />
                     <SwapRightOutlined v-else />
                 </template>
                 <template #suffix>
-                    <slot v-if="$slots.suffixIcon" name="suffixIcon"></slot>
+                    <slot v-if="$slots.suffixIcon" name="suffixIcon" />
                     <DateOutlined v-else />
                 </template>
             </RangeInput>
@@ -58,7 +58,7 @@
                 @clear="clear"
             >
                 <template #suffix>
-                    <slot v-if="$slots.suffixIcon" name="suffixIcon"></slot>
+                    <slot v-if="$slots.suffixIcon" name="suffixIcon" />
                     <DateOutlined v-else />
                 </template>
             </InputInner>

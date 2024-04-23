@@ -11,7 +11,7 @@
                 :class="`${prefixCls}-content`"
                 :style="[scrollX && { width: 'fit-content' }, contentStyle]"
             >
-                <slot></slot>
+                <slot />
             </div>
         </div>
         <template v-if="!native">
@@ -41,22 +41,22 @@
             v-if="shadowRef.x && scrollX && scrollXRatio < 1"
             :class="`${prefixCls}-shadow-right`"
             :style="shadowStyle"
-        ></div>
+        />
         <div
             v-if="shadowRef.x && scrollX && scrollXRatio > 0"
             :class="`${prefixCls}-shadow-left`"
             :style="shadowStyle"
-        ></div>
+        />
         <div
             v-if="shadowRef.y && scrollY && scrollYRatio < 1"
             :class="`${prefixCls}-shadow-bottom`"
             :style="shadowStyle"
-        ></div>
+        />
         <div
             v-if="shadowRef.y && scrollY && scrollYRatio > 0"
             :class="`${prefixCls}-shadow-top`"
             :style="shadowStyle"
-        ></div>
+        />
     </div>
 </template>
 

@@ -1,8 +1,8 @@
 <template>
     <div :class="wrapperClass" @click="toggle">
         <span :class="`${prefixCls}-inner`">
-            <slot v-if="activeRef" name="active"></slot>
-            <slot v-if="inactiveRef" name="inactive"></slot>
+            <slot v-if="activeRef" name="active" />
+            <slot v-if="inactiveRef" name="inactive" />
         </span>
         <LoadingOutlined v-if="loadingRef" :class="`${prefixCls}-loading`" />
     </div>

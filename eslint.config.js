@@ -104,7 +104,6 @@ export default antfu({
         'style/indent': 'off',
         'curly': 'off',
         'style/arrow-parens': 'off',
-        'vue/html-self-closing': 'off',
         'antfu/top-level-function': 'off',
         'vue/singleline-html-element-content-newline': 'off',
         'test/prefer-lowercase-title': 'off',

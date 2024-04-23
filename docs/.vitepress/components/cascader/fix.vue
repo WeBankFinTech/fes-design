@@ -1,5 +1,5 @@
 <template>
-    <FCascader :data="data" checkable></FCascader>
+    <FCascader :data="data" checkable />
 </template>
 <script>
 import { h, reactive } from 'vue';

@@ -1,7 +1,7 @@
 <template>
     <FSpace>
         <FButton type="primary"> <SearchOutlined />查询 </FButton>
-        <FDivider vertical></FDivider>
+        <FDivider vertical />
         <FButton>
             <template #icon>
                 <DownloadOutlined />

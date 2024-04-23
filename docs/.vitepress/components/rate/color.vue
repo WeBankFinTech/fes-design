@@ -3,7 +3,7 @@
         <FInput placeholder="请输入颜色或者色号" @change="change" />
     </FSpace>
     <FSpace>
-        <FRate v-model="value" :color="color" allow-half></FRate>
+        <FRate v-model="value" :color="color" allow-half />
     </FSpace>
 </template>
 

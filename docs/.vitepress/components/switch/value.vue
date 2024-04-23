@@ -1,6 +1,5 @@
 <template>
-    <FSwitch v-model="value" :activeValue="{ a: 1 }" :inactiveValue="{ b: 1 }">
-    </FSwitch>
+    <FSwitch v-model="value" :activeValue="{ a: 1 }" :inactiveValue="{ b: 1 }" />
     <div>选中的值： {{ value }}</div>
 </template>
 

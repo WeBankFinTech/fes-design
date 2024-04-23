@@ -19,8 +19,8 @@
                 <FGridItem :span="12"> 地址：{{ row.address }} </FGridItem>
             </FGrid>
         </FTableColumn>
-        <FTableColumn prop="date" label="日期"></FTableColumn>
-        <FTableColumn prop="name" label="姓名"></FTableColumn>
+        <FTableColumn prop="date" label="日期" />
+        <FTableColumn prop="name" label="姓名" />
     </FTable>
     <FButton style="margin-top: 10px" @click="toggle">
         手动展开/关闭第一行

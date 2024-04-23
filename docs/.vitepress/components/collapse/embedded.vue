@@ -1,6 +1,6 @@
 <template>
     <div class="demo-collapse">
-        <FSwitch v-model="embedded"></FSwitch>
+        <FSwitch v-model="embedded" />
         <FCollapse v-model="activeNames" :embedded="embedded">
             <FCollapseItem title="Consistency" name="1">
                 <div>

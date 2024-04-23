@@ -10,7 +10,7 @@
                 },
             ]"
         >
-            <slot></slot>
+            <slot />
         </FScrollbar>
         <div
             v-if="collapsible && showTrigger"

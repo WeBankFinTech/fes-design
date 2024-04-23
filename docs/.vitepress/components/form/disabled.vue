@@ -1,21 +1,21 @@
 <template>
     <FForm labelWidth="120px">
         <FFormItem label="表单禁用:">
-            <FSwitch v-model="formDisabled"></FSwitch>
+            <FSwitch v-model="formDisabled" />
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FForm :labelWidth="80" :disabled="formDisabled">
         <FFormItem label="输入框">
-            <FInput placeholder="请输入"></FInput>
+            <FInput placeholder="请输入" />
         </FFormItem>
         <FFormItem label="文本输入">
-            <FInput placeholder="请输入文本内容" type="textarea"></FInput>
+            <FInput placeholder="请输入文本内容" type="textarea" />
         </FFormItem>
         <FFormItem label="数字输入">
-            <FInputNumber v-model="numVal" :max="100"></FInputNumber>
+            <FInputNumber v-model="numVal" :max="100" />
         </FFormItem>
         <FFormItem label="选择器">
             <FSelect clearable placeholder="请单选">
@@ -24,7 +24,7 @@
                     :key="index"
                     :value="item.value"
                     :label="item.label"
-                ></FOption>
+                />
             </FSelect>
         </FFormItem>
         <FFormItem label="单选框">
@@ -48,20 +48,20 @@
             </FCheckboxGroup>
         </FFormItem>
         <FFormItem label="开关">
-            <FSwitch v-model="toggleVal"></FSwitch>
+            <FSwitch v-model="toggleVal" />
         </FFormItem>
         <FFormItem label="时间选择">
             <FTimePicker
                 style="width: 200px"
                 modelValue="22:22:22"
                 placeholder="请输入"
-            ></FTimePicker>
+            />
         </FFormItem>
         <FFormItem label="日期选择">
             <FDatePicker type="year" placeholder="选择年份" />
         </FFormItem>
         <FFormItem label="上传">
-            <FUpload></FUpload>
+            <FUpload />
         </FFormItem>
         <FFormItem label="拖拽上传">
             <FUpload>
@@ -69,10 +69,10 @@
             </FUpload>
         </FFormItem>
         <FFormItem label="树形选择器">
-            <FSelectTree></FSelectTree>
+            <FSelectTree />
         </FFormItem>
         <FFormItem label="级联选择器">
-            <FSelectCascader></FSelectCascader>
+            <FSelectCascader />
         </FFormItem>
         <FFormItem label=" ">
             <FButton type="primary">Submit</FButton>

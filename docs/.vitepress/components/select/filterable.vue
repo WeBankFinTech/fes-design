@@ -2,13 +2,12 @@
     <FSpace>
         <div>
             默认：
-            <FSelect filterable clearable :options="optionList"> </FSelect>
+            <FSelect filterable clearable :options="optionList" />
         </div>
 
         <div>
             自定义过滤函数：
-            <FSelect filterable :filter="filter" :options="optionList">
-            </FSelect>
+            <FSelect filterable :filter="filter" :options="optionList" />
         </div>
     </FSpace>
 </template>

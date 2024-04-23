@@ -1,14 +1,14 @@
 <template>
     <FForm labelWidth="150px">
         <FFormItem label="表单禁用:">
-            <FSwitch v-model="formDisabled"></FSwitch>
+            <FSwitch v-model="formDisabled" />
         </FFormItem>
         <FFormItem label="是否显示校验错误信息:">
-            <FSwitch v-model="showMessage"></FSwitch>
+            <FSwitch v-model="showMessage" />
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FForm
         ref="formRef"
@@ -26,12 +26,12 @@
                     v-model="modelForm.name.first"
                     placeholder="请输入first name"
                     @input="changeHandler"
-                ></FInput>
+                />
                 <FInput
                     v-model="modelForm.name.last"
                     placeholder="请输入last name"
                     @input="changeHandler"
-                ></FInput>
+                />
             </FSpace>
         </FFormItem>
         <FFormItem
@@ -42,7 +42,7 @@
             <FInputNumber
                 v-model="modelForm.age"
                 placeholder="请输入年龄"
-            ></FInputNumber>
+            />
         </FFormItem>
         <FFormItem label="地址单选" prop="sregion">
             <FSelect
@@ -56,7 +56,7 @@
                     :key="index"
                     :value="item.value"
                     :label="item.label"
-                ></FOption>
+                />
             </FSelect>
         </FFormItem>
         <FFormItem label="地址多选" prop="mregion">
@@ -71,7 +71,7 @@
                     :key="index"
                     :value="item.value"
                     :label="item.label"
-                ></FOption>
+                />
             </FSelect>
         </FFormItem>
         <FFormItem label="选择时间" prop="time">
@@ -79,7 +79,7 @@
                 v-model="modelForm.time"
                 placeholder="请输入时间"
                 format="HH:mm"
-            ></FTimePicker>
+            />
         </FFormItem>
         <FFormItem label="选择性别" prop="sex">
             <FRadioGroup v-model="modelForm.sex" @change="changeHandler">
@@ -92,8 +92,7 @@
                 v-model="modelForm.singleCity"
                 :data="cascaderOptions"
                 @change="changeHandler"
-            >
-            </FSelectCascader>
+            />
         </FFormItem>
         <FFormItem label="级联多选" prop="multiCity">
             <FSelectCascader
@@ -101,8 +100,7 @@
                 :data="cascaderOptions"
                 :multiple="true"
                 @change="changeHandler"
-            >
-            </FSelectCascader>
+            />
         </FFormItem>
         <FFormItem
             label="备注 slot"
@@ -118,7 +116,7 @@
                 v-model="modelForm.desc"
                 type="textarea"
                 placeholder="请输入备注信息，以填入的【姓名】开头"
-            ></FInput>
+            />
         </FFormItem>
         <FFormItem label=" ">
             <FSpace>

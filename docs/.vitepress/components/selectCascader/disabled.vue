@@ -15,13 +15,11 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace>
-        <FSelectCascader v-model="value1" :data="data" disabled>
-        </FSelectCascader>
-        <FSelectCascader v-model="value2" :data="data" disabled>
-        </FSelectCascader>
+        <FSelectCascader v-model="value1" :data="data" disabled />
+        <FSelectCascader v-model="value2" :data="data" disabled />
     </FSpace>
     <FSpace>
         <FSelectCascader
@@ -31,8 +29,7 @@
             disabled
             :collapseTags="collapseTags"
             :collapseTagsLimit="collapseTagsLimit"
-        >
-        </FSelectCascader>
+        />
         <FSelectCascader
             v-model="value4"
             :data="data"
@@ -40,8 +37,7 @@
             disabled
             :collapseTags="collapseTags"
             :collapseTagsLimit="collapseTagsLimit"
-        >
-        </FSelectCascader>
+        />
     </FSpace>
 </template>
 <script>

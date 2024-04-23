@@ -4,21 +4,21 @@
             <div class="table-custom-content-date">
                 <ClockCircleOutlined /><FEllipsis
                     :content="row.date"
-                ></FEllipsis>
+                />
             </div>
         </FTableColumn>
         <FTableColumn v-slot="{ row }" prop="name" label="姓名">
             <FTag>{{ row.name }}</FTag>
         </FTableColumn>
-        <FTableColumn prop="address" label="地址"></FTableColumn>
+        <FTableColumn prop="address" label="地址" />
         <FTableColumn v-slot="{ row }" label="操作">
             <FButton @click="() => handleClickRow(row)">编辑</FButton>
         </FTableColumn>
     </FTable>
 
-    <FDivider></FDivider>
+    <FDivider />
 
-    <FTable :data="data" :columns="columns"> </FTable>
+    <FTable :data="data" :columns="columns" />
 </template>
 
 <script>

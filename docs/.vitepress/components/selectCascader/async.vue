@@ -13,7 +13,7 @@
                 emitPath
                 showPath
                 @change="handleChange"
-            ></FSelectCascader>
+            />
         </FFormItem>
         <FFormItem label="modelValue：">{{ value1 }}</FFormItem>
         <FFormItem label="多选：">
@@ -31,7 +31,7 @@
                 remote
                 emitPath
                 @change="handleChange"
-            ></FSelectCascader>
+            />
         </FFormItem>
         <FFormItem label="modelValue：">{{ value2 }}</FFormItem>
     </FForm>

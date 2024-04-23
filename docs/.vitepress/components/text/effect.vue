@@ -14,7 +14,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace>
         <FText :strong="isStrong" :italic="IsItalic">

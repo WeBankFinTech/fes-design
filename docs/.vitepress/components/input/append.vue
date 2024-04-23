@@ -46,8 +46,7 @@
                     :data="options"
                     style="width: 90px"
                     @change="handleChange"
-                >
-                </FSelectCascader>
+                />
             </template>
         </FInput>
     </FSpace>

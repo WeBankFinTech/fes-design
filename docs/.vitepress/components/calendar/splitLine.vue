@@ -7,7 +7,7 @@
         ]"
     />
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FCalendar
         :splitLine="splitLineVisible"

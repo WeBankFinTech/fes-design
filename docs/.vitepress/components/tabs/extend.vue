@@ -13,10 +13,10 @@
             />
         </FFormItem>
         <FFormItem label="展示前缀:">
-            <FSwitch v-model="showPrefix"></FSwitch>
+            <FSwitch v-model="showPrefix" />
         </FFormItem>
         <FFormItem label="展示后缀:">
-            <FSwitch v-model="showSuffix"></FSwitch>
+            <FSwitch v-model="showSuffix" />
         </FFormItem>
     </FForm>
     <FDivider />

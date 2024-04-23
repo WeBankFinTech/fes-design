@@ -1,30 +1,29 @@
 <template>
     <FTable rowKey="id" :data="data" bordered :height="250">
-        <FTableColumn type="selection" :width="30" fixed="left"></FTableColumn>
+        <FTableColumn type="selection" :width="30" fixed="left" />
         <FTableColumn
             prop="date"
             label="日期"
             ellipsis
             :width="150"
             :fixed="true"
-        ></FTableColumn>
+        />
         <FTableColumn
             prop="name"
             label="姓名姓名姓名姓名姓名姓名姓名姓名"
             :width="150"
-        ></FTableColumn>
-        <FTableColumn prop="province" label="省份" :width="150"></FTableColumn>
-        <FTableColumn prop="city" label="市区" :width="150"> </FTableColumn>
-        <FTableColumn prop="address" label="地址" :width="800"></FTableColumn>
-        <FTableColumn prop="zip" label="邮编" :width="120" fixed="right">
-        </FTableColumn>
+        />
+        <FTableColumn prop="province" label="省份" :width="150" />
+        <FTableColumn prop="city" label="市区" :width="150" />
+        <FTableColumn prop="address" label="地址" :width="800" />
+        <FTableColumn prop="zip" label="邮编" :width="120" fixed="right" />
         <FTableColumn
             label="操作"
             align="center"
             :width="200"
             :action="action"
             fixed="right"
-        ></FTableColumn>
+        />
     </FTable>
 </template>
 <script>

@@ -21,7 +21,7 @@
                     :class="`${prefixCls}__inner-image`"
                     :style="imageStyle"
                     v-bind="imgAttrs"
-                />
+                >
             </slot>
         </div>
 
@@ -34,8 +34,7 @@
                 :hide-on-click-modal="hideOnClickModal"
                 :getContainer="previewContainer"
                 @close="closeViewer"
-            >
-            </Preview>
+            />
         </template>
     </div>
 </template>

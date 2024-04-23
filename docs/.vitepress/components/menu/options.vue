@@ -1,5 +1,5 @@
 <template>
-    <f-menu v-model="value" :options="options"></f-menu>
+    <f-menu v-model="value" :options="options" />
 </template>
 <script>
 import { h, ref } from 'vue';

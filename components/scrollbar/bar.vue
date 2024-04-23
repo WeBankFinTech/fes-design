@@ -15,7 +15,7 @@
                 :class="[`${prefixCls}-thumb`]"
                 :style="thumbStyle"
                 @mousedown.stop.prevent="clickThumbHandler"
-            ></div>
+            />
         </div>
     </transition>
 </template>

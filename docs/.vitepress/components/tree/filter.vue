@@ -1,7 +1,6 @@
 <template>
-    <FInput v-model="filterText" placeholder="请输入"></FInput>
-    <FTree ref="refTree" :data="data" checkable :filterMethod="filterMethod">
-    </FTree>
+    <FInput v-model="filterText" placeholder="请输入" />
+    <FTree ref="refTree" :data="data" checkable :filterMethod="filterMethod" />
 </template>
 <script>
 import { h, reactive, ref, watch } from 'vue';

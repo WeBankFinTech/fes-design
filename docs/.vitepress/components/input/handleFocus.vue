@@ -7,7 +7,7 @@
         placeholder="请输入"
         @blur="handleInputBlur"
         @focus="handleInputFocus"
-    ></FInput>
+    />
 </template>
 
 <script>

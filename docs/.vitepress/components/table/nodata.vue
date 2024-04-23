@@ -43,11 +43,11 @@
             </FRadioGroup>
         </FFormItem>
         <FFormItem label="自定义空数据文本：">
-            <FInput v-model="emptyText"></FInput>
+            <FInput v-model="emptyText" />
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FTable
         v-if="emptyType === 'normal'"
@@ -58,11 +58,11 @@
         :verticalLine="verticalLine"
         :emptyText="emptyText || '暂无数据'"
     >
-        <FTableColumn :width="200" prop="date" label="日期"></FTableColumn>
-        <FTableColumn :width="200" prop="name" label="姓名"></FTableColumn>
-        <FTableColumn :width="200" prop="address" label="地址"></FTableColumn>
-        <FTableColumn :width="200" prop="contact" label="联系人"></FTableColumn>
-        <FTableColumn :width="200" prop="postcode" label="邮编"></FTableColumn>
+        <FTableColumn :width="200" prop="date" label="日期" />
+        <FTableColumn :width="200" prop="name" label="姓名" />
+        <FTableColumn :width="200" prop="address" label="地址" />
+        <FTableColumn :width="200" prop="contact" label="联系人" />
+        <FTableColumn :width="200" prop="postcode" label="邮编" />
     </FTable>
 
     <FTable
@@ -76,11 +76,11 @@
         <template #empty>
             <FEmpty :description="emptyText" />
         </template>
-        <FTableColumn :width="200" prop="date" label="日期"></FTableColumn>
-        <FTableColumn :width="200" prop="name" label="姓名"></FTableColumn>
-        <FTableColumn :width="200" prop="address" label="地址"></FTableColumn>
-        <FTableColumn :width="200" prop="contact" label="联系人"></FTableColumn>
-        <FTableColumn :width="200" prop="postcode" label="邮编"></FTableColumn>
+        <FTableColumn :width="200" prop="date" label="日期" />
+        <FTableColumn :width="200" prop="name" label="姓名" />
+        <FTableColumn :width="200" prop="address" label="地址" />
+        <FTableColumn :width="200" prop="contact" label="联系人" />
+        <FTableColumn :width="200" prop="postcode" label="邮编" />
     </FTable>
 </template>
 <script setup>

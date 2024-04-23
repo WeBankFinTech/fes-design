@@ -14,7 +14,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSelectCascader
         v-if="!multiple"

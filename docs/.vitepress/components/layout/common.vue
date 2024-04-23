@@ -1,25 +1,25 @@
 <template>
     <f-layout>
-        <f-header></f-header>
-        <f-main></f-main>
-        <f-footer></f-footer>
+        <f-header />
+        <f-main />
+        <f-footer />
     </f-layout>
 
     <f-layout style="margin-top: 20px">
-        <f-header></f-header>
+        <f-header />
         <f-layout>
-            <f-aside></f-aside>
-            <f-main></f-main>
+            <f-aside />
+            <f-main />
         </f-layout>
-        <f-footer></f-footer>
+        <f-footer />
     </f-layout>
 
     <f-layout style="margin-top: 20px">
-        <f-aside></f-aside>
+        <f-aside />
         <f-layout>
-            <f-header></f-header>
-            <f-main></f-main>
-            <f-footer></f-footer>
+            <f-header />
+            <f-main />
+            <f-footer />
         </f-layout>
     </f-layout>
 </template>

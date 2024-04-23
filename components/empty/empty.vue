@@ -6,7 +6,7 @@
                 class="empty-img"
                 :src="imageSrc"
                 ondragstart="return false"
-            />
+            >
             <slot v-else name="image">
                 <DefaultImgEmpty />
             </slot>

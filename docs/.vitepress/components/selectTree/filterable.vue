@@ -2,7 +2,7 @@
     <FSpace>
         <div>
             默认：
-            <FSelectTree :data="data" filterable virtualList></FSelectTree>
+            <FSelectTree :data="data" filterable virtualList />
         </div>
 
         <div>
@@ -12,7 +12,7 @@
                 filterable
                 :filter="filter"
                 virtualList
-            ></FSelectTree>
+            />
         </div>
     </FSpace>
 </template>

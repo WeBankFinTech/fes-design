@@ -8,7 +8,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FForm :labelWidth="160">
         <FFormItem label="单选：">
@@ -17,7 +17,7 @@
                 :data="data.options"
                 clearable
                 :emitPath="emitPath"
-            ></FSelectCascader>
+            />
         </FFormItem>
         <FFormItem label="modelValue：">{{ value1 }}</FFormItem>
         <FFormItem label="多选：">
@@ -28,7 +28,7 @@
                 cascade
                 clearable
                 :emitPath="emitPath"
-            ></FSelectCascader>
+            />
         </FFormItem>
         <FFormItem label="modelValue：">{{ value2 }}</FFormItem>
     </FForm>
