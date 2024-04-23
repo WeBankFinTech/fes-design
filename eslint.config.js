@@ -101,6 +101,8 @@ export default antfu({
         'vue/component-name-in-template-casing': 'off',
         'vue/v-on-event-hyphenation': 'off',
 
+        'prefer-spread': 'off',
+
         'multiline-ternary': 'off',
         'antfu/if-newline': 'off',
         'style/brace-style': 'off',
@@ -145,7 +147,5 @@ export default antfu({
         'antfu/consistent-list-newline': 'off',
         'one-var': 'off',
         'no-case-declarations': 'off',
-        'eqeqeq': 'off',
-        'prefer-spread': 'off',
     },
 });

@@ -141,7 +141,7 @@ export default defineComponent({
                 return (
                     <div class={prefixCls}>
                         {limitedSlotsContent}
-                        {hiddenNum != 0 ? renderHiddenAvatar(hiddenNum) : null}
+                        {hiddenNum !== 0 ? renderHiddenAvatar(hiddenNum) : null}
                     </div>
                 );
             } else {
@@ -153,7 +153,7 @@ export default defineComponent({
                     <div class={prefixCls}>
                         {clonedSlotsContent}
                         {renderAvatarByOption(shouldRenderOptionNum.value)}
-                        {hiddenNum != 0 ? renderHiddenAvatar(hiddenNum) : null}
+                        {hiddenNum !== 0 ? renderHiddenAvatar(hiddenNum) : null}
                     </div>
                 );
             }
