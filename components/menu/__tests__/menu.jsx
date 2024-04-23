@@ -11,9 +11,9 @@ const _mount = (props, slots = {}) =>
         slots,
     });
 
-function getSubItemChildren(wrapper, index) {
-    return wrapper.findAll(`.${getPrefixCls('sub-menu')}-children`)[index];
-}
+// function getSubItemChildren(wrapper, index) {
+//     return wrapper.findAll(`.${getPrefixCls('sub-menu')}-children`)[index];
+// }
 function geSubItemWrapper(wrapper, index) {
     return wrapper.findAll(`.${getPrefixCls('sub-menu')}-wrapper`)[index];
 }

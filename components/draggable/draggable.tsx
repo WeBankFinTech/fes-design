@@ -60,8 +60,6 @@ export default defineComponent({
             draggableItems,
         } = useDraggable(rootRef, propsRef, ctx as SetupContext);
 
-        const tag = props.tag || 'div';
-
         const renderItem = (item: unknown, index: number) => {
             const vNodes = flatten(
                 ctx.slots.default?.({ item, index })
