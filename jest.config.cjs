@@ -1,4 +1,5 @@
 const fs = require('fs-extra');
+
 const esModules = ['lodash-es'].map((pkg) => {
     if (fs.pathExistsSync('node_modules/.pnpm')) {
         return `.pnpm/(.*)?${pkg}`;
