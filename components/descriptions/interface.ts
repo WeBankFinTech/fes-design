@@ -10,14 +10,14 @@ import { type DescriptionsItemProps } from './props';
 export type LabelAlign = 'center' | 'left' | 'right';
 export type LabelPlacement = 'top' | 'left';
 
-export type DescriptionsItemInst = {
+export interface DescriptionsItemInst {
     id: ComponentInternalInstance['uid'];
     index: number;
     props: DescriptionsItemProps;
     slots: SetupContext['slots'];
-};
+}
 
-export type DescriptionsProvide = {
+export interface DescriptionsProvide {
     parentProps: ComputedRef<{
         column: number;
         contentStyle: CSSProperties | string;
@@ -30,4 +30,4 @@ export type DescriptionsProvide = {
     items: Ref<DescriptionsItemInst[]>;
     addItem: (item: DescriptionsItemInst) => void;
     removeItem: (id: DescriptionsItemInst['id']) => void;
-};
+}

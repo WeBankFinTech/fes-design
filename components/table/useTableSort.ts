@@ -2,11 +2,11 @@ import { type Ref, type SetupContext, reactive, readonly } from 'vue';
 import type { RowType } from './interface';
 import type { ColumnInst, SortOrderType, SorterType } from './column';
 
-type SortStateType = {
+interface SortStateType {
     prop?: string;
     order?: 'descend' | 'ascend';
     sorter?: SorterType;
-};
+}
 
 export default ({
     ctx,

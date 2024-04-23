@@ -19,10 +19,10 @@ import { type UnixTime } from './types';
  */
 export type CalendarMode = 'month' | 'date';
 
-export type CalendarShortcut = {
+export interface CalendarShortcut {
     label: string;
     time: UnixTime | (() => UnixTime);
-};
+}
 
 export const calendarProps = {
     /** 当前高亮标记的日期 */
@@ -67,12 +67,12 @@ export const CalendarEvent = {
     CELL_CLICK: 'cellClick',
 } as const;
 
-export type CalendarSlotsParams = {
+export interface CalendarSlotsParams {
     // 单元格
     cellMain: { date: UnixTime; mode: CalendarMode };
     // 单元格附加内容
     cellAppendant: { date: UnixTime; mode: CalendarMode };
-};
+}
 
 export type CalendarSlots = SlotsType<CalendarSlotsParams>;
 

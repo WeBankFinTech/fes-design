@@ -1,12 +1,12 @@
 import type { InjectionKey, Ref } from 'vue';
 
-export type PreviewImageType = {
+export interface PreviewImageType {
     id: number;
     url: string;
     name?: string;
     size: { width: number; height: number };
     download: boolean;
-};
+}
 export interface PreviewInst {
     curIndex?: Ref<number>;
     isGroup?: Ref<boolean | undefined>;

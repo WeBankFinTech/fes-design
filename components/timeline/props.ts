@@ -52,10 +52,10 @@ type Color = CSSProperties['color'];
  * - #desc
  * - #icon
  */
-export type TimelineNodeSlotCommonParams = { index: number };
+export interface TimelineNodeSlotCommonParams { index: number }
 
 /** 时间轴结点的参数 */
-export type TimelineNode = {
+export interface TimelineNode {
     title: string;
     titlePosition?: StrictExtract<TimelineTitlePosition, 'start' | 'end'>;
     desc?: string | ((params: TimelineNodeSlotCommonParams) => VNodeChild);
@@ -64,7 +64,7 @@ export type TimelineNode = {
         | Color
         | string
         | ((params: TimelineNodeSlotCommonParams) => VNodeChild);
-};
+}
 
 export const timelineProps = {
     direction: {
@@ -93,10 +93,10 @@ export type TimelineProps = ComponentProps<typeof timelineProps>;
 // 组件内部使用的 props 类型（包含了 default）
 export type TimelineInnerProps = ComponentInnerProps<typeof timelineProps>;
 
-export type TimelineSlotsParams = {
+export interface TimelineSlotsParams {
     desc: TimelineNodeSlotCommonParams;
     icon: TimelineNodeSlotCommonParams;
-};
+}
 
 export type TimelineSlots = SlotsType<TimelineSlotsParams>;
 

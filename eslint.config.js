@@ -105,6 +105,8 @@ export default antfu({
         'no-case-declarations': 'off',
         'one-var': 'off',
 
+        'ts/no-use-before-define': 'off',
+
         'multiline-ternary': 'off',
         'antfu/if-newline': 'off',
         'style/brace-style': 'off',
@@ -114,7 +116,6 @@ export default antfu({
         'style/arrow-parens': 'off',
         'antfu/top-level-function': 'off',
         'test/prefer-lowercase-title': 'off',
-        'ts/consistent-type-definitions': 'off',
         'ts/no-import-type-side-effects': 'off',
         'style/jsx-curly-brace-presence': 'off',
         'style/jsx-one-expression-per-line': 'off',
@@ -127,7 +128,6 @@ export default antfu({
         'test/no-identical-title': 'off',
         'no-unneeded-ternary': 'off',
         'object-shorthand': 'off',
-        'ts/no-use-before-define': 'off',
         'unicorn/no-instanceof-array': 'off',
         'prefer-const': 'off',
         'array-callback-return': 'off',

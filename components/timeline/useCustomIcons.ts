@@ -25,11 +25,11 @@ import type { TimelineInnerProps as Props } from './props';
 
 type NodeIndex = number;
 
-type InjectValue = {
+interface InjectValue {
     registerIcon: (index: NodeIndex) => void;
     updateIcon: (index: NodeIndex, rect: DOMRect) => void;
     removeRegistration: (index: NodeIndex) => void;
-};
+}
 
 const CUSTOM_ICONS_PROVIDE_KEY: InjectionKey<InjectValue> = Symbol(
     `${COMPONENT_NAME}CustomIconsProvideKey`,

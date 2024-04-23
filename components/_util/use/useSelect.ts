@@ -4,17 +4,17 @@ import type { ChangeEvent, VModelEvent } from '../interface';
 import { useNormalModel } from './useModel';
 import useFormAdaptor from './useFormAdaptor';
 
-export type ParentGroupInjection<
+export interface ParentGroupInjection<
     Value,
     ParentGroupProps extends {
         disabled?: boolean;
     },
-> = {
+> {
     name: string;
     props: ParentGroupProps;
     isSelect: (value: Value) => void;
     onSelect: (value: Value, afterSelect: () => void) => void;
-};
+}
 
 export default function useSelect<
     Value,

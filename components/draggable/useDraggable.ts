@@ -35,14 +35,14 @@ type PropsRef = ComputedRef<{
     isDirective?: boolean;
 }>;
 
-type CurrentStatus = {
+interface CurrentStatus {
     drag?: { el: Element; index: number };
     animationEnd?: boolean;
     /** 放置在条目上时，需要跳过当次的dragover事件 */
     isDropOverItem?: boolean;
-};
+}
 
-type DragContext = {
+interface DragContext {
     propsRef: PropsRef;
     current: CurrentStatus;
     draggableItems: DraggableItem[];
@@ -50,15 +50,15 @@ type DragContext = {
     emit: (event: string, ...args: unknown[]) => void;
     resetDragWhenEnd: (event?: Event) => void;
     newNextTick: (fn: () => void) => void;
-};
+}
 
-type BackupContext = {
+interface BackupContext {
     draggableItems?: DraggableItem[];
     list?: unknown[];
     index?: number;
     revertStatus?: () => void;
     resetDragWhenEnd?: (event?: Event) => void;
-};
+}
 
 let dragSourceCxt: DragContext | null;
 let sourceBackup: BackupContext | null;

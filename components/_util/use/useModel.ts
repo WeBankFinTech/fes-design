@@ -3,15 +3,15 @@ import { isArray, isEqual as isEqualFunc, isUndefined } from 'lodash-es';
 
 type ModelValuePropKey = 'modelValue';
 
-type UseNormalModelOptions<
+interface UseNormalModelOptions<
     Props extends Record<string, any>,
     Key extends keyof Props,
-> = {
+> {
     prop?: Key;
     isEqual?: boolean;
     deep?: boolean;
     defaultValue?: Props[Key];
-};
+}
 
 export const useNormalModel = <
     Props extends Record<string, any>,

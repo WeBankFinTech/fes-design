@@ -16,11 +16,11 @@ export type TranslatorType = (
     option?: TranslatorOptionType,
 ) => string;
 
-export type LocaleContextType = {
+export interface LocaleContextType {
     locale: Ref<TypeLanguage>;
     lang: Ref<string>;
     t: TranslatorType;
-};
+}
 
 export const configProviderProps = {
     locale: Object as PropType<TypeLanguage>,
@@ -36,12 +36,12 @@ export type ConfigProviderProps = ExtractPublicPropTypes<
     typeof configProviderProps
 >;
 
-export type ConfigProviderContextType = {
+export interface ConfigProviderContextType {
     locale?: Ref<TypeLanguage>;
     getContainer?: Ref<GetContainer>;
     theme?: Ref<string>;
     themeOverrides?: Ref<Theme>;
-};
+}
 
 export const CONFIG_PROVIDER_INJECTION_KEY: InjectionKey<ConfigProviderContextType>
     = Symbol('ConfigProvider');

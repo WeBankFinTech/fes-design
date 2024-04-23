@@ -54,11 +54,11 @@ export const EMIT_EVENTS = [UPDATE_MODEL_EVENT, CHANGE_EVENT] as const;
 export type InputFileEmit = ComponentEmit<typeof EMIT_EVENTS>;
 
 // ------ Slots ------
-export type InputFileSlotsParams = {
+export interface InputFileSlotsParams {
     default: Record<string, never>;
     fileList: {
         files: File[];
     };
-};
+}
 
 export type InputFileSlots = SlotsType<InputFileSlotsParams>;

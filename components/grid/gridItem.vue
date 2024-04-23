@@ -32,12 +32,12 @@ function parseFlex(flex: number | string) {
     return flex;
 }
 
-type ColSize = {
+interface ColSize {
     offset?: number;
     pull?: number;
     push?: number;
     span?: number;
-};
+}
 
 export const gridItemProps = {
     flex: [Number, String] as PropType<number | string>,

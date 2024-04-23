@@ -20,6 +20,6 @@ export type BreadcrumbProps = ExtractPublicPropTypes<typeof breadcrumbProps>;
 
 type BreadcrumbInnerProps = ComponentInnerProps<typeof breadcrumbProps>;
 
-export type BreadcrumbInject = {
+export interface BreadcrumbInject {
     props: BreadcrumbInnerProps;
-};
+}

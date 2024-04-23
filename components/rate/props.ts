@@ -56,8 +56,8 @@ export type RateProps = ExtractPublicPropTypes<typeof rateProps>;
 export type RateInnerProps = ComponentInnerProps<typeof rateProps>;
 
 // 评分对象
-export type RateItem = {
+export interface RateItem {
     active: boolean;
     hover?: boolean;
     half?: boolean;
-};
+}

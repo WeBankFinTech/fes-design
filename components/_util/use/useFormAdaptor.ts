@@ -3,10 +3,10 @@ import { isFunction, isString } from 'lodash-es';
 import { noop } from '../utils';
 import { FORM_ITEM_INJECTION_KEY } from '../constants';
 
-type FormAdaptorConfig = {
+interface FormAdaptorConfig {
     valueType?: string | Ref<string> | (() => string);
     forbidChildValidate?: boolean;
-};
+}
 
 export default (formAdaptorConfig?: FormAdaptorConfig) => {
     const valueType = formAdaptorConfig?.valueType;

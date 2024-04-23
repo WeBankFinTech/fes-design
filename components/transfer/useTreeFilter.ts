@@ -4,9 +4,9 @@ import type useFilter from '../tree/useFilter';
 import { type TransferInjection } from './interface';
 
 // TODO: InstanceType<typeof Tree> 无法拿到 expose 的类型，这里暂时使用手动的写法
-type TreeInstance = {
+interface TreeInstance {
     filter: NonNullable<ReturnType<typeof useFilter>['filter']>;
-};
+}
 
 export const useTreeFilter = ({
     rootProps,

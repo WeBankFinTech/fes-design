@@ -21,7 +21,7 @@ export type TransferFilter = (
     option: TransferOption,
 ) => ReturnType<TreeFilter>;
 
-export type TransferInjection = {
+export interface TransferInjection {
     rootProps: TransferInnerProps; // 解构组件 props 会失去响应性
     rootStyle: Ref<CSSProperties>;
     modelValue: Ref<TransferOptionValue[]>;
@@ -29,4 +29,4 @@ export type TransferInjection = {
     scrollContentHeight: Ref<number | null>;
     renderLabel: (option: TransferOption) => VNodeChild;
     handleChange: (data: { nextValue: TransferOptionValue[] }) => void;
-};
+}

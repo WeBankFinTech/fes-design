@@ -6,11 +6,11 @@ import type useTableEvent from './useTableEvent';
 import type { ColumnInst, ColumnProps } from './column';
 import type { WidthItem } from './useTableLayout';
 
-export type ColumnResizeInfo = {
+export interface ColumnResizeInfo {
     prop: ColumnProps['prop'];
     width: WidthItem['width'];
     index: number;
-};
+}
 
 export default (
     columns: ColumnInst[],

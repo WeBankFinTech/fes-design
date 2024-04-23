@@ -6,7 +6,7 @@ import {
 } from 'vue';
 import { type PLACEMENT, type TRIGGER } from '../_util/constants';
 
-export type DropdownOption = {
+export interface DropdownOption {
     value: string | number;
     label: string | number | ((option: DropdownOption) => VNodeTypes);
     disabled?: boolean;
@@ -17,7 +17,7 @@ export type DropdownOption = {
         | boolean
         | ((option: DropdownOption) => VNodeTypes)
         | undefined;
-};
+}
 
 export const dropdownProps = {
     visible: {

@@ -12,12 +12,12 @@ import useResize from '../_util/use/useResize';
 import type { TableProps } from './table';
 import type { ColumnInst } from './column';
 
-export type WidthItem = {
+export interface WidthItem {
     id: number;
     width?: number;
     minWidth?: number;
     maxWidth?: number;
-};
+}
 
 /**
  * 更新列的宽度

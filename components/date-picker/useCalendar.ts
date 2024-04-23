@@ -575,10 +575,10 @@ export const useQuarter = (
 ) => {
     const isQuarterSelect = computed(() => props.type === PickerType.quarter);
 
-    type QuarterItem = {
+    interface QuarterItem {
         name: string;
         value: number;
-    };
+    }
 
     const format = 'yyyy-MM';
 

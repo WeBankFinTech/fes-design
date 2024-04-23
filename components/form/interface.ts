@@ -127,7 +127,7 @@ export interface Field {
     resetField: () => void;
 }
 
-export type ValidateResult = {
+export interface ValidateResult {
     name: string;
     errors: [];
-};
+}
