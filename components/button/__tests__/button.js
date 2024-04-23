@@ -55,7 +55,6 @@ test('button disabled', async () => {
     wrapper.find('button').trigger('click');
     await sleep(10);
     const incrementEvent = wrapper.emitted('increment');
-    // eslint-disable-next-line
     expect(incrementEvent).toBe(undefined);
 });
 

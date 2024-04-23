@@ -40,7 +40,6 @@
 
 <script>
 import { defineComponent, ref, watch } from 'vue';
-// eslint-disable-next-line import/no-unresolved
 import { zhCN, enUS } from '@fesjs/fes-design';
 
 export default defineComponent({

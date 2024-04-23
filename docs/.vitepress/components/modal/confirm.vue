@@ -5,7 +5,6 @@
 </template>
 
 <script>
-// eslint-disable-next-line import/no-unresolved
 import { FModal } from '@fesjs/fes-design';
 
 export default {

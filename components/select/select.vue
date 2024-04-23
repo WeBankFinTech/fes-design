@@ -431,7 +431,6 @@ export default defineComponent({
                     hoverOptionValue.value = option.value;
                 }
             } else {
-                // eslint-disable-next-line no-undefined
                 hoverOptionValue.value = undefined;
             }
         });

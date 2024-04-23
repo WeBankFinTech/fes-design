@@ -13,7 +13,7 @@ app.use(FProgress);
 ## 代码演示
 
 ### 基础用法
-水平进度条，进度条宽度占满父组件。   
+水平进度条，进度条宽度占满父组件。
 需要注意水平进度条百分比內显，需要height大于等于12px。
 
 :::demo
@@ -21,13 +21,12 @@ base.vue
 :::
 
 ### 文案插槽
-在条形进度条场景下，代替外显的百分比展示。注意前提是要开启外显百分比。  
+在条形进度条场景下，代替外显的百分比展示。注意前提是要开启外显百分比。
 环形进度条场景，需要开启showCircleText。
 
 :::demo
 textSlot.vue
 :::
-
 
 ## Props
 
@@ -42,7 +41,6 @@ textSlot.vue
 | width            | 进度条宽度（仅在type为circle生效）                 | `number`  | `8`     |
 | circleSize       | 环形进度条的直径大小（仅在type为circle生效）       | `number`  | `160`   |
 | showCircleText   | 是否在环形进度条中显示文本（仅在type为circle生效） | `boolean` | `false` |
-
 
 ## Slots
 

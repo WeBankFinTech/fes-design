@@ -6,9 +6,7 @@
 
 <script lang="jsx">
 import { h, ref } from 'vue';
-// eslint-disable-next-line import/no-unresolved
 import { FMessage } from '@fesjs/fes-design';
-// eslint-disable-next-line import/no-unresolved
 import { BellOffOutlined } from '../../../theme/IconDoc/icons.js';
 export default {
     setup() {

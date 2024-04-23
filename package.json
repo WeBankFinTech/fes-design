@@ -25,9 +25,9 @@
     "release": "node scripts/release.js",
     "lint-staged": "lint-staged --allow-empty",
     "commitlint": "commitlint --config commitlint.config.cjs -e -V",
-    "lint:script": "eslint --ext .js,.ts,.vue,.tsx ./components --fix",
+    "lint:script": "eslint ./components --fix",
     "lint:style": "stylelint 'components/**/*.less' --fix",
-    "lint:docs-script": "eslint --ext .js,.ts,.vue,.tsx ./docs/.vitepress/components --fix",
+    "lint:docs-script": "eslint ./docs/.vitepress/components --fix",
     "commit": "git cz",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
@@ -48,6 +48,7 @@
     "vue": "^3.2.24"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^2.15.0",
     "@babel/core": "^7.16.0",
     "@babel/plugin-syntax-jsx": "^7.16.0",
     "@babel/plugin-transform-runtime": "^7.16.4",
@@ -82,6 +83,7 @@
     "csso": "^4.2.0",
     "cz-conventional-changelog": "^3.3.0",
     "enquirer": "^2.3.6",
+    "eslint": "^9.1.1",
     "eslint-import-resolver-custom-alias": "^1.3.2",
     "execa": "^4.1.0",
     "fast-glob": "^3.2.7",

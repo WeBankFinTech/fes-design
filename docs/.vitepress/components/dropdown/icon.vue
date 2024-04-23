@@ -11,7 +11,6 @@ import {
     EditOutlined,
     PlusSquareOutlined,
     UserOutlined,
-    // eslint-disable-next-line import/no-unresolved
 } from '@fesjs/fes-design/icon';
 
 export default {

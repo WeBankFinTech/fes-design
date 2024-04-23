@@ -44,8 +44,8 @@ customIcon.vue
 
 ### 辅助文字
 
-为组件设置 show-text 属性会在右侧显示辅助文字。 通过设置 texts 可以为每一个分值指定对应的辅助文字。  
-texts 为一个数组，长度应等于评级图标个数。  
+为组件设置 show-text 属性会在右侧显示辅助文字。 通过设置 texts 可以为每一个分值指定对应的辅助文字。
+texts 为一个数组，长度应等于评级图标个数。
 未匹配文字的评级，则不展示文字部分。
 
 :::demo
@@ -54,7 +54,7 @@ text.vue
 
 ### 事件监听
 
-提供 change，clear 事件  
+提供 change，clear 事件
 注意一点，clear 事件也会触发 change 事件，会将 value 设置为 0
 
 :::demo

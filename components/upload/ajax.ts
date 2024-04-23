@@ -87,7 +87,6 @@ export default function upload(option: UploadOption) {
 
     xhr.open('post', action, true);
 
-    // eslint-disable-next-line no-restricted-syntax
     if (option.withCredentials && 'withCredentials' in xhr) {
         xhr.withCredentials = true;
     }

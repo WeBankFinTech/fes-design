@@ -48,7 +48,6 @@
 
 <script>
 import { ref, nextTick } from 'vue';
-// eslint-disable-next-line import/no-unresolved
 import { FModal } from '@fesjs/fes-design';
 
 function sleep(time) {

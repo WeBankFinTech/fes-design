@@ -20,7 +20,6 @@
 
 <script>
 import { defineComponent, ref, watch, computed } from 'vue';
-// eslint-disable-next-line import/no-unresolved
 import { mergeWith } from 'lodash-es';
 import { zhCN, enUS } from '@fesjs/fes-design';
 

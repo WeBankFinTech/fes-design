@@ -62,7 +62,7 @@ multiHeader.vue
 
 ### 行选择
 
-选择行数据时使用 Checkbox，type为`selection`生效。  
+选择行数据时使用 Checkbox，type为`selection`生效。
 在该模式下，可以设置`multiple`，设置单选和多选。
 
 :::demo

@@ -262,7 +262,6 @@ export const isBeyondRangeTime = (option: {
     maxRange?: string;
 }) => {
     if (!option.flagDate || !option.maxRange) return false;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const arr = option.maxRange.match(/(\d*)([MDY])/)!;
     const length = Number(arr[1]);
     const type = arr[2];

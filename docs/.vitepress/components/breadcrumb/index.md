@@ -5,11 +5,10 @@
 ## 组件注册
 
 ```js
-import { FBreadcrumb,FBreadcrumbItem } from '@fesjs/fes-design';
+import { FBreadcrumb, FBreadcrumbItem } from '@fesjs/fes-design';
 
 app.use(FBreadcrumb);
 app.use(FBreadcrumbItem);
-
 ```
 
 ## 代码演示
@@ -21,7 +20,7 @@ base.vue
 :::
 
 ### 自定义点击事件
-自定义某个item的点击事件。  
+自定义某个item的点击事件。
 同时点击行为，也可以和 vue-router 一起结合使用。
 
 :::demo

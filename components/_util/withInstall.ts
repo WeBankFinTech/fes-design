@@ -10,7 +10,6 @@ export function withInstall<T extends Plugin>(
     const _main = main as any;
     _main.install = (app: App) => {
         for (const comp of [main, ...Object.values(extra ?? {})]) {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             app.component((comp as any).name, comp);
         }
         if (directives) {

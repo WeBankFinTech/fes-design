@@ -16,9 +16,14 @@
     "[md]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "[typescriptreact]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
     "prettier.printWidth": 180,
-    "cSpell.words": ["unref"]
+
+    // Enable eslint for all supported languages
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "vue",
+    ]
 }

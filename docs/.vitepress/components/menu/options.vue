@@ -3,7 +3,6 @@
 </template>
 <script>
 import { ref, h } from 'vue';
-// eslint-disable-next-line import/no-unresolved
 import { AppstoreOutlined } from '@fesjs/fes-design/icon';
 export default {
     setup() {
