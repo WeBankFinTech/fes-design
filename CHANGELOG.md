@@ -1,3 +1,18 @@
+## [0.8.45](https://github.com/WeBankFinTech/fes-design/compare/v0.8.44...v0.8.45) (2024-04-23)
+
+
+### Bug Fixes
+
+* **DatePicker:** 修复 RangeInput 处理 againFocusFlag 逻辑 ([#745](https://github.com/WeBankFinTech/fes-design/issues/745)) ([328f2d7](https://github.com/WeBankFinTech/fes-design/commit/328f2d7ebe35dff9b58d983b7333a68bc50baff3))
+* draggable插槽改名 ([#751](https://github.com/WeBankFinTech/fes-design/issues/751)) ([93d4da6](https://github.com/WeBankFinTech/fes-design/commit/93d4da60733c202f22e5168859a2b0e733cb604a))
+
+
+### Features
+
+* **TableColumn:** formatter 支持返回 VNode ([30af41d](https://github.com/WeBankFinTech/fes-design/commit/30af41d1743fd606281f89fc43434afd10fa7771))
+
+
+
 ## [0.8.44](https://github.com/WeBankFinTech/fes-design/compare/v0.8.43...v0.8.44) (2024-04-19)
 
 
