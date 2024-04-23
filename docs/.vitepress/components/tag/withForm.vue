@@ -64,7 +64,7 @@ const useDynamicTags = (inputRef) => {
         inputRef.value?.focus();
     };
     const handleInputConfirm = () => {
-        let inputValue = state.inputValue;
+        const inputValue = state.inputValue;
         if (inputValue) {
             state.tags.push(inputValue);
         }

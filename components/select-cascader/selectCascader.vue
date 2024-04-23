@@ -457,7 +457,7 @@ export default defineComponent({
         watch(
             filterText,
             debounce(() => {
-                let currentNodeList: InnerCascaderOption[] = [];
+                const currentNodeList: InnerCascaderOption[] = [];
                 if (innerFilterable.value && filterText.value) {
                     filterNodeList.value.forEach((node) => {
                         let isFilter = false;

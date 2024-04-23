@@ -51,7 +51,7 @@ export default {
         const originData = createData(4);
         const disabledOption = ref('parent');
         const data = computed(() => {
-            let data = cloneDeep(originData);
+            const data = cloneDeep(originData);
             const allNodes = flatNodes(data);
             if (disabledOption.value === 'specific') {
                 data.forEach((item) => {

@@ -125,7 +125,6 @@ export default antfu({
         'symbol-description': 'off',
         'no-unneeded-ternary': 'off',
         'object-shorthand': 'off',
-        'prefer-const': 'off',
         'array-callback-return': 'off',
         'prefer-promise-reject-errors': 'off',
         'unicorn/throw-new-error': 'off',

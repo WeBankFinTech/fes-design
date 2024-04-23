@@ -341,7 +341,7 @@ export default defineComponent({
 
         /** 节点目标值 */
         const targetValues = computed((): TreeNodeKey[] => {
-            let values = props.multiple
+            const values = props.multiple
                 ? (currentValue.value as MultipleModelValue)
                 : [currentValue.value];
             if (props.emitPath) {

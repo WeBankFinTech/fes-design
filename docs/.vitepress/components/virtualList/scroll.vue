@@ -97,7 +97,7 @@ function useDataItems() {
     };
 
     const getSentences = () => {
-        let index = Math.floor(Math.random() * (sentence3.length - 1));
+        const index = Math.floor(Math.random() * (sentence3.length - 1));
         return sentence3[index];
     };
 
