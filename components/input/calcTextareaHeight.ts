@@ -33,13 +33,13 @@ function calculateNodeStyling(targetElement: HTMLElement) {
 
     const boxSizing = style.getPropertyValue('box-sizing');
 
-    const paddingSize =
-        parseFloat(style.getPropertyValue('padding-bottom')) +
-        parseFloat(style.getPropertyValue('padding-top'));
+    const paddingSize
+        = parseFloat(style.getPropertyValue('padding-bottom'))
+        + parseFloat(style.getPropertyValue('padding-top'));
 
-    const borderSize =
-        parseFloat(style.getPropertyValue('border-bottom-width')) +
-        parseFloat(style.getPropertyValue('border-top-width'));
+    const borderSize
+        = parseFloat(style.getPropertyValue('border-bottom-width'))
+        + parseFloat(style.getPropertyValue('border-top-width'));
 
     const contextStyle = CONTEXT_STYLE.map(
         (name) => `${name}:${style.getPropertyValue(name)}`,
@@ -63,12 +63,12 @@ export default function calcTextareaHeight(
         document.body.appendChild(hiddenTextarea);
     }
 
-    const { paddingSize, borderSize, boxSizing, contextStyle } =
-        calculateNodeStyling(targetElement);
+    const { paddingSize, borderSize, boxSizing, contextStyle }
+        = calculateNodeStyling(targetElement);
 
     hiddenTextarea.setAttribute('style', `${contextStyle};${HIDDEN_STYLE}`);
-    hiddenTextarea.value =
-        targetElement.value || targetElement.placeholder || '';
+    hiddenTextarea.value
+        = targetElement.value || targetElement.placeholder || '';
 
     let height = hiddenTextarea.scrollHeight;
     const result: {

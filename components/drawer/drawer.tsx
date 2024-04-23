@@ -158,8 +158,8 @@ const Drawer = defineComponent({
 
         const showDom = computed(
             () =>
-                (props.displayDirective === 'if' && visible.value) ||
-                props.displayDirective === 'show',
+                (props.displayDirective === 'if' && visible.value)
+                || props.displayDirective === 'show',
         );
 
         const wrapperClass = computed(() => {
@@ -210,9 +210,9 @@ const Drawer = defineComponent({
                                 }}
                                 style={{ zIndex: zIndex.value }}
                                 onClick={(event) =>
-                                    props.maskClosable &&
-                                    props.mask &&
-                                    handleCancel(event)
+                                    props.maskClosable
+                                    && props.mask
+                                    && handleCancel(event)
                                 }
                             >
                                 <div

@@ -20,8 +20,8 @@ export function mapTabPane(
         if (directive === 'show') {
             children.push(withDirectives(vNode, [[vShow, show]]));
         } else if (
-            directive === 'show:lazy' &&
-            (tabPaneLazyCache[value] || show)
+            directive === 'show:lazy'
+            && (tabPaneLazyCache[value] || show)
         ) {
             tabPaneLazyCache[value] = true;
             children.push(withDirectives(vNode, [[vShow, show]]));

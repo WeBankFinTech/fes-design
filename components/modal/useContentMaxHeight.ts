@@ -66,14 +66,14 @@ export const useContentMaxHeight = (
             if (isNumber(props.maxHeight)) {
                 return props.maxHeight;
             } else if (
-                isString(props.maxHeight) &&
-                props.maxHeight.endsWith('px')
+                isString(props.maxHeight)
+                && props.maxHeight.endsWith('px')
             ) {
                 // px字符串 解析字符串的数字
                 return depx(props.maxHeight);
             } else if (
-                isString(props.maxHeight) &&
-                props.maxHeight.endsWith('%')
+                isString(props.maxHeight)
+                && props.maxHeight.endsWith('%')
             ) {
                 // %字符串 解析字符串的数字，算出百分比对应的高度px
                 return (parseFloat(props.maxHeight) / 100) * windowHeight.value;
@@ -87,14 +87,14 @@ export const useContentMaxHeight = (
     // 实际滚动区域的高度
     const contentMaxHeight = computed(() => {
         // 最大场景的内容高度
-        const maxContentHeight =
-            windowHeight.value -
-            marginTop.value -
-            marginBottom.value -
-            modalHeaderHight.value -
-            modalFooterHight.value -
-            paddingTop.value -
-            paddingBottom.value;
+        const maxContentHeight
+            = windowHeight.value
+            - marginTop.value
+            - marginBottom.value
+            - modalHeaderHight.value
+            - modalFooterHight.value
+            - paddingTop.value
+            - paddingBottom.value;
 
         if (maxContentHeight < 100) {
             return 100;
@@ -103,11 +103,11 @@ export const useContentMaxHeight = (
             return maxContentHeight;
         } else {
             return (
-                currentMaxModalHeight.value -
-                modalHeaderHight.value -
-                modalFooterHight.value -
-                paddingTop.value -
-                paddingBottom.value
+                currentMaxModalHeight.value
+                - modalHeaderHight.value
+                - modalFooterHight.value
+                - paddingTop.value
+                - paddingBottom.value
             );
         }
     });

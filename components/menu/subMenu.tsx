@@ -52,8 +52,8 @@ export default defineComponent({
         const instance = getCurrentInstance();
         const { indexPath } = useMenu(instance);
         const subMenuRef = ref(null);
-        const { rootMenu, parentMenu, paddingStyle, isFirstLevel, onlyIcon } =
-            useChildren(indexPath);
+        const { rootMenu, parentMenu, paddingStyle, isFirstLevel, onlyIcon }
+            = useChildren(indexPath);
         // 根节点 menu
         if (!rootMenu) {
             console.warn(

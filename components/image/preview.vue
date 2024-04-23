@@ -169,8 +169,8 @@ export default defineComponent({
         );
 
         const previewStyle = computed(() => {
-            const { scale, rotateDeg, offsetX, offsetY, enableTransition } =
-                transform.value;
+            const { scale, rotateDeg, offsetX, offsetY, enableTransition }
+                = transform.value;
 
             const style: CSSProperties = {
                 transform: [
@@ -182,12 +182,12 @@ export default defineComponent({
             };
 
             if (
-                props.size.height > clientHeight ||
-                props.size.width > clientWidth
+                props.size.height > clientHeight
+                || props.size.width > clientWidth
             ) {
                 if (
-                    props.size.height / props.size.width >=
-                    clientHeight / clientWidth
+                    props.size.height / props.size.width
+                    >= clientHeight / clientWidth
                 ) {
                     style.height = `${clientHeight}px`;
                     style.width = 'auto';

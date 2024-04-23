@@ -6,5 +6,5 @@ export const prefixCls = getPrefixCls('breadcrumb');
 
 export const itemCls = getPrefixCls('breadcrumb-item');
 
-export const BREADCRUMB_KEY: InjectionKey<BreadcrumbInject> =
-    Symbol('BREADCRUMB_KEY');
+export const BREADCRUMB_KEY: InjectionKey<BreadcrumbInject>
+    = Symbol('BREADCRUMB_KEY');

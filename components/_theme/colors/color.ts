@@ -103,9 +103,9 @@ class Color {
 
             // Convert color to short format
             if (
-                splitcolor[1] === splitcolor[2] &&
-                splitcolor[3] === splitcolor[4] &&
-                splitcolor[5] === splitcolor[6]
+                splitcolor[1] === splitcolor[2]
+                && splitcolor[3] === splitcolor[4]
+                && splitcolor[5] === splitcolor[6]
             ) {
                 color = `#${splitcolor[1]}${splitcolor[3]}${splitcolor[5]}`;
             }

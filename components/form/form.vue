@@ -32,14 +32,14 @@ export default defineComponent({
             props.disabled && `${prefixCls}-disabled`, // disabled
         ]);
         const formStyle = computed(() => {
-            const tempColStyle = props.layout === FORM_LAYOUT.INLINE &&
-                props.inlineItemWidth && {
+            const tempColStyle = props.layout === FORM_LAYOUT.INLINE
+                && props.inlineItemWidth && {
                     'grid-template-columns': `repeat(auto-fit, ${pxfy(
                         props.inlineItemWidth,
                     )})`,
                 };
-            const gapStyle = props.layout === FORM_LAYOUT.INLINE &&
-                props.inlineItemGap && {
+            const gapStyle = props.layout === FORM_LAYOUT.INLINE
+                && props.inlineItemGap && {
                     'grid-gap': `${pxfy(props.inlineItemGap)}`,
                 };
             return { ...tempColStyle, ...gapStyle };

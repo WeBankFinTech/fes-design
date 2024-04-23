@@ -19,8 +19,8 @@ export default function useCascaderMenu(props: CascaderMenuProps) {
                 })
                 .map((value) => root.nodeList[value]);
         } else {
-            nodes =
-                root.nodeList[props.menuKey]?.childrenValues.map(
+            nodes
+                = root.nodeList[props.menuKey]?.childrenValues.map(
                     (value) => root.nodeList[value],
                 ) || [];
         }
@@ -34,8 +34,8 @@ export default function useCascaderMenu(props: CascaderMenuProps) {
         return menuNodes.value.find((node) => {
             if (root.props.selectable) {
                 return (
-                    root.hasActive(node.value, root.nodeList) ||
-                    root.hasSelected(node.value)
+                    root.hasActive(node.value, root.nodeList)
+                    || root.hasSelected(node.value)
                 );
             }
             if (root.props.checkable) {

@@ -17,8 +17,8 @@ export default (
     const currentValue = ref(props[usingProp]);
     const pureUpdateCurrentValue = (value: any) => {
         if (
-            value === currentValue.value ||
-            (config.isEqual && isEqual(value, currentValue.value))
+            value === currentValue.value
+            || (config.isEqual && isEqual(value, currentValue.value))
         ) {
             return;
         }

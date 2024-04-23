@@ -43,9 +43,9 @@ export default defineComponent({
     setup(props) {
         const vm = getCurrentInstance();
         if (
-            !vm.parent ||
-            !vm.parent.type ||
-            vm.parent.type.name !== COMPONENT_NAME.LAYOUT
+            !vm.parent
+            || !vm.parent.type
+            || vm.parent.type.name !== COMPONENT_NAME.LAYOUT
         ) {
             console.warn(
                 `[${COMPONENT_NAME.HEADER}] must be a child of ${COMPONENT_NAME.LAYOUT}`,

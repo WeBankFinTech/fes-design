@@ -42,8 +42,8 @@ export default defineComponent({
     setup(props, { slots }) {
         const instance = getCurrentInstance();
         const { indexPath } = useMenu(instance);
-        const { rootMenu, parentMenu, paddingStyle, onlyIcon } =
-            useChildren(indexPath);
+        const { rootMenu, parentMenu, paddingStyle, onlyIcon }
+            = useChildren(indexPath);
         const { handleItemClick } = inject(SUB_MENU_KEY, {
             handleItemClick: noop,
         });

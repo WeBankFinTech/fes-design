@@ -54,10 +54,10 @@ export default defineComponent({
                 return null;
             }
 
-            const isLastRow =
-                rowIndex + Number(rowspan) >= showData.value.length;
-            const isLastColumn =
-                columnIndex + Number(colspan) >= columns.value.length;
+            const isLastRow
+                = rowIndex + Number(rowspan) >= showData.value.length;
+            const isLastColumn
+                = columnIndex + Number(colspan) >= columns.value.length;
 
             return (
                 <td

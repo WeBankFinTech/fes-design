@@ -48,9 +48,9 @@ export default defineComponent({
                 {props.options.map((option) => {
                     const value = option[props.valueField] as Option['value'];
                     const label = option[props.labelField] as Option['label'];
-                    const isSelected =
-                        props.showSelectedOption &&
-                        currentValue.value === value;
+                    const isSelected
+                        = props.showSelectedOption
+                        && currentValue.value === value;
                     const optionClassList = [
                         `${prefixCls}-option`,
                         option.disabled && 'is-disabled',

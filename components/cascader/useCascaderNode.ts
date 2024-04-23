@@ -31,12 +31,12 @@ export default function useCascaderNode(props: CascaderNodeProps) {
             return false;
         }
         return (
-            root.props.cascade &&
-            node.hasChildren &&
-            node.childrenValues.some(
+            root.props.cascade
+            && node.hasChildren
+            && node.childrenValues.some(
                 (value) =>
-                    root.hasChecked(value) ||
-                    hasIndeterminate(root.nodeList[value]),
+                    root.hasChecked(value)
+                    || hasIndeterminate(root.nodeList[value]),
             )
         );
     };

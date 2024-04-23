@@ -64,8 +64,8 @@ export default (props: PopperProps, emit: any) => {
                 return;
             }
 
-            const triggerEl: ReferenceElement =
-                props.trigger === 'contextmenu' // 仅在右键时，使用鼠标具体触发位置
+            const triggerEl: ReferenceElement
+                = props.trigger === 'contextmenu' // 仅在右键时，使用鼠标具体触发位置
                     ? {
                           getBoundingClientRect: () =>
                               virtualRect.value && {

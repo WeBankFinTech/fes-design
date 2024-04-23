@@ -233,9 +233,9 @@ export default defineComponent({
         };
         const renderRadio = () => {
             if (
-                !checkable.value &&
-                selectable.value &&
-                root.props.checkStrictly === CHECK_STRATEGY.ALL
+                !checkable.value
+                && selectable.value
+                && root.props.checkStrictly === CHECK_STRATEGY.ALL
             ) {
                 return (
                     <span class={`${prefixCls}-radio`}>

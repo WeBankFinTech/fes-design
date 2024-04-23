@@ -43,8 +43,8 @@ export default defineComponent({
     setup(props) {
         const scrollbarRef = ref<HTMLElement>(null);
 
-        const { menuNodes, isCascaderOpened, menuScrollNode } =
-            useCascaderMenu(props);
+        const { menuNodes, isCascaderOpened, menuScrollNode }
+            = useCascaderMenu(props);
 
         const renderNode = (node: InnerCascaderOption) => {
             const itemSlots: {
@@ -90,12 +90,12 @@ export default defineComponent({
             const scrollbarEl = getElementFromVueInstance(
                 scrollbarRef.value,
             ) as HTMLElement;
-            const scrollbarContainerEl =
-                scrollbarEl?.querySelector<HTMLElement>(
+            const scrollbarContainerEl
+                = scrollbarEl?.querySelector<HTMLElement>(
                     `.${scrollbarContainerClass}`,
                 );
-            const activeNodeEl =
-                scrollbarContainerEl?.querySelector<HTMLElement>(
+            const activeNodeEl
+                = scrollbarContainerEl?.querySelector<HTMLElement>(
                     // matches unescaped double quotes
                     `.${nodePrefixCls}[data-value="${menuScrollNode.value.value}"]`,
                 );

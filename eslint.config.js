@@ -101,7 +101,6 @@ export default antfu({
         'style/multiline-ternary': 'off',
         'style/indent': 'off',
         'curly': 'off',
-        'style/operator-linebreak': 'off',
         'style/arrow-parens': 'off',
         'vue/html-self-closing': 'off',
         'antfu/top-level-function': 'off',

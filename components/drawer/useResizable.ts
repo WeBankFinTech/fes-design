@@ -93,8 +93,8 @@ export const useResizable = ({
             isActive.value = true;
 
             // 拖拽的时候拿到实时的宽度或者高度
-            lastSizeValue =
-                popDirection.value === 'horizontal'
+            lastSizeValue
+                = popDirection.value === 'horizontal'
                     ? drawerRef.value.offsetWidth
                     : drawerRef.value.offsetHeight;
         }
@@ -113,8 +113,8 @@ export const useResizable = ({
         event.preventDefault();
 
         // 偏移量
-        const offset =
-            (popDirection.value === 'horizontal'
+        const offset
+            = (popDirection.value === 'horizontal'
                 ? event.clientX
                 : event.clientY) - start;
 

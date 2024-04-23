@@ -135,8 +135,8 @@ export default defineComponent({
                 prefixCls,
                 isSelected && 'is-checked',
                 isHover && 'is-hover',
-                (option.disabled || (!isSelected && props.isLimit)) &&
-                'is-disabled',
+                (option.disabled || (!isSelected && props.isLimit))
+                && 'is-disabled',
             ].filter(Boolean);
 
             return (

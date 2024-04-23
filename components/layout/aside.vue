@@ -99,9 +99,9 @@ export default defineComponent({
     setup(props, { emit }) {
         const vm = getCurrentInstance();
         if (
-            !vm.parent ||
-            !vm.parent.type ||
-            vm.parent.type.name !== COMPONENT_NAME.LAYOUT
+            !vm.parent
+            || !vm.parent.type
+            || vm.parent.type.name !== COMPONENT_NAME.LAYOUT
         ) {
             console.warn(
                 `[${COMPONENT_NAME.ASIDE}] must be a child of ${COMPONENT_NAME.LAYOUT}`,

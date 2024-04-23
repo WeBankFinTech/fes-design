@@ -36,11 +36,11 @@ export default function useState(
     const hasLoaded = (node: InnerCascaderOption): boolean => {
         // 兼容异步加载，未匹配到节点的情况
         if (
-            node &&
-            !node.isLeaf &&
-            props.remote &&
-            props.loadData &&
-            !node.hasChildren
+            node
+            && !node.isLeaf
+            && props.remote
+            && props.loadData
+            && !node.hasChildren
         ) {
             return false;
         }
@@ -61,8 +61,8 @@ export default function useState(
         nodeList: CascaderNodeList,
     ): boolean => {
         return (
-            !hasSelected(value) &&
-            (currentSelectedKeys.value as CascaderNodeKey[]).some((key) => {
+            !hasSelected(value)
+            && (currentSelectedKeys.value as CascaderNodeKey[]).some((key) => {
                 return nodeList[key]?.indexPath.includes(value);
             })
         );

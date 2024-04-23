@@ -160,10 +160,10 @@ export default function useData({
             .map((key) => nodeList[key])
             .filter(
                 (node) =>
-                    !!node &&
-                    !node.isLeaf &&
-                    !node.hasChildren &&
-                    !loadedKeys.includes(node.value), // 避免因为加载失败而死循环
+                    !!node
+                    && !node.isLeaf
+                    && !node.hasChildren
+                    && !loadedKeys.includes(node.value), // 避免因为加载失败而死循环
             );
 
         // 继续递归处理
@@ -176,8 +176,8 @@ export default function useData({
                         ...node.origin, // 避免直接操作原生对象
                     });
                     if (isArray(children)) {
-                        node.origin[props.childrenField as 'children'] =
-                            children;
+                        node.origin[props.childrenField as 'children']
+                            = children;
                     }
                     await nextTick();
                 } catch (e) {

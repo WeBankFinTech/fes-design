@@ -244,8 +244,8 @@ export default ({
             const leftColumns = columns.slice(0, columnIndex);
             const width = leftColumns.reduce((accumulator, currentValue) => {
                 const width = layout.widthMap.value[currentValue.id]?.width;
-                const minWidth =
-                    layout.widthMap.value[currentValue.id]?.minWidth;
+                const minWidth
+                    = layout.widthMap.value[currentValue.id]?.minWidth;
                 return (width || minWidth) + accumulator;
             }, 0);
             fixedStyle.left = `${width}px`;
@@ -254,8 +254,8 @@ export default ({
             const width = rightColumns.reduceRight(
                 (accumulator, currentValue) => {
                     const width = layout.widthMap.value[currentValue.id]?.width;
-                    const minWidth =
-                        layout.widthMap.value[currentValue.id]?.minWidth;
+                    const minWidth
+                        = layout.widthMap.value[currentValue.id]?.minWidth;
                     return (width || minWidth) + accumulator;
                 },
                 0,

@@ -38,9 +38,9 @@ crazyDay.setDate(today.getDate() + (4 - today.getDay()));
 const isCrazyDay = (d: number): boolean => {
     const _d = new Date(d);
     return (
-        _d.getFullYear() === crazyDay.getFullYear() &&
-        _d.getMonth() === crazyDay.getMonth() &&
-        _d.getDate() === crazyDay.getDate()
+        _d.getFullYear() === crazyDay.getFullYear()
+        && _d.getMonth() === crazyDay.getMonth()
+        && _d.getDate() === crazyDay.getDate()
     );
 };
 
@@ -49,9 +49,9 @@ kingDay.setDate(today.getDate() + (3 - today.getDay()));
 const isKingDay = (d: number): boolean => {
     const _d = new Date(d);
     return (
-        _d.getFullYear() === kingDay.getFullYear() &&
-        _d.getMonth() === kingDay.getMonth() &&
-        _d.getDate() === kingDay.getDate()
+        _d.getFullYear() === kingDay.getFullYear()
+        && _d.getMonth() === kingDay.getMonth()
+        && _d.getDate() === kingDay.getDate()
     );
 };
 </script>

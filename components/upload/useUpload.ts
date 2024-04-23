@@ -237,8 +237,8 @@ export default (props: UploadProps, emit: any) => {
     const onUploadFiles = (files: FileList | File[]) => {
         files = Array.from(files);
         if (
-            props.multipleLimit &&
-            props.fileList.length + files.length > props.multipleLimit
+            props.multipleLimit
+            && props.fileList.length + files.length > props.multipleLimit
         ) {
             onExceed(files);
             return;
@@ -302,8 +302,8 @@ export default (props: UploadProps, emit: any) => {
             return;
         }
         if (
-            props.multipleLimit &&
-            props.fileList.length + 1 > props.multipleLimit
+            props.multipleLimit
+            && props.fileList.length + 1 > props.multipleLimit
         ) {
             onExceed([rawFile]);
             return;

@@ -31,8 +31,8 @@ export default defineComponent({
             if (Number.isNaN(cur)) {
                 return;
             }
-            const currentPage =
-                cur < 1 ? 1 : cur > total.value ? total.value : cur;
+            const currentPage
+                = cur < 1 ? 1 : cur > total.value ? total.value : cur;
             current.value = currentPage;
             emit('change', currentPage);
         };

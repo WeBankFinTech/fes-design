@@ -70,8 +70,8 @@ export default function upload(option: UploadOption) {
             try {
                 option.onSuccess(option.transformResponse(xhr));
             } catch (e: any) {
-                const msg =
-                    e?.message || `fail to post ${action} ${xhr.status}`;
+                const msg
+                    = e?.message || `fail to post ${action} ${xhr.status}`;
                 const err = new Error(msg) as UploadError;
                 err.status = xhr.status;
                 err.method = 'post';
@@ -97,8 +97,8 @@ export default function upload(option: UploadOption) {
 
     Object.keys(headers).forEach((item) => {
         if (
-            hasOwn(headers, item) &&
-            headers[item as keyof typeof headers] !== null
+            hasOwn(headers, item)
+            && headers[item as keyof typeof headers] !== null
         ) {
             xhr.setRequestHeader(item, headers[item as keyof typeof headers]);
         }

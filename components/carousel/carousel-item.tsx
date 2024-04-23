@@ -27,8 +27,8 @@ const useItemStyle = (direction: ComputedRef<Direction>) => {
     });
 
     const itemStyle = computed(() => {
-        const translateType =
-            direction.value === 'vertical' ? 'translateY' : 'translateX';
+        const translateType
+            = direction.value === 'vertical' ? 'translateY' : 'translateX';
         const value = `${translateType}(${itemStyleState.translate}px) scale(${itemStyleState.scale}, ${itemStyleState.scale})`;
         const style = {
             transform: value,
@@ -99,9 +99,9 @@ export default defineComponent({
             const parentWidth = wrapperRef.value?.offsetWidth || 0;
             if (itemStatus.inStage) {
                 return (
-                    (parentWidth *
-                    ((2 - CARD_SCALE) * (index - activeIndex) + 1)) /
-                    4
+                    (parentWidth
+                    * ((2 - CARD_SCALE) * (index - activeIndex) + 1))
+                    / 4
                 );
             }
             if (index < activeIndex) {
@@ -115,8 +115,8 @@ export default defineComponent({
             activeIndex: number,
             isVertical: boolean,
         ) {
-            const distance =
-                (isVertical
+            const distance
+                = (isVertical
                     ? wrapperRef.value?.offsetHeight
                     : wrapperRef.value?.offsetWidth) || 0;
             return distance * (index - activeIndex);
@@ -130,8 +130,8 @@ export default defineComponent({
         ) => {
             const length = slideChildren.value.length;
             if (rootProps.type !== 'card' && oldIndex !== undefined) {
-                itemStatus.animating =
-                    index === activeIndex || index === oldIndex;
+                itemStatus.animating
+                    = index === activeIndex || index === oldIndex;
             }
             if (index !== activeIndex && length > 2 && rootProps.loop) {
                 index = processIndex(index, activeIndex, length);
@@ -143,8 +143,8 @@ export default defineComponent({
                         `[${CAROUSEL_ITEM_NAME}]: ${CAROUSEL_NAME} vertical direction is not supported in card mode.`,
                     );
                 }
-                itemStatus.inStage =
-                    Math.round(Math.abs(index - activeIndex)) <= 1;
+                itemStatus.inStage
+                    = Math.round(Math.abs(index - activeIndex)) <= 1;
                 itemStatus.active = index === activeIndex;
 
                 setItemStyle(

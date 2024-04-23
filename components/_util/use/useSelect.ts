@@ -52,9 +52,9 @@ export default function useSelect<
     });
     const innerDisabled = computed(
         () =>
-            props.disabled ||
-            (isGroup && group?.props?.disabled) ||
-            isFormDisabled.value,
+            props.disabled
+            || (isGroup && group?.props?.disabled)
+            || isFormDisabled.value,
     );
     const handleClick = () => {
         if (innerDisabled.value) {

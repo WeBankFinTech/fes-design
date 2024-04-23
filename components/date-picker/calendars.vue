@@ -159,8 +159,8 @@ export default defineComponent({
             return confirmLang ? t(confirmLang) : '';
         });
 
-        const { selectedStatus, selectedDay, lastSelectedPosition } =
-            useSelectStatus(props);
+        const { selectedStatus, selectedDay, lastSelectedPosition }
+            = useSelectStatus(props);
         const {
             leftActiveDate,
             rightActiveDate,
@@ -190,16 +190,16 @@ export default defineComponent({
 
         const visibleFooter = computed(
             () =>
-                props.control ||
-                pickerRef.value.name === PickerType.datemultiple ||
-                pickerRef.value.isRange ||
-                pickerRef.value.hasTime,
+                props.control
+                || pickerRef.value.name === PickerType.datemultiple
+                || pickerRef.value.isRange
+                || pickerRef.value.hasTime,
         );
 
         const change = () => {
             if (
-                pickerRef.value.isRange ||
-                pickerRef.value.name === PickerType.datemultiple
+                pickerRef.value.isRange
+                || pickerRef.value.name === PickerType.datemultiple
             ) {
                 emit('change', tempCurrentValue.value);
             } else {
@@ -211,8 +211,8 @@ export default defineComponent({
             tempCurrentValue.value = val;
 
             if (
-                pickerRef.value.isRange ||
-                pickerRef.value.name === PickerType.datemultiple
+                pickerRef.value.isRange
+                || pickerRef.value.name === PickerType.datemultiple
             ) {
                 emit('tmpSelectedDateChange', tempCurrentValue.value);
             } else {

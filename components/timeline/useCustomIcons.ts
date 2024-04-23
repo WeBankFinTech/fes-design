@@ -119,10 +119,10 @@ export const useCustomIcons = (
             const inlineStartProp = calcInlineStartProp(axisDirection);
             const lengthProp = calcLengthProp(axisDirection);
 
-            const currentIconLength =
-                currentIconRect?.[dimension] ?? ICON_DEFAULT_SIDE_LENGTH;
-            const nextIconLength =
-                nextIconRect?.[dimension] ?? ICON_DEFAULT_SIDE_LENGTH;
+            const currentIconLength
+                = currentIconRect?.[dimension] ?? ICON_DEFAULT_SIDE_LENGTH;
+            const nextIconLength
+                = nextIconRect?.[dimension] ?? ICON_DEFAULT_SIDE_LENGTH;
 
             let contentStyle: CSSProperties = {};
             if (axisDirection !== 'column' && currentIconRect) {

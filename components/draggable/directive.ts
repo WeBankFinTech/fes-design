@@ -31,10 +31,10 @@ const updateStyle = (el: HTMLElement, items: DraggableItem[]) => {
             node.removeAttribute('draggable');
         }
         const opacity = item?.style.opacity || item?.elStyle.opacity || '';
-        const transition =
-            item?.style.transition || item?.elStyle.transition || '';
-        const transform =
-            item?.style.transform || item?.elStyle.transform || '';
+        const transition
+            = item?.style.transition || item?.elStyle.transition || '';
+        const transform
+            = item?.style.transform || item?.elStyle.transform || '';
         const style = node.style as unknown as Record<string, unknown>;
         style.opacity = opacity;
         style.transition = transition;

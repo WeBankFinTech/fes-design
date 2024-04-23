@@ -91,10 +91,10 @@ export default defineComponent({
         ]);
         const offsetRatio = computed(
             () =>
-                barRef.value[barMap.value.offset] ** 2 /
-                containerRef.value[barMap.value.scrollSize] /
-                props.ratio /
-                thumbRef.value[barMap.value.offset],
+                barRef.value[barMap.value.offset] ** 2
+                / containerRef.value[barMap.value.scrollSize]
+                / props.ratio
+                / thumbRef.value[barMap.value.offset],
         );
 
         const visible = ref(false);
@@ -108,19 +108,19 @@ export default defineComponent({
 
             if (!prevPage) return;
 
-            const offset =
-                (barRef.value.getBoundingClientRect()[barMap.value.direction] -
-                e[barMap.value.client]) *
-                -1;
-            const thumbClickPosition =
-                thumbRef.value[barMap.value.offset] - prevPage;
-            const thumbPositionPercentage =
-                ((offset - thumbClickPosition) * 100 * offsetRatio.value) /
-                barRef.value[barMap.value.offset];
-            containerRef.value[barMap.value.scroll] =
-                (thumbPositionPercentage *
-                containerRef.value[barMap.value.scrollSize]) /
-                100;
+            const offset
+                = (barRef.value.getBoundingClientRect()[barMap.value.direction]
+                - e[barMap.value.client])
+                * -1;
+            const thumbClickPosition
+                = thumbRef.value[barMap.value.offset] - prevPage;
+            const thumbPositionPercentage
+                = ((offset - thumbClickPosition) * 100 * offsetRatio.value)
+                / barRef.value[barMap.value.offset];
+            containerRef.value[barMap.value.scroll]
+                = (thumbPositionPercentage
+                * containerRef.value[barMap.value.scrollSize])
+                / 100;
         };
 
         let docMouseMoveClose: () => void;
@@ -185,13 +185,13 @@ export default defineComponent({
                 ] - e[barMap.value.client],
             );
             const thumbHalf = thumbRef.value[barMap.value.offset] / 2;
-            const thumbPositionPercentage =
-                ((offset - thumbHalf) * 100 * offsetRatio.value) /
-                barRef.value[barMap.value.offset];
-            containerRef.value[barMap.value.scroll] =
-                (thumbPositionPercentage *
-                containerRef.value[barMap.value.scrollSize]) /
-                100;
+            const thumbPositionPercentage
+                = ((offset - thumbHalf) * 100 * offsetRatio.value)
+                / barRef.value[barMap.value.offset];
+            containerRef.value[barMap.value.scroll]
+                = (thumbPositionPercentage
+                * containerRef.value[barMap.value.scrollSize])
+                / 100;
         };
 
         const clickThumbHandler = (e: MouseEvent) => {
@@ -202,10 +202,10 @@ export default defineComponent({
             }
             window.getSelection().removeAllRanges();
             startDrag(e);
-            barStore.value[barMap.value.axis] =
-                (e.currentTarget as HTMLElement)[barMap.value.offset] -
-                (e[barMap.value.client] -
-                (e.currentTarget as HTMLElement).getBoundingClientRect()[
+            barStore.value[barMap.value.axis]
+                = (e.currentTarget as HTMLElement)[barMap.value.offset]
+                - (e[barMap.value.client]
+                - (e.currentTarget as HTMLElement).getBoundingClientRect()[
                         barMap.value.direction
                     ]);
         };

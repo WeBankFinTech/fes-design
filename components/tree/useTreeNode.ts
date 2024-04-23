@@ -29,8 +29,8 @@ export default (props: TreeNodeProps) => {
         const parentNodePath = node.indexPath[node.indexPath.length - 2];
         const parentNode = nodeList.get(parentNodePath);
         return parentNode.children.every((item) => {
-            const hasChildren =
-                Array.isArray(item.children) && item.children.length;
+            const hasChildren
+                = Array.isArray(item.children) && item.children.length;
             let isLeaf;
             if (!isNil(item.isLeaf)) {
                 isLeaf = item.isLeaf;

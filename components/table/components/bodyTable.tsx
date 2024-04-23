@@ -125,9 +125,9 @@ export default defineComponent({
 
         return () => {
             if (
-                hasResizableColumn.value ||
-                layout.isScrollX.value ||
-                layout.isScrollY.value
+                hasResizableColumn.value
+                || layout.isScrollX.value
+                || layout.isScrollY.value
             ) {
                 return (
                     <Scrollbar

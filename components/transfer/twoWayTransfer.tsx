@@ -35,8 +35,8 @@ const usePanelData = ({
     const checkValue = ref<TransferOptionValue[]>([]);
     const options = ref<TransferOption[]>([]);
 
-    const { checkboxStatus, handleCheckboxChange, handleCheck } =
-        useCheckValueWithCheckbox({
+    const { checkboxStatus, handleCheckboxChange, handleCheck }
+        = useCheckValueWithCheckbox({
             checkValue,
             options,
             onCheckboxChange: () => {
@@ -257,12 +257,12 @@ const TwoWayTransfer = defineComponent({
                     ({ value }) => nextValue.includes(value),
                 );
 
-                sourcePanel.checkValue.value =
-                    sourcePanel.checkValue.value.filter(
+                sourcePanel.checkValue.value
+                    = sourcePanel.checkValue.value.filter(
                         (value) => !nextValue.includes(value),
                     );
-                targetPanel.checkValue.value =
-                    targetPanel.checkValue.value.filter((value) =>
+                targetPanel.checkValue.value
+                    = targetPanel.checkValue.value.filter((value) =>
                         nextValue.includes(value),
                     );
 

@@ -18,8 +18,8 @@ export type ArrowType = {
     embedded: ComputedRef<boolean>;
 };
 
-export const collapseContextKey: InjectionKey<contextType> =
-    Symbol('collapseContextKey');
+export const collapseContextKey: InjectionKey<contextType>
+    = Symbol('collapseContextKey');
 
-export const arrowPositionKey: InjectionKey<ArrowType> =
-    Symbol('arrow_position');
+export const arrowPositionKey: InjectionKey<ArrowType>
+    = Symbol('arrow_position');

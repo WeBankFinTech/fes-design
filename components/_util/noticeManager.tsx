@@ -86,8 +86,8 @@ const Notification = defineComponent({
     render() {
         const { notices, transitionName } = this;
         const children = notices.map((notice) => {
-            let vNode =
-                typeof notice.children === 'function'
+            let vNode
+                = typeof notice.children === 'function'
                     ? notice.children()
                     : notice.children;
             vNode = getFirstValidNode([vNode]);

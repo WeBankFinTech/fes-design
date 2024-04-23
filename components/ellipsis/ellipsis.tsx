@@ -62,8 +62,8 @@ export default defineComponent({
         });
 
         const styleRef = computed(() => {
-            const ellStyle: StyleValue =
-                line.value > 1
+            const ellStyle: StyleValue
+                = line.value > 1
                     ? {
                           'display': '-webkit-inline-box',
                           '-webkit-line-clamp': line.value,
@@ -98,9 +98,9 @@ export default defineComponent({
                     isEllipsis = scrollHeight > offsetHeight;
                 } else {
                     const { value: triggerInner } = triggerInnerRef;
-                    isEllipsis =
-                        triggerInner.getBoundingClientRect().width >
-                        trigger.getBoundingClientRect().width;
+                    isEllipsis
+                        = triggerInner.getBoundingClientRect().width
+                        > trigger.getBoundingClientRect().width;
                 }
             }
             return !isEllipsis;

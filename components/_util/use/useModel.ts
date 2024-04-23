@@ -38,8 +38,8 @@ export const useNormalModel = <
     );
     const pureUpdateCurrentValue = (value: Props[Key]) => {
         if (
-            value === currentValue.value ||
-            (isEqual && isEqualFunc(value, currentValue.value))
+            value === currentValue.value
+            || (isEqual && isEqualFunc(value, currentValue.value))
         ) {
             return;
         }

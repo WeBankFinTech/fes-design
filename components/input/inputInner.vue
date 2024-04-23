@@ -115,10 +115,10 @@ export function usePassword(
 
     const showPwdSwitchIcon = computed(
         () =>
-            props.showPassword &&
-            !props.readonly &&
-            !props.disabled &&
-            (currentValue.value != null || focused.value),
+            props.showPassword
+            && !props.readonly
+            && !props.disabled
+            && (currentValue.value != null || focused.value),
     );
 
     return {
@@ -138,11 +138,11 @@ export function useClear(
 ) {
     const showClear = computed(
         () =>
-            props.clearable &&
-            !props.readonly &&
-            !props.disabled &&
-            currentValue.value &&
-            (focused.value || hovering.value),
+            props.clearable
+            && !props.readonly
+            && !props.disabled
+            && currentValue.value
+            && (focused.value || hovering.value),
     );
 
     const clear = () => {

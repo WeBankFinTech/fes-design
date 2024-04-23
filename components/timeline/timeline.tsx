@@ -117,8 +117,8 @@ const renderNode = (nodeProps: {
     >['nodeAppendantStyleMap'];
 }): VNode => {
     const { node, index, props, slots, nodeAppendantStyleMap } = nodeProps;
-    const { direction, titlePosition, descPosition, titleClass, descClass } =
-        props;
+    const { direction, titlePosition, descPosition, titleClass, descClass }
+        = props;
     const { title, desc, icon } = node;
     const calculatedTitlePosition = calcTitlePosition(
         index,

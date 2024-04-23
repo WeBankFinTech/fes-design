@@ -64,9 +64,9 @@ export default defineComponent({
 
         const renderItem = (item: unknown, index: number) => {
             const vNodes = flatten(
-                ctx.slots.default?.({ item, index }) ||
-                ctx.slots.item?.({ item, index }) ||
-                [],
+                ctx.slots.default?.({ item, index })
+                || ctx.slots.item?.({ item, index })
+                || [],
             )?.filter((node) => !isComment(node));
             if (!vNodes || !vNodes.length) return;
             if (vNodes.length > 1) {

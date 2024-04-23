@@ -73,13 +73,13 @@ export const useSelectedDates = (
     const selectedDates = ref<DateObj[]>([]);
     const updateRangeSelectedDates = (date: DateObj, index: number) => {
         if (
-            !selectedDates.value.length ||
-            (index === 0 &&
-            transformDateToTimestamp(date) >
-            transformDateToTimestamp(selectedDates.value[1])) ||
-            (index === 1 &&
-            transformDateToTimestamp(date) <
-                transformDateToTimestamp(selectedDates.value[0]))
+            !selectedDates.value.length
+            || (index === 0
+            && transformDateToTimestamp(date)
+            > transformDateToTimestamp(selectedDates.value[1]))
+            || (index === 1
+            && transformDateToTimestamp(date)
+            < transformDateToTimestamp(selectedDates.value[0]))
         ) {
             selectedDates.value = [date, { ...date }];
         } else {
@@ -95,15 +95,15 @@ export const useSelectedDates = (
         if (picker.value.isRange && option.isTime) {
             updateRangeSelectedDates(newDate, index);
         } else if (
-            picker.value.isRange &&
-            option.isDateInput &&
-            props.selectedStatus === SELECTED_STATUS.END
+            picker.value.isRange
+            && option.isDateInput
+            && props.selectedStatus === SELECTED_STATUS.END
         ) {
             updateRangeSelectedDates(newDate, index);
         } else if (
-            picker.value.isRange &&
-            (!selectedDates.value.length ||
-            props.selectedStatus === SELECTED_STATUS.END)
+            picker.value.isRange
+            && (!selectedDates.value.length
+            || props.selectedStatus === SELECTED_STATUS.END)
         ) {
             const anotherDate = fillDate({
                 dateObj: newDate,
@@ -123,9 +123,9 @@ export const useSelectedDates = (
         } else if (picker.value.name === PickerType.datemultiple) {
             const selectedDateIndex = selectedDates.value.findIndex((item) => {
                 return (
-                    item.year === newDate.year &&
-                    item.month === newDate.month &&
-                    item.day === newDate.day
+                    item.year === newDate.year
+                    && item.month === newDate.month
+                    && item.day === newDate.day
                 );
             });
             if (selectedDateIndex !== -1) {
@@ -138,8 +138,8 @@ export const useSelectedDates = (
         } else {
             if (
                 // 变更日期的时候，继承当前位置的时间
-                transformDateToTimestamp(selectedDates.value[0]) >
-                transformDateToTimestamp(newDate)
+                transformDateToTimestamp(selectedDates.value[0])
+                > transformDateToTimestamp(newDate)
             ) {
                 selectedDates.value.splice(
                     0,
@@ -280,21 +280,21 @@ export function useCommonRange({
 }) {
     const startDate = computed(
         () =>
-            selectedDates.value[0] &&
-            new Date(transformDateToTimestamp(selectedDates.value[0])),
+            selectedDates.value[0]
+            && new Date(transformDateToTimestamp(selectedDates.value[0])),
     );
     const endDate = computed(
         () =>
-            selectedDates.value[1] &&
-            new Date(transformDateToTimestamp(selectedDates.value[1])),
+            selectedDates.value[1]
+            && new Date(transformDateToTimestamp(selectedDates.value[1])),
     );
 
     // 样式计算
     const inRangeDate = (date: Date, format: string) => {
         if (picker.value.isRange && startDate.value && endDate.value) {
             return (
-                contrastDate(date, startDate.value, format) === 1 &&
-                contrastDate(date, endDate.value, format) === -1
+                contrastDate(date, startDate.value, format) === 1
+                && contrastDate(date, endDate.value, format) === -1
             );
         }
         return false;
@@ -331,8 +331,8 @@ export function useMonth({
     const format = 'yyyy-MM';
     const isMonthSelect = computed(() => {
         return (
-            props.type === PickerType.month ||
-            props.type === PickerType.datemonthrange
+            props.type === PickerType.month
+            || props.type === PickerType.datemonthrange
         );
     });
 
@@ -342,8 +342,8 @@ export function useMonth({
                 year: currentDate.year,
                 month,
                 day:
-                    props.type === PickerType.month ||
-                    props.rangePosition === RANGE_POSITION.LEFT
+                    props.type === PickerType.month
+                    || props.rangePosition === RANGE_POSITION.LEFT
                         ? 1
                         : endOfMonth(
                               new Date(currentDate.year, month, 1),
@@ -389,9 +389,9 @@ export function useMonth({
         if (isMonthSelect.value) {
             return selectedDates.value.findIndex(
                 (item) =>
-                    item &&
-                    item.year === currentDate.year &&
-                    item.month === month,
+                    item
+                    && item.year === currentDate.year
+                    && item.month === month,
             );
         }
         return -1;
@@ -409,16 +409,16 @@ export function useMonth({
             [`${prefixCls}-date-disabled`]: disabled(month),
             [`${prefixCls}-date-selected`]: selectedIndex !== -1,
             'is-start':
-                picker.value.isRange &&
-                completeRangeSelected.value &&
-                selectedIndex === 0,
+                picker.value.isRange
+                && completeRangeSelected.value
+                && selectedIndex === 0,
             'is-end':
-                picker.value.isRange &&
-                completeRangeSelected.value &&
-                selectedIndex === 1,
+                picker.value.isRange
+                && completeRangeSelected.value
+                && selectedIndex === 1,
             [`${prefixCls}-date-now`]:
-                timeFormat(new Date(currentDate.year, month), format) ===
-                timeFormat(new Date(), format),
+                timeFormat(new Date(currentDate.year, month), format)
+                === timeFormat(new Date(), format),
             [`${prefixCls}-date-on`]: inRangeDate(date, format),
         };
     };
@@ -472,8 +472,8 @@ export function useDay({
         time.setDate(0); // switch to the last day of last month
         let lastDay = time.getDate();
         const week = time.getDay() || 7;
-        let count =
-            weekFirstDayValue <= week
+        let count
+            = weekFirstDayValue <= week
                 ? week - weekFirstDayValue + 1
                 : week + (7 - weekFirstDayValue + 1);
         while (count > 0 && count < 7) {
@@ -507,10 +507,10 @@ export function useDay({
     });
 
     const isSelected = (selectedDate: DateObj, dayItem: DayItem) =>
-        dayItem.year === selectedDate?.year &&
-        dayItem.month === selectedDate?.month &&
-        dayItem.month === currentDate.month &&
-        dayItem.day === selectedDate?.day;
+        dayItem.year === selectedDate?.year
+        && dayItem.month === selectedDate?.month
+        && dayItem.month === currentDate.month
+        && dayItem.day === selectedDate?.day;
     const findSelectedIndex = (dayItem: DayItem) =>
         selectedDates.value.findIndex((selectedDate) =>
             isSelected(selectedDate, dayItem),
@@ -518,16 +518,16 @@ export function useDay({
 
     const computedSelectedStart = (dayItem: DayItem) => {
         return (
-            picker.value.isRange &&
-            completeRangeSelected.value &&
-            isSelected(selectedDates.value[0], dayItem)
+            picker.value.isRange
+            && completeRangeSelected.value
+            && isSelected(selectedDates.value[0], dayItem)
         );
     };
     const computedSelectedEnd = (dayItem: DayItem) => {
         return (
-            picker.value.isRange &&
-            completeRangeSelected.value &&
-            isSelected(selectedDates.value[1], dayItem)
+            picker.value.isRange
+            && completeRangeSelected.value
+            && isSelected(selectedDates.value[1], dayItem)
         );
     };
 
@@ -553,8 +553,8 @@ export function useDay({
             [`${prefixCls}-date-now`]:
                 timeFormat(date, format) === timeFormat(new Date(), format),
             [`${prefixCls}-date-on`]:
-                inRangeDate(date, format) &&
-                date.getMonth() === currentDate.month,
+                inRangeDate(date, format)
+                && date.getMonth() === currentDate.month,
         };
     };
 
@@ -614,16 +614,16 @@ export const useQuarter = (
     const isSelected = (item: QuarterItem) =>
         !!selectedDates.value.find(
             (selectedDate) =>
-                selectedDate &&
-                selectedDate.year === currentDate.year &&
-                item.value === Math.floor(selectedDate.month / 3) + 1,
+                selectedDate
+                && selectedDate.year === currentDate.year
+                && item.value === Math.floor(selectedDate.month / 3) + 1,
         );
 
     const isNow = (item: QuarterItem) => {
         const now = parseDate();
         return (
-            now.year === currentDate.year &&
-            Math.floor(now.month / 3) + 1 === item.value
+            now.year === currentDate.year
+            && Math.floor(now.month / 3) + 1 === item.value
         );
     };
 

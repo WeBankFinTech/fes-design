@@ -50,17 +50,17 @@ const Transfer = defineComponent({
         // 滚动部分的高度，决定是否开启虚拟滚动
         const scrollContentHeight = computed<number | null>(() => {
             if (isUndefined(props.height)) return null;
-            let contentHeight =
-                props.height -
-                TransferStyle.PANEL_PADDING * 2 -
-                TransferStyle.PANEL_BLOCK_GAP -
-                TransferStyle.PANEL_HEADER_HEIGHT;
+            let contentHeight
+                = props.height
+                - TransferStyle.PANEL_PADDING * 2
+                - TransferStyle.PANEL_BLOCK_GAP
+                - TransferStyle.PANEL_HEADER_HEIGHT;
 
             if (props.filterable) {
-                contentHeight =
-                    contentHeight -
-                    TransferStyle.PANEL_BLOCK_GAP -
-                    TransferStyle.PANEL_FILTER_HEIGHT;
+                contentHeight
+                    = contentHeight
+                    - TransferStyle.PANEL_BLOCK_GAP
+                    - TransferStyle.PANEL_FILTER_HEIGHT;
             }
 
             return contentHeight;

@@ -31,8 +31,8 @@ export const useRate = (props: RateInnerProps, emit: any) => {
             : 0;
 
         const emptyStarsNum = props.count - fullStarsNum - halfStar;
-        fullStarsNum &&
-        [...Array(fullStarsNum)].map(() => {
+        fullStarsNum
+        && [...Array(fullStarsNum)].map(() => {
                 res.push({
                     active: true,
                     hover: true,
@@ -148,8 +148,8 @@ export const useRate = (props: RateInnerProps, emit: any) => {
     const hoverLeave = () => {
         rateItemArr.value = rateItemArr.value.map((item, index) => {
             if (
-                index === curActiveIndex.value &&
-                Math.floor(currentValue.value) !== currentValue.value
+                index === curActiveIndex.value
+                && Math.floor(currentValue.value) !== currentValue.value
             ) {
                 // 半星场景 hover离开
                 return {

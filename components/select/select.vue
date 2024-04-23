@@ -139,9 +139,9 @@ export default defineComponent({
             () => props.disabled === true || isFormDisabled.value,
         );
         const isOpenedRef = ref(false);
+        // 与 props 中 modelValue 类型保持一致
         const [currentValue, updateCurrentValue] = props.multiple
-            ? // 与 props 中 modelValue 类型保持一致
-              (useArrayModel(props, emit) as unknown as UseArrayModelReturn<
+            ? (useArrayModel(props, emit) as unknown as UseArrayModelReturn<
                   SelectValue[]
               >)
             : useNormalModel(props, emit);
@@ -202,11 +202,11 @@ export default defineComponent({
         const cacheOptionsForTag = computed(() => {
             if (props.filterable && props.tag) {
                 if (
-                    filterText.value &&
-                    flatBaseOptions.value.every((option) => {
+                    filterText.value
+                    && flatBaseOptions.value.every((option) => {
                         return option.label !== filterText.value;
-                    }) &&
-                    cacheOptions.value.every((option) => {
+                    })
+                    && cacheOptions.value.every((option) => {
                         return option.value !== filterText.value;
                     })
                 ) {
@@ -259,8 +259,8 @@ export default defineComponent({
         const isLimitRef = computed(() => {
             const selectVal = unref(currentValue) as SelectValue[];
             return (
-                props.multipleLimit > 0 &&
-                props.multipleLimit === selectVal.length
+                props.multipleLimit > 0
+                && props.multipleLimit === selectVal.length
             );
         });
 
@@ -402,8 +402,8 @@ export default defineComponent({
             let index = 0;
             while (index < len) {
                 if (
-                    !filteredOptions.value[index].__isGroup &&
-                    !filteredOptions.value[index].disabled
+                    !filteredOptions.value[index].__isGroup
+                    && !filteredOptions.value[index].disabled
                 ) {
                     break;
                 }
@@ -418,8 +418,8 @@ export default defineComponent({
         watch(isOpenedRef, () => {
             if (isOpenedRef.value) {
                 if (props.multiple) {
-                    const currentSelectValues =
-                        currentValue.value as SelectValue[];
+                    const currentSelectValues
+                        = currentValue.value as SelectValue[];
                     if (currentSelectValues.length > 0) {
                         hoverOptionValue.value = currentSelectValues[0];
                     }
@@ -446,8 +446,8 @@ export default defineComponent({
             if (!isNil(hoverOptionValue.value)) {
                 const option = allOptions.value.find((option: SelectOption) => {
                     return (
-                        !option.__isGroup &&
-                        option.value === hoverOptionValue.value
+                        !option.__isGroup
+                        && option.value === hoverOptionValue.value
                     );
                 });
                 onSelect(hoverOptionValue.value, option);

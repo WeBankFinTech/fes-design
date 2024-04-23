@@ -36,8 +36,8 @@ export default defineComponent({
             const parentChildren = instance.parent.subTree.children;
             if (!Array.isArray(parentChildren)) return;
 
-            const bodyVNodeChildren =
-                parentChildren
+            const bodyVNodeChildren
+                = parentChildren
                     .filter(isVNode)
                     .find((c) =>
                         c.props?.class.includes(
@@ -45,9 +45,9 @@ export default defineComponent({
                         ),
                     )?.children ?? [];
             if (
-                !Array.isArray(bodyVNodeChildren) ||
-                !isVNode(bodyVNodeChildren[0]) ||
-                !Array.isArray(bodyVNodeChildren[0].children)
+                !Array.isArray(bodyVNodeChildren)
+                || !isVNode(bodyVNodeChildren[0])
+                || !Array.isArray(bodyVNodeChildren[0].children)
             ) {
                 return;
             }
@@ -87,19 +87,19 @@ export default defineComponent({
                         (sum, { props }, index) => {
                             if (index === items.value.length - 1) return sum;
                             return (
-                                sum +
-                                (props.span ?? DESCRIPTIONS_ITEM_DEFAULT_SPAN)
+                                sum
+                                + (props.span ?? DESCRIPTIONS_ITEM_DEFAULT_SPAN)
                             );
                         },
                         0,
                     );
                     let resultSpanSum;
                     if (restItemsSpanSum % column === 0) {
-                        resultSpanSum =
-                            (restItemsSpanSum / column + 1) * column;
+                        resultSpanSum
+                            = (restItemsSpanSum / column + 1) * column;
                     } else {
-                        resultSpanSum =
-                            Math.ceil(restItemsSpanSum / column) * column;
+                        resultSpanSum
+                            = Math.ceil(restItemsSpanSum / column) * column;
                     }
                     span = resultSpanSum - restItemsSpanSum;
                 } else {
@@ -117,8 +117,8 @@ export default defineComponent({
         });
 
         const style = computed<CSSProperties>(() => {
-            const flexDirection =
-                parentProps.value.labelPlacement === 'left' ? 'row' : 'column';
+            const flexDirection
+                = parentProps.value.labelPlacement === 'left' ? 'row' : 'column';
 
             return {
                 'display': 'flex',
@@ -131,8 +131,8 @@ export default defineComponent({
                 textAlign: parentProps.value.labelAlign,
             };
             if (
-                parentProps.value.bordered &&
-                parentProps.value.labelPlacement === 'left'
+                parentProps.value.bordered
+                && parentProps.value.labelPlacement === 'left'
             ) {
                 appendStyle = {
                     ...appendStyle,
@@ -149,8 +149,8 @@ export default defineComponent({
         const innerContentStyle = computed(() => {
             let appendStyle: CSSProperties = {};
             if (
-                parentProps.value.bordered &&
-                parentProps.value.labelPlacement === 'left'
+                parentProps.value.bordered
+                && parentProps.value.labelPlacement === 'left'
             ) {
                 appendStyle = {
                     ...appendStyle,
@@ -177,8 +177,8 @@ export default defineComponent({
 
         const renderSeparator = () => {
             if (
-                parentProps.value.labelPlacement === 'left' &&
-                !parentProps.value.bordered
+                parentProps.value.labelPlacement === 'left'
+                && !parentProps.value.bordered
             ) {
                 return (
                     <span class={`${prefixCls}-separator`}>
@@ -195,8 +195,8 @@ export default defineComponent({
                     <label
                         class={[
                             `${prefixCls}-label`,
-                            parentProps.value.labelPlacement === 'top' &&
-                            'is-top',
+                            parentProps.value.labelPlacement === 'top'
+                            && 'is-top',
                             parentProps.value.bordered && 'is-bordered',
                         ]}
                         style={innerLabelStyle.value}

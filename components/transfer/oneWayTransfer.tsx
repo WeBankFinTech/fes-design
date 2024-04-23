@@ -30,8 +30,8 @@ const useData = ({
 }: Pick<TransferInjection, 'modelValue' | 'rootProps' | 'handleChange'>) => {
     const options = computed<TransferOption[]>(() => rootProps.options);
 
-    const { checkboxStatus, handleCheckboxChange, handleCheck } =
-        useCheckValueWithCheckbox({
+    const { checkboxStatus, handleCheckboxChange, handleCheck }
+        = useCheckValueWithCheckbox({
             checkValue: modelValue,
             options,
             onCheckboxChange: () => {
@@ -59,8 +59,8 @@ const OneWayTransfer = defineComponent({
             scrollContentHeight,
         } = inject(TRANSFER_INJECT_KEY);
 
-        const { handleTreeCheck, treeCheckStatus, handleCheckStatusChange } =
-            useData({ modelValue, rootProps, handleChange });
+        const { handleTreeCheck, treeCheckStatus, handleCheckStatusChange }
+            = useData({ modelValue, rootProps, handleChange });
 
         const checkedOptions = computed<TransferOption[]>(() => {
             const options = isTree(rootProps.options)
@@ -142,8 +142,8 @@ const OneWayTransfer = defineComponent({
                 : {};
 
             const filterForTree = rootProps.filterable
-                ? (rootProps.filter as TreeFilter | undefined) ?? // TODO: is not assignable
-                defaultFilterForTree()
+                ? (rootProps.filter as TreeFilter | undefined) // TODO: is not assignable
+                ?? defaultFilterForTree()
                 : undefined;
 
             return (

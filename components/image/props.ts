@@ -17,5 +17,5 @@ export interface PreviewInst {
     prev?: () => void;
 }
 
-export const PREVIEW_PROVIDE_KEY: InjectionKey<PreviewInst> =
-    Symbol('wPreview');
+export const PREVIEW_PROVIDE_KEY: InjectionKey<PreviewInst>
+    = Symbol('wPreview');

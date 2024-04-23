@@ -75,8 +75,8 @@ class DateRange {
         const leftDate = parseDate(left);
         const rightDate = parseDate(right);
         return (
-            leftDate.year === rightDate.year &&
-            leftDate.month === rightDate.month
+            leftDate.year === rightDate.year
+            && leftDate.month === rightDate.month
         );
     }
     getRangeSelectedDate(date: Partial<DateObj>, preDate: DateObj) {

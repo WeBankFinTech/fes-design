@@ -186,13 +186,13 @@ export default defineComponent({
             if (renderDefault instanceof Array) {
                 renderDefault.forEach((childNode) => {
                     if (
-                        (childNode.type as any)?.name === TABLE_COLUMN_NAME ||
-                        childNode.shapeFlag !== 36
+                        (childNode.type as any)?.name === TABLE_COLUMN_NAME
+                        || childNode.shapeFlag !== 36
                     ) {
                         children.push(childNode);
                     } else if (
-                        childNode.type === Fragment &&
-                        childNode.children instanceof Array
+                        childNode.type === Fragment
+                        && childNode.children instanceof Array
                     ) {
                         children.push(...(childNode.children as VNode[]));
                     }

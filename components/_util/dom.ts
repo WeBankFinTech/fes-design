@@ -148,9 +148,9 @@ export function isInContainer(el: HTMLElement, container: HTMLElement) {
         };
     }
     return (
-        elRect.top < containerRect.bottom &&
-        elRect.bottom > containerRect.top &&
-        elRect.right > containerRect.left &&
-        elRect.left < containerRect.right
+        elRect.top < containerRect.bottom
+        && elRect.bottom > containerRect.top
+        && elRect.right > containerRect.left
+        && elRect.left < containerRect.right
     );
 }

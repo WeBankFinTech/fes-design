@@ -42,14 +42,14 @@ export default function useLockScreen(trigger: Ref<boolean>) {
                 );
             }
             scrollBarWidth = getScrollBarWidth();
-            const bodyHasOverflow =
-                document.documentElement.clientHeight <
-                    document.body.scrollHeight;
+            const bodyHasOverflow
+                = document.documentElement.clientHeight
+                < document.body.scrollHeight;
             const bodyOverflowY = getStyle(document.body, 'overflowY');
             if (
-                scrollBarWidth > 0 &&
-                (bodyHasOverflow || bodyOverflowY === 'scroll') &&
-                withoutHiddenClass
+                scrollBarWidth > 0
+                && (bodyHasOverflow || bodyOverflowY === 'scroll')
+                && withoutHiddenClass
             ) {
                 document.body.style.paddingRight = `${
                     computedBodyPaddingRight + scrollBarWidth

@@ -18,8 +18,8 @@ export const useSelectStatus = (props: CalendarsProps) => {
         () => props.visible,
         () => {
             if (
-                !props.visible &&
-                selectedStatus.value === SELECTED_STATUS.START
+                !props.visible
+                && selectedStatus.value === SELECTED_STATUS.START
             ) {
                 selectedStatus.value = SELECTED_STATUS.END;
             }
@@ -103,14 +103,14 @@ export const useRange = ({
         if (position === RANGE_POSITION.LEFT) {
             leftActiveDate.value = timestamp;
             if (timestamp >= rightActiveDate.value) {
-                rightActiveDate.value =
-                    picker.value.getRightActiveDate(timestamp);
+                rightActiveDate.value
+                    = picker.value.getRightActiveDate(timestamp);
             }
         } else if (position === RANGE_POSITION.RIGHT) {
             rightActiveDate.value = timestamp;
             if (timestamp <= leftActiveDate.value) {
-                leftActiveDate.value =
-                    picker.value.getLeftActiveDate(timestamp);
+                leftActiveDate.value
+                    = picker.value.getLeftActiveDate(timestamp);
             }
         }
     };
@@ -124,8 +124,8 @@ export const useRange = ({
                 format,
             });
         } else if (
-            props.maxRange &&
-            selectedStatus.value === SELECTED_STATUS.START
+            props.maxRange
+            && selectedStatus.value === SELECTED_STATUS.START
         ) {
             return isBeyondRangeTime({
                 flagDate: new Date(tempCurrentValue.value[0]),

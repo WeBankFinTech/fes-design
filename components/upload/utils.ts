@@ -22,12 +22,12 @@ export function matchType(
             const [type, subtype] = mimeType.split('/');
             const [acceptType, acceptSubtype] = acceptAtom.split('/');
             if (
-                acceptType === '*' ||
-                (type && acceptType && acceptType === type)
+                acceptType === '*'
+                || (type && acceptType && acceptType === type)
             ) {
                 if (
-                    acceptSubtype === '*' ||
-                    (subtype && acceptSubtype && acceptSubtype === subtype)
+                    acceptSubtype === '*'
+                    || (subtype && acceptSubtype && acceptSubtype === subtype)
                 ) {
                     return true;
                 }

@@ -51,8 +51,8 @@ export default defineComponent({
 
         const disabledWatch = computed(
             () =>
-                (isBoolean(props.disabled) ? props.disabled : false) ||
-                !visible.value,
+                (isBoolean(props.disabled) ? props.disabled : false)
+                || !visible.value,
         );
 
         const triggerElement = computed(() => {

@@ -20,8 +20,8 @@ export const useCheckValueWithCheckbox = ({
     const handleCheckboxChange = (status: CheckStatus): void => {
         if (status === 'some') return;
 
-        checkValue.value =
-            status === 'all' ? options.value.map(({ value }) => value) : [];
+        checkValue.value
+            = status === 'all' ? options.value.map(({ value }) => value) : [];
 
         onCheckboxChange?.();
     };

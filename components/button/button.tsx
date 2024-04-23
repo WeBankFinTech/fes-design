@@ -63,10 +63,10 @@ export default defineComponent({
         const notAllowed = ref(false);
         const handleClick = (event: MouseEvent) => {
             if (
-                notAllowed.value ||
-                props.disabled ||
-                props.loading ||
-                isFormDisabled.value
+                notAllowed.value
+                || props.disabled
+                || props.loading
+                || isFormDisabled.value
             )
                 return;
 

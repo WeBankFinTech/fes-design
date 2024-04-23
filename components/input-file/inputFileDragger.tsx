@@ -41,8 +41,8 @@ const InputFileDragger = defineComponent({
             props.onFileTypeInvalid(files);
         };
 
-        const { isHovering, handleEnter, handleLeave, handleOver, handleDrop } =
-            useFileDrop({
+        const { isHovering, handleEnter, handleLeave, handleOver, handleDrop }
+            = useFileDrop({
                 disabled,
                 multiple,
                 accept,

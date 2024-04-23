@@ -94,9 +94,9 @@ export const isSameDate = (
     date2: CalendarDate,
 ): boolean => {
     return (
-        date1.year === date2.year &&
-        date1.month === date2.month &&
-        date1.date === date2.date
+        date1.year === date2.year
+        && date1.month === date2.month
+        && date1.date === date2.date
     );
 };
 

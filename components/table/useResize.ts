@@ -52,15 +52,15 @@ export default (
             .filter((col) => {
                 return !_widthMap[col.id].width;
             });
-        const offsetX =
-            ((event.clientX - current.value.clientX) *
-            (leftColumns.length + rightColumns.length)) /
-            rightColumns.length;
+        const offsetX
+            = ((event.clientX - current.value.clientX)
+            * (leftColumns.length + rightColumns.length))
+            / rightColumns.length;
         const width = current.value.width + offsetX;
         const currentColumn = columns[current.value.columnIndex];
         if (
-            currentColumn.props.minWidth &&
-            width >= currentColumn.props.minWidth
+            currentColumn.props.minWidth
+            && width >= currentColumn.props.minWidth
         ) {
             _widthMap[current.value.id].width = width;
             _widthMap[current.value.id].minWidth = width;

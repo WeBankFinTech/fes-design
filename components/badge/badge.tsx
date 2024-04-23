@@ -25,11 +25,11 @@ export default defineComponent({
             if (props.hidden) return false;
             // 有插槽就直接展示自定义插槽内容
             return (
-                slots.content ||
-                props.dot ||
-                isString(props.value) ||
-                (props.value === 0 && props.showZero) ||
-                (props.value !== 0 && isNumber(props.value))
+                slots.content
+                || props.dot
+                || isString(props.value)
+                || (props.value === 0 && props.showZero)
+                || (props.value !== 0 && isNumber(props.value))
             );
         });
 

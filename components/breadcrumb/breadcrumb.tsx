@@ -30,8 +30,8 @@ export default defineComponent({
                         {item}
                         {/* 渲染分隔符 */}
                         <div class={`${prefixCls}-separator`}>
-                            {index !== breadItemArr.value.length - 1 &&
-                            props.separator}
+                            {index !== breadItemArr.value.length - 1
+                            && props.separator}
                         </div>
                     </div>
                 );

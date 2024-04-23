@@ -69,9 +69,9 @@ export default defineComponent({
             } else {
                 setCurrent(
                     previewUrlsKeys.value[
-                        previewUrlsKeys.value.length -
-                        currentPreviewIndex.value -
-                        1
+                        previewUrlsKeys.value.length
+                        - currentPreviewIndex.value
+                        - 1
                     ],
                 );
             }
@@ -87,9 +87,9 @@ export default defineComponent({
             } else {
                 setCurrent(
                     previewUrlsKeys.value[
-                        previewUrlsKeys.value.length -
-                        currentPreviewIndex.value -
-                        1
+                        previewUrlsKeys.value.length
+                        - currentPreviewIndex.value
+                        - 1
                     ],
                 );
             }

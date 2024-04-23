@@ -67,8 +67,8 @@ export default defineComponent({
                 description: descriptionSlot,
             } = ctx.slots;
 
-            const description =
-                props.description || descriptionSlot ? (
+            const description
+                = props.description || descriptionSlot ? (
                     <div class={bodyClass.value}>
                         {descriptionSlot
                             ? descriptionSlot()

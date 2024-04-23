@@ -291,7 +291,7 @@ export const isBeyondRangeTime = (option: {
     }
 
     return (
-        contrastDate(option.currentDate, minDate, option.format) === -1 ||
-        contrastDate(option.currentDate, maxDate, option.format) === 1
+        contrastDate(option.currentDate, minDate, option.format) === -1
+        || contrastDate(option.currentDate, maxDate, option.format) === 1
     );
 };

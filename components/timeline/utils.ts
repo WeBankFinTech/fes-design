@@ -58,8 +58,8 @@ export const calcDescPosition = (
     descPosition: ComponentProps['descPosition'],
 ): ComponentProps['descPosition'] => {
     if (
-        (direction === 'row' || direction === 'row-reverse') &&
-        descPosition === 'inline'
+        (direction === 'row' || direction === 'row-reverse')
+        && descPosition === 'inline'
     ) {
         warn('横向时间轴中不支持标题和辅助描述同行');
         return 'under';

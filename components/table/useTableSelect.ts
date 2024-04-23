@@ -64,8 +64,8 @@ export default ({
     // 是否是全选了
     const isAllSelected = computed(() => {
         return (
-            selectableData.value.length > 0 &&
-            selectableData.value.every((_row) => {
+            selectableData.value.length > 0
+            && selectableData.value.every((_row) => {
                 const _rowKey = getRowKey({ row: _row });
                 return (currentCheckedKeys.value as CheckedKey[]).includes(
                     _rowKey as CheckedKey,

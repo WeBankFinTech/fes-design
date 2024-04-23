@@ -74,9 +74,9 @@ export default defineComponent({
                     </div>
                 );
             }
-            const hasEllipsis =
-                !isNil(column.props.ellipsis) &&
-                column.props.ellipsis !== false;
+            const hasEllipsis
+                = !isNil(column.props.ellipsis)
+                && column.props.ellipsis !== false;
             const ellipsisProps = isPlainObject(column.props.ellipsis)
                 ? (column.props.ellipsis as EllipsisProps)
                 : {};

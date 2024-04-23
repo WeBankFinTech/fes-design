@@ -55,8 +55,8 @@ export default ({ props, activeIndex, slideChildren }: UseCarouselPlayType) => {
     onMounted(() => {
         nextTick(() => {
             if (
-                props.initialIndex >= 0 &&
-                props.initialIndex < slideChildren.value.length
+                props.initialIndex >= 0
+                && props.initialIndex < slideChildren.value.length
             ) {
                 activeIndex.value = props.initialIndex;
             }

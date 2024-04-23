@@ -29,8 +29,8 @@ import UploadOutlined from '../icon/UploadOutlined';
 import { useLocale } from '../config-provider/useLocale';
 import { key } from './const';
 
-const { name, multiple, accept, disabled, prefixCls, onUploadFiles, inputRef } =
-    inject(key);
+const { name, multiple, accept, disabled, prefixCls, onUploadFiles, inputRef }
+    = inject(key);
 
 const acceptStr = computed(() => accept.value.join(','));
 

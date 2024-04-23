@@ -22,20 +22,20 @@ export default (props: ScrollbarProps) => {
             const offsetHeight = containerRef.value.offsetHeight - GAP;
             const offsetWidth = containerRef.value.offsetWidth - GAP;
 
-            const originalThumbHeight =
-                offsetHeight ** 2 / containerRef.value.scrollHeight;
-            const originalThumbWidth =
-                offsetWidth ** 2 / containerRef.value.scrollWidth;
+            const originalThumbHeight
+                = offsetHeight ** 2 / containerRef.value.scrollHeight;
+            const originalThumbWidth
+                = offsetWidth ** 2 / containerRef.value.scrollWidth;
             const height = Math.max(originalThumbHeight, props.minSize);
             const width = Math.max(originalThumbWidth, props.minSize);
-            ratioY.value =
-                originalThumbHeight /
-                (offsetHeight - originalThumbHeight) /
-                (height / (offsetHeight - height));
-            ratioX.value =
-                originalThumbWidth /
-                (offsetWidth - originalThumbWidth) /
-                (width / (offsetWidth - width));
+            ratioY.value
+                = originalThumbHeight
+                / (offsetHeight - originalThumbHeight)
+                / (height / (offsetHeight - height));
+            ratioX.value
+                = originalThumbWidth
+                / (offsetWidth - originalThumbWidth)
+                / (width / (offsetWidth - width));
             sizeHeight.value = height + GAP < offsetHeight ? pxfy(height) : '';
             sizeWidth.value = width + GAP < offsetWidth ? pxfy(width) : '';
         }
@@ -48,27 +48,27 @@ export default (props: ScrollbarProps) => {
             const offsetWidth = containerRefValue.offsetWidth - GAP;
 
             // 滚动条滚动比例
-            thumbMoveY.value =
-                ((containerRefValue.scrollTop * 100) / offsetHeight) *
-                ratioY.value;
-            thumbMoveX.value =
-                ((containerRefValue.scrollLeft * 100) / offsetWidth) *
-                ratioX.value;
+            thumbMoveY.value
+                = ((containerRefValue.scrollTop * 100) / offsetHeight)
+                * ratioY.value;
+            thumbMoveX.value
+                = ((containerRefValue.scrollLeft * 100) / offsetWidth)
+                * ratioX.value;
 
-            scrollY.value =
-                containerRefValue.scrollHeight > containerRefValue.offsetHeight;
+            scrollY.value
+                = containerRefValue.scrollHeight > containerRefValue.offsetHeight;
 
-            scrollYRatio.value =
-                containerRefValue.scrollTop /
-                (containerRefValue.scrollHeight -
-                containerRefValue.offsetHeight);
+            scrollYRatio.value
+                = containerRefValue.scrollTop
+                / (containerRefValue.scrollHeight
+                - containerRefValue.offsetHeight);
 
-            scrollX.value =
-                containerRefValue.scrollWidth > containerRefValue.offsetWidth;
+            scrollX.value
+                = containerRefValue.scrollWidth > containerRefValue.offsetWidth;
 
-            scrollXRatio.value =
-                containerRefValue.scrollLeft /
-                (containerRefValue.scrollWidth - containerRefValue.offsetWidth);
+            scrollXRatio.value
+                = containerRefValue.scrollLeft
+                / (containerRefValue.scrollWidth - containerRefValue.offsetWidth);
         }
     };
 

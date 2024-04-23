@@ -125,11 +125,11 @@ function useRangeInput(
         inputText.value = val;
         const date = strictParse(val, props.format, new Date());
         if (
-            isValid(date) &&
-            !isBeyondRangeTime({
+            isValid(date)
+            && !isBeyondRangeTime({
                 flagDate:
-                    props.selectedDates?.[anotherPosition] &&
-                    new Date(props.selectedDates?.[anotherPosition]),
+                    props.selectedDates?.[anotherPosition]
+                    && new Date(props.selectedDates?.[anotherPosition]),
                 currentDate: date,
                 maxRange: props.maxRange,
                 format: props.format,
@@ -141,8 +141,8 @@ function useRangeInput(
             props.changeSelectedDates(dates);
         }
     };
-    const { handleInput, handleCompositionStart, handleCompositionEnd } =
-        useInput(updateInputText);
+    const { handleInput, handleCompositionStart, handleCompositionEnd }
+        = useInput(updateInputText);
 
     return {
         inputText,
@@ -274,10 +274,10 @@ export default defineComponent({
 
         const showClear = computed(
             () =>
-                props.clearable &&
-                !props.disabled &&
-                props.selectedDates?.length &&
-                hovering.value,
+                props.clearable
+                && !props.disabled
+                && props.selectedDates?.length
+                && hovering.value,
         );
 
         const clear = () => {

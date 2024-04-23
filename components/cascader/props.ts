@@ -113,8 +113,8 @@ export const cascaderProps = {
 
 export type CascaderProps = ExtractPublicPropTypes<typeof cascaderProps>;
 
-export const cascaderPropsDefaultValue =
-    extractPropsDefaultValue(cascaderProps);
+export const cascaderPropsDefaultValue
+    = extractPropsDefaultValue(cascaderProps);
 
 export interface CascaderInst {
     props: CascaderProps;
@@ -135,5 +135,5 @@ export interface CascaderInst {
     };
 }
 
-export const CASCADER_PROVIDE_KEY: InjectionKey<CascaderInst> =
-    Symbol('FCascader');
+export const CASCADER_PROVIDE_KEY: InjectionKey<CascaderInst>
+    = Symbol('FCascader');

@@ -208,9 +208,9 @@ export default defineComponent({
         });
         const isOpened = ref(false);
 
+         // 与 props 中 modelValue 类型保持一致
         const [currentValue, updateCurrentValue] = props.multiple
-            ? // 与 props 中 modelValue 类型保持一致
-              (useArrayModel(props, emit) as unknown as UseArrayModelReturn<
+            ? (useArrayModel(props, emit) as unknown as UseArrayModelReturn<
                   Array<TreeNodeKey> | Array<Array<TreeNodeKey>>
               >)
             : useNormalModel(props, emit);
@@ -285,8 +285,8 @@ export default defineComponent({
         });
         const checkedKeys = computed(() => {
             if (
-                props.multiple &&
-                (currentValue.value as MultipleModelValue)?.length
+                props.multiple
+                && (currentValue.value as MultipleModelValue)?.length
             ) {
                 const keys = (currentValue.value as MultipleModelValue).map(
                     (item) =>
@@ -300,8 +300,8 @@ export default defineComponent({
         });
 
         watch([() => props.checkStrictly, () => props.emitPath], () => {
-            const value: null | [] =
-                (props.multiple && props.cascade) || props.emitPath ? [] : null;
+            const value: null | []
+                = (props.multiple && props.cascade) || props.emitPath ? [] : null;
             updateCurrentValue(value);
             handleChange();
         });

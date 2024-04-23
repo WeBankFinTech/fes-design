@@ -45,8 +45,8 @@ export const TransferCheckbox = defineComponent({
                 emit(UPDATE_MODEL_EVENT, nextValue);
             },
         });
-        const derivedIndeterminate = // 公共 Checkbox 的 indeterminate 为单向 prop
-            computed<InnerCheckboxIndeterminate>(
+        const derivedIndeterminate // 公共 Checkbox 的 indeterminate 为单向 prop
+            = computed<InnerCheckboxIndeterminate>(
                 () => modelValue.value === 'some',
             );
         const derivedModelValue = computed<InnerCheckboxModelValue>({

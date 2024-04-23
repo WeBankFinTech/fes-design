@@ -86,8 +86,8 @@ export default defineComponent({
                 isSelected.value && 'is-selected',
                 isInline.value && 'is-inline',
                 isFirst.value && 'is-inline-first',
-                root.dragHighlightNode.value?.value === props.value &&
-                'is-highlight',
+                root.dragHighlightNode.value?.value === props.value
+                && 'is-highlight',
             ].filter(Boolean),
         );
 
@@ -105,9 +105,9 @@ export default defineComponent({
         const handleClickSwitcher = async (event?: Event) => {
             const node = root.nodeList.get(props.value);
             if (
-                !isLoaded &&
-                root.props.loadData &&
-                (!node.children || node.children.length === 0)
+                !isLoaded
+                && root.props.loadData
+                && (!node.children || node.children.length === 0)
             ) {
                 isLoading.value = true;
                 try {

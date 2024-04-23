@@ -206,8 +206,8 @@ export default defineComponent({
             // 在下一个 tick 处理 tempValue，避免无法重制 displayValue
             nextTick(() => {
                 if (
-                    !value.endsWith('.') &&
-                    (!Number.isNaN(Number(value)) || value === '')
+                    !value.endsWith('.')
+                    && (!Number.isNaN(Number(value)) || value === '')
                 ) {
                     setCurrentValue(value === '' ? null : Number(value));
                 }
@@ -231,22 +231,22 @@ export default defineComponent({
         // 是否已减小到最小值
         const minDisabled = computed(
             () =>
-                _calculationNum(currentValue.value, ActionEnum.REDUCE) <
-                    props.min,
+                _calculationNum(currentValue.value, ActionEnum.REDUCE)
+                < props.min,
         );
         // 是否已加到最大值
         const maxDisabled = computed(
             () =>
-                _calculationNum(currentValue.value, ActionEnum.PLUS) >
-                props.max,
+                _calculationNum(currentValue.value, ActionEnum.PLUS)
+                > props.max,
         );
 
         const calculationNum = (type: ActionEnum) => {
             if (
-                props.disabled ||
-                (maxDisabled.value && type === ActionEnum.PLUS) ||
-                (minDisabled.value && type === ActionEnum.REDUCE) ||
-                isFormDisabled.value
+                props.disabled
+                || (maxDisabled.value && type === ActionEnum.PLUS)
+                || (minDisabled.value && type === ActionEnum.REDUCE)
+                || isFormDisabled.value
             )
                 return;
             tempValue.value = null;

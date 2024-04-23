@@ -115,8 +115,8 @@ export default function useTableLayout({
                 widthObj.width = width;
                 widthObj.minWidth = minWidth;
             } else if (
-                column.props.type === 'selection' ||
-                column.props.type === 'expand'
+                column.props.type === 'selection'
+                || column.props.type === 'expand'
             ) {
                 widthObj.width = min;
             }

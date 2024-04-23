@@ -48,9 +48,9 @@ export default defineComponent({
                     CHECK_STRATEGY.CHILD,
                 ] as CheckStrictly[];
                 if (
-                    props.multiple &&
-                    props.cascade &&
-                    !multipleCheckStrictlyList.includes(props.checkStrictly)
+                    props.multiple
+                    && props.cascade
+                    && !multipleCheckStrictlyList.includes(props.checkStrictly)
                 ) {
                     console.warn(
                         `[${
@@ -61,8 +61,8 @@ export default defineComponent({
                     );
                 }
                 if (
-                    !props.multiple &&
-                    !singleCheckStrictlyList.includes(props.checkStrictly)
+                    !props.multiple
+                    && !singleCheckStrictlyList.includes(props.checkStrictly)
                 ) {
                     console.warn(
                         `[${

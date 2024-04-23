@@ -87,8 +87,8 @@ const useCalendarData = (
         });
 
         if (
-            mode.value === 'date' &&
-            !isSameMonth(cellDate, displayAnchorDate.value)
+            mode.value === 'date'
+            && !isSameMonth(cellDate, displayAnchorDate.value)
         ) {
             displayAnchorDate.value = cellDate;
         }

@@ -146,10 +146,10 @@ export default function useTrigger(
 
     function onPopperMouseLeave() {
         const { trigger } = props;
-        const shouldPrevent =
-            trigger === 'click' ||
-            trigger === 'focus' ||
-            trigger === 'contextmenu';
+        const shouldPrevent
+            = trigger === 'click'
+            || trigger === 'focus'
+            || trigger === 'contextmenu';
         if (shouldPrevent) return;
         hide();
     }

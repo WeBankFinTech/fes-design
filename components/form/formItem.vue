@@ -110,27 +110,27 @@ export default defineComponent({
             () =>
                 (props.showMessage === null
                     ? showMessage.value
-                    : props.showMessage) &&
-                    validateStatus.value === VALIDATE_STATUS.ERROR,
+                    : props.showMessage)
+                    && validateStatus.value === VALIDATE_STATUS.ERROR,
         );
         const formItemRequired = computed(
             () =>
-                formItemRules.value.length > 0 &&
-                formItemRules.value.some((_) => _.required),
+                formItemRules.value.length > 0
+                && formItemRules.value.some((_) => _.required),
         );
         const formItemClass = computed(() =>
             [
                 prefixCls,
                 // inlineFormItem 定宽情况: Form 传入 inlineItemWidth, 此时 inlineItemWidth 优先级最高
                 // inlineFormItem 自适应情况: 同时支持 form、formItem 传入 span, 此时 formItem 优先级更高
-                layout.value === FORM_LAYOUT.INLINE &&
-                !inlineItemWidth.value &&
-                `${prefixCls}-span-${Math.ceil(props.span || span.value)}`,
-                labelPosition.value !== LABEL_POSITION.LEFT &&
-                `${prefixCls}-${labelPosition.value}`,
+                layout.value === FORM_LAYOUT.INLINE
+                && !inlineItemWidth.value
+                && `${prefixCls}-span-${Math.ceil(props.span || span.value)}`,
+                labelPosition.value !== LABEL_POSITION.LEFT
+                && `${prefixCls}-${labelPosition.value}`,
                 validateStatus.value === VALIDATE_STATUS.ERROR && 'is-error', // 校验错误: is-error
-                FORM_ITEM_ALIGN.includes(props.align || align.value) &&
-                `${prefixCls}-align-${props.align || align.value}`,
+                FORM_ITEM_ALIGN.includes(props.align || align.value)
+                && `${prefixCls}-align-${props.align || align.value}`,
             ].filter(Boolean),
         );
         const formItemLabelClass = computed(() =>
@@ -169,8 +169,8 @@ export default defineComponent({
                 ? formItemRules.value
                 : formItemRules.value.filter(
                       (rule) =>
-                          !rule.trigger ||
-                          (isArray(rule.trigger)
+                          !rule.trigger
+                          || (isArray(rule.trigger)
                               ? rule.trigger.includes(trigger)
                               : rule.trigger === trigger),
                   );

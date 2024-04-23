@@ -79,8 +79,8 @@ export default defineComponent({
 
         onMounted(() => {
             if (
-                props.defaultExpandAll &&
-                currentExpandedKeys.value.length === 0
+                props.defaultExpandAll
+                && currentExpandedKeys.value.length === 0
             ) {
                 const keys = flatNodes(children);
                 updateExpandedKeys(keys);

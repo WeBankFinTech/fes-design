@@ -66,22 +66,22 @@ export default defineComponent({
         const autoScrollTab = (el?: HTMLElement) => {
             if (!tabNavRef.value || !el) return;
 
-            const { scrollLeft, scrollTop, offsetWidth, offsetHeight } =
-                tabNavRef.value.containerRef;
+            const { scrollLeft, scrollTop, offsetWidth, offsetHeight }
+                = tabNavRef.value.containerRef;
 
             if (
-                ['top', 'bottom'].includes(props.position) &&
-                (scrollLeft + offsetWidth < el.offsetLeft + el.offsetWidth ||
-                el.offsetLeft < scrollLeft)
+                ['top', 'bottom'].includes(props.position)
+                && (scrollLeft + offsetWidth < el.offsetLeft + el.offsetWidth
+                || el.offsetLeft < scrollLeft)
             ) {
                 tabNavRef.value.setScrollLeft(
                     el.offsetLeft - offsetWidth + el.offsetWidth,
                     0,
                 );
             } else if (
-                ['left', 'right'].includes(props.position) &&
-                (scrollTop + offsetHeight < el.offsetTop + el.offsetHeight ||
-                el.offsetTop < scrollTop)
+                ['left', 'right'].includes(props.position)
+                && (scrollTop + offsetHeight < el.offsetTop + el.offsetHeight
+                || el.offsetTop < scrollTop)
             ) {
                 tabNavRef.value.setScrollTop(
                     el.offsetTop - offsetHeight + el.offsetHeight,
@@ -122,12 +122,12 @@ export default defineComponent({
         );
 
         const mergeRenderPanes = () => {
-            const children =
-                (slots.default &&
-                flatten(slots.default()).filter(
+            const children
+                = (slots.default
+                && flatten(slots.default()).filter(
                         (vNode) => (vNode.type as any).name === 'FTabPane',
-                    )) ||
-                    [];
+                    ))
+                    || [];
             if (props.panes?.length) {
                 return children.concat(
                     props.panes.map((pane) => {

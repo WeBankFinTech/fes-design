@@ -270,10 +270,10 @@ export default defineComponent({
 
         const hasClearRef = computed(
             () =>
-                !props.disabled &&
-                props.clearable &&
-                !unSelectedRef.value &&
-                inputHoveringRef.value,
+                !props.disabled
+                && props.clearable
+                && !unSelectedRef.value
+                && inputHoveringRef.value,
         );
 
         const inputWidthRef = computed(() => {

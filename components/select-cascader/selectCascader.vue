@@ -175,9 +175,9 @@ export default defineComponent({
         });
         const isOpened = ref(false);
 
+        // 与 props 中 modelValue 类型保持一致
         const [currentValue, updateCurrentValue] = props.multiple
-            ? // 与 props 中 modelValue 类型保持一致
-              (useArrayModel(props, emit) as unknown as UseArrayModelReturn<
+            ? (useArrayModel(props, emit) as unknown as UseArrayModelReturn<
                   Array<CascaderNodeKey> | Array<Array<CascaderNodeKey>>
               >)
             : useNormalModel(props, emit);
@@ -315,16 +315,16 @@ export default defineComponent({
         );
 
         watch([() => props.emitPath, () => props.cascade], () => {
-            const value: null | [] =
-                props.multiple || props.emitPath ? [] : null;
+            const value: null | []
+                = props.multiple || props.emitPath ? [] : null;
 
             updateCurrentValue(value);
             handleChange();
         });
 
         const handleClear = () => {
-            const value: null | [] =
-                props.multiple || props.emitPath ? [] : null;
+            const value: null | []
+                = props.multiple || props.emitPath ? [] : null;
 
             if (
                 props.multiple
@@ -377,8 +377,8 @@ export default defineComponent({
                 if (!props.cascade) {
                     values.splice(findIndex, 1);
                 } else {
-                    const { isLeaf, children, indexPath } =
-                        nodeList.value[value as CascaderNodeKey];
+                    const { isLeaf, children, indexPath }
+                        = nodeList.value[value as CascaderNodeKey];
 
                     values.splice(findIndex, 1);
 

@@ -43,5 +43,5 @@ export type ConfigProviderContextType = {
     themeOverrides?: Ref<Theme>;
 };
 
-export const CONFIG_PROVIDER_INJECTION_KEY: InjectionKey<ConfigProviderContextType> =
-    Symbol('ConfigProvider');
+export const CONFIG_PROVIDER_INJECTION_KEY: InjectionKey<ConfigProviderContextType>
+    = Symbol('ConfigProvider');

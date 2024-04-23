@@ -128,8 +128,8 @@ export default defineComponent({
 
         const renderNextDoubleJump = () => {
             if (
-                pages.value.length > 0 &&
-                pages.value[pages.value.length - 1] < total.value - 1
+                pages.value.length > 0
+                && pages.value[pages.value.length - 1] < total.value - 1
             ) {
                 return (
                     <div

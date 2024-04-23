@@ -220,8 +220,8 @@ const useInput = ({
             new Date(),
         );
         if (
-            isValid(date) &&
-            !innerDisabledDate(date, props.format || picker.value.format)
+            isValid(date)
+            && !innerDisabledDate(date, props.format || picker.value.format)
         ) {
             cacheValidInputDate = val;
             changeDateByInput(date.getTime());
@@ -326,8 +326,8 @@ export default defineComponent({
             pickerRef,
         );
 
-        const { tmpSelectedDates, tmpSelectedDateChange } =
-            useTmpSelectedDates();
+        const { tmpSelectedDates, tmpSelectedDateChange }
+            = useTmpSelectedDates();
 
         const visibleValue = computed(() => {
             if (isOpened.value) {
@@ -366,9 +366,9 @@ export default defineComponent({
 
         // 事件
         const clear = () => {
-            const initValue: [] | null =
-                pickerRef.value.isRange ||
-                pickerRef.value.name === PickerType.datemultiple
+            const initValue: [] | null
+                = pickerRef.value.isRange
+                || pickerRef.value.name === PickerType.datemultiple
                     ? []
                     : null;
             tmpSelectedDateChange(null);

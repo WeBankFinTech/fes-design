@@ -31,8 +31,8 @@ export default {
         function handleCloseTab(key) {
             tabs.splice(key, 1);
             if (activeTab.value === key) {
-                activeTab.value =
-                    key >= tabs.length - 1 ? tabs.length - 1 : key;
+                activeTab.value
+                    = key >= tabs.length - 1 ? tabs.length - 1 : key;
             } else if (activeTab.value > key) {
                 activeTab.value = activeTab.value - 1;
             }

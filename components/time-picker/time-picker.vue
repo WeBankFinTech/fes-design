@@ -118,10 +118,10 @@ const getCurrentTime = (format: string) => {
 function validator(val: string | undefined, cellFormat: string, max: number) {
     if (!val) return false;
     if (
-        val.length > 3 ||
-        !/^\d{1,2}$/.test(val) ||
-        Number(val) > max ||
-        val.length < cellFormat.length
+        val.length > 3
+        || !/^\d{1,2}$/.test(val)
+        || Number(val) > max
+        || val.length < cellFormat.length
     ) {
         return false;
     }

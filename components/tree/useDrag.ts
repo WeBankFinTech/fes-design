@@ -110,9 +110,9 @@ export default ({
             overBeginTimeMap[value] = Date.now();
         } else {
             if (
-                Date.now() - overBeginTimeMap[value] > 1000 &&
-                node.hasChildren &&
-                !node.isExpanded.value
+                Date.now() - overBeginTimeMap[value] > 1000
+                && node.hasChildren
+                && !node.isExpanded.value
             ) {
                 expandNode(value, event);
             }
@@ -121,8 +121,8 @@ export default ({
             `.${prefixCls}[data-value='${value}']`,
         );
         // 悬浮节点大小位置信息
-        const { height: targetElOffsetHeight } =
-            targetNodeEl.getBoundingClientRect();
+        const { height: targetElOffsetHeight }
+            = targetNodeEl.getBoundingClientRect();
         let mousePosition: DropPosition;
         const targeEl = event.currentTarget as HTMLElement;
         // 焦点节点大小位置信息

@@ -21,8 +21,8 @@ const useMargin = (props: SpaceInnerProps, themeVarsRef: Ref<TThemeVars>) => {
             vertical = size;
         } else {
             const currentSize = depx(
-                themeVarsRef.value[createKey('padding', size)] ||
-                themeVarsRef.value[createKey('padding', 'small')],
+                themeVarsRef.value[createKey('padding', size)]
+                || themeVarsRef.value[createKey('padding', 'small')],
             );
             horizontal = currentSize;
             vertical = currentSize;
@@ -105,16 +105,16 @@ export default defineComponent({
                                   }
                                 : {
                                       marginRight: isJustifySpace
-                                          ? justify === 'space-between' &&
-                                          index === lastIndex
+                                          ? justify === 'space-between'
+                                          && index === lastIndex
                                               ? ''
                                               : margin.semiHorizontal
                                           : index !== lastIndex
                                           ? margin.horizontal
                                           : '',
                                       marginLeft: isJustifySpace
-                                          ? justify === 'space-between' &&
-                                          index === 0
+                                          ? justify === 'space-between'
+                                          && index === 0
                                               ? ''
                                               : margin.semiHorizontal
                                           : '',

@@ -57,8 +57,8 @@ export default defineComponent({
 
             // 自定义颜色
             if (
-                typeof props.icon === 'string' &&
-                !isPresetIconTypes(props.icon)
+                typeof props.icon === 'string'
+                && !isPresetIconTypes(props.icon)
             ) {
                 return (
                     <div

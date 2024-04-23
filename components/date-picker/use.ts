@@ -7,10 +7,10 @@ export function useDisable(props: {
     disabledDate?: (date: Date) => boolean;
 }) {
     const innerDisabledDate = (date: Date, format: string, flagDate?: Date) => {
-        const min =
-            props.minDate && contrastDate(date, props.minDate, format) === -1;
-        const max =
-            props.maxDate && contrastDate(date, props.maxDate, format) === 1;
+        const min
+            = props.minDate && contrastDate(date, props.minDate, format) === -1;
+        const max
+            = props.maxDate && contrastDate(date, props.maxDate, format) === 1;
 
         let isBeyondRange = false;
         if (props.maxRange && flagDate) {

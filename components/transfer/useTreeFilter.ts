@@ -19,8 +19,8 @@ export const useTreeFilter = ({
         treeRef.value.filter(text);
     });
 
-    const defaultFilterForTree =
-        (): TreeProps['filterMethod'] => (filterText, treeNode) => {
+    const defaultFilterForTree
+        = (): TreeProps['filterMethod'] => (filterText, treeNode) => {
             const transferOption = rootProps.options.find(
                 ({ value }) => value === treeNode.value,
             );

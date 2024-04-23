@@ -59,8 +59,8 @@ export default defineComponent({
             hasNoExpandableNode,
         } = useState({ props, emit });
 
-        const { filter, filteredExpandedKeys, filteredKeys, isSearchingRef } =
-            useFilter(props, allKeys, nodeList);
+        const { filter, filteredExpandedKeys, filteredKeys, isSearchingRef }
+            = useFilter(props, allKeys, nodeList);
 
         const { expandNode, expandingNode } = useExpand({
             allKeys,

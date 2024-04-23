@@ -36,8 +36,8 @@ export default defineComponent({
         const [pageSize] = useNormalModel(props, emit);
         const { t } = useLocale();
         const renderOptions = () =>
-            props.pageSizeOption &&
-            props.pageSizeOption.map((item) => (
+            props.pageSizeOption
+            && props.pageSizeOption.map((item) => (
                 <FOption
                     key={item}
                     value={item}

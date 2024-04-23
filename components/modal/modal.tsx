@@ -191,8 +191,8 @@ const Modal = defineComponent({
 
         const showDom = computed(
             () =>
-                (props.displayDirective === 'if' && visible.value) ||
-                props.displayDirective === 'show',
+                (props.displayDirective === 'if' && visible.value)
+                || props.displayDirective === 'show',
         );
 
         // 鼠标在弹窗内按下
@@ -201,9 +201,9 @@ const Modal = defineComponent({
         // 遮罩层点击关闭的逻辑
         const handleClickMask = (event: MouseEvent) => {
             if (
-                props.maskClosable &&
-                props.mask &&
-                !mouseDownInsideChild.value
+                props.maskClosable
+                && props.mask
+                && !mouseDownInsideChild.value
             ) {
                 handleCancel(event);
             }
