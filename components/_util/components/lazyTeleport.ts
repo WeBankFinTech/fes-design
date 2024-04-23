@@ -33,7 +33,7 @@ export default defineComponent({
             },
         );
         return {
-            showTeleport: showTeleport,
+            showTeleport,
             mergedTo: computed(() => props.to ?? 'body'),
         };
     },

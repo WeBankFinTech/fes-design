@@ -10,7 +10,7 @@ export default defineComponent({
         useTheme();
 
         provide(BREADCRUMB_KEY, {
-            props: props,
+            props,
         });
         const breadcrumbStyle = computed(() => {
             return {

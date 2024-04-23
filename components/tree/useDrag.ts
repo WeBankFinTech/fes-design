@@ -148,7 +148,7 @@ export default ({
         }
 
         dragOverInfo.value = {
-            node: node,
+            node,
             position: mousePosition,
         };
         // 300毫秒后没有后续则表示已经移出
@@ -169,7 +169,7 @@ export default ({
         emit('drop', {
             position: dragOverInfo.value.position,
             node: dragOverInfo.value.node,
-            dragNode: dragNode,
+            dragNode,
             originNode: dragOverInfo.value.node.origin,
             originDragNode: dragNode.origin,
             event,

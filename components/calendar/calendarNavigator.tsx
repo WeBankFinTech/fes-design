@@ -41,7 +41,7 @@ const props = {
 
 export default defineComponent({
     name: `${COMPONENT_NAME}Navigator`,
-    props: props,
+    props,
     emits: ['update:date'],
     setup: (props, { emit }) => {
         const { t } = useLocale();

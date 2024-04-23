@@ -81,7 +81,7 @@ export default defineComponent({
             return cloneVNode(vNodes[0], {
                 key: index,
                 draggable: draggableItems[index]?.draggable,
-                style: style,
+                style,
             });
         };
         return () => (

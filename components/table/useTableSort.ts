@@ -60,7 +60,7 @@ export default ({
             const order = column.props.sortDirections[0];
             Object.assign(sortState, {
                 prop: column.props.prop,
-                order: order,
+                order,
                 sorter: column.props.sorter,
             });
         } else {

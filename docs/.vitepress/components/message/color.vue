@@ -24,7 +24,7 @@ export default {
         function handleClick(type, colorful) {
             FMessage[type]?.({
                 content: `这是一条${typeMap[type]}！`,
-                colorful: colorful,
+                colorful,
             });
         }
         return {
