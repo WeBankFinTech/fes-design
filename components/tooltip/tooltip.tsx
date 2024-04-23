@@ -108,11 +108,13 @@ export default defineComponent({
                                 {title}
                             </div>
                         )}
-                        {!isNil(content) ? (
-                            <div class={contentClass}>{content}</div>
-                        ) : (
-                            content
-                        )}
+                        {!isNil(content)
+                            ? (
+                                <div class={contentClass}>{content}</div>
+                                )
+                            : (
+                                    content
+                                )}
                         {isConfirm && (
                             <>
                                 <FButton

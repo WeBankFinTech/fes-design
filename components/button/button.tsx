@@ -96,11 +96,13 @@ export default defineComponent({
                 class={classes.value}
                 onClick={handleClick}
             >
-                {props.loading ? (
-                    <LoadingOutlined class={loadingIconClassName} />
-                ) : (
-                    slots.icon?.()
-                )}
+                {props.loading
+                    ? (
+                        <LoadingOutlined class={loadingIconClassName} />
+                        )
+                    : (
+                            slots.icon?.()
+                        )}
                 {slots.default?.()}
             </button>
         );

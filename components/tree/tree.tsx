@@ -181,22 +181,24 @@ export default defineComponent({
             renderNode(source);
 
         return () =>
-            props.virtualList && !props.inline ? (
-                <VirtualList
-                    dataSources={currentData.value}
-                    dataKey={(source: TreeNodeKey) => {
-                        return source;
-                    }}
-                    estimateSize={32}
-                    keeps={14}
-                    observeResize={false}
-                    class={prefixCls}
-                    v-slots={{ default: renderDefault }}
-                />
-            ) : (
-                <div class={prefixCls} role="tree">
-                    {renderChildren(currentData.value)}
-                </div>
-            );
+            props.virtualList && !props.inline
+                ? (
+                    <VirtualList
+                        dataSources={currentData.value}
+                        dataKey={(source: TreeNodeKey) => {
+                            return source;
+                        }}
+                        estimateSize={32}
+                        keeps={14}
+                        observeResize={false}
+                        class={prefixCls}
+                        v-slots={{ default: renderDefault }}
+                    />
+                    )
+                : (
+                    <div class={prefixCls} role="tree">
+                        {renderChildren(currentData.value)}
+                    </div>
+                    );
     },
 });

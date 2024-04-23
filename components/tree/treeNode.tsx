@@ -184,16 +184,18 @@ export default defineComponent({
             }
             return (
                 <span class={switcherClassList} onClick={handleClickSwitcher}>
-                    {isLoading.value ? (
-                        <LoadingOutlined />
-                    ) : (
-                        <CaretDownOutlined
-                            class={[
+                    {isLoading.value
+                        ? (
+                            <LoadingOutlined />
+                            )
+                        : (
+                            <CaretDownOutlined
+                                class={[
                                 `${prefixCls}-switcher-icon`,
                                 isExpanded.value ? 'is-expanded' : '',
-                            ]}
-                        />
-                    )}
+                                ]}
+                            />
+                            )}
                 </span>
             );
         };

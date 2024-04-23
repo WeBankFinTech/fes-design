@@ -192,14 +192,16 @@ export default defineComponent({
                     {composed.value && rootProps.showHeader && (
                         <HeaderTable columns={columns.value} />
                     )}
-                    {rootProps.virtualScroll && showData.value.length ? (
-                        <VirtualTable columns={columns.value} />
-                    ) : (
-                        <BodyTable
-                            composed={composed.value}
-                            columns={columns.value}
-                        />
-                    )}
+                    {rootProps.virtualScroll && showData.value.length
+                        ? (
+                            <VirtualTable columns={columns.value} />
+                            )
+                        : (
+                            <BodyTable
+                                composed={composed.value}
+                                columns={columns.value}
+                            />
+                            )}
                     {showData.value.length === 0 && <NoData></NoData>}
                 </>
             );

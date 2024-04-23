@@ -34,29 +34,31 @@ export default defineComponent({
 
         return () => (
             <div class={prefixCls}>
-                {props.type === PROGRESS_TYPE.LINE ? (
-                    <LineProgress
-                        percent={percent.value}
-                        height={props.height}
-                        color={props.color}
-                        showInnerPercent={props.showInnerPercent}
-                        showOutPercent={props.showOutPercent}
-                        v-slots={{
-                            text: slots.text,
-                        }}
-                    ></LineProgress>
-                ) : (
-                    <CircleProgress
-                        percent={percent.value}
-                        width={props.width}
-                        color={props.color}
-                        circleSize={props.circleSize}
-                        showCircleText={props.showCircleText}
-                        v-slots={{
-                            text: slots.text,
-                        }}
-                    ></CircleProgress>
-                )}
+                {props.type === PROGRESS_TYPE.LINE
+                    ? (
+                        <LineProgress
+                            percent={percent.value}
+                            height={props.height}
+                            color={props.color}
+                            showInnerPercent={props.showInnerPercent}
+                            showOutPercent={props.showOutPercent}
+                            v-slots={{
+                                text: slots.text,
+                            }}
+                        ></LineProgress>
+                        )
+                    : (
+                        <CircleProgress
+                            percent={percent.value}
+                            width={props.width}
+                            color={props.color}
+                            circleSize={props.circleSize}
+                            showCircleText={props.showCircleText}
+                            v-slots={{
+                                text: slots.text,
+                            }}
+                        ></CircleProgress>
+                        )}
             </div>
         );
     },

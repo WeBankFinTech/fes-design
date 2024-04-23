@@ -108,15 +108,17 @@ export default defineComponent({
         return () => {
             return (
                 <>
-                    {ctx.slots.default ? (
-                        <Trigger class={isDragger.value && 'is-dragger'}>
-                            {ctx.slots.default?.({
-                                uploadFiles: uploadFiles.value,
-                            })}
-                        </Trigger>
-                    ) : (
-                        <Trigger class={isDragger.value && 'is-dragger'} />
-                    )}
+                    {ctx.slots.default
+                        ? (
+                            <Trigger class={isDragger.value && 'is-dragger'}>
+                                {ctx.slots.default?.({
+                                    uploadFiles: uploadFiles.value,
+                                })}
+                            </Trigger>
+                            )
+                        : (
+                            <Trigger class={isDragger.value && 'is-dragger'} />
+                            )}
                     {ctx.slots.tip?.()}
                     {getFileList()}
                 </>

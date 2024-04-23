@@ -68,61 +68,71 @@ export default defineComponent({
             } = ctx.slots;
 
             const description
-                = props.description || descriptionSlot ? (
-                    <div class={bodyClass.value}>
-                        {descriptionSlot
-                            ? descriptionSlot()
-                            : props.description}
-                    </div>
-                ) : null;
+                = props.description || descriptionSlot
+                    ? (
+                        <div class={bodyClass.value}>
+                            {descriptionSlot
+                                ? descriptionSlot()
+                                : props.description}
+                        </div>
+                        )
+                    : null;
 
             return (
                 <Transition name={`${prefixCls}-fade-expand`}>
-                    {!visible.value ? null : (
-                        <div
-                            class={`${prefixCls} ${
+                    {!visible.value
+                        ? null
+                        : (
+                            <div
+                                class={`${prefixCls} ${
                                 props.center
                                     ? `${prefixCls}-message-center`
                                     : ''
                             } ${prefixCls}-${props.type}`}
-                        >
-                            <div class={`${prefixCls}-head`}>
-                                <div class={`${prefixCls}-head-message`}>
-                                    {props.showIcon ? (
-                                        <div
-                                            class={`${prefixCls}-head-message-icon`}
-                                        >
-                                            {renderIcon()}
+                            >
+                                <div class={`${prefixCls}-head`}>
+                                    <div class={`${prefixCls}-head-message`}>
+                                        {props.showIcon
+                                            ? (
+                                                <div
+                                                    class={`${prefixCls}-head-message-icon`}
+                                                >
+                                                    {renderIcon()}
+                                                </div>
+                                                )
+                                            : null}
+                                        <div>
+                                            {defaultSlot
+                                                ? defaultSlot()
+                                                : props.message}
                                         </div>
-                                    ) : null}
-                                    <div>
-                                        {defaultSlot
-                                            ? defaultSlot()
-                                            : props.message}
+                                    </div>
+                                    <div class={`${prefixCls}-head-right`}>
+                                        {actionSlot
+                                            ? (
+                                                <div
+                                                    class={`${prefixCls}-head-right-action`}
+                                                >
+                                                    {actionSlot()}
+                                                </div>
+                                                )
+                                            : null}
+                                        {props.closable
+                                            ? (
+                                                <div
+                                                    class={`${prefixCls}-head-right-close`}
+                                                >
+                                                    <CloseCircleOutlined
+                                                        onClick={handleCloseClick}
+                                                    />
+                                                </div>
+                                                )
+                                            : null}
                                     </div>
                                 </div>
-                                <div class={`${prefixCls}-head-right`}>
-                                    {actionSlot ? (
-                                        <div
-                                            class={`${prefixCls}-head-right-action`}
-                                        >
-                                            {actionSlot()}
-                                        </div>
-                                    ) : null}
-                                    {props.closable ? (
-                                        <div
-                                            class={`${prefixCls}-head-right-close`}
-                                        >
-                                            <CloseCircleOutlined
-                                                onClick={handleCloseClick}
-                                            />
-                                        </div>
-                                    ) : null}
-                                </div>
+                                {description}
                             </div>
-                            {description}
-                        </div>
-                    )}
+                            )}
                 </Transition>
             );
         };

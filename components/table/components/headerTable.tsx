@@ -34,9 +34,11 @@ export default defineComponent({
         return () => {
             return (
                 <>
-                    {headerShadowVisible.value.left ? (
-                        <div class={`${prefixCls}-header-shadow-left`} />
-                    ) : undefined}
+                    {headerShadowVisible.value.left
+                        ? (
+                            <div class={`${prefixCls}-header-shadow-left`} />
+                            )
+                        : undefined}
                     <div
                         ref={(el) => {
                             headerWrapperRef.value = el;
@@ -53,9 +55,11 @@ export default defineComponent({
                             <Header columns={props.columns} />
                         </table>
                     </div>
-                    {headerShadowVisible.value.right ? (
-                        <div class={`${prefixCls}-header-shadow-right`} />
-                    ) : undefined}
+                    {headerShadowVisible.value.right
+                        ? (
+                            <div class={`${prefixCls}-header-shadow-right`} />
+                            )
+                        : undefined}
                 </>
             );
         };

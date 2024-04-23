@@ -127,17 +127,21 @@ export default defineComponent({
                 key={props.menuKey}
             >
                 <div class={`${prefixCls}`} role="cascader-menu">
-                    {menuNodes.value.length ? (
-                        renderNodes(menuNodes.value)
-                    ) : props.initialLoaded ? (
-                        <div class={`${prefixCls}-null`}>
-                            {props.listEmptyText}
-                        </div>
-                    ) : (
-                        <div class={`${prefixCls}-loading`}>
-                            <LoadingOutlined />
-                        </div>
-                    )}
+                    {menuNodes.value.length
+                        ? (
+                                renderNodes(menuNodes.value)
+                            )
+                        : props.initialLoaded
+                            ? (
+                                <div class={`${prefixCls}-null`}>
+                                    {props.listEmptyText}
+                                </div>
+                                )
+                            : (
+                                <div class={`${prefixCls}-loading`}>
+                                    <LoadingOutlined />
+                                </div>
+                                )}
                 </div>
             </Scrollbar>
         );

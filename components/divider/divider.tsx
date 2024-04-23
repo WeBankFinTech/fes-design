@@ -39,11 +39,13 @@ export default defineComponent({
         );
         return () => (
             <div class={classList.value}>
-                {!props.vertical ? (
-                    <div class={`${prefixCls}-text is-${props.titlePlacement}`}>
-                        {slots.default?.()}
-                    </div>
-                ) : null}
+                {!props.vertical
+                    ? (
+                        <div class={`${prefixCls}-text is-${props.titlePlacement}`}>
+                            {slots.default?.()}
+                        </div>
+                        )
+                    : null}
             </div>
         );
     },

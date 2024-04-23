@@ -128,14 +128,18 @@ export default defineComponent({
                 <div ref={contentRef} class={`${prefixCls}-content`}>
                     {slots.default?.()}
                 </div>
-                {props.src ? (
-                    imgLoadingFailed.value ? (
-                        // 图片加载失败,且没有兜底图片
-                        <PictureFailOutlined />
-                    ) : (
-                        renderImg()
-                    )
-                ) : null}
+                {props.src
+                    ? (
+                            imgLoadingFailed.value
+                                ? (
+                            // 图片加载失败,且没有兜底图片
+                                    <PictureFailOutlined />
+                                    )
+                                : (
+                                        renderImg()
+                                    )
+                        )
+                    : null}
             </div>
         );
     },

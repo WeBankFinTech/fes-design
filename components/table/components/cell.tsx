@@ -81,13 +81,15 @@ export default defineComponent({
                 ? (column.props.ellipsis as EllipsisProps)
                 : {};
             if (column?.slots?.default) {
-                return hasEllipsis ? (
-                    <Ellipsis {...ellipsisProps}>
-                        {column.slots.default(props)}
-                    </Ellipsis>
-                ) : (
-                    <Fragment>{column.slots.default(props)}</Fragment>
-                );
+                return hasEllipsis
+                    ? (
+                        <Ellipsis {...ellipsisProps}>
+                            {column.slots.default(props)}
+                        </Ellipsis>
+                        )
+                    : (
+                        <Fragment>{column.slots.default(props)}</Fragment>
+                        );
             }
             const formatterResult = column?.props?.formatter?.(props);
             if (isVNode(formatterResult)) {
@@ -99,15 +101,17 @@ export default defineComponent({
             }
             const result = formatterResult ?? cellValue;
             Object.assign(ellipsisProps, { content: result });
-            return hasEllipsis ? (
-                <Ellipsis {...ellipsisProps}></Ellipsis>
-            ) : (
-                <Fragment>
-                    {typeof result === 'object'
-                        ? JSON.stringify(result)
-                        : result}
-                </Fragment>
-            );
+            return hasEllipsis
+                ? (
+                    <Ellipsis {...ellipsisProps}></Ellipsis>
+                    )
+                : (
+                    <Fragment>
+                        {typeof result === 'object'
+                            ? JSON.stringify(result)
+                            : result}
+                    </Fragment>
+                    );
         };
     },
 });

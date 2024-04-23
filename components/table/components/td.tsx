@@ -104,23 +104,25 @@ export default defineComponent({
                     )}
                     {column.props.type === 'selection' && (
                         <div class={`${prefixCls}-center`}>
-                            {column.props.multiple ? (
-                                <FCheckbox
-                                    modelValue={isSelected({ row })}
-                                    disabled={isSelectDisabled({ row })}
-                                    onChange={() => {
-                                        handleSelect({ row });
-                                    }}
-                                />
-                            ) : (
-                                <FRadio
-                                    modelValue={isSelected({ row })}
-                                    disabled={isSelectDisabled({ row })}
-                                    onChange={() => {
-                                        handleSelect({ row });
-                                    }}
-                                ></FRadio>
-                            )}
+                            {column.props.multiple
+                                ? (
+                                    <FCheckbox
+                                        modelValue={isSelected({ row })}
+                                        disabled={isSelectDisabled({ row })}
+                                        onChange={() => {
+                                            handleSelect({ row });
+                                        }}
+                                    />
+                                    )
+                                : (
+                                    <FRadio
+                                        modelValue={isSelected({ row })}
+                                        disabled={isSelectDisabled({ row })}
+                                        onChange={() => {
+                                            handleSelect({ row });
+                                        }}
+                                    ></FRadio>
+                                    )}
                         </div>
                     )}
                     {column.props.type === 'expand' && (

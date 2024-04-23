@@ -114,13 +114,15 @@ export default defineComponent({
                 class={classListRef.value}
                 style={styleRef.value}
             >
-                {line.value > 1 ? (
-                    slots.default?.() ?? props.content
-                ) : (
-                    <span ref={triggerInnerRef}>
-                        {slots.default?.() ?? props.content}
-                    </span>
-                )}
+                {line.value > 1
+                    ? (
+                            slots.default?.() ?? props.content
+                        )
+                    : (
+                        <span ref={triggerInnerRef}>
+                            {slots.default?.() ?? props.content}
+                        </span>
+                        )}
             </span>
         );
 

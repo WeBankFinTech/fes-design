@@ -12,11 +12,13 @@ function getDirectiveComp(listRef, opt = {}) {
         },
         render() {
             const children = listRef.value.map((item) => <li>{item}</li>);
-            return opt.droppable ? (
-                <ul v-drag={[listRef, ['droppable']]}>{children}</ul>
-            ) : (
-                <ul v-drag={listRef}>{children}</ul>
-            );
+            return opt.droppable
+                ? (
+                    <ul v-drag={[listRef, ['droppable']]}>{children}</ul>
+                    )
+                : (
+                    <ul v-drag={listRef}>{children}</ul>
+                    );
         },
     });
 }

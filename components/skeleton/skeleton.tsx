@@ -100,10 +100,12 @@ export default defineComponent({
             </div>
         );
 
-        return repeat <= 1 ? (
-            renderChild()
-        ) : (
-            <>{[...Array(repeat)].map(() => [renderChild()])}</>
-        );
+        return repeat <= 1
+            ? (
+                    renderChild()
+                )
+            : (
+                <>{[...Array(repeat)].map(() => [renderChild()])}</>
+                );
     },
 });

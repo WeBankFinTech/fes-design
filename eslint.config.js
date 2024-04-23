@@ -117,7 +117,6 @@ export default antfu({
         'style/jsx-closing-tag-location': 'off',
         'style/brace-style': ['error', '1tbs'],
         'style/arrow-parens': ['error', 'always'],
-        'style/multiline-ternary': 'off',
 
         'antfu/consistent-list-newline': 'off',
         'antfu/top-level-function': 'off',

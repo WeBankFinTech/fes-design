@@ -48,17 +48,19 @@ Pick<Props, 'descPosition' | 'titleClass' | 'descClass'> & {
             {title}
         </div>
     );
-    const descElement = desc ? (
-        <div
-            class={[
-                cls('item-desc'),
-                cls(`item-desc-layout-${descPosition}`),
-                descClass,
-            ]}
-        >
-            {desc}
-        </div>
-    ) : undefined;
+    const descElement = desc
+        ? (
+            <div
+                class={[
+                    cls('item-desc'),
+                    cls(`item-desc-layout-${descPosition}`),
+                    descClass,
+                ]}
+            >
+                {desc}
+            </div>
+            )
+        : undefined;
 
     // 标题、辅助描述同侧
     if (descPosition !== 'opposite') {

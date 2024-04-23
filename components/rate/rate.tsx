@@ -62,28 +62,34 @@ export default defineComponent({
         );
 
         const emptyIcon = () => {
-            return !props.colorFilled ? (
-                <StarOutlined size={iconSize.value}></StarOutlined>
-            ) : slots?.content ? (
-                slots?.content({
-                    size: iconSize.value,
-                })
-            ) : (
-                <StarFilled size={iconSize.value} />
-            );
+            return !props.colorFilled
+                ? (
+                    <StarOutlined size={iconSize.value}></StarOutlined>
+                    )
+                : slots?.content
+                    ? (
+                            slots?.content({
+                                size: iconSize.value,
+                            })
+                        )
+                    : (
+                        <StarFilled size={iconSize.value} />
+                        );
         };
 
         // 渲染满星
         const renderFullStar = () => {
             return (
                 <div class="rate-icon full-icon" style={iconStyle.value}>
-                    {slots?.content ? (
-                        slots?.content({
-                            size: iconSize.value,
-                        })
-                    ) : (
-                        <StarFilled size={iconSize.value} />
-                    )}
+                    {slots?.content
+                        ? (
+                                slots?.content({
+                                    size: iconSize.value,
+                                })
+                            )
+                        : (
+                            <StarFilled size={iconSize.value} />
+                            )}
                 </div>
             );
         };
@@ -94,13 +100,15 @@ export default defineComponent({
                 <div class="rate-icon full-icon" style={iconStyle.value}>
                     <div class="background-icon"> {emptyIcon()}</div>
                     <div class="half-icon">
-                        {slots?.content ? (
-                            slots?.content({
-                                size: iconSize.value,
-                            })
-                        ) : (
-                            <StarFilled size={iconSize.value} />
-                        )}
+                        {slots?.content
+                            ? (
+                                    slots?.content({
+                                        size: iconSize.value,
+                                    })
+                                )
+                            : (
+                                <StarFilled size={iconSize.value} />
+                                )}
                     </div>
                 </div>
             );

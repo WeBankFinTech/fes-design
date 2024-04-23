@@ -165,50 +165,56 @@ export default defineComponent({
             source.__isGroup ? renderGroupOption(source) : renderOption(source);
 
         return () =>
-            enableVirtualScroll.value ? (
-                <VirtualList
-                    onScroll={(event: Event) => {
-                        emit('scroll', event);
-                    }}
-                    dataSources={props.options}
-                    dataKey={'value'}
-                    estimateSize={32}
-                    keeps={14}
-                    style={props.containerStyle}
-                    class={`${props.prefixCls}-dropdown is-max-height`}
-                    v-slots={{ default: renderDefault }}
-                ></VirtualList>
-            ) : props.options.length ? (
-                <Scrollbar
-                    onScroll={(event: Event) => {
-                        emit('scroll', event);
-                    }}
-                    containerStyle={props.containerStyle}
-                    containerClass={`${props.prefixCls}-dropdown`}
-                >
-                    {props.options.map((option) => {
-                        return option.__isGroup
-                            ? renderGroupOption(option)
-                            : renderOption(option);
-                    })}
-                </Scrollbar>
-            ) : props.renderEmpty ? (
-                <div
-                    class={[`${props.prefixCls}-dropdown`]}
-                    style={props.containerStyle}
-                >
-                    {props.renderEmpty()}
-                </div>
-            ) : (
-                <div
-                    class={[
+            enableVirtualScroll.value
+                ? (
+                    <VirtualList
+                        onScroll={(event: Event) => {
+                            emit('scroll', event);
+                        }}
+                        dataSources={props.options}
+                        dataKey={'value'}
+                        estimateSize={32}
+                        keeps={14}
+                        style={props.containerStyle}
+                        class={`${props.prefixCls}-dropdown is-max-height`}
+                        v-slots={{ default: renderDefault }}
+                    ></VirtualList>
+                    )
+                : props.options.length
+                    ? (
+                        <Scrollbar
+                            onScroll={(event: Event) => {
+                                emit('scroll', event);
+                            }}
+                            containerStyle={props.containerStyle}
+                            containerClass={`${props.prefixCls}-dropdown`}
+                        >
+                            {props.options.map((option) => {
+                                return option.__isGroup
+                                    ? renderGroupOption(option)
+                                    : renderOption(option);
+                            })}
+                        </Scrollbar>
+                        )
+                    : props.renderEmpty
+                        ? (
+                            <div
+                                class={[`${props.prefixCls}-dropdown`]}
+                                style={props.containerStyle}
+                            >
+                                {props.renderEmpty()}
+                            </div>
+                            )
+                        : (
+                            <div
+                                class={[
                         `${props.prefixCls}-dropdown`,
                         `${props.prefixCls}-null`,
-                    ]}
-                    style={props.containerStyle}
-                >
-                    {props.emptyText}
-                </div>
-            );
+                                ]}
+                                style={props.containerStyle}
+                            >
+                                {props.emptyText}
+                            </div>
+                            );
     },
 });
