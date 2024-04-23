@@ -1,5 +1,5 @@
-import fs from 'node:fs';
-import path from 'node:path';
+import path from 'path';
+import fs from 'fs';
 
 function injectCss() {
     return {
@@ -10,8 +10,8 @@ function injectCss() {
                 if (name === 'index.js') {
                     const dir = path.dirname(bundleItem.facadeModuleId);
                     if (
-                        fs.existsSync(path.join(dir, 'style'))
-                        && !fs.existsSync(path.join(dir, 'style/themes'))
+                        fs.existsSync(path.join(dir, 'style')) &&
+                        !fs.existsSync(path.join(dir, 'style/themes'))
                     ) {
                         bundleItem.code = `import './style';\n${bundleItem.code}`;
                     }

@@ -1,10 +1,9 @@
-import path from 'node:path';
-
+import path from 'path';
 import fse from 'fs-extra';
 import { rollup } from 'rollup';
-import { getProjectRootDir } from './utils.js';
+import { getProjectRootDir } from './utils.mjs';
 
-import { OUTPUT_DIR, getRollupConfig } from './build-shard.js';
+import { getRollupConfig, OUTPUT_DIR } from './build-shard.mjs';
 
 const rootDir = getProjectRootDir();
 const SOURCE_PATH = path.join(rootDir, './components/icon/index.ts');

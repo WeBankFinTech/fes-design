@@ -1,11 +1,9 @@
-import path from 'node:path';
-import process from 'node:process';
-
-import { withPwa } from '@vite-pwa/vitepress';
+import path from 'path';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { defineConfig } from 'vitepress';
-import { genComponentDocWatch } from '../../scripts/genComponentDoc.js';
-import { getProjectRootDir } from '../../scripts/utils.js';
+import { withPwa } from '@vite-pwa/vitepress';
+import { getProjectRootDir } from '../../scripts/utils.mjs';
+import { genComponentDocWatch } from '../../scripts/genComponentDoc.mjs';
 import { navbar, sidebar } from './configs/index';
 import { pwa } from './pwa';
 
