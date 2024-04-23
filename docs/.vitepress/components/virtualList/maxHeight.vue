@@ -30,7 +30,6 @@
 
     <FSpace vertical>
         <FVirtualList
-            ref="virtualList"
             class="virtual-scroll-list-max-height"
             wrapClass="virtual-scroll-list-wrap"
             :dataKey="(data) => data"

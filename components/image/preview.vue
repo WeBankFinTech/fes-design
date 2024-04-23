@@ -66,7 +66,6 @@
 
             <!-- canvas -->
             <img
-                ref="img"
                 :class="[`${prefixCls}__canvas`]"
                 :src="src"
                 :style="previewStyle"

@@ -33,7 +33,6 @@
 
     <FSpace vertical>
         <FVirtualList
-            ref="virtualList"
             class="virtual-scroll-list-more"
             wrapClass="virtual-scroll-list-wrap"
             :dataKey="(data) => data"

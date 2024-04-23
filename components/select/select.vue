@@ -77,7 +77,7 @@
                 </div>
             </template>
         </Popper>
-        <div ref="hiddenOptions" :class="`${prefixCls}-hidden-options`">
+        <div :class="`${prefixCls}-hidden-options`">
             <slot />
         </div>
     </div>

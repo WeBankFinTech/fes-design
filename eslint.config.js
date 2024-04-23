@@ -126,7 +126,6 @@ export default antfu({
         'ts/no-use-before-define': 'off',
         'jsdoc/require-returns-description': 'off',
         'unicorn/no-instanceof-array': 'off',
-        'vue/no-unused-refs': 'off',
         'import/newline-after-import': 'off',
         'vue/no-reserved-component-names': 'off',
         'no-undefined': 'off',
