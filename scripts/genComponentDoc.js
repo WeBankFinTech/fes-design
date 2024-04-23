@@ -1,9 +1,9 @@
-import path from 'path';
+import path from 'node:path';
 import fse from 'fs-extra';
 import { getHighlighter } from 'shiki';
 import cheapWatch from 'cheap-watch';
-import { getProjectRootDir } from './utils.mjs';
-import { SCRIPT_TEMPLATE, DEMO_ENTRY_FILE } from './constants.mjs';
+import { getProjectRootDir } from './utils.js';
+import { SCRIPT_TEMPLATE, DEMO_ENTRY_FILE } from './constants.js';
 
 const rootDir = getProjectRootDir();
 const CODE_PATH = path.join(

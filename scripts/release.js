@@ -1,5 +1,7 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
+import process from 'node:process';
+
 import minimist from 'minimist';
 import chalk from 'chalk';
 import semver from 'semver';
@@ -9,7 +11,7 @@ import {
     getProjectRootDir,
     getPackageJsonVersion,
     loadJsonFile,
-} from './utils.mjs';
+} from './utils.js';
 const prompt = enquirer.prompt;
 
 const args = minimist(process.argv.slice(2));

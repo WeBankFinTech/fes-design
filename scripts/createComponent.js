@@ -1,8 +1,9 @@
 // 使用方式: npm run gen:component component-name
-import { join } from 'path';
+import { join } from 'node:path';
+import process from 'node:process';
 import { pathExistsSync, outputFileSync, copySync } from 'fs-extra';
-import { INDEX_TPL } from './constants.mjs';
-import { getProjectRootDir } from './utils.mjs';
+import { INDEX_TPL } from './constants.js';
+import { getProjectRootDir } from './utils.js';
 
 function hyphenate(str) {
     return str.replace(/\B([A-Z])/g, '-$1').toLowerCase();
