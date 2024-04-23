@@ -197,8 +197,8 @@ test('pagination pager next button click', async () => {
         `${currentPage}`,
     );
     wrapper
-        .findAll(`.${prefixCls}-pager > div`)
-        [wrapper.findAll(`.${prefixCls}-pager > div`).length - 3].trigger(
+        .findAll(`.${prefixCls}-pager > div`)[wrapper.findAll(`.${prefixCls}-pager > div`).length - 3]
+        .trigger(
             'click',
         );
     await nextTick();
