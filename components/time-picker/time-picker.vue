@@ -94,8 +94,7 @@ import Popper from '../popper';
 import FButton from '../button';
 
 import { useLocale } from '../config-provider/useLocale';
-import type { GetContainer } from '../_util/interface';
-import type { ExtractPublicPropTypes } from '../_util/interface';
+import type { ExtractPublicPropTypes, GetContainer } from '../_util/interface';
 import TimeSelect from './time-select.vue';
 
 const prefixCls = getPrefixCls('time-picker');

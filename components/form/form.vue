@@ -9,9 +9,8 @@ import { computed, defineComponent, provide, toRefs } from 'vue';
 import { pxfy } from '../_util/utils';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
-import { FORM_LAYOUT, TRIGGER_TYPE_DEFAULT, provideKey } from './const';
+import { FORM_LAYOUT, FORM_NAME, TRIGGER_TYPE_DEFAULT, provideKey } from './const';
 import { allPromiseFinish } from './utils';
-import { FORM_NAME } from './const';
 import { formProps } from './interface';
 import type { Field, ValidateResult } from './interface';
 

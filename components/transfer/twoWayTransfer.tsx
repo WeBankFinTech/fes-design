@@ -1,10 +1,9 @@
 import { type VNode, defineComponent, inject, ref, watch } from 'vue';
 import { isNil } from 'lodash-es';
 import Button from '../button';
-import { LeftOutlined, RightOutlined } from '../icon';
+import { LeftOutlined, RightOutlined, SearchOutlined } from '../icon';
 import Empty from '../empty';
 import Checkbox from '../checkbox';
-import { SearchOutlined } from '../icon';
 import Input from '../input';
 import VirtualList from '../virtual-list';
 import {

@@ -110,8 +110,7 @@ import { useTheme } from '../_theme/useTheme';
 import { DateOutlined, SwapRightOutlined } from '../icon';
 
 import { useLocale } from '../config-provider/useLocale';
-import type { GetContainer } from '../_util/interface';
-import type { ExtractPublicPropTypes } from '../_util/interface';
+import type { ExtractPublicPropTypes, GetContainer } from '../_util/interface';
 import { COMMON_PROPS, RANGE_PROPS } from './const';
 import { isEmptyValue, strictParse } from './helper';
 import Calendars from './calendars.vue';

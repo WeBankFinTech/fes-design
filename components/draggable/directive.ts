@@ -10,11 +10,13 @@ import type { FObjectDirective } from '../_util/interface';
 import {
     DRAG_END_EVENT,
     DRAG_START_EVENT,
-    type DraggableItem,
     UPDATE_MODEL_EVENT,
     useDraggable,
 } from './useDraggable';
-import type { BeforeDragEnd } from './useDraggable';
+import type {
+    BeforeDragEnd,
+    DraggableItem,
+} from './useDraggable';
 
 const dragInstanceMap = new WeakMap();
 

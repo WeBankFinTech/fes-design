@@ -38,6 +38,7 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
 import {
     FORM_ITEM_ALIGN,
+    FORM_ITEM_NAME,
     FORM_LAYOUT,
     LABEL_POSITION,
     RULE_TYPE_DEFAULT,
@@ -47,7 +48,6 @@ import {
     provideKey,
 } from './const';
 import { wrapValidator } from './utils';
-import { FORM_ITEM_NAME } from './const';
 import { formItemProps } from './interface';
 
 const prefixCls = getPrefixCls('form-item');

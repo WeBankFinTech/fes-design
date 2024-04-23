@@ -41,8 +41,6 @@
 </template>
 <script lang="ts">
 import {
-    type ImgHTMLAttributes,
-    type PropType,
     computed,
     defineComponent,
     inject,
@@ -54,7 +52,7 @@ import {
 } from 'vue';
 import { useEventListener, useThrottleFn } from '@vueuse/core';
 import { isString } from 'lodash-es';
-import type { CSSProperties, ComponentObjectPropsOptions } from 'vue';
+import type { CSSProperties, ComponentObjectPropsOptions, ImgHTMLAttributes, PropType } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { PictureFailOutlined, PictureOutlined } from '../icon';
 import { getScrollContainer, isHtmlElement, isInContainer } from '../_util/dom';

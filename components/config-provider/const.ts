@@ -7,8 +7,7 @@ import type {
 import { defaultContainer } from '../_util/utils';
 import type { TypeLanguage } from '../locales';
 import type { Theme } from '../_theme/interface';
-import type { GetContainer } from '../_util/interface';
-import type { ExtractPublicPropTypes } from '../_util/interface';
+import type { ExtractPublicPropTypes, GetContainer } from '../_util/interface';
 
 export type TranslatorOptionType = Record<string, string | number>;
 

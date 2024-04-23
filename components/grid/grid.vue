@@ -5,9 +5,9 @@
 </template>
 
 <script lang="ts">
-import { type CSSProperties, computed, defineComponent, provide } from 'vue';
+import { computed, defineComponent, provide } from 'vue';
 import { isArray } from 'lodash-es';
-import type { ComponentObjectPropsOptions, PropType } from 'vue';
+import type { CSSProperties, ComponentObjectPropsOptions, PropType } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 
 import getPrefixCls from '../_util/getPrefixCls';
