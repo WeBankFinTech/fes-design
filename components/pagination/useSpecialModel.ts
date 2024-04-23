@@ -11,7 +11,6 @@ export default (
         prop: 'modelValue',
         isEqual: false,
     },
-    // eslint-disable-next-line @typescript-eslint/ban-types
     callback: Function,
 ): [WritableComputedRef<any>, (val: any) => void] => {
     const usingProp = config?.prop ?? 'modelValue';

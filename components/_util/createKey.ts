@@ -86,7 +86,6 @@ export function createKey<P extends string, S extends string>(
     prefix: P,
     suffix: S,
 ): S extends 'default' ? P : `${P}${UpperFirst<S>}` {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (prefix +
         (suffix === 'default'
             ? ''

@@ -84,7 +84,6 @@ function arrayMove<T>(
     if (source < 0) {
         // add target
         pushAt(array, value, target);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return [value!];
     }
     if (target < 0) {
@@ -151,7 +150,6 @@ export const useDraggable = (
 
     const newNextTick = (fn: () => void) => {
         if (propsRef.value.isDirective) {
-            // eslint-disable-next-line no-unused-expressions
             isFunction(fn) && nextTickQueue.push(fn);
         } else {
             nextTick(fn);

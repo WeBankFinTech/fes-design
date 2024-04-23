@@ -5,12 +5,9 @@ function clamp(val: number) {
 }
 
 function hsla(h: number, s: number, l: number, a: number) {
-    // eslint-disable-next-line prefer-const
     let m1: number;
-    // eslint-disable-next-line prefer-const
     let m2: number;
 
-    // eslint-disable-next-line no-inner-declarations
     function hue(h: number) {
         h = h < 0 ? h + 1 : h > 1 ? h - 1 : h;
         if (h * 6 < 1) {
@@ -103,7 +100,6 @@ export function mix(color1: Color, color2: Color, weight: number) {
 }
 
 function parseColor(color: string) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const _rgb = color.match(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})/)!;
     return new Color(_rgb[1], undefined, color);
 }

@@ -2,7 +2,6 @@ import { nextTick } from 'vue';
 
 import { isFinite, isNull, isString, isUndefined } from 'lodash-es';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = () => {};
 export const noopInNoop = () => noop;
 export const defaultContainer = () => document.body;

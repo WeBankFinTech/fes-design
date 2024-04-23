@@ -139,7 +139,6 @@ export function getColumns(originColumns: ColumnInst[]) {
 
 export const getCellValue = (row?: RowType, column?: ColumnInst) => {
     if (!row) {
-        // eslint-disable-next-line no-undefined
         return undefined;
     }
     return row[column?.props?.prop];

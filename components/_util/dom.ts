@@ -67,7 +67,6 @@ export const getStyle = function (element: HTMLElement, styleName: string) {
     try {
         const style = element.style[styleName as any];
         if (style) return style;
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const computed = document.defaultView!.getComputedStyle(element, '');
         return computed ? computed[styleName as any] : '';
     } catch (e) {

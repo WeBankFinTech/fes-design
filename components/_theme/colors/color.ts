@@ -24,7 +24,6 @@ class Color {
             this.rgb = rgb;
         } else if (rgb.length >= 6) {
             this.rgb = [];
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             rgb.match(/.{2}/g)!.forEach((c, i) => {
                 if (i < 3) {
                     this.rgb.push(parseInt(c, 16));
@@ -82,7 +81,6 @@ class Color {
             }
         }
 
-        // eslint-disable-next-line default-case
         switch (colorFunction) {
             case 'rgba':
                 args = this.rgb
@@ -138,7 +136,6 @@ class Color {
         } else {
             s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
 
-            // eslint-disable-next-line default-case
             switch (max) {
                 case r:
                     h = (g - b) / d + (g < b ? 6 : 0);
