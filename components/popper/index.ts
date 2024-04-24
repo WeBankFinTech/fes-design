@@ -1,7 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import Popper from './popper';
-
 import type { SFCWithInstall } from '../_util/interface';
+import Popper from './popper';
 
 type PopperType = SFCWithInstall<typeof Popper>;
 

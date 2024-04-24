@@ -1,5 +1,5 @@
-import type { StepsInject } from './interface';
 import type { InjectionKey } from 'vue';
+import type { StepsInject } from './interface';
 
 export const PROVIDE_KEY: InjectionKey<StepsInject> = Symbol('FSteps');
 

@@ -1,6 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import Timeline from './timeline';
 import type { SFCWithInstall } from '../_util/interface';
+import Timeline from './timeline';
 
 export { timelineProps } from './props';
 export type { TimelineProps } from './props';

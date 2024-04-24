@@ -1,11 +1,10 @@
 import { withInstall, withNoopInstall } from '../_util/withInstall';
+import type { SFCWithInstall } from '../_util/interface';
 import Layout from './layout.vue';
 import Header from './header.vue';
 import Main from './main.vue';
 import Aside from './aside.vue';
 import Footer from './footer.vue';
-
-import type { SFCWithInstall } from '../_util/interface';
 
 type LayoutType = SFCWithInstall<typeof Layout>;
 type HeaderType = SFCWithInstall<typeof Header>;

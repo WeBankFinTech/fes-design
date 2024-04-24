@@ -1,4 +1,4 @@
-import { watch, onUnmounted, type Ref } from 'vue';
+import { type Ref, onUnmounted, watch } from 'vue';
 import {
     addClass,
     getScrollBarWidth,
@@ -36,20 +36,20 @@ export default function useLockScreen(trigger: Ref<boolean>) {
             withoutHiddenClass = !hasClass(document.body, cls);
             if (withoutHiddenClass) {
                 bodyPaddingRight = document.body.style.paddingRight;
-                computedBodyPaddingRight = parseInt(
+                computedBodyPaddingRight = Number.parseInt(
                     getStyle(document.body, 'paddingRight'),
                     10,
                 );
             }
             scrollBarWidth = getScrollBarWidth();
-            const bodyHasOverflow =
-                document.documentElement.clientHeight <
-                document.body.scrollHeight;
+            const bodyHasOverflow
+                = document.documentElement.clientHeight
+                < document.body.scrollHeight;
             const bodyOverflowY = getStyle(document.body, 'overflowY');
             if (
-                scrollBarWidth > 0 &&
-                (bodyHasOverflow || bodyOverflowY === 'scroll') &&
-                withoutHiddenClass
+                scrollBarWidth > 0
+                && (bodyHasOverflow || bodyOverflowY === 'scroll')
+                && withoutHiddenClass
             ) {
                 document.body.style.paddingRight = `${
                     computedBodyPaddingRight + scrollBarWidth

@@ -18,8 +18,8 @@ import {
     isSameDate,
     isSameMonth,
 } from './utils';
-import { CalendarEvent, calendarProps, type CalendarSlots } from './props';
-import { type CalendarDate } from './types';
+import { CalendarEvent, type CalendarSlots, calendarProps } from './props';
+import type { CalendarDate } from './types';
 import useWeekNames from './useWeekNames';
 import CalendarNavigator from './calendarNavigator';
 import useCalendarData from './useCalendarData';
@@ -146,7 +146,9 @@ export default defineComponent({
 
         // 星期栏
         const renderWeekNameHeader = (): VNode => {
-            if (mode.value === 'month') return undefined;
+            if (mode.value === 'month') {
+                return undefined;
+            }
             return (
                 <div class={cls('week-name-header')}>
                     {weekNames.value.map((weekName) => (

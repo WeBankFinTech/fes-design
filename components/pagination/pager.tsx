@@ -1,9 +1,9 @@
 import {
-    defineComponent,
+    type ComponentObjectPropsOptions,
     computed,
+    defineComponent,
     toRefs,
     watch,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isNumber } from 'lodash-es';
 import { useNormalModel } from '../_util/use/useModel';
@@ -48,9 +48,9 @@ export default defineComponent({
             // 如下处理仅为兼容现存旧逻辑
             const currentVal = isNumber(currentPage.value)
                 ? currentPage.value
-                : Number.isNaN(parseInt(`${currentPage.value}`, 10))
-                ? 1
-                : parseInt(`${currentPage.value}`, 10);
+                : Number.isNaN(Number.parseInt(`${currentPage.value}`, 10))
+                    ? 1
+                    : Number.parseInt(`${currentPage.value}`, 10);
             let start = currentVal - Math.floor(STEP / 2);
             while (count < STEP) {
                 res.push(start);
@@ -92,7 +92,7 @@ export default defineComponent({
 
         const getClassList = (cur: number) =>
             `${prefixCls}-pager-item${
-                cur === parseInt(`${currentPage.value}`, 10) ? ' is-active' : ''
+                cur === Number.parseInt(`${currentPage.value}`, 10) ? ' is-active' : ''
             }`;
         const getBtnElement = () =>
             pages.value.map((item) => (
@@ -128,8 +128,8 @@ export default defineComponent({
 
         const renderNextDoubleJump = () => {
             if (
-                pages.value.length > 0 &&
-                pages.value[pages.value.length - 1] < total.value - 1
+                pages.value.length > 0
+                && pages.value[pages.value.length - 1] < total.value - 1
             ) {
                 return (
                     <div

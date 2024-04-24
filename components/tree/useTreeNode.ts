@@ -1,4 +1,4 @@
-import { inject, computed } from 'vue';
+import { computed, inject } from 'vue';
 import { isNil } from 'lodash-es';
 import { TREE_PROVIDE_KEY } from './props';
 
@@ -29,8 +29,8 @@ export default (props: TreeNodeProps) => {
         const parentNodePath = node.indexPath[node.indexPath.length - 2];
         const parentNode = nodeList.get(parentNodePath);
         return parentNode.children.every((item) => {
-            const hasChildren =
-                Array.isArray(item.children) && item.children.length;
+            const hasChildren
+                = Array.isArray(item.children) && item.children.length;
             let isLeaf;
             if (!isNil(item.isLeaf)) {
                 isLeaf = item.isLeaf;

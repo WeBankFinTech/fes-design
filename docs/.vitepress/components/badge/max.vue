@@ -1,14 +1,14 @@
 <template>
     <FForm :labelWidth="100">
         <FFormItem label="封顶阈值:">
-            <FInputNumber v-model="max" :step="1"></FInputNumber>
+            <FInputNumber v-model="max" :step="1" />
         </FFormItem>
         <FFormItem label="内容值:">
-            <FInputNumber v-model="value" :step="1"></FInputNumber>
+            <FInputNumber v-model="value" :step="1" />
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace>
         <FBadge :value="value" type="primary" :max="max" class="item">

@@ -1,8 +1,8 @@
 import {
     type ComponentObjectPropsOptions,
+    type PropType,
     computed,
     defineComponent,
-    type PropType,
 } from 'vue';
 import { isNil } from 'lodash-es';
 import Popper from '../popper/popper';
@@ -108,11 +108,13 @@ export default defineComponent({
                                 {title}
                             </div>
                         )}
-                        {!isNil(content) ? (
-                            <div class={contentClass}>{content}</div>
-                        ) : (
-                            content
-                        )}
+                        {!isNil(content)
+                            ? (
+                                <div class={contentClass}>{content}</div>
+                                )
+                            : (
+                                    content
+                                )}
                         {isConfirm && (
                             <>
                                 <FButton

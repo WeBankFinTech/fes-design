@@ -1,7 +1,7 @@
 <template>
     <FForm>
         <FFormItem>
-            <FInput clearable placeholder="请输入"></FInput>
+            <FInput clearable placeholder="请输入" />
         </FFormItem>
         <FFormItem>
             <FInput
@@ -9,7 +9,7 @@
                 clearable
                 showPassword
                 placeholder="请输入"
-            ></FInput>
+            />
         </FFormItem>
     </FForm>
 </template>

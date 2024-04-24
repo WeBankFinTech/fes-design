@@ -1,6 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import Rate from './rate';
 import type { SFCWithInstall } from '../_util/interface';
+import Rate from './rate';
 
 export { rateProps } from './props';
 export type { RateProps } from './props';

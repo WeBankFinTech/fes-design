@@ -21,7 +21,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSelect
         v-model="arr"
@@ -36,9 +36,10 @@
             :key="index"
             :value="item.value"
             :label="item.label"
-        ></FOption>
+        />
     </FSelect>
 </template>
+
 <script>
 import { reactive, ref } from 'vue';
 
@@ -83,6 +84,7 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 .fes-select {
     width: 200px;

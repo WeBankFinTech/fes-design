@@ -1,4 +1,4 @@
-import { inject, computed, type ComputedRef } from 'vue';
+import { type ComputedRef, computed, inject } from 'vue';
 import { CHILDREN_KEY, COMPONENT_NAME } from './const';
 import type { MenuNode } from './const';
 
@@ -9,7 +9,9 @@ export default (indexPath: ComputedRef<MenuNode[]>) => {
     const parentMenu = inject(CHILDREN_KEY, null);
 
     const paddingStyle = computed(() => {
-        if (rootMenu.renderWithPopper.value) return {};
+        if (rootMenu.renderWithPopper.value) {
+            return {};
+        }
         let padding = 16;
         const len = indexPath.value.length;
         if (len > 2) {
@@ -31,7 +33,9 @@ export default (indexPath: ComputedRef<MenuNode[]>) => {
     });
 
     const onlyIcon = computed(() => {
-        if (rootMenu.props.mode !== 'vertical') return false;
+        if (rootMenu.props.mode !== 'vertical') {
+            return false;
+        }
         return isFirstLevel.value && rootMenu.props.collapsed;
     });
 

@@ -2,8 +2,8 @@ import { provide, unref } from 'vue';
 import { useNormalModel } from '../_util/use/useModel';
 import { CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
-import { type UnboxInjection } from '../_util/interface';
-import { radioGroupKey, COMPONENT_NAME } from './const';
+import type { UnboxInjection } from '../_util/interface';
+import { COMPONENT_NAME, radioGroupKey } from './const';
 import type { RadioGroupInnerProps } from './props';
 import type { RadioGroupEmits } from './interface';
 

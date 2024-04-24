@@ -1,10 +1,10 @@
 <template>
     <FForm :labelWidth="100">
         <FFormItem label="手动更改value:">
-            <FInputNumber v-model="value" :max="count" :min="0"></FInputNumber>
+            <FInputNumber v-model="value" :max="count" :min="0" />
         </FFormItem>
         <FFormItem label="个数:">
-            <FInputNumber v-model="count" :min="3" :max="10"></FInputNumber>
+            <FInputNumber v-model="count" :min="3" :max="10" />
         </FFormItem>
         <FFormItem label="颜色填充:">
             <FRadioGroup
@@ -51,7 +51,7 @@
             :clearable="clearable"
             :allow-half="allowHalf"
             :readonly="readonly"
-        ></FRate>
+        />
     </FSpace>
 
     <FSpace>

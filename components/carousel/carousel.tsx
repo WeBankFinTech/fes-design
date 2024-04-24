@@ -1,16 +1,16 @@
-import { defineComponent, watch, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import useResize from '../_util/use/useResize';
 import { CHANGE_EVENT } from '../_util/constants';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import { CAROUSEL_NAME } from './const';
 import Arrow from './arrow';
 import Indicator from './indicator';
 import useCarousel from './useCarousel';
 import useCarouselStyle from './useCarouselStyle';
 import useCarouselPlay from './useCarouselPlay';
-import type { PropType, ComponentObjectPropsOptions } from 'vue';
-import type { Placement, ArrowType } from './interface';
-import type { ExtractPublicPropTypes } from '../_util/interface';
+import type { ArrowType, Placement } from './interface';
 
 export const carouselProps = {
     height: {
@@ -104,7 +104,9 @@ export default defineComponent({
         const handleMouseEnter = (event: MouseEvent) => {
             event.stopPropagation();
             carouselHover.value = true;
-            if (props.pauseOnHover) pauseTimer();
+            if (props.pauseOnHover) {
+                pauseTimer();
+            }
         };
 
         const handleMouseLeave = (event: MouseEvent) => {

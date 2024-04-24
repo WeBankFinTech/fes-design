@@ -24,16 +24,15 @@
                 :min="5"
                 :max="50"
                 :step="10"
-            ></FInputNumber>
+            />
             <span style="margin-left: 10px">px</span>
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace vertical>
         <FVirtualList
-            ref="virtualList"
             class="virtual-scroll-list-more"
             wrapClass="virtual-scroll-list-wrap"
             :dataKey="(data) => data"
@@ -56,6 +55,7 @@
 
 <script>
 import { ref } from 'vue';
+
 export default {
     setup() {
         const shadow = ref(true);

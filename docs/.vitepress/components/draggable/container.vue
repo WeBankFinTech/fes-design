@@ -22,7 +22,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <div class="container">
         <FDraggable
@@ -64,6 +64,7 @@
 
 <script>
 import { ref } from 'vue';
+
 export default {
     setup() {
         const disableds = ref([]);

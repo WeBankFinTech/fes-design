@@ -6,7 +6,7 @@
                 :min="5"
                 :max="30"
                 :step="1"
-            ></FInputNumber>
+            />
             <span style="margin-left: 10px">px</span>
         </FFormItem>
         <FFormItem label="每项宽度设置方式:">
@@ -24,7 +24,7 @@
                 :min="6"
                 :max="24"
                 :step="1"
-            ></FInputNumber>
+            />
             <span style="margin-left: 10px">px</span>
         </FFormItem>
         <FFormItem
@@ -36,12 +36,12 @@
                 :min="100"
                 :max="500"
                 :step="10"
-            ></FInputNumber>
+            />
             <span style="margin-left: 10px">px</span>
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FForm
         layout="inline"
@@ -54,7 +54,7 @@
         "
     >
         <FFormItem label="输入姓名">
-            <FInput placeholder="请输入"></FInput>
+            <FInput placeholder="请输入" />
         </FFormItem>
         <FFormItem label="选择城市">
             <FSelect clearable placeholder="请单选">
@@ -63,7 +63,7 @@
                     :key="index"
                     :value="item.value"
                     :label="item.label"
-                ></FOption>
+                />
             </FSelect>
         </FFormItem>
         <FFormItem label="选择城市">
@@ -73,7 +73,7 @@
                     :key="index"
                     :value="item.value"
                     :label="item.label"
-                ></FOption>
+                />
             </FSelect>
         </FFormItem>
         <FFormItem label="选择性别">
@@ -84,7 +84,7 @@
             </FRadioGroup>
         </FFormItem>
         <FFormItem label="输入其他">
-            <FInput placeholder="请输入"></FInput>
+            <FInput placeholder="请输入" />
         </FFormItem>
         <FFormItem label="选择性别" align="center">
             <FRadioGroup>
@@ -95,8 +95,9 @@
         </FFormItem>
     </FForm>
 </template>
+
 <script>
-import { ref, defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
     setup() {

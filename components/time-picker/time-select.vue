@@ -35,12 +35,12 @@
 
 <script lang="ts">
 import {
+    type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
     defineComponent,
     reactive,
-    computed,
     watch,
-    type PropType,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import PickerItem from './picker-item.vue';
@@ -160,12 +160,12 @@ export default defineComponent({
                 selectedTime.hour = splitTime.shift() || formatSingleTime('HH');
             }
             if (/m/.test(props.format)) {
-                selectedTime.minute =
-                    splitTime.shift() || formatSingleTime('mm');
+                selectedTime.minute
+                    = splitTime.shift() || formatSingleTime('mm');
             }
             if (/s/.test(props.format)) {
-                selectedTime.seconds =
-                    splitTime.shift() || formatSingleTime('ss');
+                selectedTime.seconds
+                    = splitTime.shift() || formatSingleTime('ss');
             }
         };
 
@@ -203,8 +203,8 @@ export default defineComponent({
                     60,
                     props.minuteStep,
                     (m) =>
-                        props.disabledMinutes &&
-                        props.disabledMinutes(Number(selectedTime.hour), m),
+                        props.disabledMinutes
+                        && props.disabledMinutes(Number(selectedTime.hour), m),
                     /mm/.test(props.format),
                 );
             }
@@ -221,8 +221,8 @@ export default defineComponent({
                     60,
                     props.secondStep,
                     (s) =>
-                        props.disabledSeconds &&
-                        props.disabledSeconds(
+                        props.disabledSeconds
+                        && props.disabledSeconds(
                             Number(selectedTime.hour),
                             Number(selectedTime.minute),
                             s,

@@ -1,8 +1,7 @@
 import { withInstall, withNoopInstall } from '../_util/withInstall';
+import type { SFCWithInstall } from '../_util/interface';
 import Steps from './steps';
 import Step from './step';
-
-import type { SFCWithInstall } from '../_util/interface';
 
 type StepsType = SFCWithInstall<typeof Steps>;
 type StepType = SFCWithInstall<typeof Step>;

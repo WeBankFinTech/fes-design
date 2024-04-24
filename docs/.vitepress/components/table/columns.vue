@@ -6,11 +6,11 @@
         verticalLine
         layout="auto"
         :columns="columns"
-    >
-    </FTable>
+    />
 </template>
+
 <script>
-import { h, defineComponent } from 'vue';
+import { defineComponent, h } from 'vue';
 
 export default defineComponent({
     setup() {

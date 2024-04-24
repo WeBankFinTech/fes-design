@@ -1,15 +1,15 @@
-import { computed, ref, reactive, type Ref, type CSSProperties } from 'vue';
+import { type CSSProperties, type Ref, computed, reactive, ref } from 'vue';
 import { isFunction, isPlainObject, throttle } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { getCellValue } from './helper';
 import useTableLayout from './useTableLayout';
 
-const prefixCls = getPrefixCls('table');
-
 import type { ColumnFixedStatus } from './useTableColumn';
 import type { TableProps } from './table';
 import type { RowType } from './interface';
 import type { ColumnInst } from './column';
+
+const prefixCls = getPrefixCls('table');
 
 export default ({
     props,
@@ -214,12 +214,12 @@ export default ({
         return [
             typeof colClassName === 'function'
                 ? colClassName({
-                      row,
-                      column,
-                      rowIndex,
-                      columnIndex,
-                      cellValue,
-                  })
+                    row,
+                    column,
+                    rowIndex,
+                    columnIndex,
+                    cellValue,
+                })
                 : colClassName,
         ];
     };
@@ -244,8 +244,8 @@ export default ({
             const leftColumns = columns.slice(0, columnIndex);
             const width = leftColumns.reduce((accumulator, currentValue) => {
                 const width = layout.widthMap.value[currentValue.id]?.width;
-                const minWidth =
-                    layout.widthMap.value[currentValue.id]?.minWidth;
+                const minWidth
+                    = layout.widthMap.value[currentValue.id]?.minWidth;
                 return (width || minWidth) + accumulator;
             }, 0);
             fixedStyle.left = `${width}px`;
@@ -254,8 +254,8 @@ export default ({
             const width = rightColumns.reduceRight(
                 (accumulator, currentValue) => {
                     const width = layout.widthMap.value[currentValue.id]?.width;
-                    const minWidth =
-                        layout.widthMap.value[currentValue.id]?.minWidth;
+                    const minWidth
+                        = layout.widthMap.value[currentValue.id]?.minWidth;
                     return (width || minWidth) + accumulator;
                 },
                 0,
@@ -331,7 +331,9 @@ export default ({
     // 同步两个table的位移
     const syncPosition = throttle((e: Event) => {
         const $bodyWrapper = e.target as HTMLElement;
-        if (!$bodyWrapper) return;
+        if (!$bodyWrapper) {
+            return;
+        }
         const { scrollLeft, offsetWidth, scrollWidth } = $bodyWrapper;
         const $headerWrapper = headerWrapperRef.value;
         if ($headerWrapper) {

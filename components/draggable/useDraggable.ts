@@ -1,11 +1,11 @@
 import { isFunction } from 'lodash-es';
 import {
-    nextTick,
-    watch,
-    type Ref,
     type ComputedRef,
+    type Ref,
     type SetupContext,
+    nextTick,
     reactive,
+    watch,
 } from 'vue';
 
 export const UPDATE_MODEL_EVENT = 'update:modelValue';
@@ -35,14 +35,14 @@ type PropsRef = ComputedRef<{
     isDirective?: boolean;
 }>;
 
-type CurrentStatus = {
+interface CurrentStatus {
     drag?: { el: Element; index: number };
     animationEnd?: boolean;
     /** 放置在条目上时，需要跳过当次的dragover事件 */
     isDropOverItem?: boolean;
-};
+}
 
-type DragContext = {
+interface DragContext {
     propsRef: PropsRef;
     current: CurrentStatus;
     draggableItems: DraggableItem[];
@@ -50,15 +50,15 @@ type DragContext = {
     emit: (event: string, ...args: unknown[]) => void;
     resetDragWhenEnd: (event?: Event) => void;
     newNextTick: (fn: () => void) => void;
-};
+}
 
-type BackupContext = {
+interface BackupContext {
     draggableItems?: DraggableItem[];
     list?: unknown[];
     index?: number;
     revertStatus?: () => void;
     resetDragWhenEnd?: (event?: Event) => void;
-};
+}
 
 let dragSourceCxt: DragContext | null;
 let sourceBackup: BackupContext | null;
@@ -67,7 +67,9 @@ function pushAt<T>(array: T[] = [], value: T, index: number) {
     if (index < 0) {
         return array.unshift(value);
     }
-    if (index >= array.length) return array.push(value);
+    if (index >= array.length) {
+        return array.push(value);
+    }
     const evens = array.splice(index, array.length - index);
     array.push(value, ...evens);
 }
@@ -97,14 +99,15 @@ function arrayMove<T>(
 
 // 根据目标元素
 function findElement(target?: Element, parent?: Element) {
-    if (!parent || !target) return;
+    if (!parent || !target) {
+        return;
+    }
     for (let index = 0; index < parent.children.length; index++) {
         const el = parent.children[index];
         if (el.contains(target)) {
             return { el: el as Element, index };
         }
     }
-    return;
 }
 export class DraggableItem {
     draggable = null as unknown;
@@ -112,10 +115,12 @@ export class DraggableItem {
         x: 0,
         y: 0,
     };
+
     last = {
         x: 0,
         y: 0,
     };
+
     style = {
         transition: '',
         transform: '',
@@ -163,7 +168,9 @@ export const useDraggable = (
     };
 
     const FLIP = (isFirst: boolean) => {
-        if (!containerRef.value) return;
+        if (!containerRef.value) {
+            return;
+        }
         for (
             let index = 0;
             index < containerRef.value.children.length;
@@ -198,7 +205,9 @@ export const useDraggable = (
                 item.style.transition = '';
             }
         }
-        if (isFirst) return;
+        if (isFirst) {
+            return;
+        }
         requestAnimationFrame(() => {
             // Play
             draggableItems.forEach((item) => {
@@ -284,9 +293,13 @@ export const useDraggable = (
     const onDragstart = (event: Event) => {
         mousedownEvent = event as MouseEvent;
         const { disabled, droppable, list } = propsRef.value;
-        if (disabled) return;
+        if (disabled) {
+            return;
+        }
         current.drag = findElement(event.target as Element, containerRef.value);
-        if (!current.drag) return;
+        if (!current.drag) {
+            return;
+        }
         const index = current.drag.index;
         const item = draggableItems[index];
         onAnimationEnd(); // 动画结束
@@ -300,12 +313,14 @@ export const useDraggable = (
     };
 
     const onMousemove = (event: MouseEvent) => {
-        if (!mousedownEvent) return;
+        if (!mousedownEvent) {
+            return;
+        }
         const item = draggableItems[current?.drag?.index];
         if (
-            item &&
-            (Math.abs(event.x - mousedownEvent.x) ||
-                Math.abs(event.y - mousedownEvent.y))
+            item
+            && (Math.abs(event.x - mousedownEvent.x)
+            || Math.abs(event.y - mousedownEvent.y))
         ) {
             item.setOpacity();
         }
@@ -318,15 +333,21 @@ export const useDraggable = (
         const s = dragSourceCxt;
 
         // 如果动画没结束，就直接结束
-        if (!animationEnd || (s && !s.current.animationEnd)) return;
+        if (!animationEnd || (s && !s.current.animationEnd)) {
+            return;
+        }
         // 目标位置
         const drop = computeDropTarget(event);
-        if (!drop) return;
+        if (!drop) {
+            return;
+        }
 
         let listEvens: unknown; // 差值
         let draggableItemEvens: DraggableItem; // 差值
         let dragIndex = -1;
-        if (droppable && !s) return; // 跨容器，不存在source
+        if (droppable && !s) {
+            return;
+        } // 跨容器，不存在source
         if (droppable && s && !containerRef.value.contains(s.current.drag.el)) {
             // 从source容器拖拽到当前容器，source容器移除
             s.FLIP(true);
@@ -345,9 +366,15 @@ export const useDraggable = (
         } else {
             // 拖拽目标在当前容器上
             dragIndex = drag.index;
-            if (drop.index < 0) drop.index = 0;
-            if (drop.index >= list.length) drop.index = list.length - 1;
-            if (dragIndex === drop.index || isDropOverItem) return;
+            if (drop.index < 0) {
+                drop.index = 0;
+            }
+            if (drop.index >= list.length) {
+                drop.index = list.length - 1;
+            }
+            if (dragIndex === drop.index || isDropOverItem) {
+                return;
+            }
         }
         // 更新当前容器数据
         FLIP(true);

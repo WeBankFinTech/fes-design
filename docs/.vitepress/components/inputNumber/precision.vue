@@ -1,6 +1,6 @@
 <template>
     <FSpace>
-        <FInputNumber :precision="precision"></FInputNumber>
+        <FInputNumber :precision="precision" />
     </FSpace>
 </template>
 

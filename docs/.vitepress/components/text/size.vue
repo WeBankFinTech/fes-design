@@ -1,9 +1,9 @@
 <template>
     <FSpace>
         <FText size="large">Large</FText>
-        <FDivider vertical></FDivider>
+        <FDivider vertical />
         <FText>Middle</FText>
-        <FDivider vertical></FDivider>
+        <FDivider vertical />
         <FText size="small">Small</FText>
     </FSpace>
 </template>

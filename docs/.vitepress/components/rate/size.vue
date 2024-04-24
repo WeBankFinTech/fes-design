@@ -1,12 +1,12 @@
 <template>
     <FSpace>
-        <FRate v-model="value" size="small"></FRate>
+        <FRate v-model="value" size="small" />
     </FSpace>
     <FSpace>
-        <FRate v-model="value"></FRate>
+        <FRate v-model="value" />
     </FSpace>
     <FSpace>
-        <FRate v-model="value" size="large"></FRate>
+        <FRate v-model="value" size="large" />
     </FSpace>
 </template>
 

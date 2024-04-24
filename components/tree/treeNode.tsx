@@ -1,12 +1,12 @@
 import {
-    defineComponent,
-    computed,
-    ref,
-    type ExtractPropTypes,
-    type PropType,
     type CSSProperties,
     type ComponentObjectPropsOptions,
+    type ExtractPropTypes,
+    type PropType,
     type VNodeChild,
+    computed,
+    defineComponent,
+    ref,
 } from 'vue';
 import { isFunction, isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -86,8 +86,8 @@ export default defineComponent({
                 isSelected.value && 'is-selected',
                 isInline.value && 'is-inline',
                 isFirst.value && 'is-inline-first',
-                root.dragHighlightNode.value?.value === props.value &&
-                    'is-highlight',
+                root.dragHighlightNode.value?.value === props.value
+                && 'is-highlight',
             ].filter(Boolean),
         );
 
@@ -105,9 +105,9 @@ export default defineComponent({
         const handleClickSwitcher = async (event?: Event) => {
             const node = root.nodeList.get(props.value);
             if (
-                !isLoaded &&
-                root.props.loadData &&
-                (!node.children || node.children.length === 0)
+                !isLoaded
+                && root.props.loadData
+                && (!node.children || node.children.length === 0)
             ) {
                 isLoading.value = true;
                 try {
@@ -123,7 +123,9 @@ export default defineComponent({
             }
         };
         const handleClickContent = (event: Event) => {
-            if (disabled.value) return;
+            if (disabled.value) {
+                return;
+            }
             // 默认 select 行为
             if (selectable.value) {
                 return root.selectNode(props.value, event);
@@ -138,7 +140,9 @@ export default defineComponent({
             }
         };
         const handleClickCheckbox = (event: Event) => {
-            if (disabled.value) return;
+            if (disabled.value) {
+                return;
+            }
             if (checkable.value) {
                 return root.checkNode(props.value, event);
             }
@@ -156,7 +160,7 @@ export default defineComponent({
             }
             if (dragOverInfo?.node.value === props.value) {
                 const style: CSSProperties = {};
-                style['left'] = `${props.level * INDENT + 9}px`;
+                style.left = `${props.level * INDENT + 9}px`;
                 return (
                     <div
                         class={[
@@ -180,21 +184,25 @@ export default defineComponent({
             }
             return (
                 <span class={switcherClassList} onClick={handleClickSwitcher}>
-                    {isLoading.value ? (
-                        <LoadingOutlined />
-                    ) : (
-                        <CaretDownOutlined
-                            class={[
+                    {isLoading.value
+                        ? (
+                            <LoadingOutlined />
+                            )
+                        : (
+                            <CaretDownOutlined
+                                class={[
                                 `${prefixCls}-switcher-icon`,
                                 isExpanded.value ? 'is-expanded' : '',
-                            ]}
-                        />
-                    )}
+                                ]}
+                            />
+                            )}
                 </span>
             );
         };
         const renderCheckbox = () => {
-            if (!checkable.value) return null;
+            if (!checkable.value) {
+                return null;
+            }
             return (
                 <span class={`${prefixCls}-checkbox`}>
                     <Checkbox
@@ -207,7 +215,9 @@ export default defineComponent({
             );
         };
         const renderPrefix = () => {
-            if (!slots.prefix) return null;
+            if (!slots.prefix) {
+                return null;
+            }
             return (
                 <span
                     class={`${prefixCls}-content-prefix`}
@@ -218,7 +228,9 @@ export default defineComponent({
             );
         };
         const renderSuffix = () => {
-            if (!slots.suffix) return null;
+            if (!slots.suffix) {
+                return null;
+            }
             return (
                 <span
                     class={`${prefixCls}-content-suffix`}

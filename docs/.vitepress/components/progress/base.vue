@@ -16,7 +16,7 @@
                     :min="0"
                     :max="100"
                     :step="10"
-                ></FInputNumber>
+                />
                 <span class="unit">%</span>
             </FFormItem>
             <FFormItem v-if="type === 'line'" label="高度:">
@@ -24,15 +24,15 @@
                     v-model="height"
                     :min="8"
                     :max="50"
-                ></FInputNumber>
+                />
                 <span class="unit">px</span>
             </FFormItem>
             <FFormItem v-if="type === 'circle'" label="宽度:">
-                <FInputNumber v-model="width" :min="8" :max="50"></FInputNumber>
+                <FInputNumber v-model="width" :min="8" :max="50" />
                 <span class="unit">px</span>
             </FFormItem>
             <FFormItem v-if="type === 'circle'" label="环形直径:">
-                <FInputNumber v-model="circleSize"></FInputNumber>
+                <FInputNumber v-model="circleSize" />
                 <span class="unit">px</span>
             </FFormItem>
             <FFormItem v-if="type === 'line'" label="百分比外显:">
@@ -68,7 +68,7 @@
             </FFormItem>
         </FForm>
     </FSpace>
-    <FDivider></FDivider>
+    <FDivider />
     <FProgress
         :type="type"
         :percent="percent"
@@ -79,7 +79,7 @@
         :color="color"
         :circleSize="circleSize"
         :showCircleText="showCircleText"
-    ></FProgress>
+    />
 </template>
 
 <script setup>

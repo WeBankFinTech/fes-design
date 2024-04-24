@@ -1,7 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import SelectCascader from './selectCascader.vue';
-
 import type { SFCWithInstall } from '../_util/interface';
+import SelectCascader from './selectCascader.vue';
 
 type SelectCascaderType = SFCWithInstall<typeof SelectCascader>;
 

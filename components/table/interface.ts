@@ -1,5 +1,5 @@
-import { type Ref, type SetupContext } from 'vue';
-import { type getCellValue } from './helper';
+import type { Ref, SetupContext } from 'vue';
+import type { getCellValue } from './helper';
 import type useTableColumn from './useTableColumn';
 import type useTableEvent from './useTableEvent';
 import type useTableSelect from './useTableSelect';
@@ -19,12 +19,12 @@ export interface ActionType {
 
 export interface TableInst
     extends ReturnType<typeof useTableColumn>,
-        ReturnType<typeof useTableEvent>,
-        ReturnType<typeof useTableSelect>,
-        ReturnType<typeof useTableExpand>,
-        ReturnType<typeof useTableStyle>,
-        ReturnType<typeof useTableDrag>,
-        ReturnType<typeof useTableSort> {
+    ReturnType<typeof useTableEvent>,
+    ReturnType<typeof useTableSelect>,
+    ReturnType<typeof useTableExpand>,
+    ReturnType<typeof useTableStyle>,
+    ReturnType<typeof useTableDrag>,
+    ReturnType<typeof useTableSort> {
     rootProps: TableProps;
     rootCtx: SetupContext;
     getRowKey: ({ row }: { row: RowType }) => string | number | RowType;

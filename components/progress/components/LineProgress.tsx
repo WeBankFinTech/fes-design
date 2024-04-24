@@ -61,26 +61,30 @@ export default defineComponent({
         // 渲染文案（条形情况下 代替外显百分比）
         const renderText = () => {
             // 如果有文案插槽，就渲染，前提是要开启外显百分比
-            return slots.text ? (
-                <div class="out-value">{slots.text()}</div>
-            ) : (
-                <div
-                    class="out-value"
-                    style={valueStyle.value}
-                >{`${props.percent}%`}</div>
-            );
+            return slots.text
+                ? (
+                    <div class="out-value">{slots.text()}</div>
+                    )
+                : (
+                    <div
+                        class="out-value"
+                        style={valueStyle.value}
+                    >{`${props.percent}%`}</div>
+                    );
         };
 
         // 渲染内部展示的内容
         const renderInnerText = (percent: number) => {
             // 开启showInnerPercent，宽度大于25px或者 高度大于12px，才展示
             const show = props.showInnerPercent && props.height >= 12;
-            return show ? (
-                <div
-                    class="inner-value"
-                    style={valueStyle.value}
-                >{`${percent}%`}</div>
-            ) : null;
+            return show
+                ? (
+                    <div
+                        class="inner-value"
+                        style={valueStyle.value}
+                    >{`${percent}%`}</div>
+                    )
+                : null;
         };
 
         return () => renderLineProgress();

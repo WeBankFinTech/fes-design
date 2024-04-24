@@ -1,4 +1,4 @@
-import { ref, type Ref, watch } from 'vue';
+import { type Ref, ref, watch } from 'vue';
 import { isBoolean, isFunction } from 'lodash-es';
 import type { PopperProps } from './props';
 import type { VirtualRect } from './interface';
@@ -32,8 +32,12 @@ export default function useTrigger(
         if (props.onlyShowTrigger) {
             return;
         }
-        if (isBoolean(props.disabled) && props.disabled) return;
-        if (isFunction(props.disabled) && props.disabled()) return;
+        if (isBoolean(props.disabled) && props.disabled) {
+            return;
+        }
+        if (isFunction(props.disabled) && props.disabled()) {
+            return;
+        }
         clearTimers();
         if (props.hideAfter) {
             hideTimer = setTimeout(() => {
@@ -45,8 +49,12 @@ export default function useTrigger(
     };
 
     const show = () => {
-        if (isBoolean(props.disabled) && props.disabled) return;
-        if (isFunction(props.disabled) && props.disabled()) return;
+        if (isBoolean(props.disabled) && props.disabled) {
+            return;
+        }
+        if (isFunction(props.disabled) && props.disabled()) {
+            return;
+        }
         clearTimers();
         if (props.showAfter) {
             showTimer = setTimeout(() => {
@@ -146,11 +154,13 @@ export default function useTrigger(
 
     function onPopperMouseLeave() {
         const { trigger } = props;
-        const shouldPrevent =
-            trigger === 'click' ||
-            trigger === 'focus' ||
-            trigger === 'contextmenu';
-        if (shouldPrevent) return;
+        const shouldPrevent
+            = trigger === 'click'
+            || trigger === 'focus'
+            || trigger === 'contextmenu';
+        if (shouldPrevent) {
+            return;
+        }
         hide();
     }
 

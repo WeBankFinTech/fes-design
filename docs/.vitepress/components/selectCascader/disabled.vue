@@ -15,13 +15,11 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace>
-        <FSelectCascader v-model="value1" :data="data" disabled>
-        </FSelectCascader>
-        <FSelectCascader v-model="value2" :data="data" disabled>
-        </FSelectCascader>
+        <FSelectCascader v-model="value1" :data="data" disabled />
+        <FSelectCascader v-model="value2" :data="data" disabled />
     </FSpace>
     <FSpace>
         <FSelectCascader
@@ -31,8 +29,7 @@
             disabled
             :collapseTags="collapseTags"
             :collapseTagsLimit="collapseTagsLimit"
-        >
-        </FSelectCascader>
+        />
         <FSelectCascader
             v-model="value4"
             :data="data"
@@ -40,18 +37,20 @@
             disabled
             :collapseTags="collapseTags"
             :collapseTagsLimit="collapseTagsLimit"
-        >
-        </FSelectCascader>
+        />
     </FSpace>
 </template>
+
 <script>
-import { reactive, ref, h } from 'vue';
+import { h, reactive, ref } from 'vue';
 import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
 
 function createData(level = 1, baseKey = '', prefix = null, suffix = null) {
-    if (!level) return undefined;
+    if (!level) {
+        return undefined;
+    }
     return Array.apply(null, { length: 2 }).map((_, index) => {
-        const key = '' + baseKey + level + index;
+        const key = `${baseKey}${level}${index}`;
         return {
             label: createLabel(level),
             value: key,
@@ -63,10 +62,18 @@ function createData(level = 1, baseKey = '', prefix = null, suffix = null) {
 }
 
 function createLabel(level) {
-    if (level === 4) return '道生一';
-    if (level === 3) return '一生二';
-    if (level === 2) return '二生三';
-    if (level === 1) return '三生万物';
+    if (level === 4) {
+        return '道生一';
+    }
+    if (level === 3) {
+        return '一生二';
+    }
+    if (level === 2) {
+        return '二生三';
+    }
+    if (level === 1) {
+        return '三生万物';
+    }
 }
 
 export default {
@@ -90,6 +97,7 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 .fes-select-cascader {
     width: 200px;

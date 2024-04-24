@@ -1,5 +1,5 @@
-import { type ComponentObjectPropsOptions, type PropType } from 'vue';
-import { type RadioValue } from '../radio/props';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
+import type { RadioValue } from '../radio/props';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const radioButtonProps = {

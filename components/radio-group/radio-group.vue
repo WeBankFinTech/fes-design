@@ -8,7 +8,7 @@
                 :value="opt.value"
                 :label="opt.label"
                 :disabled="opt.disabled || isFormDisabled"
-            ></FRadio>
+            />
         </template>
         <template v-else>
             <RadioButton
@@ -17,7 +17,7 @@
                 :value="opt.value"
                 :label="opt.label"
                 :disabled="opt.disabled || isFormDisabled"
-            ></RadioButton>
+            />
         </template>
     </div>
 </template>
@@ -57,12 +57,12 @@ export default defineComponent({
         const optionsRef = computed(() =>
             props.options
                 ? props.options.map((opt: any) => {
-                      return {
-                          ...opt,
-                          value: opt[props.valueField],
-                          label: opt[props.labelField],
-                      };
-                  })
+                    return {
+                        ...opt,
+                        value: opt[props.valueField],
+                        label: opt[props.labelField],
+                    };
+                })
                 : [],
         );
 

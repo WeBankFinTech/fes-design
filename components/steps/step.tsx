@@ -1,21 +1,21 @@
 import {
+    type CSSProperties,
+    type ComponentObjectPropsOptions,
+    type PropType,
     computed,
+    defineComponent,
     getCurrentInstance,
     inject,
-    defineComponent,
-    ref,
-    type PropType,
-    type CSSProperties,
     onMounted,
     onUnmounted,
-    type ComponentObjectPropsOptions,
+    ref,
 } from 'vue';
 import { isNil } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { noop } from '../_util/utils';
-import { CloseOutlined, CheckOutlined } from '../icon';
-import { COMPONENT_NAME, STATUS, PROVIDE_KEY } from './const';
+import { CheckOutlined, CloseOutlined } from '../icon';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { COMPONENT_NAME, PROVIDE_KEY, STATUS } from './const';
 
 const prefixCls = getPrefixCls('step');
 
@@ -43,10 +43,10 @@ export default defineComponent({
     setup(props, { slots }) {
         const vm = getCurrentInstance();
         if (
-            !vm ||
-            !vm.parent ||
-            !vm.parent.type ||
-            vm.parent.type.name !== COMPONENT_NAME.STEPS
+            !vm
+            || !vm.parent
+            || !vm.parent.type
+            || vm.parent.type.name !== COMPONENT_NAME.STEPS
         ) {
             console.warn(
                 `[${COMPONENT_NAME.STEP}] must be a child of ${COMPONENT_NAME.STEPS}`,
@@ -67,8 +67,8 @@ export default defineComponent({
             const itemDom = itemDomRef.value;
             if (parentDom && itemDom) {
                 return (
-                    Array.from(parentDom.children).indexOf(itemDom) +
-                    parent.props.initial
+                    Array.from(parentDom.children).indexOf(itemDom)
+                    + parent.props.initial
                 );
             }
             return parent.props.initial - 1;
@@ -79,9 +79,9 @@ export default defineComponent({
             const _style: CSSProperties = {};
             const parentDom = parent.parentDomRef.value;
             if (parentDom && !parent.props.vertical) {
-                const lastChild =
-                    index.value ===
-                    parentDom.children.length - 1 + parent.props.initial;
+                const lastChild
+                    = index.value
+                    === parentDom.children.length - 1 + parent.props.initial;
                 if (lastChild) {
                     _style['max-width'] = `${
                         (1 / parentDom.children.length) * 100
@@ -115,8 +115,8 @@ export default defineComponent({
                     <span class={`${prefixCls}-icon`}>{slots.icon()}</span>
                 );
             } else if (
-                status.value === STATUS.WAIT ||
-                status.value === STATUS.PROCESS
+                status.value === STATUS.WAIT
+                || status.value === STATUS.PROCESS
             ) {
                 content = index.value;
             } else if (status.value === STATUS.FINISH) {
@@ -161,8 +161,8 @@ export default defineComponent({
                         )}
                     </div>
                     <div class={`${prefixCls}-description`}>
-                        {(slots.description || props.description) &&
-                            (slots.description?.() || props.description)}
+                        {(slots.description || props.description)
+                        && (slots.description?.() || props.description)}
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import { isRef, onBeforeUnmount, watch, ref, type Ref } from 'vue';
+import { type Ref, isRef, onBeforeUnmount, ref, watch } from 'vue';
 
 export default function useEsc(
     action: (event: KeyboardEvent) => void,
@@ -15,8 +15,8 @@ export default function useEsc(
     if (isRef(open)) {
         watch(open, () => {
             if (open.value) {
-                escClosable.value &&
-                    window.addEventListener('keydown', onGlobalKeyDown);
+                escClosable.value
+                && window.addEventListener('keydown', onGlobalKeyDown);
             } else {
                 window.removeEventListener('keydown', onGlobalKeyDown);
             }

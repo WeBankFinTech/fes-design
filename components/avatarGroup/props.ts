@@ -1,13 +1,13 @@
-import { type ComponentObjectPropsOptions, type PropType } from 'vue';
-import { type Shape, type Size } from '../avatar/props';
-import { type ExtractPublicPropTypes } from '../_util/interface';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
+import type { Shape, Size } from '../avatar/props';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
-type AvatarOption = {
+interface AvatarOption {
     name: string;
     src: string;
     text: string;
     icon: string;
-};
+}
 
 // 头像组
 export const avatarGroupProps = {

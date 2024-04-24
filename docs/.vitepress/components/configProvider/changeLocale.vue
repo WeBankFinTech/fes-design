@@ -10,7 +10,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FConfigProvider :locale="locale">
         <FSpace vertical>
@@ -19,8 +19,8 @@
                 show-size-changer
                 show-quick-jumper
                 show-total
-            ></FPagination>
-            <FTimePicker></FTimePicker>
+            />
+            <FTimePicker />
             <FSpace>
                 <FDatePicker :control="true" />
                 <FDatePicker type="month" :control="true" />
@@ -40,7 +40,7 @@
 
 <script>
 import { defineComponent, ref, watch } from 'vue';
-import { zhCN, enUS } from '@fesjs/fes-design';
+import { enUS, zhCN } from '@fesjs/fes-design';
 
 export default defineComponent({
     setup() {
@@ -48,7 +48,9 @@ export default defineComponent({
         const locale = ref(zhCN);
 
         watch(lang, () => {
-            if (!lang.value) return;
+            if (!lang.value) {
+                return;
+            }
             if (lang.value === zhCN.name) {
                 locale.value = zhCN;
             } else {

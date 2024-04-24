@@ -20,7 +20,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace>
         <FButton @click="() => (normalShow = true)">常规</FButton>
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { ref, nextTick } from 'vue';
+import { nextTick, ref } from 'vue';
 
 function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));

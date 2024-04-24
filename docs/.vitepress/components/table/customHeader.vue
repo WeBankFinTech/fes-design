@@ -7,19 +7,20 @@
                 </div>
             </template>
         </FTableColumn>
-        <FTableColumn prop="name" :label="'姓名'" :width="150"></FTableColumn>
-        <FTableColumn prop="province" label="省份" :width="150"></FTableColumn>
-        <FTableColumn prop="city" label="市区" :width="150"> </FTableColumn>
-        <FTableColumn prop="address" label="地址" :width="800"></FTableColumn>
-        <FTableColumn prop="zip" label="邮编" :width="120"> </FTableColumn>
+        <FTableColumn prop="name" label="姓名" :width="150" />
+        <FTableColumn prop="province" label="省份" :width="150" />
+        <FTableColumn prop="city" label="市区" :width="150" />
+        <FTableColumn prop="address" label="地址" :width="800" />
+        <FTableColumn prop="zip" label="邮编" :width="120" />
     </FTable>
 
-    <FDivider></FDivider>
+    <FDivider />
 
-    <FTable :data="data" :columns="columns"> </FTable>
+    <FTable :data="data" :columns="columns" />
 </template>
+
 <script>
-import { h, defineComponent } from 'vue';
+import { defineComponent, h } from 'vue';
 import { ClockCircleOutlined } from '@fesjs/fes-design/icon';
 
 export default defineComponent({
@@ -29,7 +30,7 @@ export default defineComponent({
     setup() {
         const data = Array.from([1, 2], (i) => {
             return {
-                date: `2016-05-2016-05-2016-05-2016-05-${i < 10 ? '0' + i : i}`,
+                date: `2016-05-2016-05-2016-05-2016-05-${i < 10 ? `0${i}` : i}`,
                 name: '王小虎',
                 province: '上海',
                 city: '普陀区',
@@ -84,6 +85,7 @@ export default defineComponent({
     },
 });
 </script>
+
 <style>
 .table-custom-header-date {
     display: flex;

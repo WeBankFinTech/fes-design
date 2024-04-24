@@ -4,11 +4,13 @@
             v-model="arr"
             :options="options"
             @change="handleChange"
-        ></FCheckboxGroup>
+        />
     </FSpace>
 </template>
+
 <script>
 import { ref } from 'vue';
+
 export default {
     setup() {
         const len = 10;

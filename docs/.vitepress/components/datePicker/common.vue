@@ -6,12 +6,11 @@
                 clearable
                 style="width: 200px"
                 :options="formatOptions"
-            >
-            </FSelect>
+            />
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace vertical>
         <FDatePicker
@@ -75,6 +74,7 @@ const style = reactive({
 const datetime = ref();
 const datemonth = ref(Date.now());
 </script>
+
 <style scope>
 .date-picker {
     width: 200px;

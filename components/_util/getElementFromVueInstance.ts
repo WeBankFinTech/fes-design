@@ -9,10 +9,18 @@ import type { ComponentOptions } from 'vue';
 export default function getElementFromVueInstance(
     val?: HTMLElement | ComponentOptions | Text,
 ) {
-    if (!val) return null;
-    if (val instanceof Text) return val;
-    if (val instanceof HTMLElement) return val;
-    if (typeof val === 'object' && !isNil(val.$el)) return val.$el;
+    if (!val) {
+        return null;
+    }
+    if (val instanceof Text) {
+        return val;
+    }
+    if (val instanceof HTMLElement) {
+        return val;
+    }
+    if (typeof val === 'object' && !isNil(val.$el)) {
+        return val.$el;
+    }
     throw new Error(
         'getElementFromVueInstance 传入的值不是 Text、HTMLElement 或 Vue 组件选项对象',
     );

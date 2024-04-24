@@ -26,7 +26,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace
         class="space-wrapper"
@@ -47,6 +47,7 @@
 
 <script setup>
 import { ref } from 'vue';
+
 const align = ref('');
 const justify = ref('start');
 </script>

@@ -1,10 +1,10 @@
 import type { ComponentObjectPropsOptions, PropType } from 'vue';
-import type { OptionValue } from './interface';
 import type {
     ComponentInnerProps,
     ExtractPublicPropTypes,
     Option,
 } from '../_util/interface';
+import type { OptionValue } from './interface';
 
 export const checkboxGroupProps = {
     modelValue: {

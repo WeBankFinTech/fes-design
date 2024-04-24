@@ -1,4 +1,4 @@
-export type DateObj = {
+export interface DateObj {
     year: number;
     month: number;
     day: number;
@@ -6,7 +6,7 @@ export type DateObj = {
     minute: number;
     second: number;
     quarter?: number;
-};
+}
 
 export type ParticalDateObj = Partial<Omit<DateObj, 'year'>> & {
     year: number;
@@ -21,14 +21,14 @@ export type UpdateSelectedDates = (
     },
 ) => void;
 
-export type CalendarEmits = {
+export interface CalendarEmits {
     (e: 'change', val: number[]): void;
-};
+}
 
-export type DayItem = {
+export interface DayItem {
     year: number;
     month: number;
     day: number;
     pre?: boolean;
     next?: boolean;
-};
+}

@@ -1,28 +1,28 @@
 import {
-    defineComponent,
-    h,
+    type ComponentObjectPropsOptions,
     Fragment,
+    type PropType,
+    type VNode,
+    defineComponent,
+    getCurrentInstance,
+    h,
     inject,
     onBeforeMount,
     onBeforeUnmount,
-    getCurrentInstance,
-    type VNode,
-    type PropType,
     type useSlots,
-    type ComponentObjectPropsOptions,
 } from 'vue';
+import type { EllipsisProps } from '../ellipsis';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import {
-    type COL_TYPE,
     type ALIGN,
-    TABLE_NAME,
+    type COL_TYPE,
     TABLE_COLUMN_NAME,
+    TABLE_NAME,
     provideKey,
 } from './const';
-import type { EllipsisProps } from '../ellipsis';
 
 import type { CellProps } from './components/cell';
-import type { RowType, ActionType } from './interface';
-import type { ExtractPublicPropTypes } from '../_util/interface';
+import type { ActionType, RowType } from './interface';
 
 export type SortOrderType = 'descend' | 'ascend' | false;
 export type SorterType = ((a: RowType, b: RowType) => boolean) | 'default';
@@ -50,34 +50,34 @@ export const columnProps = {
         | []
         | object
         | (({
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-              cellValue,
-          }: {
-              row: RowType;
-              column: ColumnInst;
-              rowIndex: number;
-              columnIndex: number;
-              cellValue: any;
-          }) => string | [] | object)
+            row,
+            column,
+            rowIndex,
+            columnIndex,
+            cellValue,
+        }: {
+            row: RowType;
+            column: ColumnInst;
+            rowIndex: number;
+            columnIndex: number;
+            cellValue: any;
+        }) => string | [] | object)
     >,
     colStyle: [Function, Object] as PropType<
         | object
         | (({
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-              cellValue,
-          }: {
-              row: RowType;
-              column: ColumnInst;
-              rowIndex: number;
-              columnIndex: number;
-              cellValue: any;
-          }) => object)
+            row,
+            column,
+            rowIndex,
+            columnIndex,
+            cellValue,
+        }: {
+            row: RowType;
+            column: ColumnInst;
+            rowIndex: number;
+            columnIndex: number;
+            cellValue: any;
+        }) => object)
     >,
     fixed: {
         type: [Boolean, String] as PropType<'left' | 'right' | true | false>,
@@ -183,16 +183,16 @@ export default defineComponent({
                 columnIndex: -1,
                 cellValue: null,
             });
-            if (renderDefault instanceof Array) {
+            if (Array.isArray(renderDefault)) {
                 renderDefault.forEach((childNode) => {
                     if (
-                        (childNode.type as any)?.name === TABLE_COLUMN_NAME ||
-                        childNode.shapeFlag !== 36
+                        (childNode.type as any)?.name === TABLE_COLUMN_NAME
+                        || childNode.shapeFlag !== 36
                     ) {
                         children.push(childNode);
                     } else if (
-                        childNode.type === Fragment &&
-                        childNode.children instanceof Array
+                        childNode.type === Fragment
+                        && Array.isArray(childNode.children)
                     ) {
                         children.push(...(childNode.children as VNode[]));
                     }

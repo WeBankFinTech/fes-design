@@ -1,11 +1,11 @@
-import {
-    type CSSProperties,
-    type PropType,
-    type VNodeChild,
-    type ComponentObjectPropsOptions,
-    type SlotsType,
+import type {
+    CSSProperties,
+    ComponentObjectPropsOptions,
+    PropType,
+    SlotsType,
+    VNodeChild,
 } from 'vue';
-import { type ComponentSlots } from '../_util/interface';
+import type { ComponentSlots } from '../_util/interface';
 import type { ComponentInnerProps, ComponentProps } from './utilTypes';
 
 /** 严格版本的 Extract */
@@ -51,11 +51,13 @@ type Color = CSSProperties['color'];
  *
  * - #desc
  * - #icon
- * */
-export type TimelineNodeSlotCommonParams = { index: number };
+ */
+export interface TimelineNodeSlotCommonParams {
+    index: number;
+}
 
 /** 时间轴结点的参数 */
-export type TimelineNode = {
+export interface TimelineNode {
     title: string;
     titlePosition?: StrictExtract<TimelineTitlePosition, 'start' | 'end'>;
     desc?: string | ((params: TimelineNodeSlotCommonParams) => VNodeChild);
@@ -64,7 +66,7 @@ export type TimelineNode = {
         | Color
         | string
         | ((params: TimelineNodeSlotCommonParams) => VNodeChild);
-};
+}
 
 export const timelineProps = {
     direction: {
@@ -93,10 +95,10 @@ export type TimelineProps = ComponentProps<typeof timelineProps>;
 // 组件内部使用的 props 类型（包含了 default）
 export type TimelineInnerProps = ComponentInnerProps<typeof timelineProps>;
 
-export type TimelineSlotsParams = {
+export interface TimelineSlotsParams {
     desc: TimelineNodeSlotCommonParams;
     icon: TimelineNodeSlotCommonParams;
-};
+}
 
 export type TimelineSlots = SlotsType<TimelineSlotsParams>;
 

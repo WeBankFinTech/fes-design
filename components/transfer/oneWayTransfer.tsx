@@ -1,10 +1,10 @@
-import { type VNode, defineComponent, inject, computed, type Ref } from 'vue';
+import { type Ref, type VNode, computed, defineComponent, inject } from 'vue';
 import { isNil } from 'lodash-es';
 import Tree from '../tree';
 import Empty from '../empty';
 import { CloseCircleOutlined, SearchOutlined } from '../icon';
 import Input from '../input';
-import { type TreeOption } from '../tree/interface';
+import type { TreeOption } from '../tree/interface';
 import VirtualList from '../virtual-list';
 import {
     COMPONENT_CLASS,
@@ -13,10 +13,10 @@ import {
     TRANSFER_INJECT_KEY,
 } from './const';
 import { TransferCheckbox, calcCheckStatus } from './checkbox';
-import {
-    type TreeFilter,
-    type TransferInjection,
-    type TransferOption,
+import type {
+    TransferInjection,
+    TransferOption,
+    TreeFilter,
 } from './interface';
 import { cls, flattenTree, isTree } from './utils';
 import { useTreeFilter } from './useTreeFilter';
@@ -30,8 +30,8 @@ const useData = ({
 }: Pick<TransferInjection, 'modelValue' | 'rootProps' | 'handleChange'>) => {
     const options = computed<TransferOption[]>(() => rootProps.options);
 
-    const { checkboxStatus, handleCheckboxChange, handleCheck } =
-        useCheckValueWithCheckbox({
+    const { checkboxStatus, handleCheckboxChange, handleCheck }
+        = useCheckValueWithCheckbox({
             checkValue: modelValue,
             options,
             onCheckboxChange: () => {
@@ -59,8 +59,8 @@ const OneWayTransfer = defineComponent({
             scrollContentHeight,
         } = inject(TRANSFER_INJECT_KEY);
 
-        const { handleTreeCheck, treeCheckStatus, handleCheckStatusChange } =
-            useData({ modelValue, rootProps, handleChange });
+        const { handleTreeCheck, treeCheckStatus, handleCheckStatusChange }
+            = useData({ modelValue, rootProps, handleChange });
 
         const checkedOptions = computed<TransferOption[]>(() => {
             const options = isTree(rootProps.options)
@@ -99,7 +99,9 @@ const OneWayTransfer = defineComponent({
         ): void => {
             const nextModelValue = [...modelValue.value];
             const index = nextModelValue.findIndex((v) => v === optionValue);
-            if (index === -1) return;
+            if (index === -1) {
+                return;
+            }
             nextModelValue.splice(index, 1);
 
             // 更新值
@@ -113,7 +115,9 @@ const OneWayTransfer = defineComponent({
         };
 
         const renderFilterInput = (filterText: Ref<string>): VNode => {
-            if (!rootProps.filterable) return undefined;
+            if (!rootProps.filterable) {
+                return undefined;
+            }
             return (
                 <Input
                     v-model={filterText.value}
@@ -136,14 +140,14 @@ const OneWayTransfer = defineComponent({
 
             const virtualScrollConfig = !isNil(scrollContentHeight.value)
                 ? {
-                      virtualList: true,
-                      style: { height: `${scrollContentHeight.value}px` },
-                  }
+                        virtualList: true,
+                        style: { height: `${scrollContentHeight.value}px` },
+                    }
                 : {};
 
             const filterForTree = rootProps.filterable
-                ? (rootProps.filter as TreeFilter | undefined) ?? // TODO: is not assignable
-                  defaultFilterForTree()
+                ? (rootProps.filter as TreeFilter | undefined) // TODO: is not assignable
+                ?? defaultFilterForTree()
                 : undefined;
 
             return (

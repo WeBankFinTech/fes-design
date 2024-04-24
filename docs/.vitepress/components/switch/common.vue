@@ -1,8 +1,10 @@
 <template>
-    <FSwitch v-model="val" @change="handleChange"></FSwitch>
+    <FSwitch v-model="val" @change="handleChange" />
 </template>
+
 <script>
 import { ref } from 'vue';
+
 export default {
     setup() {
         const val = ref();

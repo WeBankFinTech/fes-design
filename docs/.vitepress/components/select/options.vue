@@ -5,9 +5,9 @@
         labelField="name"
         style="width: 200px"
         :options="optionList"
-    >
-    </FSelect>
+    />
 </template>
+
 <script>
 import { reactive } from 'vue';
 

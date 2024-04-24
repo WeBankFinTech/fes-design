@@ -1,7 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import VirtualList from './virtualList';
-
 import type { SFCWithInstall } from '../_util/interface';
+import VirtualList from './virtualList';
 
 type VirtualListType = SFCWithInstall<typeof VirtualList>;
 export { virtualProps } from './props';

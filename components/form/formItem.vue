@@ -10,7 +10,7 @@
             </slot>
         </span>
         <div :class="`${prefixCls}-content`" :style="contentStyle">
-            <slot></slot>
+            <slot />
             <transition name="fes-fade">
                 <div v-if="formItemShowMessage" :class="`${prefixCls}-error`">
                     {{ validateMessage }}
@@ -22,32 +22,32 @@
 
 <script lang="ts">
 import {
-    provide,
-    ref,
-    inject,
     computed,
-    onBeforeUnmount,
-    nextTick,
     defineComponent,
     getCurrentInstance,
+    inject,
+    nextTick,
+    onBeforeUnmount,
+    provide,
+    ref,
 } from 'vue';
 import Schema from 'async-validator';
-import { isArray, cloneDeep, get, set } from 'lodash-es';
+import { cloneDeep, get, isArray, set } from 'lodash-es';
 import { pxfy } from '../_util/utils';
 import getPrefixCls from '../_util/getPrefixCls';
 import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
 import {
-    provideKey,
+    FORM_ITEM_ALIGN,
+    FORM_ITEM_NAME,
     FORM_LAYOUT,
     LABEL_POSITION,
-    TRIGGER_TYPE_DEFAULT,
     RULE_TYPE_DEFAULT,
-    VALIDATE_STATUS,
+    TRIGGER_TYPE_DEFAULT,
     VALIDATE_MESSAGE_DEFAULT,
-    FORM_ITEM_ALIGN,
+    VALIDATE_STATUS,
+    provideKey,
 } from './const';
 import { wrapValidator } from './utils';
-import { FORM_ITEM_NAME } from './const';
 import { formItemProps } from './interface';
 
 const prefixCls = getPrefixCls('form-item');
@@ -78,10 +78,14 @@ export default defineComponent({
         });
         const fieldValue = computed(() => {
             // 优先获取 value 的值
-            if (props.value !== undefined) return props.value;
+            if (props.value !== undefined) {
+                return props.value;
+            }
 
             // 不存在时获取 model[prop] 的值
-            if (!model.value || !formItemProp.value) return;
+            if (!model.value || !formItemProp.value) {
+                return;
+            }
             return get(model.value, formItemProp.value);
         });
         const initialValue = cloneDeep(fieldValue.value);
@@ -92,7 +96,8 @@ export default defineComponent({
             return _rules;
         });
 
-        /** 规则校验结果逻辑: 仅存最后一条校验规则的逻辑
+        /**
+         * 规则校验结果逻辑: 仅存最后一条校验规则的逻辑
          *      存在问题: 如果同时触发两个规则 A|B，规则 A 先触发校验且不通过，接着规则 B 触发校验且通过，规则 A 结果会不展示
          */
         const validateDisabled = ref(false); // 是否触发校验的标志
@@ -110,27 +115,27 @@ export default defineComponent({
             () =>
                 (props.showMessage === null
                     ? showMessage.value
-                    : props.showMessage) &&
-                validateStatus.value === VALIDATE_STATUS.ERROR,
+                    : props.showMessage)
+                    && validateStatus.value === VALIDATE_STATUS.ERROR,
         );
         const formItemRequired = computed(
             () =>
-                formItemRules.value.length > 0 &&
-                formItemRules.value.some((_) => _.required),
+                formItemRules.value.length > 0
+                && formItemRules.value.some((_) => _.required),
         );
         const formItemClass = computed(() =>
             [
                 prefixCls,
                 // inlineFormItem 定宽情况: Form 传入 inlineItemWidth, 此时 inlineItemWidth 优先级最高
                 // inlineFormItem 自适应情况: 同时支持 form、formItem 传入 span, 此时 formItem 优先级更高
-                layout.value === FORM_LAYOUT.INLINE &&
-                    !inlineItemWidth.value &&
-                    `${prefixCls}-span-${Math.ceil(props.span || span.value)}`,
-                labelPosition.value !== LABEL_POSITION.LEFT &&
-                    `${prefixCls}-${labelPosition.value}`,
+                layout.value === FORM_LAYOUT.INLINE
+                && !inlineItemWidth.value
+                && `${prefixCls}-span-${Math.ceil(props.span || span.value)}`,
+                labelPosition.value !== LABEL_POSITION.LEFT
+                && `${prefixCls}-${labelPosition.value}`,
                 validateStatus.value === VALIDATE_STATUS.ERROR && 'is-error', // 校验错误: is-error
-                FORM_ITEM_ALIGN.includes(props.align || align.value) &&
-                    `${prefixCls}-align-${props.align || align.value}`,
+                FORM_ITEM_ALIGN.includes(props.align || align.value)
+                && `${prefixCls}-align-${props.align || align.value}`,
             ].filter(Boolean),
         );
         const formItemLabelClass = computed(() =>
@@ -158,7 +163,8 @@ export default defineComponent({
                 return;
             }
 
-            /** 过滤符合条件的 triggersRules
+            /**
+             * 过滤符合条件的 triggersRules
              *
              *  未指定具体 trigger 类型，则直接返回 rule 规则
              *  指定具体 trigger 类型:
@@ -168,12 +174,12 @@ export default defineComponent({
             const triggersRules = !trigger
                 ? formItemRules.value
                 : formItemRules.value.filter(
-                      (rule) =>
-                          !rule.trigger ||
-                          (isArray(rule.trigger)
-                              ? rule.trigger.includes(trigger)
-                              : rule.trigger === trigger),
-                  );
+                    (rule) =>
+                        !rule.trigger
+                        || (isArray(rule.trigger)
+                            ? rule.trigger.includes(trigger)
+                            : rule.trigger === trigger),
+                );
 
             // 处理 rule 规则里面是自定义 validator
             const activeRules = triggersRules.map((rule) => {
@@ -196,7 +202,9 @@ export default defineComponent({
                 return shallowClonedRule;
             });
 
-            if (!activeRules.length) return Promise.resolve();
+            if (!activeRules.length) {
+                return Promise.resolve();
+            }
 
             // 开始规则校验
             const descriptor: any = {};

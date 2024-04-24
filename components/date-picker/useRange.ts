@@ -1,7 +1,7 @@
-import { watch, ref, type Ref } from 'vue';
+import { type Ref, ref, watch } from 'vue';
 
 import { getTimestampFromFormat, isBeyondRangeTime } from './helper';
-import { SELECTED_STATUS, RANGE_POSITION } from './const';
+import { RANGE_POSITION, SELECTED_STATUS } from './const';
 import type { Picker } from './pickerHandler';
 
 import type { CalendarsProps } from './calendars.vue';
@@ -18,8 +18,8 @@ export const useSelectStatus = (props: CalendarsProps) => {
         () => props.visible,
         () => {
             if (
-                !props.visible &&
-                selectedStatus.value === SELECTED_STATUS.START
+                !props.visible
+                && selectedStatus.value === SELECTED_STATUS.START
             ) {
                 selectedStatus.value = SELECTED_STATUS.END;
             }
@@ -61,7 +61,9 @@ export const useRange = ({
     picker: Ref<Picker>;
 }) => {
     // TODO 日期组件通过组件区分，不通过 type 区分
-    if (!picker.value.isRange) return {};
+    if (!picker.value.isRange) {
+        return {};
+    }
     const leftActiveDate = ref(
         getTimestampFromFormat(
             tempCurrentValue.value[0] && new Date(tempCurrentValue.value[0]),
@@ -103,14 +105,14 @@ export const useRange = ({
         if (position === RANGE_POSITION.LEFT) {
             leftActiveDate.value = timestamp;
             if (timestamp >= rightActiveDate.value) {
-                rightActiveDate.value =
-                    picker.value.getRightActiveDate(timestamp);
+                rightActiveDate.value
+                    = picker.value.getRightActiveDate(timestamp);
             }
         } else if (position === RANGE_POSITION.RIGHT) {
             rightActiveDate.value = timestamp;
             if (timestamp <= leftActiveDate.value) {
-                leftActiveDate.value =
-                    picker.value.getLeftActiveDate(timestamp);
+                leftActiveDate.value
+                    = picker.value.getLeftActiveDate(timestamp);
             }
         }
     };
@@ -124,8 +126,8 @@ export const useRange = ({
                 format,
             });
         } else if (
-            props.maxRange &&
-            selectedStatus.value === SELECTED_STATUS.START
+            props.maxRange
+            && selectedStatus.value === SELECTED_STATUS.START
         ) {
             return isBeyondRangeTime({
                 flagDate: new Date(tempCurrentValue.value[0]),

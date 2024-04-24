@@ -26,18 +26,18 @@ class Color {
             this.rgb = [];
             rgb.match(/.{2}/g)!.forEach((c, i) => {
                 if (i < 3) {
-                    this.rgb.push(parseInt(c, 16));
+                    this.rgb.push(Number.parseInt(c, 16));
                 } else {
-                    this.alpha = parseInt(c, 16) / 255;
+                    this.alpha = Number.parseInt(c, 16) / 255;
                 }
             });
         } else {
             this.rgb = [];
             rgb.split('').forEach((c, i) => {
                 if (i < 3) {
-                    this.rgb.push(parseInt(c + c, 16));
+                    this.rgb.push(Number.parseInt(c + c, 16));
                 } else {
-                    this.alpha = parseInt(c + c, 16) / 255;
+                    this.alpha = Number.parseInt(c + c, 16) / 255;
                 }
             });
         }
@@ -103,9 +103,9 @@ class Color {
 
             // Convert color to short format
             if (
-                splitcolor[1] === splitcolor[2] &&
-                splitcolor[3] === splitcolor[4] &&
-                splitcolor[5] === splitcolor[6]
+                splitcolor[1] === splitcolor[2]
+                && splitcolor[3] === splitcolor[4]
+                && splitcolor[5] === splitcolor[6]
             ) {
                 color = `#${splitcolor[1]}${splitcolor[3]}${splitcolor[5]}`;
             }

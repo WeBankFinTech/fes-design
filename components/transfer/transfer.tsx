@@ -1,10 +1,10 @@
 import {
+    type CSSProperties,
     type SlotsType,
+    type VNodeChild,
     computed,
     defineComponent,
     provide,
-    type VNodeChild,
-    type CSSProperties,
 } from 'vue';
 import { isFunction, isUndefined } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
@@ -15,10 +15,10 @@ import { transferProps } from './props';
 import OneWayTransfer from './oneWayTransfer';
 import TwoWayTransfer from './twoWayTransfer';
 import { defaultFilter, isTree } from './utils';
-import {
-    type TransferOption,
-    type TransferFilter,
-    type TransferInjection,
+import type {
+    TransferFilter,
+    TransferInjection,
+    TransferOption,
 } from './interface';
 
 const Transfer = defineComponent({
@@ -49,18 +49,20 @@ const Transfer = defineComponent({
 
         // 滚动部分的高度，决定是否开启虚拟滚动
         const scrollContentHeight = computed<number | null>(() => {
-            if (isUndefined(props.height)) return null;
-            let contentHeight =
-                props.height -
-                TransferStyle.PANEL_PADDING * 2 -
-                TransferStyle.PANEL_BLOCK_GAP -
-                TransferStyle.PANEL_HEADER_HEIGHT;
+            if (isUndefined(props.height)) {
+                return null;
+            }
+            let contentHeight
+                = props.height
+                - TransferStyle.PANEL_PADDING * 2
+                - TransferStyle.PANEL_BLOCK_GAP
+                - TransferStyle.PANEL_HEADER_HEIGHT;
 
             if (props.filterable) {
-                contentHeight =
-                    contentHeight -
-                    TransferStyle.PANEL_BLOCK_GAP -
-                    TransferStyle.PANEL_FILTER_HEIGHT;
+                contentHeight
+                    = contentHeight
+                    - TransferStyle.PANEL_BLOCK_GAP
+                    - TransferStyle.PANEL_FILTER_HEIGHT;
             }
 
             return contentHeight;

@@ -1,6 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import Progress from './progress';
 import type { SFCWithInstall } from '../_util/interface';
+import Progress from './progress';
 
 export { progressProps } from './props';
 export type { ProgressProps } from './props';

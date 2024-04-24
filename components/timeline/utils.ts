@@ -1,7 +1,7 @@
 import { type CSSProperties, type VNodeChild, isVNode } from 'vue';
 import { isNil } from 'lodash-es';
 import { isValidElementNode } from '../_util/vnode';
-import { type StrictExtract } from '../_util/types';
+import type { StrictExtract } from '../_util/types';
 import { COMPONENT_NAME, prefixCls } from './const';
 import type {
     TimelineInnerProps as ComponentProps,
@@ -58,8 +58,8 @@ export const calcDescPosition = (
     descPosition: ComponentProps['descPosition'],
 ): ComponentProps['descPosition'] => {
     if (
-        (direction === 'row' || direction === 'row-reverse') &&
-        descPosition === 'inline'
+        (direction === 'row' || direction === 'row-reverse')
+        && descPosition === 'inline'
     ) {
         warn('横向时间轴中不支持标题和辅助描述同行');
         return 'under';
@@ -70,8 +70,12 @@ export const calcDescPosition = (
 export const calcInlineStartProp = (
     axisDirection: ComponentProps['direction'],
 ): StrictExtract<keyof CSSProperties, 'top' | 'left' | 'right'> => {
-    if (axisDirection === 'row') return 'left';
-    if (axisDirection === 'row-reverse') return 'right';
+    if (axisDirection === 'row') {
+        return 'left';
+    }
+    if (axisDirection === 'row-reverse') {
+        return 'right';
+    }
     return 'top';
 };
 

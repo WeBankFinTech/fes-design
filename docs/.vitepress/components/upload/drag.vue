@@ -16,6 +16,7 @@
         <FUploadDragger> 点击或者拖拽文件到此区域 </FUploadDragger>
     </FUpload>
 </template>
+
 <script>
 import { ref } from 'vue';
 import { FMessage } from '@fesjs/fes-design';
@@ -68,6 +69,7 @@ export default {
     },
 };
 </script>
+
 <style>
 .f-upload__tip {
     font-size: 12px;

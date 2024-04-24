@@ -1,8 +1,8 @@
-import { defineComponent, computed, watch } from 'vue';
+import { computed, defineComponent, watch } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { StarFilled, StarOutlined } from '../icon';
-import { rateProps, type RateItem } from './props';
+import { type RateItem, rateProps } from './props';
 import { sizeMap } from './const';
 import { useRate } from './useRate';
 
@@ -62,28 +62,34 @@ export default defineComponent({
         );
 
         const emptyIcon = () => {
-            return !props.colorFilled ? (
-                <StarOutlined size={iconSize.value}></StarOutlined>
-            ) : slots?.content ? (
-                slots?.content({
-                    size: iconSize.value,
-                })
-            ) : (
-                <StarFilled size={iconSize.value} />
-            );
+            return !props.colorFilled
+                ? (
+                    <StarOutlined size={iconSize.value}></StarOutlined>
+                    )
+                : slots?.content
+                    ? (
+                            slots?.content({
+                                size: iconSize.value,
+                            })
+                        )
+                    : (
+                        <StarFilled size={iconSize.value} />
+                        );
         };
 
         // 渲染满星
         const renderFullStar = () => {
             return (
                 <div class="rate-icon full-icon" style={iconStyle.value}>
-                    {slots?.content ? (
-                        slots?.content({
-                            size: iconSize.value,
-                        })
-                    ) : (
-                        <StarFilled size={iconSize.value} />
-                    )}
+                    {slots?.content
+                        ? (
+                                slots?.content({
+                                    size: iconSize.value,
+                                })
+                            )
+                        : (
+                            <StarFilled size={iconSize.value} />
+                            )}
                 </div>
             );
         };
@@ -94,13 +100,15 @@ export default defineComponent({
                 <div class="rate-icon full-icon" style={iconStyle.value}>
                     <div class="background-icon"> {emptyIcon()}</div>
                     <div class="half-icon">
-                        {slots?.content ? (
-                            slots?.content({
-                                size: iconSize.value,
-                            })
-                        ) : (
-                            <StarFilled size={iconSize.value} />
-                        )}
+                        {slots?.content
+                            ? (
+                                    slots?.content({
+                                        size: iconSize.value,
+                                    })
+                                )
+                            : (
+                                <StarFilled size={iconSize.value} />
+                                )}
                     </div>
                 </div>
             );
@@ -179,7 +187,9 @@ export default defineComponent({
 
         // 渲染文字
         const renderText = () => {
-            if (!props.showText) return null;
+            if (!props.showText) {
+                return null;
+            }
             return <div class={`${prefixCls}-text`}>{getCurrentText()}</div>;
         };
 

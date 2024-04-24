@@ -12,7 +12,7 @@
                 :min="100"
                 :max="400"
                 :step="10"
-            ></FInputNumber>
+            />
             <span style="margin-left: 10px">px</span>
         </FFormItem>
         <FFormItem v-if="heightType === 'maxHeight'" label="最大高度：">
@@ -21,12 +21,12 @@
                 :min="100"
                 :max="400"
                 :step="10"
-            ></FInputNumber>
+            />
             <span style="margin-left: 10px">px</span>
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace vertical>
         <FScrollbar :height="height" :maxHeight="maxHeight" style="width: 100%">
@@ -45,6 +45,7 @@
 
 <script>
 import { ref, watch } from 'vue';
+
 export default {
     setup() {
         const heightType = ref('maxHeight');

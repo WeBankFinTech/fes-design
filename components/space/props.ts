@@ -1,10 +1,10 @@
-import {
-    type DefineComponent,
-    type ComponentObjectPropsOptions,
-    type CSSProperties,
-    type PropType,
+import type {
+    CSSProperties,
+    ComponentObjectPropsOptions,
+    DefineComponent,
+    PropType,
 } from 'vue';
-import { type ExtractPublicPropTypes } from '../_util/interface';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export type Align =
     | 'stretch'

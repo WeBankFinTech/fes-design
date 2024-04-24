@@ -66,40 +66,39 @@
 
             <!-- canvas -->
             <img
-                ref="img"
                 :class="[`${prefixCls}__canvas`]"
                 :src="src"
                 :style="previewStyle"
                 @mousedown="handleMouseDown"
-            />
+            >
         </div>
     </teleport>
 </template>
 
 <script lang="ts">
 import {
-    inject,
-    ref,
-    computed,
-    watch,
-    defineComponent,
-    type PropType,
     type CSSProperties,
     type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
+    defineComponent,
+    inject,
+    ref,
+    watch,
 } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import getPrefixCls from '../_util/getPrefixCls';
 import { noop, requestAnimationFrame } from '../_util/utils';
 import PopupManager from '../_util/popupManager';
 import {
-    LeftOutlined,
-    RightOutlined,
     CloseOutlined,
-    ReloadOutlined,
-    RotateLeftOutlined,
-    SearchPlusOutlined,
-    SearchMinusOutlined,
     DownloadOutlined,
+    LeftOutlined,
+    ReloadOutlined,
+    RightOutlined,
+    RotateLeftOutlined,
+    SearchMinusOutlined,
+    SearchPlusOutlined,
 } from '../icon';
 import { CLOSE_EVENT } from '../_util/constants';
 import { useConfig } from '../config-provider';
@@ -170,8 +169,8 @@ export default defineComponent({
         );
 
         const previewStyle = computed(() => {
-            const { scale, rotateDeg, offsetX, offsetY, enableTransition } =
-                transform.value;
+            const { scale, rotateDeg, offsetX, offsetY, enableTransition }
+                = transform.value;
 
             const style: CSSProperties = {
                 transform: [
@@ -183,12 +182,12 @@ export default defineComponent({
             };
 
             if (
-                props.size.height > clientHeight ||
-                props.size.width > clientWidth
+                props.size.height > clientHeight
+                || props.size.width > clientWidth
             ) {
                 if (
-                    props.size.height / props.size.width >=
-                    clientHeight / clientWidth
+                    props.size.height / props.size.width
+                    >= clientHeight / clientWidth
                 ) {
                     style.height = `${clientHeight}px`;
                     style.width = 'auto';
@@ -220,12 +219,12 @@ export default defineComponent({
                     if (transform.value.scale < 0.2) {
                         break;
                     }
-                    transform.value.scale = parseFloat(
+                    transform.value.scale = Number.parseFloat(
                         (transform.value.scale / zoomRate).toFixed(3),
                     );
                     break;
                 case 'zoomIn':
-                    transform.value.scale = parseFloat(
+                    transform.value.scale = Number.parseFloat(
                         (transform.value.scale * zoomRate).toFixed(3),
                     );
                     break;

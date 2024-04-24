@@ -1,4 +1,4 @@
-import { defineComponent, type StyleValue, type VNodeChild } from 'vue';
+import { type StyleValue, type VNodeChild, defineComponent } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -41,8 +41,8 @@ const InputFileDragger = defineComponent({
             props.onFileTypeInvalid(files);
         };
 
-        const { isHovering, handleEnter, handleLeave, handleOver, handleDrop } =
-            useFileDrop({
+        const { isHovering, handleEnter, handleLeave, handleOver, handleDrop }
+            = useFileDrop({
                 disabled,
                 multiple,
                 accept,
@@ -54,7 +54,9 @@ const InputFileDragger = defineComponent({
             });
 
         const renderFileList = (files: File[]): VNodeChild => {
-            if (files.length === 0) return null;
+            if (files.length === 0) {
+                return null;
+            }
 
             if (slots.fileList) {
                 return slots.fileList({ files });

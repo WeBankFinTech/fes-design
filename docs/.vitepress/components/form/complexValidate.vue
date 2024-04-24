@@ -16,7 +16,7 @@
                 showPassword
                 placeholder="请输入密码"
                 @input="handlePasswordInput"
-            ></FInput>
+            />
         </FFormItem>
         <FFormItem ref="rePasswordRef" label="再次输入" prop="rePassword">
             <FInput
@@ -24,7 +24,7 @@
                 type="password"
                 showPassword
                 placeholder="请再次输入密码"
-            ></FInput>
+            />
         </FFormItem>
 
         <div class="complex-validate-item">
@@ -46,7 +46,7 @@
             <FInput
                 v-model="modelForm.adminDesc"
                 placeholder="请输入adminDesc【在 FForm 维度绑定联动规则】"
-            ></FInput>
+            />
         </FFormItem>
         <!-- 在 FFormItem 维度绑定联动规则  -->
         <FFormItem
@@ -62,7 +62,7 @@
             <FInput
                 v-model="modelForm.editDesc"
                 placeholder="请输入editDesc【在 FFormItem 维度绑定联动规则】"
-            ></FInput>
+            />
         </FFormItem>
 
         <div class="complex-validate-item">
@@ -79,7 +79,7 @@
                 <FInput
                     v-model="modelForm.options[index].value"
                     placeholder="请输入选项"
-                ></FInput>
+                />
                 <PlusSquareOutlined @click="addOptionItem" />
             </FSpace>
         </FFormItem>
@@ -133,7 +133,7 @@
 </template>
 
 <script>
-import { ref, reactive, computed } from 'vue';
+import { computed, reactive, ref } from 'vue';
 
 export default {
     setup() {
@@ -154,9 +154,9 @@ export default {
 
         const validatePasswordStartWith = (rule, value) => {
             return Boolean(
-                modelForm.password &&
-                    modelForm.password.startsWith(value) &&
-                    modelForm.password.length >= value.length,
+                modelForm.password
+                && modelForm.password.startsWith(value)
+                && modelForm.password.length >= value.length,
             );
         };
         const rules = computed(() => {
@@ -255,6 +255,7 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 .complex-validate-item {
     margin: 10px 0 20px 60px;

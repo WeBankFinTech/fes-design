@@ -1,10 +1,10 @@
 import {
-    inject,
-    defineComponent,
+    type ComponentObjectPropsOptions,
     Fragment,
     type PropType,
     computed,
-    type ComponentObjectPropsOptions,
+    defineComponent,
+    inject,
 } from 'vue';
 import FCheckbox from '../../checkbox/checkbox.vue';
 import { provideKey } from '../const';
@@ -49,7 +49,9 @@ export default defineComponent({
         const displayLastColumnIds = computed(() => {
             const getLastColumns = (columns: ColumnInst[]): ColumnInst[] => {
                 const lastColumn = columns[columns.length - 1];
-                if (!lastColumn) return [];
+                if (!lastColumn) {
+                    return [];
+                }
                 return [
                     lastColumn,
                     ...getLastColumns(lastColumn.children ?? []),
@@ -66,8 +68,8 @@ export default defineComponent({
             column: ColumnInst;
             columnIndex: number;
         }) =>
-            column?.slots?.header?.({ column, columnIndex }) ??
-            column?.props?.label;
+            column?.slots?.header?.({ column, columnIndex })
+            ?? column?.props?.label;
 
         const renderThList = (row: ColumnInst[]) =>
             row
@@ -79,8 +81,8 @@ export default defineComponent({
                         class={[
                             `${prefixCls}-th`,
                             column.props.sortable && `${prefixCls}-th-sortable`,
-                            displayLastColumnIds.value.includes(column.id) &&
-                                `${prefixCls}-th-last`,
+                            displayLastColumnIds.value.includes(column.id)
+                            && `${prefixCls}-th-last`,
                             ...getCellClass({
                                 column,
                                 columns: props.columns,
@@ -109,11 +111,11 @@ export default defineComponent({
                                             <span
                                                 class={[
                                                     `${prefixCls}-sorter-up`,
-                                                    sortState.prop ===
-                                                        column.props.prop &&
-                                                        sortState.order ===
-                                                            'ascend' &&
-                                                        'is-active',
+                                                    sortState.prop
+                                                    === column.props.prop
+                                                    && sortState.order
+                                                    === 'ascend'
+                                                    && 'is-active',
                                                 ]}
                                             />
                                         )}
@@ -123,11 +125,11 @@ export default defineComponent({
                                             <span
                                                 class={[
                                                     `${prefixCls}-sorter-down`,
-                                                    sortState.prop ===
-                                                        column.props.prop &&
-                                                        sortState.order ===
-                                                            'descend' &&
-                                                        'is-active',
+                                                    sortState.prop
+                                                    === column.props.prop
+                                                    && sortState.order
+                                                    === 'descend'
+                                                    && 'is-active',
                                                 ]}
                                             />
                                         )}
@@ -135,26 +137,26 @@ export default defineComponent({
                                 )}
                             </Fragment>
                         )}
-                        {column.props.type === 'selection' &&
-                            // 多选场景展示头部全选
-                            column.props.multiple && (
-                                <div class={`${prefixCls}-center`}>
-                                    <FCheckbox
-                                        modelValue={isAllSelected.value}
-                                        indeterminate={
-                                            !isAllSelected.value &&
-                                            isCurrentDataAnySelected.value
+                        {column.props.type === 'selection'
+                        // 多选场景展示头部全选
+                        && column.props.multiple && (
+                            <div class={`${prefixCls}-center`}>
+                                <FCheckbox
+                                    modelValue={isAllSelected.value}
+                                    indeterminate={
+                                            !isAllSelected.value
+                                            && isCurrentDataAnySelected.value
                                         }
-                                        onChange={handleSelectAll}
-                                    />
-                                </div>
-                            )}
+                                    onChange={handleSelectAll}
+                                />
+                            </div>
+                        )}
                         {column.props.resizable && (
                             <span
                                 class={[
                                     `${prefixCls}-resize-button`,
-                                    current.value?.id === column.id &&
-                                        'is-active',
+                                    current.value?.id === column.id
+                                    && 'is-active',
                                 ]}
                                 onMousedown={(e) =>
                                     onMousedown(column, columnIndex, e)

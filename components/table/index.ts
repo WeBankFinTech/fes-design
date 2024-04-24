@@ -1,8 +1,7 @@
 import { withInstall, withNoopInstall } from '../_util/withInstall';
+import type { SFCWithInstall } from '../_util/interface';
 import Table from './table';
 import Column from './column';
-
-import type { SFCWithInstall } from '../_util/interface';
 
 type TableType = SFCWithInstall<typeof Table>;
 type ColumnType = SFCWithInstall<typeof Column>;

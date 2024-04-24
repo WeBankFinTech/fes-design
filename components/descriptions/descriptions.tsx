@@ -1,10 +1,10 @@
-import { defineComponent, provide, computed, ref } from 'vue';
+import { computed, defineComponent, provide, ref } from 'vue';
 import {
     DESCRIPTIONS_PREFIX_CLASS,
     DESCRIPTIONS_PROVIDE_KEY,
 } from './constants';
 import { descriptionsProps } from './props';
-import { type DescriptionsItemInst } from './interface';
+import type { DescriptionsItemInst } from './interface';
 
 const prefixCls = DESCRIPTIONS_PREFIX_CLASS;
 
@@ -24,7 +24,9 @@ const useItems = () => {
 
     const remove = (id: DescriptionsItemInst['id']) => {
         const index = instances.value.findIndex((i) => i.id === id);
-        if (index === -1) return;
+        if (index === -1) {
+            return;
+        }
 
         const nextInstances = [...instances.value];
         nextInstances.splice(index, 1);

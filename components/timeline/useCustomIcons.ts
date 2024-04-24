@@ -25,11 +25,11 @@ import type { TimelineInnerProps as Props } from './props';
 
 type NodeIndex = number;
 
-type InjectValue = {
+interface InjectValue {
     registerIcon: (index: NodeIndex) => void;
     updateIcon: (index: NodeIndex, rect: DOMRect) => void;
     removeRegistration: (index: NodeIndex) => void;
-};
+}
 
 const CUSTOM_ICONS_PROVIDE_KEY: InjectionKey<InjectValue> = Symbol(
     `${COMPONENT_NAME}CustomIconsProvideKey`,
@@ -46,7 +46,9 @@ export const useCustomIconRegister = (
     );
 
     useResize(iconRef, (entries) => {
-        if (!isIconCustom.value) return;
+        if (!isIconCustom.value) {
+            return;
+        }
         const iconRect = entries[0].contentRect;
         updateIcon(nodeIndex, iconRect);
     });
@@ -96,10 +98,12 @@ export const useCustomIcons = (
         const customIconIndexes = Array.from(customIconRectMap.keys());
 
         return nodes.reduce((result, _, currentIndex) => {
-            if (customIconIndexes.includes(currentIndex))
+            if (customIconIndexes.includes(currentIndex)) {
                 return [...result, currentIndex];
-            if (customIconIndexes.includes(currentIndex + 1))
+            }
+            if (customIconIndexes.includes(currentIndex + 1)) {
                 return [...result, currentIndex];
+            }
 
             return result;
         }, [] as number[]);
@@ -119,10 +123,10 @@ export const useCustomIcons = (
             const inlineStartProp = calcInlineStartProp(axisDirection);
             const lengthProp = calcLengthProp(axisDirection);
 
-            const currentIconLength =
-                currentIconRect?.[dimension] ?? ICON_DEFAULT_SIDE_LENGTH;
-            const nextIconLength =
-                nextIconRect?.[dimension] ?? ICON_DEFAULT_SIDE_LENGTH;
+            const currentIconLength
+                = currentIconRect?.[dimension] ?? ICON_DEFAULT_SIDE_LENGTH;
+            const nextIconLength
+                = nextIconRect?.[dimension] ?? ICON_DEFAULT_SIDE_LENGTH;
 
             let contentStyle: CSSProperties = {};
             if (axisDirection !== 'column' && currentIconRect) {

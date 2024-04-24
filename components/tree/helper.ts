@@ -1,5 +1,5 @@
 import { concat } from '../_util/utils';
-import type { TreeNodeKey, InnerTreeOption } from './interface';
+import type { InnerTreeOption, TreeNodeKey } from './interface';
 import type { TreeProps } from './props';
 
 export const getChildrenByValues = (
@@ -24,7 +24,9 @@ export const getParentByValues = (
     const res: Record<string, TreeNodeKey[]> = {};
     values.forEach((value) => {
         const node = nodeList.get(value);
-        if (!node) return;
+        if (!node) {
+            return;
+        }
         if (!res[node.level]) {
             res[node.level] = [];
         }

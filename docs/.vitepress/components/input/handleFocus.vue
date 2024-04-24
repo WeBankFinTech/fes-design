@@ -7,11 +7,11 @@
         placeholder="请输入"
         @blur="handleInputBlur"
         @focus="handleInputFocus"
-    ></FInput>
+    />
 </template>
 
 <script>
-import { ref, nextTick } from 'vue';
+import { nextTick, ref } from 'vue';
 
 export default {
     setup() {

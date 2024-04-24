@@ -1,4 +1,4 @@
-import { tint, shade, fade } from './colors/colorFunc';
+import { fade, shade, tint } from './colors/colorFunc';
 import type { Theme } from './interface';
 
 function getDefaultThemeBase(fontColorBase = '#0f1222') {

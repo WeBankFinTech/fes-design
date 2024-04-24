@@ -1,13 +1,13 @@
 import {
-    computed,
-    defineComponent,
+    type CSSProperties,
+    type Component,
     Teleport,
     Transition,
+    computed,
+    defineComponent,
+    nextTick,
     ref,
     watch,
-    nextTick,
-    type Component,
-    type CSSProperties,
 } from 'vue';
 import { isNumber } from 'lodash-es';
 import FButton from '../button';
@@ -49,7 +49,9 @@ const Drawer = defineComponent({
         watch(
             () => props.show,
             () => {
-                if (props.show) zIndex.value = PopupManager.nextZIndex();
+                if (props.show) {
+                    zIndex.value = PopupManager.nextZIndex();
+                }
                 nextTick(() => {
                     visible.value = props.show;
                 });
@@ -89,7 +91,9 @@ const Drawer = defineComponent({
                     <CloseOutlined />
                 </div>
             );
-            if (!hasHeader.value) return closeJsx;
+            if (!hasHeader.value) {
+                return closeJsx;
+            }
             const header = ctx.slots.title?.() || props.title;
             return (
                 <div class={`${prefixCls}-header`}>
@@ -100,7 +104,9 @@ const Drawer = defineComponent({
         }
 
         function getFooter() {
-            if (!props.footer) return null;
+            if (!props.footer) {
+                return null;
+            }
             let footer: Component;
             if (ctx.slots.footer) {
                 footer = ctx.slots.footer();
@@ -158,8 +164,8 @@ const Drawer = defineComponent({
 
         const showDom = computed(
             () =>
-                (props.displayDirective === 'if' && visible.value) ||
-                props.displayDirective === 'show',
+                (props.displayDirective === 'if' && visible.value)
+                || props.displayDirective === 'show',
         );
 
         const wrapperClass = computed(() => {
@@ -210,9 +216,9 @@ const Drawer = defineComponent({
                                 }}
                                 style={{ zIndex: zIndex.value }}
                                 onClick={(event) =>
-                                    props.maskClosable &&
-                                    props.mask &&
-                                    handleCancel(event)
+                                    props.maskClosable
+                                    && props.mask
+                                    && handleCancel(event)
                                 }
                             >
                                 <div

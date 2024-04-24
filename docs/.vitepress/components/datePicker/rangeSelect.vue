@@ -6,12 +6,11 @@
                 clearable
                 style="width: 200px"
                 :options="formatOptions"
-            >
-            </FSelect>
+            />
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace vertical>
         <FDatePicker
@@ -45,6 +44,7 @@
 
 <script>
 import { ref } from 'vue';
+
 export default {
     setup() {
         const formatOptions = [
@@ -69,6 +69,7 @@ export default {
     },
 };
 </script>
+
 <style scope>
 .date-picker {
     width: 320px;

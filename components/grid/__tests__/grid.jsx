@@ -61,7 +61,7 @@ describe('FEllipsis', () => {
         const gutter = 20;
         const wrapper = mount(FGrid, {
             props: {
-                gutter: gutter,
+                gutter,
             },
             slots: {
                 default: () => (

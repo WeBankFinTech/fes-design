@@ -1,11 +1,11 @@
 import {
-    computed,
-    defineComponent,
     Teleport,
     Transition,
+    computed,
+    defineComponent,
+    nextTick,
     ref,
     watch,
-    nextTick,
 } from 'vue';
 import { isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -19,7 +19,7 @@ import useLockScreen from '../_util/use/useLockScreen';
 import { useConfig } from '../config-provider';
 import { useLocale } from '../config-provider/useLocale';
 import { useContentMaxHeight } from './useContentMaxHeight';
-import { globalModalProps, modalProps, modalIconMap } from './props';
+import { globalModalProps, modalIconMap, modalProps } from './props';
 
 const prefixCls = getPrefixCls('modal');
 const UPDATE_SHOW_EVENT = 'update:show';
@@ -46,7 +46,9 @@ const Modal = defineComponent({
         watch(
             () => props.show,
             () => {
-                if (props.show) zIndex.value = PopupManager.nextZIndex();
+                if (props.show) {
+                    zIndex.value = PopupManager.nextZIndex();
+                }
 
                 nextTick(() => {
                     visible.value = props.show;
@@ -89,7 +91,9 @@ const Modal = defineComponent({
                     <CloseOutlined />
                 </div>
             );
-            if (!hasHeader.value) return closeJsx;
+            if (!hasHeader.value) {
+                return closeJsx;
+            }
             const header = ctx.slots.title?.() || props.title;
             return (
                 <div class={`${prefixCls}-header`} ref={modalHeaderRef}>
@@ -107,7 +111,9 @@ const Modal = defineComponent({
         }
 
         function getFooter() {
-            if (!props.footer) return null;
+            if (!props.footer) {
+                return null;
+            }
             let footer = null;
             if (ctx.slots.footer) {
                 footer = ctx.slots.footer();
@@ -143,19 +149,21 @@ const Modal = defineComponent({
         }
 
         const styles = computed(() => {
-            if (props.fullScreen) return {};
+            if (props.fullScreen) {
+                return {};
+            }
             return {
                 width: isNumber(props.width) ? `${props.width}px` : props.width,
                 marginTop: props.verticalCenter
                     ? 0
                     : isNumber(props.top)
-                    ? `${props.top}px`
-                    : props.top,
+                        ? `${props.top}px`
+                        : props.top,
                 marginBottom: props.verticalCenter
                     ? 0
                     : isNumber(props.bottom)
-                    ? `${props.bottom}px`
-                    : props.bottom,
+                        ? `${props.bottom}px`
+                        : props.bottom,
             };
         });
 
@@ -191,8 +199,8 @@ const Modal = defineComponent({
 
         const showDom = computed(
             () =>
-                (props.displayDirective === 'if' && visible.value) ||
-                props.displayDirective === 'show',
+                (props.displayDirective === 'if' && visible.value)
+                || props.displayDirective === 'show',
         );
 
         // 鼠标在弹窗内按下
@@ -201,9 +209,9 @@ const Modal = defineComponent({
         // 遮罩层点击关闭的逻辑
         const handleClickMask = (event: MouseEvent) => {
             if (
-                props.maskClosable &&
-                props.mask &&
-                !mouseDownInsideChild.value
+                props.maskClosable
+                && props.mask
+                && !mouseDownInsideChild.value
             ) {
                 handleCancel(event);
             }

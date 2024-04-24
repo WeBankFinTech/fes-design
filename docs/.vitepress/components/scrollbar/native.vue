@@ -8,7 +8,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace vertical>
         <FScrollbar height="200px" style="width: 100%" :native="native">
@@ -27,6 +27,7 @@
 
 <script>
 import { ref } from 'vue';
+
 export default {
     setup() {
         const native = ref(true);

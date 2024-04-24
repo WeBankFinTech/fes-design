@@ -1,21 +1,20 @@
-import { inject, ref, computed, type InjectionKey } from 'vue';
+import { type InjectionKey, computed, inject, ref } from 'vue';
 import { CHANGE_EVENT } from '../constants';
+import type { ChangeEvent, VModelEvent } from '../interface';
 import { useNormalModel } from './useModel';
 import useFormAdaptor from './useFormAdaptor';
 
-import type { VModelEvent, ChangeEvent } from '../interface';
-
-export type ParentGroupInjection<
+export interface ParentGroupInjection<
     Value,
     ParentGroupProps extends {
         disabled?: boolean;
     },
-> = {
+> {
     name: string;
     props: ParentGroupProps;
     isSelect: (value: Value) => void;
     onSelect: (value: Value, afterSelect: () => void) => void;
-};
+}
 
 export default function useSelect<
     Value,
@@ -53,9 +52,9 @@ export default function useSelect<
     });
     const innerDisabled = computed(
         () =>
-            props.disabled ||
-            (isGroup && group?.props?.disabled) ||
-            isFormDisabled.value,
+            props.disabled
+            || (isGroup && group?.props?.disabled)
+            || isFormDisabled.value,
     );
     const handleClick = () => {
         if (innerDisabled.value) {

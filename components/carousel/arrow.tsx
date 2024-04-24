@@ -1,9 +1,9 @@
-import { defineComponent, computed, inject, Fragment, Transition } from 'vue';
+import { Fragment, Transition, computed, defineComponent, inject } from 'vue';
 import { throttle } from 'lodash-es';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import { LeftOutlined, RightOutlined } from '../icon';
 import { provideKey } from './const';
-import type { PropType, ComponentObjectPropsOptions } from 'vue';
-import type { CarouselItemData, ArrowType } from './interface';
+import type { ArrowType, CarouselItemData } from './interface';
 
 export default defineComponent({
     name: 'FCarouselArrow',
@@ -38,15 +38,15 @@ export default defineComponent({
 
         const arrowLeftShow = computed(
             () =>
-                (props.showArrow === 'always' || props.hover) &&
-                (rootProps.loop || props.activeIndex > 0),
+                (props.showArrow === 'always' || props.hover)
+                && (rootProps.loop || props.activeIndex > 0),
         );
 
         const arrowRightShow = computed(
             () =>
-                (props.showArrow === 'always' || props.hover) &&
-                (rootProps.loop ||
-                    props.activeIndex < slideChildren.value.length - 1),
+                (props.showArrow === 'always' || props.hover)
+                && (rootProps.loop
+                || props.activeIndex < slideChildren.value.length - 1),
         );
 
         const slideItemInStage = (
@@ -55,22 +55,22 @@ export default defineComponent({
         ) => {
             const length = slideChildren.value.length;
             if (
-                (index === length - 1 &&
-                    slideItem.states.inStage &&
-                    slideChildren.value[0].states.active) ||
-                (slideItem.states.inStage &&
-                    slideChildren.value[index + 1] &&
-                    slideChildren.value[index + 1].states.active)
+                (index === length - 1
+                && slideItem.states.inStage
+                && slideChildren.value[0].states.active)
+                || (slideItem.states.inStage
+                && slideChildren.value[index + 1]
+                && slideChildren.value[index + 1].states.active)
             ) {
                 return 'left';
             }
             if (
-                (index === 0 &&
-                    slideItem.states.inStage &&
-                    slideChildren.value[length - 1].states.active) ||
-                (slideItem.states.inStage &&
-                    slideChildren.value[index - 1] &&
-                    slideChildren.value[index - 1].states.active)
+                (index === 0
+                && slideItem.states.inStage
+                && slideChildren.value[length - 1].states.active)
+                || (slideItem.states.inStage
+                && slideChildren.value[index - 1]
+                && slideChildren.value[index - 1].states.active)
             ) {
                 return 'right';
             }
@@ -79,7 +79,9 @@ export default defineComponent({
 
         // 当鼠标进入箭头按钮
         const onEnterArrowButton = (arrow: string) => {
-            if (direction.value === 'vertical') return;
+            if (direction.value === 'vertical') {
+                return;
+            }
             slideChildren.value.forEach((item, index) => {
                 if (arrow === slideItemInStage(item, index)) {
                     item.states.hover = true;
@@ -89,7 +91,9 @@ export default defineComponent({
 
         // 当鼠标离开箭头按钮
         const onLeaveArrowButton = () => {
-            if (direction.value === 'vertical') return;
+            if (direction.value === 'vertical') {
+                return;
+            }
             slideChildren.value.forEach((item) => {
                 item.states.hover = false;
             });

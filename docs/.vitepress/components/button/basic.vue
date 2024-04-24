@@ -30,7 +30,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace>
         <FButton :size="size" :loading="loading" :disabled="disabled">
@@ -62,7 +62,7 @@
         </FButton>
     </FSpace>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace>
         <FButton
@@ -102,6 +102,7 @@
 
 <script setup>
 import { ref } from 'vue';
+
 const size = ref('middle');
 const loading = ref(false);
 const disabled = ref(false);

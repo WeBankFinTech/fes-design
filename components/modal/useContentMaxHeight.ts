@@ -1,22 +1,22 @@
-import { ref, computed, nextTick, type ComputedRef } from 'vue';
+import { type ComputedRef, computed, nextTick, ref } from 'vue';
 import { isNumber, isString } from 'lodash-es';
 import { useWindowSize } from '@vueuse/core';
 import useResize from '../_util/use/useResize';
 import { depx } from '../_util/utils';
-import { type ModalInnerProps } from './props';
+import type { ModalInnerProps } from './props';
 
 export const useContentMaxHeight = (
     styles: ComputedRef<
         | {
-              width?: undefined;
-              marginTop?: undefined;
-              marginBottom?: undefined;
-          }
+            width?: undefined;
+            marginTop?: undefined;
+            marginBottom?: undefined;
+        }
         | {
-              width: string;
-              marginTop: string | number;
-              marginBottom: string | number;
-          }
+            width: string;
+            marginTop: string | number;
+            marginBottom: string | number;
+        }
     >,
     props: ModalInnerProps,
 ) => {
@@ -34,13 +34,13 @@ export const useContentMaxHeight = (
     const marginTop = computed(() => {
         return isNumber(styles.value.marginTop)
             ? styles.value.marginTop
-            : parseFloat(styles.value.marginTop);
+            : Number.parseFloat(styles.value.marginTop);
     });
 
     const marginBottom = computed(() => {
         return isNumber(styles.value.marginBottom)
             ? styles.value.marginBottom
-            : parseFloat(styles.value.marginBottom);
+            : Number.parseFloat(styles.value.marginBottom);
     });
 
     const modalStyle = computed(() => {
@@ -48,11 +48,11 @@ export const useContentMaxHeight = (
     });
 
     const paddingTop = computed(() => {
-        return parseFloat(modalStyle.value?.paddingTop);
+        return Number.parseFloat(modalStyle.value?.paddingTop);
     });
 
     const paddingBottom = computed(() => {
-        return parseFloat(modalStyle.value?.paddingBottom);
+        return Number.parseFloat(modalStyle.value?.paddingBottom);
     });
 
     // 最大场景的弹窗高度
@@ -66,17 +66,17 @@ export const useContentMaxHeight = (
             if (isNumber(props.maxHeight)) {
                 return props.maxHeight;
             } else if (
-                isString(props.maxHeight) &&
-                props.maxHeight.endsWith('px')
+                isString(props.maxHeight)
+                && props.maxHeight.endsWith('px')
             ) {
                 // px字符串 解析字符串的数字
                 return depx(props.maxHeight);
             } else if (
-                isString(props.maxHeight) &&
-                props.maxHeight.endsWith('%')
+                isString(props.maxHeight)
+                && props.maxHeight.endsWith('%')
             ) {
-                //%字符串 解析字符串的数字，算出百分比对应的高度px
-                return (parseFloat(props.maxHeight) / 100) * windowHeight.value;
+                // %字符串 解析字符串的数字，算出百分比对应的高度px
+                return (Number.parseFloat(props.maxHeight) / 100) * windowHeight.value;
             } else {
                 console.warn('[FModal] maxHeight 仅支持 px、%、数值格式');
             }
@@ -87,14 +87,14 @@ export const useContentMaxHeight = (
     // 实际滚动区域的高度
     const contentMaxHeight = computed(() => {
         // 最大场景的内容高度
-        const maxContentHeight =
-            windowHeight.value -
-            marginTop.value -
-            marginBottom.value -
-            modalHeaderHight.value -
-            modalFooterHight.value -
-            paddingTop.value -
-            paddingBottom.value;
+        const maxContentHeight
+            = windowHeight.value
+            - marginTop.value
+            - marginBottom.value
+            - modalHeaderHight.value
+            - modalFooterHight.value
+            - paddingTop.value
+            - paddingBottom.value;
 
         if (maxContentHeight < 100) {
             return 100;
@@ -103,11 +103,11 @@ export const useContentMaxHeight = (
             return maxContentHeight;
         } else {
             return (
-                currentMaxModalHeight.value -
-                modalHeaderHight.value -
-                modalFooterHight.value -
-                paddingTop.value -
-                paddingBottom.value
+                currentMaxModalHeight.value
+                - modalHeaderHight.value
+                - modalFooterHight.value
+                - paddingTop.value
+                - paddingBottom.value
             );
         }
     });

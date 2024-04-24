@@ -16,18 +16,20 @@ export function matchType(
     return acceptAtoms.some((acceptAtom) => {
         if (acceptAtom.startsWith('.')) {
             // suffix
-            if (name.endsWith(acceptAtom)) return true;
+            if (name.endsWith(acceptAtom)) {
+                return true;
+            }
         } else if (acceptAtom.includes('/')) {
             // mime type
             const [type, subtype] = mimeType.split('/');
             const [acceptType, acceptSubtype] = acceptAtom.split('/');
             if (
-                acceptType === '*' ||
-                (type && acceptType && acceptType === type)
+                acceptType === '*'
+                || (type && acceptType && acceptType === type)
             ) {
                 if (
-                    acceptSubtype === '*' ||
-                    (subtype && acceptSubtype && acceptSubtype === subtype)
+                    acceptSubtype === '*'
+                    || (subtype && acceptSubtype && acceptSubtype === subtype)
                 ) {
                     return true;
                 }

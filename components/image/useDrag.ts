@@ -1,4 +1,4 @@
-import { type Ref } from 'vue';
+import type { Ref } from 'vue';
 import { throttle } from 'lodash-es';
 import { useEventListener } from '@vueuse/core';
 
@@ -40,12 +40,16 @@ const usePreviewImageDrag = (
 
     // mousemove 事件监听 document 拖拽效果更流畅
     useEventListener(document, 'mousemove', (event) => {
-        if (!isMouseDown) return;
+        if (!isMouseDown) {
+            return;
+        }
         handleDrag(event);
     });
 
     useEventListener(document, 'mouseup', () => {
-        if (!isMouseDown) return;
+        if (!isMouseDown) {
+            return;
+        }
         isMouseDown = false;
     });
 

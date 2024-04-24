@@ -76,12 +76,12 @@
 
 <script lang="ts">
 import {
+    type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
     defineComponent,
     ref,
     watch,
-    computed,
-    type PropType,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
@@ -94,9 +94,8 @@ import Popper from '../popper';
 import FButton from '../button';
 
 import { useLocale } from '../config-provider/useLocale';
+import type { ExtractPublicPropTypes, GetContainer } from '../_util/interface';
 import TimeSelect from './time-select.vue';
-import type { GetContainer } from '../_util/interface';
-import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('time-picker');
 
@@ -117,12 +116,14 @@ const getCurrentTime = (format: string) => {
 };
 
 function validator(val: string | undefined, cellFormat: string, max: number) {
-    if (!val) return false;
+    if (!val) {
+        return false;
+    }
     if (
-        val.length > 3 ||
-        !/^\d{1,2}$/.test(val) ||
-        Number(val) > max ||
-        val.length < cellFormat.length
+        val.length > 3
+        || !/^\d{1,2}$/.test(val)
+        || Number(val) > max
+        || val.length < cellFormat.length
     ) {
         return false;
     }
@@ -139,9 +140,13 @@ function validateTime(data: string, format: string) {
     for (let i = 0; i < cellFormats.length; ++i) {
         const cellFormat = cellFormats[i];
         if (/[Hh]/.test(cellFormat)) {
-            if (!validator(times.shift(), cellFormat, 23)) return false;
+            if (!validator(times.shift(), cellFormat, 23)) {
+                return false;
+            }
         } else {
-            if (!validator(times.shift(), cellFormat, 59)) return false;
+            if (!validator(times.shift(), cellFormat, 59)) {
+                return false;
+            }
         }
     }
     return true;

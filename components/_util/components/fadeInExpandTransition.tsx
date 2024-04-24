@@ -1,10 +1,10 @@
 import {
-    h,
+    type ComponentObjectPropsOptions,
+    type PropType,
     Transition,
     TransitionGroup,
     defineComponent,
-    type PropType,
-    type ComponentObjectPropsOptions,
+    h,
 } from 'vue';
 
 export default defineComponent({
@@ -38,7 +38,9 @@ export default defineComponent({
             }
             void el.offsetWidth;
             const { onLeave } = props;
-            if (onLeave) onLeave();
+            if (onLeave) {
+                onLeave();
+            }
         }
         function handleAfterLeave(el: HTMLElement): void {
             if (props.width) {
@@ -47,7 +49,9 @@ export default defineComponent({
                 el.style.maxHeight = '';
             }
             const { onAfterLeave } = props;
-            if (onAfterLeave) onAfterLeave();
+            if (onAfterLeave) {
+                onAfterLeave();
+            }
         }
         function handleEnter(el: HTMLElement): void {
             el.style.transition = 'none';

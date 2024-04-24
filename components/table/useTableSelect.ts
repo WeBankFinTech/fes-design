@@ -1,7 +1,7 @@
-import { watch, computed, type SetupContext, type Ref } from 'vue';
+import { type Ref, type SetupContext, computed, watch } from 'vue';
 import { isFunction } from 'lodash-es';
 import { useNormalModel } from '../_util/use/useModel';
-import { type ArrayUnionToUnionArray } from '../_util/types';
+import type { ArrayUnionToUnionArray } from '../_util/types';
 import { TABLE_NAME } from './const';
 
 import type { TableProps } from './table';
@@ -46,7 +46,9 @@ export default ({
     // 能被选择 && 展示 的数据
     const selectableData = computed(() =>
         showData.value.filter((row, rowIndex) => {
-            if (!selectionColumn.value) return false;
+            if (!selectionColumn.value) {
+                return false;
+            }
             if (isFunction(selectionColumn.value?.props?.selectable)) {
                 return selectionColumn.value.props.selectable({
                     row,
@@ -64,8 +66,8 @@ export default ({
     // 是否是全选了
     const isAllSelected = computed(() => {
         return (
-            selectableData.value.length > 0 &&
-            selectableData.value.every((_row) => {
+            selectableData.value.length > 0
+            && selectableData.value.every((_row) => {
                 const _rowKey = getRowKey({ row: _row });
                 return (currentCheckedKeys.value as CheckedKey[]).includes(
                     _rowKey as CheckedKey,
@@ -99,7 +101,9 @@ export default ({
     });
 
     const isSelectDisabled = ({ row }: { row: RowType }) => {
-        if (!selectionColumn.value) return false;
+        if (!selectionColumn.value) {
+            return false;
+        }
         return !selectableData.value.includes(row);
     };
 
@@ -112,7 +116,9 @@ export default ({
 
     // 选择框的点击事件
     const handleSelect = ({ row }: { row: RowType }) => {
-        if (isSelectDisabled({ row })) return;
+        if (isSelectDisabled({ row })) {
+            return;
+        }
 
         const rowKey = getRowKey({ row });
         const selectionList = currentCheckedKeys.value as CheckedKey[];

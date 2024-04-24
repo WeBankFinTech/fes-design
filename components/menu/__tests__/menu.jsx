@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
-import { FMenu, FSubMenu, FMenuGroup, FMenuItem } from '../index';
+import { FMenu, FMenuGroup, FMenuItem, FSubMenu } from '../index';
 import getPrefixCls from '../../_util/getPrefixCls';
 import AppstoreOutlined from '../../icon/AppstoreOutlined';
 
@@ -11,9 +11,9 @@ const _mount = (props, slots = {}) =>
         slots,
     });
 
-function getSubItemChildren(wrapper, index) {
-    return wrapper.findAll(`.${getPrefixCls('sub-menu')}-children`)[index];
-}
+// function getSubItemChildren(wrapper, index) {
+//     return wrapper.findAll(`.${getPrefixCls('sub-menu')}-children`)[index];
+// }
 function geSubItemWrapper(wrapper, index) {
     return wrapper.findAll(`.${getPrefixCls('sub-menu')}-wrapper`)[index];
 }

@@ -1,16 +1,16 @@
 import {
-    computed,
-    ref,
-    reactive,
-    provide,
-    defineComponent,
     type ComponentObjectPropsOptions,
+    computed,
+    defineComponent,
+    provide,
+    reactive,
+    ref,
 } from 'vue';
 import { useTheme } from '../_theme/useTheme';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import Preview from './preview.vue';
 import { PREVIEW_PROVIDE_KEY } from './props';
 import type { PreviewImageType } from './props';
-import type { ExtractPublicPropTypes } from '../_util/interface';
 
 let prevOverflow = '';
 
@@ -69,9 +69,9 @@ export default defineComponent({
             } else {
                 setCurrent(
                     previewUrlsKeys.value[
-                        previewUrlsKeys.value.length -
-                            currentPreviewIndex.value -
-                            1
+                        previewUrlsKeys.value.length
+                        - currentPreviewIndex.value
+                        - 1
                     ],
                 );
             }
@@ -87,9 +87,9 @@ export default defineComponent({
             } else {
                 setCurrent(
                     previewUrlsKeys.value[
-                        previewUrlsKeys.value.length -
-                            currentPreviewIndex.value -
-                            1
+                        previewUrlsKeys.value.length
+                        - currentPreviewIndex.value
+                        - 1
                     ],
                 );
             }

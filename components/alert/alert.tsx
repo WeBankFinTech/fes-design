@@ -1,10 +1,10 @@
 import {
-    ref,
+    type ComponentObjectPropsOptions,
+    type PropType,
     Transition,
     computed,
     defineComponent,
-    type PropType,
-    type ComponentObjectPropsOptions,
+    ref,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import CloseCircleOutlined from '../icon/CloseCircleOutlined';
@@ -67,62 +67,72 @@ export default defineComponent({
                 description: descriptionSlot,
             } = ctx.slots;
 
-            const description =
-                props.description || descriptionSlot ? (
-                    <div class={bodyClass.value}>
-                        {descriptionSlot
-                            ? descriptionSlot()
-                            : props.description}
-                    </div>
-                ) : null;
+            const description
+                = props.description || descriptionSlot
+                    ? (
+                        <div class={bodyClass.value}>
+                            {descriptionSlot
+                                ? descriptionSlot()
+                                : props.description}
+                        </div>
+                        )
+                    : null;
 
             return (
                 <Transition name={`${prefixCls}-fade-expand`}>
-                    {!visible.value ? null : (
-                        <div
-                            class={`${prefixCls} ${
+                    {!visible.value
+                        ? null
+                        : (
+                            <div
+                                class={`${prefixCls} ${
                                 props.center
                                     ? `${prefixCls}-message-center`
                                     : ''
                             } ${prefixCls}-${props.type}`}
-                        >
-                            <div class={`${prefixCls}-head`}>
-                                <div class={`${prefixCls}-head-message`}>
-                                    {props.showIcon ? (
-                                        <div
-                                            class={`${prefixCls}-head-message-icon`}
-                                        >
-                                            {renderIcon()}
+                            >
+                                <div class={`${prefixCls}-head`}>
+                                    <div class={`${prefixCls}-head-message`}>
+                                        {props.showIcon
+                                            ? (
+                                                <div
+                                                    class={`${prefixCls}-head-message-icon`}
+                                                >
+                                                    {renderIcon()}
+                                                </div>
+                                                )
+                                            : null}
+                                        <div>
+                                            {defaultSlot
+                                                ? defaultSlot()
+                                                : props.message}
                                         </div>
-                                    ) : null}
-                                    <div>
-                                        {defaultSlot
-                                            ? defaultSlot()
-                                            : props.message}
+                                    </div>
+                                    <div class={`${prefixCls}-head-right`}>
+                                        {actionSlot
+                                            ? (
+                                                <div
+                                                    class={`${prefixCls}-head-right-action`}
+                                                >
+                                                    {actionSlot()}
+                                                </div>
+                                                )
+                                            : null}
+                                        {props.closable
+                                            ? (
+                                                <div
+                                                    class={`${prefixCls}-head-right-close`}
+                                                >
+                                                    <CloseCircleOutlined
+                                                        onClick={handleCloseClick}
+                                                    />
+                                                </div>
+                                                )
+                                            : null}
                                     </div>
                                 </div>
-                                <div class={`${prefixCls}-head-right`}>
-                                    {actionSlot ? (
-                                        <div
-                                            class={`${prefixCls}-head-right-action`}
-                                        >
-                                            {actionSlot()}
-                                        </div>
-                                    ) : null}
-                                    {props.closable ? (
-                                        <div
-                                            class={`${prefixCls}-head-right-close`}
-                                        >
-                                            <CloseCircleOutlined
-                                                onClick={handleCloseClick}
-                                            />
-                                        </div>
-                                    ) : null}
-                                </div>
+                                {description}
                             </div>
-                            {description}
-                        </div>
-                    )}
+                            )}
                 </Transition>
             );
         };

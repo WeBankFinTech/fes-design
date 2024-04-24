@@ -61,7 +61,7 @@
                     @select="handleSelect"
                     @check="handleCheck"
                     @mousedown.prevent
-                ></Cascader>
+                />
                 <OptionList
                     v-show="filterText"
                     :options="filteredOptions"
@@ -79,24 +79,24 @@
 
 <script lang="ts">
 import {
+    type CSSProperties,
+    type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
     defineComponent,
     ref,
     unref,
     watch,
-    computed,
-    type CSSProperties,
-    type PropType,
-    type ComponentObjectPropsOptions,
 } from 'vue';
-import { isArray, debounce } from 'lodash-es';
+import { debounce, isArray } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import {
-    useNormalModel,
-    useArrayModel,
     type UseArrayModelReturn,
+    useArrayModel,
+    useNormalModel,
 } from '../_util/use/useModel';
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
@@ -106,30 +106,30 @@ import { cascaderProps } from '../cascader/props';
 import {
     getCascadeChildrenByKeys,
     getCascadeParentByKeys,
-    handleParent,
     handleChildren,
+    handleParent,
 } from '../cascader/helper';
 import { useLocale } from '../config-provider/useLocale';
 import { CHECK_STRATEGY } from '../cascader/const';
 import OptionList from '../select/optionList';
 import { prefixCls as selectPrefixCls } from '../select/const';
-import {
-    getCurrentValueByKeys,
-    getKeysByCurrentValue,
-    getNotMatchedPathByKey,
-    getExpandedKeysBySelectedKeys,
-} from './helper';
-
-import { SELECT_CASCADER_NAME, LABEL_SEPARATOR } from './const';
 import type {
+    CascaderNodeKey,
     CascaderNodeList,
+    CascaderOption,
+    CheckParams,
     InnerCascaderOption,
     SelectParams,
-    CheckParams,
-    CascaderNodeKey,
-    CascaderOption,
 } from '../cascader/interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import {
+    getCurrentValueByKeys,
+    getExpandedKeysBySelectedKeys,
+    getKeysByCurrentValue,
+    getNotMatchedPathByKey,
+} from './helper';
+
+import { LABEL_SEPARATOR, SELECT_CASCADER_NAME } from './const';
 
 const prefixCls = getPrefixCls('select-cascader');
 
@@ -175,9 +175,9 @@ export default defineComponent({
         });
         const isOpened = ref(false);
 
+        // 与 props 中 modelValue 类型保持一致
         const [currentValue, updateCurrentValue] = props.multiple
-            ? // 与 props 中 modelValue 类型保持一致
-              (useArrayModel(props, emit) as unknown as UseArrayModelReturn<
+            ? (useArrayModel(props, emit) as unknown as UseArrayModelReturn<
                   Array<CascaderNodeKey> | Array<Array<CascaderNodeKey>>
               >)
             : useNormalModel(props, emit);
@@ -315,16 +315,16 @@ export default defineComponent({
         );
 
         watch([() => props.emitPath, () => props.cascade], () => {
-            const value: null | [] =
-                props.multiple || props.emitPath ? [] : null;
+            const value: null | []
+                = props.multiple || props.emitPath ? [] : null;
 
             updateCurrentValue(value);
             handleChange();
         });
 
         const handleClear = () => {
-            const value: null | [] =
-                props.multiple || props.emitPath ? [] : null;
+            const value: null | []
+                = props.multiple || props.emitPath ? [] : null;
 
             if (
                 props.multiple
@@ -340,7 +340,9 @@ export default defineComponent({
         };
 
         const handleSelect = (data: SelectParams) => {
-            if (innerDisabled.value) return;
+            if (innerDisabled.value) {
+                return;
+            }
             if (!props.multiple) {
                 isOpened.value = false;
             }
@@ -351,7 +353,9 @@ export default defineComponent({
         };
 
         const handleCheck = (data: CheckParams) => {
-            if (innerDisabled.value) return;
+            if (innerDisabled.value) {
+                return;
+            }
             if (!props.multiple) {
                 isOpened.value = false;
             }
@@ -377,8 +381,8 @@ export default defineComponent({
                 if (!props.cascade) {
                     values.splice(findIndex, 1);
                 } else {
-                    const { isLeaf, children, indexPath } =
-                        nodeList.value[value as CascaderNodeKey];
+                    const { isLeaf, children, indexPath }
+                        = nodeList.value[value as CascaderNodeKey];
 
                     values.splice(findIndex, 1);
 
@@ -426,8 +430,8 @@ export default defineComponent({
                     };
                     const formatLabel = props.showPath
                         ? (path as CascaderOption[])
-                              .map((item) => `${item.label}`)
-                              .join(LABEL_SEPARATOR)
+                                .map((item) => `${item.label}`)
+                                .join(LABEL_SEPARATOR)
                         : label;
                     return {
                         value,
@@ -457,7 +461,7 @@ export default defineComponent({
         watch(
             filterText,
             debounce(() => {
-                let currentNodeList: InnerCascaderOption[] = [];
+                const currentNodeList: InnerCascaderOption[] = [];
                 if (innerFilterable.value && filterText.value) {
                     filterNodeList.value.forEach((node) => {
                         let isFilter = false;

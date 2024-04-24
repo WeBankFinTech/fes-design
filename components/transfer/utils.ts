@@ -1,5 +1,5 @@
 import { COMPONENT_CLASS } from './const';
-import { type TransferOption, type TransferFilter } from './interface';
+import type { TransferFilter, TransferOption } from './interface';
 
 export const cls = (appendClass: string): string =>
     `${COMPONENT_CLASS}-${appendClass}`;

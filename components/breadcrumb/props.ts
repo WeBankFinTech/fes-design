@@ -1,7 +1,7 @@
-import { type ComponentObjectPropsOptions } from 'vue';
-import {
-    type ExtractPublicPropTypes,
-    type ComponentInnerProps,
+import type { ComponentObjectPropsOptions } from 'vue';
+import type {
+    ComponentInnerProps,
+    ExtractPublicPropTypes,
 } from '../_util/interface';
 
 export const breadcrumbProps = {
@@ -20,6 +20,6 @@ export type BreadcrumbProps = ExtractPublicPropTypes<typeof breadcrumbProps>;
 
 type BreadcrumbInnerProps = ComponentInnerProps<typeof breadcrumbProps>;
 
-export type BreadcrumbInject = {
+export interface BreadcrumbInject {
     props: BreadcrumbInnerProps;
-};
+}

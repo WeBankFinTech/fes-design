@@ -1,5 +1,5 @@
 <template>
     啊
-    <FDivider></FDivider>
+    <FDivider />
     啊
 </template>

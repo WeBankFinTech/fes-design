@@ -1,4 +1,4 @@
-import { defineComponent, computed } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { isNumber, isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -13,23 +13,28 @@ export default defineComponent({
         useTheme();
         // 展示内容
         const badgeValue = computed(() => {
-            if (props.dot) return '';
+            if (props.dot) {
+                return '';
+            }
             // 只有在 value 是数值类型，才生效 超过阈值展示阈值+
-            if (isNumber(props.value) && props.value > props.max)
+            if (isNumber(props.value) && props.value > props.max) {
                 return `${props.max}+`;
+            }
             return props.value;
         });
 
         const showBadge = computed(() => {
             // 如果是 hidden ，直接 false，不展示
-            if (props.hidden) return false;
+            if (props.hidden) {
+                return false;
+            }
             // 有插槽就直接展示自定义插槽内容
             return (
-                slots.content ||
-                props.dot ||
-                isString(props.value) ||
-                (props.value === 0 && props.showZero) ||
-                (props.value !== 0 && isNumber(props.value))
+                slots.content
+                || props.dot
+                || isString(props.value)
+                || (props.value === 0 && props.showZero)
+                || (props.value !== 0 && isNumber(props.value))
             );
         });
 
@@ -46,8 +51,8 @@ export default defineComponent({
         const badgeStyle = computed(() => {
             return props.backgroundColor
                 ? {
-                      backgroundColor: props.backgroundColor,
-                  }
+                        backgroundColor: props.backgroundColor,
+                    }
                 : {};
         });
 

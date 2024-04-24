@@ -9,18 +9,21 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
-    <FCascader :data="data" checkable></FCascader>
+    <FCascader :data="data" checkable />
 </template>
+
 <script>
-import { ref, computed } from 'vue';
+import { computed, ref } from 'vue';
 import { cloneDeep } from 'lodash-es';
 
 function createData(level = 1, baseKey = '') {
-    if (!level) return undefined;
+    if (!level) {
+        return undefined;
+    }
     return Array.apply(null, { length: 2 }).map((_, index) => {
-        const key = '' + baseKey + level + index;
+        const key = `${baseKey}${level}${index}`;
         return {
             label: createLabel(level),
             value: key,
@@ -29,10 +32,18 @@ function createData(level = 1, baseKey = '') {
     });
 }
 function createLabel(level) {
-    if (level === 4) return '道生一';
-    if (level === 3) return '一生二';
-    if (level === 2) return '二生三';
-    if (level === 1) return '三生万物';
+    if (level === 4) {
+        return '道生一';
+    }
+    if (level === 3) {
+        return '一生二';
+    }
+    if (level === 2) {
+        return '二生三';
+    }
+    if (level === 1) {
+        return '三生万物';
+    }
 }
 
 function flatNodes(nodes = []) {
@@ -50,7 +61,7 @@ export default {
         const originData = createData(4);
         const disabledOption = ref('parent');
         const data = computed(() => {
-            let data = cloneDeep(originData);
+            const data = cloneDeep(originData);
             const allNodes = flatNodes(data);
             if (disabledOption.value === 'specific') {
                 data.forEach((item) => {
@@ -58,14 +69,14 @@ export default {
                 });
             } else if (disabledOption.value === 'parent') {
                 allNodes.forEach((item) => {
-                    item.children &&
-                        item.children.length &&
-                        (item.disabled = true);
+                    item.children
+                    && item.children.length
+                    && (item.disabled = true);
                 });
             } else if (disabledOption.value === 'leaf') {
                 allNodes.forEach((item) => {
-                    !(item.children && item.children.length) &&
-                        (item.disabled = true);
+                    !(item.children && item.children.length)
+                    && (item.disabled = true);
                 });
             }
 

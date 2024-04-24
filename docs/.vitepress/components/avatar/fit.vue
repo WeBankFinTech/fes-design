@@ -6,15 +6,14 @@
             labelField="name"
             style="width: 200px"
             :options="optionList"
-        >
-        </FSelect>
+        />
     </FSpace>
     <FSpace>
         <FAvatar
             :size="size"
             :fit="fit"
             src="https://fes-design.mumblefe.cn/images/fes-logo.svg"
-        ></FAvatar>
+        />
     </FSpace>
 </template>
 

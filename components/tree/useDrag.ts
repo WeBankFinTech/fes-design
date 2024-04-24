@@ -1,11 +1,13 @@
 import { computed, onUnmounted, ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
-import type { InnerTreeOption, TreeNodeKey, DropPosition } from './interface';
+import type { DropPosition, InnerTreeOption, TreeNodeKey } from './interface';
 
 const prefixCls = getPrefixCls('tree-node');
 
 function allowDrop(node: InnerTreeOption, dropPosition: DropPosition): boolean {
-    if (node.isLeaf === false) return true;
+    if (node.isLeaf === false) {
+        return true;
+    }
     if (node.children) {
         return true;
     }
@@ -78,22 +80,32 @@ export default ({
     };
 
     function getTargetNode(value: TreeNodeKey) {
-        if (!dragNode) return;
+        if (!dragNode) {
+            return;
+        }
         const node = nodeList.get(value);
-        if (!node) return;
-        if (node.indexPath.includes(dragNode.value)) return;
+        if (!node) {
+            return;
+        }
+        if (node.indexPath.includes(dragNode.value)) {
+            return;
+        }
         return node;
     }
 
     const handleDragenter = (value: TreeNodeKey, event: DragEvent) => {
         const node = getTargetNode(value);
-        if (!node) return;
+        if (!node) {
+            return;
+        }
         emit('dragenter', { node, event });
     };
 
     const handleDragleave = (value: TreeNodeKey, event: DragEvent) => {
         const node = getTargetNode(value);
-        if (!node) return;
+        if (!node) {
+            return;
+        }
         emit('dragleave', { node, event });
     };
 
@@ -110,9 +122,9 @@ export default ({
             overBeginTimeMap[value] = Date.now();
         } else {
             if (
-                Date.now() - overBeginTimeMap[value] > 1000 &&
-                node.hasChildren &&
-                !node.isExpanded.value
+                Date.now() - overBeginTimeMap[value] > 1000
+                && node.hasChildren
+                && !node.isExpanded.value
             ) {
                 expandNode(value, event);
             }
@@ -121,8 +133,8 @@ export default ({
             `.${prefixCls}[data-value='${value}']`,
         );
         // 悬浮节点大小位置信息
-        const { height: targetElOffsetHeight } =
-            targetNodeEl.getBoundingClientRect();
+        const { height: targetElOffsetHeight }
+            = targetNodeEl.getBoundingClientRect();
         let mousePosition: DropPosition;
         const targeEl = event.currentTarget as HTMLElement;
         // 焦点节点大小位置信息
@@ -148,7 +160,7 @@ export default ({
         }
 
         dragOverInfo.value = {
-            node: node,
+            node,
             position: mousePosition,
         };
         // 300毫秒后没有后续则表示已经移出
@@ -162,14 +174,16 @@ export default ({
 
     const handleDrop = (value: TreeNodeKey, event: DragEvent) => {
         const node = getTargetNode(value);
-        if (!node) return;
+        if (!node) {
+            return;
+        }
         if (!dragOverInfo.value) {
             return;
         }
         emit('drop', {
             position: dragOverInfo.value.position,
             node: dragOverInfo.value.node,
-            dragNode: dragNode,
+            dragNode,
             originNode: dragOverInfo.value.node.origin,
             originDragNode: dragNode.origin,
             event,

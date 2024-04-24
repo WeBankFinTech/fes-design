@@ -1,20 +1,20 @@
 import {
+    type CSSProperties,
+    type ComponentObjectPropsOptions,
+    TransitionGroup,
+    type VNode,
+    type VNodeChild,
+    cloneVNode,
     createApp,
     defineComponent,
     onMounted,
     ref,
-    TransitionGroup,
-    type CSSProperties,
-    type VNodeChild,
-    type VNode,
-    cloneVNode,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import {
-    InfoCircleFilled,
-    CloseCircleFilled,
     CheckCircleFilled,
+    CloseCircleFilled,
     ExclamationCircleFilled,
+    InfoCircleFilled,
 } from '../icon';
 import { useTheme } from '../_theme/useTheme';
 import { getFirstValidNode } from './vnode';
@@ -63,7 +63,9 @@ const Notification = defineComponent({
         }
 
         function append(notice: Notice) {
-            if (!notice.key) notice.key = genUid();
+            if (!notice.key) {
+                notice.key = genUid();
+            }
             if (props.maxCount && notices.value.length >= props.maxCount) {
                 notices.value.shift();
             }
@@ -86,12 +88,14 @@ const Notification = defineComponent({
     render() {
         const { notices, transitionName } = this;
         const children = notices.map((notice) => {
-            let vNode =
-                typeof notice.children === 'function'
+            let vNode
+                = typeof notice.children === 'function'
                     ? notice.children()
                     : notice.children;
             vNode = getFirstValidNode([vNode]);
-            if (vNode) return cloneVNode(vNode, { key: notice.key });
+            if (vNode) {
+                return cloneVNode(vNode, { key: notice.key });
+            }
         });
         return (
             <TransitionGroup name={transitionName} tag="div">
@@ -130,7 +134,9 @@ export function createManager(opt: {
                     },
                     exited() {
                         // 容器是否存在
-                        if (!getContainer) return true;
+                        if (!getContainer) {
+                            return true;
+                        }
                         try {
                             if (!getContainer()) {
                                 instance.destroy();

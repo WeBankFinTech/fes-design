@@ -33,7 +33,7 @@
             :size="size"
             :shape="shape"
             src="https://fes-design.mumblefe.cn/images/fes-logo.svg"
-        ></FAvatar>
+        />
     </FSpace>
 </template>
 

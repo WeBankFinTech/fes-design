@@ -19,15 +19,17 @@
                 <FGridItem :span="12"> 地址：{{ row.address }} </FGridItem>
             </FGrid>
         </FTableColumn>
-        <FTableColumn prop="date" label="日期"></FTableColumn>
-        <FTableColumn prop="name" label="姓名"></FTableColumn>
+        <FTableColumn prop="date" label="日期" />
+        <FTableColumn prop="name" label="姓名" />
     </FTable>
     <FButton style="margin-top: 10px" @click="toggle">
         手动展开/关闭第一行
     </FButton>
 </template>
+
 <script>
 import { ref } from 'vue';
+
 export default {
     setup() {
         const expandedKeys = ref([1]);
@@ -36,7 +38,7 @@ export default {
             return {
                 id: i,
                 date: `2016-05-2016-05-2016-05-2016-05-2016-05-2016-05-2016-05-2016-05-${
-                    i < 10 ? '0' + i : i
+                    i < 10 ? `0${i}` : i
                 }`,
                 name: '王小虎',
                 province: '上海',

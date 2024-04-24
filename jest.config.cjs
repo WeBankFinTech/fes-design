@@ -1,5 +1,5 @@
-// eslint-disable-next-line
 const fs = require('fs-extra');
+
 const esModules = ['lodash-es'].map((pkg) => {
     if (fs.pathExistsSync('node_modules/.pnpm')) {
         return `.pnpm/(.*)?${pkg}`;
@@ -10,7 +10,7 @@ const esModules = ['lodash-es'].map((pkg) => {
 
 module.exports = {
     globals: {
-        __DEV__: true,
+        '__DEV__': true,
         'ts-jest': {
             babelConfig: true,
         },

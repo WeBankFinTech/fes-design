@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue';
 import { isNil } from 'lodash-es';
-import { type Day } from 'date-fns';
+import type { Day } from 'date-fns';
 import { useNormalModel } from '../_util/use/useModel';
 import {
     CalendarEvent,
@@ -15,7 +15,7 @@ import {
     getToday,
     isSameMonth,
 } from './utils';
-import { type CalendarDate, type UnixTime } from './types';
+import type { CalendarDate, UnixTime } from './types';
 import { CALENDAR_ROW_NUM } from './const';
 
 const useCalendarData = (
@@ -67,7 +67,9 @@ const useCalendarData = (
 
         if (typeof time === 'function') {
             const result = time();
-            if (isNil(result)) return;
+            if (isNil(result)) {
+                return;
+            }
             targetTime = result;
         } else {
             targetTime = time;
@@ -87,8 +89,8 @@ const useCalendarData = (
         });
 
         if (
-            mode.value === 'date' &&
-            !isSameMonth(cellDate, displayAnchorDate.value)
+            mode.value === 'date'
+            && !isSameMonth(cellDate, displayAnchorDate.value)
         ) {
             displayAnchorDate.value = cellDate;
         }

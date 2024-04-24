@@ -1,15 +1,14 @@
 import {
     type ComponentObjectPropsOptions,
+    type PropType,
     defineComponent,
     inject,
-    type PropType,
 } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import { provideKey } from '../const';
+import type { ColumnInst } from '../column';
 import Colgroup from './colgroup';
 import Header from './header';
-
-import type { ColumnInst } from '../column';
 
 export default defineComponent({
     props: {
@@ -35,9 +34,11 @@ export default defineComponent({
         return () => {
             return (
                 <>
-                    {headerShadowVisible.value.left ? (
-                        <div class={`${prefixCls}-header-shadow-left`} />
-                    ) : undefined}
+                    {headerShadowVisible.value.left
+                        ? (
+                            <div class={`${prefixCls}-header-shadow-left`} />
+                            )
+                        : undefined}
                     <div
                         ref={(el) => {
                             headerWrapperRef.value = el;
@@ -54,9 +55,11 @@ export default defineComponent({
                             <Header columns={props.columns} />
                         </table>
                     </div>
-                    {headerShadowVisible.value.right ? (
-                        <div class={`${prefixCls}-header-shadow-right`} />
-                    ) : undefined}
+                    {headerShadowVisible.value.right
+                        ? (
+                            <div class={`${prefixCls}-header-shadow-right`} />
+                            )
+                        : undefined}
                 </>
             );
         };

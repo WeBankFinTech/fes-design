@@ -1,18 +1,18 @@
 import {
+    type ComponentObjectPropsOptions,
+    computed,
     defineComponent,
     getCurrentInstance,
-    computed,
-    onMounted,
     onBeforeUnmount,
-    type ComponentObjectPropsOptions,
+    onMounted,
 } from 'vue';
 import Ellipsis from '../ellipsis/ellipsis';
 import getPrefixCls from '../_util/getPrefixCls';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import { COMPONENT_NAME } from './const';
 import useChildren from './useChildren';
 import useParent from './useParent';
 import useMenu from './useMenu';
-import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('menu-group');
 

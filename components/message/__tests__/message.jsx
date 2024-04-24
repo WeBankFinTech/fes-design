@@ -9,7 +9,9 @@ const prefixCls = getPrefixCls('alert');
 let wrapper;
 
 async function initWrapper() {
-    if (wrapper) return;
+    if (wrapper) {
+        return;
+    }
     wrapper = await mount({ template: '<div></div>' }, {});
     Message.config({
         getContainer: () => wrapper.element,

@@ -4,21 +4,21 @@
  */
 
 import {
+    type CSSProperties,
+    computed,
+    createVNode,
     defineComponent,
-    watch,
     onActivated,
     onMounted,
     ref,
-    createVNode,
-    computed,
-    type CSSProperties,
+    watch,
 } from 'vue';
 import { isNil, throttle } from 'lodash-es';
 import FScrollbar from '../scrollbar/scrollbar.vue';
 import {
-    TO_TOP_EVENT,
-    TO_BOTTOM_EVENT,
     RESIZED_EVENT,
+    TO_BOTTOM_EVENT,
+    TO_TOP_EVENT,
 } from '../_util/constants';
 import getPrefixCls from '../_util/getPrefixCls';
 import Virtual from './virtual';
@@ -55,8 +55,8 @@ export default defineComponent({
             void virtual.sizes.size;
             if (padBehind !== 0) {
                 return (
-                    virtual &&
-                    virtual.getEstimateSize() * props.dataSources.length
+                    virtual
+                    && virtual.getEstimateSize() * props.dataSources.length
                 );
             }
             return virtual.getTotalSize();
@@ -145,8 +145,8 @@ export default defineComponent({
         const scrollToBottom = () => {
             const root = rootRef.value;
             if (root) {
-                const position =
-                    root[isHorizontal ? 'scrollWidth' : 'scrollHeight'];
+                const position
+                    = root[isHorizontal ? 'scrollWidth' : 'scrollHeight'];
                 scrollToTarget(position);
                 // check if it's really scrolled to the bottom
                 // maybe list doesn't render and calculate to last range
@@ -229,14 +229,14 @@ export default defineComponent({
             emit('scroll', evt, virtual.getRange());
 
             if (
-                virtual.isFront() &&
-                !!props.dataSources.length &&
-                offset - props.topThreshold <= 0
+                virtual.isFront()
+                && !!props.dataSources.length
+                && offset - props.topThreshold <= 0
             ) {
                 emit(TO_TOP_EVENT);
             } else if (
-                virtual.isBehind() &&
-                offset + clientSize + props.bottomThreshold >= scrollSize
+                virtual.isBehind()
+                && offset + clientSize + props.bottomThreshold >= scrollSize
             ) {
                 emit(TO_BOTTOM_EVENT);
             }
@@ -249,9 +249,9 @@ export default defineComponent({
 
             // iOS scroll-spring-back behavior will make direction mistake
             if (
-                offset < 0 ||
-                offset + clientSize > scrollSize + 1 ||
-                !scrollSize
+                offset < 0
+                || offset + clientSize > scrollSize + 1
+                || !scrollSize
             ) {
                 return;
             }
@@ -269,13 +269,13 @@ export default defineComponent({
             for (let index = start; index <= end; index++) {
                 const dataSource = dataSources[index];
                 if (!isNil(dataSource)) {
-                    const uniqueKey =
-                        typeof dataKey === 'function'
+                    const uniqueKey
+                        = typeof dataKey === 'function'
                             ? dataKey(dataSource)
                             : (dataSource as any)[dataKey];
                     if (
-                        typeof uniqueKey === 'string' ||
-                        typeof uniqueKey === 'number'
+                        typeof uniqueKey === 'string'
+                        || typeof uniqueKey === 'number'
                     ) {
                         const tempNode = createVNode(
                             FVirtualListItem,
@@ -393,13 +393,13 @@ export default defineComponent({
 
         // wrap style
         const horizontalStyle = {
-            display: 'flex',
+            'display': 'flex',
             'flex-direction': 'row',
-            position: 'absolute',
-            bottom: 0,
-            top: 0,
-            left: `${padFront}px`,
-            right: `${padBehind}px`,
+            'position': 'absolute',
+            'bottom': 0,
+            'top': 0,
+            'left': `${padFront}px`,
+            'right': `${padBehind}px`,
         };
         const verticalStyle = {
             position: 'absolute',
@@ -415,15 +415,15 @@ export default defineComponent({
         );
         const rootStyle: CSSProperties = isHorizontal
             ? {
-                  position: 'relative',
-                  width: `${fullHeight}px`,
-                  height: '100%',
-              }
+                    position: 'relative',
+                    width: `${fullHeight}px`,
+                    height: '100%',
+                }
             : {
-                  position: 'relative',
-                  height: `${fullHeight}px`,
-                  width: '100%',
-              };
+                    position: 'relative',
+                    height: `${fullHeight}px`,
+                    width: '100%',
+                };
 
         const wrapNode = createVNode(
             wrapTag,

@@ -18,10 +18,10 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import useSelect from '../_util/use/useSelect';
 import {
-    COMPONENT_NAME as radioGroupName,
     radioGroupKey,
+    COMPONENT_NAME as radioGroupName,
 } from '../radio-group/const';
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import { radioProps } from './props';
 
 const prefixCls = getPrefixCls('radio');

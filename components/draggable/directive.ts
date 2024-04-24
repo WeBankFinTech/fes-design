@@ -1,26 +1,29 @@
 import {
+    type DirectiveBinding,
+    type SetupContext,
     computed,
     reactive,
     ref,
-    type SetupContext,
     watch,
-    type DirectiveBinding,
 } from 'vue';
+import type { FObjectDirective } from '../_util/interface';
 import {
-    type DraggableItem,
     DRAG_END_EVENT,
     DRAG_START_EVENT,
     UPDATE_MODEL_EVENT,
     useDraggable,
 } from './useDraggable';
-import type { BeforeDragEnd } from './useDraggable';
-
-import type { FObjectDirective } from '../_util/interface';
+import type {
+    BeforeDragEnd,
+    DraggableItem,
+} from './useDraggable';
 
 const dragInstanceMap = new WeakMap();
 
 const updateStyle = (el: HTMLElement, items: DraggableItem[]) => {
-    if (!el?.children?.length) return;
+    if (!el?.children?.length) {
+        return;
+    }
     for (let index = 0; index < el.children.length; index++) {
         const node = el.children[index] as HTMLElement;
         const item = items[index];
@@ -30,10 +33,10 @@ const updateStyle = (el: HTMLElement, items: DraggableItem[]) => {
             node.removeAttribute('draggable');
         }
         const opacity = item?.style.opacity || item?.elStyle.opacity || '';
-        const transition =
-            item?.style.transition || item?.elStyle.transition || '';
-        const transform =
-            item?.style.transform || item?.elStyle.transform || '';
+        const transition
+            = item?.style.transition || item?.elStyle.transition || '';
+        const transform
+            = item?.style.transform || item?.elStyle.transform || '';
         const style = node.style as unknown as Record<string, unknown>;
         style.opacity = opacity;
         style.transition = transition;
@@ -42,7 +45,9 @@ const updateStyle = (el: HTMLElement, items: DraggableItem[]) => {
 };
 
 const init = (el: HTMLElement, binding: DirectiveBinding<any>) => {
-    if (binding.modifiers.disabled) return;
+    if (binding.modifiers.disabled) {
+        return;
+    }
     const bindArg = binding.arg as unknown as {
         onDragstart: (...args: unknown[]) => void;
         beforeDragend?: BeforeDragEnd;

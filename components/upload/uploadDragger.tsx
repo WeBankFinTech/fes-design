@@ -1,17 +1,17 @@
 import {
-    inject,
-    defineComponent,
-    ref,
-    computed,
-    type PropType,
     type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
+    defineComponent,
+    inject,
+    ref,
 } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import { useLocale } from '../config-provider/useLocale';
 import FMessage from '../message';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import { key } from './const';
 import { matchType } from './utils';
-import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const uploadDraggerProps = {
     onFileTypeInvalid: {
@@ -54,39 +54,49 @@ export default defineComponent({
         });
 
         const handleEnter = (event: DragEvent) => {
-            if (disabled.value) return;
+            if (disabled.value) {
+                return;
+            }
             // 阻止事件的默认行为
             event.preventDefault();
             isHovering.value = true;
         };
 
         const handleLeave = (event: DragEvent) => {
-            if (disabled.value) return;
+            if (disabled.value) {
+                return;
+            }
             // 阻止事件的默认行为
             event.preventDefault();
             isHovering.value = false;
         };
 
         const handleOver = (event: DragEvent) => {
-            if (disabled.value) return;
+            if (disabled.value) {
+                return;
+            }
             // 阻止事件的默认行为
             event.preventDefault();
         };
 
         const handleDrop = (event: DragEvent) => {
-            if (disabled.value) return;
+            if (disabled.value) {
+                return;
+            }
             // 阻止事件的默认行为
             event.preventDefault();
             isHovering.value = false;
             let postFiles = Array.from(event.dataTransfer.files);
-            if (!postFiles.length) return;
+            if (!postFiles.length) {
+                return;
+            }
             if (!multiple.value) {
                 postFiles = postFiles.slice(0, 1);
             }
             const filterFiles = accept.value.length
                 ? postFiles.filter((file) => {
-                      return matchType(file.name, file.type, accept.value);
-                  })
+                    return matchType(file.name, file.type, accept.value);
+                })
                 : postFiles;
             if (filterFiles.length !== postFiles.length) {
                 if (props.onFileTypeInvalid) {

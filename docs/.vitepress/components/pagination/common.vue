@@ -1,5 +1,5 @@
 <template>
-    <FPagination :total-count="totalCount" @change="handleChange"></FPagination>
+    <FPagination :total-count="totalCount" @change="handleChange" />
 </template>
 
 <script>

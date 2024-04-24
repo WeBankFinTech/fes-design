@@ -8,10 +8,10 @@ import { addMonths, addYears, subMonths, subYears } from 'date-fns';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useLocale } from '../config-provider/useLocale';
 import {
-    LeftOutlined,
-    RightOutlined,
     DoubleLeftOutlined,
     DoubleRightOutlined,
+    LeftOutlined,
+    RightOutlined,
 } from '../icon';
 import { COMPONENT_NAME } from './const';
 import {
@@ -19,7 +19,7 @@ import {
     convertDateToCalendarDate,
     getToday,
 } from './utils';
-import { type CalendarDate } from './types';
+import type { CalendarDate } from './types';
 
 /** 切换日期的最小单位，按月、按年 */
 export type CalendarNavUnit = 'month' | 'year';
@@ -41,7 +41,7 @@ const props = {
 
 export default defineComponent({
     name: `${COMPONENT_NAME}Navigator`,
-    props: props,
+    props,
     emits: ['update:date'],
     setup: (props, { emit }) => {
         const { t } = useLocale();

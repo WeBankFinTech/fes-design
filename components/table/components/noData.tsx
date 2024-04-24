@@ -9,10 +9,10 @@ export default defineComponent({
         const { t } = useLocale();
 
         return () => {
-            const emptyText =
-                rootCtx.slots.empty?.() ??
-                rootProps.emptyText ??
-                t('empty.emptyText');
+            const emptyText
+                = rootCtx.slots.empty?.()
+                ?? rootProps.emptyText
+                ?? t('empty.emptyText');
 
             return <div class={`${prefixCls}-no-data`}>{emptyText}</div>;
         };

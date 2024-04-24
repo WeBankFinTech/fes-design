@@ -152,7 +152,7 @@ describe('Popper', () => {
         const wrapper = _mount({
             lazy: false,
             appendToContainer: false,
-            popperClass: popperClass,
+            popperClass,
         });
         expect(wrapper.find(CONTENT_CLASS).classes(popperClass)).toBe(true);
     });

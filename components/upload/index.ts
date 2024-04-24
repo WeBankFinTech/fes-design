@@ -1,8 +1,7 @@
 import { withInstall, withNoopInstall } from '../_util/withInstall';
+import type { SFCWithInstall } from '../_util/interface';
 import Upload from './upload';
 import UploadDragger from './uploadDragger';
-
-import type { SFCWithInstall } from '../_util/interface';
 
 type UploadType = SFCWithInstall<typeof Upload>;
 export { uploadProps } from './upload';

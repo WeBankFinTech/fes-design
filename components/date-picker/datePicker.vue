@@ -32,11 +32,11 @@
                 @clear="clear"
             >
                 <template #separator>
-                    <slot v-if="$slots.separator" name="separator"></slot>
+                    <slot v-if="$slots.separator" name="separator" />
                     <SwapRightOutlined v-else />
                 </template>
                 <template #suffix>
-                    <slot v-if="$slots.suffixIcon" name="suffixIcon"></slot>
+                    <slot v-if="$slots.suffixIcon" name="suffixIcon" />
                     <DateOutlined v-else />
                 </template>
             </RangeInput>
@@ -58,7 +58,7 @@
                 @clear="clear"
             >
                 <template #suffix>
-                    <slot v-if="$slots.suffixIcon" name="suffixIcon"></slot>
+                    <slot v-if="$slots.suffixIcon" name="suffixIcon" />
                     <DateOutlined v-else />
                 </template>
             </InputInner>
@@ -89,18 +89,18 @@
 
 <script lang="ts">
 import {
+    type ComponentObjectPropsOptions,
+    type ComponentPublicInstance,
+    type ComputedRef,
+    type PropType,
+    type Ref,
     computed,
+    defineComponent,
     ref,
     watch,
-    type Ref,
-    defineComponent,
-    type PropType,
-    type ComputedRef,
-    type ComponentPublicInstance,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { format, isValid } from 'date-fns';
-import { isEqual, isNil, isArray } from 'lodash-es';
+import { isArray, isEqual, isNil } from 'lodash-es';
 import InputInner from '../input/inputInner.vue';
 import Popper from '../popper';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
@@ -110,15 +110,14 @@ import { useTheme } from '../_theme/useTheme';
 import { DateOutlined, SwapRightOutlined } from '../icon';
 
 import { useLocale } from '../config-provider/useLocale';
+import type { ExtractPublicPropTypes, GetContainer } from '../_util/interface';
 import { COMMON_PROPS, RANGE_PROPS } from './const';
 import { isEmptyValue, strictParse } from './helper';
 import Calendars from './calendars.vue';
 import RangeInput from './rangeInput.vue';
-import { pickerFactory, PickerType } from './pickerHandler';
+import { PickerType, pickerFactory } from './pickerHandler';
 import { useDisable } from './use';
-import type { GetContainer } from '../_util/interface';
 import type { Picker } from './pickerHandler';
-import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('date-picker');
 
@@ -221,8 +220,8 @@ const useInput = ({
             new Date(),
         );
         if (
-            isValid(date) &&
-            !innerDisabledDate(date, props.format || picker.value.format)
+            isValid(date)
+            && !innerDisabledDate(date, props.format || picker.value.format)
         ) {
             cacheValidInputDate = val;
             changeDateByInput(date.getTime());
@@ -249,7 +248,9 @@ const usePlaceholder = (
     const { t } = useLocale();
 
     const innerPlaceHolder = computed(() => {
-        if (props.placeholder) return props.placeholder;
+        if (props.placeholder) {
+            return props.placeholder;
+        }
         const placeholderLang = picker.value.placeholderLang;
         if (Array.isArray(placeholderLang)) {
             return placeholderLang.map((item) => t(item));
@@ -327,8 +328,8 @@ export default defineComponent({
             pickerRef,
         );
 
-        const { tmpSelectedDates, tmpSelectedDateChange } =
-            useTmpSelectedDates();
+        const { tmpSelectedDates, tmpSelectedDateChange }
+            = useTmpSelectedDates();
 
         const visibleValue = computed(() => {
             if (isOpened.value) {
@@ -367,9 +368,9 @@ export default defineComponent({
 
         // 事件
         const clear = () => {
-            const initValue: [] | null =
-                pickerRef.value.isRange ||
-                pickerRef.value.name === PickerType.datemultiple
+            const initValue: [] | null
+                = pickerRef.value.isRange
+                || pickerRef.value.name === PickerType.datemultiple
                     ? []
                     : null;
             tmpSelectedDateChange(null);

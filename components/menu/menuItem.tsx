@@ -1,19 +1,19 @@
 import {
-    defineComponent,
     computed,
-    onMounted,
-    onBeforeUnmount,
+    defineComponent,
     getCurrentInstance,
     inject,
+    onBeforeUnmount,
+    onMounted,
 } from 'vue';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import Ellipsis from '../ellipsis/ellipsis';
 import getPrefixCls from '../_util/getPrefixCls';
 import { noop } from '../_util/utils';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import { COMPONENT_NAME, SUB_MENU_KEY } from './const';
 import useChildren from './useChildren';
 import useMenu from './useMenu';
-import type { ComponentObjectPropsOptions, PropType } from 'vue';
-import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('menu-item');
 
@@ -42,8 +42,8 @@ export default defineComponent({
     setup(props, { slots }) {
         const instance = getCurrentInstance();
         const { indexPath } = useMenu(instance);
-        const { rootMenu, parentMenu, paddingStyle, onlyIcon } =
-            useChildren(indexPath);
+        const { rootMenu, parentMenu, paddingStyle, onlyIcon }
+            = useChildren(indexPath);
         const { handleItemClick } = inject(SUB_MENU_KEY, {
             handleItemClick: noop,
         });

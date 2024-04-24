@@ -1,11 +1,11 @@
 import {
-    onBeforeUnmount,
-    watch,
-    computed,
-    unref,
     type Ref,
-    onMounted,
+    computed,
     nextTick,
+    onBeforeUnmount,
+    onMounted,
+    unref,
+    watch,
 } from 'vue';
 import { ResizeObserver } from '@juggle/resize-observer';
 

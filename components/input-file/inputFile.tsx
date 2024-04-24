@@ -1,4 +1,4 @@
-import { defineComponent, type VNodeChild, type StyleValue } from 'vue';
+import { type StyleValue, type VNodeChild, defineComponent } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -45,7 +45,9 @@ const InputFile = defineComponent({
         };
 
         const renderFileList = (files: File[]): VNodeChild => {
-            if (files.length === 0) return null;
+            if (files.length === 0) {
+                return null;
+            }
 
             if (slots.fileList) {
                 return slots.fileList({ files });

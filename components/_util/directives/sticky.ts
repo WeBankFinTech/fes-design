@@ -1,6 +1,6 @@
 import { nextTick } from 'vue';
 import sticky from 'stickybits';
-import type { ObjectDirective, DirectiveBinding } from 'vue';
+import type { DirectiveBinding, ObjectDirective } from 'vue';
 
 const stickyInstanceList = new WeakMap();
 

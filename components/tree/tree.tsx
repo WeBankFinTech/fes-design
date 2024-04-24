@@ -1,4 +1,4 @@
-import { defineComponent, provide, type VNodeChild } from 'vue';
+import { type VNodeChild, defineComponent, provide } from 'vue';
 import { isFunction, isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -14,7 +14,7 @@ import useSelect from './useSelect';
 import useCheck from './useCheck';
 import useCurrentData from './useCurrentData';
 
-import { treeProps, TREE_PROVIDE_KEY } from './props';
+import { TREE_PROVIDE_KEY, treeProps } from './props';
 
 import type { TreeNodeKey } from './interface';
 
@@ -59,8 +59,8 @@ export default defineComponent({
             hasNoExpandableNode,
         } = useState({ props, emit });
 
-        const { filter, filteredExpandedKeys, filteredKeys, isSearchingRef } =
-            useFilter(props, allKeys, nodeList);
+        const { filter, filteredExpandedKeys, filteredKeys, isSearchingRef }
+            = useFilter(props, allKeys, nodeList);
 
         const { expandNode, expandingNode } = useExpand({
             allKeys,
@@ -181,22 +181,24 @@ export default defineComponent({
             renderNode(source);
 
         return () =>
-            props.virtualList && !props.inline ? (
-                <VirtualList
-                    dataSources={currentData.value}
-                    dataKey={(source: TreeNodeKey) => {
-                        return source;
-                    }}
-                    estimateSize={32}
-                    keeps={14}
-                    observeResize={false}
-                    class={prefixCls}
-                    v-slots={{ default: renderDefault }}
-                />
-            ) : (
-                <div class={prefixCls} role="tree">
-                    {renderChildren(currentData.value)}
-                </div>
-            );
+            props.virtualList && !props.inline
+                ? (
+                    <VirtualList
+                        dataSources={currentData.value}
+                        dataKey={(source: TreeNodeKey) => {
+                            return source;
+                        }}
+                        estimateSize={32}
+                        keeps={14}
+                        observeResize={false}
+                        class={prefixCls}
+                        v-slots={{ default: renderDefault }}
+                    />
+                    )
+                : (
+                    <div class={prefixCls} role="tree">
+                        {renderChildren(currentData.value)}
+                    </div>
+                    );
     },
 });

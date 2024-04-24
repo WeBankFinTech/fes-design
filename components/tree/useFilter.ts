@@ -1,6 +1,6 @@
-import { ref, type Ref } from 'vue';
+import { type Ref, ref } from 'vue';
 import { isFunction } from 'lodash-es';
-import type { TreeNodeKey, InnerTreeOption } from './interface';
+import type { InnerTreeOption, TreeNodeKey } from './interface';
 import type { TreeProps } from './props';
 
 export default (
@@ -57,7 +57,7 @@ export default (
             filteredExpandedKeys.value = [];
             filteredKeys.value = [];
         }
-        isSearchingRef.value = filterText ? true : false;
+        isSearchingRef.value = !!filterText;
     };
 
     return {

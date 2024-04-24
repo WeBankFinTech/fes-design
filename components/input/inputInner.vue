@@ -12,7 +12,7 @@
     >
         <!-- 前置内容 -->
         <span v-if="$slots.prefix" :class="`${prefixCls}-prefix`">
-            <slot name="prefix"></slot>
+            <slot name="prefix" />
         </span>
         <input
             ref="inputRefEl"
@@ -36,7 +36,7 @@
             @focus="handleFocus"
             @blur="handleBlur"
             @keydown="handleKeydown"
-        />
+        >
         <!-- 后置内容 -->
         <span
             v-if="suffixVisible"
@@ -44,7 +44,7 @@
             @mousedown.prevent
         >
             <template v-if="!showClear && !showPwdSwitchIcon">
-                <slot name="suffix"></slot>
+                <slot name="suffix" />
             </template>
             <CloseCircleFilled
                 v-if="showClear"
@@ -69,15 +69,15 @@
 
 <script lang="ts">
 import {
-    computed,
-    ref,
-    defineComponent,
-    type Ref,
-    type ExtractPropTypes,
     type ComponentObjectPropsOptions,
+    type ExtractPropTypes,
+    type Ref,
+    computed,
+    defineComponent,
+    ref,
 } from 'vue';
 import { debounce } from 'lodash-es';
-import { EyeOutlined, EyeInvisibleOutlined, CloseCircleFilled } from '../icon';
+import { CloseCircleFilled, EyeInvisibleOutlined, EyeOutlined } from '../icon';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
@@ -115,10 +115,10 @@ export function usePassword(
 
     const showPwdSwitchIcon = computed(
         () =>
-            props.showPassword &&
-            !props.readonly &&
-            !props.disabled &&
-            (currentValue.value != null || focused.value),
+            props.showPassword
+            && !props.readonly
+            && !props.disabled
+            && (currentValue.value != null || focused.value),
     );
 
     return {
@@ -138,11 +138,11 @@ export function useClear(
 ) {
     const showClear = computed(
         () =>
-            props.clearable &&
-            !props.readonly &&
-            !props.disabled &&
-            currentValue.value &&
-            (focused.value || hovering.value),
+            props.clearable
+            && !props.readonly
+            && !props.disabled
+            && currentValue.value
+            && (focused.value || hovering.value),
     );
 
     const clear = () => {
@@ -227,7 +227,9 @@ export default defineComponent({
         };
 
         const handleMousedown = (e: MouseEvent) => {
-            if (props.disabled) return;
+            if (props.disabled) {
+                return;
+            }
             const { tagName } = e.target as HTMLElement;
             if (tagName !== 'INPUT' && tagName !== 'TEXTAREA') {
                 e.preventDefault();

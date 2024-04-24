@@ -1,14 +1,14 @@
-import { defineComponent, provide, watch, computed } from 'vue';
+import { computed, defineComponent, provide, watch } from 'vue';
 import { cloneDeep } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useLocale } from '../config-provider/useLocale';
 import CascaderMenu from './cascaderMenu';
-import { COMPONENT_NAME, CHECK_STRATEGY, type CheckStrictly } from './const';
+import { CHECK_STRATEGY, COMPONENT_NAME, type CheckStrictly } from './const';
 import useData from './useData';
 import useState from './useState';
-import { cascaderProps, CASCADER_PROVIDE_KEY } from './props';
-import { handleParent, handleChildren } from './helper';
+import { CASCADER_PROVIDE_KEY, cascaderProps } from './props';
+import { handleChildren, handleParent } from './helper';
 import type { CascaderNodeKey } from './interface';
 
 const prefixCls = getPrefixCls('cascader');
@@ -48,9 +48,9 @@ export default defineComponent({
                     CHECK_STRATEGY.CHILD,
                 ] as CheckStrictly[];
                 if (
-                    props.multiple &&
-                    props.cascade &&
-                    !multipleCheckStrictlyList.includes(props.checkStrictly)
+                    props.multiple
+                    && props.cascade
+                    && !multipleCheckStrictlyList.includes(props.checkStrictly)
                 ) {
                     console.warn(
                         `[${
@@ -61,8 +61,8 @@ export default defineComponent({
                     );
                 }
                 if (
-                    !props.multiple &&
-                    !singleCheckStrictlyList.includes(props.checkStrictly)
+                    !props.multiple
+                    && !singleCheckStrictlyList.includes(props.checkStrictly)
                 ) {
                     console.warn(
                         `[${
@@ -176,26 +176,26 @@ export default defineComponent({
         function getCheckedKeys(arr: CascaderNodeKey[]) {
             return props.cascade
                 ? arr.filter((key) => {
-                      const node = nodeList[key];
-                      // 兼容异步加载，未匹配到节点的情况
-                      if (!node) {
-                          return false; // 清除未匹配到的选中项
-                      }
-                      if (props.checkStrictly === CHECK_STRATEGY.ALL) {
-                          return true;
-                      }
-                      if (props.checkStrictly === CHECK_STRATEGY.PARENT) {
-                          return (
-                              node.indexPath.filter((path) =>
-                                  arr.includes(path),
-                              ).length === 1
-                          );
-                      }
-                      if (props.checkStrictly === CHECK_STRATEGY.CHILD) {
-                          return node.isLeaf;
-                      }
-                      return true;
-                  })
+                    const node = nodeList[key];
+                    // 兼容异步加载，未匹配到节点的情况
+                    if (!node) {
+                        return false; // 清除未匹配到的选中项
+                    }
+                    if (props.checkStrictly === CHECK_STRATEGY.ALL) {
+                        return true;
+                    }
+                    if (props.checkStrictly === CHECK_STRATEGY.PARENT) {
+                        return (
+                            node.indexPath.filter((path) =>
+                                arr.includes(path),
+                            ).length === 1
+                        );
+                    }
+                    if (props.checkStrictly === CHECK_STRATEGY.CHILD) {
+                        return node.isLeaf;
+                    }
+                    return true;
+                })
                 : arr;
         }
 

@@ -1,12 +1,13 @@
 <template>
     <FTable :data="data" :span-method="objectSpanMethod" bordered verticalLine>
-        <FTableColumn prop="id" label="ID" :width="180"></FTableColumn>
-        <FTableColumn prop="name" label="姓名"> </FTableColumn>
-        <FTableColumn prop="amount1" label="数值 1（元）"></FTableColumn>
-        <FTableColumn prop="amount2" label="数值 2（元）"></FTableColumn>
-        <FTableColumn prop="amount3" label="数值 3（元）"></FTableColumn>
+        <FTableColumn prop="id" label="ID" :width="180" />
+        <FTableColumn prop="name" label="姓名" />
+        <FTableColumn prop="amount1" label="数值 1（元）" />
+        <FTableColumn prop="amount2" label="数值 2（元）" />
+        <FTableColumn prop="amount3" label="数值 3（元）" />
     </FTable>
 </template>
+
 <script setup>
 const data = [
     {

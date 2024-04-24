@@ -1,9 +1,9 @@
 import {
-    defineComponent,
     Fragment,
+    Transition,
     cloneVNode,
     computed,
-    Transition,
+    defineComponent,
 } from 'vue';
 import { isBoolean, isFunction } from 'lodash-es';
 import LazyTeleport from '../_util/components/lazyTeleport';
@@ -51,14 +51,14 @@ export default defineComponent({
 
         const disabledWatch = computed(
             () =>
-                (isBoolean(props.disabled) ? props.disabled : false) ||
-                !visible.value,
+                (isBoolean(props.disabled) ? props.disabled : false)
+                || !visible.value,
         );
 
         const triggerElement = computed(() => {
             const elm = getElementFromVueInstance(triggerRef.value);
             if (elm instanceof Text) {
-                throw TypeError(
+                throw new TypeError(
                     `FPopper: trigger must be a Element, but get Text(${elm.nodeValue})`,
                 );
             }
@@ -66,11 +66,19 @@ export default defineComponent({
         });
 
         useScroll(triggerElement, (e: Event) => {
-            if (disabledWatch.value) return;
-            if (isFunction(props.disabled) && props.disabled()) return;
+            if (disabledWatch.value) {
+                return;
+            }
+            if (isFunction(props.disabled) && props.disabled()) {
+                return;
+            }
             // 不挂载在container上
-            if (!props.appendToContainer) return;
-            if (e.target === getContainer.value?.()) return;
+            if (!props.appendToContainer) {
+                return;
+            }
+            if (e.target === getContainer.value?.()) {
+                return;
+            }
             computePopper();
         });
         useClickOutSide(

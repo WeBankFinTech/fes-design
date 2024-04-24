@@ -6,7 +6,7 @@
                 :min="12"
                 :max="30"
                 :step="1"
-            ></FInputNumber>
+            />
             <span style="margin-left: 10px">px</span>
         </FFormItem>
         <FFormItem label="颜色：">
@@ -23,12 +23,12 @@
                 :min="0"
                 :max="360"
                 :step="10"
-            ></FInputNumber>
+            />
             <span style="margin-left: 10px">deg</span>
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace>
         <EditOutlined :size="size" :rotate="rotate" :color="color" />
@@ -38,6 +38,7 @@
 <script setup>
 import { ref } from 'vue';
 import { EditOutlined } from '@fesjs/fes-design/icon';
+
 const size = ref(24);
 const rotate = ref(45);
 const color = ref('#5384ff');

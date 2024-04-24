@@ -1,8 +1,8 @@
 import {
     type ComponentObjectPropsOptions,
+    type PropType,
     defineComponent,
     inject,
-    type PropType,
 } from 'vue';
 import { provideKey } from '../const';
 

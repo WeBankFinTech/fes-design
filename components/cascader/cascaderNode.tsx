@@ -1,11 +1,11 @@
 import {
-    defineComponent,
-    computed,
-    ref,
+    type ComponentObjectPropsOptions,
     type ExtractPropTypes,
     type PropType,
+    computed,
+    defineComponent,
     nextTick,
-    type ComponentObjectPropsOptions,
+    ref,
 } from 'vue';
 import { isArray, isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -139,7 +139,9 @@ export default defineComponent({
                 return handleClickSwitcher(event);
             }
 
-            if (disabled.value) return;
+            if (disabled.value) {
+                return;
+            }
             // 再 select 行为
             if (selectable.value) {
                 return root.selectNode(props.value, event);
@@ -159,13 +161,17 @@ export default defineComponent({
             }
         };
         const handleClickCheckbox = (event: Event) => {
-            if (disabled.value) return;
+            if (disabled.value) {
+                return;
+            }
             if (checkable.value && isCheckLoaded.value) {
                 return root.checkNode(props.value, event);
             }
         };
         const handleClickRadio = (event: Event) => {
-            if (disabled.value) return;
+            if (disabled.value) {
+                return;
+            }
             // 仅 select 行为
             if (selectable.value) {
                 return root.selectNode(props.value, event);
@@ -183,9 +189,11 @@ export default defineComponent({
             if (props.isLeaf) {
                 return (
                     <span class={currentClassList}>
-                        {!checkable.value && isSelected.value ? (
-                            <CheckOutlined />
-                        ) : null}
+                        {!checkable.value && isSelected.value
+                            ? (
+                                <CheckOutlined />
+                                )
+                            : null}
                     </span>
                 );
             }
@@ -195,11 +203,13 @@ export default defineComponent({
                     onClick={handleClickSwitcher}
                     onMouseenter={handleHoverSwitcher}
                 >
-                    {isInitLoading.value || isLoading.value ? (
-                        <LoadingOutlined />
-                    ) : (
-                        <RightOutlined />
-                    )}
+                    {isInitLoading.value || isLoading.value
+                        ? (
+                            <LoadingOutlined />
+                            )
+                        : (
+                            <RightOutlined />
+                            )}
                 </span>
             );
         };
@@ -207,25 +217,27 @@ export default defineComponent({
             if (checkable.value) {
                 return (
                     <span class={`${prefixCls}-checkbox`}>
-                        {isCheckLoaded.value ? (
-                            <Checkbox
-                                indeterminate={isIndeterminate.value}
-                                modelValue={isChecked.value}
-                                onChange={handleClickCheckbox}
-                                disabled={props.disabled}
-                            />
-                        ) : (
-                            <Tooltip
-                                placement="top-start"
-                                content={loadingRequiredMessage.value}
-                            >
+                        {isCheckLoaded.value
+                            ? (
                                 <Checkbox
                                     indeterminate={isIndeterminate.value}
                                     modelValue={isChecked.value}
-                                    disabled={true}
+                                    onChange={handleClickCheckbox}
+                                    disabled={props.disabled}
                                 />
-                            </Tooltip>
-                        )}
+                                )
+                            : (
+                                <Tooltip
+                                    placement="top-start"
+                                    content={loadingRequiredMessage.value}
+                                >
+                                    <Checkbox
+                                        indeterminate={isIndeterminate.value}
+                                        modelValue={isChecked.value}
+                                        disabled={true}
+                                    />
+                                </Tooltip>
+                                )}
                     </span>
                 );
             }
@@ -233,9 +245,9 @@ export default defineComponent({
         };
         const renderRadio = () => {
             if (
-                !checkable.value &&
-                selectable.value &&
-                root.props.checkStrictly === CHECK_STRATEGY.ALL
+                !checkable.value
+                && selectable.value
+                && root.props.checkStrictly === CHECK_STRATEGY.ALL
             ) {
                 return (
                     <span class={`${prefixCls}-radio`}>
@@ -250,7 +262,9 @@ export default defineComponent({
             return null;
         };
         const renderPrefix = () => {
-            if (!slots.prefix) return null;
+            if (!slots.prefix) {
+                return null;
+            }
             return (
                 <span
                     class={`${prefixCls}-content-prefix`}
@@ -261,7 +275,9 @@ export default defineComponent({
             );
         };
         const renderSuffix = () => {
-            if (!slots.suffix) return null;
+            if (!slots.suffix) {
+                return null;
+            }
             return (
                 <span
                     class={`${prefixCls}-content-suffix`}

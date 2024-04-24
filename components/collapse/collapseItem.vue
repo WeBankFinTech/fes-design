@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import { inject, defineComponent } from 'vue';
+import { defineComponent, inject } from 'vue';
 import FadeInExpandTransition from '../_util/components/fadeInExpandTransition';
 import { RightOutlined } from '../icon';
 import { useTheme } from '../_theme/useTheme';

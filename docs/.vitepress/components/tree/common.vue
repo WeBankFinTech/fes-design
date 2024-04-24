@@ -2,22 +2,25 @@
     <FGrid>
         <FGridItem :span="12">
             默认为可选中：
-            <FTree :data="data"></FTree>
+            <FTree :data="data" />
         </FGridItem>
         <FGridItem :span="12">
             选中后无法取消：
-            <FTree :data="data" :cancelable="false"></FTree>
+            <FTree :data="data" :cancelable="false" />
         </FGridItem>
     </FGrid>
 </template>
+
 <script>
-import { reactive, h } from 'vue';
+import { h, reactive } from 'vue';
 import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
 
 function createData(level = 1, baseKey = '', prefix = null, suffix = null) {
-    if (!level) return undefined;
+    if (!level) {
+        return undefined;
+    }
     return Array.apply(null, { length: 2 }).map((_, index) => {
-        const key = '' + baseKey + level + index;
+        const key = `${baseKey}${level}${index}`;
         return {
             label: createLabel(level),
             value: key,
@@ -29,10 +32,18 @@ function createData(level = 1, baseKey = '', prefix = null, suffix = null) {
 }
 
 function createLabel(level) {
-    if (level === 4) return '道生一';
-    if (level === 3) return '一生二';
-    if (level === 2) return '二生三';
-    if (level === 1) return '三生万物';
+    if (level === 4) {
+        return '道生一';
+    }
+    if (level === 3) {
+        return '一生二';
+    }
+    if (level === 2) {
+        return '二生三';
+    }
+    if (level === 1) {
+        return '三生万物';
+    }
 }
 
 export default {

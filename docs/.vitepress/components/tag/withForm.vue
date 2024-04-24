@@ -19,8 +19,7 @@
                         class="input-tag"
                         size="small"
                         @change="dynamicTags.handleInputConfirm"
-                    >
-                    </FInput>
+                    />
                     <FButton
                         v-show="!dynamicTags.state.inputVisible"
                         class="button-tag"
@@ -35,7 +34,7 @@
 </template>
 
 <script>
-import { reactive, nextTick, ref } from 'vue';
+import { nextTick, reactive, ref } from 'vue';
 
 const useDynamicTags = (inputRef) => {
     const state = reactive({
@@ -65,7 +64,7 @@ const useDynamicTags = (inputRef) => {
         inputRef.value?.focus();
     };
     const handleInputConfirm = () => {
-        let inputValue = state.inputValue;
+        const inputValue = state.inputValue;
         if (inputValue) {
             state.tags.push(inputValue);
         }

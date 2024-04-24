@@ -18,7 +18,7 @@
                 :min="5"
                 :max="50"
                 :step="10"
-            ></FInputNumber>
+            />
             <span style="margin-left: 10px">px</span>
         </FFormItem>
         <FSpace>
@@ -27,7 +27,7 @@
         </FSpace>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace vertical>
         <FScrollbar
@@ -53,6 +53,7 @@
 
 <script>
 import { ref } from 'vue';
+
 export default {
     setup() {
         const scrollbarRef = ref(null);

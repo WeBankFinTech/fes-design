@@ -1,4 +1,4 @@
-import { watch, onMounted, onBeforeUnmount, nextTick, type Ref } from 'vue';
+import { type Ref, nextTick, onBeforeUnmount, onMounted, watch } from 'vue';
 import type { CarouselProps } from './carousel';
 
 interface UseCarouselPlayType {
@@ -19,7 +19,9 @@ export default ({ props, activeIndex, slideChildren }: UseCarouselPlayType) => {
 
     let playTimer: number = null;
     const startTimer = () => {
-        if (props.interval <= 0 || !props.autoplay || playTimer) return;
+        if (props.interval <= 0 || !props.autoplay || playTimer) {
+            return;
+        }
         playTimer = window.setInterval(play, props.interval);
     };
 
@@ -31,7 +33,9 @@ export default ({ props, activeIndex, slideChildren }: UseCarouselPlayType) => {
 
     // 清除定时器
     const clearTimer = () => {
-        if (playTimer) pauseTimer();
+        if (playTimer) {
+            pauseTimer();
+        }
     };
 
     // 监听是否自动播放
@@ -55,8 +59,8 @@ export default ({ props, activeIndex, slideChildren }: UseCarouselPlayType) => {
     onMounted(() => {
         nextTick(() => {
             if (
-                props.initialIndex >= 0 &&
-                props.initialIndex < slideChildren.value.length
+                props.initialIndex >= 0
+                && props.initialIndex < slideChildren.value.length
             ) {
                 activeIndex.value = props.initialIndex;
             }

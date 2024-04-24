@@ -1,15 +1,15 @@
 import {
     type ComponentObjectPropsOptions,
-    defineComponent,
     type PropType,
     type SetupContext,
+    defineComponent,
 } from 'vue';
 import { useTheme } from '../_theme/useTheme';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import Trigger from './trigger.vue';
 import FileList from './fileList.vue';
 import useUpload from './useUpload';
 
-import type { ExtractPublicPropTypes } from '../_util/interface';
 import type { FileItem } from './interface';
 
 type UploadListType = 'text' | 'picture-card';
@@ -84,8 +84,8 @@ export default defineComponent({
     ],
     setup(props, ctx) {
         useTheme();
-        const { uploadFiles, isDragger, clearFiles, addFile, removeFile } =
-            useUpload(props, ctx.emit);
+        const { uploadFiles, isDragger, clearFiles, addFile, removeFile }
+            = useUpload(props, ctx.emit);
 
         const getFileList = () => {
             if (!props.showFileList) {
@@ -108,15 +108,17 @@ export default defineComponent({
         return () => {
             return (
                 <>
-                    {ctx.slots.default ? (
-                        <Trigger class={isDragger.value && 'is-dragger'}>
-                            {ctx.slots.default?.({
-                                uploadFiles: uploadFiles.value,
-                            })}
-                        </Trigger>
-                    ) : (
-                        <Trigger class={isDragger.value && 'is-dragger'} />
-                    )}
+                    {ctx.slots.default
+                        ? (
+                            <Trigger class={isDragger.value && 'is-dragger'}>
+                                {ctx.slots.default?.({
+                                    uploadFiles: uploadFiles.value,
+                                })}
+                            </Trigger>
+                            )
+                        : (
+                            <Trigger class={isDragger.value && 'is-dragger'} />
+                            )}
                     {ctx.slots.tip?.()}
                     {getFileList()}
                 </>

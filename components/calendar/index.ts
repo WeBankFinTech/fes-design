@@ -1,6 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import Calendar from './calendar';
 import type { SFCWithInstall } from '../_util/interface';
+import Calendar from './calendar';
 
 export { calendarProps } from './props';
 export type { CalendarProps } from './props';

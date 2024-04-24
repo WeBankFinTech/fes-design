@@ -1,4 +1,4 @@
-import { ref, computed, provide } from 'vue';
+import { computed, provide, ref } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { provideKey } from './const';
 import useCarouselItem from './useCarouselItem';
@@ -15,14 +15,14 @@ export default function useCarousel(props: CarouselProps) {
     const direction = computed(() => {
         const { indicatorPlacement: propIndicatorPlacement } = props;
         if (
-            propIndicatorPlacement === 'top' ||
-            propIndicatorPlacement === 'bottom'
+            propIndicatorPlacement === 'top'
+            || propIndicatorPlacement === 'bottom'
         ) {
             return 'horizontal';
         }
         if (
-            propIndicatorPlacement === 'left' ||
-            propIndicatorPlacement === 'right'
+            propIndicatorPlacement === 'left'
+            || propIndicatorPlacement === 'right'
         ) {
             return 'vertical';
         }

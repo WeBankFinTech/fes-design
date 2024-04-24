@@ -1,9 +1,9 @@
 <template>
     <div :class="classes" :style="{ backgroundColor }" @click="handleClick">
         <template v-if="$slots.icon">
-            <slot name="icon"></slot>
+            <slot name="icon" />
         </template>
-        <slot></slot>
+        <slot />
         <template v-if="closable">
             <CloseCircleOutlined
                 v-show="!isHover"

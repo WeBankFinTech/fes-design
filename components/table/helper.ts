@@ -1,5 +1,5 @@
 import { TABLE_NAME } from './const';
-import type { RowType, RowKey } from './interface';
+import type { RowKey, RowType } from './interface';
 import type { ColumnInst } from './column';
 
 export const getRowKey = ({
@@ -71,7 +71,7 @@ const handleFixedColumns = (arr: ColumnInst[]) => {
 /**
  *  考虑到存在聚合表头的场景，需要根据原始列数据的格式计算出聚合表头中每个单元格的 rowSpan、colSpan 和它所属的level
  * @param {} originColumns
- * @returns
+ * @returns HeaderRows
  */
 export function getHeaderRows(originColumns: ColumnInst[]) {
     const rows: ColumnInst[][] = [];
@@ -128,7 +128,7 @@ export function getHeaderRows(originColumns: ColumnInst[]) {
 /**
  * 返回最终叶子列，也就是跟数据对应的列
  * @param {*} originColumns
- * @returns
+ * @returns Columns
  */
 export function getColumns(originColumns: ColumnInst[]) {
     const arr = originColumns.filter(

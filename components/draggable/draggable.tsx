@@ -1,16 +1,17 @@
 import {
+    type ComponentObjectPropsOptions,
+    type PropType,
+    type SetupContext,
+    cloneVNode,
     computed,
     defineComponent,
     ref,
-    type SetupContext,
-    type PropType,
-    cloneVNode,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { mergeWith } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { flatten, isComment } from '../_util/vnode';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import {
     DRAG_END_EVENT,
     DRAG_START_EVENT,
@@ -18,7 +19,6 @@ import {
     useDraggable,
 } from './useDraggable';
 import type { BeforeDragEnd } from './useDraggable';
-import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('draggable');
 
@@ -60,15 +60,15 @@ export default defineComponent({
             draggableItems,
         } = useDraggable(rootRef, propsRef, ctx as SetupContext);
 
-        const tag = props.tag || 'div';
-
         const renderItem = (item: unknown, index: number) => {
             const vNodes = flatten(
-                ctx.slots.default?.({ item, index }) ||
-                    ctx.slots.item?.({ item, index }) ||
-                    [],
+                ctx.slots.default?.({ item, index })
+                || ctx.slots.item?.({ item, index })
+                || [],
             )?.filter((node) => !isComment(node));
-            if (!vNodes || !vNodes.length) return;
+            if (!vNodes || !vNodes.length) {
+                return;
+            }
             if (vNodes.length > 1) {
                 console.warn(
                     '[FDraggable]: default slot must be a root element',
@@ -83,7 +83,7 @@ export default defineComponent({
             return cloneVNode(vNodes[0], {
                 key: index,
                 draggable: draggableItems[index]?.draggable,
-                style: style,
+                style,
             });
         };
         return () => (

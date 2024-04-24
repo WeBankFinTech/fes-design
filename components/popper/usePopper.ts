@@ -1,19 +1,19 @@
 import {
-    onMounted,
+    computed,
+    nextTick,
     onActivated,
+    onMounted,
+    reactive,
     ref,
     watch,
-    reactive,
-    nextTick,
-    computed,
 } from 'vue';
 import {
+    type ReferenceElement,
+    arrow,
     computePosition,
+    flip,
     offset,
     shift,
-    flip,
-    arrow,
-    type ReferenceElement,
 } from '@floating-ui/dom';
 import { isBoolean, isFunction } from 'lodash-es';
 import { useNormalModel } from '../_util/use/useModel';
@@ -50,9 +50,15 @@ export default (props: PopperProps, emit: any) => {
     });
 
     const computePopper = () => {
-        if (isBoolean(props.disabled) && props.disabled) return;
-        if (isFunction(props.disabled) && props.disabled()) return;
-        if (!visible.value) return;
+        if (isBoolean(props.disabled) && props.disabled) {
+            return;
+        }
+        if (isFunction(props.disabled) && props.disabled()) {
+            return;
+        }
+        if (!visible.value) {
+            return;
+        }
         popperStyle.zIndex = popupManager.nextZIndex();
 
         nextTick(() => {
@@ -64,20 +70,20 @@ export default (props: PopperProps, emit: any) => {
                 return;
             }
 
-            const triggerEl: ReferenceElement =
-                props.trigger === 'contextmenu' // 仅在右键时，使用鼠标具体触发位置
+            const triggerEl: ReferenceElement
+                = props.trigger === 'contextmenu' // 仅在右键时，使用鼠标具体触发位置
                     ? {
-                          getBoundingClientRect: () =>
-                              virtualRect.value && {
-                                  width: 0,
-                                  height: 0,
-                                  top: virtualRect.value.y,
-                                  right: virtualRect.value.x,
-                                  bottom: virtualRect.value.y,
-                                  left: virtualRect.value.x,
-                              },
-                          contextElement: rawTriggerEl,
-                      }
+                            getBoundingClientRect: () =>
+                                virtualRect.value && {
+                                    width: 0,
+                                    height: 0,
+                                    top: virtualRect.value.y,
+                                    right: virtualRect.value.x,
+                                    bottom: virtualRect.value.y,
+                                    left: virtualRect.value.x,
+                                },
+                            contextElement: rawTriggerEl,
+                        }
                     : rawTriggerEl;
 
             const popperEl = popperRef.value;

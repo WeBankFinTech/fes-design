@@ -19,8 +19,8 @@ import Icon from './icon';
 import type {
     TimelineInnerProps as Props,
     TimelineSlots as Slots,
-    TimelineUnboxSlots as UnboxSlots,
     TimelineNode,
+    TimelineUnboxSlots as UnboxSlots,
 } from './props';
 
 /** 渲染标题、辅助描述 */
@@ -33,10 +33,10 @@ const renderNodeContent = ({
     descClass,
     appendantStyle,
 }: Pick<TimelineNode, 'title' | 'titlePosition'> &
-    Pick<Props, 'descPosition' | 'titleClass' | 'descClass'> & {
-        desc?: VNodeChild;
-        appendantStyle?: CSSProperties;
-    }): VNode => {
+Pick<Props, 'descPosition' | 'titleClass' | 'descClass'> & {
+    desc?: VNodeChild;
+    appendantStyle?: CSSProperties;
+}): VNode => {
     const titleElement = (
         <div
             class={[
@@ -48,17 +48,19 @@ const renderNodeContent = ({
             {title}
         </div>
     );
-    const descElement = desc ? (
-        <div
-            class={[
-                cls('item-desc'),
-                cls(`item-desc-layout-${descPosition}`),
-                descClass,
-            ]}
-        >
-            {desc}
-        </div>
-    ) : undefined;
+    const descElement = desc
+        ? (
+            <div
+                class={[
+                    cls('item-desc'),
+                    cls(`item-desc-layout-${descPosition}`),
+                    descClass,
+                ]}
+            >
+                {desc}
+            </div>
+            )
+        : undefined;
 
     // 标题、辅助描述同侧
     if (descPosition !== 'opposite') {
@@ -117,8 +119,8 @@ const renderNode = (nodeProps: {
     >['nodeAppendantStyleMap'];
 }): VNode => {
     const { node, index, props, slots, nodeAppendantStyleMap } = nodeProps;
-    const { direction, titlePosition, descPosition, titleClass, descClass } =
-        props;
+    const { direction, titlePosition, descPosition, titleClass, descClass }
+        = props;
     const { title, desc, icon } = node;
     const calculatedTitlePosition = calcTitlePosition(
         index,

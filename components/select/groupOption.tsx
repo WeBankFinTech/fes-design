@@ -1,17 +1,17 @@
 import {
+    type ComponentObjectPropsOptions,
     defineComponent,
+    getCurrentInstance,
     inject,
     onBeforeMount,
-    reactive,
-    provide,
     onBeforeUnmount,
-    getCurrentInstance,
+    provide,
+    reactive,
     ref,
     toRefs,
-    type ComponentObjectPropsOptions,
 } from 'vue';
-import { SELECT_PROVIDE_KEY } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { SELECT_PROVIDE_KEY } from './const';
 
 export const selectGroupOptionProps = {
     label: {

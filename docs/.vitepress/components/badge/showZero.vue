@@ -20,7 +20,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace>
         <FBadge :hidden="hidden" :value="0" :showZero="showZero" class="item">

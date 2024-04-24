@@ -8,7 +8,7 @@
         ]"
     />
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FTimeline
         :data="data"

@@ -1,8 +1,8 @@
 import {
-    defineComponent,
-    computed,
-    type PropType,
     type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
+    defineComponent,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -39,11 +39,13 @@ export default defineComponent({
         );
         return () => (
             <div class={classList.value}>
-                {!props.vertical ? (
-                    <div class={`${prefixCls}-text is-${props.titlePlacement}`}>
-                        {slots.default?.()}
-                    </div>
-                ) : null}
+                {!props.vertical
+                    ? (
+                        <div class={`${prefixCls}-text is-${props.titlePlacement}`}>
+                            {slots.default?.()}
+                        </div>
+                        )
+                    : null}
             </div>
         );
     },

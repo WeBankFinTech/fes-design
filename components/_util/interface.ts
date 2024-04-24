@@ -1,15 +1,15 @@
-import { type RemoveReadonly } from './types';
 import type {
-    ObjectDirective,
-    SetupContext,
-    Ref,
-    DefineComponent,
     App,
-    Plugin,
+    DefineComponent,
     ExtractPropTypes,
     InjectionKey,
+    ObjectDirective,
+    Plugin,
+    Ref,
+    SetupContext,
     SlotsType,
 } from 'vue';
+import type { RemoveReadonly } from './types';
 
 export type Emit = SetupContext['emit'];
 

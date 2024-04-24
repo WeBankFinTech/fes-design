@@ -1,8 +1,8 @@
 import { isArray } from 'lodash-es';
 
 import type {
-    CascaderNodeList,
     CascaderNodeKey,
+    CascaderNodeList,
     CascaderOption,
 } from '../cascader/interface';
 import type { CascaderProps } from '../cascader/props';

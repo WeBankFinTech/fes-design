@@ -2,7 +2,7 @@ import { computed, ref } from 'vue';
 import { CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import { useNormalModel } from '../_util/use/useModel';
-import { type InputFileEmit, type InputFileProps } from './props';
+import type { InputFileEmit, InputFileProps } from './props';
 
 //  <input type="file" /> 所需的数据
 export const useInputFile = (props: InputFileProps, emit: InputFileEmit) => {
@@ -21,7 +21,9 @@ export const useInputFile = (props: InputFileProps, emit: InputFileEmit) => {
     const multiple = computed(() => props.multiple);
 
     const openFileExplorer = () => {
-        if (disabled.value) return;
+        if (disabled.value) {
+            return;
+        }
         inputRef.value.click();
     };
 
@@ -29,7 +31,9 @@ export const useInputFile = (props: InputFileProps, emit: InputFileEmit) => {
         const target = e.target as HTMLInputElement;
 
         const files = Array.from(target.files);
-        if (!files) return;
+        if (!files) {
+            return;
+        }
 
         updateCurrentFiles(files);
         emit(CHANGE_EVENT, files);

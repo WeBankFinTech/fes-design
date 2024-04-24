@@ -1,7 +1,7 @@
-import { reactive, computed } from 'vue';
+import { computed, reactive } from 'vue';
 import { isArray } from 'lodash-es';
 import type { SelectProps } from './props';
-import type { SelectOption, OptionChildren } from './interface';
+import type { OptionChildren, SelectOption } from './interface';
 
 function useGenUid() {
     let seed = 0;

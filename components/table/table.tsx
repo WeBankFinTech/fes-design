@@ -1,24 +1,24 @@
 import {
-    defineComponent,
-    computed,
+    type ComponentObjectPropsOptions,
     type PropType,
     type SetupContext,
+    computed,
+    defineComponent,
     watch,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isUndefined } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
-import { TABLE_NAME, type SIZE } from './const';
+import type { BeforeDragEnd } from '../draggable/useDraggable';
+import type { ExtractPublicPropTypes } from '../_util/interface';
+import { type SIZE, TABLE_NAME } from './const';
 import useTable from './useTable';
 import HeaderTable from './components/headerTable';
 import BodyTable from './components/bodyTable';
 import VirtualTable from './components/virtualTable';
 import NoData from './components/noData';
 import type { ColumnChildren } from './column';
-import type { BeforeDragEnd } from '../draggable/useDraggable';
-import type { ExtractPublicPropTypes } from '../_util/interface';
 
-import type { RowType, RowKey } from './interface';
+import type { RowKey, RowType } from './interface';
 
 export const tableProps = {
     data: {
@@ -47,12 +47,12 @@ export const tableProps = {
         | []
         | object
         | (({
-              row,
-              rowIndex,
-          }: {
-              row: RowType;
-              rowIndex: number;
-          }) => string | [] | object)
+            row,
+            rowIndex,
+        }: {
+            row: RowType;
+            rowIndex: number;
+        }) => string | [] | object)
     >,
     rowStyle: [Function, Object] as PropType<
         | object
@@ -192,14 +192,16 @@ export default defineComponent({
                     {composed.value && rootProps.showHeader && (
                         <HeaderTable columns={columns.value} />
                     )}
-                    {rootProps.virtualScroll && showData.value.length ? (
-                        <VirtualTable columns={columns.value} />
-                    ) : (
-                        <BodyTable
-                            composed={composed.value}
-                            columns={columns.value}
-                        />
-                    )}
+                    {rootProps.virtualScroll && showData.value.length
+                        ? (
+                            <VirtualTable columns={columns.value} />
+                            )
+                        : (
+                            <BodyTable
+                                composed={composed.value}
+                                columns={columns.value}
+                            />
+                            )}
                     {showData.value.length === 0 && <NoData></NoData>}
                 </>
             );

@@ -1,16 +1,15 @@
 import {
     type ComponentObjectPropsOptions,
+    type PropType,
     defineComponent,
     inject,
-    type PropType,
 } from 'vue';
 import { DownOutlined } from '../../icon';
 import FCheckbox from '../../checkbox/checkbox.vue';
 import { provideKey } from '../const';
 import FRadio from '../../radio';
-import Cell from './cell';
-
 import type { ColumnInst } from '../column';
+import Cell from './cell';
 
 export default defineComponent({
     name: 'FTableBodyTd',
@@ -55,10 +54,10 @@ export default defineComponent({
                 return null;
             }
 
-            const isLastRow =
-                rowIndex + Number(rowspan) >= showData.value.length;
-            const isLastColumn =
-                columnIndex + Number(colspan) >= columns.value.length;
+            const isLastRow
+                = rowIndex + Number(rowspan) >= showData.value.length;
+            const isLastColumn
+                = columnIndex + Number(colspan) >= columns.value.length;
 
             return (
                 <td
@@ -105,23 +104,25 @@ export default defineComponent({
                     )}
                     {column.props.type === 'selection' && (
                         <div class={`${prefixCls}-center`}>
-                            {column.props.multiple ? (
-                                <FCheckbox
-                                    modelValue={isSelected({ row })}
-                                    disabled={isSelectDisabled({ row })}
-                                    onChange={() => {
-                                        handleSelect({ row });
-                                    }}
-                                />
-                            ) : (
-                                <FRadio
-                                    modelValue={isSelected({ row })}
-                                    disabled={isSelectDisabled({ row })}
-                                    onChange={() => {
-                                        handleSelect({ row });
-                                    }}
-                                ></FRadio>
-                            )}
+                            {column.props.multiple
+                                ? (
+                                    <FCheckbox
+                                        modelValue={isSelected({ row })}
+                                        disabled={isSelectDisabled({ row })}
+                                        onChange={() => {
+                                            handleSelect({ row });
+                                        }}
+                                    />
+                                    )
+                                : (
+                                    <FRadio
+                                        modelValue={isSelected({ row })}
+                                        disabled={isSelectDisabled({ row })}
+                                        onChange={() => {
+                                            handleSelect({ row });
+                                        }}
+                                    ></FRadio>
+                                    )}
                         </div>
                     )}
                     {column.props.type === 'expand' && (

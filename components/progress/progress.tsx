@@ -1,8 +1,8 @@
-import { defineComponent, computed } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { isNumber } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
 import { progressProps } from './props';
-import { prefixCls, PROGRESS_TYPE } from './const';
+import { PROGRESS_TYPE, prefixCls } from './const';
 import LineProgress from './components/LineProgress';
 import CircleProgress from './components/CircleProgress';
 
@@ -34,29 +34,31 @@ export default defineComponent({
 
         return () => (
             <div class={prefixCls}>
-                {props.type === PROGRESS_TYPE.LINE ? (
-                    <LineProgress
-                        percent={percent.value}
-                        height={props.height}
-                        color={props.color}
-                        showInnerPercent={props.showInnerPercent}
-                        showOutPercent={props.showOutPercent}
-                        v-slots={{
-                            text: slots.text,
-                        }}
-                    ></LineProgress>
-                ) : (
-                    <CircleProgress
-                        percent={percent.value}
-                        width={props.width}
-                        color={props.color}
-                        circleSize={props.circleSize}
-                        showCircleText={props.showCircleText}
-                        v-slots={{
-                            text: slots.text,
-                        }}
-                    ></CircleProgress>
-                )}
+                {props.type === PROGRESS_TYPE.LINE
+                    ? (
+                        <LineProgress
+                            percent={percent.value}
+                            height={props.height}
+                            color={props.color}
+                            showInnerPercent={props.showInnerPercent}
+                            showOutPercent={props.showOutPercent}
+                            v-slots={{
+                                text: slots.text,
+                            }}
+                        ></LineProgress>
+                        )
+                    : (
+                        <CircleProgress
+                            percent={percent.value}
+                            width={props.width}
+                            color={props.color}
+                            circleSize={props.circleSize}
+                            showCircleText={props.showCircleText}
+                            v-slots={{
+                                text: slots.text,
+                            }}
+                        ></CircleProgress>
+                        )}
             </div>
         );
     },

@@ -1,4 +1,4 @@
-import { defineComponent, computed, watch, ref } from 'vue';
+import { computed, defineComponent, ref, watch } from 'vue';
 import { isFunction } from 'lodash-es';
 import CheckOutlined from '../icon/CheckOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -27,7 +27,9 @@ export default defineComponent({
 
         const handleClick = (option: Option, event: Event) => {
             event.stopPropagation();
-            if (option.disabled) return;
+            if (option.disabled) {
+                return;
+            }
             const value = option[props.valueField] as Option['value'];
             currentValue.value = value;
             updateVisible(false);
@@ -48,9 +50,9 @@ export default defineComponent({
                 {props.options.map((option) => {
                     const value = option[props.valueField] as Option['value'];
                     const label = option[props.labelField] as Option['label'];
-                    const isSelected =
-                        props.showSelectedOption &&
-                        currentValue.value === value;
+                    const isSelected
+                        = props.showSelectedOption
+                        && currentValue.value === value;
                     const optionClassList = [
                         `${prefixCls}-option`,
                         option.disabled && 'is-disabled',

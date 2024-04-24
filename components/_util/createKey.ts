@@ -86,10 +86,10 @@ export function createKey<P extends string, S extends string>(
     prefix: P,
     suffix: S,
 ): S extends 'default' ? P : `${P}${UpperFirst<S>}` {
-    return (prefix +
-        (suffix === 'default'
+    return (prefix
+        + (suffix === 'default'
             ? ''
             : suffix.replace(/^[a-z]/, (startChar) =>
-                  startChar.toUpperCase(),
-              ))) as any;
+                startChar.toUpperCase(),
+            ))) as any;
 }

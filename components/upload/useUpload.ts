@@ -1,6 +1,6 @@
-import { ref, provide, watch, computed, toRefs } from 'vue';
+import { computed, provide, ref, toRefs, watch } from 'vue';
 import { isArray, isEqual, isFunction } from 'lodash-es';
-import { noop, hasOwn } from '../_util/utils';
+import { hasOwn, noop } from '../_util/utils';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
@@ -9,9 +9,9 @@ import { key } from './const';
 
 import type { UploadProps } from './upload';
 
-const prefixCls = getPrefixCls('upload');
+import type { FileItem, UploadFile, UploadProgressEvent } from './interface';
 
-import type { UploadFile, FileItem, UploadProgressEvent } from './interface';
+const prefixCls = getPrefixCls('upload');
 
 function genUid(seed: number) {
     return Date.now() + seed;
@@ -58,7 +58,9 @@ export default (props: UploadProps, emit: any) => {
         } else {
             Object.keys(_requestList).forEach((uid) => {
                 const _uid = uid as keyof typeof _requestList;
-                if (_requestList[_uid]) _requestList[_uid].abort();
+                if (_requestList[_uid]) {
+                    _requestList[_uid].abort();
+                }
                 delete _requestList[_uid];
             });
         }
@@ -106,7 +108,9 @@ export default (props: UploadProps, emit: any) => {
         rawFile: UploadFile;
     }) {
         const file = getFile(rawFile, uploadFiles.value);
-        if (!file) return;
+        if (!file) {
+            return;
+        }
         file.status = 'success';
         file.response = response;
         emit('success', { response, file, fileList: uploadFiles.value });
@@ -122,7 +126,9 @@ export default (props: UploadProps, emit: any) => {
     }) {
         const uploadFilesValue = uploadFiles.value;
         const file = getFile(rawFile, uploadFilesValue);
-        if (!file) return;
+        if (!file) {
+            return;
+        }
         file.status = 'error';
         emit('error', { error, file, fileList: uploadFilesValue });
         emit('change', { file, fileList: uploadFilesValue });
@@ -237,8 +243,8 @@ export default (props: UploadProps, emit: any) => {
     const onUploadFiles = (files: FileList | File[]) => {
         files = Array.from(files);
         if (
-            props.multipleLimit &&
-            props.fileList.length + files.length > props.multipleLimit
+            props.multipleLimit
+            && props.fileList.length + files.length > props.multipleLimit
         ) {
             onExceed(files);
             return;
@@ -302,8 +308,8 @@ export default (props: UploadProps, emit: any) => {
             return;
         }
         if (
-            props.multipleLimit &&
-            props.fileList.length + 1 > props.multipleLimit
+            props.multipleLimit
+            && props.fileList.length + 1 > props.multipleLimit
         ) {
             onExceed([rawFile]);
             return;

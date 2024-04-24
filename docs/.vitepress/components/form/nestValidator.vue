@@ -17,13 +17,13 @@
                     <FInput
                         v-model="modelForm.name.first"
                         placeholder="请输入FirstName"
-                    ></FInput>
+                    />
                 </FFormItem>
                 <FFormItem prop="name.last" :rules="rules.name.fields.last">
                     <FInput
                         v-model="modelForm.name.last"
                         placeholder="请输入LastName"
-                    ></FInput>
+                    />
                 </FFormItem>
             </FSpace>
         </FFormItem>
@@ -42,18 +42,18 @@
                                 <FInput
                                     v-model="item.name.first"
                                     placeholder="请输入FirstName"
-                                ></FInput>
+                                />
                                 <FInput
                                     v-model="item.name.last"
                                     placeholder="请输入LastName"
-                                ></FInput>
+                                />
                             </FSpace>
                         </FFormItem>
                         <FFormItem prop="desc" label="备注:">
                             <FInput
                                 v-model="item.desc"
                                 placeholder="请输入备注"
-                            ></FInput>
+                            />
                         </FFormItem>
                     </FForm>
                 </FCard>
@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { ref, reactive, computed } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { FMessage } from '@fesjs/fes-design';
 
 export default {
@@ -214,4 +214,5 @@ export default {
     },
 };
 </script>
+
 <style scoped></style>

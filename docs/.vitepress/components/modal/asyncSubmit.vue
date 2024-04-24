@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { ref, nextTick } from 'vue';
+import { nextTick, ref } from 'vue';
 import { FModal } from '@fesjs/fes-design';
 
 function sleep(time) {

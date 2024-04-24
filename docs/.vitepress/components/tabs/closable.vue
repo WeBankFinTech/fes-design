@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { ref, reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 export default {
     setup() {
@@ -31,15 +31,15 @@ export default {
         function handleCloseTab(key) {
             tabs.splice(key, 1);
             if (activeTab.value === key) {
-                activeTab.value =
-                    key >= tabs.length - 1 ? tabs.length - 1 : key;
+                activeTab.value
+                    = key >= tabs.length - 1 ? tabs.length - 1 : key;
             } else if (activeTab.value > key) {
                 activeTab.value = activeTab.value - 1;
             }
         }
 
         function handleAddTab() {
-            tabs.push('New Tab' + (tabs.length + 1));
+            tabs.push(`New Tab${tabs.length + 1}`);
             activeTab.value = tabs.length - 1;
         }
         const handleChangeTab = (key) => {

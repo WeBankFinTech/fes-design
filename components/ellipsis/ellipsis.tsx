@@ -1,11 +1,11 @@
 import {
-    defineComponent,
-    computed,
-    ref,
-    type PropType,
     type CSSProperties,
-    type StyleValue,
     type ComponentObjectPropsOptions,
+    type PropType,
+    type StyleValue,
+    computed,
+    defineComponent,
+    ref,
 } from 'vue';
 import { isObject } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -62,13 +62,13 @@ export default defineComponent({
         });
 
         const styleRef = computed(() => {
-            const ellStyle: StyleValue =
-                line.value > 1
+            const ellStyle: StyleValue
+                = line.value > 1
                     ? {
-                          display: '-webkit-inline-box',
-                          '-webkit-line-clamp': line.value,
-                          '-webkit-box-orient': 'vertical',
-                      }
+                            'display': '-webkit-inline-box',
+                            '-webkit-line-clamp': line.value,
+                            '-webkit-box-orient': 'vertical',
+                        }
                     : { 'text-overflow': 'ellipsis', 'white-space': 'nowrap' };
             return [props.style, ellStyle];
         });
@@ -91,16 +91,18 @@ export default defineComponent({
         const getDisabled = () => {
             let isEllipsis = true;
             const { value: trigger } = triggerRef;
-            if (!trigger) return true;
+            if (!trigger) {
+                return true;
+            }
             const { offsetHeight, scrollHeight, offsetWidth } = trigger;
             if (offsetHeight && offsetWidth) {
                 if (line.value > 1) {
                     isEllipsis = scrollHeight > offsetHeight;
                 } else {
                     const { value: triggerInner } = triggerInnerRef;
-                    isEllipsis =
-                        triggerInner.getBoundingClientRect().width >
-                        trigger.getBoundingClientRect().width;
+                    isEllipsis
+                        = triggerInner.getBoundingClientRect().width
+                        > trigger.getBoundingClientRect().width;
                 }
             }
             return !isEllipsis;
@@ -112,13 +114,15 @@ export default defineComponent({
                 class={classListRef.value}
                 style={styleRef.value}
             >
-                {line.value > 1 ? (
-                    slots.default?.() ?? props.content
-                ) : (
-                    <span ref={triggerInnerRef}>
-                        {slots.default?.() ?? props.content}
-                    </span>
-                )}
+                {line.value > 1
+                    ? (
+                            slots.default?.() ?? props.content
+                        )
+                    : (
+                        <span ref={triggerInnerRef}>
+                            {slots.default?.() ?? props.content}
+                        </span>
+                        )}
             </span>
         );
 

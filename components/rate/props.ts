@@ -1,7 +1,7 @@
-import { type ComponentObjectPropsOptions, type PropType } from 'vue';
-import {
-    type ExtractPublicPropTypes,
-    type ComponentInnerProps,
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
+import type {
+    ComponentInnerProps,
+    ExtractPublicPropTypes,
 } from '../_util/interface';
 
 type Size = 'large' | 'medium' | 'small';
@@ -56,8 +56,8 @@ export type RateProps = ExtractPublicPropTypes<typeof rateProps>;
 export type RateInnerProps = ComponentInnerProps<typeof rateProps>;
 
 // 评分对象
-export type RateItem = {
+export interface RateItem {
     active: boolean;
     hover?: boolean;
     half?: boolean;
-};
+}

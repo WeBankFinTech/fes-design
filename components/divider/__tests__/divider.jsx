@@ -29,7 +29,7 @@ describe('FDivider', () => {
     ['center', 'left', 'right'].forEach((titlePlacement) => {
         test(`FDivider titlePlacement ${titlePlacement}`, () => {
             const wrapper = _mount({
-                titlePlacement: titlePlacement,
+                titlePlacement,
             });
             expect(
                 wrapper

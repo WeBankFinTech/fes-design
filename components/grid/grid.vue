@@ -1,18 +1,18 @@
 <template>
     <div :class="classList" :style="style">
-        <slot></slot>
+        <slot />
     </div>
 </template>
 
 <script lang="ts">
-import { computed, type CSSProperties, defineComponent, provide } from 'vue';
+import { computed, defineComponent, provide } from 'vue';
 import { isArray } from 'lodash-es';
+import type { CSSProperties, ComponentObjectPropsOptions, PropType } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 
 import getPrefixCls from '../_util/getPrefixCls';
-import { ALIGN, JUSTIFY, GRID_KEY } from './const';
-import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { ALIGN, GRID_KEY, JUSTIFY } from './const';
 
 const prefixCls = getPrefixCls('grid');
 

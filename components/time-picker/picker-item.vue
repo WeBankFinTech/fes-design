@@ -26,14 +26,14 @@
 
 <script lang="ts">
 import {
-    defineComponent,
-    ref,
-    computed,
-    nextTick,
-    watch,
-    onMounted,
-    type PropType,
     type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
+    defineComponent,
+    nextTick,
+    onMounted,
+    ref,
+    watch,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import FScrollbar from '../scrollbar/scrollbar.vue';
@@ -146,7 +146,9 @@ export default defineComponent({
         );
 
         const selectedTime = (e: MouseEvent) => {
-            if (!e.target) return;
+            if (!e.target) {
+                return;
+            }
             const key = (e.target as HTMLElement).getAttribute('data-key');
             const option = props.times.find((item) => item.value === key);
             if (option && !option.disabled) {

@@ -7,8 +7,10 @@
         </FCheckboxGroup>
     </FSpace>
 </template>
+
 <script>
 import { ref } from 'vue';
+
 export default {
     setup() {
         const len = 30;

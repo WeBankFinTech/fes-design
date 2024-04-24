@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import { ref, nextTick, h, defineComponent } from 'vue';
+import { defineComponent, h, nextTick, ref } from 'vue';
 import FDraggable from '../draggable.vue';
 import vDrag from '../directive';
 
@@ -12,11 +12,13 @@ function getDirectiveComp(listRef, opt = {}) {
         },
         render() {
             const children = listRef.value.map((item) => <li>{item}</li>);
-            return opt.droppable ? (
-                <ul v-drag={[listRef, ['droppable']]}>{children}</ul>
-            ) : (
-                <ul v-drag={listRef}>{children}</ul>
-            );
+            return opt.droppable
+                ? (
+                    <ul v-drag={[listRef, ['droppable']]}>{children}</ul>
+                    )
+                : (
+                    <ul v-drag={listRef}>{children}</ul>
+                    );
         },
     });
 }

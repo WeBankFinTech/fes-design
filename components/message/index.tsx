@@ -1,4 +1,4 @@
-import { reactive, type Component } from 'vue';
+import { type Component, reactive } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { createManager } from '../_util/noticeManager';
 import Alert from '../alert/alert';
@@ -10,7 +10,7 @@ const prefixCls = getPrefixCls('message');
 
 type MessageType = 'info' | 'success' | 'warning' | 'error';
 
-type Options = {
+interface Options {
     type?: MessageType;
     duration: number;
     getContainer?: () => HTMLElement;
@@ -21,7 +21,7 @@ type Options = {
     afterClose?: () => void;
     closable?: boolean;
     icon?: () => Component;
-};
+}
 
 const defaultConfig = {
     duration: 3,

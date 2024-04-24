@@ -9,11 +9,11 @@ export function wrapValidator(
         try {
             const validateResult = validator(...args);
             if (
-                (!async &&
-                    (typeof validateResult === 'boolean' ||
-                        validateResult instanceof Error ||
-                        Array.isArray(validateResult))) || // Error[]
-                (typeof validateResult !== 'boolean' && validateResult?.then)
+                (!async
+                && (typeof validateResult === 'boolean'
+                || validateResult instanceof Error
+                || Array.isArray(validateResult))) // Error[]
+                || (typeof validateResult !== 'boolean' && validateResult?.then)
             ) {
                 return validateResult;
             }
@@ -30,9 +30,9 @@ export function wrapValidator(
         } catch (err) {
             console.warn(
                 'form-item/validate',
-                'An error is catched in the validation, ' +
-                    "so the validation won't be done. Your callback in `validate` method of " +
-                    "`form` or `form-item` won't be called in this validation.",
+                'An error is catched in the validation, '
+                + 'so the validation won\'t be done. Your callback in `validate` method of '
+                + '`form` or `form-item` won\'t be called in this validation.',
             );
             console.error(err);
             // If returns undefined, async-validator won't trigger callback
@@ -43,7 +43,9 @@ export function wrapValidator(
 }
 
 export function allPromiseFinish(promiseList: Promise<any>[]) {
-    if (!promiseList.length) return Promise.resolve([]);
+    if (!promiseList.length) {
+        return Promise.resolve([]);
+    }
 
     let hasError = false;
     let count = promiseList.length;
@@ -60,9 +62,13 @@ export function allPromiseFinish(promiseList: Promise<any>[]) {
                     count -= 1;
                     results[index] = result;
 
-                    if (count > 0) return;
+                    if (count > 0) {
+                        return;
+                    }
 
-                    if (hasError) reject(results);
+                    if (hasError) {
+                        reject(results);
+                    }
 
                     resolve(results);
                 });

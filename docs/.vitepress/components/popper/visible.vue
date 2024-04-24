@@ -19,7 +19,7 @@
         </FForm>
     </FSpace>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FPopper v-model="visible" placement="bottom" trigger="click" :arrow="true">
         <template #trigger>

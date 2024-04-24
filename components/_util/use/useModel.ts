@@ -1,17 +1,17 @@
-import { ref, watch, computed, type WritableComputedRef, type Ref } from 'vue';
-import { isEqual as isEqualFunc, isArray, isUndefined } from 'lodash-es';
+import { type Ref, type WritableComputedRef, computed, ref, watch } from 'vue';
+import { isArray, isEqual as isEqualFunc, isUndefined } from 'lodash-es';
 
 type ModelValuePropKey = 'modelValue';
 
-type UseNormalModelOptions<
+interface UseNormalModelOptions<
     Props extends Record<string, any>,
     Key extends keyof Props,
-> = {
+> {
     prop?: Key;
     isEqual?: boolean;
     deep?: boolean;
     defaultValue?: Props[Key];
-};
+}
 
 export const useNormalModel = <
     Props extends Record<string, any>,
@@ -21,10 +21,10 @@ export const useNormalModel = <
     > = ModelValuePropKey,
     EventName extends string = string,
 >(
-    props: Props,
-    emit: (eventName: EventName, ...args: any[]) => void,
-    config: UseNormalModelOptions<Props, Key> = {},
-): [WritableComputedRef<Props[Key]>, (val: Props[Key]) => void] => {
+        props: Props,
+        emit: (eventName: EventName, ...args: any[]) => void,
+        config: UseNormalModelOptions<Props, Key> = {},
+    ): [WritableComputedRef<Props[Key]>, (val: Props[Key]) => void] => {
     const {
         prop = 'modelValue',
         deep = false,
@@ -38,8 +38,8 @@ export const useNormalModel = <
     );
     const pureUpdateCurrentValue = (value: Props[Key]) => {
         if (
-            value === currentValue.value ||
-            (isEqual && isEqualFunc(value, currentValue.value))
+            value === currentValue.value
+            || (isEqual && isEqualFunc(value, currentValue.value))
         ) {
             return;
         }
@@ -106,13 +106,13 @@ export const useArrayModel = <
     > = Extract<ModelValuePropKey, GetKeysIsArrayType<Props>>,
     EventName extends string = string,
 >(
-    props: Props,
-    emit: (eventName: EventName, ...args: any[]) => void,
-    config: UseNormalModelOptions<Props, Key> = {},
-): [
-    WritableComputedRef<Props[Key]>,
-    (val: ArrayOrItem<Props[Key]>) => void,
-] => {
+        props: Props,
+        emit: (eventName: EventName, ...args: any[]) => void,
+        config: UseNormalModelOptions<Props, Key> = {},
+    ): [
+        WritableComputedRef<Props[Key]>,
+        (val: ArrayOrItem<Props[Key]>) => void,
+    ] => {
     const [computedValue, updateCurrentValue] = useNormalModel(props, emit, {
         ...config,
         defaultValue: [] as Props[Key],

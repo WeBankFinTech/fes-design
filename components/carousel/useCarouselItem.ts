@@ -1,4 +1,4 @@
-import { ref, type Ref } from 'vue';
+import { type Ref, ref } from 'vue';
 import { CAROUSEL_NAME } from './const';
 import type { CarouselItemData } from './interface';
 import type { CarouselProps } from './carousel';
@@ -61,7 +61,9 @@ export default function useCarouselItem({
         );
         if (index !== -1) {
             slideChildren.value.splice(index, 1);
-            if (activeIndex.value === index) next();
+            if (activeIndex.value === index) {
+                next();
+            }
         }
     }
 

@@ -1,13 +1,13 @@
 import {
-    defineComponent,
+    type ComponentObjectPropsOptions,
     type ExtractPropTypes,
+    type PropType,
+    type VNodeChild,
+    defineComponent,
     nextTick,
     onMounted,
-    type PropType,
     ref,
-    type VNodeChild,
     watch,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isFunction, isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -43,8 +43,8 @@ export default defineComponent({
     setup(props) {
         const scrollbarRef = ref<HTMLElement>(null);
 
-        const { menuNodes, isCascaderOpened, menuScrollNode } =
-            useCascaderMenu(props);
+        const { menuNodes, isCascaderOpened, menuScrollNode }
+            = useCascaderMenu(props);
 
         const renderNode = (node: InnerCascaderOption) => {
             const itemSlots: {
@@ -90,12 +90,12 @@ export default defineComponent({
             const scrollbarEl = getElementFromVueInstance(
                 scrollbarRef.value,
             ) as HTMLElement;
-            const scrollbarContainerEl =
-                scrollbarEl?.querySelector<HTMLElement>(
+            const scrollbarContainerEl
+                = scrollbarEl?.querySelector<HTMLElement>(
                     `.${scrollbarContainerClass}`,
                 );
-            const activeNodeEl =
-                scrollbarContainerEl?.querySelector<HTMLElement>(
+            const activeNodeEl
+                = scrollbarContainerEl?.querySelector<HTMLElement>(
                     // matches unescaped double quotes
                     `.${nodePrefixCls}[data-value="${menuScrollNode.value.value}"]`,
                 );
@@ -127,17 +127,21 @@ export default defineComponent({
                 key={props.menuKey}
             >
                 <div class={`${prefixCls}`} role="cascader-menu">
-                    {menuNodes.value.length ? (
-                        renderNodes(menuNodes.value)
-                    ) : props.initialLoaded ? (
-                        <div class={`${prefixCls}-null`}>
-                            {props.listEmptyText}
-                        </div>
-                    ) : (
-                        <div class={`${prefixCls}-loading`}>
-                            <LoadingOutlined />
-                        </div>
-                    )}
+                    {menuNodes.value.length
+                        ? (
+                                renderNodes(menuNodes.value)
+                            )
+                        : props.initialLoaded
+                            ? (
+                                <div class={`${prefixCls}-null`}>
+                                    {props.listEmptyText}
+                                </div>
+                                )
+                            : (
+                                <div class={`${prefixCls}-loading`}>
+                                    <LoadingOutlined />
+                                </div>
+                                )}
                 </div>
             </Scrollbar>
         );

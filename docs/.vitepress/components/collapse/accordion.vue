@@ -32,6 +32,7 @@
 
 <script setup>
 import { ref, watch } from 'vue';
+
 const accordion = ref(true);
 
 const activeName = ref('1');

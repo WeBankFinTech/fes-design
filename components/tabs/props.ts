@@ -1,11 +1,11 @@
 import type { ComponentObjectPropsOptions, PropType, VNode } from 'vue';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import type {
-    Value,
     Position,
     TabCloseMode,
     TabDisplayDirective,
+    Value,
 } from './interface';
-import type { ExtractPublicPropTypes } from '../_util/interface';
 
 type TabType = 'line' | 'card';
 

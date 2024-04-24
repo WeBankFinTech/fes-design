@@ -1,12 +1,12 @@
 import {
-    defineComponent,
-    computed,
-    ref,
-    watch,
-    onBeforeUnmount,
-    type PropType,
     type CSSProperties,
     type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
+    defineComponent,
+    onBeforeUnmount,
+    ref,
+    watch,
 } from 'vue';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -89,7 +89,9 @@ export default defineComponent({
 
         const renderIcon = () => slots.icon?.() || <LoadingOutlined />;
         const renderDesc = () => {
-            if (!slots.description && !props.description) return null;
+            if (!slots.description && !props.description) {
+                return null;
+            }
             return (
                 <span class={`${prefixCls}-description`}>
                     {slots.description?.() || props.description}

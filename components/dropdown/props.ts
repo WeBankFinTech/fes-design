@@ -1,12 +1,12 @@
-import {
-    type VNodeTypes,
-    type ComponentObjectPropsOptions,
-    type ExtractPublicPropTypes,
-    type PropType,
+import type {
+    ComponentObjectPropsOptions,
+    ExtractPublicPropTypes,
+    PropType,
+    VNodeTypes,
 } from 'vue';
-import { type TRIGGER, type PLACEMENT } from '../_util/constants';
+import type { PLACEMENT, TRIGGER } from '../_util/constants';
 
-export type DropdownOption = {
+export interface DropdownOption {
     value: string | number;
     label: string | number | ((option: DropdownOption) => VNodeTypes);
     disabled?: boolean;
@@ -17,7 +17,7 @@ export type DropdownOption = {
         | boolean
         | ((option: DropdownOption) => VNodeTypes)
         | undefined;
-};
+}
 
 export const dropdownProps = {
     visible: {

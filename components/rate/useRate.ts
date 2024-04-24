@@ -1,6 +1,6 @@
 import { computed, ref, watch } from 'vue';
 import { useNormalModel } from '../_util/use/useModel';
-import { type RateItem, type RateInnerProps } from './props';
+import type { RateInnerProps, RateItem } from './props';
 
 export const useRate = (props: RateInnerProps, emit: any) => {
     const rateItemArr = ref<RateItem[]>([]);
@@ -31,13 +31,13 @@ export const useRate = (props: RateInnerProps, emit: any) => {
             : 0;
 
         const emptyStarsNum = props.count - fullStarsNum - halfStar;
-        fullStarsNum &&
-            [...Array(fullStarsNum)].map(() => {
-                res.push({
-                    active: true,
-                    hover: true,
-                });
+        fullStarsNum
+        && [...Array(fullStarsNum)].map(() => {
+            res.push({
+                active: true,
+                hover: true,
             });
+        });
         // 存在半星情况
         if (halfStar) {
             res.push({
@@ -148,8 +148,8 @@ export const useRate = (props: RateInnerProps, emit: any) => {
     const hoverLeave = () => {
         rateItemArr.value = rateItemArr.value.map((item, index) => {
             if (
-                index === curActiveIndex.value &&
-                Math.floor(currentValue.value) !== currentValue.value
+                index === curActiveIndex.value
+                && Math.floor(currentValue.value) !== currentValue.value
             ) {
                 // 半星场景 hover离开
                 return {

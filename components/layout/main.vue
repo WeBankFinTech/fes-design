@@ -1,21 +1,22 @@
 <template>
     <main :class="classList">
-        <slot></slot>
+        <slot />
     </main>
 </template>
+
 <script lang="ts">
 import {
+    type ComponentObjectPropsOptions,
+    computed,
+    defineComponent,
+    getCurrentInstance,
     inject,
     ref,
-    computed,
-    getCurrentInstance,
-    defineComponent,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { noop } from '../_util/utils';
-import { COMPONENT_NAME, LAYOUT_PROVIDE_KEY } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { COMPONENT_NAME, LAYOUT_PROVIDE_KEY } from './const';
 
 const prefixCls = getPrefixCls('layout');
 
@@ -34,9 +35,9 @@ export default defineComponent({
     setup(props) {
         const vm = getCurrentInstance();
         if (
-            !vm.parent ||
-            !vm.parent.type ||
-            vm.parent.type.name !== COMPONENT_NAME.LAYOUT
+            !vm.parent
+            || !vm.parent.type
+            || vm.parent.type.name !== COMPONENT_NAME.LAYOUT
         ) {
             console.warn(
                 `[${COMPONENT_NAME.MAIN}] must be a child of ${COMPONENT_NAME.LAYOUT}`,

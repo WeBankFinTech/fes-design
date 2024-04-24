@@ -5,19 +5,21 @@
             <FButton @click="clearSorter">Clear Sorter</FButton>
         </f-space>
         <FTable ref="table" :data="data" layout="auto">
-            <FTableColumn sortable prop="id" label="ID"> </FTableColumn>
+            <FTableColumn sortable prop="id" label="ID" />
             <FTableColumn sortable prop="date" label="日期">
                 <template #default="{ row }">
                     {{ row.date }}
                 </template>
             </FTableColumn>
-            <FTableColumn prop="name" label="姓名"></FTableColumn>
-            <FTableColumn prop="address" label="地址"></FTableColumn>
+            <FTableColumn prop="name" label="姓名" />
+            <FTableColumn prop="address" label="地址" />
         </FTable>
     </f-space>
 </template>
+
 <script>
 import { reactive, ref } from 'vue';
+
 export default {
     setup() {
         const table = ref();
@@ -25,7 +27,7 @@ export default {
             Array.from([1, 2, 3], (i) => {
                 return {
                     id: 4 - i,
-                    date: `2016-05-${i < 10 ? '0' + i : i}`,
+                    date: `2016-05-${i < 10 ? `0${i}` : i}`,
                     name: '王小虎',
                     address: '上海市普陀区金沙江路 1516 弄',
                 };

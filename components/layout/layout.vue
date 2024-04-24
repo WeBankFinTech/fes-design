@@ -1,7 +1,7 @@
 <template>
     <section :class="classList">
         <div :class="containerClassRef" :style="containerStyle">
-            <slot></slot>
+            <slot />
         </div>
     </section>
 </template>
@@ -9,14 +9,14 @@
 <script lang="ts">
 import {
     computed,
+    defineComponent,
+    inject,
     provide,
     reactive,
-    toRefs,
-    inject,
     ref,
-    defineComponent,
+    toRefs,
 } from 'vue';
-import { isPlainObject, isArray, isString } from 'lodash-es';
+import { isArray, isPlainObject, isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { COMPONENT_NAME, LAYOUT_PROVIDE_KEY, layoutProps } from './const';

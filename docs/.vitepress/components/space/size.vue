@@ -6,7 +6,7 @@
         <FRadio value="large">large</FRadio>
     </FRadioGroup>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace :size="size">
         <FButton>Text</FButton>
@@ -14,7 +14,7 @@
         <FButton>Text</FButton>
     </FSpace>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace vertical :size="size">
         <FButton>Text</FButton>
@@ -25,5 +25,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+
 const size = ref('small');
 </script>

@@ -12,7 +12,7 @@
                 :min="100"
                 :max="400"
                 :step="10"
-            ></FInputNumber>
+            />
             <span style="margin-left: 10px">px</span>
         </FFormItem>
         <FFormItem v-if="heightType === 'maxHeight'" label="最大高度：">
@@ -21,16 +21,15 @@
                 :min="100"
                 :max="400"
                 :step="10"
-            ></FInputNumber>
+            />
             <span style="margin-left: 10px">px</span>
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace vertical>
         <FVirtualList
-            ref="virtualList"
             class="virtual-scroll-list-max-height"
             wrapClass="virtual-scroll-list-wrap"
             :dataKey="(data) => data"
@@ -50,6 +49,7 @@
 
 <script>
 import { ref, watch } from 'vue';
+
 export default {
     setup() {
         const heightType = ref('maxHeight');

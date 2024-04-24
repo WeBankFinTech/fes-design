@@ -1,4 +1,4 @@
-import { reactive, provide, type UnwrapRef } from 'vue';
+import { type UnwrapRef, provide, reactive } from 'vue';
 import { CHILDREN_KEY } from './const';
 
 import type { MenuItemType } from './interface';

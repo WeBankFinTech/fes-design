@@ -1,12 +1,12 @@
-import { type SetupContext, reactive, type Ref, readonly } from 'vue';
+import { type Ref, type SetupContext, reactive, readonly } from 'vue';
 import type { RowType } from './interface';
 import type { ColumnInst, SortOrderType, SorterType } from './column';
 
-type SortStateType = {
+interface SortStateType {
     prop?: string;
     order?: 'descend' | 'ascend';
     sorter?: SorterType;
-};
+}
 
 export default ({
     ctx,
@@ -55,12 +55,14 @@ export default ({
     };
 
     const handleClickSortHeader = ({ column }: { column: ColumnInst }) => {
-        if (!column.props.sortable) return;
+        if (!column.props.sortable) {
+            return;
+        }
         if (sortState.prop !== column.props.prop) {
             const order = column.props.sortDirections[0];
             Object.assign(sortState, {
                 prop: column.props.prop,
-                order: order,
+                order,
                 sorter: column.props.sorter,
             });
         } else {
@@ -78,7 +80,9 @@ export default ({
         const column = columns.value.find((col) => {
             return col.props.prop === prop;
         });
-        if (!column.props.sortable) return;
+        if (!column.props.sortable) {
+            return;
+        }
         Object.assign(sortState, {
             prop,
             order,

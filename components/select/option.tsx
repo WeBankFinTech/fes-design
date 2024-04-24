@@ -1,17 +1,17 @@
 import {
+    type ComponentObjectPropsOptions,
+    type PropType,
     computed,
+    defineComponent,
     getCurrentInstance,
     inject,
     onBeforeMount,
     onBeforeUnmount,
-    toRefs,
-    defineComponent,
-    type PropType,
     ref,
-    type ComponentObjectPropsOptions,
+    toRefs,
 } from 'vue';
-import { SELECT_PROVIDE_KEY } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { SELECT_PROVIDE_KEY } from './const';
 
 export const optionProps = {
     value: {
@@ -51,7 +51,7 @@ export default defineComponent({
                     return props.label;
                 }
                 const el = optionRef.value;
-                //TODO: 检测 text 变更
+                // TODO: 检测 text 变更
                 return el?.textContent || '';
             });
 

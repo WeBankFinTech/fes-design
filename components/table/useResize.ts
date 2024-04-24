@@ -6,11 +6,11 @@ import type useTableEvent from './useTableEvent';
 import type { ColumnInst, ColumnProps } from './column';
 import type { WidthItem } from './useTableLayout';
 
-export type ColumnResizeInfo = {
+export interface ColumnResizeInfo {
     prop: ColumnProps['prop'];
     width: WidthItem['width'];
     index: number;
-};
+}
 
 export default (
     columns: ColumnInst[],
@@ -40,7 +40,9 @@ export default (
     };
 
     const onMousemove = (event: MouseEvent) => {
-        if (!current.value) return;
+        if (!current.value) {
+            return;
+        }
         const _widthMap = cloneDeep(widthMap.value);
         const leftColumns = columns
             .slice(0, current.value.columnIndex)
@@ -52,15 +54,15 @@ export default (
             .filter((col) => {
                 return !_widthMap[col.id].width;
             });
-        const offsetX =
-            ((event.clientX - current.value.clientX) *
-                (leftColumns.length + rightColumns.length)) /
-            rightColumns.length;
+        const offsetX
+            = ((event.clientX - current.value.clientX)
+            * (leftColumns.length + rightColumns.length))
+            / rightColumns.length;
         const width = current.value.width + offsetX;
         const currentColumn = columns[current.value.columnIndex];
         if (
-            currentColumn.props.minWidth &&
-            width >= currentColumn.props.minWidth
+            currentColumn.props.minWidth
+            && width >= currentColumn.props.minWidth
         ) {
             _widthMap[current.value.id].width = width;
             _widthMap[current.value.id].minWidth = width;
@@ -69,13 +71,17 @@ export default (
     };
 
     const onMouseup = (event: MouseEvent) => {
-        if (!current.value) return;
+        if (!current.value) {
+            return;
+        }
 
         // emit header resize event
         const currentColumnInstance = columns.find(
             (c) => c.id === current.value.id,
         );
-        if (!currentColumnInstance) return;
+        if (!currentColumnInstance) {
+            return;
+        }
 
         handleHeaderResize(
             {

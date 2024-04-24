@@ -1,10 +1,9 @@
 import { type VNode, defineComponent, inject, ref, watch } from 'vue';
 import { isNil } from 'lodash-es';
 import Button from '../button';
-import { LeftOutlined, RightOutlined } from '../icon';
+import { LeftOutlined, RightOutlined, SearchOutlined } from '../icon';
 import Empty from '../empty';
 import Checkbox from '../checkbox';
-import { SearchOutlined } from '../icon';
 import Input from '../input';
 import VirtualList from '../virtual-list';
 import {
@@ -15,11 +14,11 @@ import {
 } from './const';
 import { cls } from './utils';
 import { TransferCheckbox, calcCheckStatus } from './checkbox';
-import {
-    type TransferOptionValue,
-    type TransferOption,
-    type TransferInjection,
-    type TransferFilter,
+import type {
+    TransferFilter,
+    TransferInjection,
+    TransferOption,
+    TransferOptionValue,
 } from './interface';
 import { useCheckValueWithCheckbox } from './useCheckValueWithCheckbox';
 import { useOptionsFilter } from './useOptionsFilter';
@@ -36,12 +35,14 @@ const usePanelData = ({
     const checkValue = ref<TransferOptionValue[]>([]);
     const options = ref<TransferOption[]>([]);
 
-    const { checkboxStatus, handleCheckboxChange, handleCheck } =
-        useCheckValueWithCheckbox({
+    const { checkboxStatus, handleCheckboxChange, handleCheck }
+        = useCheckValueWithCheckbox({
             checkValue,
             options,
             onCheckboxChange: () => {
-                if (type === 'source') return;
+                if (type === 'source') {
+                    return;
+                }
                 handleChange({ nextValue: checkValue.value });
             },
         });
@@ -58,7 +59,9 @@ const usePanelData = ({
         } else {
             // remove
             const index = nextCheckValue.findIndex((v) => v === optionValue);
-            if (index === -1) return;
+            if (index === -1) {
+                return;
+            }
             nextCheckValue.splice(index, 1);
         }
 
@@ -143,11 +146,12 @@ const TwoWayTransfer = defineComponent({
                     modelValue={panelData.checkValue.value.includes(
                         option.value,
                     )}
-                    onChange={(nextValue) =>
+                    onChange={(nextValue) => {
                         panelData.handleListOptionChange(
                             option.value,
                             nextValue,
-                        )
+                        );
+                    }
                     }
                 />
                 <span class={cls('option-label')}>{renderLabel(option)}</span>
@@ -258,12 +262,12 @@ const TwoWayTransfer = defineComponent({
                     ({ value }) => nextValue.includes(value),
                 );
 
-                sourcePanel.checkValue.value =
-                    sourcePanel.checkValue.value.filter(
+                sourcePanel.checkValue.value
+                    = sourcePanel.checkValue.value.filter(
                         (value) => !nextValue.includes(value),
                     );
-                targetPanel.checkValue.value =
-                    targetPanel.checkValue.value.filter((value) =>
+                targetPanel.checkValue.value
+                    = targetPanel.checkValue.value.filter((value) =>
                         nextValue.includes(value),
                     );
 

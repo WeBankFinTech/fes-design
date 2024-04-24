@@ -21,7 +21,7 @@
                     :class="`${prefixCls}__inner-image`"
                     :style="imageStyle"
                     v-bind="imgAttrs"
-                />
+                >
             </slot>
         </div>
 
@@ -34,38 +34,35 @@
                 :hide-on-click-modal="hideOnClickModal"
                 :getContainer="previewContainer"
                 @close="closeViewer"
-            >
-            </Preview>
+            />
         </template>
     </div>
 </template>
+
 <script lang="ts">
 import {
     computed,
-    watch,
-    ref,
-    nextTick,
-    inject,
-    type ImgHTMLAttributes,
     defineComponent,
-    type PropType,
+    inject,
+    nextTick,
     onUnmounted,
     reactive,
+    ref,
+    watch,
 } from 'vue';
 import { useEventListener, useThrottleFn } from '@vueuse/core';
 import { isString } from 'lodash-es';
+import type { CSSProperties, ComponentObjectPropsOptions, ImgHTMLAttributes, PropType } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
-import { PictureOutlined, PictureFailOutlined } from '../icon';
-import { isHtmlElement, getScrollContainer, isInContainer } from '../_util/dom';
+import { PictureFailOutlined, PictureOutlined } from '../icon';
+import { getScrollContainer, isHtmlElement, isInContainer } from '../_util/dom';
 import { noop, noopInNoop, pxfy } from '../_util/utils';
-import { CLOSE_EVENT, LOAD_EVENT, ERROR_EVENT } from '../_util/constants';
+import { CLOSE_EVENT, ERROR_EVENT, LOAD_EVENT } from '../_util/constants';
 import download from '../_util/download';
 import { useTheme } from '../_theme/useTheme';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import { PREVIEW_PROVIDE_KEY } from './props';
 import Preview from './preview.vue';
-import type { ExtractPublicPropTypes } from '../_util/interface';
-
-import type { CSSProperties, ComponentObjectPropsOptions } from 'vue';
 
 const prefixCls = getPrefixCls('img');
 
@@ -221,19 +218,25 @@ export default defineComponent({
 
         const loadImage = () => {
             // loading 为true 才会加载图片
-            if (!loading.value) return;
+            if (!loading.value) {
+                return;
+            }
 
             const img = new Image();
 
             const imageId = ++currentImageId;
             img.addEventListener('load', (e) => {
                 // 检查 imageId 是否与 currentImageId 相同
-                if (imageId !== currentImageId) return;
+                if (imageId !== currentImageId) {
+                    return;
+                }
                 handleLoaded(e, img);
             });
             img.addEventListener('error', (e) => {
                 // 检查 imageId 是否与 currentImageId 相同
-                if (imageId !== currentImageId) return;
+                if (imageId !== currentImageId) {
+                    return;
+                }
                 handleError(e);
             });
 

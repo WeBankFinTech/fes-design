@@ -1,9 +1,9 @@
 import {
-    defineComponent,
-    computed,
-    ref,
-    type PropType,
     type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
+    defineComponent,
+    ref,
 } from 'vue';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -11,8 +11,8 @@ import { useAnimate } from '../_util/use/useAnimate';
 import { useTheme } from '../_theme/useTheme';
 
 import useFormAdaptor from '../_util/use/useFormAdaptor';
-import type { Type, Size } from './interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import type { Size, Type } from './interface';
 
 const prefixCls = getPrefixCls('btn');
 
@@ -63,12 +63,13 @@ export default defineComponent({
         const notAllowed = ref(false);
         const handleClick = (event: MouseEvent) => {
             if (
-                notAllowed.value ||
-                props.disabled ||
-                props.loading ||
-                isFormDisabled.value
-            )
+                notAllowed.value
+                || props.disabled
+                || props.loading
+                || isFormDisabled.value
+            ) {
                 return;
+            }
 
             handelAnimate();
 
@@ -95,11 +96,13 @@ export default defineComponent({
                 class={classes.value}
                 onClick={handleClick}
             >
-                {props.loading ? (
-                    <LoadingOutlined class={loadingIconClassName} />
-                ) : (
-                    slots.icon?.()
-                )}
+                {props.loading
+                    ? (
+                        <LoadingOutlined class={loadingIconClassName} />
+                        )
+                    : (
+                            slots.icon?.()
+                        )}
                 {slots.default?.()}
             </button>
         );

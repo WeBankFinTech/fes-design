@@ -35,7 +35,9 @@
 export default {
     setup() {
         const disabledDate = (date) => {
-            if (date.getDate() === 7) return true;
+            if (date.getDate() === 7) {
+                return true;
+            }
             return false;
         };
         const disabledTime = (date, phase) => {

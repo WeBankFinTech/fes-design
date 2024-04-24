@@ -1,11 +1,11 @@
-import { computed, defineComponent, type Ref } from 'vue';
+import { type Ref, computed, defineComponent } from 'vue';
 import { useTheme } from '../_theme/useTheme';
 import { flatten, getSlot, isValidElementNode } from '../_util/vnode';
 import { createKey } from '../_util/createKey';
 import { depx } from '../_util/utils';
+import type { TThemeVars } from '../_theme/base';
 import { COMPONENT_NAME, prefixCls } from './const';
 import { type SpaceInnerProps, spaceProps } from './props';
-import type { TThemeVars } from '../_theme/base';
 
 const useMargin = (props: SpaceInnerProps, themeVarsRef: Ref<TThemeVars>) => {
     const margin = computed(() => {
@@ -21,8 +21,8 @@ const useMargin = (props: SpaceInnerProps, themeVarsRef: Ref<TThemeVars>) => {
             vertical = size;
         } else {
             const currentSize = depx(
-                themeVarsRef.value[createKey('padding', size)] ||
-                    themeVarsRef.value[createKey('padding', 'small')],
+                themeVarsRef.value[createKey('padding', size)]
+                || themeVarsRef.value[createKey('padding', 'small')],
             );
             horizontal = currentSize;
             vertical = currentSize;
@@ -80,7 +80,7 @@ export default defineComponent({
                     display: inline ? 'inline-flex' : 'flex',
                     flexDirection: vertical ? 'column' : 'row',
                     justifyContent: ['start', 'end'].includes(justify)
-                        ? 'flex-' + justify
+                        ? `flex-${justify}`
                         : justify,
                     alignItems: align,
                     flexWrap: !wrap || vertical ? 'nowrap' : 'wrap',
@@ -98,29 +98,29 @@ export default defineComponent({
                             },
                             vertical
                                 ? {
-                                      marginBottom:
+                                        marginBottom:
                                           index !== lastIndex
                                               ? margin.vertical
                                               : '',
-                                  }
+                                    }
                                 : {
-                                      marginRight: isJustifySpace
-                                          ? justify === 'space-between' &&
-                                            index === lastIndex
-                                              ? ''
-                                              : margin.semiHorizontal
-                                          : index !== lastIndex
-                                          ? margin.horizontal
-                                          : '',
-                                      marginLeft: isJustifySpace
-                                          ? justify === 'space-between' &&
-                                            index === 0
-                                              ? ''
-                                              : margin.semiHorizontal
-                                          : '',
-                                      paddingTop: margin.semiVertical,
-                                      paddingBottom: margin.semiVertical,
-                                  },
+                                        marginRight: isJustifySpace
+                                            ? justify === 'space-between'
+                                            && index === lastIndex
+                                                ? ''
+                                                : margin.semiHorizontal
+                                            : index !== lastIndex
+                                                ? margin.horizontal
+                                                : '',
+                                        marginLeft: isJustifySpace
+                                            ? justify === 'space-between'
+                                            && index === 0
+                                                ? ''
+                                                : margin.semiHorizontal
+                                            : '',
+                                        paddingTop: margin.semiVertical,
+                                        paddingBottom: margin.semiVertical,
+                                    },
                         ]}
                     >
                         {child}

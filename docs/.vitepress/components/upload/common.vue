@@ -20,6 +20,7 @@
         </template>
     </FUpload>
 </template>
+
 <script>
 import { ref } from 'vue';
 import { FMessage } from '@fesjs/fes-design';
@@ -90,6 +91,7 @@ export default {
     },
 };
 </script>
+
 <style>
 .f-upload__tip {
     font-size: 12px;

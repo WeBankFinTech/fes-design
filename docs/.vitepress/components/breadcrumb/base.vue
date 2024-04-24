@@ -1,13 +1,13 @@
 <template>
     <FForm :labelWidth="60">
         <FFormItem label="分隔符:">
-            <FInput v-model="separator" class="form-item"></FInput>
+            <FInput v-model="separator" class="form-item" />
         </FFormItem>
         <FFormItem label="字体大小:">
-            <FInputNumber v-model="fontSize" class="form-item"></FInputNumber>
+            <FInputNumber v-model="fontSize" class="form-item" />
         </FFormItem>
     </FForm>
-    <FDivider></FDivider>
+    <FDivider />
     <FBreadcrumb :separator="separator" :fontSize="fontSize">
         <FBreadcrumbItem>首页</FBreadcrumbItem>
         <FBreadcrumbItem>二级页面 </FBreadcrumbItem>

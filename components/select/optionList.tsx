@@ -1,9 +1,9 @@
 import {
-    defineComponent,
-    type PropType,
     type CSSProperties,
     type ComponentObjectPropsOptions,
+    type PropType,
     computed,
+    defineComponent,
 } from 'vue';
 import Scrollbar from '../scrollbar/scrollbar.vue';
 import Ellipsis from '../ellipsis/ellipsis';
@@ -26,7 +26,7 @@ const optionListProps = {
             return [];
         },
     },
-    virtualScroll: selectProps['virtualScroll'],
+    virtualScroll: selectProps.virtualScroll,
     isSelect: {
         type: Function,
         default: noop,
@@ -135,8 +135,8 @@ export default defineComponent({
                 prefixCls,
                 isSelected && 'is-checked',
                 isHover && 'is-hover',
-                (option.disabled || (!isSelected && props.isLimit)) &&
-                    'is-disabled',
+                (option.disabled || (!isSelected && props.isLimit))
+                && 'is-disabled',
             ].filter(Boolean);
 
             return (
@@ -165,50 +165,56 @@ export default defineComponent({
             source.__isGroup ? renderGroupOption(source) : renderOption(source);
 
         return () =>
-            enableVirtualScroll.value ? (
-                <VirtualList
-                    onScroll={(event: Event) => {
-                        emit('scroll', event);
-                    }}
-                    dataSources={props.options}
-                    dataKey={'value'}
-                    estimateSize={32}
-                    keeps={14}
-                    style={props.containerStyle}
-                    class={`${props.prefixCls}-dropdown is-max-height`}
-                    v-slots={{ default: renderDefault }}
-                ></VirtualList>
-            ) : props.options.length ? (
-                <Scrollbar
-                    onScroll={(event: Event) => {
-                        emit('scroll', event);
-                    }}
-                    containerStyle={props.containerStyle}
-                    containerClass={`${props.prefixCls}-dropdown`}
-                >
-                    {props.options.map((option) => {
-                        return option.__isGroup
-                            ? renderGroupOption(option)
-                            : renderOption(option);
-                    })}
-                </Scrollbar>
-            ) : props.renderEmpty ? (
-                <div
-                    class={[`${props.prefixCls}-dropdown`]}
-                    style={props.containerStyle}
-                >
-                    {props.renderEmpty()}
-                </div>
-            ) : (
-                <div
-                    class={[
+            enableVirtualScroll.value
+                ? (
+                    <VirtualList
+                        onScroll={(event: Event) => {
+                            emit('scroll', event);
+                        }}
+                        dataSources={props.options}
+                        dataKey={'value'}
+                        estimateSize={32}
+                        keeps={14}
+                        style={props.containerStyle}
+                        class={`${props.prefixCls}-dropdown is-max-height`}
+                        v-slots={{ default: renderDefault }}
+                    ></VirtualList>
+                    )
+                : props.options.length
+                    ? (
+                        <Scrollbar
+                            onScroll={(event: Event) => {
+                                emit('scroll', event);
+                            }}
+                            containerStyle={props.containerStyle}
+                            containerClass={`${props.prefixCls}-dropdown`}
+                        >
+                            {props.options.map((option) => {
+                                return option.__isGroup
+                                    ? renderGroupOption(option)
+                                    : renderOption(option);
+                            })}
+                        </Scrollbar>
+                        )
+                    : props.renderEmpty
+                        ? (
+                            <div
+                                class={[`${props.prefixCls}-dropdown`]}
+                                style={props.containerStyle}
+                            >
+                                {props.renderEmpty()}
+                            </div>
+                            )
+                        : (
+                            <div
+                                class={[
                         `${props.prefixCls}-dropdown`,
                         `${props.prefixCls}-null`,
-                    ]}
-                    style={props.containerStyle}
-                >
-                    {props.emptyText}
-                </div>
-            );
+                                ]}
+                                style={props.containerStyle}
+                            >
+                                {props.emptyText}
+                            </div>
+                            );
     },
 });

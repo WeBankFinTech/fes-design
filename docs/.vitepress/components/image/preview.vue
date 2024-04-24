@@ -8,8 +8,7 @@
             download
             hide-on-click-modal
             name="我是图片"
-        >
-        </FImage>
+        />
 
         <FImage
             :src="url"
@@ -21,6 +20,7 @@
         </FImage>
     </FSpace>
 </template>
+
 <script>
 import { ref } from 'vue';
 

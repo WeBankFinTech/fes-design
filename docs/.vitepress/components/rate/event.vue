@@ -5,7 +5,7 @@
         clearable
         @change="changeValue"
         @clear="clear"
-    ></FRate>
+    />
     <span>value值：{{ value }}</span>
 </template>
 

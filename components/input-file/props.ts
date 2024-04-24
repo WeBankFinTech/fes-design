@@ -1,12 +1,12 @@
-import {
-    type PropType,
-    type ComponentObjectPropsOptions,
-    type SlotsType,
+import type {
+    ComponentObjectPropsOptions,
+    PropType,
+    SlotsType,
 } from 'vue';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
-import {
-    type ComponentEmit,
-    type ExtractPublicPropTypes,
+import type {
+    ComponentEmit,
+    ExtractPublicPropTypes,
 } from '../_util/interface';
 
 const commonProps = {
@@ -54,11 +54,11 @@ export const EMIT_EVENTS = [UPDATE_MODEL_EVENT, CHANGE_EVENT] as const;
 export type InputFileEmit = ComponentEmit<typeof EMIT_EVENTS>;
 
 // ------ Slots ------
-export type InputFileSlotsParams = {
+export interface InputFileSlotsParams {
     default: Record<string, never>;
     fileList: {
         files: File[];
     };
-};
+}
 
 export type InputFileSlots = SlotsType<InputFileSlotsParams>;

@@ -4,27 +4,27 @@
             <div class="table-custom-content-date">
                 <ClockCircleOutlined /><FEllipsis
                     :content="row.date"
-                ></FEllipsis>
+                />
             </div>
         </FTableColumn>
         <FTableColumn v-slot="{ row }" prop="name" label="姓名">
             <FTag>{{ row.name }}</FTag>
         </FTableColumn>
-        <FTableColumn prop="address" label="地址"></FTableColumn>
+        <FTableColumn prop="address" label="地址" />
         <FTableColumn v-slot="{ row }" label="操作">
             <FButton @click="() => handleClickRow(row)">编辑</FButton>
         </FTableColumn>
     </FTable>
 
-    <FDivider></FDivider>
+    <FDivider />
 
-    <FTable :data="data" :columns="columns"> </FTable>
+    <FTable :data="data" :columns="columns" />
 </template>
 
 <script>
-import { h, reactive, defineComponent } from 'vue';
+import { defineComponent, h, reactive } from 'vue';
 import { ClockCircleOutlined } from '@fesjs/fes-design/icon';
-import { FEllipsis, FTag, FButton } from '@fesjs/fes-design';
+import { FButton, FEllipsis, FTag } from '@fesjs/fes-design';
 
 export default defineComponent({
     comments: {
@@ -39,7 +39,7 @@ export default defineComponent({
             Array.from([1, 2], (i) => {
                 return {
                     date: `2016-05-2016-05-2016-05-2016-05-${
-                        i < 10 ? '0' + i : i
+                        i < 10 ? `0${i}` : i
                     }`,
                     name: '王小虎',
                     address: '上海市普陀区金沙江路 1516 弄',

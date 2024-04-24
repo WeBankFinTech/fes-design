@@ -21,7 +21,9 @@ export default defineComponent({
         } = inject(TABS_INJECTION_KEY);
 
         const mergeClosable = computed(() => {
-            if (!isCard.value) return;
+            if (!isCard.value) {
+                return;
+            }
             return typeof props.closable === 'boolean'
                 ? props.closable
                 : closableRef.value;
@@ -30,7 +32,9 @@ export default defineComponent({
         setDefaultValue(props.value);
 
         const handleClick = () => {
-            if (props.disabled) return;
+            if (props.disabled) {
+                return;
+            }
             handleTabClick(props.value);
         };
 

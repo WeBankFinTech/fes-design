@@ -1,8 +1,8 @@
 import { type Ref, computed, ref } from 'vue';
-import {
-    type TransferFilter,
-    type TransferInjection,
-    type TransferOption,
+import type {
+    TransferFilter,
+    TransferInjection,
+    TransferOption,
 } from './interface';
 
 export const useOptionsFilter = ({

@@ -1,7 +1,7 @@
 <template>
-    <FSelect multiple :options="optionsRef" remote @search="fetchData">
-    </FSelect>
+    <FSelect multiple :options="optionsRef" remote @search="fetchData" />
 </template>
+
 <script>
 import { ref } from 'vue';
 
@@ -48,6 +48,7 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 .fes-select {
     width: 200px;

@@ -1,4 +1,4 @@
-import { type PropType, type ComponentObjectPropsOptions } from 'vue';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export type CheckboxValue = string | number | boolean;

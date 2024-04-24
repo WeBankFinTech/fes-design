@@ -65,7 +65,7 @@
                         @select="handleSelect"
                         @check="handleCheck"
                         @mousedown.prevent
-                    ></Tree>
+                    />
                     <div
                         v-show="!data.length"
                         :class="`${prefixCls}-null`"
@@ -104,7 +104,7 @@
                             @update:nodeList="onChangeNodeList"
                             @select="handleSelect"
                             @check="handleCheck"
-                        ></Tree>
+                        />
                         <div v-show="!data.length" :class="`${prefixCls}-null`">
                             {{ listEmptyText }}
                         </div>
@@ -117,26 +117,26 @@
 
 <script lang="ts">
 import {
+    type CSSProperties,
+    type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
     defineComponent,
     ref,
     shallowRef,
     triggerRef,
     unref,
     watch,
-    computed,
-    type CSSProperties,
-    type PropType,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { debounce } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import {
-    useNormalModel,
-    useArrayModel,
     type UseArrayModelReturn,
+    useArrayModel,
+    useNormalModel,
 } from '../_util/use/useModel';
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
@@ -148,9 +148,9 @@ import { useLocale } from '../config-provider/useLocale';
 import { noop } from '../_util/utils';
 import type { SelectValue } from '../select/interface';
 import type {
-    SelectParams,
     CheckParams,
     InnerTreeOption,
+    SelectParams,
     TreeNodeKey,
 } from '../tree/interface';
 import type { ExtractPublicPropTypes } from '../_util/interface';
@@ -208,9 +208,9 @@ export default defineComponent({
         });
         const isOpened = ref(false);
 
+        // 与 props 中 modelValue 类型保持一致
         const [currentValue, updateCurrentValue] = props.multiple
-            ? // 与 props 中 modelValue 类型保持一致
-              (useArrayModel(props, emit) as unknown as UseArrayModelReturn<
+            ? (useArrayModel(props, emit) as unknown as UseArrayModelReturn<
                   Array<TreeNodeKey> | Array<Array<TreeNodeKey>>
               >)
             : useNormalModel(props, emit);
@@ -285,8 +285,8 @@ export default defineComponent({
         });
         const checkedKeys = computed(() => {
             if (
-                props.multiple &&
-                (currentValue.value as MultipleModelValue)?.length
+                props.multiple
+                && (currentValue.value as MultipleModelValue)?.length
             ) {
                 const keys = (currentValue.value as MultipleModelValue).map(
                     (item) =>
@@ -300,8 +300,8 @@ export default defineComponent({
         });
 
         watch([() => props.checkStrictly, () => props.emitPath], () => {
-            const value: null | [] =
-                (props.multiple && props.cascade) || props.emitPath ? [] : null;
+            const value: null | []
+                = (props.multiple && props.cascade) || props.emitPath ? [] : null;
             updateCurrentValue(value);
             handleChange();
         });
@@ -320,7 +320,9 @@ export default defineComponent({
         };
 
         const handleSelect = (data: SelectParams) => {
-            if (innerDisabled.value) return;
+            if (innerDisabled.value) {
+                return;
+            }
             filterText.value = '';
             if (!props.multiple) {
                 isOpened.value = false;
@@ -330,7 +332,9 @@ export default defineComponent({
         };
 
         const handleCheck = (data: CheckParams) => {
-            if (innerDisabled.value) return;
+            if (innerDisabled.value) {
+                return;
+            }
             filterText.value = '';
             if (!props.multiple) {
                 isOpened.value = false;
@@ -341,7 +345,7 @@ export default defineComponent({
 
         /** 节点目标值 */
         const targetValues = computed((): TreeNodeKey[] => {
-            let values = props.multiple
+            const values = props.multiple
                 ? (currentValue.value as MultipleModelValue)
                 : [currentValue.value];
             if (props.emitPath) {
@@ -370,7 +374,9 @@ export default defineComponent({
             return targetValues.value
                 .map((val: TreeNodeKey) => {
                     const node = nodeListValue.get(val);
-                    if (!node) return;
+                    if (!node) {
+                        return;
+                    }
                     if (props.showPath) {
                         return {
                             ...node,
@@ -413,8 +419,12 @@ export default defineComponent({
             }, 300),
         );
         const filterMethod = computed(() => {
-            if (!props.filterable) return noop;
-            if (props.filter) return props.filter;
+            if (!props.filterable) {
+                return noop;
+            }
+            if (props.filter) {
+                return props.filter;
+            }
             if (props.data.some(({ label }) => typeof label !== 'string')) {
                 console.warn(
                     `[${COMPONENT_NAME}]：label 存在自定义渲染，需要传入 filter`,

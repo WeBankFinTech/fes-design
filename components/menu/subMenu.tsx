@@ -1,26 +1,28 @@
 import {
-    ref,
     computed,
     defineComponent,
-    onMounted,
-    onBeforeUnmount,
     getCurrentInstance,
-    watch,
+    onBeforeUnmount,
+    onMounted,
     provide,
-    type ComponentObjectPropsOptions,
+    ref,
+    watch,
 } from 'vue';
-import { type PropType } from 'vue';
+import type {
+    ComponentObjectPropsOptions,
+    PropType,
+} from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import FadeInExpandTransition from '../_util/components/fadeInExpandTransition';
 import Popper from '../popper/popper';
 import DownOutlined from '../icon/DownOutlined';
 import RightOutlined from '../icon/RightOutlined';
 import Ellipsis from '../ellipsis/ellipsis';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import { COMPONENT_NAME, SUB_MENU_KEY } from './const';
 import useChildren from './useChildren';
 import useParent from './useParent';
 import useMenu from './useMenu';
-import type { ExtractPublicPropTypes } from '../_util/interface';
 
 const prefixCls = getPrefixCls('sub-menu');
 
@@ -50,8 +52,8 @@ export default defineComponent({
         const instance = getCurrentInstance();
         const { indexPath } = useMenu(instance);
         const subMenuRef = ref(null);
-        const { rootMenu, parentMenu, paddingStyle, isFirstLevel, onlyIcon } =
-            useChildren(indexPath);
+        const { rootMenu, parentMenu, paddingStyle, isFirstLevel, onlyIcon }
+            = useChildren(indexPath);
         // 根节点 menu
         if (!rootMenu) {
             console.warn(

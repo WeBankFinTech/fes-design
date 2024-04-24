@@ -13,7 +13,7 @@
                 emitPath
                 showPath
                 @change="handleChange"
-            ></FSelectCascader>
+            />
         </FFormItem>
         <FFormItem label="modelValue：">{{ value1 }}</FFormItem>
         <FFormItem label="多选：">
@@ -31,18 +31,21 @@
                 remote
                 emitPath
                 @change="handleChange"
-            ></FSelectCascader>
+            />
         </FFormItem>
         <FFormItem label="modelValue：">{{ value2 }}</FFormItem>
     </FForm>
 </template>
+
 <script>
 import { reactive, ref } from 'vue';
 
 function createData(level = 1, baseKey = '') {
-    if (!level) return undefined;
+    if (!level) {
+        return undefined;
+    }
     return Array.apply(null, { length: 2 }).map((_, index) => {
-        const key = '' + baseKey + level + index;
+        const key = `${baseKey}${level}${index}`;
         return {
             name: createLabel(level),
             id: key,
@@ -52,10 +55,18 @@ function createData(level = 1, baseKey = '') {
 }
 
 function createLabel(level) {
-    if (level === 4) return '道生一';
-    if (level === 3) return '一生二';
-    if (level === 2) return '二生三';
-    if (level === 1) return '三生万物';
+    if (level === 4) {
+        return '道生一';
+    }
+    if (level === 3) {
+        return '一生二';
+    }
+    if (level === 2) {
+        return '二生三';
+    }
+    if (level === 1) {
+        return '三生万物';
+    }
 }
 
 export default {
@@ -73,17 +84,13 @@ export default {
                                 name: `${node.name}1`,
                                 id: `${node.id}-1`,
                                 isLeaf:
-                                    node.id.split('-').length > 1
-                                        ? true
-                                        : false,
+                                    node.id.split('-').length > 1,
                             },
                             {
                                 name: `${node.name}2`,
                                 id: `${node.id}-2`,
                                 isLeaf:
-                                    node.id.split('-').length > 1
-                                        ? true
-                                        : false,
+                                    node.id.split('-').length > 1,
                             },
                         ];
                     } else {
@@ -121,6 +128,7 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 .fes-select-cascader {
     width: 200px;

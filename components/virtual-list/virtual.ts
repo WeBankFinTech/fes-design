@@ -93,8 +93,8 @@ export default class Virtual {
     // return start index offset
     getOffset(start: number) {
         return (
-            (start < 1 ? 0 : this.getIndexOffset(start)) +
-            this.param.slotHeaderSize
+            (start < 1 ? 0 : this.getIndexOffset(start))
+            + this.param.slotHeaderSize
         );
     }
 
@@ -122,8 +122,8 @@ export default class Virtual {
             this.fixedSizeValue = size;
             this.calcType = CALC_TYPE.FIXED;
         } else if (
-            this.calcType === CALC_TYPE.FIXED &&
-            this.fixedSizeValue !== size
+            this.calcType === CALC_TYPE.FIXED
+            && this.fixedSizeValue !== size
         ) {
             this.calcType = CALC_TYPE.DYNAMIC;
             // it's no use at all
@@ -132,12 +132,12 @@ export default class Virtual {
 
         // calculate the average size only in the first range
         if (
-            this.calcType !== CALC_TYPE.FIXED &&
-            typeof this.firstRangeTotalSize !== 'undefined'
+            this.calcType !== CALC_TYPE.FIXED
+            && typeof this.firstRangeTotalSize !== 'undefined'
         ) {
             if (
-                this.sizes.size <
-                Math.min(this.param.keeps, this.param.uniqueIds.length)
+                this.sizes.size
+                < Math.min(this.param.keeps, this.param.uniqueIds.length)
             ) {
                 this.firstRangeTotalSize = [...this.sizes.values()].reduce(
                     (acc, val) => acc + val,
@@ -180,8 +180,8 @@ export default class Virtual {
 
     // calculating range on scroll
     handleScroll(offset: number) {
-        this.direction =
-            offset < this.offset ? DIRECTION_TYPE.FRONT : DIRECTION_TYPE.BEHIND;
+        this.direction
+            = offset < this.offset ? DIRECTION_TYPE.FRONT : DIRECTION_TYPE.BEHIND;
         this.offset = offset;
         if (!this.param) {
             return;
@@ -261,9 +261,9 @@ export default class Virtual {
         let indexSize = 0;
         for (let index = 0; index < givenIndex; index++) {
             indexSize = this.sizes.get(this.param.uniqueIds[index]);
-            offset =
-                offset +
-                (typeof indexSize === 'number'
+            offset
+                = offset
+                + (typeof indexSize === 'number'
                     ? indexSize
                     : this.getEstimateSize());
         }

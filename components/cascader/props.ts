@@ -1,17 +1,17 @@
-import { extractPropsDefaultValue } from '../_util/utils';
-import { CHECK_STRATEGY, EXPAND_TRIGGER, type CheckStrictly } from './const';
 import type {
-    PropType,
-    InjectionKey,
-    Ref,
     ComponentObjectPropsOptions,
+    InjectionKey,
+    PropType,
+    Ref,
 } from 'vue';
+import { extractPropsDefaultValue } from '../_util/utils';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { CHECK_STRATEGY, type CheckStrictly, EXPAND_TRIGGER } from './const';
 import type {
-    CascaderOption,
     CascaderNodeKey,
-    InnerCascaderOption,
     CascaderNodeList,
+    CascaderOption,
+    InnerCascaderOption,
 } from './interface';
 
 export const cascaderProps = {
@@ -113,8 +113,8 @@ export const cascaderProps = {
 
 export type CascaderProps = ExtractPublicPropTypes<typeof cascaderProps>;
 
-export const cascaderPropsDefaultValue =
-    extractPropsDefaultValue(cascaderProps);
+export const cascaderPropsDefaultValue
+    = extractPropsDefaultValue(cascaderProps);
 
 export interface CascaderInst {
     props: CascaderProps;
@@ -135,5 +135,5 @@ export interface CascaderInst {
     };
 }
 
-export const CASCADER_PROVIDE_KEY: InjectionKey<CascaderInst> =
-    Symbol('FCascader');
+export const CASCADER_PROVIDE_KEY: InjectionKey<CascaderInst>
+    = Symbol('FCascader');

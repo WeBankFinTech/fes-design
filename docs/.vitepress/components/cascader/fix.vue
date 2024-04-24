@@ -1,14 +1,17 @@
 <template>
-    <FCascader :data="data" checkable></FCascader>
+    <FCascader :data="data" checkable />
 </template>
+
 <script>
-import { reactive, h } from 'vue';
+import { h, reactive } from 'vue';
 import { PictureOutlined } from '@fesjs/fes-design/icon';
 
 function createData(level = 1, baseKey = '', prefix, suffix) {
-    if (!level) return undefined;
+    if (!level) {
+        return undefined;
+    }
     return Array.apply(null, { length: 2 }).map((_, index) => {
-        const key = '' + baseKey + level + index;
+        const key = `${baseKey}${level}${index}`;
         const children = createData(level - 1, key, prefix, suffix);
         return {
             label: createLabel(level),
@@ -24,10 +27,18 @@ function createData(level = 1, baseKey = '', prefix, suffix) {
 }
 
 function createLabel(level) {
-    if (level === 4) return '道生一';
-    if (level === 3) return '一生二';
-    if (level === 2) return '二生三';
-    if (level === 1) return '三生万物';
+    if (level === 4) {
+        return '道生一';
+    }
+    if (level === 3) {
+        return '一生二';
+    }
+    if (level === 2) {
+        return '二生三';
+    }
+    if (level === 1) {
+        return '三生万物';
+    }
 }
 
 export default {

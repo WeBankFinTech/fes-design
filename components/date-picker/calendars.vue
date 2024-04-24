@@ -93,22 +93,22 @@
 
 <script lang="ts">
 import {
-    ref,
-    computed,
-    watch,
-    defineComponent,
-    type PropType,
-    type ExtractPropTypes,
     type ComponentObjectPropsOptions,
+    type ExtractPropTypes,
+    type PropType,
+    computed,
+    defineComponent,
+    ref,
+    watch,
 } from 'vue';
-import { isFunction, isArray, isNumber } from 'lodash-es';
+import { isArray, isFunction, isNumber } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import FButton from '../button';
 import { useLocale } from '../config-provider/useLocale';
 import Calendar from './calendar.vue';
 import { getTimestampFromFormat } from './helper';
-import { RANGE_POSITION, COMMON_PROPS, RANGE_PROPS } from './const';
+import { COMMON_PROPS, RANGE_POSITION, RANGE_PROPS } from './const';
 
 import { useRange, useSelectStatus } from './useRange';
 import { useDisable } from './use';
@@ -159,8 +159,8 @@ export default defineComponent({
             return confirmLang ? t(confirmLang) : '';
         });
 
-        const { selectedStatus, selectedDay, lastSelectedPosition } =
-            useSelectStatus(props);
+        const { selectedStatus, selectedDay, lastSelectedPosition }
+            = useSelectStatus(props);
         const {
             leftActiveDate,
             rightActiveDate,
@@ -190,16 +190,16 @@ export default defineComponent({
 
         const visibleFooter = computed(
             () =>
-                props.control ||
-                pickerRef.value.name === PickerType.datemultiple ||
-                pickerRef.value.isRange ||
-                pickerRef.value.hasTime,
+                props.control
+                || pickerRef.value.name === PickerType.datemultiple
+                || pickerRef.value.isRange
+                || pickerRef.value.hasTime,
         );
 
         const change = () => {
             if (
-                pickerRef.value.isRange ||
-                pickerRef.value.name === PickerType.datemultiple
+                pickerRef.value.isRange
+                || pickerRef.value.name === PickerType.datemultiple
             ) {
                 emit('change', tempCurrentValue.value);
             } else {
@@ -211,8 +211,8 @@ export default defineComponent({
             tempCurrentValue.value = val;
 
             if (
-                pickerRef.value.isRange ||
-                pickerRef.value.name === PickerType.datemultiple
+                pickerRef.value.isRange
+                || pickerRef.value.name === PickerType.datemultiple
             ) {
                 emit('tmpSelectedDateChange', tempCurrentValue.value);
             } else {

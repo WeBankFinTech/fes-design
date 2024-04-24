@@ -1,17 +1,16 @@
 import {
+    type ComponentObjectPropsOptions,
+    type PropType,
+    type VNode,
+    createVNode,
     defineComponent,
     inject,
-    type VNode,
-    type PropType,
-    createVNode,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import VirtualList from '../../virtual-list/virtualList';
 import { provideKey } from '../const';
+import type { ColumnInst } from '../column';
 import Colgroup from './colgroup';
 import Tr from './tr';
-
-import type { ColumnInst } from '../column';
 
 export default defineComponent({
     props: {

@@ -1,10 +1,10 @@
 import {
-    defineComponent,
     computed,
-    ref,
-    onMounted,
+    defineComponent,
     nextTick,
+    onMounted,
     onUpdated,
+    ref,
     watch,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -33,7 +33,7 @@ export default defineComponent({
         const avatarSize = computed(() => {
             return typeof props.size === 'number'
                 ? props.size
-                : sizeMap[props.size] ?? sizeMap['middle'];
+                : sizeMap[props.size] ?? sizeMap.middle;
         });
 
         const avatarStyle = computed(() => {
@@ -54,13 +54,15 @@ export default defineComponent({
             element: HTMLElement | null,
             contentElement: HTMLElement | null,
         ) => {
-            if (!element || !contentElement) return;
+            if (!element || !contentElement) {
+                return;
+            }
 
             // 计算并设置缩放值
             const parentWidth = element.offsetWidth;
             const contentWidth = contentElement.scrollWidth;
             const scaleVal = (parentWidth * 0.7) / contentWidth; // 始终保持最大宽度的70%，这个数值比较美观
-            contentElement.style.transform = 'scale(' + scaleVal + ')';
+            contentElement.style.transform = `scale(${scaleVal})`;
         };
 
         // 图片加载失败,且没有兜底图片
@@ -126,14 +128,18 @@ export default defineComponent({
                 <div ref={contentRef} class={`${prefixCls}-content`}>
                     {slots.default?.()}
                 </div>
-                {props.src ? (
-                    imgLoadingFailed.value ? (
-                        // 图片加载失败,且没有兜底图片
-                        <PictureFailOutlined />
-                    ) : (
-                        renderImg()
-                    )
-                ) : null}
+                {props.src
+                    ? (
+                            imgLoadingFailed.value
+                                ? (
+                            // 图片加载失败,且没有兜底图片
+                                    <PictureFailOutlined />
+                                    )
+                                : (
+                                        renderImg()
+                                    )
+                        )
+                    : null}
             </div>
         );
     },

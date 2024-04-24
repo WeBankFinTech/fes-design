@@ -1,7 +1,6 @@
 <template>
     <FSpace vertical>
         <FInput
-            ref="inputRef"
             v-model="inputValue"
             placeholder="请输入"
             :autofocus="true"

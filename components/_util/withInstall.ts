@@ -1,4 +1,4 @@
-import { type Component, type App, type Plugin } from 'vue';
+import type { App, Component, Plugin } from 'vue';
 import { noop } from './utils';
 import type { FObjectDirective } from './interface';
 

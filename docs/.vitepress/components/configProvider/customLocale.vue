@@ -8,7 +8,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FConfigProvider :locale="locale">
         <FSpace vertical>
@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import { defineComponent, ref, watch, computed } from 'vue';
+import { computed, defineComponent, ref, watch } from 'vue';
 import { mergeWith } from 'lodash-es';
-import { zhCN, enUS } from '@fesjs/fes-design';
+import { enUS, zhCN } from '@fesjs/fes-design';
 
 export default defineComponent({
     setup() {
@@ -48,7 +48,9 @@ export default defineComponent({
         watch(
             lang,
             () => {
-                if (!lang.value) return;
+                if (!lang.value) {
+                    return;
+                }
                 if (lang.value === zhCN.name) {
                     locale.value = mergeWith(
                         {},

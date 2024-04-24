@@ -8,7 +8,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace>
         <div>
@@ -18,7 +18,7 @@
                 class="select-cascader"
                 :data="data"
                 :filterable="filterable"
-            ></FSelectCascader>
+            />
         </div>
         <div>
             单选自定义过滤函数：
@@ -27,11 +27,11 @@
                 :data="data"
                 :filterable="filterable"
                 :filter="filter"
-            ></FSelectCascader>
+            />
         </div>
     </FSpace>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace vertical>
         <div>
@@ -44,7 +44,7 @@
                 :multiple="true"
                 showPath
                 emitPath
-            ></FSelectCascader>
+            />
         </div>
         <div>
             多选自定义过滤函数：
@@ -56,17 +56,20 @@
                 :filter="filter"
                 showPath
                 emitPath
-            ></FSelectCascader>
+            />
         </div>
     </FSpace>
 </template>
+
 <script>
-import { ref, reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 function createData(level = 4, baseKey = '') {
-    if (!level) return undefined;
+    if (!level) {
+        return undefined;
+    }
     return Array.apply(null, { length: 10 - level }).map((_, index) => {
-        const key = '' + baseKey + level + index;
+        const key = `${baseKey}${level}${index}`;
         return {
             label: `${key}-${createLabel(level)}`,
             value: key,
@@ -77,10 +80,18 @@ function createData(level = 4, baseKey = '') {
 }
 
 function createLabel(level) {
-    if (level === 4) return '道生一';
-    if (level === 3) return '一生二';
-    if (level === 2) return '二生三';
-    if (level === 1) return '三生万物';
+    if (level === 4) {
+        return '道生一';
+    }
+    if (level === 3) {
+        return '一生二';
+    }
+    if (level === 2) {
+        return '二生三';
+    }
+    if (level === 1) {
+        return '三生万物';
+    }
 }
 
 export default {
@@ -105,6 +116,7 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 .select-cascader {
     width: 200px;

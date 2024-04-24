@@ -11,8 +11,8 @@ export default defineComponent({
             const normalizedRadius = radius - strokeWidth / 2;
             // 2πr 周长
             const circumference = 2 * Math.PI * normalizedRadius;
-            const strokeDashoffset =
-                circumference - (props.percent / 100) * circumference; // 线的偏移量
+            const strokeDashoffset
+                = circumference - (props.percent / 100) * circumference; // 线的偏移量
             return (
                 <svg
                     height={radius * 2}
@@ -29,7 +29,7 @@ export default defineComponent({
                     <circle
                         class="progress"
                         stroke-width={strokeWidth}
-                        stroke-dasharray={circumference + ' ' + circumference}
+                        stroke-dasharray={`${circumference} ${circumference}`}
                         style={{
                             strokeDashoffset,
                             stroke: props.color,
@@ -39,8 +39,9 @@ export default defineComponent({
                         cy={radius}
                     />
                     {/* 在svg中渲染html插槽 */}
-                    {props.showCircleText &&
-                        (slots.text ? (
+                    {props.showCircleText
+                    && (slots.text
+                        ? (
                             <foreignObject
                                 x="0"
                                 y="0"
@@ -49,11 +50,12 @@ export default defineComponent({
                             >
                                 <div class="slot-content">{slots.text()}</div>
                             </foreignObject>
-                        ) : (
+                            )
+                        : (
                             <text x="50%" y="50%" class="progress-text">
                                 {`${props.percent}%`}
                             </text>
-                        ))}
+                            ))}
                 </svg>
             );
         };

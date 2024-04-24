@@ -1,10 +1,10 @@
 import {
-    nextTick,
-    ref,
-    watch,
     type Ref,
+    nextTick,
     onActivated,
     onDeactivated,
+    ref,
+    watch,
 } from 'vue';
 import { isEqual } from 'lodash-es';
 import useResize from '../_util/use/useResize';
@@ -12,12 +12,12 @@ import useResize from '../_util/use/useResize';
 import type { TableProps } from './table';
 import type { ColumnInst } from './column';
 
-export type WidthItem = {
+export interface WidthItem {
     id: number;
     width?: number;
     minWidth?: number;
     maxWidth?: number;
-};
+}
 
 /**
  * 更新列的宽度
@@ -115,8 +115,8 @@ export default function useTableLayout({
                 widthObj.width = width;
                 widthObj.minWidth = minWidth;
             } else if (
-                column.props.type === 'selection' ||
-                column.props.type === 'expand'
+                column.props.type === 'selection'
+                || column.props.type === 'expand'
             ) {
                 widthObj.width = min;
             }

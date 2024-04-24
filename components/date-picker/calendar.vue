@@ -111,21 +111,21 @@
 
 <script lang="ts">
 import {
-    ref,
-    watch,
+    type ComponentObjectPropsOptions,
+    type ExtractPropTypes,
+    type PropType,
+    type Ref,
     computed,
     defineComponent,
-    type PropType,
-    type ExtractPropTypes,
-    type Ref,
-    type ComponentObjectPropsOptions,
+    ref,
+    watch,
 } from 'vue';
-import { isValid, format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import {
-    LeftOutlined,
-    RightOutlined,
     DoubleLeftOutlined,
     DoubleRightOutlined,
+    LeftOutlined,
+    RightOutlined,
 } from '../icon';
 import TimePicker from '../time-picker';
 import InputInner from '../input/inputInner.vue';
@@ -133,30 +133,30 @@ import getPrefixCls from '../_util/getPrefixCls';
 
 import { useLocale } from '../config-provider/useLocale';
 import {
+    getDefaultTime,
     parseDate,
     strictParse,
     transformDateToTimestamp,
-    getDefaultTime,
 } from './helper';
 import {
-    RANGE_POSITION,
     COMMON_PROPS,
-    YEAR_COUNT,
+    RANGE_POSITION,
     type SELECTED_STATUS,
+    YEAR_COUNT,
 } from './const';
 
 import {
     useCurrentDate,
-    useSelectedDates,
-    useYear,
-    useMonth,
     useDay,
+    useMonth,
     useQuarter,
+    useSelectedDates,
     useTime,
+    useYear,
 } from './useCalendar';
 
 import { pickerFactory } from './pickerHandler';
-import type { DayItem, DateObj, UpdateSelectedDates } from './interface';
+import type { DateObj, DayItem, UpdateSelectedDates } from './interface';
 import type { Picker } from './pickerHandler';
 
 const prefixCls = getPrefixCls('date-picker-calendar');
@@ -212,8 +212,8 @@ function useDateInput({
     let cacheValidInputDate = '';
     const currentIndex = computed(() => {
         if (
-            picker.value.isRange &&
-            props.rangePosition === RANGE_POSITION.RIGHT
+            picker.value.isRange
+            && props.rangePosition === RANGE_POSITION.RIGHT
         ) {
             return 1;
         }
@@ -222,9 +222,9 @@ function useDateInput({
     const getDateStr = (i: number) => {
         return selectedDates.value[i]
             ? format(
-                  transformDateToTimestamp(selectedDates.value[i]),
-                  'yyyy-MM-dd',
-              )
+                transformDateToTimestamp(selectedDates.value[i]),
+                'yyyy-MM-dd',
+            )
             : '';
     };
     watch(
@@ -243,8 +243,8 @@ function useDateInput({
         const date = strictParse(val, 'yyyy-MM-dd', new Date());
         const anotherDate = selectedDates.value[(currentIndex.value + 1) % 2];
         if (
-            isValid(date) &&
-            !props.disabledDate?.(
+            isValid(date)
+            && !props.disabledDate?.(
                 date,
                 'yyyy-MM-dd',
                 anotherDate && new Date(transformDateToTimestamp(anotherDate)),
@@ -254,10 +254,10 @@ function useDateInput({
             cacheValidInputDate = val;
             // 在同一面板，不更新 current date
             if (
-                anotherDate &&
-                !(
-                    anotherDate.year === dateObj.year &&
-                    anotherDate.month === dateObj.month
+                anotherDate
+                && !(
+                    anotherDate.year === dateObj.year
+                    && anotherDate.month === dateObj.month
                 )
             ) {
                 updateCurrentDate(dateObj);
@@ -322,8 +322,8 @@ export default defineComponent({
             return 0;
         });
 
-        const { inputDate, handleDateInput, handleDateInputBlur } =
-            useDateInput({
+        const { inputDate, handleDateInput, handleDateInputBlur }
+            = useDateInput({
                 props,
                 selectedDates,
                 updateSelectedDates,
@@ -331,8 +331,8 @@ export default defineComponent({
                 picker: pickerRef,
             });
 
-        const { years, yearStart, yearEnd, selectYear, isYearSelect, yearCls } =
-            useYear({
+        const { years, yearStart, yearEnd, selectYear, isYearSelect, yearCls }
+            = useYear({
                 props,
                 selectedDates,
                 updateSelectedDates,
@@ -364,8 +364,8 @@ export default defineComponent({
             picker: pickerRef,
         });
 
-        const { isQuarterSelect, quarterList, selectQuarter, quarterCls } =
-            useQuarter(
+        const { isQuarterSelect, quarterList, selectQuarter, quarterCls }
+            = useQuarter(
                 props,
                 selectedDates,
                 updateSelectedDates,
@@ -438,15 +438,15 @@ export default defineComponent({
 
         const visibleLeftSingleArrow = computed(
             () =>
-                !isYearSelect.value &&
-                !isMonthSelect.value &&
-                !isQuarterSelect.value,
+                !isYearSelect.value
+                && !isMonthSelect.value
+                && !isQuarterSelect.value,
         );
         const visibleRightSingleArrow = computed(
             () =>
-                !isYearSelect.value &&
-                !isMonthSelect.value &&
-                !isQuarterSelect.value,
+                !isYearSelect.value
+                && !isMonthSelect.value
+                && !isQuarterSelect.value,
         );
 
         return {

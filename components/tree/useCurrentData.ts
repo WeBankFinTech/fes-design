@@ -2,7 +2,7 @@ import { type Ref, ref, watch } from 'vue';
 import { debounce } from 'lodash-es';
 import { concat } from '../_util/utils';
 import { getBrotherKeys } from './helper';
-import type { TreeNodeKey, InnerTreeOption } from './interface';
+import type { InnerTreeOption, TreeNodeKey } from './interface';
 import type { TreeProps } from './props';
 
 export default ({
@@ -124,7 +124,9 @@ export default ({
     watch(
         [filteredExpandedKeys, filteredKeys],
         debounce(() => {
-            if (!isSearchingRef.value) return;
+            if (!isSearchingRef.value) {
+                return;
+            }
             computeCurrentData();
         }, 10),
     );
@@ -133,7 +135,9 @@ export default ({
     watch(
         [currentExpandedKeys, allKeys],
         debounce(() => {
-            if (isSearchingRef.value) return;
+            if (isSearchingRef.value) {
+                return;
+            }
             computeCurrentData();
         }, 10),
         {

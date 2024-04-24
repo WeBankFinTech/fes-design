@@ -1,14 +1,14 @@
-import {
-    type ExtractPropTypes,
-    type PropType,
-    type ToRefs,
-    type Ref,
-    type ComponentObjectPropsOptions,
-    type CSSProperties,
+import type {
+    CSSProperties,
+    ComponentObjectPropsOptions,
+    ExtractPropTypes,
+    PropType,
+    Ref,
+    ToRefs,
 } from 'vue';
-import { FORM_LAYOUT, LABEL_POSITION, FORM_ITEM_ALIGN } from './const';
 import type { RuleItem, Rules } from 'async-validator';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { FORM_ITEM_ALIGN, FORM_LAYOUT, LABEL_POSITION } from './const';
 
 export interface FFormRuleItem extends RuleItem {
     trigger?: string | string[];
@@ -127,7 +127,7 @@ export interface Field {
     resetField: () => void;
 }
 
-export type ValidateResult = {
+export interface ValidateResult {
     name: string;
     errors: [];
-};
+}

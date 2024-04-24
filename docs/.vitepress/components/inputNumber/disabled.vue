@@ -1,5 +1,5 @@
 <template>
     <FSpace>
-        <FInputNumber :modelValue="1" disabled></FInputNumber>
+        <FInputNumber :modelValue="1" disabled />
     </FSpace>
 </template>

@@ -31,7 +31,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <div class="tab-content">
         <FForm
@@ -45,16 +45,16 @@
                 <div>这是一段表单项内容信息</div>
             </FFormItem>
             <FFormItem label="姓名">
-                <FInput placeholder="请输入姓名"></FInput>
+                <FInput placeholder="请输入姓名" />
             </FFormItem>
             <FFormItem label="手机号码">
-                <FInput placeholder="请输入手机号码"></FInput>
+                <FInput placeholder="请输入手机号码" />
             </FFormItem>
             <FFormItem label="这是一段长的表单项描述">
-                <FInput placeholder="请输入"></FInput>
+                <FInput placeholder="请输入" />
             </FFormItem>
             <FFormItem label="备注">
-                <FInput type="textarea" placeholder="请输入备注信息"></FInput>
+                <FInput type="textarea" placeholder="请输入备注信息" />
             </FFormItem>
             <FFormItem label="自定义对齐" align="center">
                 <FCheckboxGroup>
@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import { ref, defineComponent, computed } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 
 export default defineComponent({
     setup() {

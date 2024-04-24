@@ -1,4 +1,4 @@
-import { h, computed, defineComponent } from 'vue';
+import { computed, defineComponent, h } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { getSlot } from '../_util/vnode';
@@ -29,8 +29,6 @@ export default defineComponent({
         };
     },
     render() {
-        const {} = this;
-
         const children = getSlot(this.$slots);
         return h(
             this.tag || 'span',

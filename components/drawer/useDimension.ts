@@ -1,15 +1,19 @@
 import { type Ref, ref, watch } from 'vue';
 import { isNil, isNumber } from 'lodash-es';
 import { pxfy } from '../_util/utils';
-import { type DrawerInnerProps as Props } from './props';
+import type { DrawerInnerProps as Props } from './props';
 import { COMPONENT_NAME } from './const';
 
 // TODO: 废弃 height 和 width 以后，移除此处默认值，恢复 props 中的
 const DEFAULT_DIMENSION = 520;
 
 const formatSize = (size: Props['dimension']) => {
-    if (isNil(size)) return pxfy(DEFAULT_DIMENSION);
-    if (isNumber(size)) return pxfy(size);
+    if (isNil(size)) {
+        return pxfy(DEFAULT_DIMENSION);
+    }
+    if (isNumber(size)) {
+        return pxfy(size);
+    }
 
     return size;
 };

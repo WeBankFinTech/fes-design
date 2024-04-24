@@ -4,7 +4,7 @@ import type { VModelEvent } from '../_util/interface';
 export type InputValue = number | string;
 export type InputCurrentValue = Ref<InputValue>;
 
-export type InputEmits = {
+export interface InputEmits {
     (e: VModelEvent, value: string): void;
     (e: 'change', value: string): void;
     (e: 'input', value: string): void;
@@ -14,4 +14,4 @@ export type InputEmits = {
     (e: 'clear'): void;
     (e: 'mouseleave', event: MouseEvent): void;
     (e: 'mouseenter', event: MouseEvent): void;
-};
+}

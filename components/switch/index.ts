@@ -1,7 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import Switch from './switch.vue';
-
 import type { SFCWithInstall } from '../_util/interface';
+import Switch from './switch.vue';
 
 type SwitchType = SFCWithInstall<typeof Switch>;
 

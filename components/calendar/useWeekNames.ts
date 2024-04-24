@@ -1,7 +1,7 @@
 import { type Ref, computed } from 'vue';
-import { type Day } from 'date-fns';
+import type { Day } from 'date-fns';
 import { useLocale } from '../config-provider/useLocale';
-import { type CalendarMode } from './props';
+import type { CalendarMode } from './props';
 
 const WEEK_NAMES = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 const useWeekNames = (startDay: Ref<Day>, mode: Ref<CalendarMode>) => {

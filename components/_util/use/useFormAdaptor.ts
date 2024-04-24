@@ -1,12 +1,12 @@
-import { inject, isRef, watch, ref, type Ref, provide } from 'vue';
-import { isString, isFunction } from 'lodash-es';
+import { type Ref, inject, isRef, provide, ref, watch } from 'vue';
+import { isFunction, isString } from 'lodash-es';
 import { noop } from '../utils';
 import { FORM_ITEM_INJECTION_KEY } from '../constants';
 
-type FormAdaptorConfig = {
+interface FormAdaptorConfig {
     valueType?: string | Ref<string> | (() => string);
     forbidChildValidate?: boolean;
-};
+}
 
 export default (formAdaptorConfig?: FormAdaptorConfig) => {
     const valueType = formAdaptorConfig?.valueType;
@@ -29,7 +29,9 @@ export default (formAdaptorConfig?: FormAdaptorConfig) => {
             watch(
                 valueType,
                 () => {
-                    if (valueType.value) setRuleDefaultType(valueType.value);
+                    if (valueType.value) {
+                        setRuleDefaultType(valueType.value);
+                    }
                 },
                 {
                     immediate: true,

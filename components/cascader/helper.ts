@@ -1,8 +1,8 @@
 import { isArray } from 'lodash-es';
 
 import type {
-    CascaderNodeList,
     CascaderNodeKey,
+    CascaderNodeList,
     InnerCascaderOption,
 } from './interface';
 
@@ -137,8 +137,8 @@ export function scrollIntoParentView(
     if (elementToParent - parent.scrollTop < 0) {
         parent.scrollTo({ top: elementToParent });
     } else if (
-        elementToParent + element.offsetHeight - parent.scrollTop >
-        parent.offsetHeight
+        elementToParent + element.offsetHeight - parent.scrollTop
+        > parent.offsetHeight
     ) {
         parent.scrollTo({
             top: elementToParent + element.offsetHeight - parent.offsetHeight,

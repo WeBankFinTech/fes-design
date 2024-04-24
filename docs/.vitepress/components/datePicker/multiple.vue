@@ -17,6 +17,7 @@
 
 <script setup>
 import { ref } from 'vue';
+
 const multipleDate = ref([]);
 const changeMultipleData = () => {
     console.log(
@@ -25,6 +26,7 @@ const changeMultipleData = () => {
     );
 };
 </script>
+
 <style scope>
 .date-picker-1 {
     width: 320px;

@@ -11,13 +11,14 @@
         </FDropdown>
     </FSpace>
 </template>
+
 <script>
 import { h, ref } from 'vue';
 import {
     DeleteOutlined,
-    StarOutlined,
     EditOutlined,
     PlusSquareOutlined,
+    StarOutlined,
     UserOutlined,
 } from '@fesjs/fes-design/icon';
 

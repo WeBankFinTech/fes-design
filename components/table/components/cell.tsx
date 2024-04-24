@@ -1,13 +1,13 @@
 import {
-    defineComponent,
+    type ComponentObjectPropsOptions,
+    type ExtractPropTypes,
     Fragment,
+    type PropType,
+    defineComponent,
     inject,
     isVNode,
-    type PropType,
-    type ExtractPropTypes,
-    type ComponentObjectPropsOptions,
 } from 'vue';
-import { isNil, isArray, isFunction, isPlainObject } from 'lodash-es';
+import { isArray, isFunction, isNil, isPlainObject } from 'lodash-es';
 import Button from '../../button/button';
 import Ellipsis, { type EllipsisProps } from '../../ellipsis/ellipsis';
 import { provideKey } from '../const';
@@ -74,20 +74,22 @@ export default defineComponent({
                     </div>
                 );
             }
-            const hasEllipsis =
-                !isNil(column.props.ellipsis) &&
-                column.props.ellipsis !== false;
+            const hasEllipsis
+                = !isNil(column.props.ellipsis)
+                && column.props.ellipsis !== false;
             const ellipsisProps = isPlainObject(column.props.ellipsis)
                 ? (column.props.ellipsis as EllipsisProps)
                 : {};
             if (column?.slots?.default) {
-                return hasEllipsis ? (
-                    <Ellipsis {...ellipsisProps}>
-                        {column.slots.default(props)}
-                    </Ellipsis>
-                ) : (
-                    <Fragment>{column.slots.default(props)}</Fragment>
-                );
+                return hasEllipsis
+                    ? (
+                        <Ellipsis {...ellipsisProps}>
+                            {column.slots.default(props)}
+                        </Ellipsis>
+                        )
+                    : (
+                        <Fragment>{column.slots.default(props)}</Fragment>
+                        );
             }
             const formatterResult = column?.props?.formatter?.(props);
             if (isVNode(formatterResult)) {
@@ -99,15 +101,17 @@ export default defineComponent({
             }
             const result = formatterResult ?? cellValue;
             Object.assign(ellipsisProps, { content: result });
-            return hasEllipsis ? (
-                <Ellipsis {...ellipsisProps}></Ellipsis>
-            ) : (
-                <Fragment>
-                    {typeof result === 'object'
-                        ? JSON.stringify(result)
-                        : result}
-                </Fragment>
-            );
+            return hasEllipsis
+                ? (
+                    <Ellipsis {...ellipsisProps}></Ellipsis>
+                    )
+                : (
+                    <Fragment>
+                        {typeof result === 'object'
+                            ? JSON.stringify(result)
+                            : result}
+                    </Fragment>
+                    );
         };
     },
 });

@@ -1,7 +1,7 @@
 <template>
     <FForm labelWidth="100px">
         <FFormItem label="是否禁用:">
-            <FSwitch v-model="disabled"></FSwitch>
+            <FSwitch v-model="disabled" />
         </FFormItem>
     </FForm>
     <FSpace>
@@ -10,7 +10,7 @@
         <FButton type="primary" @click="doRandomUpdateItem"> 随机更新 </FButton>
     </FSpace>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <div class="container">
         <FDraggable
@@ -28,6 +28,7 @@
 <script>
 import { ref } from 'vue';
 import { FMessage } from '@fesjs/fes-design';
+
 let seed = 6;
 export default {
     setup() {
@@ -42,8 +43,8 @@ export default {
         };
 
         const doRandomUpdateItem = () => {
-            let op = parseInt(Math.random() * 10) % 2;
-            let index = parseInt(Math.random() * 100) % list.value.length;
+            let op = Number.parseInt(Math.random() * 10) % 2;
+            let index = Number.parseInt(Math.random() * 100) % list.value.length;
             if (list.value.length === 0) {
                 op = 0;
                 index = 0;

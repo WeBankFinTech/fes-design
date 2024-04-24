@@ -5,7 +5,7 @@
         <FRadio value="never">never</FRadio>
     </FRadioGroup>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <div class="card-wrapper">
         <FCard header="这里是标题" :shadow="shadow">
@@ -16,6 +16,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+
 const shadow = ref('always');
 </script>
 

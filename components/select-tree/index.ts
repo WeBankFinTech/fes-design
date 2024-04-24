@@ -1,7 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import SelectTree from './selectTree.vue';
-
 import type { SFCWithInstall } from '../_util/interface';
+import SelectTree from './selectTree.vue';
 
 type SelectTreeType = SFCWithInstall<typeof SelectTree>;
 

@@ -2,7 +2,7 @@ import { type Ref, shallowRef, watch } from 'vue';
 import { cloneDeep } from 'lodash-es';
 import { CHECK_STRATEGY } from './const';
 import { getChildrenByValues, getParentByValues } from './helper';
-import type { TreeNodeKey, InnerTreeOption } from './interface';
+import type { InnerTreeOption, TreeNodeKey } from './interface';
 import type { TreeProps } from './props';
 
 export default ({
@@ -63,7 +63,9 @@ export default ({
     watch(
         [currentCheckedKeys, allKeys],
         () => {
-            if (!props.checkable) return;
+            if (!props.checkable) {
+                return;
+            }
             if (unwatchCurrent) {
                 unwatchCurrent = false;
                 return;
@@ -79,7 +81,9 @@ export default ({
     watch(
         _keys,
         (newKeys, oldKeys) => {
-            if (!props.checkable) return;
+            if (!props.checkable) {
+                return;
+            }
             if (unwatch) {
                 unwatch = false;
                 return;

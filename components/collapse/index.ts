@@ -1,7 +1,7 @@
 import { withInstall, withNoopInstall } from '../_util/withInstall';
+import type { SFCWithInstall } from '../_util/interface';
 import Collapse from './collapse.vue';
 import CollapseItem from './collapseItem.vue';
-import type { SFCWithInstall } from '../_util/interface';
 
 type CollapseType = SFCWithInstall<typeof Collapse>;
 type CollapseItemType = SFCWithInstall<typeof CollapseItem>;

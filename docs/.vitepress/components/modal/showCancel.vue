@@ -12,7 +12,7 @@
         </FFormItem>
     </FForm>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <FSpace>
         <FButton @click="showFModalNormal = true">常规</FButton>

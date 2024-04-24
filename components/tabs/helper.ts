@@ -1,5 +1,5 @@
-import { vShow, withDirectives, type VNode } from 'vue';
-import { type Value } from './interface';
+import { type VNode, vShow, withDirectives } from 'vue';
+import type { Value } from './interface';
 
 export function mapTabPane(
     tabPaneVNodes: VNode[] = [],
@@ -13,15 +13,19 @@ export function mapTabPane(
             'display-directive': _displayDirective,
             displayDirective,
         } = vNode.props;
-        if (!vNode.key) vNode.key = value;
-        if (!vNode.props.key) vNode.props.key = value;
+        if (!vNode.key) {
+            vNode.key = value;
+        }
+        if (!vNode.props.key) {
+            vNode.props.key = value;
+        }
         const show = value === tabValue;
         const directive = _displayDirective || displayDirective;
         if (directive === 'show') {
             children.push(withDirectives(vNode, [[vShow, show]]));
         } else if (
-            directive === 'show:lazy' &&
-            (tabPaneLazyCache[value] || show)
+            directive === 'show:lazy'
+            && (tabPaneLazyCache[value] || show)
         ) {
             tabPaneLazyCache[value] = true;
             children.push(withDirectives(vNode, [[vShow, show]]));

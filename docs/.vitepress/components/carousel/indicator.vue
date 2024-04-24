@@ -4,22 +4,22 @@
             <FCarouselItem>
                 <img
                     src="https://s3.bmp.ovh/imgs/2022/01/4dc6f0d9e8e99c9d.png"
-                />
+                >
             </FCarouselItem>
             <FCarouselItem>
                 <img
                     src="https://s3.bmp.ovh/imgs/2022/01/55f807e9509d8b74.png"
-                />
+                >
             </FCarouselItem>
             <FCarouselItem>
                 <img
                     src="https://s3.bmp.ovh/imgs/2022/01/92cc394c33b8c0b4.png"
-                />
+                >
             </FCarouselItem>
             <FCarouselItem>
                 <img
                     src="https://s3.bmp.ovh/imgs/2022/01/2f68ed8e26dc519b.png"
-                />
+                >
             </FCarouselItem>
         </FCarousel>
     </FSpace>
@@ -28,22 +28,22 @@
             <FCarouselItem>
                 <img
                     src="https://s3.bmp.ovh/imgs/2022/01/0ebca23ad388fe61.png"
-                />
+                >
             </FCarouselItem>
             <FCarouselItem>
                 <img
                     src="https://s3.bmp.ovh/imgs/2022/01/5c8bf7eb1ef7a400.png"
-                />
+                >
             </FCarouselItem>
             <FCarouselItem>
                 <img
                     src="https://s3.bmp.ovh/imgs/2022/01/ebaa3c3133c9e964.png"
-                />
+                >
             </FCarouselItem>
             <FCarouselItem>
                 <img
                     src="https://s3.bmp.ovh/imgs/2022/01/2f68ed8e26dc519b.png"
-                />
+                >
             </FCarouselItem>
         </FCarousel>
     </FSpace>

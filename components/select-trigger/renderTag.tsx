@@ -1,11 +1,11 @@
 import {
-    defineComponent,
-    type VNodeChild,
-    type PropType,
     type ComponentObjectPropsOptions,
+    type PropType,
+    type VNodeChild,
+    defineComponent,
 } from 'vue';
 
-import type { SelectOption, RenderTagParam } from './interface';
+import type { RenderTagParam, SelectOption } from './interface';
 
 export default defineComponent({
     props: {

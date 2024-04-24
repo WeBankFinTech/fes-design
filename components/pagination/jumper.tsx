@@ -1,8 +1,8 @@
 import {
-    defineComponent,
-    toRefs,
-    ref,
     type ComponentObjectPropsOptions,
+    defineComponent,
+    ref,
+    toRefs,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import InputInner from '../input/inputInner.vue';
@@ -27,12 +27,12 @@ export default defineComponent({
         const current = ref();
         const { total } = toRefs(props);
         const handleChange = (val: string) => {
-            const cur = parseInt(val, 10);
+            const cur = Number.parseInt(val, 10);
             if (Number.isNaN(cur)) {
                 return;
             }
-            const currentPage =
-                cur < 1 ? 1 : cur > total.value ? total.value : cur;
+            const currentPage
+                = cur < 1 ? 1 : cur > total.value ? total.value : cur;
             current.value = currentPage;
             emit('change', currentPage);
         };

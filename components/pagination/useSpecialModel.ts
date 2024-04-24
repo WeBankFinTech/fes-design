@@ -1,4 +1,4 @@
-import { ref, watch, computed, type WritableComputedRef } from 'vue';
+import { type WritableComputedRef, computed, ref, watch } from 'vue';
 import { isEqual } from 'lodash-es';
 
 export default (
@@ -17,8 +17,8 @@ export default (
     const currentValue = ref(props[usingProp]);
     const pureUpdateCurrentValue = (value: any) => {
         if (
-            value === currentValue.value ||
-            (config.isEqual && isEqual(value, currentValue.value))
+            value === currentValue.value
+            || (config.isEqual && isEqual(value, currentValue.value))
         ) {
             return;
         }

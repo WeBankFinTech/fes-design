@@ -8,7 +8,9 @@ import { ref } from 'vue';
 const LABEL_MAP = [undefined, '三生万物', '二生三', '一生二', '道生一'];
 
 const createData = (level = 1, prefix = '') => {
-    if (!level) return undefined;
+    if (!level) {
+        return undefined;
+    }
     return new Array(2).fill(null).map((_, index) => {
         const key = [prefix, level, index].join('');
         return {

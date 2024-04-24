@@ -1,4 +1,4 @@
-export type CalendarDate = {
+export interface CalendarDate {
     /**
      * 同 `Date.prototype.getFullYear`
      */
@@ -15,7 +15,7 @@ export type CalendarDate = {
      * 一个月中的哪一日（从 1--31）
      */
     date: ReturnType<Date['getDate']>;
-};
+}
 
 /** Unix 时间戳 */
 export type UnixTime = ReturnType<Date['getTime']>;

@@ -23,9 +23,9 @@
             @input="onLeftInput"
             @focus="onFocus"
             @blur="onBlur"
-        />
+        >
         <span :class="`${prefixCls}-separator`">
-            <slot name="separator"></slot>
+            <slot name="separator" />
         </span>
         <input
             :class="`${prefixCls}-inner`"
@@ -37,24 +37,24 @@
             @input="onRightInput"
             @focus="onFocus"
             @blur="onBlur"
-        />
+        >
         <span :class="`${prefixCls}-suffix`" @mousedown.prevent>
             <CloseCircleFilled v-if="showClear" @click.stop="clear" />
-            <slot v-else name="suffix"></slot>
+            <slot v-else name="suffix" />
         </span>
     </span>
 </template>
 
 <script lang="ts">
 import {
-    computed,
-    watch,
-    ref,
-    defineComponent,
-    type PropType,
-    type ExtractPropTypes,
-    nextTick,
     type ComponentObjectPropsOptions,
+    type ExtractPropTypes,
+    type PropType,
+    computed,
+    defineComponent,
+    nextTick,
+    ref,
+    watch,
 } from 'vue';
 import { isArray } from 'lodash-es';
 import { format, isValid } from 'date-fns';
@@ -62,7 +62,7 @@ import { format, isValid } from 'date-fns';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useInput } from '../_util/use/useInput';
 import { CloseCircleFilled } from '../icon';
-import { isEmptyValue, strictParse, isBeyondRangeTime } from './helper';
+import { isBeyondRangeTime, isEmptyValue, strictParse } from './helper';
 
 const prefixCls = getPrefixCls('range-input');
 
@@ -125,11 +125,11 @@ function useRangeInput(
         inputText.value = val;
         const date = strictParse(val, props.format, new Date());
         if (
-            isValid(date) &&
-            !isBeyondRangeTime({
+            isValid(date)
+            && !isBeyondRangeTime({
                 flagDate:
-                    props.selectedDates?.[anotherPosition] &&
-                    new Date(props.selectedDates?.[anotherPosition]),
+                    props.selectedDates?.[anotherPosition]
+                    && new Date(props.selectedDates?.[anotherPosition]),
                 currentDate: date,
                 maxRange: props.maxRange,
                 format: props.format,
@@ -141,8 +141,8 @@ function useRangeInput(
             props.changeSelectedDates(dates);
         }
     };
-    const { handleInput, handleCompositionStart, handleCompositionEnd } =
-        useInput(updateInputText);
+    const { handleInput, handleCompositionStart, handleCompositionEnd }
+        = useInput(updateInputText);
 
     return {
         inputText,
@@ -274,10 +274,10 @@ export default defineComponent({
 
         const showClear = computed(
             () =>
-                props.clearable &&
-                !props.disabled &&
-                props.selectedDates?.length &&
-                hovering.value,
+                props.clearable
+                && !props.disabled
+                && props.selectedDates?.length
+                && hovering.value,
         );
 
         const clear = () => {

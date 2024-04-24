@@ -1,6 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import Ellipsis from './ellipsis';
 import type { SFCWithInstall } from '../_util/interface';
+import Ellipsis from './ellipsis';
 
 type EllipsisType = SFCWithInstall<typeof Ellipsis>;
 export const FEllipsis = withInstall<EllipsisType>(Ellipsis as EllipsisType);

@@ -1,7 +1,6 @@
 <template>
     <FSteps :current="current">
-        <FStep title="待开始" description="All through the day, I me mine">
-        </FStep>
+        <FStep title="待开始" description="All through the day, I me mine" />
         <FStep
             title="进行中"
             description="When I find myself in times of trouble Mother Mary comes to me"
@@ -22,8 +21,10 @@
         <FButton @click="next">下一步</FButton>
     </FSpace>
 </template>
+
 <script>
 import { ref } from 'vue';
+
 export default {
     setup() {
         const current = ref(2);

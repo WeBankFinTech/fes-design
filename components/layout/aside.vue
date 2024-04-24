@@ -10,7 +10,7 @@
                 },
             ]"
         >
-            <slot></slot>
+            <slot />
         </FScrollbar>
         <div
             v-if="collapsible && showTrigger"
@@ -31,12 +31,12 @@
 
 <script lang="ts">
 import {
+    type ComponentObjectPropsOptions,
     computed,
-    inject,
     defineComponent,
     getCurrentInstance,
+    inject,
     ref,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { FScrollbar } from '../scrollbar';
 import LeftOutlined from '../icon/LeftOutlined';
@@ -44,8 +44,8 @@ import RightOutlined from '../icon/RightOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { noop } from '../_util/utils';
-import { COMPONENT_NAME, LAYOUT_PROVIDE_KEY } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { COMPONENT_NAME, LAYOUT_PROVIDE_KEY } from './const';
 
 export type AsidePlacement = 'left' | 'right' | '';
 
@@ -99,9 +99,9 @@ export default defineComponent({
     setup(props, { emit }) {
         const vm = getCurrentInstance();
         if (
-            !vm.parent ||
-            !vm.parent.type ||
-            vm.parent.type.name !== COMPONENT_NAME.LAYOUT
+            !vm.parent
+            || !vm.parent.type
+            || vm.parent.type.name !== COMPONENT_NAME.LAYOUT
         ) {
             console.warn(
                 `[${COMPONENT_NAME.ASIDE}] must be a child of ${COMPONENT_NAME.LAYOUT}`,

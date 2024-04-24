@@ -1,8 +1,8 @@
 <template>
     <div :class="wrapperClass" @click="toggle">
         <span :class="`${prefixCls}-inner`">
-            <slot v-if="activeRef" name="active"></slot>
-            <slot v-if="inactiveRef" name="inactive"></slot>
+            <slot v-if="activeRef" name="active" />
+            <slot v-if="inactiveRef" name="inactive" />
         </span>
         <LoadingOutlined v-if="loadingRef" :class="`${prefixCls}-loading`" />
     </div>
@@ -10,13 +10,13 @@
 
 <script lang="ts">
 import {
-    defineComponent,
-    computed,
-    onMounted,
-    type PropType,
-    nextTick,
-    ref,
     type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
+    defineComponent,
+    nextTick,
+    onMounted,
+    ref,
 } from 'vue';
 import { isEqual, isFunction } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
@@ -105,7 +105,9 @@ export default defineComponent({
         );
 
         const toggle = async () => {
-            if (innerDisabled.value) return;
+            if (innerDisabled.value) {
+                return;
+            }
             if (isFunction(props.beforeChange)) {
                 loadingRef.value = true;
                 try {

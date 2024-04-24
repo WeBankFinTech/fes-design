@@ -25,8 +25,7 @@
                         <Ellipsis
                             :class="`${prefixCls}-label-text`"
                             :content="labelTextRef"
-                        >
-                        </Ellipsis>
+                        />
                     </RenderTag>
                     <div v-else :class="`${prefixCls}-label-placeholder`">
                         {{ placeholder }}
@@ -47,7 +46,7 @@
                         @compositionstart="handleCompositionStart"
                         @compositionupdate="handleCompositionUpdate"
                         @compositionend="handleCompositionEnd"
-                    />
+                    >
                     <div
                         v-if="!(unSelectedRef || isOpened)"
                         :class="`${prefixCls}-label-overlay`"
@@ -59,8 +58,7 @@
                             <Ellipsis
                                 :class="`${prefixCls}-label-text`"
                                 :content="labelTextRef"
-                            >
-                            </Ellipsis>
+                            />
                         </RenderTag>
                     </div>
                 </template>
@@ -141,9 +139,9 @@
                 </RenderTag>
                 <div
                     v-if="
-                        unSelectedRef &&
-                        !filterTextRef.length &&
-                        !isComposingRef
+                        unSelectedRef
+                            && !filterTextRef.length
+                            && !isComposingRef
                     "
                     :class="[
                         `${prefixCls}-label-placeholder`,
@@ -165,7 +163,7 @@
                     @compositionend="handleCompositionEnd"
                     @compositionupdate="handleCompositionUpdate"
                     @input="handleInput"
-                />
+                >
             </template>
         </div>
         <div :class="`${prefixCls}-icons`" @mousedown.prevent>
@@ -189,14 +187,14 @@
 
 <script lang="ts">
 import {
-    ref,
+    type ComponentObjectPropsOptions,
+    type PropType,
+    type VNodeChild,
     computed,
     defineComponent,
-    type PropType,
-    watch,
     nextTick,
-    type VNodeChild,
-    type ComponentObjectPropsOptions,
+    ref,
+    watch,
 } from 'vue';
 import { isEqual, isNil } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -211,8 +209,8 @@ import CloseCircleFilled from '../icon/CloseCircleFilled';
 import RenderTag from './renderTag';
 
 import type {
-    SelectOption,
     RenderTagParam,
+    SelectOption,
     SelectTagWithCollapse,
 } from './interface';
 
@@ -270,10 +268,10 @@ export default defineComponent({
 
         const hasClearRef = computed(
             () =>
-                !props.disabled &&
-                props.clearable &&
-                !unSelectedRef.value &&
-                inputHoveringRef.value,
+                !props.disabled
+                && props.clearable
+                && !unSelectedRef.value
+                && inputHoveringRef.value,
         );
 
         const inputWidthRef = computed(() => {
@@ -352,13 +350,17 @@ export default defineComponent({
         });
 
         const handleFocus = (event: Event) => {
-            if (props.disabled) return;
+            if (props.disabled) {
+                return;
+            }
             isFocusRef.value = true;
             emit('focus', event);
         };
 
         const handleBlur = (event: Event) => {
-            if (props.disabled) return;
+            if (props.disabled) {
+                return;
+            }
             isFocusRef.value = false;
             if (filterTextRef.value) {
                 filterTextRef.value = '';
@@ -370,17 +372,23 @@ export default defineComponent({
         };
 
         const handleRemove = (index: number) => {
-            if (props.disabled) return;
+            if (props.disabled) {
+                return;
+            }
             emit('remove', props.selectedOptions[index].value);
         };
 
         const handleClear = () => {
-            if (props.disabled) return;
+            if (props.disabled) {
+                return;
+            }
             emit('clear');
         };
 
         const handleInput = (e: Event) => {
-            if (props.disabled || isComposingRef.value) return;
+            if (props.disabled || isComposingRef.value) {
+                return;
+            }
             filterTextRef.value = (e.target as HTMLInputElement).value;
             emit('input', filterTextRef.value);
         };
@@ -415,8 +423,12 @@ export default defineComponent({
             (isOpened) => {
                 if (isOpened) {
                     nextTick(() => {
-                        if (!inputRef.value) return;
-                        if (!props.filterable) return;
+                        if (!inputRef.value) {
+                            return;
+                        }
+                        if (!props.filterable) {
+                            return;
+                        }
                         inputRef.value.focus();
                     });
                 }

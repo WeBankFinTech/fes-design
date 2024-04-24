@@ -1,6 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import AvatarGroup from './avatarGroup';
 import type { SFCWithInstall } from '../_util/interface';
+import AvatarGroup from './avatarGroup';
 
 export { avatarGroupProps } from './props';
 export type { AvatarGroupProps } from './props';

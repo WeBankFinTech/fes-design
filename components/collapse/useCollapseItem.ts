@@ -25,7 +25,9 @@ export const useCollapseItem = (props: CollapseItemProps) => {
     };
 
     const handleHeaderClick = () => {
-        if (props.disabled) return;
+        if (props.disabled) {
+            return;
+        }
         collapse?.handleItemClick(props.name);
         focusing.value = false;
         isClick.value = true;

@@ -1,18 +1,17 @@
 import {
-    defineComponent,
-    inject,
+    type ComponentObjectPropsOptions,
     type PropType,
     computed,
-    type ComponentObjectPropsOptions,
+    defineComponent,
+    inject,
 } from 'vue';
 import Scrollbar from '../../scrollbar/scrollbar.vue';
 import Draggable from '../../draggable/draggable';
 import { provideKey } from '../const';
+import type { ColumnInst } from '../column';
 import Colgroup from './colgroup';
 import Header from './header';
 import Tr from './tr';
-
-import type { ColumnInst } from '../column';
 
 export default defineComponent({
     props: {
@@ -126,9 +125,9 @@ export default defineComponent({
 
         return () => {
             if (
-                hasResizableColumn.value ||
-                layout.isScrollX.value ||
-                layout.isScrollY.value
+                hasResizableColumn.value
+                || layout.isScrollX.value
+                || layout.isScrollY.value
             ) {
                 return (
                     <Scrollbar

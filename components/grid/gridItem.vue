@@ -6,17 +6,17 @@
 
 <script lang="ts">
 import {
-    computed,
     type CSSProperties,
+    type ComponentObjectPropsOptions,
+    type PropType,
+    computed,
     defineComponent,
     inject,
-    type PropType,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { isNumber, isObject, isUndefined } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
-import { GRID_KEY } from './const';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { GRID_KEY } from './const';
 
 const prefixCls = getPrefixCls('grid-item');
 
@@ -32,12 +32,12 @@ function parseFlex(flex: number | string) {
     return flex;
 }
 
-type ColSize = {
+interface ColSize {
     offset?: number;
     pull?: number;
     push?: number;
     span?: number;
-};
+}
 
 export const gridItemProps = {
     flex: [Number, String] as PropType<number | string>,
@@ -93,8 +93,8 @@ export default defineComponent({
                 props.offset && `${prefixCls}-offset-${props.offset}`,
                 props.pull && `${prefixCls}-pull-${props.pull}`,
                 props.push && `${prefixCls}-push-${props.push}`,
-                (props.span || props.span === 0) &&
-                    `${prefixCls}-${props.span}`,
+                (props.span || props.span === 0)
+                && `${prefixCls}-${props.span}`,
             ];
 
             const sizeClasses: string[] = sizes.reduce((pre, size) => {
@@ -106,14 +106,14 @@ export default defineComponent({
                     sizeProps = propSize || {};
                 }
                 return pre.concat([
-                    !isUndefined(sizeProps.span) &&
-                        `${prefixCls}-${size}-${sizeProps.span}`,
-                    (sizeProps.offset || sizeProps.offset === 0) &&
-                        `${prefixCls}-${size}-offset-${sizeProps.offset}`,
-                    (sizeProps.pull || sizeProps.pull === 0) &&
-                        `${prefixCls}-${size}-pull-${sizeProps.pull}`,
-                    (sizeProps.push || sizeProps.push === 0) &&
-                        `${prefixCls}-${size}-push-${sizeProps.push}`,
+                    !isUndefined(sizeProps.span)
+                    && `${prefixCls}-${size}-${sizeProps.span}`,
+                    (sizeProps.offset || sizeProps.offset === 0)
+                    && `${prefixCls}-${size}-offset-${sizeProps.offset}`,
+                    (sizeProps.pull || sizeProps.pull === 0)
+                    && `${prefixCls}-${size}-pull-${sizeProps.pull}`,
+                    (sizeProps.push || sizeProps.push === 0)
+                    && `${prefixCls}-${size}-push-${sizeProps.push}`,
                 ]);
             }, []);
 
@@ -129,7 +129,7 @@ export default defineComponent({
                 _style['padding-right'] = `${rowProps.gutterX.value / 2}px`;
             }
             if (props.order) {
-                _style['order'] = props.order;
+                _style.order = props.order;
             }
             return _style;
         });

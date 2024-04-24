@@ -1,13 +1,14 @@
 import {
+    type ComponentObjectPropsOptions,
     Teleport,
+    computed,
+    defineComponent,
     h,
     ref,
     watch,
-    computed,
-    defineComponent,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 import { getSlot } from '../vnode';
+
 export default defineComponent({
     name: 'LazyTeleport',
     props: {
@@ -32,7 +33,7 @@ export default defineComponent({
             },
         );
         return {
-            showTeleport: showTeleport,
+            showTeleport,
             mergedTo: computed(() => props.to ?? 'body'),
         };
     },
@@ -41,13 +42,13 @@ export default defineComponent({
             ? this.disabled
                 ? getSlot(this.$slots)
                 : h(
-                      Teleport,
-                      {
-                          disabled: this.disabled,
-                          to: this.mergedTo,
-                      },
-                      getSlot(this.$slots),
-                  )
+                    Teleport,
+                    {
+                        disabled: this.disabled,
+                        to: this.mergedTo,
+                    },
+                    getSlot(this.$slots),
+                )
             : null;
     },
 });

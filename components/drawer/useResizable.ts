@@ -1,7 +1,7 @@
-import { computed, onMounted, ref, type Ref } from 'vue';
+import { type Ref, computed, onMounted, ref } from 'vue';
 import { useEventListener, useWindowSize } from '@vueuse/core';
 import { isNil, isNumber } from 'lodash-es';
-import { type DrawerInnerProps as Props } from './props';
+import type { DrawerInnerProps as Props } from './props';
 import { COMPONENT_NAME, DRAWER_MIN_SIZE, prefixCls } from './const';
 
 const calcResizableRange = (
@@ -9,14 +9,20 @@ const calcResizableRange = (
     drawerDimension: Ref<Props['dimension']>,
     windowDimension: Ref<number>,
 ): { max?: number; min?: number } => {
-    if (!props.resizable) return {};
+    if (!props.resizable) {
+        return {};
+    }
 
     const clientMaxSize = windowDimension.value;
     const formatSize = (
         size: Props['resizeMax'] | Props['resizeMin'],
     ): number | undefined => {
-        if (isNil(size)) return undefined;
-        if (isNumber(size)) return size;
+        if (isNil(size)) {
+            return undefined;
+        }
+        if (isNumber(size)) {
+            return size;
+        }
 
         const pixelStrMatch = size.match(/^(\d+)px$/);
         if (pixelStrMatch) {
@@ -93,28 +99,32 @@ export const useResizable = ({
             isActive.value = true;
 
             // 拖拽的时候拿到实时的宽度或者高度
-            lastSizeValue =
-                popDirection.value === 'horizontal'
+            lastSizeValue
+                = popDirection.value === 'horizontal'
                     ? drawerRef.value.offsetWidth
                     : drawerRef.value.offsetHeight;
         }
     };
 
     const onMouseup = () => {
-        if (!isActive.value) return;
+        if (!isActive.value) {
+            return;
+        }
 
         start = 0;
         isActive.value = false;
     };
 
     const doResize = (event: MouseEvent) => {
-        if (!isActive.value) return;
+        if (!isActive.value) {
+            return;
+        }
 
         event.preventDefault();
 
         // 偏移量
-        const offset =
-            (popDirection.value === 'horizontal'
+        const offset
+            = (popDirection.value === 'horizontal'
                 ? event.clientX
                 : event.clientY) - start;
 

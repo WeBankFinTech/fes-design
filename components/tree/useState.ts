@@ -29,8 +29,8 @@ export default ({ props, emit }: { props: TreeProps; emit: any }) => {
     const hasNoExpandableNode = computed<boolean>(() =>
         props.data.every(
             (firstLevelNode) =>
-                !firstLevelNode.children ||
-                firstLevelNode.children.length === 0,
+                !firstLevelNode.children
+                || firstLevelNode.children.length === 0,
         ),
     );
 

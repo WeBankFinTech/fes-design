@@ -1,4 +1,4 @@
-import { parse, format, endOfMonth, isValid } from 'date-fns';
+import { endOfMonth, format, isValid, parse } from 'date-fns';
 import { isNumber } from 'lodash-es';
 
 import { RANGE_POSITION } from './const';
@@ -11,13 +11,19 @@ export function strictParse(
     backup: Date,
 ): Date {
     const result = parse(string, pattern, backup);
-    if (!isValid(result)) return result;
-    else if (format(result, pattern) === string) return result;
-    else return new Date(NaN);
+    if (!isValid(result)) {
+        return result;
+    } else if (format(result, pattern) === string) {
+        return result;
+    } else {
+        return new Date(Number.NaN);
+    }
 }
 
 export const isEmptyValue = (val: any) => {
-    if (!val) return true;
+    if (!val) {
+        return true;
+    }
     if (Array.isArray(val)) {
         return val.length === 0;
     }
@@ -28,7 +34,9 @@ export const isEmptyValue = (val: any) => {
 function timeFormat(date: null, format: string): null;
 function timeFormat(date: number | Date, format: string): string;
 function timeFormat(date: number | Date | null, format = 'yyyy-MM-dd') {
-    if (!date) return null;
+    if (!date) {
+        return null;
+    }
     if (isNumber(date)) {
         date = new Date(date);
     }
@@ -73,8 +81,12 @@ export const contrastDate = (
 ) => {
     const t1 = timeFormat(date1, format);
     const t2 = timeFormat(date2, format);
-    if (t1 > t2) return 1;
-    if (t1 === t2) return 0;
+    if (t1 > t2) {
+        return 1;
+    }
+    if (t1 === t2) {
+        return 0;
+    }
     return -1;
 };
 
@@ -99,7 +111,9 @@ export const pickTime = (dateObj: DateObj) => {
 };
 
 export function dateObjToDate(date: ParticalDateObj, isFullMax = false) {
-    if (!date) return null;
+    if (!date) {
+        return null;
+    }
     // 将季度转换为月份
     const month = date.month ?? (date.quarter ? (date.quarter - 1) * 3 : null);
     if (isFullMax) {
@@ -130,7 +144,9 @@ export function transformDateToTimestamp(
     date: ParticalDateObj,
     isFullMax = false,
 ) {
-    if (!date) return null;
+    if (!date) {
+        return null;
+    }
     return dateObjToDate(date, isFullMax).getTime();
 }
 
@@ -261,7 +277,9 @@ export const isBeyondRangeTime = (option: {
     flagDate?: Date;
     maxRange?: string;
 }) => {
-    if (!option.flagDate || !option.maxRange) return false;
+    if (!option.flagDate || !option.maxRange) {
+        return false;
+    }
     const arr = option.maxRange.match(/(\d*)([MDY])/)!;
     const length = Number(arr[1]);
     const type = arr[2];
@@ -291,7 +309,7 @@ export const isBeyondRangeTime = (option: {
     }
 
     return (
-        contrastDate(option.currentDate, minDate, option.format) === -1 ||
-        contrastDate(option.currentDate, maxDate, option.format) === 1
+        contrastDate(option.currentDate, minDate, option.format) === -1
+        || contrastDate(option.currentDate, maxDate, option.format) === 1
     );
 };

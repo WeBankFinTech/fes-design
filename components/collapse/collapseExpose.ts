@@ -1,7 +1,7 @@
-import { type ComponentObjectPropsOptions } from 'vue';
+import type { ComponentObjectPropsOptions } from 'vue';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import { definePropType } from './common';
 import type { CollapseActiveName } from './common';
-import type { ExtractPublicPropTypes } from '../_util/interface';
 
 type Arrayable<T> = T | T[];
 

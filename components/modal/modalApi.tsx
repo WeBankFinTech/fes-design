@@ -1,4 +1,4 @@
-import { render, type VNode, type VNodeChild } from 'vue';
+import { type VNode, type VNodeChild, render } from 'vue';
 import { isFunction, isUndefined } from 'lodash-es';
 import Modal from './modal';
 import type { ModalType } from './props';
@@ -73,10 +73,14 @@ function create(type: ModalType, config: ModalConfig) {
         event: MouseEvent,
         cbFunc?: (event: MouseEvent) => void | Promise<any>,
     ) {
-        if (cbFuncEnd) return;
+        if (cbFuncEnd) {
+            return;
+        }
         cbFuncEnd = true;
         try {
-            if (isFunction(cbFunc)) await cbFunc(event);
+            if (isFunction(cbFunc)) {
+                await cbFunc(event);
+            }
             mergeProps.show = false;
             renderModal();
         } catch (error) {}
@@ -87,7 +91,7 @@ function create(type: ModalType, config: ModalConfig) {
         // 更新 props
         Object.assign(mergeProps, options || {});
         if (isUndefined(options.showCancel)) {
-            mergeProps.showCancel = type === 'confirm' ? true : false;
+            mergeProps.showCancel = type === 'confirm';
         }
         mergeProps.onOk = (event: MouseEvent) =>
             handleCallBack(event, options.onOk);

@@ -3,7 +3,7 @@
     <div :class="classes" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
         <template v-if="type !== 'textarea'">
             <div v-if="$slots.prepend" :class="`${prefixCls}-prepend`">
-                <slot name="prepend"></slot>
+                <slot name="prepend" />
             </div>
             <InputInner
                 ref="inputRef"
@@ -26,10 +26,10 @@
                 @clear="handleInputClear"
             >
                 <template v-if="$slots.prefix" #prefix>
-                    <slot name="prefix"></slot>
+                    <slot name="prefix" />
                 </template>
                 <template v-if="$slots.suffix || isWordLimitVisible" #suffix>
-                    <slot name="suffix"></slot>
+                    <slot name="suffix" />
                     <span
                         v-if="isWordLimitVisible"
                         :class="`${prefixCls}-count`"
@@ -40,7 +40,7 @@
             </InputInner>
 
             <div v-if="$slots.append" :class="`${prefixCls}-append`">
-                <slot name="append"></slot>
+                <slot name="append" />
             </div>
         </template>
 
@@ -63,8 +63,7 @@
             @focus="handleFocus"
             @blur="handleBlur"
             @keydown="handleKeydown"
-        >
-        </textarea>
+        />
         <span
             v-if="isWordLimitVisible && type === 'textarea'"
             :class="`${textareaPrefixCls}-count`"
@@ -76,16 +75,16 @@
 
 <script lang="ts">
 import {
+    type ComponentObjectPropsOptions,
+    type PropType,
+    type Ref,
     computed,
+    defineComponent,
+    nextTick,
+    onMounted,
     ref,
     shallowRef,
     watch,
-    nextTick,
-    onMounted,
-    defineComponent,
-    type PropType,
-    type Ref,
-    type ComponentObjectPropsOptions,
 } from 'vue';
 
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
@@ -94,11 +93,11 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel } from '../_util/use/useModel';
 import { useInput } from '../_util/use/useInput';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 import calcTextareaHeight from './calcTextareaHeight';
 import InputInner from './inputInner.vue';
 import { commonInputProps } from './props';
 import { useFocus, useMouse } from './useInput';
-import type { ExtractPublicPropTypes } from '../_util/interface';
 
 import type { InputValue } from './interface';
 
@@ -217,7 +216,9 @@ export default defineComponent({
         const resizeTextarea = () => {
             const { type, autosize } = props;
 
-            if (type !== 'textarea' || !textareaRef.value) return;
+            if (type !== 'textarea' || !textareaRef.value) {
+                return;
+            }
 
             if (autosize) {
                 let minRows: number;

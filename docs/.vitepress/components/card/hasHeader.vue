@@ -4,7 +4,7 @@
         <FRadio :value="false">无标题</FRadio>
     </FRadioGroup>
 
-    <FDivider></FDivider>
+    <FDivider />
 
     <div class="card-wrapper">
         <FCard :header="showHeader ? '这里是标题' : ''">
@@ -15,6 +15,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+
 const showHeader = ref(true);
 </script>
 

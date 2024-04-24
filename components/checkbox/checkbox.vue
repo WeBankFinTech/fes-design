@@ -17,11 +17,11 @@ import { computed, defineComponent } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import useSelect from '../_util/use/useSelect';
 import {
-    COMPONENT_NAME as checkboxGroupName,
     checkboxGroupKey,
+    COMPONENT_NAME as checkboxGroupName,
 } from '../checkbox-group/const';
 import { useTheme } from '../_theme/useTheme';
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../_util/constants';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import { checkboxProps } from './props';
 
 const prefixCls = getPrefixCls('checkbox');
