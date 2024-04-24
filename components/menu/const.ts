@@ -12,6 +12,11 @@ import type { MenuOption } from './interface';
 
 export const MODE = ['horizontal', 'vertical'] as const;
 
+export enum TRIGGER {
+    CLICK = 'click',
+    HOVER = 'hover',
+}
+
 export const COMPONENT_NAME = {
     MENU: 'FMenu',
     SUB_MENU: 'FSubMenu',
@@ -76,6 +81,9 @@ export const menuProps = {
         default(): MenuOption[] {
             return [];
         },
+    },
+    trigger: {
+        type: String as PropType<TRIGGER>,
     },
     // popper 透传的 props
     ...pick(popperProps, ['getContainer', 'appendToContainer']),

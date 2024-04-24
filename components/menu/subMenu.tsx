@@ -20,7 +20,7 @@ import DownOutlined from '../icon/DownOutlined';
 import RightOutlined from '../icon/RightOutlined';
 import Ellipsis from '../ellipsis/ellipsis';
 import type { ExtractPublicPropTypes } from '../_util/interface';
-import { COMPONENT_NAME, SUB_MENU_KEY } from './const';
+import { COMPONENT_NAME, SUB_MENU_KEY, TRIGGER, MODE } from './const';
 import useChildren from './useChildren';
 import useParent from './useParent';
 import useMenu from './useMenu';
@@ -53,8 +53,14 @@ export default defineComponent({
         const instance = getCurrentInstance();
         const { indexPath } = useMenu(instance);
         const subMenuRef = ref(null);
-        const { rootMenu, parentMenu, paddingStyle, isFirstLevel, onlyIcon }
-            = useChildren(indexPath);
+        const {
+            rootMenu,
+            parentMenu,
+            paddingStyle,
+            isFirstLevel,
+            onlyIcon,
+            trigger,
+        } = useChildren(indexPath);
         // 根节点 menu
         if (!rootMenu) {
             console.warn(
@@ -91,12 +97,13 @@ export default defineComponent({
             handleItemClick: () => {
                 if (rootMenu.renderWithPopper.value) {
                     isOpened.value = false;
+                    rootMenu.updateExpandedKeys([]);
                 }
             },
         });
 
         const placement = computed(() => {
-            if (rootMenu.props.mode === 'horizontal') {
+            if (rootMenu.props.mode === MODE[0]) {
                 return isFirstLevel.value ? 'bottom-start' : 'right-start';
             }
             return 'right-start';
@@ -106,23 +113,31 @@ export default defineComponent({
                 .filter(Boolean)
                 .join(' '),
         );
-        const handleClickTrigger = () => {
+
+        const handleTrigger = () => {
             isOpened.value = !isOpened.value;
-            rootMenu.clickSubMenu(subMenu, indexPath);
+            rootMenu.handleSubMenu(subMenu, indexPath);
+        };
+
+        const handleEnter = () => {
+            // 如果是hover 且 只能展开一项的场景，进入第一层的时候要清空
+            if (rootMenu.accordion.value && isFirstLevel.value) {
+                rootMenu.updateExpandedKeys([]);
+            }
+            rootMenu.handleSubMenu(subMenu, indexPath);
         };
 
         watch(
             rootMenu.currentExpandedKeys,
             () => {
-                if (!rootMenu.renderWithPopper.value) {
-                    const index = rootMenu.currentExpandedKeys.value.indexOf(
-                        props.value || instance.uid,
-                    );
-                    if (index === -1 && isOpened.value) {
-                        isOpened.value = false;
-                    } else if (index !== -1 && !isOpened.value) {
-                        isOpened.value = true;
-                    }
+                // 如果不是用popper展示，要通过监听currentExpandedKeys，自动打开或者关闭子菜单
+                const index = rootMenu.currentExpandedKeys.value.indexOf(
+                    props.value || instance.uid,
+                );
+                if (index === -1 && isOpened.value) {
+                    isOpened.value = false;
+                } else if (index !== -1 && !isOpened.value) {
+                    isOpened.value = true;
                 }
             },
             {
@@ -165,21 +180,35 @@ export default defineComponent({
                 </span>
             );
         };
-        const renderWrapper = (trigger: string) => (
-            <div
-                class={`${prefixCls}-wrapper`}
-                style={paddingStyle.value}
-                onClick={() => {
-                    if (trigger === 'click') {
-                        handleClickTrigger();
-                    }
-                }}
-            >
-                {renderIcon()}
-                {!onlyIcon.value ? renderTitle() : null}
-                {!onlyIcon.value ? renderArrow() : null}
-            </div>
-        );
+
+        // 两种触发的方式 hover&click
+        const renderWrapper = (trigger: string) => {
+            const wrapperContent = (
+                <>
+                    {renderIcon()}
+                    {!onlyIcon.value ? renderTitle() : null}
+                    {!onlyIcon.value ? renderArrow() : null}
+                </>
+            );
+            return trigger === TRIGGER.CLICK ? (
+                <div
+                    class={`${prefixCls}-wrapper`}
+                    style={paddingStyle.value}
+                    onClick={handleTrigger}
+                >
+                    {wrapperContent}
+                </div>
+            ) : (
+                <div
+                    class={`${prefixCls}-wrapper`}
+                    style={paddingStyle.value}
+                    onMouseenter={handleEnter}
+                >
+                    {wrapperContent}
+                </div>
+            );
+        };
+
         const renderDefault = () => slots.default?.();
         const popperProps = computed(() => {
             if (!rootMenu.renderWithPopper.value) {
@@ -187,27 +216,28 @@ export default defineComponent({
             }
             return pick(rootMenu.props, ['getContainer', 'appendToContainer']);
         });
+
         const renderContent = () => {
             if (rootMenu.renderWithPopper.value) {
                 return (
                     <Popper
                         v-model={isOpened.value}
                         {...popperProps.value}
-                        trigger="hover"
-                        onlyShowTrigger={true}
+                        trigger={trigger.value}
+                        onlyShowTrigger={true} // 只在展示的时候生效，是为了在子菜单中选择的时候，popper不消失
                         placement={placement.value}
                         popperClass={`${prefixCls}-popper`}
                         offset={1}
                         v-slots={{
                             default: renderDefault,
-                            trigger: renderWrapper,
+                            trigger: () => renderWrapper(trigger.value),
                         }}
                     />
                 );
             }
             return (
                 <>
-                    {renderWrapper('click')}
+                    {renderWrapper(trigger.value)}
                     <FadeInExpandTransition>
                         <div
                             v-show={isOpened.value}

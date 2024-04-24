@@ -12,7 +12,7 @@ import { useArrayModel, useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import { concat } from '../_util/utils';
 import { useTheme } from '../_theme/useTheme';
-import { COMPONENT_NAME, menuProps } from './const';
+import { COMPONENT_NAME, menuProps, MODE } from './const';
 import useParent from './useParent';
 import useMenu from './useMenu';
 import MenuGroup from './menuGroup';
@@ -42,8 +42,9 @@ export default defineComponent({
             { prop: 'expandedKeys' },
         );
 
+        // 水平模式一定是采用Popper的
         const renderWithPopper = computed(() => {
-            if (props.mode === 'horizontal') {
+            if (props.mode === MODE[0]) {
                 return true;
             }
             return props.collapsed;
@@ -54,7 +55,7 @@ export default defineComponent({
         const clickMenuItem = (value: string) => {
             updateCurrentValue(value);
             emit('select', { value });
-            // 当水平时，默认是hover，当垂直收起时也是hover
+            // 选择后，关闭所有的子菜单
             if (renderWithPopper.value) {
                 children.forEach((item) => {
                     if (item.type === 'subMenu') {
@@ -87,35 +88,36 @@ export default defineComponent({
             }
         });
 
-        const clickSubMenu = (
+        const accordion = computed(() => {
+            // 如果是水平的菜单，accordion 只能为true
+            return props.mode === MODE[0] ? true : props.accordion;
+        });
+
+        const handleSubMenu = (
             subMenu: MenuItemType,
             indexPath: Ref<MenuNode[]>,
         ) => {
-            if (subMenu.isOpened.value) {
-                if (props.accordion) {
-                    updateExpandedKeys(
-                        currentExpandedKeys.value.filter(
-                            (uid: string | number) =>
-                                indexPath.value.some((node) => {
-                                    return node.uid === uid;
-                                }),
-                        ),
-                    );
-                }
-                updateExpandedKeys(subMenu.value || subMenu.uid);
-            } else {
-                updateExpandedKeys(subMenu.value || subMenu.uid);
+            if (subMenu.isOpened.value && accordion.value) {
+                updateExpandedKeys(
+                    currentExpandedKeys.value.filter((uid: string | number) =>
+                        indexPath.value.some((node) => {
+                            return node.uid === uid;
+                        }),
+                    ),
+                );
             }
+            updateExpandedKeys(subMenu.value || subMenu.uid);
         };
 
         provide('rootMenu', {
             props,
             currentValue,
             clickMenuItem,
-            clickSubMenu,
             renderWithPopper,
             currentExpandedKeys,
+            accordion,
             updateExpandedKeys,
+            handleSubMenu,
         });
 
         const classList = computed(() =>
@@ -138,9 +140,11 @@ export default defineComponent({
                 }
                 itemSlots.label = () =>
                     isFunction(item.label) ? item.label() : item.label;
+                // 没有子菜单
                 if (!item.children) {
                     return <MenuItem value={item.value} v-slots={itemSlots} />;
                 }
+                // 分组
                 if (item.isGroup) {
                     return (
                         <MenuGroup v-slots={itemSlots}>

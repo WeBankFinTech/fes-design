@@ -1,5 +1,5 @@
 import { type ComputedRef, computed, inject } from 'vue';
-import { CHILDREN_KEY, COMPONENT_NAME } from './const';
+import { CHILDREN_KEY, COMPONENT_NAME, MODE, TRIGGER } from './const';
 import type { MenuNode } from './const';
 
 export default (indexPath: ComputedRef<MenuNode[]>) => {
@@ -28,6 +28,13 @@ export default (indexPath: ComputedRef<MenuNode[]>) => {
         return { paddingLeft: `${padding}px` };
     });
 
+    // 触发的方式
+    const trigger = computed(() => {
+        if (rootMenu.props.trigger) return rootMenu.props.trigger;
+        // 水平默认是hover，垂直默认是click
+        return rootMenu.props.mode === MODE[0] ? TRIGGER.HOVER : TRIGGER.CLICK;
+    });
+
     const isFirstLevel = computed(() => {
         return indexPath.value.length < 3;
     });
@@ -46,5 +53,6 @@ export default (indexPath: ComputedRef<MenuNode[]>) => {
         onlyIcon,
         isFirstLevel,
         indexPath,
+        trigger,
     };
 };
