@@ -1,38 +1,37 @@
 <template>
     <FForm :labelWidth="100">
-        <FFormItem label="是否默认:">
+        <FFormItem label="展示模式:">
             <FRadioGroup
-                v-model="isDefault"
+                v-model="mode"
                 :options="[
-                    { label: '自定义', value: false },
-                    { label: '是（默认）', value: true },
+                    { label: '水平模式', value: 'horizontal' },
+                    { label: '垂直模式', value: 'vertical' },
                 ]"
             />
         </FFormItem>
-        <FFormItem v-if="!isDefault" label="触发方式:">
+        <FFormItem label="触发方式:">
             <FRadioGroup
                 v-model="trigger"
                 :options="[
-                    { label: 'hover', value: 'hover' },
-                    { label: 'click', value: 'click' },
+                    { label: mode === 'horizontal' ? 'hover(默认)' : 'hover', value: 'hover' },
+                    { label: mode === 'vertical' ? 'click(默认)' : 'click', value: 'click' },
                 ]"
             />
         </FFormItem>
     </FForm>
-    <FDivider></FDivider>
-    <FMenu :trigger="trigger" :options="options"></FMenu>
+    <FDivider />
     <div style="width: 200px">
-        <FMenu :trigger="trigger" :options="options" mode="vertical"></FMenu>
+        <FMenu :trigger="trigger" :options="options" :mode="mode" />
     </div>
 </template>
 
 <script setup>
-import { ref, h, watch } from 'vue';
+import { h, ref, watch } from 'vue';
 import { AppstoreOutlined } from '@fesjs/fes-design/icon';
 
-const isDefault = ref(true);
+const mode = ref('horizontal');
 
-const trigger = ref();
+const trigger = ref('hover');
 
 const options = [
     {
@@ -85,9 +84,11 @@ const options = [
     },
 ];
 
-watch(isDefault, () => {
-    if (isDefault.value) {
-        trigger.value = null;
+watch(mode, () => {
+    if (mode.value === 'horizontal') {
+        trigger.value = 'hover';
+    } else {
+        trigger.value = 'click';
     }
 });
 </script>

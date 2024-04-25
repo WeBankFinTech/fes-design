@@ -20,7 +20,7 @@ import DownOutlined from '../icon/DownOutlined';
 import RightOutlined from '../icon/RightOutlined';
 import Ellipsis from '../ellipsis/ellipsis';
 import type { ExtractPublicPropTypes } from '../_util/interface';
-import { COMPONENT_NAME, SUB_MENU_KEY, TRIGGER, MODE } from './const';
+import { COMPONENT_NAME, MODE, SUB_MENU_KEY, TRIGGER } from './const';
 import useChildren from './useChildren';
 import useParent from './useParent';
 import useMenu from './useMenu';
@@ -59,7 +59,6 @@ export default defineComponent({
             paddingStyle,
             isFirstLevel,
             onlyIcon,
-            trigger,
         } = useChildren(indexPath);
         // 根节点 menu
         if (!rootMenu) {
@@ -103,7 +102,7 @@ export default defineComponent({
         });
 
         const placement = computed(() => {
-            if (rootMenu.props.mode === MODE[0]) {
+            if (rootMenu.props.mode === MODE.HORIZONTAL) {
                 return isFirstLevel.value ? 'bottom-start' : 'right-start';
             }
             return 'right-start';
@@ -130,13 +129,13 @@ export default defineComponent({
         watch(
             rootMenu.currentExpandedKeys,
             () => {
-                // 如果不是用popper展示，要通过监听currentExpandedKeys，自动打开或者关闭子菜单
-                const index = rootMenu.currentExpandedKeys.value.indexOf(
+                // 要通过监听currentExpandedKeys，自动打开或者关闭子菜单
+                const isHas = rootMenu.currentExpandedKeys.value.includes(
                     props.value || instance.uid,
                 );
-                if (index === -1 && isOpened.value) {
+                if (!isHas && isOpened.value) {
                     isOpened.value = false;
-                } else if (index !== -1 && !isOpened.value) {
+                } else if (isHas && !isOpened.value) {
                     isOpened.value = true;
                 }
             },
@@ -190,23 +189,25 @@ export default defineComponent({
                     {!onlyIcon.value ? renderArrow() : null}
                 </>
             );
-            return trigger === TRIGGER.CLICK ? (
-                <div
-                    class={`${prefixCls}-wrapper`}
-                    style={paddingStyle.value}
-                    onClick={handleTrigger}
-                >
-                    {wrapperContent}
-                </div>
-            ) : (
-                <div
-                    class={`${prefixCls}-wrapper`}
-                    style={paddingStyle.value}
-                    onMouseenter={handleEnter}
-                >
-                    {wrapperContent}
-                </div>
-            );
+            return trigger === TRIGGER.CLICK
+                ? (
+                    <div
+                        class={`${prefixCls}-wrapper`}
+                        style={paddingStyle.value}
+                        onClick={handleTrigger}
+                    >
+                        {wrapperContent}
+                    </div>
+                    )
+                : (
+                    <div
+                        class={`${prefixCls}-wrapper`}
+                        style={paddingStyle.value}
+                        onMouseenter={handleEnter}
+                    >
+                        {wrapperContent}
+                    </div>
+                    );
         };
 
         const renderDefault = () => slots.default?.();
@@ -223,21 +224,21 @@ export default defineComponent({
                     <Popper
                         v-model={isOpened.value}
                         {...popperProps.value}
-                        trigger={trigger.value}
+                        trigger={rootMenu.trigger.value}
                         onlyShowTrigger={true} // 只在展示的时候生效，是为了在子菜单中选择的时候，popper不消失
                         placement={placement.value}
                         popperClass={`${prefixCls}-popper`}
                         offset={1}
                         v-slots={{
                             default: renderDefault,
-                            trigger: () => renderWrapper(trigger.value),
+                            trigger: () => renderWrapper(rootMenu.trigger.value),
                         }}
                     />
                 );
             }
             return (
                 <>
-                    {renderWrapper(trigger.value)}
+                    {renderWrapper(rootMenu.trigger.value)}
                     <FadeInExpandTransition>
                         <div
                             v-show={isOpened.value}

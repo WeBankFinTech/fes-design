@@ -12,7 +12,7 @@ import { useArrayModel, useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import { concat } from '../_util/utils';
 import { useTheme } from '../_theme/useTheme';
-import { COMPONENT_NAME, menuProps, MODE } from './const';
+import { COMPONENT_NAME, MODE, TRIGGER, menuProps } from './const';
 import useParent from './useParent';
 import useMenu from './useMenu';
 import MenuGroup from './menuGroup';
@@ -44,7 +44,7 @@ export default defineComponent({
 
         // 水平模式一定是采用Popper的
         const renderWithPopper = computed(() => {
-            if (props.mode === MODE[0]) {
+            if (props.mode === MODE.HORIZONTAL) {
                 return true;
             }
             return props.collapsed;
@@ -90,7 +90,17 @@ export default defineComponent({
 
         const accordion = computed(() => {
             // 如果是水平的菜单，accordion 只能为true
-            return props.mode === MODE[0] ? true : props.accordion;
+            return props.mode === MODE.HORIZONTAL ? true : props.accordion;
+        });
+
+        // 触发的方式
+        const trigger = computed(() => {
+            // 设置了trigger则优先使用
+            if (props.trigger) {
+                return props.trigger;
+            }
+            // 水平默认是hover，垂直默认是click
+            return props.mode === MODE.HORIZONTAL ? TRIGGER.HOVER : TRIGGER.CLICK;
         });
 
         const handleSubMenu = (
@@ -116,6 +126,7 @@ export default defineComponent({
             renderWithPopper,
             currentExpandedKeys,
             accordion,
+            trigger,
             updateExpandedKeys,
             handleSubMenu,
         });
