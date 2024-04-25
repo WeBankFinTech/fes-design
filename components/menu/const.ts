@@ -5,7 +5,9 @@ import type {
     PropType,
 } from 'vue';
 
+import { pick } from 'lodash-es';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { popperProps } from '../popper/props';
 import type { MenuOption } from './interface';
 
 export const MODE = ['horizontal', 'vertical'] as const;
@@ -75,6 +77,8 @@ export const menuProps = {
             return [];
         },
     },
+    // popper 透传的 props
+    ...pick(popperProps, ['getContainer', 'appendToContainer']),
 } as const satisfies ComponentObjectPropsOptions;
 
 export type MenuProps = ExtractPublicPropTypes<typeof menuProps>;

@@ -12,6 +12,7 @@ import type {
     ComponentObjectPropsOptions,
     PropType,
 } from 'vue';
+import { pick } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import FadeInExpandTransition from '../_util/components/fadeInExpandTransition';
 import Popper from '../popper/popper';
@@ -180,11 +181,18 @@ export default defineComponent({
             </div>
         );
         const renderDefault = () => slots.default?.();
+        const popperProps = computed(() => {
+            if (!rootMenu.renderWithPopper.value) {
+                return {};
+            }
+            return pick(rootMenu.props, ['getContainer', 'appendToContainer']);
+        });
         const renderContent = () => {
             if (rootMenu.renderWithPopper.value) {
                 return (
                     <Popper
                         v-model={isOpened.value}
+                        {...popperProps.value}
                         trigger="hover"
                         onlyShowTrigger={true}
                         placement={placement.value}
