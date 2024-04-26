@@ -97,6 +97,15 @@ export default defineComponent({
             currentExpandedKeys,
         });
 
+        // 清空 data 时，置空 expandedKeys、selectedKeys、checkedKeys
+        watch(() => props.data, (nextData) => {
+            if (nextData.length === 0) {
+                updateExpandedKeys([]);
+                updateCheckedKeys([]);
+                updateSelectedKeys([]);
+            }
+        });
+
         watch(
             nodeList,
             () => {
