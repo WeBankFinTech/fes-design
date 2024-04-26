@@ -38,7 +38,7 @@ const cellProps = {
     ] as PropType<any>,
 } as const satisfies ComponentObjectPropsOptions;
 
-export type CellProps = ExtractPropTypes<typeof cellProps>;
+export type InnerCellProps = ExtractPropTypes<typeof cellProps>;
 
 export default defineComponent({
     name: 'FTableCell',

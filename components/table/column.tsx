@@ -21,7 +21,7 @@ import {
     provideKey,
 } from './const';
 
-import type { CellProps } from './components/cell';
+import type { InnerCellProps } from './components/cell';
 import type { ActionType, RowType } from './interface';
 
 export type SortOrderType = 'descend' | 'ascend' | false;
@@ -82,7 +82,7 @@ export const columnProps = {
     fixed: {
         type: [Boolean, String] as PropType<'left' | 'right' | true | false>,
     },
-    formatter: Function as PropType<(data: CellProps) => any>,
+    formatter: Function as PropType<(data: InnerCellProps) => any>,
     resizable: {
         type: Boolean,
         default: false,
@@ -121,8 +121,8 @@ export type ColumnProps = ExtractPublicPropTypes<typeof columnProps>;
 
 export type ColumnChildren = Array<
     ColumnProps & {
-        render?: (data: CellProps) => VNode[];
-        renderHeader?: (data: CellProps) => VNode[];
+        render?: (data: InnerCellProps) => VNode[];
+        renderHeader?: (data: InnerCellProps) => VNode[];
         children?: ColumnChildren;
     }
 >;
