@@ -54,10 +54,10 @@ expandedKeys.vue
 
 ### 触发方式
 
-默认触发方式，水平模式默认hover方式，垂直模式默认click方式，可以通过`trigger`选择触发方式。
+默认触发方式，水平模式默认hover方式，垂直模式仅支持click方式，可以通过`expandTrigger`选择展开方式。
 
 :::demo
-trigger.vue
+expandTrigger.vue
 :::
 
 ### 配置方式
@@ -96,7 +96,7 @@ customContainer.vue
 | options               | 菜单数据，配置可看 MenuOption                                           | array             | `[]`                  |
 | getContainer          | 配置渲染节点的输出位置                                                  | () => HTMLElement | `() => document.body` |
 | appendToContainer     | 弹窗内容是否添加到指定的 DOM 元素                                       | boolean           | `true`                |
-| trigger               | 子菜单打开触发方式，可选`hover`,`click`                                 | string            | `-`                   |
+| expandTrigger         | 子菜单打开展开方式，可选`hover`,`click`，垂直模式仅支持点击             | string            | `-`                   |
 
 ## Menu Events
 

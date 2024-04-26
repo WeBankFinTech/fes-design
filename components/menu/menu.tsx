@@ -93,14 +93,19 @@ export default defineComponent({
             return props.mode === MODE.HORIZONTAL ? true : props.accordion;
         });
 
-        // 触发的方式
-        const trigger = computed(() => {
-            // 设置了trigger则优先使用
-            if (props.trigger) {
-                return props.trigger;
+        // 展开的方式
+        const expandTrigger = computed(() => {
+            // 垂直模式默认点击，且仅支持点击展开
+            if (props.mode === MODE.VERTICAL) {
+                return TRIGGER.CLICK;
             }
-            // 水平默认是hover，垂直默认是click
-            return props.mode === MODE.HORIZONTAL ? TRIGGER.HOVER : TRIGGER.CLICK;
+            if (props.expandTrigger) {
+                return props.expandTrigger;
+            }
+            // 如果没有设置expandTrigger,水平模式默认hover
+            if (props.mode === MODE.HORIZONTAL) {
+                return TRIGGER.HOVER;
+            }
         });
 
         const handleSubMenu = (
@@ -126,7 +131,7 @@ export default defineComponent({
             renderWithPopper,
             currentExpandedKeys,
             accordion,
-            trigger,
+            expandTrigger,
             updateExpandedKeys,
             handleSubMenu,
         });

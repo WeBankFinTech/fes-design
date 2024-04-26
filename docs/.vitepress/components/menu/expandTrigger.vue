@@ -9,11 +9,11 @@
                 ]"
             />
         </FFormItem>
-        <FFormItem label="触发方式:">
+        <FFormItem label="展开方式:">
             <FRadioGroup
-                v-model="trigger"
+                v-model="expandTrigger"
                 :options="[
-                    { label: mode === 'horizontal' ? 'hover(默认)' : 'hover', value: 'hover' },
+                    { label: mode === 'horizontal' ? 'hover(默认)' : 'hover', value: 'hover', disabled: mode === 'vertical' },
                     { label: mode === 'vertical' ? 'click(默认)' : 'click', value: 'click' },
                 ]"
             />
@@ -21,7 +21,7 @@
     </FForm>
     <FDivider />
     <div style="width: 200px">
-        <FMenu :trigger="trigger" :options="options" :mode="mode" />
+        <FMenu :expandTrigger="expandTrigger" :options="options" :mode="mode" />
     </div>
 </template>
 
@@ -31,7 +31,7 @@ import { AppstoreOutlined } from '@fesjs/fes-design/icon';
 
 const mode = ref('horizontal');
 
-const trigger = ref('hover');
+const expandTrigger = ref('hover');
 
 const options = [
     {
@@ -86,9 +86,9 @@ const options = [
 
 watch(mode, () => {
     if (mode.value === 'horizontal') {
-        trigger.value = 'hover';
+        expandTrigger.value = 'hover';
     } else {
-        trigger.value = 'click';
+        expandTrigger.value = 'click';
     }
 });
 </script>

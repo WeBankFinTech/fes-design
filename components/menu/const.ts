@@ -90,7 +90,7 @@ export const menuProps = {
             return [];
         },
     },
-    trigger: {
+    expandTrigger: {
         type: String as PropType<TRIGGER>,
         validator: (value: TRIGGER) => {
             return Object.values(TRIGGER).includes(value);

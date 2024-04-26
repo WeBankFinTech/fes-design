@@ -180,8 +180,8 @@ export default defineComponent({
             );
         };
 
-        // 两种触发的方式 hover&click
-        const renderWrapper = (trigger: string) => {
+        // 两种展开的方式 hover&click
+        const renderWrapper = (expandTrigger: string) => {
             const wrapperContent = (
                 <>
                     {renderIcon()}
@@ -189,7 +189,7 @@ export default defineComponent({
                     {!onlyIcon.value ? renderArrow() : null}
                 </>
             );
-            return trigger === TRIGGER.CLICK
+            return expandTrigger === TRIGGER.CLICK
                 ? (
                     <div
                         class={`${prefixCls}-wrapper`}
@@ -224,21 +224,21 @@ export default defineComponent({
                     <Popper
                         v-model={isOpened.value}
                         {...popperProps.value}
-                        trigger={rootMenu.trigger.value}
+                        trigger={rootMenu.expandTrigger.value}
                         onlyShowTrigger={true} // 只在展示的时候生效，是为了在子菜单中选择的时候，popper不消失
                         placement={placement.value}
                         popperClass={`${prefixCls}-popper`}
                         offset={1}
                         v-slots={{
                             default: renderDefault,
-                            trigger: () => renderWrapper(rootMenu.trigger.value),
+                            trigger: () => renderWrapper(rootMenu.expandTrigger.value),
                         }}
                     />
                 );
             }
             return (
                 <>
-                    {renderWrapper(rootMenu.trigger.value)}
+                    {renderWrapper(rootMenu.expandTrigger.value)}
                     <FadeInExpandTransition>
                         <div
                             v-show={isOpened.value}
