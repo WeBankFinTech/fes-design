@@ -10,7 +10,15 @@ import type { ExtractPublicPropTypes } from '../_util/interface';
 import { popperProps } from '../popper/props';
 import type { MenuOption } from './interface';
 
-export const MODE = ['horizontal', 'vertical'] as const;
+export enum MODE {
+    VERTICAL = 'vertical',
+    HORIZONTAL = 'horizontal',
+}
+
+export enum TRIGGER {
+    CLICK = 'click',
+    HOVER = 'hover',
+}
 
 export const COMPONENT_NAME = {
     MENU: 'FMenu',
@@ -37,14 +45,19 @@ export const MENU_KEY: InjectionKey<{
 }> = Symbol('FMenu');
 
 export const menuProps = {
+    // popper 透传的 props
+    ...pick(popperProps, ['getContainer', 'appendToContainer']),
     // 当前选中的值
     modelValue: {
         type: [String, Number] as PropType<string | number>,
     },
     // 垂直或者水平
     mode: {
-        type: String as PropType<(typeof MODE)[number]>,
-        default: MODE[0],
+        type: String as PropType<MODE>,
+        default: MODE.HORIZONTAL,
+        validator: (value: MODE) => {
+            return Object.values(MODE).includes(value);
+        },
     },
     // 是否收起
     collapsed: {
@@ -77,8 +90,13 @@ export const menuProps = {
             return [];
         },
     },
-    // popper 透传的 props
-    ...pick(popperProps, ['getContainer', 'appendToContainer']),
+    expandTrigger: {
+        type: String as PropType<TRIGGER>,
+        validator: (value: TRIGGER) => {
+            return Object.values(TRIGGER).includes(value);
+        },
+    },
+
 } as const satisfies ComponentObjectPropsOptions;
 
 export type MenuProps = ExtractPublicPropTypes<typeof menuProps>;
