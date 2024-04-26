@@ -566,6 +566,11 @@ export function useDay({
     };
 }
 
+export interface QuarterItem {
+    name: string;
+    value: number;
+}
+
 export const useQuarter = (
     props: CalendarProps,
     selectedDates: Ref<DateObj[]>,
@@ -574,11 +579,6 @@ export const useQuarter = (
     currentDate: DateObj,
 ) => {
     const isQuarterSelect = computed(() => props.type === PickerType.quarter);
-
-    interface QuarterItem {
-        name: string;
-        value: number;
-    }
 
     const format = 'yyyy-MM';
 
