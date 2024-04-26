@@ -32,7 +32,7 @@ export default defineComponent({
     render() {
         const children = getSlot(this.$slots);
         return h(
-            this.tag,
+            this.tag || 'span',
             {
                 class: this.textClass,
             },

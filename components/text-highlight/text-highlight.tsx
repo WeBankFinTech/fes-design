@@ -1,11 +1,11 @@
 import {
-    defineComponent,
-    type VNode,
-    isVNode,
     Text,
+    type VNode,
     type VNodeTypes,
+    defineComponent,
+    isVNode,
 } from 'vue';
-import { isString, isArray, isObject } from 'lodash-es';
+import { isArray, isObject, isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import FText from '../text';
@@ -27,8 +27,8 @@ export default defineComponent({
         // 判断是否相等
         const judgeEqual = (word: string, text: string): boolean => {
             return (
-                (props.strict && text === word) ||
-                (!props.strict && text.toLowerCase() === word.toLowerCase())
+                (props.strict && text === word)
+                || (!props.strict && text.toLowerCase() === word.toLowerCase())
             );
         };
 
@@ -77,13 +77,10 @@ export default defineComponent({
                     // 如果子节点是字符串，使用 renderText 函数处理
                     if (isString(child)) {
                         return renderText(child);
-                    }
-                    // 如果子节点是 VNode，递归使用 renderNode 函数处理
-                    else if (isVNode(child)) {
+                    } else if (isVNode(child)) {
+                        // 如果子节点是 VNode，递归使用 renderNode 函数处理
                         return renderNode(child);
-                    }
-                    // 如果子节点既不是字符串也不是 VNode，直接返回它
-                    else {
+                    } else { // 如果子节点既不是字符串也不是 VNode，直接返回它
                         return child;
                     }
                 });
@@ -105,8 +102,8 @@ export default defineComponent({
                 // 用户自定义的组件对象
                 const ChildComponent = NodeType as any;
                 const child = node.children as any;
-                const childSlots =
-                    child && child.default ? child.default() : [];
+                const childSlots
+                    = child && child.default ? child.default() : [];
                 return (
                     <ChildComponent {...node.props}>
                         {childSlots.map(renderNode)}

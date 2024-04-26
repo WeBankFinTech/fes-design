@@ -1,5 +1,5 @@
-import { type ComponentObjectPropsOptions, type PropType } from 'vue';
-import { type ExtractPublicPropTypes } from '../_util/interface';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
+import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const textHighlightProps = {
     // 高亮内容，数组

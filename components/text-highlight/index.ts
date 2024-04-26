@@ -1,6 +1,6 @@
 import { withInstall } from '../_util/withInstall';
-import TextHighlight from './text-highlight';
 import type { SFCWithInstall } from '../_util/interface';
+import TextHighlight from './text-highlight';
 
 export { textHighlightProps } from './props';
 export type { TextHighlightProps } from './props';
