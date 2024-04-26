@@ -14,25 +14,33 @@ app.use(FText);
 
 ### 基础用法
 
---BASIC
+:::demo
+basic.vue
+:::
 
 ### 尺寸
 
---SIZE
+:::demo
+size.vue
+:::
 
 ### 字体效果
 
---EFFECT
+:::demo
+effect.vue
+:::
 
 ### 自定义元素标签
 
---TAG
+:::demo
+tag.vue
+:::
 
 ### 混合使用
 
---MIXIN
-
---CODE
+:::demo
+mixin.vue
+:::
 
 ## Text Props
 
@@ -43,6 +51,7 @@ app.use(FText);
 | strong | 是否字体加粗                                                | boolean | `false`   |
 | italic | 是否字体倾斜                                                | boolean | `false`   |
 | tag    | 自定义元素标签，可选值为`span` `div` `p` `h1` `h2` `h3` 等  | string  | `span`    |
+
 
 ## Text Slots
 

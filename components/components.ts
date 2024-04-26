@@ -57,3 +57,4 @@ export * from './progress';
 export * from './transfer';
 export * from './input-file';
 export * from './breadcrumb';
+export * from './text-highlight';
