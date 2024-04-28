@@ -24,9 +24,22 @@ export default defineComponent({
             [`${prefixCls}-tag--mark`]: props.tag === 'mark', // 定义mark样式
         }));
 
+        const gradientStyle = computed(() => {
+            if (props.gradient && props.gradient.from && props.gradient.to) {
+                const deg = props.gradient.deg || 0;
+                return {
+                    backgroundImage: `linear-gradient(${deg}deg, ${props.gradient.from}, ${props.gradient.to})`,
+                    backgroundClip: 'text',
+                    textFillColor: 'transparent',
+                };
+            }
+            return {};
+        });
+
         return {
             prefixCls,
             textClass,
+            gradientStyle,
         };
     },
     render() {
@@ -35,6 +48,7 @@ export default defineComponent({
             this.tag || 'span',
             {
                 class: this.textClass,
+                style: this.gradientStyle,
             },
             children,
         );
