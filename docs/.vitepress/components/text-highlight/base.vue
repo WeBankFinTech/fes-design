@@ -27,7 +27,7 @@
                 <FText>a subtext</FText>
                 .
             </FText>
-            <div class="text">This is the string for the div wrap.</div>
+            <div style="font-size: 30px; margin: 10px 0px;">This is the string for the div wrap.</div>
             This is a plain text string.
         </FTextHighlight>
     </FSpace>
@@ -47,10 +47,3 @@ const strChange = () => {
 
 const strict = ref(false);
 </script>
-
-<style>
-.text {
-    font-size: 30px;
-    margin: 10px 0px;
-}
-</style>
