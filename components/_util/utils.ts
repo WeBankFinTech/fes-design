@@ -104,6 +104,20 @@ export const pxfy = (value: string | number): string => {
     return value as string;
 };
 
+// 90 => 90deg
+export const degfy = (value: string | number): string => {
+    // 如果输入值是字符串，且已经包含了"deg"后缀，则直接返回
+    if (isString(value) && value.endsWith('deg')) {
+        return value;
+    }
+    if (isFinite(Number(value))) {
+        return `${Number(value)}deg`;
+    }
+
+    // 如果输入值既不是数字也不是字符串，或者是一个不能转换为数字的字符串，返回一个错误信息
+    throw new Error(`Invalid deg: ${value}`);
+};
+
 export function getParentNode(node: Node): Node | null {
     // document type
     if (node.nodeType === 9) {

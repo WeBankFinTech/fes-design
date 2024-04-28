@@ -1,7 +1,6 @@
 import type { ComponentObjectPropsOptions, PropType } from 'vue';
-
 import type { ExtractPublicPropTypes } from '../_util/interface';
-import type { Size, Type } from './interface';
+import type { Gradient, Size, Type } from './interface';
 
 export const textProps = {
     type: {
@@ -17,6 +16,9 @@ export const textProps = {
     tag: {
         type: String,
         default: 'span',
+    },
+    gradient: {
+        type: Object as PropType<Gradient>,
     },
 } as const satisfies ComponentObjectPropsOptions;
 

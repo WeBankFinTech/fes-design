@@ -2,6 +2,7 @@ import { computed, defineComponent, h } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { getSlot } from '../_util/vnode';
+import { degfy } from '../_util/utils';
 import { textProps } from './props';
 
 const prefixCls = getPrefixCls('text');
@@ -24,9 +25,22 @@ export default defineComponent({
             [`${prefixCls}-tag--mark`]: props.tag === 'mark', // 定义mark样式
         }));
 
+        const gradientStyle = computed(() => {
+            if (props.gradient && props.gradient.from && props.gradient.to) {
+                const deg = degfy(props.gradient.deg || 0);
+                return {
+                    backgroundImage: `linear-gradient(${deg}, ${props.gradient.from}, ${props.gradient.to})`,
+                    backgroundClip: 'text',
+                    textFillColor: 'transparent',
+                };
+            }
+            return {};
+        });
+
         return {
             prefixCls,
             textClass,
+            gradientStyle,
         };
     },
     render() {
@@ -35,6 +49,7 @@ export default defineComponent({
             this.tag || 'span',
             {
                 class: this.textClass,
+                style: this.gradientStyle,
             },
             children,
         );
