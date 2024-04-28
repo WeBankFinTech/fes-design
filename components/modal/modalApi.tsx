@@ -12,14 +12,18 @@ export interface ModalConfig {
     footer?: VNode | (() => VNodeChild);
     okText?: string;
     okLoading?: boolean;
-    cancelText?: string;
     showCancel?: boolean;
+    cancelText?: string;
     cancelLoading?: boolean;
     onOk?: (event: MouseEvent) => void | Promise<any>;
     onCancel?: (event: MouseEvent) => void | Promise<any>;
     width?: string | number;
     maxHeight?: string | number;
+    top?: string | number;
+    verticalCenter?: boolean;
     center?: boolean;
+    fullScreen?: boolean;
+    contentClass?: string;
     getContainer?: () => HTMLElement;
 }
 
