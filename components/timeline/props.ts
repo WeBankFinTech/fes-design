@@ -95,10 +95,10 @@ export type TimelineProps = ComponentProps<typeof timelineProps>;
 // 组件内部使用的 props 类型（包含了 default）
 export type TimelineInnerProps = ComponentInnerProps<typeof timelineProps>;
 
-export interface TimelineSlotsParams {
+export type TimelineSlotsParams = {
     desc: TimelineNodeSlotCommonParams;
     icon: TimelineNodeSlotCommonParams;
-}
+};
 
 export type TimelineSlots = SlotsType<TimelineSlotsParams>;
 

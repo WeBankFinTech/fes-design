@@ -106,6 +106,7 @@ export default antfu({
         'vue/v-on-event-hyphenation': 'off',
 
         'ts/no-use-before-define': 'off',
+        'ts/consistent-type-definitions': 'off',
 
         'test/consistent-test-it': 'off',
         'test/no-identical-title': 'off',
