@@ -118,6 +118,12 @@ function create(type: ModalType, config: ModalConfig) {
 
     function update(options: ModalConfig) {
         if (mergeProps.show) {
+            // options.content应该要有非空值
+            if (!options.content) {
+                console.warn('option.content should have a non-empty value!');
+                return;
+            }
+
             // 展示时才能更新
             updateProps(options);
             renderModal();
