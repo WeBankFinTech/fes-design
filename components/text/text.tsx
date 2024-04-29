@@ -16,6 +16,10 @@ export default defineComponent({
     setup(props) {
         useTheme();
 
+        const isGradient = computed(() => {
+            return props.gradient && props.gradient.from && props.gradient.to;
+        });
+
         const textClass = computed(() => ({
             [prefixCls]: true,
             [`${prefixCls}-type--${props.type}`]: props.type,
@@ -23,15 +27,14 @@ export default defineComponent({
             [`${prefixCls}-text--strong`]: props.strong,
             [`${prefixCls}-text--italic`]: props.italic,
             [`${prefixCls}-tag--mark`]: props.tag === 'mark', // 定义mark样式
+            [`${prefixCls}-gradient`]: isGradient.value,
         }));
 
         const gradientStyle = computed(() => {
-            if (props.gradient && props.gradient.from && props.gradient.to) {
+            if (isGradient.value) {
                 const deg = degfy(props.gradient.deg || 0);
                 return {
                     backgroundImage: `linear-gradient(${deg}, ${props.gradient.from}, ${props.gradient.to})`,
-                    backgroundClip: 'text',
-                    textFillColor: 'transparent',
                 };
             }
             return {};
