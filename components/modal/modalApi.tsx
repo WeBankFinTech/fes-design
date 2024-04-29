@@ -1,5 +1,5 @@
 import { type VNode, type VNodeChild, render } from 'vue';
-import { isFunction, isUndefined } from 'lodash-es';
+import { isFunction, isNil, isUndefined } from 'lodash-es';
 import Modal from './modal';
 import type { ModalType } from './props';
 
@@ -105,10 +105,12 @@ function create(type: ModalType, config: ModalConfig) {
         // 更新 slots
         ['title', 'content', 'footer'].forEach((key) => {
             const slot = options[key as VNodeProperty];
+            // 如果有slot，则更新
             if (slot) {
                 slots[key] = isFunction(slot) ? slot : () => slot;
             }
-            if (key === 'content') {
+            // 如果不为空再更新
+            if (key === 'content' && !isNil(slots.content)) {
                 slots.default = slots.content;
                 delete slots.content;
             }
@@ -118,12 +120,6 @@ function create(type: ModalType, config: ModalConfig) {
 
     function update(options: ModalConfig) {
         if (mergeProps.show) {
-            // options.content应该要有非空值
-            if (!options.content) {
-                console.warn('option.content should have a non-empty value!');
-                return;
-            }
-
             // 展示时才能更新
             updateProps(options);
             renderModal();
