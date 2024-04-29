@@ -67,12 +67,12 @@ export const CalendarEvent = {
     CELL_CLICK: 'cellClick',
 } as const;
 
-export interface CalendarSlotsParams {
+export type CalendarSlotsParams = {
     // 单元格
     cellMain: { date: UnixTime; mode: CalendarMode };
     // 单元格附加内容
     cellAppendant: { date: UnixTime; mode: CalendarMode };
-}
+};
 
 export type CalendarSlots = SlotsType<CalendarSlotsParams>;
 

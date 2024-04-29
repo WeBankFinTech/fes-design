@@ -16,7 +16,7 @@ const prefixCls = getPrefixCls('avatar-group');
 export default defineComponent({
     name: 'FAvatarGroup',
     props: avatarGroupProps,
-    setup(props, { slots }) {
+    setup: (props, { slots }) => {
         useTheme();
         // 渲染option
         const renderAvatarByOption = (num?: number) => {
