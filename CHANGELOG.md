@@ -1,3 +1,22 @@
+## [0.8.46](https://github.com/WeBankFinTech/fes-design/compare/v0.8.45...v0.8.46) (2024-04-29)
+
+
+### Bug Fixes
+
+* **Cascader:** 处理 data 置空时，已展开的 Menus 不会重置的问题 ([#770](https://github.com/WeBankFinTech/fes-design/issues/770)) ([2642e2d](https://github.com/WeBankFinTech/fes-design/commit/2642e2d4bc7706ae76326e8d977d5030d5d8ad45))
+* **Modal:** 补齐 Modal API 参数类型中缺失的字段 ([#778](https://github.com/WeBankFinTech/fes-design/issues/778)) ([0134ec7](https://github.com/WeBankFinTech/fes-design/commit/0134ec79864accaa35a62691df2c30750088dcc1))
+* **Table:** 修复 Column 的 CellProps 导出类型不对的问题 ([#769](https://github.com/WeBankFinTech/fes-design/issues/769)) ([2f60437](https://github.com/WeBankFinTech/fes-design/commit/2f6043737f41dbc5e324bb306cbffa5fc1a64151))
+
+
+### Features
+
+* **Menu:** 菜单组件新增 trigger 属性，处理水平模式只能打开一项菜单场景 ([#767](https://github.com/WeBankFinTech/fes-design/issues/767)) ([edf612a](https://github.com/WeBankFinTech/fes-design/commit/edf612a119106f75753fd6153c3a48a888a1b9c9))
+* **Menu:** 支持 popper 的 getContainer ([#765](https://github.com/WeBankFinTech/fes-design/issues/765)) ([9b5142e](https://github.com/WeBankFinTech/fes-design/commit/9b5142ecb0ff33e8c18c689d4400d273f020f1eb))
+* **Text:** 文本组件新增 gradient 属性 ([#779](https://github.com/WeBankFinTech/fes-design/issues/779)) ([3aec03a](https://github.com/WeBankFinTech/fes-design/commit/3aec03a8ae8d3a4007fe89d85d6170bfdf477852))
+* **TextHighlight:** 新增 TextHighlight 文本高亮组件 ([#740](https://github.com/WeBankFinTech/fes-design/issues/740)) ([f3634c5](https://github.com/WeBankFinTech/fes-design/commit/f3634c54abdd1dbf91a3b35a969130d01e0067d6))
+
+
+
 ## [0.8.45](https://github.com/WeBankFinTech/fes-design/compare/v0.8.44...v0.8.45) (2024-04-23)
 
 
