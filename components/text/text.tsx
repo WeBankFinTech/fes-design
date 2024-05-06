@@ -36,6 +36,10 @@ export default defineComponent({
                 return {
                     backgroundImage: `linear-gradient(${deg}, ${props.gradient.from}, ${props.gradient.to})`,
                 };
+            } else if (typeof props.gradient === 'string') {
+                return {
+                    color: props.gradient,
+                };
             }
             return {};
         });
