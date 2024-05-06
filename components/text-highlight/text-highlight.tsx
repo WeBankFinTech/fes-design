@@ -35,7 +35,7 @@ export default defineComponent({
         // 渲染高亮的部分
         const renderHighLight = (part: string): VNode => {
             return (
-                <FText tag="mark" class="highlight">
+                <FText tag="mark" class="highlight" style={props.markTextStyle}>
                     {part}
                 </FText>
             );

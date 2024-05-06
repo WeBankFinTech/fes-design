@@ -18,12 +18,20 @@ app.use(FTextHighlight);
 base.vue
 :::
 
+### 自定义样式
+可以自定义高亮样式
+
+:::demo
+markTextStyle.vue
+:::
+
 ## TextHighlight Props
 
-| 属性         | 说明                         | 类型            | 默认值  |
-| ------------ | ---------------------------- | --------------- | ------- |
-| searchValues | 搜索内容                     | `Array<string>` | `[]`    |
-| strict       | 严格模式，是否区分大小写匹配 | `boolean`       | `false` |
+| 属性          | 说明                         | 类型                    | 默认值  |
+| ------------- | ---------------------------- | ----------------------- | ------- |
+| searchValues  | 搜索内容                     | `Array<string>`         | `[]`    |
+| strict        | 严格模式，是否区分大小写匹配 | `boolean`               | `false` |
+| markTextStyle | 自定义高亮样式               | `Object<CSSProperties>` | `-`     |
 
 ## TextHighlight slots
 
