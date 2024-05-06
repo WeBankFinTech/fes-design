@@ -1,9 +1,11 @@
 import { computed, defineComponent, h } from 'vue';
+import { isObject, isString } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { getSlot } from '../_util/vnode';
 import { degfy } from '../_util/utils';
 import { textProps } from './props';
+import type { Gradient } from './interface';
 
 const prefixCls = getPrefixCls('text');
 
@@ -17,7 +19,7 @@ export default defineComponent({
         useTheme();
 
         const isGradient = computed(() => {
-            return props.gradient && props.gradient.from && props.gradient.to;
+            return isObject(props.gradient) && props.gradient.from && props.gradient.to;
         });
 
         const textClass = computed(() => ({
@@ -32,11 +34,13 @@ export default defineComponent({
 
         const gradientStyle = computed(() => {
             if (isGradient.value) {
-                const deg = degfy(props.gradient.deg || 0);
+                const gradient = props.gradient as Gradient;
+                const deg = degfy(gradient.deg || 0);
                 return {
-                    backgroundImage: `linear-gradient(${deg}, ${props.gradient.from}, ${props.gradient.to})`,
+                    backgroundImage: `linear-gradient(${deg}, ${gradient.from}, ${gradient.to})`,
                 };
-            } else if (typeof props.gradient === 'string') {
+            } else if (isString(props.gradient)) {
+                // 纯色
                 return {
                     color: props.gradient,
                 };

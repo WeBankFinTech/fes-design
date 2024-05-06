@@ -18,7 +18,7 @@ export const textProps = {
         default: 'span',
     },
     gradient: {
-        type: Object as PropType<Gradient>,
+        type: [Object, String] as PropType<Gradient | string>,
     },
 } as const satisfies ComponentObjectPropsOptions;
 
