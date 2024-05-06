@@ -12,7 +12,7 @@
                     v-model="str"
                     placeholder="空格分隔"
                     @change="strChange"
-                ></FInput>
+                />
             </FFormItem>
         </FForm>
     </FSpace>
@@ -29,6 +29,7 @@
             </FText>
             <div style="font-size: 30px; margin: 10px 0px;">This is the string for the div wrap.</div>
             This is a plain text string.
+            <div>这是中文字符串。</div>
         </FTextHighlight>
     </FSpace>
 </template>

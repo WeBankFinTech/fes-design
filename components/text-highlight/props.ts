@@ -1,4 +1,4 @@
-import type { ComponentObjectPropsOptions, PropType } from 'vue';
+import type { CSSProperties, ComponentObjectPropsOptions, PropType } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
 export const textHighlightProps = {
@@ -11,6 +11,9 @@ export const textHighlightProps = {
     strict: {
         type: Boolean,
         default: false,
+    },
+    markTextStyle: {
+        type: Object as PropType<CSSProperties>,
     },
 } as const satisfies ComponentObjectPropsOptions;
 
