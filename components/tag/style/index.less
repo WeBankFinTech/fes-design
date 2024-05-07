@@ -76,9 +76,27 @@
         border-color: var(--f-tag-border-color);
     }
 
+    .filled {
+        display: none;
+    }
+
+    .outlined {
+        display: block;
+    }
+
     &__close {
+        display: flex;
+        align-items: center;
         margin-left: 4px;
         color: @tag-text-color-base;
+
+        &:hover .outlined {
+            display: none;
+        }
+
+        &:hover .filled {
+            display: block;
+        }
     }
 
     &-type--success {

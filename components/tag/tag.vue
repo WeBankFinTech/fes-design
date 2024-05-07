@@ -4,20 +4,16 @@
             <slot name="icon" />
         </template>
         <slot />
-        <template v-if="closable">
+        <div v-if="closable" :class="`${prefixCls}__close`">
             <CloseCircleOutlined
-                v-show="!isHover"
-                :class="`${prefixCls}__close`"
+                class="outlined"
                 @click.stop="handleClose"
-                @mouseenter="mouseCloseEnter"
             />
             <CloseCircleFilled
-                v-show="isHover"
-                :class="`${prefixCls}__close`"
+                class="filled"
                 @click.stop="handleClose"
-                @mouseleave="mouseCloseLeave"
             />
-        </template>
+        </div>
     </div>
 </template>
 
@@ -29,7 +25,6 @@ import CloseCircleFilled from '../icon/CloseCircleFilled';
 import CloseCircleOutlined from '../icon/CloseCircleOutlined';
 import { CLOSE_EVENT } from '../_util/constants';
 import { tagProps } from './props';
-import { useHover } from './useHover';
 
 const prefixCls = getPrefixCls('tag');
 
@@ -62,16 +57,11 @@ export default defineComponent({
             emit('click', event);
         };
 
-        const { isHover, mouseCloseEnter, mouseCloseLeave } = useHover();
-
         return {
             prefixCls,
             classes,
             handleClose,
             handleClick,
-            isHover,
-            mouseCloseEnter,
-            mouseCloseLeave,
         };
     },
 });
