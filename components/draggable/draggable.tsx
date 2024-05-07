@@ -51,6 +51,7 @@ export default defineComponent({
             list: [...props.modelValue],
             beforeDragend: props.beforeDragend,
         }));
+        const Tag = computed(() => props.tag as keyof HTMLElementTagNameMap);
         const {
             onAnimationEnd,
             onDragstart,
@@ -87,7 +88,7 @@ export default defineComponent({
             });
         };
         return () => (
-            <tag
+            <Tag.value
                 ref={rootRef}
                 class={[
                     `${prefixCls}`,
@@ -102,7 +103,7 @@ export default defineComponent({
                 onTransitionend={onAnimationEnd}
             >
                 {props.modelValue.map(renderItem)}
-            </tag>
+            </Tag.value>
         );
     },
 });
