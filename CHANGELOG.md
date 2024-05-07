@@ -1,3 +1,21 @@
+## [0.8.47](https://github.com/WeBankFinTech/fes-design/compare/v0.8.46...v0.8.47) (2024-05-07)
+
+
+### Bug Fixes
+
+* 处理text组件渐变样式失效的问题 ([#785](https://github.com/WeBankFinTech/fes-design/issues/785)) ([b16fb4a](https://github.com/WeBankFinTech/fes-design/commit/b16fb4a69e0fd9ba4f1d0b05566f76ff2152ab60))
+* **Draggable:** 修复 tag 变量识别为原生标签的问题 ([#790](https://github.com/WeBankFinTech/fes-design/issues/790)) ([4fa2841](https://github.com/WeBankFinTech/fes-design/commit/4fa2841d7e4e23f06083ef862e9417fcc4d9ae14))
+* **Modal:** update 方法逻辑修正,内容为空就不做处理 ([#782](https://github.com/WeBankFinTech/fes-design/issues/782)) ([a620cf8](https://github.com/WeBankFinTech/fes-design/commit/a620cf8d7cda7689d5c33c86eea0a28e026d19f3))
+* **Text:** gradient属性类型修正 ([#788](https://github.com/WeBankFinTech/fes-design/issues/788)) ([d3f4b30](https://github.com/WeBankFinTech/fes-design/commit/d3f4b307d56c08417e0cc896a802935296796854))
+
+
+### Features
+
+* gradient 支持配置纯色 ([#787](https://github.com/WeBankFinTech/fes-design/issues/787)) ([f7e04b8](https://github.com/WeBankFinTech/fes-design/commit/f7e04b8ae9e6a8c2322413f923b953bf26ee577a))
+* **TextHighlight:** 高亮组件新增自定义样式 ([#786](https://github.com/WeBankFinTech/fes-design/issues/786)) ([9d11004](https://github.com/WeBankFinTech/fes-design/commit/9d110043df4f2fec313c8e3d55a7be3fa81874cc))
+
+
+
 ## [0.8.46](https://github.com/WeBankFinTech/fes-design/compare/v0.8.45...v0.8.46) (2024-04-29)
 
 
