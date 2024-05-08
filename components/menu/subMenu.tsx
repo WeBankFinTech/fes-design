@@ -20,10 +20,12 @@ import DownOutlined from '../icon/DownOutlined';
 import RightOutlined from '../icon/RightOutlined';
 import Ellipsis from '../ellipsis/ellipsis';
 import type { ExtractPublicPropTypes } from '../_util/interface';
-import { COMPONENT_NAME, MODE, SUB_MENU_KEY, TRIGGER } from './const';
+import type { TRIGGER } from './const';
+import { COMPONENT_NAME, MODE, SUB_MENU_KEY } from './const';
 import useChildren from './useChildren';
 import useParent from './useParent';
 import useMenu from './useMenu';
+import type { MenuItemType } from './interface';
 
 const prefixCls = getPrefixCls('sub-menu');
 
@@ -102,7 +104,7 @@ export default defineComponent({
         });
 
         const placement = computed(() => {
-            if (rootMenu.props.mode === MODE.HORIZONTAL) {
+            if (rootMenu.props.mode === 'horizontal') {
                 return isFirstLevel.value ? 'bottom-start' : 'right-start';
             }
             return 'right-start';
@@ -115,7 +117,7 @@ export default defineComponent({
 
         const handleTrigger = () => {
             isOpened.value = !isOpened.value;
-            rootMenu.handleSubMenu(subMenu, indexPath);
+            rootMenu.handleSubMenu(subMenu as unknown as MenuItemType, indexPath);
         };
 
         const handleEnter = () => {
@@ -123,7 +125,7 @@ export default defineComponent({
             if (rootMenu.accordion.value && isFirstLevel.value) {
                 rootMenu.updateExpandedKeys([]);
             }
-            rootMenu.handleSubMenu(subMenu, indexPath);
+            rootMenu.handleSubMenu(subMenu as unknown as MenuItemType, indexPath);
         };
 
         watch(
@@ -181,7 +183,7 @@ export default defineComponent({
         };
 
         // 两种展开的方式 hover&click
-        const renderWrapper = (expandTrigger: string) => {
+        const renderWrapper = (expandTrigger: TRIGGER) => {
             const wrapperContent = (
                 <>
                     {renderIcon()}
@@ -189,7 +191,7 @@ export default defineComponent({
                     {!onlyIcon.value ? renderArrow() : null}
                 </>
             );
-            return expandTrigger === TRIGGER.CLICK
+            return expandTrigger === 'click'
                 ? (
                     <div
                         class={`${prefixCls}-wrapper`}

@@ -1,10 +1,11 @@
-import { type ComputedRef, computed, inject } from 'vue';
-import { CHILDREN_KEY, COMPONENT_NAME } from './const';
+import { computed, inject } from 'vue';
+import type { ComputedRef } from 'vue';
+import { CHILDREN_KEY, COMPONENT_NAME, ROOT_MENU_KEY } from './const';
 import type { MenuNode } from './const';
 
-export default (indexPath: ComputedRef<MenuNode[]>) => {
+const useChildren = (indexPath: ComputedRef<MenuNode[]>) => {
     // 根节点 menu
-    const rootMenu = inject('rootMenu', null);
+    const rootMenu = inject(ROOT_MENU_KEY, null);
     // 父级组件，可能为 menu / sub-menu / menu-group
     const parentMenu = inject(CHILDREN_KEY, null);
 
@@ -48,3 +49,5 @@ export default (indexPath: ComputedRef<MenuNode[]>) => {
         indexPath,
     };
 };
+
+export default useChildren;
