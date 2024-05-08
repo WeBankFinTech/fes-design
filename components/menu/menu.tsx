@@ -12,13 +12,13 @@ import { useArrayModel, useNormalModel } from '../_util/use/useModel';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import { concat } from '../_util/utils';
 import { useTheme } from '../_theme/useTheme';
-import { COMPONENT_NAME, MODE, TRIGGER, menuProps } from './const';
+import { COMPONENT_NAME, ROOT_MENU_KEY, menuProps } from './const';
 import useParent from './useParent';
 import useMenu from './useMenu';
 import MenuGroup from './menuGroup';
 import MenuItem from './menuItem';
 import SubMenu from './subMenu';
-import type { MenuNode } from './const';
+import type { MenuNode, TRIGGER } from './const';
 import type { MenuItemTypePlain } from './useParent';
 
 import type { MenuItemType, MenuOption } from './interface';
@@ -44,7 +44,7 @@ export default defineComponent({
 
         // 水平模式一定是采用Popper的
         const renderWithPopper = computed(() => {
-            if (props.mode === MODE.HORIZONTAL) {
+            if (props.mode === 'horizontal') {
                 return true;
             }
             return props.collapsed;
@@ -52,7 +52,7 @@ export default defineComponent({
 
         const { children } = useParent();
 
-        const clickMenuItem = (value: string) => {
+        const clickMenuItem = (value: string | number) => {
             updateCurrentValue(value);
             emit('select', { value });
             // 选择后，关闭所有的子菜单
@@ -90,21 +90,21 @@ export default defineComponent({
 
         const accordion = computed(() => {
             // 如果是水平的菜单，accordion 只能为true
-            return props.mode === MODE.HORIZONTAL ? true : props.accordion;
+            return props.mode === 'horizontal' ? true : props.accordion;
         });
 
         // 展开的方式
-        const expandTrigger = computed(() => {
+        const expandTrigger = computed<TRIGGER>(() => {
             // 垂直模式默认点击，且仅支持点击展开
-            if (props.mode === MODE.VERTICAL) {
-                return TRIGGER.CLICK;
+            if (props.mode === 'vertical') {
+                return 'click';
             }
             if (props.expandTrigger) {
                 return props.expandTrigger;
             }
             // 如果没有设置expandTrigger,水平模式默认hover
-            if (props.mode === MODE.HORIZONTAL) {
-                return TRIGGER.HOVER;
+            if (props.mode === 'horizontal') {
+                return 'hover';
             }
         });
 
@@ -124,7 +124,7 @@ export default defineComponent({
             updateExpandedKeys(subMenu.value || subMenu.uid);
         };
 
-        provide('rootMenu', {
+        provide(ROOT_MENU_KEY, {
             props,
             currentValue,
             clickMenuItem,

@@ -3,22 +3,17 @@ import type {
     ComputedRef,
     InjectionKey,
     PropType,
+    Ref,
 } from 'vue';
 
 import { pick } from 'lodash-es';
-import type { ExtractPublicPropTypes } from '../_util/interface';
+import type { ComponentInnerProps, ExtractPublicPropTypes } from '../_util/interface';
 import { popperProps } from '../popper/props';
-import type { MenuOption } from './interface';
+import type { MenuItemType, MenuOption } from './interface';
 
-export enum MODE {
-    VERTICAL = 'vertical',
-    HORIZONTAL = 'horizontal',
-}
+export type MODE = 'vertical' | 'horizontal';
 
-export enum TRIGGER {
-    CLICK = 'click',
-    HOVER = 'hover',
-}
+export type TRIGGER = 'click' | 'hover';
 
 export const COMPONENT_NAME = {
     MENU: 'FMenu',
@@ -54,9 +49,9 @@ export const menuProps = {
     // 垂直或者水平
     mode: {
         type: String as PropType<MODE>,
-        default: MODE.HORIZONTAL,
+        default: 'horizontal' satisfies MODE,
         validator: (value: MODE) => {
-            return Object.values(MODE).includes(value);
+            return (['horizontal', 'vertical'] satisfies MODE[]).includes(value);
         },
     },
     // 是否收起
@@ -93,10 +88,24 @@ export const menuProps = {
     expandTrigger: {
         type: String as PropType<TRIGGER>,
         validator: (value: TRIGGER) => {
-            return Object.values(TRIGGER).includes(value);
+            return (['click', 'hover'] satisfies TRIGGER[]).includes(value);
         },
     },
 
 } as const satisfies ComponentObjectPropsOptions;
 
 export type MenuProps = ExtractPublicPropTypes<typeof menuProps>;
+
+export type RootMenuInjection = {
+    props: ComponentInnerProps<typeof menuProps>;
+    currentValue: Ref<string | number>;
+    clickMenuItem: (value: string | number) => void;
+    renderWithPopper: ComputedRef<boolean>;
+    currentExpandedKeys: Ref<(string | number)[]>;
+    accordion: ComputedRef<boolean>;
+    expandTrigger: ComputedRef<TRIGGER>;
+    updateExpandedKeys: (val: string | number | (string | number)[]) => void;
+    handleSubMenu: (subMenu: MenuItemType, indexPath: Ref<MenuNode[]>) => void;
+};
+
+export const ROOT_MENU_KEY: InjectionKey<RootMenuInjection> = Symbol('ROOT_MENU_KEY');

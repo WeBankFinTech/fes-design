@@ -1,4 +1,4 @@
-import type { Ref, VNodeChild } from 'vue';
+import type { ComponentInternalInstance, Ref, VNodeChild } from 'vue';
 
 export interface MenuOption {
     value: string | number;
@@ -9,7 +9,7 @@ export interface MenuOption {
 }
 
 export interface MenuItemType {
-    uid: string;
+    uid: ComponentInternalInstance['uid'];
     value: string | number;
     type: string;
     children: MenuItemType[];
