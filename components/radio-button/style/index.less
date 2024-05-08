@@ -26,16 +26,25 @@
         color: var(--f-primary-color);
     }
 
-    &-content-small {
-        margin: 1px;
-        padding: 0 var(--f-padding-small);
-        line-height: @radio-button-content-height-sm;
-    }
+    &-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid transparent;
 
-    &-content-middle {
-        margin: 1px;
-        padding: 0 var(--f-padding-middle);
-        line-height: @radio-button-content-height-base;
+        &-small {
+            padding: 0 var(--f-padding-small);
+            line-height: @radio-button-content-height-sm;
+        }
+
+        &-middle {
+            padding: 0 var(--f-padding-middle);
+            line-height: @radio-button-content-height-base;
+        }
+
+        & > .@{fes-icon-cls} {
+            margin-right: 4px;
+        }
     }
 
     &-content-checked {

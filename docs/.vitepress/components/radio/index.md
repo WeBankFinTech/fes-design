@@ -44,6 +44,12 @@ vertical.vue
 button.vue
 :::
 
+### 按钮组图标插槽
+
+:::demo
+iconSlot.vue
+:::
+
 #### 配置方式
 
 通过配置 `options` 直接生成选项,可以通过 `optionType` 设置生成项的类型
@@ -110,6 +116,7 @@ options.vue
 | 名称    | 说明       |
 | ------- | ---------- |
 | default | Radio 组件 |
+| icon    | 图标       |
 
 ## Option Props
 
