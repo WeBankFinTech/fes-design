@@ -76,13 +76,6 @@
         border-color: var(--f-tag-border-color);
     }
 
-    .filled {
-        display: none;
-    }
-
-    .outlined {
-        display: block;
-    }
 
     &__close {
         display: flex;
@@ -90,12 +83,21 @@
         margin-left: 4px;
         color: @tag-text-color-base;
 
-        &:hover .outlined {
+        .filled {
             display: none;
         }
-
-        &:hover .filled {
+    
+        .outlined {
             display: block;
+        }
+
+        &:hover {
+            .outlined {
+                display: none;
+            }
+            .filled {
+                display: block;
+            }
         }
     }
 
