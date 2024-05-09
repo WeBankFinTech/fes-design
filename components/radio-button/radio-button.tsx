@@ -41,7 +41,7 @@ export default defineComponent({
 
         // content样式
         const contentClasses = computed(() => {
-            const arr = [`${prefixCls}-content-${group.props.size}`];
+            const arr = [`${prefixCls}-content`, `${prefixCls}-content-${group.props.size}`];
             // 无边框的样式
             if (!group.props.bordered && checked.value) {
                 arr.push(`${prefixCls}-content-checked`);
@@ -54,6 +54,7 @@ export default defineComponent({
         return () => (
             <div class={btnClasses.value} onClick={handleClick}>
                 <div class={contentClasses.value}>
+                    {slots.icon?.()}
                     {slots.default?.() ?? props.label}
                 </div>
             </div>
