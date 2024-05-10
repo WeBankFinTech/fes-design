@@ -97,7 +97,7 @@ export default ({
 
     // 是否单选模式
     const isSingleSelect = computed(() => {
-        return selectionColumn.value && !selectionColumn.value.props.multiple;
+        return Boolean(selectionColumn.value && !selectionColumn.value.props.multiple);
     });
 
     const isSelectDisabled = ({ row }: { row: RowType }) => {
@@ -185,11 +185,7 @@ export default ({
     watch(
         isSingleSelect,
         () => {
-            // 切换后，清空当前选择
             clearSelect();
-        },
-        {
-            immediate: true,
         },
     );
 
