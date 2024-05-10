@@ -84,7 +84,7 @@ export const baseTheme = (themeOverrides: Theme = {}) => {
         textColorCaption: tint(base.fontColorBase, 0.8),
 
         borderColorDisabled: tint(base.fontColorBase, 0.8),
-        borderColorSplit: tint(base.fontColorBase, 0.94),
+        borderColorSplit: tint(base.fontColorBase, 0.9),
         borderColorInverse: base.white,
         borderBase: `${base.borderWidthBase} ${base.borderStyleBase} ${base.borderColorBase}`,
 
