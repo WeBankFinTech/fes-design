@@ -6,19 +6,21 @@ import type {
     Ref,
     ToRefs,
 } from 'vue';
-import type { RuleItem, Rules } from 'async-validator';
+import type { RuleItem } from 'async-validator';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 import { FORM_ITEM_ALIGN, FORM_LAYOUT, LABEL_POSITION } from './const';
 
-export interface FFormRuleItem extends RuleItem {
+export interface FormRuleItem extends RuleItem {
     trigger?: string | string[];
 }
+
+export type FormRules = Record<string, FormRuleItem | FormRuleItem[]>;
 
 export const formProps = {
     model: Object,
     rules: {
-        type: Object as PropType<Rules>,
-        default: () => ({} as Rules),
+        type: Object as PropType<FormRules>,
+        default: (): FormRules => ({}),
     },
     layout: {
         type: String as PropType<
@@ -87,9 +89,9 @@ export const formItemProps = {
         default: null as boolean,
     },
     rules: {
-        type: Array as PropType<FFormRuleItem[]>,
+        type: Array as PropType<FormRuleItem[]>,
         default: () => {
-            return [] as FFormRuleItem[];
+            return [] as FormRuleItem[];
         },
     },
     align: {
@@ -121,7 +123,7 @@ export interface FormItemInject {
 export interface Field {
     prop: string;
     value: any;
-    rules: FFormRuleItem[];
+    rules: FormRuleItem[];
     validateRules: (trigger?: string | string[]) => Promise<any>;
     clearValidate: () => void;
     resetField: () => void;
