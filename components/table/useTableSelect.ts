@@ -97,7 +97,7 @@ export default ({
 
     // 是否单选模式
     const isSingleSelect = computed(() => {
-        return selectionColumn.value && !selectionColumn.value.props.multiple;
+        return Boolean(selectionColumn.value && !selectionColumn.value.props.multiple);
     });
 
     const isSelectDisabled = ({ row }: { row: RowType }) => {
@@ -181,18 +181,11 @@ export default ({
         currentCheckedKeys.value.length = 0;
     };
 
-    let isFirstRun = true;
-
     // 模式变更，单选只能有一个被选择
     watch(
         isSingleSelect,
         () => {
-            // 第一次初始化的时候，不请空当前的选中值，只在后续模式切换执行
-            if (isFirstRun) {
-                isFirstRun = false;
-            } else {
-                clearSelect();
-            }
+            clearSelect();
         },
     );
 
