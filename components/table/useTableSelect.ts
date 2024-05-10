@@ -181,15 +181,18 @@ export default ({
         currentCheckedKeys.value.length = 0;
     };
 
+    let isFirstRun = true;
+
     // 模式变更，单选只能有一个被选择
     watch(
         isSingleSelect,
         () => {
-            // 切换后，清空当前选择
-            clearSelect();
-        },
-        {
-            immediate: true,
+            // 第一次初始化的时候，不请空当前的选中值，只在后续模式切换执行
+            if (isFirstRun) {
+                isFirstRun = false;
+            } else {
+                clearSelect();
+            }
         },
     );
 
