@@ -39,7 +39,7 @@
         />
         <!-- 后置内容 -->
         <span
-            v-if="suffixVisible"
+            v-if="$slots.suffix || suffixVisible"
             :class="`${prefixCls}-suffix`"
             @mousedown.prevent
         >
@@ -177,11 +177,11 @@ export default defineComponent({
         'mouseleave',
         'mouseenter',
     ],
-    setup(props, { slots, emit }) {
+    setup(props, { emit }) {
         const inputRefEl = ref<HTMLElement>();
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
         const suffixVisible = computed(
-            () => slots.suffix || props.showPassword || props.clearable,
+            () => props.showPassword || props.clearable,
         );
 
         const handleValueChange = (value: string) => {
