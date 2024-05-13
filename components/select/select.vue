@@ -37,11 +37,7 @@
                 />
             </template>
             <template #default>
-                <div
-                    v-if="$slots.header"
-                    :class="`${prefixCls}-addon ${prefixCls}-option-header`"
-                    @mousedown.prevent
-                >
+                <div v-if="$slots.header" :class="`${prefixCls}-addon ${prefixCls}-option-header`" @mousedown.prevent>
                     <slot name="header" />
                 </div>
                 <OptionList
@@ -60,18 +56,10 @@
                     @scroll="onScroll"
                     @mousedown.prevent
                 />
-                <div
-                    v-if="$slots.footer"
-                    :class="`${prefixCls}-addon ${prefixCls}-option-footer`"
-                    @mousedown.prevent
-                >
+                <div v-if="$slots.footer" :class="`${prefixCls}-addon ${prefixCls}-option-footer`" @mousedown.prevent>
                     <slot name="footer" />
                 </div>
-                <div
-                    v-else-if="$slots.addon"
-                    :class="`${prefixCls}-addon ${prefixCls}-option-footer`"
-                    @mousedown.prevent
-                >
+                <div v-else-if="$slots.addon" :class="`${prefixCls}-addon ${prefixCls}-option-footer`" @mousedown.prevent>
                     {{ warnDeprecatedSlot() }}
                     <slot name="addon" />
                 </div>
@@ -84,22 +72,10 @@
 </template>
 
 <script lang="ts">
-import {
-    type CSSProperties,
-    computed,
-    defineComponent,
-    provide,
-    ref,
-    unref,
-    watch,
-} from 'vue';
+import { type CSSProperties, computed, defineComponent, provide, ref, unref, watch } from 'vue';
 import { isNil } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
-import {
-    type UseArrayModelReturn,
-    useArrayModel,
-    useNormalModel,
-} from '../_util/use/useModel';
+import { type UseArrayModelReturn, useArrayModel, useNormalModel } from '../_util/use/useModel';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
@@ -119,32 +95,16 @@ export default defineComponent({
         OptionList,
     },
     props: selectProps,
-    emits: [
-        UPDATE_MODEL_EVENT,
-        CHANGE_EVENT,
-        'removeTag',
-        'visibleChange',
-        'focus',
-        'blur',
-        'clear',
-        'scroll',
-        'search',
-    ],
+    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'removeTag', 'visibleChange', 'focus', 'blur', 'clear', 'scroll', 'search'],
     setup(props, { emit, attrs }) {
         useTheme();
         const { validate, isError, isFormDisabled } = useFormAdaptor({
             valueType: computed(() => (props.multiple ? 'array' : 'string')),
         });
-        const innerDisabled = computed(
-            () => props.disabled === true || isFormDisabled.value,
-        );
+        const innerDisabled = computed(() => props.disabled === true || isFormDisabled.value);
         const isOpenedRef = ref(false);
         // 与 props 中 modelValue 类型保持一致
-        const [currentValue, updateCurrentValue] = props.multiple
-            ? (useArrayModel(props, emit) as unknown as UseArrayModelReturn<
-                  SelectValue[]
-              >)
-            : useNormalModel(props, emit);
+        const [currentValue, updateCurrentValue] = props.multiple ? (useArrayModel(props, emit) as unknown as UseArrayModelReturn<SelectValue[]>) : useNormalModel(props, emit);
 
         const triggerRef = ref();
         const triggerWidth = ref(0);
@@ -168,11 +128,7 @@ export default defineComponent({
 
         const handleClear = () => {
             const value: null | [] = props.multiple ? [] : null;
-            if (
-                props.multiple
-                    ? (currentValue.value as SelectValue[]).length
-                    : currentValue.value !== null
-            ) {
+            if (props.multiple ? (currentValue.value as SelectValue[]).length : currentValue.value !== null) {
                 updateCurrentValue(value);
                 handleChange();
             }
@@ -182,12 +138,8 @@ export default defineComponent({
         };
 
         const { t } = useLocale();
-        const inputPlaceholder = computed(
-            () => props.placeholder || t('select.placeholder'),
-        );
-        const listEmptyText = computed(
-            () => props.emptyText || t('select.emptyText'),
-        );
+        const inputPlaceholder = computed(() => props.placeholder || t('select.placeholder'));
+        const listEmptyText = computed(() => props.emptyText || t('select.emptyText'));
 
         const { addOption, removeOption, flatBaseOptions } = useOptions({
             props,
@@ -258,10 +210,7 @@ export default defineComponent({
 
         const isLimitRef = computed(() => {
             const selectVal = unref(currentValue) as SelectValue[];
-            return (
-                props.multipleLimit > 0
-                && props.multipleLimit === selectVal.length
-            );
+            return props.multipleLimit > 0 && props.multipleLimit === selectVal.length;
         });
 
         const onSelect = (value: SelectValue, option?: SelectOption) => {
@@ -295,10 +244,7 @@ export default defineComponent({
                         }
                     } else {
                         if (option?.__cache) {
-                            cacheOptions.value = [
-                                option,
-                                ...cacheOptions.value,
-                            ];
+                            cacheOptions.value = [option, ...cacheOptions.value];
                         }
                     }
                 } else {
@@ -321,16 +267,12 @@ export default defineComponent({
                 const getOption = (val: SelectValue) => {
                     let cacheOption;
                     if (newOptions && newOptions.length) {
-                        cacheOption = newOptions.find(
-                            (option) => option.value === val,
-                        );
+                        cacheOption = newOptions.find((option) => option.value === val);
                         if (cacheOption) {
                             return cacheOption;
                         }
                     }
-                    cacheOption = selectedOptionsRef.value.find(
-                        (option) => !option.__isGroup && option.value === val,
-                    );
+                    cacheOption = selectedOptionsRef.value.find((option) => !option.__isGroup && option.value === val);
                     if (cacheOption) {
                         return cacheOption;
                     }
@@ -341,7 +283,7 @@ export default defineComponent({
                     const option = getOption(newValue);
                     selectedOptionsRef.value = option ? [option] : [];
                 } else {
-                    selectedOptionsRef.value = (newValue as SelectValue[])
+                    selectedOptionsRef.value = ((newValue as SelectValue[]) || [])
                         .map((value: SelectValue) => {
                             return getOption(value);
                         })
@@ -405,10 +347,7 @@ export default defineComponent({
             }
             let index = 0;
             while (index < len) {
-                if (
-                    !filteredOptions.value[index].__isGroup
-                    && !filteredOptions.value[index].disabled
-                ) {
+                if (!filteredOptions.value[index].__isGroup && !filteredOptions.value[index].disabled) {
                     break;
                 }
                 index++;
@@ -422,8 +361,7 @@ export default defineComponent({
         watch(isOpenedRef, () => {
             if (isOpenedRef.value) {
                 if (props.multiple) {
-                    const currentSelectValues
-                        = currentValue.value as SelectValue[];
+                    const currentSelectValues = currentValue.value as SelectValue[];
                     if (currentSelectValues.length > 0) {
                         hoverOptionValue.value = currentSelectValues[0];
                     }
@@ -449,19 +387,13 @@ export default defineComponent({
         const onKeyDown = () => {
             if (!isNil(hoverOptionValue.value)) {
                 const option = allOptions.value.find((option: SelectOption) => {
-                    return (
-                        !option.__isGroup
-                        && option.value === hoverOptionValue.value
-                    );
+                    return !option.__isGroup && option.value === hoverOptionValue.value;
                 });
                 onSelect(hoverOptionValue.value, option);
             }
         };
 
-        const warnDeprecatedSlot = () =>
-            console.warn(
-                '[FSelect]: addon 插槽即将废弃，请使用 footer 插槽代替',
-            );
+        const warnDeprecatedSlot = () => console.warn('[FSelect]: addon 插槽即将废弃，请使用 footer 插槽代替');
 
         return {
             prefixCls,
