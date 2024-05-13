@@ -1,0 +1,83 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+
+
+@link-prefix-cls: ~'@{cls-prefix}-link';
+
+@link-height-small: @link-height-base - 2;
+@link-height-base: 20px;
+@link-height-large: @link-height-base + 2;
+
+.@{link-prefix-cls} {
+    --f-link-height: @link-height-base;
+    display: inline-flex;
+    height: var(--f-link-height);
+    line-height:  var(--f-link-height);
+
+    &-container {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        height: var(--f-link-height);
+        line-height: var(--f-link-height);
+        cursor: pointer;
+
+        .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 4px;
+        }
+
+        &-disabled, &:hover { 
+            &::after {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgb(255 255 255 / 0.4);  /* 半透明的白色 */
+                content: "";
+                pointer-events: none;  /* 让鼠标事件穿透蒙层 */
+            }
+        }
+
+        &-disabled {
+            cursor: not-allowed;
+        }
+
+        &:not(&-disabled).underline:hover {
+            border-bottom: 1px solid currentcolor;
+        }
+    }
+   
+    &-size-middle {
+        font-size: var(--f-font-size-base);
+    }
+
+    &-size-small {
+        --f-link-height: @link-height-small;
+        font-size: calc(var(--f-font-size-base) - 2px);
+    }
+
+    &-size-large {
+        --f-link-height: @link-height-large;
+        font-size: calc(var(--f-font-size-base) + 2px);
+    }
+
+    &-type-success {
+        color: var(--f-success-color);
+    }
+
+    &-type-danger {
+        color: var(--f-danger-color);
+    }
+
+    &-type-warning {
+        color: var(--f-warning-color);
+    }
+
+    &-type-primary {
+        color: var(--f-primary-color);
+    }
+}
