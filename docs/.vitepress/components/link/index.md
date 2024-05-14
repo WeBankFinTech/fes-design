@@ -34,14 +34,14 @@ icon.vue
 :::
 
 ## Props
-| 属性      | 说明                                                | 类型      | 默认值    |
-| --------- | --------------------------------------------------- | --------- | --------- |
-| size      | 尺寸大小，可选`small`，`middle`，`large`            | `string`  | `middle`  |
-| type      | 类型，可选`primary`，`success`，`danger`，`warning` | `string`  | `primary` |
-| underline | 展示下划线                                          | `boolean` | `true`    |
-| disabled  | 是否禁用                                            | `boolean` | `false`   |
-| href      | 跳转链接                                            | `string`  | `-`       |
-| target    | 跳转行为，同原生target                              | `string`  | `_self`   |
+| 属性      | 说明                                                           | 类型      | 默认值    |
+| --------- | -------------------------------------------------------------- | --------- | --------- |
+| size      | 尺寸大小，可选`small`，`middle`，`large`                       | `string`  | `middle`  |
+| type      | 类型，可选`default`，`primary`，`success`，`danger`，`warning` | `string`  | `default` |
+| underline | 展示下划线                                                     | `boolean` | `true`    |
+| disabled  | 是否禁用                                                       | `boolean` | `false`   |
+| href      | 跳转链接                                                       | `string`  | `-`       |
+| target    | 跳转行为，同原生target                                         | `string`  | `-`       |
 
 ## Slots
 

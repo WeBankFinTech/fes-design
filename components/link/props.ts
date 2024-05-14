@@ -1,34 +1,20 @@
 import type { ComponentObjectPropsOptions, PropType } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
-export enum Size {
-    LARGE = 'large',
-    MIDDLE = 'middle',
-    SMALL = 'small',
-}
+type Size = 'large' | 'middle' | 'small';
 
-export enum Type {
-    PRIMARY = 'primary',
-    SUCCESS = 'success',
-    DANGER = 'danger',
-    WARNING = 'warning',
-}
+type Type = 'default' | 'primary' | 'success' | 'danger' | 'warning';
 
-export enum TargetType {
-    BLANK = '_blank',
-    SELF = '_self',
-    PARENT = '_parent',
-    TOP = '_top',
-}
+type TargetType = '_blank' | '_self' | '_parent' | '_top';
 
 export const linkProps = {
     size: {
         type: String as PropType<Size>,
-        default: Size.MIDDLE,
+        default: 'middle',
     },
     type: {
         type: String as PropType<Type>,
-        default: Type.PRIMARY,
+        default: 'default',
     },
     underline: {
         type: Boolean,
@@ -43,7 +29,6 @@ export const linkProps = {
     },
     target: {
         type: String as PropType<TargetType>,
-        default: TargetType.SELF,
     },
 } as const satisfies ComponentObjectPropsOptions;
 

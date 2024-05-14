@@ -12,10 +12,9 @@
     --f-link-height: @link-height-base;
     display: inline-flex;
     height: var(--f-link-height);
-    line-height:  var(--f-link-height);
+    line-height:  var(--f-link-height);       
 
-    &-container {
-        position: relative;
+    &-content {
         display: inline-flex;
         align-items: center;
         height: var(--f-link-height);
@@ -29,55 +28,62 @@
             margin-right: 4px;
         }
 
-        &-disabled, &:hover { 
-            &::after {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgb(255 255 255 / 0.4);  /* 半透明的白色 */
-                content: "";
-                pointer-events: none;  /* 让鼠标事件穿透蒙层 */
-            }
-        }
-
-        &-disabled {
+        &-disabled{
             cursor: not-allowed;
+            opacity: 0.7;
         }
 
         &:not(&-disabled).underline:hover {
             border-bottom: 1px solid currentcolor;
+        }    
+
+        &-type-success {
+            color: var(--f-success-color);
+            &:hover {
+                color: var(--f-hover-success-text-color);
+            }
         }
-    }
-   
-    &-size-middle {
-        font-size: var(--f-font-size-base);
-    }
 
-    &-size-small {
-        --f-link-height: @link-height-small;
-        font-size: calc(var(--f-font-size-base) - 2px);
-    }
+        &-type-danger {
+            color: var(--f-danger-color);
+            &:hover {
+                color: var(--f-hover-danger-text-color);
+            }
+        }
 
-    &-size-large {
-        --f-link-height: @link-height-large;
-        font-size: calc(var(--f-font-size-base) + 2px);
-    }
+        &-type-warning {
+            color: var(--f-warning-color);
+            &:hover {
+                color: var(--f-hover-warning-text-color);
+            }
+        }
 
-    &-type-success {
-        color: var(--f-success-color);
-    }
+        &-type-primary {
+            color: var(--f-primary-color);
+            &:hover {
+                color: var(--f-hover-color-base);
+            }
+        }
 
-    &-type-danger {
-        color: var(--f-danger-color);
-    }
+        &-type-default {
+            color: var(--f-text-color);
+            &:hover {
+                color: var(--f-hover-text-color);
+            }
+        }
 
-    &-type-warning {
-        color: var(--f-warning-color);
-    }
+        &-size-middle {
+            font-size: var(--f-font-size-base);
+        }
 
-    &-type-primary {
-        color: var(--f-primary-color);
+        &-size-small {
+            --f-link-height: @link-height-small;
+            font-size: calc(var(--f-font-size-base) - 2px);
+        }
+
+        &-size-large {
+            --f-link-height: @link-height-large;
+            font-size: calc(var(--f-font-size-base) + 2px);
+        }
     }
 }

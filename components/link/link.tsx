@@ -11,22 +11,21 @@ export default defineComponent({
     setup(props, { slots }) {
         useTheme();
 
-        const linkClass = computed(() => {
-            const cls: string[] = [`${prefixCls}-container`,
-                 `${prefixCls}-type-${props.type}`,
-                 `${prefixCls}-size-${props.size}`,
+        const linkClassList = computed(() => {
+            const clsList = [`${prefixCls}-content`,
+                 `${prefixCls}-content-type-${props.type}`,
+                 `${prefixCls}-content-size-${props.size}`,
             ];
-
-            props.disabled && cls.push(`${prefixCls}-container-disabled`);
-            props.underline && cls.push('underline');
-            return cls;
+            props.disabled && clsList.push(`${prefixCls}-content-disabled`);
+            props.underline && clsList.push('underline');
+            return clsList;
         });
 
         const renderLink = () => {
             return (
-                <a href={props.href} target={props.target} class={linkClass.value}>
+                <a href={props.href} target={props.target} class={linkClassList.value}>
                     {slots.icon ? (<div class="icon"> {slots.icon()}</div>) : null}
-                    {slots.default?.()}
+                    <div>{slots.default?.()}</div>
                 </a>
             );
         };

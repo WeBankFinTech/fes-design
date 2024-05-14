@@ -58,12 +58,15 @@ export const baseTheme = (themeOverrides: Theme = {}) => {
 
         hoverSuccessColor: tint(base.successColor, 0.94),
         activeSuccessColor: shade(base.successColor, 0.06),
+        hoverSuccessTextColor: tint(base.successColor, 0.2),
 
         hoverWarningColor: tint(base.warningColor, 0.94),
         activeWarningColor: shade(base.warningColor, 0.06),
+        hoverWarningTextColor: tint(base.warningColor, 0.2),
 
         hoverDangerColor: tint(base.dangerColor, 0.94),
         activeDangerColor: shade(base.dangerColor, 0.06),
+        hoverDangerTextColor: tint(base.dangerColor, 0.2),
 
         activeColor: shade(base.primaryColor, 0.06),
         focusColor: base.primaryColor,
@@ -82,6 +85,7 @@ export const baseTheme = (themeOverrides: Theme = {}) => {
         textColorDisabled: tint(base.fontColorBase, 0.7),
         textColorDisabledLight: tint(base.fontColorBase, 0.8),
         textColorCaption: tint(base.fontColorBase, 0.8),
+        hoverBaseTextColor: tint(base.fontColorBase, 0.2),
 
         borderColorDisabled: tint(base.fontColorBase, 0.8),
         borderColorSplit: tint(base.fontColorBase, 0.9),

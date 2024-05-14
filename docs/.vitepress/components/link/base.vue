@@ -19,16 +19,25 @@
                 ]"
             />
         </FFormItem>
+        <FFormItem label="禁用:">
+            <FRadioGroup
+                v-model="disabled"
+                :options="[
+                    { label: '是', value: true },
+                    { label: '否(默认)', value: false },
+                ]"
+            />
+        </FFormItem>
     </FForm>
 
     <FDivider />
 
     <FSpace>
-        <FLink :underline="underline" :size="size" type="primary">primary</FLink>
-        <FLink :underline="underline" :size="size" type="success">success</FLink>
-        <FLink :underline="underline" :size="size" type="warning">warning</FLink>
-        <FLink :underline="underline" :size="size" type="danger">danger</FLink>
-        <FLink :underline="underline" disabled :size="size">disabled</FLink>
+        <FLink :underline="underline" :disabled="disabled" :size="size" type="default">default</FLink>
+        <FLink :underline="underline" :disabled="disabled" :size="size" type="primary">primary</FLink>
+        <FLink :underline="underline" :disabled="disabled" :size="size" type="success">success</FLink>
+        <FLink :underline="underline" :disabled="disabled" :size="size" type="warning">warning</FLink>
+        <FLink :underline="underline" :disabled="disabled" :size="size" type="danger">danger</FLink>
     </FSpace>
 </template>
 
@@ -38,6 +47,8 @@ import { ref } from 'vue';
 const size = ref('middle');
 
 const underline = ref(true);
+
+const disabled = ref(false);
 </script>
 
 <style scoped>
