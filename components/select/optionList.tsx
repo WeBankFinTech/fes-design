@@ -172,7 +172,12 @@ export default defineComponent({
                             emit('scroll', event);
                         }}
                         dataSources={props.options}
-                        dataKey={'value'}
+                        dataKey={(data) =>
+                            // 兼容全部选项，value为空值的选项
+                            data.value === null || data.value === undefined
+                                ? Math.random()
+                                : data.value
+                        }
                         estimateSize={32}
                         keeps={14}
                         style={props.containerStyle}
