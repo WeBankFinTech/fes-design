@@ -1,0 +1,89 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+
+
+@link-prefix-cls: ~'@{cls-prefix}-link';
+
+@link-height-small: @link-height-base - 2;
+@link-height-base: 20px;
+@link-height-large: @link-height-base + 2;
+
+.@{link-prefix-cls} {
+    --f-link-height: @link-height-base;
+    display: inline-flex;
+    height: var(--f-link-height);
+    line-height:  var(--f-link-height);       
+
+    &-content {
+        display: inline-flex;
+        align-items: center;
+        height: var(--f-link-height);
+        line-height: var(--f-link-height);
+        cursor: pointer;
+
+        .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 4px;
+        }
+
+        &-disabled{
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        &:not(&-disabled).underline:hover {
+            border-bottom: 1px solid currentcolor;
+        }    
+
+        &-type-success {
+            color: var(--f-success-color);
+            &:hover {
+                color: var(--f-hover-success-text-color);
+            }
+        }
+
+        &-type-danger {
+            color: var(--f-danger-color);
+            &:hover {
+                color: var(--f-hover-danger-text-color);
+            }
+        }
+
+        &-type-warning {
+            color: var(--f-warning-color);
+            &:hover {
+                color: var(--f-hover-warning-text-color);
+            }
+        }
+
+        &-type-primary {
+            color: var(--f-primary-color);
+            &:hover {
+                color: var(--f-hover-color-base);
+            }
+        }
+
+        &-type-default {
+            color: var(--f-text-color);
+            &:hover {
+                color: var(--f-hover-text-color);
+            }
+        }
+
+        &-size-middle {
+            font-size: var(--f-font-size-base);
+        }
+
+        &-size-small {
+            --f-link-height: @link-height-small;
+            font-size: calc(var(--f-font-size-base) - 2px);
+        }
+
+        &-size-large {
+            --f-link-height: @link-height-large;
+            font-size: calc(var(--f-font-size-base) + 2px);
+        }
+    }
+}

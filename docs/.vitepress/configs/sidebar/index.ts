@@ -1,4 +1,4 @@
-import { type DefaultTheme } from 'vitepress';
+import type { DefaultTheme } from 'vitepress';
 
 const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
     zh: {
@@ -177,6 +177,10 @@ const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
                     {
                         text: 'Image 图片',
                         link: '/zh/components/image',
+                    },
+                    {
+                        text: 'Link 链接',
+                        link: '/zh/components/link',
                     },
                     {
                         text: 'Table 表格',
