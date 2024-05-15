@@ -14,6 +14,7 @@ import { provideKey } from '../const';
 
 import type { ActionType } from '../interface';
 import type { ColumnInst } from '../column';
+import { stringify } from '../../_util/utils';
 
 const cellProps = {
     row: {
@@ -40,8 +41,10 @@ const cellProps = {
 
 export type InnerCellProps = ExtractPropTypes<typeof cellProps>;
 
+const COMPONENT_NAME = 'FTableCell';
+
 export default defineComponent({
-    name: 'FTableCell',
+    name: COMPONENT_NAME,
     props: cellProps,
     setup(props) {
         const { prefixCls } = inject(provideKey);
@@ -102,13 +105,14 @@ export default defineComponent({
             const result = formatterResult ?? cellValue;
             Object.assign(ellipsisProps, { content: result });
             return hasEllipsis
-                ? (
-                    <Ellipsis {...ellipsisProps}></Ellipsis>
-                    )
+                ? <Ellipsis {...ellipsisProps} />
                 : (
                     <Fragment>
                         {typeof result === 'object'
-                            ? JSON.stringify(result)
+                            ? stringify(
+                                result,
+                                (err) => console.warn(`[${COMPONENT_NAME}]: render error occurred due to \n`, err),
+                            )
                             : result}
                     </Fragment>
                     );
