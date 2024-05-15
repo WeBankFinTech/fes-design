@@ -168,3 +168,14 @@ export function concat(arr: any[], arr2: any[]) {
     }
     return arr;
 }
+
+// JSON.stringify
+export function stringify(value: any, onError?: (err: unknown) => void, fallbackValue: string = ''): string {
+    try {
+        const str = JSON.stringify(value);
+        return str;
+    } catch (err) {
+        onError?.(err);
+        return fallbackValue;
+    }
+}
