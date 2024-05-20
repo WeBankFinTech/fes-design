@@ -1,3 +1,24 @@
+## [0.8.48](https://github.com/WeBankFinTech/fes-design/compare/v0.8.47...v0.8.48) (2024-05-20)
+
+
+### Bug Fixes
+
+* 兼容新的值为 undefined 的场景 ([ef1dab3](https://github.com/WeBankFinTech/fes-design/commit/ef1dab3c15924271b44b4dd09847eff1996e5c18))
+* input slot.suffix可响应式 ([#805](https://github.com/WeBankFinTech/fes-design/issues/805)) ([122ebe8](https://github.com/WeBankFinTech/fes-design/commit/122ebe86afdab5e5ba705cba70be111b366bbb33))
+* **Menu:** 修复 mode 和 trigger 配置项传字符串，类型报错提示的问题 ([#797](https://github.com/WeBankFinTech/fes-design/issues/797)) ([6dfc128](https://github.com/WeBankFinTech/fes-design/commit/6dfc12851538eb2b696b0b344e5f4edea318a06c))
+* **Table:** 处理 Column.formatter 返回循环依赖对象的情况 ([#809](https://github.com/WeBankFinTech/fes-design/issues/809)) ([cdf3b40](https://github.com/WeBankFinTech/fes-design/commit/cdf3b40af004ee7a8e20e2c4630bf2572860924a))
+* **Table:** 修复初始化 checkedKeys 被清空逻辑异常问题 ([#802](https://github.com/WeBankFinTech/fes-design/issues/802)) ([3d9c653](https://github.com/WeBankFinTech/fes-design/commit/3d9c6531cd5b791c488bba57916c710dbd175de5))
+* **Tag:** 修复 tag 组件 close icon 鼠标离开后，偶现 hover 状态异常问题 ([#792](https://github.com/WeBankFinTech/fes-design/issues/792)) ([c70b1f1](https://github.com/WeBankFinTech/fes-design/commit/c70b1f1d840a6b2b6dff3057b33de6f16a91ed6f))
+
+
+### Features
+
+* 分隔线颜色优化 ([#804](https://github.com/WeBankFinTech/fes-design/issues/804)) ([710af78](https://github.com/WeBankFinTech/fes-design/commit/710af7813857659209c18eaf6c78e6987233ad40))
+* **Form:** 调整 props.rules 类型定义，并导出 Rules 类型 ([#801](https://github.com/WeBankFinTech/fes-design/issues/801)) ([d7dc939](https://github.com/WeBankFinTech/fes-design/commit/d7dc9396ba215b04403b36e541ae348506a7ca7f))
+* **RadioButton:** 单选按钮组增加 icon slot ([#795](https://github.com/WeBankFinTech/fes-design/issues/795)) ([11019fe](https://github.com/WeBankFinTech/fes-design/commit/11019fe9bb422496d0387206ba978fd2273013e4))
+
+
+
 ## [0.8.47](https://github.com/WeBankFinTech/fes-design/compare/v0.8.46...v0.8.47) (2024-05-07)
 
 
