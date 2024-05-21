@@ -177,7 +177,7 @@ export default defineComponent({
                         dataKey={(data) =>
                             // 兼容全部选项，value为空值的选项
                             data.value === null || data.value === undefined
-                                ? inValidValueKey
+                                ? inValidValueKey + String(data.value)
                                 : data.value
                         }
                         estimateSize={32}
