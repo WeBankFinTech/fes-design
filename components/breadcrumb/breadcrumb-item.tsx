@@ -1,6 +1,6 @@
 import { computed, defineComponent, inject } from 'vue';
 import { useTheme } from '../_theme/useTheme';
-import { BREADCRUMB_KEY, itemCls } from './const';
+import { BREADCRUMB_KEY, itemCls, prefixCls } from './const';
 
 export default defineComponent({
     name: 'FBreadcrumbItem',
@@ -30,6 +30,10 @@ export default defineComponent({
                 onClick={() => handleClick()}
             >
                 {slots.default?.()}
+                {/* 渲染分隔符 */}
+                <div class={`${itemCls}-separator`}>
+                    { parentProps.separator }
+                </div>
             </div>
         );
     },
