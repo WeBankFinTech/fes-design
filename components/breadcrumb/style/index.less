@@ -12,15 +12,13 @@
     flex-wrap: wrap;
     align-items: center;
     color: @text-color;
+}
 
-    &-child {
-        display: flex;
-        align-items: center;
-
-        .icon {
-            margin-right: 4px;
-        }
-    }
+.@{breadcrumb-item} {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 4px 0;
 
     &-separator {
         display: flex;
@@ -30,13 +28,15 @@
         margin: 0 4px;
         line-height: 1;
     }
-}
-
-.@{breadcrumb-item} {
-    margin: 4px 0;
 
     &:hover {
         color: @hover-text-color;
         cursor: pointer;
+    }
+    &:last-child &-separator{
+        display: none;
+    }
+    &:last-child {
+        color: @hover-text-color;
     }
 }
