@@ -1,3 +1,12 @@
+## [0.8.49](https://github.com/WeBankFinTech/fes-design/compare/v0.8.48...v0.8.49) (2024-05-21)
+
+
+### Bug Fixes
+
+* **BreadCrumbItem:** 支持 v-for 渲染 ([#811](https://github.com/WeBankFinTech/fes-design/issues/811)) ([d137a0a](https://github.com/WeBankFinTech/fes-design/commit/d137a0a4bf36c30132db7fe6f7a3d9e09b0edbc0))
+
+
+
 ## [0.8.48](https://github.com/WeBankFinTech/fes-design/compare/v0.8.47...v0.8.48) (2024-05-20)
 
 
