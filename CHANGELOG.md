@@ -1,3 +1,12 @@
+## [0.8.50](https://github.com/WeBankFinTech/fes-design/compare/v0.8.49...v0.8.50) (2024-05-23)
+
+
+### Features
+
+* **Link:** 组件交互及样式优化 ([8e0f4fc](https://github.com/WeBankFinTech/fes-design/commit/8e0f4fc95d7d6ba566d2d47333f81439d097d16e))
+
+
+
 ## [0.8.49](https://github.com/WeBankFinTech/fes-design/compare/v0.8.48...v0.8.49) (2024-05-21)
 
 
