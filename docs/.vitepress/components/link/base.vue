@@ -14,8 +14,8 @@
             <FRadioGroup
                 v-model="underline"
                 :options="[
-                    { label: '启用(默认)', value: true },
-                    { label: '不启用', value: false },
+                    { label: '启用', value: true },
+                    { label: '不启用(默认)', value: false },
                 ]"
             />
         </FFormItem>
@@ -33,7 +33,7 @@
     <FDivider />
 
     <FSpace>
-        <FLink :underline="underline" :disabled="disabled" :size="size" type="default">default</FLink>
+        <FLink :underline="underline" :disabled="disabled" :size="size" type="default" @click="handleClick">default</FLink>
         <FLink :underline="underline" :disabled="disabled" :size="size" type="primary">primary</FLink>
         <FLink :underline="underline" :disabled="disabled" :size="size" type="success">success</FLink>
         <FLink :underline="underline" :disabled="disabled" :size="size" type="warning">warning</FLink>
@@ -46,13 +46,14 @@ import { ref } from 'vue';
 
 const size = ref('middle');
 
-const underline = ref(true);
+const underline = ref(false);
 
 const disabled = ref(false);
+
+const handleClick = () => {
+    console.log('[link.base] handClick');
+};
 </script>
 
 <style scoped>
-.fes-link {
-    margin-right: 8px;
-}
 </style>

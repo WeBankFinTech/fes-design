@@ -18,7 +18,7 @@ export const linkProps = {
     },
     underline: {
         type: Boolean,
-        default: true,
+        default: false,
     },
     disabled: {
         type: Boolean,
