@@ -19,7 +19,8 @@ base.vue
 :::
 
 ### 跳转
-通过设置`target`，设定跳转行为，同原生a标签的`target`属性  
+
+通过设置`target`，设定跳转行为，同原生 a 标签的`target`属性  
 若`href`不设置，则点击不会发生任何跳转
 
 :::demo
@@ -27,6 +28,7 @@ href.vue
 :::
 
 ### 图标
+
 提供了图标的插槽
 
 :::demo
@@ -34,14 +36,15 @@ icon.vue
 :::
 
 ## Props
+
 | 属性      | 说明                                                           | 类型      | 默认值    |
 | --------- | -------------------------------------------------------------- | --------- | --------- |
 | size      | 尺寸大小，可选`small`，`middle`，`large`                       | `string`  | `middle`  |
 | type      | 类型，可选`default`，`primary`，`success`，`danger`，`warning` | `string`  | `default` |
-| underline | 展示下划线                                                     | `boolean` | `true`    |
+| underline | 展示下划线                                                     | `boolean` | `false`   |
 | disabled  | 是否禁用                                                       | `boolean` | `false`   |
 | href      | 跳转链接                                                       | `string`  | `-`       |
-| target    | 跳转行为，同原生target                                         | `string`  | `-`       |
+| target    | 跳转行为，同原生 target                                        | `string`  | `-`       |
 
 ## Slots
 

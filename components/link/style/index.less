@@ -4,86 +4,78 @@
 
 @link-prefix-cls: ~'@{cls-prefix}-link';
 
-@link-height-small: @link-height-base - 2;
-@link-height-base: 20px;
-@link-height-large: @link-height-base + 2;
-
 .@{link-prefix-cls} {
-    --f-link-height: @link-height-base;
+    position: relative;
     display: inline-flex;
-    height: var(--f-link-height);
-    line-height:  var(--f-link-height);       
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
 
-    &-content {
-        display: inline-flex;
+    .icon {
+        display: flex;
         align-items: center;
-        height: var(--f-link-height);
-        line-height: var(--f-link-height);
-        cursor: pointer;
+        justify-content: center;
+        margin-right: 4px;
+    }
 
-        .icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 4px;
+    &.is-disabled {
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+    &.is-underline:not(.is-disabled):hover::after {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 0;
+        border-bottom: 1px solid currentcolor;
+        content: "";
+    }
+
+    &-type-default {
+        color: var(--f-text-color);
+        &:hover:not(.is-disabled) {
+            color: var(--f-hover-color-base);
         }
+    }
 
-        &-disabled{
-            cursor: not-allowed;
-            opacity: 0.7;
+    &-type-primary {
+        color: var(--f-primary-color);
+        &:hover:not(.is-disabled) {
+            color: var(--f-hover-color-base);
         }
+    }
 
-        &:not(&-disabled).underline:hover {
-            border-bottom: 1px solid currentcolor;
-        }    
-
-        &-type-success {
-            color: var(--f-success-color);
-            &:hover {
-                color: var(--f-hover-success-text-color);
-            }
+    &-type-success {
+        color: var(--f-success-color);
+        &:hover:not(.is-disabled) {
+            color: var(--f-hover-success-text-color);
         }
+    }
 
-        &-type-danger {
-            color: var(--f-danger-color);
-            &:hover {
-                color: var(--f-hover-danger-text-color);
-            }
+    &-type-warning {
+        color: var(--f-warning-color);
+        &:hover:not(.is-disabled) {
+            color: var(--f-hover-warning-text-color);
         }
+    }
 
-        &-type-warning {
-            color: var(--f-warning-color);
-            &:hover {
-                color: var(--f-hover-warning-text-color);
-            }
+    &-type-danger {
+        color: var(--f-danger-color);
+        &:hover:not(.is-disabled) {
+            color: var(--f-hover-danger-text-color);
         }
+    }
 
-        &-type-primary {
-            color: var(--f-primary-color);
-            &:hover {
-                color: var(--f-hover-color-base);
-            }
-        }
+    &-size-middle {
+        font-size: var(--f-font-size-base);
+    }
 
-        &-type-default {
-            color: var(--f-text-color);
-            &:hover {
-                color: var(--f-hover-text-color);
-            }
-        }
+    &-size-small {
+        font-size: calc(var(--f-font-size-base) - 2px);
+    }
 
-        &-size-middle {
-            font-size: var(--f-font-size-base);
-        }
-
-        &-size-small {
-            --f-link-height: @link-height-small;
-            font-size: calc(var(--f-font-size-base) - 2px);
-        }
-
-        &-size-large {
-            --f-link-height: @link-height-large;
-            font-size: calc(var(--f-font-size-base) + 2px);
-        }
+    &-size-large {
+        font-size: calc(var(--f-font-size-base) + 2px);
     }
 }
