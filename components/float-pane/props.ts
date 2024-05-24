@@ -1,5 +1,6 @@
 import type { ComponentObjectPropsOptions, PropType, VNode, VNodeChild } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import type { StorageType } from '../_util/storage';
 
 export interface PanePosition {
     top?: string;
@@ -38,8 +39,8 @@ export const floatPaneProps = {
         },
     },
     cachePosition: {
-        type: String as PropType<'sessionStorage' | 'localStorage'>,
-        default: 'localStorage',
+        type: String as PropType<StorageType>,
+        default: 'local',
     },
     getContainer: {
         type: Function as PropType<() => HTMLElement>,

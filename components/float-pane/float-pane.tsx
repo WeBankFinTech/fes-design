@@ -13,7 +13,8 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { CloseOutlined } from '../icon';
 import { useTheme } from '../_theme/useTheme';
 import { useConfig } from '../config-provider';
-import getPrefixStorage from '../_util/getPrefixStorage';
+import { getPrefixStorage, getStorage } from '../_util/storage';
+
 import { floatPaneProps } from './props';
 import { useDrag } from './useDrag';
 
@@ -69,7 +70,7 @@ const FloatPane = defineComponent({
             }>(getPrefixStorage('float-pane'), {
                 offsetX: 0,
                 offsetY: 0,
-            }, window[props.cachePosition])
+            }, getStorage(props.cachePosition))
             : ref({
                 offsetX: 0,
                 offsetY: 0,
