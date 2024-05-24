@@ -9,7 +9,7 @@ export interface PanePosition {
 }
 
 // 通用的属性
-export const floatingPaneProps = {
+export const floatPaneProps = {
     visible: Boolean,
     displayDirective: {
         type: String as PropType<'show' | 'if'>,
@@ -37,7 +37,7 @@ export const floatingPaneProps = {
             };
         },
     },
-    cachePrePosition: {
+    cachePosition: {
         type: String as PropType<'sessionStorage' | 'localStorage'>,
         default: 'localStorage',
     },
@@ -48,4 +48,4 @@ export const floatingPaneProps = {
     contentClass: String,
 } as const satisfies ComponentObjectPropsOptions;
 
-export type FloatingPaneProps = ExtractPublicPropTypes<typeof floatingPaneProps>;
+export type FloatPaneProps = ExtractPublicPropTypes<typeof floatPaneProps>;

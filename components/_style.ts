@@ -61,4 +61,4 @@ import './input-file/style';
 import './breadcrumb/style';
 import './text-highlight/style';
 import './link/style';
-import './floating-pane/style';
+import './float-pane/style';

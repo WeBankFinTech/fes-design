@@ -5,9 +5,9 @@
 ## 组件注册
 
 ```js
-import { FFloatingPane } from '@fesjs/fes-design';
+import { FFloatPane } from '@fesjs/fes-design';
 
-app.use(FFloatingPane);
+app.use(FFloatPane);
 ```
 
 ## 代码演示
@@ -29,9 +29,9 @@ common.vue
 | width            | 宽度                                                                           | String/Number     | 520                            |
 | zIndex           | 浮层优先级                                                                     | Number            | 3000                           |
 | defaultPosition  | 默认浮动面板位置                                                               | PanePosition      | `{top: '50px', right: '50px'}` |
-| cachePrePosition | 是否缓存上次拖动位置                                                           | `session` `local` | `local`                        |
+| cachePosition    | 是否缓存上次拖动位置                                                           | `session` `local` | `local`                        |
 | contentClass     | 可用于设置内容的类名                                                           | String            | `-`                            |
-| getContainer     | 指定 `FloatingPane` 挂载的 HTML 节点                                           | () => HTMLElement | `() => document.body`          |
+| getContainer     | 指定 `FloatPane` 挂载的 HTML 节点                                              | () => HTMLElement | `() => document.body`          |
 
 ### PanePosition
 

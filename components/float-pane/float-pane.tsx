@@ -14,17 +14,17 @@ import { CloseOutlined } from '../icon';
 import { useTheme } from '../_theme/useTheme';
 import { useConfig } from '../config-provider';
 import getPrefixStorage from '../_util/getPrefixStorage';
-import { floatingPaneProps } from './props';
+import { floatPaneProps } from './props';
 import { useDrag } from './useDrag';
 
-const prefixCls = getPrefixCls('floating-pane');
+const prefixCls = getPrefixCls('float-pane');
 const UPDATE_VISIBLE_EVENT = 'update:visible';
 const AFTER_ENTER_EVENT = 'after-enter';
 const AFTER_LEAVE_EVENT = 'after-leave';
 
-const FloatingPane = defineComponent({
-    name: 'FFloatingPane',
-    props: floatingPaneProps,
+const FloatPane = defineComponent({
+    name: 'FFloatPane',
+    props: floatPaneProps,
     emits: [
         UPDATE_VISIBLE_EVENT,
         AFTER_ENTER_EVENT,
@@ -34,7 +34,7 @@ const FloatingPane = defineComponent({
         useTheme();
         const innerVisible = ref(false);
 
-        console.log(props.cachePrePosition);
+        console.log(props.cachePosition);
         watch(
             () => props.visible,
             () => {
@@ -62,14 +62,14 @@ const FloatingPane = defineComponent({
 
         const hasHeader = computed(() => ctx.slots.title || props.title);
 
-        const transform = props.cachePrePosition
+        const transform = props.cachePosition
             ? useStorage<{
                 offsetX: number;
                 offsetY: number;
-            }>(getPrefixStorage('floating-pane'), {
+            }>(getPrefixStorage('float-pane'), {
                 offsetX: 0,
                 offsetY: 0,
-            }, window[props.cachePrePosition])
+            }, window[props.cachePosition])
             : ref({
                 offsetX: 0,
                 offsetY: 0,
@@ -156,4 +156,4 @@ const FloatingPane = defineComponent({
     },
 });
 
-export default FloatingPane;
+export default FloatPane;
