@@ -15,6 +15,10 @@ export const floatingPaneProps = {
         type: String as PropType<'show' | 'if'>,
         default: 'show',
     },
+    draggable: {
+        type: Boolean,
+        default: true,
+    },
     title: String as PropType<string | VNode | (() => VNodeChild)>,
     width: {
         type: [String, Number] as PropType<string | number>,
@@ -28,7 +32,7 @@ export const floatingPaneProps = {
         type: Object as PropType<PanePosition>,
         default(): PanePosition {
             return {
-                top: '50px',
+                bottom: '50px',
                 right: '50px',
             };
         },

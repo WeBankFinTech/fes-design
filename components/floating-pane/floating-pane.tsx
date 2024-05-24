@@ -33,6 +33,8 @@ const FloatingPane = defineComponent({
     setup(props, ctx) {
         useTheme();
         const innerVisible = ref(false);
+
+        console.log(props.cachePrePosition);
         watch(
             () => props.visible,
             () => {
@@ -60,24 +62,6 @@ const FloatingPane = defineComponent({
 
         const hasHeader = computed(() => ctx.slots.title || props.title);
 
-        function getHeader() {
-            const closeJsx = (
-                <div class={`${prefixCls}-close`} onClick={handleCancel}>
-                    <CloseOutlined />
-                </div>
-            );
-            if (!hasHeader.value) {
-                return closeJsx;
-            }
-            const header = ctx.slots.title?.() || props.title;
-            return (
-                <div class={`${prefixCls}-header`}>
-                    <div>{header}</div>
-                    {closeJsx}
-                </div>
-            );
-        }
-
         const transform = props.cachePrePosition
             ? useStorage<{
                 offsetX: number;
@@ -102,6 +86,29 @@ const FloatingPane = defineComponent({
         });
 
         const { handleMouseDown } = useDrag(transform);
+        const handleDraggable = (event: MouseEvent) => {
+            if (props.draggable) {
+                handleMouseDown(event);
+            }
+        };
+
+        function getHeader() {
+            const closeJsx = (
+                <div class={`${prefixCls}-close`} onClick={handleCancel}>
+                    <CloseOutlined />
+                </div>
+            );
+            if (!hasHeader.value) {
+                return closeJsx;
+            }
+            const header = ctx.slots.title?.() || props.title;
+            return (
+                <div class={`${prefixCls}-header`} onMousedown={handleDraggable}>
+                    <div>{header}</div>
+                    {closeJsx}
+                </div>
+            );
+        }
 
         const getBody = () => {
             return (
@@ -137,7 +144,6 @@ const FloatingPane = defineComponent({
                                 v-show={innerVisible.value}
                                 class={wrapperClass.value}
                                 style={styles.value}
-                                onMousedown={handleMouseDown}
                             >
                                 {getHeader()}
                                 {getBody()}

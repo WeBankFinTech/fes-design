@@ -260,7 +260,7 @@ const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
                         link: '/zh/components/popper',
                     },
                     {
-                        text: 'FloatingPane 可移动弹窗',
+                        text: 'FloatingPane 浮动面板',
                         link: '/zh/components/floating-pane',
                     },
                 ],
