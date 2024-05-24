@@ -85,7 +85,7 @@ const FloatingPane = defineComponent({
             };
         });
 
-        const { handleMouseDown } = useDrag(transform);
+        const { handleMouseDown, isDragging } = useDrag(transform);
         const handleDraggable = (event: MouseEvent) => {
             if (props.draggable) {
                 handleMouseDown(event);
@@ -103,7 +103,7 @@ const FloatingPane = defineComponent({
             }
             const header = ctx.slots.title?.() || props.title;
             return (
-                <div class={`${prefixCls}-header`} onMousedown={handleDraggable}>
+                <div class={[`${prefixCls}-header`, isDragging.value && `${prefixCls}-header--dragging`]} onMousedown={handleDraggable}>
                     <div>{header}</div>
                     {closeJsx}
                 </div>

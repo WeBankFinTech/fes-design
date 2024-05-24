@@ -1,4 +1,4 @@
-import type { Ref } from 'vue';
+import { type Ref, ref } from 'vue';
 import { throttle } from 'lodash-es';
 import { useEventListener } from '@vueuse/core';
 
@@ -8,7 +8,7 @@ export const useDrag = (
         offsetY: number;
     }>,
 ) => {
-    let isMouseDown = false;
+    const isDragging = ref(false);
 
     let startX: number;
     let startY: number;
@@ -18,7 +18,7 @@ export const useDrag = (
     const handleMouseDown = (event: MouseEvent) => {
         // 取消默认图片拖拽的行为
         event.preventDefault();
-        isMouseDown = true;
+        isDragging.value = true;
         // 存储鼠标按下的偏移量和事件发生坐标
         const { offsetX, offsetY } = transform.value;
         startX = event.pageX;
@@ -37,20 +37,21 @@ export const useDrag = (
 
     // mousemove 事件监听 document 拖拽效果更流畅
     useEventListener(document, 'mousemove', (event) => {
-        if (!isMouseDown) {
+        if (!isDragging.value) {
             return;
         }
         handleDrag(event);
     });
 
     useEventListener(document, 'mouseup', () => {
-        if (!isMouseDown) {
+        if (!isDragging.value) {
             return;
         }
-        isMouseDown = false;
+        isDragging.value = false;
     });
 
     return {
         handleMouseDown,
+        isDragging,
     };
 };
