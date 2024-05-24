@@ -28,6 +28,10 @@ export const useDrag = (
     };
 
     const handleDrag = throttle((event: MouseEvent) => {
+        // 避免移动到窗口外
+        if (event.clientY <= 0 || event.clientX <= 0 || event.clientX >= window.innerWidth || event.clientY >= window.innerHeight) {
+            return;
+        }
         transform.value = {
             ...transform.value,
             offsetX: imgOffsetX + event.pageX - startX,
