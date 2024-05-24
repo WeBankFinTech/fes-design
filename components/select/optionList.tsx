@@ -164,6 +164,8 @@ export default defineComponent({
         const renderDefault = ({ source }: { source: SelectOption }) =>
             source.__isGroup ? renderGroupOption(source) : renderOption(source);
 
+        const inValidValueKey = '_ALL_KEY_'
+
         return () =>
             enableVirtualScroll.value
                 ? (
@@ -172,7 +174,12 @@ export default defineComponent({
                             emit('scroll', event);
                         }}
                         dataSources={props.options}
-                        dataKey={'value'}
+                        dataKey={(data) =>
+                            // 兼容全部选项，value为空值的选项
+                            data.value === null || data.value === undefined
+                                ? inValidValueKey + String(data.value)
+                                : data.value
+                        }
                         estimateSize={32}
                         keeps={14}
                         style={props.containerStyle}
