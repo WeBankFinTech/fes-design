@@ -259,6 +259,10 @@ const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
                         text: 'Popper 弹出信息',
                         link: '/zh/components/popper',
                     },
+                    {
+                        text: 'FloatingPane 可移动弹窗',
+                        link: '/zh/components/floating-pane',
+                    },
                 ],
             },
             {
@@ -271,9 +275,7 @@ const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
                 ],
             },
         ].map((sidebarItem) => {
-            sidebarItem.items.sort(({ text: text1 }, { text: text2 }) =>
-                text1 < text2 ? -1 : 1,
-            );
+            sidebarItem.items.sort(({ text: text1 }, { text: text2 }) => (text1 < text2 ? -1 : 1));
             return sidebarItem;
         }),
         '/zh/guide/': [
