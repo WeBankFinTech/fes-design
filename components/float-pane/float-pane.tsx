@@ -35,7 +35,6 @@ const FloatPane = defineComponent({
         useTheme();
         const innerVisible = ref(false);
 
-        console.log(props.cachePosition);
         watch(
             () => props.visible,
             () => {
