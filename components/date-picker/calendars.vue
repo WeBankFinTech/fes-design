@@ -55,7 +55,7 @@
                 @change="updateTempCurrentValue"
             />
             <div v-if="visibleFooter" :class="`${prefixCls}-footer`">
-                <div :class="`${prefixCls}-footer-inner`">
+                <div :class="`${prefixCls}-footer-inner`" @mousedown.prevent>
                     <FButton
                         v-if="currentText"
                         type="link"
