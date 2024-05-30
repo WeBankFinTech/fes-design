@@ -128,6 +128,12 @@ const FloatPane = defineComponent({
             return [`${prefixCls}-container`, props.contentClass].filter(Boolean);
         });
 
+        ctx.expose({
+            show() {
+                innerVisible.value = true;
+            },
+        });
+
         return () => (
             <Teleport
                 disabled={!getContainer.value?.()}
