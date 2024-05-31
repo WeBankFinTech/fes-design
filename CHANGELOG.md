@@ -1,3 +1,19 @@
+## [0.8.51](https://github.com/WeBankFinTech/fes-design/compare/v0.8.50...v0.8.51) (2024-05-31)
+
+
+### Bug Fixes
+
+* 让 float pane 可控制 ([#823](https://github.com/WeBankFinTech/fes-design/issues/823)) ([25c8267](https://github.com/WeBankFinTech/fes-design/commit/25c8267aeac3ad428be95b2c8ce26415b34ae7a0))
+* 虚拟滚动下，value值不存在时选项不渲染问题 ([#807](https://github.com/WeBankFinTech/fes-design/issues/807)) ([7f34fe8](https://github.com/WeBankFinTech/fes-design/commit/7f34fe81a742483e3267cf3597d1f7803419369d))
+* **DatePicker:** 修复日期范围选择组件，底部操作栏点击面板会触发面板隐藏的问题 ([#822](https://github.com/WeBankFinTech/fes-design/issues/822)) ([4c081df](https://github.com/WeBankFinTech/fes-design/commit/4c081df37c94f5a7045ab8070e62e919964f05f9))
+
+
+### Features
+
+* **FloatPane:** 浮动弹窗组件 ([#817](https://github.com/WeBankFinTech/fes-design/issues/817)) ([a57a366](https://github.com/WeBankFinTech/fes-design/commit/a57a366530a3f94f10611273c4facd088f2a7351))
+
+
+
 ## [0.8.50](https://github.com/WeBankFinTech/fes-design/compare/v0.8.49...v0.8.50) (2024-05-23)
 
 
