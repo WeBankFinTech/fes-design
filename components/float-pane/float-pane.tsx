@@ -50,6 +50,7 @@ const FloatPane = defineComponent({
         );
 
         function handleCancel() {
+            innerVisible.value = false;
             ctx.emit(UPDATE_VISIBLE_EVENT, false);
         }
 
@@ -131,6 +132,9 @@ const FloatPane = defineComponent({
         ctx.expose({
             show() {
                 innerVisible.value = true;
+            },
+            hide() {
+                innerVisible.value = false;
             },
         });
 
