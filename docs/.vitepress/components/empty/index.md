@@ -14,35 +14,39 @@ app.use(FEmpty);
 
 ### 基础用法
 
-默认展示
+:::demo
+default.vue
+:::
 
---Default
+### 自定义图片(属性)
 
-### 自定义图片
+通过属性自定义图片。
 
-通过设置 image 属性传入图片 URL。
+:::demo
+customImageAttr.vue
+:::
 
---Custom
+### 自定义图片(插槽)
 
-### 自定义图片大小
+通过插槽自定义图片。
 
-通过设置 image-size 属性来自定义图片大小
-
---Size
+:::demo
+customImageSlot.vue
+:::
 
 ### 下拉选项场景
 
-在其他组件中的应用
+在其他组件中的应用。
 
---Select
+:::demo
+select.vue
+:::
 
 ### 自定义底部内容
 
-自定义底部插槽内容
-
---Bottom
-
---CODE
+:::demo
+bottom.vue
+:::
 
 ## API
 
@@ -50,9 +54,9 @@ app.use(FEmpty);
 
 | 属性名      | 描述                                  | 类型            | 默认值 |
 | ----------- | ------------------------------------- | --------------- | ------ |
-| imageSrc   | empty 组件的图像地址，优先级大于 solt | `string`        | -      |
-| imageStyle | empty 组件的图像自定义样式            | `CSSProperties` | -      |
-| description | empty 组件的描述信息，优先级大于 solt | `string`        | -      |
+| imageSrc    | 图像地址，优先级小于 solt | `string`        | -      |
+| imageStyle  | 图像自定义样式            | `CSSProperties` | -      |
+| description | 描述信息，优先级小于 solt | `string`        | -      |
 
 ### 插槽 Slots
 
