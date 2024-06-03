@@ -1,5 +1,5 @@
 <template>
-    <FEmpty :image-src="url" description="自定义图片" />
+    <FEmpty :image-src="url" :image-style="{ width: '300px' }" description="自定义图片(属性)" />
 </template>
 
 <script lang="ts" setup>

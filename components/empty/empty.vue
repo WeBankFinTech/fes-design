@@ -1,21 +1,19 @@
 <template>
     <div :class="prefixCls">
         <div :class="`${prefixCls}-image`" :style="imageStyle">
+            <slot v-if="$slots.image" name="image" />
             <img
-                v-if="imageSrc"
+                v-else-if="imageSrc"
                 class="empty-img"
                 :src="imageSrc"
                 ondragstart="return false"
             >
-            <slot v-else name="image">
-                <DefaultImgEmpty />
-            </slot>
+            <DefaultImgEmpty v-else />
         </div>
         <div :class="`${prefixCls}-description`">
-            <p v-if="description" class="empty-text">{{ description }}</p>
-            <slot v-else name="description">
-                <p class="empty-text">{{ defaultDescription }}</p>
-            </slot>
+            <slot v-if="$slots.description" name="description" />
+            <p v-else-if="description">{{ description }}</p>
+            <p v-else>{{ defaultDescription }}</p>
         </div>
         <div v-if="$slots.default" :class="`${prefixCls}-bottom`">
             <slot />
