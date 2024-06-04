@@ -425,7 +425,7 @@ export default defineComponent({
             if (props.filter) {
                 return props.filter;
             }
-            if (props.data.some(({ label }) => typeof label !== 'string')) {
+            if (props.data.some((option) => typeof option[props.labelField] !== 'string')) {
                 console.warn(
                     `[${COMPONENT_NAME}]：label 存在自定义渲染，需要传入 filter`,
                 );
