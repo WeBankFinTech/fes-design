@@ -328,17 +328,11 @@ export default ({
         };
     };
 
-    // 同步两个table的位移
-    const syncPosition = throttle((e: Event) => {
-        const $bodyWrapper = e.target as HTMLElement;
-        if (!$bodyWrapper) {
-            return;
-        }
-        const { scrollLeft, offsetWidth, scrollWidth } = $bodyWrapper;
-        const $headerWrapper = headerWrapperRef.value;
-        if ($headerWrapper) {
-            $headerWrapper.scrollLeft = scrollLeft;
-        }
+    // 更新 scrollState，根据 bodyWrapper 或 headerWrapper 的尺寸位置信息
+    const updateScrollState = (
+        { scrollLeft, offsetWidth, scrollWidth }:
+        { scrollLeft: number; offsetWidth: number; scrollWidth: number },
+    ): void => {
         const maxScrollLeftPosition = scrollWidth - offsetWidth - 1;
         if (scrollLeft >= maxScrollLeftPosition) {
             scrollState.x = 'right';
@@ -347,12 +341,48 @@ export default ({
         } else {
             scrollState.x = 'middle';
         }
+    };
+
+    // 同步两个 table 的位移
+    const syncPosition = throttle((e: Event) => {
+        const $bodyWrapper = e.target as HTMLElement;
+        if (!$bodyWrapper) {
+            return;
+        }
+        const { scrollLeft, offsetWidth, scrollWidth } = $bodyWrapper;
+
+        const $headerWrapper = headerWrapperRef.value;
+        if ($headerWrapper) {
+            $headerWrapper.scrollLeft = scrollLeft;
+        }
+
+        updateScrollState({ scrollLeft, offsetWidth, scrollWidth });
     }, 10);
 
     const handleHeaderMousewheel = (e: WheelEvent) => {
         const { deltaX, deltaY } = e;
         if (Math.abs(deltaX) >= Math.abs(deltaY)) {
             e.preventDefault();
+
+            /**
+             * 没有数据时，
+             * bodyWrapper 的 offsetWidth === scrollWidth，此时设置 scrollLeft 不生效
+             * 无法通过 bodyWrapper 的 scroll 事件回调触发 syncPosition 以更新 headerWrapper 的 scrollLeft
+             * 注意，headerWrapper 的 overflow 为 hidden，可以响应 scroll 事件但是元素无法滚动
+             */
+            if (showData.value.length === 0 && headerWrapperRef.value) {
+                headerWrapperRef.value.scrollLeft += deltaX;
+
+                const { scrollLeft, offsetWidth, scrollWidth } = headerWrapperRef.value;
+                updateScrollState({ scrollLeft, offsetWidth, scrollWidth });
+
+                return;
+            }
+
+            /**
+             * 有数据时，
+             * 仍按照原逻辑，先更新 bodyWrapper 的 scrollLeft，再 syncPosition
+             */
             if (scrollbarRef.value) {
                 scrollbarRef.value.containerRef.scrollLeft += deltaX;
             }
