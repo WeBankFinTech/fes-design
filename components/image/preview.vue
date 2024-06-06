@@ -66,7 +66,7 @@
 
             <!-- canvas -->
             <img
-                :class="[`${prefixCls}__canvas`]"
+                :class="{ [`${prefixCls}__canvas`]: true, 'is-dragging': isDragging }"
                 :src="src"
                 :style="previewStyle"
                 @mousedown="handleMouseDown"
@@ -266,7 +266,7 @@ export default defineComponent({
             },
         );
 
-        const { handleMouseDown } = usePreviewImageDrag(transform);
+        const { isDragging, handleMouseDown } = usePreviewImageDrag(transform);
 
         const handleClose = () => {
             emit(CLOSE_EVENT);
@@ -289,6 +289,7 @@ export default defineComponent({
             handleActions,
             previewStyle,
             zIndex,
+            isDragging,
             handleMouseDown,
             getContainer,
         };
