@@ -3,12 +3,23 @@
         <FFormItem label="表单禁用:">
             <FSwitch v-model="formDisabled" />
         </FFormItem>
+        <FFormItem label="单项禁用:">
+            <FRadioGroup
+                v-model="formItemDisabled"
+                :cancelable="true"
+                :options="[
+                    { label: '禁用', value: true },
+                    { label: '不禁用', value: false },
+                ]"
+            />
+            （{{ String(formItemDisabled) }}）
+        </FFormItem>
     </FForm>
 
     <FDivider />
 
     <FForm :labelWidth="80" :disabled="formDisabled">
-        <FFormItem label="输入框">
+        <FFormItem label="输入框" :disabled="formItemDisabled">
             <FInput placeholder="请输入" />
         </FFormItem>
         <FFormItem label="文本输入">
@@ -80,45 +91,37 @@
     </FForm>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue';
 
-export default {
-    setup() {
-        const formDisabled = ref(true);
-        const toggleVal = ref();
-        const numVal = ref(0);
-        const radioBtnVal = ref(0);
-        return {
-            optionList: [
-                {
-                    value: 'HuNan',
-                    label: '湖南',
-                },
-                {
-                    value: 'HuBei',
-                    label: '湖北',
-                },
-                {
-                    value: 'ZheJiang',
-                    label: '浙江',
-                },
-                {
-                    value: 'GuangDong',
-                    label: '广东',
-                },
-                {
-                    value: 'JiangSu',
-                    label: '江苏',
-                },
-            ],
-            toggleVal,
-            numVal,
-            formDisabled,
-            radioBtnVal,
-        };
+const formDisabled = ref(true);
+const formItemDisabled = ref();
+const toggleVal = ref();
+const numVal = ref(0);
+const radioBtnVal = ref(0);
+
+const optionList = [
+    {
+        value: 'HuNan',
+        label: '湖南',
     },
-};
+    {
+        value: 'HuBei',
+        label: '湖北',
+    },
+    {
+        value: 'ZheJiang',
+        label: '浙江',
+    },
+    {
+        value: 'GuangDong',
+        label: '广东',
+    },
+    {
+        value: 'JiangSu',
+        label: '江苏',
+    },
+];
 </script>
 
 <style scoped></style>

@@ -88,6 +88,10 @@ export const formItemProps = {
         type: Boolean as PropType<boolean | null>,
         default: null as boolean,
     },
+    disabled: {
+        type: Boolean as PropType<boolean | null | undefined>,
+        default: (): boolean | null | undefined => undefined,
+    },
     rules: {
         type: Array as PropType<FormRuleItem[]>,
         default: () => {
