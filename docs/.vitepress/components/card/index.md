@@ -14,47 +14,67 @@ app.use(FCard);
 
 ### 基础用法
 
---BASIC
+:::demo
+basic.vue
+:::
 
 ### 投影效果
 
---SHADOW
+:::demo
+shadow.vue
+:::
 
 ### 设置大小
 
---SIZE
+:::demo
+size.vue
+:::
 
 ### 是否显示边框
 
---BORDERED
+:::demo
+bordered.vue
+:::
 
 ### 是否有标题
 
---HASHEADER
+:::demo
+hasHeader.vue
+:::
 
 ### 是否有分割线
 
---DIVIDER
+:::demo
+divider.vue
+:::
 
 ### 自定义标题
 
---CUSTOMHEADER
+:::demo
+customHeader.vue
+:::
+
+### 自定义底栏
+
+:::demo
+customFooter.vue
+:::
 
 ### 自定义内容
 
---CUSTOMCONTENT
-
---CODE
+:::demo
+customContent.vue
+:::
 
 ## Card Props
 
-| 属性      | 说明                                                                                | 类型                    | 默认值   |
-| --------- | ----------------------------------------------------------------------------------- | ----------------------- | -------- |
+| 属性      | 说明                                                                               | 类型                    | 默认值   |
+|-----------|----------------------------------------------------------------------------------|-------------------------|----------|
 | header    | 卡片的标题 你既可以通过设置 header 来修改标题，也可以通过 slot#header 传入 DOM 节点 | string                  | -        |
 | divider   | 若有 header，则是否显示分割线                                                       | boolean                 | `true`   |
-| bodyStyle | body 的 CSS 样式                                                                    | object\<CSSProperties\> | -        |
+| bodyStyle | body 的 CSS 样式                                                                   | object\<CSSProperties\> | -        |
 | shadow    | 设置阴影显示时机，可选值为 `always` `never` `hover`                                 | string                  | `always` |
-| bordered  | 是否有边框                                                                          | boolean                 | `true`   |
+| bordered  | 是否有边框                                                                         | boolean                 | `true`   |
 | size      | 设置卡片大小，可选值为 `small` `middle` `large`                                     | string                  | `middle` |
 
 ## Card Slots
@@ -63,3 +83,4 @@ app.use(FCard);
 | ------- | -------------- |
 | default | 自定义默认内容 |
 | header  | 卡片标题内容   |
+| footer  | 卡片底栏内容   |
