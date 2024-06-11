@@ -1,3 +1,24 @@
+## [0.8.52](https://github.com/WeBankFinTech/fes-design/compare/v0.8.51...v0.8.52) (2024-06-11)
+
+
+### Bug Fixes
+
+* **Empty:** 支持自定义图片和描述插槽 ([#825](https://github.com/WeBankFinTech/fes-design/issues/825)) ([01e70d0](https://github.com/WeBankFinTech/fes-design/commit/01e70d0b373d9364393a94280ca18a244ad67ff9))
+* float pane 完全受控 ([#824](https://github.com/WeBankFinTech/fes-design/issues/824)) ([76e7ac2](https://github.com/WeBankFinTech/fes-design/commit/76e7ac2c2264fba3192378a837865e2c6a067ab7))
+* **Form:** labelPosition: top 时，优化 label 样式 ([#833](https://github.com/WeBankFinTech/fes-design/issues/833)) ([ba888dd](https://github.com/WeBankFinTech/fes-design/commit/ba888dd4bccaddb94f46a3ecb682f8c2a6f36260))
+* **Image:** preview 增加拖拽样式 ([#829](https://github.com/WeBankFinTech/fes-design/issues/829)) ([2661233](https://github.com/WeBankFinTech/fes-design/commit/266123339d333581a331603229e214e39a42b9f7))
+* **SelectTree:** 默认过滤函数兼容自定义 label 字段 ([#826](https://github.com/WeBankFinTech/fes-design/issues/826)) ([9b9f4f4](https://github.com/WeBankFinTech/fes-design/commit/9b9f4f49b82994969e8e3f688aa4c77d78520ab5))
+* **Table:** 修复无数据时，固定表头无法滚动的问题 ([#832](https://github.com/WeBankFinTech/fes-design/issues/832)) ([87093ce](https://github.com/WeBankFinTech/fes-design/commit/87093cec017620abae4537b336c57c490045c81c))
+
+
+### Features
+
+* **Card:** 增加 footer ([#834](https://github.com/WeBankFinTech/fes-design/issues/834)) ([febfa0d](https://github.com/WeBankFinTech/fes-design/commit/febfa0d5f3d5b4de70ed0677cb72c4712cdae753))
+* **Form:** 支持配置单项的 disabled ([#836](https://github.com/WeBankFinTech/fes-design/issues/836)) ([aca726d](https://github.com/WeBankFinTech/fes-design/commit/aca726dccdddca967bb70889c9cadb3b5be773c5))
+* **Link:** 解决嵌套a标签样式冲突的问题 ([#828](https://github.com/WeBankFinTech/fes-design/issues/828)) ([dd5381b](https://github.com/WeBankFinTech/fes-design/commit/dd5381b4322360551ef3f805bcbff2071b64e187))
+
+
+
 ## [0.8.51](https://github.com/WeBankFinTech/fes-design/compare/v0.8.50...v0.8.51) (2024-05-31)
 
 
