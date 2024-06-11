@@ -32,7 +32,7 @@ import {
     ref,
 } from 'vue';
 import Schema from 'async-validator';
-import { cloneDeep, get, isArray, set } from 'lodash-es';
+import { cloneDeep, get, isArray, isNil, set } from 'lodash-es';
 import { pxfy } from '../_util/utils';
 import getPrefixCls from '../_util/getPrefixCls';
 import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
@@ -117,6 +117,14 @@ export default defineComponent({
                     ? showMessage.value
                     : props.showMessage)
                     && validateStatus.value === VALIDATE_STATUS.ERROR,
+        );
+        const formItemDisabled = computed(
+            () => {
+                if (!isNil(props.disabled)) {
+                    return props.disabled;
+                }
+                return disabled.value;
+            },
         );
         const formItemRequired = computed(
             () =>
@@ -272,7 +280,7 @@ export default defineComponent({
             isError: computed(() => {
                 return validateStatus.value === VALIDATE_STATUS.ERROR;
             }),
-            isFormDisabled: disabled,
+            isFormDisabled: formItemDisabled,
         });
 
         return {
