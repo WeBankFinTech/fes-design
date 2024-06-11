@@ -6,6 +6,9 @@
         <div :class="`${prefixCls}__body`" :style="bodyStyle">
             <slot />
         </div>
+        <div v-if="$slots.footer" :class="footerClasses">
+            <slot name="footer" />
+        </div>
     </div>
 </template>
 
@@ -35,10 +38,16 @@ export default defineComponent({
             'no-divider': !props.divider,
         }));
 
+        const footerClasses = computed(() => ({
+            [`${prefixCls}__footer`]: true,
+            'no-divider': !props.divider,
+        }));
+
         return {
             prefixCls,
             classes,
             headerClasses,
+            footerClasses,
         };
     },
 });

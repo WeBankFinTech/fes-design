@@ -22,19 +22,31 @@
         border-color: var(--f-border-color-split);
     }
 
-    &__header {
+    &__header, &__footer {
         box-sizing: border-box;
         padding: var(--f-card-padding);
         color: var(--f-font-color-base);
         font-weight: @font-weight-medium;
         font-size: @font-size-head;
-        border-bottom: var(--f-border-width-base) var(--f-border-style-base)
-            transparent;
+    }
+
+    &__header {
+        border-bottom: var(--f-border-width-base) var(--f-border-style-base) transparent;
         border-bottom-color: var(--f-border-color-split);
 
         &.no-divider {
             padding-bottom: 0;
             border-bottom-color: transparent;
+        }
+    }
+
+    &__footer {
+        border-top: var(--f-border-width-base) var(--f-border-style-base) transparent;
+        border-top-color: var(--f-border-color-split);
+
+        &.no-divider {
+            padding-top: 0;
+            border-top-color: transparent;
         }
     }
 
