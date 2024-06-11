@@ -1,5 +1,5 @@
-import { type CSSProperties, type Ref, computed, reactive, ref } from 'vue';
-import { isFunction, isPlainObject, throttle } from 'lodash-es';
+import { type CSSProperties, type Ref, computed, reactive, ref, watch } from 'vue';
+import { isFunction, isPlainObject, isUndefined, throttle } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
 import { getCellValue } from './helper';
 import useTableLayout from './useTableLayout';
@@ -343,7 +343,53 @@ export default ({
         }
     };
 
-    // 同步两个 table 的位移
+    // 边界场景：重置滚动状态
+    watch(
+        [
+            () => props.height,
+            () => showData.value.length,
+        ],
+        (
+            [nextHeight, nextDataLength],
+            [prevHeight, prevDataLength],
+        ) => {
+            if (!props.showHeader) {
+                return;
+            }
+
+            const resetScrolling = (resetBodyTable = true): void => {
+                // BodyTable
+                if (resetBodyTable && scrollbarRef.value) {
+                    scrollbarRef.value.containerRef.scrollLeft = 0;
+                }
+                // HeaderTable
+                if (headerWrapperRef.value) {
+                    headerWrapperRef.value.scrollLeft = 0;
+                }
+                // updateScrollState
+                scrollState.x = 'left';
+            };
+
+            if (
+                // <BodyTable> -> <NoData>
+                prevDataLength !== 0 && nextDataLength === 0
+            ) {
+                resetScrolling(false);
+            } else if (
+                // <NoData> -> <BodyTable>
+                prevDataLength === 0 && nextDataLength !== 0
+            ) {
+                resetScrolling();
+            } else if (
+                // 不固定表头 -> 固定表头
+                isUndefined(prevHeight) && !isUndefined(nextHeight)
+            ) {
+                resetScrolling();
+            }
+        },
+    );
+
+    // BodyTable 滚动后，同步 HeaderTable(可能不存在) 的 scrollLeft
     const syncPosition = throttle((e: Event) => {
         const $bodyWrapper = e.target as HTMLElement;
         if (!$bodyWrapper) {

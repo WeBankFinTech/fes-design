@@ -118,7 +118,10 @@ export default defineComponent({
         };
 
         const onScroll = (e: Event) => {
-            if (layout.isScrollX.value || layout.isScrollY.value) {
+            if (
+                (layout.isScrollX.value || layout.isScrollY.value)
+                && bodyWrapperRef.value.offsetHeight > 0 // BodyTable 没有高度时，同步滚动状态无意义
+            ) {
                 syncPosition(e);
             }
         };
