@@ -40,7 +40,7 @@ const activeName = ref('1');
 watch(activeName, (name) =>
     console.log(
         '[FCollapse.accordion] activeName',
-        JSON.parse(JSON.stringify(name)),
+        name,
     ),
 );
 </script>
