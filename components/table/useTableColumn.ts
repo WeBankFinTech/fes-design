@@ -13,6 +13,9 @@ let seed = 0;
 const instColumns = (cols: ColumnChildren = [], parent?: ColumnInst) => {
     let instList: ColumnInst[] = [];
     cols.forEach((props) => {
+        if (!props) {
+            return;
+        }
         const inst: ColumnInst = {
             id: ++seed,
             props: {
