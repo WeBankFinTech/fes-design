@@ -39,7 +39,7 @@ function createLabel(level) {
 
 export default {
     setup() {
-        const data = reactive(createData(2));
+        const data = reactive(createData(1));
         const loadData = (node) => {
             return new Promise((resolve) => {
                 setTimeout(() => {
