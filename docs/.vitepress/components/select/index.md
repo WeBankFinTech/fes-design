@@ -159,6 +159,8 @@ selectGroupOption.vue
 | valueField           | 替代 `SelectOption` 中的 `value` 字段名                    | string                                       | `value`               |
 | labelField           | 替代 `SelectOption` 中的 `label` 字段名                    | string                                       | `label`               |
 | popperClass          | 弹出框容器样式                                             | string                                       | -                     |
+| triggerClass         | 弹出框触发器样式类                                         | string                                       | -                     |
+| triggerStyle         | 弹出框触发器样式                                           | string / object                              | -                     |
 
 ## Select Events
 

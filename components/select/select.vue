@@ -25,8 +25,8 @@
                     :collapseTags="collapseTags"
                     :collapseTagsLimit="collapseTagsLimit"
                     :tagBordered="tagBordered"
-                    :class="[{ 'is-error': isError }, attrs.class]"
-                    :style="attrs.style"
+                    :class="[{ 'is-error': isError }, triggerClass]"
+                    :style="triggerStyle"
                     :renderTag="$slots.tag"
                     @keydown.enter="onKeyDown"
                     @remove="onSelect"
@@ -96,7 +96,7 @@ export default defineComponent({
     },
     props: selectProps,
     emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'removeTag', 'visibleChange', 'focus', 'blur', 'clear', 'scroll', 'search'],
-    setup(props, { emit, attrs }) {
+    setup(props, { emit }) {
         useTheme();
         const { validate, isError, isFormDisabled } = useFormAdaptor({
             valueType: computed(() => (props.multiple ? 'array' : 'string')),
@@ -416,7 +416,6 @@ export default defineComponent({
             innerDisabled,
             onScroll,
             isLimitRef,
-            attrs,
             hoverOptionValue,
             onHover,
             onKeyDown,

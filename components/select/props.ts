@@ -1,4 +1,4 @@
-import type { ComponentObjectPropsOptions, PropType } from 'vue';
+import type { CSSProperties, ComponentObjectPropsOptions, PropType } from 'vue';
 import { extractPropsDefaultValue } from '../_util/utils';
 
 import type { ExtractPublicPropTypes, GetContainer } from '../_util/interface';
@@ -90,6 +90,8 @@ export const selectProps = {
         default: false,
     },
     popperClass: [String, Array, Object] as PropType<string | [] | object>,
+    triggerClass: [String, Array, Object] as PropType<string | [] | object>,
+    triggerStyle: [Object, String] as PropType<CSSProperties | string>,
 } as const satisfies ComponentObjectPropsOptions;
 
 export const selectPropsDefaultValue = extractPropsDefaultValue(selectProps);
