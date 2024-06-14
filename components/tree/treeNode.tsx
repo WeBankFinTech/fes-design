@@ -49,6 +49,10 @@ const treeNodeProps = {
         type: Boolean,
         default: false,
     },
+    noExpand: {
+        type: Boolean,
+        default: false,
+    },
 } as const satisfies ComponentObjectPropsOptions;
 
 export type TreeNodeProps = Partial<ExtractPropTypes<typeof treeNodeProps>>;
@@ -174,28 +178,25 @@ export default defineComponent({
             return null;
         };
         const renderSwitcher = () => {
-            const switcherClassList = [
-                `${prefixCls}-switcher`,
-                root.hasNoExpandableNode.value && 'no-expand',
-            ].filter(Boolean);
-
             if (props.isLeaf) {
-                return <span class={switcherClassList} />;
+                const leafClass = [`${prefixCls}-switcher`];
+                if (props.noExpand) {
+                    leafClass.push('no-expand');
+                }
+                return <span class={leafClass} />;
             }
+
+            const icon = isLoading.value
+                ? <LoadingOutlined />
+                : (
+                    <CaretDownOutlined
+                        class={[`${prefixCls}-switcher-icon`, isExpanded.value ? 'is-expanded' : '']}
+                    />
+                    );
+
             return (
-                <span class={switcherClassList} onClick={handleClickSwitcher}>
-                    {isLoading.value
-                        ? (
-                            <LoadingOutlined />
-                            )
-                        : (
-                            <CaretDownOutlined
-                                class={[
-                                `${prefixCls}-switcher-icon`,
-                                isExpanded.value ? 'is-expanded' : '',
-                                ]}
-                            />
-                            )}
+                <span class={`${prefixCls}-switcher`} onClick={handleClickSwitcher}>
+                    {icon}
                 </span>
             );
         };

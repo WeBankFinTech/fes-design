@@ -127,7 +127,6 @@ export default defineComponent({
             expandNode,
             checkNode,
             hasSelected,
-            hasNoExpandableNode,
             nodeList,
             handleDragstart,
             handleDragenter,
@@ -141,6 +140,7 @@ export default defineComponent({
 
         const renderNode = (value: TreeNodeKey) => {
             const node = nodeList.get(value);
+
             const itemSlots: {
                 [key: string]: () => VNodeChild | string;
             } = {};
@@ -156,6 +156,10 @@ export default defineComponent({
             if (isString(node.suffix)) {
                 itemSlots.suffix = () => node.suffix as string;
             }
+
+            // 当前 node 在最顶层，且顶层所有 node 都没有 children
+            const noExpand = node.level === 1 && hasNoExpandableNode.value;
+
             return (
                 <TreeNode
                     key={node.uid}
@@ -170,7 +174,8 @@ export default defineComponent({
                     draggable={
                         props.draggable && !props.inline && !node.disabled
                     }
-                ></TreeNode>
+                    noExpand={noExpand}
+                />
             );
         };
 

@@ -80,7 +80,7 @@ export default ({ props, emit }: { props: TreeProps; emit: any }) => {
         indexPath: TreeNodeKey[] = [],
         level = 1,
         parent: InnerTreeOption = undefined,
-    ) =>
+    ): TreeNodeKey[] =>
         nodes.reduce((res, node) => {
             const copy = transformNode(node, indexPath, level);
             // 收集 parent
@@ -100,11 +100,11 @@ export default ({ props, emit }: { props: TreeProps; emit: any }) => {
                 );
                 copy.children = children;
                 copy.childrenPath = keys;
-                // 比Array.concat快
-                concat(res as InnerTreeOption[], keys);
+                // 比 Array.concat 快
+                concat(res, keys);
             }
             return res;
-        }, []) as TreeNodeKey[];
+        }, [] as TreeNodeKey[]);
 
     watch(
         [() => props.data],
