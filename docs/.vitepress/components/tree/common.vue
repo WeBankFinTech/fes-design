@@ -2,11 +2,11 @@
     <FGrid>
         <FGridItem :span="12">
             默认为可选中：
-            <FTree :data="data" />
+            <FTree :data="data1" />
         </FGridItem>
         <FGridItem :span="12">
             选中后无法取消：
-            <FTree :data="data" :cancelable="false" />
+            <FTree :data="data2" :cancelable="false" />
         </FGridItem>
     </FGrid>
 </template>
@@ -48,9 +48,53 @@ function createLabel(level) {
 
 export default {
     setup() {
-        const data = reactive(createData(4));
+        const data1 = reactive(createData(3));
+        console.log(JSON.stringify(data1, null, 2));
+        const data2 = [
+            {
+                label: '二生三',
+                value: '20',
+                children: [
+                    {
+                        label: '三生万物',
+                        value: '2010',
+                        prefix: null,
+                        suffix: null,
+                        children: [
+                            {
+                                label: '三生万物',
+                                value: '312010',
+                                prefix: null,
+                                suffix: null,
+                            },
+                            {
+                                label: '三生万物',
+                                value: '312011',
+                                prefix: null,
+                                suffix: null,
+                            },
+                        ],
+                    },
+                    {
+                        label: '三生万物',
+                        value: '2011',
+                        prefix: null,
+                        suffix: null,
+                    },
+                ],
+                prefix: null,
+                suffix: null,
+            },
+            {
+                label: '二生三',
+                value: '21',
+                prefix: null,
+                suffix: null,
+            },
+        ];
         return {
-            data,
+            data1,
+            data2,
         };
     },
 };

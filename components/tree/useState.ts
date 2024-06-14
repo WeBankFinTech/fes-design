@@ -26,13 +26,17 @@ export default ({ props, emit }: { props: TreeProps; emit: any }) => {
     const hasSelected = (value: TreeNodeKey) =>
         currentSelectedKeys.value.includes(value);
 
-    const hasNoExpandableNode = computed<boolean>(() =>
-        props.data.every(
-            (firstLevelNode) =>
-                !firstLevelNode.children
-                || firstLevelNode.children.length === 0,
-        ),
-    );
+    const hasNoExpandableNode = computed<boolean>(() => {
+        return props.data.every(
+            (firstLevelNode) => {
+                if (!props.remote) {
+                    return !firstLevelNode.children
+                        || firstLevelNode.children.length === 0;
+                }
+                return firstLevelNode.isLeaf;
+            },
+        );
+    });
 
     return {
         currentExpandedKeys,
