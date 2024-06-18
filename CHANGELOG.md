@@ -1,3 +1,19 @@
+## [0.8.53](https://github.com/WeBankFinTech/fes-design/compare/v0.8.52...v0.8.53) (2024-06-18)
+
+
+### Bug Fixes
+
+* **FormItem:** 修复 value 配置项校验异常的问题 ([#845](https://github.com/WeBankFinTech/fes-design/issues/845)) ([23377f6](https://github.com/WeBankFinTech/fes-design/commit/23377f620aa0c1d55c7edef52fbeef3825406ebb))
+* **Table:** 修复 columns 配置项为 null 时渲染异常的问题 ([#839](https://github.com/WeBankFinTech/fes-design/issues/839)) ([c87f999](https://github.com/WeBankFinTech/fes-design/commit/c87f999dc3ce409b145f51143bbe61030ae9b041))
+* **Tree:** 优化顶层 node 的 no expand 逻辑 ([#843](https://github.com/WeBankFinTech/fes-design/issues/843)) ([b7203f8](https://github.com/WeBankFinTech/fes-design/commit/b7203f8b9b088cedf0ffed1715553bf369b444d8))
+
+
+### Features
+
+* **Select:** 增加 Trigger 单独的 class、style 配置 ([#840](https://github.com/WeBankFinTech/fes-design/issues/840)) ([1c11954](https://github.com/WeBankFinTech/fes-design/commit/1c11954ab393a4f52d4583637161ca11ab5382b4))
+
+
+
 ## [0.8.52](https://github.com/WeBankFinTech/fes-design/compare/v0.8.51...v0.8.52) (2024-06-11)
 
 
