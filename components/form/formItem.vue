@@ -166,6 +166,9 @@ export default defineComponent({
         const validateRules = async (
             trigger: string | string[] = TRIGGER_TYPE_DEFAULT,
         ) => {
+            // fieldValue.value computed 执行后再进行校验
+            await nextTick();
+
             if (validateDisabled.value) {
                 validateDisabled.value = false;
                 return;

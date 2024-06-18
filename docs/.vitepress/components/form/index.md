@@ -72,6 +72,12 @@ asyncValidator.vue
 nestValidator.vue
 :::
 
+### 变单项赋值验证
+
+:::demo
+formItemValidator.vue
+:::
+
 ## Form Props
 
 | 属性            | 说明                                                                                                        | 类型                       | 默认值       |
