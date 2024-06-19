@@ -128,7 +128,7 @@ export default defineComponent({
 
         const handleClear = () => {
             const value: null | [] = props.multiple ? [] : null;
-            if (props.multiple ? (currentValue.value as SelectValue[]).length : currentValue.value !== null) {
+            if (props.multiple ? (currentValue.value as SelectValue[] || []).length : currentValue.value !== null) {
                 updateCurrentValue(value);
                 handleChange();
             }
@@ -197,7 +197,7 @@ export default defineComponent({
         });
 
         const isSelect = (value: SelectValue) => {
-            const selectVal = unref(currentValue) as SelectValue[];
+            const selectVal = unref(currentValue) as SelectValue[] || [];
             const optVal = unref(value);
             if (selectVal === null) {
                 return false;
@@ -209,7 +209,7 @@ export default defineComponent({
         };
 
         const isLimitRef = computed(() => {
-            const selectVal = unref(currentValue) as SelectValue[];
+            const selectVal = unref(currentValue) as SelectValue[] || [];
             return props.multipleLimit > 0 && props.multipleLimit === selectVal.length;
         });
 
@@ -361,7 +361,7 @@ export default defineComponent({
         watch(isOpenedRef, () => {
             if (isOpenedRef.value) {
                 if (props.multiple) {
-                    const currentSelectValues = currentValue.value as SelectValue[];
+                    const currentSelectValues = currentValue.value as SelectValue[] || [];
                     if (currentSelectValues.length > 0) {
                         hoverOptionValue.value = currentSelectValues[0];
                     }
