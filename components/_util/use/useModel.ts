@@ -130,7 +130,17 @@ export const useArrayModel = <
             updateCurrentValue(value as Props[Key]);
             return;
         }
-        const val = [...computedValue.value];
+        // 兼容重复赋值为不符合预期数据类型的场景
+        let val: Props[Key][number][] = [];
+        try {
+            val = [...computedValue.value];
+        } catch (err) {
+            val = [];
+            console.warn(
+                '[useArrayModel] 绑定值类型不匹配, 仅支持数组类型, value:',
+                computedValue.value,
+            );
+        }
         const index = val.indexOf(value);
         if (index !== -1) {
             val.splice(index, 1);
