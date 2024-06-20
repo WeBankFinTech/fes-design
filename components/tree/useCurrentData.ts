@@ -99,7 +99,7 @@ export default ({
         // 缓存每个节点的展开状态，性能更优
         keys.forEach((key) => {
             const node = nodeList.get(key);
-            if (node.hasChildren) {
+            if (!node.isLeaf) {
                 node.isExpanded.value = expandedKeys.includes(key);
             }
             const indexPath = node.indexPath;
