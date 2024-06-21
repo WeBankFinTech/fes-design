@@ -40,8 +40,33 @@
                 <template #label>白富美</template>
             </f-menu-item>
             <f-sub-menu label="湖北">
-                <f-menu-item value="2.3.1" label="武汉市" />
+                <f-sub-menu value="2.3.1" label="武汉市">
+                    <f-menu-item value="2.3.1.1">
+                        <template #label>天心区</template>
+                    </f-menu-item>
+                    <f-menu-item value="2.3.1.2">
+                        <template #label>岳麓区</template>
+                    </f-menu-item>
+                </f-sub-menu>
                 <f-menu-item value="2.3.2" label="荆州市" />
+            </f-sub-menu>
+            <f-sub-menu label="湖南">
+                <f-sub-menu value="2.4.1" label="长沙市">
+                    <f-menu-item value="2.4.1.1">
+                        <template #label>江汉区</template>
+                    </f-menu-item>
+                    <f-menu-item value="2.4.1.2">
+                        <template #label>汉阳区</template>
+                    </f-menu-item>
+                </f-sub-menu>
+                <f-sub-menu value="2.4.2" label="株洲市">
+                    <f-menu-item value="2.4.2.1">
+                        <template #label>荷塘区</template>
+                    </f-menu-item>
+                    <f-menu-item value="2.4.2.2">
+                        <template #label>芦淞区</template>
+                    </f-menu-item>
+                </f-sub-menu>
             </f-sub-menu>
         </f-sub-menu>
         <f-menu-item value="3">

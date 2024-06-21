@@ -5,6 +5,8 @@ import {
     defineComponent,
     onMounted,
     provide,
+    ref,
+    watch,
 } from 'vue';
 import { isFunction } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -93,22 +95,16 @@ export default defineComponent({
             return props.mode === 'horizontal' ? true : props.accordion;
         });
 
-        // 展开的方式
+        // 展开的方式，垂直模式仅支持 click, 水平模式仅支持 hover
         const expandTrigger = computed<TRIGGER>(() => {
-            // 垂直模式默认点击，且仅支持点击展开
-            if (props.mode === 'vertical') {
-                return 'click';
-            }
-            if (props.expandTrigger) {
-                return props.expandTrigger;
-            }
-            // 如果没有设置expandTrigger,水平模式默认hover
             if (props.mode === 'horizontal') {
                 return 'hover';
+            } else {
+                return 'click';
             }
         });
 
-        const handleSubMenu = (
+        const handleSubMenuExpand = (
             subMenu: MenuItemType,
             indexPath: Ref<MenuNode[]>,
         ) => {
@@ -124,6 +120,31 @@ export default defineComponent({
             updateExpandedKeys(subMenu.value || subMenu.uid);
         };
 
+        const currentPopperShowSubMenus = ref<(string | number)[]>([]);
+        const updatePopperShowSubMenu = (value: string | number, state: string) => {
+            const current = currentPopperShowSubMenus.value;
+            const index = current.indexOf(value);
+
+            if (state === 'show') {
+                if (index < 0) {
+                    current.push(value);
+                }
+            } else {
+                if (index > -1) {
+                    current.splice(index, 1);
+                }
+            }
+            currentPopperShowSubMenus.value = current;
+        };
+        watch(currentPopperShowSubMenus, () => {
+            // 若鼠标滑出所有的子菜单区域，则隐藏所有子菜单
+            if (currentPopperShowSubMenus.value.length === 0) {
+                updateExpandedKeys([]);
+            }
+        }, {
+            deep: true,
+        });
+
         provide(ROOT_MENU_KEY, {
             props,
             currentValue,
@@ -133,7 +154,9 @@ export default defineComponent({
             accordion,
             expandTrigger,
             updateExpandedKeys,
-            handleSubMenu,
+            handleSubMenuExpand,
+            currentPopperShowSubMenus,
+            updatePopperShowSubMenu,
         });
 
         const classList = computed(() =>

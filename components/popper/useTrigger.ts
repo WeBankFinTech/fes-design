@@ -1,7 +1,8 @@
 import { type Ref, ref, watch } from 'vue';
 import { isBoolean, isFunction } from 'lodash-es';
 import type { PopperProps } from './props';
-import type { VirtualRect } from './interface';
+import type { PopperEmits, VirtualRect } from './interface';
+import { STATE_TRIGGER_EVENT } from './const';
 
 const triggerEventsMap = {
     click: ['onClick'],
@@ -17,6 +18,7 @@ export default function useTrigger(
     updateVisible: (val: boolean) => void,
     props: PopperProps,
     updateVirtualRect: (val: VirtualRect | null) => void,
+    emit: PopperEmits,
 ) {
     let triggerFocused = false;
     let showTimer: ReturnType<typeof setTimeout>;
@@ -28,40 +30,50 @@ export default function useTrigger(
         clearTimeout(hideTimer);
     }
 
-    const hide = () => {
-        if (props.onlyShowTrigger) {
-            return;
+    const hide = async () => {
+        function setHide() {
+            emit(STATE_TRIGGER_EVENT, 'hide');
+            if (props.onlyShowTrigger) {
+                return;
+            }
+            if (isBoolean(props.disabled) && props.disabled) {
+                return;
+            }
+            if (isFunction(props.disabled) && props.disabled()) {
+                return;
+            }
+            updateVisible(false);
         }
-        if (isBoolean(props.disabled) && props.disabled) {
-            return;
-        }
-        if (isFunction(props.disabled) && props.disabled()) {
-            return;
-        }
+
         clearTimers();
         if (props.hideAfter) {
             hideTimer = setTimeout(() => {
-                updateVisible(false);
+                setHide();
             }, props.hideAfter);
         } else {
-            updateVisible(false);
+            setHide();
         }
     };
 
     const show = () => {
-        if (isBoolean(props.disabled) && props.disabled) {
-            return;
-        }
-        if (isFunction(props.disabled) && props.disabled()) {
-            return;
-        }
+        const setShow = () => {
+            emit(STATE_TRIGGER_EVENT, 'show');
+            if (isBoolean(props.disabled) && props.disabled) {
+                return;
+            }
+            if (isFunction(props.disabled) && props.disabled()) {
+                return;
+            }
+            updateVisible(true);
+        };
+
         clearTimers();
         if (props.showAfter) {
             showTimer = setTimeout(() => {
-                updateVisible(true);
+                setShow();
             }, props.showAfter);
         } else {
-            updateVisible(true);
+            setShow();
         }
     };
 
@@ -149,6 +161,9 @@ export default function useTrigger(
         // user tries to move the mouse over popper contents
         if (props.trigger !== 'click') {
             clearTimeout(hideTimer);
+        }
+        if (props.trigger === 'hover') {
+            show();
         }
     }
 

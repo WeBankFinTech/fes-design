@@ -2,6 +2,7 @@ import {
     computed,
     defineComponent,
     getCurrentInstance,
+    nextTick,
     onBeforeUnmount,
     onMounted,
     provide,
@@ -115,29 +116,57 @@ export default defineComponent({
                 .join(' '),
         );
 
-        const handleTrigger = () => {
+        const handleTriggerClick = () => {
             isOpened.value = !isOpened.value;
-            rootMenu.handleSubMenu(subMenu as unknown as MenuItemType, indexPath);
+            rootMenu.handleSubMenuExpand(subMenu as unknown as MenuItemType, indexPath);
         };
 
-        const handleEnter = () => {
-            // 如果是hover 且 只能展开一项的场景，进入第一层的时候要清空
+        const handlePopperTriggerShow = async () => {
+            // 记录当前已打开的子菜单 popper
+            rootMenu.updatePopperShowSubMenu(props.value || instance.uid, 'show');
+
+            // 只能展开一项的场景，进入第一层的时候要清空
             if (rootMenu.accordion.value && isFirstLevel.value) {
+                isOpened.value = !isOpened.value;
                 rootMenu.updateExpandedKeys([]);
             }
-            rootMenu.handleSubMenu(subMenu as unknown as MenuItemType, indexPath);
+
+            // 若当前子菜单已关闭，则打开
+            await nextTick();
+            if (!rootMenu.currentExpandedKeys.value.includes(props.value || instance.uid)) {
+                isOpened.value = !isOpened.value;
+                rootMenu.handleSubMenuExpand(subMenu as unknown as MenuItemType, indexPath);
+            }
+        };
+        const handlePopperTriggerHide = async () => {
+            rootMenu.updatePopperShowSubMenu(props.value || instance.uid, 'hide');
+
+            /**
+             * TODO: 同一层级只能展开一个子菜单
+             */
+        };
+
+        const handlePopperTrigger = (state: string) => {
+            if (state === 'show') {
+                handlePopperTriggerShow();
+            } else {
+                handlePopperTriggerHide();
+            }
         };
 
         watch(
-            rootMenu.currentExpandedKeys,
+            [
+                rootMenu.currentExpandedKeys,
+                rootMenu.currentPopperShowSubMenus,
+            ],
             () => {
                 // 要通过监听currentExpandedKeys，自动打开或者关闭子菜单
-                const isHas = rootMenu.currentExpandedKeys.value.includes(
+                const currentIsExpanded = rootMenu.currentExpandedKeys.value.includes(
                     props.value || instance.uid,
                 );
-                if (!isHas && isOpened.value) {
+                if (isOpened.value && !currentIsExpanded) {
                     isOpened.value = false;
-                } else if (isHas && !isOpened.value) {
+                } else if (!isOpened.value && currentIsExpanded) {
                     isOpened.value = true;
                 }
             },
@@ -182,34 +211,36 @@ export default defineComponent({
             );
         };
 
-        // 两种展开的方式 hover&click
-        const renderWrapper = (expandTrigger: TRIGGER) => {
-            const wrapperContent = (
+        const wrapperContent = () => {
+            return (
                 <>
                     {renderIcon()}
                     {!onlyIcon.value ? renderTitle() : null}
                     {!onlyIcon.value ? renderArrow() : null}
                 </>
             );
-            return expandTrigger === 'click'
-                ? (
-                    <div
-                        class={`${prefixCls}-wrapper`}
-                        style={paddingStyle.value}
-                        onClick={handleTrigger}
-                    >
-                        {wrapperContent}
-                    </div>
-                    )
-                : (
-                    <div
-                        class={`${prefixCls}-wrapper`}
-                        style={paddingStyle.value}
-                        onMouseenter={handleEnter}
-                    >
-                        {wrapperContent}
-                    </div>
-                    );
+        };
+        const renderWrapperClick = () => {
+            return (
+                <div
+                    class={`${prefixCls}-wrapper`}
+                    style={paddingStyle.value}
+                    onClick={handleTriggerClick}
+                >
+                    {wrapperContent()}
+                </div>
+            );
+        };
+
+        const renderWrapperPopper = () => {
+            return (
+                <div
+                    class={`${prefixCls}-wrapper`}
+                    style={paddingStyle.value}
+                >
+                    {wrapperContent()}
+                </div>
+            );
         };
 
         const renderDefault = () => slots.default?.();
@@ -233,14 +264,15 @@ export default defineComponent({
                         offset={1}
                         v-slots={{
                             default: renderDefault,
-                            trigger: () => renderWrapper(rootMenu.expandTrigger.value),
+                            trigger: () => renderWrapperPopper(),
                         }}
+                        onTrigger={handlePopperTrigger}
                     />
                 );
             }
             return (
                 <>
-                    {renderWrapper(rootMenu.expandTrigger.value)}
+                    {renderWrapperClick()}
                     <FadeInExpandTransition>
                         <div
                             v-show={isOpened.value}

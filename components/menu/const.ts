@@ -105,7 +105,9 @@ export type RootMenuInjection = {
     accordion: ComputedRef<boolean>;
     expandTrigger: ComputedRef<TRIGGER>;
     updateExpandedKeys: (val: string | number | (string | number)[]) => void;
-    handleSubMenu: (subMenu: MenuItemType, indexPath: Ref<MenuNode[]>) => void;
+    handleSubMenuExpand: (subMenu: MenuItemType, indexPath: Ref<MenuNode[]>) => void;
+    currentPopperShowSubMenus: Ref<(string | number)[]>;
+    updatePopperShowSubMenu: (val: string | number, state: string) => void;
 };
 
 export const ROOT_MENU_KEY: InjectionKey<RootMenuInjection> = Symbol('ROOT_MENU_KEY');

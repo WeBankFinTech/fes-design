@@ -27,6 +27,36 @@ export default {
                                 {
                                     value: '1.1',
                                     label: '湖南',
+                                    children: [
+                                        {
+                                            label: '长沙市',
+                                            value: '1.1.1',
+                                            children: [
+                                                {
+                                                    label: '天心区',
+                                                    value: '1.1.1.1',
+                                                },
+                                                {
+                                                    label: '岳麓区',
+                                                    value: '1.1.1.2',
+                                                },
+                                            ],
+                                        },
+                                        {
+                                            label: '株洲市',
+                                            value: '1.1.2',
+                                            children: [
+                                                {
+                                                    label: '荷塘区',
+                                                    value: '1.1.2.1',
+                                                },
+                                                {
+                                                    label: '芦淞区',
+                                                    value: '1.1.2.2',
+                                                },
+                                            ],
+                                        },
+                                    ],
                                 },
                                 {
                                     value: '1.2',
@@ -35,6 +65,16 @@ export default {
                                         {
                                             label: '武汉',
                                             value: '1.2.1',
+                                            children: [
+                                                {
+                                                    label: '汉阳区',
+                                                    value: '1.2.1.1',
+                                                },
+                                                {
+                                                    label: '江汉区',
+                                                    value: '1.2.1.2',
+                                                },
+                                            ],
                                         },
                                         {
                                             label: '孝感',
