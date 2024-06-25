@@ -12,6 +12,7 @@ app.use(FMenu);
 
 ## 代码演示
 
+
 ### 水平方向
 
 :::demo
@@ -52,14 +53,6 @@ defaultExpandAll.vue
 expandedKeys.vue
 :::
 
-### 触发方式
-
-默认触发方式，水平模式默认hover方式，垂直模式仅支持click方式，可以通过`expandTrigger`选择展开方式。
-
-:::demo
-expandTrigger.vue
-:::
-
 ### 配置方式
 
 通过配置 `options` 直接生成菜单，比如可以通过路由数据生成菜单。
@@ -96,7 +89,7 @@ customContainer.vue
 | options               | 菜单数据，配置可看 MenuOption                                           | array             | `[]`                  |
 | getContainer          | 配置渲染节点的输出位置                                                  | () => HTMLElement | `() => document.body` |
 | appendToContainer     | 弹窗内容是否添加到指定的 DOM 元素                                       | boolean           | `true`                |
-| expandTrigger         | 子菜单打开展开方式，可选`hover`,`click`，垂直模式仅支持点击             | string            | `-`                   |
+| expandTrigger         | 子菜单打开展开方式，垂直模式仅支持`click`，水平模式仅支持`hover`        | string            | `-`                   |
 
 ## Menu Events
 

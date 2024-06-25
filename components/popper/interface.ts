@@ -3,6 +3,7 @@ import type { VModelEvent } from '../_util/interface';
 
 export interface PopperEmits {
     (e: VModelEvent, val: boolean): void;
+    (e: 'trigger', value: string): void;
 }
 
 export interface VirtualRect {

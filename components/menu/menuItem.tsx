@@ -100,7 +100,10 @@ export default defineComponent({
             return null;
         };
         return () => (
-            <div class={classList.value} onClick={handleClick}>
+            <div
+                class={classList.value}
+                onClick={handleClick}
+            >
                 <div class={`${prefixCls}-wrapper`} style={paddingStyle.value}>
                     {renderIcon()}
                     {!onlyIcon.value ? renderTitle() : null}
