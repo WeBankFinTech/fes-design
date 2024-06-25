@@ -1,3 +1,14 @@
+## [0.8.54](https://github.com/WeBankFinTech/fes-design/compare/v0.8.53...v0.8.54) (2024-06-25)
+
+
+### Bug Fixes
+
+* **Menu:** 水平模式，鼠标移除但未隐藏 ([#851](https://github.com/WeBankFinTech/fes-design/issues/851)) ([57e5520](https://github.com/WeBankFinTech/fes-design/commit/57e5520f1f7ff103389adb32473c1c379a6d45cc))
+* **Select:** 修复 model 重复赋值为 undefined 报错的问题 ([#847](https://github.com/WeBankFinTech/fes-design/issues/847)) ([8a0a036](https://github.com/WeBankFinTech/fes-design/commit/8a0a0369f8f08276cbb61c01e0832173cb0fb0b8))
+* **Tree:** 修复 remote 模式 expandedKeys 变化时，没有正确修改 node.isExpanded ([#850](https://github.com/WeBankFinTech/fes-design/issues/850)) ([fc87810](https://github.com/WeBankFinTech/fes-design/commit/fc87810d7be389367e718b87c88c665497c0eba2))
+
+
+
 ## [0.8.53](https://github.com/WeBankFinTech/fes-design/compare/v0.8.52...v0.8.53) (2024-06-18)
 
 
