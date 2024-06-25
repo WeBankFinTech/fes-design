@@ -30,8 +30,8 @@ export default function useTrigger(
         clearTimeout(hideTimer);
     }
 
-    const hide = async () => {
-        function setHide() {
+    const hide = () => {
+        const setHide = () => {
             emit(STATE_TRIGGER_EVENT, 'hide');
             if (props.onlyShowTrigger) {
                 return;
@@ -43,7 +43,7 @@ export default function useTrigger(
                 return;
             }
             updateVisible(false);
-        }
+        };
 
         clearTimers();
         if (props.hideAfter) {
