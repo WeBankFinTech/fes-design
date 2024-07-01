@@ -133,7 +133,7 @@ export default defineComponent({
 
             await nextTick();
             /**
-             * 待 同一层级只能展开一个子菜单 支持后，再增加 当前子菜单已关闭 的判断：
+             * TODO: 待 同一层级只能展开一个子菜单 支持后，再增加 当前子菜单已关闭 的判断：
              * !rootMenu.currentExpandedKeys.value.includes(props.value || instance.uid)
              */
             isOpened.value = !isOpened.value;
