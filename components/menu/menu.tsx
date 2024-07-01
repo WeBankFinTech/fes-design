@@ -92,8 +92,17 @@ export default defineComponent({
 
         const accordion = computed(() => {
             // 如果是水平的菜单，accordion 只能为true
-            return props.mode === 'horizontal' ? true : props.accordion;
+            return (props.mode === 'horizontal' || props.collapsed) ? true : props.accordion;
         });
+
+        watch(
+            () => props.collapsed,
+            (value) => {
+                if (value) {
+                    updateExpandedKeys([]);
+                }
+            },
+        );
 
         // 展开的方式，垂直模式仅支持 click, 水平模式仅支持 hover
         const expandTrigger = computed<TRIGGER>(() => {
