@@ -131,12 +131,13 @@ export default defineComponent({
                 rootMenu.updateExpandedKeys([]);
             }
 
-            // 若当前子菜单已关闭，则打开
             await nextTick();
-            if (!rootMenu.currentExpandedKeys.value.includes(props.value || instance.uid)) {
-                isOpened.value = !isOpened.value;
-                rootMenu.handleSubMenuExpand(subMenu as unknown as MenuItemType, indexPath);
-            }
+            /**
+             * TODO: 待 同一层级只能展开一个子菜单 支持后，再增加 当前子菜单已关闭 的判断：
+             * !rootMenu.currentExpandedKeys.value.includes(props.value || instance.uid)
+             */
+            isOpened.value = !isOpened.value;
+            rootMenu.handleSubMenuExpand(subMenu as unknown as MenuItemType, indexPath);
         };
         const handlePopperTriggerHide = async () => {
             rootMenu.updatePopperShowSubMenu(props.value || instance.uid, 'hide');
