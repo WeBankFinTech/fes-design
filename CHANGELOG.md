@@ -1,3 +1,14 @@
+## [0.8.55](https://github.com/WeBankFinTech/fes-design/compare/v0.8.54...v0.8.55) (2024-07-01)
+
+
+### Bug Fixes
+
+* **Menu:** 保证同级菜单项展开时可交互 ([#855](https://github.com/WeBankFinTech/fes-design/issues/855)) ([4d74139](https://github.com/WeBankFinTech/fes-design/commit/4d741390fc9f0316322ef1b29342a37408afc9bf))
+* **Menu:** 修复垂直模式且折叠时，子菜单重叠展示的问题 ([71f5793](https://github.com/WeBankFinTech/fes-design/commit/71f5793f7da6416b4199987bbf1e1742dd445284))
+* **Table:** 是否固定表头、是否展示 NoData 时，重置滚动状态 ([#856](https://github.com/WeBankFinTech/fes-design/issues/856)) ([5988b6e](https://github.com/WeBankFinTech/fes-design/commit/5988b6e03ec5a80a6de732e8936a22d06ea1ca03))
+
+
+
 ## [0.8.54](https://github.com/WeBankFinTech/fes-design/compare/v0.8.53...v0.8.54) (2024-06-25)
 
 
