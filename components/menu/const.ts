@@ -85,13 +85,6 @@ export const menuProps = {
             return [];
         },
     },
-    expandTrigger: {
-        type: String as PropType<TRIGGER>,
-        validator: (value: TRIGGER) => {
-            return (['click', 'hover'] satisfies TRIGGER[]).includes(value);
-        },
-    },
-
 } as const satisfies ComponentObjectPropsOptions;
 
 export type MenuProps = ExtractPublicPropTypes<typeof menuProps>;
@@ -103,11 +96,8 @@ export type RootMenuInjection = {
     renderWithPopper: ComputedRef<boolean>;
     currentExpandedKeys: Ref<(string | number)[]>;
     accordion: ComputedRef<boolean>;
-    expandTrigger: ComputedRef<TRIGGER>;
     updateExpandedKeys: (val: string | number | (string | number)[]) => void;
     handleSubMenuExpand: (subMenu: MenuItemType, indexPath: Ref<MenuNode[]>) => void;
-    currentPopperShowSubMenus: Ref<(string | number)[]>;
-    updatePopperShowSubMenu: (val: string | number, state: string) => void;
 };
 
 export const ROOT_MENU_KEY: InjectionKey<RootMenuInjection> = Symbol('ROOT_MENU_KEY');

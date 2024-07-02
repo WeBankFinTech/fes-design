@@ -5,7 +5,6 @@ import {
     defineComponent,
     onMounted,
     provide,
-    ref,
     watch,
 } from 'vue';
 import { isFunction } from 'lodash-es';
@@ -104,15 +103,6 @@ export default defineComponent({
             },
         );
 
-        // 展开的方式，垂直模式仅支持 click, 水平模式仅支持 hover
-        const expandTrigger = computed<TRIGGER>(() => {
-            if (props.mode === 'horizontal') {
-                return 'hover';
-            } else {
-                return 'click';
-            }
-        });
-
         const handleSubMenuExpand = (
             subMenu: MenuItemType,
             indexPath: Ref<MenuNode[]>,
@@ -129,31 +119,6 @@ export default defineComponent({
             updateExpandedKeys(subMenu.value || subMenu.uid);
         };
 
-        const currentPopperShowSubMenus = ref<(string | number)[]>([]);
-        const updatePopperShowSubMenu = (value: string | number, state: string) => {
-            const current = currentPopperShowSubMenus.value;
-            const index = current.indexOf(value);
-
-            if (state === 'show') {
-                if (index < 0) {
-                    current.push(value);
-                }
-            } else {
-                if (index > -1) {
-                    current.splice(index, 1);
-                }
-            }
-            currentPopperShowSubMenus.value = current;
-        };
-        watch(currentPopperShowSubMenus, () => {
-            // 若鼠标滑出所有的子菜单区域，则隐藏所有子菜单
-            if (currentPopperShowSubMenus.value.length === 0) {
-                updateExpandedKeys([]);
-            }
-        }, {
-            deep: true,
-        });
-
         provide(ROOT_MENU_KEY, {
             props,
             currentValue,
@@ -161,11 +126,8 @@ export default defineComponent({
             renderWithPopper,
             currentExpandedKeys,
             accordion,
-            expandTrigger,
             updateExpandedKeys,
             handleSubMenuExpand,
-            currentPopperShowSubMenus,
-            updatePopperShowSubMenu,
         });
 
         const classList = computed(() =>

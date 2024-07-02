@@ -1,8 +1,7 @@
 import { type Ref, ref, watch } from 'vue';
 import { isBoolean, isFunction } from 'lodash-es';
 import type { PopperProps } from './props';
-import type { PopperEmits, VirtualRect } from './interface';
-import { STATE_TRIGGER_EVENT } from './const';
+import type { VirtualRect } from './interface';
 
 const triggerEventsMap = {
     click: ['onClick'],
@@ -18,7 +17,6 @@ export default function useTrigger(
     updateVisible: (val: boolean) => void,
     props: PopperProps,
     updateVirtualRect: (val: VirtualRect | null) => void,
-    emit: PopperEmits,
 ) {
     let triggerFocused = false;
     let showTimer: ReturnType<typeof setTimeout>;
@@ -32,7 +30,6 @@ export default function useTrigger(
 
     const hide = () => {
         const setHide = () => {
-            emit(STATE_TRIGGER_EVENT, 'hide');
             if (props.onlyShowTrigger) {
                 return;
             }
@@ -57,7 +54,6 @@ export default function useTrigger(
 
     const show = () => {
         const setShow = () => {
-            emit(STATE_TRIGGER_EVENT, 'show');
             if (isBoolean(props.disabled) && props.disabled) {
                 return;
             }
@@ -161,9 +157,6 @@ export default function useTrigger(
         // user tries to move the mouse over popper contents
         if (props.trigger !== 'click') {
             clearTimeout(hideTimer);
-        }
-        if (props.trigger === 'hover') {
-            show();
         }
     }
 
