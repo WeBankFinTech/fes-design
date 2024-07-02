@@ -20,14 +20,13 @@ import usePopper from './usePopper';
 import useScroll from './useScroll';
 
 import { popperProps } from './props';
-import { STATE_TRIGGER_EVENT } from './const';
 
 const prefixCls = getPrefixCls('popper');
 
 export default defineComponent({
     name: 'FPopper',
     props: popperProps,
-    emits: [UPDATE_MODEL_EVENT, STATE_TRIGGER_EVENT],
+    emits: [UPDATE_MODEL_EVENT],
     setup(props, { slots, emit }) {
         useTheme();
         if (!slots.trigger) {
@@ -85,7 +84,6 @@ export default defineComponent({
         useClickOutSide(
             [triggerRef, popperRef],
             () => {
-                emit(STATE_TRIGGER_EVENT, 'hide');
                 updateVisible(false);
             },
             disabledWatch,
@@ -101,7 +99,6 @@ export default defineComponent({
             updateVisible,
             props,
             updateVirtualRect,
-            emit,
         );
         const popperClass = computed(() =>
             [prefixCls, props.popperClass].filter(Boolean),

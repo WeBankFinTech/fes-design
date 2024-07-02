@@ -121,47 +121,20 @@ export default defineComponent({
             rootMenu.handleSubMenuExpand(subMenu as unknown as MenuItemType, indexPath);
         };
 
-        const handlePopperTriggerShow = async () => {
-            // 记录当前已打开的子菜单 popper
-            rootMenu.updatePopperShowSubMenu(props.value || instance.uid, 'show');
-
-            // 只能展开一项的场景，进入第一层的时候要清空
+        const handlePopperEnter = () => {
+            // 如果是hover 且 只能展开一项的场景，进入第一层的时候要清空
             if (rootMenu.accordion.value && isFirstLevel.value) {
-                isOpened.value = !isOpened.value;
                 rootMenu.updateExpandedKeys([]);
             }
-
-            await nextTick();
-            /**
-             * TODO: 待 同一层级只能展开一个子菜单 支持后，再增加 当前子菜单已关闭 的判断：
-             * !rootMenu.currentExpandedKeys.value.includes(props.value || instance.uid)
-             */
-            isOpened.value = !isOpened.value;
             rootMenu.handleSubMenuExpand(subMenu as unknown as MenuItemType, indexPath);
-        };
-        const handlePopperTriggerHide = async () => {
-            rootMenu.updatePopperShowSubMenu(props.value || instance.uid, 'hide');
-
-            /**
-             * TODO: 同一层级只能展开一个子菜单
-             */
-        };
-
-        const handlePopperTrigger = (state: string) => {
-            if (state === 'show') {
-                handlePopperTriggerShow();
-            } else {
-                handlePopperTriggerHide();
-            }
         };
 
         watch(
             [
                 rootMenu.currentExpandedKeys,
-                rootMenu.currentPopperShowSubMenus,
             ],
             () => {
-                // 要通过监听currentExpandedKeys，自动打开或者关闭子菜单
+                // 要通过监听 currentExpandedKeys，自动打开或者关闭子菜单
                 const currentIsExpanded = rootMenu.currentExpandedKeys.value.includes(
                     props.value || instance.uid,
                 );
@@ -238,6 +211,7 @@ export default defineComponent({
                 <div
                     class={`${prefixCls}-wrapper`}
                     style={paddingStyle.value}
+                    onMouseenter={handlePopperEnter}
                 >
                     {wrapperContent()}
                 </div>
@@ -259,15 +233,14 @@ export default defineComponent({
                         v-model={isOpened.value}
                         {...popperProps.value}
                         trigger={rootMenu.expandTrigger.value}
-                        onlyShowTrigger={true} // 只在展示的时候生效，是为了在子菜单中选择的时候，popper不消失
                         placement={placement.value}
                         popperClass={`${prefixCls}-popper`}
+                        appendToContainer={!(indexPath.value.length > 2)}
                         offset={1}
                         v-slots={{
                             default: renderDefault,
                             trigger: () => renderWrapperPopper(),
                         }}
-                        onTrigger={handlePopperTrigger}
                     />
                 );
             }

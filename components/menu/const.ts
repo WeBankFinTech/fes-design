@@ -106,8 +106,6 @@ export type RootMenuInjection = {
     expandTrigger: ComputedRef<TRIGGER>;
     updateExpandedKeys: (val: string | number | (string | number)[]) => void;
     handleSubMenuExpand: (subMenu: MenuItemType, indexPath: Ref<MenuNode[]>) => void;
-    currentPopperShowSubMenus: Ref<(string | number)[]>;
-    updatePopperShowSubMenu: (val: string | number, state: string) => void;
 };
 
 export const ROOT_MENU_KEY: InjectionKey<RootMenuInjection> = Symbol('ROOT_MENU_KEY');
