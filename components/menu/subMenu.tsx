@@ -227,9 +227,9 @@ export default defineComponent({
                         v-model={isOpened.value}
                         {...popperProps.value}
                         trigger={rootMenu.expandTrigger.value}
-                        onlyShowTrigger={true} // 只在展示的时候生效，是为了在子菜单中选择的时候，popper不消失
                         placement={placement.value}
                         popperClass={`${prefixCls}-popper`}
+                        appendToContainer={!(indexPath.value.length > 2)}
                         offset={1}
                         v-slots={{
                             default: renderDefault,
