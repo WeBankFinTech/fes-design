@@ -52,7 +52,6 @@
     justify-content: center;
     min-width: @tag-min-width-base;
 
-
     height: var(--f-tag-height);
     margin: 0;
     padding: var(--f-tag-padding);
@@ -69,13 +68,10 @@
     outline: none;
     cursor: default;
     transition: all @animation-duration-slow @ease-in-out;
-    user-select: none;
-    touch-action: manipulation;
 
     &.is-bordered {
         border-color: var(--f-tag-border-color);
     }
-
 
     &__close {
         display: flex;
