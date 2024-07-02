@@ -1,3 +1,13 @@
+## [0.8.56](https://github.com/WeBankFinTech/fes-design/compare/v0.8.55...v0.8.56) (2024-07-02)
+
+
+### Bug Fixes
+
+* 修复menu可能打开多个子菜单问题 ([#859](https://github.com/WeBankFinTech/fes-design/issues/859)) ([17ba054](https://github.com/WeBankFinTech/fes-design/commit/17ba054633353613d14dcfc225bbbe302804ae48))
+* **Tag:** 修复不能复制标签文字的问题 ([#858](https://github.com/WeBankFinTech/fes-design/issues/858)) ([3ec2a3f](https://github.com/WeBankFinTech/fes-design/commit/3ec2a3fd6e79575ebbebe94eeb552c051300f769))
+
+
+
 ## [0.8.55](https://github.com/WeBankFinTech/fes-design/compare/v0.8.54...v0.8.55) (2024-07-01)
 
 
