@@ -103,15 +103,6 @@ export default defineComponent({
             },
         );
 
-        // 展开的方式，垂直模式仅支持 click, 水平模式仅支持 hover
-        const expandTrigger = computed<TRIGGER>(() => {
-            if (props.mode === 'horizontal') {
-                return 'hover';
-            } else {
-                return 'click';
-            }
-        });
-
         const handleSubMenuExpand = (
             subMenu: MenuItemType,
             indexPath: Ref<MenuNode[]>,
@@ -135,7 +126,6 @@ export default defineComponent({
             renderWithPopper,
             currentExpandedKeys,
             accordion,
-            expandTrigger,
             updateExpandedKeys,
             handleSubMenuExpand,
         });

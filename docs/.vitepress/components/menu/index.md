@@ -89,7 +89,6 @@ customContainer.vue
 | options               | 菜单数据，配置可看 MenuOption                                           | array             | `[]`                  |
 | getContainer          | 配置渲染节点的输出位置                                                  | () => HTMLElement | `() => document.body` |
 | appendToContainer     | 弹窗内容是否添加到指定的 DOM 元素                                       | boolean           | `true`                |
-| expandTrigger         | 子菜单打开展开方式，垂直模式仅支持`click`，水平模式仅支持`hover`        | string            | `-`                   |
 
 ## Menu Events
 

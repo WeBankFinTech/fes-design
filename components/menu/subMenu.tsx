@@ -2,7 +2,6 @@ import {
     computed,
     defineComponent,
     getCurrentInstance,
-    nextTick,
     onBeforeUnmount,
     onMounted,
     provide,
@@ -21,8 +20,7 @@ import DownOutlined from '../icon/DownOutlined';
 import RightOutlined from '../icon/RightOutlined';
 import Ellipsis from '../ellipsis/ellipsis';
 import type { ExtractPublicPropTypes } from '../_util/interface';
-import type { TRIGGER } from './const';
-import { COMPONENT_NAME, MODE, SUB_MENU_KEY } from './const';
+import { COMPONENT_NAME, SUB_MENU_KEY } from './const';
 import useChildren from './useChildren';
 import useParent from './useParent';
 import useMenu from './useMenu';
@@ -122,7 +120,7 @@ export default defineComponent({
         };
 
         const handlePopperEnter = () => {
-            // 如果是hover 且 只能展开一项的场景，进入第一层的时候要清空
+            // 如果是 hover 且 只能展开一项的场景，进入第一层的时候要清空
             if (rootMenu.accordion.value && isFirstLevel.value) {
                 rootMenu.updateExpandedKeys([]);
             }
@@ -232,7 +230,7 @@ export default defineComponent({
                     <Popper
                         v-model={isOpened.value}
                         {...popperProps.value}
-                        trigger={rootMenu.expandTrigger.value}
+                        trigger={`hover`}
                         placement={placement.value}
                         popperClass={`${prefixCls}-popper`}
                         appendToContainer={!(indexPath.value.length > 2)}
