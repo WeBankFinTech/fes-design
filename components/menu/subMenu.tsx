@@ -119,14 +119,6 @@ export default defineComponent({
             rootMenu.handleSubMenuExpand(subMenu as unknown as MenuItemType, indexPath);
         };
 
-        const handlePopperEnter = () => {
-            // 如果是 hover 且 只能展开一项的场景，进入第一层的时候要清空
-            if (rootMenu.accordion.value && isFirstLevel.value) {
-                rootMenu.updateExpandedKeys([]);
-            }
-            rootMenu.handleSubMenuExpand(subMenu as unknown as MenuItemType, indexPath);
-        };
-
         watch(
             [
                 rootMenu.currentExpandedKeys,
@@ -209,7 +201,6 @@ export default defineComponent({
                 <div
                     class={`${prefixCls}-wrapper`}
                     style={paddingStyle.value}
-                    onMouseenter={handlePopperEnter}
                 >
                     {wrapperContent()}
                 </div>
