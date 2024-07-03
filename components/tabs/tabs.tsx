@@ -20,7 +20,7 @@ import { flatten } from '../_util/vnode';
 import { useTheme } from '../_theme/useTheme';
 import PlusOutlined from '../icon/PlusOutlined';
 import Scrollbar from '../scrollbar';
-import { ADD_EVENT, COMPONENT_NAME, TABS_INJECTION_KEY } from './constants';
+import { ADD_EVENT, CLICK_TAB_EVENT, COMPONENT_NAME, TABS_INJECTION_KEY } from './constants';
 import { mapTabPane } from './helper';
 import Tab from './tab';
 import TabPane from './tab-pane.vue';
@@ -32,7 +32,7 @@ const prefixCls = getPrefixCls('tabs');
 export default defineComponent({
     name: COMPONENT_NAME,
     props: tabsProps,
-    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, CLOSE_EVENT, ADD_EVENT],
+    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, CLOSE_EVENT, ADD_EVENT, CLICK_TAB_EVENT],
     setup(props, { emit, slots }) {
         useTheme();
         const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
@@ -53,8 +53,11 @@ export default defineComponent({
         };
 
         const handleTabClick = (key: Value) => {
-            updateCurrentValue(key);
-            emit(CHANGE_EVENT, key);
+            if (key !== currentValue.value) {
+                updateCurrentValue(key);
+                emit(CHANGE_EVENT, key);
+            }
+            emit(CLICK_TAB_EVENT, key);
         };
 
         const handleAddClick = (event: Event) => {
