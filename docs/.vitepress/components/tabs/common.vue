@@ -1,5 +1,5 @@
 <template>
-    <FTabs>
+    <FTabs @change="handleChange" @clickTab="handleClickTab">
         <FTabPane name="T恤" value="T恤">
             <div class="tab-content">T恤</div>
         </FTabPane>
@@ -11,6 +11,15 @@
         </FTabPane>
     </FTabs>
 </template>
+
+<script lang="ts" setup>
+const handleChange = (value: string | number) => {
+    console.log('[tabs.common] handleChange, value:', value);
+};
+const handleClickTab = (value: string | number) => {
+    console.log('[tabs.common] handleClickTab, value:', value);
+};
+</script>
 
 <style scoped>
 .tab-content {
