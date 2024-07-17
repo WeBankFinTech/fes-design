@@ -43,6 +43,9 @@
         border-spacing: 0;
 
         > .@{input-prefix-cls}-inner {
+            // 提高中间输入框层级，避免边框和阴影被遮挡
+            position: relative;
+            z-index: 10;
             vertical-align: middle;
         }
 
