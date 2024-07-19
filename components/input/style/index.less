@@ -25,13 +25,14 @@
     &-prepend {
         .group();
         .group-prepend();
-        border-right: 0;
+        border-right: 1px solid transparent;
         .border-right-pure();
+     
     }
     &-append {
         .group();
         .group-append();
-        border-left: 0;
+        border-left: 1px solid transparent;
         .border-left-pure();
     }
 
@@ -45,7 +46,7 @@
         > .@{input-prefix-cls}-inner {
             // 提高中间输入框层级，避免边框和阴影被遮挡
             position: relative;
-            z-index: 10;
+            z-index: 1;
             vertical-align: middle;
         }
 

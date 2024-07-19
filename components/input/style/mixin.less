@@ -9,11 +9,6 @@
     }
 }
 
-.border-hover-clear() {
-    border-color: var(--f-border-color-base);
-    box-shadow: none;
-}
-
 .border-left-pure() {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
@@ -24,6 +19,7 @@
 }
 
 .group-append() {
+    .hidden-left-border();
     button.@{cls-prefix}-btn,
     div.@{cls-prefix}-select .@{cls-prefix}-select-trigger,
     div.@{cls-prefix}-cascader .@{cls-prefix}-select-trigger,
@@ -33,7 +29,10 @@
         .border-left-pure();
     }
 }
+
+
 .group-prepend() {
+    .hidden-right-border();
     button.@{cls-prefix}-btn,
     div.@{cls-prefix}-select .@{cls-prefix}-select-trigger,
     div.@{cls-prefix}-cascader .@{cls-prefix}-select-trigger,
@@ -44,16 +43,41 @@
     }
 }
 
-// 组合场景下，不展示部分组件的hover边框样式
-.group-hover-clear {
-    .@{cls-prefix}-select-trigger,
-    .@{cls-prefix}-select-trigger.is-active  {
-        .border-hover-clear();
+.light-border {
+    div.@{cls-prefix}-select .@{cls-prefix}-select-trigger,
+    div.@{cls-prefix}-cascader .@{cls-prefix}-select-trigger,
+    div.@{cls-prefix}-select-cascader .@{cls-prefix}-select-trigger {
+        border: 1px solid var(--f-primary-color);
+    }
+}
+
+.hidden-right-border {
+    div.@{cls-prefix}-select .@{cls-prefix}-select-trigger,
+    div.@{cls-prefix}-cascader .@{cls-prefix}-select-trigger,
+    div.@{cls-prefix}-select-cascader .@{cls-prefix}-select-trigger {
+        border-right: 1px solid transparent;
+    }
+}
+
+.hidden-left-border {
+    div.@{cls-prefix}-select .@{cls-prefix}-select-trigger,
+    div.@{cls-prefix}-cascader .@{cls-prefix}-select-trigger,
+    div.@{cls-prefix}-select-cascader .@{cls-prefix}-select-trigger {
+        border-left: 1px solid transparent;
+    }
+}
+
+.select-focus-border-light() {
+    div.@{cls-prefix}-select .@{cls-prefix}-select-trigger.is-active,
+    div.@{cls-prefix}-cascader .@{cls-prefix}-select-trigger.is-active,
+    div.@{cls-prefix}-select-cascader .@{cls-prefix}-select-trigger.is-active {
+        border: 1px solid var(--f-primary-color);
     }
 }
 
 .group() {
     position: relative;
+    z-index: 0;
     display: table-cell;
     box-sizing: border-box;
     width: 1px;
@@ -64,8 +88,11 @@
     background-color: var(--f-component-bg-color);
     border: var(--f-border-base);
     border-radius: var(--f-border-radius-base);
-    .group-hover-clear();
+    .select-focus-border-light();
 
+    &:hover {
+        .light-border();
+    }
     &:focus {
         outline: none;
     }
