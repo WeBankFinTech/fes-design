@@ -1,3 +1,19 @@
+## [0.8.57](https://github.com/WeBankFinTech/fes-design/compare/v0.8.56...v0.8.57) (2024-07-19)
+
+
+### Bug Fixes
+
+* **FInput:** 修复复合型输入框样式问题 ([#867](https://github.com/WeBankFinTech/fes-design/issues/867)) ([8547dbd](https://github.com/WeBankFinTech/fes-design/commit/8547dbd99f51ff4aa42f7403b9ccc7e5687c7802))
+* **SelectTrigger:** 修复多选模式下 input 元素宽度计算问题 ([#863](https://github.com/WeBankFinTech/fes-design/issues/863)) ([9af1d08](https://github.com/WeBankFinTech/fes-design/commit/9af1d086ccbb31dae44625e8b6321e15933cccd9))
+* **Tabs:** 修复 change 事件逻辑问题及增加 clickTab 事件 ([#861](https://github.com/WeBankFinTech/fes-design/issues/861)) ([232e51b](https://github.com/WeBankFinTech/fes-design/commit/232e51ba3ec7a4104d2baaf7c8569689803888e2))
+
+
+### Features
+
+* **Tooltip:** 支持 svg 元素 ([#860](https://github.com/WeBankFinTech/fes-design/issues/860)) ([e343010](https://github.com/WeBankFinTech/fes-design/commit/e343010800bca329ed89f93fe37484f619cbb482))
+
+
+
 ## [0.8.56](https://github.com/WeBankFinTech/fes-design/compare/v0.8.55...v0.8.56) (2024-07-02)
 
 
