@@ -49,6 +49,12 @@
                 />
             </template>
         </FInput>
+
+        <FInput placeholder="请输入">
+            <template #append>
+                .com
+            </template>
+        </FInput>
     </FSpace>
 </template>
 

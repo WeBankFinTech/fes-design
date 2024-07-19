@@ -97,7 +97,7 @@ handleFocus.vue
 | prefix  | 前缀，只在 `type="text"` 时有效     |
 | suffix  | 后缀，只在 `type="text"` 时有效     |
 | prepend | 前置内容，只在 `type="text"` 时有效 |
-| append  | 前置内容，只在 `type="text"` 时有效 |
+| append  | 后置内容，只在 `type="text"` 时有效 |
 
 ## Events
 

@@ -19,25 +19,65 @@
 }
 
 .group-append() {
+    .hidden-append-border();
     button.@{cls-prefix}-btn,
     div.@{cls-prefix}-select .@{cls-prefix}-select-trigger,
     div.@{cls-prefix}-cascader .@{cls-prefix}-select-trigger,
+    div.@{cls-prefix}-select-cascader .@{cls-prefix}-select-trigger,
     div.@{cls-prefix}-select:hover .@{cls-prefix}-select-trigger,
     div.@{cls-prefix}-cascader:hover .@{cls-prefix}-select-trigger {
         .border-left-pure();
     }
 }
+
+
 .group-prepend() {
+    .hidden-prepend-border();
     button.@{cls-prefix}-btn,
     div.@{cls-prefix}-select .@{cls-prefix}-select-trigger,
     div.@{cls-prefix}-cascader .@{cls-prefix}-select-trigger,
+    div.@{cls-prefix}-select-cascader .@{cls-prefix}-select-trigger,
     div.@{cls-prefix}-select:hover .@{cls-prefix}-select-trigger,
     div.@{cls-prefix}-cascader:hover .@{cls-prefix}-select-trigger  {
         .border-right-pure();
     }
 }
+
+.hover-light-border() {
+    div.@{cls-prefix}-select .@{cls-prefix}-select-trigger,
+    div.@{cls-prefix}-cascader .@{cls-prefix}-select-trigger,
+    div.@{cls-prefix}-select-cascader .@{cls-prefix}-select-trigger {
+        border: 1px solid var(--f-primary-color);
+    }
+}
+
+.hidden-prepend-border {
+    div.@{cls-prefix}-select .@{cls-prefix}-select-trigger,
+    div.@{cls-prefix}-cascader .@{cls-prefix}-select-trigger,
+    div.@{cls-prefix}-select-cascader .@{cls-prefix}-select-trigger {
+        border-right: 1px solid transparent;
+    }
+}
+
+.hidden-append-border {
+    div.@{cls-prefix}-select .@{cls-prefix}-select-trigger,
+    div.@{cls-prefix}-cascader .@{cls-prefix}-select-trigger,
+    div.@{cls-prefix}-select-cascader .@{cls-prefix}-select-trigger {
+        border-left: 1px solid transparent;
+    }
+}
+
+.focus-light-border() {
+    div.@{cls-prefix}-select .@{cls-prefix}-select-trigger.is-active,
+    div.@{cls-prefix}-cascader .@{cls-prefix}-select-trigger.is-active,
+    div.@{cls-prefix}-select-cascader .@{cls-prefix}-select-trigger.is-active {
+        border: 1px solid var(--f-primary-color);
+    }
+}
+
 .group() {
     position: relative;
+    z-index: 0;
     display: table-cell;
     box-sizing: border-box;
     width: 1px;
@@ -48,7 +88,11 @@
     background-color: var(--f-component-bg-color);
     border: var(--f-border-base);
     border-radius: var(--f-border-radius-base);
+    .focus-light-border();
 
+    &:hover {
+        .hover-light-border();
+    }
     &:focus {
         outline: none;
     }
