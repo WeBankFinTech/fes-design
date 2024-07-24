@@ -12,7 +12,6 @@ app.use(FMenu);
 
 ## 代码演示
 
-
 ### 水平方向
 
 :::demo
@@ -124,10 +123,11 @@ customContainer.vue
 
 ## MenuItem Props
 
-| 属性  | 说明       | 类型   | 默认值 |
-| ----- | ---------- | ------ | ------ |
-| value | 唯一标志   | string | `null` |
-| label | 菜单的标题 | string | `-`    |
+| 属性     | 说明           | 类型    | 默认值  |
+| -------- | -------------- | ------- | ------- |
+| value    | 唯一标志       | string  | `null`  |
+| label    | 菜单的标题     | string  | `-`     |
+| disabled | 是否禁用菜单项 | boolean | `false` |
 
 ## MenuItem Slots
 
@@ -145,3 +145,4 @@ customContainer.vue
 | icon     | 菜单项的图标                                   | ()=> VNodeChild           |
 | children | 子选项，当存在子选项时渲染为子菜单或者分组菜单 | `Array<MenuOption>`       |
 | isGroup  | 是否是分组                                     | boolean                   |
+| disabled | 是否禁用                                       | boolean                   |

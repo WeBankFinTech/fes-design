@@ -89,6 +89,14 @@
             transition: all @animation-duration-base @ease-base-in;
         }
     }
+    &.is-disabled {
+        &:hover {
+            cursor: not-allowed;
+        }
+        .@{menu-item-prefix-cls}-wrapper {
+            color: var(--f-text-color-secondary);
+        }
+    }
 }
 
 .@{menu-group-prefix-cls} {

@@ -6,6 +6,7 @@ export interface MenuOption {
     icon: () => VNodeChild;
     children: MenuOption[];
     isGroup: boolean;
+    disabled: boolean;
 }
 
 export interface MenuItemType {
@@ -15,4 +16,5 @@ export interface MenuItemType {
     children: MenuItemType[];
     isOpened: Ref<boolean>;
     isActive: Ref<boolean>;
+    isDisabled: Ref<boolean>;
 }

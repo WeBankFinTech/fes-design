@@ -91,6 +91,7 @@ export default {
                                 {
                                     value: '1.3',
                                     label: '深圳',
+                                    disabled: true,
                                 },
                                 {
                                     value: '1.4',

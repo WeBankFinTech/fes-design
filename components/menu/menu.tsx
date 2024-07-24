@@ -152,7 +152,7 @@ export default defineComponent({
                     isFunction(item.label) ? item.label() : item.label;
                 // 没有子菜单
                 if (!item.children) {
-                    return <MenuItem value={item.value} v-slots={itemSlots} />;
+                    return <MenuItem value={item.value} disabled={item.disabled} v-slots={itemSlots} />;
                 }
                 // 分组
                 if (item.isGroup) {
