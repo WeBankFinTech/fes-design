@@ -65,7 +65,7 @@ export default defineComponent({
             () => rootMenu.currentValue.value === props.value,
         );
         const isDisabled = computed(
-            () => props.disabled === true,
+            () => props.disabled,
         );
         const menuItem = {
             uid: instance.uid,
