@@ -1,3 +1,17 @@
+## [0.8.58](https://github.com/WeBankFinTech/fes-design/compare/v0.8.57...v0.8.58) (2024-07-29)
+
+
+### Bug Fixes
+
+* **Tabs:** 修复卡片式页签下超出容器宽度后样式异常的问题 ([#869](https://github.com/WeBankFinTech/fes-design/issues/869)) ([121fcfa](https://github.com/WeBankFinTech/fes-design/commit/121fcfaa8b9f9c4c85f729948f0e7b0408a34ae5))
+
+
+### Features
+
+* **Menu:** 增加 disabled 配置项 ([#868](https://github.com/WeBankFinTech/fes-design/issues/868)) ([8c32546](https://github.com/WeBankFinTech/fes-design/commit/8c32546b96a11a0734ce005ef5277fa9dbe351d5))
+
+
+
 ## [0.8.57](https://github.com/WeBankFinTech/fes-design/compare/v0.8.56...v0.8.57) (2024-07-19)
 
 
