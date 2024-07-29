@@ -23,6 +23,7 @@ export const menuItemProps = {
         required: true,
     },
     label: String,
+    disabled: Boolean,
 } as const;
 
 export type MenuItemProps = ExtractPublicPropTypes<typeof menuItemProps>;
@@ -38,6 +39,7 @@ export default defineComponent({
             required: true,
         },
         label: String,
+        disabled: Boolean,
     } satisfies ComponentObjectPropsOptions,
     setup(props, { slots }) {
         const instance = getCurrentInstance();
@@ -62,11 +64,15 @@ export default defineComponent({
         const isActive = computed(
             () => rootMenu.currentValue.value === props.value,
         );
+        const isDisabled = computed(
+            () => props.disabled,
+        );
         const menuItem = {
             uid: instance.uid,
             type: 'menu',
             value: props.value,
             isActive,
+            isDisabled,
         };
         onMounted(() => {
             parentMenu.addChild(menuItem);
@@ -75,11 +81,14 @@ export default defineComponent({
             parentMenu.removeChild(menuItem);
         });
         const classList = computed(() =>
-            [prefixCls, isActive.value && 'is-active']
+            [prefixCls, isActive.value && 'is-active', isDisabled.value && 'is-disabled']
                 .filter(Boolean)
                 .join(' '),
         );
         const handleClick = () => {
+            if (isDisabled.value) {
+                return;
+            }
             rootMenu.clickMenuItem(props.value);
             handleItemClick();
         };

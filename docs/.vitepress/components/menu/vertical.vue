@@ -10,7 +10,7 @@
                 </template>
                 <f-menu-group>
                     <template #label>华中地区</template>
-                    <f-menu-item value="1.1">
+                    <f-menu-item value="1.1" disabled>
                         <template #label>湖南</template>
                     </f-menu-item>
                     <f-sub-menu label="湖北">

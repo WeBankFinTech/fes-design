@@ -7,7 +7,7 @@
             <template #label>我是标题</template>
             <f-menu-group>
                 <template #label>华中地区</template>
-                <f-menu-item value="1.1">
+                <f-menu-item value="1.1" disabled>
                     <template #label>湖南</template>
                 </f-menu-item>
                 <f-sub-menu label="湖北">
@@ -33,7 +33,7 @@
                 <AppstoreOutlined />
             </template>
             <template #label>人群管理</template>
-            <f-menu-item value="2.1">
+            <f-menu-item value="2.1" :disabled="true">
                 <template #label>富高帅</template>
             </f-menu-item>
             <f-menu-item value="2.2">
