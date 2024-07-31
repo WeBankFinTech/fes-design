@@ -25,9 +25,7 @@
         <template #trigger>
             <FButton>Click to activate</FButton>
         </template>
-        <div style="padding: 30px">
-            this is content, this is content, this is content
-        </div>
+        <div style="padding: 30px">this is content, this is content, this is content</div>
     </FPopper>
 </template>
 
