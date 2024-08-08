@@ -1,5 +1,6 @@
 import {
     type Ref,
+    computed,
     nextTick,
     onActivated,
     onDeactivated,
@@ -45,6 +46,9 @@ export default function useTableLayout({
     const bodyHeight = ref(0);
     const initRef = ref(false);
 
+    // 兼容 windows 浏览器滚动条导致高度有小数的场景
+    const propHeight = computed(() => Math.floor(props.height));
+
     const min = 80;
 
     const computeY = () => {
@@ -54,12 +58,12 @@ export default function useTableLayout({
             const $wrapper = wrapperRef.value;
             const $bodyWrapper = bodyWrapperRef.value;
             if ($wrapper && $bodyWrapper) {
-                if (props.height) {
+                if (propHeight.value) {
                     const $headerWrapper = props.showHeader
                         ? headerWrapperRef.value
                         : { offsetHeight: 0 };
                     const headerWrapperHeight = $headerWrapper.offsetHeight;
-                    let remainBodyHeight = props.height - headerWrapperHeight;
+                    let remainBodyHeight = propHeight.value - headerWrapperHeight;
                     if (props.bordered) {
                         remainBodyHeight -= 2;
                     }
@@ -159,7 +163,7 @@ export default function useTableLayout({
     watch(
         [
             widthMap,
-            () => props.height,
+            propHeight,
             () => props.showHeader,
             () => props.bordered,
             wrapperRef,
