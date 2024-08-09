@@ -1,3 +1,12 @@
+## [0.8.59](https://github.com/WeBankFinTech/fes-design/compare/v0.8.58...v0.8.59) (2024-08-09)
+
+
+### Bug Fixes
+
+* **Table:** 兼容 windows 浏览器滚动条导致高度有小数的场景 ([#872](https://github.com/WeBankFinTech/fes-design/issues/872)) ([7883290](https://github.com/WeBankFinTech/fes-design/commit/78832907fc9a793008b0198f217478524fb0f711))
+
+
+
 ## [0.8.58](https://github.com/WeBankFinTech/fes-design/compare/v0.8.57...v0.8.58) (2024-07-29)
 
 
