@@ -359,7 +359,7 @@ export default ({
 
             const resetScrolling = (resetBodyTable = true): void => {
                 // BodyTable
-                if (resetBodyTable && scrollbarRef.value) {
+                if (resetBodyTable && scrollbarRef.value && scrollbarRef.value.containerRef) {
                     scrollbarRef.value.containerRef.scrollLeft = 0;
                 }
                 // HeaderTable
@@ -429,7 +429,7 @@ export default ({
              * 有数据时，
              * 仍按照原逻辑，先更新 bodyWrapper 的 scrollLeft，再 syncPosition
              */
-            if (scrollbarRef.value) {
+            if (scrollbarRef.value && scrollbarRef.value.containerRef) {
                 scrollbarRef.value.containerRef.scrollLeft += deltaX;
             }
         }
