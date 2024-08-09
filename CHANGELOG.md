@@ -1,3 +1,12 @@
+## [0.8.60](https://github.com/WeBankFinTech/fes-design/compare/v0.8.59...v0.8.60) (2024-08-09)
+
+
+### Bug Fixes
+
+* **Table:** 修复弹窗表格初始化执行报错的问题 ([#874](https://github.com/WeBankFinTech/fes-design/issues/874)) ([23c7658](https://github.com/WeBankFinTech/fes-design/commit/23c76581f8c349ba01bee48591da4886be2ccefe))
+
+
+
 ## [0.8.59](https://github.com/WeBankFinTech/fes-design/compare/v0.8.58...v0.8.59) (2024-08-09)
 
 
