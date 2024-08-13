@@ -28,7 +28,6 @@ common.vue
 clearable.vue
 :::
 
-
 ### 基础多选
 
 适用性较广的基础多选，用 `Tag` 展示已选项
@@ -97,6 +96,7 @@ withPath.vue
 | modelValue / v-model  | 选中的值                                                                                                                                                                | number / string / array                          | -                     |
 | filterable            | 是否支持过滤选项                                                                                                                                                        | boolean                                          | `false`               |
 | filter                | 自定义过滤函数                                                                                                                                                          | (pattern: string, option: TreeOption) => boolean | `-`                   |
+| filterTextHighlight   | 过滤文本是否高亮                                                                                                                                                        | boolean                                          | `false`               |
 | data                  | 展示数据                                                                                                                                                                | Array\<TreeOption\>                              | `[]`                  |
 | accordion             | 手风琴模式，是否保持同级节点中只有一个节点展开                                                                                                                          | boolean                                          | `false`               |
 | defaultExpandAll      | 是否默认展开所有节点，当有 `expandedKeys` 时，`defaultExpandAll` 将失效                                                                                                 | boolean                                          | `false`               |
@@ -123,6 +123,7 @@ withPath.vue
 | blur          | 当选择器失去焦点时触发                                                       | event                         |
 | focus         | 当选择器获得焦点时触发                                                       | event                         |
 | clear         | 点击清除按钮时触发                                                           | event                         |
+| filter        | 过滤事件                                                                     | ( query: String)              |
 
 ## SelectTree Methods
 

@@ -111,6 +111,8 @@ export const treeProps = {
         type: Boolean,
         default: false,
     },
+    filterText: String,
+    filterTextHighlight: Boolean,
 } as const satisfies ComponentObjectPropsOptions;
 
 export const treePropsDefaultValue = extractPropsDefaultValue(treeProps);

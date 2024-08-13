@@ -61,6 +61,8 @@
                         virtualList
                         :style="dropdownStyle"
                         :class="`${prefixCls}-dropdown is-max-height`"
+                        :filterText="filterText"
+                        :filterTextHighlight="filterTextHighlight"
                         @update:nodeList="onChangeNodeList"
                         @select="handleSelect"
                         @check="handleCheck"
@@ -101,6 +103,8 @@
                             :inline="inline"
                             :remote="remote"
                             :loadData="loadData"
+                            :filterText="filterText"
+                            :filterTextHighlight="filterTextHighlight"
                             @update:nodeList="onChangeNodeList"
                             @select="handleSelect"
                             @check="handleCheck"
@@ -200,6 +204,7 @@ export default defineComponent({
         'focus',
         'blur',
         'clear',
+        'filter',
     ],
     setup(props, { emit, attrs }) {
         useTheme();
@@ -409,6 +414,7 @@ export default defineComponent({
 
         const handleFilterTextChange = (val: string) => {
             filterText.value = val;
+            emit('filter', val);
         };
 
         const refTree = ref(null);
@@ -473,6 +479,7 @@ export default defineComponent({
             isError,
             attrs,
             innerDisabled,
+            filterText,
         };
     },
 });
