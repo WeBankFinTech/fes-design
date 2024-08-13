@@ -11,6 +11,7 @@ import VirtualList from '../virtual-list/virtualList';
 import CheckOutlined from '../icon/CheckOutlined';
 import { noop } from '../_util/utils';
 import { useLocale } from '../config-provider/useLocale';
+import TextHightlight from '../text-highlight';
 import { PADDING_LEFT_BASE, PADDING_LEFT_INDENT } from './const';
 import { selectProps } from './props';
 import type { SelectOption, SelectValue } from './interface';
@@ -46,6 +47,8 @@ const optionListProps = {
     renderOption: Function,
     renderEmpty: Function,
     hoverOptionValue: [String, Number, Object] as PropType<SelectValue>,
+    filterText: String,
+    filterTextHighlight: Boolean,
 } as const satisfies ComponentObjectPropsOptions;
 
 export default defineComponent({
@@ -91,7 +94,14 @@ export default defineComponent({
                 return (
                     <>
                         <Ellipsis class={`${prefixCls}-label`}>
-                            {option.label}
+                            {props.filterTextHighlight && props.filterText && !option.__cache
+                                ? (
+                                    <TextHightlight strict searchValues={[props.filterText]}>
+                                        {option.label}
+                                    </TextHightlight>
+                                    )
+                                : option.label
+                            }
                             {option.__cache && (
                                 <span class={`${prefixCls}-label-tip`}>
                                     - {t('select.tagOption')}
@@ -164,7 +174,7 @@ export default defineComponent({
         const renderDefault = ({ source }: { source: SelectOption }) =>
             source.__isGroup ? renderGroupOption(source) : renderOption(source);
 
-        const inValidValueKey = '_ALL_KEY_'
+        const inValidValueKey = '_ALL_KEY_';
 
         return () =>
             enableVirtualScroll.value
@@ -215,8 +225,8 @@ export default defineComponent({
                         : (
                             <div
                                 class={[
-                        `${props.prefixCls}-dropdown`,
-                        `${props.prefixCls}-null`,
+                                    `${props.prefixCls}-dropdown`,
+                                    `${props.prefixCls}-null`,
                                 ]}
                                 style={props.containerStyle}
                             >

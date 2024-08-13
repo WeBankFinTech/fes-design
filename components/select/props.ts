@@ -51,6 +51,10 @@ export const selectProps = {
             (pattern: string, option: object) => boolean
         >,
     },
+    filterTextHighlight: {
+        type: Boolean,
+        default: false,
+    },
     collapseTags: {
         type: Boolean,
         default: false,
