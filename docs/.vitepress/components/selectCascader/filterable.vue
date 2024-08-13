@@ -6,63 +6,74 @@
                 <FRadio :value="true">是</FRadio>
             </FRadioGroup>
         </FFormItem>
+        <FFormItem v-show="filterable" label="是否高亮:">
+            <FRadioGroup
+                v-model="filterTextHighlight"
+                :options="[
+                    { label: '否(默认)', value: false },
+                    { label: '是', value: true },
+                ]"
+            />
+        </FFormItem>
     </FForm>
 
     <FDivider />
 
-    <FSpace>
-        <div>
-            单选默认：
+    <FForm :labelWidth="130">
+        <FFormItem label="单选默认:">
             <FSelectCascader
                 v-model="value1"
                 class="select-cascader"
                 :data="data"
                 :filterable="filterable"
+                :filterTextHighlight="filterTextHighlight"
             />
-        </div>
-        <div>
-            单选自定义过滤函数：
+        </FFormItem>
+        <FFormItem label="单选自定义过滤函数:">
             <FSelectCascader
                 class="select-cascader"
                 :data="data"
                 :filterable="filterable"
                 :filter="filter"
+                :filterTextHighlight="filterTextHighlight"
             />
-        </div>
-    </FSpace>
+        </FFormItem>
+    </FForm>
 
     <FDivider />
 
-    <FSpace vertical>
-        <div>
-            多选默认：
+    <FForm labelPosition="top" :labelWidth="130">
+        <FFormItem label="多选默认:">
             <FSelectCascader
                 v-model="value2"
                 class="select-cascader-multi"
                 :data="data"
                 :filterable="filterable"
                 :multiple="true"
+                :filterTextHighlight="filterTextHighlight"
                 showPath
                 emitPath
             />
-        </div>
-        <div>
-            多选自定义过滤函数：
+        </FFormItem>
+        <FFormItem label="多选自定义过滤函数:">
             <FSelectCascader
                 class="select-cascader-multi"
                 :data="data"
                 :filterable="filterable"
                 :multiple="true"
                 :filter="filter"
+                :filterTextHighlight="filterTextHighlight"
                 showPath
                 emitPath
             />
-        </div>
-    </FSpace>
+        </FFormItem>
+    </FForm>
 </template>
 
-<script>
+<script setup>
 import { reactive, ref } from 'vue';
+
+const filterTextHighlight = ref(false);
 
 function createData(level = 4, baseKey = '') {
     if (!level) {
@@ -94,26 +105,15 @@ function createLabel(level) {
     }
 }
 
-export default {
-    setup() {
-        const filterable = ref(true);
-        const value1 = ref();
-        const value2 = ref();
+const filterable = ref(true);
+const value1 = ref();
+const value2 = ref();
 
-        const data = reactive(createData(4));
+const data = reactive(createData(4));
 
-        // 默认会匹配所有节点描述，这里仅匹配叶子节点描述
-        const filter = (text, option) => {
-            return option.label.indexOf(text) !== -1;
-        };
-        return {
-            filterable,
-            data,
-            filter,
-            value1,
-            value2,
-        };
-    },
+// 默认会匹配所有节点描述，这里仅匹配叶子节点描述
+const filter = (text, option) => {
+    return option.label.indexOf(text) !== -1;
 };
 </script>
 
@@ -123,5 +123,11 @@ export default {
 }
 .select-cascader-multi {
     width: 100%;
+}
+</style>
+
+<style>
+.fes-select-cascader-popper .fes-select-dropdown {
+    min-width: 500px !important;
 }
 </style>
