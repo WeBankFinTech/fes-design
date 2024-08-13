@@ -16,50 +16,68 @@ app.use(FSelectTree);
 
 适用广泛的基础单选
 
---COMMON
+:::demo
+common.vue
+:::
 
 ### 可清空
 
 包含清空按钮，可将选择器清空为初始状态
 
---CLEARABLE
+:::demo
+clearable.vue
+:::
+
 
 ### 基础多选
 
 适用性较广的基础多选，用 `Tag` 展示已选项
 
---MULTIPLE
+:::demo
+multiple.vue
+:::
 
 ### 可搜索
 
 可以利用搜索功能快速查找选项
 
---FILTERABLE
+:::demo
+filterable.vue
+:::
 
 ### 禁用状态
 
 选择器不可用状态
 
---DISABLED
+:::demo
+disabled.vue
+:::
 
 ### 虚拟列表
 
 设置`virtualList`属性，处理大数据。
---VIRTUALLIST
+
+:::demo
+virtualList.vue
+:::
 
 ### 控制回填内容
 
---LABELFIELD
+:::demo
+labelField.vue
+:::
 
 ### 无数据
 
---NODATA
+:::demo
+nodata.vue
+:::
 
 ### 获取选中路径
 
---WITHPATH
-
---CODE
+:::demo
+withPath.vue
+:::
 
 ## SelectTree Props
 
