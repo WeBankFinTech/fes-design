@@ -70,6 +70,8 @@
                     :isSelect="filterIsSelect"
                     :onSelect="handleFilterSelect"
                     :emptyText="filterEmptyText"
+                    :filterText="filterText"
+                    :filterTextHighlight="filterTextHighlight"
                     @mousedown.prevent
                 />
             </template>
