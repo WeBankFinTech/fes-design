@@ -53,6 +53,8 @@
                     :renderOption="$slots.option"
                     :renderEmpty="$slots.empty"
                     :virtualScroll="virtualScroll"
+                    :filterText="filterText"
+                    :filterTextHighlight="filterTextHighlight"
                     @scroll="onScroll"
                     @mousedown.prevent
                 />
@@ -95,7 +97,7 @@ export default defineComponent({
         OptionList,
     },
     props: selectProps,
-    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'removeTag', 'visibleChange', 'focus', 'blur', 'clear', 'scroll', 'search'],
+    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'removeTag', 'visibleChange', 'focus', 'blur', 'clear', 'scroll', 'search', 'filter'],
     setup(props, { emit }) {
         useTheme();
         const { validate, isError, isFormDisabled } = useFormAdaptor({
@@ -316,6 +318,7 @@ export default defineComponent({
             },
         ) => {
             filterText.value = val;
+            emit('filter', val);
             // blur 自动清的 inputText 不触发 search
             if (props.remote && !extraInfo?.isClear) {
                 emit('search', val);
@@ -420,6 +423,7 @@ export default defineComponent({
             onHover,
             onKeyDown,
             warnDeprecatedSlot,
+            filterText,
         };
     },
 });
