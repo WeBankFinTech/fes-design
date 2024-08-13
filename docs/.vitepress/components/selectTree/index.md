@@ -16,50 +16,67 @@ app.use(FSelectTree);
 
 适用广泛的基础单选
 
---COMMON
+:::demo
+common.vue
+:::
 
 ### 可清空
 
 包含清空按钮，可将选择器清空为初始状态
 
---CLEARABLE
+:::demo
+clearable.vue
+:::
 
 ### 基础多选
 
 适用性较广的基础多选，用 `Tag` 展示已选项
 
---MULTIPLE
+:::demo
+multiple.vue
+:::
 
 ### 可搜索
 
 可以利用搜索功能快速查找选项
 
---FILTERABLE
+:::demo
+filterable.vue
+:::
 
 ### 禁用状态
 
 选择器不可用状态
 
---DISABLED
+:::demo
+disabled.vue
+:::
 
 ### 虚拟列表
 
 设置`virtualList`属性，处理大数据。
---VIRTUALLIST
+
+:::demo
+virtualList.vue
+:::
 
 ### 控制回填内容
 
---LABELFIELD
+:::demo
+labelField.vue
+:::
 
 ### 无数据
 
---NODATA
+:::demo
+nodata.vue
+:::
 
 ### 获取选中路径
 
---WITHPATH
-
---CODE
+:::demo
+withPath.vue
+:::
 
 ## SelectTree Props
 
@@ -79,6 +96,7 @@ app.use(FSelectTree);
 | modelValue / v-model  | 选中的值                                                                                                                                                                | number / string / array                          | -                     |
 | filterable            | 是否支持过滤选项                                                                                                                                                        | boolean                                          | `false`               |
 | filter                | 自定义过滤函数                                                                                                                                                          | (pattern: string, option: TreeOption) => boolean | `-`                   |
+| filterTextHighlight   | 过滤文本是否高亮                                                                                                                                                        | boolean                                          | `false`               |
 | data                  | 展示数据                                                                                                                                                                | Array\<TreeOption\>                              | `[]`                  |
 | accordion             | 手风琴模式，是否保持同级节点中只有一个节点展开                                                                                                                          | boolean                                          | `false`               |
 | defaultExpandAll      | 是否默认展开所有节点，当有 `expandedKeys` 时，`defaultExpandAll` 将失效                                                                                                 | boolean                                          | `false`               |
@@ -105,6 +123,7 @@ app.use(FSelectTree);
 | blur          | 当选择器失去焦点时触发                                                       | event                         |
 | focus         | 当选择器获得焦点时触发                                                       | event                         |
 | clear         | 点击清除按钮时触发                                                           | event                         |
+| filter        | 过滤事件                                                                     | ( query: String)              |
 
 ## SelectTree Methods
 

@@ -5,7 +5,9 @@
         <FRadio value="parent">parent</FRadio>
         <FRadio value="child">child</FRadio>
     </FRadioGroup>
-    <br>
+
+    <FDivider />
+
     <FSelectTree
         :data="data"
         multiple

@@ -19,6 +19,9 @@
                 <FRadio value="child">child</FRadio>
             </FRadioGroup>
         </FFormItem>
+
+        <FDivider />
+
         <FFormItem label="单选：">
             <FSelectTree
                 v-model="singleValue"

@@ -14,6 +14,7 @@ import CaretDownOutlined from '../icon/CaretDownOutlined';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import Checkbox from '../checkbox';
 import FEllipsis from '../ellipsis';
+import TextHightlight from '../text-highlight';
 import { COMPONENT_NAME, INDENT } from './const';
 import useTreeNode from './useTreeNode';
 
@@ -253,8 +254,16 @@ export default defineComponent({
             return (
                 <FEllipsis
                     class={`${prefixCls}-content-label`}
-                    content={props.label}
-                />
+                >
+                    {root.props.filterTextHighlight && root.props.filterText
+                        ? (
+                            <TextHightlight strict searchValues={[root.props.filterText]}>
+                                {props.label}
+                            </TextHightlight>
+                            )
+                        : props.label
+                    }
+                </FEllipsis>
             );
         };
 

@@ -49,7 +49,6 @@ function createLabel(level) {
 export default {
     setup() {
         const data1 = reactive(createData(3));
-        console.log(JSON.stringify(data1, null, 2));
         const data2 = [
             {
                 label: '二生三',

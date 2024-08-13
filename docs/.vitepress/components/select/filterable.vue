@@ -43,7 +43,10 @@
                         :key="item.label"
                         :value="item.value"
                     >
-                        <FTextHighlight :searchValues="[filterText]" strict>{{ item.label }}</FTextHighlight>
+                        <FEllipsis>
+                            <FTextHighlight v-if="filterText" :searchValues="[filterText]" strict>{{ item.label }}</FTextHighlight>
+                            <template v-else>{{ item.label }}</template>
+                        </FEllipsis>
                     </FOption>
                 </FSelectGroupOption>
             </FSelect>
@@ -60,7 +63,7 @@ const filterTextHighlight = ref(false);
 const optionList = reactive([
     {
         value: 'HuNan',
-        label: '湖南',
+        label: '湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南',
     },
     {
         value: 'HuBei',
@@ -91,7 +94,7 @@ const cityOptions = [
             },
             {
                 value: '湖南',
-                label: '湖南',
+                label: '湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南湖南',
             },
             {
                 value: '河南',
