@@ -1,3 +1,14 @@
+## [0.8.61](https://github.com/WeBankFinTech/fes-design/compare/v0.8.60...v0.8.61) (2024-08-19)
+
+
+### Features
+
+* **Select:** 增加 filterTextHighlight 过滤文本是否高亮显示的配置项 ([#876](https://github.com/WeBankFinTech/fes-design/issues/876)) ([e348788](https://github.com/WeBankFinTech/fes-design/commit/e3487888914dd1bbad54bb010bf58907c7cdc148))
+* **SelectCascader:** 增加 filterTextHightlight 过滤文本是否高亮显示的配置项 ([#880](https://github.com/WeBankFinTech/fes-design/issues/880)) ([f031ae2](https://github.com/WeBankFinTech/fes-design/commit/f031ae2fe2120e43fcd9e4c4a69408ac3c60f1b8))
+* **SelectTree:** 增加 filterTextHighlight 过滤文本是否高亮显示的配置项 ([#878](https://github.com/WeBankFinTech/fes-design/issues/878)) ([6617e20](https://github.com/WeBankFinTech/fes-design/commit/6617e2024b03a92364d9b5f482edc726eef4cee0))
+
+
+
 ## [0.8.60](https://github.com/WeBankFinTech/fes-design/compare/v0.8.59...v0.8.60) (2024-08-09)
 
 
