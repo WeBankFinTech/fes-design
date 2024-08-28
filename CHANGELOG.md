@@ -1,3 +1,12 @@
+## [0.8.62](https://github.com/WeBankFinTech/fes-design/compare/v0.8.61...v0.8.62) (2024-08-28)
+
+
+### Features
+
+* timeline支持title插槽和设置labelWidth ([675870f](https://github.com/WeBankFinTech/fes-design/commit/675870f2c7ae2e90645936d16003b106c9732ccc))
+
+
+
 ## [0.8.61](https://github.com/WeBankFinTech/fes-design/compare/v0.8.60...v0.8.61) (2024-08-19)
 
 
