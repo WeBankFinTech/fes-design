@@ -163,12 +163,12 @@ ul.@{timeline}.@{timeline}-direction-column {
                 left: 0;
                 transform: translate(-50%, -50%);
             }
-    
+
             .@{item}-tail {
                 left: 0;
                 transform: translateX(-50%);
             }
-    
+
             .@{item}-content-wrapper {
                 top: calc(0px - @item-line-height / 2);
                 margin-left: calc(@icon-side-length / 2 + @item-axis-space);
@@ -200,9 +200,7 @@ ul.@{timeline}.@{timeline}-direction-column {
     }
 
     // 时间轴垂直方向，且轴在中间
-    &.@{timeline}-layout-alternate,
-    // 时间轴垂直方向，辅助信息与标题分侧
-    &.@{timeline}-desc-opposite {
+    &.@{timeline}-layout-alternate {
         li.@{item} {
             display: grid;
             grid-template-areas: 'start end';
@@ -229,7 +227,7 @@ ul.@{timeline}.@{timeline}-direction-column {
                 padding-right: calc(@icon-side-length / 2 + @item-axis-space);
                 text-align: right;
             }
-            
+
 
             // 轴右侧结点
             .@{item}-content-wrapper-end {
@@ -239,10 +237,46 @@ ul.@{timeline}.@{timeline}-direction-column {
             }
         }
     }
+
+    // 时间轴垂直方向，辅助信息与标题分侧
+    &.@{timeline}-desc-opposite {
+        li.@{item} {
+            display: flex;
+
+            .@{item}-icon {
+                top: 0;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            .@{item}-tail {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .@{item}-content-wrapper {
+                top: calc(0px - @item-line-height / 2);
+            }
+
+            // 轴左侧结点
+            .@{item}-content-wrapper-start {
+                padding-right: calc(@icon-side-length / 2 + @item-axis-space);
+                text-align: right;
+            }
+
+
+            // 轴右侧结点
+            .@{item}-content-wrapper-end {
+                flex: 1;
+                padding-left: calc(@icon-side-length / 2 + @item-axis-space);
+                text-align: left;
+            }
+        }
+    }
 }
 
 // 时间轴水平方向
-ul.@{timeline}.@{timeline}-direction-row, 
+ul.@{timeline}.@{timeline}-direction-row,
 ul.@{timeline}.@{timeline}-direction-row-reverse {
     li.@{item} {
         flex-grow: 1;
@@ -291,7 +325,7 @@ ul.@{timeline}.@{timeline}-direction-row-reverse {
             grid-template-rows: 1fr 1fr;
 
             .@{item}-content-wrapper {
-                display: flex; 
+                display: flex;
                 flex-direction: column;
 
                 // 轴上方结点
@@ -341,7 +375,7 @@ ul.@{timeline}.@{timeline}-direction-row {
                 left: 0;
                 transform: translate(-50%, -50%);
             }
-    
+
             .@{item}-content-wrapper {
                 margin-top: calc(@icon-side-length / 2 + @item-axis-space);
             }
@@ -402,7 +436,7 @@ ul.@{timeline}.@{timeline}-direction-row-reverse {
                 right: 0;
                 transform: translate(50%, -50%);
             }
-    
+
             .@{item}-content-wrapper {
                 margin-top: calc(@icon-side-length / 2 + @item-axis-space);
             }

@@ -32,8 +32,11 @@ const renderNodeContent = ({
     titleClass,
     descClass,
     appendantStyle,
-}: Pick<TimelineNode, 'title' | 'titlePosition'> &
-Pick<Props, 'descPosition' | 'titleClass' | 'descClass'> & {
+    titleWidth,
+    direction,
+}: Pick<TimelineNode, 'titlePosition'> &
+Pick<Props, 'descPosition' | 'titleClass' | 'descClass' | 'titleWidth' | 'direction'> & {
+    title: VNodeChild;
     desc?: VNodeChild;
     appendantStyle?: CSSProperties;
 }): VNode => {
@@ -86,7 +89,7 @@ Pick<Props, 'descPosition' | 'titleClass' | 'descClass'> & {
                     cls('item-content-wrapper'),
                     cls(`item-content-wrapper-${titlePosition}`),
                 ]}
-                style={appendantStyle}
+                style={[appendantStyle, direction === 'column' && descPosition === 'opposite' && titleWidth && { width: titleWidth }]}
             >
                 {titleElement}
             </div>
@@ -140,6 +143,16 @@ const renderNode = (nodeProps: {
         descContent = desc;
     }
 
+    // prop 的渲染函数优先级高于插槽
+    let titleContent: VNodeChild;
+    if (slots.title) {
+        titleContent = slots.title({ index });
+    } else if (typeof title === 'function') {
+        titleContent = title({ index });
+    } else {
+        titleContent = title;
+    }
+
     const appendantStyle = nodeAppendantStyleMap.value.get(index);
 
     return (
@@ -152,21 +165,24 @@ const renderNode = (nodeProps: {
                     cls('item-tail'),
                     index === props.data.length - 1 && cls('item-tail-last'),
                 ]}
-                style={appendantStyle?.tail}
+                style={[appendantStyle?.tail, props.direction === 'column' && descPosition === 'opposite' && props.titleWidth && { left: props.titleWidth }]}
             />
             {renderNodeContent({
-                title,
+                title: titleContent,
                 titleClass,
                 descClass,
                 titlePosition: calculatedTitlePosition,
                 descPosition: calculatedDescPosition,
                 desc: descContent,
                 appendantStyle: appendantStyle?.content,
+                titleWidth: props.titleWidth,
+                direction: props.direction,
             })}
             <Icon
                 key={index}
                 index={index}
                 icon={icon}
+                style={[props.direction === 'column' && descPosition === 'opposite' && props.titleWidth && { left: props.titleWidth }]}
                 slotRender={slots.icon}
             />
         </li>

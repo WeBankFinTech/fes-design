@@ -12,6 +12,18 @@
                 自定义辅助描述
             </span>
         </template>
+        <template #title="{ index }">
+            <span
+                :style="{
+                    color:
+                        index === data2.length - 1
+                            ? '#ff007f'
+                            : 'var(--f-primary-color)',
+                }"
+            >
+                自定义标题
+            </span>
+        </template>
     </FTimeline>
     <FDivider />
     <FTimeline :data="data1">

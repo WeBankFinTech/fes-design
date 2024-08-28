@@ -58,7 +58,7 @@ export interface TimelineNodeSlotCommonParams {
 
 /** 时间轴结点的参数 */
 export interface TimelineNode {
-    title: string;
+    title: string | ((params: TimelineNodeSlotCommonParams) => VNodeChild);
     titlePosition?: StrictExtract<TimelineTitlePosition, 'start' | 'end'>;
     desc?: string | ((params: TimelineNodeSlotCommonParams) => VNodeChild);
     icon?:
@@ -87,6 +87,10 @@ export const timelineProps = {
     },
     titleClass: { type: String },
     descClass: { type: String },
+    titleWidth: {
+        type: String,
+        default: '50%',
+    },
 } as const satisfies ComponentObjectPropsOptions;
 
 // 组件暴露给外部的 props 类型
@@ -98,6 +102,7 @@ export type TimelineInnerProps = ComponentInnerProps<typeof timelineProps>;
 export type TimelineSlotsParams = {
     desc: TimelineNodeSlotCommonParams;
     icon: TimelineNodeSlotCommonParams;
+    title: TimelineNodeSlotCommonParams;
 };
 
 export type TimelineSlots = SlotsType<TimelineSlotsParams>;

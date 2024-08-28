@@ -26,7 +26,13 @@
         :descPosition="descPosition ?? undefined"
         titlePosition="start"
         class="timeline"
-    />
+    >
+        <template #title="{ index }">
+            <span style="width: 200px;">
+                自定义标题 {{ index }}
+            </span>
+        </template>
+    </FTimeline>
 </template>
 
 <script setup lang="ts">
