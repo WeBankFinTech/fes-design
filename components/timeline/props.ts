@@ -54,6 +54,7 @@ type Color = CSSProperties['color'];
  */
 export interface TimelineNodeSlotCommonParams {
     index: number;
+    item: TimelineNode;
 }
 
 /** 时间轴结点的参数 */

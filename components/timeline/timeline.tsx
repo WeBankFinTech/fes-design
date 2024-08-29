@@ -136,9 +136,9 @@ const renderNode = (nodeProps: {
     let descContent: VNodeChild;
     // prop 的渲染函数优先级高于插槽
     if (slots.desc) {
-        descContent = slots.desc({ index });
+        descContent = slots.desc({ index, item: props.data[index] });
     } else if (typeof desc === 'function') {
-        descContent = desc({ index });
+        descContent = desc({ index, item: props.data[index] });
     } else {
         descContent = desc;
     }
@@ -146,9 +146,9 @@ const renderNode = (nodeProps: {
     // prop 的渲染函数优先级高于插槽
     let titleContent: VNodeChild;
     if (slots.title) {
-        titleContent = slots.title({ index });
+        titleContent = slots.title({ index, item: props.data[index] });
     } else if (typeof title === 'function') {
-        titleContent = title({ index });
+        titleContent = title({ index, item: props.data[index] });
     } else {
         titleContent = title;
     }
@@ -182,6 +182,7 @@ const renderNode = (nodeProps: {
                 key={index}
                 index={index}
                 icon={icon}
+                data={props.data}
                 style={[props.direction === 'column' && descPosition === 'opposite' && props.titleWidth && { left: props.titleWidth }]}
                 slotRender={slots.icon}
             />

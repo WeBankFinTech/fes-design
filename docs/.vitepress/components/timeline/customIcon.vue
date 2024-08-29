@@ -1,8 +1,8 @@
 <template>
     <FTimeline :data="data" direction="row">
-        <template #icon="{ index }">
+        <template #icon="{ item }">
             <RightCircleOutlined
-                v-if="customNodes.has(data[index]?.title)"
+                v-if="customNodes.has(item.title)"
                 :size="16"
                 color="#7f00ff"
             />

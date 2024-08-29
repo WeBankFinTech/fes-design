@@ -12,7 +12,7 @@
                 自定义辅助描述
             </span>
         </template>
-        <template #title="{ index }">
+        <template #title="{ index, item }">
             <span
                 :style="{
                     color:
@@ -21,14 +21,14 @@
                             : 'var(--f-primary-color)',
                 }"
             >
-                自定义标题
+                {{ item.title }}
             </span>
         </template>
     </FTimeline>
     <FDivider />
     <FTimeline :data="data1">
-        <template #desc="{ index }">
-            <div class="desc">{{ data1[index].desc }}</div>
+        <template #desc="{ item }">
+            <div class="desc">{{ item.desc }}</div>
         </template>
     </FTimeline>
 </template>

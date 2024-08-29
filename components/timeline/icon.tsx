@@ -15,6 +15,7 @@ const iconProps = {
     index: { type: Number, required: true },
     icon: { type: [String, Function] as PropType<TimelineNode['icon']> },
     slotRender: { type: Function as PropType<UnboxSlots['icon']> },
+    data: { type: Array as PropType<TimelineNode[]> },
 } as const satisfies ComponentObjectPropsOptions;
 
 export default defineComponent({
@@ -25,9 +26,9 @@ export default defineComponent({
             let customIcon: VNodeChild;
             // prop 的渲染函数优先级高于插槽
             if (props.slotRender) {
-                customIcon = props.slotRender({ index: props.index });
+                customIcon = props.slotRender({ index: props.index, item: props.data[props.index] });
             } else if (typeof props.icon === 'function') {
-                customIcon = props.icon({ index: props.index });
+                customIcon = props.icon({ index: props.index, item: props.data[props.index] });
             }
 
             // 自定义渲染没有内容时，fallback
