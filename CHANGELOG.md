@@ -1,3 +1,12 @@
+## [0.8.63](https://github.com/WeBankFinTech/fes-design/compare/v0.8.62...v0.8.63) (2024-08-29)
+
+
+### Features
+
+* timeline插槽作用域添加item ([5a2b3be](https://github.com/WeBankFinTech/fes-design/commit/5a2b3be02f57b2ca09ccb7eec275914207afdfab))
+
+
+
 ## [0.8.62](https://github.com/WeBankFinTech/fes-design/compare/v0.8.61...v0.8.62) (2024-08-28)
 
 
