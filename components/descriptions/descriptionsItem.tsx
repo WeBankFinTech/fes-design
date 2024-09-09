@@ -42,7 +42,7 @@ export default defineComponent({
                 = parentChildren
                     .filter(isVNode)
                     .find((c) =>
-                        c.props?.class.includes(
+                        c.props?.class?.includes(
                             `${DESCRIPTIONS_PREFIX_CLASS}-body`,
                         ),
                     )?.children ?? [];
