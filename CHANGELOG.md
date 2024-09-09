@@ -1,3 +1,12 @@
+## [0.8.64](https://github.com/WeBankFinTech/fes-design/compare/v0.8.63...v0.8.64) (2024-09-09)
+
+
+### Bug Fixes
+
+* 修复 FDescriptionItem 异常报错 ([#888](https://github.com/WeBankFinTech/fes-design/issues/888)) ([5384a96](https://github.com/WeBankFinTech/fes-design/commit/5384a964aad9236f707f314ec7ed30a9349f9df4))
+
+
+
 ## [0.8.63](https://github.com/WeBankFinTech/fes-design/compare/v0.8.62...v0.8.63) (2024-08-29)
 
 
