@@ -9,6 +9,7 @@ import {
     ref,
 } from 'vue';
 import { isFunction, isUndefined } from 'lodash-es';
+import { useElementHover } from '@vueuse/core';
 import getPrefixCls from '../_util/getPrefixCls';
 import CaretDownOutlined from '../icon/CaretDownOutlined';
 import LoadingOutlined from '../icon/LoadingOutlined';
@@ -216,6 +217,17 @@ export default defineComponent({
                 </span>
             );
         };
+
+        const treeNodeElement = ref();
+
+        const isHovered = useElementHover(treeNodeElement);
+        const slotParams = computed(() => {
+            return {
+                isHovered: isHovered.value,
+                value: props.value,
+            };
+        });
+
         const renderPrefix = () => {
             if (!slots.prefix) {
                 return null;
@@ -225,7 +237,7 @@ export default defineComponent({
                     class={`${prefixCls}-content-prefix`}
                     onClick={handleStopClickPrefix}
                 >
-                    {slots.prefix?.()}
+                    {slots.prefix?.(slotParams.value)}
                 </span>
             );
         };
@@ -238,7 +250,7 @@ export default defineComponent({
                     class={`${prefixCls}-content-suffix`}
                     onClick={handleStopClickPrefix}
                 >
-                    {slots.suffix?.()}
+                    {slots.suffix?.(slotParams.value)}
                 </span>
             );
         };
@@ -269,6 +281,7 @@ export default defineComponent({
 
         return () => (
             <div
+                ref={treeNodeElement}
                 class={classList.value}
                 style={style.value}
                 data-value={props.value}

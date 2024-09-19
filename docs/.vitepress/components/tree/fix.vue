@@ -17,7 +17,7 @@ function createData(level = 1, baseKey = '', prefix, suffix) {
             value: key,
             children: createData(level - 1, key, prefix, suffix),
             prefix: prefix ? () => h(PictureOutlined) : null,
-            suffix: suffix ? () => h(PlusCircleOutlined) : null,
+            suffix: suffix ? (data) => (data.isHovered ? h(PlusCircleOutlined) : null) : null,
         };
     });
 }
