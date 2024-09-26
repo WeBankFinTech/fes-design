@@ -1,3 +1,17 @@
+## [0.8.65](https://github.com/WeBankFinTech/fes-design/compare/v0.8.64...v0.8.65) (2024-09-26)
+
+
+### Bug Fixes
+
+* select limit 限制异常 ([#889](https://github.com/WeBankFinTech/fes-design/issues/889)) ([d237d2e](https://github.com/WeBankFinTech/fes-design/commit/d237d2e851c6b3921b67cbf4ff6c52d6fdca7b9b))
+
+
+### Features
+
+* tree node slot 支持 hover 参数 ([#890](https://github.com/WeBankFinTech/fes-design/issues/890)) ([7019b2f](https://github.com/WeBankFinTech/fes-design/commit/7019b2f85b6a1f71a212f61cef6ab940f25468f4))
+
+
+
 ## [0.8.64](https://github.com/WeBankFinTech/fes-design/compare/v0.8.63...v0.8.64) (2024-09-09)
 
 
