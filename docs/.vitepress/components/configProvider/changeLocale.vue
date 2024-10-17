@@ -6,6 +6,7 @@
                     {{ zhCN.desc }}(默认)
                 </FRadio>
                 <FRadio key="en" :value="enUS.name">{{ enUS.desc }}</FRadio>
+                <FRadio key="zr" :value="zr.name">{{ zr.desc }}</FRadio>
             </FRadioGroup>
         </FFormItem>
     </FForm>
@@ -38,33 +39,24 @@
     </FConfigProvider>
 </template>
 
-<script>
-import { defineComponent, ref, watch } from 'vue';
-import { enUS, zhCN } from '@fesjs/fes-design';
+<script setup>
+import { ref, watch } from 'vue';
+import { enUS, zhCN, zr } from '@fesjs/fes-design';
 
-export default defineComponent({
-    setup() {
-        const lang = ref(zhCN.name);
-        const locale = ref(zhCN);
+const lang = ref(zhCN.name);
+const locale = ref(zhCN);
 
-        watch(lang, () => {
-            if (!lang.value) {
-                return;
-            }
-            if (lang.value === zhCN.name) {
-                locale.value = zhCN;
-            } else {
-                locale.value = enUS;
-            }
-        });
-
-        return {
-            enUS,
-            zhCN,
-            lang,
-            locale,
-        };
-    },
+watch(lang, () => {
+    if (!lang.value) {
+        return;
+    }
+    if (lang.value === zhCN.name) {
+        locale.value = zhCN;
+    } else if (lang.value === zr.name) {
+        locale.value = zr;
+    } else {
+        locale.value = enUS;
+    }
 });
 </script>
 
