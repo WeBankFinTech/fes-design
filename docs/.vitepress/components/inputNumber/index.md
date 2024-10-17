@@ -14,35 +14,45 @@ app.use(FInputNumber);
 
 ### 标准使用
 
---COMMON
+:::demo
+common.vue
+:::
 
 ### 禁用状态
 
---DISABLED
+:::demo
+disabled.vue
+:::
 
 ### 设置最大值最小值
 
-设定最大值为 10，最小值为 1
+设定最大值为 100，最小值为 10。
 
---MAXANDMIN
+:::demo
+maxAndMin.vue
+:::
 
 ### 设置精度
 
-设置精度为 2
+设置精度为 2。
 
---PRECISION
+:::demo
+precision.vue
+:::
 
 ### 设置步长
 
-设置步长为 5，最大值为 12,精度为 2
+设置步长为 5，最大值为 12,精度为 2。
 
---STEP
+:::demo
+step.vue
+:::
 
 ### 设置前置后置
 
---prefixSuffix
-
---CODE
+:::demo
+prefixSuffix.vue
+:::
 
 ## Props
 

@@ -1,16 +1,14 @@
 <template>
-    <FSpace>
-        <FInputNumber :precision="precision" />
+    <FSpace align="center">
+        <FInputNumber v-model="num" :precision="precision" />
+        当前值: {{ num }}
     </FSpace>
 </template>
 
-<script>
-export default {
-    setup() {
-        const precision = 2;
-        return {
-            precision,
-        };
-    },
-};
+<script setup>
+import { ref } from 'vue';
+
+const num = ref();
+
+const precision = 2;
 </script>
