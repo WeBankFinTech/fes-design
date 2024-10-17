@@ -1,21 +1,22 @@
 <template>
     <FSpace>
         <FButton @click="show[0] = true">常规</FButton>
-        <FButton @click="show[1] = true">自定义缓存KEY</FButton>
+        <FButton @click="show[1] = true">自定义位置缓存KEY</FButton>
+        <FButton @click="handleResetPosition">清除位置缓存</FButton>
     </FSpace>
     <FDivider />
     <FButton @click="show[2] = true">不可拖动</FButton>
     <FDivider />
     <FButton @click="show[3] = true">无位置缓存</FButton>
 
-    <FFloatPane v-model:visible="show[0]" title="常规" displayDirective="show" @afterEnter="handleAfterEnter" @afterLeave="handleAfterLeave">
+    <FFloatPane ref="floatPane1Ref" v-model:visible="show[0]" title="常规" displayDirective="show" @afterEnter="handleAfterEnter" @afterLeave="handleAfterLeave">
         <div style="padding: 8px">
             <div>我是内容...</div>
             <div>我是内容...</div>
             <div>我是内容...</div>
         </div>
     </FFloatPane>
-    <FFloatPane v-model:visible="show[1]" title="自定义缓存KEY" cachePositionKey="float-pane-custom" displayDirective="show" @afterEnter="handleAfterEnter" @afterLeave="handleAfterLeave">
+    <FFloatPane ref="floatPane2Ref" v-model:visible="show[1]" title="自定义缓存KEY" cachePositionKey="float-pane-custom" displayDirective="show" @afterEnter="handleAfterEnter" @afterLeave="handleAfterLeave">
         <div style="padding: 8px">
             <div>我是内容...</div>
             <div>我是内容...</div>
@@ -38,25 +39,23 @@
     </FFloatPane>
 </template>
 
-<script>
-import { reactive } from 'vue';
+<script setup>
+import { reactive, ref } from 'vue';
 
-export default {
-    setup() {
-        const show = reactive([]);
+const show = reactive([]);
 
-        const handleAfterEnter = (e) => {
-            console.log('[floatPane.common] handleAfterEnter, e:', e);
-        };
-        const handleAfterLeave = (e) => {
-            console.log('[floatPane.common] handleAfterLeave, e:', e);
-        };
+const floatPane1Ref = ref(null);
+const floatPane2Ref = ref(null);
 
-        return {
-            show,
-            handleAfterEnter,
-            handleAfterLeave,
-        };
-    },
+const handleAfterEnter = (e) => {
+    console.log('[floatPane.common] handleAfterEnter, e:', e);
+};
+const handleAfterLeave = (e) => {
+    console.log('[floatPane.common] handleAfterLeave, e:', e);
+};
+
+const handleResetPosition = () => {
+    floatPane1Ref.value?.resetPosition();
+    floatPane2Ref.value?.resetPosition();
 };
 </script>

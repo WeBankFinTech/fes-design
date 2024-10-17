@@ -34,6 +34,8 @@ const FloatPane = defineComponent({
     setup(props, ctx) {
         useTheme();
         const innerVisible = ref(false);
+        const domRef = ref<HTMLElement>(null);
+        const domHeaderRef = ref<HTMLElement>(null);
 
         watch(
             () => props.visible,
@@ -86,7 +88,7 @@ const FloatPane = defineComponent({
             };
         });
 
-        const { handleMouseDown, isDragging } = useDrag(transform);
+        const { handleMouseDown, isDragging } = useDrag(transform, domRef, domHeaderRef, getContainer, props.defaultPosition);
         const handleDraggable = (event: MouseEvent) => {
             if (props.draggable) {
                 handleMouseDown(event);
@@ -104,7 +106,7 @@ const FloatPane = defineComponent({
             }
             const header = ctx.slots.title?.() || props.title;
             return (
-                <div class={[`${prefixCls}-header`, isDragging.value && `${prefixCls}-header--dragging`]} onMousedown={handleDraggable}>
+                <div ref={domHeaderRef} class={[`${prefixCls}-header`, isDragging.value && `${prefixCls}-header--dragging`]} onMousedown={handleDraggable}>
                     <div>{header}</div>
                     {closeJsx}
                 </div>
@@ -136,6 +138,12 @@ const FloatPane = defineComponent({
             hide() {
                 innerVisible.value = false;
             },
+            resetPosition() {
+                transform.value = {
+                    offsetX: 0,
+                    offsetY: 0,
+                };
+            },
         });
 
         return () => (
@@ -151,6 +159,7 @@ const FloatPane = defineComponent({
                     >
                         {showDom.value && (
                             <div
+                                ref={domRef}
                                 v-show={innerVisible.value}
                                 class={wrapperClass.value}
                                 style={styles.value}
