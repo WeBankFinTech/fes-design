@@ -67,7 +67,7 @@ const FloatPane = defineComponent({
             ? useStorage<{
                 offsetX: number;
                 offsetY: number;
-            }>(getPrefixStorage('float-pane'), {
+            }>(getPrefixStorage(props.cachePositionKey || 'float-pane'), {
                 offsetX: 0,
                 offsetY: 0,
             }, getStorage(props.cachePosition))
