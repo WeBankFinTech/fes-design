@@ -1,4 +1,4 @@
-import { type Ref, computed, ref } from 'vue';
+import { type Ref, computed, ref, unref } from 'vue';
 import { throttle } from 'lodash-es';
 import { useEventListener } from '@vueuse/core';
 import { depx } from '../_util/utils';
@@ -22,9 +22,9 @@ export const useDrag = (
     let imgOffsetY: number;
 
     const limitTransformOffsetY = computed(() => {
-        const containerRef = getContainer.value?.();
+        const containerEl = unref(getContainer)?.();
         // 不考虑非整个窗口拖拽超出边界的情况
-        if (containerRef !== document.body) {
+        if (containerEl !== document.body) {
             return null;
         }
         // 仅考虑以 px 为单位的初始位置进行边界碰撞计算
@@ -45,9 +45,9 @@ export const useDrag = (
     });
 
     const limitTransformOffsetX = computed(() => {
-        const containerRef = getContainer.value?.();
+        const containerEl = unref(getContainer)?.();
         // 不考虑非整个窗口拖拽超出边界的情况
-        if (containerRef !== document.body) {
+        if (containerEl !== document.body) {
             return null;
         }
         // 仅考虑以 px 为单位的初始位置进行边界碰撞计算
