@@ -1,18 +1,15 @@
 <template>
-    <FSpace>
-        <FInputNumber :min="min" :max="max" />
+    <FSpace align="center">
+        <FInputNumber v-model="num" :min="min" :max="max" />
+        当前值: {{ num }}
     </FSpace>
 </template>
 
-<script>
-export default {
-    setup() {
-        const min = 1;
-        const max = 10;
-        return {
-            min,
-            max,
-        };
-    },
-};
+<script setup>
+import { ref } from 'vue';
+
+const num = ref();
+
+const min = 10;
+const max = 100;
 </script>
