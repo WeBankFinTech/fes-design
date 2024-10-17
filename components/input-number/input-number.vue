@@ -191,9 +191,6 @@ export default defineComponent({
             if (newVal != null && newVal >= props.max) {
                 newVal = props.max;
             }
-            if (newVal != null && newVal <= props.min) {
-                // 避免输入的值小于最小值而导致无法继续输入的情况, 失焦的时候再处理
-            }
             if (oldVal === newVal) {
                 return;
             }
@@ -210,6 +207,7 @@ export default defineComponent({
             if (tempValue.value) {
                 tempValue.value = null;
             }
+            // 避免输入的值小于最小值而导致无法继续输入的情况, 失焦的时候再处理
             if (currentValue.value != null && currentValue.value <= props.min) {
                 currentValue.value = props.min;
             }
