@@ -16,7 +16,7 @@
             <div>我是内容...</div>
         </div>
     </FFloatPane>
-    <FFloatPane ref="floatPane2Ref" v-model:visible="show[1]" title="自定义缓存KEY" cachePositionKey="float-pane-custom" displayDirective="show" @afterEnter="handleAfterEnter" @afterLeave="handleAfterLeave">
+    <FFloatPane ref="floatPane2Ref" v-model:visible="show[1]" :zIndex="0" title="自定义缓存KEY" cachePositionKey="float-pane-custom" displayDirective="show" @afterEnter="handleAfterEnter" @afterLeave="handleAfterLeave">
         <div style="padding: 8px">
             <div>我是内容...</div>
             <div>我是内容...</div>

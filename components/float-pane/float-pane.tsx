@@ -15,6 +15,7 @@ import { useTheme } from '../_theme/useTheme';
 import { useConfig } from '../config-provider';
 import { getPrefixStorage, getStorage } from '../_util/storage';
 
+import PopupManager from '../_util/popupManager';
 import { floatPaneProps } from './props';
 import { useDrag } from './useDrag';
 
@@ -37,9 +38,15 @@ const FloatPane = defineComponent({
         const domRef = ref<HTMLElement>(null);
         const domHeaderRef = ref<HTMLElement>(null);
 
+        const zIndex = ref(props.zIndex || PopupManager.nextZIndex());
+
         watch(
             () => props.visible,
             () => {
+                if (props.visible) {
+                    zIndex.value = props.zIndex || PopupManager.nextZIndex();
+                }
+
                 nextTick(() => {
                     innerVisible.value = props.visible;
                 });
@@ -81,7 +88,7 @@ const FloatPane = defineComponent({
             const { offsetX, offsetY }
             = transform.value;
             return {
-                zIndex: props.zIndex,
+                zIndex: zIndex.value,
                 width: isNumber(props.width) ? `${props.width}px` : props.width,
                 ...props.defaultPosition,
                 transform: `translate(${offsetX}px, ${offsetY}px)`,
