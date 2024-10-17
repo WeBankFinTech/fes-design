@@ -1,30 +1,27 @@
 <template>
-    <FPagination
-        :total-count="totalCount"
-        simple
-        @change="handleChange"
-    />
+    <FSpace align="center">
+        <FPagination
+            v-model:currentPage="currentPage"
+            :totalCount="totalCount"
+            simple
+            @change="handleChange"
+        />
+        当前选择页：{{ currentPage }}
+    </FSpace>
 </template>
 
-<script>
-import { defineComponent, ref } from 'vue';
+<script setup>
+import { ref } from 'vue';
 
-export default defineComponent({
-    setup() {
-        const totalCount = ref(1000);
+const totalCount = ref(1000);
+const currentPage = ref(10);
 
-        const handleChange = (currentPage, pageSize) => {
-            console.log(
-                '[pagination.simple] [handleChange] currentPage:',
-                currentPage,
-                ' pageSize:',
-                pageSize,
-            );
-        };
-        return {
-            totalCount,
-            handleChange,
-        };
-    },
-});
+const handleChange = (currentPage, pageSize) => {
+    console.log(
+        '[pagination.simple] [handleChange] currentPage:',
+        currentPage,
+        ' pageSize:',
+        pageSize,
+    );
+};
 </script>

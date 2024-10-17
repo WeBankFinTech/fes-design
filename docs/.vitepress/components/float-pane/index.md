@@ -28,7 +28,7 @@ common.vue
 | title            | 标题                                                                           | String            | `-`                            |
 | width            | 宽度                                                                           | String/Number     | 520                            |
 | zIndex           | 浮层优先级                                                                     | Number            | 3000                           |
-| defaultPosition  | 默认浮动面板位置                                                               | PanePosition      | `{top: '50px', right: '50px'}` |
+| defaultPosition  | 默认浮动面板位置，注：仅 `px` 单位支持边界检测。                               | PanePosition      | `{top: '50px', right: '50px'}` |
 | cachePosition    | 缓存拖动位置                                                                   | `session` `local` | `local`                        |
 | contentClass     | 可用于设置内容的类名                                                           | String            | `-`                            |
 | getContainer     | 指定 `FloatPane` 挂载的 HTML 节点                                              | () => HTMLElement | `() => document.body`          |
@@ -50,6 +50,14 @@ interface PanePosition {
 | ---------- | ------------ | -------- |
 | afterEnter | 出现后的回调 | event    |
 | afterLeave | 关闭后的回调 | event    |
+
+## 方法
+
+| 事件名称      | 说明         | 回调参数 |
+| ------------- | ------------ | -------- |
+| show          | 显示浮窗     | 无       |
+| hide          | 隐藏浮窗     | 无       |
+| resetPosition | 重置浮窗位置 | 无       |
 
 ## Slots
 

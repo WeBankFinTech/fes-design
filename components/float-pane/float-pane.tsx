@@ -15,6 +15,7 @@ import { useTheme } from '../_theme/useTheme';
 import { useConfig } from '../config-provider';
 import { getPrefixStorage, getStorage } from '../_util/storage';
 
+import PopupManager from '../_util/popupManager';
 import { floatPaneProps } from './props';
 import { useDrag } from './useDrag';
 
@@ -34,10 +35,18 @@ const FloatPane = defineComponent({
     setup(props, ctx) {
         useTheme();
         const innerVisible = ref(false);
+        const domRef = ref<HTMLElement>(null);
+        const domHeaderRef = ref<HTMLElement>(null);
+
+        const zIndex = ref(props.zIndex || PopupManager.nextZIndex());
 
         watch(
             () => props.visible,
             () => {
+                if (props.visible) {
+                    zIndex.value = props.zIndex || PopupManager.nextZIndex();
+                }
+
                 nextTick(() => {
                     innerVisible.value = props.visible;
                 });
@@ -67,7 +76,7 @@ const FloatPane = defineComponent({
             ? useStorage<{
                 offsetX: number;
                 offsetY: number;
-            }>(getPrefixStorage('float-pane'), {
+            }>(getPrefixStorage(props.cachePositionKey || 'float-pane'), {
                 offsetX: 0,
                 offsetY: 0,
             }, getStorage(props.cachePosition))
@@ -79,14 +88,14 @@ const FloatPane = defineComponent({
             const { offsetX, offsetY }
             = transform.value;
             return {
-                zIndex: props.zIndex,
+                zIndex: zIndex.value,
                 width: isNumber(props.width) ? `${props.width}px` : props.width,
                 ...props.defaultPosition,
                 transform: `translate(${offsetX}px, ${offsetY}px)`,
             };
         });
 
-        const { handleMouseDown, isDragging } = useDrag(transform);
+        const { handleMouseDown, isDragging } = useDrag(transform, domRef, domHeaderRef, getContainer, props.defaultPosition);
         const handleDraggable = (event: MouseEvent) => {
             if (props.draggable) {
                 handleMouseDown(event);
@@ -104,7 +113,7 @@ const FloatPane = defineComponent({
             }
             const header = ctx.slots.title?.() || props.title;
             return (
-                <div class={[`${prefixCls}-header`, isDragging.value && `${prefixCls}-header--dragging`]} onMousedown={handleDraggable}>
+                <div ref={domHeaderRef} class={[`${prefixCls}-header`, isDragging.value && `${prefixCls}-header--dragging`]} onMousedown={handleDraggable}>
                     <div>{header}</div>
                     {closeJsx}
                 </div>
@@ -136,6 +145,12 @@ const FloatPane = defineComponent({
             hide() {
                 innerVisible.value = false;
             },
+            resetPosition() {
+                transform.value = {
+                    offsetX: 0,
+                    offsetY: 0,
+                };
+            },
         });
 
         return () => (
@@ -151,6 +166,7 @@ const FloatPane = defineComponent({
                     >
                         {showDom.value && (
                             <div
+                                ref={domRef}
                                 v-show={innerVisible.value}
                                 class={wrapperClass.value}
                                 style={styles.value}

@@ -42,6 +42,10 @@ export const floatPaneProps = {
         type: String as PropType<StorageType>,
         default: 'local',
     },
+    cachePositionKey: {
+        type: String,
+        default: 'float-pane',
+    },
     getContainer: {
         type: Function as PropType<() => HTMLElement>,
     },
