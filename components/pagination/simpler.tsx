@@ -1,7 +1,6 @@
 import {
     type ComponentObjectPropsOptions,
     defineComponent,
-    ref,
     toRefs,
     watch,
 } from 'vue';
@@ -38,9 +37,6 @@ export default defineComponent({
 
         const [currentPage, updateCurrentPage] = useNormalModel(props, emit);
 
-        // 这里单独定义响应式变量，用 modelValue={currentPage.value} 的方式，会导致无效数据重复赋值可能内部不更新的情况
-        const innerCurrent = ref();
-
         const handleCurrentChange = (current: number) => {
             let temp = 0;
             if (current < 1) {
@@ -53,8 +49,8 @@ export default defineComponent({
             updateCurrentPage(temp);
         };
 
-        // 处理输入页码 change 事件
-        const handleChange = (val: string) => {
+        // 处理输入页码的事件
+        const handleInputChange = (val: string) => {
             // 如果用户输入是非数字的字符，则不做任何行为
             const inputValue = Number(val);
             if (Number.isNaN(inputValue)) {
@@ -67,11 +63,6 @@ export default defineComponent({
             if (total.value > 0 && total.value < currentPage.value) {
                 updateCurrentPage(total.value);
             }
-        });
-        watch(currentPage, () => {
-            innerCurrent.value = currentPage.value;
-        }, {
-            immediate: true,
         });
 
         return () => (
@@ -90,8 +81,8 @@ export default defineComponent({
                 {/* 当前页面页码 */}
                 <InputInner
                     class={`${prefixCls}-jumper-input`}
-                    v-model={innerCurrent.value}
-                    onChange={handleChange}
+                    modelValue={currentPage.value}
+                    onChange={handleInputChange}
                 ></InputInner>
                 <div class={`${prefixCls}-simpler-total`}>
                     <i class={`${prefixCls}-simpler-total-split`}>/</i>
