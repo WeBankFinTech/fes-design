@@ -26,8 +26,8 @@ const prefixCls = getPrefixCls('popper');
 export default defineComponent({
     name: 'FPopper',
     props: popperProps,
-    emits: [UPDATE_MODEL_EVENT],
-    setup(props, { slots, emit }) {
+    emits: [UPDATE_MODEL_EVENT, 'clickOutside'],
+    setup(props, { slots, emit, expose }) {
         useTheme();
         if (!slots.trigger) {
             throw new Error('[FPopper]: Trigger must be provided');
@@ -85,6 +85,7 @@ export default defineComponent({
             [triggerRef, popperRef],
             () => {
                 updateVisible(false);
+                emit('clickOutside');
             },
             disabledWatch,
         );
@@ -126,6 +127,20 @@ export default defineComponent({
             );
         };
 
+        const _visible = computed(() => {
+            // 受控模式
+            if (props.show !== null) {
+                return props.show;
+            }
+            return visible.value;
+        });
+
+        expose({
+            updatePopperPosition() {
+                computePopper();
+            },
+        });
+
         return () => (
             <Fragment>
                 {renderTrigger()}
@@ -149,7 +164,7 @@ export default defineComponent({
                             onBeforeEnter={computePopper}
                         >
                             <Content
-                                v-show={visible.value && cacheVisible.value}
+                                v-show={_visible.value && cacheVisible.value}
                             />
                         </Transition>
                     </div>

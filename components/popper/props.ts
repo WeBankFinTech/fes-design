@@ -54,6 +54,7 @@ export const popperProps = {
     onlyShowTrigger: {
         type: Boolean,
     },
+    show: Boolean,
 } as const satisfies ComponentObjectPropsOptions;
 
 export type PopperProps = ExtractPublicPropTypes<typeof popperProps>;
