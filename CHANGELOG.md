@@ -1,3 +1,20 @@
+## [0.8.66](https://github.com/WeBankFinTech/fes-design/compare/v0.8.65...v0.8.66) (2024-10-19)
+
+
+### Bug Fixes
+
+* **InputNumber:** 修复输入值首位数字小于最小值时导致被重置为最小值的问题 ([#894](https://github.com/WeBankFinTech/fes-design/issues/894)) ([d200644](https://github.com/WeBankFinTech/fes-design/commit/d2006442a155e8178f5e2b126ed799ade6911197))
+* **Pagination:** 修复 简洁型 无效分页数据无法更新的问题 ([7fefcb8](https://github.com/WeBankFinTech/fes-design/commit/7fefcb869d1870a90f524349f98ccb0ea0c68a25))
+
+
+### Features
+
+* 国际化多语言，支持阿拉伯文 ([9dc6f7e](https://github.com/WeBankFinTech/fes-design/commit/9dc6f7eced2b026001111e23e70dfb0ebfd944fc))
+* **FloatPane:** 增加配置项 cachePositionKey, 避免多个浮动面板共享位置缓存、增加 resetPosition 方法、增加拖拽边界检测 ([#896](https://github.com/WeBankFinTech/fes-design/issues/896)) ([c5c609e](https://github.com/WeBankFinTech/fes-design/commit/c5c609eae828152a9d15ad04f5bbf721f5994667))
+* popper 受控模式 ([#898](https://github.com/WeBankFinTech/fes-design/issues/898)) ([a93619a](https://github.com/WeBankFinTech/fes-design/commit/a93619a548a03fc37ebf3ebf22199c268d0a592b))
+
+
+
 ## [0.8.65](https://github.com/WeBankFinTech/fes-design/compare/v0.8.64...v0.8.65) (2024-09-26)
 
 
