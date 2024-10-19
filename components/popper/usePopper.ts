@@ -1,22 +1,7 @@
-import {
-    computed,
-    nextTick,
-    onActivated,
-    onMounted,
-    reactive,
-    ref,
-    watch,
-} from 'vue';
-import {
-    type ReferenceElement,
-    arrow,
-    computePosition,
-    flip,
-    offset,
-    shift,
-} from '@floating-ui/dom';
+import { computed, nextTick, onActivated, onMounted, reactive, ref, watch } from 'vue';
+import { type ReferenceElement, arrow, computePosition, flip, offset, shift } from '@floating-ui/dom';
 import { isBoolean, isFunction } from 'lodash-es';
-import { useNormalModel } from '../_util/use/useModel';
+import { useVModel } from '@vueuse/core';
 import popupManager from '../_util/popupManager';
 import getElementFromVueInstance from '../_util/getElementFromVueInstance';
 
@@ -31,7 +16,12 @@ const MAP = {
 } as const;
 
 export default (props: PopperProps, emit: any) => {
-    const [visible, updateVisible] = useNormalModel(props, emit);
+    const visible = useVModel(props, 'modelValue', emit, {
+        passive: props.passive,
+    });
+    const updateVisible = (val: boolean) => {
+        visible.value = val;
+    };
     const virtualRect = ref<VirtualRect | null>(null);
     const triggerRef = ref<HTMLElement>();
     const popperRef = ref<HTMLElement>();
@@ -44,9 +34,7 @@ export default (props: PopperProps, emit: any) => {
 
     const transitionName = computed(() => {
         const placementValue = placement.value;
-        return `fes-slide-${
-            MAP[placementValue.split('-')[0] as keyof typeof MAP]
-        }`;
+        return `fes-slide-${MAP[placementValue.split('-')[0] as keyof typeof MAP]}`;
     });
 
     const computePopper = () => {

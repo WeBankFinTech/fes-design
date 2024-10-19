@@ -127,14 +127,6 @@ export default defineComponent({
             );
         };
 
-        const _visible = computed(() => {
-            // 受控模式
-            if (props.show !== null) {
-                return props.show;
-            }
-            return visible.value;
-        });
-
         expose({
             updatePopperPosition() {
                 computePopper();
@@ -164,7 +156,7 @@ export default defineComponent({
                             onBeforeEnter={computePopper}
                         >
                             <Content
-                                v-show={_visible.value && cacheVisible.value}
+                                v-show={visible.value && cacheVisible.value}
                             />
                         </Transition>
                     </div>
