@@ -26,8 +26,8 @@ const prefixCls = getPrefixCls('popper');
 export default defineComponent({
     name: 'FPopper',
     props: popperProps,
-    emits: [UPDATE_MODEL_EVENT],
-    setup(props, { slots, emit }) {
+    emits: [UPDATE_MODEL_EVENT, 'clickOutside'],
+    setup(props, { slots, emit, expose }) {
         useTheme();
         if (!slots.trigger) {
             throw new Error('[FPopper]: Trigger must be provided');
@@ -85,6 +85,7 @@ export default defineComponent({
             [triggerRef, popperRef],
             () => {
                 updateVisible(false);
+                emit('clickOutside');
             },
             disabledWatch,
         );
@@ -125,6 +126,12 @@ export default defineComponent({
                 </div>
             );
         };
+
+        expose({
+            updatePopperPosition() {
+                computePopper();
+            },
+        });
 
         return () => (
             <Fragment>

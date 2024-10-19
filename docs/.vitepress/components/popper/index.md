@@ -41,6 +41,7 @@ visible.vue
 | popperClass       | 弹出框的样式类名                                                                                                                                      | string \| object \| Array | -                     |
 | popperStyle       | 弹出框的样式                                                                                                                                          | object                    | -                     |
 | showAfter         | 显示的延迟时间                                                                                                                                        | number                    | `0`                   |
+| passive           | 非受控                                                                                                                                                | boolean                   | `true`                |
 | hideAfter         | 隐藏的延迟时间                                                                                                                                        | number                    | `0`                   |
 | lazy              | 是否懒渲染                                                                                                                                            | boolean                   | `true`                |
 | getContainer      | 配置渲染节点的输出位置                                                                                                                                | () => HTMLElement         | `() => document.body` |
