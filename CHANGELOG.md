@@ -1,3 +1,12 @@
+## [0.8.68](https://github.com/WeBankFinTech/fes-design/compare/v0.8.67...v0.8.68) (2024-10-21)
+
+
+### Features
+
+* **Tooltip:** 增加受控模式 ([#899](https://github.com/WeBankFinTech/fes-design/issues/899)) ([854888a](https://github.com/WeBankFinTech/fes-design/commit/854888ab443dd2fd1b75f7d13a63bfc40f7bbc2c))
+
+
+
 ## [0.8.67](https://github.com/WeBankFinTech/fes-design/compare/v0.8.66...v0.8.67) (2024-10-21)
 
 
