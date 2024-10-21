@@ -92,7 +92,7 @@ passive.vue
 
 | 方法名称   | 说明       | 参数    |
 | -------------------- | -------- | ---------- |
-| updatePopperPosition | 更新 Tooltip 位置 | () => void |
+| updatePopperPosition | 更新弹出层位置 | () => void |
 
 ## Tooltip Slots
 
