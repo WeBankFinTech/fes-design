@@ -88,6 +88,12 @@ passive.vue
 | cancel       | 点击取消按钮回调，confirm 模式下有效 | (visible) => void |
 | clickOutside | 是否点击了外部区域                   | () => void        |
 
+## Tooltip Events
+
+| 事件名称             | 说明     | 回调参数   |
+| -------------------- | -------- | ---------- |
+| updatePopperPosition | 更新位置 | () => void |
+
 ## Tooltip Slots
 
 | 名称    | 说明                           |
