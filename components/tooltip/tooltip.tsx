@@ -3,8 +3,10 @@ import {
     type PropType,
     computed,
     defineComponent,
+    ref,
 } from 'vue';
 import { isNil } from 'lodash-es';
+import { useVModel } from '@vueuse/core';
 import Popper from '../popper/popper';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -50,13 +52,18 @@ export type ToolTipProps = ExtractPublicPropTypes<typeof toolTipProps>;
 export default defineComponent({
     name: 'FTooltip',
     props: toolTipProps,
-    emits: [OK_EVENT, CANCEL_EVENT, UPDATE_MODEL_EVENT],
+    emits: [OK_EVENT, CANCEL_EVENT, UPDATE_MODEL_EVENT, 'clickOutside'],
     setup(props, ctx) {
         useTheme();
-        const [currentValue, updateCurrentValue] = useNormalModel(
-            props,
-            ctx.emit,
-        );
+
+        const currentValue = useVModel(props, 'modelValue', ctx.emit, {
+            passive: props.passive,
+        });
+        const updateCurrentValue = (val: boolean) => {
+            currentValue.value = val;
+        };
+
+        const popperElRef = ref(null);
 
         function getPopperSlots() {
             return {
@@ -155,17 +162,25 @@ export default defineComponent({
             return _props;
         });
 
+        ctx.expose({
+            updatePopperPosition() {
+                popperElRef.value?.updatePopperPosition();
+            },
+        });
+
         return () => {
             return (
                 <Popper
                     {...popperPropsRef.value}
                     v-model={currentValue.value}
+                    ref={popperElRef}
                     popperClass={[
                         prefixCls,
                         `${prefixCls}-${props.mode}`,
                         popperPropsRef.value.popperClass,
                     ]}
                     v-slots={getPopperSlots()}
+                    onClickOutside={() => ctx.emit('clickOutside')}
                 >
                     {renderContent()}
                 </Popper>
