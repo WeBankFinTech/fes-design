@@ -1,6 +1,6 @@
 <template>
     <FSpace>
-        <FForm :labelWidth="100">
+        <FForm :labelWidth="150">
             <FFormItem label="是否显示:">
                 <FRadioGroup
                     v-model="visible"

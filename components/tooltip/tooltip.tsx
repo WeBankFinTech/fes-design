@@ -3,6 +3,7 @@ import {
     type PropType,
     computed,
     defineComponent,
+    ref,
 } from 'vue';
 import { isNil } from 'lodash-es';
 import { useVModel } from '@vueuse/core';
@@ -61,6 +62,8 @@ export default defineComponent({
         const updateCurrentValue = (val: boolean) => {
             currentValue.value = val;
         };
+
+        const popperElRef = ref(null);
 
         function getPopperSlots() {
             return {
@@ -159,11 +162,18 @@ export default defineComponent({
             return _props;
         });
 
+        ctx.expose({
+            updatePopperPosition() {
+                popperElRef.value?.updatePopperPosition();
+            },
+        });
+
         return () => {
             return (
                 <Popper
                     {...popperPropsRef.value}
                     v-model={currentValue.value}
+                    ref={popperElRef}
                     popperClass={[
                         prefixCls,
                         `${prefixCls}-${props.mode}`,
