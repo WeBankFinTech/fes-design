@@ -54,17 +54,17 @@ passive.vue
 
 ## Popper Events
 
-| 事件名称             | 说明     | 回调参数   |
-| -------------------- | -------- | ---------- |
-| updatePopperPosition | 更新位置 | () => void |
-
-## Popper Methods
-
 | 方法名称   | 说明       | 参数    |
 | ---------- | ---------- | ------- |
 | selectNode | 选中节点   | (value) |
 | expandNode | 展开树节点 | (value) |
 | checkNode  | check 节点 | (value) |
+
+## Popper Methods
+
+| 事件名称             | 说明     | 回调参数   |
+| -------------------- | -------- | ---------- |
+| updatePopperPosition | 更新 Popper 位置 | () => void |
 
 ## Popper Slots
 
