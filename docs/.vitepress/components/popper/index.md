@@ -54,16 +54,14 @@ passive.vue
 
 ## Popper Events
 
-| 方法名称   | 说明       | 参数    |
-| ---------- | ---------- | ------- |
-| selectNode | 选中节点   | (value) |
-| expandNode | 展开树节点 | (value) |
-| checkNode  | check 节点 | (value) |
+| 事件名称     | 说明               | 回调参数   |
+| ------------ | ------------------ | ---------- |
+| clickOutside | 是否点击了外部区域 | () => void |
 
 ## Popper Methods
 
-| 事件名称             | 说明     | 回调参数   |
-| -------------------- | -------- | ---------- |
+| 方法名称   | 说明       | 参数    |
+| ---------- | ---------- | ------- |
 | updatePopperPosition | 更新 Popper 位置 | () => void |
 
 ## Popper Slots

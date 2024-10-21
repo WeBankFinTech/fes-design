@@ -90,7 +90,7 @@ passive.vue
 
 ## Tooltip Methods
 
-| 事件名称             | 说明     | 回调参数   |
+| 方法名称   | 说明       | 参数    |
 | -------------------- | -------- | ---------- |
 | updatePopperPosition | 更新 Tooltip 位置 | () => void |
 
