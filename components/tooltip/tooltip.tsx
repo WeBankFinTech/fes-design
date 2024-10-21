@@ -5,6 +5,7 @@ import {
     defineComponent,
 } from 'vue';
 import { isNil } from 'lodash-es';
+import { useVModel } from '@vueuse/core';
 import Popper from '../popper/popper';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -50,13 +51,16 @@ export type ToolTipProps = ExtractPublicPropTypes<typeof toolTipProps>;
 export default defineComponent({
     name: 'FTooltip',
     props: toolTipProps,
-    emits: [OK_EVENT, CANCEL_EVENT, UPDATE_MODEL_EVENT],
+    emits: [OK_EVENT, CANCEL_EVENT, UPDATE_MODEL_EVENT, 'clickOutside'],
     setup(props, ctx) {
         useTheme();
-        const [currentValue, updateCurrentValue] = useNormalModel(
-            props,
-            ctx.emit,
-        );
+
+        const currentValue = useVModel(props, 'modelValue', ctx.emit, {
+            passive: props.passive,
+        });
+        const updateCurrentValue = (val: boolean) => {
+            currentValue.value = val;
+        };
 
         function getPopperSlots() {
             return {
@@ -166,6 +170,7 @@ export default defineComponent({
                         popperPropsRef.value.popperClass,
                     ]}
                     v-slots={getPopperSlots()}
+                    onClickOutside={() => ctx.emit('clickOutside')}
                 >
                     {renderContent()}
                 </Popper>

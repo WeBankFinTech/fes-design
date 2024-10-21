@@ -27,6 +27,12 @@ common.vue
 visible.vue
 :::
 
+### 受控模式
+
+:::demo
+passive.vue
+:::
+
 ## Popper Props
 
 | 属性              | 说明                                                                                                                                                  | 类型                      | 默认值                |
@@ -41,10 +47,16 @@ visible.vue
 | popperClass       | 弹出框的样式类名                                                                                                                                      | string \| object \| Array | -                     |
 | popperStyle       | 弹出框的样式                                                                                                                                          | object                    | -                     |
 | showAfter         | 显示的延迟时间                                                                                                                                        | number                    | `0`                   |
-| passive           | 非受控                                                                                                                                                | boolean                   | `true`                |
+| passive           | 是否受控模式，true-非受控，false-受控                                                                                                                 | boolean                   | `true`                |
 | hideAfter         | 隐藏的延迟时间                                                                                                                                        | number                    | `0`                   |
 | lazy              | 是否懒渲染                                                                                                                                            | boolean                   | `true`                |
 | getContainer      | 配置渲染节点的输出位置                                                                                                                                | () => HTMLElement         | `() => document.body` |
+
+## Popper Events
+
+| 事件名称     | 说明               | 回调参数   |
+| ------------ | ------------------ | ---------- |
+| clickOutside | 是否点击了外部区域 | () => void |
 
 ## Popper Slots
 
