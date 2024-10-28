@@ -50,16 +50,10 @@ export default defineComponent({
         let virtual: Virtual = null;
 
         const fullHeight = computed(() => {
-            const { padBehind } = rangeRef.value;
-            // 当未全部加载所有子项时，高度跟随getEstimateSize变化
-            void virtual.sizes.size;
-            if (padBehind !== 0) {
-                return (
-                    virtual
-                    && virtual.getEstimateSize() * props.dataSources.length
-                );
+            if (!virtual) {
+                return getClientSize();
             }
-            return virtual.getTotalSize();
+            return virtual.getTotalSize() + (props.dataSources.length - virtual.sizes.size) * virtual.getEstimateSize() + getClientSize();
         });
 
         const getUniqueIdFromDataSources = () => {
