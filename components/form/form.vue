@@ -62,13 +62,16 @@ export default defineComponent({
                     'Form `model` is required for resetFields to work.',
                 );
             }
-            const specifyPropsFlag = Boolean(fieldProps.length); // 是否指定prop: 【部分】表单字段校验调用会指定; 【整个】表单校验调用则不会指定
+
+            // 是否指定prop: 【部分】表单字段校验调用会指定; 【整个】表单校验调用则不会指定
+            const specifyPropsFlag = Boolean(fieldProps.length);
             const promiseList: Promise<any>[] = []; // 原始校验结果
 
             Object.values(formFields).forEach((formField) => {
+                // Skip if Specify prop but not include
                 if (specifyPropsFlag && !fieldProps.includes(formField.prop)) {
                     return;
-                } // Skip if Specify prop but not include
+                }
 
                 const promise = formField.validateRules(trigger);
                 promiseList.push(
@@ -108,25 +111,43 @@ export default defineComponent({
             validateFields(fieldProps);
 
         /** 移除表单项的校验结果 */
-        const clearValidate = () => {
+        const clearValidate = (fieldProps: string[] = []) => {
             if (!props.model) {
                 return Promise.reject(
                     'Form `model` is required for resetFields to work.',
                 );
             }
+
+            // 是否指定prop: 【部分】表单字段校验调用会指定; 【整个】表单校验调用则不会指定
+            const specifyPropsFlag = Boolean(fieldProps.length);
+
             Object.values(formFields).forEach((formField) => {
+                // Skip if Specify prop but not include
+                if (specifyPropsFlag && !fieldProps.includes(formField.prop)) {
+                    return;
+                }
+
                 formField.clearValidate();
             });
         };
 
         /** 对整个表单进行重置，将所有字段值重置为初始值并移除校验结果 */
-        const resetFields = () => {
+        const resetFields = (fieldProps: string[] = []) => {
             if (!props.model) {
                 return Promise.reject(
                     'Form `model` is required for resetFields to work.',
                 );
             }
+
+            // 是否指定prop: 【部分】表单字段校验调用会指定; 【整个】表单校验调用则不会指定
+            const specifyPropsFlag = Boolean(fieldProps.length);
+
             Object.values(formFields).forEach((formField) => {
+                // Skip if Specify prop but not include
+                if (specifyPropsFlag && !fieldProps.includes(formField.prop)) {
+                    return;
+                }
+
                 formField.resetField();
             });
         };
