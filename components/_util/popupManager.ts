@@ -1,7 +1,10 @@
+import { useSessionStorage } from '@vueuse/core';
+import { getPrefixStorage } from '../_util/storage';
+
 const PopupManager = {
-    zIndex: 2000,
+    zIndex: useSessionStorage<number>(getPrefixStorage('zIndex'), 2000),
     nextZIndex() {
-        return ++PopupManager.zIndex;
+        return ++PopupManager.zIndex.value;
     },
 };
 
