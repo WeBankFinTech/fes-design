@@ -1,3 +1,18 @@
+## [0.8.69](https://github.com/WeBankFinTech/fes-design/compare/v0.8.68...v0.8.69) (2024-11-01)
+
+
+### Bug Fixes
+
+* 修复虚拟滚动组件动态添加子项不能滚动问题 ([#900](https://github.com/WeBankFinTech/fes-design/issues/900)) ([00ddba0](https://github.com/WeBankFinTech/fes-design/commit/00ddba09a457a8538c7b2f7c2e56d52a9936bf25))
+
+
+### Features
+
+* **Form:** 支持清除和重置指定表单项 ([c1615c7](https://github.com/WeBankFinTech/fes-design/commit/c1615c780775177bc449517706232626b35021c4))
+* zIndex 全局管理，由内存改为 sessionStorage ([#901](https://github.com/WeBankFinTech/fes-design/issues/901)) ([bb81f62](https://github.com/WeBankFinTech/fes-design/commit/bb81f628e2bffaa4f27537f2afad7dd8f47cd0fb))
+
+
+
 ## [0.8.68](https://github.com/WeBankFinTech/fes-design/compare/v0.8.67...v0.8.68) (2024-10-21)
 
 
