@@ -78,8 +78,8 @@ export default defineComponent({
         );
         const { validate, isFormDisabled } = useFormAdaptor();
         onMounted(() => {
-            // 默认为未选中
-            if (currentValue.value === undefined) {
+            // 默认为未选中，增加 props.inactiveValue 判断，避免 onMounted 设置初始值不生效
+            if (currentValue.value === undefined && props.inactiveValue !== undefined) {
                 // 避免可能出现的bug https://github.com/vuejs/core/issues/5290
                 nextTick(() => {
                     updateCurrentValue(props.inactiveValue);
