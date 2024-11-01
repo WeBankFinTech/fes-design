@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 export default {
     setup() {
@@ -11,6 +11,9 @@ export default {
         const handleChange = (value) => {
             console.log('[switch.common] [handleChange] value:', value);
         };
+        onMounted(() => {
+            val.value = true;
+        });
         return {
             val,
             handleChange,
