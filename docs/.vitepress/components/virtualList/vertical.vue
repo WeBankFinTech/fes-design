@@ -17,7 +17,7 @@
             </div>
         </template>
     </FVirtualList>
-    <FButton @click="addMessage">添加消息{{ dataItems.length }}</FButton>
+    <FButton style="margin-top: 10px;" @click="addMessage">添加消息{{ dataItems.length }}</FButton>
 </template>
 
 <script>
