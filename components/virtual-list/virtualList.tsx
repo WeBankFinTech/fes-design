@@ -53,7 +53,8 @@ export default defineComponent({
             if (!virtual) {
                 return getClientSize();
             }
-            return virtual.getTotalSize() + (props.dataSources.length - virtual.sizes.size) * virtual.getEstimateSize() + getClientSize();
+            void virtual.sizes.size;
+            return virtual.getTotalSize() + (props.dataSources.length - virtual.sizes.size) * virtual.getEstimateSize();
         });
 
         const getUniqueIdFromDataSources = () => {
