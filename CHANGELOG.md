@@ -1,3 +1,13 @@
+## [0.8.70](https://github.com/WeBankFinTech/fes-design/compare/v0.8.69...v0.8.70) (2024-11-04)
+
+
+### Bug Fixes
+
+* **Switch:** 修复 onMounted 初始值设置不生效的问题 ([37464c6](https://github.com/WeBankFinTech/fes-design/commit/37464c6c348470f143f16c3b1160767c32c27327))
+* **VirtualList:** 修复 Select 结合 VirtualList 时滚动到底部不正确的问题 ([#904](https://github.com/WeBankFinTech/fes-design/issues/904)) ([03836d0](https://github.com/WeBankFinTech/fes-design/commit/03836d01b3aa1bb43d5a15a68732d33fc589db2f))
+
+
+
 ## [0.8.69](https://github.com/WeBankFinTech/fes-design/compare/v0.8.68...v0.8.69) (2024-11-01)
 
 
