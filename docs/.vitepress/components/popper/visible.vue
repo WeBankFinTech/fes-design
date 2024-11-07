@@ -9,11 +9,6 @@
                         { label: '否(默认)', value: false },
                         { label: '是', value: true },
                     ]"
-                    @change="
-                        (value) => {
-                            console.log(value);
-                        }
-                    "
                 />
             </FFormItem>
         </FForm>

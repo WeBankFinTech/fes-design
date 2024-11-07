@@ -9,11 +9,6 @@
                         { label: '否(默认)', value: false },
                         { label: '是', value: true },
                     ]"
-                    @change="
-                        (value) => {
-                            console.log(value);
-                        }
-                    "
                 />
             </FFormItem>
             <FFormItem label="点击空白处是否关闭:">
@@ -24,11 +19,6 @@
                         { label: '否(默认)', value: false },
                         { label: '是', value: true },
                     ]"
-                    @change="
-                        (value) => {
-                            console.log(value);
-                        }
-                    "
                 />
             </FFormItem>
         </FForm>

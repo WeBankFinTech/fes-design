@@ -12,7 +12,6 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import ExclamationCircleFilled from '../icon/ExclamationCircleFilled';
 import FButton from '../button/button';
-import { useNormalModel } from '../_util/use/useModel';
 import { popperProps } from '../popper/props';
 import { CANCEL_EVENT, OK_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import type { ExtractPublicPropTypes } from '../_util/interface';
@@ -22,6 +21,8 @@ const prefixCls = getPrefixCls('tooltip');
 const defaultConfirmOption = {
     okText: '确定',
     cancelText: '取消',
+    showOk: true,
+    showCancel: true,
     icon: <ExclamationCircleFilled />,
 };
 
@@ -124,25 +125,32 @@ export default defineComponent({
                                 )}
                         {isConfirm && (
                             <>
-                                <FButton
-                                    class={`${prefixCls}-modal-btn`}
-                                    onClick={(event) =>
-                                        handleConfirmCB(OK_EVENT, event)
+                                {mergeOpt.showOk && (
+                                    <FButton
+                                        class={`${prefixCls}-modal-btn`}
+                                        onClick={(event) =>
+                                            handleConfirmCB(OK_EVENT, event)
                                     }
-                                    size="small"
-                                    type="primary"
-                                >
-                                    {mergeOpt.okText}
-                                </FButton>
-                                <FButton
-                                    class={`${prefixCls}-modal-btn`}
-                                    onClick={(event) =>
-                                        handleConfirmCB(CANCEL_EVENT, event)
+                                        size="small"
+                                        type="primary"
+                                    >
+                                        {mergeOpt.okText}
+                                    </FButton>
+                                )}
+                                {
+                                    mergeOpt.showCancel && (
+                                        <FButton
+                                            class={`${prefixCls}-modal-btn`}
+                                            onClick={(event) =>
+                                                handleConfirmCB(CANCEL_EVENT, event)
                                     }
-                                    size="small"
-                                >
-                                    {mergeOpt.cancelText}
-                                </FButton>
+                                            size="small"
+                                        >
+                                            {mergeOpt.cancelText}
+                                        </FButton>
+                                    )
+                                }
+
                             </>
                         )}
                     </>

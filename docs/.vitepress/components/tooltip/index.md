@@ -74,11 +74,13 @@ passive.vue
 
 ### confirmOption 属性
 
-| 属性       | 说明         | 类型   | 默认值                       |
-| ---------- | ------------ | ------ | ---------------------------- |
-| okText     | 确认按钮文字 | string | -                            |
-| cancelText | 取消按钮文字 | string | -                            |
-| icon       | 图标         | vNode  | `<ExclamationCircleFilled/>` |
+| 属性       | 说明             | 类型    | 默认值                       |
+| ---------- | ---------------- | ------- | ---------------------------- |
+| okText     | 确认按钮文字     | string  | -                            |
+| cancelText | 取消按钮文字     | string  | -                            |
+| showOk     | 是否显示确认按钮 | boolean | `true`                       |
+| showCancel | 是否显示取消按钮 | boolean | `true`                       |
+| icon       | 图标             | vNode   | `<ExclamationCircleFilled/>` |
 
 ## Tooltip Events
 
@@ -90,8 +92,8 @@ passive.vue
 
 ## Tooltip Methods
 
-| 方法名称   | 说明       | 参数    |
-| -------------------- | -------- | ---------- |
+| 方法名称             | 说明           | 参数       |
+| -------------------- | -------------- | ---------- |
 | updatePopperPosition | 更新弹出层位置 | () => void |
 
 ## Tooltip Slots
