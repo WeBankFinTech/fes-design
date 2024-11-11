@@ -1,3 +1,12 @@
+## [0.8.71](https://github.com/WeBankFinTech/fes-design/compare/v0.8.70...v0.8.71) (2024-11-11)
+
+
+### Features
+
+* **Tooltip:** confirm 模式增加是否显示确认和取消按钮的配置项 ([973c494](https://github.com/WeBankFinTech/fes-design/commit/973c49454c5c2deed31d460795ff024c8217a3ae))
+
+
+
 ## [0.8.70](https://github.com/WeBankFinTech/fes-design/compare/v0.8.69...v0.8.70) (2024-11-04)
 
 
