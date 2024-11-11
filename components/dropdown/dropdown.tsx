@@ -5,6 +5,7 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useNormalModel } from '../_util/use/useModel';
 import { useTheme } from '../_theme/useTheme';
 import Popper from '../popper/popper';
+import Scrollbar from '../scrollbar/scrollbar.vue';
 import { type DropdownOption as Option, dropdownProps } from './props';
 
 const prefixCls = getPrefixCls('dropdown');
@@ -12,7 +13,7 @@ const prefixCls = getPrefixCls('dropdown');
 export default defineComponent({
     name: 'FDropdown',
     props: dropdownProps,
-    emits: ['click', 'visibleChange', 'update:visible'],
+    emits: ['click', 'visibleChange', 'update:visible', 'scroll'],
     setup(props, { slots, emit }) {
         useTheme();
 
@@ -41,8 +42,11 @@ export default defineComponent({
         });
 
         const renderOptions = () => (
-            <div
-                class={[
+            <Scrollbar
+                onScroll={(event: Event) => {
+                    emit('scroll', event);
+                }}
+                containerClass={[
                     `${prefixCls}-option-wrapper`,
                     hasIcon.value ? 'has-icon' : '',
                 ]}
@@ -85,7 +89,7 @@ export default defineComponent({
                         </div>
                     );
                 })}
-            </div>
+            </Scrollbar>
         );
 
         return () => (

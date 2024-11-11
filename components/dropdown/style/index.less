@@ -6,6 +6,7 @@
 @dropdown-option-height: @data-input-height-base;
 @dropdown-option-hover-color: var(--f-hover-color-light);
 @dropdown-min-width: 100px;
+@dropdown-max-height: 274px;
 
 .@{dropdown-prefix-cls} {
     &-popper {
@@ -14,6 +15,7 @@
     }
     &-option-wrapper {
         min-width: @dropdown-min-width;
+        max-height: @dropdown-max-height;
         .text();
         &:not(.has-icon) {
             .@{dropdown-prefix-cls}-option {
