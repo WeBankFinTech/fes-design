@@ -97,7 +97,7 @@ export default defineComponent({
                 v-model={visible.value}
                 trigger={props.trigger}
                 placement={props.placement}
-                popperClass={`${prefixCls}-popper`}
+                popperClass={[`${prefixCls}-popper`, props.popperClass]}
                 appendToContainer={props.appendToContainer}
                 getContainer={props.getContainer}
                 offset={props.offset}

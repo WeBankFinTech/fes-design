@@ -76,6 +76,7 @@ disabled.vue
 | disabled           | 是否禁用                                                                                                                                                   | boolean                 | `false`               |
 | arrow              | 是否显示箭头                                                                                                                                               | boolean                 | `false`               |
 | showSelectedOption | 是否显示选中选项                                                                                                                                           | boolean                 | `false`               |
+| popperClass        | 弹出框容器样式                                                                                                                                             | string                  | -                     |
 
 ## Events
 

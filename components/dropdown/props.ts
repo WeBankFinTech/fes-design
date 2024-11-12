@@ -69,6 +69,7 @@ export const dropdownProps = {
         type: Boolean,
         default: false,
     },
+    popperClass: [String, Array, Object] as PropType<string | [] | object>,
 } as const satisfies ComponentObjectPropsOptions;
 
 export type DropdownProps = ExtractPublicPropTypes<typeof dropdownProps>;

@@ -1,5 +1,5 @@
 <template>
-    <FDropdown arrow :options="options" showSelectedOption @scroll="handleScroll">
+    <FDropdown arrow :options="options" showSelectedOption popperClass="dropdown-content-wrapper" @scroll="handleScroll">
         <FButton>下拉菜单</FButton>
     </FDropdown>
 </template>
