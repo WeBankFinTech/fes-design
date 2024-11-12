@@ -1,5 +1,5 @@
 <template>
-    <FDropdown arrow :options="options" showSelectedOption>
+    <FDropdown arrow :options="options" showSelectedOption popperClass="dropdown-content-wrapper" @scroll="handleScroll">
         <FButton>下拉菜单</FButton>
     </FDropdown>
 </template>
@@ -29,10 +29,52 @@ export default {
                 value: '5',
                 label: '收藏',
             },
+            {
+                value: '6',
+                label: '点赞',
+            },
+            {
+                value: '7',
+                label: '分享',
+            },
+            {
+                value: '8',
+                label: '投诉',
+            },
+            {
+                value: '9',
+                label: '建议',
+            },
+            {
+                value: '10',
+                label: '更新',
+            },
+            {
+                value: '11',
+                label: '编辑',
+            },
+            {
+                value: '12',
+                label: '更多',
+            },
         ];
+
+        const handleScroll = (e) => {
+            console.log('[dropdown.check] handleScroll, e:', e);
+        };
+
         return {
             options,
+            handleScroll,
         };
     },
 };
 </script>
+
+<style lang="less">
+.dropdown-content-wrapper {
+    .fes-dropdown-option-wrapper {
+        max-height: 320px;
+    }
+}
+</style>

@@ -76,13 +76,15 @@ disabled.vue
 | disabled           | 是否禁用                                                                                                                                                   | boolean                 | `false`               |
 | arrow              | 是否显示箭头                                                                                                                                               | boolean                 | `false`               |
 | showSelectedOption | 是否显示选中选项                                                                                                                                           | boolean                 | `false`               |
+| popperClass        | 弹出框容器样式                                                                                                                                             | string                  | -                     |
 
 ## Events
 
-| 事件名称      | 说明                   | 回调参数          |
-| ------------- | ---------------------- | ----------------- |
-| click         | 点击选项的回调         | (value) => void   |
-| visibleChange | 菜单显示状态改变时调用 | (visible) => void |
+| 事件名称      | 说明                   | 回调参数               |
+| ------------- | ---------------------- | ---------------------- |
+| click         | 点击选项的回调         | (value) => void        |
+| visibleChange | 菜单显示状态改变时调用 | (visible: Boolean) => void      |
+| scroll        | 滚动事件               | (event: Event) => void |
 
 ## Slots
 

@@ -165,17 +165,17 @@ selectGroupOption.vue
 
 ## Select Events
 
-| 事件名称      | 说明                                                                         | 回调参数           |
-| ------------- | ---------------------------------------------------------------------------- | ------------------ |
-| change        | 选择或者清除选中选项时触发                                                   | 目前选中的值       |
-| visibleChange | 下拉框出现/隐藏时触发, 出现则为 true，隐藏则为 false                         | (visible: Boolean) |
-| removeTag     | 取消选中时调用，参数为选中项的 value (或 key) 值，仅在 `multiple` 模式下生效 | 取消选中的值       |
-| blur          | 当选择器失去焦点时触发                                                       | (event: Event)     |
-| focus         | 当选择器获得焦点时触发                                                       | (event: Event)     |
-| clear         | 点击清除按钮时触发                                                           | (event: Event)     |
-| scroll        | 滚动事件                                                                     | (event: Event)     |
-| search        | 搜索事件                                                                     | ( query: String)   |
-| filter        | 过滤事件                                                                     | ( query: String)   |
+| 事件名称      | 说明                                                                         | 回调参数                   |
+| ------------- | ---------------------------------------------------------------------------- | -------------------------- |
+| change        | 选择或者清除选中选项时触发                                                   | (value) => void            |
+| visibleChange | 下拉框出现/隐藏时触发, 出现则为 true，隐藏则为 false                         | (visible: Boolean) => void |
+| removeTag     | 取消选中时调用，参数为选中项的 value (或 key) 值，仅在 `multiple` 模式下生效 | 取消选中的值               |
+| blur          | 当选择器失去焦点时触发                                                       | (event: Event) => void     |
+| focus         | 当选择器获得焦点时触发                                                       | (event: Event) => void     |
+| clear         | 点击清除按钮时触发                                                           | (event: Event) => void     |
+| scroll        | 滚动事件                                                                     | (event: Event) => void     |
+| search        | 搜索事件                                                                     | ( query: String) => void   |
+| filter        | 过滤事件                                                                     | ( query: String) => void   |
 
 ## Select Slots
 
