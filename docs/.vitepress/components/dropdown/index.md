@@ -80,11 +80,11 @@ disabled.vue
 
 ## Events
 
-| 事件名称      | 说明                   | 回调参数          |
-| ------------- | ---------------------- | ----------------- |
-| click         | 点击选项的回调         | (value) => void   |
-| visibleChange | 菜单显示状态改变时调用 | (visible) => void |
-| scroll        | 滚动事件               | (event: Event)    |
+| 事件名称      | 说明                   | 回调参数               |
+| ------------- | ---------------------- | ---------------------- |
+| click         | 点击选项的回调         | (value) => void        |
+| visibleChange | 菜单显示状态改变时调用 | (visible: Boolean) => void      |
+| scroll        | 滚动事件               | (event: Event) => void |
 
 ## Slots
 
