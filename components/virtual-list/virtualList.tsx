@@ -3,12 +3,14 @@
  * rewrite by uct8086
  */
 
+import type {
+    CSSProperties,
+} from 'vue';
 import {
-    type CSSProperties,
-    computed,
     createVNode,
     defineComponent,
     onActivated,
+    onBeforeUnmount,
     onMounted,
     ref,
     watch,
@@ -42,20 +44,12 @@ export default defineComponent({
         const directionKey = isHorizontal ? 'scrollLeft' : 'scrollTop';
 
         const rootRef = ref();
-        const shepherdRef = ref();
+        // const shepherdRef = ref();
         const rangeRef = ref(Object.create(null));
 
         const scrollRef = ref();
 
         let virtual: Virtual = null;
-
-        const fullHeight = computed(() => {
-            if (!virtual) {
-                return getClientSize();
-            }
-            void virtual.sizes.size;
-            return virtual.getTotalSize() + (props.dataSources.length - virtual.sizes.size) * virtual.getEstimateSize();
-        });
 
         const getUniqueIdFromDataSources = () => {
             const { dataKey } = props;
@@ -140,17 +134,15 @@ export default defineComponent({
         const scrollToBottom = () => {
             const root = rootRef.value;
             if (root) {
-                const position
-                    = root[isHorizontal ? 'scrollWidth' : 'scrollHeight'];
-                scrollToTarget(position);
+                const offset = root[isHorizontal ? 'scrollWidth' : 'scrollHeight'];
+                scrollToTarget(offset);
                 // check if it's really scrolled to the bottom
                 // maybe list doesn't render and calculate to last range
                 // so we need retry in next event loop until it really at bottom
-                const time = setTimeout(() => {
+                setTimeout(() => {
                     if (getOffset() + getClientSize() < getScrollSize()) {
                         scrollToBottom();
                     }
-                    clearTimeout(time);
                 }, ITME_RESIZE_UPDATE_SCROLL_BAR_TIMEOUT + 10);
             }
         };
@@ -161,8 +153,8 @@ export default defineComponent({
             if (index >= props.dataSources.length - 1) {
                 scrollToBottom();
             } else {
-                const position = virtual.getOffset(index);
-                scrollToTarget(position);
+                const offset = virtual.getOffset(index);
+                scrollToTarget(offset);
             }
         };
 
@@ -346,6 +338,10 @@ export default defineComponent({
             }
         });
 
+        onBeforeUnmount(() => {
+            virtual.destroy();
+        });
+
         return {
             reset,
             scrollToBottom,
@@ -360,10 +356,8 @@ export default defineComponent({
             getRenderItems,
             onItemResized,
             onSlotResized,
-            fullHeight,
             isHorizontal,
             rootRef,
-            shepherdRef,
             rangeRef,
             scrollRef,
         };
@@ -376,7 +370,6 @@ export default defineComponent({
             wrapClass,
             wrapStyle,
             onScroll,
-            fullHeight,
             renderItemList,
             shadow,
             height,
@@ -386,37 +379,29 @@ export default defineComponent({
             minSize,
         } = this;
 
-        // wrap style
-        const horizontalStyle = {
-            'display': 'flex',
-            'flex-direction': 'row',
-            'position': 'absolute',
-            'bottom': 0,
-            'top': 0,
-            'left': `${padFront}px`,
-            'right': `${padBehind}px`,
-        };
-        const verticalStyle = {
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            top: `${padFront}px`,
-            bottom: `${padBehind}px`,
-        };
         const wrapperStyle = Object.assign(
             {},
             wrapStyle || {},
-            isHorizontal ? horizontalStyle : verticalStyle,
+            isHorizontal
+                ? {
+                        display: 'flex',
+                        flexDirection: 'row',
+                        height: '100%',
+                        padding: `0px ${padBehind}px 0px ${padFront}px`,
+                    }
+                : {
+                        width: '100%',
+                        padding: `${padFront}px 0px ${padBehind}px`,
+                    },
         );
+
         const rootStyle: CSSProperties = isHorizontal
             ? {
                     position: 'relative',
-                    width: `${fullHeight}px`,
                     height: '100%',
                 }
             : {
                     position: 'relative',
-                    height: `${fullHeight}px`,
                     width: '100%',
                 };
 
