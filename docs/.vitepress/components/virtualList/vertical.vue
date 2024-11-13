@@ -7,8 +7,8 @@
         :estimateSize="80"
         :height="height"
     >
-        <template #default="{ source }">
-            <div class="item-inner">
+        <template #default="{ source, index }">
+            <div :data-index="index" class="item-inner">
                 <div class="head">
                     <span># {{ source.index }}</span>
                     <span>{{ source.name }}</span>

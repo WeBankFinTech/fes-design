@@ -35,7 +35,7 @@ export default class Virtual {
     sizes: Map<number | string, number>;
     firstRangeTotalSize: number;
     firstRangeAverageSize: number;
-    lastCalcIndex: number;
+    // lastCalcIndex: number;
     fixedSizeValue: number;
     calcType: CALC_TYPE;
     offset: number;
@@ -54,7 +54,7 @@ export default class Virtual {
         this.sizes = reactive(new Map());
         this.firstRangeTotalSize = 0;
         this.firstRangeAverageSize = 0;
-        this.lastCalcIndex = 0;
+        // this.lastCalcIndex = 0;
         this.fixedSizeValue = 0;
         this.calcType = CALC_TYPE.INIT;
 
@@ -121,24 +121,15 @@ export default class Virtual {
         if (this.calcType === CALC_TYPE.INIT) {
             this.fixedSizeValue = size;
             this.calcType = CALC_TYPE.FIXED;
-        } else if (
-            this.calcType === CALC_TYPE.FIXED
-            && this.fixedSizeValue !== size
-        ) {
+        } else if (this.calcType === CALC_TYPE.FIXED && this.fixedSizeValue !== size) {
             this.calcType = CALC_TYPE.DYNAMIC;
             // it's no use at all
             delete this.fixedSizeValue;
         }
 
         // calculate the average size only in the first range
-        if (
-            this.calcType !== CALC_TYPE.FIXED
-            && typeof this.firstRangeTotalSize !== 'undefined'
-        ) {
-            if (
-                this.sizes.size
-                < Math.min(this.param.keeps, this.param.uniqueIds.length)
-            ) {
+        if (this.calcType !== CALC_TYPE.FIXED && typeof this.firstRangeTotalSize !== 'undefined') {
+            if (this.sizes.size < Math.min(this.param.keeps, this.param.uniqueIds.length)) {
                 this.firstRangeTotalSize = [...this.sizes.values()].reduce(
                     (acc, val) => acc + val,
                     0,
@@ -151,10 +142,6 @@ export default class Virtual {
                 delete this.firstRangeTotalSize;
             }
         }
-    }
-
-    getTotalSize() {
-        return [...this.sizes.values()].reduce((acc, val) => acc + val, 0);
     }
 
     // in some special situation (e.g. length change) we need to update in a row
@@ -180,8 +167,7 @@ export default class Virtual {
 
     // calculating range on scroll
     handleScroll(offset: number) {
-        this.direction
-            = offset < this.offset ? DIRECTION_TYPE.FRONT : DIRECTION_TYPE.BEHIND;
+        this.direction = offset < this.offset ? DIRECTION_TYPE.FRONT : DIRECTION_TYPE.BEHIND;
         this.offset = offset;
         if (!this.param) {
             return;
@@ -261,16 +247,12 @@ export default class Virtual {
         let indexSize = 0;
         for (let index = 0; index < givenIndex; index++) {
             indexSize = this.sizes.get(this.param.uniqueIds[index]);
-            offset
-                = offset
-                + (typeof indexSize === 'number'
-                    ? indexSize
-                    : this.getEstimateSize());
+            offset = offset + (typeof indexSize === 'number' ? indexSize : this.getEstimateSize());
         }
 
-        // remember last calculate index
-        this.lastCalcIndex = Math.max(this.lastCalcIndex, givenIndex - 1);
-        this.lastCalcIndex = Math.min(this.lastCalcIndex, this.getLastIndex());
+        // // remember last calculate index
+        // this.lastCalcIndex = Math.max(this.lastCalcIndex, givenIndex - 1);
+        // this.lastCalcIndex = Math.min(this.lastCalcIndex, this.getLastIndex());
 
         return offset;
     }
@@ -337,10 +319,11 @@ export default class Virtual {
             return (lastIndex - end) * this.fixedSizeValue;
         }
 
-        // if it's all calculated, return the exactly offset
-        if (this.lastCalcIndex === lastIndex) {
-            return this.getIndexOffset(lastIndex) - this.getIndexOffset(end);
-        }
+        // // if it's all calculated, return the exactly offset
+        // if (this.lastCalcIndex === lastIndex) {
+        //     return this.getIndexOffset(lastIndex) - this.getIndexOffset(end);
+        // }
+
         // if not, use a estimated value
         return (lastIndex - end) * this.getEstimateSize();
     }
@@ -350,5 +333,9 @@ export default class Virtual {
         return this.isFixedType()
             ? this.fixedSizeValue
             : this.firstRangeAverageSize || this.param.estimateSize;
+    }
+
+    getTotalSize() {
+        return [...this.sizes.values()].reduce((acc, val) => acc + val, 0);
     }
 }

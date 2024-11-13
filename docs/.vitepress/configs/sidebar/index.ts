@@ -49,16 +49,12 @@ const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
                 text: '导航组件',
                 items: [
                     {
-                        text: 'Breadcrumb 面包屑',
-                        link: '/zh/components/breadcrumb',
-                    },
-                    {
-                        text: 'Dropdown 下拉菜单',
-                        link: '/zh/components/dropdown',
-                    },
-                    {
                         text: 'Menu 导航菜单',
                         link: '/zh/components/menu',
+                    },
+                    {
+                        text: 'Tabs 标签页',
+                        link: '/zh/components/tabs',
                     },
                     {
                         text: 'Steps 步骤条',
@@ -67,6 +63,14 @@ const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
                     {
                         text: 'Pagination 分页',
                         link: '/zh/components/pagination',
+                    },
+                    {
+                        text: 'Breadcrumb 面包屑',
+                        link: '/zh/components/breadcrumb',
+                    },
+                    {
+                        text: 'Dropdown 下拉菜单',
+                        link: '/zh/components/dropdown',
                     },
                 ],
             },
@@ -185,10 +189,6 @@ const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
                     {
                         text: 'Table 表格',
                         link: '/zh/components/table',
-                    },
-                    {
-                        text: 'Tabs 标签页',
-                        link: '/zh/components/tabs',
                     },
                     {
                         text: 'Tag 标签',
