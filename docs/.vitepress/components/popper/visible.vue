@@ -16,7 +16,7 @@
 
     <FDivider />
 
-    <FPopper v-model="visible" placement="bottom" trigger="click" :arrow="true">
+    <FPopper v-model="visible" placement="bottom" trigger="click" :arrow="true" :popperStyle="{ zIndex: 1500 }">
         <template #trigger>
             <FButton>Click to activate</FButton>
         </template>
