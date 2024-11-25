@@ -1,3 +1,19 @@
+## [0.8.72](https://github.com/WeBankFinTech/fes-design/compare/v0.8.71...v0.8.72) (2024-11-25)
+
+
+### Bug Fixes
+
+* 修复虚拟滚动组件动态添加子项无法滚动问题 ([#907](https://github.com/WeBankFinTech/fes-design/issues/907)) ([fed1dfc](https://github.com/WeBankFinTech/fes-design/commit/fed1dfc874a8630672e33fd98ccdd03859bd2622))
+* **Popper:** 修复 popperStyle 比默认设置优先级低的问题 ([4eda6a4](https://github.com/WeBankFinTech/fes-design/commit/4eda6a49f886824517ff2f3a6817efac27e58bf2))
+
+
+### Features
+
+* **Dropdown:** 下拉选项容器设置最大高度，超出显示滚动条 ([32db64a](https://github.com/WeBankFinTech/fes-design/commit/32db64a3ebdb337fd3df6bcfcfa794edc2feee1c))
+* **Dropdown:** 增加 popperClass 配置项，设置弹出框容器样式 ([276b881](https://github.com/WeBankFinTech/fes-design/commit/276b88191140d969de7cc59c292ad642199a59c3))
+
+
+
 ## [0.8.71](https://github.com/WeBankFinTech/fes-design/compare/v0.8.70...v0.8.71) (2024-11-11)
 
 
