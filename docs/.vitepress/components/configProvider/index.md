@@ -1,7 +1,7 @@
-# Config Provider 全局配置
+# ConfigProvider 全局配置
 
 为组件提供统一的全局化配置。
-Config Provider 使用了 [Vue 的 provide/inject 特性](https://v3.vuejs.org/guide/composition-api-provide-inject.html#using-provide)。
+`ConfigProvider` 使用了 [Vue 的 provide/inject 特性](https://v3.vuejs.org/guide/composition-api-provide-inject.html#using-provide)。
 
 ## 组件注册
 
@@ -29,13 +29,21 @@ const getContainer = () => {
 
 ### 切换语言
 
---CHANGELOCALE
+:::demo
+changeLocale.vue
+:::
 
 ### 自定义语言
 
---CUSTOMLOCALE
+:::demo
+customLocale.vue
+:::
 
---CODE
+### 自定义主题
+
+:::demo
+customTheme.vue
+:::
 
 ## Props
 
