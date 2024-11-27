@@ -2,7 +2,11 @@ import { computed, ref } from 'vue';
 import { CHANGE_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import { useNormalModel } from '../_util/use/useModel';
-import type { InputFileEmit, InputFileProps } from './props';
+import type { FileItem, InputFileEmit, InputFileProps } from './props';
+
+function genUid(seed: number) {
+    return Date.now() + seed;
+}
 
 //  <input type="file" /> 所需的数据
 export const useInputFile = (props: InputFileProps, emit: InputFileEmit) => {
@@ -27,6 +31,8 @@ export const useInputFile = (props: InputFileProps, emit: InputFileEmit) => {
         inputRef.value.click();
     };
 
+    let tempIndex = 1;
+
     const handleInputFileChange = (e: Event): void => {
         const target = e.target as HTMLInputElement;
 
@@ -34,6 +40,11 @@ export const useInputFile = (props: InputFileProps, emit: InputFileEmit) => {
         if (!files) {
             return;
         }
+
+        files.forEach((rawFile: FileItem) => {
+            const uid = genUid(tempIndex++);
+            rawFile.uid = uid;
+        });
 
         updateCurrentFiles(files);
         emit(CHANGE_EVENT, files);

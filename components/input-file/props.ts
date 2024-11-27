@@ -9,10 +9,14 @@ import type {
     ExtractPublicPropTypes,
 } from '../_util/interface';
 
+export interface FileItem extends File {
+    uid?: number | string;
+}
+
 const commonProps = {
     modelValue: {
-        type: Array as PropType<File[]>,
-        default: (): File[] => [],
+        type: Array as PropType<FileItem[]>,
+        default: (): FileItem[] => [],
     },
     accept: {
         type: Array as PropType<string[]>,
