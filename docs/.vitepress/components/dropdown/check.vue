@@ -71,10 +71,8 @@ export default {
 };
 </script>
 
-<style lang="less">
-.dropdown-content-wrapper {
-    .fes-dropdown-option-wrapper {
-        max-height: 320px;
-    }
+<style>
+.dropdown-content-wrapper .fes-dropdown-option-wrapper {
+    max-height: 320px;
 }
 </style>

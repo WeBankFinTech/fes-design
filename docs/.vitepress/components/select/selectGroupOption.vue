@@ -227,7 +227,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 .label-text {
     color: black;
     opacity: 0.5;

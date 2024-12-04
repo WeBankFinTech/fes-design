@@ -66,60 +66,59 @@ const handleRemoveFile = (uid) => {
 };
 </script>
 
-<style scoped lang="less">
+<style scoped>
 .file-list {
     width: 100%;
     color: var(--f-sub-head-color);
     font-size: var(--f-font-size-base);
     line-height: 24px;
-    &-item {
-        display: flex;
-        align-items: center;
-        margin-top: 4px;
-        border-radius: var(--f-border-radius-sm);
-        &:first-child {
-            margin-top: 8px;
-        }
-        &:last-child {
-            margin-bottom: 8px;
-        }
-        .file-list-name-wrapper {
-            display: flex;
-            flex: 1;
-            align-items: center;
-            .file-list-name {
-                margin-left: 6px;
-            }
-        }
-        .file-list-icon {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            width: 40px;
-            color: var(--f-text-color-secondary);
-            &-close {
-                display: none;
-                padding: 2px;
-            }
-        }
-        &:hover {
-            background-color: var(--f-hover-color-light);
-            .file-list-icon {
-                &-close {
-                    display: inline-block;
-                }
-            }
-        }
-    }
+}
+.file-list .file-list-item {
+    display: flex;
+    align-items: center;
+    margin-top: 4px;
+    border-radius: var(--f-border-radius-sm);
+}
+.file-list .file-list-item:first-child {
+    margin-top: 8px;
+}
+.file-list .file-list-item:last-child {
+    margin-bottom: 8px;
+}
+.file-list .file-list-item .file-list-name-wrapper {
+    display: flex;
+    flex: 1;
+    align-items: center;
+}
+.file-list .file-list-item .file-list-name-wrapper .file-list-name {
+    margin-left: 6px;
+}
+
+.file-list .file-list-item .file-list-icon {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 40px;
+    color: var(--f-text-color-secondary);
+}
+.file-list .file-list-item .file-list-icon .file-list-icon-close {
+    display: none;
+    padding: 2px;
+}
+.file-list .file-list-item:hover {
+    background-color: var(--f-hover-color-light);
+}
+.file-list .file-list-item:hover .file-list-icon .file-list-icon-close {
+    display: inline-block;
 }
 
 :deep(.fes-input-file .fes-input-file-visible-content) {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    .fes-input-file-file-list {
-        width: 100%;
-        max-width: 500px;
-    }
+}
+:deep(.fes-input-file .fes-input-file-visible-content .fes-input-file-file-list) {
+    width: 100%;
+    max-width: 500px;
 }
 </style>
