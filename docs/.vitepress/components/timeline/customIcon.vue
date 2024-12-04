@@ -9,7 +9,7 @@
         </template>
         <template #desc="{ index }">
             <RotateLeftOutlined class="btn" @click="handleTrigger(index)" />
-            <DeleteOutlined class="btn" @click="handleDelete(index)" />
+            <DeleteOutlined class="btn" style="margin-left: 5px;" @click="handleDelete(index)" />
         </template>
     </FTimeline>
 </template>
@@ -41,13 +41,12 @@ const handleDelete = (index: number) => {
 };
 </script>
 
-<style scoped lang="less">
+<style scoped>
 .btn {
     cursor: pointer;
-    opacity: 0;
-
-    &:hover {
-        opacity: 1;
-    }
+    opacity: 1;
+}
+.btn:hover {
+    opacity: 0.6;
 }
 </style>
