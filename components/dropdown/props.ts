@@ -6,8 +6,10 @@ import type {
 } from 'vue';
 import type { PLACEMENT, TRIGGER } from '../_util/constants';
 
+export type DropdownValue = string | number;
+
 export interface DropdownOption {
-    value: string | number;
+    value: DropdownValue;
     label: string | number | ((option: DropdownOption) => VNodeTypes);
     disabled?: boolean;
     icon?: () => VNodeTypes;
@@ -20,6 +22,9 @@ export interface DropdownOption {
 }
 
 export const dropdownProps = {
+    modelValue: {
+        type: [String, Number] as PropType<DropdownValue>,
+    },
     visible: {
         type: Boolean,
         default: false,
