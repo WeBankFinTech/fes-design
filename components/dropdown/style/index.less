@@ -62,11 +62,6 @@
             background: @dropdown-option-hover-color;
             transition: background-color @animation-duration-fast @ease-base-in;
         }
-        &.is-disabled {
-            color: var(--f-text-color-disabled);
-            background: var(--f-white);
-            cursor: not-allowed;
-        }
         &.is-selected {
             color: var(--f-primary-color);
             transition: color @animation-duration-fast @ease-base-in;
@@ -74,6 +69,12 @@
             .@{dropdown-prefix-cls}-option-selected-icon {
                 display: inline-block;
             }
+        }
+        /* is-disabled 优先级比 is-selected 高 */
+        &.is-disabled {
+            color: var(--f-text-color-disabled);
+            background: var(--f-white);
+            cursor: not-allowed;
         }
     }
 }

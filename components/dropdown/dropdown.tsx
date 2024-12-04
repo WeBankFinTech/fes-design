@@ -1,4 +1,4 @@
-import { computed, defineComponent, ref, watch } from 'vue';
+import { computed, defineComponent, ref, unref, watch } from 'vue';
 import { isFunction } from 'lodash-es';
 import CheckOutlined from '../icon/CheckOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
@@ -6,18 +6,19 @@ import { useNormalModel } from '../_util/use/useModel';
 import { useTheme } from '../_theme/useTheme';
 import Popper from '../popper/popper';
 import Scrollbar from '../scrollbar/scrollbar.vue';
-import { type DropdownOption as Option, dropdownProps } from './props';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
+import { type DropdownValue, type DropdownOption as Option, dropdownProps } from './props';
 
 const prefixCls = getPrefixCls('dropdown');
 
 export default defineComponent({
     name: 'FDropdown',
     props: dropdownProps,
-    emits: ['click', 'visibleChange', 'update:visible', 'scroll'],
+    emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'click', 'visibleChange', 'update:visible', 'scroll'],
     setup(props, { slots, emit }) {
         useTheme();
 
-        const currentValue = ref<Option['value']>();
+        const [currentValue, updateCurrentValue] = useNormalModel(props, emit);
         const [visible, updateVisible] = useNormalModel(props, emit, {
             prop: 'visible',
         });
@@ -32,11 +33,14 @@ export default defineComponent({
                 return;
             }
             const value = option[props.valueField] as Option['value'];
-            currentValue.value = value;
+            updateCurrentValue(value);
             updateVisible(false);
             emit('click', value);
         };
 
+        watch(currentValue, () => {
+            emit(CHANGE_EVENT, unref(currentValue));
+        });
         watch(visible, () => {
             emit('visibleChange', visible.value);
         });
