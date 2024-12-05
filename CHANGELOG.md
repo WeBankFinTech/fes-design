@@ -1,3 +1,19 @@
+## [0.8.73](https://github.com/WeBankFinTech/fes-design/compare/v0.8.72...v0.8.73) (2024-12-05)
+
+
+### Bug Fixes
+
+* 修复输入框在中文输入过程中如果被重渲染打断可能无法输入 ([#919](https://github.com/WeBankFinTech/fes-design/issues/919)) ([803d9b2](https://github.com/WeBankFinTech/fes-design/commit/803d9b259ce6873739909475407f66934956e3fc))
+
+
+### Features
+
+* **Dropdown:** 增加 v-model 配置项 ([203f811](https://github.com/WeBankFinTech/fes-design/commit/203f811739466cfad4fc930b0995d72f8432e016))
+* **InputFile:** 增加 FileItem 类型 uid 属性 及完善 自定义 slot 文档示例 ([655db05](https://github.com/WeBankFinTech/fes-design/commit/655db0590d8865ffd9db59a58b0b95a41da426f2))
+* **Tree:** 节点选择箭头图标样式优化，增加点击区域 ([bec26f4](https://github.com/WeBankFinTech/fes-design/commit/bec26f41b5577d04abc98863c0a9c7251bcf5a90))
+
+
+
 ## [0.8.72](https://github.com/WeBankFinTech/fes-design/compare/v0.8.71...v0.8.72) (2024-11-25)
 
 

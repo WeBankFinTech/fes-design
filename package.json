@@ -1,7 +1,7 @@
 {
   "name": "@fesjs/fes-design",
   "type": "module",
-  "version": "0.8.72",
+  "version": "0.8.73",
   "packageManager": "pnpm@8.6.6",
   "description": "fes-design for PC",
   "author": "winixt",
