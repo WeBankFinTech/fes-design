@@ -386,6 +386,9 @@ export default defineComponent({
         };
 
         const handleInput = (e: Event) => {
+            if (e instanceof InputEvent && !e.isComposing) {
+                isComposingRef.value = false;
+            }
             if (props.disabled || isComposingRef.value) {
                 return;
             }
