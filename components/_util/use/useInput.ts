@@ -3,6 +3,9 @@ import { ref } from 'vue';
 export function useInput(updateValue: (val: string) => void) {
     const isComposing = ref(false);
     const handleInput = (event: Event | string) => {
+        if (event instanceof InputEvent && !event.isComposing) {
+            isComposing.value = false;
+        }
         if (!isComposing.value) {
             if (event instanceof Event) {
                 const { value } = event.target as HTMLInputElement;
