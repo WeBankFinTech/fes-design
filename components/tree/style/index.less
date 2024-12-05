@@ -4,7 +4,7 @@
 
 @tree-prefix-cls: ~'@{cls-prefix}-tree';
 @tree-indent: 16px;
-@tree-switcher-width: 16px;
+@tree-switcher-width: calc(@font-size-head + @padding-xs);
 @tree-selected-background-color: var(--f-hover-color-light);
 
 .@{tree-prefix-cls} {
@@ -73,10 +73,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+    &-node-checkbox {
         margin-right: @padding-xs;
     }
     &-node-switcher {
         width: @tree-switcher-width;
+        padding-right: @padding-xs;
         font-size: @font-size-head;
         &.no-expand {
             width: 0; // 保留 margin-right，使得没有 switcher 的时候 tree node 仍有一定左边距

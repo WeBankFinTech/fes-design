@@ -4,7 +4,7 @@
 
 <script>
 import { h, reactive } from 'vue';
-import { PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
+import { AppstoreOutlined, PictureOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
 
 function createData(level = 1, baseKey = '', prefix, suffix) {
     if (!level) {
@@ -13,7 +13,12 @@ function createData(level = 1, baseKey = '', prefix, suffix) {
     return Array.apply(null, { length: 2 }).map((_, index) => {
         const key = `${baseKey}${level}${index}`;
         return {
-            label: createLabel(level),
+            label: () => h('div', {
+                class: 'fix-node-content',
+            }, [
+                createLabel(level),
+                h(AppstoreOutlined),
+            ]),
             value: key,
             children: createData(level - 1, key, prefix, suffix),
             prefix: prefix ? () => h(PictureOutlined) : null,
@@ -47,3 +52,13 @@ export default {
     },
 };
 </script>
+
+<style>
+.fix-node-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    gap: 5px;
+}
+</style>
