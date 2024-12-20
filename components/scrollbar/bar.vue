@@ -29,6 +29,7 @@ import {
     computed,
     defineComponent,
     nextTick,
+    onBeforeUnmount,
     onMounted,
     ref,
 } from 'vue';
@@ -213,6 +214,14 @@ export default defineComponent({
                     barMap.value.direction
                 ]);
         };
+
+        onBeforeUnmount(() => {
+            // 确保在组件卸载时清理所有状态
+            if (cursorDown.value) {
+                mouseUpDocumentHandler();
+            }
+            onselectstartStore = null;
+        });
 
         return {
             prefixCls,

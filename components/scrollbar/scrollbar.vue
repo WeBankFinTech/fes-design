@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, watch } from 'vue';
+import { computed, defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { pxfy, requestAnimationFrame } from '../_util/utils';
@@ -174,6 +174,8 @@ export default defineComponent({
             },
         );
 
+        let rafId: number;
+
         const move = (
             type: 'scrollTop' | 'scrollLeft',
             to: number,
@@ -185,7 +187,7 @@ export default defineComponent({
             }
             const difference = to - containerRef.value[type];
             const perTick = (difference / duration) * 10;
-            requestAnimationFrame(() => {
+            rafId = requestAnimationFrame(() => {
                 containerRef.value[type] += perTick;
                 if (containerRef.value[type] === to) {
                     return;
@@ -214,6 +216,12 @@ export default defineComponent({
                 move('scrollLeft', contentRef.value.offsetWidth, duration);
             }
         };
+
+        onBeforeUnmount(() => {
+            if (rafId) {
+                cancelAnimationFrame(rafId);
+            }
+        });
 
         return {
             scrollbarRef,

@@ -7,6 +7,7 @@ import {
     cloneVNode,
     createApp,
     defineComponent,
+    onBeforeUnmount,
     onMounted,
     ref,
 } from 'vue';
@@ -53,6 +54,8 @@ const Notification = defineComponent({
     setup(props) {
         const notices = ref<Notice[]>([]);
 
+        const timers = new Set<number>();
+
         function remove(key?: string) {
             const index = notices.value.findIndex((item) => item.key === key);
             const notice = notices.value[index];
@@ -75,9 +78,18 @@ const Notification = defineComponent({
                     remove(notice.key);
                     clearTimeout(timer);
                 }, notice.duration * 1000);
+                timers.add(timer);
             }
             return notice;
         }
+
+        onBeforeUnmount(() => {
+            // 清理所有未触发的定时器
+            timers.forEach((timer) => {
+                clearTimeout(timer);
+            });
+            timers.clear();
+        });
 
         return {
             notices,

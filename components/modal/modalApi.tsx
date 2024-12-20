@@ -129,6 +129,13 @@ function create(type: ModalType, config: ModalConfig) {
     function destroy() {
         mergeProps.show = false;
         renderModal();
+        // 确保清理所有引用
+        Object.keys(mergeProps).forEach((key) => {
+            delete mergeProps[key as keyof typeof mergeProps];
+        });
+        Object.keys(slots).forEach((key) => {
+            delete slots[key as keyof typeof slots];
+        });
     }
 
     updateProps(config);

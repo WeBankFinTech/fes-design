@@ -69,6 +69,10 @@ export default (
     });
 
     onBeforeUnmount(() => {
+        if (observedDom) {
+            ro.unobserve(observedDom);
+        }
         ro.disconnect();
+        observedDom = null;
     });
 };
