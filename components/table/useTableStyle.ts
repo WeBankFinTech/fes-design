@@ -56,10 +56,12 @@ export default ({
         x: '', // 默认为空值，避免左侧列固定的时候，右侧默认出现阴影区域
     });
 
-    watch(scrollbarRef, () => {
+    watch(computed(() => scrollbarRef.value?.containerRef), () => {
         // 有滚动条实例，说明实际内容宽度超出容器宽度，需要默认显示阴影区域
-        if (!scrollState.x && scrollbarRef.value) {
+        if (!scrollState.x && scrollbarRef.value?.containerRef) {
             scrollState.x = 'left';
+        } else if (scrollState.x && !scrollbarRef.value?.containerRef) {
+            scrollState.x = '';
         }
     });
 

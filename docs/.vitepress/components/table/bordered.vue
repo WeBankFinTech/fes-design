@@ -37,9 +37,9 @@
         :verticalLine="verticalLine"
         :data="data"
     >
-        <FTableColumn prop="date" label="日期" fixed />
-        <FTableColumn prop="name" label="姓名" />
-        <FTableColumn prop="address" label="地址" />
+        <FTableColumn prop="date" label="日期" fixed :minWidth="100" />
+        <FTableColumn prop="name" label="姓名" :minWidth="100" />
+        <FTableColumn prop="address" label="地址" :minWidth="100" />
     </FTable>
 </template>
 
