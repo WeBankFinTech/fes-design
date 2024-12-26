@@ -19,6 +19,7 @@ import { useConfig } from '../config-provider';
 import { useTheme } from '../_theme/useTheme';
 import { pxfy } from '../_util/utils';
 import useEsc from '../_util/use/useEsc';
+import { useLocale } from '../config-provider/useLocale';
 import { useResizable } from './useResizable';
 import { COMPONENT_NAME, prefixCls } from './const';
 import {
@@ -62,6 +63,8 @@ const Drawer = defineComponent({
         const getContainer = computed(
             () => props.getContainer || config.getContainer?.value,
         );
+
+        const { t } = useLocale();
 
         function handleCancel(event: MouseEvent | KeyboardEvent) {
             ctx.emit(UPDATE_SHOW_EVENT, false);
@@ -120,11 +123,11 @@ const Drawer = defineComponent({
                             onClick={handleOk}
                             loading={props.okLoading}
                         >
-                            {props.okText}
+                            {props.okText || t('drawer.okText')}
                         </FButton>
                         {props.showCancel && (
                             <FButton size="middle" onClick={handleCancel}>
-                                {props.cancelText}
+                                {props.cancelText || t('drawer.cancelText')}
                             </FButton>
                         )}
                     </>

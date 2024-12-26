@@ -15,12 +15,13 @@ import FButton from '../button/button';
 import { popperProps } from '../popper/props';
 import { CANCEL_EVENT, OK_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { useLocale } from '../config-provider/useLocale';
 
 const prefixCls = getPrefixCls('tooltip');
 
 const defaultConfirmOption = {
-    okText: '确定',
-    cancelText: '取消',
+    okText: '',
+    cancelText: '',
     showOk: true,
     showCancel: true,
     icon: <ExclamationCircleFilled />,
@@ -63,6 +64,8 @@ export default defineComponent({
         const updateCurrentValue = (val: boolean) => {
             currentValue.value = val;
         };
+
+        const { t } = useLocale();
 
         const popperElRef = ref(null);
 
@@ -134,7 +137,7 @@ export default defineComponent({
                                         size="small"
                                         type="primary"
                                     >
-                                        {mergeOpt.okText}
+                                        {mergeOpt.okText || t('tooltip.okText')}
                                     </FButton>
                                 )}
                                 {
@@ -146,7 +149,7 @@ export default defineComponent({
                                     }
                                             size="small"
                                         >
-                                            {mergeOpt.cancelText}
+                                            {mergeOpt.cancelText || t('tooltip.cancelText')}
                                         </FButton>
                                     )
                                 }

@@ -98,4 +98,12 @@ export default {
         okText: '确定',
         cancelText: '取消',
     },
+    drawer: {
+        okText: '确定',
+        cancelText: '取消',
+    },
+    tooltip: {
+        okText: '确定',
+        cancelText: '取消',
+    },
 };

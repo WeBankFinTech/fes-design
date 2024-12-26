@@ -99,4 +99,12 @@ export default {
         okText: 'تأكيد',
         cancelText: 'إلغاء',
     },
+    drawer: {
+        okText: 'تأكيد',
+        cancelText: 'إلغاء',
+    },
+    tooltip: {
+        okText: 'تأكيد',
+        cancelText: 'إلغاء',
+    },
 };
