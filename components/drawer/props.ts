@@ -36,15 +36,9 @@ export const drawerProps = {
         default: false,
     },
     title: String,
-    okText: {
-        type: String,
-        default: '确定',
-    },
+    okText: String,
     okLoading: Boolean,
-    cancelText: {
-        type: String,
-        default: '取消',
-    },
+    cancelText: String,
     showCancel: {
         type: Boolean,
         default: true,
