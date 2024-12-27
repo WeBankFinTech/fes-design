@@ -1,3 +1,14 @@
+## [0.8.74](https://github.com/WeBankFinTech/fes-design/compare/v0.8.73...v0.8.74) (2024-12-27)
+
+
+### Bug Fixes
+
+* 修复 Drawer、Tooltip 组件默认按钮的国际化问题 ([0d3ba62](https://github.com/WeBankFinTech/fes-design/commit/0d3ba6256c69344789a505372fabb5dd98fc47a7))
+* **Table:** 修复容器尺寸改变时，滚动条是否存在同步更新阴影展示的问题 ([9881308](https://github.com/WeBankFinTech/fes-design/commit/9881308959cafc87d491fd6ac4ea68758cfc8072))
+* **Table:** 修复左侧列固定的时候，没有滚动条的时候，右侧也会出现阴影的问题 ([0eba2c7](https://github.com/WeBankFinTech/fes-design/commit/0eba2c77ee958d8eb5623840b12082a2b6266025))
+
+
+
 ## [0.8.73](https://github.com/WeBankFinTech/fes-design/compare/v0.8.72...v0.8.73) (2024-12-05)
 
 
