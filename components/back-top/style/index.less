@@ -1,0 +1,30 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+
+@backTop: ~'@{cls-prefix}-back-top';
+
+@back-top-shadow: 0 2px 8px 0 var(--f-shadow-color);
+
+.@{backTop} {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 44px;
+    color: var(--f-primary-color);
+    background-color: var(--f-white);
+    border-radius: 22px;
+    box-shadow: @back-top-shadow;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--f-hover-color-base);
+        background-color: var(--f-hover-color-light);
+    }
+
+    .@{backTop}-icon {
+        font-size: calc(var(--f-font-size-base) + 6px);
+    }
+}
+

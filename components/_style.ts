@@ -62,3 +62,4 @@ import './breadcrumb/style';
 import './text-highlight/style';
 import './link/style';
 import './float-pane/style';
+import './back-top/style';

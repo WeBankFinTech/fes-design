@@ -60,3 +60,4 @@ export * from './breadcrumb';
 export * from './text-highlight';
 export * from './link';
 export * from './float-pane';
+export * from './back-top';
