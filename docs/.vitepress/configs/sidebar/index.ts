@@ -72,6 +72,10 @@ const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
                         text: 'Dropdown 下拉菜单',
                         link: '/zh/components/dropdown',
                     },
+                    {
+                        text: 'BackTop 回到顶部',
+                        link: '/zh/components/backTop',
+                    },
                 ],
             },
             {
