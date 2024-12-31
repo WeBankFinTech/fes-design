@@ -1,3 +1,12 @@
+## [0.8.75](https://github.com/WeBankFinTech/fes-design/compare/v0.8.74...v0.8.75) (2024-12-31)
+
+
+### Features
+
+* **BackTop:** 增加回到顶部组件 ([#923](https://github.com/WeBankFinTech/fes-design/issues/923)) ([eb6c3ac](https://github.com/WeBankFinTech/fes-design/commit/eb6c3ac20fdf47f47b1aa4c809b03e6903f0927a))
+
+
+
 ## [0.8.74](https://github.com/WeBankFinTech/fes-design/compare/v0.8.73...v0.8.74) (2024-12-27)
 
 
