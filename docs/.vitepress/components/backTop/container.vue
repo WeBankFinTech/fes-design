@@ -27,6 +27,6 @@ const containerRef = ref(null);
     }
 }
 .back-top-absolute {
-    position: absolute;
+    position: absolute !important;
 }
 </style>
