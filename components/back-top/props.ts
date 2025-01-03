@@ -4,7 +4,7 @@ import type { ExtractPublicPropTypes } from '../_util/interface';
 export const backTopProps = {
     // 触发滚动的容器对象
     target: {
-        type: HTMLElement,
+        type: Object as PropType<HTMLElement>,
     },
     // 滚动高度达到此参数值才出现
     visibilityHeight: {
