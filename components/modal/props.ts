@@ -7,6 +7,7 @@ import type {
 } from 'vue';
 import { iconComponentMap } from '../_util/noticeManager';
 import type { ExtractPublicPropTypes } from '../_util/interface';
+import { useAnimate } from '../_util/use/useAnimate';
 
 export const modalIconMap = {
     ...iconComponentMap,
@@ -89,6 +90,10 @@ export const modalProps = {
     contentClass: String,
     // 根类名
     wrapperClass: String,
+    useAnimation: {
+        type: Boolean,
+        default: true,
+    },
 } as const satisfies ComponentObjectPropsOptions;
 
 export type ModalProps = ExtractPublicPropTypes<typeof modalProps>;

@@ -24,6 +24,8 @@ export interface ModalConfig {
     center?: boolean;
     fullScreen?: boolean;
     contentClass?: string;
+    wrapperClass?: string;
+    useAnimation?: boolean;
     getContainer?: () => HTMLElement;
 }
 
@@ -40,6 +42,7 @@ const defaultConfig: ModalConfig = {
     getContainer: () => document.body,
     width: 400,
     closable: false,
+    useAnimation: true,
 };
 let mergeConfig: ModalConfig = defaultConfig;
 
