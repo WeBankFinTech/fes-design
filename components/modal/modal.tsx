@@ -227,63 +227,84 @@ const Modal = defineComponent({
             return [`${prefixCls}-wrapper`, props.contentClass].filter(Boolean);
         });
 
+        const renderMask = () => {
+            return (
+                <div
+                    class={`${prefixCls}-mask`}
+                    style={{ zIndex: zIndex.value }}
+                    v-show={visible.value}
+                ></div>
+            );
+        };
+
+        const renderContent = () => {
+            return (
+                <div
+                    v-show={visible.value}
+                    class={{
+                        [`${prefixCls}-container`]: true,
+                        [`${prefixCls}-center`]: props.center,
+                        [`${prefixCls}-vertical-center`]:
+                                        props.verticalCenter,
+                        [`${prefixCls}-fullscreen`]:
+                                        props.fullScreen,
+                        [`${prefixCls}-global`]: props.forGlobal,
+                        [`${prefixCls}-no-header`]:
+                                        !hasHeader.value,
+                        [`${prefixCls}-no-footer`]: !props.footer,
+                    }}
+                    style={{ zIndex: zIndex.value }}
+                    onClick={(event) => handleClickMask(event)}
+                >
+                    <div
+                        class={wrapperClass.value}
+                        style={styles.value}
+                        onClick={(event) => event.stopPropagation()}
+                        onMousedown={() => {
+                            mouseDownInsideChild.value = true;
+                        }}
+                        onMouseup={() => {
+                            mouseDownInsideChild.value = false;
+                        }}
+                        ref={modalRef}
+                    >
+                        {getHeader()}
+                        {getBody()}
+                        {getFooter()}
+                    </div>
+                </div>
+            );
+        };
+
         return () => (
             <Teleport
                 disabled={!getContainer.value?.()}
                 to={getContainer.value?.()}
             >
                 <div class={rootClass.value}>
-                    <Transition name={`${prefixCls}-mask-fade`}>
-                        {props.mask && showDom.value && (
-                            <div
-                                class={`${prefixCls}-mask`}
-                                style={{ zIndex: zIndex.value }}
-                                v-show={visible.value}
-                            ></div>
-                        )}
-                    </Transition>
-                    <Transition
-                        name={`${prefixCls}-fade`}
-                        onAfterEnter={handleTransitionAfterEnter}
-                        onAfterLeave={handleTransitionAfterLeave}
-                    >
-                        {showDom.value && (
-                            <div
-                                v-show={visible.value}
-                                class={{
-                                    [`${prefixCls}-container`]: true,
-                                    [`${prefixCls}-center`]: props.center,
-                                    [`${prefixCls}-vertical-center`]:
-                                        props.verticalCenter,
-                                    [`${prefixCls}-fullscreen`]:
-                                        props.fullScreen,
-                                    [`${prefixCls}-global`]: props.forGlobal,
-                                    [`${prefixCls}-no-header`]:
-                                        !hasHeader.value,
-                                    [`${prefixCls}-no-footer`]: !props.footer,
-                                }}
-                                style={{ zIndex: zIndex.value }}
-                                onClick={(event) => handleClickMask(event)}
-                            >
-                                <div
-                                    class={wrapperClass.value}
-                                    style={styles.value}
-                                    onClick={(event) => event.stopPropagation()}
-                                    onMousedown={() => {
-                                        mouseDownInsideChild.value = true;
-                                    }}
-                                    onMouseup={() => {
-                                        mouseDownInsideChild.value = false;
-                                    }}
-                                    ref={modalRef}
-                                >
-                                    {getHeader()}
-                                    {getBody()}
-                                    {getFooter()}
-                                </div>
-                            </div>
-                        )}
-                    </Transition>
+                    {
+                        props.useAnimation
+                            ? (
+                                <>
+                                    <Transition name={`${prefixCls}-mask-fade`}>
+                                        {props.mask && showDom.value && renderMask()}
+                                    </Transition>
+                                    <Transition
+                                        name={`${prefixCls}-fade`}
+                                        onAfterEnter={handleTransitionAfterEnter}
+                                        onAfterLeave={handleTransitionAfterLeave}
+                                    >
+                                        {showDom.value && renderContent()}
+                                    </Transition>
+                                </>
+                                )
+                            : (
+                                <>
+                                    {props.mask && showDom.value && renderMask()}
+                                    {showDom.value && renderContent()}
+                                </>
+                                )
+                    }
                 </div>
             </Teleport>
         );
