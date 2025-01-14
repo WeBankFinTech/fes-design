@@ -1,3 +1,12 @@
+## [0.8.76](https://github.com/WeBankFinTech/fes-design/compare/v0.8.75...v0.8.76) (2025-01-14)
+
+
+### Features
+
+* **Modal:** 增加 useAnimation 是否使用动画的配置项 ([4515de4](https://github.com/WeBankFinTech/fes-design/commit/4515de4fa9f494977af6cc582347ef66fb6824ed))
+
+
+
 ## [0.8.75](https://github.com/WeBankFinTech/fes-design/compare/v0.8.74...v0.8.75) (2024-12-31)
 
 
