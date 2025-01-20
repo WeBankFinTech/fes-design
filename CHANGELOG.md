@@ -1,3 +1,12 @@
+## [0.8.77](https://github.com/WeBankFinTech/fes-design/compare/v0.8.76...v0.8.77) (2025-01-20)
+
+
+### Features
+
+* **Step:** 增加 clickStep 事件 ([a179e22](https://github.com/WeBankFinTech/fes-design/commit/a179e22fdb4901ac0c08a953a5b39076417d4629))
+
+
+
 ## [0.8.76](https://github.com/WeBankFinTech/fes-design/compare/v0.8.75...v0.8.76) (2025-01-14)
 
 
