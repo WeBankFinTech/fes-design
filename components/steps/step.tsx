@@ -40,7 +40,8 @@ export default defineComponent({
         CheckOutlined,
     },
     props: stepProps,
-    setup(props, { slots }) {
+    emits: ['clickStep'],
+    setup(props, { slots, emit }) {
         const vm = getCurrentInstance();
         if (
             !vm
@@ -108,6 +109,9 @@ export default defineComponent({
         const classList = computed(() =>
             [prefixCls, `is-${status.value}`].filter(Boolean).join(' '),
         );
+        const onClickStep = () => {
+            emit('clickStep', index.value);
+        };
         const renderSymbol = () => {
             let content;
             if (slots.icon) {
@@ -134,7 +138,7 @@ export default defineComponent({
             }
             return (
                 <div class={`${prefixCls}-symbol`}>
-                    <div class={`${prefixCls}-symbol-wrapper`}>{content}</div>
+                    <div class={`${prefixCls}-symbol-wrapper`} onClick={onClickStep}>{content}</div>
                     {parent.props.vertical && (
                         <div class={`${prefixCls}-tail`}></div>
                     )}
@@ -155,7 +159,9 @@ export default defineComponent({
                 {renderSymbol()}
                 <div class={`${prefixCls}-content`}>
                     <div class={`${prefixCls}-title`}>
-                        {slots.title?.() || `${props.title}`}
+                        <span class={`${prefixCls}-text`} onClick={onClickStep}>
+                            {slots.title?.() || `${props.title}`}
+                        </span>
                         {!parent.props.vertical && (
                             <div class={`${prefixCls}-tail`}></div>
                         )}

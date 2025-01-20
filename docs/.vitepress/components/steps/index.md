@@ -14,21 +14,27 @@ app.use(FSteps);
 
 ### 基础用法
 
---COMMON
+:::demo
+common.vue
+:::
 
 ### 垂直方向
 
---VERTICAL
+:::demo
+vertical.vue
+:::
 
 ### 图标
 
---ICON
+:::demo
+icon.vue
+:::
 
 ### 错误状态
 
---ERROR
-
---CODE
+:::demo
+error.vue
+:::
 
 ## Steps Props
 
@@ -54,3 +60,9 @@ app.use(FSteps);
 | icon        | 步骤图标的类型，可选                                                                                           | slot          | -      |
 | status      | 指定状态。当不配置该属性时，会使用 `Steps` 的 `status` 来自动指定状态。可选：`wait` `process` `finish` `error` | string        | -      |
 | title       | 标题                                                                                                           | string / slot | -      |
+
+## Step Events
+
+| 事件名称  | 说明           | 回调参数             |
+| --------- | -------------- | -------------------- |
+| clickStep | 点击步骤时触发 | (step: number)=>void |
