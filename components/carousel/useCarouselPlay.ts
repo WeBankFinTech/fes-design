@@ -22,6 +22,7 @@ export default ({ props, activeIndex, slideChildren }: UseCarouselPlayType) => {
         if (props.interval <= 0 || !props.autoplay || playTimer) {
             return;
         }
+        clearTimer();
         playTimer = window.setInterval(play, props.interval);
     };
 
@@ -50,7 +51,6 @@ export default ({ props, activeIndex, slideChildren }: UseCarouselPlayType) => {
     watch(
         () => props.interval,
         () => {
-            clearTimer();
             startTimer();
         },
     );

@@ -83,6 +83,7 @@ import {
     computed,
     defineComponent,
     inject,
+    onBeforeUnmount,
     ref,
     watch,
 } from 'vue';
@@ -249,12 +250,14 @@ export default defineComponent({
             };
         };
 
+        let rafId: number;
+
         useEventListener(
             containerRef,
             'wheel',
             (e: WheelEvent) => {
                 e.preventDefault();
-                requestAnimationFrame(() => {
+                rafId = requestAnimationFrame(() => {
                     const delta = e.deltaY ? e.deltaY : e.detail;
                     handleActions(delta < 0 ? 'zoomIn' : 'zoomOut', {
                         enableTransition: false,
@@ -265,6 +268,12 @@ export default defineComponent({
                 passive: false,
             },
         );
+
+        onBeforeUnmount(() => {
+            if (rafId) {
+                cancelAnimationFrame(rafId);
+            }
+        });
 
         const { isDragging, handleMouseDown } = usePreviewImageDrag(transform);
 

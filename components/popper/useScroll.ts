@@ -1,4 +1,4 @@
-import { type Ref, onMounted, onUnmounted } from 'vue';
+import { type Ref, onMounted, onUnmounted, watch } from 'vue';
 import { getScrollParent } from '../_util/utils';
 
 export default function useScroll(
@@ -30,6 +30,12 @@ export default function useScroll(
     };
 
     onMounted(() => {
+        ensureScrollListener();
+    });
+
+    // 监听 targetRef 的变化
+    watch(() => targetRef.value, () => {
+        removeScrollListeners();
         ensureScrollListener();
     });
 
