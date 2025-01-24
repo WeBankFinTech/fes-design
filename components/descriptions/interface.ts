@@ -9,6 +9,7 @@ import type { DescriptionsItemProps } from './props';
 
 export type LabelAlign = 'center' | 'left' | 'right';
 export type LabelPlacement = 'top' | 'left';
+export type Size = 'small' | 'middle' | 'large';
 
 export interface DescriptionsItemInst {
     id: ComponentInternalInstance['uid'];

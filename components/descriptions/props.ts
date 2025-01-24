@@ -4,7 +4,7 @@ import type {
     PropType,
 } from 'vue';
 import type { ExtractPublicPropTypes } from '../_util/interface';
-import type { LabelAlign, LabelPlacement } from './interface';
+import type { LabelAlign, LabelPlacement, Size } from './interface';
 
 // ----- Description -----
 
@@ -35,6 +35,13 @@ export const descriptionsProps = {
     },
     title: String,
     bordered: Boolean,
+    size: {
+        type: String as PropType<Size>,
+        default: 'small',
+        validator(value: string) {
+            return ['small', 'middle', 'large'].includes(value);
+        },
+    },
 } as const satisfies ComponentObjectPropsOptions;
 
 export type DescriptionsProps = ExtractPublicPropTypes<

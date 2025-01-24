@@ -40,24 +40,25 @@ borded.vue
 
 ### Descriptions Props
 
-| 属性           | 说明                                    | 类型                    | 默认值 |
-| -------------- | --------------------------------------- | ----------------------- | ------ |
-| column         | 设置总列数                              | number                  | 3      |
-| contentStyle   | 内容样式                                | string / object         | -      |
-| labelAlign     | label 对齐方式                          | `left` `right` `center` | `left` |
-| labelPlacement | label 位置                              | `top` `left`            | `left` |
-| labelStyle     | label 样式                              | string / object         | -      |
-| separator      | 分隔符，`labelPlacement` 为 `left` 有效 | string                  | ':'    |
-| title          | 标题                                    | string                  | -      |
-| bordered       | 边框                                    | boolean                 | false  |
+| 属性           | 说明                                    | 类型                     | 默认值  |
+| -------------- | --------------------------------------- | ------------------------ | ------- |
+| column         | 设置总列数                              | number                   | 3       |
+| contentStyle   | 内容样式                                | string / object          | -       |
+| labelAlign     | label 对齐方式                          | `left` `right` `center`  | `left`  |
+| labelPlacement | label 位置                              | `top` `left`             | `left`  |
+| labelStyle     | label 样式                              | string / object          | -       |
+| separator      | 分隔符，`labelPlacement` 为 `left` 有效 | string                   | ':'     |
+| title          | 标题                                    | string                   | -       |
+| bordered       | 边框                                    | boolean                  | false   |
+| size           | 尺寸                                    | `small` `middle` `large` | `small` |
 
 ### DescriptionItem Props
 
-| 属性         | 说明                                                      | 类型            | 默认值 |
-|--------------|----------------------------------------------------------|-----------------|--------|
-| contentStyle | 内容样式                                                  | string / object | -      |
-| label        | label 值                                                  | string          | -      |
-| labelStyle   | label 样式                                                | string / object | -      |
+| 属性         | 说明                                                         | 类型            | 默认值 |
+| ------------ | ------------------------------------------------------------ | --------------- | ------ |
+| contentStyle | 内容样式                                                     | string / object | -      |
+| label        | label 值                                                     | string          | -      |
+| labelStyle   | label 样式                                                   | string / object | -      |
 | span         | 所占列数<br/>（建议不设置最后一项 Item，由组件内部自动计算） | number          | 1      |
 
 ## Slots
