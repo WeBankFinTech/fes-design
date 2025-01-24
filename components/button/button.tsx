@@ -5,6 +5,7 @@ import {
     defineComponent,
     ref,
 } from 'vue';
+import { isNil } from 'lodash-es';
 import LoadingOutlined from '../icon/LoadingOutlined';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useAnimate } from '../_util/use/useAnimate';
@@ -20,8 +21,8 @@ const loadingIconClassName = `${prefixCls}-loading-icon`;
 
 export const buttonProps = {
     disabled: {
-        type: Boolean,
-        default: false,
+        type: Boolean as PropType<boolean | null | undefined>,
+        default: (): boolean | null | undefined => undefined,
     },
     htmlType: {
         type: String as PropType<'button' | 'submit' | 'reset'>,
@@ -61,12 +62,21 @@ export default defineComponent({
 
         useTheme();
         const notAllowed = ref(false);
+
+        const buttonDisabled = computed(
+            () => {
+                if (!isNil(props.disabled)) {
+                    return props.disabled;
+                }
+                return isFormDisabled.value;
+            },
+        );
+
         const handleClick = (event: MouseEvent) => {
             if (
                 notAllowed.value
-                || props.disabled
+                || buttonDisabled.value
                 || props.loading
-                || isFormDisabled.value
             ) {
                 return;
             }
@@ -92,7 +102,7 @@ export default defineComponent({
         return () => (
             <button
                 type={props.htmlType}
-                disabled={props.disabled || isFormDisabled.value}
+                disabled={buttonDisabled.value}
                 class={classes.value}
                 onClick={handleClick}
             >
