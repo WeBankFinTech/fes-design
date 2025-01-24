@@ -1,3 +1,19 @@
+## [0.8.78](https://github.com/WeBankFinTech/fes-design/compare/v0.8.77...v0.8.78) (2025-01-24)
+
+
+### Bug Fixes
+
+* 修复pxfy等函数处理null 问题 &  优化代码避免内存泄露 ([#928](https://github.com/WeBankFinTech/fes-design/issues/928)) ([a7ff52a](https://github.com/WeBankFinTech/fes-design/commit/a7ff52a1f52fef01c94a83ca7b99e8d7707f5016))
+* **Button:** 修复禁用表单状态下按钮无法点击的问题 ([#931](https://github.com/WeBankFinTech/fes-design/issues/931)) ([5193e1a](https://github.com/WeBankFinTech/fes-design/commit/5193e1a66d910c74a55c3a0b7b795e174f4854d6))
+
+
+### Features
+
+* **Descriptions:** 增加尺寸 size 配置项 ([#930](https://github.com/WeBankFinTech/fes-design/issues/930)) ([38613f4](https://github.com/WeBankFinTech/fes-design/commit/38613f433db50eba523f428602960a593faf52a9))
+* **Input:** 前缀后缀样式优化 ([#929](https://github.com/WeBankFinTech/fes-design/issues/929)) ([60530c1](https://github.com/WeBankFinTech/fes-design/commit/60530c125bcb5acb28e4762348ce2285a32d4bfc))
+
+
+
 ## [0.8.77](https://github.com/WeBankFinTech/fes-design/compare/v0.8.76...v0.8.77) (2025-01-20)
 
 
