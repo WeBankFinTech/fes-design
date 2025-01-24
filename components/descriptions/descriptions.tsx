@@ -82,7 +82,12 @@ export default defineComponent({
 
         return () => {
             return (
-                <div class={prefixCls}>
+                <div
+                    class={[
+                        `${prefixCls}`,
+                        props.size && `${prefixCls}-size-${props.size}`,
+                    ]}
+                >
                     {renderHeader()}
                     <div
                         class={[

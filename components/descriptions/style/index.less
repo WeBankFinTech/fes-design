@@ -25,6 +25,16 @@
             border-radius: var(--f-border-radius-base);
         }
     }
+    &-size-middle {
+        .@{descriptions-prefix-cls}-body {
+            grid-gap: var(--f-padding-small) var(--f-padding-middle);
+        }
+    }
+    &-size-large {
+        .@{descriptions-prefix-cls}-body {
+            grid-gap: var(--f-padding-middle) var(--f-padding-large);
+        }
+    }
 }
 
 .@{descriptions-item-prefix-cls} {
