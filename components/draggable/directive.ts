@@ -124,6 +124,8 @@ export default {
             el.removeEventListener('mouseup', drag.onDragend);
             el.removeEventListener('dragend', drag.onDragend);
             el.removeEventListener('transitionend', drag.onAnimationEnd);
+            el.removeEventListener('mousemove', drag.onMousemove);
+            dragInstanceMap.delete(el);
         }
     },
 } as FObjectDirective;
