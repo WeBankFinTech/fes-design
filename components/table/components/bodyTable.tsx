@@ -41,6 +41,7 @@ export default defineComponent({
             onDragstart,
             onDragend,
             beforeDragend,
+            bodyTableRef,
         } = inject(provideKey);
 
         const hasResizableColumn = computed(() => {
@@ -93,6 +94,7 @@ export default defineComponent({
         const renderTable = () => {
             return (
                 <table
+                    ref={bodyTableRef}
                     class={[
                         `${prefixCls}-body`,
                         rootProps.hoverable && 'is-hoverable',
