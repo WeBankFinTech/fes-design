@@ -7,7 +7,7 @@ import {
     ref,
     watch,
 } from 'vue';
-import { isEqual } from 'lodash-es';
+import { isEqual, isUndefined } from 'lodash-es';
 import useResize from '../_util/use/useResize';
 
 import type { TableProps } from './table';
@@ -29,6 +29,7 @@ export default function useTableLayout({
     wrapperRef,
     headerWrapperRef,
     bodyWrapperRef,
+    bodyTableRef,
     columns,
     showData,
 }: {
@@ -37,6 +38,7 @@ export default function useTableLayout({
     wrapperRef: Ref<HTMLElement>;
     headerWrapperRef: Ref<HTMLElement>;
     bodyWrapperRef: Ref<HTMLElement>;
+    bodyTableRef: Ref<HTMLElement>;
     columns: Ref<ColumnInst[]>;
 }) {
     const bodyWidth = ref(0);
@@ -48,6 +50,10 @@ export default function useTableLayout({
 
     // 兼容 windows 浏览器滚动条导致高度有小数的场景
     const propHeight = computed(() => Math.floor(props.height));
+
+    const isWidthAuto = computed(() => {
+        return isUndefined(props.height) && props.layout === 'auto';
+    });
 
     const min = 80;
 
@@ -84,7 +90,16 @@ export default function useTableLayout({
 
     const computeX = () => {
         const $wrapper = wrapperRef.value;
-        if ($wrapper) {
+        if (!$wrapper) {
+            return;
+        }
+        if (isWidthAuto.value) {
+            const $bodyTable = bodyTableRef.value;
+            if (!$bodyTable) {
+                return;
+            }
+            isScrollX.value = $bodyTable.offsetWidth > (props.bordered ? $wrapper.offsetWidth - 2 : $wrapper.offsetWidth);
+        } else {
             const _wrapperWidth = $wrapper.offsetWidth;
             const wrapperWidth = props.bordered
                 ? _wrapperWidth - 2
@@ -154,6 +169,12 @@ export default function useTableLayout({
         },
         watchResizeDisableRef,
     );
+
+    useResize(bodyTableRef, () => {
+        computeX();
+    }, computed(() => {
+        return watchResizeDisableRef.value || !isWidthAuto.value;
+    }));
 
     // 根据列数据，计算列宽度
     watch([columns, wrapperRef], computeColumnWidth);

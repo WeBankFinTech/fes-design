@@ -30,6 +30,11 @@ export default ({
     const headerWrapperRef = ref(null);
     const bodyWrapperRef = ref(null);
     const scrollbarRef = ref(null);
+    const bodyTableRef = ref<HTMLElement>(null);
+
+    const isWidthAuto = computed(() => {
+        return isUndefined(props.height) && props.layout === 'auto';
+    });
 
     const wrapperClass = computed(() =>
         [
@@ -47,6 +52,7 @@ export default ({
         wrapperRef,
         headerWrapperRef,
         bodyWrapperRef,
+        bodyTableRef,
         props,
         columns,
         showData,
@@ -130,6 +136,11 @@ export default ({
     });
 
     const headerStyle = computed(() => {
+        if (isWidthAuto.value) {
+            return {
+                minWidth: '100%',
+            };
+        }
         const style = {
             width: `${layout.bodyWidth.value}px`,
         };
@@ -137,6 +148,11 @@ export default ({
     });
 
     const bodyStyle = computed(() => {
+        if (isWidthAuto.value) {
+            return {
+                minWidth: '100%',
+            };
+        }
         const style = {
             width: `${layout.bodyWidth.value}px`,
         };
@@ -467,5 +483,6 @@ export default ({
         headerWrapperClass,
         bodyWrapperClass,
         scrollbarRef,
+        bodyTableRef,
     };
 };

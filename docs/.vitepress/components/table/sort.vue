@@ -5,14 +5,17 @@
             <FButton @click="clearSorter">Clear Sorter</FButton>
         </f-space>
         <FTable ref="table" :data="data" layout="auto">
-            <FTableColumn sortable prop="id" label="ID" />
-            <FTableColumn sortable prop="date" label="日期">
+            <FTableColumn sortable prop="id" label="ID" :minWidth="200" />
+            <FTableColumn sortable prop="date" label="日期" :minWidth="200">
                 <template #default="{ row }">
                     {{ row.date }}
                 </template>
             </FTableColumn>
-            <FTableColumn prop="name" label="姓名" />
-            <FTableColumn prop="address" label="地址" />
+            <FTableColumn prop="name" label="姓名" :minWidth="200" />
+            <FTableColumn prop="address" label="地址" :minWidth="200" />
+            <FTableColumn prop="address" label="地址" :minWidth="200" />
+            <FTableColumn prop="address" label="地址" :minWidth="200" />
+            <FTableColumn prop="address" label="地址" :minWidth="200" />
         </FTable>
     </f-space>
 </template>
