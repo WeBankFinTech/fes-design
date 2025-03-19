@@ -83,7 +83,7 @@ const Modal = defineComponent({
             ctx.emit(AFTER_LEAVE_EVENT, el);
         }
 
-        const hasHeader = computed(() => ctx.slots.title || props.title);
+        const hasHeader = () => ctx.slots.title || props.title;
 
         function getHeader() {
             const closeJsx = props.closable && (
@@ -91,7 +91,7 @@ const Modal = defineComponent({
                     <CloseOutlined />
                 </div>
             );
-            if (!hasHeader.value) {
+            if (!hasHeader()) {
                 return closeJsx;
             }
             const header = ctx.slots.title?.() || props.title;
@@ -250,7 +250,7 @@ const Modal = defineComponent({
                                         props.fullScreen,
                         [`${prefixCls}-global`]: props.forGlobal,
                         [`${prefixCls}-no-header`]:
-                                        !hasHeader.value,
+                                        !hasHeader(),
                         [`${prefixCls}-no-footer`]: !props.footer,
                     }}
                     style={{ zIndex: zIndex.value }}
