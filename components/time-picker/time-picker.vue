@@ -46,7 +46,7 @@
                     :disabled-seconds="disabledSeconds"
                     @change="changeTime"
                 />
-                <div v-if="showControl" :class="`${prefixCls}-addon`">
+                <div v-if="showControl || $slots.addon" :class="`${prefixCls}-addon`">
                     <slot name="addon" :activeTime="activeTime">
                         <div :class="`${prefixCls}-addon-inner`">
                             <FButton
@@ -246,7 +246,7 @@ export default defineComponent({
     },
     props: timePickerProps,
     emits: [UPDATE_MODEL_EVENT, 'update:open', 'change', 'blur', 'focus'],
-    setup(props, { emit, slots, attrs }) {
+    setup(props, { emit, attrs }) {
         useTheme();
         const { validate, isError, isFormDisabled } = useFormAdaptor({
             forbidChildValidate: true,
@@ -265,7 +265,7 @@ export default defineComponent({
             ].filter(Boolean),
         );
 
-        const showControl = computed(() => props.control || slots.addon);
+        const showControl = computed(() => props.control);
 
         const showNowShortcut = computed(() => {
             // format 中的 token 需要与 TimeSelect 中的 canSelectHours 保持一致

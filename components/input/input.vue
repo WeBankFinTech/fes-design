@@ -1,6 +1,6 @@
 /* eslint-disable no-undefined */
 <template>
-    <div :class="classes" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
+    <div :class="[...classes, ($slots.prepend || $slots.append) && `${prefixCls}-group`, $slots.prepend && `${prefixCls}-group-prepend`, $slots.append && `${prefixCls}-group-append`]" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
         <template v-if="type !== 'textarea'">
             <div v-if="$slots.prepend" :class="`${prefixCls}-prepend`">
                 <slot name="prepend" />
@@ -164,7 +164,7 @@ export default defineComponent({
         'mouseleave',
         'mouseenter',
     ],
-    setup(props, { slots, emit }) {
+    setup(props, { emit }) {
         useTheme();
         const { validate, isError, isFormDisabled } = useFormAdaptor();
         const inputRef = ref();
@@ -195,9 +195,6 @@ export default defineComponent({
             props.type === 'textarea' ? textareaPrefixCls : prefixCls,
             {
                 'is-error': isError.value,
-                [`${prefixCls}-group`]: slots.prepend || slots.append,
-                [`${prefixCls}-group-prepend`]: slots.prepend,
-                [`${prefixCls}-group-append`]: slots.append,
             },
         ]);
 

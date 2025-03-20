@@ -70,7 +70,7 @@ const FloatPane = defineComponent({
             ctx.emit(AFTER_LEAVE_EVENT, el);
         }
 
-        const hasHeader = computed(() => ctx.slots.title || props.title);
+        const hasHeader = () => ctx.slots.title || props.title;
 
         const transform = props.cachePosition
             ? useStorage<{
@@ -108,7 +108,7 @@ const FloatPane = defineComponent({
                     <CloseOutlined />
                 </div>
             );
-            if (!hasHeader.value) {
+            if (!hasHeader()) {
                 return closeJsx;
             }
             const header = ctx.slots.title?.() || props.title;

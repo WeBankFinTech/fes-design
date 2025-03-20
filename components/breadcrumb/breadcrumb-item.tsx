@@ -1,6 +1,6 @@
 import { computed, defineComponent, inject } from 'vue';
 import { useTheme } from '../_theme/useTheme';
-import { BREADCRUMB_KEY, itemCls, prefixCls } from './const';
+import { BREADCRUMB_KEY, itemCls } from './const';
 
 export default defineComponent({
     name: 'FBreadcrumbItem',

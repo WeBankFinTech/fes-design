@@ -23,7 +23,7 @@ export default defineComponent({
             return props.value;
         });
 
-        const showBadge = computed(() => {
+        const showBadge = () => {
             // 如果是 hidden ，直接 false，不展示
             if (props.hidden) {
                 return false;
@@ -36,7 +36,7 @@ export default defineComponent({
                 || (props.value === 0 && props.showZero)
                 || (props.value !== 0 && isNumber(props.value))
             );
-        });
+        };
 
         // 样式
         const badgeClassList = computed(() => {
@@ -59,7 +59,7 @@ export default defineComponent({
         return () => (
             <div class={prefixCls}>
                 {slots.default?.()}
-                {showBadge.value && (
+                {showBadge() && (
                     <span class={badgeClassList.value} style={badgeStyle.value}>
                         {slots.content?.() ?? badgeValue.value}
                     </span>
