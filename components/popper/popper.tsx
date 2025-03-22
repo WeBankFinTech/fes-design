@@ -144,7 +144,7 @@ export default defineComponent({
                     <div
                         ref={popperRef}
                         class={`${prefixCls}-wrapper`}
-                        style={{ ...popperStyle, ...props.popperStyle }}
+                        style={[popperStyle, props.popperStyle]}
                         role={'tooltip'}
                         onMouseenter={onPopperMouseEnter}
                         onMouseleave={onPopperMouseLeave}

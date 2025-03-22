@@ -1,4 +1,4 @@
-import type { ComponentObjectPropsOptions, PropType } from 'vue';
+import type { ComponentObjectPropsOptions, PropType, StyleValue } from 'vue';
 import type { PLACEMENT, TRIGGER } from '../_util/constants';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 
@@ -33,7 +33,7 @@ export const popperProps = {
     },
     popperClass: [String, Array, Object] as PropType<string | [] | object>,
     popperStyle: {
-        type: Object,
+        type: [String, Array, Object] as PropType<StyleValue>,
         default: () => ({}),
     },
     showAfter: {
