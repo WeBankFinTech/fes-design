@@ -45,7 +45,7 @@ passive.vue
 | arrow             | 是否显示箭头                                                                                                                                          | boolean                   | `true`                |
 | appendToContainer | 弹窗内容是否添加到指定的 DOM 元素                                                                                                                     | boolean                   | `true`                |
 | popperClass       | 弹出框的样式类名                                                                                                                                      | string \| object \| Array | -                     |
-| popperStyle       | 弹出框的样式                                                                                                                                          | object                    | -                     |
+| popperStyle       | 弹出框的样式                                                                                                                                          | string \| object \| Array                    | -                     |
 | showAfter         | 显示的延迟时间                                                                                                                                        | number                    | `0`                   |
 | passive           | 是否受控模式，true-非受控，false-受控                                                                                                                 | boolean                   | `true`                |
 | hideAfter         | 隐藏的延迟时间                                                                                                                                        | number                    | `0`                   |
