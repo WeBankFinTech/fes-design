@@ -90,8 +90,8 @@ export default defineComponent({
                     onScroll={onScroll}
                     dataSources={showData.value}
                     dataKey={rootProps.rowKey}
-                    estimateSize={54}
-                    keeps={20}
+                    estimateSize={rootProps.virtualScrollOption.estimateSize ?? 54}
+                    keeps={rootProps.virtualScrollOption.keeps ?? 20}
                     class={bodyWrapperClass.value}
                     maxHeight={layout.bodyHeight.value}
                     wrapTag={'table'}
