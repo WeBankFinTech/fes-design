@@ -31,8 +31,6 @@ const useMargin = (props: SpaceInnerProps, themeVarsRef: Ref<TThemeVars>) => {
         return {
             horizontal: `${horizontal}px`,
             vertical: `${vertical}px`,
-            semiHorizontal: `${horizontal / 2}px`,
-            semiVertical: `${vertical / 2}px`,
         };
     });
 
@@ -69,8 +67,6 @@ export default defineComponent({
         const children = flatten(getSlot(this.$slots) || []).filter((node) =>
             isValidElementNode(node),
         );
-        const lastIndex = children.length - 1;
-        const isJustifySpace = justify.startsWith('space-');
 
         return (
             <div
@@ -84,11 +80,10 @@ export default defineComponent({
                         : justify,
                     alignItems: align,
                     flexWrap: !wrap || vertical ? 'nowrap' : 'wrap',
-                    marginTop: vertical ? '' : `-${margin.semiVertical}`,
-                    marginBottom: vertical ? '' : `-${margin.semiVertical}`,
+                    gap: `${margin.vertical} ${margin.horizontal}`,
                 }}
             >
-                {children?.map((child, index) => (
+                {children?.map((child) => (
                     <div
                         role="none"
                         style={[
@@ -96,31 +91,6 @@ export default defineComponent({
                             {
                                 maxWidth: '100%',
                             },
-                            vertical
-                                ? {
-                                        marginBottom:
-                                          index !== lastIndex
-                                              ? margin.vertical
-                                              : '',
-                                    }
-                                : {
-                                        marginRight: isJustifySpace
-                                            ? justify === 'space-between'
-                                            && index === lastIndex
-                                                ? ''
-                                                : margin.semiHorizontal
-                                            : index !== lastIndex
-                                                ? margin.horizontal
-                                                : '',
-                                        marginLeft: isJustifySpace
-                                            ? justify === 'space-between'
-                                            && index === 0
-                                                ? ''
-                                                : margin.semiHorizontal
-                                            : '',
-                                        paddingTop: margin.semiVertical,
-                                        paddingBottom: margin.semiVertical,
-                                    },
                         ]}
                     >
                         {child}
