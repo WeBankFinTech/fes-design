@@ -1,16 +1,16 @@
 import {
     type ComponentObjectPropsOptions,
     type PropType,
-    type VNode,
-    createVNode,
+    type VNodeChild,
     defineComponent,
     inject,
 } from 'vue';
-import VirtualList from '../../virtual-list/virtualList';
+import VirtualScroller from '../../virtual-scroller/virtual-scroller';
 import { provideKey } from '../const';
 import type { ColumnInst } from '../column';
 import Colgroup from './colgroup';
 import Tr from './tr';
+import Td from './td';
 
 export default defineComponent({
     props: {
@@ -31,38 +31,58 @@ export default defineComponent({
             syncPosition,
             scrollbarRef,
             noFixedColumn,
+            handleCellClick,
+            getCellValue,
+            getRowClassName,
+            getRowStyle,
+            handleRowClick,
         } = inject(provideKey);
 
-        const renderDefault = ({
-            source,
-            index,
-        }: {
-            source: Record<string, any>;
-            index: number;
-        }) => {
-            return (
-                <Tr
-                    expanded={false}
-                    row={source}
-                    rowIndex={index}
-                    columns={props.columns}
-                />
-            );
+        const renderTdList = (row: object, rowIndex: number) => {
+            return [
+                props.columns.map((column, columnIndex) => {
+                    const width = layout.widthMap.value[column.id]?.width;
+                    const minWidth = layout.widthMap.value[column.id]?.minWidth;
+                    return (
+                        <Td
+                            key={column.id}
+                            row={row}
+                            rowIndex={rowIndex}
+                            column={column}
+                            columnIndex={columnIndex}
+                            columns={props.columns}
+                            onClick={($event: Event) => {
+                                handleCellClick(
+                                    {
+                                        row,
+                                        column,
+                                        cellValue: getCellValue(row, column),
+                                    },
+                                    $event,
+                                );
+                            }}
+                            style={[
+                                { display: 'inline-block' },
+                                width && { width: `${width}px` },
+                                minWidth && { minWidth: `${minWidth}px` },
+                            ]}
+                        ></Td>
+                    );
+                }),
+            ];
         };
 
-        const renderItemList = (itemVNodes: VNode[]) => {
-            return [
-                createVNode(Colgroup, {
-                    columns: props.columns,
-                }),
-                createVNode(
-                    'tbody',
-                    {},
-                    itemVNodes.length
-                        ? itemVNodes
-                        : [<Tr columns={props.columns} />],
-                ),
-            ];
+        const renderItemList = (itemVNodes: VNodeChild) => {
+            return (
+                <table class={`${prefixCls}-body`} style={bodyStyle.value}>
+                    <Colgroup columns={props.columns}></Colgroup>
+                    { itemVNodes || (
+                        <tbody>
+                            <Tr columns={props.columns} />
+                        </tbody>
+                    ) }
+                </table>
+            );
         };
 
         const onScroll = (e: Event) => {
@@ -73,33 +93,51 @@ export default defineComponent({
 
         return () => {
             return (
-                <VirtualList
+                <VirtualScroller
                     ref={(el: any) => {
                         if (el) {
                             scrollbarRef.value = el.scrollRef;
                             bodyWrapperRef.value = el.$el;
                         }
                     }}
-                    shadow={{
-                        x: noFixedColumn.value,
-                        y: true,
+                    scrollbarProps={{
+                        shadow: {
+                            x: noFixedColumn.value,
+                            y: true,
+                        },
+                        shadowStyle: { zIndex: 3 },
+                        verticalRatioStyle: { zIndex: 3 },
+                        horizontalRatioStyle: { zIndex: 3 },
+                        maxHeight: layout.bodyHeight.value,
+                        always: rootProps.alwaysScrollbar,
                     }}
-                    shadowStyle={{ zIndex: 3 }}
-                    verticalRatioStyle={{ zIndex: 3 }}
-                    horizontalRatioStyle={{ zIndex: 3 }}
                     onScroll={onScroll}
                     dataSources={showData.value}
-                    dataKey={rootProps.rowKey}
-                    estimateSize={rootProps.virtualScrollOption.estimateSize ?? 54}
+                    itemTag={'tr'}
+                    itemSize={rootProps.virtualScrollOption.estimateSize ?? 54}
                     keeps={rootProps.virtualScrollOption.keeps ?? 20}
                     class={bodyWrapperClass.value}
-                    maxHeight={layout.bodyHeight.value}
-                    wrapTag={'table'}
-                    wrapClass={`${prefixCls}-body`}
-                    wrapStyle={bodyStyle.value}
-                    always={rootProps.alwaysScrollbar}
+                    wrapTag={'tbody'}
                     renderItemList={renderItemList}
-                    v-slots={{ default: renderDefault }}
+                    itemProps={({ item, index }) => {
+                        return {
+                            class: getRowClassName({ row: item, rowIndex: index }),
+                            style: {
+                                ...getRowStyle({ row: item, rowIndex: index }),
+                            },
+                            onClick: ($event: Event) => {
+                                handleRowClick({ row: item, rowIndex: index }, $event);
+                            },
+                        };
+                    }}
+                    v-slots={{
+                        default: ({ source, index }: { source: object; index: number }) => {
+                            if (source) {
+                                return renderTdList(source, index);
+                            }
+                            return null;
+                        },
+                    }}
                 />
             );
         };

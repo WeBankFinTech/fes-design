@@ -31,7 +31,7 @@
         :columns="cols"
         :alwaysScrollbar="alwaysScrollbar"
         :virtualScrollOption="{
-            keeps: 50,
+            keeps: 20,
             estimateSize: 40,
         }"
     />
@@ -86,6 +86,7 @@ export default {
                 prop: 'index',
                 label: '序号',
                 width: 80,
+                fixed: true,
             },
             {
                 prop: 'workDate',

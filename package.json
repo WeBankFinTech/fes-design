@@ -79,7 +79,8 @@
         "csstype": "^3.0.10",
         "date-fns": "^2.28.0",
         "lodash-es": "^4.17.21",
-        "stickybits": "^3.7.9"
+        "stickybits": "^3.7.9",
+        "virtua": "^0.40.3"
     },
     "devDependencies": {
         "@antfu/eslint-config": "^2.15.0",

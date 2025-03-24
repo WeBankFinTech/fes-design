@@ -1,29 +1,29 @@
 {
     "compilerOptions": {
-        "strict": true,
-        "strictNullChecks": false,
-        "jsx": "preserve",
-        "jsxImportSource": "vue",
-        "module": "ES6",
-        "moduleResolution": "Node",
-        "declaration": true,
-        "declarationDir": "./types",
-        "allowSyntheticDefaultImports": true,
-        "forceConsistentCasingInFileNames": true,
         "composite": true,
         "target": "ES6",
-        "types": [
-            "jest"
+        "jsx": "preserve",
+        "jsxImportSource": "vue",
+        "lib": [
+            "ESNext",
+            "DOM"
         ],
+        "module": "ES6",
+        "moduleResolution": "node",
         "paths": {
             "@fesjs/fes-design": [
                 "./components/index.ts"
             ]
         },
-        "lib": [
-            "ESNext",
-            "DOM"
-        ]
+        "types": [
+            "jest"
+        ],
+        "strict": true,
+        "strictNullChecks": false,
+        "declaration": true,
+        "declarationDir": "./types",
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true
     },
     "exclude": [
         "node_modules"
