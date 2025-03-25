@@ -1,25 +1,5 @@
 <template>
     <FForm labelWidth="120px">
-        <FFormItem label="是否虚拟滚动:">
-            <FRadioGroup
-                v-model="virtualScroll"
-                :options="[
-                    { label: '否', value: false },
-                    { label: '是', value: true },
-                ]"
-                @change="() => virtualScroll && (isFixedHeight = true)"
-            />
-        </FFormItem>
-        <FFormItem label="是否指定高度:">
-            <FRadioGroup
-                v-model="isFixedHeight"
-                :disabled="virtualScroll"
-                :options="[
-                    { label: '否', value: false },
-                    { label: '是', value: true },
-                ]"
-            />
-        </FFormItem>
         <FFormItem v-if="isFixedHeight" label="固定高度：">
             <FInputNumber
                 v-model="height"
@@ -44,44 +24,21 @@
 
     <FTable
         :virtualScroll="virtualScroll"
-        :height="isFixedHeight ? height : undefined"
-        rowKey="date"
+        :height="650"
+        rowKey="index"
+        size="small"
         :data="data"
+        :columns="cols"
         :alwaysScrollbar="alwaysScrollbar"
-    >
-        <FTableColumn prop="date" label="日期" :width="150" ellipsis fixed />
-        <FTableColumn prop="name" label="姓名" :width="150" />
-        <FTableColumn prop="province" label="省份" :width="150" />
-        <FTableColumn prop="city" label="市区" :width="150" />
-        <FTableColumn prop="address" label="地址" :width="800" />
-        <FTableColumn prop="zip" label="邮编" :width="120" />
-        <FTableColumn
-            label="操作"
-            align="center"
-            :width="200"
-            :action="action"
-            fixed="right"
-        />
-    </FTable>
+        :virtualScrollOption="{
+            keeps: 20,
+            estimateSize: 40,
+        }"
+    />
 </template>
 
 <script>
 import { reactive, ref } from 'vue';
-
-const createData = (n) => {
-    const arr = [];
-    for (let i = 0; i < n; i++) {
-        arr.push({
-            date: `2016-05-${i < 10 ? `0${i}` : i}`,
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333,
-        });
-    }
-    return arr;
-};
 
 export default {
     setup() {
@@ -90,24 +47,175 @@ export default {
         const height = ref(250);
         const alwaysScrollbar = ref(false);
 
-        const data = reactive(createData(200));
-        const action = [
+        const createData = (n) => {
+            const arr = [];
+            for (let i = 0; i < n; i++) {
+                arr.push({
+                    index: i,
+                    workDate: '20250227',
+                    architectId: '1',
+                    clientId: '00000000080',
+                    roleId: '00000000040',
+                    mainSessionId: '82d5ddbb-f4dd-11ef-a7f5-5c6f69521b10',
+                    intentAutoIncId: 638,
+                    stdQuestion: 'Sample Question',
+                    isMultiRound: 'yes',
+                    custQuestion: 'Sample Customer Question',
+                    matchType: 'type1',
+                    catalogueId: '00000000000000000000000000000096',
+                    interactCnt: 9,
+                    isSucc: 'yes',
+                    failureParameter: 'None',
+                    sceneId: 1,
+                    evaluate: 'Good',
+                    answer: 'Sample Answer',
+                    architectName: '微粒贷',
+                    simQuery: 'Sample Query',
+                    nluType: 'typeA',
+                    modelQuestion: 'Rewritten Question',
+                    dmReceiverTime: '15:36:09',
+                    originQuestion: 'Original Question',
+                    answerName: 'Answer Name',
+                });
+            }
+            return arr;
+        };
+
+        const cols = [
             {
-                label: '编辑',
-                func: (row) => {
-                    console.log('[table.virtual] [action.编辑] row:', row);
-                },
+                prop: 'index',
+                label: '序号',
+                width: 80,
+                fixed: true,
             },
             {
-                label: '删除',
-                func: (row) => {
-                    console.log('[table.virtual] [action.删除] row:', row);
+                prop: 'workDate',
+                label: '日期',
+                width: 100,
+                ellipsis: true,
+                formatter: ({ cellValue }) => {
+                    return cellValue;
                 },
+
+            },
+            {
+                prop: 'dmReceiverTime',
+                label: '时间',
+                width: 80,
+                ellipsis: true,
+            },
+            {
+                prop: 'architectName',
+                label: '进线产品',
+                width: 100,
+                ellipsis: true,
+            },
+            {
+                prop: 'mainSessionId',
+                label: '主会话ID',
+                width: 100,
+                ellipsis: true,
+            },
+            {
+                prop: 'stdQuestion',
+                label: '命中知识点',
+                width: 100,
+                ellipsis: true,
+            },
+            {
+                prop: 'simQuery',
+                label: '命中相似问',
+                width: 100,
+                ellipsis: true,
+            },
+            {
+                prop: 'isMultiRoundText',
+                label: '是否多轮',
+                width: 80,
+                ellipsis: true,
+            },
+            {
+                prop: 'custQuestion',
+                label: '客户问法',
+                width: 100,
+                ellipsis: true,
+            },
+            {
+                prop: 'modelQuestion',
+                label: '修正问法',
+                width: 100,
+                ellipsis: true,
+            },
+            {
+                prop: 'originQuestion',
+                label: '原始问法',
+                width: 100,
+                ellipsis: true,
+            },
+            {
+                prop: 'answerName',
+                label: '答案名称',
+                width: 100,
+                ellipsis: true,
+            },
+            {
+                prop: 'answer',
+                label: '答案',
+                width: 120,
+                ellipsis: true,
+            },
+            {
+                prop: 'matchTypeText',
+                label: '匹配类型',
+                width: 80,
+                ellipsis: true,
+            },
+            {
+                prop: 'catalogueName',
+                label: '分类',
+                width: 100,
+                ellipsis: true,
+            },
+            {
+                prop: 'cataloguePath',
+                label: '知识点路径',
+                width: 120,
+                ellipsis: true,
+            },
+            {
+                prop: 'interactCnt',
+                label: '交互次数',
+                width: 80,
+                ellipsis: true,
+            },
+            {
+                prop: 'evaluate',
+                label: '评论',
+                width: 100,
+                ellipsis: true,
+            },
+            {
+                prop: 'nluType',
+                label: '引擎',
+                width: 100,
+                ellipsis: true,
+            },
+            {
+                prop: 'isSuccText',
+                label: '是否成功',
+                width: 80,
+                ellipsis: true,
+            },
+            {
+                prop: 'failureParameter',
+                label: '失败参数',
+                width: 100,
+                ellipsis: true,
             },
         ];
         return {
-            data,
-            action,
+            data: createData(10000),
+            cols,
             virtualScroll,
             isFixedHeight,
             height,

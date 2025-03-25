@@ -67,7 +67,7 @@ export default defineComponent({
                     slotFooterSize: 0,
                     keeps: props.keeps,
                     estimateSize: props.estimateSize,
-                    buffer: Math.round(props.keeps / 3), // recommend for a third of keeps
+                    buffer: Math.round(props.keeps / 3), // increase buffer size for smoother scrolling
                     uniqueIds: getUniqueIdFromDataSources(),
                 },
                 (range) => {

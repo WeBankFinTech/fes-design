@@ -19,7 +19,7 @@ interface Range {
     padFront: number;
     padBehind: number;
 }
-interface VirtualPramas {
+interface VirtualParams {
     slotHeaderSize?: number;
     slotFooterSize?: number;
     keeps?: number;
@@ -31,22 +31,24 @@ interface VirtualPramas {
 const LEADING_BUFFER = 0;
 
 export default class Virtual {
-    param: VirtualPramas;
+    param: VirtualParams;
     sizes: Map<number | string, number>;
     firstRangeTotalSize: number;
     firstRangeAverageSize: number;
-    // lastCalcIndex: number;
     fixedSizeValue: number;
     calcType: CALC_TYPE;
     offset: number;
     direction: DIRECTION_TYPE;
     range: Range;
     callUpdate: (range: Range) => void;
-    constructor(param: VirtualPramas, callUpdate: (range: Range) => void) {
+    private _scrollRAF: number | null = null;
+    // 缓存滚动位置计算结果
+    private _scrollPositionCache: Map<number, number> = new Map();
+    constructor(param: VirtualParams, callUpdate: (range: Range) => void) {
         this.init(param, callUpdate);
     }
 
-    init(param: VirtualPramas = {}, callUpdate: (range: Range) => void = null) {
+    init(param: VirtualParams = {}, callUpdate: (range: Range) => void = null) {
         this.param = param;
         this.callUpdate = callUpdate;
 
@@ -54,7 +56,6 @@ export default class Virtual {
         this.sizes = reactive(new Map());
         this.firstRangeTotalSize = 0;
         this.firstRangeAverageSize = 0;
-        // this.lastCalcIndex = 0;
         this.fixedSizeValue = 0;
         this.calcType = CALC_TYPE.INIT;
 
@@ -63,12 +64,23 @@ export default class Virtual {
 
         // range data
         this.range = Object.create(null);
+
+        // 清空所有缓存
+        this._scrollPositionCache = new Map();
+
+        // 清除滚动动画帧引用
+        if (this._scrollRAF) {
+            cancelAnimationFrame(this._scrollRAF);
+            this._scrollRAF = null;
+        }
+
         if (this.param && this.callUpdate) {
             this.checkRange(0, this.param.keeps - 1);
         }
     }
 
     destroy() {
+        // 重置内部状态数据
         this.init();
     }
 
@@ -98,7 +110,7 @@ export default class Virtual {
         );
     }
 
-    updateParam(key: keyof VirtualPramas, value: any) {
+    updateParam(key: keyof VirtualParams, value: any) {
         if (this.param && Object.keys(this.param).includes(key)) {
             // if uniqueIds change, find out deleted id and remove from size map
             if (key === 'uniqueIds') {
@@ -172,11 +184,19 @@ export default class Virtual {
         if (!this.param) {
             return;
         }
-        if (this.direction === DIRECTION_TYPE.FRONT) {
-            this.handleFront();
-        } else if (this.direction === DIRECTION_TYPE.BEHIND) {
-            this.handleBehind();
+
+        // 使用requestAnimationFrame优化滚动性能
+        if (this._scrollRAF) {
+            cancelAnimationFrame(this._scrollRAF);
         }
+
+        this._scrollRAF = requestAnimationFrame(() => {
+            if (this.direction === DIRECTION_TYPE.FRONT) {
+                this.handleFront();
+            } else if (this.direction === DIRECTION_TYPE.BEHIND) {
+                this.handleBehind();
+            }
+        });
     }
 
     handleFront() {
@@ -219,7 +239,6 @@ export default class Virtual {
         let high = this.param.uniqueIds.length;
 
         while (low <= high) {
-            // this.__bsearchCalls++
             middle = low + Math.floor((high - low) / 2);
             middleOffset = this.getIndexOffset(middle);
 
@@ -236,23 +255,35 @@ export default class Virtual {
         return low > 0 ? --low : 0;
     }
 
-    // return a scroll offset from given index, can efficiency be improved more here?
-    // although the call frequency is very high, its only a superposition of numbers
+    // 滚动位置计算方法
     getIndexOffset(givenIndex: number) {
         if (!givenIndex) {
             return 0;
         }
 
-        let offset = 0;
-        let indexSize = 0;
-        for (let index = 0; index < givenIndex; index++) {
-            indexSize = this.sizes.get(this.param.uniqueIds[index]);
-            offset = offset + (typeof indexSize === 'number' ? indexSize : this.getEstimateSize());
+        // 检查缓存
+        const cachedOffset = this._scrollPositionCache.get(givenIndex);
+        if (cachedOffset !== undefined) {
+            return cachedOffset;
         }
 
-        // // remember last calculate index
-        // this.lastCalcIndex = Math.max(this.lastCalcIndex, givenIndex - 1);
-        // this.lastCalcIndex = Math.min(this.lastCalcIndex, this.getLastIndex());
+        let offset = 0;
+        // 直接计算从0到目标索引的偏移量
+        for (let index = 0; index < givenIndex; index++) {
+            const indexSize = this.sizes.get(this.param.uniqueIds[index]);
+            offset += typeof indexSize === 'number' ? indexSize : this.getEstimateSize();
+        }
+
+        // 缓存结果
+        this._scrollPositionCache.set(givenIndex, offset);
+
+        // 如果缓存过大，清理一半的缓存
+        if (this._scrollPositionCache.size > 1000) {
+            const indices = Array.from(this._scrollPositionCache.keys());
+            indices.slice(0, indices.length / 2).forEach((index) => {
+                this._scrollPositionCache.delete(index);
+            });
+        }
 
         return offset;
     }
@@ -292,6 +323,7 @@ export default class Virtual {
         this.range.end = end;
         this.range.padFront = this.getPadFront();
         this.range.padBehind = this.getPadBehind();
+
         this.callUpdate(this.getRange());
     }
 
@@ -318,11 +350,6 @@ export default class Virtual {
         if (this.isFixedType()) {
             return (lastIndex - end) * this.fixedSizeValue;
         }
-
-        // // if it's all calculated, return the exactly offset
-        // if (this.lastCalcIndex === lastIndex) {
-        //     return this.getIndexOffset(lastIndex) - this.getIndexOffset(end);
-        // }
 
         // if not, use a estimated value
         return (lastIndex - end) * this.getEstimateSize();

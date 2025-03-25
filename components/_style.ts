@@ -63,3 +63,4 @@ import './text-highlight/style';
 import './link/style';
 import './float-pane/style';
 import './back-top/style';
+import './virtual-scroller/style';

@@ -63,6 +63,10 @@ export const tableProps = {
         type: Boolean,
         default: false,
     },
+    virtualScrollOption: {
+        type: Object as PropType<{ keeps: number;estimateSize: number }>,
+        default: () => ({}),
+    },
     layout: {
         type: String as PropType<'fixed' | 'auto'>,
         default: 'fixed',
