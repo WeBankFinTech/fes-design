@@ -151,7 +151,6 @@ closable.vue
 | maskClosable   | 点击蒙层是否允许关闭                               | Boolean                    | false                                        |
 | title          | 标题                                               | string / vNode / ()=>VNode |
 | content        | 内容                                               | string / vNode / ()=>VNode | -                                            |
-| footer         | 页脚                                               | string / vNode / ()=>VNode | -                                            |
 | okText         | 确认按钮文字                                       | String                     | 确定                                         |
 | okLoading      | 确认按钮 Loading 状态                              | Boolean                    | `false`                                      |
 | showCancel     | 是否展示取消按钮                                   | Boolean                    | confim 方法默认`true`，其他方法默认为`false` |
