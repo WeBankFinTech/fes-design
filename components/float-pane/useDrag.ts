@@ -89,7 +89,7 @@ export const useDrag = (
         const offsetX = imgOffsetX + event.pageX - startX;
         const offsetY = imgOffsetY + event.pageY - startY;
 
-        if (limitTransformOffsetY) {
+        if (limitTransformOffsetY.value) {
             if (offsetY < limitTransformOffsetY.value.min) {
                 return;
             }
@@ -97,7 +97,7 @@ export const useDrag = (
                 return;
             }
         }
-        if (limitTransformOffsetX) {
+        if (limitTransformOffsetX.value) {
             if (offsetX < limitTransformOffsetX.value.min) {
                 return;
             }
