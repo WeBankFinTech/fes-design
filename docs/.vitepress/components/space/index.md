@@ -52,7 +52,7 @@ inline.vue
 
 | 参数      | 说明                                                                                                                    | 类型                               | 默认值  |
 | --------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ------- |
-| align     | 垂直排列方式，可选值为 `start` `end` `center` `baseline` `stretch` `flex-start` `flex-end`                              | string                             | -       |
+| align     | 垂直排列方式，可选值为 `start` `end` `center` `baseline` `stretch` `flex-start` `flex-end`                              | string                             | `start` |
 | inline    | 是否为行内元素                                                                                                          | boolean                            | `false` |
 | itemStyle | 节点样式                                                                                                                | string / object                    | -       |
 | justify   | 水平排列方式，可选值为 `start` `end` `center` `space-around` `space-between`                                            | string                             | `start` |

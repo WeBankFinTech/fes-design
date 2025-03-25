@@ -25,7 +25,10 @@ export type Justify =
 export type Size = 'xsmall' | 'small' | 'middle' | 'large';
 
 export const spaceProps = {
-    align: String as PropType<Align>,
+    align: {
+        type: String as PropType<Align>,
+        default: 'start',
+    },
     justify: {
         type: String as PropType<Justify>,
         default: 'start',

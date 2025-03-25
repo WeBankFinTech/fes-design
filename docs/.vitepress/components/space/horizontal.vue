@@ -13,7 +13,7 @@
             <FRadioGroup
                 v-model="align"
                 :options="[
-                    { label: 'start', value: 'start' },
+                    { label: 'start(默认)', value: 'start' },
                     { label: 'end', value: 'end' },
                     { label: 'center', value: 'center' },
                     { label: 'baseline', value: 'baseline' },

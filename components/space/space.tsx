@@ -83,19 +83,22 @@ export default defineComponent({
                     gap: `${margin.vertical} ${margin.horizontal}`,
                 }}
             >
-                {children?.map((child) => (
-                    <div
-                        role="none"
-                        style={[
-                            itemStyle as any,
-                            {
-                                maxWidth: '100%',
-                            },
-                        ]}
-                    >
-                        {child}
-                    </div>
-                ))}
+                { itemStyle
+                    ? children?.map((child) => (
+                        <div
+                            role="none"
+                            style={[
+                                {
+                                    maxWidth: '100%',
+                                },
+                                itemStyle as any,
+                            ]}
+                        >
+                            {child}
+                        </div>
+                    ))
+                    : children
+                }
             </div>
         );
     },
