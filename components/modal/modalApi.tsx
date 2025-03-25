@@ -32,7 +32,6 @@ export interface ModalConfig {
 type VNodeProperty = 'title' | 'content' | 'footer';
 
 const forceProps = {
-    maskClosable: false,
     forGlobal: true, // 标记是否API调用
     displayDirective: 'if',
     footer: true,
@@ -43,11 +42,12 @@ const defaultConfig: ModalConfig = {
     width: 400,
     closable: false,
     useAnimation: true,
+    maskClosable: false,
 };
 let mergeConfig: ModalConfig = defaultConfig;
 
 /**
- * 创建Model
+ * 创建 Model
  */
 function create(type: ModalType, config: ModalConfig) {
     const div = document.createElement('div');
