@@ -1,3 +1,23 @@
+## [0.8.79](https://github.com/WeBankFinTech/fes-design/compare/v0.8.78...v0.8.79) (2025-03-28)
+
+
+### Bug Fixes
+
+* 部分组件computed中判断slot存在无响应问题 ([#934](https://github.com/WeBankFinTech/fes-design/issues/934)) ([8885ec2](https://github.com/WeBankFinTech/fes-design/commit/8885ec28749f4b1e396e0e300e6cea2cb3e55bb2))
+* 清除拖拽事件 ([#932](https://github.com/WeBankFinTech/fes-design/issues/932)) ([814c13e](https://github.com/WeBankFinTech/fes-design/commit/814c13e52a95fe0e9524d6a98ee18b1b487539ac))
+* **FloatPane:** 拖拽边界检测，判断异常修复 ([5f323e7](https://github.com/WeBankFinTech/fes-design/commit/5f323e799ceb9353ee8bf741a233eb5ed468d5e7))
+* **FTable:** 修复layout:auto时水平滚动计算问题 ([#933](https://github.com/WeBankFinTech/fes-design/issues/933)) ([03315ed](https://github.com/WeBankFinTech/fes-design/commit/03315eda951a5a30ebb21ae9fa9e656631f8165d))
+
+
+### Features
+
+* **Modal:** 全局方法配置项支持 maskClosable，默认为 false ([ef1bc6f](https://github.com/WeBankFinTech/fes-design/commit/ef1bc6fc42da77a71fc8cf3fd7d1cfce08db2484))
+* popper style 支持字符串和数组 ([#935](https://github.com/WeBankFinTech/fes-design/issues/935)) ([3d65fc0](https://github.com/WeBankFinTech/fes-design/commit/3d65fc07a909a63d023cf3869255419932ea5b74))
+* **Space:** 元素间隔方案由 margin 改为 gap ([#936](https://github.com/WeBankFinTech/fes-design/issues/936)) ([ecbbeed](https://github.com/WeBankFinTech/fes-design/commit/ecbbeed6b5f558b05a0353c9ab7980875cd540ee))
+* VirtualScroller 性能优化 ([#937](https://github.com/WeBankFinTech/fes-design/issues/937)) ([56823ac](https://github.com/WeBankFinTech/fes-design/commit/56823acaf4cd7c608e746fb4a0c99e64b73ed544))
+
+
+
 ## [0.8.78](https://github.com/WeBankFinTech/fes-design/compare/v0.8.77...v0.8.78) (2025-01-24)
 
 
