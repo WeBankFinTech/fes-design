@@ -1,3 +1,12 @@
+## [0.8.80](https://github.com/WeBankFinTech/fes-design/compare/v0.8.79...v0.8.80) (2025-04-01)
+
+
+### Features
+
+* table改为使用virtualList ([#942](https://github.com/WeBankFinTech/fes-design/issues/942)) ([361aedb](https://github.com/WeBankFinTech/fes-design/commit/361aedb572afb10805a840034ac2b74b4e6392b0))
+
+
+
 ## [0.8.79](https://github.com/WeBankFinTech/fes-design/compare/v0.8.78...v0.8.79) (2025-03-28)
 
 
