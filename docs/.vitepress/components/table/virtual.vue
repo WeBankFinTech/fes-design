@@ -31,7 +31,7 @@
         :columns="cols"
         :alwaysScrollbar="alwaysScrollbar"
         :virtualScrollOption="{
-            keeps: 20,
+            keeps: 30,
             estimateSize: 40,
         }"
     />
