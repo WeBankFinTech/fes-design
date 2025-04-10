@@ -1,4 +1,4 @@
-import { type Ref, onMounted, shallowRef } from 'vue';
+import { type Ref, shallowRef, watch } from 'vue';
 import { cloneDeep } from 'lodash-es';
 import { getBrotherKeys } from './helper';
 import type { InnerTreeOption, TreeNodeKey } from './interface';
@@ -65,12 +65,14 @@ export default ({
         });
     };
 
-    onMounted(() => {
+    watch(allKeys, () => {
         if (props.defaultExpandAll && currentExpandedKeys.value.length === 0) {
             updateExpandedKeys(
                 allKeys.value.filter((value) => !nodeList.get(value).isLeaf),
             );
         }
+    }, {
+        immediate: true,
     });
 
     return {
