@@ -1,4 +1,5 @@
-import { type Ref, ref } from 'vue';
+import type { ComputedRef, Ref } from 'vue';
+import { ref } from 'vue';
 import { cloneDeep } from 'lodash-es';
 import { useEventListener } from '@vueuse/core';
 import { depx } from '../_util/utils';
@@ -16,6 +17,8 @@ export default (
     columns: ColumnInst[],
     widthMap: Ref<Record<string, WidthItem>>,
     handleHeaderResize: ReturnType<typeof useTableEvent>['handleHeaderResize'],
+    isWatchX: Ref<boolean>,
+    isWidthAuto: ComputedRef<boolean>,
 ) => {
     const current = ref<{
         id: number;
@@ -23,6 +26,8 @@ export default (
         clientX: number;
         width: number;
     }>(null);
+
+    let _widthMap: Record<string, WidthItem> = null;
 
     const onMousedown = (
         column: ColumnInst,
@@ -37,36 +42,33 @@ export default (
                 (event.target as HTMLElement).parentElement.offsetWidth,
             ),
         };
+        _widthMap = cloneDeep(widthMap.value);
+        isWatchX.value = false;
     };
 
     const onMousemove = (event: MouseEvent) => {
         if (!current.value) {
             return;
         }
-        const _widthMap = cloneDeep(widthMap.value);
-        const leftColumns = columns
-            .slice(0, current.value.columnIndex)
-            .filter((col) => {
-                return !_widthMap[col.id].width;
+        if (!_widthMap) {
+            return;
+        }
+        const currentClientX = event.clientX;
+        const offset = currentClientX - current.value.clientX;
+
+        if (!isWidthAuto.value) {
+            const rightColumns = columns.slice(current.value.columnIndex + 1);
+            widthMap.value[current.value.id].width = offset + _widthMap[current.value.id].width;
+            rightColumns.forEach((col) => {
+                widthMap.value[col.id].width = (-offset / rightColumns.length) + _widthMap[col.id].width;
             });
-        const rightColumns = columns
-            .slice(current.value.columnIndex + 1)
-            .filter((col) => {
-                return !_widthMap[col.id].width;
-            });
-        const offsetX
-            = ((event.clientX - current.value.clientX)
-            * (leftColumns.length + rightColumns.length))
-            / rightColumns.length;
-        const width = current.value.width + offsetX;
-        const currentColumn = columns[current.value.columnIndex];
-        if (
-            currentColumn.props.minWidth
-            && width >= currentColumn.props.minWidth
-        ) {
-            _widthMap[current.value.id].width = width;
-            _widthMap[current.value.id].minWidth = width;
-            widthMap.value = _widthMap;
+        } else {
+            widthMap.value[current.value.id] = {
+                ..._widthMap[current.value.id],
+                width: offset + current.value.width,
+                minWidth: offset + current.value.width,
+                maxWidth: offset + current.value.width,
+            };
         }
     };
 
@@ -104,6 +106,8 @@ export default (
 
         // reset current
         current.value = null;
+        _widthMap = null;
+        isWatchX.value = true;
     };
 
     useEventListener(window.document, 'mousemove', onMousemove);

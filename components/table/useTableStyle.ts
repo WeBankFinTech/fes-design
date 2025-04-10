@@ -239,12 +239,12 @@ export default ({
         return [
             typeof colClassName === 'function'
                 ? colClassName({
-                    row,
-                    column,
-                    rowIndex,
-                    columnIndex,
-                    cellValue,
-                })
+                        row,
+                        column,
+                        rowIndex,
+                        columnIndex,
+                        cellValue,
+                    })
                 : colClassName,
         ];
     };

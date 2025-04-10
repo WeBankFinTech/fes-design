@@ -1,11 +1,6 @@
-import {
-    type ComponentObjectPropsOptions,
-    Fragment,
-    type PropType,
-    computed,
-    defineComponent,
-    inject,
-} from 'vue';
+import type { ComponentObjectPropsOptions, PropType } from 'vue';
+import { Fragment, computed, defineComponent, inject } from 'vue';
+import { isUndefined } from 'lodash-es';
 import FCheckbox from '../../checkbox/checkbox.vue';
 import { provideKey } from '../const';
 import useResize from '../useResize';
@@ -33,12 +28,17 @@ export default defineComponent({
             prefixCls,
             sortState,
             layout,
+            rootProps,
         } = inject(provideKey);
 
         const { current, onMousedown } = useResize(
             props.columns,
             layout.widthMap,
             handleHeaderResize,
+            layout.isWatchX,
+            computed(() => {
+                return isUndefined(rootProps.height) && rootProps.layout === 'auto';
+            }),
         );
 
         /**
@@ -144,9 +144,9 @@ export default defineComponent({
                                 <FCheckbox
                                     modelValue={isAllSelected.value}
                                     indeterminate={
-                                            !isAllSelected.value
-                                            && isCurrentDataAnySelected.value
-                                        }
+                                        !isAllSelected.value
+                                        && isCurrentDataAnySelected.value
+                                    }
                                     onChange={handleSelectAll}
                                 />
                             </div>
