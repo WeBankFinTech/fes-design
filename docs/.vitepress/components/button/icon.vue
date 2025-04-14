@@ -8,7 +8,7 @@
         <FButton>
             <template #icon> <ProductOutlined /> </template>Default
         </FButton>
-        <FButton type="primary">
+        <FButton type="primary" iconPlacement="right">
             <template #icon> <ProductOutlined /> </template>Primary
         </FButton>
         <FButton type="text">

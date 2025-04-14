@@ -4,6 +4,7 @@ import {
     computed,
     defineComponent,
     ref,
+    watch,
 } from 'vue';
 import { isNil } from 'lodash-es';
 import LoadingOutlined from '../icon/LoadingOutlined';
@@ -47,6 +48,10 @@ export const buttonProps = {
     type: {
         type: String as PropType<Type>,
         default: 'default',
+    },
+    iconPlacement: {
+        type: String as PropType<'left' | 'right'>,
+        default: 'left',
     },
 } as const satisfies ComponentObjectPropsOptions;
 
@@ -108,12 +113,11 @@ export default defineComponent({
             >
                 {props.loading
                     ? (
-                        <LoadingOutlined class={loadingIconClassName} />
+                            <LoadingOutlined class={loadingIconClassName} />
                         )
-                    : (
-                            slots.icon?.()
-                        )}
+                    : props.iconPlacement !== 'right' && <span class={`${prefixCls}-icon`}>{slots.icon?.()}</span> }
                 {slots.default?.()}
+                {props.iconPlacement === 'right' && <span class={[`${prefixCls}-icon`, 'is-right']}>{slots.icon?.()}</span> }
             </button>
         );
     },

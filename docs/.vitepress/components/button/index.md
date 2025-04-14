@@ -41,6 +41,7 @@ long.vue
 | long     | 按钮按钮宽度为父元素宽度                                                           | boolean | `false`   |
 | throttle | 节流                                                                               | number  | `300`     |
 | type     | 设置按钮类型，可选值为 `primary` `text` `link` `info` `success` `warning` `danger` | string  | `default` |
+| iconPlacement     | icon位置，可选值为 `left` `right` | string  | `left` |
 
 ## Slots
 
