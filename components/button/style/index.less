@@ -238,8 +238,14 @@
     &-long {
         width: 100%;
     }
-    & > .@{fes-icon-cls} {
+    &-icon {
+        display: inline-flex;
+        align-items: center;
         margin-right: 4px;
+        &.is-right {
+            margin-right: 0;
+            margin-left: 4px;
+        }
     }
 
     &-large {
