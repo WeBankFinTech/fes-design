@@ -145,7 +145,6 @@ export default defineComponent({
             clearSelect,
             wrapperRef,
             wrapperClass,
-            layout,
             columns,
             rootProps,
             toggleRowExpend,
@@ -188,9 +187,6 @@ export default defineComponent({
         );
 
         const render = () => {
-            if (!layout.initRef.value) {
-                return;
-            }
             return (
                 <>
                     {composed.value && rootProps.showHeader && (
@@ -198,13 +194,13 @@ export default defineComponent({
                     )}
                     {rootProps.virtualScroll && showData.value.length
                         ? (
-                            <VirtualTable columns={columns.value} />
+                                <VirtualTable columns={columns.value} />
                             )
                         : (
-                            <BodyTable
-                                composed={composed.value}
-                                columns={columns.value}
-                            />
+                                <BodyTable
+                                    composed={composed.value}
+                                    columns={columns.value}
+                                />
                             )}
                     {showData.value.length === 0 && <NoData></NoData>}
                 </>

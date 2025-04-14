@@ -18,6 +18,11 @@ export interface WidthItem {
     width?: number;
     minWidth?: number;
     maxWidth?: number;
+    origin?: {
+        width?: number;
+        minWidth?: number;
+        maxWidth?: number;
+    };
 }
 
 /**
@@ -46,7 +51,6 @@ export default function useTableLayout({
     const isScrollX = ref(false);
     const isScrollY = ref(false);
     const bodyHeight = ref(0);
-    const initRef = ref(false);
 
     // 兼容 windows 浏览器滚动条导致高度有小数的场景
     const propHeight = computed(() => Math.floor(props.height));
@@ -55,7 +59,9 @@ export default function useTableLayout({
         return isUndefined(props.height) && props.layout === 'auto';
     });
 
-    const min = 80;
+    const isWatchX = ref(true);
+
+    const min = 100;
 
     const computeY = () => {
         // 第一次渲染时会出现 bodyWrapperHeight = 0，必须再nextTick
@@ -89,11 +95,35 @@ export default function useTableLayout({
     };
 
     const computeX = () => {
+        if (!isWatchX.value) {
+            return;
+        }
         const $wrapper = wrapperRef.value;
         if (!$wrapper) {
             return;
         }
+
         if (isWidthAuto.value) {
+            columns.value.forEach((column) => {
+                const widthObj: WidthItem = {
+                    id: column.id,
+                };
+                const width = column.props.width;
+                const minWidth = column.props.minWidth;
+                if (width) {
+                    widthObj.width = width;
+                } else if (minWidth) {
+                    widthObj.minWidth = minWidth;
+                } else if (
+                    column.props.type === 'selection'
+                    || column.props.type === 'expand'
+                ) {
+                    widthObj.minWidth = min;
+                }
+                if (!isEqual(widthMap.value[column.id], widthObj)) {
+                    widthMap.value[column.id] = widthObj;
+                }
+            });
             const $bodyTable = bodyTableRef.value;
             if (!$bodyTable) {
                 return;
@@ -106,48 +136,92 @@ export default function useTableLayout({
                 : _wrapperWidth;
             let bodyMinWidth = 0;
 
-            Object.keys(widthMap.value).forEach((id) => {
-                const widthObj = widthMap.value[id];
-                bodyMinWidth += widthObj.width ?? widthObj.minWidth ?? min;
+            const newWidthList: Record<string, WidthItem> = {};
+            columns.value.forEach((column) => {
+                const widthObj: WidthItem = {
+                    id: column.id,
+                    origin: {},
+                };
+                const width = column.props.width;
+                const minWidth = column.props.minWidth;
+                if (width || minWidth) {
+                    // 用户设置的宽度优先级最高
+                    widthObj.origin = {
+                        minWidth,
+                        width,
+                    };
+                } else if (
+                    column.props.type === 'selection'
+                    || column.props.type === 'expand'
+                ) {
+                    widthObj.origin = {
+                        width: min,
+                    };
+                } else {
+                    widthObj.origin = {
+                        minWidth: min,
+                    };
+                }
+                newWidthList[column.id] = widthObj;
+            });
+
+            Object.values(newWidthList).forEach((widthObj) => {
+                bodyMinWidth += widthObj.origin.width ?? widthObj.origin.minWidth ?? min;
             });
 
             if (bodyMinWidth < wrapperWidth) {
                 isScrollX.value = false;
                 bodyWidth.value = wrapperWidth;
+                const additionalWidth = wrapperWidth - bodyMinWidth;
+                const hasMinItems = Object.values(newWidthList).filter((item) => !item.origin.width);
+                const hasWidthItems = Object.values(newWidthList).filter((item) => item.origin.width);
+                let addedWidth = 0;
+                hasMinItems.forEach((item, index) => {
+                    const origin = newWidthList[item.id].origin;
+                    if (index !== hasMinItems.length - 1) {
+                        const widthObj = {
+                            id: item.id,
+                            width: origin.minWidth + Math.ceil(additionalWidth / hasMinItems.length),
+                        };
+                        if (!isEqual(widthObj, widthMap.value[item.id])) {
+                            widthMap.value[item.id] = widthObj;
+                        }
+                        addedWidth += Math.ceil(additionalWidth / hasMinItems.length);
+                    } else {
+                        const widthObj = {
+                            id: item.id,
+                            width: origin.minWidth + additionalWidth - addedWidth,
+                        };
+                        if (!isEqual(widthObj, widthMap.value[item.id])) {
+                            widthMap.value[item.id] = widthObj;
+                        }
+                    }
+                });
+                hasWidthItems.forEach((item) => {
+                    const origin = newWidthList[item.id].origin;
+                    const widthObj = {
+                        id: item.id,
+                        width: origin.width,
+                    };
+                    if (!isEqual(widthObj, widthMap.value[item.id])) {
+                        widthMap.value[item.id] = widthObj;
+                    }
+                });
             } else {
                 isScrollX.value = true;
                 bodyWidth.value = bodyMinWidth;
+                columns.value.forEach((column) => {
+                    const origin = newWidthList[column.id].origin;
+                    const widthObj = {
+                        id: column.id,
+                        width: origin.width ?? origin.minWidth,
+                    };
+                    if (!isEqual(widthObj, widthMap.value[column.id])) {
+                        widthMap.value[column.id] = widthObj;
+                    }
+                });
             }
         }
-    };
-
-    const computeColumnWidth = () => {
-        const newWidthList: Record<string, WidthItem> = {};
-        columns.value.forEach((column) => {
-            const widthObj: WidthItem = {
-                id: column.id,
-            };
-            const width = column.props.width;
-            const minWidth = column.props.minWidth;
-            if (width || minWidth) {
-                // 用户设置的宽度优先级最高
-                widthObj.width = width;
-                widthObj.minWidth = minWidth;
-            } else if (
-                column.props.type === 'selection'
-                || column.props.type === 'expand'
-            ) {
-                widthObj.width = min;
-            }
-            newWidthList[column.id] = widthObj;
-        });
-        // 如果值一样则没必要再次渲染，可减少一次多余渲染
-        if (!isEqual(newWidthList, widthMap.value)) {
-            widthMap.value = newWidthList;
-        }
-        nextTick(() => {
-            initRef.value = true;
-        });
     };
 
     const watchResizeDisableRef = ref(false);
@@ -176,10 +250,9 @@ export default function useTableLayout({
         return watchResizeDisableRef.value || !isWidthAuto.value;
     }));
 
-    // 根据列数据，计算列宽度
-    watch([columns, wrapperRef], computeColumnWidth);
-
-    watch([widthMap, wrapperRef, () => props.bordered], computeX);
+    watch([columns, wrapperRef, () => props.bordered, isWidthAuto], () => {
+        computeX();
+    });
 
     watch(
         [
@@ -211,6 +284,6 @@ export default function useTableLayout({
         bodyHeight,
         isScrollX,
         isScrollY,
-        initRef,
+        isWatchX,
     };
 }
