@@ -41,7 +41,7 @@ export default defineComponent({
         'dragend',
         'drop',
     ],
-    setup(props, { emit, expose }) {
+    setup(props, { emit, expose, slots }) {
         useTheme();
         const { nodeList, allKeys } = useData({
             props,
@@ -123,6 +123,7 @@ export default defineComponent({
 
         provide(TREE_PROVIDE_KEY, {
             props,
+            slots,
             selectNode,
             expandNode,
             checkNode,
@@ -188,22 +189,22 @@ export default defineComponent({
         return () =>
             props.virtualList && !props.inline
                 ? (
-                    <VirtualList
-                        dataSources={currentData.value}
-                        dataKey={(source: TreeNodeKey) => {
-                            return source;
-                        }}
-                        estimateSize={32}
-                        keeps={14}
-                        observeResize={false}
-                        class={prefixCls}
-                        v-slots={{ default: renderDefault }}
-                    />
+                        <VirtualList
+                            dataSources={currentData.value}
+                            dataKey={(source: TreeNodeKey) => {
+                                return source;
+                            }}
+                            estimateSize={32}
+                            keeps={14}
+                            observeResize={false}
+                            class={prefixCls}
+                            v-slots={{ default: renderDefault }}
+                        />
                     )
                 : (
-                    <div class={prefixCls} role="tree">
-                        {renderChildren(currentData.value)}
-                    </div>
+                        <div class={prefixCls} role="tree">
+                            {renderChildren(currentData.value)}
+                        </div>
                     );
     },
 });

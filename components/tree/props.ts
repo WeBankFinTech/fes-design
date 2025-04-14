@@ -4,6 +4,7 @@ import type {
     InjectionKey,
     PropType,
     Ref,
+    Slots,
 } from 'vue';
 import { extractPropsDefaultValue } from '../_util/utils';
 import type { ExtractPublicPropTypes } from '../_util/interface';
@@ -121,6 +122,7 @@ export type TreeProps = ExtractPublicPropTypes<typeof treeProps>;
 
 export interface TreeInst {
     props: TreeProps;
+    slots: Slots;
     selectNode: (value: TreeNodeKey, event: Event) => void;
     expandNode: (value: TreeNodeKey, event: Event) => void;
     checkNode: (value: TreeNodeKey, event: Event) => void;

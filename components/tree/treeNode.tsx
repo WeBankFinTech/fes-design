@@ -18,6 +18,7 @@ import FEllipsis from '../ellipsis';
 import TextHightlight from '../text-highlight';
 import { COMPONENT_NAME, INDENT } from './const';
 import useTreeNode from './useTreeNode';
+import type { TreeOption } from './interface';
 
 const prefixCls = getPrefixCls('tree-node');
 
@@ -27,7 +28,7 @@ const treeNodeProps = {
         required: true,
     },
     label: {
-        type: [String, Function] as PropType<string | (() => VNodeChild)>,
+        type: [String, Function] as PropType<string | ((node: TreeOption) => VNodeChild)>,
         required: true,
     },
     disabled: {
@@ -191,9 +192,9 @@ export default defineComponent({
             const icon = isLoading.value
                 ? <LoadingOutlined />
                 : (
-                    <CaretDownOutlined
-                        class={[`${prefixCls}-switcher-icon`, isExpanded.value ? 'is-expanded' : '']}
-                    />
+                        <CaretDownOutlined
+                            class={[`${prefixCls}-switcher-icon`, isExpanded.value ? 'is-expanded' : '']}
+                        />
                     );
 
             return (
@@ -256,10 +257,17 @@ export default defineComponent({
         };
 
         const renderLabel = () => {
+            const node = root.nodeList.get(props.value);
             if (isFunction(props.label)) {
                 return (
                     <span class={`${prefixCls}-content-label`}>
-                        {props.label()}
+                        {props.label(node)}
+                    </span>
+                );
+            } else if (isFunction(root.slots.label)) {
+                return (
+                    <span class={`${prefixCls}-content-label`}>
+                        {root.slots.label(node)}
                     </span>
                 );
             }
@@ -269,9 +277,9 @@ export default defineComponent({
                 >
                     {root.props.filterTextHighlight && root.props.filterText
                         ? (
-                            <TextHightlight strict searchValues={[root.props.filterText]}>
-                                {props.label}
-                            </TextHightlight>
+                                <TextHightlight strict searchValues={[root.props.filterText]}>
+                                    {props.label}
+                                </TextHightlight>
                             )
                         : props.label
                     }

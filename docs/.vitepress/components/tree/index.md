@@ -125,6 +125,12 @@ app.use(FTree);
 | expandNode | 展开树节点     | (value)      |
 | checkNode  | check 节点     | (value)      |
 
+## Tree Slots
+
+| 名称    | 说明                           |
+| ------- | ------------------------------ |
+| label | treeOption 优先级比这个高             |
+
 ## TreeOption props
 
 | 属性        | 说明                                                 | 类型                        | 默认值  |
