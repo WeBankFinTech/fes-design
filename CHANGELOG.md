@@ -1,3 +1,20 @@
+## [0.8.81](https://github.com/WeBankFinTech/fes-design/compare/v0.8.80...v0.8.81) (2025-04-24)
+
+
+### Bug Fixes
+
+* 重构表格宽度计算方式 ([#943](https://github.com/WeBankFinTech/fes-design/issues/943)) ([00d162a](https://github.com/WeBankFinTech/fes-design/commit/00d162ab4da07d605006c9e9dfb88bc091e410f8))
+* tree 默认展开全部响应式 ([#944](https://github.com/WeBankFinTech/fes-design/issues/944)) ([16aa415](https://github.com/WeBankFinTech/fes-design/commit/16aa41550342fc95645b07615ce1f5c6a671e484))
+
+
+### Features
+
+* button icon placement ([#946](https://github.com/WeBankFinTech/fes-design/issues/946)) ([e24253f](https://github.com/WeBankFinTech/fes-design/commit/e24253fc696eccb7a28b261894719039f32640d6))
+* **Space:** 增加 wrapItem 选项，支持配置是否存在包裹子元素的容器 ([#947](https://github.com/WeBankFinTech/fes-design/issues/947)) ([846b0be](https://github.com/WeBankFinTech/fes-design/commit/846b0be9997f020a548ce144eda9923625bfddd1))
+* tree 支持根节点 label slot ([#945](https://github.com/WeBankFinTech/fes-design/issues/945)) ([0852ced](https://github.com/WeBankFinTech/fes-design/commit/0852cedd2cf26c6082a17c5105af5874fa26af78))
+
+
+
 ## [0.8.80](https://github.com/WeBankFinTech/fes-design/compare/v0.8.79...v0.8.80) (2025-04-01)
 
 
