@@ -58,6 +58,7 @@ export default defineComponent({
             align,
             inline,
             justify,
+            wrapItem,
             itemStyle,
             wrap,
             prefixCls,
@@ -83,7 +84,7 @@ export default defineComponent({
                     gap: `${margin.vertical} ${margin.horizontal}`,
                 }}
             >
-                { itemStyle
+                { wrapItem
                     ? children?.map((child) => (
                         <div
                             role="none"
