@@ -41,6 +41,10 @@ export const spaceProps = {
         >,
         default: 'small',
     },
+    wrapItem: {
+        type: Boolean,
+        default: true,
+    },
     itemStyle: [String, Object] as PropType<string | CSSProperties>,
     wrap: {
         type: Boolean,

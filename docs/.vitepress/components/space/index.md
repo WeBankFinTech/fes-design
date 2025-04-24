@@ -54,7 +54,8 @@ inline.vue
 | --------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ------- |
 | align     | 垂直排列方式，可选值为 `start` `end` `center` `baseline` `stretch` `flex-start` `flex-end`                              | string                             | `start` |
 | inline    | 是否为行内元素                                                                                                          | boolean                            | `false` |
-| itemStyle | 节点样式                                                                                                                | string / object                    | -       |
+| wrapItem  | 是否存在包裹子元素的容器                                                                                                | boolean                            | `true`  |
+| itemStyle | 节点样式，当 wrap-item 为 true 时有效                                                                                   | string / object                    | -       |
 | justify   | 水平排列方式，可选值为 `start` `end` `center` `space-around` `space-between`                                            | string                             | `start` |
 | size      | 为数字或字符串时，是垂直和水平间距；为数组时，是 [垂直间距, 水平间距]，字符串可选值为 `xsmall` `small` `middle` `large` | string / number / [number, number] | `small` |
 | vertical  | 是否垂直布局                                                                                                            | boolean                            | `false` |

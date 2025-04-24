@@ -1,5 +1,5 @@
 <template>
-    <FForm labelWidth="100px">
+    <FForm labelWidth="120px">
         <FFormItem label="垂直排列:">
             <FRadioGroup
                 v-model="align"
@@ -24,6 +24,15 @@
                 ]"
             />
         </FFormItem>
+        <FFormItem label="是否包裹子元素:">
+            <FRadioGroup
+                v-model="wrapItem"
+                :options="[
+                    { label: 'true(默认)', value: true },
+                    { label: 'false', value: false },
+                ]"
+            />
+        </FFormItem>
     </FForm>
 
     <FDivider />
@@ -33,6 +42,7 @@
         vertical
         :justify="justify"
         :align="align"
+        :wrapItem="wrapItem"
         style="min-height: 200px"
     >
         <FButton>Text</FButton>
@@ -50,6 +60,7 @@ import { ref } from 'vue';
 
 const align = ref('start');
 const justify = ref('start');
+const wrapItem = ref(true);
 </script>
 
 <style scoped>
