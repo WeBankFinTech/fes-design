@@ -1,3 +1,12 @@
+## [0.8.82](https://github.com/WeBankFinTech/fes-design/compare/v0.8.81...v0.8.82) (2025-05-09)
+
+
+### Bug Fixes
+
+* **Tooltip:** 修复文本溢出不换行的样式问题 ([fe13669](https://github.com/WeBankFinTech/fes-design/commit/fe1366939225b6c02e6d94690667fe0c42d810bd))
+
+
+
 ## [0.8.81](https://github.com/WeBankFinTech/fes-design/compare/v0.8.80...v0.8.81) (2025-04-24)
 
 
