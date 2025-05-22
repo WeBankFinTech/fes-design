@@ -32,7 +32,7 @@
         <FVirtualList
             class="virtual-scroll-list-max-height"
             wrapClass="virtual-scroll-list-wrap"
-            :dataKey="(data) => data"
+            dataKey="id"
             :dataSources="vals"
             :estimateSize="80"
             :height="height"
@@ -40,7 +40,7 @@
         >
             <template #default="{ source }">
                 <div class="virtual-scroll-item">
-                    {{ source }}
+                    {{ source.desc }}
                 </div>
             </template>
         </FVirtualList>
@@ -57,9 +57,36 @@ export default {
         const maxHeight = ref(200);
 
         const vals = ref([]);
-        for (let i = 0; i < 6; ++i) {
-            vals.value.push(i);
-        }
+        const sentence3 = [
+            'BFC(Block formatting context)直译为"块级格式化上下文"。它是一个独立的渲染区域，只有Block-level box参与， 它规定了内部的Block-level Box如何布局，并且与这个区域外部毫不相干。',
+            'IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)',
+            'margin 重合，margin 塌陷',
+            'html5IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)',
+        ];
+        const genUniqueId = (prefix) => {
+            return `${prefix}$${Math.random().toString(16).substr(9)}`;
+        };
+        const getSentences = () => {
+            const index = Math.floor(Math.random() * (sentence3.length - 1));
+            return sentence3[index];
+        };
+
+        const createData = (length, startIndex, isAdd = true) => {
+            const result = [];
+            let count = length;
+            while (count--) {
+                const index = isAdd ? startIndex + length - count - 1 : startIndex - count - 1;
+                result.push({
+                    index,
+                    name: `${Math.random()}`,
+                    id: genUniqueId(index),
+                    desc: getSentences(),
+                });
+            }
+            return result;
+        };
+
+        vals.value = createData(1000, 1);
 
         watch(
             heightType,
@@ -97,9 +124,7 @@ export default {
     width: 1000px;
 }
 .virtual-scroll-list-max-height .virtual-scroll-list-wrap .virtual-scroll-item {
-    height: 36px;
-    background: rgba(83, 132, 255, 0.06);
-    border-bottom: 2px solid #fff;
+    margin: 0.5em;
 }
 .virtual-scroll-list-max-height
     .virtual-scroll-list-wrap

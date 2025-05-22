@@ -6,6 +6,8 @@
         :dataSources="dataItems"
         :estimateSize="80"
         :height="height"
+        @toTop="handleToTop"
+        @toBottom="handleToBottom"
     >
         <template #default="{ source, index }">
             <div :data-index="index" class="item-inner">
@@ -17,7 +19,6 @@
             </div>
         </template>
     </FVirtualList>
-    <FButton style="margin-top: 10px;" @click="addMessage">添加消息{{ dataItems.length }}</FButton>
 </template>
 
 <script>
@@ -30,11 +31,9 @@ export default {
         const height = ref(400);
         const sentence3 = [
             'BFC(Block formatting context)直译为"块级格式化上下文"。它是一个独立的渲染区域，只有Block-level box参与， 它规定了内部的Block-level Box如何布局，并且与这个区域外部毫不相干。',
-            'IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)',
+            'IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)',
             'margin 重合，margin 塌陷',
-            'css3',
             'html5IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC(Inline Formatting Contexts)直译为”内联格式化上下文”，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)',
-            'es6',
         ];
         const genUniqueId = (prefix) => {
             return `${prefix}$${Math.random().toString(16).substr(9)}`;
@@ -45,31 +44,39 @@ export default {
         };
         const TOTAL_COUNT = 1000;
         const dataItems = ref([]);
-        let count = TOTAL_COUNT;
-        while (count--) {
-            const index = TOTAL_COUNT - count;
-            dataItems.value.push({
-                index,
-                name: `${Math.random()}`,
-                id: genUniqueId(index),
-                desc: getSentences(),
-            });
-        }
-        const addMessage = () => {
-            const index = dataItems.value.length + 1;
-            dataItems.value = [...dataItems.value, {
-                index,
-                name: `${Math.random()}`,
-                id: genUniqueId(index),
-                desc: getSentences(),
-            }];
-            virtualList.value.scrollToBottom();
+
+        const createData = (length, startIndex, isAdd = true) => {
+            const result = [];
+            let count = length;
+            while (count--) {
+                const index = isAdd ? startIndex + length - count - 1 : startIndex - count - 1;
+                result.push({
+                    index,
+                    name: `${Math.random()}`,
+                    id: genUniqueId(index),
+                    desc: getSentences(),
+                });
+            }
+            return result;
+        };
+
+        dataItems.value = createData(TOTAL_COUNT, 1);
+
+        const handleToBottom = () => {
+            dataItems.value = [...dataItems.value, ...createData(10, dataItems.value[dataItems.value.length - 1].index + 1)];
+        };
+        const handleToTop = () => {
+            dataItems.value = [...createData(10, dataItems.value[0].index, false), ...dataItems.value];
+            setTimeout(() => {
+                virtualList.value.scrollToIndex(10);
+            }, 0);
         };
         return {
             virtualList,
             dataItems,
             height,
-            addMessage,
+            handleToBottom,
+            handleToTop,
         };
     },
 };

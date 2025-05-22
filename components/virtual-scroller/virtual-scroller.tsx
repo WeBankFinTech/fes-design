@@ -123,10 +123,10 @@ export default defineComponent({
                 virtualRef.value?.scrollBy(offset);
             },
             getItemOffset: (index: number) => {
-                virtualRef.value?.getItemOffset(index);
+                return virtualRef.value?.getItemOffset(index);
             },
             getItemSize: (index: number) => {
-                virtualRef.value?.getItemSize(index);
+                return virtualRef.value?.getItemSize(index);
             },
             findStartIndex: () => {
                 virtualRef.value?.findStartIndex();
@@ -134,6 +134,9 @@ export default defineComponent({
             findEndIndex: () => {
                 virtualRef.value?.findEndIndex();
             },
+            getOffset,
+            getScrollSize,
+            getClientSize,
         });
 
         const onScroll = (e: Event) => {
