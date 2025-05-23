@@ -49,6 +49,8 @@ scroll.vue
 | wrapTag         | 列表包裹元素名称                                                                                                                        | string                                 | `div`      |
 | wrapClass       | 列表包裹元素类名                                                                                                                        | string                                 | -          |
 | wrapStyle       | 列表包裹元素内联样式                                                                                                                    | object                                 | `{}`       |
+| topThreshold    | 触发`toTop` 事件的阈值                                                                                                                  | number                                 | 0          |
+| bottomThreshold | 触发`toBottom` 事件的阈值                                                                                                               | number                                 | 0          |
 | scrollbarProps       | 滚动条样式，参考滚动条组件                                                                                                                    | object                                 | -       |
 
 ## VirtualScroller Events

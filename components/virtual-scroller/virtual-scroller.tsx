@@ -55,6 +55,14 @@ export const virtualScrollerProps = {
     renderItemList: {
         type: Function as PropType<(itemVNodes: VNodeChild) => VNodeChild>,
     },
+    topThreshold: {
+        type: Number,
+        default: 0,
+    },
+    bottomThreshold: {
+        type: Number,
+        default: 0,
+    },
 } as const satisfies ComponentObjectPropsOptions;
 
 export type VirtualScrollerProps = ExtractPublicPropTypes<typeof virtualScrollerProps>;
@@ -139,15 +147,20 @@ export default defineComponent({
             getClientSize,
         });
 
+        let lastScrollTop = 0;
         const onScroll = (e: Event) => {
             emit('scroll', e);
+            const currentScrollTop = (e.target as HTMLElement).scrollTop;
+            const isScrollUp = currentScrollTop < lastScrollTop;
+            lastScrollTop = currentScrollTop;
+
             const offset = getOffset();
             const scrollSize = getScrollSize();
             const clientSize = getClientSize();
-            if (offset === 0) {
+            if (isScrollUp && offset <= props.topThreshold) {
                 emit('toTop');
             }
-            if (offset + clientSize >= scrollSize) {
+            if (!isScrollUp && offset + clientSize >= scrollSize - props.bottomThreshold) {
                 emit('toBottom');
             }
         };
