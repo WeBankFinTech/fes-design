@@ -12,10 +12,6 @@
     "[json]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    // md 文件按 prettier 规范格式化
-    "[md]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
     "prettier.printWidth": 180,
 
     // Enable eslint for all supported languages
@@ -24,6 +20,6 @@
         "javascriptreact",
         "typescript",
         "typescriptreact",
-        "vue",
+        "vue"
     ]
 }
