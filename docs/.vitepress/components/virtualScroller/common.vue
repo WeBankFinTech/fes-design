@@ -1,10 +1,9 @@
 <template>
-    <FVirtualList
+    <FVirtualScroller
         ref="virtualList"
         class="virtual-scroll-list-vertical"
-        dataKey="id"
         :dataSources="dataItems"
-        :estimateSize="80"
+        :itemSize="80"
         :height="height"
     >
         <template #default="{ source, index }">
@@ -16,7 +15,7 @@
                 <div class="desc">{{ source.desc }}</div>
             </div>
         </template>
-    </FVirtualList>
+    </FVirtualScroller>
     <FButton style="margin-top: 10px;" @click="addMessage">添加消息{{ dataItems.length }}</FButton>
 </template>
 
