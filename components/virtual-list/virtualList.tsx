@@ -264,12 +264,7 @@ export default defineComponent({
             if (oldSize !== size) {
                 virtual.saveSize(id, size);
                 emit(RESIZED_EVENT, id, size);
-
-                // 只有当尺寸变化较大时才更新滚动条，避免频繁更新
-                const sizeChange = Math.abs((oldSize || 0) - size);
-                if (sizeChange > 2) {
-                    updateScrollBar();
-                }
+                updateScrollBar();
             }
         };
 

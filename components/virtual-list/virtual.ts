@@ -50,9 +50,8 @@ export default class Virtual {
     private _lastScrollDirection: DIRECTION_TYPE | null = null;
     // 批量更新相关
     private _pendingUpdates: Set<string | number> = new Set();
-    private _updateTimer: number | null = null;
-    // 尺寸变化回调队列
-    private _sizeChangeCallbacks: Array<() => void> = [];
+    private _updateRAF: number | null = null;
+
     constructor(param: VirtualParams, callUpdate: (range: Range) => void) {
         this.init(param, callUpdate);
     }
@@ -87,14 +86,13 @@ export default class Virtual {
         }
 
         // 清除批量更新计时器
-        if (this._updateTimer) {
-            cancelAnimationFrame(this._updateTimer);
-            this._updateTimer = null;
+        if (this._updateRAF) {
+            cancelAnimationFrame(this._updateRAF);
+            this._updateRAF = null;
         }
 
-        // 清空批量更新队列和回调
+        // 清空批量更新队列
         this._pendingUpdates.clear();
-        this._sizeChangeCallbacks = [];
 
         if (this.param && this.callUpdate) {
             this.checkRange(0, this.param.keeps - 1);
@@ -201,27 +199,18 @@ export default class Virtual {
 
     // 批量更新调度器 - 避免频繁的单次更新
     private _scheduleUpdate() {
-        if (this._updateTimer) {
+        if (this._updateRAF) {
             return;
         }
 
-        this._updateTimer = requestAnimationFrame(() => {
+        this._updateRAF = requestAnimationFrame(() => {
             if (this._pendingUpdates.size > 0) {
                 // 批量处理所有待更新的项目
                 const updatedIds = Array.from(this._pendingUpdates);
                 this._batchInvalidateRelatedCaches(updatedIds);
                 this._pendingUpdates.clear();
-
-                // 执行尺寸变化回调
-                this._sizeChangeCallbacks.forEach((callback) => {
-                    try {
-                        callback();
-                    } catch (error) {
-                        console.warn('Size change callback error:', error);
-                    }
-                });
             }
-            this._updateTimer = null;
+            this._updateRAF = null;
         });
     }
 
@@ -287,17 +276,6 @@ export default class Virtual {
                 this._updateIncrementalCache(index, size);
             }
         }
-    }
-
-    // 添加尺寸变化监听器
-    onSizeChange(callback: () => void) {
-        this._sizeChangeCallbacks.push(callback);
-        return () => {
-            const index = this._sizeChangeCallbacks.indexOf(callback);
-            if (index > -1) {
-                this._sizeChangeCallbacks.splice(index, 1);
-            }
-        };
     }
 
     // 简化的尺寸缓存清理 - 优先保留视口附近的尺寸信息
