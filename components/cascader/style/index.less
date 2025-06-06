@@ -83,13 +83,13 @@
     &-node-switcher {
         width: @data-input-height-base;
         height: @data-input-height-base;
-        color: var(--f-cascader-node-content-wrapper-color);
-        font-size: @font-size-head;
+        color: var(--f-text-color);
+        font-size: @font-size-caption;
         &.is-disabled {
-            cursor: pointer;
+            cursor: not-allowed;
         }
-        &:hover {
-            --f-cascader-node-content-wrapper-color: var(--f-primary-color);
+        .is-checked {
+            color: var(--f-primary-color);
         }
     }
     &-node-content {

@@ -88,7 +88,7 @@ export default defineComponent({
                 disabled.value && 'is-disabled',
                 isExpanded.value && 'is-expanded',
                 isSelected.value && 'is-selected',
-                isChecked.value && 'is-checked',
+                (isChecked.value || isIndeterminate.value) && 'is-checked',
                 isActive.value && 'is-active',
             ].filter(Boolean),
         );
@@ -191,7 +191,7 @@ export default defineComponent({
                     <span class={currentClassList}>
                         {!checkable.value && isSelected.value
                             ? (
-                                <CheckOutlined />
+                                    <CheckOutlined class={'is-checked'} />
                                 )
                             : null}
                     </span>
@@ -205,10 +205,10 @@ export default defineComponent({
                 >
                     {isInitLoading.value || isLoading.value
                         ? (
-                            <LoadingOutlined />
+                                <LoadingOutlined />
                             )
                         : (
-                            <RightOutlined />
+                                <RightOutlined />
                             )}
                 </span>
             );
@@ -219,24 +219,24 @@ export default defineComponent({
                     <span class={`${prefixCls}-checkbox`}>
                         {isCheckLoaded.value
                             ? (
-                                <Checkbox
-                                    indeterminate={isIndeterminate.value}
-                                    modelValue={isChecked.value}
-                                    onChange={handleClickCheckbox}
-                                    disabled={props.disabled}
-                                />
-                                )
-                            : (
-                                <Tooltip
-                                    placement="top-start"
-                                    content={loadingRequiredMessage.value}
-                                >
                                     <Checkbox
                                         indeterminate={isIndeterminate.value}
                                         modelValue={isChecked.value}
-                                        disabled={true}
+                                        onChange={handleClickCheckbox}
+                                        disabled={props.disabled}
                                     />
-                                </Tooltip>
+                                )
+                            : (
+                                    <Tooltip
+                                        placement="top-start"
+                                        content={loadingRequiredMessage.value}
+                                    >
+                                        <Checkbox
+                                            indeterminate={isIndeterminate.value}
+                                            modelValue={isChecked.value}
+                                            disabled={true}
+                                        />
+                                    </Tooltip>
                                 )}
                     </span>
                 );
