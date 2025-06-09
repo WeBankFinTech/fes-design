@@ -12,16 +12,10 @@ app.use(FVirtualList);
 
 ## 代码演示
 
-### virtual-scroller
-
-:::demo
-common.vue
-:::
-
 ### 不规则纵向滚动列表
 
 :::demo
-vertical.vue
+common.vue
 :::
 
 ### 不规则横向滚动列表
@@ -34,6 +28,12 @@ horizontal.vue
 
 :::demo
 maxHeight.vue
+:::
+
+### 无限滚动
+
+:::demo
+infinite.vue
 :::
 
 ### 滚动操作
