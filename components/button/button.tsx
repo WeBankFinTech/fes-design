@@ -114,9 +114,9 @@ export default defineComponent({
                     ? (
                             <LoadingOutlined class={loadingIconClassName} />
                         )
-                    : props.iconPlacement !== 'right' && <span class={`${prefixCls}-icon`}>{slots.icon?.()}</span> }
+                    : (props.iconPlacement !== 'right' && slots.icon) && <span class={`${prefixCls}-icon`}>{slots.icon?.()}</span> }
                 {slots.default?.()}
-                {props.iconPlacement === 'right' && <span class={[`${prefixCls}-icon`, 'is-right']}>{slots.icon?.()}</span> }
+                {(props.iconPlacement === 'right' && slots.icon) && <span class={[`${prefixCls}-icon`, 'is-right']}>{slots.icon?.()}</span> }
             </button>
         );
     },
