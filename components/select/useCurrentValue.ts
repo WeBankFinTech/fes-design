@@ -5,6 +5,8 @@ import type { SelectProps } from './props';
 export function useCurrentValue(props: SelectProps, emit: (event: 'filter' | 'update:modelValue' | 'focus' | 'blur' | 'change' | 'clear' | 'search' | 'scroll' | 'removeTag' | 'visibleChange', ...args: any[]) => void) {
     const currentValue = useVModel(props, 'modelValue', emit, {
         passive: props.passive,
+        deep: true,
+        defaultValue: props.multiple ? [] : undefined,
     });
 
     function updateCurrentValue(value: SelectValue | SelectValue[]): SelectValue | SelectValue[] {

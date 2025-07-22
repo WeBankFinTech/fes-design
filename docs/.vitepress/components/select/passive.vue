@@ -1,14 +1,5 @@
 <template>
     <FSpace vertical>
-        <!-- <FSelect multiple :multipleLimit="2" :passive="false">
-            <FOption
-                v-for="(item, index) in optionList"
-                :key="index"
-                :value="item.value"
-                :label="item.label"
-            />
-        </FSelect> -->
-
         <FSelect :modelValue="singleSelect" :passive="false" @change="changeSingle">
             <FOption
                 v-for="(item, index) in optionList"
