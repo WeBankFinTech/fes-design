@@ -7,8 +7,9 @@
         xmlns:xlink="http://www.w3.org/1999/xlink"
     >
         <defs>
+            <!-- 线性渐变定义，使用唯一ID避免多个组件实例间的冲突 -->
             <linearGradient
-                id="linearGradient-1"
+                :id="`linearGradient-1-${uniqueId}`"
                 x1="50%"
                 y1="15.6101617%"
                 x2="50%"
@@ -22,7 +23,7 @@
                 />
             </linearGradient>
             <linearGradient
-                id="linearGradient-2"
+                :id="`linearGradient-2-${uniqueId}`"
                 x1="50%"
                 y1="-2.48949813e-15%"
                 x2="50%"
@@ -32,7 +33,7 @@
                 <stop stop-color="#EEEEEE" offset="100%" />
             </linearGradient>
             <linearGradient
-                id="linearGradient-3"
+                :id="`linearGradient-3-${uniqueId}`"
                 x1="50%"
                 y1="100%"
                 x2="50%"
@@ -42,7 +43,7 @@
                 <stop stop-color="#E7E7E7" offset="100%" />
             </linearGradient>
             <linearGradient
-                id="linearGradient-4"
+                :id="`linearGradient-4-${uniqueId}`"
                 x1="50%"
                 y1="100%"
                 x2="50%"
@@ -52,7 +53,7 @@
                 <stop stop-color="#DBDBDB" offset="100%" />
             </linearGradient>
             <linearGradient
-                id="linearGradient-5"
+                :id="`linearGradient-5-${uniqueId}`"
                 x1="100%"
                 y1="50%"
                 x2="0.124801956%"
@@ -62,7 +63,7 @@
                 <stop stop-color="#E6E6E6" offset="100%" />
             </linearGradient>
             <linearGradient
-                id="linearGradient-6"
+                :id="`linearGradient-6-${uniqueId}`"
                 x1="-2.22044605e-14%"
                 y1="50%"
                 x2="100%"
@@ -72,7 +73,7 @@
                 <stop stop-color="#EBEBEB" offset="100%" />
             </linearGradient>
             <linearGradient
-                id="linearGradient-7"
+                :id="`linearGradient-7-${uniqueId}`"
                 x1="-2.22044605e-14%"
                 y1="50%"
                 x2="100%"
@@ -82,7 +83,7 @@
                 <stop stop-color="#FAFAFA" offset="100%" />
             </linearGradient>
             <linearGradient
-                id="linearGradient-8"
+                :id="`linearGradient-8-${uniqueId}`"
                 x1="-2.22044605e-14%"
                 y1="50%"
                 x2="100%"
@@ -92,7 +93,7 @@
                 <stop stop-color="#F7F7F7" offset="100%" />
             </linearGradient>
             <linearGradient
-                id="linearGradient-9"
+                :id="`linearGradient-9-${uniqueId}`"
                 x1="-2.22044605e-14%"
                 y1="50%"
                 x2="100%"
@@ -116,49 +117,50 @@
             >
                 <g id="Group-1" transform="translate(0.000000, 91.892457)">
                     <g id="Group-1-1">
+                        <!-- 使用动态绑定的渐变引用，确保每个组件实例的唯一性 -->
                         <path
                             id="Oval-1"
                             d="M260,146.301035 C260,133.413733 201.797017,122.966511 130,122.966511 C58.2029825,122.966511 0,133.413733 0,146.301035 C0,159.188336 260,159.188336 260,146.301035 Z"
-                            fill="url(#linearGradient-1)"
+                            :fill="`url(#linearGradient-1-${uniqueId})`"
                         />
                         <path
                             id="Rectangle-1"
                             d="M184,0 L54,0 L54,124.46629 C54,126.473725 55.6273476,128.101072 57.6347826,128.101072 L184,128.101072 L184,128.101072 L184,0 Z"
-                            fill="url(#linearGradient-2)"
+                            :fill="`url(#linearGradient-2-${uniqueId})`"
                         />
                         <path
                             id="Rectangle-Copy-1"
                             d="M184.000001,1.13686838e-13 L210.009578,1.13686838e-13 L210.009578,128.101072 L187.634784,128.101072 C185.627349,128.101072 184.000001,126.473725 184.000001,124.46629 L184.000001,1.13686838e-13 L184.000001,1.13686838e-13 Z"
-                            fill="url(#linearGradient-3)"
+                            :fill="`url(#linearGradient-3-${uniqueId})`"
                             transform="translate(197.004789, 64.050536) scale(-1, 1) translate(-197.004789, -64.050536) "
                         />
                         <polygon
                             id="Rectangle-Copy-2"
-                            fill="url(#linearGradient-4)"
+                            :fill="`url(#linearGradient-4-${uniqueId})`"
                             transform="translate(196.954349, 16.551537) scale(-1, 1) translate(-196.954349, -16.551537) "
                             points="184.000001 3.41060513e-13 209.908696 6.82390337e-13 209.908696 33.1030746 184.000001 33.1030746"
                         />
                         <polygon
                             id="Rectangle-2"
-                            fill="url(#linearGradient-5)"
+                            :fill="`url(#linearGradient-5-${uniqueId})`"
                             opacity="0.898363386"
                             points="54 26.5915493 174.685305 26.5915493 183.908695 3.41060513e-13 184 32.915493 54 32.915493"
                         />
                         <polygon
                             id="Rectangle-Copy-4"
-                            fill="url(#linearGradient-6)"
+                            :fill="`url(#linearGradient-6-${uniqueId})`"
                             points="209.908695 1.13686838e-13 221 26.7978558 193.908695 26.5915493 183.908695 1.13686838e-13"
                         />
                         <polygon
                             id="Rectangle-3"
-                            fill="url(#linearGradient-7)"
+                            :fill="`url(#linearGradient-7-${uniqueId})`"
                             transform="translate(113.553972, 13.295775) scale(-1, 1) rotate(-180.000000) translate(-113.553972, -13.295775) "
                             points="43.0584897 7.00000001e-07 174.685305 7.00000001e-07 184.049454 26.59155 53.555527 26.59155"
                         />
                     </g>
                     <rect
                         id="Rectangle-Copy-3"
-                        fill="url(#linearGradient-8)"
+                        :fill="`url(#linearGradient-8-${uniqueId})`"
                         x="74"
                         y="82.1010721"
                         width="90"
@@ -167,7 +169,7 @@
                     />
                     <rect
                         id="Shape-Combination-Copy"
-                        fill="url(#linearGradient-9)"
+                        :fill="`url(#linearGradient-9-${uniqueId})`"
                         x="74"
                         y="58.0505361"
                         width="41"
@@ -211,3 +213,31 @@
         </g>
     </svg>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+// 全局计数器，用于生成唯一ID
+let idCounter = 0;
+
+/**
+ * 生成唯一ID的工具函数
+ * 结合计数器和时间戳确保每个组件实例的唯一性
+ * @returns {string} 唯一标识符
+ */
+function generateUniqueId(): string {
+    return `empty-${++idCounter}-${Date.now()}`;
+}
+
+export default defineComponent({
+    name: 'DefaultImgEmpty',
+    setup() {
+        // 为每个组件实例生成唯一ID，避免SVG渐变定义冲突
+        const uniqueId = generateUniqueId();
+
+        return {
+            uniqueId,
+        };
+    },
+});
+</script>
