@@ -1,3 +1,13 @@
+## [0.8.83](https://github.com/WeBankFinTech/fes-design/compare/v0.8.82...v0.8.83) (2025-07-25)
+
+
+### Bug Fixes
+
+* **button:** 修复图标显示条件判断逻辑 ([#953](https://github.com/WeBankFinTech/fes-design/issues/953)) ([da8e70e](https://github.com/WeBankFinTech/fes-design/commit/da8e70ef982870fac4c48c675ffeaf8c8fefff6f))
+* 修复empty使用svg id固定问题 ([#951](https://github.com/WeBankFinTech/fes-design/issues/951)) ([c5c17e6](https://github.com/WeBankFinTech/fes-design/commit/c5c17e611b6c4934dc1b6034e1fafb17d0727b68))
+
+
+
 ## [0.8.82](https://github.com/WeBankFinTech/fes-design/compare/v0.8.81...v0.8.82) (2025-05-09)
 
 
