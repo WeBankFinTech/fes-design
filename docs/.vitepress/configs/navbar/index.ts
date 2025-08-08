@@ -1,4 +1,4 @@
-import { type DefaultTheme } from 'vitepress';
+import type { DefaultTheme } from 'vitepress';
 import { getPackageJsonVersion } from '../../../../scripts/utils.js';
 
 const currentVersion = getPackageJsonVersion();
