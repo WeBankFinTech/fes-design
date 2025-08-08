@@ -21,10 +21,10 @@ export const useNormalModel = <
     > = ModelValuePropKey,
     EventName extends string = string,
 >(
-        props: Props,
-        emit: (eventName: EventName, ...args: any[]) => void,
-        config: UseNormalModelOptions<Props, Key> = {},
-    ): [WritableComputedRef<Props[Key]>, (val: Props[Key]) => void] => {
+    props: Props,
+    emit: (eventName: EventName, ...args: any[]) => void,
+    config: UseNormalModelOptions<Props, Key> = {},
+): [WritableComputedRef<Props[Key]>, (val: Props[Key]) => void] => {
     const {
         prop = 'modelValue',
         deep = false,
@@ -106,13 +106,13 @@ export const useArrayModel = <
     > = Extract<ModelValuePropKey, GetKeysIsArrayType<Props>>,
     EventName extends string = string,
 >(
-        props: Props,
-        emit: (eventName: EventName, ...args: any[]) => void,
-        config: UseNormalModelOptions<Props, Key> = {},
-    ): [
-        WritableComputedRef<Props[Key]>,
-        (val: ArrayOrItem<Props[Key]>) => void,
-    ] => {
+    props: Props,
+    emit: (eventName: EventName, ...args: any[]) => void,
+    config: UseNormalModelOptions<Props, Key> = {},
+): [
+    WritableComputedRef<Props[Key]>,
+    (val: ArrayOrItem<Props[Key]>) => void,
+] => {
     const [computedValue, updateCurrentValue] = useNormalModel(props, emit, {
         ...config,
         defaultValue: [] as Props[Key],
