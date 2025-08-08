@@ -197,7 +197,7 @@ export default defineComponent({
 
         return () => {
             return (
-                <div style={style.value}>
+                <div class={prefixCls} style={style.value}>
                     <label
                         class={[
                             `${prefixCls}-label`,

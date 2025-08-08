@@ -1,5 +1,5 @@
 <template>
-    <FSpace vertical>
+    <FSpace vertical align="stretch">
         <FDescriptions title="一二三向前冲" labelPlacement="top" bordered>
             <FDescriptionsItem label="墓封">鬼切</FDescriptionsItem>
             <FDescriptionsItem label="墓封">魂镰</FDescriptionsItem>
