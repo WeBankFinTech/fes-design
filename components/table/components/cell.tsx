@@ -79,19 +79,19 @@ export default defineComponent({
             }
             const hasEllipsis
                 = !isNil(column.props.ellipsis)
-                && column.props.ellipsis !== false;
+                    && column.props.ellipsis !== false;
             const ellipsisProps = isPlainObject(column.props.ellipsis)
                 ? (column.props.ellipsis as EllipsisProps)
                 : {};
             if (column?.slots?.default) {
                 return hasEllipsis
                     ? (
-                        <Ellipsis {...ellipsisProps}>
-                            {column.slots.default(props)}
-                        </Ellipsis>
+                            <Ellipsis {...ellipsisProps}>
+                                {column.slots.default(props)}
+                            </Ellipsis>
                         )
                     : (
-                        <Fragment>{column.slots.default(props)}</Fragment>
+                            <Fragment>{column.slots.default(props)}</Fragment>
                         );
             }
             const formatterResult = column?.props?.formatter?.(props);
@@ -107,14 +107,14 @@ export default defineComponent({
             return hasEllipsis
                 ? <Ellipsis {...ellipsisProps} />
                 : (
-                    <Fragment>
-                        {typeof result === 'object'
-                            ? stringify(
-                                result,
-                                (err) => console.warn(`[${COMPONENT_NAME}]: render error occurred due to \n`, err),
-                            )
-                            : result}
-                    </Fragment>
+                        <Fragment>
+                            {typeof result === 'object' && result
+                                ? stringify(
+                                        result,
+                                        (err) => console.warn(`[${COMPONENT_NAME}]: render error occurred due to \n`, err),
+                                    )
+                                : result}
+                        </Fragment>
                     );
         };
     },
