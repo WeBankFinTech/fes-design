@@ -153,19 +153,6 @@
         .button-processing();
     }
 
-    &-type-info,
-    &-type-success,
-    &-type-warning,
-    &-type-danger {
-        &[disabled] {
-            --f-btn-color: var(--f-btn-disabled-color);
-            --f-btn-bg-color: var(--f-disabled-color-light);
-            --f-btn-border-color: var(--f-btn-disabled-color);
-        }
-
-        .button-processing();
-    }
-
     &-type-info {
         --f-btn-color: var(--f-primary-color);
         --f-btn-bg-color: var(--f-white);
@@ -233,6 +220,20 @@
             --f-btn-border-color: var(--f-danger-active-color);
         }
         .button-animate();
+    }
+
+
+    &-type-info,
+    &-type-success,
+    &-type-warning,
+    &-type-danger {
+        &[disabled] {
+            --f-btn-color: var(--f-btn-disabled-color);
+            --f-btn-bg-color: var(--f-disabled-color-light);
+            --f-btn-border-color: var(--f-btn-disabled-color);
+        }
+
+        .button-processing();
     }
 
     &-long {
