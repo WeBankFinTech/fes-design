@@ -1,3 +1,19 @@
+## [0.8.84](https://github.com/WeBankFinTech/fes-design/compare/v0.8.83...v0.8.84) (2025-11-04)
+
+
+### Bug Fixes
+
+* table null 渲染异常 ([#956](https://github.com/WeBankFinTech/fes-design/issues/956)) ([3c1c343](https://github.com/WeBankFinTech/fes-design/commit/3c1c343911d639d771dd3f68cab11e0e21ea6ac2))
+* 修复 btn hover 问题 ([#957](https://github.com/WeBankFinTech/fes-design/issues/957)) ([2539b23](https://github.com/WeBankFinTech/fes-design/commit/2539b23bec710c98cb016d28bbd9919ee2f09c21))
+* 固定描述列表选项content宽度,避免被撑开 ([#955](https://github.com/WeBankFinTech/fes-design/issues/955)) ([cda34aa](https://github.com/WeBankFinTech/fes-design/commit/cda34aaaa3ccb95f11a836d8faa2731ac65af279))
+
+
+### Features
+
+* 添加virtual-scroller ([#949](https://github.com/WeBankFinTech/fes-design/issues/949)) ([41e6df0](https://github.com/WeBankFinTech/fes-design/commit/41e6df0d13304912892b7fdd4f8d31940f94fd8d))
+
+
+
 ## [0.8.83](https://github.com/WeBankFinTech/fes-design/compare/v0.8.82...v0.8.83) (2025-07-25)
 
 
