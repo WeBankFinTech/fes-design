@@ -74,10 +74,10 @@
 </template>
 
 <script lang="ts">
-import { type CSSProperties, computed, defineComponent, provide, ref, unref, watch } from 'vue';
+import { computed, defineComponent, provide, ref, unref, watch } from 'vue';
+import type { CSSProperties } from 'vue';
 import { isNil } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
-import { type UseArrayModelReturn, useArrayModel, useNormalModel } from '../_util/use/useModel';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
 import Popper from '../popper';
@@ -88,6 +88,7 @@ import OptionList from './optionList';
 import { selectProps } from './props';
 import useOptions from './useOptions';
 import type { SelectOption, SelectValue } from './interface';
+import { useCurrentValue } from './useCurrentValue';
 
 export default defineComponent({
     name: 'FSelect',
@@ -106,7 +107,7 @@ export default defineComponent({
         const innerDisabled = computed(() => props.disabled === true || isFormDisabled.value);
         const isOpenedRef = ref(false);
         // 与 props 中 modelValue 类型保持一致
-        const [currentValue, updateCurrentValue] = props.multiple ? (useArrayModel(props, emit) as unknown as UseArrayModelReturn<SelectValue[]>) : useNormalModel(props, emit);
+        const { currentValue, updateCurrentValue } = useCurrentValue(props, emit);
 
         const triggerRef = ref();
         const triggerWidth = ref(0);
@@ -123,16 +124,15 @@ export default defineComponent({
             }
         });
 
-        const handleChange = () => {
-            emit(CHANGE_EVENT, unref(currentValue));
+        const handleChange = (value: SelectValue | SelectValue[]) => {
+            emit(CHANGE_EVENT, value);
             validate(CHANGE_EVENT);
         };
 
         const handleClear = () => {
             const value: null | [] = props.multiple ? [] : null;
             if (props.multiple ? ((currentValue.value as SelectValue[]) || []).length : currentValue.value !== null) {
-                updateCurrentValue(value);
-                handleChange();
+                handleChange(updateCurrentValue(value));
             }
             filterText.value = '';
             cacheOptions.value = [];
@@ -260,8 +260,7 @@ export default defineComponent({
                     }
                 }
             }
-            updateCurrentValue(unref(value));
-            handleChange();
+            handleChange(updateCurrentValue(unref(value)));
         };
 
         // select-trigger 选择项展示，只在 currentValue 改变时才改变
