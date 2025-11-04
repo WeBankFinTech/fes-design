@@ -221,6 +221,9 @@ const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
                     {
                         text: 'VirtualList 虚拟列表',
                         link: '/zh/components/virtualList',
+                    }, {
+                        text: 'VirtualScroller 虚拟滚动',
+                        link: '/zh/components/virtualScroller',
                     },
                 ],
             },
