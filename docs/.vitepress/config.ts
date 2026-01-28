@@ -4,6 +4,7 @@ import process from 'node:process';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { defineConfig } from 'vitepress';
 import { withPwa } from '@vite-pwa/vitepress';
+import llmstxtPlugin from 'vitepress-plugin-llmstxt';
 import { getProjectRootDir } from '../../scripts/utils.js';
 import { genComponentDocWatch } from '../../scripts/genComponentDoc.js';
 import { navbar, sidebar } from './configs/index';
@@ -77,7 +78,7 @@ export default withPwa(
             json: {
                 stringify: true,
             },
-            plugins: [vueJsx({})],
+            plugins: [vueJsx({}), llmstxtPlugin()],
             build: {
                 chunkSizeWarningLimit: 1000,
             },

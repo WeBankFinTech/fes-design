@@ -150,6 +150,7 @@
     "ts-morph": "^17.0.1",
     "typescript": "^4.9.5",
     "vitepress": "^1.3.4",
+    "vitepress-plugin-llmstxt": "^0.5.1",
     "vue": "^3.3.4"
   },
   "lint-staged": {
