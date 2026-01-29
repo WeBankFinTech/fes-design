@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 
@@ -78,7 +79,39 @@ export default withPwa(
             json: {
                 stringify: true,
             },
-            plugins: [vueJsx({}), llmstxtPlugin()],
+            plugins: [
+                vueJsx({}),
+                llmstxtPlugin({
+                    transform: ({ page }) => {
+                        // 匹配组件文档路径，如 /zh/components/selectTree.md
+                        const compMatch = page.path.match(/\/zh\/components\/(\w+)\.md$/);
+                        if (!compMatch) {
+                            return page;
+                        }
+
+                        const compDir = compMatch[1];
+                        const componentsDir = path.join(rootDir, 'docs/.vitepress/components', compDir);
+
+                        // 替换 ::: raw\n<ComponentName />\n::: 为实际的 Vue 代码
+                        page.content = page.content.replace(
+                            /::: raw\n<(\w+) \/>\n:::/g,
+                            (match, compName) => {
+                                // 组件名转文件名：Common -> common, VirtualList -> virtualList
+                                const fileName = compName.charAt(0).toLowerCase() + compName.slice(1);
+                                const vuePath = path.join(componentsDir, `${fileName}.vue`);
+
+                                if (fs.existsSync(vuePath)) {
+                                    const code = fs.readFileSync(vuePath, 'utf-8');
+                                    return `\`\`\`vue\n${code}\`\`\``;
+                                }
+                                return match;
+                            },
+                        );
+
+                        return page;
+                    },
+                }),
+            ],
             build: {
                 chunkSizeWarningLimit: 1000,
             },
