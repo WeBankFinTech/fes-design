@@ -178,7 +178,7 @@ export default ({
     };
 
     const clearSelect = () => {
-        currentCheckedKeys.value.length = 0;
+        currentCheckedKeys.value = [];
     };
 
     // 模式变更，单选只能有一个被选择
