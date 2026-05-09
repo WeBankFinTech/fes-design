@@ -81,7 +81,9 @@ export default defineComponent({
             // 增加默认样式
             currentTooltipProps.popperStyle = {
                 'max-width': '600px',
-                ...currentTooltipProps.popperStyle,
+                ...(typeof currentTooltipProps.popperStyle === 'object'
+                    ? currentTooltipProps.popperStyle
+                    : {}),
             };
 
             return currentTooltipProps;

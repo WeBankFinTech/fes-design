@@ -1,4 +1,4 @@
-import { computed, nextTick, onActivated, onMounted, reactive, ref, watch } from 'vue';
+import { type Ref, computed, nextTick, onActivated, onMounted, reactive, ref, watch } from 'vue';
 import { type ReferenceElement, arrow, computePosition, flip, offset, shift } from '@floating-ui/dom';
 import { isBoolean, isFunction } from 'lodash-es';
 import { useVModel } from '@vueuse/core';
@@ -18,7 +18,7 @@ const MAP = {
 export default (props: PopperProps, emit: any) => {
     const visible = useVModel(props, 'modelValue', emit, {
         passive: props.passive,
-    });
+    }) as Ref<boolean>;
     const updateVisible = (val: boolean) => {
         visible.value = val;
     };

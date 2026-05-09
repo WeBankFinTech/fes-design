@@ -25,7 +25,7 @@ export default ({
     columnsFixed: Ref<ColumnFixedStatus>;
     expandColumn: Ref<ColumnInst>;
     isExpandOpened: ({ row }: { row: RowType }) => boolean;
-}) => {
+}): Record<string, any> => {
     const wrapperRef = ref<HTMLElement>(null);
     const headerWrapperRef = ref(null);
     const bodyWrapperRef = ref(null);

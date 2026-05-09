@@ -43,7 +43,7 @@ export const tabsProps = {
         default: true,
     },
     panes: {
-        type: Array as PropType<TabPaneProps>,
+        type: Array as PropType<TabPaneProps[]>,
         default: (): TabPaneProps[] => [],
     },
 } as const satisfies ComponentObjectPropsOptions;
