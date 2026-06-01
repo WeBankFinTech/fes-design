@@ -7,35 +7,25 @@ import type { TThemeVars } from '../_theme/base';
 import { COMPONENT_NAME, prefixCls } from './const';
 import { type SpaceInnerProps, spaceProps } from './props';
 
-const useMargin = (props: SpaceInnerProps, themeVarsRef: Ref<TThemeVars>) => {
-    const margin = computed(() => {
+const useGap = (props: SpaceInnerProps, themeVarsRef: Ref<TThemeVars>) => {
+    const gap = computed(() => {
         const { size } = props;
-        let horizontal = 0;
-        let vertical = 0;
 
         if (Array.isArray(size)) {
-            horizontal = size[0];
-            vertical = size[1];
+            return { row: size[0], col: size[1] };
         } else if (typeof size === 'number') {
-            horizontal = size;
-            vertical = size;
-        } else {
-            const currentSize = depx(
-                themeVarsRef.value[createKey('padding', size)]
-                || themeVarsRef.value[createKey('padding', 'small')],
-            );
-            horizontal = currentSize;
-            vertical = currentSize;
+            return { row: size, col: size };
         }
 
-        return {
-            horizontal: `${horizontal}px`,
-            vertical: `${vertical}px`,
-        };
+        const currentSize = depx(
+            themeVarsRef.value[createKey('padding', size)]
+            || themeVarsRef.value[createKey('padding', 'small')],
+        );
+        return { row: currentSize, col: currentSize };
     });
 
     return {
-        margin,
+        gap,
     };
 };
 
@@ -45,11 +35,11 @@ export default defineComponent({
     setup(props) {
         const { themeVars } = useTheme();
 
-        const { margin } = useMargin(props, themeVars);
+        const { gap } = useGap(props, themeVars);
 
         return {
             prefixCls,
-            margin,
+            gap,
         };
     },
     render() {
@@ -62,7 +52,7 @@ export default defineComponent({
             itemStyle,
             wrap,
             prefixCls,
-            margin,
+            gap,
         } = this;
 
         const children = flatten(getSlot(this.$slots) || []).filter((node) =>
@@ -74,14 +64,14 @@ export default defineComponent({
                 role="none"
                 class={`${prefixCls}`}
                 style={{
-                    display: inline ? 'inline-flex' : 'flex',
-                    flexDirection: vertical ? 'column' : 'row',
-                    justifyContent: ['start', 'end'].includes(justify)
+                    display: inline ? 'inline-grid' : 'grid',
+                    gridTemplateColumns: vertical ? 'unset' : 'repeat(auto-fit, minmax(0, 1fr))',
+                    gridTemplateRows: vertical ? 'repeat(auto-fit, minmax(0, 1fr))' : 'unset',
+                    justifyItems: justify === 'start' || justify === 'end'
                         ? `flex-${justify}`
-                        : justify,
+                        : justify === 'center' ? 'center' : justify,
                     alignItems: align,
-                    flexWrap: !wrap || vertical ? 'nowrap' : 'wrap',
-                    gap: `${margin.vertical} ${margin.horizontal}`,
+                    gap: `${gap.row}px ${gap.col}px`,
                 }}
             >
                 { wrapItem
