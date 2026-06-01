@@ -12,6 +12,11 @@
 * include documents in npm package for ai agents ([#960](https://github.com/WeBankFinTech/fes-design/issues/960)) ([3cc476c](https://github.com/WeBankFinTech/fes-design/commit/3cc476c81fb652c7fc3887884d99b46a02de0b74))
 
 
+### Refactor
+
+* refactor(space): 改用 grid gap 实现 ([#885](https://github.com/WeBankFinTech/fes-design/issues/885))
+
+
 
 ## [0.8.84](https://github.com/WeBankFinTech/fes-design/compare/v0.8.83...v0.8.84) (2025-11-04)
 
