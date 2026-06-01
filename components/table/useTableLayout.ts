@@ -212,10 +212,13 @@ export default function useTableLayout({
                 bodyWidth.value = bodyMinWidth;
                 columns.value.forEach((column) => {
                     const origin = newWidthList[column.id].origin;
-                    const widthObj = {
+                    const widthObj: WidthItem = {
                         id: column.id,
                         width: origin.width ?? origin.minWidth,
                     };
+                    if (origin.minWidth) {
+                        widthObj.minWidth = origin.minWidth;
+                    }
                     if (!isEqual(widthObj, widthMap.value[column.id])) {
                         widthMap.value[column.id] = widthObj;
                     }
