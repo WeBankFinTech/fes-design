@@ -134,6 +134,12 @@ addon.vue
 selectGroupOption.vue
 :::
 
+### 受控模式
+
+:::demo
+passive.vue
+:::
+
 ## Select Props
 
 | 属性                 | 说明                                                          | 类型                                         | 默认值                |
@@ -156,6 +162,7 @@ selectGroupOption.vue
 | tag                  | 是否可以创建新的选项，需要和 `filterable` 一起使用            | boolean                                      | `false`               |
 | remote               | 是否远程搜索，当输入内容时触发`search`事件                    | boolean                                      | `false`               |
 | options              | 选项配置                                                      | array\<SelectOption\>                        | `[]`                  |
+| passive              | 是否受控模式，true-非受控，false-受控                                                           | boolean                       | `true`                  |
 | virtualScroll        | 虚拟滚动                                                      | boolean / number                             | `true`                |
 | valueField           | 替代 `SelectOption` 中的 `value` 字段名                       | string                                       | `value`               |
 | labelField           | 替代 `SelectOption` 中的 `label` 字段名                       | string                                       | `label`               |
