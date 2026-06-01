@@ -131,16 +131,20 @@ export default ({
 
         // 点击的是已有的，则取消
         if (index !== -1) {
-            selectionList.splice(index, 1);
+            const newArr = selectionList.slice();
+            newArr.splice(index, 1);
+            currentCheckedKeys.value = newArr;
             ctx.emit('select', {
-                selection: selectionList,
+                selection: newArr,
                 row,
                 checked: false,
             });
         } else {
-            selectionList.push(rowKey as CheckedKey);
+            const newArr = selectionList.slice();
+            newArr.push(rowKey as CheckedKey);
+            currentCheckedKeys.value = newArr;
             ctx.emit('select', {
-                selection: selectionList,
+                selection: newArr,
                 row,
                 checked: true,
             });
@@ -152,7 +156,9 @@ export default ({
         const selectionList = currentCheckedKeys.value as CheckedKey[];
         const index = selectionList.indexOf(rowKey as CheckedKey);
         if (index !== -1) {
-            selectionList.splice(index, 1);
+            const newArr = selectionList.slice();
+            newArr.splice(index, 1);
+            currentCheckedKeys.value = newArr;
         }
     }
 
@@ -161,7 +167,9 @@ export default ({
         const selectionList = currentCheckedKeys.value as CheckedKey[];
         const index = selectionList.indexOf(rowKey as CheckedKey);
         if (index === -1) {
-            selectionList.push(rowKey as CheckedKey);
+            const newArr = selectionList.slice();
+            newArr.push(rowKey as CheckedKey);
+            currentCheckedKeys.value = newArr;
         }
     }
 
