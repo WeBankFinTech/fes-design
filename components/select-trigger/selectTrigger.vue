@@ -236,6 +236,10 @@ const selectTriggerProps = {
         type: Boolean,
         default: false,
     },
+    size: {
+        type: String as PropType<'small' | 'medium' | 'large'>,
+        default: 'medium',
+    },
 } as const satisfies ComponentObjectPropsOptions;
 
 export default defineComponent({
@@ -281,6 +285,7 @@ export default defineComponent({
 
         const triggerClass = computed(() => ({
             [`${prefixCls}`]: true,
+            [`${prefixCls}-size-${props.size}`]: true,
             'is-active': props.isOpened || isFocusRef.value,
             'is-disabled': props.disabled === true,
             'is-multiple': props.multiple,

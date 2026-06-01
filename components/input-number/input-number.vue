@@ -5,8 +5,9 @@
             :modelValue="displayValue"
             :disabled="innerDisabled"
             :placeholder="placeholder"
-            :class="[`${prefixCls}-inner`]"
+            :class="[`${prefixCls}-inner`, `${prefixCls}-size-${size}`]"
             :innerIsError="isError"
+            :size="size"
             @input="handleInput"
             @focus="onFocused"
             @blur="handleBlur"
@@ -102,6 +103,10 @@ export const inputNumberProps = {
     autofocus: {
         type: Boolean,
         default: false,
+    },
+    size: {
+        type: String as PropType<'small' | 'medium' | 'large'>,
+        default: 'medium',
     },
 } as const satisfies ComponentObjectPropsOptions;
 
@@ -295,6 +300,7 @@ export default defineComponent({
             minDisabled,
             maxDisabled,
             inputRef,
+            size: props.size,
         };
     },
 });
