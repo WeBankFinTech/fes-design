@@ -1,0 +1,654 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: dropdown-910.spec.ts >> Dropdown #910 >> dropdown can select a non-disabled option
+- Location: e2e/dropdown-910.spec.ts:4:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: locator('.fes-dropdown-trigger button, .fes-dropdown button').first()
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for locator('.fes-dropdown-trigger button, .fes-dropdown button').first()
+
+```
+
+```yaml
+- link "Skip to content":
+  - /url: "#VPContent"
+- banner:
+  - link "Fes Design":
+    - /url: /
+  - button "Search": Search ⌘ K
+  - navigation "Main Navigation":
+    - text: Main Navigation
+    - link "文档":
+      - /url: /zh/guide/quick-start.html
+    - link "组件":
+      - /url: /zh/components/button.html
+    - button "v0.8.85"
+    - button "生态"
+  - link "github":
+    - /url: https://github.com/WeBankFinTech/fes-design
+- complementary:
+  - navigation "Sidebar Navigation":
+    - text: Sidebar Navigation
+    - button "通用组件":
+      - heading "通用组件" [level=2]
+    - link "Button 按钮":
+      - /url: /zh/components/button.html
+      - paragraph: Button 按钮
+    - link "Ellipsis 文本省略":
+      - /url: /zh/components/ellipsis.html
+      - paragraph: Ellipsis 文本省略
+    - link "Icon 图标":
+      - /url: /zh/components/icon.html
+      - paragraph: Icon 图标
+    - link "Scrollbar 滚动条":
+      - /url: /zh/components/scrollbar.html
+      - paragraph: Scrollbar 滚动条
+    - button "布局组件":
+      - heading "布局组件" [level=2]
+    - link "Divider 分割线":
+      - /url: /zh/components/divider.html
+      - paragraph: Divider 分割线
+    - link "Grid 栅格":
+      - /url: /zh/components/grid.html
+      - paragraph: Grid 栅格
+    - link "Layout 布局":
+      - /url: /zh/components/layout.html
+      - paragraph: Layout 布局
+    - link "Space 间隔":
+      - /url: /zh/components/space.html
+      - paragraph: Space 间隔
+    - button "导航组件":
+      - heading "导航组件" [level=2]
+    - link "BackTop 回到顶部":
+      - /url: /zh/components/backTop.html
+      - paragraph: BackTop 回到顶部
+    - link "Breadcrumb 面包屑":
+      - /url: /zh/components/breadcrumb.html
+      - paragraph: Breadcrumb 面包屑
+    - link "Dropdown 下拉菜单":
+      - /url: /zh/components/dropdown.html
+      - paragraph: Dropdown 下拉菜单
+    - link "Menu 导航菜单":
+      - /url: /zh/components/menu.html
+      - paragraph: Menu 导航菜单
+    - link "Pagination 分页":
+      - /url: /zh/components/pagination.html
+      - paragraph: Pagination 分页
+    - link "Steps 步骤条":
+      - /url: /zh/components/steps.html
+      - paragraph: Steps 步骤条
+    - link "Tabs 标签页":
+      - /url: /zh/components/tabs.html
+      - paragraph: Tabs 标签页
+    - button "数据录入组件":
+      - heading "数据录入组件" [level=2]
+    - link "Checkbox 多选框":
+      - /url: /zh/components/checkbox.html
+      - paragraph: Checkbox 多选框
+    - link "DatePicker 日期选择":
+      - /url: /zh/components/datePicker.html
+      - paragraph: DatePicker 日期选择
+    - link "Form 表单":
+      - /url: /zh/components/form.html
+      - paragraph: Form 表单
+    - link "Input 输入框":
+      - /url: /zh/components/input.html
+      - paragraph: Input 输入框
+    - link "InputFile 文件选择":
+      - /url: /zh/components/inputFile.html
+      - paragraph: InputFile 文件选择
+    - link "InputNumber 数字输入框":
+      - /url: /zh/components/inputNumber.html
+      - paragraph: InputNumber 数字输入框
+    - link "Radio 单选框":
+      - /url: /zh/components/radio.html
+      - paragraph: Radio 单选框
+    - link "Rate 评分":
+      - /url: /zh/components/rate.html
+      - paragraph: Rate 评分
+    - link "Select 选择器":
+      - /url: /zh/components/select.html
+      - paragraph: Select 选择器
+    - link "SelectCascader 级联选择器":
+      - /url: /zh/components/selectCascader.html
+      - paragraph: SelectCascader 级联选择器
+    - link "SelectTree 树形选择器":
+      - /url: /zh/components/selectTree.html
+      - paragraph: SelectTree 树形选择器
+    - link "Switch 开关":
+      - /url: /zh/components/switch.html
+      - paragraph: Switch 开关
+    - link "TimePicker 时间选择":
+      - /url: /zh/components/timePicker.html
+      - paragraph: TimePicker 时间选择
+    - link "Transfer 穿梭框":
+      - /url: /zh/components/transfer.html
+      - paragraph: Transfer 穿梭框
+    - link "Upload 上传":
+      - /url: /zh/components/upload.html
+      - paragraph: Upload 上传
+    - button "数据展示组件":
+      - heading "数据展示组件" [level=2]
+    - link "Avatar 头像":
+      - /url: /zh/components/avatar.html
+      - paragraph: Avatar 头像
+    - link "Badge 徽标":
+      - /url: /zh/components/badge.html
+      - paragraph: Badge 徽标
+    - link "Calendar 日历":
+      - /url: /zh/components/calendar.html
+      - paragraph: Calendar 日历
+    - link "Card 卡片":
+      - /url: /zh/components/card.html
+      - paragraph: Card 卡片
+    - link "Carousel 走马灯":
+      - /url: /zh/components/carousel.html
+      - paragraph: Carousel 走马灯
+    - link "Cascader 级联控件":
+      - /url: /zh/components/cascader.html
+      - paragraph: Cascader 级联控件
+    - link "Collapse 折叠面板":
+      - /url: /zh/components/collapse.html
+      - paragraph: Collapse 折叠面板
+    - link "Descriptions 描述列表":
+      - /url: /zh/components/descriptions.html
+      - paragraph: Descriptions 描述列表
+    - link "Draggable 拖拽":
+      - /url: /zh/components/draggable.html
+      - paragraph: Draggable 拖拽
+    - link "Empty 空数据":
+      - /url: /zh/components/empty.html
+      - paragraph: Empty 空数据
+    - link "Image 图片":
+      - /url: /zh/components/image.html
+      - paragraph: Image 图片
+    - link "Link 链接":
+      - /url: /zh/components/link.html
+      - paragraph: Link 链接
+    - link "Table 表格":
+      - /url: /zh/components/table.html
+      - paragraph: Table 表格
+    - link "Tag 标签":
+      - /url: /zh/components/tag.html
+      - paragraph: Tag 标签
+    - link "Text 文本":
+      - /url: /zh/components/text.html
+      - paragraph: Text 文本
+    - link "TextHighlight 文本高亮":
+      - /url: /zh/components/text-highlight.html
+      - paragraph: TextHighlight 文本高亮
+    - link "Timeline 时间轴":
+      - /url: /zh/components/timeline.html
+      - paragraph: Timeline 时间轴
+    - link "Tree 树形控件":
+      - /url: /zh/components/tree.html
+      - paragraph: Tree 树形控件
+    - link "VirtualList 虚拟列表":
+      - /url: /zh/components/virtualList.html
+      - paragraph: VirtualList 虚拟列表
+    - link "VirtualScroller 虚拟滚动":
+      - /url: /zh/components/virtualScroller.html
+      - paragraph: VirtualScroller 虚拟滚动
+    - button "反馈组件":
+      - heading "反馈组件" [level=2]
+    - link "Alert 警告提示":
+      - /url: /zh/components/alert.html
+      - paragraph: Alert 警告提示
+    - link "Drawer 抽屉":
+      - /url: /zh/components/drawer.html
+      - paragraph: Drawer 抽屉
+    - link "FloatPane 浮动面板":
+      - /url: /zh/components/float-pane.html
+      - paragraph: FloatPane 浮动面板
+    - link "Message 全局提示":
+      - /url: /zh/components/message.html
+      - paragraph: Message 全局提示
+    - link "Modal 对话框":
+      - /url: /zh/components/modal.html
+      - paragraph: Modal 对话框
+    - link "Popper 弹出信息":
+      - /url: /zh/components/popper.html
+      - paragraph: Popper 弹出信息
+    - link "Progress 进度条":
+      - /url: /zh/components/progress.html
+      - paragraph: Progress 进度条
+    - link "Skeleton 骨架屏":
+      - /url: /zh/components/skeleton.html
+      - paragraph: Skeleton 骨架屏
+    - link "Spin 加载中":
+      - /url: /zh/components/spin.html
+      - paragraph: Spin 加载中
+    - link "Tooltip 文字提示":
+      - /url: /zh/components/tooltip.html
+      - paragraph: Tooltip 文字提示
+    - button "其他组件":
+      - heading "其他组件" [level=2]
+    - link "ConfigProvider 全局化配置":
+      - /url: /zh/components/configProvider.html
+      - paragraph: ConfigProvider 全局化配置
+- navigation "本页目录":
+  - heading "本页目录" [level=2]
+  - list:
+    - listitem:
+      - link "组件注册":
+        - /url: "#组件注册"
+    - listitem:
+      - link "代码演示":
+        - /url: "#代码演示"
+      - list:
+        - listitem:
+          - link "基础用法":
+            - /url: "#基础用法"
+        - listitem:
+          - link "选中效果":
+            - /url: "#选中效果"
+        - listitem:
+          - link "图标":
+            - /url: "#图标"
+        - listitem:
+          - link "触发方式":
+            - /url: "#触发方式"
+        - listitem:
+          - link "弹出位置":
+            - /url: "#弹出位置"
+        - listitem:
+          - link "禁用":
+            - /url: "#禁用"
+    - listitem:
+      - link "Props":
+        - /url: "#props"
+    - listitem:
+      - link "Events":
+        - /url: "#events"
+    - listitem:
+      - link "Slots":
+        - /url: "#slots"
+    - listitem:
+      - link "DropdownOption":
+        - /url: "#dropdownoption"
+- main:
+  - heading "Dropdown 下拉菜单 Permalink to \"Dropdown 下拉菜单\"" [level=1]:
+    - text: Dropdown 下拉菜单
+    - link "Permalink to \"Dropdown 下拉菜单\"":
+      - /url: "#dropdown-下拉菜单"
+      - text: "#"
+  - paragraph: 向下弹出的列表。
+  - heading "组件注册 Permalink to \"组件注册\"" [level=2]:
+    - text: 组件注册
+    - link "Permalink to \"组件注册\"":
+      - /url: "#组件注册"
+      - text: "#"
+  - button "Copy Code"
+  - text: js
+  - code: "import { FDropdown } from '@fesjs/fes-design'; app.use(FDropdown);"
+  - heading "代码演示 Permalink to \"代码演示\"" [level=2]:
+    - text: 代码演示
+    - link "Permalink to \"代码演示\"":
+      - /url: "#代码演示"
+      - text: "#"
+  - heading "基础用法 Permalink to \"基础用法\"" [level=3]:
+    - text: 基础用法
+    - link "Permalink to \"基础用法\"":
+      - /url: "#基础用法"
+      - text: "#"
+  - paragraph: 简单的下拉菜单。
+  - text: play
+  - img:
+    - img
+  - button "下拉菜单"
+  - code: "<template> <FDropdown arrow :options=\"options\"> <FButton>下拉菜单</FButton> </FDropdown> </template> <script> export default { setup() { const options = [ { value: '1', label: '删除', disabled: true, }, { value: '2', label: '修改', }, { value: '3', label: '添加', }, { value: '4', label: '评论', }, { value: '5', label: '收藏', }, ]; return { options, }; }, }; </script>"
+  - heading "选中效果 Permalink to \"选中效果\"" [level=3]:
+    - text: 选中效果
+    - link "Permalink to \"选中效果\"":
+      - /url: "#选中效果"
+      - text: "#"
+  - paragraph: 展示选中选项
+  - text: play
+  - img:
+    - img
+  - button "下拉菜单"
+  - code: "<template> <FDropdown v-model=\"dropdownValue\" arrow :options=\"options\" showSelectedOption popperClass=\"dropdown-content-wrapper\" @scroll=\"handleScroll\" @click=\"handleClick\" @change=\"handleChange\" > <FButton>下拉菜单</FButton> </FDropdown> </template> <script setup> import { ref } from 'vue'; const dropdownValue = ref('3'); const options = [ { value: '1', label: '删除', disabled: true, }, { value: '2', label: '修改', }, { value: '3', label: '添加', }, { value: '4', label: '评论', }, { value: '5', label: '收藏', }, { value: '6', label: '点赞', }, { value: '7', label: '分享', }, { value: '8', label: '投诉', }, { value: '9', label: '建议', }, { value: '10', label: '更新', }, { value: '11', label: '编辑', }, { value: '12', label: '更多', }, ]; const handleScroll = (e) => { console.log('[dropdown.check] handleScroll, e:', e); }; const handleClick = (value) => { console.log('[dropdown.check] handleClick, value:', value); }; const handleChange = (value) => { console.log('[dropdown.check] handleChange, value:', value); }; </script> <style> .dropdown-content-wrapper .fes-dropdown-option-wrapper { max-height: 320px; } </style>"
+  - heading "图标 Permalink to \"图标\"" [level=3]:
+    - text: 图标
+    - link "Permalink to \"图标\"":
+      - /url: "#图标"
+      - text: "#"
+  - paragraph: 菜单项可配置图标。
+  - text: play
+  - img:
+    - img
+  - button "下拉菜单"
+  - code: "<template> <FDropdown :options=\"options\"> <FButton>下拉菜单</FButton> </FDropdown> </template> <script> import { h } from 'vue'; import { DeleteOutlined, EditOutlined, PlusSquareOutlined, StarOutlined, UserOutlined, } from '@fesjs/fes-design/icon'; export default { setup() { const options = [ { value: '1', label: '删除', icon: () => { return h(DeleteOutlined); }, }, { value: '2', label: '修改', icon: () => { return h(EditOutlined); }, }, { value: '3', label: '添加', icon: () => { return h(PlusSquareOutlined); }, }, { value: '4', label: '评论', icon: () => { return h(UserOutlined); }, }, { value: '5', label: '收藏', icon: () => { return h(StarOutlined); }, }, ]; return { options, }; }, }; </script>"
+  - heading "触发方式 Permalink to \"触发方式\"" [level=3]:
+    - text: 触发方式
+    - link "Permalink to \"触发方式\"":
+      - /url: "#触发方式"
+      - text: "#"
+  - paragraph:
+    - text: 触发下拉菜单弹出的行为有
+    - code: hover
+    - text: 、
+    - code: click
+    - text: 、
+    - code: focus
+    - text: 、
+    - code: contextmenu
+  - text: play
+  - img:
+    - img
+  - text: hover
+  - img:
+    - img
+  - button "hover"
+  - code: "<template> <FSpace> <FSelect v-model=\"trigger\" style=\"width: 100px\"> <FOption value=\"hover\">hover</FOption> <FOption value=\"click\">click</FOption> <FOption value=\"focus\">focus</FOption> <FOption value=\"contextmenu\">contextmenu</FOption> </FSelect> <FDropdown :trigger=\"trigger\" :options=\"options\"> <FButton>{{ trigger }}</FButton> </FDropdown> </FSpace> </template> <script> import { h, ref } from 'vue'; import { DeleteOutlined, EditOutlined, PlusSquareOutlined, StarOutlined, UserOutlined, } from '@fesjs/fes-design/icon'; export default { setup() { const trigger = ref('hover'); const options = [ { value: '1', label: '删除', icon: () => { return h(DeleteOutlined); }, }, { value: '2', label: '修改', icon: () => { return h(EditOutlined); }, }, { value: '3', label: '添加', icon: () => { return h(PlusSquareOutlined); }, }, { value: '4', label: '评论', icon: () => { return h(UserOutlined); }, }, { value: '5', label: '收藏', icon: () => { return h(StarOutlined); }, }, ]; return { trigger, options, }; }, }; </script>"
+  - heading "弹出位置 Permalink to \"弹出位置\"" [level=3]:
+    - text: 弹出位置
+    - link "Permalink to \"弹出位置\"":
+      - /url: "#弹出位置"
+      - text: "#"
+  - paragraph:
+    - text: 弹出位置，可选
+    - code: auto
+    - text: 、
+    - code: auto-start
+    - text: 、
+    - code: auto-end
+    - text: 、
+    - code: top
+    - text: 、
+    - code: top-start
+    - text: 、
+    - code: top-end
+    - text: 、
+    - code: bottom
+    - text: 、
+    - code: bottom-start
+    - text: 、
+    - code: bottom-end
+    - text: 、
+    - code: right
+    - text: 、
+    - code: right-start
+    - text: 、
+    - code: right-end
+    - text: 、
+    - code: left
+    - text: 、
+    - code: left-start
+    - text: 、
+    - code: left-end
+  - text: play
+  - img:
+    - img
+  - button "top"
+  - button "bottom"
+  - button "left"
+  - button "right"
+  - code: "<template> <FSpace> <FDropdown placement=\"top\" :options=\"options\"> <FButton>top</FButton> </FDropdown> <FDropdown placement=\"bottom\" :options=\"options\"> <FButton>bottom</FButton> </FDropdown> <FDropdown placement=\"left\" :options=\"options\"> <FButton>left</FButton> </FDropdown> <FDropdown placement=\"right\" :options=\"options\"> <FButton>right</FButton> </FDropdown> </FSpace> </template> <script> import { h } from 'vue'; import { DeleteOutlined, EditOutlined, PlusSquareOutlined, StarOutlined, UserOutlined, } from '@fesjs/fes-design/icon'; export default { setup() { const options = [ { value: '1', label: '删除', icon: () => { return h(DeleteOutlined); }, }, { value: '2', label: '修改', icon: () => { return h(EditOutlined); }, }, { value: '3', label: '添加', icon: () => { return h(PlusSquareOutlined); }, }, { value: '4', label: '评论', icon: () => { return h(UserOutlined); }, }, { value: '5', label: '收藏', icon: () => { return h(StarOutlined); }, }, ]; return { options, }; }, }; </script>"
+  - heading "禁用 Permalink to \"禁用\"" [level=3]:
+    - text: 禁用
+    - link "Permalink to \"禁用\"":
+      - /url: "#禁用"
+      - text: "#"
+  - paragraph: 下拉菜单无法弹出。
+  - text: play
+  - img:
+    - img
+  - button "hover"
+  - code: "<template> <FDropdown disabled :options=\"options\"> <FButton>hover</FButton> </FDropdown> </template> <script> export default { setup() { const options = [ { value: '1', label: '删除', disabled: true, }, { value: '2', label: '修改', }, { value: '3', label: '添加', }, { value: '4', label: '评论', }, { value: '5', label: '收藏', }, ]; return { options, }; }, }; </script>"
+  - heading "Props Permalink to \"Props\"" [level=2]:
+    - text: Props
+    - link "Permalink to \"Props\"":
+      - /url: "#props"
+      - text: "#"
+  - table:
+    - rowgroup:
+      - row "属性 说明 类型 默认值":
+        - columnheader "属性"
+        - columnheader "说明"
+        - columnheader "类型"
+        - columnheader "默认值"
+    - rowgroup:
+      - row "options 下拉菜单选项配置 Array<DropdownOption> []":
+        - cell "options"
+        - cell "下拉菜单选项配置"
+        - cell "Array<DropdownOption>"
+        - cell "[]":
+          - code: "[]"
+      - row "valueField value 的属性名 string value":
+        - cell "valueField"
+        - cell "value 的属性名"
+        - cell "string"
+        - cell "value":
+          - code: value
+      - row "labelField label 的属性名 string label":
+        - cell "labelField"
+        - cell "label 的属性名"
+        - cell "string"
+        - cell "label":
+          - code: label
+      - row "visible 是否弹出 boolean false":
+        - cell "visible"
+        - cell "是否弹出"
+        - cell "boolean"
+        - cell "false":
+          - code: "false"
+      - row "appendToContainer 弹窗内容是否添加到指定的 DOM 元素 boolean true":
+        - cell "appendToContainer"
+        - cell "弹窗内容是否添加到指定的 DOM 元素"
+        - cell "boolean"
+        - cell "true":
+          - code: "true"
+      - row "getContainer 指定下拉选项挂载的 HTML 节点 () => HTMLElement () => document.body":
+        - cell "getContainer"
+        - cell "指定下拉选项挂载的 HTML 节点"
+        - cell "() => HTMLElement"
+        - cell "() => document.body":
+          - code: () => document.body
+      - row "trigger 触发弹窗的方式，可选hover、click、focus、contextmenu string hover":
+        - cell "trigger"
+        - cell "触发弹窗的方式，可选hover、click、focus、contextmenu":
+          - text: 触发弹窗的方式，可选
+          - code: hover
+          - text: 、
+          - code: click
+          - text: 、
+          - code: focus
+          - text: 、
+          - code: contextmenu
+        - cell "string"
+        - cell "hover":
+          - code: hover
+      - row "placement 弹出位置，可选top、top-start、top-end、bottom、bottom-start、bottom-end、right、right-start、right-end、left、left-start、left-end string bottom":
+        - cell "placement"
+        - cell "弹出位置，可选top、top-start、top-end、bottom、bottom-start、bottom-end、right、right-start、right-end、left、left-start、left-end":
+          - text: 弹出位置，可选
+          - code: top
+          - text: 、
+          - code: top-start
+          - text: 、
+          - code: top-end
+          - text: 、
+          - code: bottom
+          - text: 、
+          - code: bottom-start
+          - text: 、
+          - code: bottom-end
+          - text: 、
+          - code: right
+          - text: 、
+          - code: right-start
+          - text: 、
+          - code: right-end
+          - text: 、
+          - code: left
+          - text: 、
+          - code: left-start
+          - text: 、
+          - code: left-end
+        - cell "string"
+        - cell "bottom":
+          - code: bottom
+      - row "offset 下拉菜单弹窗距离触发元素的距离,单位 px number 6":
+        - cell "offset"
+        - cell "下拉菜单弹窗距离触发元素的距离,单位 px"
+        - cell "number"
+        - cell "6":
+          - code: "6"
+      - row "disabled 是否禁用 boolean false":
+        - cell "disabled"
+        - cell "是否禁用"
+        - cell "boolean"
+        - cell "false":
+          - code: "false"
+      - row "arrow 是否显示箭头 boolean false":
+        - cell "arrow"
+        - cell "是否显示箭头"
+        - cell "boolean"
+        - cell "false":
+          - code: "false"
+      - row "showSelectedOption 是否显示选中选项 boolean false":
+        - cell "showSelectedOption"
+        - cell "是否显示选中选项"
+        - cell "boolean"
+        - cell "false":
+          - code: "false"
+      - row "popperClass 弹出框容器样式 string -":
+        - cell "popperClass"
+        - cell "弹出框容器样式"
+        - cell "string"
+        - cell "-"
+  - heading "Events Permalink to \"Events\"" [level=2]:
+    - text: Events
+    - link "Permalink to \"Events\"":
+      - /url: "#events"
+      - text: "#"
+  - table:
+    - rowgroup:
+      - row "事件名称 说明 回调参数":
+        - columnheader "事件名称"
+        - columnheader "说明"
+        - columnheader "回调参数"
+    - rowgroup:
+      - row "click 点击选项的回调 (value) => void":
+        - cell "click"
+        - cell "点击选项的回调"
+        - cell "(value) => void"
+      - 'row "visibleChange 菜单显示状态改变时调用 (visible: Boolean) => void"':
+        - cell "visibleChange"
+        - cell "菜单显示状态改变时调用"
+        - 'cell "(visible: Boolean) => void"'
+      - 'row "scroll 滚动事件 (event: Event) => void"':
+        - cell "scroll"
+        - cell "滚动事件"
+        - 'cell "(event: Event) => void"'
+  - heading "Slots Permalink to \"Slots\"" [level=2]:
+    - text: Slots
+    - link "Permalink to \"Slots\"":
+      - /url: "#slots"
+      - text: "#"
+  - table:
+    - rowgroup:
+      - row "名称 说明":
+        - columnheader "名称"
+        - columnheader "说明"
+    - rowgroup:
+      - row "default 触发下拉菜单的内容":
+        - cell "default"
+        - cell "触发下拉菜单的内容"
+  - heading "DropdownOption Permalink to \"DropdownOption\"" [level=2]:
+    - text: DropdownOption
+    - link "Permalink to \"DropdownOption\"":
+      - /url: "#dropdownoption"
+      - text: "#"
+  - table:
+    - rowgroup:
+      - row "属性 说明 类型 默认值":
+        - columnheader "属性"
+        - columnheader "说明"
+        - columnheader "类型"
+        - columnheader "默认值"
+    - rowgroup:
+      - row "value 节点的 key，需要唯一，可使用 valueField 修改字段名 string | number -":
+        - cell "value"
+        - cell "节点的 key，需要唯一，可使用 valueField 修改字段名":
+          - text: 节点的
+          - code: key
+          - text: ，需要唯一，可使用
+          - code: valueField
+          - text: 修改字段名
+        - cell "string | number"
+        - cell "-":
+          - code: "-"
+      - row "label 节点的内容，可使用 labelField 修改字段名 string | (item) => VNodeChild -":
+        - cell "label"
+        - cell "节点的内容，可使用 labelField 修改字段名":
+          - text: 节点的内容，可使用
+          - code: labelField
+          - text: 修改字段名
+        - cell "string | (item) => VNodeChild"
+        - cell "-":
+          - code: "-"
+      - row "disabled? 是否禁用节点 boolean false":
+        - cell "disabled?"
+        - cell "是否禁用节点"
+        - cell "boolean"
+        - cell "false":
+          - code: "false"
+      - row "icon? 节点的图标 () => VNodeChild null":
+        - cell "icon?"
+        - cell "节点的图标"
+        - cell "() => VNodeChild"
+        - cell "null":
+          - code: "null"
+- contentinfo:
+  - navigation "Pager":
+    - text: Pager
+    - link "Previous page Breadcrumb 面包屑":
+      - /url: /zh/components/breadcrumb.html
+    - link "Next page Menu 导航菜单":
+      - /url: /zh/components/menu.html
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | 
+  3  | test.describe('Dropdown #910', () => {
+  4  |     test('dropdown can select a non-disabled option', async ({ page }) => {
+  5  |         await page.goto('/zh/components/dropdown/', { waitUntil: 'networkidle' });
+  6  | 
+  7  |         await page.waitForTimeout(2000);
+  8  | 
+  9  |         const dropdownButton = page.locator('.fes-dropdown-trigger button, .fes-dropdown button').first();
+> 10 |         await expect(dropdownButton).toBeVisible({ timeout: 10000 });
+     |                                      ^ Error: expect(locator).toBeVisible() failed
+  11 | 
+  12 |         await dropdownButton.click();
+  13 | 
+  14 |         const options = page.locator('.fes-dropdown-option:not(.is-disabled)');
+  15 |         await expect(options.first()).toBeVisible({ timeout: 5000 });
+  16 | 
+  17 |         const firstEnabledOption = options.first();
+  18 |         await firstEnabledOption.click();
+  19 |         await page.waitForTimeout(500);
+  20 |     });
+  21 | });
+```
