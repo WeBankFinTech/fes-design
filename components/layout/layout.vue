@@ -1,9 +1,10 @@
 <template>
-    <section :class="classList">
+    <section v-if="!disabled" :class="classList">
         <div :class="containerClassRef" :style="containerStyle">
             <slot />
         </div>
     </section>
+    <slot v-else />
 </template>
 
 <script lang="ts">
