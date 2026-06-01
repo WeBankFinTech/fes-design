@@ -6,7 +6,7 @@ export default defineConfig({
     plugins: [vue(), vueJsx()],
     test: {
         environment: 'happy-dom',
-        include: ['components/**/__tests__/**/*.spec.ts'],
+        include: ['components/**/__tests__/**/*.{spec,test}.{ts,tsx}'],
         globals: true,
     },
 })
