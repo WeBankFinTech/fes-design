@@ -44,6 +44,10 @@ app.use(DatePicker);
 
 --DEFAULTTIME
 
+### 精确到小时和分钟
+
+--datehour
+
 --CODE
 
 ## Props
