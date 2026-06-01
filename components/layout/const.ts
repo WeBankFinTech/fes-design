@@ -31,6 +31,10 @@ export const layoutProps = {
         type: Boolean,
         default: false,
     },
+    disabled: {
+        type: Boolean,
+        default: false,
+    },
     containerClass: [Array, Object, String] as PropType<CSSProperties>,
     containerStyle: Object as PropType<CSSProperties>,
 } as const satisfies ComponentObjectPropsOptions;
