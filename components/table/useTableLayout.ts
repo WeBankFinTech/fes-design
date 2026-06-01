@@ -128,6 +128,9 @@ export default function useTableLayout({
             if (!$bodyTable) {
                 return;
             }
+            if ($wrapper.offsetWidth === 0) {
+                return;
+            }
             isScrollX.value = $bodyTable.offsetWidth > (props.bordered ? $wrapper.offsetWidth - 2 : $wrapper.offsetWidth);
         } else {
             const _wrapperWidth = $wrapper.offsetWidth;
