@@ -114,6 +114,22 @@ export const useContentMaxHeight = (
 
     const hasMaxHeight = computed(() => Boolean(currentMaxModalHeight.value));
 
+    // 监听 modal 显示状态变化，show 时重新计算 header/footer 高度
+    watch(
+        () => modalRef.value?.offsetHeight,
+        async () => {
+            if (modalRef.value?.offsetHeight) {
+                await nextTick();
+                if (modalHeaderRef.value) {
+                    modalHeaderHight.value = modalHeaderRef.value.offsetHeight;
+                }
+                if (modalFooterRef.value) {
+                    modalFooterHight.value = modalFooterRef.value.offsetHeight;
+                }
+            }
+        },
+    );
+
     // 监听头部和底部的变化
     useResize(
         modalHeaderRef,
