@@ -29,6 +29,8 @@ export function mapTabPane(
         ) {
             tabPaneLazyCache[value] = true;
             children.push(withDirectives(vNode, [[vShow, show]]));
+        } else if (directive === 'if') {
+            children.push(withDirectives(vNode, [[vShow, show]]));
         } else if (show) {
             children.push(vNode);
         }
