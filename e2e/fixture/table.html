@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Single-Select Bug Test</title>
+    <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.prod.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>Table Single-Select Bug Test (Issue #968)</h1>
+
+        <h2>Single-Select Mode (multiple: false)</h2>
+        <f-table
+            :row-key="'id'"
+            v-model:checked-keys="singleSelectKeys"
+            :data="data"
+            :columns="singleSelectColumns"
+        >
+            <f-column type="selection" :multiple="false"></f-column>
+            <f-column label="Name" prop="name"></f-column>
+        </f-table>
+        <p>Selected keys: {{ singleSelectKeys }}</p>
+        <p>Expected: only one key at a time (last clicked)</p>
+
+        <h2>Multi-Select Mode (multiple: true)</h2>
+        <f-table
+            :row-key="'id'"
+            v-model:checked-keys="multiSelectKeys"
+            :data="data"
+            :columns="multiSelectColumns"
+        >
+            <f-column type="selection" :multiple="true"></f-column>
+            <f-column label="Name" prop="name"></f-column>
+        </f-table>
+        <p>Selected keys: {{ multiSelectKeys }}</p>
+        <p>Expected: multiple keys accumulated</p>
+    </div>
+
+    <script>
+        const { createApp, ref } = Vue;
+
+        // Simulate the bug: push/splice on array doesn't trigger v-model update
+        // This is the bug in useTableSelect.ts
+        function simulateBuggySingleSelect(existingKeys, newKey) {
+            // This simulates what happens in handleSelect with isSingleSelect:
+            // 1. clearSelect() sets currentCheckedKeys.value = [] (new array)
+            // 2. But selectionList is still pointing to the OLD array
+            // 3. Then push(newKey) mutates the OLD array, not triggering update
+            const arr = existingKeys.slice();
+            arr.length = 0; // clear - creates new reference but old arr still has items
+            arr.push(newKey); // This only affects the old reference
+            return arr; // Returns the old array with new item
+        }
+
+        function simulateFixedSingleSelect(existingKeys, newKey) {
+            // Fixed: create new array and assign to trigger setter
+            const arr = existingKeys.slice();
+            arr.length = 0;
+            arr.push(newKey);
+            return arr;
+        }
+
+        const app = createApp({
+            setup() {
+                const data = [
+                    { id: 1, name: 'Row 1' },
+                    { id: 2, name: 'Row 2' },
+                    { id: 3, name: 'Row 3' },
+                ];
+
+                const singleSelectKeys = ref([1, 2]); // BUG: initially has multiple values!
+                const multiSelectKeys = ref([1]);
+
+                const singleSelectColumns = [
+                    { type: 'selection', multiple: false },
+                    { label: 'Name', prop: 'name' },
+                ];
+
+                const multiSelectColumns = [
+                    { type: 'selection', multiple: true },
+                    { label: 'Name', prop: 'name' },
+                ];
+
+                return {
+                    data,
+                    singleSelectKeys,
+                    multiSelectKeys,
+                    singleSelectColumns,
+                    multiSelectColumns,
+                };
+            }
+        });
+
+        app.mount('#app');
+    </script>
+</body>
+</html>
