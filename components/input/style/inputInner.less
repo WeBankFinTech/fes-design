@@ -4,6 +4,8 @@
 
 @input-inner-prefix-cls: ~'@{cls-prefix}-input-inner';
 
+@input-height-sm: @data-input-height-base - 8;
+
 .@{input-inner-prefix-cls} {
     position: relative;
     display: inline-flex;
@@ -27,6 +29,11 @@
     }
     &-disabled {
         .disabled();
+    }
+
+    &&-size-small {
+        height: @input-height-sm;
+        font-size: calc(var(--f-font-size-base) - 2px);
     }
 
     &&-error {

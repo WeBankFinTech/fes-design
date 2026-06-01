@@ -28,6 +28,7 @@
                     :class="[{ 'is-error': isError }, triggerClass]"
                     :style="triggerStyle"
                     :renderTag="$slots.tag"
+                    :size="size"
                     @keydown.enter="onKeyDown"
                     @remove="onSelect"
                     @clear="handleClear"
@@ -427,6 +428,7 @@ export default defineComponent({
             onKeyDown,
             warnDeprecatedSlot,
             filterText,
+            size: props.size,
         };
     },
 });

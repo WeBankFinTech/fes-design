@@ -3,6 +3,7 @@
 
 @select-trigger-prefix-cls: ~'@{cls-prefix}-select-trigger';
 @select-height: @data-input-height-base;
+@select-height-sm: @data-input-height-base - 8;
 @select-disabled-bg: var(--f-component-bg-color);
 @select-placeholder-color: var(--f-border-color-base);
 
@@ -64,6 +65,11 @@
     }
     &.is-multiple {
         padding: calc((@padding-xs / 2 - 1px)) @padding-xs;
+    }
+
+    &-size-small {
+        min-height: @select-height-sm;
+        font-size: calc(var(--f-font-size-base) - 2px);
     }
     & &-label-input {
         caret-color: var(--f-primary-color);

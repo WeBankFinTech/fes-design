@@ -96,6 +96,10 @@ export const selectProps = {
     popperClass: [String, Array, Object] as PropType<string | [] | object>,
     triggerClass: [String, Array, Object] as PropType<string | [] | object>,
     triggerStyle: [Object, String] as PropType<CSSProperties | string>,
+    size: {
+        type: String as PropType<'small' | 'medium' | 'large'>,
+        default: 'medium',
+    },
 } as const satisfies ComponentObjectPropsOptions;
 
 export const selectPropsDefaultValue = extractPropsDefaultValue(selectProps);

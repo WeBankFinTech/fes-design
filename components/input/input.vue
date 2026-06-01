@@ -18,6 +18,7 @@
                 :inputStyle="inputStyle"
                 :autocomplete="autocomplete"
                 :innerIsError="isError"
+                :size="size"
                 @input="handleInput"
                 @change="handleChange"
                 @focus="handleFocus"
@@ -111,6 +112,10 @@ export interface Autosize {
 
 export const inputProps = {
     ...commonInputProps,
+    size: {
+        type: String as PropType<'small' | 'medium' | 'large'>,
+        default: 'medium',
+    },
     rows: {
         type: Number,
         default: 2,
@@ -274,6 +279,7 @@ export default defineComponent({
             textareaPrefixCls,
             classes,
             currentValue,
+            size: props.size,
 
             ...useInput(handleValueChange),
 

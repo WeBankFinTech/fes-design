@@ -4,10 +4,13 @@
 @input-number-prefix-cls: ~'@{cls-prefix}-input-number';
 @input-prefix-cls: ~'@{cls-prefix}-input';
 
+@input-number-width-base: 130px;
+@input-number-width-sm: 90px;
+
 .@{input-number-prefix-cls} {
     position: relative;
     display: inline-block;
-    width: 130px;
+    width: @input-number-width-base;
     user-select: none;
 
     &-actions {
@@ -66,5 +69,7 @@
         }
     }
 
-    
+    &-size-small {
+        width: @input-number-width-sm;
+    }
 }

@@ -2,6 +2,7 @@
     <span
         :class="[
             prefixCls,
+            `${prefixCls}-size-${size}`,
             (focused || innerIsFocus) && `${prefixCls}-focus`,
             disabled && `${prefixCls}-disabled`,
             innerIsError && `${prefixCls}-error`,
@@ -89,6 +90,10 @@ import type { InputValue } from './interface';
 
 const inputInnerProps = {
     ...commonInputProps,
+    size: {
+        type: String as PropType<'small' | 'medium' | 'large'>,
+        default: 'medium',
+    },
     // 内部使用，处理页面存在多个 input focus 样式场景
     innerIsFocus: Boolean,
     innerIsError: Boolean,
