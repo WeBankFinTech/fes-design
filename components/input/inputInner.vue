@@ -24,7 +24,7 @@
             "
             :readonly="!canEdit || readonly"
             :disabled="disabled"
-            :placeholder="placeholder"
+            :placeholder="disabled && !currentValue ? '' : placeholder"
             :autocomplete="autocomplete"
             :style="inputStyle"
             :class="`${prefixCls}-el`"

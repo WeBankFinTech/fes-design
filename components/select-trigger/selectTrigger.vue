@@ -28,7 +28,7 @@
                         />
                     </RenderTag>
                     <div v-else :class="`${prefixCls}-label-placeholder`">
-                        {{ placeholder }}
+                        {{ disabled && unSelectedRef ? '' : placeholder }}
                     </div>
                 </template>
                 <template v-else>
@@ -38,7 +38,7 @@
                         :placeholder="
                             isOpened || unSelectedRef
                                 ? labelTextRef || placeholder
-                                : ''
+                                : disabled && unSelectedRef ? '' : placeholder
                         "
                         :class="`${prefixCls}-label-input`"
                         :disabled="disabled"
@@ -148,7 +148,7 @@
                         `${prefixCls}-label-overlay`,
                     ]"
                 >
-                    {{ placeholder }}
+                    {{ disabled ? '' : placeholder }}
                 </div>
                 <input
                     v-if="filterable"
