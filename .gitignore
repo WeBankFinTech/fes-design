@@ -1,23 +1,17 @@
 .DS_Store
 node_modules
+dist
+docs/.vitepress/dist
+docs/.vitepress/cache
 *.log
 .cache
-.rollup.cache
-.temp
-.rc
-dist
-es
-lib
-/icon
+dist.zip
 package-lock.json
 yarn.lock
-docs/.vitepress/cache
-docs/.vitepress/theme/components/demoCode.json
-docs/zh/components
-
 tsconfig.tsbuildinfo
 types
 doc
+.worktrees
 
 # Test artifacts (added by chore/test-infra)
 test-results/
