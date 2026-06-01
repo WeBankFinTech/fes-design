@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { mount } from '@vue/test-utils';
 import { FAnchor } from '../index';
 
 describe('Anchor component', () => {

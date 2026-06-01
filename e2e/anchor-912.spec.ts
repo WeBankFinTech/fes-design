@@ -5,6 +5,6 @@ test.describe('Anchor component e2e', () => {
         await page.goto('/zh/components/anchor/');
         const anchorLinks = page.locator('.fes-anchor-link-title');
         await expect(anchorLinks.first()).toBeVisible();
-        await expect(anchorLinks).toHaveCount(3);
+        await expect(anchorLinks).toHaveCount(4); // 3 top-level + 1 child link
     });
 });
