@@ -9,7 +9,7 @@
 
 ### Features
 
-* include documents in npm package for ai agents ([#960](https://github.com/WeBankFinTech/fes-design/issues/960)) ([3cc476c](https://github.com/WeBankFinTech/fes-design/commit/3cc476c81fb652c7fc3887884d99b46a02de0b74))
+* feat(dropdown): 支持默认值显示 ([#910](https://github.com/WeBankFinTech/fes-design/issues/910))
 
 
 
