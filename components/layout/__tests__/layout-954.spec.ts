@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
+import { h } from 'vue';
 import FLayout from '../layout.vue';
 import { layoutProps } from '../const';
 
@@ -29,7 +30,7 @@ describe('layout.vue disabled prop', () => {
                 disabled: true,
             },
             slots: {
-                default: () => '<div class="slot-content">Slot Content</div>',
+                default: () => h('div', { class: 'slot-content' }, 'Slot Content'),
             },
         });
         const section = wrapper.find('section.fes-layout');
@@ -42,7 +43,7 @@ describe('layout.vue disabled prop', () => {
     it('should render section wrapper when disabled is not set', () => {
         const wrapper = mount(FLayout, {
             slots: {
-                default: () => '<div class="slot-content">Slot Content</div>',
+                default: () => h('div', { class: 'slot-content' }, 'Slot Content'),
             },
         });
         const section = wrapper.find('section.fes-layout');
