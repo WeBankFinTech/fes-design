@@ -96,22 +96,42 @@ export default defineComponent({
             </Scrollbar>
         );
 
-        return () => (
-            <Popper
-                v-model={visible.value}
-                trigger={props.trigger}
-                placement={props.placement}
-                popperClass={[`${prefixCls}-popper`, props.popperClass]}
-                appendToContainer={props.appendToContainer}
-                getContainer={props.getContainer}
-                offset={props.offset}
-                disabled={props.disabled}
-                arrow={props.arrow}
-                v-slots={{
-                    default: renderOptions,
-                    trigger: slots.default,
-                }}
-            />
-        );
+        return () => {
+            const selectedOption = props.options.find(
+                (option) => option[props.valueField] === currentValue.value,
+            );
+            const selectedLabel = selectedOption
+                ? selectedOption[props.labelField]
+                : undefined;
+            const slotContent = slots.default?.({
+                selectedLabel:
+                    typeof selectedLabel === 'function'
+                        ? selectedLabel(selectedOption)
+                        : selectedLabel,
+                selectedValue: currentValue.value,
+            });
+            return (
+                <Popper
+                    v-model={visible.value}
+                    trigger={props.trigger}
+                    placement={props.placement}
+                    popperClass={[
+                        `${prefixCls}-popper`,
+                        props.popperClass,
+                    ]}
+                    appendToContainer={props.appendToContainer}
+                    getContainer={props.getContainer}
+                    offset={props.offset}
+                    disabled={props.disabled}
+                    arrow={props.arrow}
+                    v-slots={{
+                        default: renderOptions,
+                        trigger: slotContent.length
+                            ? () => slotContent
+                            : () => selectedLabel,
+                    }}
+                />
+            );
+        };
     },
 });
