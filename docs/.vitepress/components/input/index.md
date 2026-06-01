@@ -72,6 +72,12 @@ event.vue
 handleFocus.vue
 :::
 
+### 尺寸
+
+:::demo
+size.vue
+:::
+
 ## Props
 
 | 属性          | 说明                                                                                       | 类型            | 默认值  |
