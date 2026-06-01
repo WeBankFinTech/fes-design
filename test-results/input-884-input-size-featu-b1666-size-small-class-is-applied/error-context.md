@@ -1,0 +1,1181 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: input-884.spec.ts >> input size feature #884 >> select trigger size small class is applied
+- Location: e2e/input-884.spec.ts:26:5
+
+# Error details
+
+```
+Test timeout of 60000ms exceeded.
+```
+
+```
+Error: page.click: Test timeout of 60000ms exceeded.
+Call log:
+  - waiting for locator('text=尺寸')
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - link "Skip to content" [ref=e4] [cursor=pointer]:
+      - /url: "#VPContent"
+    - banner:
+      - generic:
+        - generic:
+          - generic:
+            - link "Fes Design" [ref=e6] [cursor=pointer]:
+              - /url: /
+              - generic [ref=e7]: Fes Design
+            - generic [ref=e8]:
+              - button "Search" [ref=e11] [cursor=pointer]:
+                - generic [ref=e14]: Search
+                - generic [ref=e15]:
+                  - generic [ref=e16]: ⌘
+                  - generic [ref=e17]: K
+              - navigation "Main Navigation" [ref=e18]:
+                - generic [ref=e19]: Main Navigation
+                - link "文档" [ref=e20] [cursor=pointer]:
+                  - /url: /zh/guide/quick-start.html
+                  - generic [ref=e21]: 文档
+                - link "组件" [ref=e22] [cursor=pointer]:
+                  - /url: /zh/components/button.html
+                  - generic [ref=e23]: 组件
+                - button "v0.8.85" [ref=e25] [cursor=pointer]:
+                  - generic [ref=e27]: v0.8.85
+                - button "生态" [ref=e30] [cursor=pointer]:
+                  - generic [ref=e32]: 生态
+              - link "github" [ref=e35] [cursor=pointer]:
+                - /url: https://github.com/WeBankFinTech/fes-design
+    - complementary [ref=e37]:
+      - navigation "Sidebar Navigation" [ref=e39]:
+        - generic [ref=e40]: Sidebar Navigation
+        - generic [ref=e42]:
+          - button "通用组件" [ref=e43]:
+            - heading "通用组件" [level=2] [ref=e45]
+          - generic [ref=e46]:
+            - link "Button 按钮" [ref=e50] [cursor=pointer]:
+              - /url: /zh/components/button.html
+              - paragraph [ref=e51]: Button 按钮
+            - link "Ellipsis 文本省略" [ref=e55] [cursor=pointer]:
+              - /url: /zh/components/ellipsis.html
+              - paragraph [ref=e56]: Ellipsis 文本省略
+            - link "Icon 图标" [ref=e60] [cursor=pointer]:
+              - /url: /zh/components/icon.html
+              - paragraph [ref=e61]: Icon 图标
+            - link "Scrollbar 滚动条" [ref=e65] [cursor=pointer]:
+              - /url: /zh/components/scrollbar.html
+              - paragraph [ref=e66]: Scrollbar 滚动条
+        - generic [ref=e68]:
+          - button "布局组件" [ref=e69]:
+            - heading "布局组件" [level=2] [ref=e71]
+          - generic [ref=e72]:
+            - link "Divider 分割线" [ref=e76] [cursor=pointer]:
+              - /url: /zh/components/divider.html
+              - paragraph [ref=e77]: Divider 分割线
+            - link "Grid 栅格" [ref=e81] [cursor=pointer]:
+              - /url: /zh/components/grid.html
+              - paragraph [ref=e82]: Grid 栅格
+            - link "Layout 布局" [ref=e86] [cursor=pointer]:
+              - /url: /zh/components/layout.html
+              - paragraph [ref=e87]: Layout 布局
+            - link "Space 间隔" [ref=e91] [cursor=pointer]:
+              - /url: /zh/components/space.html
+              - paragraph [ref=e92]: Space 间隔
+        - generic [ref=e94]:
+          - button "导航组件" [ref=e95]:
+            - heading "导航组件" [level=2] [ref=e97]
+          - generic [ref=e98]:
+            - link "BackTop 回到顶部" [ref=e102] [cursor=pointer]:
+              - /url: /zh/components/backTop.html
+              - paragraph [ref=e103]: BackTop 回到顶部
+            - link "Breadcrumb 面包屑" [ref=e107] [cursor=pointer]:
+              - /url: /zh/components/breadcrumb.html
+              - paragraph [ref=e108]: Breadcrumb 面包屑
+            - link "Dropdown 下拉菜单" [ref=e112] [cursor=pointer]:
+              - /url: /zh/components/dropdown.html
+              - paragraph [ref=e113]: Dropdown 下拉菜单
+            - link "Menu 导航菜单" [ref=e117] [cursor=pointer]:
+              - /url: /zh/components/menu.html
+              - paragraph [ref=e118]: Menu 导航菜单
+            - link "Pagination 分页" [ref=e122] [cursor=pointer]:
+              - /url: /zh/components/pagination.html
+              - paragraph [ref=e123]: Pagination 分页
+            - link "Steps 步骤条" [ref=e127] [cursor=pointer]:
+              - /url: /zh/components/steps.html
+              - paragraph [ref=e128]: Steps 步骤条
+            - link "Tabs 标签页" [ref=e132] [cursor=pointer]:
+              - /url: /zh/components/tabs.html
+              - paragraph [ref=e133]: Tabs 标签页
+        - generic [ref=e135]:
+          - button "数据录入组件" [ref=e136]:
+            - heading "数据录入组件" [level=2] [ref=e138]
+          - generic [ref=e139]:
+            - link "Checkbox 多选框" [ref=e143] [cursor=pointer]:
+              - /url: /zh/components/checkbox.html
+              - paragraph [ref=e144]: Checkbox 多选框
+            - link "DatePicker 日期选择" [ref=e148] [cursor=pointer]:
+              - /url: /zh/components/datePicker.html
+              - paragraph [ref=e149]: DatePicker 日期选择
+            - link "Form 表单" [ref=e153] [cursor=pointer]:
+              - /url: /zh/components/form.html
+              - paragraph [ref=e154]: Form 表单
+            - link "Input 输入框" [ref=e158] [cursor=pointer]:
+              - /url: /zh/components/input.html
+              - paragraph [ref=e159]: Input 输入框
+            - link "InputFile 文件选择" [ref=e163] [cursor=pointer]:
+              - /url: /zh/components/inputFile.html
+              - paragraph [ref=e164]: InputFile 文件选择
+            - link "InputNumber 数字输入框" [ref=e168] [cursor=pointer]:
+              - /url: /zh/components/inputNumber.html
+              - paragraph [ref=e169]: InputNumber 数字输入框
+            - link "Radio 单选框" [ref=e173] [cursor=pointer]:
+              - /url: /zh/components/radio.html
+              - paragraph [ref=e174]: Radio 单选框
+            - link "Rate 评分" [ref=e178] [cursor=pointer]:
+              - /url: /zh/components/rate.html
+              - paragraph [ref=e179]: Rate 评分
+            - link "Select 选择器" [ref=e183] [cursor=pointer]:
+              - /url: /zh/components/select.html
+              - paragraph [ref=e184]: Select 选择器
+            - link "SelectCascader 级联选择器" [ref=e188] [cursor=pointer]:
+              - /url: /zh/components/selectCascader.html
+              - paragraph [ref=e189]: SelectCascader 级联选择器
+            - link "SelectTree 树形选择器" [ref=e193] [cursor=pointer]:
+              - /url: /zh/components/selectTree.html
+              - paragraph [ref=e194]: SelectTree 树形选择器
+            - link "Switch 开关" [ref=e198] [cursor=pointer]:
+              - /url: /zh/components/switch.html
+              - paragraph [ref=e199]: Switch 开关
+            - link "TimePicker 时间选择" [ref=e203] [cursor=pointer]:
+              - /url: /zh/components/timePicker.html
+              - paragraph [ref=e204]: TimePicker 时间选择
+            - link "Transfer 穿梭框" [ref=e208] [cursor=pointer]:
+              - /url: /zh/components/transfer.html
+              - paragraph [ref=e209]: Transfer 穿梭框
+            - link "Upload 上传" [ref=e213] [cursor=pointer]:
+              - /url: /zh/components/upload.html
+              - paragraph [ref=e214]: Upload 上传
+        - generic [ref=e216]:
+          - button "数据展示组件" [ref=e217]:
+            - heading "数据展示组件" [level=2] [ref=e219]
+          - generic [ref=e220]:
+            - link "Avatar 头像" [ref=e224] [cursor=pointer]:
+              - /url: /zh/components/avatar.html
+              - paragraph [ref=e225]: Avatar 头像
+            - link "Badge 徽标" [ref=e229] [cursor=pointer]:
+              - /url: /zh/components/badge.html
+              - paragraph [ref=e230]: Badge 徽标
+            - link "Calendar 日历" [ref=e234] [cursor=pointer]:
+              - /url: /zh/components/calendar.html
+              - paragraph [ref=e235]: Calendar 日历
+            - link "Card 卡片" [ref=e239] [cursor=pointer]:
+              - /url: /zh/components/card.html
+              - paragraph [ref=e240]: Card 卡片
+            - link "Carousel 走马灯" [ref=e244] [cursor=pointer]:
+              - /url: /zh/components/carousel.html
+              - paragraph [ref=e245]: Carousel 走马灯
+            - link "Cascader 级联控件" [ref=e249] [cursor=pointer]:
+              - /url: /zh/components/cascader.html
+              - paragraph [ref=e250]: Cascader 级联控件
+            - link "Collapse 折叠面板" [ref=e254] [cursor=pointer]:
+              - /url: /zh/components/collapse.html
+              - paragraph [ref=e255]: Collapse 折叠面板
+            - link "Descriptions 描述列表" [ref=e259] [cursor=pointer]:
+              - /url: /zh/components/descriptions.html
+              - paragraph [ref=e260]: Descriptions 描述列表
+            - link "Draggable 拖拽" [ref=e264] [cursor=pointer]:
+              - /url: /zh/components/draggable.html
+              - paragraph [ref=e265]: Draggable 拖拽
+            - link "Empty 空数据" [ref=e269] [cursor=pointer]:
+              - /url: /zh/components/empty.html
+              - paragraph [ref=e270]: Empty 空数据
+            - link "Image 图片" [ref=e274] [cursor=pointer]:
+              - /url: /zh/components/image.html
+              - paragraph [ref=e275]: Image 图片
+            - link "Link 链接" [ref=e279] [cursor=pointer]:
+              - /url: /zh/components/link.html
+              - paragraph [ref=e280]: Link 链接
+            - link "Table 表格" [ref=e284] [cursor=pointer]:
+              - /url: /zh/components/table.html
+              - paragraph [ref=e285]: Table 表格
+            - link "Tag 标签" [ref=e289] [cursor=pointer]:
+              - /url: /zh/components/tag.html
+              - paragraph [ref=e290]: Tag 标签
+            - link "Text 文本" [ref=e294] [cursor=pointer]:
+              - /url: /zh/components/text.html
+              - paragraph [ref=e295]: Text 文本
+            - link "TextHighlight 文本高亮" [ref=e299] [cursor=pointer]:
+              - /url: /zh/components/text-highlight.html
+              - paragraph [ref=e300]: TextHighlight 文本高亮
+            - link "Timeline 时间轴" [ref=e304] [cursor=pointer]:
+              - /url: /zh/components/timeline.html
+              - paragraph [ref=e305]: Timeline 时间轴
+            - link "Tree 树形控件" [ref=e309] [cursor=pointer]:
+              - /url: /zh/components/tree.html
+              - paragraph [ref=e310]: Tree 树形控件
+            - link "VirtualList 虚拟列表" [ref=e314] [cursor=pointer]:
+              - /url: /zh/components/virtualList.html
+              - paragraph [ref=e315]: VirtualList 虚拟列表
+            - link "VirtualScroller 虚拟滚动" [ref=e319] [cursor=pointer]:
+              - /url: /zh/components/virtualScroller.html
+              - paragraph [ref=e320]: VirtualScroller 虚拟滚动
+        - generic [ref=e322]:
+          - button "反馈组件" [ref=e323]:
+            - heading "反馈组件" [level=2] [ref=e325]
+          - generic [ref=e326]:
+            - link "Alert 警告提示" [ref=e330] [cursor=pointer]:
+              - /url: /zh/components/alert.html
+              - paragraph [ref=e331]: Alert 警告提示
+            - link "Drawer 抽屉" [ref=e335] [cursor=pointer]:
+              - /url: /zh/components/drawer.html
+              - paragraph [ref=e336]: Drawer 抽屉
+            - link "FloatPane 浮动面板" [ref=e340] [cursor=pointer]:
+              - /url: /zh/components/float-pane.html
+              - paragraph [ref=e341]: FloatPane 浮动面板
+            - link "Message 全局提示" [ref=e345] [cursor=pointer]:
+              - /url: /zh/components/message.html
+              - paragraph [ref=e346]: Message 全局提示
+            - link "Modal 对话框" [ref=e350] [cursor=pointer]:
+              - /url: /zh/components/modal.html
+              - paragraph [ref=e351]: Modal 对话框
+            - link "Popper 弹出信息" [ref=e355] [cursor=pointer]:
+              - /url: /zh/components/popper.html
+              - paragraph [ref=e356]: Popper 弹出信息
+            - link "Progress 进度条" [ref=e360] [cursor=pointer]:
+              - /url: /zh/components/progress.html
+              - paragraph [ref=e361]: Progress 进度条
+            - link "Skeleton 骨架屏" [ref=e365] [cursor=pointer]:
+              - /url: /zh/components/skeleton.html
+              - paragraph [ref=e366]: Skeleton 骨架屏
+            - link "Spin 加载中" [ref=e370] [cursor=pointer]:
+              - /url: /zh/components/spin.html
+              - paragraph [ref=e371]: Spin 加载中
+            - link "Tooltip 文字提示" [ref=e375] [cursor=pointer]:
+              - /url: /zh/components/tooltip.html
+              - paragraph [ref=e376]: Tooltip 文字提示
+        - generic [ref=e378]:
+          - button "其他组件" [ref=e379]:
+            - heading "其他组件" [level=2] [ref=e381]
+          - link "ConfigProvider 全局化配置" [ref=e386] [cursor=pointer]:
+            - /url: /zh/components/configProvider.html
+            - paragraph [ref=e387]: ConfigProvider 全局化配置
+    - generic [ref=e390]:
+      - navigation "本页目录" [ref=e396]:
+        - generic [ref=e397]:
+          - heading "本页目录" [level=2] [ref=e399]
+          - list [ref=e400]:
+            - listitem [ref=e401]:
+              - link "组件注册" [ref=e402] [cursor=pointer]:
+                - /url: "#组件注册"
+            - listitem [ref=e403]:
+              - link "代码演示" [ref=e404] [cursor=pointer]:
+                - /url: "#代码演示"
+              - list [ref=e405]:
+                - listitem [ref=e406]:
+                  - link "基础用法" [ref=e407] [cursor=pointer]:
+                    - /url: "#基础用法"
+                - listitem [ref=e408]:
+                  - link "复合型输入框" [ref=e409] [cursor=pointer]:
+                    - /url: "#复合型输入框"
+                - listitem [ref=e410]:
+                  - link "可清除输入框" [ref=e411] [cursor=pointer]:
+                    - /url: "#可清除输入框"
+                - listitem [ref=e412]:
+                  - link "disabled" [ref=e413] [cursor=pointer]:
+                    - /url: "#disabled"
+                - listitem [ref=e414]:
+                  - link "显示输入数字" [ref=e415] [cursor=pointer]:
+                    - /url: "#显示输入数字"
+                - listitem [ref=e416]:
+                  - link "密码输入框" [ref=e417] [cursor=pointer]:
+                    - /url: "#密码输入框"
+                - listitem [ref=e418]:
+                  - link "自定义前缀/后缀" [ref=e419] [cursor=pointer]:
+                    - /url: "#自定义前缀-后缀"
+                - listitem [ref=e420]:
+                  - link "文本域" [ref=e421] [cursor=pointer]:
+                    - /url: "#文本域"
+                - listitem [ref=e422]:
+                  - link "事件监听" [ref=e423] [cursor=pointer]:
+                    - /url: "#事件监听"
+                - listitem [ref=e424]:
+                  - link "聚焦和失焦" [ref=e425] [cursor=pointer]:
+                    - /url: "#聚焦和失焦"
+            - listitem [ref=e426]:
+              - link "Props" [ref=e427] [cursor=pointer]:
+                - /url: "#props"
+            - listitem [ref=e428]:
+              - link "Slots" [ref=e429] [cursor=pointer]:
+                - /url: "#slots"
+            - listitem [ref=e430]:
+              - link "Events" [ref=e431] [cursor=pointer]:
+                - /url: "#events"
+            - listitem [ref=e432]:
+              - link "Methods" [ref=e433] [cursor=pointer]:
+                - /url: "#methods"
+      - generic [ref=e436]:
+        - main [ref=e437]:
+          - generic [ref=e439]:
+            - heading "Input 输入框 Permalink to \"Input 输入框\"" [level=1] [ref=e440]:
+              - text: Input 输入框
+              - link "Permalink to \"Input 输入框\"" [ref=e441] [cursor=pointer]:
+                - /url: "#input-输入框"
+                - text: "#"
+            - paragraph [ref=e442]: 通过鼠标或键盘输入内容。
+            - heading "组件注册 Permalink to \"组件注册\"" [level=2] [ref=e443]:
+              - text: 组件注册
+              - link "Permalink to \"组件注册\"" [ref=e444] [cursor=pointer]:
+                - /url: "#组件注册"
+                - text: "#"
+            - generic [ref=e445]:
+              - button "Copy Code" [ref=e446] [cursor=pointer]
+              - generic [ref=e447]: js
+              - code [ref=e449]:
+                - generic [ref=e450]: "import { FInput } from '@fesjs/fes-design';"
+                - generic [ref=e451]: app.use(FInput);
+            - heading "代码演示 Permalink to \"代码演示\"" [level=2] [ref=e452]:
+              - text: 代码演示
+              - link "Permalink to \"代码演示\"" [ref=e453] [cursor=pointer]:
+                - /url: "#代码演示"
+                - text: "#"
+            - heading "基础用法 Permalink to \"基础用法\"" [level=3] [ref=e454]:
+              - text: 基础用法
+              - link "Permalink to \"基础用法\"" [ref=e455] [cursor=pointer]:
+                - /url: "#基础用法"
+                - text: "#"
+            - generic [ref=e457]:
+              - generic [ref=e458]:
+                - generic [ref=e459] [cursor=pointer]: play
+                - img [ref=e460] [cursor=pointer]:
+                  - img [ref=e461]
+              - generic [ref=e463]:
+                - textbox "请输入" [active] [ref=e466]: hello input
+                - generic [ref=e468]:
+                  - textbox "请输入" [ref=e469]
+                  - generic [ref=e471]: 0/100
+              - code [ref=e475]:
+                - generic [ref=e476]: <template>
+                - generic [ref=e477]: <FSpace vertical>
+                - generic [ref=e478]: <FInput
+                - generic [ref=e479]: v-model="inputValue"
+                - generic [ref=e480]: placeholder="请输入"
+                - generic [ref=e481]: :autofocus="true"
+                - generic [ref=e482]: "@keydown=\"handleKeydown\""
+                - generic [ref=e483]: "@input=\"handleInput\""
+                - generic [ref=e484]: "@change=\"handleChange\""
+                - generic [ref=e485]: />
+                - generic [ref=e486]: <FInput placeholder="请输入" :maxlength="100" showWordLimit />
+                - generic [ref=e487]: </FSpace>
+                - generic [ref=e488]: </template>
+                - generic [ref=e489]: <script>
+                - generic [ref=e490]: "import { ref, watch } from 'vue';"
+                - generic [ref=e491]: "export default {"
+                - generic [ref=e492]: "setup() {"
+                - generic [ref=e493]: const inputValue = ref('hello input');
+                - generic [ref=e494]: "watch(inputValue, () => {"
+                - generic [ref=e495]: console.log(
+                - generic [ref=e496]: "'[input.common] [watch] inputValue.value:',"
+                - generic [ref=e497]: inputValue.value,
+                - generic [ref=e498]: );
+                - generic [ref=e499]: "});"
+                - generic [ref=e500]: "const handleKeydown = (value) => {"
+                - generic [ref=e501]: console.log('[input.common] [handleKeydown] value:', value);
+                - generic [ref=e502]: "};"
+                - generic [ref=e503]: "const handleChange = () => {"
+                - generic [ref=e504]: console.log(
+                - generic [ref=e505]: "'[input.common] [handleChange] inputValue.value:',"
+                - generic [ref=e506]: inputValue.value,
+                - generic [ref=e507]: );
+                - generic [ref=e508]: "};"
+                - generic [ref=e509]: "const handleInput = (value) => {"
+                - generic [ref=e510]: console.log(
+                - generic [ref=e511]: "'[input.common] [handleInput] value:',"
+                - generic [ref=e512]: value,
+                - generic [ref=e513]: "' inputValue.value:',"
+                - generic [ref=e514]: inputValue.value,
+                - generic [ref=e515]: );
+                - generic [ref=e516]: "};"
+                - generic [ref=e517]: "return {"
+                - generic [ref=e518]: inputValue,
+                - generic [ref=e519]: handleKeydown,
+                - generic [ref=e520]: handleChange,
+                - generic [ref=e521]: handleInput,
+                - generic [ref=e522]: "};"
+                - generic [ref=e523]: "},"
+                - generic [ref=e524]: "};"
+                - generic [ref=e525]: </script>
+            - heading "复合型输入框 Permalink to \"复合型输入框\"" [level=3] [ref=e526]:
+              - text: 复合型输入框
+              - link "Permalink to \"复合型输入框\"" [ref=e527] [cursor=pointer]:
+                - /url: "#复合型输入框"
+                - text: "#"
+            - generic [ref=e529]:
+              - generic [ref=e530]:
+                - generic [ref=e531] [cursor=pointer]: play
+                - img [ref=e532] [cursor=pointer]:
+                  - img [ref=e533]
+              - generic [ref=e535]:
+                - generic [ref=e536]:
+                  - generic [ref=e537]: https://
+                  - textbox "请输入" [ref=e539]
+                - generic [ref=e540]:
+                  - textbox "请输入" [ref=e542]
+                  - button "搜索" [ref=e544] [cursor=pointer]
+                - generic [ref=e545]:
+                  - generic [ref=e548] [cursor=pointer]:
+                    - generic [ref=e550]: 请选择
+                    - img [ref=e552]:
+                      - img [ref=e553]
+                  - generic [ref=e555]:
+                    - generic [ref=e556]: ¥
+                    - textbox "请输入" [ref=e557]
+                    - generic [ref=e558]: RMB
+                  - generic [ref=e561] [cursor=pointer]:
+                    - generic [ref=e563]: 请选择
+                    - img [ref=e565]:
+                      - img [ref=e566]
+                - generic [ref=e568]:
+                  - textbox "请输入" [ref=e570]
+                  - generic [ref=e573] [cursor=pointer]:
+                    - generic [ref=e575]: 请选择
+                    - img [ref=e577]:
+                      - img [ref=e578]
+                - generic [ref=e580]:
+                  - textbox "请输入" [ref=e582]
+                  - generic [ref=e583]: .com
+              - code [ref=e587]:
+                - generic [ref=e588]: <template>
+                - generic [ref=e589]: <FSpace vertical>
+                - generic [ref=e590]: <FInput placeholder="请输入">
+                - generic [ref=e591]: "<template #prepend> https:// </template>"
+                - generic [ref=e592]: </FInput>
+                - generic [ref=e593]: <FInput placeholder="请输入">
+                - generic [ref=e594]: "<template #append>"
+                - generic [ref=e595]: <FButton type="primary">搜索</FButton>
+                - generic [ref=e596]: </template>
+                - generic [ref=e597]: </FInput>
+                - generic [ref=e598]: <FInput placeholder="请输入">
+                - generic [ref=e599]: "<template #prepend>"
+                - generic [ref=e600]: "<FSelect v-model=\"selectValue\" style=\"width: 90px\">"
+                - generic [ref=e601]: <FOption :value="1">湖南</FOption>
+                - generic [ref=e602]: <FOption :value="2" label="湖北" disabled />
+                - generic [ref=e603]: <FOption
+                - generic [ref=e604]: :value="3"
+                - generic [ref=e605]: label="浙江浙江浙江浙江浙江浙江浙江浙江浙江"
+                - generic [ref=e606]: />
+                - generic [ref=e607]: <FOption :value="4" label="广东" />
+                - generic [ref=e608]: <FOption :value="5" label="江苏" />
+                - generic [ref=e609]: </FSelect>
+                - generic [ref=e610]: </template>
+                - generic [ref=e611]: "<template #prefix> ¥ </template>"
+                - generic [ref=e612]: "<template #suffix> RMB </template>"
+                - generic [ref=e613]: "<template #append>"
+                - generic [ref=e614]: "<FSelect v-model=\"selectValue\" style=\"width: 90px\">"
+                - generic [ref=e615]: <FOption :value="1">湖南</FOption>
+                - generic [ref=e616]: <FOption :value="2" label="湖北" disabled />
+                - generic [ref=e617]: <FOption
+                - generic [ref=e618]: :value="3"
+                - generic [ref=e619]: label="浙江浙江浙江浙江浙江浙江浙江浙江浙江"
+                - generic [ref=e620]: />
+                - generic [ref=e621]: <FOption :value="4" label="广东" />
+                - generic [ref=e622]: <FOption :value="5" label="江苏" />
+                - generic [ref=e623]: </FSelect>
+                - generic [ref=e624]: </template>
+                - generic [ref=e625]: </FInput>
+                - generic [ref=e626]: <FInput placeholder="请输入">
+                - generic [ref=e627]: "<template #append>"
+                - generic [ref=e628]: <FSelectCascader
+                - generic [ref=e629]: v-model="cascaderValue"
+                - generic [ref=e630]: :data="options"
+                - generic [ref=e631]: "style=\"width: 90px\""
+                - generic [ref=e632]: "@change=\"handleChange\""
+                - generic [ref=e633]: />
+                - generic [ref=e634]: </template>
+                - generic [ref=e635]: </FInput>
+                - generic [ref=e636]: <FInput placeholder="请输入">
+                - generic [ref=e637]: "<template #append>"
+                - generic [ref=e638]: .com
+                - generic [ref=e639]: </template>
+                - generic [ref=e640]: </FInput>
+                - generic [ref=e641]: </FSpace>
+                - generic [ref=e642]: </template>
+                - generic [ref=e643]: <script setup>
+                - generic [ref=e644]: "import { ref } from 'vue';"
+                - generic [ref=e645]: const options = [
+                - generic [ref=e646]: "{"
+                - generic [ref=e647]: "value: '110000',"
+                - generic [ref=e648]: "label: '北京市',"
+                - generic [ref=e649]: "children: ["
+                - generic [ref=e650]: "{"
+                - generic [ref=e651]: "value: '110100',"
+                - generic [ref=e652]: "label: '市辖区',"
+                - generic [ref=e653]: "children: ["
+                - generic [ref=e654]: "{"
+                - generic [ref=e655]: "value: '110101',"
+                - generic [ref=e656]: "label: '东城区东城区东城区东城区东城区东城区',"
+                - generic [ref=e657]: "},"
+                - generic [ref=e658]: "{"
+                - generic [ref=e659]: "value: '110102',"
+                - generic [ref=e660]: "label: '西城区',"
+                - generic [ref=e661]: "},"
+                - generic [ref=e662]: "],"
+                - generic [ref=e663]: "},"
+                - generic [ref=e664]: "{"
+                - generic [ref=e665]: "value: '110200',"
+                - generic [ref=e666]: "label: '市辖县',"
+                - generic [ref=e667]: "children: ["
+                - generic [ref=e668]: "{"
+                - generic [ref=e669]: "value: '110228',"
+                - generic [ref=e670]: "label: '密云县',"
+                - generic [ref=e671]: "},"
+                - generic [ref=e672]: "{"
+                - generic [ref=e673]: "value: '110229',"
+                - generic [ref=e674]: "label: '延庆县',"
+                - generic [ref=e675]: "},"
+                - generic [ref=e676]: "],"
+                - generic [ref=e677]: "},"
+                - generic [ref=e678]: "],"
+                - generic [ref=e679]: "},"
+                - generic [ref=e680]: "{"
+                - generic [ref=e681]: "value: '130000',"
+                - generic [ref=e682]: "label: '河北省',"
+                - generic [ref=e683]: "children: ["
+                - generic [ref=e684]: "{"
+                - generic [ref=e685]: "value: '130100',"
+                - generic [ref=e686]: "label: '石家庄市',"
+                - generic [ref=e687]: "},"
+                - generic [ref=e688]: "{"
+                - generic [ref=e689]: "value: '130200',"
+                - generic [ref=e690]: "label: '唐山市',"
+                - generic [ref=e691]: "},"
+                - generic [ref=e692]: "],"
+                - generic [ref=e693]: "},"
+                - generic [ref=e694]: "{"
+                - generic [ref=e695]: "value: '140000',"
+                - generic [ref=e696]: "label: '山西省',"
+                - generic [ref=e697]: "},"
+                - generic [ref=e698]: "];"
+                - generic [ref=e699]: const selectValue = ref();
+                - generic [ref=e700]: const cascaderValue = ref();
+                - generic [ref=e701]: "const handleChange = (value) => {"
+                - generic [ref=e702]: console.log('[input.append] [handleChange] value:', value);
+                - generic [ref=e703]: "};"
+                - generic [ref=e704]: </script>
+            - heading "可清除输入框 Permalink to \"可清除输入框\"" [level=3] [ref=e705]:
+              - text: 可清除输入框
+              - link "Permalink to \"可清除输入框\"" [ref=e706] [cursor=pointer]:
+                - /url: "#可清除输入框"
+                - text: "#"
+            - generic [ref=e708]:
+              - generic [ref=e709]:
+                - generic [ref=e710] [cursor=pointer]: play
+                - img [ref=e711] [cursor=pointer]:
+                  - img [ref=e712]
+              - generic [ref=e715]:
+                - textbox "请输入" [ref=e720]
+                - textbox "请输入" [ref=e725]
+              - code [ref=e729]:
+                - generic [ref=e730]: <template>
+                - generic [ref=e731]: <FForm>
+                - generic [ref=e732]: <FFormItem>
+                - generic [ref=e733]: <FInput clearable placeholder="请输入" />
+                - generic [ref=e734]: </FFormItem>
+                - generic [ref=e735]: <FFormItem>
+                - generic [ref=e736]: <FInput
+                - generic [ref=e737]: type="password"
+                - generic [ref=e738]: clearable
+                - generic [ref=e739]: showPassword
+                - generic [ref=e740]: placeholder="请输入"
+                - generic [ref=e741]: />
+                - generic [ref=e742]: </FFormItem>
+                - generic [ref=e743]: </FForm>
+                - generic [ref=e744]: </template>
+            - heading "disabled Permalink to \"disabled\"" [level=3] [ref=e745]:
+              - text: disabled
+              - link "Permalink to \"disabled\"" [ref=e746] [cursor=pointer]:
+                - /url: "#disabled"
+                - text: "#"
+            - generic [ref=e748]:
+              - generic [ref=e749]:
+                - generic [ref=e750] [cursor=pointer]: play
+                - img [ref=e751] [cursor=pointer]:
+                  - img [ref=e752]
+              - generic [ref=e754]:
+                - textbox "请输入" [disabled] [ref=e757]
+                - textbox [disabled] [ref=e760]: hello we input
+              - code [ref=e764]:
+                - generic [ref=e765]: <template>
+                - generic [ref=e766]: <FSpace vertical>
+                - generic [ref=e767]: <FInput disabled placeholder="请输入" />
+                - generic [ref=e768]: <FInput disabled modelValue="hello we input" />
+                - generic [ref=e769]: </FSpace>
+                - generic [ref=e770]: </template>
+            - heading "显示输入数字 Permalink to \"显示输入数字\"" [level=3] [ref=e771]:
+              - text: 显示输入数字
+              - link "Permalink to \"显示输入数字\"" [ref=e772] [cursor=pointer]:
+                - /url: "#显示输入数字"
+                - text: "#"
+            - generic [ref=e774]:
+              - generic [ref=e775]:
+                - generic [ref=e776] [cursor=pointer]: play
+                - img [ref=e777] [cursor=pointer]:
+                  - img [ref=e778]
+              - generic [ref=e781]:
+                - textbox "请输入" [ref=e782]
+                - generic: 0/200
+              - code [ref=e786]:
+                - generic [ref=e787]: <template>
+                - generic [ref=e788]: <FSpace vertical>
+                - generic [ref=e789]: <FInput
+                - generic [ref=e790]: type="textarea"
+                - generic [ref=e791]: showWordLimit
+                - generic [ref=e792]: :maxlength="200"
+                - generic [ref=e793]: placeholder="请输入"
+                - generic [ref=e794]: />
+                - generic [ref=e795]: </FSpace>
+                - generic [ref=e796]: </template>
+            - heading "密码输入框 Permalink to \"密码输入框\"" [level=3] [ref=e797]:
+              - text: 密码输入框
+              - link "Permalink to \"密码输入框\"" [ref=e798] [cursor=pointer]:
+                - /url: "#密码输入框"
+                - text: "#"
+            - generic [ref=e800]:
+              - generic [ref=e801]:
+                - generic [ref=e802] [cursor=pointer]: play
+                - img [ref=e803] [cursor=pointer]:
+                  - img [ref=e804]
+              - generic [ref=e807]:
+                - textbox "请输入" [ref=e812]
+                - textbox "请输入" [ref=e817]
+              - code [ref=e821]:
+                - generic [ref=e822]: <template>
+                - generic [ref=e823]: <FForm>
+                - generic [ref=e824]: <FFormItem>
+                - generic [ref=e825]: <FInput type="password" placeholder="请输入" />
+                - generic [ref=e826]: </FFormItem>
+                - generic [ref=e827]: <FFormItem>
+                - generic [ref=e828]: <FInput type="password" showPassword placeholder="请输入" />
+                - generic [ref=e829]: </FFormItem>
+                - generic [ref=e830]: </FForm>
+                - generic [ref=e831]: </template>
+            - heading "自定义前缀/后缀 Permalink to \"自定义前缀/后缀\"" [level=3] [ref=e832]:
+              - text: 自定义前缀/后缀
+              - link "Permalink to \"自定义前缀/后缀\"" [ref=e833] [cursor=pointer]:
+                - /url: "#自定义前缀-后缀"
+                - text: "#"
+            - generic [ref=e835]:
+              - generic [ref=e836]:
+                - generic [ref=e837] [cursor=pointer]: play
+                - img [ref=e838] [cursor=pointer]:
+                  - img [ref=e839]
+              - generic [ref=e841]:
+                - generic [ref=e843]:
+                  - textbox "请输入" [ref=e844]
+                  - img [ref=e846] [cursor=pointer]:
+                    - img [ref=e847]
+                - generic [ref=e850]:
+                  - textbox "请输入" [ref=e851]
+                  - img [ref=e853]:
+                    - img [ref=e854]
+                - generic [ref=e857]:
+                  - generic [ref=e858]: count (
+                  - textbox "请输入" [ref=e859]
+                  - generic [ref=e860]: )
+              - code [ref=e864]:
+                - generic [ref=e865]: <template>
+                - generic [ref=e866]: <FSpace vertical>
+                - generic [ref=e867]: <FInput placeholder="请输入">
+                - generic [ref=e868]: "<template #suffix>"
+                - generic [ref=e869]: <SearchOutlined @click="search" />
+                - generic [ref=e870]: </template>
+                - generic [ref=e871]: </FInput>
+                - generic [ref=e872]: <FInput placeholder="请输入">
+                - generic [ref=e873]: "<template #suffix>"
+                - generic [ref=e874]: <UserOutlined />
+                - generic [ref=e875]: </template>
+                - generic [ref=e876]: </FInput>
+                - generic [ref=e877]: <FInput placeholder="请输入">
+                - generic [ref=e878]: "<template #prefix> count ( </template>"
+                - generic [ref=e879]: "<template #suffix> ) </template>"
+                - generic [ref=e880]: </FInput>
+                - generic [ref=e881]: </FSpace>
+                - generic [ref=e882]: </template>
+                - generic [ref=e883]: <script>
+                - generic [ref=e884]: "export default {"
+                - generic [ref=e885]: "setup() {"
+                - generic [ref=e886]: "const search = () => {"
+                - generic [ref=e887]: console.log('[input.prefixSuffix] [search]');
+                - generic [ref=e888]: "};"
+                - generic [ref=e889]: "return {"
+                - generic [ref=e890]: search,
+                - generic [ref=e891]: "};"
+                - generic [ref=e892]: "},"
+                - generic [ref=e893]: "};"
+                - generic [ref=e894]: </script>
+            - heading "文本域 Permalink to \"文本域\"" [level=3] [ref=e895]:
+              - text: 文本域
+              - link "Permalink to \"文本域\"" [ref=e896] [cursor=pointer]:
+                - /url: "#文本域"
+                - text: "#"
+            - generic [ref=e898]:
+              - generic [ref=e899]:
+                - generic [ref=e900] [cursor=pointer]: play
+                - img [ref=e901] [cursor=pointer]:
+                  - img [ref=e902]
+              - generic [ref=e904]:
+                - text: 文本输入
+                - textbox "请输入" [ref=e906]
+                - text: 最小2行/最大5行
+                - textbox "请输入" [ref=e908]
+                - text: 禁用
+                - textbox "请输入" [disabled] [ref=e910]: hello disabled textarea
+              - code [ref=e914]:
+                - generic [ref=e915]: <template>
+                - generic [ref=e916]: <FSpace vertical>
+                - generic [ref=e917]: 文本输入
+                - generic [ref=e918]: <FInput type="textarea" placeholder="请输入" />
+                - generic [ref=e919]: <span>最小2行/最大5行</span>
+                - generic [ref=e920]: <FInput
+                - generic [ref=e921]: v-model="autoSizeValue"
+                - generic [ref=e922]: type="textarea"
+                - generic [ref=e923]: ":autosize=\"{ minRows: 2, maxRows: 5 }\""
+                - generic [ref=e924]: placeholder="请输入"
+                - generic [ref=e925]: />
+                - generic [ref=e926]: 禁用
+                - generic [ref=e927]: <FInput
+                - generic [ref=e928]: type="textarea"
+                - generic [ref=e929]: modelValue="hello disabled textarea"
+                - generic [ref=e930]: disabled
+                - generic [ref=e931]: placeholder="请输入"
+                - generic [ref=e932]: />
+                - generic [ref=e933]: </FSpace>
+                - generic [ref=e934]: </template>
+                - generic [ref=e935]: <script>
+                - generic [ref=e936]: "import { ref } from 'vue';"
+                - generic [ref=e937]: "export default {"
+                - generic [ref=e938]: "setup() {"
+                - generic [ref=e939]: const autoSizeValue = ref();
+                - generic [ref=e940]: "return {"
+                - generic [ref=e941]: autoSizeValue,
+                - generic [ref=e942]: "};"
+                - generic [ref=e943]: "},"
+                - generic [ref=e944]: "};"
+                - generic [ref=e945]: </script>
+            - heading "事件监听 Permalink to \"事件监听\"" [level=3] [ref=e946]:
+              - text: 事件监听
+              - link "Permalink to \"事件监听\"" [ref=e947] [cursor=pointer]:
+                - /url: "#事件监听"
+                - text: "#"
+            - generic [ref=e949]:
+              - generic [ref=e950]:
+                - generic [ref=e951] [cursor=pointer]: play
+                - img [ref=e952] [cursor=pointer]:
+                  - img [ref=e953]
+              - generic [ref=e955]:
+                - text: "change 事件:"
+                - textbox "请输入" [ref=e958]
+                - text: "keydown 事件:"
+                - textbox "请输入" [ref=e961]
+                - text: "input 事件:"
+                - textbox "请输入" [ref=e964]
+                - text: "enter 事件:"
+                - textbox "请输入" [ref=e967]
+                - text: "clear 事件:"
+                - textbox "请输入" [ref=e970]
+              - code [ref=e974]:
+                - generic [ref=e975]: <template>
+                - generic [ref=e976]: <FSpace vertical>
+                - generic [ref=e977]: "change 事件:"
+                - generic [ref=e978]: <FInput placeholder="请输入" @change="textChange" />
+                - generic [ref=e979]: "keydown 事件:"
+                - generic [ref=e980]: <FInput placeholder="请输入" @keydown="keyDown" />
+                - generic [ref=e981]: "input 事件:"
+                - generic [ref=e982]: <FInput placeholder="请输入" @input="inputChange" />
+                - generic [ref=e983]: "enter 事件:"
+                - generic [ref=e984]: <FInput
+                - generic [ref=e985]: placeholder="请输入"
+                - generic [ref=e986]: "@keyup.enter=\"keyupEnter\""
+                - generic [ref=e987]: "@change=\"keyupEnterChange\""
+                - generic [ref=e988]: />
+                - generic [ref=e989]: "clear 事件:"
+                - generic [ref=e990]: <FInput
+                - generic [ref=e991]: placeholder="请输入"
+                - generic [ref=e992]: clearable
+                - generic [ref=e993]: "@clear=\"textClear\""
+                - generic [ref=e994]: "@input=\"textClearInput\""
+                - generic [ref=e995]: />
+                - generic [ref=e996]: </FSpace>
+                - generic [ref=e997]: </template>
+                - generic [ref=e998]: <script>
+                - generic [ref=e999]: "export default {"
+                - generic [ref=e1000]: "setup() {"
+                - generic [ref=e1001]: "const textChange = (e) => {"
+                - generic [ref=e1002]: console.log('[input.event] [textChange] e:', e);
+                - generic [ref=e1003]: "};"
+                - generic [ref=e1004]: "const keyDown = (e) => {"
+                - generic [ref=e1005]: console.log('[input.event] [keyDown] e:', e);
+                - generic [ref=e1006]: "};"
+                - generic [ref=e1007]: "const inputChange = (e) => {"
+                - generic [ref=e1008]: console.log('[input.event] [inputChange] e:', e);
+                - generic [ref=e1009]: "};"
+                - generic [ref=e1010]: "const keyupEnter = (e) => {"
+                - generic [ref=e1011]: console.log('[input.event] [keyupEnter] e:', e);
+                - generic [ref=e1012]: "};"
+                - generic [ref=e1013]: // enter 事件会同时触发 change 事件
+                - generic [ref=e1014]: "const keyupEnterChange = (e) => {"
+                - generic [ref=e1015]: console.log('[input.event] [keyupEnterChange] e:', e);
+                - generic [ref=e1016]: "};"
+                - generic [ref=e1017]: "const textClear = () => {"
+                - generic [ref=e1018]: console.log('[input.event] [textClear]');
+                - generic [ref=e1019]: "};"
+                - generic [ref=e1020]: // clear 事件会同时触发 input 事件
+                - generic [ref=e1021]: "const textClearInput = (e) => {"
+                - generic [ref=e1022]: console.log('[input.event] [textClearInput] e:', e);
+                - generic [ref=e1023]: "};"
+                - generic [ref=e1024]: "return {"
+                - generic [ref=e1025]: textChange,
+                - generic [ref=e1026]: keyDown,
+                - generic [ref=e1027]: inputChange,
+                - generic [ref=e1028]: keyupEnter,
+                - generic [ref=e1029]: keyupEnterChange,
+                - generic [ref=e1030]: textClear,
+                - generic [ref=e1031]: textClearInput,
+                - generic [ref=e1032]: "};"
+                - generic [ref=e1033]: "},"
+                - generic [ref=e1034]: "};"
+                - generic [ref=e1035]: </script>
+            - heading "聚焦和失焦 Permalink to \"聚焦和失焦\"" [level=3] [ref=e1036]:
+              - text: 聚焦和失焦
+              - link "Permalink to \"聚焦和失焦\"" [ref=e1037] [cursor=pointer]:
+                - /url: "#聚焦和失焦"
+                - text: "#"
+            - generic [ref=e1039]:
+              - generic [ref=e1040]:
+                - generic [ref=e1041] [cursor=pointer]: play
+                - img [ref=e1042] [cursor=pointer]:
+                  - img [ref=e1043]
+              - generic [ref=e1045]:
+                - button "手动聚焦" [ref=e1046] [cursor=pointer]
+                - textbox "请输入" [ref=e1049]
+              - code [ref=e1053]:
+                - generic [ref=e1054]: <template>
+                - generic [ref=e1055]: <FButton class="mb-10" type="primary" @click="handleFocus">
+                - generic [ref=e1056]: 手动聚焦
+                - generic [ref=e1057]: </FButton>
+                - generic [ref=e1058]: <FInput
+                - generic [ref=e1059]: ref="inputRef"
+                - generic [ref=e1060]: placeholder="请输入"
+                - generic [ref=e1061]: "@blur=\"handleInputBlur\""
+                - generic [ref=e1062]: "@focus=\"handleInputFocus\""
+                - generic [ref=e1063]: />
+                - generic [ref=e1064]: </template>
+                - generic [ref=e1065]: <script>
+                - generic [ref=e1066]: "import { nextTick, ref } from 'vue';"
+                - generic [ref=e1067]: "export default {"
+                - generic [ref=e1068]: "setup() {"
+                - generic [ref=e1069]: const inputRef = ref(null);
+                - generic [ref=e1070]: // 手动聚焦
+                - generic [ref=e1071]: "const handleFocus = async () => {"
+                - generic [ref=e1072]: await nextTick();
+                - generic [ref=e1073]: inputRef.value?.focus();
+                - generic [ref=e1074]: "setTimeout(() => {"
+                - generic [ref=e1075]: inputRef.value?.blur();
+                - generic [ref=e1076]: "}, 5000);"
+                - generic [ref=e1077]: "};"
+                - generic [ref=e1078]: "const handleInputBlur = (e) => {"
+                - generic [ref=e1079]: console.log('[input.handleFocus] [blur] e:', e);
+                - generic [ref=e1080]: "};"
+                - generic [ref=e1081]: "const handleInputFocus = (e) => {"
+                - generic [ref=e1082]: console.log('[input.handleFocus] [focus] e:', e);
+                - generic [ref=e1083]: "};"
+                - generic [ref=e1084]: "return {"
+                - generic [ref=e1085]: inputRef,
+                - generic [ref=e1086]: handleFocus,
+                - generic [ref=e1087]: handleInputBlur,
+                - generic [ref=e1088]: handleInputFocus,
+                - generic [ref=e1089]: "};"
+                - generic [ref=e1090]: "},"
+                - generic [ref=e1091]: "};"
+                - generic [ref=e1092]: </script>
+                - generic [ref=e1093]: <style scoped>
+                - generic [ref=e1094]: ".mb-10 {"
+                - generic [ref=e1095]: "margin-bottom: 10px;"
+                - generic [ref=e1096]: "}"
+                - generic [ref=e1097]: </style>
+            - heading "Props Permalink to \"Props\"" [level=2] [ref=e1098]:
+              - text: Props
+              - link "Permalink to \"Props\"" [ref=e1099] [cursor=pointer]:
+                - /url: "#props"
+                - text: "#"
+            - table [ref=e1100]:
+              - rowgroup [ref=e1101]:
+                - row "属性 说明 类型 默认值" [ref=e1102]:
+                  - columnheader "属性" [ref=e1103]
+                  - columnheader "说明" [ref=e1104]
+                  - columnheader "类型" [ref=e1105]
+                  - columnheader "默认值" [ref=e1106]
+              - rowgroup [ref=e1107]:
+                - row "autocomplete 原生属性，自动补全 string -" [ref=e1108]:
+                  - cell "autocomplete" [ref=e1109]
+                  - cell "原生属性，自动补全" [ref=e1110]
+                  - cell "string" [ref=e1111]
+                  - cell "-" [ref=e1112]
+                - row "clearable 可以点击清除图标删除内容，仅type非textarea时有效 boolean false" [ref=e1113]:
+                  - cell "clearable" [ref=e1114]
+                  - cell "可以点击清除图标删除内容，仅type非textarea时有效" [ref=e1115]:
+                    - text: 可以点击清除图标删除内容，仅
+                    - code [ref=e1116]: type
+                    - text: 非
+                    - code [ref=e1117]: textarea
+                    - text: 时有效
+                  - cell "boolean" [ref=e1118]
+                  - cell "false" [ref=e1119]:
+                    - code [ref=e1120]: "false"
+                - row "disabled 是否禁用 boolean false" [ref=e1121]:
+                  - cell "disabled" [ref=e1122]
+                  - cell "是否禁用" [ref=e1123]
+                  - cell "boolean" [ref=e1124]
+                  - cell "false" [ref=e1125]:
+                    - code [ref=e1126]: "false"
+                - row "maxlength 最大长度 number -" [ref=e1127]:
+                  - cell "maxlength" [ref=e1128]
+                  - cell "最大长度" [ref=e1129]
+                  - cell "number" [ref=e1130]
+                  - cell "-" [ref=e1131]
+                - row "placeholder placeholder string -" [ref=e1132]:
+                  - cell "placeholder" [ref=e1133]
+                  - cell "placeholder" [ref=e1134]
+                  - cell "string" [ref=e1135]
+                  - cell "-" [ref=e1136]
+                - row "type textarea为文本域，非textarea时声明input类型，同原生input标签的type属性 string text" [ref=e1137]:
+                  - cell "type" [ref=e1138]
+                  - cell "textarea为文本域，非textarea时声明input类型，同原生input标签的type属性" [ref=e1139]:
+                    - code [ref=e1140]: textarea
+                    - text: 为文本域，非
+                    - code [ref=e1141]: textarea
+                    - text: 时声明
+                    - code [ref=e1142]: input
+                    - text: 类型，同原生
+                    - code [ref=e1143]: input
+                    - text: 标签的
+                    - code [ref=e1144]: type
+                    - text: 属性
+                  - cell "string" [ref=e1145]
+                  - cell "text" [ref=e1146]:
+                    - code [ref=e1147]: text
+                - row "modelValue v-model 双向绑定 number、string -" [ref=e1148]:
+                  - cell "modelValue" [ref=e1149]
+                  - cell "v-model 双向绑定" [ref=e1150]
+                  - cell "number、string" [ref=e1151]
+                  - cell "-" [ref=e1152]
+                - row "resize 是否允许用户缩放，可选值： none both horizontal vertical string -" [ref=e1153]:
+                  - cell "resize" [ref=e1154]
+                  - cell "是否允许用户缩放，可选值： none both horizontal vertical" [ref=e1155]:
+                    - text: 是否允许用户缩放，可选值：
+                    - code [ref=e1156]: none
+                    - code [ref=e1157]: both
+                    - code [ref=e1158]: horizontal
+                    - code [ref=e1159]: vertical
+                  - cell "string" [ref=e1160]
+                  - cell "-" [ref=e1161]
+                - row "rows 输入框行数，只在 type=\"textarea\" 时有效 number 2" [ref=e1162]:
+                  - cell "rows" [ref=e1163]
+                  - cell "输入框行数，只在 type=\"textarea\" 时有效" [ref=e1164]:
+                    - text: 输入框行数，只在
+                    - code [ref=e1165]: type="textarea"
+                    - text: 时有效
+                  - cell "number" [ref=e1166]
+                  - cell "2" [ref=e1167]
+                - row "showWordLimit 是否显示输入数字统计，只在 type=\"textarea\" 时有效 boolean false" [ref=e1168]:
+                  - cell "showWordLimit" [ref=e1169]
+                  - cell "是否显示输入数字统计，只在 type=\"textarea\" 时有效" [ref=e1170]:
+                    - text: 是否显示输入数字统计，只在
+                    - code [ref=e1171]: type="textarea"
+                    - text: 时有效
+                  - cell "boolean" [ref=e1172]
+                  - cell "false" [ref=e1173]
+                - row "showPassword 是否显示切换密码图标，仅type非textarea时有效 boolean false" [ref=e1174]:
+                  - cell "showPassword" [ref=e1175]
+                  - cell "是否显示切换密码图标，仅type非textarea时有效" [ref=e1176]:
+                    - text: 是否显示切换密码图标，仅
+                    - code [ref=e1177]: type
+                    - text: 非
+                    - code [ref=e1178]: textarea
+                    - text: 时有效
+                  - cell "boolean" [ref=e1179]
+                  - cell "false" [ref=e1180]
+                - 'row "autosize 自适应内容高度，只在 type=\"textarea\" 时有效，可输入对象，入 { minRows: 2, maxRows: 3 } boolean、object false" [ref=e1181]':
+                  - cell "autosize" [ref=e1182]
+                  - 'cell "自适应内容高度，只在 type=\"textarea\" 时有效，可输入对象，入 { minRows: 2, maxRows: 3 }" [ref=e1183]':
+                    - text: 自适应内容高度，只在
+                    - code [ref=e1184]: type="textarea"
+                    - text: 时有效，可输入对象，入
+                    - code [ref=e1185]: "{ minRows: 2, maxRows: 3 }"
+                  - cell "boolean、object" [ref=e1186]
+                  - cell "false" [ref=e1187]
+                - row "autofocus 是否自动获取焦点 boolean false" [ref=e1188]:
+                  - cell "autofocus" [ref=e1189]
+                  - cell "是否自动获取焦点" [ref=e1190]
+                  - cell "boolean" [ref=e1191]
+                  - cell "false" [ref=e1192]:
+                    - code [ref=e1193]: "false"
+            - heading "Slots Permalink to \"Slots\"" [level=2] [ref=e1194]:
+              - text: Slots
+              - link "Permalink to \"Slots\"" [ref=e1195] [cursor=pointer]:
+                - /url: "#slots"
+                - text: "#"
+            - table [ref=e1196]:
+              - rowgroup [ref=e1197]:
+                - row "属性 说明" [ref=e1198]:
+                  - columnheader "属性" [ref=e1199]
+                  - columnheader "说明" [ref=e1200]
+              - rowgroup [ref=e1201]:
+                - row "prefix 前缀，只在 type=\"text\" 时有效" [ref=e1202]:
+                  - cell "prefix" [ref=e1203]
+                  - cell "前缀，只在 type=\"text\" 时有效" [ref=e1204]:
+                    - text: 前缀，只在
+                    - code [ref=e1205]: type="text"
+                    - text: 时有效
+                - row "suffix 后缀，只在 type=\"text\" 时有效" [ref=e1206]:
+                  - cell "suffix" [ref=e1207]
+                  - cell "后缀，只在 type=\"text\" 时有效" [ref=e1208]:
+                    - text: 后缀，只在
+                    - code [ref=e1209]: type="text"
+                    - text: 时有效
+                - row "prepend 前置内容，只在 type=\"text\" 时有效" [ref=e1210]:
+                  - cell "prepend" [ref=e1211]
+                  - cell "前置内容，只在 type=\"text\" 时有效" [ref=e1212]:
+                    - text: 前置内容，只在
+                    - code [ref=e1213]: type="text"
+                    - text: 时有效
+                - row "append 后置内容，只在 type=\"text\" 时有效" [ref=e1214]:
+                  - cell "append" [ref=e1215]
+                  - cell "后置内容，只在 type=\"text\" 时有效" [ref=e1216]:
+                    - text: 后置内容，只在
+                    - code [ref=e1217]: type="text"
+                    - text: 时有效
+            - heading "Events Permalink to \"Events\"" [level=2] [ref=e1218]:
+              - text: Events
+              - link "Permalink to \"Events\"" [ref=e1219] [cursor=pointer]:
+                - /url: "#events"
+                - text: "#"
+            - table [ref=e1220]:
+              - rowgroup [ref=e1221]:
+                - row "事件名称 说明 回调参数" [ref=e1222]:
+                  - columnheader "事件名称" [ref=e1223]
+                  - columnheader "说明" [ref=e1224]
+                  - columnheader "回调参数" [ref=e1225]
+              - rowgroup [ref=e1226]:
+                - row "change 仅在输入框失去焦点或用户按下回车时触发 (event) => void" [ref=e1227]:
+                  - cell "change" [ref=e1228]
+                  - cell "仅在输入框失去焦点或用户按下回车时触发" [ref=e1229]
+                  - cell "(event) => void" [ref=e1230]
+                - row "input 内容变更触发 (event) => void" [ref=e1231]:
+                  - cell "input" [ref=e1232]
+                  - cell "内容变更触发" [ref=e1233]
+                  - cell "(event) => void" [ref=e1234]
+                - row "blur 失去焦点 (event) => void" [ref=e1235]:
+                  - cell "blur" [ref=e1236]
+                  - cell "失去焦点" [ref=e1237]
+                  - cell "(event) => void" [ref=e1238]
+                - row "focus 获取焦点 (event) => void" [ref=e1239]:
+                  - cell "focus" [ref=e1240]
+                  - cell "获取焦点" [ref=e1241]
+                  - cell "(event) => void" [ref=e1242]
+                - row "clear 点击 clearable 属性生成的清空按钮时触发，仅type非textarea时有效 -" [ref=e1243]:
+                  - cell "clear" [ref=e1244]
+                  - cell "点击 clearable 属性生成的清空按钮时触发，仅type非textarea时有效" [ref=e1245]:
+                    - text: 点击
+                    - code [ref=e1246]: clearable
+                    - text: 属性生成的清空按钮时触发，仅
+                    - code [ref=e1247]: type
+                    - text: 非
+                    - code [ref=e1248]: textarea
+                    - text: 时有效
+                  - cell "-" [ref=e1249]
+                - row "keydown 按下键盘时触发 (event) => void" [ref=e1250]:
+                  - cell "keydown" [ref=e1251]
+                  - cell "按下键盘时触发" [ref=e1252]
+                  - cell "(event) => void" [ref=e1253]
+            - heading "Methods Permalink to \"Methods\"" [level=2] [ref=e1254]:
+              - text: Methods
+              - link "Permalink to \"Methods\"" [ref=e1255] [cursor=pointer]:
+                - /url: "#methods"
+                - text: "#"
+            - table [ref=e1256]:
+              - rowgroup [ref=e1257]:
+                - row "名称 说明" [ref=e1258]:
+                  - columnheader "名称" [ref=e1259]
+                  - columnheader "说明" [ref=e1260]
+              - rowgroup [ref=e1261]:
+                - row "blur 取消焦点" [ref=e1262]:
+                  - cell "blur" [ref=e1263]
+                  - cell "取消焦点" [ref=e1264]
+                - row "focus 获取焦点" [ref=e1265]:
+                  - cell "focus" [ref=e1266]
+                  - cell "获取焦点" [ref=e1267]
+        - contentinfo [ref=e1268]:
+          - navigation "Pager" [ref=e1269]:
+            - generic [ref=e1270]: Pager
+            - link "Previous page Form 表单" [ref=e1272] [cursor=pointer]:
+              - /url: /zh/components/form.html
+              - generic [ref=e1273]: Previous page
+              - generic [ref=e1274]: Form 表单
+            - link "Next page InputFile 文件选择" [ref=e1276] [cursor=pointer]:
+              - /url: /zh/components/inputFile.html
+              - generic [ref=e1277]: Next page
+              - generic [ref=e1278]: InputFile 文件选择
+  - tooltip
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | 
+  3  | test.describe('input size feature #884', () => {
+  4  |     test.beforeEach(async ({ page }) => {
+  5  |         await page.goto('/zh/components/input/');
+  6  |     });
+  7  | 
+  8  |     test('size demo shows small inputs with smaller heights', async ({ page }) => {
+  9  |         await page.click('text=尺寸');
+  10 |         await page.waitForSelector('.fes-input-inner-size-small', { timeout: 10000 });
+  11 | 
+  12 |         const smallInput = page.locator('.fes-input-inner-size-small').first();
+  13 |         const mediumInput = page.locator('.fes-input-inner').first();
+  14 | 
+  15 |         await expect(smallInput).toBeVisible();
+  16 |         await expect(mediumInput).toBeVisible();
+  17 | 
+  18 |         const smallBox = await smallInput.boundingBox();
+  19 |         const mediumBox = await mediumInput.boundingBox();
+  20 | 
+  21 |         expect(smallBox.height).toBeLessThan(mediumBox.height);
+  22 |         expect(smallBox.height).toBeCloseTo(24, 2);
+  23 |         expect(mediumBox.height).toBeCloseTo(32, 2);
+  24 |     });
+  25 | 
+  26 |     test('select trigger size small class is applied', async ({ page }) => {
+> 27 |         await page.click('text=尺寸');
+     |                    ^ Error: page.click: Test timeout of 60000ms exceeded.
+  28 |         await page.waitForSelector('.fes-select-trigger-size-small', { timeout: 10000 });
+  29 | 
+  30 |         const smallSelectTrigger = page.locator('.fes-select-trigger-size-small').first();
+  31 |         await expect(smallSelectTrigger).toBeVisible();
+  32 | 
+  33 |         const smallBox = await smallSelectTrigger.boundingBox();
+  34 |         expect(smallBox.height).toBeLessThan(40);
+  35 |     });
+  36 | });
+```
