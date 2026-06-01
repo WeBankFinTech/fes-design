@@ -4,6 +4,7 @@ import type { DateObj } from './interface';
 export const PickerType = {
     date: 'date',
     datetime: 'datetime',
+    datehour: 'datehour',
     datemultiple: 'datemultiple',
     daterange: 'daterange',
     datetimerange: 'datetimerange',
@@ -55,6 +56,18 @@ export class DateTimePicker implements Picker {
     confirmLang = 'datePicker.today';
     placeholderLang = 'datePicker.selectDateTime';
     format = 'yyyy-MM-dd HH:mm:ss';
+    isRange = false;
+    hasTime = true;
+    getDateFromStr(val: string): Date {
+        return new Date(val);
+    }
+}
+
+export class DateHourMinutePicker implements Picker {
+    name = PickerType.datehour;
+    confirmLang = 'datePicker.today';
+    placeholderLang = 'datePicker.selectDateTime';
+    format = 'yyyy-MM-dd HH:mm';
     isRange = false;
     hasTime = true;
     getDateFromStr(val: string): Date {
@@ -198,6 +211,8 @@ export function pickerFactory(type: string): Picker {
             return new DatePicker();
         case PickerType.datetime:
             return new DateTimePicker();
+        case PickerType.datehour:
+            return new DateHourMinutePicker();
         case PickerType.datemultiple:
             return new DateMultiplePicker();
         case PickerType.daterange:
