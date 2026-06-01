@@ -1,0 +1,37 @@
+@import '../../style/themes/index';
+@import '../../style/mixins/index';
+
+@anchor: ~'@{cls-prefix}-anchor';
+
+.@{anchor} {
+    &-wrapper {
+        position: relative;
+        padding-left: @anchor-padding-left;
+    }
+
+    &-link {
+        position: relative;
+
+        &-title {
+            display: block;
+            padding: @anchor-link-padding;
+            color: var(--f-text-color);
+            font-size: var(--f-font-size-base);
+            text-decoration: none;
+            transition: color @transition-time @transition-timing-function;
+
+            &:hover {
+                color: var(--f-primary-color);
+            }
+
+            &-active {
+                color: var(--f-primary-color);
+                font-weight: @anchor-font-weight-active;
+            }
+        }
+
+        &-children {
+            padding-left: @anchor-children-padding-left;
+        }
+    }
+}
