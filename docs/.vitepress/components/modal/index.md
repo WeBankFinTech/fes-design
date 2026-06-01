@@ -18,6 +18,14 @@ app.use(FModal);
 common.vue
 :::
 
+### displayDirective: show
+
+使用 `show` 时，弹窗内容不会随着切换重置
+
+:::demo
+displayDirectiveShow.vue
+:::
+
 ### 自定义头部
 
 通过 slot `title`可以自定义页脚内容
