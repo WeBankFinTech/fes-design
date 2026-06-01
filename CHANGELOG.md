@@ -4,6 +4,7 @@
 ### Bug Fixes
 
 * table multiple=false 时单选框勾选状态不显示 ([#961](https://github.com/WeBankFinTech/fes-design/issues/961)) ([46d6f24](https://github.com/WeBankFinTech/fes-design/commit/46d6f24c9dab2d3d41ffe028969a5be64ea1965c))
+* fix(input): disabled 时无数据时 placeholder 为空 ([#886](https://github.com/WeBankFinTech/fes-design/issues/886))
 * vite8 css 变量处理问题 ([#963](https://github.com/WeBankFinTech/fes-design/issues/963)) ([df12c80](https://github.com/WeBankFinTech/fes-design/commit/df12c800130920d9cc1991677fc3a05d6b625037))
 
 
