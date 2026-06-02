@@ -18,3 +18,10 @@ docs/zh/components
 tsconfig.tsbuildinfo
 types
 doc
+
+# Test artifacts (added by chore/test-infra)
+test-results/
+playwright-report/
+blob-report/
+coverage/
+.playwright/
