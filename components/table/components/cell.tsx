@@ -66,7 +66,7 @@ export default defineComponent({
                         {actions.map((action) => (
                             <Button
                                 class={`${prefixCls}-action-item`}
-                                type="link"
+                                type={action.type ?? 'primary'}
                                 onClick={() => {
                                     action.func(row);
                                 }}

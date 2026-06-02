@@ -15,6 +15,7 @@ export type RowKey = string | ((row: RowType) => string | number);
 export interface ActionType {
     label: string | number;
     func: (row: any) => void;
+    type?: 'primary' | 'text' | 'link' | 'info' | 'success' | 'warning' | 'danger' | 'default';
 }
 
 export interface TableInst
