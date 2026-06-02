@@ -140,7 +140,7 @@ export default defineComponent({
 
         return () => (
             <div class={`${prefixCls}`}>
-                <div class={`${prefixCls}-wrapper">
+                <div class={`${prefixCls}-wrapper`}>
                     {slots.default?.() ||
                         props.links.map((link) => renderLink(link))}
                 </div>
