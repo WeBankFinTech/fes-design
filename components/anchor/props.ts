@@ -23,10 +23,6 @@ export const anchorProps = {
         type: Number,
         default: 0,
     },
-    bounds: {
-        type: Number,
-        default: 5,
-    },
 } as const satisfies ComponentObjectPropsOptions;
 
 export type AnchorProps = ExtractPublicPropTypes<typeof anchorProps>;
