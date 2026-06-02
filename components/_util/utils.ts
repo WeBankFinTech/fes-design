@@ -4,7 +4,8 @@ import { isFinite, isNull, isString, isUndefined } from 'lodash-es';
 
 export const noop = () => {};
 export const noopInNoop = () => noop;
-export const defaultContainer = () => document.body;
+export const defaultContainer = () =>
+    typeof document !== 'undefined' ? document.body : null;
 
 export async function sleep(ms: number): Promise<void> {
     return new Promise((resolve) => {
@@ -148,7 +149,7 @@ export function getScrollParent(
         const { overflow, overflowX, overflowY } = getComputedStyle(
             parentNode as HTMLElement,
         );
-        if (/(auto|scroll|overlay)/.test(overflow + overflowY + overflowX)) {
+        if (/auto|scroll|overlay/.test(overflow + overflowY + overflowX)) {
             return parentNode as HTMLElement;
         }
     }
