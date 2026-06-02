@@ -30,6 +30,10 @@ export const linkProps = {
     target: {
         type: String as PropType<TargetType>,
     },
+    loading: {
+        type: Boolean,
+        default: false,
+    },
 } as const satisfies ComponentObjectPropsOptions;
 
 export type LinkProps = ExtractPublicPropTypes<typeof linkProps>;
