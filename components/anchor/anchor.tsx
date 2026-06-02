@@ -5,6 +5,7 @@ import {
     onUnmounted,
     ref,
     watch,
+    type VNode,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
@@ -115,7 +116,7 @@ export default defineComponent({
             },
         );
 
-        const renderLink = (link: AnchorLink, deep = 0): JSX.Element => {
+        const renderLink = (link: AnchorLink, deep = 0): VNode => {
             const isActive = activeLink.value === link.href;
             return (
                 <div class={`${prefixCls}-link`} key={link.href}>
