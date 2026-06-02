@@ -8,6 +8,7 @@ import { useTheme } from '../_theme/useTheme';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 import Trigger from './trigger.vue';
 import FileList from './fileList.vue';
+import UploadDragger from './uploadDragger';
 import useUpload from './useUpload';
 
 import type { FileItem } from './interface';
@@ -66,6 +67,10 @@ export const uploadProps = {
         type: Function,
     },
     transformResponse: Function,
+    drag: {
+        type: Boolean,
+        default: false,
+    },
 } as const satisfies ComponentObjectPropsOptions;
 
 export type UploadProps = ExtractPublicPropTypes<typeof uploadProps>;
@@ -106,6 +111,19 @@ export default defineComponent({
         });
 
         return () => {
+            if (props.drag) {
+                return (
+                    <>
+                        <UploadDragger>
+                            {ctx.slots.default?.({
+                                uploadFiles: uploadFiles.value,
+                            })}
+                        </UploadDragger>
+                        {ctx.slots.tip?.()}
+                        {getFileList()}
+                    </>
+                );
+            }
             return (
                 <>
                     {ctx.slots.default
