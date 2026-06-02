@@ -30,6 +30,12 @@ const defaultConfirmOption = {
 
 export const toolTipProps = {
     ...popperProps,
+    showDelay: {
+        type: Number,
+    },
+    hideDelay: {
+        type: Number,
+    },
     title: [Number, String] as PropType<number | string>,
     content: [Number, String] as PropType<number | string>,
     mode: {
@@ -167,6 +173,8 @@ export default defineComponent({
             Object.keys(popperProps).forEach((key) => {
                 _props[key] = props[key as keyof typeof props];
             });
+            _props.showAfter = props.showDelay ?? 0;
+            _props.hideAfter = props.hideDelay ?? 0;
             if (props.mode === 'confirm') {
                 // confirm模式下，只能点击触发
                 _props.trigger = 'click';
