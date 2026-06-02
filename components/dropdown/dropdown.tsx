@@ -11,6 +11,9 @@ import { type DropdownValue, type DropdownOption as Option, dropdownProps } from
 
 const prefixCls = getPrefixCls('dropdown');
 
+const NAVIGATE_KEYS = ['ArrowDown', 'ArrowUp', 'Enter', 'Escape'] as const;
+type NavigateKey = (typeof NAVIGATE_KEYS)[number];
+
 export default defineComponent({
     name: 'FDropdown',
     props: dropdownProps,
@@ -23,9 +26,58 @@ export default defineComponent({
             prop: 'visible',
         });
 
+        const activeIndex = ref(-1);
+
         const hasIcon = computed(() =>
             props.options.some((option) => option.icon),
         );
+
+        const getNextValidIndex = (
+            current: number,
+            direction: 1 | -1,
+        ): number => {
+            const len = props.options.length;
+            let index = current + direction;
+            while (index !== current) {
+                if (index < 0) index = len - 1;
+                if (index >= len) index = 0;
+                if (!props.options[index]?.disabled) break;
+                index += direction;
+            }
+            return index === current ? -1 : index;
+        };
+
+        const handleKeydown = (event: KeyboardEvent) => {
+            if (!visible.value) return;
+            const key = event.key as NavigateKey;
+            if (!NAVIGATE_KEYS.includes(key)) return;
+            event.preventDefault();
+            if (key === 'Escape') {
+                updateVisible(false);
+                activeIndex.value = -1;
+                return;
+            }
+            if (key === 'ArrowDown') {
+                activeIndex.value = getNextValidIndex(
+                    activeIndex.value,
+                    1,
+                );
+                return;
+            }
+            if (key === 'ArrowUp') {
+                activeIndex.value = getNextValidIndex(
+                    activeIndex.value,
+                    -1,
+                );
+                return;
+            }
+            if (key === 'Enter' && activeIndex.value >= 0) {
+                const option = props.options[activeIndex.value];
+                if (option && !option.disabled) {
+                    handleClick(option, event as unknown as Event);
+                }
+            }
+        };
 
         const handleClick = (option: Option, event: Event) => {
             event.stopPropagation();
@@ -46,54 +98,61 @@ export default defineComponent({
         });
 
         const renderOptions = () => (
-            <Scrollbar
-                onScroll={(event: Event) => {
-                    emit('scroll', event);
-                }}
-                containerClass={[
-                    `${prefixCls}-option-wrapper`,
-                    hasIcon.value ? 'has-icon' : '',
-                ]}
+            <div
+                class={`${prefixCls}-menu`}
+                tabindex={0}
+                onKeydown={handleKeydown as any}
             >
-                {props.options.map((option) => {
-                    const value = option[props.valueField] as Option['value'];
-                    const label = option[props.labelField] as Option['label'];
-                    const isSelected
-                        = props.showSelectedOption
-                        && currentValue.value === value;
-                    const optionClassList = [
-                        `${prefixCls}-option`,
-                        option.disabled && 'is-disabled',
-                        isSelected && 'is-selected',
-                    ].filter(Boolean);
-                    return (
-                        <div
-                            class={optionClassList}
-                            onClick={(event: Event) => {
-                                handleClick(option, event);
-                            }}
-                        >
-                            {option.icon && (
-                                <span class={`${prefixCls}-option-icon`}>
-                                    {option.icon?.()}
+                <Scrollbar
+                    onScroll={(event: Event) => {
+                        emit('scroll', event);
+                    }}
+                    containerClass={[
+                        `${prefixCls}-option-wrapper`,
+                        hasIcon.value ? 'has-icon' : '',
+                    ]}
+                >
+                    {props.options.map((option, index) => {
+                        const value = option[props.valueField] as Option['value'];
+                        const label = option[props.labelField] as Option['label'];
+                        const isSelected
+                            = props.showSelectedOption
+                            && currentValue.value === value;
+                        const optionClassList = [
+                            `${prefixCls}-option`,
+                            option.disabled && 'is-disabled',
+                            isSelected && 'is-selected',
+                            activeIndex.value === index && 'is-active',
+                        ].filter(Boolean);
+                        return (
+                            <div
+                                class={optionClassList}
+                                onClick={(event: Event) => {
+                                    handleClick(option, event);
+                                }}
+                            >
+                                {option.icon && (
+                                    <span class={`${prefixCls}-option-icon`}>
+                                        {option.icon?.()}
+                                    </span>
+                                )}
+                                <span class={`${prefixCls}-option-label`}>
+                                    {isFunction(label) ? label(option) : label}
                                 </span>
-                            )}
-                            <span class={`${prefixCls}-option-label`}>
-                                {isFunction(label) ? label(option) : label}
-                            </span>
-                            {props.showSelectedOption && (
-                                <span
-                                    class={`${prefixCls}-option-selected-wrapper`}
-                                >
-                                    <CheckOutlined
-                                        class={`${prefixCls}-option-selected-icon`}
-                                    />
-                                </span>
-                            )}
-                        </div>
-                    );
-                })}
-            </Scrollbar>
+                                {props.showSelectedOption && (
+                                    <span
+                                        class={`${prefixCls}-option-selected-wrapper`}
+                                    >
+                                        <CheckOutlined
+                                            class={`${prefixCls}-option-selected-icon`}
+                                        />
+                                    </span>
+                                )}
+                            </div>
+                        );
+                    })}
+                </Scrollbar>
+            </div>
         );
 
         return () => (
