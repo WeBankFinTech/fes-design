@@ -121,13 +121,16 @@ export default ({
         }
 
         const rowKey = getRowKey({ row });
-        const selectionList = currentCheckedKeys.value as CheckedKey[];
-        const index = selectionList.indexOf(rowKey as CheckedKey);
-        // 如果是单选模式
+
+        // 如果是单选模式，直接先置空（必须在读取 selectionList 之前，
+        // 否则 clearSelect 修改 currentCheckedKeys.value 后 selectionList
+        // 还指向旧数组，导致单选模式下点不同 row 时累积 [1, 2, 3]）
         if (isSingleSelect.value) {
-            // 如果是单选直接先置空
             clearSelect();
         }
+
+        const selectionList = currentCheckedKeys.value as CheckedKey[];
+        const index = selectionList.indexOf(rowKey as CheckedKey);
 
         // 点击的是已有的，则取消
         if (index !== -1) {
