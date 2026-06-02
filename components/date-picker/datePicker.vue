@@ -132,7 +132,7 @@ export const datePickerProps = {
     },
     clearable: {
         type: Boolean,
-        default: false,
+        default: true,
     },
     placeholder: {
         type: [String, Array] as PropType<string | string[]>,
