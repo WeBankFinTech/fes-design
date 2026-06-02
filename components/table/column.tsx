@@ -43,8 +43,9 @@ export const columnProps = {
         type: String as PropType<(typeof ALIGN)[number]>,
         default: 'left',
     },
-    width: Number,
-    minWidth: Number,
+    width: [Number, String] as PropType<number | string>,
+    minWidth: [Number, String] as PropType<number | string>,
+    maxWidth: [Number, String] as PropType<number | string>,
     colClassName: [Function, String, Array, Object] as PropType<
         | string
         | []

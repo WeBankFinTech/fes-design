@@ -249,7 +249,7 @@ export default ({
         ];
     };
 
-    const getCellStyle = ({
+        const getCellStyle = ({
         column,
         columns,
         row,
@@ -287,7 +287,16 @@ export default ({
             );
             fixedStyle.right = `${width}px`;
         }
-        return { ...alignStyle, ...fixedStyle };
+        const widthStyle: CSSProperties = {};
+        if (column.props.minWidth !== undefined) {
+            const val = column.props.minWidth;
+            widthStyle.minWidth = typeof val === 'number' ? `${val}px` : val;
+        }
+        if (column.props.maxWidth !== undefined) {
+            const val = column.props.maxWidth;
+            widthStyle.maxWidth = typeof val === 'number' ? `${val}px` : val;
+        }
+        return { ...alignStyle, ...fixedStyle, ...widthStyle };
     };
 
     const getCustomCellStyle = ({
