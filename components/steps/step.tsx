@@ -158,18 +158,21 @@ export default defineComponent({
             <div ref={itemDomRef} class={classList.value} style={style.value}>
                 {renderSymbol()}
                 <div class={`${prefixCls}-content`}>
-                    <div class={`${prefixCls}-title`}>
-                        <span class={`${prefixCls}-text`} onClick={onClickStep}>
-                            {slots.title?.() || `${props.title}`}
-                        </span>
-                        {!parent.props.vertical && (
-                            <div class={`${prefixCls}-tail`}></div>
-                        )}
-                    </div>
-                    <div class={`${prefixCls}-description`}>
-                        {(slots.description || props.description)
-                        && (slots.description?.() || props.description)}
-                    </div>
+                    {(slots.title || props.title) && (
+                        <div class={`${prefixCls}-title`}>
+                            <span class={`${prefixCls}-text`} onClick={onClickStep}>
+                                {slots.title?.() ?? props.title}
+                            </span>
+                            {!parent.props.vertical && (
+                                <div class={`${prefixCls}-tail`}></div>
+                            )}
+                        </div>
+                    )}
+                    {(slots.description || props.description) && (
+                        <div class={`${prefixCls}-description`}>
+                            {slots.description?.() ?? props.description}
+                        </div>
+                    )}
                 </div>
             </div>
         );
