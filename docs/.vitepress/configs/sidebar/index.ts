@@ -76,6 +76,10 @@ const sidebarConfig: Record<string, DefaultTheme.Config['sidebar']> = {
                         text: 'BackTop 回到顶部',
                         link: '/zh/components/backTop',
                     },
+                    {
+                        text: 'Anchor 锚点',
+                        link: '/zh/components/anchor',
+                    },
                 ],
             },
             {
