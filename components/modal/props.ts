@@ -75,6 +75,7 @@ export const modalProps = {
     },
     verticalCenter: Boolean,
     center: Boolean,
+    centered: Boolean,
     footer: {
         type: Boolean,
         default: true,

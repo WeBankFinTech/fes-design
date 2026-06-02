@@ -244,6 +244,7 @@ const Modal = defineComponent({
                     class={{
                         [`${prefixCls}-container`]: true,
                         [`${prefixCls}-center`]: props.center,
+                        [`${prefixCls}-centered`]: props.centered,
                         [`${prefixCls}-vertical-center`]:
                                         props.verticalCenter,
                         [`${prefixCls}-fullscreen`]:
