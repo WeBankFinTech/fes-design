@@ -55,6 +55,10 @@ export const switchProps = {
         type: String as PropType<SwitchSize>,
         default: 'normal',
     },
+    loading: {
+        type: Boolean,
+        default: false,
+    },
 } as const satisfies ComponentObjectPropsOptions;
 
 export type SwitchProps = ExtractPublicPropTypes<typeof switchProps>;
@@ -87,7 +91,10 @@ export default defineComponent({
             }
         });
 
-        const loadingRef = ref(false);
+        const beforeChangeLoadingRef = ref(false);
+        const loadingRef = computed(
+            () => props.loading || beforeChangeLoadingRef.value,
+        );
 
         const handleChange = () => {
             ctx.emit(CHANGE_EVENT, currentValue.value);
@@ -108,18 +115,21 @@ export default defineComponent({
             if (innerDisabled.value) {
                 return;
             }
+            if (loadingRef.value) {
+                return;
+            }
             if (isFunction(props.beforeChange)) {
-                loadingRef.value = true;
+                beforeChangeLoadingRef.value = true;
                 try {
                     const confirm = await props.beforeChange(
                         currentValue.value,
                     );
-                    loadingRef.value = false;
+                    beforeChangeLoadingRef.value = false;
                     if (confirm === false) {
                         return;
                     }
                 } catch (e) {
-                    loadingRef.value = false;
+                    beforeChangeLoadingRef.value = false;
                     return;
                 }
             }
