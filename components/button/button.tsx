@@ -52,6 +52,10 @@ export const buttonProps = {
         type: String as PropType<'left' | 'right'>,
         default: 'left',
     },
+    circle: {
+        type: Boolean,
+        default: false,
+    },
 } as const satisfies ComponentObjectPropsOptions;
 
 export type ButtonProps = ExtractPublicPropTypes<typeof buttonProps>;
@@ -101,6 +105,7 @@ export default defineComponent({
             props.long && `${prefixCls}-long`,
             props.size !== 'middle' && `${prefixCls}-${props.size}`,
             props.loading && 'is-loading',
+            props.circle && `${prefixCls}-circle`,
         ]);
 
         return () => (

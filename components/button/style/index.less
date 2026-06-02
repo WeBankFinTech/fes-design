@@ -254,10 +254,19 @@
         --f-btn-height: @btn-height-lg;
         --f-btn-font-size: calc(var(--f-font-size-base) + 2px);
     }
-    &-small {
+        &-small {
         --f-btn-min-width: @btn-min-width-sm;
         --f-btn-height: @btn-height-sm;
         --f-btn-padding: @btn-padding-sm;
+        --f-btn-font-size: calc(var(--f-font-size-base) - 2px);
+        --f-btn-border-radius: var(--f-btn-border-radius-sm);
+    }
+
+    &-circle {
+        border-radius: 50%;
+        padding: 0;
+    }
+}
         --f-btn-font-size: calc(var(--f-font-size-base) - 2px);
         --f-btn-border-radius: var(--f-btn-border-radius-sm);
     }
