@@ -56,6 +56,7 @@
 <script lang="ts">
 import {
     type ComponentObjectPropsOptions,
+    type PropType,
     computed,
     defineComponent,
     nextTick,
@@ -103,6 +104,10 @@ export const inputNumberProps = {
         type: Boolean,
         default: false,
     },
+    size: {
+        type: String as PropType<'small' | 'medium' | 'large'>,
+        default: 'medium',
+    },
 } as const satisfies ComponentObjectPropsOptions;
 
 export type InputNumberProps = ExtractPublicPropTypes<typeof inputNumberProps>;
@@ -129,11 +134,11 @@ export default defineComponent({
             () => props.disabled || isFormDisabled.value,
         );
 
-        const classes = computed(() =>
-            [`${prefixCls}`, innerDisabled.value && 'is-disabled'].filter(
-                Boolean,
-            ),
-        );
+        const classes = computed(() => [
+            prefixCls,
+            `${prefixCls}--${props.size}`,
+            innerDisabled.value && 'is-disabled',
+        ].filter(Boolean));
 
         const inputRef = ref();
         const tempValue = ref();

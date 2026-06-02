@@ -4,11 +4,33 @@
 @input-number-prefix-cls: ~'@{cls-prefix}-input-number';
 @input-prefix-cls: ~'@{cls-prefix}-input';
 
+@input-number-height-lg: @data-input-height-base + 8;
+@input-number-height-base: @data-input-height-base;
+@input-number-height-sm: @data-input-height-base - 8;
+
+@input-number-font-size-lg: calc(var(--f-font-size-base) + 2px);
+@input-number-font-size-base: var(--f-font-size-base);
+@input-number-font-size-sm: calc(var(--f-font-size-base) - 2px);
+
 .@{input-number-prefix-cls} {
+    --f-input-number-height: @input-number-height-base;
+    --f-input-number-font-size: @input-number-font-size-base;
     position: relative;
     display: inline-block;
     width: 130px;
+    height: var(--f-input-number-height);
+    font-size: var(--f-input-number-font-size);
     user-select: none;
+
+    &--lg {
+        --f-input-number-height: @input-number-height-lg;
+        --f-input-number-font-size: @input-number-font-size-lg;
+    }
+
+    &--sm {
+        --f-input-number-height: @input-number-height-sm;
+        --f-input-number-font-size: @input-number-font-size-sm;
+    }
 
     &-actions {
         z-index: -1;
@@ -65,6 +87,9 @@
             border-radius: 0 0 var(--f-border-radius-base) 0;
         }
     }
+}
 
-    
+.@{input-number-prefix-cls}-inner {
+    height: var(--f-input-number-height);
+    font-size: var(--f-input-number-font-size);
 }
