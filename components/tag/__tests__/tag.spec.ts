@@ -62,7 +62,7 @@ test('tag closable', async () => {
     ).toBe(true);
 
     wrapper
-        .find(`.${prefixCls}-type--success .${prefixCls}__close`)
+        .find(`.${prefixCls}-type--success .${prefixCls}__close svg`)
         .trigger('click');
 
     await nextTick();

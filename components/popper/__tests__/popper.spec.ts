@@ -70,7 +70,7 @@ describe('Popper', () => {
                 window.getComputedStyle(wrapper.find(WRAPPER_CLASS).element)
                     .zIndex,
             ),
-        ).toBeLessThanOrEqual(PopupManager.zIndex);
+        ).toBeLessThanOrEqual(PopupManager.zIndex.value);
     });
 
     test('should show popper when mouse entered and hide when popper leave', async () => {
