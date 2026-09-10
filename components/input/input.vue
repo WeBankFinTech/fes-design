@@ -1,6 +1,6 @@
 /* eslint-disable no-undefined */
 <template>
-    <div :class="[...classes, ($slots.prepend || $slots.append) && `${prefixCls}-group`, $slots.prepend && `${prefixCls}-group-prepend`, $slots.append && `${prefixCls}-group-append`]" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
+    <div :class="[...classes, ($slots.prepend || $slots.append) && `${prefixCls}-group`, $slots.prepend && `${prefixCls}-group-prepend`, $slots.append && `${prefixCls}-group-append`]" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave" @paste="handlePaste">
         <template v-if="type !== 'textarea'">
             <div v-if="$slots.prepend" :class="`${prefixCls}-prepend`">
                 <slot name="prepend" />
@@ -28,11 +28,14 @@
                 <template v-if="$slots.prefix" #prefix>
                     <slot name="prefix" />
                 </template>
-                <template v-if="$slots.suffix || isWordLimitVisible" #suffix>
+                <template v-if="$slots.suffix || isWordLimitVisible || isExceed" #suffix>
                     <slot name="suffix" />
                     <span
-                        v-if="isWordLimitVisible"
-                        :class="`${prefixCls}-count`"
+                        v-if="isWordLimitVisible || isExceed"
+                        :class="[
+                            `${prefixCls}-count`,
+                            isExceed && 'is-exceed',
+                        ]"
                     >
                         {{ textLength }}/{{ maxlength }}
                     </span>
@@ -65,8 +68,11 @@
             @keydown="handleKeydown"
         />
         <span
-            v-if="isWordLimitVisible && type === 'textarea'"
-            :class="`${textareaPrefixCls}-count`"
+            v-if="(isWordLimitVisible || isExceed) && type === 'textarea'"
+            :class="[
+                `${textareaPrefixCls}-count`,
+                isExceed && 'is-exceed',
+            ]"
         >
             {{ textLength }}/{{ maxlength }}
         </span>
@@ -93,11 +99,13 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
 import { useNormalModel } from '../_util/use/useModel';
 import { useInput } from '../_util/use/useInput';
+import { useLocale } from '../config-provider/useLocale';
+import { FMessage } from '../message';
 import type { ExtractPublicPropTypes } from '../_util/interface';
 import calcTextareaHeight from './calcTextareaHeight';
 import InputInner from './inputInner.vue';
 import { commonInputProps } from './props';
-import { useFocus, useMouse } from './useInput';
+import { isPasteExceed, useFocus, useMouse } from './useInput';
 
 import type { InputValue } from './interface';
 
@@ -141,9 +149,17 @@ export function useWordLimit(currentValue: Ref<InputValue>, props: InputProps) {
     const textLength = computed(
         () => currentValue.value?.toString().length || 0,
     );
+    // 程序赋值可能使 value 超过 maxlength（原生 maxlength 拦不住程序赋值），
+    // 此时显示计数并标红提醒
+    const isExceed = computed(
+        () =>
+            props.maxlength != null
+            && textLength.value > props.maxlength,
+    );
     return {
         isWordLimitVisible,
         textLength,
+        isExceed,
     };
 }
 
@@ -167,6 +183,7 @@ export default defineComponent({
     setup(props, { emit }) {
         useTheme();
         const { validate, isError, isFormDisabled } = useFormAdaptor();
+        const { t } = useLocale();
         const inputRef = ref();
         const textareaRef = ref();
 
@@ -259,6 +276,27 @@ export default defineComponent({
             emit('clear');
         };
 
+        // 粘贴超长提示：paste 事件先于原生 maxlength 截断触发，
+        // 此时剪贴板内容完整，可精确判断本次粘贴是否会超长。
+        // 节流 500ms，避免连续粘贴刷屏。
+        let lastExceedTipTime = 0;
+        const handlePaste = (event: ClipboardEvent) => {
+            if (props.disabled || props.readonly) {
+                return;
+            }
+            if (!isPasteExceed(event, props.maxlength)) {
+                return;
+            }
+            const now = Date.now();
+            if (now - lastExceedTipTime < 500) {
+                return;
+            }
+            lastExceedTipTime = now;
+            FMessage.warning(
+                t('input.pasteExceed', { max: String(props.maxlength) }),
+            );
+        };
+
         onMounted(() => {
             if (props.autofocus) {
                 focus();
@@ -287,6 +325,7 @@ export default defineComponent({
             handleChange,
             handleKeydown,
             handleInputClear,
+            handlePaste,
 
             onMouseLeave,
             onMouseEnter,

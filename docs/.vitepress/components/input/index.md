@@ -42,6 +42,14 @@ disabled.vue
 number.vue
 :::
 
+### 粘贴超长提示
+
+粘贴内容超出 `maxlength` 限制时，超出部分会被自动截断，并通过 `FMessage` 提示；程序赋值导致内容超长时，字数统计会显示并标红。
+
+:::demo
+pasteExceed.vue
+:::
+
 ### 密码输入框
 
 :::demo
@@ -79,7 +87,7 @@ handleFocus.vue
 | autocomplete  | 原生属性，自动补全                                                                         | string          | -       |
 | clearable     | 可以点击清除图标删除内容，仅`type`非`textarea`时有效                                       | boolean         | `false` |
 | disabled      | 是否禁用                                                                                   | boolean         | `false` |
-| maxlength     | 最大长度                                                                                   | number          | -       |
+| maxlength     | 最大长度。粘贴内容超长被截断时会通过 `FMessage` 默认提示；程序赋值导致内容超长时，字数统计会显示并标红 | number          | -       |
 | placeholder   | placeholder                                                                                | string          | -       |
 | type          | `textarea`为文本域，非`textarea`时声明`input`类型，同原生`input`标签的`type`属性           | string          | `text`  |
 | modelValue    | v-model 双向绑定                                                                           | number、string  | -       |

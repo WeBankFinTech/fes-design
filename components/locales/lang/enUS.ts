@@ -10,6 +10,10 @@ export default {
     empty: {
         emptyText: 'No Data',
     },
+    input: {
+        pasteExceed:
+            'Pasted content exceeds the {max}-character limit, the excess has been truncated.',
+    },
     cascader: {
         loadingRequiredMessage:
             'Please load all {label}\'s descendants before checking it.',
