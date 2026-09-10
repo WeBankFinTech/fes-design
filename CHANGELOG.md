@@ -1,3 +1,17 @@
+## [0.8.86](https://github.com/WeBankFinTech/fes-design/compare/v0.8.85...v0.8.86) (2026-09-09)
+
+
+### Bug Fixes
+
+* 修复 input-number 样式问题 ([#964](https://github.com/WeBankFinTech/fes-design/issues/964)) ([9ea117f](https://github.com/WeBankFinTech/fes-design/commit/9ea117f13a04ab8a8c242248fba2a0dcdeca0dbb))
+
+
+### Reverts
+
+* Revert "chore: bootstrap vitest + playwright config (test infra) (#983)" ([946bc3d](https://github.com/WeBankFinTech/fes-design/commit/946bc3d44ed2a7665f5e15252c6ba80501a5578b)), closes [#983](https://github.com/WeBankFinTech/fes-design/issues/983)
+
+
+
 ## [0.8.85](https://github.com/WeBankFinTech/fes-design/compare/v0.8.84...v0.8.85) (2026-04-29)
 
 
