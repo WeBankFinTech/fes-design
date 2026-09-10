@@ -85,15 +85,11 @@ export default ({
         });
     });
 
-    watch(
-        currentCheckedKeys,
-        () => {
-            ctx.emit('selectionChange', currentCheckedKeys.value);
-        },
-        {
-            deep: true,
-        },
-    );
+    // selectionChange 仅由用户交互（行勾选/全选）触发；
+    // 外部程序性修改 v-model:checkedKeys 不视为一次"选择"行为，不触发 (#812)
+    const emitSelectionChange = (): void => {
+        ctx.emit('selectionChange', currentCheckedKeys.value);
+    };
 
     // 是否单选模式
     const isSingleSelect = computed(() => {
@@ -152,6 +148,7 @@ export default ({
                 checked: true,
             });
         }
+        emitSelectionChange();
     };
 
     function splice(row: RowType) {
@@ -182,6 +179,7 @@ export default ({
             selection: currentCheckedKeys.value,
             checked: !isAllSelected.value,
         });
+        emitSelectionChange();
     };
 
     const clearSelect = () => {
