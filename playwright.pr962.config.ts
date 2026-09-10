@@ -10,6 +10,6 @@ export default defineConfig({
     webServer: {
         command: 'npx vitepress dev docs --port 5199',
         port: 5199,
-        reuseExistingServer: false,
+        reuseExistingServer: true,
     },
 })
