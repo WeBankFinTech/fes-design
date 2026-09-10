@@ -1,3 +1,33 @@
+## [0.8.87](https://github.com/WeBankFinTech/fes-design/compare/v0.8.86...v0.8.87) (2026-09-10)
+
+
+### Bug Fixes
+
+* table 程序性修改 checkedKeys 不再触发 selectionChange #AI commit# ([e949693](https://github.com/WeBankFinTech/fes-design/commit/e949693606eec464711eb242783befe5b83a4f7e))
+* **table:** 修复单选模式下仍可勾选多行的问题 [#968](https://github.com/WeBankFinTech/fes-design/issues/968) #AI commit# ([541ffe7](https://github.com/WeBankFinTech/fes-design/commit/541ffe72ea6abd2fc4c76579a0597f09fc6b7527))
+
+
+### Features
+
+* input 粘贴超长自动提示与程序赋值超长计数标红 #AI commit# ([624a52f](https://github.com/WeBankFinTech/fes-design/commit/624a52f3b0cebbebb5f0410e4b576a817507386b))
+
+
+
+## [0.8.87](https://github.com/WeBankFinTech/fes-design/compare/v0.8.86...v0.8.87) (2026-09-10)
+
+
+### Bug Fixes
+
+* table 程序性修改 checkedKeys 不再触发 selectionChange #AI commit# ([e949693](https://github.com/WeBankFinTech/fes-design/commit/e949693606eec464711eb242783befe5b83a4f7e))
+* **table:** 修复单选模式下仍可勾选多行的问题 [#968](https://github.com/WeBankFinTech/fes-design/issues/968) #AI commit# ([541ffe7](https://github.com/WeBankFinTech/fes-design/commit/541ffe72ea6abd2fc4c76579a0597f09fc6b7527))
+
+
+### Features
+
+* input 粘贴超长自动提示与程序赋值超长计数标红 #AI commit# ([624a52f](https://github.com/WeBankFinTech/fes-design/commit/624a52f3b0cebbebb5f0410e4b576a817507386b))
+
+
+
 ## [0.8.86](https://github.com/WeBankFinTech/fes-design/compare/v0.8.85...v0.8.86) (2026-09-09)
 
 
