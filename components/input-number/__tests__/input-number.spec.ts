@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+import { nextTick } from 'vue';
 import getPrefixCls from '../../_util/getPrefixCls';
 import inputNumber from '../input-number.vue';
 
@@ -39,6 +40,8 @@ test('inputNumber min', async () => {
     });
     expect(wrapper.props('modelValue')).toEqual(1);
     await wrapper.find('input[type="text"]').setValue('-10');
+    await nextTick();
+    await wrapper.find('input[type="text"]').trigger('blur');
     expect(wrapper.vm.displayValue).toEqual(-1);
 });
 
@@ -64,8 +67,8 @@ test('inputNumber step', async () => {
         },
     });
     expect(wrapper.props('modelValue')).toEqual(1);
-    await wrapper.find(`.${prefixCls}-increase`).trigger('click');
+    await wrapper.find(`.${prefixCls}-actions-increase`).trigger('click');
     expect(wrapper.vm.displayValue).toEqual(3);
-    await wrapper.find(`.${prefixCls}-decrease`).trigger('click');
+    await wrapper.find(`.${prefixCls}-actions-decrease`).trigger('click');
     expect(wrapper.vm.displayValue).toEqual(1);
 });

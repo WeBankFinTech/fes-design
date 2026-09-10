@@ -13,9 +13,7 @@ test('input placeholder', () => {
             placeholder,
         },
     });
-    expect(wrapper.find(`.${prefixCls}-inner`).attributes('placeholder')).toBe(
-        placeholder,
-    );
+    expect(wrapper.find('input').attributes('placeholder')).toBe(placeholder);
     expect(() => wrapper.get(`.${textareaPrefixCls}`)).toThrowError();
 });
 
@@ -55,13 +53,15 @@ test('input clearable', async () => {
         },
     });
 
-    expect(wrapper.find(`.${prefixCls}-with-suffix`).exists()).toBe(true);
-    expect(wrapper.find(`.${prefixCls}-suffix`).exists()).toBe(true);
-    expect(wrapper.vm.showClear).toBe(false);
+    // clearable -> suffix 容器渲染
+    expect(wrapper.find(`.${prefixCls}-inner-suffix`).exists()).toBe(true);
+    // 未聚焦 -> 无清除图标
+    expect(wrapper.find(`.${prefixCls}-inner-icon`).exists()).toBe(false);
 
-    await wrapper.find(`.${prefixCls}-inner`).trigger('focus');
+    await wrapper.find('input').trigger('focus');
 
-    expect(wrapper.vm.showClear).toBe(true);
+    // 聚焦后 -> 显示清除图标
+    expect(wrapper.find(`.${prefixCls}-inner-icon`).exists()).toBe(true);
 });
 
 test('input showPassword', async () => {
@@ -72,10 +72,12 @@ test('input showPassword', async () => {
         },
     });
 
-    expect(wrapper.find(`.${prefixCls}-with-suffix`).exists()).toBe(true);
-    expect(wrapper.find(`.${prefixCls}-suffix`).exists()).toBe(true);
+    // showPassword -> suffix 容器渲染
+    expect(wrapper.find(`.${prefixCls}-inner-suffix`).exists()).toBe(true);
+    // 无值 -> 无密码切换图标
+    expect(wrapper.find(`.${prefixCls}-inner-icon`).exists()).toBe(false);
 
-    expect(wrapper.vm.showPwdSwitchIcon).toBe(false);
     await wrapper.setProps({ modelValue: 'password icon' });
-    expect(wrapper.vm.showPwdSwitchIcon).toBe(true);
+    // 有值 -> 显示密码切换图标
+    expect(wrapper.find(`.${prefixCls}-inner-icon`).exists()).toBe(true);
 });
