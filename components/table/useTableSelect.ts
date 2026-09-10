@@ -104,7 +104,11 @@ export default ({
         if (!selectionColumn.value) {
             return false;
         }
-        return !selectableData.value.includes(row);
+        // 通过 rowKey 判断，避免外部传入的 row 对象与内部代理对象引用不一致
+        const rowKey = getRowKey({ row });
+        return !selectableData.value.some(
+            (_row) => getRowKey({ row: _row }) === rowKey,
+        );
     };
 
     const isSelected = ({ row }: { row: RowType }) => {
@@ -121,13 +125,16 @@ export default ({
         }
 
         const rowKey = getRowKey({ row });
-        const selectionList = currentCheckedKeys.value as CheckedKey[];
-        const index = selectionList.indexOf(rowKey as CheckedKey);
-        // 如果是单选模式
-        if (isSingleSelect.value) {
-            // 如果是单选直接先置空
+        const index = (currentCheckedKeys.value as CheckedKey[]).indexOf(
+            rowKey as CheckedKey,
+        );
+        // 如果是单选模式，选中另一行时直接替换，保证至多只有一行被选中
+        if (isSingleSelect.value && index === -1) {
             clearSelect();
         }
+
+        // 当前选中列表（clearSelect 会整体替换数组，因此取最新值）
+        const selectionList = currentCheckedKeys.value as CheckedKey[];
 
         // 点击的是已有的，则取消
         if (index !== -1) {
