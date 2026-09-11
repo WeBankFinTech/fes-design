@@ -1,3 +1,22 @@
+## [0.8.88](https://github.com/WeBankFinTech/fes-design/compare/v0.8.86...v0.8.88) (2026-09-11)
+
+
+### Bug Fixes
+
+* **FModal:** resolve content text overflow issue [#920](https://github.com/WeBankFinTech/fes-design/issues/920) ([486a2d1](https://github.com/WeBankFinTech/fes-design/commit/486a2d1fa2a63f900689009d00b904b417679a2a))
+* **Form:** correct grid-column span syntax for inline layout ([#958](https://github.com/WeBankFinTech/fes-design/issues/958)) ([77b8e1d](https://github.com/WeBankFinTech/fes-design/commit/77b8e1d38a9b3bb4ecde5b3d5a36285b4bf65239))
+* table 程序性修改 checkedKeys 不再触发 selectionChange #AI commit# ([e949693](https://github.com/WeBankFinTech/fes-design/commit/e949693606eec464711eb242783befe5b83a4f7e))
+* **table:** 修复单选模式下仍可勾选多行的问题 [#968](https://github.com/WeBankFinTech/fes-design/issues/968) #AI commit# ([541ffe7](https://github.com/WeBankFinTech/fes-design/commit/541ffe72ea6abd2fc4c76579a0597f09fc6b7527))
+* tabs 切换时内容高度抖动，离场动画 pane 脱离文档流 #AI commit# ([d218942](https://github.com/WeBankFinTech/fes-design/commit/d218942968910ec36381ac1b776502e66a0f1af3))
+* useResize 误吞隐藏挂载后首次有效回调，滚动条首开不显示 #AI commit# ([b65acb3](https://github.com/WeBankFinTech/fes-design/commit/b65acb35e9f4bab7d3f2bedcfd53c07b910f78d7))
+
+
+### Features
+
+* input 粘贴超长自动提示与程序赋值超长计数标红 #AI commit# ([624a52f](https://github.com/WeBankFinTech/fes-design/commit/624a52f3b0cebbebb5f0410e4b576a817507386b))
+
+
+
 ## [0.8.87](https://github.com/WeBankFinTech/fes-design/compare/v0.8.86...v0.8.87) (2026-09-10)
 
 
