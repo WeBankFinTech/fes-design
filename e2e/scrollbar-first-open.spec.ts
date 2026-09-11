@@ -1,18 +1,21 @@
 import { expect, test } from '@playwright/test';
+import path from 'node:path';
 
 // Issue #716: FModal displayDirective="show" 时，首次打开 FScrollbar 滚动条不出现，再次打开正常
 // 根因：useResize(immediate=false) 的"吞第一次回调"逻辑误吞了隐藏挂载后唯一一次真实 RO 回调，
 // onUpdate 未执行 → sizeHeight 为空 → 滚动条 track 的 v-show="!!size" 永假。
 
 const DOC_URL = '/zh/components/modal.html';
+// playwright 以配置所在目录为 cwd；用相对路径解析仓库根，主仓库/worktree 均可运行
+const COMPONENTS_ENTRY = path.resolve(process.cwd(), 'components/index.ts');
 
 async function openModalAndHover(page: any) {
     // 注入复现场景（与 issue 代码等价）：modal 内 100 行内容 + FScrollbar height=100px
-    await page.evaluate(async () => {
+    await page.evaluate(async (entry) => {
         const urls = performance.getEntriesByType('resource').map((e) => e.name);
         const vueUrl = urls.find((u) => /deps\/vue\.js/.test(u));
         const Vue = (await import(vueUrl)).default ?? (await import(vueUrl));
-        const mod = await import('/@fs/Users/harrywan/company/git/fes-design/components/index.ts');
+        const mod = await import('/@fs' + entry);
         const { FModal, FScrollbar } = mod;
         const mountPoint = document.createElement('div');
         mountPoint.id = 'e2e-716-host';
@@ -37,7 +40,7 @@ async function openModalAndHover(page: any) {
             },
         });
         app.mount(mountPoint);
-    });
+    }, COMPONENTS_ENTRY);
     const open = () => page.evaluate(() => {
         window.__e2e716show.value = true;
     });
@@ -100,11 +103,11 @@ test('#716 不悬停时滚动条操作仍正常（回归守护）', async ({ pag
     await page.goto(DOC_URL);
     await page.locator('button').first().waitFor({ state: 'visible', timeout: 60_000 });
 
-    await page.evaluate(async () => {
+    await page.evaluate(async (entry) => {
         const urls = performance.getEntriesByType('resource').map((e) => e.name);
         const vueUrl = urls.find((u) => /deps\/vue\.js/.test(u));
         const Vue = (await import(vueUrl)).default ?? (await import(vueUrl));
-        const mod = await import('/@fs/Users/harrywan/company/git/fes-design/components/index.ts');
+        const mod = await import('/@fs' + entry);
         const { FModal, FScrollbar } = mod;
         const mountPoint = document.createElement('div');
         mountPoint.id = 'e2e-716-host2';
@@ -128,7 +131,7 @@ test('#716 不悬停时滚动条操作仍正常（回归守护）', async ({ pag
             },
         });
         app.mount(mountPoint);
-    });
+    }, COMPONENTS_ENTRY);
     await page.evaluate(() => {
         window.__e2e716b.value = true;
     });
