@@ -187,3 +187,52 @@ describe('FTree inline 内联模式（useTreeNode isInline/isFirst）', () => {
         wrapper.unmount();
     });
 });
+
+describe('FTree inline isParentAllLeaf 分支补充', () => {
+    test('兄弟混合：显式 isLeaf 触发父级遍历的 remote/普通分支', async () => {
+        // 节点自身标记 isLeaf=true 才会进入 isInline 的父级遍历
+        const wrapper = mount(Tree, {
+            props: {
+                data: [
+                    {
+                        value: 'm1',
+                        label: '混合父',
+                        children: [
+                            { value: 'm1-1', label: '标叶子', isLeaf: true },
+                            { value: 'm1-2', label: '未标子' },
+                        ],
+                    },
+                ],
+                inline: true,
+                defaultExpandAll: true,
+            } as any,
+        });
+        await nextTick();
+        await wait();
+        const nodes = wrapper.findAll(`.${prefixCls}`);
+        expect(nodes.find((n) => n.text() === '标叶子')).toBeTruthy();
+        wrapper.unmount();
+
+        // remote=true → 兄弟 '未标子' 视为可加载（isLeaf=false 分支）
+        const remote = mount(Tree, {
+            props: {
+                data: [
+                    {
+                        value: 'm2',
+                        label: '远程混合父',
+                        children: [
+                            { value: 'm2-1', label: '远标叶子', isLeaf: true },
+                            { value: 'm2-2', label: '远未标子' },
+                        ],
+                    },
+                ],
+                inline: true,
+                remote: true,
+                defaultExpandAll: true,
+            } as any,
+        });
+        await nextTick();
+        await wait();
+        remote.unmount();
+    });
+});
