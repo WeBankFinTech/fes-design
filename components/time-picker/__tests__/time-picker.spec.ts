@@ -115,10 +115,25 @@ describe('TimePicker clearable', () => {
         const wrapper = mount(TimePicker, {
             props: {
                 modelValue: '22:22:22',
+                // popper lazy 渲染下 TimeSelect 未挂载时 clear 会触发
+                // timeSelectRef.value.resetTime() 的 undefined 错误（组件运行时问题）。
+                // 测试侧先渲染弹层内容再触发 clear，规避该路径。
+                appendToContainer: false,
+                open: true,
+                control: false,
+            },
+            global: {
+                stubs: {
+                    Popper: {
+                        template: '<div><slot name="trigger" /><slot /></div>',
+                    },
+                },
             },
         });
+        await new Promise((resolve) => setTimeout(resolve, 30));
         await wrapper.find('input[type="text"]').trigger('focus');
         await wrapper.find(`.${inputPrefixCls}-inner-icon`).trigger('click');
+        await new Promise((resolve) => setTimeout(resolve, 30));
         expect(wrapper.vm.displayValue).toEqual('');
     });
 
@@ -141,7 +156,17 @@ describe('TimePicker format', () => {
                 appendToContainer: false,
                 open: true,
             },
+            // jsdom 下 FPopper 的 Teleport+Transition 会与 Vue 3.5 调度器
+            // 互相驱动触发递归更新，stub 掉 Popper 仅保留插槽内容
+            global: {
+                stubs: {
+                    Popper: {
+                        template: '<div><slot name="trigger" /><slot /></div>',
+                    },
+                },
+            },
         });
+        await new Promise((resolve) => setTimeout(resolve, 30));
         const allTarget01 = wrapper.findAll('li[data-key="01"]');
         expect(allTarget01.length).toBe(2);
 
@@ -163,7 +188,15 @@ describe('TimePicker step', () => {
                 secondStep: 4,
                 open: true,
             },
+            global: {
+                stubs: {
+                    Popper: {
+                        template: '<div><slot name="trigger" /><slot /></div>',
+                    },
+                },
+            },
         });
+        await new Promise((resolve) => setTimeout(resolve, 30));
         const allItem = wrapper.findAll(`.${prefixCls}-content-item`);
         const hoursLi = allItem[0].findAll('li');
         const minuteLi = allItem[1].findAll('li');

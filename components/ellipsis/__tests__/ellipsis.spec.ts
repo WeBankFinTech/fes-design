@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+import { h } from 'vue';
 import FEllipsis from '../ellipsis.tsx';
 import getPrefixCls from '../../_util/getPrefixCls';
 
@@ -28,21 +29,19 @@ describe('FEllipsis', () => {
         const wrapper = mount(FEllipsis, {
             props: { line: 2 },
             slots: {
-                default: () => (
-                    <div>
-                        电灯熄灭 物换星移 泥牛入海
-                        <br />
-                        黑暗好像 一颗巨石 按在胸口
-                        <br />
-                        独脚大盗 百万富翁 摸爬滚打
-                    </div>
-                ),
+                default: () =>
+                    h('div', [
+                        '电灯熄灭 物换星移 泥牛入海',
+                        h('br'),
+                        '黑暗好像 一颗巨石 按在胸口',
+                        h('br'),
+                        '独脚大盗 百万富翁 摸爬滚打',
+                    ]),
             },
         });
 
-        expect(wrapper.find(`.${prefixCls}`).classes()).toContain(
-            'is-line-clamp',
-        );
+        const style = wrapper.find(`.${prefixCls}`).attributes('style');
+        expect(style).toContain('-webkit-line-clamp');
     });
 
     // TODO: 待测
