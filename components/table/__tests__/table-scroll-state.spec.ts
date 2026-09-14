@@ -61,7 +61,8 @@ const stubWidths = (wrapper: any) => {
 };
 
 const stubScroll = (el: HTMLElement, scrollLeft: number, offsetWidth = 300, scrollWidth = 900) => {
-    Object.defineProperty(el, 'scrollLeft', { value: scrollLeft, configurable: true });
+    // writable：组件内 handleHeaderMousewheel 会执行 scrollLeft += deltaX，jsdom 默认 data 属性只读
+    Object.defineProperty(el, 'scrollLeft', { value: scrollLeft, configurable: true, writable: true });
     Object.defineProperty(el, 'offsetWidth', { value: offsetWidth, configurable: true });
     Object.defineProperty(el, 'scrollWidth', { value: scrollWidth, configurable: true });
 };
