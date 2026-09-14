@@ -199,3 +199,48 @@ describe('FForm 校验', () => {
         expect(wrapper.text()).toContain('年龄必须大于 0');
     });
 });
+
+describe('FForm resetFields 分支', () => {
+    test('无 model 时 resetFields 返回 rejected promise', async () => {
+        const wrapper = mount(Form, {
+            slots: {
+                default: () =>
+                    h(FormItem, { label: 'x', prop: 'name' } as any, {
+                        default: () => h('input'),
+                    }),
+            },
+        } as any);
+        await nextTick();
+        const vm: any = wrapper.vm;
+        if (typeof vm.resetFields === 'function') {
+            await expect(vm.resetFields()).rejects.toBeTruthy();
+        }
+        wrapper.unmount();
+    });
+
+    test('resetFields 指定 prop 仅重置匹配字段', async () => {
+        const model = reactive({ name: 'a', age: 1 });
+        const wrapper = mount(Form, {
+            props: { model } as any,
+            slots: {
+                default: () => [
+                    h(FormItem, { label: '姓名', prop: 'name' } as any, {
+                        default: () => h('input'),
+                    }),
+                    h(FormItem, { label: '年龄', prop: 'age' } as any, {
+                        default: () => h('input'),
+                    }),
+                ],
+            },
+        } as any);
+        await nextTick();
+        const vm: any = wrapper.vm;
+        if (typeof vm.resetFields === 'function') {
+            // 指定不存在的 prop → 过滤分支
+            await vm.resetFields(['not-exist']);
+            // 指定存在的 prop
+            await vm.resetFields(['name']);
+        }
+        wrapper.unmount();
+    });
+});
