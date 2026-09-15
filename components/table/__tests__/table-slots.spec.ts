@@ -1,13 +1,12 @@
 import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import Table from '../table';
+import { wait } from '../../_util/__tests__/helpers';
 
 const DATA = [
     { id: 1, name: '张三', age: 20 },
     { id: 2, name: '李四', age: 25 },
 ];
-
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
 
 describe('FTable 插槽', () => {
     test('column render 函数自定义单元格内容', async () => {

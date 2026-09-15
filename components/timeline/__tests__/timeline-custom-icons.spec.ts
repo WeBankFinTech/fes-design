@@ -3,9 +3,9 @@ import { nextTick } from 'vue';
 import { vi } from 'vitest';
 import FTimeline from '../timeline';
 import getPrefixCls from '../../_util/getPrefixCls';
+import { wait } from '../../_util/__tests__/helpers';
 
 const cls = (s: string) => `${getPrefixCls('timeline')}-${s}`;
-const wait = (ms = 40) => new Promise((r) => setTimeout(r, ms));
 
 // jsdom 无布局引擎，@juggle RO 不会派发回调 → mock 成 observe 时同步回调
 const roCallbacks: ResizeObserverCallback[] = [];
@@ -49,7 +49,7 @@ describe('FTimeline 自定义图标尺寸联动（useCustomIcons）', () => {
             },
         });
         await nextTick();
-        await wait();
+        await wait(40);
         // 注册成功：节点渲染且任一 item 尾线存在（注册表非空才触发调整）
         const tails = wrapper.findAll(`.${cls('item-tail')}`);
         expect(tails.length).toBe(3);
@@ -67,7 +67,7 @@ describe('FTimeline 自定义图标尺寸联动（useCustomIcons）', () => {
             },
         });
         await nextTick();
-        await wait();
+        await wait(40);
         // 横向布局渲染成功（column 才跳过 inline-start 偏移分支）
         expect(wrapper.find(`.${cls('item')}`).exists()).toBe(true);
         wrapper.unmount();
@@ -81,7 +81,7 @@ describe('FTimeline 自定义图标尺寸联动（useCustomIcons）', () => {
             },
         });
         await nextTick();
-        await wait();
+        await wait(40);
         // column 不走 inline-start calc 分支
         expect(wrapper.find(`.${cls('item')}`).exists()).toBe(true);
         wrapper.unmount();
@@ -94,12 +94,12 @@ describe('FTimeline 自定义图标尺寸联动（useCustomIcons）', () => {
             },
         });
         await nextTick();
-        await wait();
+        await wait(40);
         await wrapper.setProps({
             data: [{ title: '一' } as any],
         });
         await nextTick();
-        await wait();
+        await wait(40);
         const icon = wrapper.find(`.${cls('item-icon')}`);
         expect(icon.classes()).not.toContain(cls('item-icon-custom'));
         wrapper.unmount();

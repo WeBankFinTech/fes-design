@@ -2,13 +2,12 @@ import { mount } from '@vue/test-utils';
 import { Fragment, defineComponent, h, nextTick } from 'vue';
 import Table from '../table';
 import FTableColumn from '../column';
+import { wait } from '../../_util/__tests__/helpers';
 
 const DATA = [
     { id: 1, name: '张三', age: 20 },
     { id: 2, name: '李四', age: 25 },
 ];
-
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
 
 // 子列须直接是 FTableColumn 子节点（column.tsx render 收集 children）
 const NestedTable = defineComponent({

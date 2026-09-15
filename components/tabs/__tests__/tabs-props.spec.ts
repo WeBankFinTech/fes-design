@@ -1,8 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import { FTabPane, FTabs } from '../index';
-
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
+import { wait } from '../../_util/__tests__/helpers';
 
 const mountTabs = (props: Record<string, unknown> = {}, panes = 2) =>
     mount(FTabs, {

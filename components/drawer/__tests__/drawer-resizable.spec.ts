@@ -1,10 +1,9 @@
 import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import Drawer from '../drawer';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-drawer';
-
-const wait = (ms = 50) => new Promise((r) => setTimeout(r, ms));
 
 const mountDrawer = (props: Record<string, unknown>, slots = {}) =>
     mount(Drawer, {
@@ -38,18 +37,18 @@ const dragTo = async (startX: number, endX: number, startY = 0) => {
     document.dispatchEvent(
         new MouseEvent('mousemove', { clientX: endX, clientY: startY, bubbles: true }),
     );
-    await wait();
+    await wait(50);
     document.dispatchEvent(
         new MouseEvent('mouseup', { clientX: endX, clientY: startY, bubbles: true }),
     );
-    await wait();
+    await wait(50);
 };
 
 describe('FDrawer resizable', () => {
     test('resizable 渲染拖拽把手', async () => {
         const wrapper = mountDrawer({ resizable: true, placement: 'right' });
         await nextTick();
-        await wait();
+        await wait(50);
         expect(getDragHandle()).toBeTruthy();
         wrapper.unmount();
     });
@@ -57,7 +56,7 @@ describe('FDrawer resizable', () => {
     test('right placement：向左拖动宽度增加', async () => {
         const wrapper = mountDrawer({ resizable: true, placement: 'right', width: 400 });
         await nextTick();
-        await wait();
+        await wait(50);
         mockSize(getWrapperEl(), 400);
         // right 抽屉：offset = -40 → nextSize = 400 + 40 = 440
         await dragTo(100, 60);
@@ -68,7 +67,7 @@ describe('FDrawer resizable', () => {
     test('left placement：拖动方向相反', async () => {
         const wrapper = mountDrawer({ resizable: true, placement: 'left', width: 400 });
         await nextTick();
-        await wait();
+        await wait(50);
         mockSize(getWrapperEl(), 400);
         // left 抽屉：offset = +40 → nextSize = 400 + 40 = 440
         await dragTo(100, 140);
@@ -84,7 +83,7 @@ describe('FDrawer resizable', () => {
             resizeMin: 300,
         });
         await nextTick();
-        await wait();
+        await wait(50);
         mockSize(getWrapperEl(), 400);
         // right：offset = +500 → nextSize = -100 → 被 min 300 限制
         await dragTo(0, 500);
@@ -100,7 +99,7 @@ describe('FDrawer resizable', () => {
             resizeMax: 500,
         });
         await nextTick();
-        await wait();
+        await wait(50);
         mockSize(getWrapperEl(), 400);
         // right：offset = -200 → nextSize = 600 → 被 max 500 限制
         await dragTo(100, -100);
@@ -111,7 +110,7 @@ describe('FDrawer resizable', () => {
     test('top placement 用高度与 clientY', async () => {
         const wrapper = mountDrawer({ resizable: true, placement: 'top', height: 300 });
         await nextTick();
-        await wait();
+        await wait(50);
         const wrapperEl = getWrapperEl();
         mockSize(wrapperEl, 300);
         // top 抽屉：offset = 40（clientY 增大）→ nextSize = 300 + 40 = 340
@@ -121,11 +120,11 @@ describe('FDrawer resizable', () => {
         document.dispatchEvent(
             new MouseEvent('mousemove', { clientX: 0, clientY: 140, bubbles: true }),
         );
-        await wait();
+        await wait(50);
         document.dispatchEvent(
             new MouseEvent('mouseup', { clientX: 0, clientY: 140, bubbles: true }),
         );
-        await wait();
+        await wait(50);
         expect(wrapperEl.getAttribute('style')).toContain('340px');
         wrapper.unmount();
     });
@@ -133,16 +132,16 @@ describe('FDrawer resizable', () => {
     test('mousedown 后未 move 时不改变尺寸', async () => {
         const wrapper = mountDrawer({ resizable: true, placement: 'right', width: 400 });
         await nextTick();
-        await wait();
+        await wait(50);
         const styleBefore = getWrapperEl().getAttribute('style');
         getDragHandle().dispatchEvent(
             new MouseEvent('mousedown', { clientX: 0, bubbles: true }),
         );
-        await wait();
+        await wait(50);
         document.dispatchEvent(
             new MouseEvent('mouseup', { clientX: 0, bubbles: true }),
         );
-        await wait();
+        await wait(50);
         expect(getWrapperEl().getAttribute('style')).toBe(styleBefore);
         wrapper.unmount();
     });
@@ -152,7 +151,7 @@ describe('FDrawer dimension', () => {
     test('top placement 高度生效', async () => {
         const wrapper = mountDrawer({ placement: 'top', dimension: '260px' });
         await nextTick();
-        await wait();
+        await wait(50);
         expect(getWrapperEl().getAttribute('style')).toContain('260px');
         wrapper.unmount();
     });
@@ -163,7 +162,7 @@ describe('FDrawer dimension', () => {
             { footer: () => h('div', '页脚区') },
         );
         await nextTick();
-        await wait();
+        await wait(50);
         expect(document.body.textContent).toContain('页脚区');
         wrapper.unmount();
     });

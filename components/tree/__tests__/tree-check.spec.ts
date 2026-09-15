@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import Tree from '../tree';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-tree';
 
@@ -15,8 +16,6 @@ const makeData = () => [
     },
     { label: '父2', value: 'p2' },
 ];
-
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
 
 const mountCheckTree = (extra: Record<string, unknown> = {}) =>
     mount(Tree, {

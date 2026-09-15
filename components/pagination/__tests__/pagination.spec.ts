@@ -7,6 +7,11 @@ import getPrefixCls from '../../_util/getPrefixCls';
 const prefixCls = getPrefixCls('pagination');
 const prefixClsEllipsis = getPrefixCls('ellipsis');
 
+// Teleport 挂 body 跨用例泄漏防护（技能 jsdom 陷阱 #7）
+afterEach(() => {
+    document.body.innerHTML = '';
+});
+
 // ---------------- pagination currentPage props -------------------
 
 test('pagination props currentPage', async () => {

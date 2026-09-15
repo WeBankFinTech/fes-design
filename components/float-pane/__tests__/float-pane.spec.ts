@@ -4,13 +4,9 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import FloatPane from '../float-pane';
 import getPrefixCls from '../../_util/getPrefixCls';
 import { getPrefixStorage } from '../../_util/storage';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = getPrefixCls('float-pane');
-
-const sleep = (ms) =>
-    new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
 
 // 面板通过 Teleport 挂载到 body，需直接查 document
 const getContainerEl = () =>
@@ -97,11 +93,11 @@ describe('FloatPane', () => {
         expect(getContainerEl()).toBeFalsy();
 
         await wrapper.setProps({ visible: true });
-        await sleep(50);
+        await wait(50);
         expect(getContainerEl()).toBeTruthy();
 
         await wrapper.setProps({ visible: false });
-        await sleep(50);
+        await wait(50);
         expect(getContainerEl()).toBeFalsy();
     });
 
@@ -197,7 +193,7 @@ describe('FloatPane', () => {
             }),
         );
         // handleDrag 被节流，等待其执行
-        await sleep(50);
+        await wait(50);
         await nextTick();
         expect(getContainerEl().getAttribute('style')).toContain(
             'translate(30px, 10px)',
@@ -212,7 +208,7 @@ describe('FloatPane', () => {
                 clientY: 300,
             }),
         );
-        await sleep(50);
+        await wait(50);
         await nextTick();
         expect(getContainerEl().getAttribute('style')).toContain(
             'translate(30px, 10px)',
@@ -247,7 +243,7 @@ describe('FloatPane', () => {
                 clientY: 200,
             }),
         );
-        await sleep(50);
+        await wait(50);
         await nextTick();
         expect(getContainerEl().getAttribute('style')).toContain(
             'translate(0px, 0px)',
@@ -270,6 +266,6 @@ describe('FloatPane', () => {
         await nextTick();
         await nextTick();
         expect(spy).toHaveBeenCalled();
-        expect(container.querySelector(`.${prefixCls}-container`)).toBeTruthy();
+        expect(container.querySelector(`.${prefixCls}-container`)).not.toBeNull();
     });
 });

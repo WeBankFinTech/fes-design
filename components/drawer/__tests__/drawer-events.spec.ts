@@ -2,8 +2,7 @@ import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import Drawer from '../drawer';
 import Modal from '../../modal/modal';
-
-const wait = (ms = 80) => new Promise((r) => setTimeout(r, ms));
+import { wait } from '../../_util/__tests__/helpers';
 
 const $ = (sel: string) => document.querySelector(sel);
 const $$ = (sel: string) => Array.from(document.querySelectorAll(sel));
@@ -21,12 +20,12 @@ describe('FDrawer 事件', () => {
     test('ok 事件点击确定按钮触发', async () => {
         const wrapper = mountDrawer({ footer: true });
         await nextTick();
-        await wait();
+        await wait(80);
         const buttons = $$('button');
         // primary 确定按钮渲染在最前
         const okBtn = buttons.find((b) => b.textContent.includes('确定'));
         okBtn!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-        await wait();
+        await wait(80);
         expect(wrapper.emitted('ok')).toBeTruthy();
         wrapper.unmount();
     });
@@ -34,11 +33,11 @@ describe('FDrawer 事件', () => {
     test('cancel 事件点击取消按钮触发', async () => {
         const wrapper = mountDrawer({ footer: true });
         await nextTick();
-        await wait();
+        await wait(80);
         const buttons = $$('button');
         const cancelBtn = buttons.find((b) => b.textContent.includes('取消'));
         cancelBtn!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-        await wait();
+        await wait(80);
         const events = wrapper.emitted('cancel')
             || wrapper.emitted('update:show');
         expect(events).toBeTruthy();
@@ -48,13 +47,13 @@ describe('FDrawer 事件', () => {
     test('关闭按钮触发 update:show=false', async () => {
         const wrapper = mountDrawer();
         await nextTick();
-        await wait();
+        await wait(80);
         const close = $(`.fes-drawer-close`);
         expect(close).toBeTruthy();
         close!.dispatchEvent(
             new MouseEvent('click', { bubbles: true }),
         );
-        await wait();
+        await wait(80);
         const updates = wrapper.emitted('update:show');
         expect(updates![updates!.length - 1][0]).toBe(false);
         wrapper.unmount();
@@ -63,11 +62,11 @@ describe('FDrawer 事件', () => {
     test('escClosable Esc 触发关闭', async () => {
         const wrapper = mountDrawer({ escClosable: true });
         await nextTick();
-        await wait();
+        await wait(80);
         window.dispatchEvent(
             new KeyboardEvent('keydown', { code: 'Escape' }),
         );
-        await wait();
+        await wait(80);
         const updates = wrapper.emitted('update:show');
         expect(updates![updates!.length - 1][0]).toBe(false);
         wrapper.unmount();
@@ -83,7 +82,7 @@ describe('FModal 事件补充', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(80);
         expect($$('.fes-modal-container').length).toBeGreaterThan(0);
         wrapper.unmount();
     });
@@ -96,7 +95,7 @@ describe('FModal 事件补充', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(80);
         // 无头模式下至少不抛错
         expect(document.body.innerHTML.length).toBeGreaterThan(0);
         wrapper.unmount();

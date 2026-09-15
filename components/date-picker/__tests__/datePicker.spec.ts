@@ -1,19 +1,12 @@
 import { mount } from '@vue/test-utils';
-import { nextTick, ref } from 'vue';
+import { ref } from 'vue';
 import getPrefixCls from '../../_util/getPrefixCls';
 import DatePicker from '../datePicker.vue';
+import { sleep } from '../../_util/__tests__/helpers';
 
 const inputPrefixCls = getPrefixCls('input-inner');
 const calendarPrefixCls = getPrefixCls('date-picker-calendar');
 const calendarsPrefixCls = getPrefixCls('date-picker-calendars');
-
-const sleep = (times = 2) => {
-    let promise = Promise.resolve();
-    for (let i = 0; i < times; i++) {
-        promise = promise.then(() => nextTick());
-    }
-    return promise;
-};
 
 const findInput = (wrapper) => wrapper.find('input');
 const findDayCells = (wrapper) =>

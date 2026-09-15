@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import Tree from '../tree';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-tree';
 
@@ -33,8 +34,6 @@ const FIELD_DATA = [
     },
 ];
 
-const wait = (ms = 100) => new Promise((r) => setTimeout(r, ms));
-
 const mountTree = (props: Record<string, unknown> = {}) =>
     mount(Tree, {
         props: { data, ...props },
@@ -48,18 +47,18 @@ const expand = async (wrapper: any, value: string) => {
     await node(wrapper, value)
         .find(`.${prefixCls}-node-switcher`)
         .trigger('click');
-    await wait();
+    await wait(100);
 };
 
 describe('FTree 属性补全', () => {
     test('accordion 手风琴：同级互斥展开', async () => {
         const wrapper = mountTree({ accordion: true });
         await nextTick();
-        await wait();
+        await wait(100);
         await expand(wrapper, 'n1');
         expect(node(wrapper, 'n1-1').exists()).toBe(true);
         await expand(wrapper, 'n2');
-        await wait();
+        await wait(100);
         // n1 展开时展开 n2，n1 应被收起
         expect(node(wrapper, 'n2-1').exists()).toBe(true);
         expect(node(wrapper, 'n1-1').exists()).toBe(false);
@@ -69,7 +68,7 @@ describe('FTree 属性补全', () => {
     test('非 accordion 同级可同时展开', async () => {
         const wrapper = mountTree();
         await nextTick();
-        await wait();
+        await wait(100);
         await expand(wrapper, 'n1');
         await expand(wrapper, 'n2');
         expect(node(wrapper, 'n1-1').exists()).toBe(true);
@@ -80,7 +79,7 @@ describe('FTree 属性补全', () => {
     test('multiple=true 支持多选 selectedKeys 数组', async () => {
         const wrapper = mountTree({ multiple: true, selectable: true });
         await nextTick();
-        await wait();
+        await wait(100);
         await node(wrapper, 'n2')
             .find(`.${prefixCls}-node-content`)
             .trigger('click');
@@ -98,7 +97,7 @@ describe('FTree 属性补全', () => {
             selectedKeys: ['n2'],
         });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(node(wrapper, 'n2').classes()).toContain('is-selected');
         await node(wrapper, 'n2')
             .find(`.${prefixCls}-node-content`)
@@ -112,7 +111,7 @@ describe('FTree 属性补全', () => {
     test('selectedKeys 初始选中回显', async () => {
         const wrapper = mountTree({ selectable: true, selectedKeys: ['n2'] });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(node(wrapper, 'n2').classes()).toContain('is-selected');
         wrapper.unmount();
     });
@@ -125,7 +124,7 @@ describe('FTree 属性补全', () => {
             valueField: 'key',
         });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(node(wrapper, 'r1').exists()).toBe(true);
         expect(wrapper.text()).toContain('自定义根');
         await expand(wrapper, 'r1');
@@ -136,7 +135,7 @@ describe('FTree 属性补全', () => {
     test('defaultExpandedKeys 初始展开指定节点', async () => {
         const wrapper = mountTree({ expandedKeys: ['n1'] });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(node(wrapper, 'n1-1').exists()).toBe(true);
         wrapper.unmount();
     });
@@ -146,7 +145,7 @@ describe('FTree 属性补全', () => {
             data: [{ label: '配置叶子', value: 'lf', isLeaf: true }],
         });
         await nextTick();
-        await wait();
+        await wait(100);
         const n = node(wrapper, 'lf');
         expect(n.exists()).toBe(true);
         // 叶子节点 switcher 不可见或无箭头
@@ -160,7 +159,7 @@ describe('FTree 属性补全', () => {
     test('expand 展开事件携带 expandedKeys', async () => {
         const wrapper = mountTree();
         await nextTick();
-        await wait();
+        await wait(100);
         await expand(wrapper, 'n1');
         const events = wrapper.emitted('expand');
         expect(events).toBeTruthy();

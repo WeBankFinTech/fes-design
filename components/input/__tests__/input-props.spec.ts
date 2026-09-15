@@ -1,8 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import { FInput as Input } from '../index';
-
-const wait = (ms = 40) => new Promise((r) => setTimeout(r, ms));
+import { wait } from '../../_util/__tests__/helpers';
 
 describe('FInput 属性补全', () => {
     test('rows 设置 textarea 行数', async () => {
@@ -21,7 +20,7 @@ describe('FInput 属性补全', () => {
             props: { type: 'textarea', autosize: true, modelValue: '多行内容' },
         });
         await nextTick();
-        await wait();
+        await wait(40);
         expect(wrapper.find('textarea').exists()).toBe(true);
         wrapper.unmount();
     });
@@ -35,7 +34,7 @@ describe('FInput 属性补全', () => {
             },
         });
         await nextTick();
-        await wait();
+        await wait(40);
         expect(wrapper.find('textarea').exists()).toBe(true);
         wrapper.unmount();
     });
@@ -46,7 +45,7 @@ describe('FInput 属性补全', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(40);
         expect(wrapper.find('input').exists()).toBe(true);
         wrapper.unmount();
     });
@@ -76,7 +75,7 @@ describe('FInput 属性补全', () => {
             props: { modelValue: 'abc', maxlength: 10, showWordLimit: true },
         });
         await nextTick();
-        await wait();
+        await wait(40);
         expect(wrapper.text()).toContain('3/10');
         wrapper.unmount();
     });

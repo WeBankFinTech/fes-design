@@ -2,7 +2,6 @@ import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import FPopper from '../popper';
 import PopupManager from '../../_util/popupManager';
-import { sleep } from '../../_util/utils';
 
 const TEST_TRIGGER = 'test-trigger';
 const AXIOM = 'Rem is the best girl';
@@ -10,6 +9,11 @@ const WRAPPER_CLASS = '.fes-popper-wrapper';
 const CONTENT_CLASS = '.fes-popper';
 const ARROW_CLASS = '.fes-popper';
 const MOUSE_ENTER_EVENT = 'mouseenter';
+
+// Teleport 挂 body 跨用例泄漏防护（技能 jsdom 陷阱 #7）
+afterEach(() => {
+    document.body.innerHTML = '';
+});
 const MOUSE_LEAVE_EVENT = 'mouseleave';
 const CLICK_EVENT = 'click';
 const FOCUS_EVENT = 'focus';
@@ -84,9 +88,10 @@ describe('Popper', () => {
         await nextTick();
         expect(wrapper.find(CONTENT_CLASS).isVisible()).toBe(true);
         await $trigger.trigger(MOUSE_LEAVE_EVENT);
-        // 消失时存在动画，需要等待动画结束才隐藏
-        await sleep(300);
-        expect(wrapper.find(CONTENT_CLASS).isVisible()).toBe(false);
+        // 消失动画：vi.waitFor 轮询至隐藏（替代盲等动画时长）
+        await vi.waitFor(() => {
+            expect(wrapper.find(CONTENT_CLASS).isVisible()).toBe(false);
+        });
     });
 
     test('trigger click', async () => {
@@ -101,9 +106,10 @@ describe('Popper', () => {
         await nextTick();
         expect(wrapper.find(CONTENT_CLASS).isVisible()).toBe(true);
         await $trigger.trigger(CLICK_EVENT);
-        // 消失时存在动画，需要等待动画结束才隐藏
-        await sleep(300);
-        expect(wrapper.find(CONTENT_CLASS).isVisible()).toBe(false);
+        // 消失动画：vi.waitFor 轮询至隐藏（替代盲等动画时长）
+        await vi.waitFor(() => {
+            expect(wrapper.find(CONTENT_CLASS).isVisible()).toBe(false);
+        });
     });
 
     test('trigger focus', async () => {
@@ -118,9 +124,10 @@ describe('Popper', () => {
         await nextTick();
         expect(wrapper.find(CONTENT_CLASS).isVisible()).toBe(true);
         await $trigger.trigger(BLUR_EVENT);
-        // 消失时存在动画，需要等待动画结束才隐藏
-        await sleep(300);
-        expect(wrapper.find(CONTENT_CLASS).isVisible()).toBe(false);
+        // 消失动画：vi.waitFor 轮询至隐藏（替代盲等动画时长）
+        await vi.waitFor(() => {
+            expect(wrapper.find(CONTENT_CLASS).isVisible()).toBe(false);
+        });
     });
 
     test('render lazy', async () => {

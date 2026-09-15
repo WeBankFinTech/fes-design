@@ -1,8 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick, reactive } from 'vue';
 import Cascader from '../cascader';
-
-const wait = (ms = 80) => new Promise((r) => setTimeout(r, ms));
+import { wait } from '../../_util/__tests__/helpers';
 
 const TREE_DATA = [
     {
@@ -44,10 +43,10 @@ describe('FCascader 懒加载与交互事件', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(80);
         // 远程数据被 push 进响应式数组
         await wrapper.find('.fes-cascader').trigger('click');
-        await wait();
+        await wait(80);
         expect(document.body.textContent).toContain('远程A');
         wrapper.unmount();
     });
@@ -67,9 +66,9 @@ describe('FCascader 懒加载与交互事件', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(80);
         await wrapper.find('.fes-cascader').trigger('click');
-        await wait();
+        await wait(80);
         const node = document.querySelector('.fes-cascader-node-content');
         expect(node).not.toBeNull();
         node!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
@@ -82,15 +81,15 @@ describe('FCascader 懒加载与交互事件', () => {
     test('expand 事件在展开节点时触发', async () => {
         const wrapper = mountCascader();
         await nextTick();
-        await wait();
+        await wait(80);
         await wrapper.find('.fes-cascader').trigger('click');
-        await wait();
+        await wait(80);
         const nodes = document.querySelectorAll('.fes-cascader-node-content');
         expect(nodes.length).toBeGreaterThan(0);
         nodes[0].dispatchEvent(
             new MouseEvent('click', { bubbles: true }),
         );
-        await wait();
+        await wait(80);
         // 点击后弹出子菜单或选中
         expect(
             document.querySelectorAll('.fes-cascader-node').length,
@@ -101,14 +100,14 @@ describe('FCascader 懒加载与交互事件', () => {
     test('多次展开收起后数据保持', async () => {
         const wrapper = mountCascader();
         await nextTick();
-        await wait();
+        await wait(80);
         const trigger = wrapper.find('.fes-cascader');
         await trigger.trigger('click');
-        await wait();
+        await wait(80);
         expect(document.body.textContent).toContain('广东');
         // 点击外部区域收起
         document.body.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
-        await wait();
+        await wait(80);
         wrapper.unmount();
     });
 });

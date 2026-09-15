@@ -3,9 +3,9 @@ import { nextTick } from 'vue';
 import Radio from '../radio.vue';
 import RadioGroup from '../../radio-group/radio-group.vue';
 import getPrefixCls from '../../_util/getPrefixCls';
+import { wait } from '../../_util/__tests__/helpers';
 
 const radioCls = getPrefixCls('radio');
-const wait = (ms = 50) => new Promise((r) => setTimeout(r, ms));
 
 describe('FRadio 独立使用', () => {
     test('渲染 label 文本', () => {
@@ -22,7 +22,7 @@ describe('FRadio 独立使用', () => {
             props: { label: '选择我', modelValue: false },
         });
         await wrapper.find(`.${radioCls}`).trigger('click');
-        await wait();
+        await wait(50);
         const updates = wrapper.emitted('update:modelValue');
         expect(updates![0][0]).toBe(true);
         expect(wrapper.emitted('change')).toBeTruthy();
@@ -53,14 +53,14 @@ describe('FRadio 独立使用', () => {
             },
         });
         await nextTick();
-        await wait();
+        await wait(50);
         const radios = wrapper.findAll(`.${radioCls}`);
         const second = radios.find((r) => r.text() === '乙');
         if (!second) {
             throw new Error('未渲染出乙选项');
         }
         await second.trigger('click');
-        await wait();
+        await wait(50);
         const updates = wrapper.emitted('update:modelValue');
         expect(updates![updates!.length - 1][0]).toBe(2);
         wrapper.unmount();

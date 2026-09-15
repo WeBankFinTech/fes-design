@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import Table from '../table';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-table';
 
@@ -10,8 +11,6 @@ const makeData = (n = 3) =>
         name: `用户${i + 1}`,
         age: 20 + i,
     }));
-
-const wait = (ms = 80) => new Promise((r) => setTimeout(r, ms));
 
 describe('FTable 滚动状态与阴影', () => {
     test('columnsFixed=none 滚动更新 scrollState', async () => {
@@ -28,12 +27,12 @@ describe('FTable 滚动状态与阴影', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(80);
         const bodyWrapper = wrapper.find(`.${prefixCls}-body-wrapper`);
         expect(bodyWrapper.exists()).toBe(true);
         // jsdom 无真实布局，scrollLeft=0 → left 态
         await bodyWrapper.trigger('scroll');
-        await wait();
+        await wait(80);
         expect(
             bodyWrapper
                 .classes()
@@ -56,7 +55,7 @@ describe('FTable 滚动状态与阴影', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(80);
         expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
         wrapper.unmount();
     });
@@ -79,7 +78,7 @@ describe('FTable 滚动状态与阴影', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(80);
         expect(wrapper.find('.col-first').exists()).toBe(true);
         expect(wrapper.find('.col-static').exists()).toBe(true);
         wrapper.unmount();
@@ -106,7 +105,7 @@ describe('FTable 滚动状态与阴影', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(80);
         const firstCell = wrapper.find('tbody td');
         expect(firstCell.exists()).toBe(true);
         wrapper.unmount();
@@ -125,7 +124,7 @@ describe('FTable 滚动状态与阴影', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(80);
         const td = wrapper.find('tbody td');
         expect(td.attributes('style') || '').toContain('text-align');
         wrapper.unmount();
@@ -153,7 +152,7 @@ describe('FTable 滚动状态与阴影', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(80);
         const firstTd = wrapper.find('tbody td');
         expect(firstTd.attributes('rowspan')).toBe('2');
         wrapper.unmount();
@@ -170,7 +169,7 @@ describe('FTable 滚动状态与阴影', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(80);
         expect(wrapper.find('thead').exists()).toBe(false);
         wrapper.unmount();
     });

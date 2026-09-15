@@ -2,9 +2,9 @@ import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import Table from '../table';
 import getPrefixCls from '../../_util/getPrefixCls';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = getPrefixCls('table');
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
 
 const EXPAND_COLUMNS = [
     { type: 'expand', render: ({ row }: any) => h('div', `展开-${row.name}`) },

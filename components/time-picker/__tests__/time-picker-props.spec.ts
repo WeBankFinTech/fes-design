@@ -1,14 +1,13 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import TimePicker from '../time-picker.vue';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-time-picker';
 
 const PopperStub = {
     template: '<div><slot name="trigger" /><slot /></div>',
 };
-
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
 
 const mountPicker = (props: Record<string, unknown> = {}) => {
     document.body.innerHTML = '';

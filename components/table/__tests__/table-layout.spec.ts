@@ -3,9 +3,9 @@ import { nextTick } from 'vue';
 import type { ResizeObserver } from '@juggle/resize-observer';
 import Table from '../table';
 import getPrefixCls from '../../_util/getPrefixCls';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = getPrefixCls('table');
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
 
 // jsdom 无布局引擎：mock RO 同步派发，让 useResize 的 computeX/computeY 执行
 vi.mock('@juggle/resize-observer', () => ({

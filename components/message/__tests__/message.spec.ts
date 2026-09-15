@@ -2,14 +2,10 @@ import { nextTick } from 'vue';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import FMessage from '../index';
 import getPrefixCls from '../../_util/getPrefixCls';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = getPrefixCls('message');
 const alertCls = getPrefixCls('alert');
-
-const sleep = (ms) =>
-    new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
 
 describe('Message', () => {
     beforeEach(() => {
@@ -24,7 +20,7 @@ describe('Message', () => {
     test('info 挂载消息节点到 body', async () => {
         FMessage.info('info message');
         // createManager 是异步创建的
-        await sleep(50);
+        await wait(50);
         await nextTick();
 
         const wrapper = document.querySelector(`.${prefixCls}-wrapper`);
@@ -32,55 +28,56 @@ describe('Message', () => {
         const item = document.querySelector(`.${prefixCls}-item`);
         expect(item).not.toBeNull();
         expect(item.textContent).toContain('info message');
-        expect(document.querySelector(`.${alertCls}-info`)).toBeTruthy();
+        expect(document.querySelector(`.${alertCls}-info`)).not.toBeNull();
     });
 
     test('success/warning/error 类型类名', async () => {
         FMessage.success('success message');
         FMessage.warning('warning message');
         FMessage.error('error message');
-        await sleep(50);
+        await wait(50);
         await nextTick();
 
-        expect(document.querySelector(`.${alertCls}-success`)).toBeTruthy();
-        expect(document.querySelector(`.${alertCls}-warning`)).toBeTruthy();
-        expect(document.querySelector(`.${alertCls}-error`)).toBeTruthy();
+        expect(document.querySelector(`.${alertCls}-success`)).not.toBeNull();
+        expect(document.querySelector(`.${alertCls}-warning`)).not.toBeNull();
+        expect(document.querySelector(`.${alertCls}-error`)).not.toBeNull();
     });
 
     test('duration 后自动消失', async () => {
         FMessage.info({ content: 'auto close', duration: 0.3 });
-        await sleep(50);
+        await wait(50);
         await nextTick();
-        expect(document.querySelector(`.${prefixCls}-item`)).toBeTruthy();
+        expect(document.querySelector(`.${prefixCls}-item`)).not.toBeNull();
 
-        await sleep(600);
-        await nextTick();
-        expect(document.querySelector(`.${prefixCls}-item`)).toBeFalsy();
+        // duration 定时器触发后消失：waitFor 轮询（比盲等 600ms 更快）
+        await vi.waitFor(() => {
+            expect(document.querySelector(`.${prefixCls}-item`)).toBeNull();
+        });
     });
 
     test('duration=0 时不自动消失', async () => {
         FMessage.info({ content: 'keep alive', duration: 0 });
-        await sleep(50);
+        await wait(50);
         await nextTick();
-        expect(document.querySelector(`.${prefixCls}-item`)).toBeTruthy();
+        expect(document.querySelector(`.${prefixCls}-item`)).not.toBeNull();
 
-        await sleep(200);
-        expect(document.querySelector(`.${prefixCls}-item`)).toBeTruthy();
+        await wait(200);
+        expect(document.querySelector(`.${prefixCls}-item`)).not.toBeNull();
 
         FMessage.destroy();
         await nextTick();
-        expect(document.querySelector(`.${prefixCls}-item`)).toBeFalsy();
+        expect(document.querySelector(`.${prefixCls}-item`)).toBeNull();
     });
 
     test('destroy 清空消息', async () => {
         FMessage.info('destroy message');
-        await sleep(50);
+        await wait(50);
         await nextTick();
-        expect(document.querySelector(`.${prefixCls}-item`)).toBeTruthy();
+        expect(document.querySelector(`.${prefixCls}-item`)).not.toBeNull();
 
         FMessage.destroy();
         await nextTick();
-        expect(document.querySelector(`.${prefixCls}-item`)).toBeFalsy();
+        expect(document.querySelector(`.${prefixCls}-item`)).toBeNull();
     });
 
     test('closable 手动关闭并触发 afterClose', async () => {
@@ -91,18 +88,18 @@ describe('Message', () => {
             duration: 0,
             afterClose,
         });
-        await sleep(50);
+        await wait(50);
         await nextTick();
-        expect(document.querySelector(`.${prefixCls}-item`)).toBeTruthy();
+        expect(document.querySelector(`.${prefixCls}-item`)).not.toBeNull();
 
         const closeBtn = document.querySelector(
             `.${alertCls}-head-right-close span`,
         );
         expect(closeBtn).not.toBeNull();
         closeBtn.click();
-        await sleep(50);
+        await wait(50);
         await nextTick();
-        expect(document.querySelector(`.${prefixCls}-item`)).toBeFalsy();
+        expect(document.querySelector(`.${prefixCls}-item`)).toBeNull();
         expect(afterClose).toHaveBeenCalledTimes(1);
     });
 
@@ -111,11 +108,11 @@ describe('Message', () => {
         FMessage.info('msg 1');
         // 等待 manager 创建完成（首次调用会异步 createManager），
         // 之后的两条消息才会计入 maxCount
-        await sleep(50);
+        await wait(50);
         await nextTick();
         FMessage.info('msg 2');
         FMessage.info('msg 3');
-        await sleep(50);
+        await wait(50);
         await nextTick();
 
         expect(
@@ -127,13 +124,13 @@ describe('Message', () => {
 
     test('返回 destroy 方法可单独移除消息', async () => {
         const msg = FMessage.info('destroy by handle');
-        await sleep(50);
+        await wait(50);
         await nextTick();
-        expect(document.querySelector(`.${prefixCls}-item`)).toBeTruthy();
+        expect(document.querySelector(`.${prefixCls}-item`)).not.toBeNull();
 
         msg.destroy();
-        await sleep(50);
+        await wait(50);
         await nextTick();
-        expect(document.querySelector(`.${prefixCls}-item`)).toBeFalsy();
+        expect(document.querySelector(`.${prefixCls}-item`)).toBeNull();
     });
 });

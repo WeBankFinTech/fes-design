@@ -3,8 +3,7 @@ import { nextTick } from 'vue';
 import SelectCascader from '../selectCascader.vue';
 import SelectTrigger from '../../select-trigger/selectTrigger.vue';
 import OptionList from '../../select/optionList';
-
-const wait = (ms = 100) => new Promise((r) => setTimeout(r, ms));
+import { wait } from '../../_util/__tests__/helpers';
 
 const PopperStub = {
     template: '<div class="popper-stub"><slot name="trigger" /><slot /></div>',
@@ -42,7 +41,7 @@ const mountSc = (props: Record<string, unknown>, slots = {}) =>
 const openAndPick = async (wrapper: any, multiple = false) => {
     // 打开弹层
     await wrapper.find('.fes-select-cascader').trigger('click');
-    await wait();
+    await wait(100);
     // 勾选/选中叶子节点
     const leaf = wrapper.find(
         multiple
@@ -51,7 +50,7 @@ const openAndPick = async (wrapper: any, multiple = false) => {
     );
     if (leaf.exists()) {
         await leaf.trigger('click');
-        await wait();
+        await wait(100);
     }
 };
 
@@ -77,10 +76,10 @@ describe('selectCascader 状态分支补充', () => {
         await openAndPick(wrapper, true);
         // 清空按钮出现则触发 removeTag 路径
         emitFromTrigger(wrapper, 'remove', 'sz');
-        await wait();
+        await wait(100);
         // 未匹配的 key：findIndex === -1 分支
         emitFromTrigger(wrapper, 'remove', 'nope');
-        await wait();
+        await wait(100);
         expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
     });
@@ -94,13 +93,13 @@ describe('selectCascader 状态分支补充', () => {
             modelValue: ['gd', 'sz', 'gz'],
         });
         await nextTick();
-        await wait();
+        await wait(100);
         // 移除叶子节点
         emitFromTrigger(wrapper, 'remove', 'sz');
-        await wait();
+        await wait(100);
         // 移除父节点（isLeaf=false → handleChildren）
         emitFromTrigger(wrapper, 'remove', 'gd');
-        await wait();
+        await wait(100);
         expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
     });
@@ -115,9 +114,9 @@ describe('selectCascader 状态分支补充', () => {
         });
         await nextTick();
         await wrapper.setProps({ checkStrictly: true });
-        await wait();
+        await wait(100);
         await wrapper.setProps({ checkStrictly: false });
-        await wait();
+        await wait(100);
         spy.mockRestore();
         expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
@@ -132,9 +131,9 @@ describe('selectCascader 状态分支补充', () => {
         });
         await nextTick();
         await wrapper.setProps({ emitPath: true });
-        await wait();
+        await wait(100);
         await wrapper.setProps({ cascade: true });
-        await wait();
+        await wait(100);
         spy.mockRestore();
         expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
@@ -149,7 +148,7 @@ describe('selectCascader 状态分支补充', () => {
         await nextTick();
         // 无选中值 → handleClear 提前 return
         emitFromTrigger(wrapper, 'clear');
-        await wait();
+        await wait(100);
         expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
 
@@ -160,7 +159,7 @@ describe('selectCascader 状态分支补充', () => {
         });
         await nextTick();
         emitFromTrigger(wrapper2, 'clear');
-        await wait();
+        await wait(100);
         wrapper2.unmount();
     });
 
@@ -173,11 +172,11 @@ describe('selectCascader 状态分支补充', () => {
         await nextTick();
         // 点击 stub 内部触发 update:modelValue
         await wrapper.find('.popper-stub').trigger('click');
-        await wait();
+        await wait(100);
         expect(wrapper.emitted('visibleChange')?.length).toBeGreaterThan(0);
         // 关闭
         await wrapper.find('.popper-stub').trigger('click');
-        await wait();
+        await wait(100);
         wrapper.unmount();
     });
 
@@ -192,7 +191,7 @@ describe('selectCascader 状态分支补充', () => {
             modelValue: [['gd', 'sz']],
         });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
     });
@@ -221,10 +220,10 @@ describe('selectCascader 状态分支补充', () => {
         const wrapper = mountSc({ data, modelValue: null });
         await nextTick();
         emitFromTrigger(wrapper, 'focus', new Event('focus'));
-        await wait();
+        await wait(100);
         // blur 时 isOpened=false 分支（未打开）
         emitFromTrigger(wrapper, 'blur', new Event('blur'));
-        await wait();
+        await wait(100);
         expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
 
@@ -232,9 +231,9 @@ describe('selectCascader 状态分支补充', () => {
         const wrapper2 = mountSc({ data, modelValue: null });
         await nextTick();
         await wrapper2.find('.fes-select-cascader').trigger('click');
-        await wait();
+        await wait(100);
         emitFromTrigger(wrapper2, 'blur', new Event('blur'));
-        await wait();
+        await wait(100);
         wrapper2.unmount();
     });
 
@@ -247,14 +246,14 @@ describe('selectCascader 状态分支补充', () => {
         await nextTick();
         const input = wrapper.find('input');
         await input.setValue('深');
-        await wait();
+        await wait(100);
         // 直接调用 OptionList 的 onSelect 回调 → handleFilterSelect（selectable）
         const optionList = wrapper.findComponent(OptionList as any);
         expect(optionList.exists()).toBe(true);
         optionList.vm.$emit('select', 'sz');
-        await wait();
+        await wait(100);
         optionList.props().onSelect?.('sz');
-        await wait();
+        await wait(100);
         wrapper.unmount();
     });
 

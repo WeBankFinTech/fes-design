@@ -1,8 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import { FInput as Input } from '../index';
-
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
+import { wait } from '../../_util/__tests__/helpers';
 
 describe('FInput 事件与原生行为', () => {
     test('input 事件实时触发并携带值', async () => {

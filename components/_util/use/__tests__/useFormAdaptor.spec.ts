@@ -4,8 +4,7 @@ import Form from '../../../form/form.vue';
 import FormItem from '../../../form/formItem.vue';
 import Input from '../../../input/input.vue';
 import useFormAdaptor from '../useFormAdaptor';
-
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
+import { wait } from '../../../_util/__tests__/helpers';
 
 describe('useFormAdaptor', () => {
     test('form 内 input 输入触发校验', async () => {

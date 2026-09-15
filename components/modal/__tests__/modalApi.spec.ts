@@ -1,7 +1,6 @@
 import { nextTick } from 'vue';
 import modalApi from '../modalApi';
-
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
+import { wait } from '../../_util/__tests__/helpers';
 
 const getModals = () => document.body.querySelectorAll('.fes-modal');
 

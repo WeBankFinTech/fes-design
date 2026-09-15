@@ -3,8 +3,7 @@ import { h, nextTick } from 'vue';
 import Menu from '../menu';
 import MenuItem from '../menuItem';
 import SubMenu from '../subMenu';
-
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
+import { wait } from '../../_util/__tests__/helpers';
 
 const mountMenu = (props: Record<string, unknown> = {}) =>
     mount(Menu, {

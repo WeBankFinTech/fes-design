@@ -1,12 +1,11 @@
 import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import Drawer from '../drawer';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-drawer';
 
 const getBodyDrawer = () => document.body.querySelector(`.${prefixCls}`);
-
-const wait = (ms = 50) => new Promise((r) => setTimeout(r, ms));
 
 async function openDrawer(
     props: Record<string, unknown>,

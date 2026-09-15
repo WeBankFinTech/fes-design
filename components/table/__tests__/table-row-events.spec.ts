@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import Table from '../table';
+import { wait } from '../../_util/__tests__/helpers';
 
 const DATA = [
     { id: 1, name: '张三', age: 20, city: '北京' },
@@ -12,8 +13,6 @@ const COLUMNS = [
     { prop: 'name', label: '姓名' },
     { prop: 'age', label: '年龄' },
 ];
-
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
 
 const mountTable = (props: Record<string, unknown> = {}) =>
     mount(Table, {

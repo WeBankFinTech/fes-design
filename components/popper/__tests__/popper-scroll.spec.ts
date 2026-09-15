@@ -32,7 +32,7 @@ describe('FPopper useScroll 滚动重算分支', () => {
         await wrapper.find(`.${TEST_TRIGGER}`).trigger('mouseenter');
         // vi.waitFor：条件满足即返回（技能推荐），替代定长 wait
         await vi.waitFor(() => {
-            expect(document.querySelector('.popper-content')).toBeTruthy();
+            expect(document.querySelector('.popper-content')).not.toBeNull();
         });
         // 在 window 上滚动（target === container → 命中 return 分支）
         window.dispatchEvent(new Event('scroll'));
@@ -42,7 +42,7 @@ describe('FPopper useScroll 滚动重算分支', () => {
         document.body.appendChild(div);
         div.dispatchEvent(new Event('scroll', { bubbles: true }));
         await wait();
-        expect(document.querySelector('.popper-content')).toBeTruthy();
+        expect(document.querySelector('.popper-content')).not.toBeNull();
         wrapper.unmount();
     });
 

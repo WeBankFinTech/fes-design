@@ -5,13 +5,12 @@ import { FVirtualList as VirtualList } from '../index';
 import { FTag as Tag } from '../../tag/index';
 import { FEllipsis as Ellipsis } from '../../ellipsis/index';
 import { FTooltip } from '../../tooltip/index';
+import { wait } from '../../_util/__tests__/helpers';
 
 // jsdom 未内置 ResizeObserver，列表项尺寸测量依赖它
 if (typeof window.ResizeObserver === 'undefined') {
     (window as any).ResizeObserver = ResizeObserver;
 }
-
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
 
 const makeItems = (n: number) =>
     Array.from({ length: n }, (_, i) => ({ id: i, text: `项目${i}` }));

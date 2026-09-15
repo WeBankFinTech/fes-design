@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import Table from '../table';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-table';
 
@@ -16,8 +17,6 @@ const columns = [
     { prop: 'address', label: '地址' },
 ];
 
-const wait = (ms = 100) => new Promise((r) => setTimeout(r, ms));
-
 const mountTable = (props: Record<string, unknown>, slots = {}) =>
     mount(Table, {
         props: { data, rowKey: 'id', columns, ...props },
@@ -28,7 +27,7 @@ describe('FTable 基础渲染', () => {
     test('渲染表头与数据行', async () => {
         const wrapper = mountTable({});
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
         expect(wrapper.text()).toContain('姓名');
         expect(wrapper.text()).toContain('张三');
@@ -39,7 +38,7 @@ describe('FTable 基础渲染', () => {
     test('数据行数与 data 一致', async () => {
         const wrapper = mountTable({});
         await nextTick();
-        await wait();
+        await wait(100);
         const rows = wrapper.findAll(`.${prefixCls}-body tr, tbody tr`);
         expect(rows.length).toBeGreaterThanOrEqual(3);
         wrapper.unmount();
@@ -56,7 +55,7 @@ describe('FTable 基础渲染', () => {
             },
         );
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.findAll('.custom-cell').length).toBeGreaterThanOrEqual(1);
         wrapper.unmount();
     });
@@ -64,7 +63,7 @@ describe('FTable 基础渲染', () => {
     test('空数据渲染空提示', async () => {
         const wrapper = mountTable({ data: [] });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(
             wrapper.text().includes('暂无') || wrapper.find('.fes-empty').exists(),
         ).toBe(true);
@@ -81,7 +80,7 @@ describe('FTable 排序', () => {
             ],
         });
         await nextTick();
-        await wait();
+        await wait(100);
         const sortIcons = wrapper.findAll(
             `.${prefixCls}-sort__icon, [class*="sort"]`,
         );
@@ -102,7 +101,7 @@ describe('FTable 固定列与边框', () => {
     test('bordered 类名', async () => {
         const wrapper = mountTable({ bordered: true });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(
             wrapper
                 .find(`.${prefixCls}`)
@@ -121,7 +120,7 @@ describe('FTable 固定列与边框', () => {
             width: 600,
         });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.text()).toContain('姓名');
         wrapper.unmount();
     });
@@ -131,7 +130,7 @@ describe('FTable 分页事件', () => {
     test('虚拟滚动开启不报错', async () => {
         const wrapper = mountTable({ virtualized: true, height: 200 });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.text()).toContain('张三');
         wrapper.unmount();
     });

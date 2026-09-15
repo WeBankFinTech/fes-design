@@ -4,9 +4,9 @@ import Option from '../option';
 import Select from '../select.vue';
 import OptionGroup from '../groupOption';
 import getPrefixCls from '../../_util/getPrefixCls';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = getPrefixCls('select');
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
 
 // Popper stub 让面板常驻，便于断言 option DOM
 const popperStub = {

@@ -3,8 +3,7 @@ import { defineComponent, h, nextTick, ref } from 'vue';
 import Form from '../../../form/form.vue';
 import FormItem from '../../../form/formItem.vue';
 import useFormAdaptor from '../useFormAdaptor';
-
-const wait = (ms = 40) => new Promise((r) => setTimeout(r, ms));
+import { wait } from '../../../_util/__tests__/helpers';
 
 // 在 FormItem 内调用 useFormAdaptor（需要真实 inject 的 setRuleDefaultType）
 const mountInForm = (makeChild: () => any) => {
@@ -29,7 +28,7 @@ describe('useFormAdaptor 与 FormItem 联动', () => {
         });
         const wrapper = mountInForm(() => h(Child));
         await nextTick();
-        await wait();
+        await wait(40);
         expect(wrapper.text()).toContain('child');
         wrapper.unmount();
     });
@@ -84,7 +83,7 @@ describe('useFormAdaptor 与 FormItem 联动', () => {
         });
         const wrapper = mountInForm(() => h(Child));
         await nextTick();
-        await wait();
+        await wait(40);
         expect(wrapper.find('.gc').exists()).toBe(true);
         wrapper.unmount();
     });

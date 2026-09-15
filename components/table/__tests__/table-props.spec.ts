@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import Table from '../table';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-table';
 
@@ -10,8 +11,6 @@ const makeData = (n = 3) =>
         name: `用户${i + 1}`,
         long: `这是一段非常长的内容用于测试省略号${i + 1}`,
     }));
-
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
 
 const mountTable = (props: Record<string, unknown> = {}, columns: any[] = [
     { prop: 'name', label: '姓名' },

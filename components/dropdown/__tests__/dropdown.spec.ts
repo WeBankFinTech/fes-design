@@ -138,7 +138,7 @@ describe('Dropdown', () => {
         const wrapper = _mount({ appendToContainer: true });
         await wrapper.find(TRIGGER_CLS).trigger('mouseenter');
         expect(wrapper.find(`.${dropdownCls}-popper`).exists()).toBe(false);
-        expect(document.body.querySelector(`.${dropdownCls}-popper`)).toBeTruthy();
+        expect(document.body.querySelector(`.${dropdownCls}-popper`)).not.toBeNull();
         wrapper.unmount();
         // 卸载后清理 body 上的弹层
         expect(

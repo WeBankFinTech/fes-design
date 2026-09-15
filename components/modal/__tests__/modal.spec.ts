@@ -1,12 +1,11 @@
 import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import Modal from '../modal';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-modal';
 
 const getBodyModal = () => document.body.querySelector(`.${prefixCls}`);
-
-const wait = (ms = 50) => new Promise((r) => setTimeout(r, ms));
 
 async function openModal(props: Record<string, unknown>, slots: Record<string, any> = {}) {
     const wrapper = mount(Modal, {

@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import SelectTree from '../selectTree.vue';
 import SelectTrigger from '../../select-trigger/selectTrigger.vue';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-select-tree';
 
@@ -16,8 +17,6 @@ const data = [
     },
     { label: '湖南', value: 'hn' },
 ];
-
-const wait = (ms = 100) => new Promise((r) => setTimeout(r, ms));
 
 const PopperStub = {
     template: '<div class="popper-stub"><slot name="trigger" /><slot /></div>',
@@ -52,10 +51,10 @@ describe('FSelectTree 状态分支补充', () => {
         const wrapper = mountSt({ data }, TogglePopperStub);
         await nextTick();
         await wrapper.find('.popper-stub').trigger('click');
-        await wait();
+        await wait(100);
         expect(wrapper.emitted('visibleChange')?.length).toBeGreaterThan(0);
         await wrapper.find('.popper-stub').trigger('click');
-        await wait();
+        await wait(100);
         wrapper.unmount();
     });
 
@@ -67,20 +66,20 @@ describe('FSelectTree 状态分支补充', () => {
             modelValue: ['sz', 'gz'],
         });
         await nextTick();
-        await wait();
+        await wait(100);
         // 命中分支
         emitFromTrigger(wrapper, 'remove', 'sz');
-        await wait();
+        await wait(100);
         // findIndex === -1 分支
         emitFromTrigger(wrapper, 'remove', 'nope');
-        await wait();
+        await wait(100);
         // 单选直接 return
         expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
         const single = mountSt({ data, modelValue: 'sz' });
         await nextTick();
         emitFromTrigger(single, 'remove', 'sz');
-        await wait();
+        await wait(100);
         single.unmount();
     });
 
@@ -91,7 +90,7 @@ describe('FSelectTree 状态分支补充', () => {
             showPath: true,
         });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.text()).toContain('广东/深圳');
         wrapper.unmount();
     });
@@ -106,9 +105,9 @@ describe('FSelectTree 状态分支补充', () => {
         });
         await nextTick();
         await wrapper.setProps({ checkStrictly: true });
-        await wait();
+        await wait(100);
         await wrapper.setProps({ emitPath: true });
-        await wait();
+        await wait(100);
         spy.mockRestore();
         expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
@@ -119,14 +118,14 @@ describe('FSelectTree 状态分支补充', () => {
         await nextTick();
         // 无值 → 提前 return
         emitFromTrigger(wrapper, 'clear');
-        await wait();
+        await wait(100);
         expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
 
         const wrapper2 = mountSt({ data, modelValue: 'sz', clearable: true });
         await nextTick();
         emitFromTrigger(wrapper2, 'clear');
-        await wait();
+        await wait(100);
         wrapper2.unmount();
     });
 
@@ -134,9 +133,9 @@ describe('FSelectTree 状态分支补充', () => {
         const wrapper = mountSt({ data });
         await nextTick();
         emitFromTrigger(wrapper, 'focus', new Event('focus'));
-        await wait();
+        await wait(100);
         emitFromTrigger(wrapper, 'blur', new Event('blur'));
-        await wait();
+        await wait(100);
         expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
     });
@@ -172,7 +171,7 @@ describe('FSelectTree 状态分支补充', () => {
         await nextTick();
         wrapper.setProps({ emitPath: true });
         await nextTick();
-        await wait();
+        await wait(100);
         // 单选 + emitPath：nodeList 就绪前重算 → [] 回退
         const wrapper2 = mountSt({
             data,
@@ -183,7 +182,7 @@ describe('FSelectTree 状态分支补充', () => {
         await nextTick();
         wrapper2.setProps({ emitPath: true });
         await nextTick();
-        await wait();
+        await wait(100);
         spy.mockRestore();
         expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
@@ -193,7 +192,7 @@ describe('FSelectTree 状态分支补充', () => {
     test('空数据显示空态文案', async () => {
         const wrapper = mountSt({ data: [] });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.find(`.${prefixCls}-null`).exists()).toBe(true);
         wrapper.unmount();
     });
@@ -227,7 +226,7 @@ describe('FSelectTree 状态分支补充', () => {
             modelValue: [['gd', 'sz']],
         });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.emitted('update:modelValue') === undefined).toBe(true);
         wrapper.unmount();
     });
@@ -241,7 +240,7 @@ describe('FSelectTree 状态分支补充', () => {
             global: { stubs: { Popper: PopperStub } },
         });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
     });

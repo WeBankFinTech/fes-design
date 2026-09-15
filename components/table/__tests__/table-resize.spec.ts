@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import Table from '../table';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-table';
 
@@ -8,8 +9,6 @@ const makeData = () => [
     { id: 1, name: '张三', age: 20 },
     { id: 2, name: '李四', age: 25 },
 ];
-
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
 
 describe('FTable 列宽拖拽（resizable）', () => {
     test('resizable 列渲染拖拽把手', async () => {

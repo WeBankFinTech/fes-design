@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import Cascader from '../cascader';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-cascader';
 
@@ -15,8 +16,6 @@ const data = [
     },
     { label: '湖南', value: 'hn' },
 ];
-
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
 
 const mountCascader = (props: Record<string, unknown> = {}) =>
     mount(Cascader, {

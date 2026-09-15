@@ -5,6 +5,11 @@ import getPrefixCls from '../../_util/getPrefixCls';
 
 const prefixCls = getPrefixCls('layout');
 
+// Teleport 挂 body 跨用例泄漏防护（技能 jsdom 陷阱 #7）
+afterEach(() => {
+    document.body.innerHTML = '';
+});
+
 describe('Layout', () => {
     test('default render with header / main / footer', async () => {
         const wrapper = mount(FLayout, {

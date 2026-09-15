@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import Cascader from '../cascader';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-cascader';
 
@@ -20,15 +21,13 @@ const data = [
     },
 ];
 
-const wait = (ms = 100) => new Promise((r) => setTimeout(r, ms));
-
 describe('FCascader 基础渲染', () => {
     test('渲染触发器（级联菜单直出）', async () => {
         const wrapper = mount(Cascader, {
             props: { data },
         });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
         // 根节点带 cascader role
         expect(wrapper.find(`.${prefixCls}`).attributes('role')).toBe(
@@ -49,7 +48,7 @@ describe('FCascader 基础渲染', () => {
             } as any,
         });
         await nextTick();
-        await wait();
+        await wait(100);
         const selected = wrapper.findAll(
             '.fes-cascader-node.is-selected, [class*="selected"]',
         );
@@ -66,7 +65,7 @@ describe('FCascader 面板交互', () => {
             props: { data, appendToContainer: false } as any,
         });
         await nextTick();
-        await wait();
+        await wait(100);
         await wrapper.find(`.${prefixCls}`).trigger('click');
         await nextTick();
         await wait(200);
@@ -89,7 +88,7 @@ describe('FCascader 面板交互', () => {
             } as any,
         });
         await nextTick();
-        await wait();
+        await wait(100);
         await wrapper.find(`.${prefixCls}`).trigger('click');
         await nextTick();
         await wait(200);
@@ -125,7 +124,7 @@ describe('FCascader 面板交互', () => {
             props: { data, multiple: true, appendToContainer: false } as any,
         });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
         wrapper.unmount();
     });
@@ -141,7 +140,7 @@ describe('FCascader 属性分支', () => {
             },
         });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(
             wrapper
                 .findAll(`.${prefixCls}-node`)[0]
@@ -156,7 +155,7 @@ describe('FCascader 属性分支', () => {
             props: { data, checkStrictly: 'all' } as any,
         });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
         wrapper.unmount();
     });
@@ -166,7 +165,7 @@ describe('FCascader 属性分支', () => {
             props: { data, expandTrigger: 'hover', appendToContainer: false } as any,
         });
         await nextTick();
-        await wait();
+        await wait(100);
         await wrapper.find(`.${prefixCls}`).trigger('mouseenter');
         await nextTick();
         await wait(200);
