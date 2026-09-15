@@ -31,6 +31,8 @@ describe('FPopper useScroll 滚动重算分支', () => {
         // 打开 popper（visible=true → disabledWatch false）
         await wrapper.find(`.${TEST_TRIGGER}`).trigger('mouseenter');
         await wait();
+        // hover 后 popper 内容已挂载（visible=true → disabledWatch false）
+        expect(document.querySelector('.popper-content')).toBeTruthy();
         // 在 window 上滚动（target === container → 命中 return 分支）
         window.dispatchEvent(new Event('scroll'));
         await wait();
@@ -39,6 +41,7 @@ describe('FPopper useScroll 滚动重算分支', () => {
         document.body.appendChild(div);
         div.dispatchEvent(new Event('scroll', { bubbles: true }));
         await wait();
+        expect(document.querySelector('.popper-content')).toBeTruthy();
         wrapper.unmount();
     });
 
@@ -47,10 +50,14 @@ describe('FPopper useScroll 滚动重算分支', () => {
         await nextTick();
         await wait();
         // 不打开 popper → visible=false → disabledWatch true
+        // lazy:false 下 popper 已渲染但 v-show 隐藏（display:none）
+        const content = document.querySelector('.popper-content') as HTMLElement;
+        expect(content?.parentElement?.getAttribute('style')).toContain('display: none');
         const div = document.createElement('div');
         document.body.appendChild(div);
         div.dispatchEvent(new Event('scroll', { bubbles: true }));
         await wait();
+        expect(content?.parentElement?.getAttribute('style')).toContain('display: none');
         wrapper.unmount();
     });
 
@@ -69,6 +76,8 @@ describe('FPopper useScroll 滚动重算分支', () => {
         document.body.appendChild(div);
         div.dispatchEvent(new Event('scroll', { bubbles: true }));
         await wait();
+        // disabled 函数分支被真实调用（滚动处理链路走通）
+        expect(disabledFn).toHaveBeenCalled();
         wrapper.unmount();
     });
 
@@ -83,6 +92,7 @@ describe('FPopper useScroll 滚动重算分支', () => {
         // target=body 命中 getContainer 返回的容器 → 跳过重算
         document.body.dispatchEvent(new Event('scroll'));
         await wait();
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
     });
 
@@ -99,6 +109,7 @@ describe('FPopper useScroll 滚动重算分支', () => {
         // target 即 getContainer 返回的元素 → return 分支
         document.body.dispatchEvent(new Event('scroll'));
         await wait();
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
     });
 });

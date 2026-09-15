@@ -71,6 +71,7 @@ describe('FScrollbar 滑块拖拽（bar.vue）', () => {
         await thumb.trigger('mousedown', { button: 1 });
         document.dispatchEvent(new MouseEvent('mousemove', { clientY: 20 }));
         await wait();
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
     });
 

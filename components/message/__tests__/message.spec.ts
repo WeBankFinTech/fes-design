@@ -28,9 +28,9 @@ describe('Message', () => {
         await nextTick();
 
         const wrapper = document.querySelector(`.${prefixCls}-wrapper`);
-        expect(wrapper).toBeTruthy();
+        expect(wrapper).not.toBeNull();
         const item = document.querySelector(`.${prefixCls}-item`);
-        expect(item).toBeTruthy();
+        expect(item).not.toBeNull();
         expect(item.textContent).toContain('info message');
         expect(document.querySelector(`.${alertCls}-info`)).toBeTruthy();
     });
@@ -98,7 +98,7 @@ describe('Message', () => {
         const closeBtn = document.querySelector(
             `.${alertCls}-head-right-close span`,
         );
-        expect(closeBtn).toBeTruthy();
+        expect(closeBtn).not.toBeNull();
         closeBtn.click();
         await sleep(50);
         await nextTick();

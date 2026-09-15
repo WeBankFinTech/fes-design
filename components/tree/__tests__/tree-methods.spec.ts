@@ -34,7 +34,6 @@ describe('FTree exposed 方法', () => {
         tree.vm.selectNode('n2', new MouseEvent('click'));
         await wait();
         const emitted = wrapper.emitted('update:selectedKeys');
-        expect(emitted).toBeTruthy();
         expect(emitted![emitted!.length - 1][0]).toContain('n2');
         wrapper.unmount();
     });
@@ -47,7 +46,6 @@ describe('FTree exposed 方法', () => {
         tree.vm.expandNode('n1', new MouseEvent('click'));
         await wait();
         const emitted = wrapper.emitted('update:expandedKeys');
-        expect(emitted).toBeTruthy();
         expect(emitted![emitted!.length - 1][0]).toContain('n1');
         wrapper.unmount();
     });

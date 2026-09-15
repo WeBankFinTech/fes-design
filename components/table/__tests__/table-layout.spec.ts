@@ -83,6 +83,10 @@ describe('FTable 布局宽度分配（useTableLayout）', () => {
         stubWidths(wrapper);
         await wrapper.setProps({ columns: COLS.map((c) => ({ ...c })) });
         await wait();
+        // auto 布局：原生 table 渲染，th 与 colgroup 直接位于 body 表格内
+        const ths = wrapper.findAll('th');
+        expect(ths.length).toBe(2);
+        expect(wrapper.find('colgroup').exists()).toBe(true);
         wrapper.unmount();
     });
 
@@ -114,6 +118,10 @@ describe('FTable 布局宽度分配（useTableLayout）', () => {
         stubWidths(wrapper);
         await wrapper.setProps({ columns: cols.map((c) => ({ ...c })) });
         await wait();
+        // 固定宽度列的宽度落在 colgroup 的 col 上（jsdom 无布局引擎）
+        const colEls = wrapper.findAll(`.${prefixCls}-header colgroup col`);
+        expect(colEls.length).toBe(2);
+        expect(colEls[0].attributes('style') || '').toContain('width: 100px');
         wrapper.unmount();
     });
 
@@ -124,6 +132,9 @@ describe('FTable 布局宽度分配（useTableLayout）', () => {
         stubWidths(wrapper);
         await wrapper.setProps({ columns: COLS.map((c) => ({ ...c })) });
         await wait();
+        // bordered 表格带边框类名且列头正常渲染
+        expect(wrapper.find(`.${prefixCls}`).classes()).toContain('is-bordered');
+        expect(wrapper.findAll(`.${prefixCls}-header th`).length).toBe(2);
         wrapper.unmount();
     });
 });

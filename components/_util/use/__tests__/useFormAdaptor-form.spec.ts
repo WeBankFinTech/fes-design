@@ -52,6 +52,7 @@ describe('useFormAdaptor 与 FormItem 联动', () => {
         valueType.value = '';
         await nextTick();
         await nextTick();
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
     });
 

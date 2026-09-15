@@ -33,7 +33,6 @@ describe('FTable 排序', () => {
         await nextTick();
         await wait();
         const sortChange = wrapper.emitted('sortChange');
-        expect(sortChange).toBeTruthy();
         expect(sortChange![0][0]).toMatchObject({ prop: 'age', order: 'descend' });
         // 第二次点击 → ascend
         await th.trigger('click');

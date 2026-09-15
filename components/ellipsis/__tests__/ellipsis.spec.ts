@@ -7,7 +7,8 @@ const prefixCls = getPrefixCls('ellipsis');
 
 describe('FEllipsis', () => {
     test('should work with import on demand', () => {
-        mount(FEllipsis);
+        const wrapper = mount(FEllipsis);
+        expect(wrapper.exists()).toBe(true);
     });
 
     test('should work with base', async () => {

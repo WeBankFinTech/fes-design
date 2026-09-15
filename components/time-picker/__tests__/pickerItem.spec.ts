@@ -54,6 +54,10 @@ describe('TimePicker picker-item 滚动与选择', () => {
         const wrapper = mountPickerItem({ value: '99:99' });
         await nextTick();
         await wait();
+        // 12 个时间项均渲染，未命中 value 不影响列表
+        expect(wrapper.findAll(`.${prefixCls}-content-item-child`).length).toBe(12);
+        // 无任何项处于激活态
+        expect(wrapper.findAll('.is-active').length).toBe(0);
         wrapper.unmount();
     });
 
@@ -64,6 +68,9 @@ describe('TimePicker picker-item 滚动与选择', () => {
         await wrapper.setProps({ visible: true });
         await nextTick();
         await wait();
+        // 选中项带 is-active
+        expect(wrapper.findAll('.is-active').length).toBe(1);
+        expect(wrapper.find('.is-active').text()).toContain('05:00');
         wrapper.unmount();
     });
 
@@ -79,6 +86,8 @@ describe('TimePicker picker-item 滚动与选择', () => {
         await wrapper.setProps({ focus: 0 });
         await nextTick();
         await wait();
+        // 键盘导航后列表仍完整渲染
+        expect(wrapper.findAll(`.${prefixCls}-content-item-child`).length).toBe(12);
         wrapper.unmount();
     });
 

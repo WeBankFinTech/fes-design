@@ -52,7 +52,7 @@ describe('FDrawer', () => {
         const wrapper = await openDrawer({ title: 't', width: 400 });
         const drawer = getBodyDrawer()!;
         const wrapperEl = drawer.querySelector(`.${prefixCls}-wrapper`) as HTMLElement;
-        expect(wrapperEl).toBeTruthy();
+        expect(wrapperEl).not.toBeNull();
         expect(wrapperEl.getAttribute('style')).toContain('400');
         wrapper.unmount();
     });
@@ -73,7 +73,7 @@ describe('FDrawer', () => {
         const wrapper = await openDrawer({ title: 't', footer: true });
         const drawer = getBodyDrawer()!;
         const footer = drawer.querySelector(`.${prefixCls}-footer`);
-        expect(footer).toBeTruthy();
+        expect(footer).not.toBeNull();
         const btns = footer!.querySelectorAll('.fes-btn');
         expect(btns.length).toBe(2);
         // drawer 默认按钮顺序：确定在前、取消在后（与 modal 相反）
@@ -166,11 +166,10 @@ describe('FDrawer', () => {
         const container = drawer?.querySelector(
             `.${prefixCls}-container`,
         ) as HTMLElement | null;
-        if (container) {
-            expect(container.getAttribute('style')).toContain(
-                'display: none',
-            );
-        }
+        expect(container).not.toBeNull();
+        expect(container!.getAttribute('style')).toContain(
+            'display: none',
+        );
         wrapper.unmount();
     });
 });

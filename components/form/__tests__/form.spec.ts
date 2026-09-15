@@ -212,9 +212,8 @@ describe('FForm resetFields 分支', () => {
         } as any);
         await nextTick();
         const vm: any = wrapper.vm;
-        if (typeof vm.resetFields === 'function') {
-            await expect(vm.resetFields()).rejects.toBeTruthy();
-        }
+        expect(typeof vm.resetFields).toBe('function');
+        await expect(vm.resetFields()).rejects.toBeTruthy();
         wrapper.unmount();
     });
 
@@ -235,12 +234,11 @@ describe('FForm resetFields 分支', () => {
         } as any);
         await nextTick();
         const vm: any = wrapper.vm;
-        if (typeof vm.resetFields === 'function') {
-            // 指定不存在的 prop → 过滤分支
-            await vm.resetFields(['not-exist']);
-            // 指定存在的 prop
-            await vm.resetFields(['name']);
-        }
+        expect(typeof vm.resetFields).toBe('function');
+        // 指定不存在的 prop → 过滤分支
+        await vm.resetFields(['not-exist']);
+        // 指定存在的 prop
+        await vm.resetFields(['name']);
         wrapper.unmount();
     });
 });

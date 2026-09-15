@@ -71,10 +71,9 @@ describe('FCascader 懒加载与交互事件', () => {
         await wrapper.find('.fes-cascader').trigger('click');
         await wait();
         const node = document.querySelector('.fes-cascader-node-content');
-        if (node) {
-            node.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-            await wait(120);
-        }
+        expect(node).not.toBeNull();
+        node!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+        await wait(120);
         // 子级懒加载后出现在第二列
         expect(document.body.textContent).toContain('父节点');
         wrapper.unmount();
@@ -87,16 +86,15 @@ describe('FCascader 懒加载与交互事件', () => {
         await wrapper.find('.fes-cascader').trigger('click');
         await wait();
         const nodes = document.querySelectorAll('.fes-cascader-node-content');
-        if (nodes.length > 0) {
-            nodes[0].dispatchEvent(
-                new MouseEvent('click', { bubbles: true }),
-            );
-            await wait();
-            // 点击后弹出子菜单或选中
-            expect(
-                document.querySelectorAll('.fes-cascader-node').length,
-            ).toBeGreaterThan(0);
-        }
+        expect(nodes.length).toBeGreaterThan(0);
+        nodes[0].dispatchEvent(
+            new MouseEvent('click', { bubbles: true }),
+        );
+        await wait();
+        // 点击后弹出子菜单或选中
+        expect(
+            document.querySelectorAll('.fes-cascader-node').length,
+        ).toBeGreaterThan(0);
         wrapper.unmount();
     });
 

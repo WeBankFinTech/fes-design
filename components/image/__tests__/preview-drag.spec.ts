@@ -32,7 +32,7 @@ describe('FImage 预览拖拽（usePreviewImageDrag）', () => {
         const canvas = document.querySelector(
             `.${previewPrefixCls}__canvas`,
         ) as HTMLElement;
-        expect(canvas).toBeTruthy();
+        expect(canvas).not.toBeNull();
         canvas.dispatchEvent(
             new MouseEvent('mousedown', { bubbles: true }),
         );

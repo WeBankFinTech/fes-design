@@ -24,7 +24,6 @@ describe('FRadio 独立使用', () => {
         await wrapper.find(`.${radioCls}`).trigger('click');
         await wait();
         const updates = wrapper.emitted('update:modelValue');
-        expect(updates).toBeTruthy();
         expect(updates![0][0]).toBe(true);
         expect(wrapper.emitted('change')).toBeTruthy();
         wrapper.unmount();
@@ -63,7 +62,6 @@ describe('FRadio 独立使用', () => {
         await second.trigger('click');
         await wait();
         const updates = wrapper.emitted('update:modelValue');
-        expect(updates).toBeTruthy();
         expect(updates![updates!.length - 1][0]).toBe(2);
         wrapper.unmount();
     });

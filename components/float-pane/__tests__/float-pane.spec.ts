@@ -76,7 +76,7 @@ describe('FloatPane', () => {
         await nextTick();
         await nextTick();
         const header = document.querySelector(`.${prefixCls}-header`);
-        expect(header).toBeTruthy();
+        expect(header).not.toBeNull();
         expect(header.textContent).toContain('prop title');
 
         document.querySelector(`.${prefixCls}-close`).click();
@@ -178,7 +178,7 @@ describe('FloatPane', () => {
         await nextTick();
 
         const header = document.querySelector(`.${prefixCls}-header`);
-        expect(header).toBeTruthy();
+        expect(header).not.toBeNull();
 
         // jsdom 中 pageX 由 clientX 计算（无滚动时相等）
         header.dispatchEvent(

@@ -28,7 +28,7 @@ describe('FModal maxHeight 内容高度计算', () => {
         const scroller = document.querySelector(
             '.fes-scrollbar-container[style*="max-height"]',
         );
-        expect(scroller).toBeTruthy();
+        expect(scroller).not.toBeNull();
     });
 
     test('maxHeight 为 px 字符串', async () => {

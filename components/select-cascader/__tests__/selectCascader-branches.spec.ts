@@ -81,6 +81,7 @@ describe('selectCascader 状态分支补充', () => {
         // 未匹配的 key：findIndex === -1 分支
         emitFromTrigger(wrapper, 'remove', 'nope');
         await wait();
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
     });
 
@@ -100,6 +101,7 @@ describe('selectCascader 状态分支补充', () => {
         // 移除父节点（isLeaf=false → handleChildren）
         emitFromTrigger(wrapper, 'remove', 'gd');
         await wait();
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
     });
 
@@ -117,6 +119,7 @@ describe('selectCascader 状态分支补充', () => {
         await wrapper.setProps({ checkStrictly: false });
         await wait();
         spy.mockRestore();
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
     });
 
@@ -133,6 +136,7 @@ describe('selectCascader 状态分支补充', () => {
         await wrapper.setProps({ cascade: true });
         await wait();
         spy.mockRestore();
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
     });
 
@@ -146,6 +150,7 @@ describe('selectCascader 状态分支补充', () => {
         // 无选中值 → handleClear 提前 return
         emitFromTrigger(wrapper, 'clear');
         await wait();
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
 
         const wrapper2 = mountSc({
@@ -188,6 +193,7 @@ describe('selectCascader 状态分支补充', () => {
         });
         await nextTick();
         await wait();
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
     });
 
@@ -206,6 +212,7 @@ describe('selectCascader 状态分支补充', () => {
             });
             await nextTick();
             await wait(50);
+            expect(wrapper.exists()).toBe(true);
             wrapper.unmount();
         }
     });
@@ -218,6 +225,7 @@ describe('selectCascader 状态分支补充', () => {
         // blur 时 isOpened=false 分支（未打开）
         emitFromTrigger(wrapper, 'blur', new Event('blur'));
         await wait();
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
 
         // blur 时已打开 → isOpened 置 false
@@ -251,6 +259,7 @@ describe('selectCascader 状态分支补充', () => {
     });
 
     test('filterable 多选 checkable：handleFilterSelect 走 checkNode', async () => {
+        vi.useFakeTimers();
         const wrapper = mountSc({
             data,
             multiple: true,
@@ -260,11 +269,14 @@ describe('selectCascader 状态分支补充', () => {
         await nextTick();
         const input = wrapper.find('input');
         await input.setValue('深');
-        await wait(500); // filter 防抖 300ms
+        // filter 防抖 300ms：用 fake timer 精确推进，替代固定 500ms 长等待
+        await vi.advanceTimersByTimeAsync(350);
         // 选中匹配项 → filterIsSelect 的 checkable 分支
         const optionList = wrapper.findComponent(OptionList as any);
         optionList.props().onSelect?.('sz');
-        await wait();
+        await vi.advanceTimersByTimeAsync(10);
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
+        vi.useRealTimers();
     });
 });

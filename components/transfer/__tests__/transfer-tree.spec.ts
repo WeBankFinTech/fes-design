@@ -43,12 +43,11 @@ describe('FTransfer 树形模式过滤（useTreeFilter）', () => {
         await sleep();
         // 第一个过滤输入框绑定 treeFilterText
         const input = wrapper.find(`.${cls('panel')} input`);
-        if (input.exists()) {
-            await input.setValue('子节点1');
-            await sleep(200);
-            // filter 后树仍渲染（父节点自动保留），无匹配的子节点被隐藏
-            expect(wrapper.find(`.${cls('panel-list')}`).exists()).toBe(true);
-        }
+        expect(input.exists()).toBe(true);
+        await input.setValue('子节点1');
+        await sleep(200);
+        // filter 后树仍渲染（父节点自动保留），无匹配的子节点被隐藏
+        expect(wrapper.find(`.${cls('panel-list')}`).exists()).toBe(true);
         wrapper.unmount();
     });
 
@@ -62,11 +61,10 @@ describe('FTransfer 树形模式过滤（useTreeFilter）', () => {
         await nextTick();
         await sleep();
         const input = wrapper.find(`.${cls('panel')} input`);
-        if (input.exists()) {
-            await input.setValue('完全不存在');
-            await sleep(200);
-            expect(wrapper.find(`.${cls('panel-list')}`).exists()).toBe(true);
-        }
+        expect(input.exists()).toBe(true);
+        await input.setValue('完全不存在');
+        await sleep(200);
+        expect(wrapper.find(`.${cls('panel-list')}`).exists()).toBe(true);
         spy.mockRestore();
         wrapper.unmount();
     });
@@ -80,12 +78,11 @@ describe('FTransfer 树形模式过滤（useTreeFilter）', () => {
         const checkbox = wrapper.find(
             `.${cls('panel-list')} .fes-checkbox`,
         );
-        if (checkbox.exists()) {
-            await checkbox.trigger('click');
-            await sleep(150);
-            // 勾选后右侧已选面板出现对应文案或计数变化
-            expect(wrapper.find(`.${cls('panel')}`).exists()).toBe(true);
-        }
+        expect(checkbox.exists()).toBe(true);
+        await checkbox.trigger('click');
+        await sleep(150);
+        // 勾选后右侧已选面板出现对应文案或计数变化
+        expect(wrapper.find(`.${cls('panel')}`).exists()).toBe(true);
         wrapper.unmount();
     });
 });

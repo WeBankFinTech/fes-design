@@ -161,12 +161,11 @@ describe('FTable 固定列与滚动状态（useTableStyle）', () => {
         await nextTick();
         await wait();
         const header = wrapper.find(`.${prefixCls}-header-wrapper`);
-        if (header.exists()) {
-            stubScroll(header.element, 0, 300, 900);
-            await header.trigger('wheel', { deltaX: 30, deltaY: 1 });
-            await wait(120);
-            expect(header.element.scrollLeft).toBeGreaterThanOrEqual(0);
-        }
+        expect(header.exists()).toBe(true);
+        stubScroll(header.element, 0, 300, 900);
+        await header.trigger('wheel', { deltaX: 30, deltaY: 1 });
+        await wait(120);
+        expect(header.element.scrollLeft).toBeGreaterThanOrEqual(0);
         wrapper.unmount();
     });
 
@@ -233,7 +232,9 @@ describe('FTable 固定列与滚动状态（useTableStyle）', () => {
         stubWidths(wrapper);
         await wrapper.setProps({ columns: cols.map((c) => ({ ...c })) });
         await wait();
-        await scrollBodyTo(wrapper, 300);
+        await scrollBodyTo(wrapper, 0);
+        // 起始位置显示左侧阴影（scrollState.x === 'left'）
+        expect(wrapper.find(`.${prefixCls}-body-wrapper`).classes().join(' ')).toContain('is-scrolling-x-left');
         wrapper.unmount();
     });
 
@@ -251,7 +252,9 @@ describe('FTable 固定列与滚动状态（useTableStyle）', () => {
         stubWidths(wrapper);
         await wrapper.setProps({ columns: cols.map((c) => ({ ...c })) });
         await wait();
-        await scrollBodyTo(wrapper, 300);
+        await scrollBodyTo(wrapper, 600);
+        // 滚动到底显示右侧阴影（scrollState.x === 'right'）
+        expect(wrapper.find(`.${prefixCls}-body-wrapper`).classes().join(' ')).toContain('is-scrolling-x-right');
         wrapper.unmount();
     });
 
@@ -269,6 +272,9 @@ describe('FTable 固定列与滚动状态（useTableStyle）', () => {
         Object.defineProperty(bodyTable, 'offsetWidth', { value: 50, configurable: true });
         await wrapper.setProps({ height: undefined, layout: 'auto' });
         await wait();
+        // 滚动状态清空：不再带 is-scrolling-x-* 类
+        const cls = wrapper.find(`.${prefixCls}`).classes();
+        expect(cls.some((c) => c.startsWith('is-scrolling-x-'))).toBe(false);
         wrapper.unmount();
     });
 
@@ -278,6 +284,8 @@ describe('FTable 固定列与滚动状态（useTableStyle）', () => {
         await wait();
         await wrapper.setProps({ height: 200 });
         await wait();
+        // 固定表头渲染 header 容器
+        expect(wrapper.find(`.${prefixCls}-header`).exists()).toBe(true);
         wrapper.unmount();
     });
 });

@@ -35,7 +35,6 @@ describe('FTable 行事件', () => {
         await rows[1].find('td').trigger('click');
         await nextTick();
         const emitted = wrapper.emitted('rowClick');
-        expect(emitted).toBeTruthy();
         expect(emitted![0][0]).toMatchObject({
             row: { id: 2, name: '李四' },
             rowIndex: 1,
@@ -53,7 +52,6 @@ describe('FTable 行事件', () => {
         await cells[3].trigger('click');
         await nextTick();
         const emitted = wrapper.emitted('cellClick');
-        expect(emitted).toBeTruthy();
         expect(emitted![0][0]).toMatchObject({
             row: { id: 2 },
             cellValue: 25,
@@ -69,7 +67,6 @@ describe('FTable 行事件', () => {
         await ths[0].trigger('click');
         await nextTick();
         const emitted = wrapper.emitted('headerClick');
-        expect(emitted).toBeTruthy();
         expect(emitted![0][0].column.props).toMatchObject({ prop: 'name' });
         expect(emitted![0][0].event).toBeInstanceOf(Event);
         wrapper.unmount();
@@ -83,7 +80,6 @@ describe('FTable 行事件', () => {
         await rows[2].trigger('click');
         await nextTick();
         const emitted = wrapper.emitted('rowClick');
-        expect(emitted).toBeTruthy();
         expect(emitted![0][0]).toMatchObject({
             row: { id: 3, city: '深圳' },
             rowIndex: 2,

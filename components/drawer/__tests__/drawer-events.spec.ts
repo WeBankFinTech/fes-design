@@ -50,15 +50,13 @@ describe('FDrawer 事件', () => {
         await nextTick();
         await wait();
         const close = $(`.fes-drawer-close`);
-        if (close) {
-            close.dispatchEvent(
-                new MouseEvent('click', { bubbles: true }),
-            );
-            await wait();
-            const updates = wrapper.emitted('update:show');
-            expect(updates).toBeTruthy();
-            expect(updates![updates!.length - 1][0]).toBe(false);
-        }
+        expect(close).toBeTruthy();
+        close!.dispatchEvent(
+            new MouseEvent('click', { bubbles: true }),
+        );
+        await wait();
+        const updates = wrapper.emitted('update:show');
+        expect(updates![updates!.length - 1][0]).toBe(false);
         wrapper.unmount();
     });
 
@@ -71,7 +69,6 @@ describe('FDrawer 事件', () => {
         );
         await wait();
         const updates = wrapper.emitted('update:show');
-        expect(updates).toBeTruthy();
         expect(updates![updates!.length - 1][0]).toBe(false);
         wrapper.unmount();
     });

@@ -80,7 +80,6 @@ describe('FTable exposed 方法', () => {
         table2.vm.toggleAllSelection();
         await wait();
         const emitted = wrapper.emitted('selectionChange');
-        expect(emitted).toBeTruthy();
         expect(emitted!.length).toBeGreaterThanOrEqual(2);
         wrapper.unmount();
     });

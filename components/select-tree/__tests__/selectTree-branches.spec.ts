@@ -75,6 +75,7 @@ describe('FSelectTree 状态分支补充', () => {
         emitFromTrigger(wrapper, 'remove', 'nope');
         await wait();
         // 单选直接 return
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
         const single = mountSt({ data, modelValue: 'sz' });
         await nextTick();
@@ -109,6 +110,7 @@ describe('FSelectTree 状态分支补充', () => {
         await wrapper.setProps({ emitPath: true });
         await wait();
         spy.mockRestore();
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
     });
 
@@ -118,6 +120,7 @@ describe('FSelectTree 状态分支补充', () => {
         // 无值 → 提前 return
         emitFromTrigger(wrapper, 'clear');
         await wait();
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
 
         const wrapper2 = mountSt({ data, modelValue: 'sz', clearable: true });
@@ -134,20 +137,24 @@ describe('FSelectTree 状态分支补充', () => {
         await wait();
         emitFromTrigger(wrapper, 'blur', new Event('blur'));
         await wait();
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
     });
 
     test('filterable：防抖后调用 tree.filter', async () => {
+        vi.useFakeTimers();
         const spy = vi.spyOn(console, 'warn').mockImplementation(() => {});
         const wrapper = mountSt({ data, filterable: true });
         await nextTick();
         const input = wrapper.find('input');
-        if (input.exists()) {
-            await input.setValue('深');
-            await wait(500);
-        }
+        expect(input.exists()).toBe(true);
+        await input.setValue('深');
+        // 防抖 300ms：fake timer 精确推进
+        await vi.advanceTimersByTimeAsync(350);
         spy.mockRestore();
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
+        vi.useRealTimers();
     });
 
     test('emitPath 在 nodeList 就绪前重算：indexPath 回退', async () => {
@@ -178,6 +185,7 @@ describe('FSelectTree 状态分支补充', () => {
         await nextTick();
         await wait();
         spy.mockRestore();
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
         wrapper2.unmount();
     });
@@ -205,6 +213,7 @@ describe('FSelectTree 状态分支补充', () => {
             });
             await nextTick();
             await wait(50);
+            expect(wrapper.exists()).toBe(true);
             wrapper.unmount();
         }
     });
@@ -233,6 +242,7 @@ describe('FSelectTree 状态分支补充', () => {
         });
         await nextTick();
         await wait();
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
     });
 });

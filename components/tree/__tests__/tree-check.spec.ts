@@ -97,12 +97,11 @@ describe('FTree checkStrictly 级联策略', () => {
         await nextTick();
         await wait();
         const vm: any = wrapper.vm;
-        if (typeof vm.checkNode === 'function') {
-            vm.checkNode('c1');
-            await nextTick();
-            await wait();
-            expect(wrapper.emitted('check')).toBeTruthy();
-        }
+        expect(typeof vm.checkNode).toBe('function');
+        vm.checkNode('c1');
+        await nextTick();
+        await wait();
+        expect(wrapper.emitted('check')).toBeTruthy();
         wrapper.unmount();
     });
 });
@@ -157,6 +156,8 @@ describe('FTree checkStrictly 分支补充', () => {
         await boxes[0].trigger('click');
         await nextTick();
         await wait();
+        // 三轮勾选/取消均触发 check 事件
+        expect(wrapper.emitted('check')!.length).toBe(3);
         wrapper.unmount();
     });
 
@@ -177,6 +178,7 @@ describe('FTree checkStrictly 分支补充', () => {
         await boxes[2].trigger('click');
         await nextTick();
         await wait();
+        expect(wrapper.emitted('check')!.length).toBe(3);
         wrapper.unmount();
     });
 
@@ -199,6 +201,7 @@ describe('FTree checkStrictly 分支补充', () => {
         await boxes[0].trigger('click');
         await nextTick();
         await wait();
+        expect(wrapper.emitted('check')!.length).toBe(4);
         wrapper.unmount();
     });
 
@@ -217,6 +220,7 @@ describe('FTree checkStrictly 分支补充', () => {
         await boxes[1].trigger('click');
         await nextTick();
         await wait();
+        expect(wrapper.emitted('check')!.length).toBe(3);
         wrapper.unmount();
     });
 
@@ -225,17 +229,17 @@ describe('FTree checkStrictly 分支补充', () => {
         await nextTick();
         await wait();
         const vm: any = wrapper.vm;
-        if (typeof vm.checkNode === 'function') {
-            vm.checkNode('c1', new Event('click'));
-            await nextTick();
-            await wait();
-            vm.checkNode('c2', new Event('click'));
-            await nextTick();
-            await wait();
-            vm.checkNode('c2', new Event('click'));
-            await nextTick();
-            await wait();
-        }
+        expect(typeof vm.checkNode).toBe('function');
+        vm.checkNode('c1', new Event('click'));
+        await nextTick();
+        await wait();
+        vm.checkNode('c2', new Event('click'));
+        await nextTick();
+        await wait();
+        vm.checkNode('c2', new Event('click'));
+        await nextTick();
+        await wait();
+        expect(wrapper.emitted('check')!.length).toBe(3);
         wrapper.unmount();
     });
 
@@ -258,6 +262,7 @@ describe('FTree checkStrictly 分支补充', () => {
         await boxes[0].trigger('click');
         await nextTick();
         await wait();
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
 
         const remote = mount(Tree, {

@@ -44,7 +44,6 @@ describe('FSelectTree 选择交互', () => {
         await nextTick();
         await wait();
         const emitted = wrapper.emitted('update:modelValue');
-        expect(emitted).toBeTruthy();
         expect(emitted![emitted!.length - 1][0]).toBe('sz');
         wrapper.unmount();
     });

@@ -52,7 +52,6 @@ describe('FSelectCascader 选择交互', () => {
         await nextTick();
         await wait();
         const emittedUpdate = wrapper.emitted('update:modelValue');
-        expect(emittedUpdate).toBeTruthy();
         expect(emittedUpdate![emittedUpdate!.length - 1][0]).toBe('sz');
         expect(wrapper.emitted('change')).toBeTruthy();
         wrapper.unmount();
@@ -122,8 +121,9 @@ describe('FSelectCascader filterable', () => {
         await wait();
         const input = wrapper.find('input');
         await input.setValue('深');
+        // 过滤 debounce 300ms：此用例 mount 链路依赖真实 timer（Popper 异步），
+        // 无法用 fake timers，等待 400ms 确保防抖触发
         await wait(400);
-        // 过滤 debounce 300ms 后 OptionList 显示过滤项
         expect(wrapper.text()).toContain('深圳');
         wrapper.unmount();
     });

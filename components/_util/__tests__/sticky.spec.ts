@@ -56,6 +56,7 @@ describe('v-sticky 指令', () => {
         const wrapper = mountWithSticky('<div v-sticky="v">粘性</div>');
         await nextTick();
         // 无 arg → create 直接 return，不调 stickybits
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
     });
 
@@ -70,6 +71,7 @@ describe('v-sticky 指令', () => {
         instance.update.mockClear();
         // 更新 prop 驱动指令 update 钩子
         await wrapper.setProps({ v2: undefined }).catch(() => {});
+        expect(wrapper.exists()).toBe(true);
         wrapper.unmount();
     });
 

@@ -77,16 +77,15 @@ describe('FTable 展开列（useTableExpand）', () => {
         const wrapper = mountTable();
         await nextTick();
         await wait();
-        const toggler = wrapper.find(`.${prefixCls}-expand-icon, [class*="expand"]`);
-        if (toggler.exists()) {
-            await toggler.trigger('click');
-            await wait();
-            // 展开内容渲染
-            expect(wrapper.text()).toContain('展开-行一');
-            // 再次点击收起
-            await toggler.trigger('click');
-            await wait();
-        }
+        const toggler = wrapper.find(`.${prefixCls}-expand-icon`);
+        expect(toggler.exists()).toBe(true);
+        await toggler.trigger('click');
+        await wait();
+        // 展开内容渲染
+        expect(wrapper.text()).toContain('展开-行一');
+        // 再次点击收起
+        await toggler.trigger('click');
+        await wait();
         wrapper.unmount();
     });
 
