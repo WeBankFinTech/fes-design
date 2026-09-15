@@ -758,3 +758,47 @@ describe('matchType', () => {
         expect(matchType('a.png', 'image/png', [])).toBe(false);
     });
 });
+
+// ---------------- abort / error 链路 -------------------
+
+describe('Upload abort 取消上传', () => {
+    test('进行中的上传可被 abort（XHR.abort 被调）', async () => {
+        const wrapper = mount(Upload, {
+            props: { action: '/upload' },
+        });
+        const file = createFile('a.txt');
+        await chooseFiles(wrapper, [file]);
+        await nextTick();
+        // 请求已发出但未响应（MockXHR send 不触发 onload）
+        expect(MockXHR.instances.length).toBe(1);
+        // 列表项渲染后移除触发 abort
+        const removeIcon = wrapper.find(`.${prefixCls}-list-icons-close`);
+        expect(removeIcon.exists()).toBe(true);
+        await removeIcon.trigger('click');
+        await nextTick();
+        expect(MockXHR.instances[0].abort).toHaveBeenCalled();
+        const removed = wrapper.emitted('remove');
+        expect(removed).toBeTruthy();
+        expect(removed!.length).toBe(1);
+        wrapper.unmount();
+    });
+
+    test('onerror 回调置错误态并 emit error', async () => {
+        const wrapper = mount(Upload, {
+            props: { action: '/upload' },
+        });
+        const file = createFile('b.txt');
+        await chooseFiles(wrapper, [file]);
+        await nextTick();
+        const xhr = MockXHR.instances[0];
+        xhr.onerror?.(new ProgressEvent('error'));
+        await nextTick();
+        const errEvents = wrapper.emitted('error');
+        expect(errEvents).toBeTruthy();
+        expect(errEvents![0][0].file.name).toBe('b.txt');
+        // 列表项状态为 error
+        const item = wrapper.find(`.${prefixCls}-list-item`);
+        expect(item.classes()).toContain('is-error');
+        wrapper.unmount();
+    });
+});

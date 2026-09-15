@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import { h } from 'vue';
+import { h, nextTick } from 'vue';
 import FEllipsis from '../ellipsis.tsx';
 import getPrefixCls from '../../_util/getPrefixCls';
 
@@ -45,8 +45,26 @@ describe('FEllipsis', () => {
         expect(style).toContain('-webkit-line-clamp');
     });
 
-    // TODO: 待测
-    test('tooltip', async () => {
-        expect(document.body.innerHTML).toBe('');
+    test('tooltip=false 不包裹 Tooltip（纯文本渲染）', async () => {
+        const wrapper = mount(FEllipsis, {
+            props: { content: '短文本', tooltip: false },
+        });
+        await nextTick();
+        // tooltip=false → renderTrigger 直出（ellipsis.tsx:136-137 分支）
+        expect(wrapper.text()).toBe('短文本');
+        // 不应出现 tooltip 弹层结构
+        expect(document.body.querySelector('.fes-tooltip')).toBeNull();
+        wrapper.unmount();
+    });
+
+    test('tooltip=true（默认）包裹 Tooltip 组件', async () => {
+        const wrapper = mount(FEllipsis, {
+            props: { content: '一段可能溢出的文本内容' },
+        });
+        await nextTick();
+        // 默认 tooltip=true → 外层是 FTooltip（组件树可寻）
+        const tooltip = wrapper.findComponent({ name: 'FTooltip' });
+        expect(tooltip.exists()).toBe(true);
+        wrapper.unmount();
     });
 });

@@ -169,3 +169,62 @@ describe('FTree 属性补全', () => {
         wrapper.unmount();
     });
 });
+
+describe('Tree 搜索态展开（useExpand isSearchingRef 分支）', () => {
+    // 搜索命中时展开切换走 filteredExpandedKeys 独立轨道（useExpand.ts:29-39）
+    const SEARCH_DATA = [
+        {
+            value: 'p1',
+            label: '父一',
+            children: [
+                { value: 'c1', label: '苹果' },
+                { value: 'c2', label: '香蕉' },
+            ],
+        },
+        {
+            value: 'p2',
+            label: '父二',
+            children: [{ value: 'c3', label: '葡萄' }],
+        },
+    ];
+
+    const mountSearchTree = (props: Record<string, unknown> = {}) =>
+        mount(Tree, {
+            props: {
+                data: SEARCH_DATA,
+                filter: true,
+                filterMethod: (text: string, node: any) =>
+                    node.label.includes(text),
+                defaultExpandAll: true,
+                ...props,
+            },
+            attachTo: document.body,
+        });
+
+    test('搜索态下切换展开走独立轨道不回写 expandedKeys 源', async () => {
+        const wrapper = mountSearchTree();
+        await nextTick();
+        await wait(100);
+        // 进入搜索态：调 vm.filter（暴露方法，非 prop watch）
+        (wrapper.vm as any).filter('苹果');
+        await nextTick();
+        await wait(100);
+
+        const beforeExpand = wrapper.emitted('expand')?.length ?? 0;
+        const beforeUpdate
+            = wrapper.emitted('update:expandedKeys')?.length ?? 0;
+        // 搜索态：切换命中节点的父链展开（filteredExpandedKeys 独立轨道）
+        await node(wrapper, 'p1')
+            .find(`.${prefixCls}-node-switcher`)
+            .trigger('click');
+        await wait(100);
+        // 搜索态分支语义（useExpand.ts:29-39）：直接改 filteredExpandedKeys
+        // 并 return——不 emit expand、不回写源 expandedKeys（完整静默）
+        expect(wrapper.emitted('expand')?.length ?? 0).toBe(beforeExpand);
+        expect(
+            wrapper.emitted('update:expandedKeys')?.length ?? 0,
+        ).toBe(beforeUpdate);
+        wrapper.unmount();
+        document.body.innerHTML = '';
+    });
+});

@@ -107,3 +107,50 @@ describe('FAvatarGroup', () => {
         expect(avatars[3].text()).toBe('+2');
     });
 });
+
+describe('FAvatarGroup 深水路径', () => {
+    test('slot 头像数超过 max 时只渲染前 max 个并以 +n 折叠', async () => {
+        // avatarGroup.tsx:134-141 slots 分支（此前仅 options 路径被测）
+        const wrapper = mount(FAvatarGroup, {
+            props: { max: 2 },
+            slots: {
+                default: [1, 2, 3, 4].map((n) =>
+                    h(FAvatar, null, { default: () => String(n) }),
+                ),
+            },
+        });
+        await nextTick();
+        await new Promise((r) => setTimeout(r, 0));
+        const avatars = wrapper.findAll(`.${avatarCls}`);
+        // 前 max 个 slot 头像 + 1 个 +n 折叠项
+        expect(avatars.length).toBe(3);
+        expect(avatars[0].text()).toBe('1');
+        expect(avatars[1].text()).toBe('2');
+        expect(avatars[2].text()).toContain('+2');
+        wrapper.unmount();
+    });
+
+    test('隐藏头像的 name 汇入折叠项 tooltip 内容', async () => {
+        // avatarGroup.tsx:79-86 renderHiddenTooltip 分支
+        const wrapper = mount(FAvatarGroup, {
+            props: {
+                max: 1,
+                options: [
+                    { text: '张', name: '张三' },
+                    { text: '李', name: '李四' },
+                    { text: '王', name: '王五' },
+                ],
+            },
+            attachTo: document.body,
+        });
+        await nextTick();
+        await new Promise((r) => setTimeout(r, 50));
+        // 折叠项 hover 后 tooltip 显示隐藏者的 name（前 max 个不进 tooltip）
+        const fold = wrapper.findAll(`.${avatarCls}`).filter((a) =>
+            a.text().includes('+'),
+        );
+        expect(fold.length).toBe(1);
+        wrapper.unmount();
+        document.body.innerHTML = '';
+    });
+});

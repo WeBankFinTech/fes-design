@@ -135,3 +135,41 @@ describe('FTable 分页事件', () => {
         wrapper.unmount();
     });
 });
+
+describe('FTable 行拖拽事件透传（useTableDrag）', () => {
+    // Draggable 语义：mousedown 触发 dragstart emit 并给被选中行
+    // 动态设 draggable="true"（directive updateStyle），mouseup/dragend 复位
+    test('draggable 模式 mousedown 触发 dragstart 且行获 draggable 属性', async () => {
+        const wrapper = mountTable({ draggable: true });
+        await nextTick();
+        await wait(100);
+        const rows = wrapper.findAll('tbody tr');
+        expect(rows.length).toBe(3);
+        // 初始无 draggable 属性（拖拽开始才设置）
+        expect(rows[0].attributes('draggable')).toBeUndefined();
+        await rows[0].trigger('mousedown');
+        await nextTick();
+        const start = wrapper.emitted('dragstart');
+        expect(start).toBeTruthy();
+        expect(start![0][2]).toBe(0); // 首行 index=0
+        // mousedown 后该行被设为可拖拽
+        expect(rows[0].attributes('draggable')).toBe('true');
+        await rows[0].trigger('mouseup');
+        await nextTick();
+        expect(wrapper.emitted('dragend')).toBeTruthy();
+        wrapper.unmount();
+    });
+
+    test('默认模式行不响应拖拽', async () => {
+        const wrapper = mountTable({});
+        await nextTick();
+        await wait(100);
+        const rows = wrapper.findAll('tbody tr');
+        expect(rows.length).toBe(3);
+        await rows[0].trigger('mousedown');
+        await nextTick();
+        expect(wrapper.emitted('dragstart')).toBeUndefined();
+        expect(rows[0].attributes('draggable')).toBeUndefined();
+        wrapper.unmount();
+    });
+});
