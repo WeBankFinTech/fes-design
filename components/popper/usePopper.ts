@@ -4,6 +4,7 @@ import { isBoolean, isFunction } from 'lodash-es';
 import { useVModel } from '@vueuse/core';
 import popupManager from '../_util/popupManager';
 import getElementFromVueInstance from '../_util/getElementFromVueInstance';
+import { isServer } from '../_util/isServer';
 
 import type { PopperProps } from './props';
 import type { VirtualRect } from './interface';
@@ -27,7 +28,7 @@ export default (props: PopperProps, emit: any) => {
     const popperRef = ref<HTMLElement>();
     const arrowRef = ref<HTMLElement>();
     const popperStyle = reactive({
-        zIndex: popupManager.nextZIndex(),
+        zIndex: isServer ? 2000 : popupManager.nextZIndex(),
     });
     const placement = ref(props.placement);
     const cacheVisible = ref(true);
@@ -38,6 +39,9 @@ export default (props: PopperProps, emit: any) => {
     });
 
     const computePopper = () => {
+        if (isServer) {
+            return;
+        }
         if (isBoolean(props.disabled) && props.disabled) {
             return;
         }
@@ -51,6 +55,9 @@ export default (props: PopperProps, emit: any) => {
 
         nextTick(() => {
             const rawTriggerEl = getElementFromVueInstance(triggerRef.value);
+            if (!rawTriggerEl) {
+                return;
+            }
             const triggerRect = rawTriggerEl.getBoundingClientRect();
             // trigger 不可见的时候立即隐藏，允许误差
             if (triggerRect.width <= 1 && triggerRect.height <= 1) {
