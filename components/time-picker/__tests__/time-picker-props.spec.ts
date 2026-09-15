@@ -70,8 +70,15 @@ describe('FTimePicker 属性补全', () => {
         // hover 后出现清空
         await wrapper.find(`.${prefixCls}`).trigger('mouseenter');
         await wait();
-        // clearable 状态下有清空图标（hover 控制 v-show）
-        expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
+        // clearable 效果 1：清空图标渲染（hover 控制 v-show）
+        const clearIcon = wrapper.find(`.${prefixCls}-clear, .fes-input-inner-icon`);
+        expect(clearIcon.exists()).toBe(true);
+        // clearable 效果 2：点击清空 → 值清空并发 change('')
+        await clearIcon.trigger('click');
+        await nextTick();
+        const changeEvents = wrapper.emitted('change');
+        expect(changeEvents).toBeTruthy();
+        expect(changeEvents![changeEvents!.length - 1][0]).toBe('');
         wrapper.unmount();
     });
 

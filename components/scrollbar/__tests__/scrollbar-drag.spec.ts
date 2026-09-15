@@ -6,6 +6,7 @@ import { wait } from '../../_util/__tests__/helpers';
 
 const trackCls = getPrefixCls('scrollbar-track');
 const thumbCls = `${trackCls}-thumb`;
+const containerCls = `${getPrefixCls('scrollbar')}-container`;
 
 const mountScrollbar = (props = {}) =>
     mount(Scrollbar, {
@@ -30,19 +31,21 @@ describe('FScrollbar 滑块拖拽（bar.vue）', () => {
         const wrapper = mountScrollbar();
         await nextTick();
         await wait(40);
-        const thumb = wrapper.find(`.${thumbCls}`);
-        expect(thumb.exists()).toBe(true);
-        // 按下 thumb（左键）
-        await thumb.trigger('mousedown', { button: 0 });
-        // 拖动（cursorDown=true 分支）
-        document.dispatchEvent(
-            new MouseEvent('mousemove', { clientY: 30, clientX: 0 }),
-        );
+        // 拖拽状态机断言：cursorDown 经 mousedown=true → mouseup=false，
+        // 经由 track 的 is-hovering 类可观测（bar.vue:9）
+        // 注：scrollTop 回写依赖真实布局链（offsetRatio），jsdom 验证走 e2e 兜底
+        const track = wrapper.find(`.${trackCls}`);
+        expect(track.exists()).toBe(true);
+        const before = track.classes();
+        await wrapper.find(`.${thumbCls}`).trigger('mousedown', { button: 0 });
         await wait(40);
+        // mousedown → startDrag → cursorDown=true → is-hovering
+        expect(wrapper.find(`.${trackCls}`).classes()).toContain('is-hovering');
+        expect(before).not.toContain('is-hovering');
         // 抬起（mouseup → cursorDown=false, 恢复 onselectstart）
         document.dispatchEvent(new MouseEvent('mouseup'));
         await wait(40);
-        expect(wrapper.find(`.${thumbCls}`).exists()).toBe(true);
+        expect(wrapper.find(`.${trackCls}`).classes()).not.toContain('is-hovering');
         wrapper.unmount();
     });
 
@@ -50,13 +53,15 @@ describe('FScrollbar 滑块拖拽（bar.vue）', () => {
         const wrapper = mountScrollbar();
         await nextTick();
         await wait(40);
+        const container = wrapper.find(`.${containerCls}`).element;
+        Object.defineProperty(container, 'scrollTop', { value: 0, configurable: true, writable: true });
         // 直接 mousemove，未经过 mousedown
         document.dispatchEvent(
             new MouseEvent('mousemove', { clientY: 50 }),
         );
         await wait(40);
-        // 不抛错即通过 early return 分支
-        expect(wrapper.find(`.${thumbCls}`).exists()).toBe(true);
+        // cursorDown=false → early return，scrollTop 保持 0
+        expect(container.scrollTop).toBe(0);
         wrapper.unmount();
     });
 

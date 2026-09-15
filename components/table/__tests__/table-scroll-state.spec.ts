@@ -151,8 +151,16 @@ describe('FTable 固定列与滚动状态（useTableStyle）', () => {
         const header = wrapper.find(`.${prefixCls}-header-wrapper`);
         expect(header.exists()).toBe(true);
         stubScroll(header.element, 0, 300, 900);
+        // body 滚动容器可写桩，用于观测同步
+        const bodyContainer = wrapper
+            .find(`.${prefixCls}-body-wrapper .fes-scrollbar-container`).element;
+        Object.defineProperty(bodyContainer, 'scrollLeft', { value: 0, configurable: true, writable: true });
+        Object.defineProperty(bodyContainer, 'offsetWidth', { value: 300, configurable: true });
+        Object.defineProperty(bodyContainer, 'scrollWidth', { value: 900, configurable: true });
         await header.trigger('wheel', { deltaX: 50, deltaY: 5 });
         await wait(120); // syncPosition throttle 10ms
+        // header wheel deltaX=50 → 同步写 body scrollLeft
+        expect(bodyContainer.scrollLeft).toBe(50);
         wrapper.unmount();
     });
 
@@ -163,9 +171,10 @@ describe('FTable 固定列与滚动状态（useTableStyle）', () => {
         const header = wrapper.find(`.${prefixCls}-header-wrapper`);
         expect(header.exists()).toBe(true);
         stubScroll(header.element, 0, 300, 900);
+        // |deltaX|>=|deltaY| → 横向分支；无数据 → header 直写 scrollLeft
         await header.trigger('wheel', { deltaX: 30, deltaY: 1 });
         await wait(120);
-        expect(header.element.scrollLeft).toBeGreaterThanOrEqual(0);
+        expect(header.element.scrollLeft).toBe(30);
         wrapper.unmount();
     });
 

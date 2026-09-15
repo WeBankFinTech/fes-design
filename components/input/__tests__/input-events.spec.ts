@@ -12,6 +12,8 @@ describe('FInput 事件与原生行为', () => {
         await nextTick();
         const emitted = wrapper.emitted('input');
         expect(emitted).toBeTruthy();
+        // 实时携带最新输入值
+        expect(emitted![emitted!.length - 1][0]).toBe('abc');
         await wait();
         wrapper.unmount();
     });

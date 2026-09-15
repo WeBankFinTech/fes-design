@@ -61,10 +61,18 @@ describe('FScrollbar', () => {
         });
         await nextTick();
         await wait(40);
-        // 根元素为 wrap，直接触发 scroll
-        await wrapper.find(`.${prefixCls}`).trigger('scroll');
+        // scroll 绑定在容器元素上（containerClassRef）
+        const container = wrapper.find(`.${prefixCls}-container`);
+        expect(container.exists()).toBe(true);
+        Object.defineProperty(container.element, 'scrollTop', { value: 100, configurable: true });
+        Object.defineProperty(container.element, 'scrollHeight', { value: 400, configurable: true });
+        Object.defineProperty(container.element, 'offsetHeight', { value: 100, configurable: true });
+        await container.trigger('scroll');
         await wait(40);
-        expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
+        // handleScroll 派发 scroll 事件并携带容器元素
+        const events = wrapper.emitted('scroll');
+        expect(events).toBeTruthy();
+        expect(events![0][1]).toBe(container.element);
         wrapper.unmount();
     });
 

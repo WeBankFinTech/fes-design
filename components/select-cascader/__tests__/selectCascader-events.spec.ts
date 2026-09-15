@@ -92,6 +92,9 @@ describe('FSelectCascader 选择交互', () => {
         await wait(80);
         const emitted = wrapper.emitted('update:modelValue');
         expect(emitted).toBeTruthy();
+        // cascade 勾选父级 gd：值语义为叶子键集合（父级选中态由子级推导）
+        const payload = emitted![emitted!.length - 1][0] as string[];
+        expect(payload).toEqual(['sz', 'gz']);
         wrapper.unmount();
     });
 

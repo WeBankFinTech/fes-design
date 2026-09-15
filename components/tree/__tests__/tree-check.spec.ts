@@ -95,8 +95,10 @@ describe('FTree checkStrictly 级联策略', () => {
         wrapper.unmount();
     });
 
-    test('勾选叶子父级进入半选态', async () => {
-        const wrapper = mountCheckTree();
+    test('cascade 下勾选叶子父级进入半选态', async () => {
+        // 默认 checkStrictly=ALL 不级联：叶子勾选不产生父级半选，
+        // 标题语义（叶子→父半选）须 cascade=true 才成立
+        const wrapper = mountCheckTree({ cascade: true });
         await nextTick();
         await wait();
         const boxes = getCheckboxes(wrapper);
@@ -104,11 +106,14 @@ describe('FTree checkStrictly 级联策略', () => {
         await boxes[1].trigger('click');
         await nextTick();
         await wait();
-        // p1 的 checkbox 应有 indeterminate 类或对应状态
         const indeterminate = wrapper.findAll(
-            '.fes-checkbox.is-indeterminate, [class*="indeterminate"]',
+            `.${prefixCls}-node .fes-checkbox.is-indeterminate`,
         );
-        expect(indeterminate.length).toBeGreaterThanOrEqual(0);
+        // 勾选叶子 c1 → 父 p1 转半选（仅 1 个半选框）
+        expect(indeterminate.length).toBe(1);
+        expect(isIndeterminate(indeterminate[0])).toBe(true);
+        // 子只勾了 c1：p1 不应同时带 is-checked
+        expect(isChecked(indeterminate[0])).toBe(false);
         wrapper.unmount();
     });
 
@@ -282,7 +287,14 @@ describe('FTree checkStrictly 分支补充', () => {
         await boxes[0].trigger('click');
         await nextTick();
         await wait();
-        expect(wrapper.exists()).toBe(true);
+        // isLeaf 效果 1：叶子 switcher 仅占位（无展开图标）
+        const leafNode = wrapper.find(`.${prefixCls}-node[data-value='leaf']`);
+        expect(leafNode.exists()).toBe(true);
+        expect(
+            leafNode.find(`.${prefixCls}-node-switcher-icon`).exists(),
+        ).toBe(false);
+        // isLeaf 效果 2：勾选叶子产生 check 事件
+        expect(wrapper.emitted('check')).toBeTruthy();
         wrapper.unmount();
 
         const remote = mount(Tree, {

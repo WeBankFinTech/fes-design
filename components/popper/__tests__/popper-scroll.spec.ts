@@ -25,7 +25,8 @@ describe('FPopper useScroll 滚动重算分支', () => {
     });
 
     test('visible 且可滚动容器滚动时触发 computePopper', async () => {
-        const wrapper = _mount({ lazy: false, appendToContainer: false });
+        const disabledFn = vi.fn(() => false);
+        const wrapper = _mount({ lazy: false, appendToContainer: false, disabled: disabledFn });
         await nextTick();
         await wait();
         // 打开 popper（visible=true → disabledWatch false）
@@ -43,6 +44,8 @@ describe('FPopper useScroll 滚动重算分支', () => {
         div.dispatchEvent(new Event('scroll', { bubbles: true }));
         await wait();
         expect(document.querySelector('.popper-content')).not.toBeNull();
+        // 非容器滚动 → 重算链路真实执行（disabled 函数被询问）
+        expect(disabledFn).toHaveBeenCalled();
         wrapper.unmount();
     });
 
@@ -83,34 +86,44 @@ describe('FPopper useScroll 滚动重算分支', () => {
     });
 
     test('appendToContainer=true 时容器滚动分支', async () => {
-        const wrapper = _mount({ lazy: false });
+        const disabledFn = vi.fn(() => false);
+        const wrapper = _mount({ lazy: false, disabled: disabledFn });
         await nextTick();
         await wait();
         await wrapper.find(`.${TEST_TRIGGER}`).trigger('mouseenter');
         await wait();
         window.dispatchEvent(new Event('scroll'));
         await wait();
-        // target=body 命中 getContainer 返回的容器 → 跳过重算
+        // 每次 scroll 事件 handler 都会询问 disabled（事件守卫在前）
+        expect(disabledFn).toHaveBeenCalled();
+        const callsAfterWindow = disabledFn.mock.calls.length;
+        // target=body 命中 getContainer 返回的容器 → 跳过的是
+        // computePosition 内部计算（handler 本身仍逐事件执行）
         document.body.dispatchEvent(new Event('scroll'));
         await wait();
-        expect(wrapper.exists()).toBe(true);
+        expect(disabledFn.mock.calls.length).toBe(callsAfterWindow + 1);
+        expect(document.querySelector('.popper-content')).not.toBeNull();
         wrapper.unmount();
     });
 
     test('getContainer 返回实际容器且 target 命中时跳过重算', async () => {
+        const disabledFn = vi.fn(() => false);
         const wrapper = _mount({
             lazy: false,
             appendToContainer: true,
             getContainer: () => document.body,
+            disabled: disabledFn,
         });
         await nextTick();
         await wait();
         await wrapper.find(`.${TEST_TRIGGER}`).trigger('mouseenter');
         await wait();
-        // target 即 getContainer 返回的元素 → return 分支
+        // target 即 getContainer 返回的元素 → computePosition 被跳过
+        // （disabled 守卫逐事件询问，跳过的是其后的重算步骤）
         document.body.dispatchEvent(new Event('scroll'));
         await wait();
-        expect(wrapper.exists()).toBe(true);
+        expect(disabledFn).toHaveBeenCalled();
+        expect(document.querySelector('.popper-content')).not.toBeNull();
         wrapper.unmount();
     });
 });

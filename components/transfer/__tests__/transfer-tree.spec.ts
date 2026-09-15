@@ -43,10 +43,13 @@ describe('FTransfer 树形模式过滤（useTreeFilter）', () => {
         // 第一个过滤输入框绑定 treeFilterText
         const input = wrapper.find(`.${cls('panel')} input`);
         expect(input.exists()).toBe(true);
+        const nodesBefore = wrapper.findAll('.fes-tree-node').length;
         await input.setValue('子节点1');
         await wait(200);
-        // filter 后树仍渲染（父节点自动保留），无匹配的子节点被隐藏
+        // filter 效果：树仍渲染且无匹配节点被过滤（可见节点数减少）
         expect(wrapper.find(`.${cls('panel-list')}`).exists()).toBe(true);
+        const nodesAfter = wrapper.findAll('.fes-tree-node').length;
+        expect(nodesAfter).toBeLessThan(nodesBefore);
         wrapper.unmount();
     });
 
@@ -63,7 +66,9 @@ describe('FTransfer 树形模式过滤（useTreeFilter）', () => {
         expect(input.exists()).toBe(true);
         await input.setValue('完全不存在');
         await wait(200);
+        // 无匹配：面板保持且不产生 warn（spy 已建立，断言其未被触发）
         expect(wrapper.find(`.${cls('panel-list')}`).exists()).toBe(true);
+        expect(spy).not.toHaveBeenCalled();
         spy.mockRestore();
         wrapper.unmount();
     });
@@ -80,8 +85,11 @@ describe('FTransfer 树形模式过滤（useTreeFilter）', () => {
         expect(checkbox.exists()).toBe(true);
         await checkbox.trigger('click');
         await wait(150);
-        // 勾选后右侧已选面板出现对应文案或计数变化
-        expect(wrapper.find(`.${cls('panel')}`).exists()).toBe(true);
+        // 树面板（oneWay 渲染）勾选效果：modelValue 数组更新为包含被勾键
+        const emitted = wrapper.emitted('update:modelValue');
+        expect(emitted).toBeTruthy();
+        const payload = emitted![emitted!.length - 1][0] as string[];
+        expect(payload.length).toBeGreaterThan(0);
         wrapper.unmount();
     });
 });

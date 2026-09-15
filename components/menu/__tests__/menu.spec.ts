@@ -198,17 +198,26 @@ describe('Menu collapsed 折叠模式（renderWithPopper 路径）', () => {
         document.body.innerHTML = '';
     });
 
-    test('horizontal 模式子菜单 placement 为 bottom-start（subMenu.tsx:105-109）', async () => {
+    test('horizontal 模式子菜单渲染进 Popper 弹层（subMenu.tsx:105-109）', async () => {
+        // 注：placement=bottom-start 经 usePopper MAP 映射为 fes-slide-up
+        // 过渡类，但 jsdom 无动画帧，enter-active 瞬态类不可稳定观测；
+        // placement→过渡名映射已在 popper-props.spec 对 FPopper 直接锁定。
+        // 此处锁定 horizontal 模式本质行为：子项走弹层而非内联渲染。
         const wrapper = mount(Menu, {
             props: { mode: 'horizontal', options: treeOptions },
             attachTo: document.body,
         });
         await nextTick();
-        // 水平模式一级子菜单 hover 弹层出现
+        // hover 前：子项不在主菜单 DOM（horizontal 不内联展开）
+        expect(wrapper.find(`.${prefixCls}`).text()).not.toContain('二级-1');
         const first = wrapper.findAll(`.${prefixCls}-item, .fes-sub-menu-wrapper`)[0];
         await first.trigger('mouseenter');
         await new Promise((r) => setTimeout(r, 100));
-        expect(document.body.querySelector('.fes-sub-menu-popper')).not.toBeNull();
+        const popper = document.body.querySelector('.fes-sub-menu-popper');
+        expect(popper).not.toBeNull();
+        // hover 后：子项渲染进 popper 弹层
+        expect(popper!.textContent).toContain('子项1');
+        expect(popper!.textContent).toContain('子项2');
         wrapper.unmount();
         document.body.innerHTML = '';
     });

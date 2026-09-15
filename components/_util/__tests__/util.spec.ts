@@ -81,8 +81,17 @@ describe('_util dom', () => {
     test('getStyle 优先读内联样式，且驼峰化', () => {
         el.style.backgroundColor = 'red';
         expect(getStyle(el, 'background-color')).toBe('red');
-        // 无内联样式时读计算样式
-        expect(getStyle(el, 'color')).toBeDefined();
+        // 无内联样式时读计算样式：样式表类规则 → computed color
+        const styleTag = document.createElement('style');
+        styleTag.textContent = '.gd-color-red { color: red; }';
+        document.head.appendChild(styleTag);
+        const cel = document.createElement('div');
+        cel.className = 'gd-color-red';
+        document.body.appendChild(cel);
+        // jsdom computed 样式归一化为 rgb 形式
+        expect(getStyle(cel, 'color')).toBe('rgb(255, 0, 0)');
+        styleTag.remove();
+        cel.remove();
         // 边界
         expect(getStyle(null, 'color')).toBe('');
         expect(getStyle(el, '')).toBe('');
@@ -90,7 +99,9 @@ describe('_util dom', () => {
 
     test('getScrollBarWidth 返回非负数且缓存', () => {
         const width = getScrollBarWidth();
-        expect(width).toBeGreaterThanOrEqual(0);
+        // jsdom 无布局引擎：offsetWidth 恒 0 → 宽度差为 0
+        expect(width).toBe(0);
+        // 结果缓存：二次调用同值
         expect(getScrollBarWidth()).toBe(width);
     });
 

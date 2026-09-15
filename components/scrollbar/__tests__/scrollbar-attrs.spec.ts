@@ -91,10 +91,17 @@ describe('FScrollbar 属性补全', () => {
         const wrapper = mountScrollbar({ height: 100 });
         await nextTick();
         await wait(40);
-        await wrapper.find(`.${prefixCls}`).trigger('scroll');
+        const container = wrapper.find(`.${prefixCls}-container`);
+        expect(container.exists()).toBe(true);
+        Object.defineProperty(container.element, 'scrollTop', { value: 80, configurable: true });
+        Object.defineProperty(container.element, 'scrollHeight', { value: 300, configurable: true });
+        Object.defineProperty(container.element, 'offsetHeight', { value: 100, configurable: true });
+        await container.trigger('scroll');
         await wait(40);
-        // 滚动后阴影/滑块容器仍正常
-        expect(wrapper.find(`.${prefixCls}-container`).exists()).toBe(true);
+        // 滚动状态更新：scroll 事件携带容器元素派发
+        const events = wrapper.emitted('scroll');
+        expect(events).toBeTruthy();
+        expect(events![0][1]).toBe(container.element);
         wrapper.unmount();
     });
 });

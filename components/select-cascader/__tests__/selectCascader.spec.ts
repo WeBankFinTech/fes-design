@@ -167,7 +167,11 @@ describe('FSelectCascader', () => {
         );
         await triggerArea.trigger('click');
         await nextTick();
-        // visibleChange 由真实 Popper 触发，stub 下守护不报错即可
+        await wait(100);
+        // PopperStub 无 visible 反馈通道（isOpened 不变 → watch 不触发），
+        // stub 下可断言的效果：click 传导至 stub（触发插槽渲染）且不崩溃；
+        // visibleChange 真实触发语义由 e2e 兜底（跟进项 2）
+        expect(wrapper.find('.popper-stub').exists()).toBe(true);
         expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
         wrapper.unmount();
     });

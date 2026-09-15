@@ -431,11 +431,12 @@ describe('getDefaultTime', () => {
     });
 
     test('hasTime uses current time', () => {
-        const before = new Date();
+        // 冻结时钟：hasTime=true 且无 defaultTime → 取系统当前时分秒
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date(2024, 0, 15, 10, 26, 33));
         const time = getDefaultTime(undefined, undefined, true);
-        expect(time.hour).toBeGreaterThanOrEqual(before.getHours());
-        expect(time.minute).toBeGreaterThanOrEqual(0);
-        expect(time.second).toBeGreaterThanOrEqual(0);
+        vi.useRealTimers();
+        expect(time).toEqual({ hour: 10, minute: 26, second: 33 });
     });
 });
 

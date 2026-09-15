@@ -221,10 +221,12 @@ describe('selectCascader 状态分支补充', () => {
         await nextTick();
         emitFromTrigger(wrapper, 'focus', new Event('focus'));
         await wait(100);
+        // 组件透传 focus 事件
+        expect(wrapper.emitted('focus')).toBeTruthy();
         // blur 时 isOpened=false 分支（未打开）
         emitFromTrigger(wrapper, 'blur', new Event('blur'));
         await wait(100);
-        expect(wrapper.exists()).toBe(true);
+        expect(wrapper.emitted('blur')).toBeTruthy();
         wrapper.unmount();
 
         // blur 时已打开 → isOpened 置 false
@@ -250,10 +252,12 @@ describe('selectCascader 状态分支补充', () => {
         // 直接调用 OptionList 的 onSelect 回调 → handleFilterSelect（selectable）
         const optionList = wrapper.findComponent(OptionList as any);
         expect(optionList.exists()).toBe(true);
-        optionList.vm.$emit('select', 'sz');
-        await wait(100);
         optionList.props().onSelect?.('sz');
         await wait(100);
+        // handleFilterSelect → selectNode → 选中 'sz'
+        const emitted = wrapper.emitted('update:modelValue');
+        expect(emitted).toBeTruthy();
+        expect(emitted![emitted!.length - 1][0]).toBe('sz');
         wrapper.unmount();
     });
 
@@ -274,7 +278,10 @@ describe('selectCascader 状态分支补充', () => {
         const optionList = wrapper.findComponent(OptionList as any);
         optionList.props().onSelect?.('sz');
         await vi.advanceTimersByTimeAsync(10);
-        expect(wrapper.exists()).toBe(true);
+        // handleFilterSelect → checkNode → 勾选值进入数组
+        const emitted = wrapper.emitted('update:modelValue');
+        expect(emitted).toBeTruthy();
+        expect(emitted![emitted!.length - 1][0]).toContain('sz');
         wrapper.unmount();
         vi.useRealTimers();
     });
