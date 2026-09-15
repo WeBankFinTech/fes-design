@@ -30,9 +30,10 @@ describe('FPopper useScroll 滚动重算分支', () => {
         await wait();
         // 打开 popper（visible=true → disabledWatch false）
         await wrapper.find(`.${TEST_TRIGGER}`).trigger('mouseenter');
-        await wait();
-        // hover 后 popper 内容已挂载（visible=true → disabledWatch false）
-        expect(document.querySelector('.popper-content')).toBeTruthy();
+        // vi.waitFor：条件满足即返回（技能推荐），替代定长 wait
+        await vi.waitFor(() => {
+            expect(document.querySelector('.popper-content')).toBeTruthy();
+        });
         // 在 window 上滚动（target === container → 命中 return 分支）
         window.dispatchEvent(new Event('scroll'));
         await wait();

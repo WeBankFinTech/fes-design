@@ -32,6 +32,14 @@ const mountCheckTree = (extra: Record<string, unknown> = {}) =>
 const getCheckboxes = (wrapper: any) =>
     wrapper.findAll(`.${prefixCls}-node .fes-checkbox`);
 
+// 状态断言辅助（技能 4A-1 模式）：节点勾选/半选状态一眼可读
+const isChecked = (box: any) =>
+    box.classes().includes('is-checked')
+    || box.classes().includes('fes-checkbox-is-checked');
+const isIndeterminate = (box: any) =>
+    box.classes().includes('is-indeterminate')
+    || box.classes().includes('fes-checkbox-is-indeterminate');
+
 describe('FTree checkStrictly 级联策略', () => {
     test('cascade=true：勾父全选子', async () => {
         const wrapper = mountCheckTree({ cascade: true });
@@ -49,6 +57,19 @@ describe('FTree checkStrictly 级联策略', () => {
         const keys = payload.checkedKeys ?? payload;
         const keyList = Array.isArray(keys) ? keys : keys.checkedKeys;
         expect(JSON.stringify(keyList)).toContain('c1');
+        // 状态机断言（技能 4A-9）：父勾选 → 子全勾；再取消子 → 父转半选
+        const freshBoxes = getCheckboxes(wrapper);
+        expect(isChecked(freshBoxes[0])).toBe(true);
+        expect(isChecked(freshBoxes[1])).toBe(true);
+        expect(isChecked(freshBoxes[2])).toBe(true);
+        await freshBoxes[1].trigger('click');
+        await nextTick();
+        await wait();
+        const afterBoxes = getCheckboxes(wrapper);
+        // cascade 模式：父级半选时仅 is-indeterminate（不带 is-checked）
+        expect(isIndeterminate(afterBoxes[0])).toBe(true);
+        expect(isChecked(afterBoxes[0])).toBe(false);
+        expect(isChecked(afterBoxes[1])).toBe(false);
         wrapper.unmount();
     });
 
