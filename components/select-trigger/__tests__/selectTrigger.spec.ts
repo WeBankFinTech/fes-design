@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import SelectTrigger from '../selectTrigger.vue';
 import { wait } from '../../_util/__tests__/helpers';
+import getPrefixCls from '../../_util/getPrefixCls';
 
 const PopperStub = {
     template: '<div><slot name="trigger" /><slot /></div>',
@@ -113,6 +114,71 @@ describe('FSelectTrigger', () => {
         expect(
             wrapper.find('.fes-select-trigger').classes().some((c) => c.includes('disabled')),
         ).toBe(true);
+        wrapper.unmount();
+    });
+});
+
+describe('FSelectTrigger 输入法组合（composition）链路', () => {
+    const mountFilterable = (props: Record<string, unknown> = {}) =>
+        mountTrigger({ filterable: true, isOpened: true, ...props });
+
+    test('组合期间 input 事件被抑制（isComposing 守卫）', async () => {
+        const wrapper = mountFilterable();
+        await nextTick();
+        const input = wrapper.find('input');
+        expect(input.exists()).toBe(true);
+        // 模拟拼音输入：compositionstart 后，input 事件不应 emit
+        await input.trigger('compositionstart');
+        await input.setValue('zhong');
+        await input.trigger('input');
+        expect(wrapper.emitted('input')).toBeUndefined();
+        wrapper.unmount();
+    });
+
+    test('compositionend 后统一 emit 最终输入值', async () => {
+        const wrapper = mountFilterable();
+        await nextTick();
+        const input = wrapper.find('input');
+        await input.trigger('compositionstart');
+        await input.setValue('中');
+        await input.trigger('compositionupdate');
+        await input.trigger('compositionend');
+        // 组合结束：handleInput 被补调，filterText 更新为最终值
+        const emitted = wrapper.emitted('input');
+        expect(emitted).toBeTruthy();
+        expect(emitted!.pop()![0]).toBe('中');
+        wrapper.unmount();
+    });
+
+    test('非组合态 input 直接 emit', async () => {
+        const wrapper = mountFilterable();
+        await nextTick();
+        const input = wrapper.find('input');
+        await input.setValue('abc');
+        await input.trigger('input');
+        const emitted = wrapper.emitted('input');
+        expect(emitted).toBeTruthy();
+        expect(emitted!.pop()![0]).toBe('abc');
+        wrapper.unmount();
+    });
+});
+
+describe('FSelectTrigger 焦点与鼠标事件', () => {
+    test('focusin/focusout 透传 focus/blur 事件', async () => {
+        const wrapper = mountTrigger({ filterable: true });
+        await nextTick();
+        await wrapper.find('input').trigger('focusin');
+        expect(wrapper.emitted('focus')).toBeTruthy();
+        await wrapper.find('input').trigger('focusout');
+        expect(wrapper.emitted('blur')).toBeTruthy();
+        wrapper.unmount();
+    });
+
+    test('mousedown 触发事件（含默认参数透传）', async () => {
+        const wrapper = mountTrigger({});
+        await nextTick();
+        await wrapper.find(`.${getPrefixCls('select-trigger')}`).trigger('mousedown');
+        expect(wrapper.emitted('mousedown')).toBeTruthy();
         wrapper.unmount();
     });
 });
