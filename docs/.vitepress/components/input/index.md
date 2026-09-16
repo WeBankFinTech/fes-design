@@ -50,6 +50,14 @@ number.vue
 pasteExceed.vue
 :::
 
+### 超出不截断
+
+设置 `:autoTruncate="false"` 后，内容超出 `maxlength` 时不会被截断，可以继续输入；字数统计正常计算，粘贴超长时不弹出提示。
+
+:::demo
+autoTruncate.vue
+:::
+
 ### 密码输入框
 
 :::demo
@@ -85,6 +93,7 @@ handleFocus.vue
 | 属性          | 说明                                                                                       | 类型            | 默认值  |
 | ------------- | ------------------------------------------------------------------------------------------ | --------------- | ------- |
 | autocomplete  | 原生属性，自动补全                                                                         | string          | -       |
+| autoTruncate  | 内容超出 `maxlength` 时是否自动截断。为 `false` 时不截断，可继续输入，字数统计正常计算，粘贴超长不提示 | boolean         | `true`  |
 | clearable     | 可以点击清除图标删除内容，仅`type`非`textarea`时有效                                       | boolean         | `false` |
 | disabled      | 是否禁用                                                                                   | boolean         | `false` |
 | maxlength     | 最大长度。粘贴内容超长被截断时会通过 `FMessage` 默认提示；程序赋值导致内容超长时，字数统计会显示并标红 | number          | -       |
@@ -93,7 +102,7 @@ handleFocus.vue
 | modelValue    | v-model 双向绑定                                                                           | number、string  | -       |
 | resize        | 是否允许用户缩放，可选值： `none` `both` `horizontal` `vertical`                           | string          | -       |
 | rows          | 输入框行数，只在 `type="textarea"` 时有效                                                  | number          | 2       |
-| showWordLimit | 是否显示输入数字统计，只在 `type="textarea"` 时有效                                        | boolean         | false   |
+| showWordLimit | 是否显示输入数字统计，只在 `maxlength > 0` 时有效                                          | boolean         | false   |
 | showPassword  | 是否显示切换密码图标，仅`type`非`textarea`时有效                                           | boolean         | false   |
 | autosize      | 自适应内容高度，只在 `type="textarea"` 时有效，可输入对象，入 `{ minRows: 2, maxRows: 3 }` | boolean、object | false   |
 | autofocus     | 是否自动获取焦点                                                                           | boolean         | `false` |

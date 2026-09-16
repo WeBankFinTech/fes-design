@@ -3,7 +3,9 @@ import { expect, test } from '@playwright/test';
 // Input 粘贴超长提示：
 // 1) 粘贴超过 maxlength 的文本 -> 原生截断为 100 字 + FMessage.warning 提示
 // 2) 程序赋值超长 -> 字数统计自动显示并标红（is-exceed）
+// 3) autoTruncate=false -> 原生 maxlength 不透传，粘贴超长不截断不提示，计数标红
 // 文档「Input > 粘贴超长提示」demo：pasteExceed.vue
+// 文档「Input > 超出不截断」demo：autoTruncate.vue
 // 注意：demo 的 class 经 attrs 透传到 FInput 根元素（div.fes-input）上
 
 test('粘贴超长内容被截断为 maxlength 并弹出提示', async ({ browser }) => {
@@ -58,4 +60,40 @@ test('程序赋值超长时计数自动显示并标红', async ({ page }) => {
         (element) => getComputedStyle(element).color,
     );
     expect(color).toBe('rgb(255, 77, 79)');
+});
+
+test('autoTruncate=false 时粘贴超长不截断，计数标红', async ({ browser }) => {
+    const context = await browser.newContext({
+        permissions: ['clipboard-write', 'clipboard-read'],
+    });
+    const page = await context.newPage();
+    await page.goto('/zh/components/input.html');
+
+    // 「超出不截断」demo 第一个输入框（单行，autoTruncate=false）
+    const demoRoot = page.locator('div.fes-input.auto-truncate-demo').first();
+    const input = demoRoot.locator('input');
+    await input.waitFor({ state: 'visible', timeout: 60_000 });
+    await input.click();
+    await page.keyboard.press('ControlOrMeta+a');
+    await page.keyboard.press('Backspace');
+    await expect(input).toHaveValue('');
+
+    // 通过真实剪贴板 + Ctrl/Cmd+V 粘贴 120 字符（超过 maxlength=100）
+    const longText = 'a'.repeat(120);
+    await page.evaluate((text) => navigator.clipboard.writeText(text), longText);
+    await input.focus();
+    await page.keyboard.press('ControlOrMeta+v');
+
+    // 原生 maxlength 未透传，不发生截断，输入框值保持 120 个字符
+    await expect(input).toHaveValue(longText, { timeout: 15_000 });
+
+    // 计数显示 120/100 且标红
+    const count = demoRoot.locator('.fes-input-count');
+    await expect(count).toBeVisible();
+    await expect(count).toHaveText(/120\/100/);
+    await expect(count).toHaveClass(/is-exceed/);
+
+    // 不截断模式下内容未被截断，不弹出粘贴超长提示
+    await expect(page.locator('.fes-message')).toHaveCount(0);
+    await context.close();
 });
