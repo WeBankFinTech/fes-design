@@ -13,7 +13,7 @@
                 :readonly="readonly"
                 :disabled="innerDisabled"
                 :clearable="clearable"
-                :maxlength="maxlength"
+                :maxlength="nativeMaxlength"
                 :showPassword="showPassword"
                 :inputStyle="inputStyle"
                 :autocomplete="autocomplete"
@@ -56,7 +56,7 @@
             :readonly="readonly"
             :disabled="innerDisabled"
             :autocomplete="autocomplete"
-            :maxlength="maxlength"
+            :maxlength="nativeMaxlength"
             :placeholder="placeholder"
             :rows="rows"
             @compositionstart="handleCompositionStart"
@@ -126,6 +126,10 @@ export const inputProps = {
     showWordLimit: {
         type: Boolean,
         default: false,
+    },
+    autoTruncate: {
+        type: Boolean,
+        default: true,
     },
     autosize: {
         type: [Boolean, Object] as PropType<boolean | Autosize>,
@@ -219,6 +223,12 @@ export default defineComponent({
             () => props.disabled || isFormDisabled.value,
         );
 
+        // 超出 maxlength 是否自动截断由原生 maxlength 属性实现：
+        // 不截断时不透传给原生元素，字数统计仍以 maxlength 为基准正常计算展示
+        const nativeMaxlength = computed(() =>
+            props.autoTruncate ? props.maxlength : undefined,
+        );
+
         const textareaCalcStyle = shallowRef(props.inputStyle);
         const textareaStyle = computed(() => [
             props.inputStyle,
@@ -284,6 +294,10 @@ export default defineComponent({
             if (props.disabled || props.readonly) {
                 return;
             }
+            // 不截断模式下内容不会被截断，无需提示
+            if (!props.autoTruncate) {
+                return;
+            }
             if (!isPasteExceed(event, props.maxlength)) {
                 return;
             }
@@ -312,6 +326,7 @@ export default defineComponent({
             textareaPrefixCls,
             classes,
             currentValue,
+            nativeMaxlength,
 
             ...useInput(handleValueChange),
 

@@ -337,3 +337,69 @@ describe('input paste exceed misc', () => {
         wrapper.unmount();
     });
 });
+
+describe('input autoTruncate', () => {
+    test('默认透传原生 maxlength 属性（保持截断行为）', () => {
+        const wrapper = mount(Input, {
+            props: { maxlength: 5 },
+        });
+        expect(wrapper.find('input').attributes('maxlength')).toBe('5');
+    });
+
+    test('autoTruncate 为 false 时单行 input 不透传 maxlength', () => {
+        const wrapper = mount(Input, {
+            props: { maxlength: 5, autoTruncate: false },
+        });
+        expect(wrapper.find('input').attributes('maxlength')).toBeUndefined();
+    });
+
+    test('autoTruncate 为 false 时 textarea 不透传 maxlength', () => {
+        const wrapper = mount(Input, {
+            props: {
+                type: 'textarea',
+                maxlength: 5,
+                autoTruncate: false,
+            },
+        });
+        expect(
+            wrapper.find('textarea').attributes('maxlength'),
+        ).toBeUndefined();
+    });
+
+    test('autoTruncate 为 false 时超长内容计数照常显示并标红', async () => {
+        const wrapper = mount(Input, {
+            props: {
+                modelValue: '',
+                maxlength: 5,
+                autoTruncate: false,
+            },
+        });
+
+        await wrapper.setProps({ modelValue: '1234567' });
+        const count = wrapper.find(`.${prefixCls}-count`);
+        expect(count.exists()).toBe(true);
+        expect(count.classes()).toContain('is-exceed');
+        expect(count.text()).toBe('7/5');
+    });
+
+    test('autoTruncate 为 false 时粘贴超长不弹出提示', async () => {
+        const infoSpy = vi
+            .spyOn(FMessage, 'warning')
+            .mockImplementation(() => ({ destroy: () => {} }));
+        const wrapper = mount(Input, {
+            props: { maxlength: 5, autoTruncate: false },
+            attachTo: document.body,
+        });
+        const event = new Event('paste', { bubbles: true, cancelable: true });
+        Object.defineProperty(event, 'clipboardData', {
+            value: {
+                getData: (type) => (type === 'text/plain' ? '1234567890' : ''),
+            },
+        });
+        wrapper.find('input').element.dispatchEvent(event);
+        await nextTick();
+        expect(infoSpy).not.toHaveBeenCalled();
+        infoSpy.mockRestore();
+        wrapper.unmount();
+    });
+});
