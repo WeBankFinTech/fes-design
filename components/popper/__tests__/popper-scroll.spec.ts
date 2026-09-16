@@ -25,12 +25,16 @@ describe('FPopper useScroll 滚动重算分支', () => {
     });
 
     test('visible 且可滚动容器滚动时触发 computePopper', async () => {
-        const wrapper = _mount({ lazy: false, appendToContainer: false });
+        const disabledFn = vi.fn(() => false);
+        const wrapper = _mount({ lazy: false, appendToContainer: false, disabled: disabledFn });
         await nextTick();
         await wait();
         // 打开 popper（visible=true → disabledWatch false）
         await wrapper.find(`.${TEST_TRIGGER}`).trigger('mouseenter');
-        await wait();
+        // vi.waitFor：条件满足即返回（技能推荐），替代定长 wait
+        await vi.waitFor(() => {
+            expect(document.querySelector('.popper-content')).not.toBeNull();
+        });
         // 在 window 上滚动（target === container → 命中 return 分支）
         window.dispatchEvent(new Event('scroll'));
         await wait();
@@ -39,6 +43,9 @@ describe('FPopper useScroll 滚动重算分支', () => {
         document.body.appendChild(div);
         div.dispatchEvent(new Event('scroll', { bubbles: true }));
         await wait();
+        expect(document.querySelector('.popper-content')).not.toBeNull();
+        // 非容器滚动 → 重算链路真实执行（disabled 函数被询问）
+        expect(disabledFn).toHaveBeenCalled();
         wrapper.unmount();
     });
 
@@ -47,10 +54,14 @@ describe('FPopper useScroll 滚动重算分支', () => {
         await nextTick();
         await wait();
         // 不打开 popper → visible=false → disabledWatch true
+        // lazy:false 下 popper 已渲染但 v-show 隐藏（display:none）
+        const content = document.querySelector('.popper-content') as HTMLElement;
+        expect(content?.parentElement?.getAttribute('style')).toContain('display: none');
         const div = document.createElement('div');
         document.body.appendChild(div);
         div.dispatchEvent(new Event('scroll', { bubbles: true }));
         await wait();
+        expect(content?.parentElement?.getAttribute('style')).toContain('display: none');
         wrapper.unmount();
     });
 
@@ -69,36 +80,50 @@ describe('FPopper useScroll 滚动重算分支', () => {
         document.body.appendChild(div);
         div.dispatchEvent(new Event('scroll', { bubbles: true }));
         await wait();
+        // disabled 函数分支被真实调用（滚动处理链路走通）
+        expect(disabledFn).toHaveBeenCalled();
         wrapper.unmount();
     });
 
     test('appendToContainer=true 时容器滚动分支', async () => {
-        const wrapper = _mount({ lazy: false });
+        const disabledFn = vi.fn(() => false);
+        const wrapper = _mount({ lazy: false, disabled: disabledFn });
         await nextTick();
         await wait();
         await wrapper.find(`.${TEST_TRIGGER}`).trigger('mouseenter');
         await wait();
         window.dispatchEvent(new Event('scroll'));
         await wait();
-        // target=body 命中 getContainer 返回的容器 → 跳过重算
+        // 每次 scroll 事件 handler 都会询问 disabled（事件守卫在前）
+        expect(disabledFn).toHaveBeenCalled();
+        const callsAfterWindow = disabledFn.mock.calls.length;
+        // target=body 命中 getContainer 返回的容器 → 跳过的是
+        // computePosition 内部计算（handler 本身仍逐事件执行）
         document.body.dispatchEvent(new Event('scroll'));
         await wait();
+        expect(disabledFn.mock.calls.length).toBe(callsAfterWindow + 1);
+        expect(document.querySelector('.popper-content')).not.toBeNull();
         wrapper.unmount();
     });
 
     test('getContainer 返回实际容器且 target 命中时跳过重算', async () => {
+        const disabledFn = vi.fn(() => false);
         const wrapper = _mount({
             lazy: false,
             appendToContainer: true,
             getContainer: () => document.body,
+            disabled: disabledFn,
         });
         await nextTick();
         await wait();
         await wrapper.find(`.${TEST_TRIGGER}`).trigger('mouseenter');
         await wait();
-        // target 即 getContainer 返回的元素 → return 分支
+        // target 即 getContainer 返回的元素 → computePosition 被跳过
+        // （disabled 守卫逐事件询问，跳过的是其后的重算步骤）
         document.body.dispatchEvent(new Event('scroll'));
         await wait();
+        expect(disabledFn).toHaveBeenCalled();
+        expect(document.querySelector('.popper-content')).not.toBeNull();
         wrapper.unmount();
     });
 });

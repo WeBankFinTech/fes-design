@@ -1,10 +1,9 @@
 import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import Scrollbar from '../scrollbar.vue';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-scrollbar';
-
-const wait = (ms = 40) => new Promise((r) => setTimeout(r, ms));
 
 describe('FScrollbar', () => {
     test('渲染内容容器', async () => {
@@ -13,7 +12,7 @@ describe('FScrollbar', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(40);
         expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
         expect(wrapper.find(`.${prefixCls}-container`).exists()).toBe(true);
         expect(wrapper.text()).toContain('滚动内容');
@@ -27,7 +26,7 @@ describe('FScrollbar', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(40);
         // always 模式下 track 不带 display:none（挂 body 后查询）
         const track = document.querySelector('[class*="scrollbar-track"]');
         expect(
@@ -43,7 +42,7 @@ describe('FScrollbar', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(40);
         expect(
             wrapper
                 .find(`.${prefixCls}-container`)
@@ -61,11 +60,19 @@ describe('FScrollbar', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
-        // 根元素为 wrap，直接触发 scroll
-        await wrapper.find(`.${prefixCls}`).trigger('scroll');
-        await wait();
-        expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
+        await wait(40);
+        // scroll 绑定在容器元素上（containerClassRef）
+        const container = wrapper.find(`.${prefixCls}-container`);
+        expect(container.exists()).toBe(true);
+        Object.defineProperty(container.element, 'scrollTop', { value: 100, configurable: true });
+        Object.defineProperty(container.element, 'scrollHeight', { value: 400, configurable: true });
+        Object.defineProperty(container.element, 'offsetHeight', { value: 100, configurable: true });
+        await container.trigger('scroll');
+        await wait(40);
+        // handleScroll 派发 scroll 事件并携带容器元素
+        const events = wrapper.emitted('scroll');
+        expect(events).toBeTruthy();
+        expect(events![0][1]).toBe(container.element);
         wrapper.unmount();
     });
 
@@ -76,7 +83,7 @@ describe('FScrollbar', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(40);
         expect(wrapper.find('.custom-root').exists()).toBe(true);
         wrapper.unmount();
     });

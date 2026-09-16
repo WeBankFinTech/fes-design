@@ -1,20 +1,12 @@
 import { mount } from '@vue/test-utils';
-import { nextTick } from 'vue';
 import getPrefixCls from '../../_util/getPrefixCls';
 import DatePicker from '../datePicker.vue';
+import { sleep } from '../../_util/__tests__/helpers';
 
 const calendarPrefixCls = getPrefixCls('date-picker-calendar');
 
 const popperStub = {
     template: '<div><slot name="trigger" /><slot /></div>',
-};
-
-const sleep = (times = 2) => {
-    let promise = Promise.resolve();
-    for (let i = 0; i < times; i++) {
-        promise = promise.then(() => nextTick());
-    }
-    return promise;
 };
 
 const mountDatePicker = (props = {}) =>

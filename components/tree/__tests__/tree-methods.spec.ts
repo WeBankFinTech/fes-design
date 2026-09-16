@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import Tree from '../tree';
+import { wait } from '../../_util/__tests__/helpers';
 
 const TREE_DATA = [
     {
@@ -13,8 +14,6 @@ const TREE_DATA = [
     },
     { title: '节点2', value: 'n2' },
 ];
-
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
 
 const mountTree = (props: Record<string, unknown> = {}) =>
     mount(Tree, {
@@ -34,7 +33,6 @@ describe('FTree exposed 方法', () => {
         tree.vm.selectNode('n2', new MouseEvent('click'));
         await wait();
         const emitted = wrapper.emitted('update:selectedKeys');
-        expect(emitted).toBeTruthy();
         expect(emitted![emitted!.length - 1][0]).toContain('n2');
         wrapper.unmount();
     });
@@ -47,7 +45,6 @@ describe('FTree exposed 方法', () => {
         tree.vm.expandNode('n1', new MouseEvent('click'));
         await wait();
         const emitted = wrapper.emitted('update:expandedKeys');
-        expect(emitted).toBeTruthy();
         expect(emitted![emitted!.length - 1][0]).toContain('n1');
         wrapper.unmount();
     });

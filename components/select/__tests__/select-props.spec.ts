@@ -172,16 +172,17 @@ describe('FSelect 属性补全', () => {
     test('clearable 单选可清空', async () => {
         const wrapper = _mount({ clearable: true, modelValue: 'bj' });
         await nextTick();
-        // hover 触发清空按钮显示（v-show 由 hover 控制）
+        // hover 触发清空按钮显示（v-show 由 hasClearRef 控制，class 为 fes-select-trigger-icon）
         await wrapper.find(triggerCls).trigger('mouseenter');
         await nextTick();
-        const clearBtn = wrapper.find(`.${prefixCls}-trigger-clear`);
-        if (clearBtn.exists()) {
-            await clearBtn.trigger('click');
-            await nextTick();
-            expect(wrapper.emitted('clear')).toBeTruthy();
-            expect(wrapper.emitted('update:modelValue')[0][0]).toBeUndefined();
-        }
+        const icons = wrapper.findAll(`.${prefixCls}-trigger-icon`);
+        // 有值的清空图标（第二个图标，第一个是下拉箭头）
+        expect(icons.length).toBeGreaterThanOrEqual(2);
+        const clearBtn = icons[icons.length - 1];
+        await clearBtn.trigger('click');
+        await nextTick();
+        expect(wrapper.emitted('clear')).toBeTruthy();
+        expect(wrapper.emitted('update:modelValue')[0][0]).toBeNull();
         wrapper.unmount();
     });
 

@@ -1,0 +1,254 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`展示型组件默认渲染快照 > FAlert 1`] = `
+"<transition-stub>
+  <div class="fes-alert  fes-alert-info">
+    <div class="fes-alert-head">
+      <div class="fes-alert-head-message">
+        <!---->
+        <div>提示内容</div>
+      </div>
+      <div class="fes-alert-head-right">
+        <!---->
+        <!---->
+      </div>
+    </div>
+    <!---->
+  </div>
+</transition-stub>"
+`;
+
+exports[`展示型组件默认渲染快照 > FAvatar 1`] = `
+"<div class="fes-avatar fes-avatar-shape-circle" style="width: 32px; height: 32px;">
+  <div class="fes-avatar-content">
+    <!---->
+  </div>
+  <!---->
+</div>"
+`;
+
+exports[`展示型组件默认渲染快照 > FBadge 1`] = `"<div class="fes-badge"><span>宿主</span><span class="fes-badge-sup fes-badge-sup-type-danger">5</span></div>"`;
+
+exports[`展示型组件默认渲染快照 > FBreadcrumb 1`] = `
+"<div class="fes-breadcrumb" style="font-size: 14px;">
+  <div class="fes-breadcrumb-item" style="font-size: 14px; line-height: 1;">首页<div class="fes-breadcrumb-item-separator">/</div>
+  </div>
+  <div class="fes-breadcrumb-item" style="font-size: 14px; line-height: 1;">列表<div class="fes-breadcrumb-item-separator">/</div>
+  </div>
+</div>"
+`;
+
+exports[`展示型组件默认渲染快照 > FButton 1`] = `
+"<button type="button" class="fes-btn fes-btn-type-default">
+  <!---->按钮
+  <!---->
+</button>"
+`;
+
+exports[`展示型组件默认渲染快照 > FButtonGroup 1`] = `
+"<fbuttongroup><button type="button" class="fes-btn fes-btn-type-default">
+    <!---->一
+    <!---->
+  </button><button type="button" class="fes-btn fes-btn-type-default">
+    <!---->二
+    <!---->
+  </button></fbuttongroup>"
+`;
+
+exports[`展示型组件默认渲染快照 > FCard 1`] = `
+"<div class="fes-card fes-card-size--middle fes-card-shadow--always is-bordered">
+  <!--v-if-->
+  <div class="fes-card__body">内容</div>
+  <!--v-if-->
+</div>"
+`;
+
+exports[`展示型组件默认渲染快照 > FDivider 1`] = `
+"<div class="fes-divider">
+  <div class="fes-divider-text is-center">
+    <!---->
+  </div>
+</div>"
+`;
+
+exports[`展示型组件默认渲染快照 > FEmpty（渐变 ID 含时间戳，序列化前归一化） 1`] = `
+"<div class="fes-empty">
+  <div class="fes-empty-image"><svg class="empty-svg" viewBox="0 0 260 249" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <defs>
+        <!-- 线性渐变定义，使用唯一ID避免多个组件实例间的冲突 -->
+        <linearGradient id="linearGradient-1-empty-1-NORMALIZED" x1="50%" y1="15.6101617%" x2="50%" y2="94.3434704%">
+          <stop stop-color="#F7F7F7" offset="0%"></stop>
+          <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient id="linearGradient-2-empty-1-NORMALIZED" x1="50%" y1="-2.48949813e-15%" x2="50%" y2="100%">
+          <stop stop-color="#F6F6F6" offset="15.7653382%"></stop>
+          <stop stop-color="#EEEEEE" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient id="linearGradient-3-empty-1-NORMALIZED" x1="50%" y1="100%" x2="50%" y2="-2.48949813e-15%">
+          <stop stop-color="#DDDDDD" offset="0%"></stop>
+          <stop stop-color="#E7E7E7" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient id="linearGradient-4-empty-1-NORMALIZED" x1="50%" y1="100%" x2="50%" y2="-2.48949813e-15%">
+          <stop stop-color="#D6D6D6" offset="0%"></stop>
+          <stop stop-color="#DBDBDB" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient id="linearGradient-5-empty-1-NORMALIZED" x1="100%" y1="50%" x2="0.124801956%" y2="50%">
+          <stop stop-color="#E0E0E0" offset="0%"></stop>
+          <stop stop-color="#E6E6E6" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient id="linearGradient-6-empty-1-NORMALIZED" x1="-2.22044605e-14%" y1="50%" x2="100%" y2="50%">
+          <stop stop-color="#F5F5F5" offset="0%"></stop>
+          <stop stop-color="#EBEBEB" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient id="linearGradient-7-empty-1-NORMALIZED" x1="-2.22044605e-14%" y1="50%" x2="100%" y2="50%">
+          <stop stop-color="#EDEDED" offset="0%"></stop>
+          <stop stop-color="#FAFAFA" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient id="linearGradient-8-empty-1-NORMALIZED" x1="-2.22044605e-14%" y1="50%" x2="100%" y2="50%">
+          <stop stop-color="#FFFFFF" offset="0%"></stop>
+          <stop stop-color="#F7F7F7" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient id="linearGradient-9-empty-1-NORMALIZED" x1="-2.22044605e-14%" y1="50%" x2="100%" y2="50%">
+          <stop stop-color="#FFFFFF" offset="0%"></stop>
+          <stop stop-color="#F7F7F7" offset="100%"></stop>
+        </linearGradient>
+      </defs>
+      <g id="Illustrations" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="empty-nodata" transform="translate(0.000000, 1.017187)" fill-rule="nonzero">
+          <g id="Group-1" transform="translate(0.000000, 91.892457)">
+            <g id="Group-1-1">
+              <!-- 使用动态绑定的渐变引用，确保每个组件实例的唯一性 -->
+              <path id="Oval-1" d="M260,146.301035 C260,133.413733 201.797017,122.966511 130,122.966511 C58.2029825,122.966511 0,133.413733 0,146.301035 C0,159.188336 260,159.188336 260,146.301035 Z" fill="url(#linearGradient-1-empty-1-NORMALIZED)"></path>
+              <path id="Rectangle-1" d="M184,0 L54,0 L54,124.46629 C54,126.473725 55.6273476,128.101072 57.6347826,128.101072 L184,128.101072 L184,128.101072 L184,0 Z" fill="url(#linearGradient-2-empty-1-NORMALIZED)"></path>
+              <path id="Rectangle-Copy-1" d="M184.000001,1.13686838e-13 L210.009578,1.13686838e-13 L210.009578,128.101072 L187.634784,128.101072 C185.627349,128.101072 184.000001,126.473725 184.000001,124.46629 L184.000001,1.13686838e-13 L184.000001,1.13686838e-13 Z" fill="url(#linearGradient-3-empty-1-NORMALIZED)" transform="translate(197.004789, 64.050536) scale(-1, 1) translate(-197.004789, -64.050536) "></path>
+              <polygon id="Rectangle-Copy-2" fill="url(#linearGradient-4-empty-1-NORMALIZED)" transform="translate(196.954349, 16.551537) scale(-1, 1) translate(-196.954349, -16.551537) " points="184.000001 3.41060513e-13 209.908696 6.82390337e-13 209.908696 33.1030746 184.000001 33.1030746"></polygon>
+              <polygon id="Rectangle-2" fill="url(#linearGradient-5-empty-1-NORMALIZED)" opacity="0.898363386" points="54 26.5915493 174.685305 26.5915493 183.908695 3.41060513e-13 184 32.915493 54 32.915493"></polygon>
+              <polygon id="Rectangle-Copy-4" fill="url(#linearGradient-6-empty-1-NORMALIZED)" points="209.908695 1.13686838e-13 221 26.7978558 193.908695 26.5915493 183.908695 1.13686838e-13"></polygon>
+              <polygon id="Rectangle-3" fill="url(#linearGradient-7-empty-1-NORMALIZED)" transform="translate(113.553972, 13.295775) scale(-1, 1) rotate(-180.000000) translate(-113.553972, -13.295775) " points="43.0584897 7.00000001e-07 174.685305 7.00000001e-07 184.049454 26.59155 53.555527 26.59155"></polygon>
+            </g>
+            <rect id="Rectangle-Copy-3" fill="url(#linearGradient-8-empty-1-NORMALIZED)" x="74" y="82.1010721" width="90" height="12" rx="2"></rect>
+            <rect id="Shape-Combination-Copy" fill="url(#linearGradient-9-empty-1-NORMALIZED)" x="74" y="58.0505361" width="41" height="12" rx="2"></rect>
+          </g>
+          <g id="Group-2" transform="translate(139.921051, 51.951083) rotate(13.000000) translate(-139.921051, -51.951083) translate(82.236144, 11.951083)">
+            <path id="Oval-2" d="M91.7456564,59.9303561 C101.300582,54.2352582 106.317585,48.3805222 106.796667,42.3661483 C107.275748,36.3517743 104.591701,31.738336 98.7445265,28.5258334 C90.9834009,33.375078 87.9571608,39.1543525 89.665806,45.8636569 C92.5013618,53.1300061 93.1946452,57.8189059 91.7456564,59.9303561 Z" fill="#EBEBEB" transform="translate(98.027227, 44.228095) rotate(45.000000) translate(-98.027227, -44.228095) "></path>
+            <path id="Path-19" d="M43.9620562,14.1453948 C51.8341075,12.1993611 60.3508564,13.425942 69.4980996,17.8091767 L69.065965,18.7109858 C60.1166388,14.4225903 51.8333983,13.2296392 44.20204,15.1161717 C34.5674285,17.4979245 28.2008849,25.8905476 27.7830303,35.2187165 L27.767,35.691 L28.0249856,35.6333514 C35.7693712,33.9334312 43.3514665,36.1406948 44.011234,42.4207064 L44.039152,42.7491675 C44.3612082,47.6834882 40.6918528,49.5958707 35.8345878,48.0805243 C31.163164,46.6231557 27.233043,42.6157483 26.8474452,38.1836237 C26.8158061,37.8199581 26.7929497,37.456879 26.7787371,37.0946496 L26.774,36.973 L26.5239318,37.0459002 C22.0115192,38.3877984 17.6031554,41.1194376 14.8155789,45.2323995 L14.5870652,45.5783436 C9.26398964,53.8495112 7.04412128,60.7192471 7.8933606,66.1733079 L6.90526697,66.3271617 C6.01143137,60.5866906 8.30309539,53.4947717 13.7461595,45.0371619 C16.6779765,40.4816093 21.4884477,37.4684797 26.4226007,36.0407552 L26.762,35.945 L26.7676579,35.650888 C27.0024681,25.8246795 33.5567708,16.895563 43.593317,14.2397501 L43.9620562,14.1453948 Z M43.0412752,42.8142975 C42.6617554,36.9995582 35.4323911,34.9571728 28.0298424,36.6500843 L27.767,36.712 L27.7766024,37.0198904 C27.7855846,37.2587111 27.7984945,37.4979236 27.8153759,37.7374457 L27.843682,38.0969504 C28.1903012,42.0810488 31.8177556,45.7798375 36.1324064,47.1259018 C40.3954372,48.4558619 43.3103376,46.9366837 43.0412752,42.8142975 Z" fill="#EEEEEE" transform="translate(38.107584, 39.788422) rotate(-120.000000) translate(-38.107584, -39.788422) "></path>
+          </g>
+          <polygon id="Path-2" fill="#FFFFFF" points="183.81255 91.8126038 184.286358 91.9723094 175.196309 118.940312 43.0584897 118.940312 43.0584897 118.440312 174.836 118.44"></polygon>
+          <polygon id="Path-4" fill="#FFFFFF" points="184.283862 91.805548 194.159 118.44 210.009577 118.440312 210.009577 118.940312 193.811048 118.940312 183.815046 91.9793652"></polygon>
+          <polygon id="Path-5" fill="#FFFFFF" points="185.049454 92.6323721 185.049454 219.993529 183.049454 219.993529 183.049454 92.6323721"></polygon>
+        </g>
+      </g>
+    </svg></div>
+  <div class="fes-empty-description">
+    <p>暂无数据</p>
+  </div>
+  <!--v-if-->
+</div>"
+`;
+
+exports[`展示型组件默认渲染快照 > FImage 1`] = `
+"<div class="fes-img">
+  <div class="fes-img__placeholder"><span role="img" class="fes-design-icon"><svg width="200" height="200" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M960 149.419a21.333 21.333 0 0 1 21.333 21.333v682.496A21.333 21.333 0 0 1 960 874.581H64a21.333 21.333 0 0 1-21.333-21.333V170.752A21.333 21.333 0 0 1 64 149.419h896zM670.464 475.86 438.869 748.245a21.333 21.333 0 0 1-32.682-.17l-140.075-168.96-159.488 187.861v43.563h810.71v-43.52L670.463 475.86zm246.87-262.4H106.666v454.571l143.616-169.088a21.333 21.333 0 0 1 32.682.213l139.99 168.918L654.25 396.16a21.333 21.333 0 0 1 32.512 0l230.57 271.83V213.418zM416 277.333a96 96 0 1 1 0 192 96 96 0 0 1 0-192zm0 64a32 32 0 1 0 0 64 32 32 0 0 0 0-64z"></path></svg></span><span>加载中</span></div>
+  <!--v-if-->
+</div>"
+`;
+
+exports[`展示型组件默认渲染快照 > FLink 1`] = `
+"<a class="fes-link fes-link-type-default fes-link-size-middle">
+  <!---->
+  <div>链接</div>
+</a>"
+`;
+
+exports[`展示型组件默认渲染快照 > FProgress 1`] = `
+"<div class="fes-progress" percentage="50">
+  <div class="line-progress-container">
+    <div class="line-progress-bar" style="height: 8px; border-radius: 4px;">
+      <div class="progress">
+        <div class="progress-item" style="border-radius: 4px; width: 0%; height: 8px;">
+          <!---->
+        </div>
+      </div>
+    </div>
+    <!---->
+  </div>
+</div>"
+`;
+
+exports[`展示型组件默认渲染快照 > FSkeleton 1`] = `
+"<div class="fes-skeleton is-sharp is-animated">
+  <!---->
+</div>"
+`;
+
+exports[`展示型组件默认渲染快照 > FSpace 1`] = `
+"<div role="none" class="fes-space" style="display: flex; flex-direction: row; justify-content: flex-start; align-items: start; flex-wrap: wrap; gap: 12px 12px;">
+  <div role="none" style="max-width: 100%;"><span>一</span></div>
+  <div role="none" style="max-width: 100%;"><span>二</span></div>
+</div>"
+`;
+
+exports[`展示型组件默认渲染快照 > FSpin 1`] = `"<div class="fes-spin is-size-middle"><span role="img" class="fes-design-icon fes-design-icon--spin"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="200" height="200"><path d="M512 42.453q42.667 0 42.667 42.667v128q0 42.667-42.667 42.667t-42.667-42.667v-128q0-42.667 42.667-42.667Z" fill-opacity=".7"></path><path d="M512 768.213q42.667 0 42.667 42.667v128q0 42.667-42.667 42.667t-42.667-42.667v-128q0-42.667 42.667-42.667Z" fill-opacity=".2"></path><path d="M42.667 511.787q0-42.667 42.666-42.667h128q42.667 0 42.667 42.667 0 42.666-42.667 42.666h-128q-42.666 0-42.666-42.666Z" fill-opacity=".4"></path><path d="M768 511.787q0-42.667 42.667-42.667h128q42.666 0 42.666 42.667 0 42.666-42.666 42.666h-128q-42.667 0-42.667-42.666Z"></path><path d="M179.978 179.978q30.17-30.17 60.34 0l90.51 90.51q30.17 30.17 0 60.34t-60.34 0l-90.51-90.51q-30.17-30.17 0-60.34Z" fill-opacity=".55"></path><path d="M693.173 693.172q30.17-30.17 60.34 0l90.51 90.51q30.169 30.17 0 60.34-30.17 30.17-60.34 0l-90.51-90.51q-30.17-30.17 0-60.34Z" fill-opacity=".1"></path><path d="M179.978 843.723q-30.17-30.17 0-60.34l90.51-90.51q30.17-30.169 60.34 0 30.17 30.17 0 60.34l-90.51 90.51q-30.17 30.17-60.34 0Z" fill-opacity=".3"></path><path d="M692.874 330.827q-30.17-30.17 0-60.34l90.51-90.51q30.17-30.169 60.34 0 30.17 30.17 0 60.34l-90.51 90.51q-30.17 30.17-60.34 0Z" fill-opacity=".85"></path></svg></span></div>"`;
+
+exports[`展示型组件默认渲染快照 > FSteps 1`] = `
+"<div class="fes-steps is-default" active="1">
+  <div class="fes-step is-finish">
+    <div class="fes-step-symbol">
+      <div class="fes-step-symbol-wrapper"><span class="fes-step-icon"><span role="img" class="fes-design-icon"><svg width="200" height="200" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="m685.312 445.568-253.91 327.168a21.333 21.333 0 0 1-33.706 0L275.968 615.808a21.333 21.333 0 0 1 3.797-29.91L296.62 572.8a21.333 21.333 0 0 1 29.909 3.797l88.064 113.494 220.16-283.734a21.333 21.333 0 0 1 29.952-3.797l16.853 13.099a21.333 21.333 0 0 1 3.755 29.909zm158.72-204.757L431.445 772.65a21.333 21.333 0 0 1-33.706-.128L152.02 452.437a21.333 21.333 0 0 1 3.84-29.866l16.854-13.014a21.333 21.333 0 0 1 30.037 3.84l211.84 276.651L793.472 201.6a21.333 21.333 0 0 1 29.952-3.797l16.853 13.098a21.333 21.333 0 0 1 3.755 29.91z"></path></svg></span></span></div>
+      <!---->
+    </div>
+    <div class="fes-step-content">
+      <div class="fes-step-title"><span class="fes-step-text">undefined</span>
+        <div class="fes-step-tail"></div>
+      </div>
+      <div class="fes-step-description">
+        <!---->
+      </div>
+    </div>
+  </div>
+  <div class="fes-step is-finish">
+    <div class="fes-step-symbol">
+      <div class="fes-step-symbol-wrapper"><span class="fes-step-icon"><span role="img" class="fes-design-icon"><svg width="200" height="200" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="m685.312 445.568-253.91 327.168a21.333 21.333 0 0 1-33.706 0L275.968 615.808a21.333 21.333 0 0 1 3.797-29.91L296.62 572.8a21.333 21.333 0 0 1 29.909 3.797l88.064 113.494 220.16-283.734a21.333 21.333 0 0 1 29.952-3.797l16.853 13.099a21.333 21.333 0 0 1 3.755 29.909zm158.72-204.757L431.445 772.65a21.333 21.333 0 0 1-33.706-.128L152.02 452.437a21.333 21.333 0 0 1 3.84-29.866l16.854-13.014a21.333 21.333 0 0 1 30.037 3.84l211.84 276.651L793.472 201.6a21.333 21.333 0 0 1 29.952-3.797l16.853 13.098a21.333 21.333 0 0 1 3.755 29.91z"></path></svg></span></span></div>
+      <!---->
+    </div>
+    <div class="fes-step-content">
+      <div class="fes-step-title"><span class="fes-step-text">undefined</span>
+        <div class="fes-step-tail"></div>
+      </div>
+      <div class="fes-step-description">
+        <!---->
+      </div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`展示型组件默认渲染快照 > FTag 1`] = `
+"<div class="fes-tag fes-tag-type--default fes-tag-size--middle fes-tag-effect--light is-bordered">
+  <!--v-if-->标签
+  <!--v-if-->
+</div>"
+`;
+
+exports[`展示型组件默认渲染快照 > FText 1`] = `"<span class="fes-text fes-text-type--default fes-text-size--middle">文本</span>"`;
+
+exports[`展示型组件默认渲染快照 > FTimeline 1`] = `
+"<ul class="fes-timeline fes-timeline-direction-column fes-timeline-layout-end fes-timeline-desc-under">
+  <li class="fes-timeline-item fes-timeline-item-layout-end">
+    <div class="fes-timeline-item-tail"></div>
+    <div class="fes-timeline-item-content-wrapper fes-timeline-item-content-wrapper-end">
+      <div class="fes-timeline-item-title fes-timeline-item-title-layout-end">节点一</div>
+      <!---->
+    </div>
+    <div class="fes-timeline-item-icon fes-timeline-item-icon-info"></div>
+  </li>
+  <li class="fes-timeline-item fes-timeline-item-layout-end">
+    <div class="fes-timeline-item-tail fes-timeline-item-tail-last"></div>
+    <div class="fes-timeline-item-content-wrapper fes-timeline-item-content-wrapper-end">
+      <div class="fes-timeline-item-title fes-timeline-item-title-layout-end">节点二</div>
+      <!---->
+    </div>
+    <div class="fes-timeline-item-icon fes-timeline-item-icon-info"></div>
+  </li>
+</ul>"
+`;

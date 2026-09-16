@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import SelectCascader from '../selectCascader.vue';
+import { wait } from '../../_util/__tests__/helpers';
 import {
     getKeysByCurrentValue,
     getNotMatchedPathByKey,
@@ -19,8 +20,6 @@ const data = [
     },
     { label: '湖南', value: 'hn' },
 ];
-
-const wait = (ms = 100) => new Promise((r) => setTimeout(r, ms));
 
 // Popper 在 jsdom 中会触发 FSelectCascader 递归更新，stub 成透传插槽
 const PopperStub = {
@@ -95,7 +94,7 @@ describe('FSelectCascader', () => {
     test('基础渲染触发器与面板', async () => {
         const wrapper = mountSc({ data });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
         expect(wrapper.text()).toContain('请选择');
         // 面板直出（Popper stub 透传）：级联一级节点渲染
@@ -106,7 +105,7 @@ describe('FSelectCascader', () => {
     test('placeholder 生效', async () => {
         const wrapper = mountSc({ data, placeholder: '请选择地区' });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.text()).toContain('请选择地区');
         wrapper.unmount();
     });
@@ -114,7 +113,7 @@ describe('FSelectCascader', () => {
     test('单选 modelValue 回显', async () => {
         const wrapper = mountSc({ data, modelValue: 'sz' });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.text()).toContain('深圳');
         wrapper.unmount();
     });
@@ -122,7 +121,7 @@ describe('FSelectCascader', () => {
     test('showPath 显示完整路径', async () => {
         const wrapper = mountSc({ data, modelValue: 'sz', showPath: true });
         await nextTick();
-        await wait();
+        await wait(100);
         // 路径分隔符两侧带空格：广东 / 深圳
         expect(wrapper.text()).toContain('广东 / 深圳');
         wrapper.unmount();
@@ -131,7 +130,7 @@ describe('FSelectCascader', () => {
     test('multiple 模式渲染 tag', async () => {
         const wrapper = mountSc({ data, modelValue: ['sz'], multiple: true });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.text()).toContain('深圳');
         wrapper.unmount();
     });
@@ -139,7 +138,7 @@ describe('FSelectCascader', () => {
     test('disabled 状态透传 trigger', async () => {
         const wrapper = mountSc({ data, disabled: true });
         await nextTick();
-        await wait();
+        await wait(100);
         // disabled 挂在 SelectTrigger 上
         const trigger = wrapper.find('[class*="select-trigger"], .fes-select-trigger');
         expect(trigger.exists()).toBe(true);
@@ -152,7 +151,7 @@ describe('FSelectCascader', () => {
     test('空 data 渲染不报错', async () => {
         const wrapper = mountSc({ data: [] });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
         wrapper.unmount();
     });
@@ -160,7 +159,7 @@ describe('FSelectCascader', () => {
     test('visibleChange 事件在打开时触发', async () => {
         const wrapper = mountSc({ data });
         await nextTick();
-        await wait();
+        await wait(100);
         // Popper 被 stub，直接通过 expose 的 isOpened 无法触发；
         // 改为点击 trigger 区域（SelectTrigger 根）触发 Popper click
         const triggerArea = wrapper.find(
@@ -168,7 +167,11 @@ describe('FSelectCascader', () => {
         );
         await triggerArea.trigger('click');
         await nextTick();
-        // visibleChange 由真实 Popper 触发，stub 下守护不报错即可
+        await wait(100);
+        // PopperStub 无 visible 反馈通道（isOpened 不变 → watch 不触发），
+        // stub 下可断言的效果：click 传导至 stub（触发插槽渲染）且不崩溃；
+        // visibleChange 真实触发语义由 e2e 兜底（跟进项 2）
+        expect(wrapper.find('.popper-stub').exists()).toBe(true);
         expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
         wrapper.unmount();
     });

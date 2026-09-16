@@ -3,13 +3,9 @@ import { h, nextTick } from 'vue';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import BackTop from '../backTop';
 import getPrefixCls from '../../_util/getPrefixCls';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = getPrefixCls('back-top');
-
-const sleep = (ms) =>
-    new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
 
 // jsdom 不支持真实滚动，用可读写的 scrollTop 模拟
 function mockScrollTop(el) {
@@ -100,9 +96,10 @@ describe('BackTop', () => {
         // 滚回顶部，scroll 处理函数被节流，需等待节流触发
         docScroll.set(0);
         document.dispatchEvent(new Event('scroll'));
-        await sleep(350);
-        await nextTick();
-        expect(wrapper.find(`.${prefixCls}`).exists()).toBe(false);
+        // 节流后隐藏：waitFor 轮询（比盲等 350ms 更快）
+        await vi.waitFor(() => {
+            expect(wrapper.find(`.${prefixCls}`).exists()).toBe(false);
+        });
     });
 
     test('点击回到顶部并触发 click 事件', async () => {
@@ -140,7 +137,7 @@ describe('BackTop', () => {
         // 容器滚回顶部后隐藏
         targetScroll.set(0);
         target.dispatchEvent(new Event('scroll'));
-        await sleep(350);
+        await wait(350);
         await nextTick();
         expect(wrapper.find(`.${prefixCls}`).exists()).toBe(false);
 

@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import Cascader from '../cascader';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-cascader';
 
@@ -20,15 +21,13 @@ const data = [
     },
 ];
 
-const wait = (ms = 100) => new Promise((r) => setTimeout(r, ms));
-
 describe('FCascader 基础渲染', () => {
     test('渲染触发器（级联菜单直出）', async () => {
         const wrapper = mount(Cascader, {
             props: { data },
         });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
         // 根节点带 cascader role
         expect(wrapper.find(`.${prefixCls}`).attributes('role')).toBe(
@@ -39,23 +38,27 @@ describe('FCascader 基础渲染', () => {
         wrapper.unmount();
     });
 
-    test('modelValue 回显选中', async () => {
+    test('selectedKeys 回显选中', async () => {
+        // 注意：cascader.tsx 是面板组件，选中回显 API 是 selectedKeys 数组
+        // （无 modelValue prop——旧用例传 modelValue 被静默忽略导致永真兜底）
         const wrapper = mount(Cascader, {
             props: {
                 data,
-                modelValue: 'sz',
-                // 面板直出场景下选中节点应有选中态类名
+                selectedKeys: ['sz'],
                 appendToContainer: false,
-            } as any,
+            },
         });
         await nextTick();
-        await wait();
+        await wait(100);
+        // 二级菜单未展开时 sz 节点不在 DOM；展开一级节点
+        // （onClick 绑在节点内层 -content 元素，外层 node 点击不命中）
+        await wrapper.findAll(`.${prefixCls}-node-content`)[0].trigger('click');
+        await wait(100);
         const selected = wrapper.findAll(
-            '.fes-cascader-node.is-selected, [class*="selected"]',
+            `.${prefixCls}-node.is-selected`,
         );
-        // 守护：组件可挂载且不报错即可，选中态类名视实现而定
-        expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
-        expect(selected.length).toBeGreaterThanOrEqual(0);
+        expect(selected.length).toBe(1);
+        expect(selected[0].text()).toContain('深圳');
         wrapper.unmount();
     });
 });
@@ -66,7 +69,7 @@ describe('FCascader 面板交互', () => {
             props: { data, appendToContainer: false } as any,
         });
         await nextTick();
-        await wait();
+        await wait(100);
         await wrapper.find(`.${prefixCls}`).trigger('click');
         await nextTick();
         await wait(200);
@@ -89,7 +92,7 @@ describe('FCascader 面板交互', () => {
             } as any,
         });
         await nextTick();
-        await wait();
+        await wait(100);
         await wrapper.find(`.${prefixCls}`).trigger('click');
         await nextTick();
         await wait(200);
@@ -125,7 +128,7 @@ describe('FCascader 面板交互', () => {
             props: { data, multiple: true, appendToContainer: false } as any,
         });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
         wrapper.unmount();
     });
@@ -141,7 +144,7 @@ describe('FCascader 属性分支', () => {
             },
         });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(
             wrapper
                 .findAll(`.${prefixCls}-node`)[0]
@@ -156,7 +159,7 @@ describe('FCascader 属性分支', () => {
             props: { data, checkStrictly: 'all' } as any,
         });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
         wrapper.unmount();
     });
@@ -166,11 +169,18 @@ describe('FCascader 属性分支', () => {
             props: { data, expandTrigger: 'hover', appendToContainer: false } as any,
         });
         await nextTick();
-        await wait();
-        await wrapper.find(`.${prefixCls}`).trigger('mouseenter');
+        await wait(100);
+        // hover 一级节点 content（hover 展开绑在 content 的 mouseenter）
+        const gdContent = wrapper
+            .findAll(`.${prefixCls}-node-content`)[0];
+        expect(gdContent.exists()).toBe(true);
+        await gdContent.trigger('mouseenter');
         await nextTick();
         await wait(200);
-        expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
+        // hover 展开效果：二级菜单的深圳/广州节点进入 DOM
+        const texts = wrapper.findAll(`.${prefixCls}-node`).map((n) => n.text());
+        expect(texts.join()).toContain('深圳');
+        expect(texts.join()).toContain('广州');
         wrapper.unmount();
     });
 });

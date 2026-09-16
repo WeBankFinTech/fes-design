@@ -1,19 +1,12 @@
 import { mount } from '@vue/test-utils';
-import { nextTick } from 'vue';
+import { ref } from 'vue';
 import getPrefixCls from '../../_util/getPrefixCls';
 import DatePicker from '../datePicker.vue';
+import { sleep } from '../../_util/__tests__/helpers';
 
 const inputPrefixCls = getPrefixCls('input-inner');
 const calendarPrefixCls = getPrefixCls('date-picker-calendar');
 const calendarsPrefixCls = getPrefixCls('date-picker-calendars');
-
-const sleep = (times = 2) => {
-    let promise = Promise.resolve();
-    for (let i = 0; i < times; i++) {
-        promise = promise.then(() => nextTick());
-    }
-    return promise;
-};
 
 const findInput = (wrapper) => wrapper.find('input');
 const findDayCells = (wrapper) =>
@@ -482,5 +475,70 @@ describe('DatePicker control 模式', () => {
         expect(wrapper.emitted('change')[0][0]).toBe(
             new Date(now.getFullYear(), now.getMonth(), 20).getTime(),
         );
+    });
+});
+
+describe('DatePicker shortcuts 受控值端到端', () => {
+    // 技能 4A-5 模式：ref + onUpdateValue 模拟真实受控用法，
+    // 面板交互 → 断言业务值（而非仅 emitted）
+    test('点击数值 shortcut 受控值变为该时间戳', async () => {
+        const stamp = new Date(2025, 0, 15).getTime();
+        const test = ref<number>(0);
+        const wrapper = mountDatePicker({
+            'type': 'date',
+            'modelValue': test.value,
+            'onUpdate:modelValue': (v: number) => {
+                test.value = v;
+            },
+            'shortcuts': {
+                前年: stamp,
+            },
+        });
+        const shortcut = wrapper.find(`.${calendarsPrefixCls}-shortcuts li`);
+        expect(shortcut.exists()).toBe(true);
+        expect(shortcut.text()).toBe('前年');
+        await shortcut.trigger('click');
+        await sleep();
+        expect(test.value).toBe(stamp);
+        wrapper.unmount();
+    });
+
+    test('点击函数 shortcut 受控值取函数返回值', async () => {
+        const stamp = new Date(2025, 5, 1).getTime();
+        const test = ref<number>(0);
+        const wrapper = mountDatePicker({
+            'type': 'date',
+            'modelValue': test.value,
+            'onUpdate:modelValue': (v: number) => {
+                test.value = v;
+            },
+            'shortcuts': {
+                今天: () => stamp,
+            },
+        });
+        await wrapper.find(`.${calendarsPrefixCls}-shortcuts li`).trigger('click');
+        await sleep();
+        expect(test.value).toBe(stamp);
+        wrapper.unmount();
+    });
+
+    test('daterange 数组 shortcut 一次性设置区间两端', async () => {
+        const start = new Date(2025, 0, 1).getTime();
+        const end = new Date(2025, 0, 31).getTime();
+        const test = ref<[number, number]>([0, 0]);
+        const wrapper = mountDatePicker({
+            'type': 'daterange',
+            'modelValue': test.value,
+            'onUpdate:modelValue': (v: [number, number]) => {
+                test.value = v;
+            },
+            'shortcuts': {
+                一月: [start, end],
+            },
+        });
+        await wrapper.find(`.${calendarsPrefixCls}-shortcuts li`).trigger('click');
+        await sleep();
+        expect(test.value).toEqual([start, end]);
+        wrapper.unmount();
     });
 });

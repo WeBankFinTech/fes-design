@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import Cascader from '../cascader';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-cascader';
 
@@ -15,8 +16,6 @@ const data = [
     },
     { label: '湖南', value: 'hn' },
 ];
-
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
 
 const mountCascader = (props: Record<string, unknown> = {}) =>
     mount(Cascader, {
@@ -35,7 +34,6 @@ describe('FCascader select 事件', () => {
         await node(wrapper, 'hn').find(`.${prefixCls}-node-content`).trigger('click');
         await nextTick();
         const events = wrapper.emitted('select');
-        expect(events).toBeTruthy();
         expect(events![0][0]).toMatchObject({ selectedKeys: ['hn'], selected: true });
         wrapper.unmount();
     });
@@ -51,7 +49,6 @@ describe('FCascader select 事件', () => {
         await node(wrapper, 'hn').find(`.${prefixCls}-node-content`).trigger('click');
         await nextTick();
         const events = wrapper.emitted('select');
-        expect(events).toBeTruthy();
         expect(events![events!.length - 1][0]).toMatchObject({ selectedKeys: [] });
         wrapper.unmount();
     });
@@ -108,16 +105,14 @@ describe('FCascader select 事件', () => {
         await nextTick();
         await wait();
         const vm: any = wrapper.vm;
-        if (typeof vm.selectNode === 'function') {
-            vm.selectNode('hn');
-            await nextTick();
-            expect(wrapper.emitted('select')).toBeTruthy();
-        }
-        if (typeof vm.expandNode === 'function') {
-            vm.expandNode('gd');
-            await nextTick();
-            expect(wrapper.emitted('expand')).toBeTruthy();
-        }
+        expect(typeof vm.selectNode).toBe('function');
+        vm.selectNode('hn');
+        await nextTick();
+        expect(wrapper.emitted('select')).toBeTruthy();
+        expect(typeof vm.expandNode).toBe('function');
+        vm.expandNode('gd');
+        await nextTick();
+        expect(wrapper.emitted('expand')).toBeTruthy();
         wrapper.unmount();
     });
 });

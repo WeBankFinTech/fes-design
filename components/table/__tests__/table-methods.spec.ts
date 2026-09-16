@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import { ResizeObserver } from '@juggle/resize-observer';
 import Table from '../table';
+import { wait } from '../../_util/__tests__/helpers';
 
 // jsdom 未内置 ResizeObserver（虚拟/测量依赖）
 if (typeof window.ResizeObserver === 'undefined') {
@@ -23,8 +24,6 @@ const SELECT_COLUMNS = [
     { type: 'selection', multiple: true },
     { prop: 'name', label: '姓名' },
 ];
-
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
 
 const mountTable = (props: Record<string, unknown> = {}) =>
     mount(Table, {
@@ -80,7 +79,6 @@ describe('FTable exposed 方法', () => {
         table2.vm.toggleAllSelection();
         await wait();
         const emitted = wrapper.emitted('selectionChange');
-        expect(emitted).toBeTruthy();
         expect(emitted!.length).toBeGreaterThanOrEqual(2);
         wrapper.unmount();
     });

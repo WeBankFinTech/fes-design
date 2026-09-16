@@ -2,12 +2,10 @@ import { h } from 'vue';
 import { mount } from '@vue/test-utils';
 import Dropdown from '../dropdown';
 import getPrefixCls from '../../_util/getPrefixCls';
-import { sleep } from '../../_util/utils';
 
 const dropdownCls = getPrefixCls('dropdown');
 const OPTION_CLS = `.${dropdownCls}-option`;
 const TRIGGER_CLS = '.test-trigger';
-const HIDE_ANIMATION_DURATION = 300;
 
 const OPTIONS = [
     { value: '1', label: '删除' },
@@ -43,10 +41,10 @@ describe('Dropdown', () => {
         expect(wrapper.find(OPTION_CLS).isVisible()).toBe(true);
         expect(wrapper.findAll(OPTION_CLS).length).toBe(3);
         await wrapper.find(TRIGGER_CLS).trigger('mouseleave');
-        // 消失时存在动画，需要等待动画结束才隐藏；
-        // popper 首次展示后保持挂载，仅靠 v-show 隐藏，需用 isVisible 断言
-        await sleep(HIDE_ANIMATION_DURATION);
-        expect(wrapper.find(OPTION_CLS).isVisible()).toBe(false);
+        // 消失时存在动画；vi.waitFor 轮询至隐藏（替代盲等动画时长，更快更稳）
+        await vi.waitFor(() => {
+            expect(wrapper.find(OPTION_CLS).isVisible()).toBe(false);
+        });
         wrapper.unmount();
     });
 
@@ -65,9 +63,10 @@ describe('Dropdown', () => {
         expect(wrapper.emitted('update:modelValue')[0][0]).toBe('2');
         expect(wrapper.emitted('change')[0][0]).toBe('2');
         expect(wrapper.emitted('click')[0][0]).toBe('2');
-        // 选择后收起（弹层保持挂载，仅 v-show 隐藏）
-        await sleep(HIDE_ANIMATION_DURATION);
-        expect(wrapper.find(OPTION_CLS).isVisible()).toBe(false);
+        // 选择后收起（弹层保持挂载，仅 v-show 隐藏）：vi.waitFor 轮询至隐藏
+        await vi.waitFor(() => {
+            expect(wrapper.find(OPTION_CLS).isVisible()).toBe(false);
+        });
         wrapper.unmount();
     });
 
@@ -111,8 +110,9 @@ describe('Dropdown', () => {
         await wrapper.find(TRIGGER_CLS).trigger('click');
         expect(wrapper.find(OPTION_CLS).isVisible()).toBe(true);
         await wrapper.find(TRIGGER_CLS).trigger('click');
-        await sleep(HIDE_ANIMATION_DURATION);
-        expect(wrapper.find(OPTION_CLS).isVisible()).toBe(false);
+        await vi.waitFor(() => {
+            expect(wrapper.find(OPTION_CLS).isVisible()).toBe(false);
+        });
         wrapper.unmount();
     });
 
@@ -121,8 +121,9 @@ describe('Dropdown', () => {
         await wrapper.find(TRIGGER_CLS).trigger('focus');
         expect(wrapper.find(OPTION_CLS).isVisible()).toBe(true);
         await wrapper.find(TRIGGER_CLS).trigger('blur');
-        await sleep(HIDE_ANIMATION_DURATION);
-        expect(wrapper.find(OPTION_CLS).isVisible()).toBe(false);
+        await vi.waitFor(() => {
+            expect(wrapper.find(OPTION_CLS).isVisible()).toBe(false);
+        });
         wrapper.unmount();
     });
 
@@ -137,7 +138,7 @@ describe('Dropdown', () => {
         const wrapper = _mount({ appendToContainer: true });
         await wrapper.find(TRIGGER_CLS).trigger('mouseenter');
         expect(wrapper.find(`.${dropdownCls}-popper`).exists()).toBe(false);
-        expect(document.body.querySelector(`.${dropdownCls}-popper`)).toBeTruthy();
+        expect(document.body.querySelector(`.${dropdownCls}-popper`)).not.toBeNull();
         wrapper.unmount();
         // 卸载后清理 body 上的弹层
         expect(
@@ -168,8 +169,9 @@ describe('Dropdown', () => {
         await wrapper.find(TRIGGER_CLS).trigger('mouseenter');
         expect(wrapper.emitted('visibleChange')[0][0]).toBe(true);
         await wrapper.find(TRIGGER_CLS).trigger('mouseleave');
-        await sleep(HIDE_ANIMATION_DURATION);
-        expect(wrapper.emitted('visibleChange')[1][0]).toBe(false);
+        await vi.waitFor(() => {
+            expect(wrapper.emitted('visibleChange')[1][0]).toBe(false);
+        });
         wrapper.unmount();
     });
 });

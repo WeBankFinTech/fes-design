@@ -2,9 +2,9 @@ import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import Tree from '../tree';
 import getPrefixCls from '../../_util/getPrefixCls';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = getPrefixCls('tree-node');
-const wait = (ms = 50) => new Promise((r) => setTimeout(r, ms));
 
 // isInline 语义：父节点的所有 children 均为叶子时，叶子才内联
 const DATA = [
@@ -35,7 +35,7 @@ describe('FTree inline 内联模式（useTreeNode isInline/isFirst）', () => {
             props: { data: DATA, inline: true, defaultExpandAll: true },
         });
         await nextTick();
-        await wait();
+        await wait(50);
         const nodes = wrapper.findAll(`.${prefixCls}`);
         const leafNode = nodes.find((n) => n.text() === '子1');
         expect(leafNode).toBeTruthy();
@@ -48,7 +48,7 @@ describe('FTree inline 内联模式（useTreeNode isInline/isFirst）', () => {
             props: { data: DATA, inline: true, defaultExpandAll: true },
         });
         await nextTick();
-        await wait();
+        await wait(50);
         const nodes = wrapper.findAll(`.${prefixCls}`);
         const firstLeaf = nodes.find((n) => n.text() === '子1');
         const secondLeaf = nodes.find((n) => n.text() === '子2');
@@ -77,7 +77,7 @@ describe('FTree inline 内联模式（useTreeNode isInline/isFirst）', () => {
             },
         });
         await nextTick();
-        await wait();
+        await wait(50);
         const nodes = wrapper.findAll(`.${prefixCls}`);
         const leaf = nodes.find((n) => n.text() === '远程叶1');
         // remote 下叶子仍被当作非叶子 → 不内联
@@ -100,7 +100,7 @@ describe('FTree inline 内联模式（useTreeNode isInline/isFirst）', () => {
             props: { data, inline: true, defaultExpandAll: true },
         });
         await nextTick();
-        await wait();
+        await wait(50);
         const nodes = wrapper.findAll(`.${prefixCls}`);
         const leaf1 = nodes.find((n) => n.text() === '叶1');
         const leaf2 = nodes.find((n) => n.text() === '叶2');
@@ -129,7 +129,7 @@ describe('FTree inline 内联模式（useTreeNode isInline/isFirst）', () => {
             props: { data, inline: true, defaultExpandAll: true },
         });
         await nextTick();
-        await wait();
+        await wait(50);
         const nodes = wrapper.findAll(`.${prefixCls}`);
         // C2 是叶子但兄弟 C1 有 children → 不内联
         const c2 = nodes.find((n) => n.text() === 'C2');
@@ -145,7 +145,7 @@ describe('FTree inline 内联模式（useTreeNode isInline/isFirst）', () => {
             props: { data: DATA, defaultExpandAll: true },
         });
         await nextTick();
-        await wait();
+        await wait(50);
         const nodes = wrapper.findAll(`.${prefixCls}`);
         const leafNode = nodes.find((n) => n.text() === '子1');
         expect(leafNode!.classes()).not.toContain('is-inline');
@@ -176,7 +176,7 @@ describe('FTree inline 内联模式（useTreeNode isInline/isFirst）', () => {
             props: { data, inline: true, defaultExpandAll: true },
         });
         await nextTick();
-        await wait();
+        await wait(50);
         const nodes = wrapper.findAll(`.${prefixCls}`);
         // 全叶子兄弟组 → 内联
         const marked = nodes.find((n) => n.text() === '标叶1');
@@ -208,7 +208,7 @@ describe('FTree inline isParentAllLeaf 分支补充', () => {
             } as any,
         });
         await nextTick();
-        await wait();
+        await wait(50);
         const nodes = wrapper.findAll(`.${prefixCls}`);
         expect(nodes.find((n) => n.text() === '标叶子')).toBeTruthy();
         wrapper.unmount();
@@ -232,7 +232,7 @@ describe('FTree inline isParentAllLeaf 分支补充', () => {
             } as any,
         });
         await nextTick();
-        await wait();
+        await wait(50);
         remote.unmount();
     });
 });

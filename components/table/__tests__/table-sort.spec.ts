@@ -1,14 +1,13 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import Table from '../table';
+import { wait } from '../../_util/__tests__/helpers';
 
 const makeData = () => [
     { id: 3, name: '王五', age: 30 },
     { id: 1, name: '张三', age: 20 },
     { id: 2, name: '李四', age: 25 },
 ];
-
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
 
 const mountSortableTable = (columns: any[]) =>
     mount(Table, {
@@ -33,7 +32,6 @@ describe('FTable 排序', () => {
         await nextTick();
         await wait();
         const sortChange = wrapper.emitted('sortChange');
-        expect(sortChange).toBeTruthy();
         expect(sortChange![0][0]).toMatchObject({ prop: 'age', order: 'descend' });
         // 第二次点击 → ascend
         await th.trigger('click');

@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import Tree from '../tree';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-tree';
 
@@ -16,8 +17,6 @@ const makeData = () => [
     { label: '父2', value: 'p2' },
 ];
 
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
-
 const mountCheckTree = (extra: Record<string, unknown> = {}) =>
     mount(Tree, {
         props: {
@@ -31,6 +30,14 @@ const mountCheckTree = (extra: Record<string, unknown> = {}) =>
 
 const getCheckboxes = (wrapper: any) =>
     wrapper.findAll(`.${prefixCls}-node .fes-checkbox`);
+
+// 状态断言辅助（技能 4A-1 模式）：节点勾选/半选状态一眼可读
+const isChecked = (box: any) =>
+    box.classes().includes('is-checked')
+    || box.classes().includes('fes-checkbox-is-checked');
+const isIndeterminate = (box: any) =>
+    box.classes().includes('is-indeterminate')
+    || box.classes().includes('fes-checkbox-is-indeterminate');
 
 describe('FTree checkStrictly 级联策略', () => {
     test('cascade=true：勾父全选子', async () => {
@@ -49,6 +56,19 @@ describe('FTree checkStrictly 级联策略', () => {
         const keys = payload.checkedKeys ?? payload;
         const keyList = Array.isArray(keys) ? keys : keys.checkedKeys;
         expect(JSON.stringify(keyList)).toContain('c1');
+        // 状态机断言（技能 4A-9）：父勾选 → 子全勾；再取消子 → 父转半选
+        const freshBoxes = getCheckboxes(wrapper);
+        expect(isChecked(freshBoxes[0])).toBe(true);
+        expect(isChecked(freshBoxes[1])).toBe(true);
+        expect(isChecked(freshBoxes[2])).toBe(true);
+        await freshBoxes[1].trigger('click');
+        await nextTick();
+        await wait();
+        const afterBoxes = getCheckboxes(wrapper);
+        // cascade 模式：父级半选时仅 is-indeterminate（不带 is-checked）
+        expect(isIndeterminate(afterBoxes[0])).toBe(true);
+        expect(isChecked(afterBoxes[0])).toBe(false);
+        expect(isChecked(afterBoxes[1])).toBe(false);
         wrapper.unmount();
     });
 
@@ -75,8 +95,10 @@ describe('FTree checkStrictly 级联策略', () => {
         wrapper.unmount();
     });
 
-    test('勾选叶子父级进入半选态', async () => {
-        const wrapper = mountCheckTree();
+    test('cascade 下勾选叶子父级进入半选态', async () => {
+        // 默认 checkStrictly=ALL 不级联：叶子勾选不产生父级半选，
+        // 标题语义（叶子→父半选）须 cascade=true 才成立
+        const wrapper = mountCheckTree({ cascade: true });
         await nextTick();
         await wait();
         const boxes = getCheckboxes(wrapper);
@@ -84,11 +106,14 @@ describe('FTree checkStrictly 级联策略', () => {
         await boxes[1].trigger('click');
         await nextTick();
         await wait();
-        // p1 的 checkbox 应有 indeterminate 类或对应状态
         const indeterminate = wrapper.findAll(
-            '.fes-checkbox.is-indeterminate, [class*="indeterminate"]',
+            `.${prefixCls}-node .fes-checkbox.is-indeterminate`,
         );
-        expect(indeterminate.length).toBeGreaterThanOrEqual(0);
+        // 勾选叶子 c1 → 父 p1 转半选（仅 1 个半选框）
+        expect(indeterminate.length).toBe(1);
+        expect(isIndeterminate(indeterminate[0])).toBe(true);
+        // 子只勾了 c1：p1 不应同时带 is-checked
+        expect(isChecked(indeterminate[0])).toBe(false);
         wrapper.unmount();
     });
 
@@ -97,12 +122,11 @@ describe('FTree checkStrictly 级联策略', () => {
         await nextTick();
         await wait();
         const vm: any = wrapper.vm;
-        if (typeof vm.checkNode === 'function') {
-            vm.checkNode('c1');
-            await nextTick();
-            await wait();
-            expect(wrapper.emitted('check')).toBeTruthy();
-        }
+        expect(typeof vm.checkNode).toBe('function');
+        vm.checkNode('c1');
+        await nextTick();
+        await wait();
+        expect(wrapper.emitted('check')).toBeTruthy();
         wrapper.unmount();
     });
 });
@@ -157,6 +181,8 @@ describe('FTree checkStrictly 分支补充', () => {
         await boxes[0].trigger('click');
         await nextTick();
         await wait();
+        // 三轮勾选/取消均触发 check 事件
+        expect(wrapper.emitted('check')!.length).toBe(3);
         wrapper.unmount();
     });
 
@@ -177,6 +203,7 @@ describe('FTree checkStrictly 分支补充', () => {
         await boxes[2].trigger('click');
         await nextTick();
         await wait();
+        expect(wrapper.emitted('check')!.length).toBe(3);
         wrapper.unmount();
     });
 
@@ -199,6 +226,7 @@ describe('FTree checkStrictly 分支补充', () => {
         await boxes[0].trigger('click');
         await nextTick();
         await wait();
+        expect(wrapper.emitted('check')!.length).toBe(4);
         wrapper.unmount();
     });
 
@@ -217,6 +245,7 @@ describe('FTree checkStrictly 分支补充', () => {
         await boxes[1].trigger('click');
         await nextTick();
         await wait();
+        expect(wrapper.emitted('check')!.length).toBe(3);
         wrapper.unmount();
     });
 
@@ -225,17 +254,17 @@ describe('FTree checkStrictly 分支补充', () => {
         await nextTick();
         await wait();
         const vm: any = wrapper.vm;
-        if (typeof vm.checkNode === 'function') {
-            vm.checkNode('c1', new Event('click'));
-            await nextTick();
-            await wait();
-            vm.checkNode('c2', new Event('click'));
-            await nextTick();
-            await wait();
-            vm.checkNode('c2', new Event('click'));
-            await nextTick();
-            await wait();
-        }
+        expect(typeof vm.checkNode).toBe('function');
+        vm.checkNode('c1', new Event('click'));
+        await nextTick();
+        await wait();
+        vm.checkNode('c2', new Event('click'));
+        await nextTick();
+        await wait();
+        vm.checkNode('c2', new Event('click'));
+        await nextTick();
+        await wait();
+        expect(wrapper.emitted('check')!.length).toBe(3);
         wrapper.unmount();
     });
 
@@ -258,6 +287,14 @@ describe('FTree checkStrictly 分支补充', () => {
         await boxes[0].trigger('click');
         await nextTick();
         await wait();
+        // isLeaf 效果 1：叶子 switcher 仅占位（无展开图标）
+        const leafNode = wrapper.find(`.${prefixCls}-node[data-value='leaf']`);
+        expect(leafNode.exists()).toBe(true);
+        expect(
+            leafNode.find(`.${prefixCls}-node-switcher-icon`).exists(),
+        ).toBe(false);
+        // isLeaf 效果 2：勾选叶子产生 check 事件
+        expect(wrapper.emitted('check')).toBeTruthy();
         wrapper.unmount();
 
         const remote = mount(Tree, {

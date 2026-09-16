@@ -3,14 +3,13 @@ import { h, nextTick } from 'vue';
 import getPrefixCls from '../../_util/getPrefixCls';
 import FImage from '../image.vue';
 import PreviewGroup from '../preview-group';
+import { wait } from '../../_util/__tests__/helpers';
 
 const imgPrefixCls = getPrefixCls('img');
 const previewPrefixCls = getPrefixCls('preview');
 
 const OK_SRC
     = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAUwAOw==';
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // jsdom 不会真正加载图片，这里拦截 src 赋值，按预设结果同步派发 load / error 事件
 let imageLoadResult: 'success' | 'error' | 'pending' = 'success';
@@ -231,7 +230,7 @@ describe('FImage', () => {
         expect(anchor?.getAttribute('href')).toBe(OK_SRC);
         expect(anchor?.getAttribute('target')).toBe('_blank');
         // 下载后临时 a 标签会被移除
-        await sleep(10);
+        await wait(10);
         expect(document.body.querySelector('a')).toBeNull();
     });
 
@@ -249,7 +248,7 @@ describe('FImage', () => {
 
         // 懒加载滚动回调被 throttle(200ms) 包裹，等待节流窗口过去再触发滚动
         imageLoadResult = 'success';
-        await sleep(300);
+        await wait(300);
         window.dispatchEvent(new Event('scroll'));
         await nextTick();
         expect(wrapper.find(`.${imgPrefixCls}__inner-image`).exists()).toBe(

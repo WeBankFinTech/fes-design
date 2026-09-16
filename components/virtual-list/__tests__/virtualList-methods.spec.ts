@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import { ResizeObserver } from '@juggle/resize-observer';
 import { FVirtualList as VirtualList } from '../index';
+import { wait } from '../../_util/__tests__/helpers';
 
 // jsdom 未内置 ResizeObserver，列表项尺寸测量依赖它
 if (typeof window.ResizeObserver === 'undefined') {
@@ -15,7 +16,6 @@ if (typeof Element !== 'undefined' && !Element.prototype.scrollTo) {
     Element.prototype.scrollTo = function () {};
 }
 
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
 const nextFrame = () => new Promise((r) => requestAnimationFrame(r));
 
 const makeItems = (n: number) =>

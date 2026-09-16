@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import Tree from '../tree';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-tree';
 
@@ -15,8 +16,6 @@ const makeData = () => [
     },
     { label: '根节点2', value: 'n2' },
 ];
-
-const wait = (ms = 50) => new Promise((r) => setTimeout(r, ms));
 
 const mountDraggableTree = (extra: Record<string, unknown> = {}) =>
     mount(Tree, {
@@ -47,7 +46,7 @@ describe('FTree draggable', () => {
     test('dragstart 在可拖拽节点上触发', async () => {
         const wrapper = mountDraggableTree();
         await nextTick();
-        await wait();
+        await wait(50);
         await fireDrag(getNode(wrapper, 'n1'), 'dragstart');
         await nextTick();
         expect(wrapper.emitted('dragstart')).toBeTruthy();
@@ -57,7 +56,7 @@ describe('FTree draggable', () => {
     test('dragover 触发并产生高亮信息', async () => {
         const wrapper = mountDraggableTree();
         await nextTick();
-        await wait();
+        await wait(50);
         await fireDrag(getNode(wrapper, 'n1'), 'dragstart');
         await fireDrag(getNode(wrapper, 'n2'), 'dragover');
         await nextTick();
@@ -68,7 +67,7 @@ describe('FTree draggable', () => {
     test('dragenter / dragleave 触发', async () => {
         const wrapper = mountDraggableTree();
         await nextTick();
-        await wait();
+        await wait(50);
         await fireDrag(getNode(wrapper, 'n1'), 'dragstart');
         await fireDrag(getNode(wrapper, 'n2'), 'dragenter');
         expect(wrapper.emitted('dragenter')).toBeTruthy();
@@ -80,11 +79,11 @@ describe('FTree draggable', () => {
     test('drop 触发并带 position 与 dragNode', async () => {
         const wrapper = mountDraggableTree();
         await nextTick();
-        await wait();
+        await wait(50);
         await fireDrag(getNode(wrapper, 'n1'), 'dragstart');
         // dragover 需要 querySelector + getBoundingClientRect（setup 已 mock 100x100）
         await fireDrag(getNode(wrapper, 'n2'), 'dragover');
-        await wait();
+        await wait(50);
         await fireDrag(getNode(wrapper, 'n2'), 'drop');
         await nextTick();
         const dropEvents = wrapper.emitted('drop');
@@ -98,7 +97,7 @@ describe('FTree draggable', () => {
     test('dragend 重置状态', async () => {
         const wrapper = mountDraggableTree();
         await nextTick();
-        await wait();
+        await wait(50);
         await fireDrag(getNode(wrapper, 'n1'), 'dragstart');
         await fireDrag(getNode(wrapper, 'n1'), 'dragend');
         await nextTick();
@@ -109,7 +108,7 @@ describe('FTree draggable', () => {
     test('dragover 未 dragstart 时不产生 drop', async () => {
         const wrapper = mountDraggableTree();
         await nextTick();
-        await wait();
+        await wait(50);
         await fireDrag(getNode(wrapper, 'n2'), 'dragover');
         await fireDrag(getNode(wrapper, 'n2'), 'drop');
         await nextTick();

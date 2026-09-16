@@ -2,9 +2,9 @@ import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import Table from '../table';
 import getPrefixCls from '../../_util/getPrefixCls';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = getPrefixCls('table');
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
 
 const EXPAND_COLUMNS = [
     { type: 'expand', render: ({ row }: any) => h('div', `展开-${row.name}`) },
@@ -77,16 +77,15 @@ describe('FTable 展开列（useTableExpand）', () => {
         const wrapper = mountTable();
         await nextTick();
         await wait();
-        const toggler = wrapper.find(`.${prefixCls}-expand-icon, [class*="expand"]`);
-        if (toggler.exists()) {
-            await toggler.trigger('click');
-            await wait();
-            // 展开内容渲染
-            expect(wrapper.text()).toContain('展开-行一');
-            // 再次点击收起
-            await toggler.trigger('click');
-            await wait();
-        }
+        const toggler = wrapper.find(`.${prefixCls}-expand-icon`);
+        expect(toggler.exists()).toBe(true);
+        await toggler.trigger('click');
+        await wait();
+        // 展开内容渲染
+        expect(wrapper.text()).toContain('展开-行一');
+        // 再次点击收起
+        await toggler.trigger('click');
+        await wait();
         wrapper.unmount();
     });
 

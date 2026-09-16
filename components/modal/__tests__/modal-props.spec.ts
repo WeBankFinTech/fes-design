@@ -1,10 +1,9 @@
 import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import Modal from '../modal';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-modal';
-
-const wait = (ms = 80) => new Promise((r) => setTimeout(r, ms));
 
 const $ = (sel: string) => document.querySelector(sel);
 const $$ = (sel: string) => Array.from(document.querySelectorAll(sel));
@@ -27,7 +26,7 @@ describe('FModal 属性补全', () => {
     test('fullScreen 全屏模式', async () => {
         const wrapper = mountModal({ fullScreen: true });
         await nextTick();
-        await wait();
+        await wait(80);
         const container = $(`.${prefixCls}-container`) as HTMLElement;
         expect(container.className).toContain('fullscreen');
         wrapper.unmount();
@@ -36,7 +35,7 @@ describe('FModal 属性补全', () => {
     test('showCancel=false 隐藏取消按钮', async () => {
         const wrapper = mountModal({ showCancel: false });
         await nextTick();
-        await wait();
+        await wait(80);
         const buttons = $$(`.${prefixCls}-footer button`);
         expect(buttons.length).toBe(1);
         expect(buttons[0].textContent).not.toContain('取消');
@@ -46,7 +45,7 @@ describe('FModal 属性补全', () => {
     test('默认 showCancel 显示取消和确定按钮', async () => {
         const wrapper = mountModal();
         await nextTick();
-        await wait();
+        await wait(80);
         const buttons = $$(`.${prefixCls}-footer button`);
         expect(buttons.length).toBe(2);
         wrapper.unmount();
@@ -55,7 +54,7 @@ describe('FModal 属性补全', () => {
     test('okText/cancelText 自定义按钮文案', async () => {
         const wrapper = mountModal({ okText: '确定啊', cancelText: '取消啊' });
         await nextTick();
-        await wait();
+        await wait(80);
         expect(document.body.textContent).toContain('确定啊');
         expect(document.body.textContent).toContain('取消啊');
         wrapper.unmount();
@@ -64,7 +63,7 @@ describe('FModal 属性补全', () => {
     test('点击确定触发 ok 事件', async () => {
         const wrapper = mountModal();
         await nextTick();
-        await wait();
+        await wait(80);
         const buttons = $$(`.${prefixCls}-footer button`);
         // modal 确定按钮为 primary 类型
         const okBtn = buttons.find((b) => b.className.includes('primary'));
@@ -77,9 +76,9 @@ describe('FModal 属性补全', () => {
     test('escClosable=false 不响应 Esc', async () => {
         const wrapper = mountModal({ escClosable: false });
         await nextTick();
-        await wait();
+        await wait(80);
         window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Escape' }));
-        await wait();
+        await wait(80);
         expect(wrapper.emitted('update:show')).toBeUndefined();
         wrapper.unmount();
     });
@@ -87,9 +86,9 @@ describe('FModal 属性补全', () => {
     test('escClosable 默认响应 Esc 关闭', async () => {
         const wrapper = mountModal();
         await nextTick();
-        await wait();
+        await wait(80);
         window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Escape' }));
-        await wait();
+        await wait(80);
         expect(wrapper.emitted('update:show')).toBeTruthy();
         wrapper.unmount();
     });
@@ -97,7 +96,7 @@ describe('FModal 属性补全', () => {
     test('closable 关闭按钮触发 update:show', async () => {
         const wrapper = mountModal({ closable: true });
         await nextTick();
-        await wait();
+        await wait(80);
         const close = $(`.${prefixCls}-close`) as HTMLElement;
         expect(close).toBeTruthy();
         close.dispatchEvent(new MouseEvent('click', { bubbles: true }));
@@ -109,7 +108,7 @@ describe('FModal 属性补全', () => {
     test('maskClosable 点击遮罩关闭', async () => {
         const wrapper = mountModal({ maskClosable: true });
         await nextTick();
-        await wait();
+        await wait(80);
         // handleClickMask 需要先有 mousedown（非弹窗内）再 click
         const container = $(`.${prefixCls}-container`) as HTMLElement;
         container.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));

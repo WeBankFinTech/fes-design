@@ -2,9 +2,9 @@ import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import Modal from '../modal';
 import getPrefixCls from '../../_util/getPrefixCls';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = getPrefixCls('modal');
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
 
 const mountModal = (props = {}, content = '弹窗内容') =>
     mount(
@@ -28,7 +28,7 @@ describe('FModal maxHeight 内容高度计算', () => {
         const scroller = document.querySelector(
             '.fes-scrollbar-container[style*="max-height"]',
         );
-        expect(scroller).toBeTruthy();
+        expect(scroller).not.toBeNull();
     });
 
     test('maxHeight 为 px 字符串', async () => {

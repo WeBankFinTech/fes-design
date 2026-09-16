@@ -1,8 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import Rate from '../rate';
-
-const wait = (ms = 50) => new Promise((r) => setTimeout(r, ms));
+import { wait } from '../../_util/__tests__/helpers';
 
 // jsdom 无法通过 init 设置 offsetX：手动构造事件
 const fireWithOffset = (
@@ -37,10 +36,10 @@ describe('FRate 半星与 hover 分支', () => {
         expect(items.length).toBe(5);
         // 右半（offsetX > halfWidth）
         fireWithOffset(items[3].element, 'mousemove', 30);
-        await wait();
+        await wait(50);
         // 左半（offsetX <= halfWidth）
         fireWithOffset(items[3].element, 'mousemove', 5);
-        await wait();
+        await wait(50);
         wrapper.unmount();
     });
 
@@ -50,11 +49,11 @@ describe('FRate 半星与 hover 分支', () => {
         const items = wrapper.findAll('.fes-rate-container > div');
         // 点击右半 → index+1
         fireWithOffset(items[2].element, 'click', 30);
-        await wait();
+        await wait(50);
         expect(wrapper.emitted('change')?.[0]).toEqual([3]);
         // 点击左半 → index+0.5
         fireWithOffset(items[2].element, 'click', 5);
-        await wait();
+        await wait(50);
         wrapper.unmount();
     });
 
@@ -63,7 +62,7 @@ describe('FRate 半星与 hover 分支', () => {
         await nextTick();
         const items = wrapper.findAll('.fes-rate-container > div');
         fireWithOffset(items[2].element, 'click', 30);
-        await wait();
+        await wait(50);
         expect(wrapper.emitted('change')?.[0]).toEqual([0]);
         expect(wrapper.emitted('clear')).toBeTruthy();
         wrapper.unmount();
@@ -75,9 +74,9 @@ describe('FRate 半星与 hover 分支', () => {
         const items = wrapper.findAll('.fes-rate-container > div');
         // hover 右半后离开 → 命中半星保持分支（item 级 mouseleave 调 hoverLeave）
         fireWithOffset(items[2].element, 'mousemove', 30);
-        await wait();
+        await wait(50);
         fireWithOffset(items[2].element, 'mouseleave', 0);
-        await wait();
+        await wait(50);
         expect(wrapper.emitted('update:modelValue')).toBeUndefined();
         wrapper.unmount();
     });
@@ -87,9 +86,9 @@ describe('FRate 半星与 hover 分支', () => {
         await nextTick();
         const items = wrapper.findAll('.fes-rate-container > div');
         fireWithOffset(items[1].element, 'mousemove', 10);
-        await wait();
+        await wait(50);
         fireWithOffset(items[1].element, 'mouseleave', 0);
-        await wait();
+        await wait(50);
         expect(wrapper.emitted('update:modelValue')).toBeUndefined();
         wrapper.unmount();
     });

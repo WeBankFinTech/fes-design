@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import Tree from '../tree';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-tree';
 
@@ -20,15 +21,13 @@ const data = [
     { label: '根节点2', value: 'n2' },
 ];
 
-const wait = (ms = 100) => new Promise((r) => setTimeout(r, ms));
-
 describe('FTree 基础渲染', () => {
     test('渲染根级节点', async () => {
         const wrapper = mount(Tree, {
             props: { data },
         });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
         // 虚拟列表懒渲染：至少渲染出部分节点
         expect(wrapper.text()).toContain('根节点1');
@@ -39,7 +38,7 @@ describe('FTree 基础渲染', () => {
             props: { data, defaultExpandAll: true },
         });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.text()).toContain('子节点1-1');
         expect(wrapper.text()).toContain('根节点2');
     });
@@ -52,7 +51,7 @@ describe('FTree 基础渲染', () => {
             },
         });
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.text()).toContain('自定义标签');
     });
 });
@@ -63,7 +62,7 @@ describe('FTree 展开/选中/勾选', () => {
             props: { data },
         });
         await nextTick();
-        await wait();
+        await wait(100);
         const switcher = wrapper.find(`.${prefixCls}-node-switcher`);
         await switcher.trigger('click');
         await nextTick();
@@ -77,7 +76,7 @@ describe('FTree 展开/选中/勾选', () => {
             props: { data, selectable: true },
         });
         await nextTick();
-        await wait();
+        await wait(100);
         const content = wrapper.find(`.${prefixCls}-node-content`);
         await content.trigger('click');
         await nextTick();
@@ -89,12 +88,12 @@ describe('FTree 展开/选中/勾选', () => {
             props: { data, checkable: true },
         });
         await nextTick();
-        await wait();
+        await wait(100);
         const checkbox = wrapper.find(`.${prefixCls}-node-checkbox .fes-checkbox`);
         expect(checkbox.exists()).toBe(true);
         await checkbox.trigger('click');
         await nextTick();
-        await wait();
+        await wait(100);
         expect(wrapper.emitted('check')).toBeTruthy();
     });
 
@@ -107,7 +106,7 @@ describe('FTree 展开/选中/勾选', () => {
             } as any,
         });
         await nextTick();
-        await wait();
+        await wait(100);
         // n2 节点的 checkbox 应为选中态
         const checked = wrapper.findAll('.fes-checkbox.is-checked');
         expect(checked.length).toBeGreaterThanOrEqual(1);
@@ -124,7 +123,7 @@ describe('FTree 过滤', () => {
             } as any,
         });
         await nextTick();
-        await wait();
+        await wait(100);
         // 触发过滤需要调用 expose 的方法或响应式 filterValue，视实现而定：
         // 这里守护过滤方法可传入不报错且节点仍渲染
         expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
@@ -143,7 +142,7 @@ describe('FTree 禁用', () => {
             },
         });
         await nextTick();
-        await wait();
+        await wait(100);
         const nodes = wrapper.findAll(`.${prefixCls}-node`);
         const disabledNode = nodes.find((n) =>
             n.classes().some((c) => c.includes('is-disabled')),

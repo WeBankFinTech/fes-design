@@ -2,11 +2,10 @@ import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import Descriptions from '../descriptions';
 import DescriptionsItem from '../descriptionsItem';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-descriptions';
 const itemPrefixCls = 'fes-descriptions-item';
-
-const wait = (ms = 30) => new Promise((r) => setTimeout(r, ms));
 
 const mountDescriptions = (
     props: Record<string, unknown>,
@@ -45,7 +44,7 @@ describe('FDescriptions / FDescriptionsItem', () => {
     test('基础渲染 label 与内容', async () => {
         const wrapper = mountDescriptions({ title: '基本信息' });
         await nextTick();
-        await wait();
+        await wait(30);
         expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
         expect(wrapper.text()).toContain('基本信息');
         expect(wrapper.text()).toContain('名称');
@@ -73,7 +72,7 @@ describe('FDescriptions / FDescriptionsItem', () => {
     test('column 影响 grid 列数', async () => {
         const wrapper = mountDescriptions({ column: 2 });
         await nextTick();
-        await wait();
+        await wait(30);
         const body = wrapper.find(`.${prefixCls}-body`);
         expect(body.attributes('style')).toContain('repeat(2');
         wrapper.unmount();
@@ -82,7 +81,7 @@ describe('FDescriptions / FDescriptionsItem', () => {
     test('bordered 类名', async () => {
         const wrapper = mountDescriptions({ bordered: true });
         await nextTick();
-        await wait();
+        await wait(30);
         expect(
             wrapper.find(`.${prefixCls}-body`).classes().includes('is-bordered'),
         ).toBe(true);
@@ -92,7 +91,7 @@ describe('FDescriptions / FDescriptionsItem', () => {
     test('labelPlacement top 分支', async () => {
         const wrapper = mountDescriptions({ labelPlacement: 'top' });
         await nextTick();
-        await wait();
+        await wait(30);
         expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
         wrapper.unmount();
     });
@@ -104,7 +103,7 @@ describe('FDescriptions / FDescriptionsItem', () => {
             { default: () => '内容值' },
         );
         await nextTick();
-        await wait();
+        await wait(30);
         expect(wrapper.find(`.${itemPrefixCls}`).exists()).toBe(true);
         wrapper.unmount();
     });
@@ -112,7 +111,7 @@ describe('FDescriptions / FDescriptionsItem', () => {
     test('size 类名分支', async () => {
         const wrapper = mountDescriptions({ size: 'small' });
         await nextTick();
-        await wait();
+        await wait(30);
         expect(
             wrapper
                 .find(`.${prefixCls}`)

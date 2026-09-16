@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import Table from '../table';
+import { wait } from '../../_util/__tests__/helpers';
 
 const DATA = [
     { id: 1, name: '张三', age: 20, city: '北京' },
@@ -12,8 +13,6 @@ const COLUMNS = [
     { prop: 'name', label: '姓名' },
     { prop: 'age', label: '年龄' },
 ];
-
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
 
 const mountTable = (props: Record<string, unknown> = {}) =>
     mount(Table, {
@@ -35,7 +34,6 @@ describe('FTable 行事件', () => {
         await rows[1].find('td').trigger('click');
         await nextTick();
         const emitted = wrapper.emitted('rowClick');
-        expect(emitted).toBeTruthy();
         expect(emitted![0][0]).toMatchObject({
             row: { id: 2, name: '李四' },
             rowIndex: 1,
@@ -53,7 +51,6 @@ describe('FTable 行事件', () => {
         await cells[3].trigger('click');
         await nextTick();
         const emitted = wrapper.emitted('cellClick');
-        expect(emitted).toBeTruthy();
         expect(emitted![0][0]).toMatchObject({
             row: { id: 2 },
             cellValue: 25,
@@ -69,7 +66,6 @@ describe('FTable 行事件', () => {
         await ths[0].trigger('click');
         await nextTick();
         const emitted = wrapper.emitted('headerClick');
-        expect(emitted).toBeTruthy();
         expect(emitted![0][0].column.props).toMatchObject({ prop: 'name' });
         expect(emitted![0][0].event).toBeInstanceOf(Event);
         wrapper.unmount();
@@ -83,7 +79,6 @@ describe('FTable 行事件', () => {
         await rows[2].trigger('click');
         await nextTick();
         const emitted = wrapper.emitted('rowClick');
-        expect(emitted).toBeTruthy();
         expect(emitted![0][0]).toMatchObject({
             row: { id: 3, city: '深圳' },
             rowIndex: 2,

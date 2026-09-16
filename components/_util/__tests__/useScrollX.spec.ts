@@ -37,17 +37,17 @@ describe('useScrollX', () => {
         // 模拟可横向滚动：scrollWidth > offsetWidth
         Object.defineProperty(el, 'offsetWidth', { value: 100 });
         Object.defineProperty(el, 'scrollWidth', { value: 500 });
+        // jsdom scrollLeft 可写：0 + deltaY(120) + deltaX(0) = 120
+        const evt = new WheelEvent('wheel', {
+            deltaY: 120,
+            deltaX: 0,
+            cancelable: true,
+        }) as any;
         const preventDefault = vi.fn();
-        el.dispatchEvent(
-            new WheelEvent('wheel', {
-                deltaY: 120,
-                deltaX: 0,
-                cancelable: true,
-            }) as any,
-        );
-        // jsdom 下 scrollLeft 可写（默认 0 起步）
-        expect(el.scrollLeft).toBeGreaterThanOrEqual(0);
-        void preventDefault;
+        evt.preventDefault = preventDefault;
+        el.dispatchEvent(evt);
+        expect(el.scrollLeft).toBe(120);
+        expect(preventDefault).toHaveBeenCalledTimes(1);
         el.remove();
     });
 
@@ -86,12 +86,19 @@ describe('useScrollX', () => {
     });
 
     test('卸载时移除 wheel 监听', () => {
-        const el = setup();
+        const el = document.createElement('div');
+        document.body.appendChild(el);
+        const Host = defineComponent({
+            setup() {
+                useScrollX(ref<HTMLElement>(el));
+                return () => h('div');
+            },
+        });
+        const wrapper = mount(Host);
         const removeSpy = vi.spyOn(el, 'removeEventListener');
-        // 触发 unmount 钩子
-        window.dispatchEvent(new Event('unmount-probe'));
-        // useScrollX 的 onBeforeUnmount 需组件实例；此处仅保证不抛错
-        expect(removeSpy).not.toHaveBeenCalled();
+        wrapper.unmount();
+        // onBeforeUnmount 精确解绑 wheel
+        expect(removeSpy).toHaveBeenCalledWith('wheel', expect.any(Function));
         el.remove();
     });
 });

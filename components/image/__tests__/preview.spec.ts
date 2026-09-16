@@ -56,3 +56,76 @@ describe('FAlert', () => {
         expect(wrapper.emitted('close')).toBeDefined();
     });
 });
+
+describe('FPreview 缩放与旋转动作链', () => {
+    const mountPreview = () => {
+        const wrapper = mount(Preview, {
+            props: {
+                src: IMAGE_SUCCESS,
+                size: { width: 51, height: 40 },
+            },
+        });
+        return wrapper;
+    };
+    const getTransform = () => {
+        const img = document.body.querySelector(
+            `.${previewPrefixCls}__canvas`,
+        ) as HTMLElement;
+        return img?.style?.transform || '';
+    };
+
+    test('zoom-in 放大倍率', async () => {
+        const wrapper = mountPreview();
+        await nextTick();
+        (document.body.querySelector(`.${previewPrefixCls}-zoom-in`) as HTMLElement).click();
+        await nextTick();
+        // 按钮显式传 zoomRate: 1.2 → 1 * 1.2 = 1.2
+        expect(getTransform()).toContain('scale(1.2)');
+        wrapper.unmount();
+    });
+
+    test('zoom-out 缩小倍率', async () => {
+        const wrapper = mountPreview();
+        await nextTick();
+        (document.body.querySelector(`.${previewPrefixCls}-zoom-out`) as HTMLElement).click();
+        await nextTick();
+        // 1 / 1.2 ≈ 0.833
+        expect(getTransform()).toContain('scale(0.833)');
+        wrapper.unmount();
+    });
+
+    test('连续 zoom-out 到 0.2 下限后不再缩小', async () => {
+        const wrapper = mountPreview();
+        await nextTick();
+        const btn = document.body.querySelector(`.${previewPrefixCls}-zoom-out`) as HTMLElement;
+        // 连点 20 次（1 / 1.2^20 ≈ 0.026 < 0.2 → 中途触底）
+        for (let i = 0; i < 20; i++) {
+            btn.click();
+            await nextTick();
+        }
+        // 实现语义锁定：守卫在更新前检查 scale < 0.2（严格小于），
+        // 序列 1→0.833→…→0.232→0.194（0.232 仍 ≥0.2 可再缩），0.194 < 0.2 触底
+        const m = getTransform().match(/scale\(([\d.]+)\)/);
+        expect(m).toBeTruthy();
+        expect(Number(m![1])).toBeCloseTo(0.194, 2);
+        // 且触底后不再变化（0.167 < 0.2 守卫生效）
+        const before = m![1];
+        btn.click();
+        await nextTick();
+        expect(getTransform()).toContain(`scale(${before})`);
+        wrapper.unmount();
+    });
+
+    test('rotate-left/rotate-right 旋转角度', async () => {
+        const wrapper = mountPreview();
+        await nextTick();
+        (document.body.querySelector(`.${previewPrefixCls}-rotate-right`) as HTMLElement).click();
+        await nextTick();
+        expect(getTransform()).toContain('rotate(90deg)');
+        (document.body.querySelector(`.${previewPrefixCls}-rotate-left`) as HTMLElement).click();
+        (document.body.querySelector(`.${previewPrefixCls}-rotate-left`) as HTMLElement).click();
+        await nextTick();
+        expect(getTransform()).toContain('rotate(-90deg)');
+        wrapper.unmount();
+    });
+});

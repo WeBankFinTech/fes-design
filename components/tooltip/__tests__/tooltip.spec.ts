@@ -3,7 +3,6 @@ import { h, nextTick } from 'vue';
 import { afterEach, describe, expect, test } from 'vitest';
 import Tooltip from '../tooltip';
 import getPrefixCls from '../../_util/getPrefixCls';
-import { sleep } from '../../_util/utils';
 
 const prefixCls = getPrefixCls('tooltip');
 
@@ -68,10 +67,11 @@ describe('Tooltip', () => {
         await nextTick();
         expect(wrapper.find('.fes-popper').isVisible()).toBe(true);
 
-        // 消失时存在 hideAfter 延迟，需要等待动画结束才隐藏
+        // 消失时存在 hideAfter 延迟：vi.waitFor 轮询至隐藏
         await wrapper.find('.test-trigger').trigger('mouseleave');
-        await sleep(300);
-        expect(wrapper.find('.fes-popper').isVisible()).toBe(false);
+        await vi.waitFor(() => {
+            expect(wrapper.find('.fes-popper').isVisible()).toBe(false);
+        });
     });
 
     test('disabled 时不响应 hover', async () => {

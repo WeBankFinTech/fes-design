@@ -7,6 +7,11 @@ import getPrefixCls from '../../_util/getPrefixCls';
 const prefixCls = getPrefixCls('pagination');
 const prefixClsEllipsis = getPrefixCls('ellipsis');
 
+// Teleport 挂 body 跨用例泄漏防护（技能 jsdom 陷阱 #7）
+afterEach(() => {
+    document.body.innerHTML = '';
+});
+
 // ---------------- pagination currentPage props -------------------
 
 test('pagination props currentPage', async () => {
@@ -364,4 +369,48 @@ test('pagination jumper', async () => {
     expect(
         wrapper.find(`.${prefixCls}-size .${prefixClsEllipsis}`).text(),
     ).toBe(`${pageSize}条/页`);
+});
+
+test('pagination simple 输入校验：非数字拒绝、越界钳制', async () => {
+    let currentPage = 2;
+    const totalCount = 50; // totalPage = 5
+    const wrapper = mount(Pagination, {
+        props: {
+            currentPage,
+            totalCount,
+            'simple': true,
+            'onUpdate:currentPage': (v: number) => {
+                currentPage = v;
+            },
+        },
+    });
+    const input = wrapper.find(`.${prefixCls}-simpler input`);
+    expect(input.exists()).toBe(true);
+
+    // InputInner 的 change 是 debounce 的（inputInner.vue:204），每次触发后等防抖窗口
+    const waitDebounce = () => new Promise((r) => setTimeout(r, 50));
+
+    // 非数字输入：不产生任何更新（simpler.tsx:60-62 NaN 守卫）
+    await input.setValue('abc');
+    await input.trigger('change');
+    await waitDebounce();
+    expect(currentPage).toBe(2);
+
+    // 越界输入：钳制到边界
+    await input.setValue('99');
+    await input.trigger('change');
+    await waitDebounce();
+    expect(currentPage).toBe(5); // totalPage=5
+
+    await input.setValue('0');
+    await input.trigger('change');
+    await waitDebounce();
+    expect(currentPage).toBe(1);
+
+    // 合法输入直接生效
+    await input.setValue('3');
+    await input.trigger('change');
+    await waitDebounce();
+    expect(currentPage).toBe(3);
+    wrapper.unmount();
 });

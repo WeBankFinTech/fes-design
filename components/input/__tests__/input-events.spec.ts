@@ -1,8 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import { FInput as Input } from '../index';
-
-const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
+import { wait } from '../../_util/__tests__/helpers';
 
 describe('FInput 事件与原生行为', () => {
     test('input 事件实时触发并携带值', async () => {
@@ -13,6 +12,8 @@ describe('FInput 事件与原生行为', () => {
         await nextTick();
         const emitted = wrapper.emitted('input');
         expect(emitted).toBeTruthy();
+        // 实时携带最新输入值
+        expect(emitted![emitted!.length - 1][0]).toBe('abc');
         await wait();
         wrapper.unmount();
     });
@@ -24,7 +25,6 @@ describe('FInput 事件与原生行为', () => {
         await input.trigger('change');
         await wait(120);
         const emitted = wrapper.emitted('change');
-        expect(emitted).toBeTruthy();
         expect(emitted![0][0]).toBe('changed');
         wrapper.unmount();
     });
@@ -47,17 +47,18 @@ describe('FInput 事件与原生行为', () => {
         });
         await nextTick();
         await wait();
-        const root = wrapper.find('.fes-input');
-        await root.trigger('mouseenter');
+        // mouseenter 绑定在 .fes-input-inner 上（mouseenter 不冒泡，需直接触发）
+        const inner = wrapper.find('.fes-input-inner');
+        await inner.trigger('mouseenter');
         await wait();
-        const clear = wrapper.find('[class*="clear"]');
-        if (clear.exists()) {
-            await clear.trigger('click');
-            await wait();
-            expect(wrapper.emitted('clear')).toBeTruthy();
-            const updates = wrapper.emitted('update:modelValue');
-            expect(updates![updates!.length - 1][0]).toBeNull();
-        }
+        // 清空图标：CloseCircleFilled，class 为 fes-input-inner-icon
+        const clear = wrapper.find('.fes-input-inner-icon');
+        expect(clear.exists()).toBe(true);
+        await clear.trigger('click');
+        await wait();
+        expect(wrapper.emitted('clear')).toBeTruthy();
+        const updates = wrapper.emitted('update:modelValue');
+        expect(updates![updates!.length - 1][0]).toBe('');
         wrapper.unmount();
     });
 

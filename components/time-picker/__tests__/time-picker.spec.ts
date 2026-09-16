@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+import { nextTick } from 'vue';
 import TimePicker from '../time-picker.vue';
 import getPrefixCls from '../../_util/getPrefixCls';
 
@@ -19,6 +20,7 @@ describe('TimePicker disabled', () => {
     });
 
     // FIXME: 跳过原因 — Vue 3.5 下 time-picker 存在响应式递归（非测试/环境问题）。
+    // 组件侧问题已提 issue：WeBankFinTech/fes-design#1029（修复后移除 skip）。
     // 根因：time-select 的 canSelectMinutes/canSelectSeconds computed 在 disabledMinutes/
     // disabledSeconds 回调中读取了响应式的 selectedTime.hour/minute，而 parseTime 在
     // `watch(modelValue, {immediate})` 里写入 selectedTime，在 Popper 渲染上下文中与
@@ -204,5 +206,52 @@ describe('TimePicker step', () => {
         expect(hoursLi.length).toBe(12);
         expect(minuteLi.length).toBe(30);
         expect(secondLi.length).toBe(15);
+    });
+});
+
+describe('TimePicker 输入校验（validateTime 边界穷举）', () => {
+    // handleInput → validateTime 是用户手输防线：非法值不得进入 modelValue
+    const mountTP = (format = 'HH:mm:ss') =>
+        mount(TimePicker, {
+            props: { modelValue: '', format },
+            global: {
+                stubs: {
+                    Popper: {
+                        template: '<div><slot name="trigger" /><slot /></div>',
+                    },
+                },
+            },
+        });
+
+    test.each([
+        ['合法完整时间', '11:22:33', true],
+        ['小时 23 边界', '23:59:59', true],
+        ['小时 24 越界', '24:00:00', false],
+        ['分钟 60 越界', '11:60:00', false],
+        ['秒 60 越界', '11:11:60', false],
+        ['非数字', 'aa:22:33', false],
+        ['段数不足', '11:22', false],
+        ['段数过多', '11:22:33:44', false],
+        ['超长数字段', '111:22:33', false],
+    ])('输入 %s(%s) %s', async (label, input, shouldAccept) => {
+        const wrapper = mountTP();
+        const inputEl = wrapper.find('input[type="text"]');
+        await inputEl.setValue(input);
+        await nextTick();
+        if (shouldAccept) {
+            expect(wrapper.emitted('update:modelValue')?.[0]?.[0]).toBe(input);
+        } else {
+            // 非法值不进 modelValue（validator 拒绝）
+            expect(wrapper.emitted('update:modelValue')).toBeUndefined();
+        }
+        wrapper.unmount();
+    });
+
+    test('HH:mm 格式下三段输入被拒', async () => {
+        const wrapper = mountTP('HH:mm');
+        await wrapper.find('input[type="text"]').setValue('11:22:33');
+        await nextTick();
+        expect(wrapper.emitted('update:modelValue')).toBeUndefined();
+        wrapper.unmount();
     });
 });

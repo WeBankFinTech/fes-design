@@ -3,9 +3,9 @@ import { h, nextTick } from 'vue';
 import type { ResizeObserver } from '@juggle/resize-observer';
 import Table from '../table';
 import getPrefixCls from '../../_util/getPrefixCls';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = getPrefixCls('table');
-const wait = (ms = 80) => new Promise((r) => setTimeout(r, ms));
 
 vi.mock('@juggle/resize-observer', () => ({
     ResizeObserver: class {
@@ -73,7 +73,7 @@ const scrollBodyTo = async (wrapper: any, scrollLeft: number) => {
     if (container.exists()) {
         stubScroll(container.element, scrollLeft);
         await container.trigger('scroll');
-        await wait();
+        await wait(80);
     }
     return container.exists();
 };
@@ -86,11 +86,11 @@ describe('FTable 固定列与滚动状态（useTableStyle）', () => {
     test('横向滚动下固定列渲染 fixed 类与固定偏移样式', async () => {
         const wrapper = mountTable({ height: 200 });
         await nextTick();
-        await wait();
+        await wait(80);
         stubWidths(wrapper);
         // 触发重算 → isScrollX=true → 固定单元格带 left/right 偏移
         await wrapper.setProps({ columns: FIXED_COLS.map((c) => ({ ...c })) });
-        await wait();
+        await wait(80);
         const fixedCells = wrapper.findAll(
             `td.${prefixCls}-fixed-left, td.${prefixCls}-fixed-right`,
         );
@@ -116,10 +116,10 @@ describe('FTable 固定列与滚动状态（useTableStyle）', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(80);
         stubWidths(wrapper);
         await wrapper.setProps({ columns: cols.map((c) => ({ ...c })) });
-        await wait();
+        await wait(80);
         const leftFixed = wrapper.findAll(`td.${prefixCls}-fixed-left`);
         const rightFixed = wrapper.findAll(`td.${prefixCls}-fixed-right`);
         expect(leftFixed.length).toBeGreaterThan(0);
@@ -130,7 +130,7 @@ describe('FTable 固定列与滚动状态（useTableStyle）', () => {
     test('body 滚动三种区间：right / left / middle', async () => {
         const wrapper = mountTable({ height: 200 });
         await nextTick();
-        await wait();
+        await wait(80);
         stubWidths(wrapper);
         expect(await scrollBodyTo(wrapper, 600)).toBe(true);
         expect(await scrollBodyTo(wrapper, 0)).toBe(true);
@@ -146,39 +146,47 @@ describe('FTable 固定列与滚动状态（useTableStyle）', () => {
     test('header 横向滚轮滚动同步 body 滚动', async () => {
         const wrapper = mountTable({ height: 200 });
         await nextTick();
-        await wait();
+        await wait(80);
         stubWidths(wrapper);
         const header = wrapper.find(`.${prefixCls}-header-wrapper`);
         expect(header.exists()).toBe(true);
         stubScroll(header.element, 0, 300, 900);
+        // body 滚动容器可写桩，用于观测同步
+        const bodyContainer = wrapper
+            .find(`.${prefixCls}-body-wrapper .fes-scrollbar-container`).element;
+        Object.defineProperty(bodyContainer, 'scrollLeft', { value: 0, configurable: true, writable: true });
+        Object.defineProperty(bodyContainer, 'offsetWidth', { value: 300, configurable: true });
+        Object.defineProperty(bodyContainer, 'scrollWidth', { value: 900, configurable: true });
         await header.trigger('wheel', { deltaX: 50, deltaY: 5 });
         await wait(120); // syncPosition throttle 10ms
+        // header wheel deltaX=50 → 同步写 body scrollLeft
+        expect(bodyContainer.scrollLeft).toBe(50);
         wrapper.unmount();
     });
 
     test('无数据时 header 滚轮直接更新 scrollLeft', async () => {
         const wrapper = mountTable({ height: 200, data: [] });
         await nextTick();
-        await wait();
+        await wait(80);
         const header = wrapper.find(`.${prefixCls}-header-wrapper`);
-        if (header.exists()) {
-            stubScroll(header.element, 0, 300, 900);
-            await header.trigger('wheel', { deltaX: 30, deltaY: 1 });
-            await wait(120);
-            expect(header.element.scrollLeft).toBeGreaterThanOrEqual(0);
-        }
+        expect(header.exists()).toBe(true);
+        stubScroll(header.element, 0, 300, 900);
+        // |deltaX|>=|deltaY| → 横向分支；无数据 → header 直写 scrollLeft
+        await header.trigger('wheel', { deltaX: 30, deltaY: 1 });
+        await wait(120);
+        expect(header.element.scrollLeft).toBe(30);
         wrapper.unmount();
     });
 
     test('数据从有到无再恢复：滚动状态重置', async () => {
         const wrapper = mountTable({ height: 200 });
         await nextTick();
-        await wait();
+        await wait(80);
         await wrapper.setProps({ data: [] });
-        await wait();
+        await wait(80);
         expect(wrapper.text()).not.toContain('一');
         await wrapper.setProps({ data: ROWS });
-        await wait();
+        await wait(80);
         expect(wrapper.text()).toContain('一');
         wrapper.unmount();
     });
@@ -202,7 +210,7 @@ describe('FTable 固定列与滚动状态（useTableStyle）', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(80);
         expect(wrapper.text()).toContain('展开-行一');
         wrapper.unmount();
     });
@@ -214,7 +222,7 @@ describe('FTable 固定列与滚动状态（useTableStyle）', () => {
             spanMethod: () => ({ rowspan: 1, colspan: 1 }),
         });
         await nextTick();
-        await wait();
+        await wait(80);
         expect(wrapper.find('.row-a').exists()).toBe(true);
         wrapper.unmount();
     });
@@ -229,11 +237,13 @@ describe('FTable 固定列与滚动状态（useTableStyle）', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(80);
         stubWidths(wrapper);
         await wrapper.setProps({ columns: cols.map((c) => ({ ...c })) });
-        await wait();
-        await scrollBodyTo(wrapper, 300);
+        await wait(80);
+        await scrollBodyTo(wrapper, 0);
+        // 起始位置显示左侧阴影（scrollState.x === 'left'）
+        expect(wrapper.find(`.${prefixCls}-body-wrapper`).classes().join(' ')).toContain('is-scrolling-x-left');
         wrapper.unmount();
     });
 
@@ -247,37 +257,44 @@ describe('FTable 固定列与滚动状态（useTableStyle）', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(80);
         stubWidths(wrapper);
         await wrapper.setProps({ columns: cols.map((c) => ({ ...c })) });
-        await wait();
-        await scrollBodyTo(wrapper, 300);
+        await wait(80);
+        await scrollBodyTo(wrapper, 600);
+        // 滚动到底显示右侧阴影（scrollState.x === 'right'）
+        expect(wrapper.find(`.${prefixCls}-body-wrapper`).classes().join(' ')).toContain('is-scrolling-x-right');
         wrapper.unmount();
     });
 
     test('无固定列滚动显示两侧阴影；移除高度后滚动状态清空', async () => {
         const wrapper = mountTable({ height: 200 });
         await nextTick();
-        await wait();
+        await wait(80);
         stubWidths(wrapper);
         await wrapper.setProps({ columns: FIXED_COLS.map((c) => ({ ...c })) });
-        await wait();
+        await wait(80);
         await scrollBodyTo(wrapper, 300);
         // 切到 layout=auto 且内容变窄 → isScrollX=false → Scrollbar 卸载
         // → scrollbar 实例 containerRef 置空 → scrollState.x 清空
         const bodyTable = wrapper.find(`table.${prefixCls}-body`).element;
         Object.defineProperty(bodyTable, 'offsetWidth', { value: 50, configurable: true });
         await wrapper.setProps({ height: undefined, layout: 'auto' });
-        await wait();
+        await wait(80);
+        // 滚动状态清空：不再带 is-scrolling-x-* 类
+        const cls = wrapper.find(`.${prefixCls}`).classes();
+        expect(cls.some((c) => c.startsWith('is-scrolling-x-'))).toBe(false);
         wrapper.unmount();
     });
 
     test('非固定表头切换为固定表头时重置', async () => {
         const wrapper = mountTable({});
         await nextTick();
-        await wait();
+        await wait(80);
         await wrapper.setProps({ height: 200 });
-        await wait();
+        await wait(80);
+        // 固定表头渲染 header 容器
+        expect(wrapper.find(`.${prefixCls}-header`).exists()).toBe(true);
         wrapper.unmount();
     });
 });

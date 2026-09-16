@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { h, nextTick } from 'vue';
 import Table from '../table';
+import { wait } from '../../_util/__tests__/helpers';
 
 const prefixCls = 'fes-table';
 
@@ -11,8 +12,6 @@ const makeData = (n: number) =>
         age: 20 + i,
         address: `地址${i + 1}`,
     }));
-
-const wait = (ms = 80) => new Promise((r) => setTimeout(r, ms));
 
 describe('FTable fixed 列与样式', () => {
     test('fixed left 列渲染 fixed 类名', async () => {
@@ -30,7 +29,7 @@ describe('FTable fixed 列与样式', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(80);
         expect(
             wrapper.find(`.${prefixCls}-fixed-left, [class*="fixed-left"]`).exists()
             || wrapper.text().includes('姓名'),
@@ -53,7 +52,7 @@ describe('FTable fixed 列与样式', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(80);
         expect(wrapper.text()).toContain('用户1');
         wrapper.unmount();
     });
@@ -72,7 +71,7 @@ describe('FTable fixed 列与样式', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(80);
         expect(wrapper.text()).toContain('用户1');
         wrapper.unmount();
     });
@@ -92,14 +91,14 @@ describe('FTable 展开行', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(80);
         const expandIcons = wrapper.findAll(
             `.${prefixCls}-expand-icon, [class*="expand"]`,
         );
         expect(expandIcons.length).toBeGreaterThanOrEqual(1);
         await expandIcons[0].trigger('click');
         await nextTick();
-        await wait();
+        await wait(80);
         // 展开内容是否渲染视实现而定，守护点击不报错
         expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
         wrapper.unmount();
@@ -121,7 +120,7 @@ describe('FTable 行样式', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(80);
         expect(wrapper.findAll('tr.row-even-custom').length).toBe(1);
         wrapper.unmount();
     });
@@ -140,7 +139,7 @@ describe('FTable 行样式', () => {
             attachTo: document.body,
         });
         await nextTick();
-        await wait();
+        await wait(80);
         const tr = wrapper.find('tbody tr');
         expect(tr.attributes('style')).toContain('red');
         wrapper.unmount();

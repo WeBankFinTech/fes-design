@@ -93,7 +93,6 @@ describe('FTransfer', () => {
         expect(removeBtns.length).toBe(2);
         await removeBtns[0].trigger('click');
         const emitted = wrapper.emitted('update:modelValue');
-        expect(emitted).toBeTruthy();
         expect(emitted![0][0]).toEqual(['b']);
     });
 
@@ -125,7 +124,6 @@ describe('FTransfer', () => {
         expect(actionButtons[0].attributes('disabled')).toBeUndefined();
         await actionButtons[0].trigger('click');
         const emitted = wrapper.emitted('update:modelValue');
-        expect(emitted).toBeTruthy();
         expect(emitted![0][0]).toEqual(['a']);
         expect(wrapper.emitted('change')).toBeTruthy();
     });

@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import { h } from 'vue';
+import { h, nextTick } from 'vue';
 import FPopper from '../popper';
 import { sleep } from '../../_util/utils';
 
@@ -21,27 +21,37 @@ const _mount = (props, slots = {}) =>
     });
 
 describe('FPopper 属性补全', () => {
-    test('placement=bottom 使用 slide-up 动画', async () => {
-        const wrapper = _mount(
-            { lazy: false, appendToContainer: false, placement: 'bottom' },
-            { default: () => AXIOM },
-        );
-        await wrapper.find(`.${TEST_TRIGGER}`).trigger('mouseenter');
-        await sleep(50);
-        expect(wrapper.find(CONTENT_CLASS).exists()).toBe(true);
-        wrapper.unmount();
-    });
-
-    test('placement=top-start 使用 slide-down 动画', async () => {
-        const wrapper = _mount(
-            { lazy: false, appendToContainer: false, placement: 'top-start' },
-            { default: () => AXIOM },
-        );
-        await wrapper.find(`.${TEST_TRIGGER}`).trigger('mouseenter');
-        await sleep(50);
-        expect(wrapper.find(CONTENT_CLASS).exists()).toBe(true);
-        wrapper.unmount();
-    });
+    // placement → transitionName 枚举穷举（技能：placement 枚举断言）
+    // MAP: bottom→up / top→down / left→right / right→left
+    const CASES: [string, string][] = [
+        ['bottom', 'up'],
+        ['bottom-start', 'up'],
+        ['bottom-end', 'up'],
+        ['top', 'down'],
+        ['top-start', 'down'],
+        ['top-end', 'down'],
+        ['left', 'right'],
+        ['left-start', 'right'],
+        ['left-end', 'right'],
+        ['right', 'left'],
+        ['right-start', 'left'],
+        ['right-end', 'left'],
+    ];
+    test.each(CASES)(
+        'placement=%s 动画 fes-slide-%s',
+        async (placement, expectedSlide) => {
+            const wrapper = _mount(
+                { lazy: false, appendToContainer: false, placement },
+                { default: () => AXIOM },
+            );
+            await wrapper.find(`.${TEST_TRIGGER}`).trigger('mouseenter');
+            await nextTick();
+            // enter 瞬间 content 带 fes-slide-{dir}-enter-active 类（Transition name 落地）
+            const cls = String(wrapper.find(CONTENT_CLASS).attributes('class'));
+            expect(cls).toContain(`fes-slide-${expectedSlide}-enter-active`);
+            wrapper.unmount();
+        },
+    );
 
     test('offset 偏移不报错且正常渲染', async () => {
         const wrapper = _mount(
