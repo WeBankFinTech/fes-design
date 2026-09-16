@@ -198,6 +198,8 @@ describe('VirtualList 尺寸上报与 slot 现状锁定', () => {
         restoreOffset();
     });
 
+    // 组件侧缺口已提 issue：WeBankFinTech/fes-design#1028
+    // （修复后翻转断言：header/footer 应渲染进滚动区域）
     test('已知缺口锁定：header/footer slot 声明了 onSlotResized 但模板无渲染出口', async () => {
         // virtualList.tsx:196 判断 slots.header()/footer() 存在后更新 slot 尺寸，
         // 但 render() 只输出 getRenderItems()——header/footer 从未进 DOM。

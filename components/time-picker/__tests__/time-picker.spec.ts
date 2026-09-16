@@ -20,6 +20,7 @@ describe('TimePicker disabled', () => {
     });
 
     // FIXME: 跳过原因 — Vue 3.5 下 time-picker 存在响应式递归（非测试/环境问题）。
+    // 组件侧问题已提 issue：WeBankFinTech/fes-design#1029（修复后移除 skip）。
     // 根因：time-select 的 canSelectMinutes/canSelectSeconds computed 在 disabledMinutes/
     // disabledSeconds 回调中读取了响应式的 selectedTime.hour/minute，而 parseTime 在
     // `watch(modelValue, {immediate})` 里写入 selectedTime，在 Popper 渲染上下文中与
