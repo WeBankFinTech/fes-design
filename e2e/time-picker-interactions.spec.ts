@@ -31,8 +31,14 @@ test.describe('TimePicker 文档 demo 交互', () => {
             dropdown.locator('.fes-time-picker-addon'),
         ).toBeVisible();
 
-        // 无页面级错误（递归问题会以未捕获错误形式出现）
-        // （pageerror 监听见下方专项用例）
+        // 「此刻」按钮（locale: timePicker.now）：点击后输入框变为当前
+        // 时刻（HH:mm:ss），同时关闭面板（setCurrentTime → closePopper）
+        await dropdown
+            .getByRole('button', { name: '此刻' })
+            .click();
+        const nowValue = await input.inputValue();
+        expect(nowValue).toMatch(/^\d{2}:\d{2}:\d{2}$/);
+        await expect(dropdown).toBeHidden();
     });
 
     test('control=false + disabledHours demo：点击选项不崩', async ({
@@ -114,12 +120,20 @@ test.describe('TimePicker 文档 demo 交互', () => {
         // format.vue demo：format="HH:mm" 只有时分两列
         const demoBlocks = page.locator('.component-doc .fes-space');
         const formatBlock = demoBlocks.nth(4);
-        await formatBlock.locator('input').click();
+        const formatInput = formatBlock.locator('input');
+        await formatInput.click();
 
         const dropdown = page.locator('.fes-time-picker-dropdown').first();
         await expect(dropdown).toBeVisible();
         const items = dropdown.locator('.fes-time-picker-content-item');
         await expect(items).toHaveCount(2);
+
+        // 选中后值应为 HH:mm 两段格式
+        await dropdown.locator('li[data-key="08"]').first().click();
+        await dropdown.locator('li[data-key="08"]').nth(1).click();
+        await dropdown.getByRole('button', { name: '确认' }).click();
+        const val = await formatInput.inputValue();
+        expect(val).toMatch(/^08:0\d$/);
     });
 
     test('disabled demo：禁用态不可打开', async ({ page }) => {
