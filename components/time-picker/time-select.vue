@@ -255,6 +255,12 @@ export default defineComponent({
             return currentTime;
         });
         watch(timeString, () => {
+            // 判等守卫：timeString 与外部 modelValue 一致时（如组件重建后
+            // watch(modelValue, immediate) 首跑重放 parseTime 的场景），
+            // 不再回显广播，避免同值事件噪声参与父级更新环（#1029）
+            if (timeString.value === props.modelValue) {
+                return;
+            }
             emit('update:modelValue', timeString.value);
             emit('change', timeString.value);
         });

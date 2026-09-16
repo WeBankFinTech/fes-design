@@ -88,11 +88,16 @@ export default (props: PopperProps, emit: any) => {
             }).then((state) => {
                 // 当方向改变时，动画需要重新执行
                 if (placement.value !== state.placement) {
-                    cacheVisible.value = false;
-                    nextTick(() => {
-                        cacheVisible.value = true;
-                    });
                     placement.value = state.placement;
+                    // #1029: 不再通过 cacheVisible 翻转（隐藏再显示）来重放动画。
+                    // v-show 翻转会让 Popper 子树在 Vue 3.5 下被销毁重建，
+                    // 导致 TimeSelect 等有状态内容丢失选中态（并参与
+                    // Maximum recursive updates 环）。placement 变化本身会
+                    // 更新 transitionName，动画方向随之切换。
+                    Object.assign(popperEl.style, {
+                        left: `${state.x}px`,
+                        top: `${state.y}px`,
+                    });
                     return;
                 }
                 placement.value = state.placement;

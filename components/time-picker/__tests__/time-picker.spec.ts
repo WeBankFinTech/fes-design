@@ -19,23 +19,26 @@ describe('TimePicker disabled', () => {
         expect(wrapper.vm.displayValue).toEqual('22:22:22');
     });
 
-    // FIXME: 跳过原因 — Vue 3.5 下 time-picker 存在响应式递归（非测试/环境问题）。
-    // 组件侧问题已提 issue：WeBankFinTech/fes-design#1029（修复后移除 skip）。
-    // 根因：time-select 的 canSelectMinutes/canSelectSeconds computed 在 disabledMinutes/
-    // disabledSeconds 回调中读取了响应式的 selectedTime.hour/minute，而 parseTime 在
-    // `watch(modelValue, {immediate})` 里写入 selectedTime，在 Popper 渲染上下文中与
-    // Vue 3.5 更严格的 computed-dirty 检测互相驱动，触发 "Maximum recursive updates
-    // exceeded"。`open:true` + 任意 disabled* 函数 prop 即可复现（函数返回空数组亦然）；
-    // 无 disabled* 函数时（format/hourStep 用例）不递归。
-    // 修复方向（组件源码，需单独评估运行时影响）：将 canSelectMinutes/Seconds 的
-    // disabled 回调改为不直接读取 selectedTime，或在 computed 外缓存 disabled 结果。
-    // 见 https://github.com/vuejs/core/issues/11078
-    test.skip('disable hours', async () => {
+    // #1029 已修复（fix/time-picker-recursive-updates）：
+    // 根因不是 disabled* 回调读取 selectedTime（那是干扰项），而是模板
+    // ref="timeSelectRef" 与动态插槽渲染压力叠加，导致 TimeSelect 子树
+    // 被反复销毁重建（实测 52 次 mount），每次重建 watch(modelValue,
+    // {immediate}) 首跑重放 parseTime，selectedTime 被反复从 null 重写，
+    // 驱动 "Maximum recursive updates exceeded in component <FTimePicker>"。
+    // 修复：移除模板 ref（clear 改由 modelValue='' 的 watch reset 分支
+    // 完成重置）、addon 区抽为独立子组件稳定插槽、time-select 的
+    // watch(timeString) 增加判等守卫。回归锁定见
+    // __tests__/time-picker-recursive-updates.spec.ts。
+    test('disable hours', async () => {
+        // transition: false —— 不 stub 内置 Transition（VTU 默认 stub 会
+        // 在每次重渲染时整体替换 Popper 弹层子树，导致点击后旧 DOM 残留、
+        // 交互命中已游离的旧实例；真实 Transition 无此行为）
         const wrapper = mount(TimePicker, {
+            global: { stubs: { transition: false } },
             props: {
                 modelValue: '22:22:22',
-                disabledHours() {
-                    return ['01'];
+                disabledHours(hour) {
+                    return hour === 1;
                 },
                 appendToContainer: false,
                 open: true,
@@ -49,15 +52,16 @@ describe('TimePicker disabled', () => {
         expect(wrapper.vm.displayValue).toEqual('22:22:22');
     });
 
-    test.skip('disable minutes', async () => {
+    test('disable minutes', async () => {
+        // transition: false —— 不 stub 内置 Transition（VTU 默认 stub 会
+        // 在每次重渲染时整体替换 Popper 弹层子树，导致点击后旧 DOM 残留、
+        // 交互命中已游离的旧实例；真实 Transition 无此行为）
         const wrapper = mount(TimePicker, {
+            global: { stubs: { transition: false } },
             props: {
                 modelValue: '22:22:22',
-                disabledMinutes(hours) {
-                    if (hours === '01') {
-                        return ['01'];
-                    }
-                    return [];
+                disabledMinutes(hour, minute) {
+                    return hour === 1 && minute === 1;
                 },
                 appendToContainer: false,
                 open: true,
@@ -65,30 +69,38 @@ describe('TimePicker disabled', () => {
             },
         });
         // 改变值
+        // 注：点击会触发 activeTime 更新与 Popper 方向计算，content 可能
+        // 重建，因此每次点击前重新查询 DOM（DOMWrapper 引用会失效）
         const allTarget01 = wrapper.findAll('li[data-key="01"]');
-        const allTarget02 = wrapper.findAll('li[data-key="02"]');
 
         await allTarget01[0].trigger('click');
+        // 等待 Popper 重新定位（computePosition 为异步 promise 链）与
+        // content diff 完成，再进行下一次交互
+        await new Promise((r) => setTimeout(r, 50));
+        const allTarget02 = wrapper.findAll('li[data-key="02"]');
         await allTarget02[1].trigger('click');
         await wrapper.setProps({ open: false });
         expect(wrapper.vm.displayValue).toEqual('01:02:22');
 
         await wrapper.setProps({ open: true });
-        await allTarget01[1].trigger('click');
+        await nextTick();
+        const allTarget01Again = wrapper.findAll('li[data-key="01"]');
+        await allTarget01Again[1].trigger('click');
         // 隐藏 popper
         await wrapper.setProps({ open: false });
         expect(wrapper.vm.displayValue).toEqual('01:02:22');
     });
 
-    test.skip('disable seconds', async () => {
+    test('disable seconds', async () => {
+        // transition: false —— 不 stub 内置 Transition（VTU 默认 stub 会
+        // 在每次重渲染时整体替换 Popper 弹层子树，导致点击后旧 DOM 残留、
+        // 交互命中已游离的旧实例；真实 Transition 无此行为）
         const wrapper = mount(TimePicker, {
+            global: { stubs: { transition: false } },
             props: {
                 modelValue: '22:22:22',
-                disabledSeconds(selectedHour, selectedMinute) {
-                    if (selectedHour === '01' && selectedMinute === '01') {
-                        return ['01'];
-                    }
-                    return [];
+                disabledSeconds(hour, minute, second) {
+                    return hour === 1 && minute === 1 && second === 1;
                 },
                 appendToContainer: false,
                 open: true,
@@ -117,9 +129,9 @@ describe('TimePicker clearable', () => {
         const wrapper = mount(TimePicker, {
             props: {
                 modelValue: '22:22:22',
-                // popper lazy 渲染下 TimeSelect 未挂载时 clear 会触发
-                // timeSelectRef.value.resetTime() 的 undefined 错误（组件运行时问题）。
-                // 测试侧先渲染弹层内容再触发 clear，规避该路径。
+                // #1029 修复后 clear 不再直调 timeSelectRef.resetTime()，
+                // 重置由 TimeSelect 内部 watch(modelValue) 的 reset 分支
+                // 完成；open: true 保持原有测试路径不变。
                 appendToContainer: false,
                 open: true,
                 control: false,

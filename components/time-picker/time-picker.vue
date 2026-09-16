@@ -34,9 +34,8 @@
         <template #default>
             <div :class="`${prefixCls}-dropdown`" @mousedown.prevent>
                 <TimeSelect
-                    ref="timeSelectRef"
                     :visible="isOpened"
-                    :modelValue="currentValue"
+                    :modelValue="activeTime || currentValue"
                     :format="format"
                     :hour-step="hourStep"
                     :minute-step="minuteStep"
@@ -46,29 +45,28 @@
                     :disabled-seconds="disabledSeconds"
                     @change="changeTime"
                 />
-                <div v-if="showControl || $slots.addon" :class="`${prefixCls}-addon`">
-                    <slot name="addon" :activeTime="activeTime">
-                        <div :class="`${prefixCls}-addon-inner`">
-                            <FButton
-                                v-if="showNowShortcut"
-                                type="link"
-                                size="small"
-                                @mousedown.prevent
-                                @click="setCurrentTime"
-                            >
-                                {{ t('timePicker.now') }}
-                            </FButton>
-                            <FButton
-                                type="primary"
-                                size="small"
-                                @mousedown.prevent
-                                @click="confirmChangeTime"
-                            >
-                                {{ t('timePicker.confirm') }}
-                            </FButton>
-                        </div>
-                    </slot>
-                </div>
+                <!--
+                    addon 区抽为独立子组件 FTimePickerAddon（#1029）：
+                    原内联实现（v-if 引用 $slots.addon + 作用域插槽）使 Popper
+                    的 default 插槽为动态插槽，加剧子树 diff；与模板 ref
+                    叠加导致 TimeSelect 被反复销毁重建（Maximum recursive
+                    updates exceeded）。
+                -->
+                <TimePickerAddon
+                    v-if="showControl || $slots.addon"
+                    :activeTime="activeTime"
+                    :showNowShortcut="showNowShortcut"
+                    @now="setCurrentTime"
+                    @confirm="confirmChangeTime"
+                >
+                    <!-- 外部 addon 作用域插槽透传（activeTime 向下、内容向上） -->
+                    <template
+                        v-if="$slots.addon"
+                        #addon="slotProps"
+                    >
+                        <slot name="addon" v-bind="slotProps" />
+                    </template>
+                </TimePickerAddon>
             </div>
         </template>
     </Popper>
@@ -91,11 +89,11 @@ import { useTheme } from '../_theme/useTheme';
 import InputInner from '../input/inputInner.vue';
 import { ClockCircleOutlined } from '../icon';
 import Popper from '../popper';
-import FButton from '../button';
 
 import { useLocale } from '../config-provider/useLocale';
 import type { ExtractPublicPropTypes, GetContainer } from '../_util/interface';
 import TimeSelect from './time-select.vue';
+import TimePickerAddon from './time-picker-addon.vue';
 
 const prefixCls = getPrefixCls('time-picker');
 
@@ -139,7 +137,7 @@ function validateTime(data: string, format: string) {
 
     for (let i = 0; i < cellFormats.length; ++i) {
         const cellFormat = cellFormats[i];
-        if (/[Hh]/.test(cellFormat)) {
+        if (/H/i.test(cellFormat)) {
             if (!validator(times.shift(), cellFormat, 23)) {
                 return false;
             }
@@ -239,10 +237,10 @@ export default defineComponent({
     name: 'FTimePicker',
     components: {
         TimeSelect,
+        TimePickerAddon,
         InputInner,
         Popper,
         ClockCircleOutlined,
-        FButton,
     },
     props: timePickerProps,
     emits: [UPDATE_MODEL_EVENT, 'update:open', 'change', 'blur', 'focus'],
@@ -304,9 +302,6 @@ export default defineComponent({
                 activeTime.value = val;
             }
         };
-        // 获取 实例
-        const timeSelectRef = ref();
-
         // 解耦 与设置值的方法分开
         const clear = () => {
             tempValue.value = '';
@@ -314,8 +309,11 @@ export default defineComponent({
             activeTime.value = '';
             emit('change', '');
             validate('change');
-            // 重置时间
-            timeSelectRef.value.resetTime();
+            // #1029: 移除 timeSelectRef.resetTime() 直调。
+            // 模板 ref 是递归环的必要环节（TimeSelect 反复销毁重建的
+            // 触发点之一）；清空时 TimeSelect 内部的
+            // watch(modelValue) 会因 modelValue 变为 '' 走 reset 分支，
+            // 行为与 resetTime 等价。
         };
 
         watch(isOpened, () => {
@@ -381,7 +379,6 @@ export default defineComponent({
             inputPlaceholder,
             t,
             attrs,
-            timeSelectRef,
         };
     },
 });

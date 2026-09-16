@@ -164,8 +164,8 @@ export default function useTrigger(
         const { trigger } = props;
         const shouldPrevent
             = trigger === 'click'
-            || trigger === 'focus'
-            || trigger === 'contextmenu';
+                || trigger === 'focus'
+                || trigger === 'contextmenu';
         if (shouldPrevent) {
             return;
         }

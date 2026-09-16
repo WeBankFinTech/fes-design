@@ -116,17 +116,6 @@ export default defineComponent({
             }
         };
 
-        const Content = () => {
-            return (
-                <div class={popperClass.value}>
-                    {slots.default?.()}
-                    {props.arrow && (
-                        <div ref={arrowRef} class={`${prefixCls}-arrow`}></div>
-                    )}
-                </div>
-            );
-        };
-
         expose({
             updatePopperPosition() {
                 computePopper();
@@ -155,9 +144,18 @@ export default defineComponent({
                             appear
                             onBeforeEnter={computePopper}
                         >
-                            <Content
+                            <div
                                 v-show={visible.value && cacheVisible.value}
-                            />
+                                class={popperClass.value}
+                            >
+                                {slots.default?.()}
+                                {props.arrow && (
+                                    <div
+                                        ref={arrowRef}
+                                        class={`${prefixCls}-arrow`}
+                                    ></div>
+                                )}
+                            </div>
                         </Transition>
                     </div>
                 </LazyTeleport>
