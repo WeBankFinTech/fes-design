@@ -29,11 +29,15 @@ import { defineComponent } from 'vue';
 import { useLocale } from '../config-provider/useLocale';
 import getPrefixCls from '../_util/getPrefixCls';
 import { useTheme } from '../_theme/useTheme';
+import FButton from '../button';
 
 const prefixCls = getPrefixCls('time-picker');
 
 export default defineComponent({
     name: 'FTimePickerAddon',
+    components: {
+        FButton,
+    },
     props: {
         activeTime: {
             type: String,
