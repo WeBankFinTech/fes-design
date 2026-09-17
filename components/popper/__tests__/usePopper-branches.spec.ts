@@ -48,6 +48,10 @@ describe('usePopper 分支补全', () => {
         await new Promise((r) => setTimeout(r, 50));
         const popperEl = document.querySelector('.fes-popper');
         expect(popperEl).not.toBeNull();
+        // 等 contextmenu 的 computePosition 微任务结算后再卸载：飞行中的
+        // compute 闭包读 virtualRect 时若组件已被清场，floating-ui 会对
+        // null rect 取 .left 抛 unhandled rejection
+        await new Promise((r) => setTimeout(r, 50));
         wrapper.unmount();
     });
 

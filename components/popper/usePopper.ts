@@ -59,17 +59,35 @@ export default (props: PopperProps, emit: any) => {
             }
 
             const triggerEl: ReferenceElement
-                = props.trigger === 'contextmenu' // 仅在右键时，使用鼠标具体触发位置
+                = props.trigger === 'contextmenu' // 仅在右键时，使用鼠标具体位置
                     ? {
-                            getBoundingClientRect: () =>
-                                virtualRect.value && {
+                            // virtualRect 可能已被清空（如右键开后立即左键关：
+                            // virtualRect watch 先于 visible watch 触发重算），
+                            // 返回零尺寸 rect 让 floating-ui 正常结算，
+                            // 而不是把 null 传进去抛 unhandled TypeError
+                            getBoundingClientRect: () => {
+                                const rect = virtualRect.value;
+                                if (!rect) {
+                                    return {
+                                        width: 0,
+                                        height: 0,
+                                        top: 0,
+                                        right: 0,
+                                        bottom: 0,
+                                        left: 0,
+                                        x: 0,
+                                        y: 0,
+                                    };
+                                }
+                                return {
                                     width: 0,
                                     height: 0,
-                                    top: virtualRect.value.y,
-                                    right: virtualRect.value.x,
-                                    bottom: virtualRect.value.y,
-                                    left: virtualRect.value.x,
-                                },
+                                    top: rect.y,
+                                    right: rect.x,
+                                    bottom: rect.y,
+                                    left: rect.x,
+                                };
+                            },
                             contextElement: rawTriggerEl,
                         }
                     : rawTriggerEl;

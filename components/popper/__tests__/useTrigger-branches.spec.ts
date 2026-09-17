@@ -140,12 +140,18 @@ describe('useTrigger 分支补全', () => {
         const $trigger = wrapper.find(`.${TEST_TRIGGER}`);
         await $trigger.trigger('contextmenu', { clientX: 66, clientY: 88 });
         await nextTick();
+        // 等打开方向的 computePosition 先结算，再触发关闭：否则关闭把
+        // virtualRect 置 null 后，飞行中的 compute 闭包读到 null rect，
+        // floating-ui 取 .left 抛 unhandled rejection
+        await new Promise((r) => setTimeout(r, 50));
         expect(wrapper.find('.fes-popper').isVisible()).toBe(true);
         // contextmenu 模式的 click 分支：visible 已 true → toggle 关闭
         await $trigger.trigger('click');
         await vi.waitFor(() => {
             expect(wrapper.find('.fes-popper').isVisible()).toBe(false);
         });
+        // 等关闭触发的重算（virtualRect watch）结算后再卸载
+        await new Promise((r) => setTimeout(r, 50));
         wrapper.unmount();
     });
 
