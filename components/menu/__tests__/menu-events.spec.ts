@@ -115,7 +115,10 @@ describe('FTable expand 事件', () => {
         });
         await nextTick();
         await wait();
-        const expandIcons = wrapper.findAll('[class*="expand"]');
+        // 精确展开图标选择器（td.tsx 渲染 .fes-table-expand-icon），
+        // 避免 [class*="expand"] 命中展开行容器等其它含 expand 的元素，
+        // 全量高负载时点错对象导致偶发失败
+        const expandIcons = wrapper.findAll('.fes-table-expand-icon');
         expect(expandIcons.length).toBeGreaterThan(0);
         await expandIcons[0].trigger('click');
         await wait();
