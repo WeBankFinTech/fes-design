@@ -88,9 +88,9 @@ const mountVirtualTable = (rows = makeRows(1000), extra: Record<string, any> = {
 
 /**
  * 注意：`.fes-table-row` 同时命中表头 tr 与表体 tr，行数断言必须圈定 tbody；
- * 已知组件行为（cell.tsx:106）：ellipsis 传对象时单元格会把 content 突变进
- * 用户传入的列配置对象，同一列渲染多行会互踢 content 引发无限重渲染，
- * 故该场景只能用单行数据锁定（见 ellipsis 对象用例注释）。
+ * #1035 修复后 ellipsis 列配置对象完全只读（cell.tsx 渲染时展开构造新对象，
+ * 不再 Object.assign 就地写入），对象 ellipsis + 多行数据不再互写 content，
+ * 见下方「ellipsis 传对象：渲染不写回用户对象」锁定用例。
  */
 const getRowTexts = (wrapper: any) => wrapper.findAll(`table.${prefixCls}-body tbody tr`).map((row: any) => row.text());
 
@@ -451,10 +451,10 @@ describe('FTable 单元格分支（cell.tsx）', () => {
     });
 
     test('ellipsis 传对象透传 EllipsisProps；ellipsis=true 走默认配置', async () => {
-        // 已知组件行为（cell.tsx:106）：ellipsis 为对象时单元格会执行
-        // Object.assign(ellipsisProps, { content })，直接突变用户传入的
-        // 列配置对象；同列渲染多行时各单元格互写 content 造成无限重渲染。
-        // 此处以单行数据锁定「对象透传 line=2」的渲染现状，不构造多行。
+        // #1035 修复前：ellipsis 为对象时单元格 Object.assign 就地写入
+        // content 到用户列配置对象，多行互写造成无限重渲染，故曾只能以
+        // 单行数据锁定。修复后列配置只读，此处单行回归「对象透传 line=2」
+        // 的渲染样式（多行 + 原对象不被写入见下一用例锁定）。
         const rows = [{ id: 1, name: '一', age: 10 }];
         const wrapper = mount(Table, {
             props: {
@@ -479,6 +479,47 @@ describe('FTable 单元格分支（cell.tsx）', () => {
         expect(ellipsisNodes[0].attributes('style')).toContain('-webkit-line-clamp: 2');
         // ellipsis=true → 默认单行省略样式
         expect(ellipsisNodes[1].attributes('style')).toContain('text-overflow: ellipsis');
+        wrapper.unmount();
+    });
+
+    test('ellipsis 传对象：渲染不写回用户对象 + 无无限重渲染（#1035）', async () => {
+        // #1035 回归锁：cell.tsx 曾 `Object.assign(ellipsisProps, { content })`
+        // 就地写入用户传入的 ellipsis 对象；useTableColumn 浅拷贝列配置后
+        // column.props.ellipsis 与用户对象同引用，多行单元格互写 content
+        // 触发响应式重渲染 → 写→渲染→写死循环。修复后渲染改用展开构造的
+        // 新对象，列配置完全只读。此处以「多行 + 不同 cellValue」构造原
+        // 死循环场景：mount/nextTick 正常返回即证明无无限重渲染。
+        const origEllipsis = { line: 1 };
+        const rows = [
+            { id: 1, name: '甲', age: 10 },
+            { id: 2, name: '乙', age: 20 },
+        ];
+        const wrapper = mount(Table, {
+            props: {
+                data: rows,
+                rowKey: 'id',
+                columns: [
+                    { prop: 'name', label: '名称', ellipsis: origEllipsis },
+                    { prop: 'age', label: '年龄', ellipsis: true },
+                ] as any,
+            } as any,
+            attachTo: document.body,
+        });
+        // 完整 mount + nextTick 正常返回（若仍死循环会在此挂死超时）
+        await nextTick();
+        await wait();
+        // 渲染后用户传入的 ellipsis 对象未被写入 content（无污染）
+        expect(Object.keys(origEllipsis)).not.toContain('content');
+        expect(Object.keys(origEllipsis)).toEqual(['line']);
+        // 多行对象列正常完整渲染，两行内容都在（互踢 content 已消除）
+        expect(wrapper.findAll(`table.${prefixCls}-body tbody tr`)).toHaveLength(2);
+        const ellipsisNodes = wrapper.findAll('.fes-ellipsis');
+        expect(ellipsisNodes.length).toBeGreaterThanOrEqual(2);
+        // line=1 → Ellipsis 走默认单行省略样式（line>1 才产 -webkit-line-clamp）
+        expect(ellipsisNodes[0].attributes('style')).toContain('text-overflow: ellipsis');
+        // 再走一拍 nextTick：渲染稳定收敛，用户对象仍无 content 写入
+        await nextTick();
+        expect(Object.keys(origEllipsis)).toEqual(['line']);
         wrapper.unmount();
     });
 
