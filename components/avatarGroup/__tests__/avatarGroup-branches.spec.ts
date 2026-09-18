@@ -280,17 +280,17 @@ describe('FAvatarGroup 分支补全', () => {
         wrapper.unmount();
     });
 
-    test('已知问题：未传 options 直接挂载会抛错（renderAvatarByOption 未做空保护）', () => {
-        // 源码 L23/L80 直接 props.options.map 而无 ?. 保护，optionAvatarCount
-        // 虽用 ?. 但渲染函数没有 → mount 即抛 TypeError。现实影响：FAvatarGroup
-        // 必须在外部保证 options 非空，否则首次渲染崩溃。属真实缺陷，
-        // 是否提 issue 由负责人决定。
-        // Vue 对 render 抛错会打印一次警告（console.warn/error，预期行为），
-        // 静音掉以免污染 CI 输出；断言核心是 mount 抛 TypeError 本身
-        const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-        const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-        expect(() => mount(FAvatarGroup, {})).toThrow(TypeError);
-        warnSpy.mockRestore();
-        errorSpy.mockRestore();
+    test('未传 options / 传空数组：空渲染不崩溃（L23/L80 双保险）', async () => {
+        // 修复 #1038：props.options 增加 default: () => []，且 L23/L80 调用处
+        // (props.options || []) 兜底，未传 options 不再 undefined.map 抛 TypeError，
+        // 从「必须外部保证非空」转为「空渲染不崩溃」。
+        for (const props of [{}, { options: [] }]) {
+            const wrapper = mount(FAvatarGroup, { props });
+            await nextTick();
+            await wait(20);
+            expect(wrapper.find(`.${prefixCls}`).exists()).toBe(true);
+            expect(wrapper.findAll(`.${avatarCls}`).length).toBe(0);
+            wrapper.unmount();
+        }
     });
 });

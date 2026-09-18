@@ -20,7 +20,7 @@ export default defineComponent({
         useTheme();
         // 渲染option
         const renderAvatarByOption = (num?: number) => {
-            const avatarList = props.options.map((avatar, index) => {
+            const avatarList = (props.options || []).map((avatar, index) => {
                 if (num && index + 1 > num) {
                     return null;
                 }
@@ -77,7 +77,7 @@ export default defineComponent({
 
         // 渲染未展示的option的name信息
         const renderHiddenTooltip = () => {
-            const tooltipContent = props.options.map((avatar, index) => {
+            const tooltipContent = (props.options || []).map((avatar, index) => {
                 if (index >= shouldRenderOptionNum.value && avatar.name) {
                     return <div>{avatar.name}</div>;
                 }
