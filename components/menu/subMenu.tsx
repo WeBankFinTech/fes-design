@@ -6,7 +6,6 @@ import {
     onMounted,
     provide,
     ref,
-    watch,
 } from 'vue';
 import type {
     ComponentObjectPropsOptions,
@@ -74,7 +73,13 @@ export default defineComponent({
             );
         }
         const { children } = useParent();
-        const isOpened = ref(false);
+        // #1034 根治：展开状态收敛为单一事实源（rootMenu.currentExpandedKeys）。
+        // isOpened 不再独立持有 ref，而是从 expandedKeys 派生的只读值——
+        // 所有写路径统一走 rootMenu.updateExpandedKeys，消除渲染-写环。
+        const subMenuKey = computed(() => props.value ?? instance.uid);
+        const isOpened = computed(() =>
+            rootMenu.currentExpandedKeys.value.includes(subMenuKey.value),
+        );
         const isActive = computed(() =>
             children.some((child) => child?.isActive),
         );
@@ -96,7 +101,7 @@ export default defineComponent({
         provide(SUB_MENU_KEY, {
             handleItemClick: () => {
                 if (rootMenu.renderWithPopper.value) {
-                    isOpened.value = false;
+                    // 单一写路径：清空展开即收起（isOpened 派生自动跟随）
                     rootMenu.updateExpandedKeys([]);
                 }
             },
@@ -115,29 +120,27 @@ export default defineComponent({
         );
 
         const handleTriggerClick = () => {
-            isOpened.value = !isOpened.value;
+            // 派生模式下点击即 toggle expandedKeys（accordion 收缩逻辑在
+            // menu.handleSubMenuExpand 内基于当前 keys 判断）
             rootMenu.handleSubMenuExpand(subMenu as unknown as MenuItemType, indexPath);
         };
 
-        watch(
-            [
-                rootMenu.currentExpandedKeys,
-            ],
-            () => {
-                // 要通过监听 currentExpandedKeys，自动打开或者关闭子菜单
-                const currentIsExpanded = rootMenu.currentExpandedKeys.value.includes(
-                    props.value || instance.uid,
+        // Popper 可见性经 expandedKeys 收敛：hover 打开/收起都写 keys，
+        // 派生回 modelValue，避免 Popper 本地状态与展开状态脱节
+        const handlePopperVisible = (val: boolean) => {
+            if (val) {
+                rootMenu.handleSubMenuExpand(
+                    subMenu as unknown as MenuItemType,
+                    indexPath,
                 );
-                if (isOpened.value && !currentIsExpanded) {
-                    isOpened.value = false;
-                } else if (!isOpened.value && currentIsExpanded) {
-                    isOpened.value = true;
-                }
-            },
-            {
-                immediate: true,
-            },
-        );
+            } else {
+                rootMenu.updateExpandedKeys(
+                    rootMenu.currentExpandedKeys.value.filter(
+                        (key) => key !== subMenuKey.value,
+                    ),
+                );
+            }
+        };
 
         const renderTitle = () => {
             return (
@@ -222,7 +225,8 @@ export default defineComponent({
             if (rootMenu.renderWithPopper.value) {
                 return (
                     <Popper
-                        v-model={isOpened.value}
+                        modelValue={isOpened.value}
+                        onUpdate:modelValue={handlePopperVisible}
                         {...popperProps.value}
                         trigger={`hover`}
                         placement={placement.value}
