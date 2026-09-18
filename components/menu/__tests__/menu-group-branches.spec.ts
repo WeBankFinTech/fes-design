@@ -16,11 +16,11 @@ describe('FMenuGroup 分支补全（挂载守卫与标题渲染）', () => {
         vi.restoreAllMocks();
     });
 
-    test('脱离 FMenu 使用：缺失 rootMenu 与 parentMenu 双警告（36/42 行）', async () => {
+    test('FMenuGroup 独立挂载：合并告警一次 + 空渲染 + 不抛错', async () => {
         const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-        vi.spyOn(console, 'error').mockImplementation(() => {});
         let wrapper: VueWrapper | null = null;
-        try {
+        // 直接断言不抛错（旧实现 renderTitle 读 paddingStyle 空指针会 TypeError）
+        expect(() => {
             wrapper = mount(
                 {
                     components: { MenuGroup, MenuItem },
@@ -32,24 +32,18 @@ describe('FMenuGroup 分支补全（挂载守卫与标题渲染）', () => {
                 },
                 { attachTo: document.body },
             );
-            await nextTick();
-        } catch {
-            // 现状锁定：36 行守卫只警告不熔断，后续 paddingStyle 读空指针会抛错，
-            // 警告本身在 setup 阶段已全部触发，断言不受渲染崩溃影响
-        }
-        // 36/42 行两条守卫警告都触发（内部 MenuItem 还有第三条自身守卫警告）
-        const warnTexts = warnSpy.mock.calls.map((c) => String(c[0]));
-        expect(
-            warnTexts.some(
-                (t) => t.includes('FMenuGroup') && t.includes('must be a child of FMenu or FSubMenu') === false,
-            ),
-        ).toBe(true);
-        expect(
-            warnTexts.some(
-                (t) => t.includes('FMenuGroup') && t.includes('must be a child of FMenu or FSubMenu'),
-            ),
-        ).toBe(true);
-        wrapper?.unmount();
+        }).not.toThrow();
+        await nextTick();
+        // 合并守卫：孤儿挂载只告警一次
+        expect(warnSpy).toHaveBeenCalledTimes(1);
+        expect(String(warnSpy.mock.calls[0][0])).toContain(
+            'must be a child of FMenu or FSubMenu',
+        );
+        // 早退空渲染：根节点仅剩注释占位，无任何菜单分组 DOM
+        expect(wrapper!.html()).toBe('<!---->');
+        expect(wrapper!.text()).toBe('');
+        expect(wrapper!.find(`.${groupPrefixCls}`).exists()).toBe(false);
+        wrapper!.unmount();
     });
 
     test('label prop 缺失且未提供 label 插槽：标题为空但分组结构保留（69 行回退路径）', async () => {
