@@ -60,6 +60,14 @@ heightAndFixed.vue
 multiHeader.vue
 :::
 
+### 文本省略
+
+设置 `ellipsis` 后，文本溢出显示省略号；传对象时参考 Ellipsis 组件配置，可自定义行数、展开等。
+
+:::demo
+ellipsis.vue
+:::
+
 ### 行选择
 
 选择行数据时使用 Checkbox，type为`selection`生效。
