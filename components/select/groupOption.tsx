@@ -37,6 +37,8 @@ export default defineComponent({
             console.warn(
                 '[FSelectGroupOption]: FSelectGroupOption 必须搭配 FSelect 组件使用！',
             );
+            // 熔断：孤儿场景无注册能力，空渲染；后续 reactive/provide/注册全部跳过
+            return () => null;
         }
 
         const instance = getCurrentInstance();
