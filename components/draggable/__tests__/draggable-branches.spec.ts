@@ -15,7 +15,11 @@ const wait = (ms = 30) => new Promise((r) => setTimeout(r, ms));
 const slotsRender = (slotProps: { item: unknown }) =>
     h('div', { class: 'drag-item' }, String(slotProps.item));
 
-/** v-drag 指令宿主组件 */
+/**
+ * v-drag 指令宿主组件
+ * #1036 归一化后 binding 输入统一为纯数组：绑定解包后的数组（模板 v-drag="list" 的真实形态，
+ * 渲染上下文顶层 ref 自动解包），不再把 Ref 对象本身当 binding.value（Ref 会被归一化为 []）。
+ */
 function getDirectiveComp(listRef: Ref<unknown[]>) {
     return defineComponent({
         directives: {
@@ -24,7 +28,7 @@ function getDirectiveComp(listRef: Ref<unknown[]>) {
         setup() {
             return () => withDirectives(
                 h('ul', null, listRef.value.map((item) => h('li', { class: 'drag-li' }, String(item)))),
-                [[vDrag, listRef]],
+                [[vDrag, listRef.value]],
             );
         },
     });
@@ -635,5 +639,105 @@ describe('Draggable 分支覆盖', () => {
         }).not.toThrow();
         expect(list.value.join(',')).toBe('1');
         el.remove();
+    });
+
+    // ===== #1036 指令输入归一化为纯数组模型 =====
+
+    // 进程级监听：binding 从 Ref 切换到 undefined 时，指令内部不再发生
+    // Ref↔数组↔undefined 属性类型跃迁（旧实现触发 Vue 3.5 递归更新崩溃），
+    // 归一化后恒为纯数组，不得产生任何 unhandledRejection / uncaughtException。
+    test('#1036 指令：binding 从 Ref 切换到 undefined：归一化不崩且列表清空（0 unhandled）', async () => {
+        const listRef = ref<unknown[]>([1, 2, 3]);
+        const passValue = ref(true);
+        const onDragstart = vi.fn();
+        const onDragend = vi.fn();
+        const unhandled: unknown[] = [];
+        const collect = (reason: unknown) => {
+            unhandled.push(reason);
+        };
+        process.on('unhandledRejection', collect);
+        process.on('uncaughtException', collect);
+        try {
+            const wrapper = mount(defineComponent({
+                directives: { drag: vDrag },
+                setup() {
+                    return () => withDirectives(
+                        h('ul', null, listRef.value.map((item) => h('li', { class: 'drag-li' }, String(item)))),
+                        // binding 直接传 Ref 对象本身（withDirectives 不做解包），
+                        // 随后切换到 undefined：旧实现 props.list=undefined 触发类型跃迁
+                        [[vDrag, passValue.value ? listRef : undefined, { onDragstart, onDragend }]],
+                    );
+                },
+            }));
+            await nextTick();
+            expect(wrapper.findAll('li').length).toBe(3);
+            // Ref 绑定归一化为 []：触发 dragstart 时 item 为 undefined（内部列表为空）
+            await wrapper.findAll('li')[0].trigger('mousedown', { clientX: 10, clientY: 10 });
+            await nextTick();
+            expect(wrapper.findAll('li')[0].attributes('draggable')).toBe('true');
+            await wrapper.findAll('li')[0].trigger('dragend');
+            await nextTick();
+            expect(onDragstart).toHaveBeenCalledTimes(1);
+            expect(onDragstart.mock.calls[0][1]).toBeUndefined();
+            // binding: Ref → undefined：updated 归一化 next=[]，不崩不减引用
+            passValue.value = false;
+            await nextTick();
+            await wrapper.findAll('li')[0].trigger('mousedown', { clientX: 10, clientY: 10 });
+            await wrapper.findAll('li')[0].trigger('dragend');
+            await nextTick();
+            // 用户数组未被清空（归一化只影响指令内部 list，不写坏用户数据）
+            expect(listRef.value).toEqual([1, 2, 3]);
+            await wrapper.findAll('li')[0].trigger('mousemove', { clientX: 60, clientY: 40 });
+            expect(unhandled).toHaveLength(0);
+            wrapper.unmount();
+        } finally {
+            process.removeListener('unhandledRejection', collect);
+            process.removeListener('uncaughtException', collect);
+        }
+    });
+
+    test('#1036 指令：binding 数组长度切换 [1,2,3]→[4]：DOM 同步只剩 1 项', async () => {
+        const list = ref<unknown[]>([1, 2, 3]);
+        // 数组绑定（模板 v-drag="list" 真实形态）
+        const wrapper = mount(defineComponent({
+            directives: { drag: vDrag },
+            setup() {
+                return () => withDirectives(
+                    h('ul', null, list.value.map((item) => h('li', { class: 'drag-li' }, String(item)))),
+                    [[vDrag, list.value]],
+                );
+            },
+        }));
+        await nextTick();
+        expect(wrapper.findAll('li').length).toBe(3);
+        // 整数组替换为长度 1 的新数组：updated 用归一化后的 next 替换 props.list
+        list.value = [4];
+        await nextTick();
+        const lis = wrapper.findAll('li');
+        expect(lis.length).toBe(1);
+        expect(lis[0].text()).toBe('4');
+        // 新列表上仍可正常拖拽
+        await lis[0].trigger('mousedown', { clientX: 10, clientY: 10 });
+        await nextTick();
+        expect(lis[0].attributes('draggable')).toBe('true');
+        wrapper.unmount();
+    });
+
+    test('#1036 回归：普通数组模式（数组绑定 + 整组拖拽链）驱动 DOM 排序', async () => {
+        const list = ref([1, 2, 3, 4]);
+        const wrapper = mount(getDirectiveComp(list));
+        await nextTick();
+        expect(wrapper.findAll('li').length).toBe(4);
+        await wrapper.findAll('li')[0].trigger('mousedown', { clientX: 10, clientY: 10 });
+        await nextTick();
+        await wrapper.trigger('mousemove', { clientX: 80, clientY: 30 });
+        await nextTick();
+        await wrapper.findAll('li')[2].trigger('dragover');
+        await nextTick();
+        await wrapper.findAll('li')[0].trigger('dragend');
+        await nextTick();
+        expect(list.value.join(',')).toBe('2,3,1,4');
+        expect(wrapper.findAll('li').map((li) => li.text()).join(',')).toBe('2,3,1,4');
+        wrapper.unmount();
     });
 });
