@@ -28,6 +28,7 @@ export const avatarGroupProps = {
     },
     options: {
         type: Array as PropType<Partial<AvatarOption>[]>,
+        default: () => [],
     },
     // 是否展示hover气泡
     expandOnHover: {
