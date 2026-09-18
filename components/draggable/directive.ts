@@ -4,6 +4,7 @@ import {
     computed,
     reactive,
     ref,
+    toRaw,
     watch,
 } from 'vue';
 import type { FObjectDirective } from '../_util/interface';
@@ -53,8 +54,12 @@ const init = (el: HTMLElement, binding: DirectiveBinding<any>) => {
         beforeDragend?: BeforeDragEnd;
         onDragend: (...args: unknown[]) => void;
     };
+    // 归一化：binding 值统一解包为纯数组（toRaw 去响应式包装，缺省为 []）
+    const rawList = Array.isArray(toRaw(binding.value))
+        ? (toRaw(binding.value) as unknown[])
+        : [];
     const props = reactive({
-        list: binding.value || [],
+        list: rawList,
         droppable: binding.modifiers.droppable,
         disabled: binding.modifiers.disabled,
         isDirective: true,
@@ -107,7 +112,14 @@ export default {
     updated(el: HTMLElement, binding) {
         const { drag, props } = dragInstanceMap.get(el) || {};
         if (drag && props) {
-            props.list = binding.value || [];
+            // 归一化后整属性替换：next 恒为纯数组（toRaw 解包响应式包装 / 缺省 []），
+            // props.list 属性类型恒定数组，杜绝 Ref↔undefined 类型跃迁引发的递归崩溃；
+            // 同时替换引用，使 useDraggable 依赖同一引用的原地 arrayMove
+            // 始终写回用户的最新数组（含整数组替换场景）。
+            const next = Array.isArray(toRaw(binding.value))
+                ? (toRaw(binding.value) as unknown[])
+                : [];
+            props.list = next;
             props.droppable = binding.modifiers.droppable;
             props.disabled = binding.modifiers.disabled;
             drag.onUpdated();

@@ -10,6 +10,8 @@ const prefixCls = getPrefixCls('draggable');
 const slotsRender = (slotProps: { item: unknown }) => h('div', { class: 'drag-item' }, slotProps.item as string);
 
 // 使用 v-drag 指令的测试组件
+// #1036 归一化后 binding 输入统一为纯数组：绑定解包后的数组（模板 v-drag="list" 的真实形态，
+// 渲染上下文顶层 ref 自动解包），不再把 Ref 对象本身当 binding.value（Ref 会被归一化为 []）。
 function getDirectiveComp(listRef: Ref<number[]>) {
     return defineComponent({
         directives: {
@@ -18,7 +20,7 @@ function getDirectiveComp(listRef: Ref<number[]>) {
         setup() {
             return () => withDirectives(
                 h('ul', null, listRef.value.map((item) => h('li', { class: 'drag-li' }, String(item)))),
-                [[vDrag, listRef]],
+                [[vDrag, listRef.value]],
             );
         },
     });
