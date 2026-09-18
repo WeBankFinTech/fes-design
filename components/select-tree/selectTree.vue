@@ -217,7 +217,7 @@ export default defineComponent({
         const [currentValue, updateCurrentValue] = props.multiple
             ? (useArrayModel(props, emit) as unknown as UseArrayModelReturn<
                   Array<TreeNodeKey> | Array<Array<TreeNodeKey>>
-              >)
+                >)
             : useNormalModel(props, emit);
         const [currentExpandedKeys] = useNormalModel(props, emit, {
             prop: 'expandedKeys',
@@ -293,12 +293,19 @@ export default defineComponent({
                 props.multiple
                 && (currentValue.value as MultipleModelValue)?.length
             ) {
-                const keys = (currentValue.value as MultipleModelValue).map(
-                    (item) =>
+                const keys = (currentValue.value as MultipleModelValue)
+                    // 对齐 targetValues 防御：emitPath 只接受路径数组，
+                    // 过滤 null/标量/空数组项，避免非法 key 传入 Tree 崩溃
+                    .filter(
+                        (item: any) =>
+                            !props.emitPath
+                            || (Array.isArray(item) && item.length > 0),
+                    )
+                    .map((item) =>
                         props.emitPath && Array.isArray(item)
                             ? item[item.length - 1]
                             : item,
-                );
+                    );
                 return keys;
             }
             return [];
@@ -354,8 +361,11 @@ export default defineComponent({
                 ? (currentValue.value as MultipleModelValue)
                 : [currentValue.value];
             if (props.emitPath) {
-                // 获取选中节点
-                return values.map((item: any) => item[item.length - 1]); // TODO: TreeNodeKey 类型是否不应包含 number
+                // 对齐 select-cascader 防御：emitPath 只接受路径数组，
+                // null/标量/含 null 项过滤为安全降级（不读 null.length）
+                return values
+                    .filter((item: any) => Array.isArray(item) && item.length > 0)
+                    .map((item: any) => item[item.length - 1]); // TODO: TreeNodeKey 类型是否不应包含 number
             }
             return values as TreeNodeKey[];
         });
