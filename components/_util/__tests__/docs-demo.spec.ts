@@ -57,6 +57,7 @@ describe('docs demo 全量挂载冒烟（demoTest）', () => {
             }
             // 挂载期间无 console.error（demo 即用例的正确性标准）
             expect(errors).toEqual([]);
-        }, 20000); // changeLocale 等重渲染 demo 需 >5s
+        }, 60000); // changeLocale 等重渲染 demo 需 >5s，且串行 377 个 demo 的
+        // 重负载 worker 下 mount 耗时可到 20s+（曾偶发超 20s 超时窗）——60s 余量防 flaky
     }
 });
