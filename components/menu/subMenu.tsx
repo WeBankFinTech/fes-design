@@ -78,7 +78,7 @@ export default defineComponent({
         // 所有写路径统一走 rootMenu.updateExpandedKeys，消除渲染-写环。
         const subMenuKey = computed(() => props.value ?? instance.uid);
         const isOpened = computed(() =>
-            rootMenu.currentExpandedKeys.value.includes(subMenuKey.value as never),
+            rootMenu.currentExpandedKeys.value.includes(subMenuKey.value),
         );
         const isActive = computed(() =>
             children.some((child) => child?.isActive),
