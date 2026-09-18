@@ -284,3 +284,175 @@ describe('input-number 分支补全：输入回退与受控', () => {
         wrapper.unmount();
     });
 });
+
+describe('input-number 分支补全：#1039 键盘/滚轮步进', () => {
+    test('键盘 ArrowUp +1 / ArrowDown -1 并触发 change(newVal, oldVal)', async () => {
+        const wrapper = mount(inputNumber, { props: { modelValue: 1 } });
+        const input = wrapper.find('input');
+        await input.trigger('keydown', { key: 'ArrowUp' });
+        await nextTick();
+        let updates = wrapper.emitted('update:modelValue');
+        expect(updates).toBeTruthy();
+        expect(updates![updates!.length - 1][0]).toBe(2);
+        let change = wrapper.emitted('change');
+        expect(change![change!.length - 1]).toEqual([2, 1]);
+        expect((input.element as HTMLInputElement).value).toBe('2');
+        await input.trigger('keydown', { key: 'ArrowDown' });
+        await nextTick();
+        updates = wrapper.emitted('update:modelValue');
+        expect(updates![updates!.length - 1][0]).toBe(1);
+        change = wrapper.emitted('change');
+        expect(change![change!.length - 1]).toEqual([1, 2]);
+        expect((input.element as HTMLInputElement).value).toBe('1');
+        wrapper.unmount();
+    });
+
+    test('键盘步进触顶/触底钳制到 min/max 并回传边界值', async () => {
+        const wrapper = mount(inputNumber, {
+            props: { modelValue: 9, min: 0, max: 10 },
+        });
+        const input = wrapper.find('input');
+        await input.trigger('keydown', { key: 'ArrowUp' });
+        await nextTick();
+        let updates = wrapper.emitted('update:modelValue');
+        expect(updates).toBeTruthy();
+        expect(updates![updates!.length - 1][0]).toBe(10);
+        const change = wrapper.emitted('change');
+        expect(change![change!.length - 1]).toEqual([10, 9]);
+        expect((input.element as HTMLInputElement).value).toBe('10');
+        // 已触顶再按 ↑：不越界，钳制回传边界值
+        await input.trigger('keydown', { key: 'ArrowUp' });
+        await nextTick();
+        updates = wrapper.emitted('update:modelValue');
+        expect(updates![updates!.length - 1][0]).toBe(10);
+        expect((input.element as HTMLInputElement).value).toBe('10');
+        // 一路按 ↓ 到 0 再按：钳制到 min 不回传负值
+        for (let i = 0; i < 11; i++) {
+            await input.trigger('keydown', { key: 'ArrowDown' });
+        }
+        await nextTick();
+        updates = wrapper.emitted('update:modelValue');
+        expect(updates![updates!.length - 1][0]).toBe(0);
+        expect((input.element as HTMLInputElement).value).toBe('0');
+        wrapper.unmount();
+    });
+
+    test('聚焦时滚轮上滚 +1 / 下滚 -1', async () => {
+        const wrapper = mount(inputNumber, {
+            props: { modelValue: 1 },
+            attachTo: document.body,
+        });
+        const input = wrapper.find('input');
+        await input.element.focus();
+        await nextTick();
+        expect(document.activeElement).toBe(input.element);
+        await input.trigger('wheel', { deltaY: -200 });
+        await nextTick();
+        let updates = wrapper.emitted('update:modelValue');
+        expect(updates).toBeTruthy();
+        expect(updates![updates!.length - 1][0]).toBe(2);
+        expect((input.element as HTMLInputElement).value).toBe('2');
+        await input.trigger('wheel', { deltaY: 200 });
+        await nextTick();
+        updates = wrapper.emitted('update:modelValue');
+        expect(updates![updates!.length - 1][0]).toBe(1);
+        expect((input.element as HTMLInputElement).value).toBe('1');
+        wrapper.unmount();
+    });
+
+    test('非聚焦（activeElement 非输入框）时滚轮不劫持不步进', async () => {
+        const dummy = document.createElement('button');
+        document.body.appendChild(dummy);
+        dummy.focus();
+        const wrapper = mount(inputNumber, {
+            props: { modelValue: 1 },
+            attachTo: document.body,
+        });
+        const input = wrapper.find('input');
+        expect(document.activeElement).not.toBe(input.element);
+        await input.trigger('wheel', { deltaY: -200 });
+        await nextTick();
+        expect(wrapper.emitted('update:modelValue')).toBeUndefined();
+        expect((input.element as HTMLInputElement).value).toBe('1');
+        wrapper.unmount();
+        dummy.remove();
+    });
+
+    test('keyboard=false 时键盘步进不生效', async () => {
+        const wrapper = mount(inputNumber, {
+            props: { modelValue: 1, keyboard: false },
+        });
+        const input = wrapper.find('input');
+        await input.trigger('keydown', { key: 'ArrowUp' });
+        await input.trigger('keydown', { key: 'ArrowDown' });
+        await nextTick();
+        expect(wrapper.emitted('update:modelValue')).toBeUndefined();
+        expect((input.element as HTMLInputElement).value).toBe('1');
+        wrapper.unmount();
+    });
+
+    test('wheel=false 时聚焦滚轮不步进', async () => {
+        const wrapper = mount(inputNumber, {
+            props: { modelValue: 1, wheel: false },
+            attachTo: document.body,
+        });
+        const input = wrapper.find('input');
+        await input.element.focus();
+        await nextTick();
+        expect(document.activeElement).toBe(input.element);
+        await input.trigger('wheel', { deltaY: -200 });
+        await nextTick();
+        expect(wrapper.emitted('update:modelValue')).toBeUndefined();
+        expect((input.element as HTMLInputElement).value).toBe('1');
+        wrapper.unmount();
+    });
+
+    test('键盘步进保留精度：step=0.1 precision=2 连按 ↑ 三次得 0.3', async () => {
+        const wrapper = mount(inputNumber, {
+            props: { step: 0.1, precision: 2 },
+        });
+        const input = wrapper.find('input');
+        for (let i = 0; i < 3; i++) {
+            await input.trigger('keydown', { key: 'ArrowUp' });
+        }
+        await nextTick();
+        const updates = wrapper.emitted('update:modelValue');
+        expect(updates).toBeTruthy();
+        expect(updates![updates!.length - 1][0]).toBe(0.3);
+        expect((input.element as HTMLInputElement).value).toBe('0.3');
+        wrapper.unmount();
+    });
+
+    test('disabled 时键盘与滚轮均不步进', async () => {
+        const wrapper = mount(inputNumber, {
+            props: { modelValue: 1, disabled: true },
+            attachTo: document.body,
+        });
+        const input = wrapper.find('input');
+        await input.element.focus();
+        await input.trigger('keydown', { key: 'ArrowUp' });
+        await input.trigger('keydown', { key: 'ArrowDown' });
+        await input.trigger('wheel', { deltaY: -200 });
+        await nextTick();
+        expect(wrapper.emitted('update:modelValue')).toBeUndefined();
+        expect((input.element as HTMLInputElement).value).toBe('1');
+        wrapper.unmount();
+    });
+
+    test('readonly 时键盘与滚轮均不步进且输入框只读', async () => {
+        const wrapper = mount(inputNumber, {
+            props: { modelValue: 1, readonly: true },
+            attachTo: document.body,
+        });
+        const input = wrapper.find('input');
+        expect(input.attributes('readonly')).toBeDefined();
+        await input.element.focus();
+        await input.trigger('keydown', { key: 'ArrowUp' });
+        await input.trigger('keydown', { key: 'ArrowDown' });
+        await input.trigger('wheel', { deltaY: -200 });
+        await nextTick();
+        expect(wrapper.emitted('update:modelValue')).toBeUndefined();
+        expect((input.element as HTMLInputElement).value).toBe('1');
+        wrapper.unmount();
+    });
+});
