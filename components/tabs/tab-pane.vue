@@ -18,9 +18,11 @@ export default defineComponent({
     setup() {
         const FTab = inject(TABS_INJECTION_KEY, null);
         if (!FTab) {
-            return console.error(
+            console.error(
                 '[FTabPane]: FTabPane 必须搭配 FTabs 组件使用！',
             );
+            // 孤儿场景不渲染任何 DOM（跳过模板 prefixCls 引用）
+            return () => null;
         }
         return {
             prefixCls,
