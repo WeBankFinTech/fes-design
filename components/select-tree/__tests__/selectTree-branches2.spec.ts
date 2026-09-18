@@ -348,4 +348,50 @@ describe('FSelectTree 交互链分支补全（branches2）', () => {
         expect(wrapper.find('.popper-panel').exists()).toBe(false);
         wrapper.unmount();
     });
+
+    test('单选 + emitPath + modelValue=null：空回显不崩（无 TypeError）', async () => {
+        // 修复前：#1037 targetValues 对 [null] 读 null.length 抛 TypeError，挂载即崩
+        const wrapper = mountSt({ emitPath: true, modelValue: null });
+        expect(wrapper.exists()).toBe(true);
+        await openPanel(wrapper);
+        // null 被过滤为安全降级：无选中项，回显占位符
+        expect(wrapper.find('.fes-select-trigger').text()).toContain('请选择');
+        wrapper.unmount();
+    });
+
+    test('单选 + emitPath + modelValue=标量：空回显（不再截断为末字符）', async () => {
+        // 修复前：#1037 标量 'sz' 被 item[item.length-1] 截断为 'z'
+        const wrapper = mountSt({ emitPath: true, modelValue: 'sz' });
+        expect(wrapper.exists()).toBe(true);
+        await openPanel(wrapper);
+        const trigger = wrapper.find('.fes-select-trigger');
+        expect(trigger.text()).toContain('请选择');
+        expect(trigger.text()).not.toContain('z');
+        wrapper.unmount();
+    });
+
+    test('multiple + emitPath：数组含 null/标量项时仅回显合法末级', async () => {
+        const wrapper = mountSt({
+            multiple: true,
+            cascade: true,
+            emitPath: true,
+            modelValue: [['gd', 'sz'], null, 'bad'],
+        });
+        // 打开弹层让 Tree 挂载回填 nodeList，tag 才能按 label 渲染
+        await openPanel(wrapper);
+        const tags = wrapper.find('.fes-select-trigger');
+        // null/标量项被过滤，仅合法路径 ['gd','sz'] 的末级 sz 回显
+        expect(tags.text()).toContain('深圳');
+        expect(tags.text()).not.toContain('bad');
+        wrapper.unmount();
+    });
+
+    test('回归：单选 + emitPath + 合法路径数组正常回显', async () => {
+        // 单选 emitPath 的合法形态为扁平路径数组（组件自身选择时发出 ['gd','sz']）
+        const wrapper = mountSt({ emitPath: true, modelValue: ['gd', 'sz'] });
+        // 打开弹层让 Tree 挂载回填 nodeList，label 才能按末级 key 渲染
+        await openPanel(wrapper);
+        expect(wrapper.find('.fes-select-trigger').text()).toContain('深圳');
+        wrapper.unmount();
+    });
 });
