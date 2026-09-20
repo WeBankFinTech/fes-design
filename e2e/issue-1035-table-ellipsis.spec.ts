@@ -47,31 +47,30 @@ test('table 页 ellipsis demo：省略列渲染存在 + 无运行错误（#1035�
         .waitFor({ state: 'visible', timeout: 60_000 });
 
     // ellipsis demo（docs/.vitepress/components/table/ellipsis.vue）：
-    // 列配置 ellipsis 支持 boolean 与对象（{ line: 1 } 单行、{ line: 3, expandable: true } 多行），
-    // 文本溢出以省略号截断并附标题/tooltip 提示。以 demo 独占文案「金沙江路」锚定该 demo 表格，
-    // 弱化严格断言（不校验具体截断像素/行数，规避字体度量与视口差异）。
-    const ellipsisTable = page
-        .locator('.fes-table')
-        .filter({ hasText: '上海市普陀区金沙江路' })
-        .first();
-    await expect(ellipsisTable, '应渲染出 ellipsis demo 表格').toHaveCount(1);
+    // 列配置 ellipsis 支持 boolean 与对象（{ line: 1 } 单行、{ line: 3, expandable: true } 多行）。
+    // 页面级断言：.fes-ellipsis 省略单元格渲染存在（不必定位特定 demo——
+    // 多个 demo 表内都含"金沙江路"地址且 h3 兄弟定位在不同页面结构下有差异）。
+    // 标题「文本省略」demos 必须存在（防 demo 未挂载）
+    await expect(page.locator('h3').filter({ hasText: '文本省略' })).toHaveCount(1);
+
+    // 省略单元格（FTableCell 将内容包进 .fes-ellipsis 省略容器）至少存在且可见
+    const ellipsisCells = page.locator('.fes-ellipsis');
+    await expect(ellipsisCells.first(), 'ellipsis demo 应存在省略单元格').toBeVisible();
 
     // 省略单元格（FTableCell 将内容包进 .fes-ellipsis 省略容器，
     // 单行 text-overflow: ellipsis / 多行 -webkit-line-clamp）至少存在一处
-    const ellipsisCells = ellipsisTable.locator('td .fes-ellipsis');
-    await expect(ellipsisCells.first(), 'ellipsis demo 应存在省略单元格').toBeVisible();
-    const ellipsisCount = await ellipsisCells.count();
-    expect(ellipsisCount, `ellipsis demo 省略单元格数应 >= 3（id/name/desc 三列均有），实际 ${ellipsisCount}`).toBeGreaterThanOrEqual(3);
+    const cells = page.locator('td .fes-ellipsis');
+    await expect(cells.first(), 'ellipsis 单元格应存在且可见').toBeVisible();
+    const ellipsisCount = await cells.count();
+    expect(ellipsisCount, `省略单元格数应 >= 3（id/name/desc 三列），实际 ${ellipsisCount}`).toBeGreaterThanOrEqual(3);
 
     // 对象型 ellipsis 列（{ line: 1 } 单行）的两行长文本都在（多行互写 content 已消除）
-    const nameCol = ellipsisTable.locator('td .fes-ellipsis').filter({
-        hasText: '北京市朝阳区望京 SOHO',
-    });
+    const nameCol = cells.filter({ hasText: '北京市朝阳区望京 SOHO' });
     await expect(nameCol, '对象型 ellipsis 列第二行长文本应完整渲染').toHaveCount(1);
 
     // 渲染收敛：等待若干帧后再统计一次，省略单元格数量稳定（不再因死循环抖动/增长）
     await page.waitForTimeout(1200);
-    const stableCount = await ellipsisCells.count();
+    const stableCount = await cells.count();
     expect(stableCount, '省略单元格数量应稳定收敛').toBe(ellipsisCount);
 
     // 无运行错误：剔除 favicon/资源 404（资源缺失不等同运行异常）

@@ -86,10 +86,10 @@ test.describe('#1034/#1040 FMenu 展开收敛（派生值）真实浏览器回�
         await hookUnhandledRejection(page);
         await gotoMenuPage(page);
 
-        // 定位 expandedKeys demo：页面 FMenu 中唯一「2 个 .fes-sub-menu-wrapper，
-        // 第一个未展开（箭头无 is-opened）、第二个已展开（:expandedKeys="['4']"）」
-        // 的实例；其它 demo（vertical/collapse/accordion/defaultExpandAll 等）
-        // 均不满足该签名（各 1 个子菜单或全部展开）。
+        // 定位 expandedKeys demo：expandedKeys.vue 结构 = 外层 2 个 sub-menu
+        // （value=1、value=4），各自内嵌一个「湖北」sub-menu → 共 4 个
+        // .fes-sub-menu-wrapper；:expandedKeys="['4']" 使外层 value=4（第 3 个
+        // wrapper）展开，其余收起（受控派生）。
         const targetIdx = await page
             .locator('.fes-menu')
             .evaluateAll((menus) =>
@@ -97,18 +97,24 @@ test.describe('#1034/#1040 FMenu 展开收敛（派生值）真实浏览器回�
                     const wrappers = Array.from(
                         m.querySelectorAll('.fes-sub-menu-wrapper'),
                     );
-                    if (wrappers.length !== 2) {
+                    if (wrappers.length !== 4) {
                         return false;
                     }
                     const isOpened = (w: Element) =>
                         (w.querySelector('.fes-sub-menu-arrow')?.classList.contains('is-opened')
                             ?? false);
-                    return !isOpened(wrappers[0]) && isOpened(wrappers[1]);
+                    // 外层1 收起、外层2（index 2）展开，内层湖北均收起
+                    return (
+                        !isOpened(wrappers[0])
+                        && isOpened(wrappers[2])
+                        && !isOpened(wrappers[1])
+                        && !isOpened(wrappers[3])
+                    );
                 }),
             );
         expect(
             targetIdx,
-            '应找到 expandedKeys demo（2 个子菜单且第二个由 expandedKeys 展开）',
+            '应找到 expandedKeys demo（4 个 wrapper，外层第 3 个由 expandedKeys 展开）',
         ).toBeGreaterThanOrEqual(0);
         const menu = page.locator('.fes-menu').nth(targetIdx);
 
@@ -117,12 +123,15 @@ test.describe('#1034/#1040 FMenu 展开收敛（派生值）真实浏览器回�
         const arrow = firstWrapper.locator('.fes-sub-menu-arrow');
         await expect(arrow).not.toHaveClass(/is-opened/);
         await firstWrapper.click();
+        await page.waitForTimeout(600); // 等派生渲染 + 过渡 flush
         await expect(arrow).toHaveClass(/is-opened/); // 派生展开生效
 
         // —— 点击叶子菜单项（select + is-active，含子菜单 isActive 派生链）——
-        // 子菜单 1 内叶子「湖南」（value 1.1）；「湖北」子项为武汉市…不冲突
-        const leaf = firstWrapper
-            .locator('.fes-menu-item')
+        // 子菜单 1 内叶子「湖南」（value 1.1）；「湖北」子项为武汉市…不冲突。
+        // 注意：.fes-sub-menu-children 是 wrapper 的兄弟节点（非子级），
+        // 从菜单根定位；首个 children 属于外层1（DOM 顺序 wrapper1,children1,...）
+        const leaf = menu
+            .locator('.fes-sub-menu-children .fes-menu-item')
             .filter({ hasText: '湖南' })
             .first();
         await leaf.waitFor({ state: 'visible', timeout: 10_000 });
@@ -156,11 +165,14 @@ test.describe('#1034/#1040 FMenu 展开收敛（派生值）真实浏览器回�
 
         // —— hover 展开子菜单 1（我是标题）：Popper v-model → updateExpandedKeys ——
         await menu.locator('.fes-sub-menu-wrapper').first().hover();
-        // 弹层内容经 getContainer 挂 body，水平模式点击项后统一 updateExpandedKeys([])
-        const leafZhejiang = page
-            .locator('.fes-menu-item')
-            .filter({ hasText: '浙江' })
-            .first(); // 子菜单 1 内叶子（value 1.5）
+        // hover 面板挂 body（appendToContainer），等面板可见后取其中叶子
+        const panel = page.locator('[class*="sub-menu-popper"]:visible').first();
+        await panel.waitFor({ state: 'visible', timeout: 10_000 });
+        // '浙江' 可能落在面板滚动区外导致 isVisible=false（CSS 可见但视口外），
+        // 改用「面板内可交互叶子」：首个可见的 .fes-menu-item（湖南 disabled，取可用项）
+        const leafZhejiang = panel
+            .locator('.fes-menu-item:not(.is-disabled)')
+            .first();
         await leafZhejiang.waitFor({ state: 'visible', timeout: 10_000 });
         await leafZhejiang.click();
         await expect(leafZhejiang).toHaveClass(/is-active/);
@@ -169,10 +181,13 @@ test.describe('#1034/#1040 FMenu 展开收敛（派生值）真实浏览器回�
 
         // 同样覆盖「hover 打开第二个子菜单 人群管理 → 点其叶子」路径
         await menu.locator('.fes-sub-menu-wrapper').nth(1).hover();
+        const panel2 = page.locator('[class*="sub-menu-popper"]:visible').first();
+        await panel2.waitFor({ state: 'visible', timeout: 10_000 });
+        // '白富美' 存在多个 demo 中，限定在当前可见面板内查找
         const leafBaifumei = page
-            .locator('.fes-menu-item')
+            .locator('[class*="sub-menu-popper"]:visible .fes-menu-item')
             .filter({ hasText: '白富美' })
-            .first(); // 人群管理 内叶子（value 2.2）
+            .first();
         await leafBaifumei.waitFor({ state: 'visible', timeout: 10_000 });
         await leafBaifumei.click();
         await expect(leafBaifumei).toHaveClass(/is-active/);

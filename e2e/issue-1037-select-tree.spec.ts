@@ -68,9 +68,12 @@ test.describe('#1037 FSelectTree targetValues 类型完备防御 e2e', () => {
             .first();
         await expect(singleModelValue).toContainText(OLD_LEAF, { timeout: 10_000 });
 
-        // 3) 点击 .fes-select-tree 触发区打开下拉（trigger=click，appendToContainer=true 弹层挂 body）
+        // 3) 点击 .fes-select-tree 触发区打开下拉（trigger=click，appendToContainer=true
+        // 弹层挂 body；页面多个 selectTree demo 各自有 popper，取可见的那个）
         await singleSelect.locator('.fes-select-trigger').click();
-        const dropdown = page.locator('.fes-select-tree-dropdown').last();
+        const dropdown = page
+            .locator('.fes-select-tree-popper:visible, .fes-select-tree-dropdown:visible')
+            .last();
         await dropdown
             .locator('.fes-tree-node')
             .first()

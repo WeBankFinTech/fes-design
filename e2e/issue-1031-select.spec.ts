@@ -47,9 +47,11 @@ test.describe('#1031 FSelectGroupOption 孤儿熔断不破坏常规用法', () =
             .first()
             .waitFor({ state: 'visible', timeout: 90_000 });
 
-        // 唯一圈定 selectGroupOption demo 块（页面仅此块含「基础用法」）
-        const demo = page.locator('.component-doc').filter({ hasText: '基础用法' });
-        await expect(demo).toHaveCount(1, { timeout: 30_000 });
+        // 定位 selectGroupOption demo 块：select/index.md demo 顺序里
+        // selectGroupOption.vue 排第 16（index 15）；h3 兄弟定位在该页面
+        // 结构与 vitepress 包裹不一致，改用 demo 索引
+        await page.locator('.component-doc').nth(15).waitFor({ state: 'visible', timeout: 30_000 });
+        const demo = page.locator('.component-doc').nth(15);
         const select = demo.first().locator('.fes-select').first();
         await expect(select).toBeVisible({ timeout: 90_000 });
 
@@ -74,16 +76,18 @@ test.describe('#1031 FSelectGroupOption 孤儿熔断不破坏常规用法', () =
         expect(await firstOption.textContent()).toContain('湖北');
         await firstOption.click();
 
-        // 选择后下拉关闭，触发区标签更新为「湖北」（值/标签变化断言）
+        // 选择后下拉关闭，触发区显示「湖北」（filterable 单选选中文本可能在
+        // input 或 label-text，按整个 select 区域文本断言）
         await expect(page.locator('.fes-select-dropdown:visible')).toHaveCount(0, {
             timeout: 5_000,
         });
-        await expect(select.locator('.fes-select-label-text')).toContainText('湖北', {
+        await expect(select).toContainText('湖北', {
             timeout: 5_000,
         });
 
         // 回归再开：分组标题依旧正常渲染，证明注册/熔断链路在交互后未被破坏
-        await select.locator('.fes-select-label-input').click();
+        // （filterable 单选选中后输入框隐藏，点击 select 整体重新进入编辑态）
+        await select.click();
         await expect(page.locator('.fes-select-group-option:visible').first()).toContainText(
             '华中地区',
             { timeout: 5_000 },
