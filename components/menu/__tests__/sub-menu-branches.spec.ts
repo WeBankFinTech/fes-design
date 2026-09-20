@@ -14,17 +14,14 @@ const menuPrefixCls = getPrefixCls('menu');
 //   popperProps 计算属性只在 renderContent 的 Popper 分支（renderWithPopper=true）
 //   被读取；renderWithPopper=false（垂直非折叠）时 renderContent 走内联分支，
 //   popperProps 根本不会被求值 → 该守卫无入口。
-// - subMenu.tsx:98 handleItemClick 的 `if (rootMenu.renderWithPopper.value)` 两条路径、
-//   subMenu.tsx:112 `isActive.value && 'is-active'` 的 true 路径（L112 死分支）：
-//   均由「子菜单内任一 MenuItem 处于激活态」这一渲染状态触发，而该状态会命中已知
-//   递归更新 bug #1034 —— Vue 开发模式下 "Maximum recursive updates exceeded in
-//   <FSubMenu>" 并产生无法吸收的 unhandled rejection（checkRecursiveUpdates 调
-//   handleError 时 instance=null，errorCaptured/errorHandler 均无法拦截，logError
-//   强制 rethrow）。实测：垂直/水平任何模式下，只要 subMenu.isActive 为 true 且子项
-//   已挂载（modelValue 指向子项、或点击子项后 selectedKey 落入子菜单），即触发。
-//   按「不改源码 + 0 unhandled」红线，这两处分支无法在不触发崩溃的前提下覆盖，
-//   待 #1034 修复后应补：is-active 类名断言 + handleItemClick 关闭/清空 expandedKeys
-//   断言（当前行为已通过 menu-branches.spec.ts 的水平点击关闭路径间接守护）。
+// - subMenu.tsx:98 handleItemClick 的 `if (rootMenu.renderWithPopper.value)` 两条路径：
+//   原由「子菜单内任一 MenuItem 处于激活态」触发，命中递归更新 bug（#1034/#1040，
+//   "Maximum recursive updates exceeded in <FSubMenu>" + unhandled rejection）。
+//   #1040 已根治：isActive 改为根菜单 activeSubMenuKeys 单一事实源判包含（渲染只读），
+//   L112 `isActive.value && 'is-active'` true 路径解锁，已由
+//   menu-recursive-root.spec.ts / menu-active-path-root.spec.ts 的 is-active 类名断言
+//   覆盖（真实 Transition + 0 unhandled）；handleItemClick 的 Popper 收敛路径由
+//   menu-recursive-root.spec.ts 水平用例与 menu-active-path-root.spec.ts 覆盖。
 
 // RightOutlined / DownOutlined 图标 path d 特征值（fes-design-icon 内 svg path）
 const RIGHT_PATH = 'm314.581 865.536';

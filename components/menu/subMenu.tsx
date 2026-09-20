@@ -80,8 +80,13 @@ export default defineComponent({
         const isOpened = computed(() =>
             rootMenu.currentExpandedKeys.value.includes(subMenuKey.value),
         );
+        // #1040 根治：isActive 不再渲染期反向遍历 children（读 reactive 解包
+        // 快照，选中态变化时与 <FSubMenu> 自身渲染/内建 Transition update 阶段
+        // 耦合形成自环 → Maximum recursive updates + unhandledRejection）。
+        // 改为根菜单按 currentValue 推导的单一事实源 activeSubMenuKeys 判包含，
+        // 渲染只读，无 children 读写。
         const isActive = computed(() =>
-            children.some((child) => child?.isActive),
+            rootMenu.activeSubMenuKeys.value.includes(subMenuKey.value),
         );
         const subMenu = {
             uid: instance.uid,
