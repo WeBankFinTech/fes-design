@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { type Page, expect, test } from '@playwright/test';
 
 // #1031-#1039 修复涉组件的存量 demo 真实浏览器验证：
 // 1) 页面级无未捕获异常（pageerror）与无 console.error（含 Vue warn）

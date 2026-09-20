@@ -54,6 +54,14 @@ step.vue
 prefixSuffix.vue
 :::
 
+### 键盘与滚轮步进
+
+聚焦输入框后，可通过键盘上下键（↑/↓）或滚轮调整数值；默认开启，可分别通过 `keyboard` / `wheel` 关闭。
+
+:::demo
+keyboardWheel.vue
+:::
+
 ## Props
 
 | 属性           | 说明             | 类型    | 默认值      |
@@ -67,6 +75,8 @@ prefixSuffix.vue
 | placeholder    | 输入框默认提示   | string  | -           |
 | precision      | 数值精度         | number  | -           |
 | autofocus      | 是否自动获取焦点 | boolean | `false`     |
+| keyboard       | 聚焦时是否响应键盘 ↑/↓ 步进 | boolean | `true`      |
+| wheel          | 聚焦时是否响应滚轮步进 | boolean | `true`      |
 
 ## Slots
 

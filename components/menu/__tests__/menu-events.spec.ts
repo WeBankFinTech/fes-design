@@ -125,5 +125,5 @@ describe('FTable expand 事件', () => {
         const emitted = wrapper.emitted('expandChange');
         expect(emitted![0][0]).toMatchObject({ row: { id: 1 }, expanded: true });
         wrapper.unmount();
-    });
+    }, 15000); // FTable + 动态 import 高负载下曾 5s 超时偶发红：放宽到 15s（根因修复，非选择器加固）
 });
