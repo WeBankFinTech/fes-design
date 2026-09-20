@@ -19,12 +19,12 @@ const itemPrefixCls = getPrefixCls('menu-item');
 // rootMenu.currentExpandedKeys 的派生只读值（单一事实源），所有写路径统一走
 // updateExpandedKeys。本文件用进程级 unhandledRejection 监听锁定总数为 0。
 //
-// 环境说明：jsdom 下「子菜单内叶子被选中（subMenu.isActive 变 true）触发的
-// <FSubMenu> 渲染自循环」为修复前已存在的问题（70792954 复现一致），与 Vue 内建
-// Transition（FadeInExpandTransition 直接引用）的 update 阶段行为耦合。本文件在
-// 垂直选中场景用受控桩 FadeInExpandTransition 隔离该环境因素，专注锁定菜单自身的
-// 展开状态收敛行为；水平场景点击根级菜单项触发收敛（与既有 menu-branches 一致）。
-// 剩余问题另见结论（待后续 issue 跟踪）。
+// #1040 追加：jsdom 下「子菜单内叶子被选中（subMenu.isActive 变 true）」曾触发
+// <FSubMenu> 渲染自循环（70792954 复现一致，与 Vue 内建 FadeInExpandTransition
+// 的 update 阶段耦合），该场景须用受控桩隔离。现 isActive 已改为根菜单
+// currentValue 推导的单一事实源（#1040，见 subMenu.tsx/menu.tsx/menuItem.tsx），
+// 本用例解锁真实 FadeInExpandTransition（不再桩替），锁定「真实 Transition +
+// 子项选中 → is-active + 0 rejection」；#1040 完整矩阵见 menu-active-path-root.spec.ts。
 
 const options = [
     {
@@ -56,13 +56,6 @@ const HoverPopperStub = {
             </div>
             <slot />
         </div>`,
-};
-
-// FadeInExpandTransition 受控桩（纯 div 透传）：隔离 jsdom 下 Vue 内建 Transition
-// 与 v-show 的 update 阶段自循环（见文件头环境说明），菜单状态机本身不受影响
-const PlainExpandWrapper = {
-    name: 'FadeInExpandTransition',
-    template: '<div><slot /></div>',
 };
 
 // 进程级 unhandledRejection 采集：#1034 的递归更新错误以此出口抛出，
@@ -103,7 +96,6 @@ describe('FMenu #1034 递归更新根治（展开状态单一事实源）', () =
                         }),
                     ],
                 },
-                global: { stubs: { FadeInExpandTransition: PlainExpandWrapper } },
                 attachTo: document.body,
             });
             await nextTick();
@@ -123,7 +115,10 @@ describe('FMenu #1034 递归更新根治（展开状态单一事实源）', () =
                 value: 'item1',
             });
             expect(wrapper.emitted('update:modelValue')![0][0]).toBe('item1');
-            expect(item.classes()).toContain('is-active');
+            // 真实 Transition 下点击后元素可能被替换，重新查询最新引用
+            const activeItem = wrapper.find(`.${itemPrefixCls}`);
+            expect(activeItem.exists()).toBe(true);
+            expect(activeItem.classes()).toContain('is-active');
             // 子菜单 is-active 派生自子项激活态（#1034 修复前该分支触发递归崩溃）
             expect(wrapper.find(`.${subPrefixCls}`).classes()).toContain(
                 'is-active',
