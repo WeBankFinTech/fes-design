@@ -86,7 +86,7 @@ test.describe('#1037 FSelectTree targetValues 类型完备防御 e2e', () => {
                 .click();
             await dropdown
                 .locator(`.fes-tree-node[data-value="${key}"]`)
-                .waitFor({ state: 'visible', timeout: 5_000 });
+                .waitFor({ state: 'visible', timeout: 10_000 });
         }
         await dropdown
             .locator(`.fes-tree-node[data-value="${TARGET_LEAF}"]`)

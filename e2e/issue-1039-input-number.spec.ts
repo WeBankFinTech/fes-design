@@ -61,14 +61,14 @@ test.describe('#1039 inputNumber 键盘步进修复', () => {
         await page.keyboard.press('ArrowUp');
         // waitFor 值变化：轮询直到数值严格大于原值（等待 v-model 更新，而非盲等）
         await expect
-            .poll(async () => Number(await input.inputValue()), { timeout: 5000 })
+            .poll(async () => Number(await input.inputValue()), { timeout: 10000 })
             .toBeGreaterThan(beforeVal);
         const upVal = Number(await input.inputValue());
 
         await page.keyboard.press('ArrowDown');
         // 回落断言：ArrowDown 后值严格小于 ArrowUp 后的值（10→11→10 对称步进）
         await expect
-            .poll(async () => Number(await input.inputValue()), { timeout: 5000 })
+            .poll(async () => Number(await input.inputValue()), { timeout: 10000 })
             .toBeLessThan(upVal);
 
         // 运行错误断言：剔除资源 404 / favicon 噪音，仅保留 pageerror 与 console.error

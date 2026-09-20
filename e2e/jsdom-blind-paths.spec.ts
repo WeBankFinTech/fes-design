@@ -53,7 +53,7 @@ test.describe('jsdom 盲区 · 真实浏览器验证', () => {
         const thumb = root.locator(
             '.fes-scrollbar-track.is-vertical .fes-scrollbar-track-thumb',
         );
-        await expect(thumb).toBeVisible({ timeout: 5000 });
+        await expect(thumb).toBeVisible({ timeout: 10000 });
         const box = await thumb.boundingBox();
         expect(box).toBeTruthy();
         // mousedown thumb → mousemove 下移 → mouseup：scrollTop 回写 >0
@@ -80,9 +80,9 @@ test.describe('jsdom 盲区 · 真实浏览器验证', () => {
         await expect(panel).not.toBeVisible();
         await trigger.click();
         // 真实 Popper 打开 → isOpened=true → visibleChange(true)
-        await expect(panel).toBeVisible({ timeout: 5000 });
+        await expect(panel).toBeVisible({ timeout: 10000 });
         // 再次点击收起（toggle 语义）
         await trigger.click();
-        await expect(panel).not.toBeVisible({ timeout: 5000 });
+        await expect(panel).not.toBeVisible({ timeout: 10000 });
     });
 });

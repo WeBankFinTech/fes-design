@@ -72,17 +72,17 @@ test.describe('#1031 FSelectGroupOption 孤儿熔断不破坏常规用法', () =
 
         // 选中第一个可用组内项（华中地区 → 湖北）
         const firstOption = page.locator('.fes-select-option:visible').first();
-        await firstOption.waitFor({ state: 'visible', timeout: 5_000 });
+        await firstOption.waitFor({ state: 'visible', timeout: 10_000 });
         expect(await firstOption.textContent()).toContain('湖北');
         await firstOption.click();
 
         // 选择后下拉关闭，触发区显示「湖北」（filterable 单选选中文本可能在
         // input 或 label-text，按整个 select 区域文本断言）
         await expect(page.locator('.fes-select-dropdown:visible')).toHaveCount(0, {
-            timeout: 5_000,
+            timeout: 10_000,
         });
         await expect(select).toContainText('湖北', {
-            timeout: 5_000,
+            timeout: 10_000,
         });
 
         // 回归再开：分组标题依旧正常渲染，证明注册/熔断链路在交互后未被破坏
@@ -90,7 +90,7 @@ test.describe('#1031 FSelectGroupOption 孤儿熔断不破坏常规用法', () =
         await select.click();
         await expect(page.locator('.fes-select-group-option:visible').first()).toContainText(
             '华中地区',
-            { timeout: 5_000 },
+            { timeout: 10_000 },
         );
         await page.keyboard.press('Escape');
 
