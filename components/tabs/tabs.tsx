@@ -42,6 +42,13 @@ export default defineComponent({
         const tabsLength = ref<number>(0);
 
         const isCard = computed(() => props.type === 'card');
+
+        // #1025：closable/addable 仅在 type="card" 下生效，其余类型静默失效，此处给出提示
+        if (!isCard.value && (props.closable || props.addable)) {
+            console.warn(
+                '[FTabs]: closable/addable 仅在 type="card" 下生效，当前 type 非 card，配置将被忽略',
+            );
+        }
         const position = computed(() =>
             isCard.value ? 'top' : props.position,
         );
