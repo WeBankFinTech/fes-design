@@ -75,6 +75,10 @@
     &.is-collapsed {
         overflow: visible;
     }
+    // #1027：补齐 embedded 场景背景，与 main/footer 一致
+    &.is-embedded {
+        background: var(--f-component-bg-color);
+    }
     &-trigger {
         position: absolute;
         bottom: 0;
@@ -113,6 +117,10 @@
         top: 0;
         right: 0;
         left: 0;
+    }
+    // #1027：补齐 embedded 场景背景，与 main/footer 一致
+    &.is-embedded {
+        background: var(--f-component-bg-color);
     }
 }
 

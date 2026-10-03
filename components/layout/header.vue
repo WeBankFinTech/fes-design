@@ -11,6 +11,7 @@ import {
     defineComponent,
     getCurrentInstance,
     inject,
+    ref,
 } from 'vue';
 import getPrefixCls from '../_util/getPrefixCls';
 import { noop } from '../_util/utils';
@@ -29,6 +30,11 @@ export const layoutHeaderProps = {
         default: false,
     },
     fixed: {
+        type: Boolean,
+        default: false,
+    },
+    // #1027：补齐 embedded，与 main/footer 保持一致
+    embedded: {
         type: Boolean,
         default: false,
     },
@@ -52,7 +58,10 @@ export default defineComponent({
                 `[${COMPONENT_NAME.HEADER}] must be a child of ${COMPONENT_NAME.LAYOUT}`,
             );
         }
-        const { addChild } = inject(LAYOUT_PROVIDE_KEY, { addChild: noop });
+        const { addChild, embedded } = inject(LAYOUT_PROVIDE_KEY, {
+            addChild: noop,
+            embedded: ref(false),
+        });
         addChild({
             type: COMPONENT_NAME.HEADER,
         });
@@ -62,6 +71,7 @@ export default defineComponent({
                 props.fixed && 'is-fixed',
                 props.inverted && 'is-inverted',
                 props.bordered && 'is-bordered',
+                (embedded.value || props.embedded) && 'is-embedded',
             ].filter(Boolean),
         );
         return {

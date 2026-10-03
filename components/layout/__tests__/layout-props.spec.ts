@@ -25,6 +25,68 @@ describe('FLayout 属性补全', () => {
         wrapper.unmount();
     });
 
+    // #1027：embedded 对 header/aside 此前缺失，补齐后四个子组件行为一致
+    test('#1027 embedded 经 provide 供 header/aside/main/footer 四件套消费', async () => {
+        const wrapper = mount(FLayout, {
+            props: { embedded: true },
+            attachTo: document.body,
+            slots: {
+                default: () => [
+                    h(FHeader, () => '头部'),
+                    h(FAside, () => '侧栏'),
+                    h(FMain, () => '主体'),
+                    h(FFooter, () => '底部'),
+                ],
+            },
+        });
+        await nextTick();
+        expect(
+            wrapper.find(`.${prefixCls}-header`).classes('is-embedded'),
+        ).toBe(true);
+        expect(
+            wrapper.find(`.${prefixCls}-aside`).classes('is-embedded'),
+        ).toBe(true);
+        expect(
+            wrapper.find(`.${prefixCls}-main`).classes('is-embedded'),
+        ).toBe(true);
+        expect(
+            wrapper.find(`.${prefixCls}-footer`).classes('is-embedded'),
+        ).toBe(true);
+        wrapper.unmount();
+    });
+
+    test('#1027 未开启 embedded 时四件套均无 is-embedded；子组件自身 embedded 单独生效', async () => {
+        const wrapper = mount(FLayout, {
+            attachTo: document.body,
+            slots: {
+                default: () => [
+                    h(FHeader, () => '头部'),
+                    h(FAside, () => '侧栏'),
+                    // 仅 header 单独开启自身 embedded prop
+                    h(FHeader, { embedded: true }, () => '头部2'),
+                    h(FMain, () => '主体'),
+                    h(FFooter, () => '底部'),
+                ],
+            },
+        });
+        await nextTick();
+        const headers = wrapper.findAll(`.${prefixCls}-header`);
+        expect(headers).toHaveLength(2);
+        expect(headers[0].classes('is-embedded')).toBe(false);
+        // 子组件自身 embedded prop 独立生效
+        expect(headers[1].classes('is-embedded')).toBe(true);
+        expect(
+            wrapper.find(`.${prefixCls}-aside`).classes('is-embedded'),
+        ).toBe(false);
+        expect(
+            wrapper.find(`.${prefixCls}-main`).classes('is-embedded'),
+        ).toBe(false);
+        expect(
+            wrapper.find(`.${prefixCls}-footer`).classes('is-embedded'),
+        ).toBe(false);
+        wrapper.unmount();
+    });
+
     test('fixed 定位布局', async () => {
         const wrapper = mount(FLayout, {
             props: { fixed: true },

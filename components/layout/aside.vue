@@ -83,6 +83,11 @@ export const layoutAsideProps = {
         type: Boolean,
         default: true,
     },
+    // #1027：补齐 embedded，与 main/footer 保持一致
+    embedded: {
+        type: Boolean,
+        default: false,
+    },
 } as const satisfies ComponentObjectPropsOptions;
 
 export type LayoutAsideProps = ExtractPublicPropTypes<typeof layoutAsideProps>;
@@ -107,10 +112,14 @@ export default defineComponent({
                 `[${COMPONENT_NAME.ASIDE}] must be a child of ${COMPONENT_NAME.LAYOUT}`,
             );
         }
-        const { addChild, asidePlacement } = inject(LAYOUT_PROVIDE_KEY, {
-            addChild: noop,
-            asidePlacement: ref<AsidePlacement>(''),
-        });
+        const { addChild, asidePlacement, embedded } = inject(
+            LAYOUT_PROVIDE_KEY,
+            {
+                addChild: noop,
+                asidePlacement: ref<AsidePlacement>(''),
+                embedded: ref(false),
+            },
+        );
         const [currentCollapsed, updateCurrentCollapsed] = useNormalModel(
             props,
             emit,
@@ -127,6 +136,7 @@ export default defineComponent({
                 props.collapsible && currentCollapsed.value && 'is-collapsed',
                 asidePlacement.value && `is-placement-${asidePlacement.value}`,
                 props.bordered && 'is-bordered',
+                (embedded.value || props.embedded) && 'is-embedded',
             ].filter(Boolean),
         );
         const style = computed(() => ({
