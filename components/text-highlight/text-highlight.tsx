@@ -102,8 +102,14 @@ export default defineComponent({
                 // 用户自定义的组件对象
                 const ChildComponent = NodeType as any;
                 const child = node.children as any;
-                const childSlots
+                // #1019 child.default() 可能返回单个 VNode / undefined /
+                // null 而非数组，统一归一化为 VNode 数组再 map，
+                // 否则抛 childSlots.map is not a function。
+                const rawSlots
                     = child && child.default ? child.default() : [];
+                const childSlots: VNode[] = (
+                    isArray(rawSlots) ? rawSlots : [rawSlots]
+                ).filter((slot: VNode | undefined | null) => isVNode(slot));
                 return (
                     <ChildComponent {...node.props}>
                         {childSlots.map(renderNode)}
