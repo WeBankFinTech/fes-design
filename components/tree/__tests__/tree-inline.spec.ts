@@ -236,3 +236,109 @@ describe('FTree inline isParentAllLeaf 分支补充', () => {
         remote.unmount();
     });
 });
+
+describe('FTree inline 显式 isLeaf 组合（#1020 简化回归）', () => {
+    // useData.transformNode 归一化后 isLeaf 恒为布尔值，
+    // isInline 直接读取 item.isLeaf，与原三分支推断结果一致
+    test('显式 isLeaf=false 兄弟（无 children）阻断整组内联', async () => {
+        const data = [
+            {
+                value: 'p',
+                label: '父',
+                children: [
+                    { value: 'l1', label: '真叶', isLeaf: true },
+                    { value: 'n1', label: '假叶', isLeaf: false },
+                ],
+            },
+        ];
+        const wrapper = mount(Tree, {
+            props: { data, inline: true, defaultExpandAll: true },
+        });
+        await nextTick();
+        await wait(50);
+        const nodes = wrapper.findAll(`.${prefixCls}`);
+        expect(nodes.find((n) => n.text() === '真叶')!.classes()).not.toContain('is-inline');
+        wrapper.unmount();
+    });
+
+    test('remote 下显式 isLeaf=true 的全叶组内联', async () => {
+        const data = [
+            {
+                value: 'rp',
+                label: '远程父',
+                children: [
+                    { value: 'rl1', label: '远叶1', isLeaf: true },
+                    { value: 'rl2', label: '远叶2', isLeaf: true },
+                ],
+            },
+        ];
+        const wrapper = mount(Tree, {
+            props: { data, inline: true, remote: true, defaultExpandAll: true },
+        });
+        await nextTick();
+        await wait(50);
+        const nodes = wrapper.findAll(`.${prefixCls}`);
+        expect(nodes.find((n) => n.text() === '远叶1')!.classes()).toContain('is-inline');
+        expect(nodes.find((n) => n.text() === '远叶2')!.classes()).toContain('is-inline');
+        wrapper.unmount();
+    });
+
+    test('remote 下未标 isLeaf 的兄弟（归一化为 false）阻断内联', async () => {
+        const data = [
+            {
+                value: 'mp',
+                label: '混合父',
+                children: [
+                    { value: 'ml1', label: '标叶', isLeaf: true },
+                    { value: 'ml2', label: '未标' },
+                ],
+            },
+        ];
+        const wrapper = mount(Tree, {
+            props: { data, inline: true, remote: true, defaultExpandAll: true },
+        });
+        await nextTick();
+        await wait(50);
+        const nodes = wrapper.findAll(`.${prefixCls}`);
+        // 归一化后未标节点 isLeaf=false（remote），原推断走 remote 分支 → 不内联
+        expect(nodes.find((n) => n.text() === '标叶')!.classes()).not.toContain('is-inline');
+        wrapper.unmount();
+    });
+
+    test('懒加载后新子节点归一化参与内联判定', async () => {
+        // loadData 追加 children → deep watch 触发 re-flatten → 归一化 isLeaf
+        const data = [
+            { value: 'lazy', label: '懒父', isLeaf: false, children: [] },
+        ];
+        let resolveLoad: () => void = () => {};
+        const loadData = (node: any) =>
+            new Promise<void>((res) => {
+                resolveLoad = () => {
+                    node.children = [
+                        { value: 'lz1', label: '懒叶1', isLeaf: true },
+                        { value: 'lz2', label: '懒叶2', isLeaf: true },
+                    ];
+                    res();
+                };
+            });
+        const wrapper = mount(Tree, {
+            props: { data, inline: true, remote: true, loadData },
+        });
+        await nextTick();
+        await wait(50);
+        const switcher = wrapper.find(`.${prefixCls}-switcher`);
+        expect(switcher.exists()).toBe(true);
+        await switcher.trigger('click');
+        await nextTick();
+        // 等 deep watch 捕获变更后再 resolve，模拟真实异步加载节奏
+        resolveLoad();
+        await nextTick();
+        await wait(80);
+        const nodes = wrapper.findAll(`.${prefixCls}`);
+        const leaf1 = nodes.find((n) => n.text() === '懒叶1');
+        expect(leaf1).toBeTruthy();
+        // 全叶组 → 内联
+        expect(leaf1!.classes()).toContain('is-inline');
+        wrapper.unmount();
+    });
+});
