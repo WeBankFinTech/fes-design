@@ -405,15 +405,26 @@ export default defineComponent({
                     width: '100%',
                 };
 
+        // #1028：header/footer 插槽渲染进 wrapTag 容器（header 在条目前，footer 在条目后）
+        const normalizeContent = (content: unknown) =>
+            (Array.isArray(content) ? content : [content]).filter(Boolean);
+        const headerContent = this.$slots.header
+            ? normalizeContent(this.$slots.header())
+            : [];
+        const footerContent = this.$slots.footer
+            ? normalizeContent(this.$slots.footer())
+            : [];
+        const itemContent = renderItemList
+            ? normalizeContent(renderItemList(this.getRenderItems()))
+            : this.getRenderItems();
+
         const wrapNode = createVNode(
             wrapTag,
             {
                 class: wrapClass,
                 style: wrapperStyle,
             },
-            renderItemList
-                ? renderItemList(this.getRenderItems())
-                : this.getRenderItems(),
+            [...headerContent, ...itemContent, ...footerContent],
         );
 
         return (

@@ -198,12 +198,10 @@ describe('VirtualList 尺寸上报与 slot 现状锁定', () => {
         restoreOffset();
     });
 
-    // 组件侧缺口已提 issue：WeBankFinTech/fes-design#1028
-    // （修复后翻转断言：header/footer 应渲染进滚动区域）
-    test('已知缺口锁定：header/footer slot 声明了 onSlotResized 但模板无渲染出口', async () => {
+    // #1028 已修复：header/footer slot 现渲染进滚动区域
+    test('#1028 回归：header/footer slot 渲染进 wrapTag 容器（header 前置 / footer 后置）', async () => {
         // virtualList.tsx:196 判断 slots.header()/footer() 存在后更新 slot 尺寸，
-        // 但 render() 只输出 getRenderItems()——header/footer 从未进 DOM。
-        // 锁定当前行为（若未来补渲染出口，此用例需同步调整并升级为正向断言）。
+        // 修复前 render() 只输出 getRenderItems()——header/footer 从未进 DOM。
         const wrapper = mount(VirtualList, {
             props: {
                 dataSources: makeItems(5),
@@ -220,9 +218,21 @@ describe('VirtualList 尺寸上报与 slot 现状锁定', () => {
         });
         await nextTick();
         await wait();
-        // 当前行为：slot 内容不渲染（功能缺口，需组件侧修复）
-        expect(wrapper.find('.vl-header').exists()).toBe(false);
-        expect(wrapper.find('.vl-footer').exists()).toBe(false);
+        // 修复后：slot 内容渲染进 DOM
+        expect(wrapper.find('.vl-header').exists()).toBe(true);
+        expect(wrapper.find('.vl-footer').exists()).toBe(true);
+        expect(wrapper.find('.vl-header').text()).toBe('头部');
+        expect(wrapper.find('.vl-footer').text()).toBe('尾部');
+        // 顺序：header 在条目之前，footer 在条目之后
+        const wrapHtml = wrapper.html();
+        const headerIdx = wrapHtml.indexOf('vl-header');
+        const itemIdx = wrapHtml.indexOf('项目0');
+        const footerIdx = wrapHtml.indexOf('vl-footer');
+        expect(headerIdx).toBeGreaterThan(-1);
+        expect(itemIdx).toBeGreaterThan(-1);
+        expect(footerIdx).toBeGreaterThan(-1);
+        expect(headerIdx).toBeLessThan(itemIdx);
+        expect(itemIdx).toBeLessThan(footerIdx);
         // 条目渲染不受影响
         expect(wrapper.text()).toContain('项目0');
         wrapper.unmount();
