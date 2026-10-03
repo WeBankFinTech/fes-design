@@ -12,8 +12,9 @@
         onlyShowTrigger
     >
         <template #trigger>
+            <!-- #1022: isRange 暂未实现，不再用 v-if 隐藏输入框，
+                 开启 isRange 时回退为单值渲染，避免触发器区域完全空白 -->
             <InputInner
-                v-if="!isRange"
                 :class="[attrs.class, classes]"
                 :style="attrs.style"
                 :modelValue="displayValue"
@@ -97,6 +98,20 @@ import TimePickerAddon from './time-picker-addon.vue';
 
 const prefixCls = getPrefixCls('time-picker');
 
+// #1022: import.meta.env 仅在 vite/vitest 等构建环境下存在；
+// ?. 守卫保证 rollup/esm 产物在无 process 的浏览器环境不抛错
+const isDev = import.meta.env?.DEV;
+
+// #1022: isRange 属性暂未实现（模板无 range 分支），开启时
+// 明确告知用户按单值模式渲染，避免静默失效
+function warnIsRange() {
+    if (isDev) {
+        console.warn(
+            '[FTimePicker]: isRange 属性暂未实现，将按单值模式渲染',
+        );
+    }
+}
+
 // TODO 支持 12 小时制
 function formatTimeCell(data: number) {
     return `${data}`.padStart(2, '0');
@@ -172,6 +187,7 @@ export const timePickerProps = {
         default: '',
     },
     // FEATURE 下个版本实现
+    // #1022: isRange 暂未实现，开启时按单值模式渲染并输出开发告警
     isRange: {
         type: Boolean,
         default: false,
@@ -246,6 +262,18 @@ export default defineComponent({
     emits: [UPDATE_MODEL_EVENT, 'update:open', 'change', 'blur', 'focus'],
     setup(props, { emit, attrs }) {
         useTheme();
+        // #1022: 挂载时与 isRange 运行时开启时输出开发告警
+        if (props.isRange) {
+            warnIsRange();
+        }
+        watch(
+            () => props.isRange,
+            (isRange) => {
+                if (isRange) {
+                    warnIsRange();
+                }
+            },
+        );
         const { validate, isError, isFormDisabled } = useFormAdaptor({
             forbidChildValidate: true,
         });
@@ -340,10 +368,7 @@ export default defineComponent({
 
         // 输入框展示的值
         const displayValue = computed(() => {
-            // 目前没有范围选择
-            if (props.isRange) {
-                return currentValue.value || [];
-            }
+            // #1022: isRange 暂未实现，按单值模式展示
             return (
                 tempValue.value || activeTime.value || currentValue.value || ''
             );
