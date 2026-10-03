@@ -122,7 +122,8 @@ export default defineComponent({
         const onScroll = (e: Event) => {
             if (
                 (layout.isScrollX.value || layout.isScrollY.value)
-                && bodyWrapperRef.value.offsetHeight > 0 // BodyTable 没有高度时，同步滚动状态无意义
+                // BodyTable 没有高度时，同步滚动状态无意义
+                && (bodyWrapperRef.value?.offsetHeight ?? 0) > 0
             ) {
                 syncPosition(e);
             }
@@ -137,10 +138,9 @@ export default defineComponent({
                 return (
                     <Scrollbar
                         ref={(el: any) => {
-                            if (el) {
-                                scrollbarRef.value = el;
-                                bodyWrapperRef.value = el.$el;
-                            }
+                            // 卸载时 el 为 null，同步置空，避免持有已卸载实例
+                            scrollbarRef.value = el || null;
+                            bodyWrapperRef.value = el?.$el || null;
                         }}
                         class={bodyWrapperClass.value}
                         style={bodyWrapperStyle.value}
