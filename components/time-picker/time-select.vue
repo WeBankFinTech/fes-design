@@ -49,6 +49,10 @@ import type { TimeOption } from './interface';
 
 const prefixCls = getPrefixCls('time-picker');
 
+// #1023: import.meta.env 仅在 vite/vitest 等构建环境下存在；
+// ?. 守卫保证 rollup/esm 产物在无 process 的浏览器环境不抛错
+const isDev = import.meta.env?.DEV;
+
 function formatTime(
     total: number,
     step: number,
@@ -83,6 +87,8 @@ const timeSelectProps = {
         default: false,
     },
     modelValue: {
+        // #1023: 仅支持字符串（HH:mm:ss 等）；非字符串值将被忽略并
+        // 在开发模式下告警，而不是抛错
         type: String,
         default: '',
     },
@@ -151,6 +157,24 @@ export default defineComponent({
 
         // 解析时间
         const parseTime = () => {
+            // #1023: modelValue 类型防御——非字符串（如数组/数字/
+            // 对象）按空值处理，避免 props.modelValue.split 抛
+            // TypeError 导致整页白屏；null/undefined/空数组视为
+            // 空值静默处理，其余非字符串在开发模式下告警
+            if (typeof props.modelValue !== 'string') {
+                const isEmptyValue
+                    = props.modelValue == null
+                    || (Array.isArray(props.modelValue)
+                        && props.modelValue.length === 0);
+                if (!isEmptyValue && isDev) {
+                    console.warn(
+                        '[FTimeSelect]: modelValue 仅支持字符串类型，当前值将被忽略:',
+                        props.modelValue,
+                    );
+                }
+                Object.assign(selectedTime, initialSelectedTime);
+                return;
+            }
             if (!props.modelValue) {
                 Object.assign(selectedTime, initialSelectedTime);
                 return;
