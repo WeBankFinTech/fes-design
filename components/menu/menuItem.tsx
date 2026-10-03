@@ -106,11 +106,11 @@ export default defineComponent({
             handleItemClick();
         };
         const renderTitle = () => {
-            return (
-                <Ellipsis class={`${prefixCls}-label`}>
-                    {slots.label?.() || props.label}
-                </Ellipsis>
-            );
+            // #1017 回退链：label 插槽 → label prop → default 插槽。
+            // 此前只回退前两者，default 插槽文本被静默丢弃（label span 渲染为空 <!---->）。
+            // 保持原有「插槽优先于 prop」次序，仅在其后追加 default 插槽兜底。
+            const label = slots.label?.() || props.label || slots.default?.();
+            return <Ellipsis class={`${prefixCls}-label`}>{label}</Ellipsis>;
         };
         const renderIcon = () => {
             if (slots.icon) {

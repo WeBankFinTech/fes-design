@@ -148,6 +148,9 @@ export default defineComponent({
         };
 
         const renderTitle = () => {
+            // #1017 说明：FSubMenu 的 default 插槽是子菜单项列表而非标题，
+            // 故标题回退链仅取 label 插槽 / label prop，不回退 default 插槽
+            // （否则子项会在标题处重复渲染）。
             return (
                 <Ellipsis class={`${prefixCls}-label`}>
                     {slots.label?.() || props.label}

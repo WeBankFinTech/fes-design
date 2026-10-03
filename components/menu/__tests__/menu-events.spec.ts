@@ -27,10 +27,9 @@ const mountMenu = (props: Record<string, unknown> = {}) =>
     });
 
 describe('FMenu 事件', () => {
-    // 已知问题 #1017：MenuItem 的 renderTitle 只消费 label prop/slot，
-    // default slot 子内容不渲染（元素挂载但文本为空）。用 label prop 验证交互，
-    // 此用例显式锁定 default slot 现状，修复后应改为断言文本渲染。
-    test('MenuItem default slot 子内容当前不渲染（#1017 现状）', async () => {
+    // #1017 已修复：renderTitle 回退链补 default 插槽，
+    // MenuItem 的 default slot 子内容现在会渲染为 label 文本。
+    test('MenuItem default slot 子内容渲染为 label（#1017 修复回归）', async () => {
         const wrapper = mount(Menu, {
             props: { modelValue: '1' } as any,
             slots: {
@@ -42,9 +41,8 @@ describe('FMenu 事件', () => {
         });
         await nextTick();
         await wait();
-        // 元素已挂载，但 default slot 文本丢失
         expect(wrapper.findAll('.fes-menu-item').length).toBe(1);
-        expect(wrapper.text()).not.toContain('默认插槽内容');
+        expect(wrapper.text()).toContain('默认插槽内容');
         wrapper.unmount();
     });
 
@@ -96,8 +94,12 @@ describe('FRadioGroup 事件', () => {
 });
 
 describe('FTable expand 事件', () => {
+    // 动态 import 在用例体内执行时计入 15s 单测超时（transform 高负载下
+    // 偶发超时红），提升到模块顶层预加载，用例只做断言。
+    const TablePromise = import('../../table/table');
+
     test('展开行触发 expandChange', async () => {
-        const Table = (await import('../../table/table')).default;
+        const Table = (await TablePromise).default;
         const DATA = [
             { id: 1, name: 'a', children: [{ id: 11, name: 'a-1' }] },
             { id: 2, name: 'b' },
