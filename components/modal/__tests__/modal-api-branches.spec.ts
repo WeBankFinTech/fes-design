@@ -1,4 +1,5 @@
 import { h, nextTick } from 'vue';
+import { vi } from 'vitest';
 import modalApi from '../modalApi';
 import { createManager } from '../../_util/noticeManager';
 import { wait } from '../../_util/__tests__/helpers';
@@ -14,7 +15,9 @@ const getCancelButton = () =>
     );
 
 // modalApi 通过 render 卸载 dom（onAfterLeave → render(null)），
-// useAnimation=false 时点击 ok 后直接走同步卸载，节奏确定
+// useAnimation=false 时点击 ok 后直接走同步卸载，节奏确定。
+// settle 仅用于"给渲染/卸载一个调度窗口"，紧随其后的断言若依赖
+// 动画完成则各自用 vi.waitFor 轮询，不在这里盲等放大延迟。
 const settle = async () => {
     await nextTick();
     await wait(60);
@@ -43,10 +46,12 @@ describe('modalApi 分支覆盖（modalApi.tsx）', () => {
         expect(onOk).toHaveBeenCalledTimes(1);
         expect(getModals().length).toBe(1);
 
-        // FButton 自带 300ms 节流，等节流窗口过后再点：
+        // 等 FButton 300ms 节流窗口过后再点（轮询重试，防负载下超时）：
         // 点击穿透到 handleCallBack，被 cbFuncEnd=true 拦截
-        await wait(310);
-        getOkButton().click();
+        await vi.waitFor(() => {
+            // 节流解锁后重放点击，onOk 仍被守卫拦截（回调挂起未 resolve）
+            getOkButton()?.click();
+        }, { timeout: 3000, interval: 150 });
         await nextTick();
         expect(onOk).toHaveBeenCalledTimes(1);
 
@@ -73,11 +78,13 @@ describe('modalApi 分支覆盖（modalApi.tsx）', () => {
         expect(onOk).toHaveBeenCalledTimes(1);
         expect(getModals().length).toBe(1);
 
-        // 等 FButton 300ms 节流窗口过后再点：cbFuncEnd 已在 catch 后复位，
-        // onOk 第二次触发；此次 resolve → 正常关闭
+        // 等 FButton 300ms 节流窗口过后再点（轮询重试直到第二次真正触发）：
+        // cbFuncEnd 已在 catch 后复位，onOk 第二次触发；此次 resolve → 正常关闭
         shouldReject = false;
-        await wait(310);
-        getOkButton().click();
+        await vi.waitFor(() => {
+            getOkButton()?.click();
+            expect(onOk).toHaveBeenCalledTimes(2);
+        }, { timeout: 3000, interval: 150 });
         await settle();
         expect(onOk).toHaveBeenCalledTimes(2);
         expect(getModals().length).toBe(0);
@@ -238,10 +245,11 @@ describe('noticeManager 分支覆盖（noticeManager.tsx，经 createManager 直
         await nextTick();
         expect(document.body.querySelectorAll('.raw-notice').length).toBe(3);
         manager.remove('bye');
-        // TransitionGroup leave 动画完成后 dom 才移除
-        await wait(80);
-        expect(afterRemove).toHaveBeenCalledTimes(1);
-        expect(document.body.querySelectorAll('.raw-notice').length).toBe(2);
+        // TransitionGroup leave 动画完成后 dom 才移除：轮询等待（盲等在负载下易超时）
+        await vi.waitFor(() => {
+            expect(afterRemove).toHaveBeenCalledTimes(1);
+            expect(document.body.querySelectorAll('.raw-notice').length).toBe(2);
+        });
 
         // remove 不存在的 key：静默无操作（L62 else 分支）
         expect(() => manager.remove('不存在')).not.toThrow();
@@ -256,8 +264,9 @@ describe('noticeManager 分支覆盖（noticeManager.tsx，经 createManager 直
         });
         await nextTick();
         expect(document.body.querySelectorAll('.raw-notice').length).toBe(3);
-        await wait(120);
-        expect(document.body.querySelectorAll('.raw-notice').length).toBe(2);
+        await vi.waitFor(() => {
+            expect(document.body.querySelectorAll('.raw-notice').length).toBe(2);
+        });
 
         // destroy：卸载实例并清理容器（L143 true 分支）
         manager.destroy();
