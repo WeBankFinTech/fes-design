@@ -15,7 +15,7 @@ async function openModalAndHover(page: any) {
         const urls = performance.getEntriesByType('resource').map((e) => e.name);
         const vueUrl = urls.find((u) => /deps\/vue\.js/.test(u));
         const Vue = (await import(vueUrl)).default ?? (await import(vueUrl));
-        const mod = await import('/@fs' + entry);
+        const mod = await import('/@fs/' + entry.replaceAll('\\', '/'));
         const { FModal, FScrollbar } = mod;
         const mountPoint = document.createElement('div');
         mountPoint.id = 'e2e-716-host';
@@ -107,7 +107,7 @@ test('#716 不悬停时滚动条操作仍正常（回归守护）', async ({ pag
         const urls = performance.getEntriesByType('resource').map((e) => e.name);
         const vueUrl = urls.find((u) => /deps\/vue\.js/.test(u));
         const Vue = (await import(vueUrl)).default ?? (await import(vueUrl));
-        const mod = await import('/@fs' + entry);
+        const mod = await import('/@fs/' + entry.replaceAll('\\', '/'));
         const { FModal, FScrollbar } = mod;
         const mountPoint = document.createElement('div');
         mountPoint.id = 'e2e-716-host2';
