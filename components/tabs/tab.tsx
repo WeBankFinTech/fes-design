@@ -40,7 +40,8 @@ export default defineComponent({
 
         const handleCloseClick = (event: Event) => {
             event.stopPropagation();
-            handleClose(props.value);
+            // value 未配置时回退到 name（#1024：只配 name 的 tab 关闭 payload 为空）
+            handleClose(props.value ?? props.name);
         };
 
         tabsLength.value = tabsLength.value + 1;
