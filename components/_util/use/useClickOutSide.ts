@@ -1,6 +1,5 @@
 import { type Ref, onBeforeUnmount, ref, unref, watch } from 'vue';
 import getElementFromVueInstance from '../getElementFromVueInstance';
-import { isServer } from '../isServer';
 
 export default function useClickOutSide(
     watchList:
@@ -35,11 +34,6 @@ export default function useClickOutSide(
             window.removeEventListener('click', onGlobalMouseDown, true);
         }
     };
-
-    // SSR：无 window，跳过监听注册（客户端激活后 watch 变化会重新注册）
-    if (isServer) {
-        return destroy;
-    }
 
     watch(
         disabledRef,

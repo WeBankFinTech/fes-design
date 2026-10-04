@@ -1,14 +1,10 @@
 import { nextTick } from 'vue';
 
 import { isFinite, isNull, isString, isUndefined } from 'lodash-es';
-import { isServer } from './isServer';
 
 export const noop = () => {};
 export const noopInNoop = () => noop;
-// SSR 下无 document.body，返回 null（消费方 Teleport to=null 安全跳过；
-// 主题写入等 DOM 副作用各自有 isServer 守卫）
-export const defaultContainer = () =>
-    isServer ? null : document.body;
+export const defaultContainer = () => document.body;
 
 export async function sleep(ms: number): Promise<void> {
     return new Promise((resolve) => {
