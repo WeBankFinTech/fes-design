@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { cloneDeep } from 'lodash-es';
 import { useEventListener } from '@vueuse/core';
 import { depx } from '../_util/utils';
+import { isServer } from '../_util/isServer';
 import type useTableEvent from './useTableEvent';
 import type { ColumnInst, ColumnProps } from './column';
 import type { WidthItem } from './useTableLayout';
@@ -110,9 +111,12 @@ export default (
         isWatchX.value = true;
     };
 
-    useEventListener(window.document, 'mousemove', onMousemove);
-
-    useEventListener(window.document, 'mouseup', onMouseup);
+    // SSR：无 window，跳过全局监听（列宽拖拽本身是纯客户端交互，
+    // 客户端激活后此 composable 随组件重新 setup 注册）
+    if (!isServer) {
+        useEventListener(window.document, 'mousemove', onMousemove);
+        useEventListener(window.document, 'mouseup', onMouseup);
+    }
 
     return {
         onMousedown,
