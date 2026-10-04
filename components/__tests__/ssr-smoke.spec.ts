@@ -38,7 +38,7 @@ describe('SSR 冒烟（独立进程，无任何 DOM 全局）', () => {
     const SLOW = 180_000;
 
     test(
-        '基础组件：FButton（useTheme 守卫的直接证明）',
+        '基础组件：FButton（useTheme 生命周期推迟的直接证明）',
         () => {
             const r = runSSR(['button']);
             expect(r.ok, r.out.slice(-800)).toBe(true);
