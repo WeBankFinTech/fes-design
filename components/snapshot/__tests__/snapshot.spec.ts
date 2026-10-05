@@ -90,10 +90,10 @@ describe('展示型组件默认渲染快照', () => {
         wrapper.unmount();
     });
 
-    test('FEmpty（渐变 ID 含时间戳，序列化前归一化）', () => {
+    test('FEmpty（渐变 ID 用 useId，确定性输出）', () => {
         const wrapper = mount(FEmpty);
-        // SVG 渐变 id 每次渲染带 Date.now() 后缀，归一化后快照才稳定
-        const html = wrapper.html().replace(/-(\d{13})/g, '-NORMALIZED');
+        // useId() 基于组件树位置，同一挂载位置 id 稳定，快照无需归一化
+        const html = wrapper.html();
         expect(html).toMatchSnapshot();
         wrapper.unmount();
     });

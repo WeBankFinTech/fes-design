@@ -215,25 +215,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-
-// 全局计数器，用于生成唯一ID
-let idCounter = 0;
-
-/**
- * 生成唯一ID的工具函数
- * 结合计数器和时间戳确保每个组件实例的唯一性
- * @returns {string} 唯一标识符
- */
-function generateUniqueId(): string {
-    return `empty-${++idCounter}-${Date.now()}`;
-}
+import { defineComponent, useId } from 'vue';
 
 export default defineComponent({
     name: 'DefaultImgEmpty',
     setup() {
-        // 为每个组件实例生成唯一ID，避免SVG渐变定义冲突
-        const uniqueId = generateUniqueId();
+        // 为每个组件实例生成唯一ID，避免SVG渐变定义冲突。
+        // useId()：SSR 与客户端水合产出相同 id（基于组件树位置），
+        // 旧实现 Date.now() 导致两端 id 不同 → 水合属性不一致告警
+        const uniqueId = `empty-${useId()}`;
 
         return {
             uniqueId,

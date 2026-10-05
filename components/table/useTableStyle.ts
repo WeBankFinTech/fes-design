@@ -1,7 +1,6 @@
 import { type CSSProperties, type Ref, computed, reactive, ref, watch } from 'vue';
 import { isFunction, isPlainObject, isUndefined, throttle } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
-import { isServer } from '../_util/isServer';
 import { getCellValue } from './helper';
 import useTableLayout from './useTableLayout';
 
@@ -143,10 +142,11 @@ export default ({
             };
         }
         const style: CSSProperties = {};
-        // SSR 首帧 bodyWidth 尚无 DOM 测量值（0），输出 width:0px 会把
-        // table-layout:fixed 的表格压成 0 宽；服务端不设置宽度，
-        // 客户端挂载测量后正常输出
-        if (!isServer) {
+        // bodyWidth 无 DOM 测量值时为 0（SSR 渲染、客户端水合首帧），
+        // 输出 width:0px 会把 table-layout:fixed 的表格压成 0 宽，
+        // 且两端帧不一致会触发水合告警；无测量值时不设宽度，
+        // 测量完成后正常输出
+        if (layout.bodyWidth.value) {
             style.width = `${layout.bodyWidth.value}px`;
         }
         return style;
@@ -159,7 +159,7 @@ export default ({
             };
         }
         const style: CSSProperties = {};
-        if (!isServer) {
+        if (layout.bodyWidth.value) {
             style.width = `${layout.bodyWidth.value}px`;
         }
         return style;
