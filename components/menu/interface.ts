@@ -14,6 +14,7 @@ export interface MenuItemType {
     value: string | number;
     type: string;
     children: MenuItemType[];
+    // 派生自 rootMenu.expandedKeys（单一事实源，#1034）
     isOpened: Ref<boolean>;
     isActive: Ref<boolean>;
     isDisabled: Ref<boolean>;

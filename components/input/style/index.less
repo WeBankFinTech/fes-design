@@ -65,6 +65,10 @@
     &-count {
         color: var(--f-text-color-secondary);
         font-size: @font-size-caption;
+
+        &.is-exceed {
+            color: var(--f-danger-color);
+        }
     }
 }
 
@@ -135,5 +139,10 @@
         transform: translateY(calc(0px - 100% - 2px)); 
         opacity: 0.4;
         pointer-events: none;
+
+        &.is-exceed {
+            color: var(--f-danger-color);
+            opacity: 1;
+        }
     }
 }

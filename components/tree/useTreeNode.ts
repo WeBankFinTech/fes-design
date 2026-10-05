@@ -1,5 +1,4 @@
 import { computed, inject } from 'vue';
-import { isNil } from 'lodash-es';
 import { TREE_PROVIDE_KEY } from './props';
 
 import type { TreeNodeProps } from './treeNode';
@@ -28,21 +27,9 @@ export default (props: TreeNodeProps) => {
         const node = nodeList.get(props.value);
         const parentNodePath = node.indexPath[node.indexPath.length - 2];
         const parentNode = nodeList.get(parentNodePath);
-        return parentNode.children.every((item) => {
-            const hasChildren
-                = Array.isArray(item.children) && item.children.length;
-            let isLeaf;
-            if (!isNil(item.isLeaf)) {
-                isLeaf = item.isLeaf;
-            } else if (hasChildren) {
-                isLeaf = false;
-            } else if (root.props.remote) {
-                isLeaf = false;
-            } else {
-                isLeaf = true;
-            }
-            return isLeaf;
-        });
+        // nodeList 中的 children 均经过 useData 的 transformNode 归一化，
+        // isLeaf 已是布尔值，直接判定即可
+        return parentNode.children.every((item) => item.isLeaf);
     });
 
     const isFirst = computed(() => {

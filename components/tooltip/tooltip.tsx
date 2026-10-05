@@ -1,6 +1,7 @@
 import {
     type ComponentObjectPropsOptions,
     type PropType,
+    type Ref,
     computed,
     defineComponent,
     ref,
@@ -60,7 +61,7 @@ export default defineComponent({
 
         const currentValue = useVModel(props, 'modelValue', ctx.emit, {
             passive: props.passive,
-        });
+        }) as Ref<boolean>;
         const updateCurrentValue = (val: boolean) => {
             currentValue.value = val;
         };

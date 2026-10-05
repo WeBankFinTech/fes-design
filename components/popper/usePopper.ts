@@ -1,4 +1,4 @@
-import { computed, nextTick, onActivated, onMounted, reactive, ref, watch } from 'vue';
+import { type Ref, computed, nextTick, onActivated, onMounted, reactive, ref, watch } from 'vue';
 import { type ReferenceElement, arrow, computePosition, flip, offset, shift } from '@floating-ui/dom';
 import { isBoolean, isFunction } from 'lodash-es';
 import { useVModel } from '@vueuse/core';
@@ -19,7 +19,7 @@ const MAP = {
 export default (props: PopperProps, emit: any) => {
     const visible = useVModel(props, 'modelValue', emit, {
         passive: props.passive,
-    });
+    }) as Ref<boolean>;
     const updateVisible = (val: boolean) => {
         visible.value = val;
     };
@@ -66,17 +66,35 @@ export default (props: PopperProps, emit: any) => {
             }
 
             const triggerEl: ReferenceElement
-                = props.trigger === 'contextmenu' // 仅在右键时，使用鼠标具体触发位置
+                = props.trigger === 'contextmenu' // 仅在右键时，使用鼠标具体位置
                     ? {
-                            getBoundingClientRect: () =>
-                                virtualRect.value && {
+                            // virtualRect 可能已被清空（如右键开后立即左键关：
+                            // virtualRect watch 先于 visible watch 触发重算），
+                            // 返回零尺寸 rect 让 floating-ui 正常结算，
+                            // 而不是把 null 传进去抛 unhandled TypeError
+                            getBoundingClientRect: () => {
+                                const rect = virtualRect.value;
+                                if (!rect) {
+                                    return {
+                                        width: 0,
+                                        height: 0,
+                                        top: 0,
+                                        right: 0,
+                                        bottom: 0,
+                                        left: 0,
+                                        x: 0,
+                                        y: 0,
+                                    };
+                                }
+                                return {
                                     width: 0,
                                     height: 0,
-                                    top: virtualRect.value.y,
-                                    right: virtualRect.value.x,
-                                    bottom: virtualRect.value.y,
-                                    left: virtualRect.value.x,
-                                },
+                                    top: rect.y,
+                                    right: rect.x,
+                                    bottom: rect.y,
+                                    left: rect.x,
+                                };
+                            },
                             contextElement: rawTriggerEl,
                         }
                     : rawTriggerEl;
@@ -95,11 +113,16 @@ export default (props: PopperProps, emit: any) => {
             }).then((state) => {
                 // 当方向改变时，动画需要重新执行
                 if (placement.value !== state.placement) {
-                    cacheVisible.value = false;
-                    nextTick(() => {
-                        cacheVisible.value = true;
-                    });
                     placement.value = state.placement;
+                    // #1029: 不再通过 cacheVisible 翻转（隐藏再显示）来重放动画。
+                    // v-show 翻转会让 Popper 子树在 Vue 3.5 下被销毁重建，
+                    // 导致 TimeSelect 等有状态内容丢失选中态（并参与
+                    // Maximum recursive updates 环）。placement 变化本身会
+                    // 更新 transitionName，动画方向随之切换。
+                    Object.assign(popperEl.style, {
+                        left: `${state.x}px`,
+                        top: `${state.y}px`,
+                    });
                     return;
                 }
                 placement.value = state.placement;

@@ -43,7 +43,7 @@ export const tabsProps = {
         default: true,
     },
     panes: {
-        type: Array as PropType<TabPaneProps>,
+        type: Array as PropType<TabPaneProps[]>,
         default: (): TabPaneProps[] => [],
     },
 } as const satisfies ComponentObjectPropsOptions;
@@ -53,9 +53,9 @@ export type TabsProps = ExtractPublicPropTypes<typeof tabsProps>;
 // ----- Tab -----
 
 export const tabProps = {
+    // 身份标识：value 缺省时回退 name（#1024）
     value: {
         type: [String, Number] as PropType<string | number>,
-        required: true,
     },
     name: [String, Number] as PropType<string | number>,
     disabled: Boolean,

@@ -23,6 +23,13 @@ export default function useTrigger(
     let hideTimer: ReturnType<typeof setTimeout>;
     const events: Ref<Record<string, (e: MouseEvent) => void>> = ref({});
 
+    // #1026：onlyShowTrigger 已废弃，改用语义更准确的 keepVisible
+    if (props.onlyShowTrigger) {
+        console.warn(
+            '[FPopper]: onlyShowTrigger 已废弃，请使用 keepVisible 替代（两者语义等价）',
+        );
+    }
+
     function clearTimers() {
         clearTimeout(showTimer);
         clearTimeout(hideTimer);
@@ -30,7 +37,8 @@ export default function useTrigger(
 
     const hide = () => {
         const setHide = () => {
-            if (props.onlyShowTrigger) {
+            // 显示后保持可见：onlyShowTrigger（废弃）或 keepVisible 任一生效
+            if (props.onlyShowTrigger || props.keepVisible) {
                 return;
             }
             if (isBoolean(props.disabled) && props.disabled) {
@@ -164,8 +172,8 @@ export default function useTrigger(
         const { trigger } = props;
         const shouldPrevent
             = trigger === 'click'
-            || trigger === 'focus'
-            || trigger === 'contextmenu';
+                || trigger === 'focus'
+                || trigger === 'contextmenu';
         if (shouldPrevent) {
             return;
         }

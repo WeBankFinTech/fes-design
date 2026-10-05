@@ -10,6 +10,10 @@ export default {
     empty: {
         emptyText: 'لا توجد بيانات',
     },
+    input: {
+        pasteExceed:
+            'يتجاوز المحتوى الملصق حد {max} حرفًا، تم اقتطاع الجزء الزائد.',
+    },
     cascader: {
         loadingRequiredMessage:
             'يرجى تحميل جميع الأجيال النسلية لـ {label} قبل التحقق منها.',

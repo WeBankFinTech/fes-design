@@ -4,12 +4,15 @@
             ref="inputRef"
             :modelValue="displayValue"
             :disabled="innerDisabled"
+            :readonly="readonly"
             :placeholder="placeholder"
             :class="[`${prefixCls}-inner`]"
             :innerIsError="isError"
             @input="handleInput"
             @focus="onFocused"
             @blur="handleBlur"
+            @keydown="handleKeydown"
+            @wheel="handleWheel"
         >
             <template v-if="$slots.prefix" #prefix>
                 <slot name="prefix" />
@@ -102,6 +105,17 @@ export const inputNumberProps = {
     autofocus: {
         type: Boolean,
         default: false,
+    },
+    readonly: Boolean,
+    // 键盘上下方向键步进（#1039）
+    keyboard: {
+        type: Boolean,
+        default: true,
+    },
+    // 聚焦时滚轮步进（#1039）
+    wheel: {
+        type: Boolean,
+        default: true,
     },
 } as const satisfies ComponentObjectPropsOptions;
 
@@ -258,6 +272,33 @@ export default defineComponent({
                 > props.max,
         );
 
+        // 步进核心：#1039 键盘/滚轮与加减按钮共用。
+        // 读当前 modelValue，按 numPrecision 计算 next（复用 _calculationNum），
+        // 越界钳制到 min/max 并回传边界值；disabled/readonly 早退
+        const step = (dir: 1 | -1) => {
+            if (props.disabled || isFormDisabled.value || props.readonly) {
+                return;
+            }
+            tempValue.value = null;
+            const current = currentValue.value || 0;
+            const currentNum = Number(currentValue.value ?? 0);
+            const next = _calculationNum(
+                current,
+                dir === 1 ? ActionEnum.PLUS : ActionEnum.REDUCE,
+            );
+            if (props.min != null && next < props.min) {
+                updateCurrentValue(props.min);
+                emit('change', props.min, currentNum);
+                return;
+            }
+            if (props.max != null && next > props.max) {
+                updateCurrentValue(props.max);
+                emit('change', props.max, currentNum);
+                return;
+            }
+            setCurrentValue(next);
+        };
+
         const calculationNum = (type: ActionEnum) => {
             if (
                 props.disabled
@@ -267,8 +308,33 @@ export default defineComponent({
             ) {
                 return;
             }
-            tempValue.value = null;
-            setCurrentValue(_calculationNum(currentValue.value || 0, type));
+            step(type === ActionEnum.PLUS ? 1 : -1);
+        };
+
+        // 键盘 ↑/↓ 步进（可经 keyboard=false 关闭）
+        const handleKeydown = (e: KeyboardEvent) => {
+            if (!props.keyboard) {
+                return;
+            }
+            if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                step(1);
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                step(-1);
+            }
+        };
+
+        // 滚轮步进：仅当事件目标即当前聚焦元素时劫持（非聚焦放行滚页面）
+        const handleWheel = (e: WheelEvent) => {
+            if (!props.wheel) {
+                return;
+            }
+            if (document.activeElement !== e.target) {
+                return;
+            }
+            e.preventDefault();
+            step(e.deltaY < 0 ? 1 : -1);
         };
 
         const focus = () => {
@@ -291,6 +357,9 @@ export default defineComponent({
 
             handleBlur,
             calculationNum,
+            step,
+            handleKeydown,
+            handleWheel,
             displayValue,
             minDisabled,
             maxDisabled,

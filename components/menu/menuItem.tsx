@@ -64,6 +64,16 @@ export default defineComponent({
         const isActive = computed(
             () => rootMenu.currentValue.value === props.value,
         );
+        // #1040 单一事实源注册：本项祖先链上的 FSubMenu keys（indexPath 只读
+        // 派生），供根菜单 activeSubMenuKeys 推导当前选中项所属子菜单。
+        const subMenuKeys = computed(() =>
+            indexPath.value
+                .filter((node) => node.name === COMPONENT_NAME.SUB_MENU)
+                .map((node) => node.uid),
+        );
+        if (rootMenu) {
+            rootMenu.registerItemPath(props.value, subMenuKeys.value);
+        }
         const isDisabled = computed(
             () => props.disabled,
         );
@@ -79,6 +89,9 @@ export default defineComponent({
         });
         onBeforeUnmount(() => {
             parentMenu.removeChild(menuItem);
+            if (rootMenu) {
+                rootMenu.removeItemPath(props.value);
+            }
         });
         const classList = computed(() =>
             [prefixCls, isActive.value && 'is-active', isDisabled.value && 'is-disabled']
@@ -93,11 +106,11 @@ export default defineComponent({
             handleItemClick();
         };
         const renderTitle = () => {
-            return (
-                <Ellipsis class={`${prefixCls}-label`}>
-                    {slots.label?.() || props.label}
-                </Ellipsis>
-            );
+            // #1017 回退链：label 插槽 → label prop → default 插槽。
+            // 此前只回退前两者，default 插槽文本被静默丢弃（label span 渲染为空 <!---->）。
+            // 保持原有「插槽优先于 prop」次序，仅在其后追加 default 插槽兜底。
+            const label = slots.label?.() || props.label || slots.default?.();
+            return <Ellipsis class={`${prefixCls}-label`}>{label}</Ellipsis>;
         };
         const renderIcon = () => {
             if (slots.icon) {

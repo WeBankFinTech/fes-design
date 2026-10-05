@@ -12,8 +12,9 @@
         onlyShowTrigger
     >
         <template #trigger>
+            <!-- #1022: isRange 暂未实现，不再用 v-if 隐藏输入框，
+                 开启 isRange 时回退为单值渲染，避免触发器区域完全空白 -->
             <InputInner
-                v-if="!isRange"
                 :class="[attrs.class, classes]"
                 :style="attrs.style"
                 :modelValue="displayValue"
@@ -34,9 +35,8 @@
         <template #default>
             <div :class="`${prefixCls}-dropdown`" @mousedown.prevent>
                 <TimeSelect
-                    ref="timeSelectRef"
                     :visible="isOpened"
-                    :modelValue="currentValue"
+                    :modelValue="activeTime || currentValue"
                     :format="format"
                     :hour-step="hourStep"
                     :minute-step="minuteStep"
@@ -46,29 +46,28 @@
                     :disabled-seconds="disabledSeconds"
                     @change="changeTime"
                 />
-                <div v-if="showControl || $slots.addon" :class="`${prefixCls}-addon`">
-                    <slot name="addon" :activeTime="activeTime">
-                        <div :class="`${prefixCls}-addon-inner`">
-                            <FButton
-                                v-if="showNowShortcut"
-                                type="link"
-                                size="small"
-                                @mousedown.prevent
-                                @click="setCurrentTime"
-                            >
-                                {{ t('timePicker.now') }}
-                            </FButton>
-                            <FButton
-                                type="primary"
-                                size="small"
-                                @mousedown.prevent
-                                @click="confirmChangeTime"
-                            >
-                                {{ t('timePicker.confirm') }}
-                            </FButton>
-                        </div>
-                    </slot>
-                </div>
+                <!--
+                    addon 区抽为独立子组件 FTimePickerAddon（#1029）：
+                    原内联实现（v-if 引用 $slots.addon + 作用域插槽）使 Popper
+                    的 default 插槽为动态插槽，加剧子树 diff；与模板 ref
+                    叠加导致 TimeSelect 被反复销毁重建（Maximum recursive
+                    updates exceeded）。
+                -->
+                <TimePickerAddon
+                    v-if="showControl || $slots.addon"
+                    :activeTime="activeTime"
+                    :showNowShortcut="showNowShortcut"
+                    @now="setCurrentTime"
+                    @confirm="confirmChangeTime"
+                >
+                    <!-- 外部 addon 作用域插槽透传（activeTime 向下、内容向上） -->
+                    <template
+                        v-if="$slots.addon"
+                        #addon="slotProps"
+                    >
+                        <slot name="addon" v-bind="slotProps" />
+                    </template>
+                </TimePickerAddon>
             </div>
         </template>
     </Popper>
@@ -91,13 +90,27 @@ import { useTheme } from '../_theme/useTheme';
 import InputInner from '../input/inputInner.vue';
 import { ClockCircleOutlined } from '../icon';
 import Popper from '../popper';
-import FButton from '../button';
 
 import { useLocale } from '../config-provider/useLocale';
 import type { ExtractPublicPropTypes, GetContainer } from '../_util/interface';
 import TimeSelect from './time-select.vue';
+import TimePickerAddon from './time-picker-addon.vue';
 
 const prefixCls = getPrefixCls('time-picker');
+
+// #1022: import.meta.env 仅在 vite/vitest 等构建环境下存在；
+// ?. 守卫保证 rollup/esm 产物在无 process 的浏览器环境不抛错
+const isDev = import.meta.env?.DEV;
+
+// #1022: isRange 属性暂未实现（模板无 range 分支），开启时
+// 明确告知用户按单值模式渲染，避免静默失效
+function warnIsRange() {
+    if (isDev) {
+        console.warn(
+            '[FTimePicker]: isRange 属性暂未实现，将按单值模式渲染',
+        );
+    }
+}
 
 // TODO 支持 12 小时制
 function formatTimeCell(data: number) {
@@ -139,7 +152,7 @@ function validateTime(data: string, format: string) {
 
     for (let i = 0; i < cellFormats.length; ++i) {
         const cellFormat = cellFormats[i];
-        if (/[Hh]/.test(cellFormat)) {
+        if (/H/i.test(cellFormat)) {
             if (!validator(times.shift(), cellFormat, 23)) {
                 return false;
             }
@@ -174,6 +187,7 @@ export const timePickerProps = {
         default: '',
     },
     // FEATURE 下个版本实现
+    // #1022: isRange 暂未实现，开启时按单值模式渲染并输出开发告警
     isRange: {
         type: Boolean,
         default: false,
@@ -239,15 +253,27 @@ export default defineComponent({
     name: 'FTimePicker',
     components: {
         TimeSelect,
+        TimePickerAddon,
         InputInner,
         Popper,
         ClockCircleOutlined,
-        FButton,
     },
     props: timePickerProps,
     emits: [UPDATE_MODEL_EVENT, 'update:open', 'change', 'blur', 'focus'],
     setup(props, { emit, attrs }) {
         useTheme();
+        // #1022: 挂载时与 isRange 运行时开启时输出开发告警
+        if (props.isRange) {
+            warnIsRange();
+        }
+        watch(
+            () => props.isRange,
+            (isRange) => {
+                if (isRange) {
+                    warnIsRange();
+                }
+            },
+        );
         const { validate, isError, isFormDisabled } = useFormAdaptor({
             forbidChildValidate: true,
         });
@@ -304,9 +330,6 @@ export default defineComponent({
                 activeTime.value = val;
             }
         };
-        // 获取 实例
-        const timeSelectRef = ref();
-
         // 解耦 与设置值的方法分开
         const clear = () => {
             tempValue.value = '';
@@ -314,8 +337,11 @@ export default defineComponent({
             activeTime.value = '';
             emit('change', '');
             validate('change');
-            // 重置时间
-            timeSelectRef.value.resetTime();
+            // #1029: 移除 timeSelectRef.resetTime() 直调。
+            // 模板 ref 是递归环的必要环节（TimeSelect 反复销毁重建的
+            // 触发点之一）；清空时 TimeSelect 内部的
+            // watch(modelValue) 会因 modelValue 变为 '' 走 reset 分支，
+            // 行为与 resetTime 等价。
         };
 
         watch(isOpened, () => {
@@ -342,10 +368,7 @@ export default defineComponent({
 
         // 输入框展示的值
         const displayValue = computed(() => {
-            // 目前没有范围选择
-            if (props.isRange) {
-                return currentValue.value || [];
-            }
+            // #1022: isRange 暂未实现，按单值模式展示
             return (
                 tempValue.value || activeTime.value || currentValue.value || ''
             );
@@ -381,7 +404,6 @@ export default defineComponent({
             inputPlaceholder,
             t,
             attrs,
-            timeSelectRef,
         };
     },
 });

@@ -10,6 +10,9 @@ export default {
     empty: {
         emptyText: '暂无数据',
     },
+    input: {
+        pasteExceed: '粘贴内容超出 {max} 字限制，超出部分已被截断',
+    },
     cascader: {
         loadingRequiredMessage: '加载全部 {label} 的子节点后才可选中',
     },

@@ -8,7 +8,7 @@
 <script lang="jsx">
 import { h, ref } from 'vue';
 import { FMessage } from '@fesjs/fes-design';
-import { BellOffOutlined } from '../../../theme/IconDoc/icons.js';
+import { BellOffOutlined } from '@fesjs/fes-design/icon';
 
 export default {
     setup() {

@@ -1,3 +1,81 @@
+## [0.8.88](https://github.com/WeBankFinTech/fes-design/compare/v0.8.86...v0.8.88) (2026-09-11)
+
+
+### Bug Fixes
+
+* **FModal:** resolve content text overflow issue [#920](https://github.com/WeBankFinTech/fes-design/issues/920) ([486a2d1](https://github.com/WeBankFinTech/fes-design/commit/486a2d1fa2a63f900689009d00b904b417679a2a))
+* **Form:** correct grid-column span syntax for inline layout ([#958](https://github.com/WeBankFinTech/fes-design/issues/958)) ([77b8e1d](https://github.com/WeBankFinTech/fes-design/commit/77b8e1d38a9b3bb4ecde5b3d5a36285b4bf65239))
+* table 程序性修改 checkedKeys 不再触发 selectionChange #AI commit# ([e949693](https://github.com/WeBankFinTech/fes-design/commit/e949693606eec464711eb242783befe5b83a4f7e))
+* **table:** 修复单选模式下仍可勾选多行的问题 [#968](https://github.com/WeBankFinTech/fes-design/issues/968) #AI commit# ([541ffe7](https://github.com/WeBankFinTech/fes-design/commit/541ffe72ea6abd2fc4c76579a0597f09fc6b7527))
+* tabs 切换时内容高度抖动，离场动画 pane 脱离文档流 #AI commit# ([d218942](https://github.com/WeBankFinTech/fes-design/commit/d218942968910ec36381ac1b776502e66a0f1af3))
+* useResize 误吞隐藏挂载后首次有效回调，滚动条首开不显示 #AI commit# ([b65acb3](https://github.com/WeBankFinTech/fes-design/commit/b65acb35e9f4bab7d3f2bedcfd53c07b910f78d7))
+
+
+### Features
+
+* input 粘贴超长自动提示与程序赋值超长计数标红 #AI commit# ([624a52f](https://github.com/WeBankFinTech/fes-design/commit/624a52f3b0cebbebb5f0410e4b576a817507386b))
+
+
+
+## [0.8.87](https://github.com/WeBankFinTech/fes-design/compare/v0.8.86...v0.8.87) (2026-09-10)
+
+
+### Bug Fixes
+
+* table 程序性修改 checkedKeys 不再触发 selectionChange #AI commit# ([e949693](https://github.com/WeBankFinTech/fes-design/commit/e949693606eec464711eb242783befe5b83a4f7e))
+* **table:** 修复单选模式下仍可勾选多行的问题 [#968](https://github.com/WeBankFinTech/fes-design/issues/968) #AI commit# ([541ffe7](https://github.com/WeBankFinTech/fes-design/commit/541ffe72ea6abd2fc4c76579a0597f09fc6b7527))
+
+
+### Features
+
+* input 粘贴超长自动提示与程序赋值超长计数标红 #AI commit# ([624a52f](https://github.com/WeBankFinTech/fes-design/commit/624a52f3b0cebbebb5f0410e4b576a817507386b))
+
+
+
+## [0.8.87](https://github.com/WeBankFinTech/fes-design/compare/v0.8.86...v0.8.87) (2026-09-10)
+
+
+### Bug Fixes
+
+* table 程序性修改 checkedKeys 不再触发 selectionChange #AI commit# ([e949693](https://github.com/WeBankFinTech/fes-design/commit/e949693606eec464711eb242783befe5b83a4f7e))
+* **table:** 修复单选模式下仍可勾选多行的问题 [#968](https://github.com/WeBankFinTech/fes-design/issues/968) #AI commit# ([541ffe7](https://github.com/WeBankFinTech/fes-design/commit/541ffe72ea6abd2fc4c76579a0597f09fc6b7527))
+
+
+### Features
+
+* input 粘贴超长自动提示与程序赋值超长计数标红 #AI commit# ([624a52f](https://github.com/WeBankFinTech/fes-design/commit/624a52f3b0cebbebb5f0410e4b576a817507386b))
+
+
+
+## [0.8.86](https://github.com/WeBankFinTech/fes-design/compare/v0.8.85...v0.8.86) (2026-09-09)
+
+
+### Bug Fixes
+
+* 修复 input-number 样式问题 ([#964](https://github.com/WeBankFinTech/fes-design/issues/964)) ([9ea117f](https://github.com/WeBankFinTech/fes-design/commit/9ea117f13a04ab8a8c242248fba2a0dcdeca0dbb))
+
+
+### Reverts
+
+* Revert "chore: bootstrap vitest + playwright config (test infra) (#983)" ([946bc3d](https://github.com/WeBankFinTech/fes-design/commit/946bc3d44ed2a7665f5e15252c6ba80501a5578b)), closes [#983](https://github.com/WeBankFinTech/fes-design/issues/983)
+
+
+
+## [0.8.85](https://github.com/WeBankFinTech/fes-design/compare/v0.8.84...v0.8.85) (2026-04-29)
+
+
+### Bug Fixes
+
+* table multiple=false 时单选框勾选状态不显示 ([#961](https://github.com/WeBankFinTech/fes-design/issues/961)) ([46d6f24](https://github.com/WeBankFinTech/fes-design/commit/46d6f24c9dab2d3d41ffe028969a5be64ea1965c))
+* vite8 css 变量处理问题 ([#963](https://github.com/WeBankFinTech/fes-design/issues/963)) ([df12c80](https://github.com/WeBankFinTech/fes-design/commit/df12c800130920d9cc1991677fc3a05d6b625037))
+
+
+### Features
+
+* include documents in npm package for ai agents ([#960](https://github.com/WeBankFinTech/fes-design/issues/960)) ([3cc476c](https://github.com/WeBankFinTech/fes-design/commit/3cc476c81fb652c7fc3887884d99b46a02de0b74))
+
+
+
 ## [0.8.84](https://github.com/WeBankFinTech/fes-design/compare/v0.8.83...v0.8.84) (2025-11-04)
 
 

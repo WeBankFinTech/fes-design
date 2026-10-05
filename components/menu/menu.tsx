@@ -5,6 +5,7 @@ import {
     defineComponent,
     onMounted,
     provide,
+    shallowReactive,
     watch,
 } from 'vue';
 import { isFunction } from 'lodash-es';
@@ -19,7 +20,7 @@ import useMenu from './useMenu';
 import MenuGroup from './menuGroup';
 import MenuItem from './menuItem';
 import SubMenu from './subMenu';
-import type { MenuNode, TRIGGER } from './const';
+import type { MenuNode } from './const';
 import type { MenuItemTypePlain } from './useParent';
 
 import type { MenuItemType, MenuOption } from './interface';
@@ -43,6 +44,31 @@ export default defineComponent({
             { prop: 'expandedKeys' },
         );
 
+        // #1040 单一事实源：value → 该值所在祖先链上的 FSubMenu keys。
+        // MenuItem 挂载自身时按 indexPath 注册，卸载时注销；选中态由
+        // currentValue 唯一推导，SubMenu 渲染只读这个派生值（不再反向遍历
+        // children 的 isActive 链，消除「子项选中 → <FSubMenu> 渲染自环」
+        // 的 Maximum recursive updates / unhandledRejection）。
+        const activePathMap = shallowReactive<
+            Record<string | number, (string | number)[]>
+        >({});
+        const registerItemPath = (
+            value: string | number,
+            keys: (string | number)[],
+        ) => {
+            activePathMap[value] = keys;
+        };
+        const removeItemPath = (value: string | number) => {
+            delete activePathMap[value];
+        };
+        const activeSubMenuKeys = computed(() => {
+            const value = currentValue.value;
+            if (value === undefined || value === null) {
+                return [] as (string | number)[];
+            }
+            return activePathMap[value] ?? [];
+        });
+
         // 水平模式一定是采用Popper的
         const renderWithPopper = computed(() => {
             if (props.mode === 'horizontal') {
@@ -56,13 +82,10 @@ export default defineComponent({
         const clickMenuItem = (value: string | number) => {
             updateCurrentValue(value);
             emit('select', { value });
-            // 选择后，关闭所有的子菜单
+            // 选择后关闭所有子菜单（#1034 单一写路径：直接收敛 expandedKeys，
+            // 不再写 children 中 unwrap 快照的 isOpened——后者已是派生只读值）
             if (renderWithPopper.value) {
-                children.forEach((item) => {
-                    if (item.type === 'subMenu') {
-                        item.isOpened = false;
-                    }
-                });
+                updateExpandedKeys([]);
             }
         };
 
@@ -107,7 +130,11 @@ export default defineComponent({
             subMenu: MenuItemType,
             indexPath: Ref<MenuNode[]>,
         ) => {
-            if (subMenu.isOpened.value && accordion.value) {
+            // #1034 基于 expandedKeys 判断，不再读 subMenu.isOpened（派生只读值）
+            const key = subMenu.value ?? subMenu.uid;
+            const isExpanded = currentExpandedKeys.value.includes(key);
+            // 将展开（当前收起）且 accordion → 收缩其它分支（保留当前祖先链）
+            if (!isExpanded && accordion.value) {
                 updateExpandedKeys(
                     currentExpandedKeys.value.filter((uid: string | number) =>
                         indexPath.value.some((node) => {
@@ -116,7 +143,7 @@ export default defineComponent({
                     ),
                 );
             }
-            updateExpandedKeys(subMenu.value || subMenu.uid);
+            updateExpandedKeys(key); // 单值 toggle（useArrayModel 语义：在则移除）
         };
 
         provide(ROOT_MENU_KEY, {
@@ -128,6 +155,9 @@ export default defineComponent({
             accordion,
             updateExpandedKeys,
             handleSubMenuExpand,
+            activeSubMenuKeys,
+            registerItemPath,
+            removeItemPath,
         });
 
         const classList = computed(() =>

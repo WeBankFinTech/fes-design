@@ -1,6 +1,5 @@
 @import '../../style/themes/index';
 @import '../../style/mixins/index';
-@import './mixin.less';
 
 @input-number-prefix-cls: ~'@{cls-prefix}-input-number';
 @input-prefix-cls: ~'@{cls-prefix}-input';
@@ -19,10 +18,9 @@
         &&-suffix {
             margin-left: 8px;
         }
-        &:hover {
-            &-increase, &-decrease {
-                border-color: var(transparent);
-            }
+        &:hover &-increase,
+        &:hover &-decrease {
+            border-color: transparent;
         }
         &-increase,
         &-decrease {

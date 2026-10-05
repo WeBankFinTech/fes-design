@@ -103,9 +103,11 @@ export default defineComponent({
                 );
             }
             const result = formatterResult ?? cellValue;
-            Object.assign(ellipsisProps, { content: result });
+            // 列配置只读：不再 Object.assign 就地写入用户传入的 ellipsis 对象，
+            // 改为展开构造新对象，杜绝响应式追踪下写→渲染→写的无限重渲染（#1035）
+            const renderEllipsisProps = { ...ellipsisProps, content: result };
             return hasEllipsis
-                ? <Ellipsis {...ellipsisProps} />
+                ? <Ellipsis {...renderEllipsisProps} />
                 : (
                         <Fragment>
                             {typeof result === 'object' && result

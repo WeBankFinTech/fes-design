@@ -14,7 +14,7 @@ import type { TableProps } from './table';
 import type { RowType } from './interface';
 
 let tableIdSeed = 1;
-export default (props: TableProps, ctx: SetupContext) => {
+export default (props: TableProps, ctx: SetupContext): Record<string, any> => {
     const tableId = `f-table_${tableIdSeed++}`;
 
     const columnState = useTableColumn(props);

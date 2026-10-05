@@ -51,7 +51,18 @@ export const popperProps = {
         type: Boolean,
         default: true,
     },
+    /**
+     * @deprecated 请使用 keepVisible，语义更准确（显示后不再因移出触发器隐藏）
+     * 弹层显示后仅跟随触发器位置更新，不因 hover/click 等交互隐藏
+     */
     onlyShowTrigger: {
+        type: Boolean,
+    },
+    /**
+     * 弹层显示后不再隐藏（保持可见），仅跟随触发器位置更新；
+     * 与 onlyShowTrigger 等价，任一为 true 即生效
+     */
+    keepVisible: {
         type: Boolean,
     },
     passive: {

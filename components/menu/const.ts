@@ -98,6 +98,12 @@ export type RootMenuInjection = {
     accordion: ComputedRef<boolean>;
     updateExpandedKeys: (val: string | number | (string | number)[]) => void;
     handleSubMenuExpand: (subMenu: MenuItemType, indexPath: Ref<MenuNode[]>) => void;
+    // #1040 单一事实源：由 currentValue 推导「选中项所属子菜单 keys」的只读派生值，
+    // SubMenu.isActive 仅判包含（不再渲染期反向遍历 children，消除渲染自环）
+    activeSubMenuKeys: Ref<(string | number)[]>;
+    // value → 该选中项祖先链上的 FSubMenu keys 注册/注销（MenuItem 挂载期维护）
+    registerItemPath: (value: string | number, keys: (string | number)[]) => void;
+    removeItemPath: (value: string | number) => void;
 };
 
 export const ROOT_MENU_KEY: InjectionKey<RootMenuInjection> = Symbol('ROOT_MENU_KEY');

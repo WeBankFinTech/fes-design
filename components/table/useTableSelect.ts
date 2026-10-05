@@ -85,15 +85,11 @@ export default ({
         });
     });
 
-    watch(
-        currentCheckedKeys,
-        () => {
-            ctx.emit('selectionChange', currentCheckedKeys.value);
-        },
-        {
-            deep: true,
-        },
-    );
+    // selectionChange 仅由用户交互（行勾选/全选）触发；
+    // 外部程序性修改 v-model:checkedKeys 不视为一次"选择"行为，不触发 (#812)
+    const emitSelectionChange = (): void => {
+        ctx.emit('selectionChange', currentCheckedKeys.value);
+    };
 
     // 是否单选模式
     const isSingleSelect = computed(() => {
@@ -104,7 +100,11 @@ export default ({
         if (!selectionColumn.value) {
             return false;
         }
-        return !selectableData.value.includes(row);
+        // 通过 rowKey 判断，避免外部传入的 row 对象与内部代理对象引用不一致
+        const rowKey = getRowKey({ row });
+        return !selectableData.value.some(
+            (_row) => getRowKey({ row: _row }) === rowKey,
+        );
     };
 
     const isSelected = ({ row }: { row: RowType }) => {
@@ -121,13 +121,16 @@ export default ({
         }
 
         const rowKey = getRowKey({ row });
-        const selectionList = currentCheckedKeys.value as CheckedKey[];
-        const index = selectionList.indexOf(rowKey as CheckedKey);
-        // 如果是单选模式
-        if (isSingleSelect.value) {
-            // 如果是单选直接先置空
+        const index = (currentCheckedKeys.value as CheckedKey[]).indexOf(
+            rowKey as CheckedKey,
+        );
+        // 如果是单选模式，选中另一行时直接替换，保证至多只有一行被选中
+        if (isSingleSelect.value && index === -1) {
             clearSelect();
         }
+
+        // 当前选中列表（clearSelect 会整体替换数组，因此取最新值）
+        const selectionList = currentCheckedKeys.value as CheckedKey[];
 
         // 点击的是已有的，则取消
         if (index !== -1) {
@@ -145,6 +148,7 @@ export default ({
                 checked: true,
             });
         }
+        emitSelectionChange();
     };
 
     function splice(row: RowType) {
@@ -175,10 +179,11 @@ export default ({
             selection: currentCheckedKeys.value,
             checked: !isAllSelected.value,
         });
+        emitSelectionChange();
     };
 
     const clearSelect = () => {
-        currentCheckedKeys.value.length = 0;
+        currentCheckedKeys.value = [];
     };
 
     // 模式变更，单选只能有一个被选择

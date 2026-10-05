@@ -31,19 +31,14 @@ export default defineComponent({
     setup(props, { slots }) {
         const instance = getCurrentInstance();
         const { indexPath } = useMenu(instance);
-        const { rootMenu, parentMenu, paddingStyle } = useChildren(indexPath);
-        // 根节点 menu
-        if (!rootMenu) {
-            console.warn(
-                `[${COMPONENT_NAME.MENU_GROUP}] must be a child of ${COMPONENT_NAME.MENU}`,
-            );
-        }
-        // 父级组件，可能为 menu 或者 sub-menu
-        if (!parentMenu) {
+        const { rootMenu, parentMenu } = useChildren(indexPath);
+        if (!rootMenu || !parentMenu) {
             console.warn(
                 `[${COMPONENT_NAME.MENU_GROUP}] must be a child of ${COMPONENT_NAME.MENU} or ${COMPONENT_NAME.SUB_MENU}`,
             );
+            return () => null; // 早退：跳过 useParent/onMounted/渲染
         }
+        const { paddingStyle } = useChildren(indexPath);
         const { children } = useParent();
         const isActive = computed(() =>
             children.some((child) => child?.isActive),

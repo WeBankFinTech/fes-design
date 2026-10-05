@@ -1,6 +1,5 @@
 @import '../../style/themes/index';
 @import '../../style/mixins/index';
-@import './mixin.less';
 
 @tabs-prefix-cls: ~'@{cls-prefix}-tabs';
 @tabs-border-color: var(--f-border-color-split);
@@ -335,6 +334,10 @@
     }
       
     &-slide-fade-leave-active {
+        // 离场的 pane 脱离文档流，避免与入场 pane 在流内叠加导致容器高度抖动 (#820)
+        position: absolute;
+        inset-block-start: 0;
+        inset-inline-start: 0;
         transition: all @animation-duration-fast @ease-base-out;
     }
     
