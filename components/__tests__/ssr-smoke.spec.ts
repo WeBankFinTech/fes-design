@@ -88,6 +88,16 @@ describe('SSR 冒烟（独立进程，无任何 DOM 全局）', () => {
     );
 
     test(
+        '浮窗：FFloatPane 服务端不崩（getStorage/useDrag 守卫回归守护）',
+        () => {
+            const r = runSSR(['floatpane']);
+            expect(r.ok, r.out.slice(-800)).toBe(true);
+            expect(r.out).toContain('FLOATPANE_OK');
+        },
+        SLOW,
+    );
+
+    test(
         '命令式 API：服务端调用抛可捕获错误而非 ReferenceError',
         () => {
             const r = runSSR(['imperative']);

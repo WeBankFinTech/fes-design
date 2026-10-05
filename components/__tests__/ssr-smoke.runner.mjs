@@ -171,6 +171,24 @@ try {
         console.log('IMAGE_OK');
     }
 
+    // review 补充组：FFloatPane（getStorage/useDrag 守卫的回归守护）
+    if (groups.includes('floatpane')) {
+        const floatPane = await load('components/float-pane/float-pane.tsx');
+        const html = await render(
+            h(floatPane.default, {
+                visible: true,
+                displayDirective: 'show',
+                // cachePosition 默认 'local'：覆盖 getStorage 守卫路径
+            }, { default: () => '浮窗内容' }),
+        );
+        if (typeof html !== 'string') {
+            throw new Error('floatpane render not string');
+        }
+        // to=null 时服务端 Teleport 渲染为空（Vue 上游行为），
+        // 断言"不崩 + 退出正常"即为本组目的，内容断言留空
+        console.log('FLOATPANE_OK');
+    }
+
     // review 补充组：命令式 API 在服务端调用必须抛可捕获的明确错误
     // （而非 ReferenceError 半路崩溃 / 静默 unhandled rejection）
     if (groups.includes('imperative')) {
