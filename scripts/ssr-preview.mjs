@@ -141,17 +141,10 @@ const html = await renderToString(app);
 
 // —— 主题变量注入（SSR 补齐）——
 // fes-design 的主题变量默认值由运行时 applyTheme 写入容器（非编译期 CSS），
-// 纯 SSR HTML 不执行 JS 时会缺失。此处模拟客户端 mount 时的写入：
-// 取 baseTheme() 变量表，生成 <style>:root{--f-*:...}</style> 注入 <head>。
-// （naive-ui 的 ssrAdapter 同样把主题样式收集进服务端 HTML）
-const { baseTheme } = await load('components/_theme/base.ts');
-// kebabCase 手写（ lodash-es 的 ESM 具名导出经 vite ssrLoadModule 返回 default 包装，各版本行为不一）
-const kebabCase = (s) => s.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
-const vars = baseTheme();
-const varCss = Object.entries(vars)
-    .map(([k, v]) => `--f-${kebabCase(k)}:${v};`)
-    .join('');
-const themeStyleTag = `<style>:root{${varCss}}</style>`;
+// 纯 SSR HTML 不执行 JS 时会缺失。使用库导出的 getThemeStyleTag 注入
+// （与 applyTheme 共用同一变量生成逻辑，值天然一致）。
+const { getThemeStyleTag } = await load('components/_theme/applyTheme.ts');
+const themeStyleTag = getThemeStyleTag();
 
 // —— less 编译：复用各组件 style/index.ts 的引入链 ——
 const lessFiles = [
