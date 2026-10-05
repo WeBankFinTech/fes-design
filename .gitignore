@@ -25,3 +25,6 @@ playwright-report/
 blob-report/
 coverage/
 .playwright/
+
+# SSR 预览生成产物（scripts/ssr-preview.mjs 输出）
+ssr-preview.html

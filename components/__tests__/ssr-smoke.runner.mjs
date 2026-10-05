@@ -124,7 +124,16 @@ try {
         const timePicker = await load('components/time-picker/time-picker.vue');
         const html = await render(
             h('div', [
-                h(table.default, { data: [], columns: [] }),
+                // columns prop + 声明宽度：验证 SSR 静态列宽兜底
+                // （模板 <FTableColumn> 用法经 onBeforeMount 注册，服务端
+                // 不执行钩子，SSR 下不适用——此为既有设计约束）
+                h(table.default, {
+                    data: [{ id: 1, name: '行一' }],
+                    columns: [
+                        { prop: 'id', label: 'ID', width: 120 },
+                        { prop: 'name', label: '名称', minWidth: 200 },
+                    ],
+                }),
                 h(datePicker.default),
                 h(timePicker.default),
             ]),
@@ -132,7 +141,71 @@ try {
         if (typeof html !== 'string') {
             throw new Error('data render not string');
         }
+        if (!html.includes('width:120px')) {
+            throw new Error(`table ssr col width missing: ${html.slice(0, 300)}`);
+        }
         console.log('DATA_OK');
+    }
+
+    // review 补充组：FImage（immediate watch 里 new Image 的 P0 崩点）
+    if (groups.includes('image')) {
+        const image = await load('components/image/image.vue');
+        const imgHtml = await render(
+            h('div', [
+                h(image.default, { src: 'https://example.com/a.png' }),
+                h(image.default, {
+                    src: 'https://example.com/b.png',
+                    lazy: true,
+                    scrollContainer: '.scroll-area',
+                }),
+            ]),
+        );
+        if (!imgHtml.includes('fes-img')) {
+            throw new Error(`image html missing wrapper: ${imgHtml.slice(0, 300)}`);
+        }
+        // 服务端不预加载（loading 保持 true → 输出占位态），
+        // 客户端激活后 src watch 才触发真实加载
+        if (!imgHtml.includes('fes-img__placeholder')) {
+            throw new Error(`image should render placeholder on server: ${imgHtml.slice(0, 300)}`);
+        }
+        console.log('IMAGE_OK');
+    }
+
+    // review 补充组：命令式 API 在服务端调用必须抛可捕获的明确错误
+    // （而非 ReferenceError 半路崩溃 / 静默 unhandled rejection）
+    if (groups.includes('imperative')) {
+        const modalApi = await load('components/modal/modalApi.tsx');
+        let modalThrew = false;
+        try {
+            modalApi.default.info({ content: 'x' });
+        } catch (e) {
+            modalThrew = String(e.message).includes('服务端');
+        }
+        if (!modalThrew) {
+            throw new Error('FModal.info on server should throw catchable Error');
+        }
+        const messageMod = await load('components/message/index.tsx');
+        // FMessage.info 同步返回；服务端调用时 createManager reject，
+        // 由 .catch 输出明确错误（不再 unhandled rejection）
+        let messageErrored = false;
+        const origError = console.error;
+        console.error = (...args) => {
+            if (String(args[0]).includes('[FMessage]')) {
+                messageErrored = true;
+            }
+            origError(...args);
+        };
+        try {
+            messageMod.default.info('hello');
+            // 让 Promise 链走完
+            await new Promise((r) => setTimeout(r, 50));
+        } finally {
+            console.error = origError;
+        }
+        if (!messageErrored) {
+            throw new Error('FMessage.info on server should log explicit error');
+        }
+        console.log('IMPERATIVE_OK');
     }
 } catch (e) {
     failed = true;

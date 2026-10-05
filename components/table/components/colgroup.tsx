@@ -26,8 +26,8 @@ export default defineComponent({
                         : layout.widthMap;
                     const width = source.value[column.id]?.width;
                     const minWidth = source.value[column.id]?.minWidth;
-                    // 注意：style 必须是单个对象（不能是数组）——SSR 下数组
-                    // 形式的 style 不会被序列化进 HTML，导致列宽丢失
+                    // style 统一为单对象：语义直观，且避免数组形式在
+                    // 不同渲染路径下的行为差异
                     const style: Record<string, string> = {};
                     if (width) {
                         style.width = `${width}px`;

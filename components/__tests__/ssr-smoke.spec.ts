@@ -77,6 +77,26 @@ describe('SSR 冒烟（独立进程，无任何 DOM 全局）', () => {
         SLOW,
     );
 
+    test(
+        '图片：FImage 服务端不预加载（review 补充，P0 崩点回归守护）',
+        () => {
+            const r = runSSR(['image']);
+            expect(r.ok, r.out.slice(-800)).toBe(true);
+            expect(r.out).toContain('IMAGE_OK');
+        },
+        SLOW,
+    );
+
+    test(
+        '命令式 API：服务端调用抛可捕获错误而非 ReferenceError',
+        () => {
+            const r = runSSR(['imperative']);
+            expect(r.ok, r.out.slice(-800)).toBe(true);
+            expect(r.out).toContain('IMPERATIVE_OK');
+        },
+        SLOW,
+    );
+
     test('回归守护：本进程无任何 DOM 全局（selfcheck，秒回）', () => {
         // 直接验证"无 DOM 全局"语义本身：裸 document 访问必须抛错。
         // 若未来有人把 runner 挪回 jsdom 同进程跑，这条会立刻红。

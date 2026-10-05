@@ -6,21 +6,19 @@ const CSS_VAR_PREFIX = '--f-';
 
 // 变量声明文本（"--f-primary-color:#5384ff"），applyTheme 的 DOM 写入与
 // getThemeVarsCss 的 SSR 注入共用同一生成逻辑，确保两条路径值完全一致
-const themeVarsEntries = (themeOverrides?: Theme) => {
-    const vars = baseTheme(themeOverrides);
-    return Object.keys(vars).map((key) => ({
+const themeVarsEntries = (vars: ReturnType<typeof baseTheme>) =>
+    Object.keys(vars).map((key) => ({
         name: `${CSS_VAR_PREFIX}${kebabCase(key)}`,
         value: vars[key as keyof typeof vars],
     }));
-};
 
 export function applyTheme(
     container: HTMLElement,
     theme?: string,
     themeOverrides?: Theme,
 ) {
-    const entries = themeVarsEntries(themeOverrides);
     const _theme = baseTheme(themeOverrides);
+    const entries = themeVarsEntries(_theme);
     const _container = container || document.body;
     entries.forEach(({ name, value }) => {
         _container.style.setProperty(name, value);
@@ -59,7 +57,7 @@ export function applyTheme(
  * ```
  */
 export function getThemeVarsCss(themeOverrides?: Theme) {
-    return themeVarsEntries(themeOverrides)
+    return themeVarsEntries(baseTheme(themeOverrides))
         .map(({ name, value }) => `${name}:${value};`)
         .join('');
 }
