@@ -9,6 +9,7 @@ import {
 } from 'vue';
 import { isEqual, isUndefined } from 'lodash-es';
 import useResize from '../_util/use/useResize';
+import { isServer } from '../_util/isServer';
 
 import type { TableProps } from './table';
 import type { ColumnInst } from './column';
@@ -62,6 +63,30 @@ export default function useTableLayout({
     const isWatchX = ref(true);
 
     const min = 100;
+
+    // SSR 兜底：列宽分布依赖 computeX() 的 DOM 测量（wrapper.offsetWidth），
+    // 服务端渲染期间没有 DOM，widthMap 为空会导致 table-layout:fixed 下
+    // 所有 <col> 无宽度、表格整体塌成 0 宽。此处在服务端按列声明的
+    // width/minWidth（未声明用最小宽度 min）以 computed 形式给出宽度表
+    // （SSR 单次渲染，watch+ref 的更新不会触发重新渲染，必须用 computed）；
+    // 客户端挂载后 computeX() 会用真实测量结果整体覆盖，不影响既有布局。
+    const ssrWidthMap = computed<Record<string, WidthItem>>(() => {
+        if (!isServer) {
+            return widthMap.value;
+        }
+        const map: Record<string, WidthItem> = {};
+        columns.value.forEach((column) => {
+            const width = column.props.width;
+            const minWidth = column.props.minWidth;
+            map[column.id] = {
+                id: column.id,
+                ...(width ? { width } : {}),
+                ...(!width && minWidth ? { minWidth } : {}),
+                ...(!width && !minWidth ? { minWidth: min } : {}),
+            };
+        });
+        return map;
+    });
 
     const computeY = () => {
         // 第一次渲染时会出现 bodyWrapperHeight = 0，必须再nextTick
@@ -280,6 +305,7 @@ export default function useTableLayout({
 
     return {
         widthMap,
+        ssrWidthMap,
         bodyWidth,
         bodyHeight,
         isScrollX,

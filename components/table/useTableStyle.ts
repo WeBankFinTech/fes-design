@@ -1,6 +1,7 @@
 import { type CSSProperties, type Ref, computed, reactive, ref, watch } from 'vue';
 import { isFunction, isPlainObject, isUndefined, throttle } from 'lodash-es';
 import getPrefixCls from '../_util/getPrefixCls';
+import { isServer } from '../_util/isServer';
 import { getCellValue } from './helper';
 import useTableLayout from './useTableLayout';
 
@@ -141,9 +142,13 @@ export default ({
                 minWidth: '100%',
             };
         }
-        const style = {
-            width: `${layout.bodyWidth.value}px`,
-        };
+        const style: CSSProperties = {};
+        // SSR 首帧 bodyWidth 尚无 DOM 测量值（0），输出 width:0px 会把
+        // table-layout:fixed 的表格压成 0 宽；服务端不设置宽度，
+        // 客户端挂载测量后正常输出
+        if (!isServer) {
+            style.width = `${layout.bodyWidth.value}px`;
+        }
         return style;
     });
 
@@ -153,9 +158,10 @@ export default ({
                 minWidth: '100%',
             };
         }
-        const style = {
-            width: `${layout.bodyWidth.value}px`,
-        };
+        const style: CSSProperties = {};
+        if (!isServer) {
+            style.width = `${layout.bodyWidth.value}px`;
+        }
         return style;
     });
 
