@@ -7,7 +7,6 @@ import {
     getCurrentInstance,
     h,
     inject,
-    onBeforeMount,
     onBeforeUnmount,
     type useSlots,
 } from 'vue';
@@ -161,13 +160,15 @@ export default defineComponent({
         const instance = getCurrentInstance();
         const parentInstance = instance.parent;
         const { addColumn, removeColumn } = table;
-        onBeforeMount(() => {
-            addColumn({
-                id: instance.uid,
-                props,
-                slots: ctx.slots,
-                parentId: parentInstance.uid || null,
-            });
+        // 注册提前到 setup 同步执行（element-plus el-table-column 同款）：
+        // onBeforeMount 在服务端不执行，模板写法的列在 SSR 下会整表空；
+        // addColumn 只是往响应式数组 push 数据、不触 DOM，同步执行安全。
+        // 客户端时序等价（setup 与 onBeforeMount 都在首次渲染前）
+        addColumn({
+            id: instance.uid,
+            props,
+            slots: ctx.slots,
+            parentId: parentInstance.uid || null,
         });
         onBeforeUnmount(() => {
             removeColumn(instance.uid);

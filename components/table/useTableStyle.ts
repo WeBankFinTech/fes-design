@@ -141,9 +141,14 @@ export default ({
                 minWidth: '100%',
             };
         }
-        const style = {
-            width: `${layout.bodyWidth.value}px`,
-        };
+        const style: CSSProperties = {};
+        // bodyWidth 无 DOM 测量值时为 0（SSR 渲染、客户端水合首帧），
+        // 输出 width:0px 会把 table-layout:fixed 的表格压成 0 宽，
+        // 且两端帧不一致会触发水合告警；无测量值时不设宽度，
+        // 测量完成后正常输出
+        if (layout.bodyWidth.value) {
+            style.width = `${layout.bodyWidth.value}px`;
+        }
         return style;
     });
 
@@ -153,9 +158,10 @@ export default ({
                 minWidth: '100%',
             };
         }
-        const style = {
-            width: `${layout.bodyWidth.value}px`,
-        };
+        const style: CSSProperties = {};
+        if (layout.bodyWidth.value) {
+            style.width = `${layout.bodyWidth.value}px`;
+        }
         return style;
     });
 

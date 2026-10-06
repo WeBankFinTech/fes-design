@@ -71,44 +71,44 @@ exports[`展示型组件默认渲染快照 > FDivider 1`] = `
 </div>"
 `;
 
-exports[`展示型组件默认渲染快照 > FEmpty（渐变 ID 含时间戳，序列化前归一化） 1`] = `
+exports[`展示型组件默认渲染快照 > FEmpty（渐变 ID 用 useId，确定性输出） 1`] = `
 "<div class="fes-empty">
   <div class="fes-empty-image"><svg class="empty-svg" viewBox="0 0 260 249" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
       <defs>
         <!-- 线性渐变定义，使用唯一ID避免多个组件实例间的冲突 -->
-        <linearGradient id="linearGradient-1-empty-1-NORMALIZED" x1="50%" y1="15.6101617%" x2="50%" y2="94.3434704%">
+        <linearGradient id="linearGradient-1-empty-v-0" x1="50%" y1="15.6101617%" x2="50%" y2="94.3434704%">
           <stop stop-color="#F7F7F7" offset="0%"></stop>
           <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
         </linearGradient>
-        <linearGradient id="linearGradient-2-empty-1-NORMALIZED" x1="50%" y1="-2.48949813e-15%" x2="50%" y2="100%">
+        <linearGradient id="linearGradient-2-empty-v-0" x1="50%" y1="-2.48949813e-15%" x2="50%" y2="100%">
           <stop stop-color="#F6F6F6" offset="15.7653382%"></stop>
           <stop stop-color="#EEEEEE" offset="100%"></stop>
         </linearGradient>
-        <linearGradient id="linearGradient-3-empty-1-NORMALIZED" x1="50%" y1="100%" x2="50%" y2="-2.48949813e-15%">
+        <linearGradient id="linearGradient-3-empty-v-0" x1="50%" y1="100%" x2="50%" y2="-2.48949813e-15%">
           <stop stop-color="#DDDDDD" offset="0%"></stop>
           <stop stop-color="#E7E7E7" offset="100%"></stop>
         </linearGradient>
-        <linearGradient id="linearGradient-4-empty-1-NORMALIZED" x1="50%" y1="100%" x2="50%" y2="-2.48949813e-15%">
+        <linearGradient id="linearGradient-4-empty-v-0" x1="50%" y1="100%" x2="50%" y2="-2.48949813e-15%">
           <stop stop-color="#D6D6D6" offset="0%"></stop>
           <stop stop-color="#DBDBDB" offset="100%"></stop>
         </linearGradient>
-        <linearGradient id="linearGradient-5-empty-1-NORMALIZED" x1="100%" y1="50%" x2="0.124801956%" y2="50%">
+        <linearGradient id="linearGradient-5-empty-v-0" x1="100%" y1="50%" x2="0.124801956%" y2="50%">
           <stop stop-color="#E0E0E0" offset="0%"></stop>
           <stop stop-color="#E6E6E6" offset="100%"></stop>
         </linearGradient>
-        <linearGradient id="linearGradient-6-empty-1-NORMALIZED" x1="-2.22044605e-14%" y1="50%" x2="100%" y2="50%">
+        <linearGradient id="linearGradient-6-empty-v-0" x1="-2.22044605e-14%" y1="50%" x2="100%" y2="50%">
           <stop stop-color="#F5F5F5" offset="0%"></stop>
           <stop stop-color="#EBEBEB" offset="100%"></stop>
         </linearGradient>
-        <linearGradient id="linearGradient-7-empty-1-NORMALIZED" x1="-2.22044605e-14%" y1="50%" x2="100%" y2="50%">
+        <linearGradient id="linearGradient-7-empty-v-0" x1="-2.22044605e-14%" y1="50%" x2="100%" y2="50%">
           <stop stop-color="#EDEDED" offset="0%"></stop>
           <stop stop-color="#FAFAFA" offset="100%"></stop>
         </linearGradient>
-        <linearGradient id="linearGradient-8-empty-1-NORMALIZED" x1="-2.22044605e-14%" y1="50%" x2="100%" y2="50%">
+        <linearGradient id="linearGradient-8-empty-v-0" x1="-2.22044605e-14%" y1="50%" x2="100%" y2="50%">
           <stop stop-color="#FFFFFF" offset="0%"></stop>
           <stop stop-color="#F7F7F7" offset="100%"></stop>
         </linearGradient>
-        <linearGradient id="linearGradient-9-empty-1-NORMALIZED" x1="-2.22044605e-14%" y1="50%" x2="100%" y2="50%">
+        <linearGradient id="linearGradient-9-empty-v-0" x1="-2.22044605e-14%" y1="50%" x2="100%" y2="50%">
           <stop stop-color="#FFFFFF" offset="0%"></stop>
           <stop stop-color="#F7F7F7" offset="100%"></stop>
         </linearGradient>
@@ -118,16 +118,16 @@ exports[`展示型组件默认渲染快照 > FEmpty（渐变 ID 含时间戳，�
           <g id="Group-1" transform="translate(0.000000, 91.892457)">
             <g id="Group-1-1">
               <!-- 使用动态绑定的渐变引用，确保每个组件实例的唯一性 -->
-              <path id="Oval-1" d="M260,146.301035 C260,133.413733 201.797017,122.966511 130,122.966511 C58.2029825,122.966511 0,133.413733 0,146.301035 C0,159.188336 260,159.188336 260,146.301035 Z" fill="url(#linearGradient-1-empty-1-NORMALIZED)"></path>
-              <path id="Rectangle-1" d="M184,0 L54,0 L54,124.46629 C54,126.473725 55.6273476,128.101072 57.6347826,128.101072 L184,128.101072 L184,128.101072 L184,0 Z" fill="url(#linearGradient-2-empty-1-NORMALIZED)"></path>
-              <path id="Rectangle-Copy-1" d="M184.000001,1.13686838e-13 L210.009578,1.13686838e-13 L210.009578,128.101072 L187.634784,128.101072 C185.627349,128.101072 184.000001,126.473725 184.000001,124.46629 L184.000001,1.13686838e-13 L184.000001,1.13686838e-13 Z" fill="url(#linearGradient-3-empty-1-NORMALIZED)" transform="translate(197.004789, 64.050536) scale(-1, 1) translate(-197.004789, -64.050536) "></path>
-              <polygon id="Rectangle-Copy-2" fill="url(#linearGradient-4-empty-1-NORMALIZED)" transform="translate(196.954349, 16.551537) scale(-1, 1) translate(-196.954349, -16.551537) " points="184.000001 3.41060513e-13 209.908696 6.82390337e-13 209.908696 33.1030746 184.000001 33.1030746"></polygon>
-              <polygon id="Rectangle-2" fill="url(#linearGradient-5-empty-1-NORMALIZED)" opacity="0.898363386" points="54 26.5915493 174.685305 26.5915493 183.908695 3.41060513e-13 184 32.915493 54 32.915493"></polygon>
-              <polygon id="Rectangle-Copy-4" fill="url(#linearGradient-6-empty-1-NORMALIZED)" points="209.908695 1.13686838e-13 221 26.7978558 193.908695 26.5915493 183.908695 1.13686838e-13"></polygon>
-              <polygon id="Rectangle-3" fill="url(#linearGradient-7-empty-1-NORMALIZED)" transform="translate(113.553972, 13.295775) scale(-1, 1) rotate(-180.000000) translate(-113.553972, -13.295775) " points="43.0584897 7.00000001e-07 174.685305 7.00000001e-07 184.049454 26.59155 53.555527 26.59155"></polygon>
+              <path id="Oval-1" d="M260,146.301035 C260,133.413733 201.797017,122.966511 130,122.966511 C58.2029825,122.966511 0,133.413733 0,146.301035 C0,159.188336 260,159.188336 260,146.301035 Z" fill="url(#linearGradient-1-empty-v-0)"></path>
+              <path id="Rectangle-1" d="M184,0 L54,0 L54,124.46629 C54,126.473725 55.6273476,128.101072 57.6347826,128.101072 L184,128.101072 L184,128.101072 L184,0 Z" fill="url(#linearGradient-2-empty-v-0)"></path>
+              <path id="Rectangle-Copy-1" d="M184.000001,1.13686838e-13 L210.009578,1.13686838e-13 L210.009578,128.101072 L187.634784,128.101072 C185.627349,128.101072 184.000001,126.473725 184.000001,124.46629 L184.000001,1.13686838e-13 L184.000001,1.13686838e-13 Z" fill="url(#linearGradient-3-empty-v-0)" transform="translate(197.004789, 64.050536) scale(-1, 1) translate(-197.004789, -64.050536) "></path>
+              <polygon id="Rectangle-Copy-2" fill="url(#linearGradient-4-empty-v-0)" transform="translate(196.954349, 16.551537) scale(-1, 1) translate(-196.954349, -16.551537) " points="184.000001 3.41060513e-13 209.908696 6.82390337e-13 209.908696 33.1030746 184.000001 33.1030746"></polygon>
+              <polygon id="Rectangle-2" fill="url(#linearGradient-5-empty-v-0)" opacity="0.898363386" points="54 26.5915493 174.685305 26.5915493 183.908695 3.41060513e-13 184 32.915493 54 32.915493"></polygon>
+              <polygon id="Rectangle-Copy-4" fill="url(#linearGradient-6-empty-v-0)" points="209.908695 1.13686838e-13 221 26.7978558 193.908695 26.5915493 183.908695 1.13686838e-13"></polygon>
+              <polygon id="Rectangle-3" fill="url(#linearGradient-7-empty-v-0)" transform="translate(113.553972, 13.295775) scale(-1, 1) rotate(-180.000000) translate(-113.553972, -13.295775) " points="43.0584897 7.00000001e-07 174.685305 7.00000001e-07 184.049454 26.59155 53.555527 26.59155"></polygon>
             </g>
-            <rect id="Rectangle-Copy-3" fill="url(#linearGradient-8-empty-1-NORMALIZED)" x="74" y="82.1010721" width="90" height="12" rx="2"></rect>
-            <rect id="Shape-Combination-Copy" fill="url(#linearGradient-9-empty-1-NORMALIZED)" x="74" y="58.0505361" width="41" height="12" rx="2"></rect>
+            <rect id="Rectangle-Copy-3" fill="url(#linearGradient-8-empty-v-0)" x="74" y="82.1010721" width="90" height="12" rx="2"></rect>
+            <rect id="Shape-Combination-Copy" fill="url(#linearGradient-9-empty-v-0)" x="74" y="58.0505361" width="41" height="12" rx="2"></rect>
           </g>
           <g id="Group-2" transform="translate(139.921051, 51.951083) rotate(13.000000) translate(-139.921051, -51.951083) translate(82.236144, 11.951083)">
             <path id="Oval-2" d="M91.7456564,59.9303561 C101.300582,54.2352582 106.317585,48.3805222 106.796667,42.3661483 C107.275748,36.3517743 104.591701,31.738336 98.7445265,28.5258334 C90.9834009,33.375078 87.9571608,39.1543525 89.665806,45.8636569 C92.5013618,53.1300061 93.1946452,57.8189059 91.7456564,59.9303561 Z" fill="#EBEBEB" transform="translate(98.027227, 44.228095) rotate(45.000000) translate(-98.027227, -44.228095) "></path>

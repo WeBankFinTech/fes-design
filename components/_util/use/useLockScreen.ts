@@ -7,6 +7,7 @@ import {
     removeClass,
 } from '../dom';
 import getPrefixCls from '../getPrefixCls';
+import { isServer } from '../isServer';
 
 const cls = getPrefixCls('popup-hidden');
 
@@ -28,8 +29,18 @@ export default function useLockScreen(trigger: Ref<boolean>) {
     };
 
     onUnmounted(() => {
+        // SSR：无 document（钩子本身服务端不执行，此处为双保险）
+        if (isServer) {
+            return;
+        }
         cleanup();
     });
+
+    // SSR：无 document，跳过锁屏逻辑（首帧可见的弹窗由样式 v-show 控制，
+    // 客户端水合后本 watch 正常接管）
+    if (isServer) {
+        return;
+    }
 
     watch(trigger, (val) => {
         if (val) {

@@ -9,6 +9,7 @@ import {
 } from 'vue';
 import { isEqual, isUndefined } from 'lodash-es';
 import useResize from '../_util/use/useResize';
+import { isServer } from '../_util/isServer';
 
 import type { TableProps } from './table';
 import type { ColumnInst } from './column';
@@ -62,6 +63,36 @@ export default function useTableLayout({
     const isWatchX = ref(true);
 
     const min = 100;
+
+    // 列宽静态兜底：列宽分布依赖 computeX() 的 DOM 测量
+    // （wrapper.offsetWidth），无 DOM 时（SSR 渲染、客户端水合首帧——
+    // computeX 要等 onMounted 后才跑）widthMap 为空，会导致
+    // table-layout:fixed 下所有 <col> 无宽度、表格整体塌成 0 宽。
+    // 此处按列声明的 width/minWidth（未声明用最小宽度 min）以 computed
+    // 形式给出兜底宽度表（必须用 computed：单次渲染场景 watch+ref 的
+    // 更新不会触发重新渲染）；宽度兜底对水合首帧同样生效，保证服务端
+    // 与客户端首帧输出一致（避免水合 style 不匹配告警）；DOM 测量
+    // 完成后 computeX() 用真实结果整体覆盖，不影响既有布局。
+    const ssrWidthMap = computed<Record<string, WidthItem>>(() => {
+        const measured = widthMap.value;
+        const map: Record<string, WidthItem> = {};
+        columns.value.forEach((column) => {
+            const measuredItem = measured[column.id];
+            if (measuredItem) {
+                map[column.id] = measuredItem;
+                return;
+            }
+            const width = column.props.width;
+            const minWidth = column.props.minWidth;
+            map[column.id] = {
+                id: column.id,
+                ...(width ? { width } : {}),
+                ...(!width && minWidth ? { minWidth } : {}),
+                ...(!width && !minWidth ? { minWidth: min } : {}),
+            };
+        });
+        return map;
+    });
 
     const computeY = () => {
         // 第一次渲染时会出现 bodyWrapperHeight = 0，必须再nextTick
@@ -280,6 +311,7 @@ export default function useTableLayout({
 
     return {
         widthMap,
+        ssrWidthMap,
         bodyWidth,
         bodyHeight,
         isScrollX,
