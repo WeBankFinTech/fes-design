@@ -4,6 +4,7 @@ import {
     computed,
     defineComponent,
     nextTick,
+    onMounted,
     ref,
     watch,
 } from 'vue';
@@ -43,11 +44,27 @@ const Modal = defineComponent({
         const zIndex = ref(PopupManager.nextZIndex());
         const visible = ref(false);
         useLockScreen(visible);
+        // Teleport 挂载后才激活（见 render 注释），保证 SSR 与水合首帧
+        // 的 DOM 结构对称
+        const teleportReady = ref(false);
+        onMounted(() => {
+            teleportReady.value = true;
+        });
+        // 首帧同步置值（含 SSR）：nextTick 推迟会在服务端单趟渲染下
+        // 输出空内容（visible 永远为 false）。首帧本无过渡动画，
+        // 同步置值无视觉损失；后续切换仍走 nextTick 保证动画时序
+        let isFirstRender = true;
         watch(
             () => props.show,
             () => {
                 if (props.show) {
                     zIndex.value = PopupManager.nextZIndex();
+                }
+
+                if (isFirstRender) {
+                    visible.value = props.show;
+                    isFirstRender = false;
+                    return;
                 }
 
                 nextTick(() => {
@@ -276,11 +293,18 @@ const Modal = defineComponent({
             );
         };
 
-        return () => (
-            <Teleport
-                disabled={!getContainer.value?.()}
-                to={getContainer.value?.()}
-            >
+        return () => {
+            // Teleport 延迟激活（LazyTeleport 思路）：SSR 与水合首帧
+            // 就地渲染（两端对称，避免水合不匹配；且 server-renderer
+            // 对无 target 的 Teleport 会直接丢弃内容），挂载后激活
+            // 传送，恢复正常挂载到 body 的行为。displayDirective 默认
+            // 'show'（v-show 控制），首帧内容可见
+            const container = getContainer.value?.();
+            return (
+                <Teleport
+                    disabled={!container || !teleportReady.value}
+                    to={container || 'body'}
+                >
                 <div class={rootClass.value}>
                     {
                         props.useAnimation
@@ -307,7 +331,8 @@ const Modal = defineComponent({
                     }
                 </div>
             </Teleport>
-        );
+            );
+        };
     },
 });
 

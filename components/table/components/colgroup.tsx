@@ -15,7 +15,13 @@ export default defineComponent({
         },
     } satisfies ComponentObjectPropsOptions,
     setup(props) {
-        const { layout } = inject(provideKey);
+        const { layout, columns: injectedColumns } = inject(provideKey);
+        // 列来源用响应式注入值：SSR 单趟渲染下，父组件 render() 求值
+        // props.columns 的时刻列可能尚未注册（FTableColumn 同步注册
+        // 发生在 hidden-columns 渲染中，与父 render 的求值顺序有关），
+        // 快照 prop 会固化空数组；injected columns 是 computed，本组件
+        // 渲染时才求值，此时候选已就绪（与 Header 读 headerRows 同理）
+        const sourceColumns = () => injectedColumns?.value ?? props.columns;
         const renderColgroup = (columns: ColumnInst[]) => (
             <colgroup>
                 {columns.map((column) => {
@@ -39,6 +45,6 @@ export default defineComponent({
                 })}
             </colgroup>
         );
-        return () => renderColgroup(props.columns);
+        return () => renderColgroup(sourceColumns());
     },
 });
