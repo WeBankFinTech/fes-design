@@ -27,15 +27,15 @@ export interface ThemeCommon {
     shadowRadiusSm: string;
 
     maskColor: string;
+    maskDarkColor: string;
 
     paddingLarge: string;
     paddingMiddle: string;
     paddingSmall: string;
-    paddingXSmall: string;
+    paddingXsmall: string;
 
     [key: string]: string;
 }
-
 export interface Theme {
     common?: Partial<ThemeCommon>;
     derivedColor?: {
@@ -48,12 +48,15 @@ export interface Theme {
 
         hoverSuccessColor?: string;
         activeSuccessColor?: string;
+        hoverSuccessTextColor?: string;
 
         hoverWarningColor?: string;
         activeWarningColor?: string;
+        hoverWarningTextColor?: string;
 
         hoverDangerColor?: string;
         activeDangerColor?: string;
+        hoverDangerTextColor?: string;
 
         activeColor?: string;
         focusColor?: string;
@@ -72,6 +75,7 @@ export interface Theme {
         textColorDisabled?: string;
         textColorDisabledLight?: string;
         textColorCaption?: string;
+        hoverBaseTextColor?: string;
 
         borderColorDisabled?: string;
         borderColorSplit?: string;
