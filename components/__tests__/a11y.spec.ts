@@ -132,6 +132,39 @@ describe('FSelect 无障碍', () => {
         expect(options[0].classes('is-hover')).toBe(true);
         wrapper.unmount();
     });
+
+    test('IME：组合态 Enter（选词确认）不触发选项选中', async () => {
+        const wrapper = mountSelect({ modelValue: 'bj' });
+        await nextTick();
+        const trigger = wrapper.find(`.${selectPrefix}-trigger`);
+        await trigger.trigger('click');
+        await nextTick();
+        await keydown(trigger, 'ArrowDown');
+        // IME 组合中的 Enter：isComposing=true（真实浏览器选词确认）
+        await trigger.trigger('keydown', {
+            key: 'Enter',
+            isComposing: true,
+        });
+        await nextTick();
+        // 不应选中任何选项，下拉保持打开
+        expect(wrapper.emitted('update:modelValue')).toBeUndefined();
+        expect((wrapper.vm as any).isOpenedRef).toBe(true);
+        // keyCode 229 变体（部分旧浏览器/输入法只报 229）
+        await trigger.trigger('keydown', {
+            key: 'Enter',
+            keyCode: 229,
+        });
+        await nextTick();
+        expect(wrapper.emitted('update:modelValue')).toBeUndefined();
+        // 组合结束后（isComposing=false）Enter 正常选中
+        await trigger.trigger('keydown', {
+            key: 'Enter',
+            isComposing: false,
+        });
+        await nextTick();
+        expect(wrapper.emitted('update:modelValue')![0][0]).toBe('sh');
+        wrapper.unmount();
+    });
 });
 
 describe('FPopper / FTooltip role', () => {

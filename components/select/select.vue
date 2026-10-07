@@ -474,6 +474,11 @@ export default defineComponent({
             if (innerDisabled.value) {
                 return;
             }
+            // IME 组合态守卫：中文/日文输入法选词确认的 Enter（连同
+            // isComposing=true / keyCode 229 的变体）不应触发选项选中
+            if (e.isComposing || e.keyCode === 229) {
+                return;
+            }
             switch (normalizeKey(e)) {
                 case 'Enter':
                     e.preventDefault();
