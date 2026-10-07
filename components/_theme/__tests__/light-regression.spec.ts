@@ -80,4 +80,20 @@ describe('亮色路径零回归（对照 main 公式逐变量）', () => {
         } as any);
         expect(themed2.carouselHoverColor).toBe('rgba(4, 5, 6, 0.7)');
     });
+
+    test('覆盖传导：maskDarkColor / borderColorBase 恢复 main 的可覆盖语义', () => {
+        // main 里这两个变量在 getDefaultThemeBase（可被 common 覆盖），
+        // 重写后必须保持覆盖能力
+        const themed = baseTheme({
+            common: { maskDarkColor: 'rgba(7, 7, 7, 0.9)' },
+        } as any);
+        expect(themed.maskDarkColor).toBe('rgba(7, 7, 7, 0.9)');
+
+        const themed2 = baseTheme({
+            common: { borderColorBase: '#abcabc' },
+        } as any);
+        expect(themed2.borderColorBase).toBe('#abcabc');
+        // borderBase 字符串模板引用覆盖后的 borderColorBase
+        expect(themed2.borderBase).toContain('#abcabc');
+    });
 });

@@ -48,12 +48,15 @@ export interface Theme {
 
         hoverSuccessColor?: string;
         activeSuccessColor?: string;
+        hoverSuccessTextColor?: string;
 
         hoverWarningColor?: string;
         activeWarningColor?: string;
+        hoverWarningTextColor?: string;
 
         hoverDangerColor?: string;
         activeDangerColor?: string;
+        hoverDangerTextColor?: string;
 
         activeColor?: string;
         focusColor?: string;
@@ -72,6 +75,7 @@ export interface Theme {
         textColorDisabled?: string;
         textColorDisabledLight?: string;
         textColorCaption?: string;
+        hoverBaseTextColor?: string;
 
         borderColorDisabled?: string;
         borderColorSplit?: string;

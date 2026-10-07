@@ -84,11 +84,13 @@ export const baseTheme = (themeOverrides: Theme = {}, theme?: string) => {
         getDefaultThemeBase(themeOverrides.common?.fontColorBase),
         themeOverrides.common,
     );
-    // 派生链中间值（保持 main 的别名传导：轮播箭头底色跟随
-    // shadowColorSm / maskColor；用户在 common 覆盖这两个变量时，
-    // base 上已是覆盖值，直接沿用——与 main 的引用语义一致）
+    // 派生链中间值（保持 main 的别名传导与覆盖能力：这几个变量
+    // 在 main 里位于 getDefaultThemeBase，可被 themeOverrides.common
+    // 覆盖；用户覆盖时 base 上已是覆盖值，直接沿用）
     const shadowColorSm = base.shadowColorSm ?? fade(base.fontColorBase, 0.2);
     const maskColor = base.maskColor ?? fade(base.fontColorBase, 0.45);
+    const borderColorBase = base.borderColorBase ?? gray(base.fontColorBase, 0.8);
+    const maskDarkColor = base.maskDarkColor ?? fade(base.fontColorBase, 0.9);
     return {
         ...base,
 
@@ -99,13 +101,13 @@ export const baseTheme = (themeOverrides: Theme = {}, theme?: string) => {
         componentBgColor:
             theme === 'dark' ? '#1f1f1f' : tint(base.fontColorBase, 0.97),
 
-        borderColorBase: gray(base.fontColorBase, 0.8),
+        borderColorBase,
 
         shadowColor: fade(base.fontColorBase, 0.1),
         shadowColorSm,
 
         maskColor,
-        maskDarkColor: fade(base.fontColorBase, 0.9),
+        maskDarkColor,
 
         // 浅色悬浮底（亮色 94% 白混合 → 暗色换 gray 成 94% 黑混合深底）
         hoverColorBase: emphasis(base.primaryColor, 0.2),
@@ -145,7 +147,7 @@ export const baseTheme = (themeOverrides: Theme = {}, theme?: string) => {
         borderColorDisabled: gray(base.fontColorBase, 0.8),
         borderColorSplit: gray(base.fontColorBase, 0.9),
         borderColorInverse: base.white,
-        borderBase: `${base.borderWidthBase} ${base.borderStyleBase} ${gray(base.fontColorBase, 0.8)}`,
+        borderBase: `${base.borderWidthBase} ${base.borderStyleBase} ${borderColorBase}`,
 
         // 反转布局底色（亮色近黑 → 暗色下用中灰保持区分）
         layoutInvertedBgColor:
