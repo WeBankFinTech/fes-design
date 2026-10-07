@@ -18,6 +18,7 @@
                 :inputStyle="inputStyle"
                 :autocomplete="autocomplete"
                 :innerIsError="isError"
+                :ariaLabelledby="labelId"
                 @input="handleInput"
                 @change="handleChange"
                 @focus="handleFocus"
@@ -59,6 +60,7 @@
             :maxlength="nativeMaxlength"
             :placeholder="placeholder"
             :rows="rows"
+            :aria-labelledby="labelId"
             @compositionstart="handleCompositionStart"
             @compositionend="handleCompositionEnd"
             @input="handleInput"
@@ -186,7 +188,7 @@ export default defineComponent({
     ],
     setup(props, { emit }) {
         useTheme();
-        const { validate, isError, isFormDisabled } = useFormAdaptor();
+        const { validate, isError, isFormDisabled, labelId } = useFormAdaptor();
         const { t } = useLocale();
         const inputRef = ref();
         const textareaRef = ref();
@@ -320,6 +322,7 @@ export default defineComponent({
         return {
             innerDisabled,
             isError,
+            labelId,
             inputRef,
             textareaRef,
             prefixCls,

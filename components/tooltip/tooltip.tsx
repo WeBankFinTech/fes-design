@@ -122,7 +122,7 @@ export default defineComponent({
                         )}
                         {!isNil(content)
                             ? (
-                                <div class={contentClass}>{content}</div>
+                                    <div class={contentClass}>{content}</div>
                                 )
                             : (
                                     content
@@ -134,7 +134,7 @@ export default defineComponent({
                                         class={`${prefixCls}-modal-btn`}
                                         onClick={(event) =>
                                             handleConfirmCB(OK_EVENT, event)
-                                    }
+                                        }
                                         size="small"
                                         type="primary"
                                     >
@@ -147,7 +147,7 @@ export default defineComponent({
                                             class={`${prefixCls}-modal-btn`}
                                             onClick={(event) =>
                                                 handleConfirmCB(CANCEL_EVENT, event)
-                                    }
+                                            }
                                             size="small"
                                         >
                                             {mergeOpt.cancelText || t('tooltip.cancelText')}
@@ -186,6 +186,7 @@ export default defineComponent({
                     {...popperPropsRef.value}
                     v-model={currentValue.value}
                     ref={popperElRef}
+                    role="tooltip"
                     popperClass={[
                         prefixCls,
                         `${prefixCls}-${props.mode}`,

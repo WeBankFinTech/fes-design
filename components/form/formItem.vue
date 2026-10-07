@@ -2,6 +2,7 @@
     <div :class="formItemClass">
         <span
             v-if="label || $slots.label"
+            :id="labelId"
             :class="formItemLabelClass"
             :style="formItemLabelStyle"
         >
@@ -12,7 +13,12 @@
         <div :class="`${prefixCls}-content`" :style="contentStyle">
             <slot />
             <transition name="fes-fade">
-                <div v-if="formItemShowMessage" :class="`${prefixCls}-error`">
+                <div
+                    v-if="formItemShowMessage"
+                    :class="`${prefixCls}-error`"
+                    role="alert"
+                    aria-live="polite"
+                >
                     {{ validateMessage }}
                 </div>
             </transition>
@@ -30,6 +36,7 @@ import {
     onBeforeUnmount,
     provide,
     ref,
+    useId,
 } from 'vue';
 import Schema from 'async-validator';
 import { cloneDeep, get, isArray, isNil, set } from 'lodash-es';
@@ -76,6 +83,9 @@ export default defineComponent({
         const formItemProp = computed(() => {
             return props.prop || `${prefixCls}_${getCurrentInstance().uid}`;
         });
+
+        // 无障碍：label 元素 id，供表单控件 aria-labelledby 关联
+        const labelId = useId();
         const fieldValue = computed(() => {
             // 优先获取 value 的值
             if (props.value !== undefined) {
@@ -116,7 +126,7 @@ export default defineComponent({
                 (props.showMessage === null
                     ? showMessage.value
                     : props.showMessage)
-                    && validateStatus.value === VALIDATE_STATUS.ERROR,
+                && validateStatus.value === VALIDATE_STATUS.ERROR,
         );
         const formItemDisabled = computed(
             () => {
@@ -185,12 +195,12 @@ export default defineComponent({
             const triggersRules = !trigger
                 ? formItemRules.value
                 : formItemRules.value.filter(
-                    (rule) =>
-                        !rule.trigger
-                        || (isArray(rule.trigger)
-                            ? rule.trigger.includes(trigger)
-                            : rule.trigger === trigger),
-                );
+                        (rule) =>
+                            !rule.trigger
+                            || (isArray(rule.trigger)
+                                ? rule.trigger.includes(trigger)
+                                : rule.trigger === trigger),
+                    );
 
             // 处理 rule 规则里面是自定义 validator
             const activeRules = triggersRules.map((rule) => {
@@ -246,7 +256,9 @@ export default defineComponent({
         const validate = async (trigger = TRIGGER_TYPE_DEFAULT) => {
             try {
                 await validateRules(trigger);
-            } catch (err) {}
+            } catch {
+                // 校验失败静默：错误信息已由 validateRules 写入展示
+            }
         };
         const clearValidate = () => {
             setValidateInfo();
@@ -284,10 +296,12 @@ export default defineComponent({
                 return validateStatus.value === VALIDATE_STATUS.ERROR;
             }),
             isFormDisabled: formItemDisabled,
+            labelId,
         });
 
         return {
             prefixCls,
+            labelId,
 
             formItemClass,
             formItemLabelClass,

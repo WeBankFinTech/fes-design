@@ -54,6 +54,10 @@ export default defineComponent({
             return (
                 <div
                     key={props.value}
+                    role="tab"
+                    aria-selected={valueRef.value === props.value}
+                    aria-disabled={props.disabled || undefined}
+                    tabindex={valueRef.value === props.value ? 0 : -1}
                     onClick={handleClick}
                     class={{
                         [`${prefixCls}-tab`]: true,

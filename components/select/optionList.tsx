@@ -17,6 +17,7 @@ import { selectProps } from './props';
 import type { SelectOption, SelectValue } from './interface';
 
 const optionListProps = {
+    id: String,
     prefixCls: String,
     containerStyle: {
         type: Object as PropType<CSSProperties>,
@@ -96,9 +97,9 @@ export default defineComponent({
                         <Ellipsis class={`${prefixCls}-label`}>
                             {props.filterTextHighlight && props.filterText && !option.__cache
                                 ? (
-                                    <TextHightlight strict searchValues={[props.filterText]}>
-                                        {option.label}
-                                    </TextHightlight>
+                                        <TextHightlight strict searchValues={[props.filterText]}>
+                                            {option.label}
+                                        </TextHightlight>
                                     )
                                 : option.label
                             }
@@ -153,6 +154,10 @@ export default defineComponent({
                 <div
                     class={classList}
                     style={getOptionStyle({ level: option.__level })}
+                    id={optionDomId(value)}
+                    role="option"
+                    aria-selected={isSelected}
+                    aria-disabled={option.disabled || undefined}
                     onClick={() => {
                         if (option.disabled) {
                             return;
@@ -176,62 +181,70 @@ export default defineComponent({
 
         const inValidValueKey = '_ALL_KEY_';
 
+        // 无障碍：listbox 容器语义，option id 与触发器 aria-activedescendant 对应
+        const optionDomId = (value: SelectValue) =>
+            props.id ? `${props.id}-option-${String(value)}` : undefined;
+
         return () =>
             enableVirtualScroll.value
                 ? (
-                    <VirtualList
-                        onScroll={(event: Event) => {
-                            emit('scroll', event);
-                        }}
-                        dataSources={props.options}
-                        dataKey={(data) =>
-                            // 兼容全部选项，value为空值的选项
-                            data.value === null || data.value === undefined
-                                ? inValidValueKey + String(data.value)
-                                : data.value
-                        }
-                        estimateSize={32}
-                        keeps={14}
-                        style={props.containerStyle}
-                        class={`${props.prefixCls}-dropdown is-max-height`}
-                        v-slots={{ default: renderDefault }}
-                    ></VirtualList>
-                    )
-                : props.options.length
-                    ? (
-                        <Scrollbar
+                        <VirtualList
+                            id={props.id}
+                            role="listbox"
                             onScroll={(event: Event) => {
                                 emit('scroll', event);
                             }}
-                            containerStyle={props.containerStyle}
-                            containerClass={`${props.prefixCls}-dropdown`}
-                        >
-                            {props.options.map((option) => {
-                                return option.__isGroup
-                                    ? renderGroupOption(option)
-                                    : renderOption(option);
-                            })}
-                        </Scrollbar>
+                            dataSources={props.options}
+                            dataKey={(data) =>
+                            // 兼容全部选项，value为空值的选项
+                                data.value === null || data.value === undefined
+                                    ? inValidValueKey + String(data.value)
+                                    : data.value
+                            }
+                            estimateSize={32}
+                            keeps={14}
+                            style={props.containerStyle}
+                            class={`${props.prefixCls}-dropdown is-max-height`}
+                            v-slots={{ default: renderDefault }}
+                        ></VirtualList>
+                    )
+                : props.options.length
+                    ? (
+                            <Scrollbar
+                                id={props.id}
+                                role="listbox"
+                                onScroll={(event: Event) => {
+                                    emit('scroll', event);
+                                }}
+                                containerStyle={props.containerStyle}
+                                containerClass={`${props.prefixCls}-dropdown`}
+                            >
+                                {props.options.map((option) => {
+                                    return option.__isGroup
+                                        ? renderGroupOption(option)
+                                        : renderOption(option);
+                                })}
+                            </Scrollbar>
                         )
                     : props.renderEmpty
                         ? (
-                            <div
-                                class={[`${props.prefixCls}-dropdown`]}
-                                style={props.containerStyle}
-                            >
-                                {props.renderEmpty()}
-                            </div>
+                                <div
+                                    class={[`${props.prefixCls}-dropdown`]}
+                                    style={props.containerStyle}
+                                >
+                                    {props.renderEmpty()}
+                                </div>
                             )
                         : (
-                            <div
-                                class={[
-                                    `${props.prefixCls}-dropdown`,
-                                    `${props.prefixCls}-null`,
-                                ]}
-                                style={props.containerStyle}
-                            >
-                                {props.emptyText}
-                            </div>
+                                <div
+                                    class={[
+                                        `${props.prefixCls}-dropdown`,
+                                        `${props.prefixCls}-null`,
+                                    ]}
+                                    style={props.containerStyle}
+                                >
+                                    {props.emptyText}
+                                </div>
                             );
     },
 });

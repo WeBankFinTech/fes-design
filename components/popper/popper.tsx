@@ -134,7 +134,7 @@ export default defineComponent({
                         ref={popperRef}
                         class={`${prefixCls}-wrapper`}
                         style={[popperStyle, props.popperStyle]}
-                        role={'tooltip'}
+                        role={props.role === 'none' ? undefined : props.role}
                         onMouseenter={onPopperMouseEnter}
                         onMouseleave={onPopperMouseLeave}
                     >

@@ -11,31 +11,27 @@ export default function useEsc(
         }
     };
 
-    // 性能优化，减少事件触发次数
-    if (isRef(open)) {
-        watch(open, () => {
-            if (open.value) {
-                escClosable.value
-                && window.addEventListener('keydown', onGlobalKeyDown);
-            } else {
-                window.removeEventListener('keydown', onGlobalKeyDown);
-            }
-        });
-    }
+    // 是否处于监听状态：传了 open 时仅在 open 期间监听
+    const shouldListen = () => {
+        if (isRef(open)) {
+            return open.value && escClosable.value;
+        }
+        return escClosable.value;
+    };
 
-    watch(
-        escClosable,
-        () => {
-            if (escClosable.value) {
-                window.addEventListener('keydown', onGlobalKeyDown);
-            } else {
-                window.removeEventListener('keydown', onGlobalKeyDown);
-            }
-        },
-        {
-            immediate: true,
-        },
-    );
+    const syncListener = () => {
+        if (shouldListen()) {
+            window.addEventListener('keydown', onGlobalKeyDown);
+        } else {
+            window.removeEventListener('keydown', onGlobalKeyDown);
+        }
+    };
+
+    if (isRef(open)) {
+        watch([open, escClosable], syncListener, { immediate: true });
+    } else {
+        watch(escClosable, syncListener, { immediate: true });
+    }
 
     onBeforeUnmount(() => {
         window.removeEventListener('keydown', onGlobalKeyDown);

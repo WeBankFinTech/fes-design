@@ -75,6 +75,57 @@ export default defineComponent({
             emit(CLOSE_EVENT, key);
         };
 
+        // 无障碍：方向键在 tab 间移动（roving tabindex），
+        // 水平布局用左右键，垂直布局用上下键
+        const moveTab = (step: number) => {
+            const enabledTabs = tabRefs.value.filter(
+                (tab) => !tab?.disabled && tab?.value !== undefined,
+            );
+            if (!enabledTabs.length) {
+                return;
+            }
+            const currentIndex = enabledTabs.findIndex(
+                (tab) => tab.value === currentValue.value,
+            );
+            let nextIndex = currentIndex + step;
+            if (nextIndex < 0) {
+                nextIndex = enabledTabs.length - 1;
+            }
+            if (nextIndex > enabledTabs.length - 1) {
+                nextIndex = 0;
+            }
+            const nextTab = enabledTabs[nextIndex];
+            handleTabClick(nextTab.value);
+            nextTick(() => {
+                nextTab?.$el?.focus?.();
+            });
+        };
+
+        const onNavKeyDown = (event: KeyboardEvent) => {
+            const horizontal = ['top', 'bottom'].includes(position.value);
+            // 兼容只设 key 不设 code 的合成事件
+            const key = event.code || event.key;
+            let handled = false;
+            let step = 0;
+            if (
+                (horizontal && (key === 'ArrowRight' || key === 'Right'))
+                || (!horizontal && (key === 'ArrowDown' || key === 'Down'))
+            ) {
+                step = 1;
+                handled = true;
+            } else if (
+                (horizontal && (key === 'ArrowLeft' || key === 'Left'))
+                || (!horizontal && (key === 'ArrowUp' || key === 'Up'))
+            ) {
+                step = -1;
+                handled = true;
+            }
+            if (handled) {
+                event.preventDefault();
+                moveTab(step);
+            }
+        };
+
         const autoScrollTab = (el?: HTMLElement) => {
             if (!tabNavRef.value || !el) {
                 return;
@@ -86,7 +137,7 @@ export default defineComponent({
             if (
                 ['top', 'bottom'].includes(props.position)
                 && (scrollLeft + offsetWidth < el.offsetLeft + el.offsetWidth
-                || el.offsetLeft < scrollLeft)
+                    || el.offsetLeft < scrollLeft)
             ) {
                 tabNavRef.value.setScrollLeft(
                     el.offsetLeft - offsetWidth + el.offsetWidth,
@@ -95,7 +146,7 @@ export default defineComponent({
             } else if (
                 ['left', 'right'].includes(props.position)
                 && (scrollTop + offsetHeight < el.offsetTop + el.offsetHeight
-                || el.offsetTop < scrollTop)
+                    || el.offsetTop < scrollTop)
             ) {
                 tabNavRef.value.setScrollTop(
                     el.offsetTop - offsetHeight + el.offsetHeight,
@@ -138,10 +189,10 @@ export default defineComponent({
         const mergeRenderPanes = () => {
             const children
                 = (slots.default
-                && flatten(slots.default()).filter(
-                    (vNode) => (vNode.type as any).name === 'FTabPane',
-                ))
-                || [];
+                    && flatten(slots.default()).filter(
+                        (vNode) => (vNode.type as any).name === 'FTabPane',
+                    ))
+                    || [];
             if (props.panes?.length) {
                 return children.concat(
                     props.panes.map((pane) => {
@@ -228,7 +279,11 @@ export default defineComponent({
                             class={`${prefixCls}-nav-scroll`}
                             shadow={true}
                         >
-                            <div class={`${prefixCls}-nav-scroll-content`}>
+                            <div
+                                class={`${prefixCls}-nav-scroll-content`}
+                                role="tablist"
+                                onKeydown={onNavKeyDown}
+                            >
                                 {navItems}
                             </div>
                         </Scrollbar>

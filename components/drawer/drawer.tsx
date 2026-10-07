@@ -7,6 +7,7 @@ import {
     defineComponent,
     nextTick,
     ref,
+    useId,
     watch,
 } from 'vue';
 import { isNumber } from 'lodash-es';
@@ -19,6 +20,7 @@ import { useConfig } from '../config-provider';
 import { useTheme } from '../_theme/useTheme';
 import { pxfy } from '../_util/utils';
 import useEsc from '../_util/use/useEsc';
+import useFocusTrap from '../_util/use/useFocusTrap';
 import { useLocale } from '../config-provider/useLocale';
 import { useResizable } from './useResizable';
 import { COMPONENT_NAME, prefixCls } from './const';
@@ -73,7 +75,13 @@ const Drawer = defineComponent({
 
         const escClosable = computed(() => props.escClosable);
 
-        useEsc(handleCancel, escClosable);
+        // 传入 visible：仅在弹窗打开期间监听 Esc，多弹窗不再同时响应
+        useEsc(handleCancel, escClosable, visible);
+
+        // 无障碍：标题 id 与焦点管理（初始聚焦/Tab 圈闭/焦点归还）
+        const titleId = useId();
+        const containerRef = ref<HTMLElement | null>(null);
+        useFocusTrap(containerRef as any, visible);
 
         function handleOk(event: MouseEvent) {
             ctx.emit(OK_EVENT, event);
@@ -90,7 +98,12 @@ const Drawer = defineComponent({
 
         function getHeader() {
             const closeJsx = props.closable && (
-                <div class={`${prefixCls}-close`} onClick={handleCancel}>
+                <div
+                    class={`${prefixCls}-close`}
+                    role="button"
+                    aria-label={t('drawer.close')}
+                    onClick={handleCancel}
+                >
                     <CloseOutlined />
                 </div>
             );
@@ -99,7 +112,7 @@ const Drawer = defineComponent({
             }
             const header = ctx.slots.title?.() || props.title;
             return (
-                <div class={`${prefixCls}-header`}>
+                <div class={`${prefixCls}-header`} id={titleId}>
                     {header}
                     {closeJsx}
                 </div>
@@ -226,7 +239,14 @@ const Drawer = defineComponent({
                             >
                                 <div
                                     class={wrapperClass.value}
-                                    ref={drawerRef}
+                                    role="dialog"
+                                    aria-modal="true"
+                                    aria-labelledby={hasHeader() ? titleId : undefined}
+                                    tabindex="-1"
+                                    ref={(el: any) => {
+                                        containerRef.value = el;
+                                        drawerRef.value = el;
+                                    }}
                                     style={styles.value}
                                     onClick={(event) => event.stopPropagation()}
                                 >

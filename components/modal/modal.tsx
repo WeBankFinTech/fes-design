@@ -5,6 +5,7 @@ import {
     defineComponent,
     nextTick,
     ref,
+    useId,
     watch,
 } from 'vue';
 import { isNumber } from 'lodash-es';
@@ -14,6 +15,7 @@ import FButton from '../button/button';
 import { CloseOutlined } from '../icon';
 import { useTheme } from '../_theme/useTheme';
 import useEsc from '../_util/use/useEsc';
+import useFocusTrap from '../_util/use/useFocusTrap';
 import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
 import { useConfig } from '../config-provider';
@@ -70,7 +72,15 @@ const Modal = defineComponent({
 
         const escClosable = computed(() => props.escClosable);
 
-        useEsc(handleCancel, escClosable);
+        // 传入 visible：仅在弹窗打开期间监听 Esc，多弹窗不再同时响应
+        useEsc(handleCancel, escClosable, visible);
+
+        // 无障碍：标题 id，供 aria-labelledby 关联
+        const titleId = useId();
+
+        // 无障碍：焦点管理（打开时初始聚焦/Tab 圈闭/关闭后焦点归还）
+        const containerRef = ref<HTMLElement | null>(null);
+        useFocusTrap(containerRef as any, visible);
 
         function handleOk(event: MouseEvent) {
             ctx.emit(OK_EVENT, event);
@@ -87,7 +97,12 @@ const Modal = defineComponent({
 
         function getHeader() {
             const closeJsx = props.closable && (
-                <div class={`${prefixCls}-close`} onClick={handleCancel}>
+                <div
+                    class={`${prefixCls}-close`}
+                    role="button"
+                    aria-label={t('modal.close')}
+                    onClick={handleCancel}
+                >
                     <CloseOutlined />
                 </div>
             );
@@ -96,7 +111,7 @@ const Modal = defineComponent({
             }
             const header = ctx.slots.title?.() || props.title;
             return (
-                <div class={`${prefixCls}-header`} ref={modalHeaderRef}>
+                <div class={`${prefixCls}-header`} id={titleId} ref={modalHeaderRef}>
                     {props.type && (
                         <div
                             class={`${prefixCls}-icon ${prefixCls}-status-${props.type}`}
@@ -259,6 +274,14 @@ const Modal = defineComponent({
                     <div
                         class={wrapperClass.value}
                         style={styles.value}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby={hasHeader() ? titleId : undefined}
+                        tabindex="-1"
+                        ref={(el: any) => {
+                            containerRef.value = el;
+                            modalRef.value = el;
+                        }}
                         onClick={(event) => event.stopPropagation()}
                         onMousedown={() => {
                             mouseDownInsideChild.value = true;
@@ -266,7 +289,6 @@ const Modal = defineComponent({
                         onMouseup={() => {
                             mouseDownInsideChild.value = false;
                         }}
-                        ref={modalRef}
                     >
                         {getHeader()}
                         {getBody()}
@@ -285,24 +307,24 @@ const Modal = defineComponent({
                     {
                         props.useAnimation
                             ? (
-                                <>
-                                    <Transition name={`${prefixCls}-mask-fade`}>
-                                        {props.mask && showDom.value && renderMask()}
-                                    </Transition>
-                                    <Transition
-                                        name={`${prefixCls}-fade`}
-                                        onAfterEnter={handleTransitionAfterEnter}
-                                        onAfterLeave={handleTransitionAfterLeave}
-                                    >
-                                        {showDom.value && renderContent()}
-                                    </Transition>
-                                </>
+                                    <>
+                                        <Transition name={`${prefixCls}-mask-fade`}>
+                                            {props.mask && showDom.value && renderMask()}
+                                        </Transition>
+                                        <Transition
+                                            name={`${prefixCls}-fade`}
+                                            onAfterEnter={handleTransitionAfterEnter}
+                                            onAfterLeave={handleTransitionAfterLeave}
+                                        >
+                                            {showDom.value && renderContent()}
+                                        </Transition>
+                                    </>
                                 )
                             : (
-                                <>
-                                    {props.mask && showDom.value && renderMask()}
-                                    {showDom.value && renderContent()}
-                                </>
+                                    <>
+                                        {props.mask && showDom.value && renderMask()}
+                                        {showDom.value && renderContent()}
+                                    </>
                                 )
                     }
                 </div>

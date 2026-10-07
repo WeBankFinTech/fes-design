@@ -12,7 +12,7 @@ export default (formAdaptorConfig?: FormAdaptorConfig) => {
     const valueType = formAdaptorConfig?.valueType;
     const forbidChildValidate = formAdaptorConfig?.forbidChildValidate;
 
-    const { validate, isError, setRuleDefaultType, isFormDisabled } = inject(
+    const { validate, isError, setRuleDefaultType, isFormDisabled, labelId } = inject(
         FORM_ITEM_INJECTION_KEY,
         {
             validate: noop,
@@ -55,5 +55,6 @@ export default (formAdaptorConfig?: FormAdaptorConfig) => {
         validate,
         isError,
         isFormDisabled,
+        labelId,
     };
 };

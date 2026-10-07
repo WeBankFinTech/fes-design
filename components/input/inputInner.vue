@@ -28,6 +28,7 @@
             :autocomplete="autocomplete"
             :style="inputStyle"
             :class="`${prefixCls}-el`"
+            :aria-labelledby="ariaLabelledby"
             @compositionstart="handleCompositionStart"
             @compositionend="handleCompositionEnd"
             @input="handleInput"
@@ -96,6 +97,8 @@ const inputInnerProps = {
         type: Boolean,
         default: true,
     },
+    // 无障碍：表单 label 元素 id（由 FFormItem 提供，经 FInput 透传）
+    ariaLabelledby: String,
 } as const satisfies ComponentObjectPropsOptions;
 
 const prefixCls = getPrefixCls('input-inner');

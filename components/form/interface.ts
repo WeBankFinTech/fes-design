@@ -122,6 +122,8 @@ export interface FormItemInject {
     setRuleDefaultType?: (ruleType: string) => void;
     isError?: Ref<boolean>;
     isFormDisabled?: Ref<boolean>;
+    /** 无障碍：label 元素 id，供表单控件 aria-labelledby 关联 */
+    labelId?: string;
 }
 
 export interface Field {
