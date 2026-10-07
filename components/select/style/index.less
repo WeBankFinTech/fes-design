@@ -20,7 +20,7 @@
     }
     &-popper {
         .text();
-        background: var(--f-white);
+        background: var(--f-component-bg-color);
     }
     &-dropdown {
         min-width: @select-dropdown-min-width;
@@ -55,7 +55,7 @@
         padding: 0 @padding-xs;
         color: var(--f-text-color);
         line-height: @select-height;
-        background: var(--f-white);
+        background: var(--f-component-bg-color);
         cursor: pointer;
         transition: background-color @animation-duration-slow @ease-base-out;
         &-label {
@@ -79,7 +79,7 @@
         }
         &.is-disabled {
             color: var(--f-text-color-disabled);
-            background: var(--f-white);
+            background: var(--f-component-bg-color);
             cursor: not-allowed;
         }
         &.is-checked {
@@ -96,7 +96,7 @@
         padding: 0 @padding-xs;
         color: var(--f-text-color-disabled);
         line-height: @select-height;
-        background: var(--f-white);
+        background: var(--f-component-bg-color);
         &-label {
             flex: auto;
         }
