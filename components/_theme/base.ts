@@ -84,20 +84,27 @@ export const baseTheme = (themeOverrides: Theme = {}, theme?: string) => {
         getDefaultThemeBase(themeOverrides.common?.fontColorBase),
         themeOverrides.common,
     );
+    // 派生链中间值（保持 main 的别名传导：轮播箭头底色跟随
+    // shadowColorSm / maskColor；用户在 common 覆盖这两个变量时，
+    // base 上已是覆盖值，直接沿用——与 main 的引用语义一致）
+    const shadowColorSm = base.shadowColorSm ?? fade(base.fontColorBase, 0.2);
+    const maskColor = base.maskColor ?? fade(base.fontColorBase, 0.45);
     return {
         ...base,
 
         linkColor: base.primaryColor,
 
-        // 表面色：组件背景语义变量（暗色主题翻转为深灰表面）
-        componentBgColor: theme === 'dark' ? '#1f1f1f' : base.white,
+        // 表面色：组件背景语义变量（暗色主题翻转为深灰表面；
+        // 亮色路径保持 main 原有 tint 派生不变，避免线上外观回归）
+        componentBgColor:
+            theme === 'dark' ? '#1f1f1f' : tint(base.fontColorBase, 0.97),
 
         borderColorBase: gray(base.fontColorBase, 0.8),
 
         shadowColor: fade(base.fontColorBase, 0.1),
-        shadowColorSm: fade(base.fontColorBase, 0.2),
+        shadowColorSm,
 
-        maskColor: fade(base.fontColorBase, 0.45),
+        maskColor,
         maskDarkColor: fade(base.fontColorBase, 0.9),
 
         // 浅色悬浮底（亮色 94% 白混合 → 暗色换 gray 成 94% 黑混合深底）
@@ -153,8 +160,10 @@ export const baseTheme = (themeOverrides: Theme = {}, theme?: string) => {
         scrollbarBgColor: fade(base.fontColorBase, 0.25),
         scrollbarActiveColor: fade(base.fontColorBase, 0.65),
 
-        carouselColor: fade(base.fontColorBase, 0.2),
-        carouselHoverColor: fade(base.fontColorBase, 0.45),
+        // 轮播箭头底色保持 main 的别名链（shadowColorSm/maskColor），
+        // 用户覆盖这两个变量时继续传导到轮播箭头
+        carouselColor: shadowColorSm,
+        carouselHoverColor: maskColor,
         carouselActiveColor: fade(base.fontColorBase, 0.65),
 
         ...themeOverrides.derivedColor,

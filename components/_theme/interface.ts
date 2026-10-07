@@ -27,15 +27,15 @@ export interface ThemeCommon {
     shadowRadiusSm: string;
 
     maskColor: string;
+    maskDarkColor: string;
 
     paddingLarge: string;
     paddingMiddle: string;
     paddingSmall: string;
-    paddingXSmall: string;
+    paddingXsmall: string;
 
     [key: string]: string;
 }
-
 export interface Theme {
     common?: Partial<ThemeCommon>;
     derivedColor?: {

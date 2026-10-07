@@ -334,7 +334,7 @@
     }
       
     &-slide-fade-leave-active {
-        // 绂诲満鐨?pane 鑴辩鏂囨。娴侊紝閬垮厤涓庡叆鍦?pane 鍦ㄦ祦鍐呭彔鍔犲鑷村鍣ㄩ珮搴︽姈鍔?(#820)
+        // 离场的 pane 脱离文档流，避免与入场 pane 在流内叠加导致容器高度抖动 (#820)
         position: absolute;
         inset-block-start: 0;
         inset-inline-start: 0;

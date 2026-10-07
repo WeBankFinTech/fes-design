@@ -98,7 +98,8 @@ describe('FConfigProvider theme="dark"', () => {
         await nextTick();
         await new Promise((r) => setTimeout(r, 30));
         expect(div.classList.contains('fes-dark')).toBe(false);
-        expect(getVar(div, '--f-component-bg-color')).toBe('#fff');
+        // 亮色恢复 main 的 tint 派生值（tint(#0f1222, 0.97)）
+        expect(getVar(div, '--f-component-bg-color')).toBe('#f8f8f8');
         expect(getVar(div, '--f-font-color-base')).toBe('#0f1222');
         wrapper.unmount();
         div.remove();
@@ -152,8 +153,8 @@ describe('applyTheme / resolveThemePreset 单元', () => {
         );
         expect(scoped).toContain('.fes-dark {');
         expect(scoped).toContain('--f-body-bg-color: #101010;');
-        // 亮色默认输出
+        // 亮色默认输出（tint(#0f1222, 0.97) 派生）
         const light = getThemeStyleTag();
-        expect(light).toContain('--f-component-bg-color: #fff;');
+        expect(light).toContain('--f-component-bg-color: #f8f8f8;');
     });
 });

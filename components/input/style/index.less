@@ -44,7 +44,7 @@
         border-spacing: 0;
 
         > .@{input-prefix-cls}-inner {
-            // 鎻愰珮涓棿杈撳叆妗嗗眰绾э紝閬垮厤杈规鍜岄槾褰辫閬尅
+            // 提高中间输入框层级，避免边框和阴影被遮挡
             position: relative;
             z-index: 1;
             vertical-align: middle;
@@ -135,7 +135,7 @@
         font-size: @font-size-caption;
         text-align: right;
         background-color: #fff;
-        // 涓嶄娇鐢?top 鎴?bottom锛岃€屾槸璁?word-count 鏍规嵁 <template> 涓殑澹版槑椤哄簭锛岃嚜鍔ㄨ窡闅忓湪 textarea 涓嬫柟锛屽啀浣跨敤 transform 璋冩暣浣嶇疆鑷?textarea 鍐呴儴
+        // 不使用 top 或 bottom，而是让 word-count 根据 <template> 中的声明顺序，自动跟随在 textarea 下方，再使用 transform 调整位置至 textarea 内部
         transform: translateY(calc(0px - 100% - 2px)); 
         opacity: 0.4;
         pointer-events: none;

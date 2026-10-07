@@ -82,7 +82,7 @@
         }
     }
 
-    // 鎸夐挳瀹瑰櫒澶у皬
+    // 按钮容器大小
     &-middle {
         height: @radio-button-height-base;
         font-size: @radio-button-font-base;
@@ -93,18 +93,18 @@
         font-size: @radio-button-font-sm;
     }
 
-    // 杈规鏍峰紡
+    // 边框样式
     &-border {
         border: var(--f-border-width-base) var(--f-border-style-base) var(--f-border-color-base);
     }
-    // 鏃犺竟妗嗘牱寮?
+    // 无边框样式
     &-no-border {
         color: var(--f-sub-head-color);
         background: var(--f-border-color-split);
         border: var(--f-border-width-base) var(--f-border-style-base) var(--f-border-color-split);
     }
 
-    // 鏈夎竟妗嗙殑閫変腑鏍峰紡
+    // 有边框的选中样式
     &.is-checked-primary-border {
         z-index: 1;
         color: var(--f-white);
@@ -133,12 +133,12 @@
             color: var(--f-border-color-base);
         }
     }
-    // 绂佺敤锛屽苟涓旀湁杈规鐨勬牱寮?
+    // 禁用，并且有边框的样式
     &.is-disabled.fes-radio-button-border {
         border: var(--f-border-width-base) var(--f-border-style-base) var(--f-border-color-base);
     }
 
-    // 鎸夐挳骞冲垎绌洪棿
+    // 按钮平分空间
     &.is-flex {
         flex: 1;
     }

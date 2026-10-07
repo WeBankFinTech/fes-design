@@ -9,7 +9,7 @@
 @column-shadow-right: 2px 2px var(--f-shadow-radius-sm) -1px var(--f-shadow-color-sm);
 @column-shadow-left: -1px 2px var(--f-shadow-radius-sm) var(--f-shadow-color-sm);
 @scrollbar-shadow-size: 4px;
-@scrollbar-shadow-z-index: 3; // 涓?bodyTable, virtualTable 涓殑 z-index 淇濇寔涓€鑷?
+@scrollbar-shadow-z-index: 3; // 与 bodyTable, virtualTable 中的 z-index 保持一致
 
 .@{table-prefix} {
     position: relative;
@@ -83,7 +83,7 @@
         }
     }
 
-    // shadow 涓?position: absolute锛屼緷璧?table 鐨?position: relative
+    // shadow 为 position: absolute，依赖 table 的 position: relative
     & &-header-shadow-left {
         #wrapper-inner-shadow-left();
     }

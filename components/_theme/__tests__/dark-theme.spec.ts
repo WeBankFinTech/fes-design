@@ -33,7 +33,8 @@ describe('baseTheme 暗色派生链', () => {
     test('亮色基线：默认输出与 main 旧实现一致（无回归）', () => {
         const light = baseTheme();
         // 关键锚点值（与旧实现逐一对齐）
-        expect(light.componentBgColor).toBe('#fff');
+        // componentBgColor 保持 main 的 tint(fontColorBase, 0.97) 派生
+        expect(light.componentBgColor).toBe('#f8f8f8');
         expect(light.borderColorBase).toBe(baseTheme().borderColorBase);
         expect(light.maskColor).toMatch(/rgba\(15,\s*18,\s*34,\s*0\.45\)/);
         expect(light.bodyBgColor).toBe('#fff');

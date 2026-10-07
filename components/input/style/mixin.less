@@ -113,17 +113,17 @@
 }
 
 .textarea-scrollbar(@scrollbar-width; @scrollbar-bg; @scrollbar-active-bg) {
-    /* 婊氬姩鏉℃暣浣撻儴鍒?*/
+    /* 滚动条整体部分 */
     &::-webkit-scrollbar {
         width: @scrollbar-width;
     }
-    /* 婊氬姩鏉＄殑杞ㄩ亾 */
+    /* 滚动条的轨道 */
     &::-webkit-scrollbar-track {
         background-color: var(--f-component-bg-color);
         border: var(--f-border-width-base) var(--f-border-style-base) transparent;
         border-radius: var(--f-border-radius-base);
     }
-    /* 婊氬姩鏉￠噷闈㈢殑灏忔柟鍧楋紝鑳藉悜涓婂悜涓嬬Щ鍔?*/
+    /* 滚动条里面的小方块，能向上向下移动 */
     &::-webkit-scrollbar-thumb {
         background-color: @scrollbar-bg;
         border: var(--f-border-width-base) var(--f-border-style-base) transparent;
@@ -135,7 +135,7 @@
     &::-webkit-scrollbar-thumb:active {
         background-color: @scrollbar-active-bg;
     }
-    /* 杈硅锛屽嵆涓や釜婊氬姩鏉＄殑浜ゆ眹澶?*/
+    /* 边角，即两个滚动条的交汇处 */
     &::-webkit-scrollbar-corner {
         border-radius: var(--f-border-radius-base);
     }

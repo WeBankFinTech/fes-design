@@ -81,7 +81,7 @@
         padding-right: @padding-xs;
         font-size: @font-size-head;
         &.no-expand {
-            width: 0; // 淇濈暀 margin-right锛屼娇寰楁病鏈?switcher 鐨勬椂鍊?tree node 浠嶆湁涓€瀹氬乏杈硅窛
+            width: 0; // 保留 margin-right，使得没有 switcher 的时候 tree node 仍有一定左边距
         }
         &-icon {
             transform: rotate(-90deg);
@@ -95,7 +95,7 @@
         display: flex;
         flex-grow: 1;
         align-items: center;
-        // 鍙樆姝㈣瀛愬厓绱犳拺寮€瀹藉害
+        // 可阻止被子元素撑开宽度
         min-width: 0;
         height: @data-input-height-base;
         &-prefix {
