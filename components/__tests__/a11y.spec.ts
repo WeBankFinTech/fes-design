@@ -230,7 +230,7 @@ describe('FDrawer 无障碍', () => {
 });
 
 describe('useEsc 多弹窗修复', () => {
-    test('两个弹窗同开，Esc 只关闭一个', async () => {
+    test('两个弹窗同开，Esc 只关闭栈顶一个（另一层保持）', async () => {
         const wrapper = mount(
             {
                 components: { FModal },
@@ -246,12 +246,59 @@ describe('useEsc 多弹窗修复', () => {
         await nextTick();
         await wait(50);
         expect(document.querySelectorAll('.fes-modal-wrapper').length).toBe(2);
-        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Escape', bubbles: true }));
+        window.dispatchEvent(
+            new KeyboardEvent('keydown', { code: 'Escape', bubbles: true }),
+        );
         await nextTick();
         await wait(50);
-        // 修复前：两个同时收到 update:show=false；修复后只有一个
-        const updates = wrapper.emitted('update:show') ?? [];
-        expect(updates.length).toBeLessThan(2);
+        // 真断言：逐组件检查 update:show 发射情况——只有后打开的 B 关闭，A 保持
+        const modals = wrapper.findAllComponents(FModal as any);
+        expect(modals.length).toBe(2);
+        const emittedA = modals[0].emitted('update:show') ?? [];
+        const emittedB = modals[1].emitted('update:show') ?? [];
+        expect(emittedA.length).toBe(0);
+        expect(emittedB.length).toBe(1);
+        expect(emittedB[0][0]).toBe(false);
+        wrapper.unmount();
+    });
+
+    test('Esc 关闭栈顶后，再次 Esc 关闭下一层', async () => {
+        const wrapper = mount(
+            {
+                components: { FModal },
+                template: `
+                    <div>
+                        <FModal :show="true" title="A" :appendToContainer="false" />
+                        <FModal :show="showB" title="B" :appendToContainer="false" @update:show="showB = $event" />
+                    </div>
+                `,
+                data() {
+                    return { showB: true };
+                },
+            },
+            { attachTo: document.body } as any,
+        );
+        await nextTick();
+        await wait(50);
+        // 第一次 Esc：关 B
+        window.dispatchEvent(
+            new KeyboardEvent('keydown', { code: 'Escape', bubbles: true }),
+        );
+        await nextTick();
+        await wait(50);
+        const modals = wrapper.findAllComponents(FModal as any);
+        expect((modals[1].emitted('update:show') ?? []).length).toBe(1);
+        expect((modals[0].emitted('update:show') ?? []).length).toBe(0);
+        // showB 置 false 后（B 卸载监听、出栈），第二次 Esc 关 A
+        (wrapper.vm as any).showB = false;
+        await nextTick();
+        await wait(50);
+        window.dispatchEvent(
+            new KeyboardEvent('keydown', { code: 'Escape', bubbles: true }),
+        );
+        await nextTick();
+        await wait(50);
+        expect((wrapper.findAllComponents(FModal as any)[0].emitted('update:show') ?? []).length).toBe(1);
         wrapper.unmount();
     });
 });

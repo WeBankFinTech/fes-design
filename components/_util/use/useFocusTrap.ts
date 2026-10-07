@@ -31,10 +31,22 @@ function getFocusableChildren(container: HTMLElement): HTMLElement[] {
 }
 
 /**
+ * 焦点圈闭的层栈仲裁：
+ * 多个弹层叠放时（Modal 上再开 Drawer），只有栈顶（最后打开）
+ * 的 trap 响应 Tab，避免多个 trap 同时拉焦造成抖动。
+ */
+type Trap = (event: KeyboardEvent) => void;
+const trapStack: Trap[] = [];
+
+function isStackTop(trap: Trap) {
+    return trapStack[trapStack.length - 1] === trap;
+}
+
+/**
  * 弹层焦点管理（参考 element-plus el-focus-trap / antd vc-dialog）：
- * - 打开时记录此前焦点，关闭后归还
- * - Tab 在弹层内圈闭（focus trap），Shift+Tab 循环到末尾
+ * - 打开时记录此前焦点，关闭后归还（若归还目标已被移出 DOM 则放弃）
  * - 打开时初始聚焦（data-autofocus 元素优先，否则首个可聚焦元素）
+ * - Tab 在弹层内圈闭（focus trap），Shift+Tab 循环到末尾
  */
 export default function useFocusTrap(
     containerRef: Ref<HTMLElement | undefined>,
@@ -47,8 +59,12 @@ export default function useFocusTrap(
 
     let restoreFocusEl: HTMLElement | null = null;
 
-    const trap = (event: KeyboardEvent) => {
+    const trap: Trap = (event) => {
         if (event.key !== 'Tab') {
+            return;
+        }
+        // 仅栈顶弹层圈闭焦点；下层弹层的 trap 不动作
+        if (!isStackTop(trap)) {
             return;
         }
         const container = containerRef.value;
@@ -82,15 +98,45 @@ export default function useFocusTrap(
         if (!container) {
             return;
         }
+        // 记录打开前的焦点：若此刻焦点已在本弹层容器内（如
+        // displayDirective=if 下 DOM 随挂载移动），则无可归还目标
         restoreFocusEl = document.activeElement as HTMLElement | null;
+        if (restoreFocusEl && container.contains(restoreFocusEl)) {
+            restoreFocusEl = null;
+        }
+        if (!trapStack.includes(trap)) {
+            trapStack.push(trap);
+        }
         window.addEventListener('keydown', trap, true);
-        const autofocusEl = container.querySelector<HTMLElement>('[data-autofocus]');
-        (autofocusEl || getFocusableChildren(container)[0] || container).focus?.();
+        // 初始聚焦：jsdom/部分环境下聚焦会改变 activeElement 引发
+        // 派发时序敏感（与按钮节流交互放大），仅在焦点不在容器内时聚焦
+        if (!container.contains(document.activeElement)) {
+            const autofocusEl = container.querySelector<HTMLElement>(
+                '[data-autofocus]',
+            );
+            (autofocusEl || getFocusableChildren(container)[0] || container)
+                .focus?.();
+        }
     };
 
     const teardown = () => {
+        const idx = trapStack.indexOf(trap);
+        if (idx !== -1) {
+            trapStack.splice(idx, 1);
+        }
         window.removeEventListener('keydown', trap, true);
-        if (restoreFocusEl && document.contains(restoreFocusEl)) {
+        // 归还焦点：仅当归还目标仍在文档中；若归还后焦点会脱离当前
+        // 交互上下文（如命令式 API 连续开关弹窗），保持现状更稳妥——
+        // 只有焦点还落在（已关闭的）弹层内时才拉回
+        const container = containerRef.value;
+        if (
+            restoreFocusEl
+            && document.contains(restoreFocusEl)
+            && (!document.activeElement
+                || !container
+                || container.contains(document.activeElement)
+                || document.activeElement === document.body)
+        ) {
             restoreFocusEl.focus?.();
         }
         restoreFocusEl = null;

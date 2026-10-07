@@ -98,14 +98,14 @@ const Drawer = defineComponent({
 
         function getHeader() {
             const closeJsx = props.closable && (
-                <div
+                <button
+                    type="button"
                     class={`${prefixCls}-close`}
-                    role="button"
                     aria-label={t('drawer.close')}
                     onClick={handleCancel}
                 >
                     <CloseOutlined />
-                </div>
+                </button>
             );
             if (!hasHeader()) {
                 return closeJsx;
