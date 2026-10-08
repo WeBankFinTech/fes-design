@@ -9,6 +9,9 @@
  * - FSwitch：role=switch + aria-checked + 键盘触发
  * - FTabs：tablist/tab 语义 + 方向键漫游 + 只配 name 的 tab
  * - FFormItem：label id 关联（aria-labelledby），无 label 时不产生断链引用
+ * - 弹层背景隔离（inert + aria-hidden）与豁免规则
+ * - FFormItem 错误信息关联（aria-describedby）
+ * - FMessage：容器 live region 播报语义
  */
 import { h, nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
@@ -18,6 +21,7 @@ import FSwitch from '../switch';
 import FTabs, { FTabPane } from '../tabs';
 import FModal from '../modal';
 import FDrawer from '../drawer';
+import FMessage from '../message';
 import FPopper from '../popper';
 import FTooltip from '../tooltip';
 import FForm from '../form';
@@ -1236,6 +1240,72 @@ describe('FFormItem 错误信息关联（aria-describedby）', () => {
         const input = wrapper.find('input');
         expect(input.attributes('aria-labelledby')).toBeUndefined();
         expect(input.attributes('aria-describedby')).toBeUndefined();
+        wrapper.unmount();
+    });
+});
+
+describe('FMessage 播报语义', () => {
+    afterEach(() => {
+        FMessage.destroy();
+    });
+
+    test('容器带 status live region，且标记在容器本身而非内层 wrapper', async () => {
+        FMessage.info('info message');
+        await vi.waitFor(() => {
+            expect(
+                document.querySelector(`.${getPrefixCls('message')}-wrapper`),
+            ).not.toBeNull();
+            expect(
+                document.querySelector(`.${getPrefixCls('message')}-item`),
+            ).not.toBeNull();
+        });
+        const wrapperEl = document.querySelector(
+            `.${getPrefixCls('message')}-wrapper`,
+        )!;
+        // live 语义必须在容器（body 直接子节点）上：
+        // 挂在里层 wrapper 上会被弹层背景隔离 inert 掉，读屏就听不到了
+        const container = wrapperEl.parentElement!;
+        expect(container.getAttribute('role')).toBe('status');
+        expect(container.getAttribute('aria-live')).toBe('polite');
+        // 新消息只朗读自己，不重读已在屏上的消息
+        expect(container.getAttribute('aria-atomic')).toBe('false');
+        expect(container.textContent).toContain('info message');
+    });
+
+    test('多条消息共用一个 live region，文本都在容器内', async () => {
+        FMessage.info('first');
+        await vi.waitFor(() => {
+            expect(document.querySelectorAll('.fes-message-item').length).toBe(1);
+        });
+        FMessage.success('second');
+        await vi.waitFor(() => {
+            expect(document.querySelectorAll('.fes-message-item').length).toBe(2);
+        });
+        const containers = document.querySelectorAll('[role="status"]');
+        expect(containers.length).toBe(1);
+        expect(containers[0].textContent).toContain('first');
+        expect(containers[0].textContent).toContain('second');
+    });
+
+    test('弹层打开时消息容器不被背景隔离（仍可朗读）', async () => {
+        FMessage.info('保存成功');
+        await vi.waitFor(() => {
+            expect(
+                document.querySelector(`.${getPrefixCls('message')}-wrapper`),
+            ).not.toBeNull();
+        });
+        const container = document.querySelector('[role="status"]')!;
+
+        const wrapper = mount(FModal as any, {
+            props: { show: true, title: '标题' },
+            slots: { default: () => h('p', '内容') },
+            attachTo: document.body,
+        } as any);
+        await nextTick();
+        await wait(50);
+        // 背景被隔离，但消息容器按 live 语义豁免
+        expect(container.hasAttribute('inert')).toBe(false);
+        expect(container.hasAttribute('aria-hidden')).toBe(false);
         wrapper.unmount();
     });
 });
