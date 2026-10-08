@@ -12,14 +12,13 @@ export default (formAdaptorConfig?: FormAdaptorConfig) => {
     const valueType = formAdaptorConfig?.valueType;
     const forbidChildValidate = formAdaptorConfig?.forbidChildValidate;
 
-    const { validate, isError, setRuleDefaultType, isFormDisabled } = inject(
-        FORM_ITEM_INJECTION_KEY,
-        {
-            validate: noop,
-            isError: ref(false),
-            isFormDisabled: ref(false),
-        },
-    );
+    const {
+        validate, isError, setRuleDefaultType, isFormDisabled, labelId, errorId,
+    } = inject(FORM_ITEM_INJECTION_KEY, {
+        validate: noop,
+        isError: ref(false),
+        isFormDisabled: ref(false),
+    });
 
     // 兼容非 form 模式
     if (setRuleDefaultType && valueType) {
@@ -43,11 +42,14 @@ export default (formAdaptorConfig?: FormAdaptorConfig) => {
     }
 
     if (forbidChildValidate) {
-        // 避免子组件重复
+        // 避免子组件重复校验；labelId / errorId 必须一并透传，
+        // 否则子控件拿不到 FFormItem 的 label 与错误信息关联
         provide(FORM_ITEM_INJECTION_KEY, {
             validate: noop,
             isError,
             isFormDisabled,
+            labelId,
+            errorId,
         });
     }
 
@@ -55,5 +57,7 @@ export default (formAdaptorConfig?: FormAdaptorConfig) => {
         validate,
         isError,
         isFormDisabled,
+        labelId,
+        errorId,
     };
 };

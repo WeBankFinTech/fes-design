@@ -19,6 +19,9 @@ import { useConfig } from '../config-provider';
 import { useTheme } from '../_theme/useTheme';
 import { pxfy } from '../_util/utils';
 import useEsc from '../_util/use/useEsc';
+import useFocusTrap from '../_util/use/useFocusTrap';
+import useInertBackground from '../_util/use/useInertBackground';
+import useId from '../_util/use/useId';
 import { useLocale } from '../config-provider/useLocale';
 import { useResizable } from './useResizable';
 import { COMPONENT_NAME, prefixCls } from './const';
@@ -73,7 +76,11 @@ const Drawer = defineComponent({
 
         const escClosable = computed(() => props.escClosable);
 
-        useEsc(handleCancel, escClosable);
+        // 传入 visible：仅在弹窗打开期间监听 Esc，多弹窗不再同时响应
+        useEsc(handleCancel, escClosable, visible);
+
+        // 无障碍：标题 id，供 aria-labelledby 关联
+        const titleId = useId();
 
         function handleOk(event: MouseEvent) {
             ctx.emit(OK_EVENT, event);
@@ -90,9 +97,14 @@ const Drawer = defineComponent({
 
         function getHeader() {
             const closeJsx = props.closable && (
-                <div class={`${prefixCls}-close`} onClick={handleCancel}>
+                <button
+                    type="button"
+                    class={`${prefixCls}-close`}
+                    aria-label={t('drawer.close')}
+                    onClick={handleCancel}
+                >
                     <CloseOutlined />
-                </div>
+                </button>
             );
             if (!hasHeader()) {
                 return closeJsx;
@@ -100,7 +112,12 @@ const Drawer = defineComponent({
             const header = ctx.slots.title?.() || props.title;
             return (
                 <div class={`${prefixCls}-header`}>
-                    {header}
+                    {/*
+                      * aria-labelledby 指向的元素必须只含标题：
+                      * 指向 header 会把关闭按钮的 aria-label 一起算进
+                      * 可访问名（结果形如「标题 关闭」）
+                      */}
+                    <div id={titleId}>{header}</div>
                     {closeJsx}
                 </div>
             );
@@ -165,6 +182,15 @@ const Drawer = defineComponent({
             drawerDimension,
         });
 
+        // 无障碍：背景隔离（aria-modal 配套）。必须在 useFocusTrap 之前注册：
+        // 关闭时先摘掉 inert，focus trap 才能把焦点归还给背景里的触发元素
+        useInertBackground(drawerRef, visible);
+
+        // 无障碍：焦点管理（初始聚焦/Tab 圈闭/焦点归还）
+        // 复用 useResizable 的 drawerRef（同一 DOM 节点），
+        // 避免内联函数 ref 每次渲染重建导致容器 ref 反复置空
+        useFocusTrap(drawerRef, visible);
+
         const showDom = computed(
             () =>
                 (props.displayDirective === 'if' && visible.value)
@@ -226,6 +252,10 @@ const Drawer = defineComponent({
                             >
                                 <div
                                     class={wrapperClass.value}
+                                    role="dialog"
+                                    aria-modal="true"
+                                    aria-labelledby={hasHeader() ? titleId : undefined}
+                                    tabindex="-1"
                                     ref={drawerRef}
                                     style={styles.value}
                                     onClick={(event) => event.stopPropagation()}

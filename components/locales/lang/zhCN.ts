@@ -100,10 +100,12 @@ export default {
     modal: {
         okText: '确定',
         cancelText: '取消',
+        close: '关闭',
     },
     drawer: {
         okText: '确定',
         cancelText: '取消',
+        close: '关闭',
     },
     tooltip: {
         okText: '确定',

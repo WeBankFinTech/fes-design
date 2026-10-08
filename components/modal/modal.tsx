@@ -14,6 +14,9 @@ import FButton from '../button/button';
 import { CloseOutlined } from '../icon';
 import { useTheme } from '../_theme/useTheme';
 import useEsc from '../_util/use/useEsc';
+import useFocusTrap from '../_util/use/useFocusTrap';
+import useInertBackground from '../_util/use/useInertBackground';
+import useId from '../_util/use/useId';
 import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
 import { useConfig } from '../config-provider';
@@ -70,7 +73,11 @@ const Modal = defineComponent({
 
         const escClosable = computed(() => props.escClosable);
 
-        useEsc(handleCancel, escClosable);
+        // 传入 visible：仅在弹窗打开期间监听 Esc，多弹窗不再同时响应
+        useEsc(handleCancel, escClosable, visible);
+
+        // 无障碍：标题 id，供 aria-labelledby 关联
+        const titleId = useId();
 
         function handleOk(event: MouseEvent) {
             ctx.emit(OK_EVENT, event);
@@ -87,9 +94,14 @@ const Modal = defineComponent({
 
         function getHeader() {
             const closeJsx = props.closable && (
-                <div class={`${prefixCls}-close`} onClick={handleCancel}>
+                <button
+                    type="button"
+                    class={`${prefixCls}-close`}
+                    aria-label={t('modal.close')}
+                    onClick={handleCancel}
+                >
                     <CloseOutlined />
-                </div>
+                </button>
             );
             if (!hasHeader()) {
                 return closeJsx;
@@ -104,7 +116,12 @@ const Modal = defineComponent({
                             {props.type && modalIconMap[props.type]()}
                         </div>
                     )}
-                    <div>{header}</div>
+                    {/*
+                      * aria-labelledby 指向的元素必须只含标题：
+                      * 指向 header 会把关闭按钮的 aria-label 一起算进
+                      * 可访问名（结果形如「标题 关闭」）
+                      */}
+                    <div id={titleId}>{header}</div>
                     {closeJsx}
                 </div>
             );
@@ -175,6 +192,15 @@ const Modal = defineComponent({
             contentMaxHeight,
             hasMaxHeight,
         } = useContentMaxHeight(styles, props);
+
+        // 无障碍：背景隔离（aria-modal 配套）。必须在 useFocusTrap 之前注册：
+        // 关闭时先摘掉 inert，focus trap 才能把焦点归还给背景里的触发元素
+        useInertBackground(modalRef, visible);
+
+        // 无障碍：焦点管理（打开时初始聚焦/Tab 圈闭/关闭后焦点归还）
+        // 复用 useContentMaxHeight 的 modalRef（同一 DOM 节点），
+        // 避免内联函数 ref 每次渲染重建导致容器 ref 反复置空
+        useFocusTrap(modalRef, visible);
 
         const getBody = () => {
             const modalBody = (
@@ -259,6 +285,11 @@ const Modal = defineComponent({
                     <div
                         class={wrapperClass.value}
                         style={styles.value}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby={hasHeader() ? titleId : undefined}
+                        tabindex="-1"
+                        ref={modalRef}
                         onClick={(event) => event.stopPropagation()}
                         onMousedown={() => {
                             mouseDownInsideChild.value = true;
@@ -266,7 +297,6 @@ const Modal = defineComponent({
                         onMouseup={() => {
                             mouseDownInsideChild.value = false;
                         }}
-                        ref={modalRef}
                     >
                         {getHeader()}
                         {getBody()}
@@ -285,24 +315,24 @@ const Modal = defineComponent({
                     {
                         props.useAnimation
                             ? (
-                                <>
-                                    <Transition name={`${prefixCls}-mask-fade`}>
-                                        {props.mask && showDom.value && renderMask()}
-                                    </Transition>
-                                    <Transition
-                                        name={`${prefixCls}-fade`}
-                                        onAfterEnter={handleTransitionAfterEnter}
-                                        onAfterLeave={handleTransitionAfterLeave}
-                                    >
-                                        {showDom.value && renderContent()}
-                                    </Transition>
-                                </>
+                                    <>
+                                        <Transition name={`${prefixCls}-mask-fade`}>
+                                            {props.mask && showDom.value && renderMask()}
+                                        </Transition>
+                                        <Transition
+                                            name={`${prefixCls}-fade`}
+                                            onAfterEnter={handleTransitionAfterEnter}
+                                            onAfterLeave={handleTransitionAfterLeave}
+                                        >
+                                            {showDom.value && renderContent()}
+                                        </Transition>
+                                    </>
                                 )
                             : (
-                                <>
-                                    {props.mask && showDom.value && renderMask()}
-                                    {showDom.value && renderContent()}
-                                </>
+                                    <>
+                                        {props.mask && showDom.value && renderMask()}
+                                        {showDom.value && renderContent()}
+                                    </>
                                 )
                     }
                 </div>

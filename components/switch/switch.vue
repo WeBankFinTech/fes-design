@@ -1,5 +1,16 @@
 <template>
-    <div :class="wrapperClass" @click="toggle">
+    <div
+        :class="wrapperClass"
+        role="switch"
+        :aria-checked="activeRef"
+        :aria-disabled="innerDisabled || undefined"
+        :aria-labelledby="labelId"
+        :aria-describedby="errorId"
+        :tabindex="innerDisabled ? -1 : 0"
+        @click="toggle"
+        @keydown.space.prevent="toggle"
+        @keydown.enter.prevent="toggle"
+    >
         <span :class="`${prefixCls}-inner`">
             <slot v-if="activeRef" name="active" />
             <slot v-if="inactiveRef" name="inactive" />
@@ -76,7 +87,9 @@ export default defineComponent({
                 isEqual: true,
             },
         );
-        const { validate, isFormDisabled } = useFormAdaptor();
+        const {
+            validate, isFormDisabled, labelId, errorId,
+        } = useFormAdaptor();
         onMounted(() => {
             // 默认为未选中，增加 props.inactiveValue 判断，避免 onMounted 设置初始值不生效
             if (currentValue.value === undefined && props.inactiveValue !== undefined) {
@@ -118,7 +131,7 @@ export default defineComponent({
                     if (confirm === false) {
                         return;
                     }
-                } catch (e) {
+                } catch {
                     loadingRef.value = false;
                     return;
                 }
@@ -143,6 +156,9 @@ export default defineComponent({
             activeRef,
             inactiveRef,
             loadingRef,
+            innerDisabled,
+            labelId,
+            errorId,
         };
     },
 });

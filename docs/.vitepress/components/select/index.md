@@ -189,6 +189,21 @@ selectGroupOption.vue
 | footer  | 弹框底部显示自定义的内容                       | -                                                  |
 | addon   | 即将废弃，请使用 footer                        | -                                                  |
 
+## 无障碍与键盘交互
+
+触发器带 `role="combobox"` 与 `aria-expanded` / `aria-haspopup` / `aria-controls`，
+高亮项通过 `aria-activedescendant` 朗读。`filterable`（含 `remote`）时焦点在内部输入框上，
+以上属性会挂到该输入框，外层容器不再声明 `combobox`。
+
+| 按键      | 行为                                                       |
+| --------- | ---------------------------------------------------------- |
+| ↓ / ↑     | 未展开时展开；展开后移动高亮项                             |
+| Enter     | 未展开时展开；展开后选中高亮项并收起                       |
+| Esc       | 收起下拉，不改变已选值                                     |
+| Home / End | 展开时跳到首项 / 末项。`filterable` 且输入框已有文本时不接管，保留输入框的光标移动 |
+
+输入法组合态（`isComposing` / `keyCode 229`）的 Enter 不会触发选中。
+
 ## Select Methods
 
 | 名称  | 说明     |

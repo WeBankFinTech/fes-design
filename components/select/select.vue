@@ -28,7 +28,11 @@
                     :class="[{ 'is-error': isError }, triggerClass]"
                     :style="triggerStyle"
                     :renderTag="$slots.tag"
-                    @keydown.enter="onKeyDown"
+                    :ariaControls="optionListId"
+                    :ariaActiveDescendant="activeDescendantId"
+                    :ariaLabelledby="triggerAriaLabelledby"
+                    :ariaDescribedby="triggerAriaDescribedby"
+                    @keydown="onTriggerKeyDown"
                     @remove="onSelect"
                     @clear="handleClear"
                     @focus="focus"
@@ -41,6 +45,7 @@
                     <slot name="header" />
                 </div>
                 <OptionList
+                    :id="optionListId"
                     :hoverOptionValue="hoverOptionValue"
                     :options="filteredOptions"
                     :prefixCls="prefixCls"
@@ -80,6 +85,7 @@ import { useTheme } from '../_theme/useTheme';
 import { type UseArrayModelReturn, useArrayModel, useNormalModel } from '../_util/use/useModel';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
+import useId from '../_util/use/useId';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
 import { useLocale } from '../config-provider/useLocale';
@@ -100,13 +106,30 @@ export default defineComponent({
     emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'removeTag', 'visibleChange', 'focus', 'blur', 'clear', 'scroll', 'search', 'filter'],
     setup(props, { emit }) {
         useTheme();
-        const { validate, isError, isFormDisabled } = useFormAdaptor({
+        const {
+            validate, isError, isFormDisabled, labelId, errorId,
+        } = useFormAdaptor({
             valueType: computed(() => (props.multiple ? 'array' : 'string')),
         });
         const innerDisabled = computed(() => props.disabled === true || isFormDisabled.value);
         const isOpenedRef = ref(false);
+
+        // 无障碍：表单 label 关联（FFormItem 注入；无 label 时为 undefined）
+        const triggerAriaLabelledby = computed(() => unref(labelId));
+        // 无障碍：表单错误信息关联（FFormItem 注入；无错误信息时为 undefined）
+        const triggerAriaDescribedby = computed(() => unref(errorId));
         // 与 props 中 modelValue 类型保持一致
         const [currentValue, updateCurrentValue] = props.multiple ? (useArrayModel(props, emit) as unknown as UseArrayModelReturn<SelectValue[]>) : useNormalModel(props, emit);
+
+        // 无障碍：下拉列表 id，供触发器 aria-controls 关联
+        const optionListId = useId();
+        // 无障碍：当前高亮选项 id，供 aria-activedescendant 朗读
+        const activeDescendantId = computed(() => {
+            if (!isOpenedRef.value || isNil(hoverOptionValue.value)) {
+                return undefined;
+            }
+            return `${optionListId}-option-${String(hoverOptionValue.value)}`;
+        });
 
         const triggerRef = ref();
         const triggerWidth = ref(0);
@@ -399,6 +422,126 @@ export default defineComponent({
             }
         };
 
+        // 无障碍：键盘导航。焦点保留在触发器上，
+        // 上下键移动高亮项（aria-activedescendant 跟随朗读），Enter 选中，Esc 关闭
+        const selectableOptions = computed(() =>
+            filteredOptions.value.filter((option) => !option.__isGroup && !option.disabled),
+        );
+
+        const moveHover = (step: number) => {
+            const options = selectableOptions.value;
+            if (!options.length) {
+                return;
+            }
+            const currentIndex = options.findIndex(
+                (option) => option.value === hoverOptionValue.value,
+            );
+            let nextIndex = currentIndex + step;
+            if (nextIndex < 0) {
+                nextIndex = options.length - 1;
+            }
+            if (nextIndex > options.length - 1) {
+                nextIndex = 0;
+            }
+            hoverOptionValue.value = options[nextIndex].value;
+        };
+
+        // filterable/remote 且已输入过滤文本时，Home/End 属于输入框光标操作，
+        // 不劫持（否则下拉打开时无法把光标移到文本首尾）
+        const isFiltering = () =>
+            Boolean(props.filterable || props.remote) && Boolean(filterText.value);
+
+        // 归一化按键名：真实浏览器返回 'Enter'/'ArrowDown'（DOM key）
+        // 或 'Enter'/'ArrowDown'（DOM code）；合成事件可能给小写 'enter'、
+        // 甚至把数字 keyCode 塞进 code 字段——统一折算成 DOM key 风格
+        const normalizeKey = (e: KeyboardEvent): string => {
+            const raw = String(e.key ?? e.code ?? '');
+            if (/^\d+$/.test(raw) || raw === 'Unidentified' || raw === '') {
+                // 纯数字视为 keyCode，按常见键位折算
+                const map: Record<string, string> = {
+                    13: 'Enter',
+                    27: 'Escape',
+                    35: 'End',
+                    36: 'Home',
+                    38: 'ArrowUp',
+                    40: 'ArrowDown',
+                };
+                return map[raw] ?? '';
+            }
+            const code = String(e.code ?? '');
+            if (/^(?:Enter|NumpadEnter|Escape|Home|End|ArrowUp|ArrowDown)$/.test(code)) {
+                return code === 'NumpadEnter' ? 'Enter' : code;
+            }
+            if (/^arrow/i.test(raw)) {
+                return raw.replace(/^arrow/i, 'Arrow');
+            }
+            return raw.charAt(0).toUpperCase() + raw.slice(1);
+        };
+
+        const onTriggerKeyDown = (e: KeyboardEvent) => {
+            if (innerDisabled.value) {
+                return;
+            }
+            // IME 组合态守卫：中文/日文输入法选词确认的 Enter（连同
+            // isComposing=true / keyCode 229 的变体）不应触发选项选中
+            if (e.isComposing || e.keyCode === 229) {
+                return;
+            }
+            switch (normalizeKey(e)) {
+                case 'Enter':
+                    e.preventDefault();
+                    if (isOpenedRef.value) {
+                        onKeyDown();
+                    } else {
+                        isOpenedRef.value = true;
+                    }
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    if (!isOpenedRef.value) {
+                        isOpenedRef.value = true;
+                    } else {
+                        moveHover(1);
+                    }
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault();
+                    if (isOpenedRef.value) {
+                        moveHover(-1);
+                    }
+                    break;
+                case 'Escape':
+                    if (isOpenedRef.value) {
+                        e.stopPropagation();
+                        isOpenedRef.value = false;
+                    }
+                    break;
+                case 'Home':
+                    if (
+                        isOpenedRef.value
+                        && selectableOptions.value.length
+                        && !isFiltering()
+                    ) {
+                        e.preventDefault();
+                        hoverOptionValue.value = selectableOptions.value[0].value;
+                    }
+                    break;
+                case 'End':
+                    if (
+                        isOpenedRef.value
+                        && selectableOptions.value.length
+                        && !isFiltering()
+                    ) {
+                        e.preventDefault();
+                        hoverOptionValue.value
+                            = selectableOptions.value[selectableOptions.value.length - 1].value;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        };
+
         const warnDeprecatedSlot = () => console.warn('[FSelect]: addon 插槽即将废弃，请使用 footer 插槽代替');
 
         return {
@@ -425,6 +568,11 @@ export default defineComponent({
             hoverOptionValue,
             onHover,
             onKeyDown,
+            onTriggerKeyDown,
+            optionListId,
+            activeDescendantId,
+            triggerAriaLabelledby,
+            triggerAriaDescribedby,
             warnDeprecatedSlot,
             filterText,
         };

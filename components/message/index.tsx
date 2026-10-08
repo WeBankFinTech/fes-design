@@ -108,6 +108,10 @@ function create({
             class: `${prefixCls}-wrapper`,
             maxCount: mergeConfig.maxCount,
             style: managerStyle,
+            // 无障碍：消息是短暂提示，用 polite 的 status 播报，
+            // 不打断读屏正在朗读的内容
+            role: 'status',
+            ariaLive: 'polite',
         }).then((instance) => {
             messageInstance = instance;
             renderItem();
