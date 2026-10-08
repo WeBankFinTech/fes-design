@@ -119,6 +119,10 @@ closable.vue
 - 焦点位于 Teleport 到 body 的浮层（Popper）内时，Tab 圈闭放行，不抢焦。
 - 多层弹层叠放时只有最上层响应 Esc；`escClosable` 为 `false` 的最上层会吞掉 Esc，
   不会误关下层弹层。
+- 打开时给 body 下不属于本层的兄弟节点加 `inert` + `aria-hidden="true"`，
+  关闭后按原值还原，实现 `aria-modal` 要求的背景隔离。
+  两类节点不隔离：`aria-live` 播报区（Message / Notification 仍可朗读）、
+  带 `data-fes-focus-scope` 的浮层内容（弹层内下拉面板保持可交互）。
 
 ## Modal Event
 

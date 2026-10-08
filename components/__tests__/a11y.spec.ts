@@ -872,3 +872,370 @@ describe('FFormItem 无障碍', () => {
         wrapper.unmount();
     });
 });
+
+describe('弹层背景隔离（inert）', () => {
+    /** 造一个模拟「应用根节点」的背景元素 */
+    const createBackground = () => {
+        const el = document.createElement('div');
+        el.id = 'app-root';
+        el.innerHTML = '<button id="bg-btn" type="button">背景按钮</button>';
+        document.body.appendChild(el);
+        return el;
+    };
+
+    const mountModal = (props: Record<string, unknown> = {}) =>
+        mount(FModal as any, {
+            props: { show: true, title: '标题', ...props },
+            slots: { default: () => h('p', '内容') },
+            attachTo: document.body,
+        } as any);
+
+    test('打开后背景被置为 inert + aria-hidden，弹层自身不受影响', async () => {
+        const background = createBackground();
+        const wrapper = mountModal();
+        await nextTick();
+        await wait(50);
+        expect(background.hasAttribute('inert')).toBe(true);
+        expect(background.getAttribute('aria-hidden')).toBe('true');
+        // 弹层自身及其遮罩所在的根节点不能被隔离
+        const dialog = document.querySelector('.fes-modal-wrapper')!;
+        expect(dialog.hasAttribute('inert')).toBe(false);
+        expect(dialog.closest('[inert]')).toBeNull();
+        wrapper.unmount();
+    });
+
+    test('关闭后背景属性还原，原本已有的 aria-hidden 保持原值', async () => {
+        const background = createBackground();
+        // 应用自己设过的 aria-hidden 不能被覆盖成「无」
+        const preset = document.createElement('div');
+        preset.id = 'preset';
+        preset.setAttribute('aria-hidden', 'false');
+        document.body.appendChild(preset);
+
+        const wrapper = mountModal();
+        await nextTick();
+        await wait(50);
+        expect(background.hasAttribute('aria-hidden')).toBe(true);
+        expect(preset.getAttribute('aria-hidden')).toBe('true');
+
+        await wrapper.setProps({ show: false });
+        await nextTick();
+        await wait(50);
+        expect(background.hasAttribute('inert')).toBe(false);
+        expect(background.hasAttribute('aria-hidden')).toBe(false);
+        // 还原为原值，而不是直接删除
+        expect(preset.getAttribute('aria-hidden')).toBe('false');
+        wrapper.unmount();
+    });
+
+    test('aria-live 播报区不被隔离（Message / Notification 仍可朗读）', async () => {
+        createBackground();
+        const live = document.createElement('div');
+        live.id = 'message-root';
+        live.setAttribute('aria-live', 'polite');
+        document.body.appendChild(live);
+
+        const wrapper = mountModal();
+        await nextTick();
+        await wait(50);
+        expect(document.getElementById('app-root')!.hasAttribute('inert')).toBe(
+            true,
+        );
+        expect(live.hasAttribute('inert')).toBe(false);
+        expect(live.hasAttribute('aria-hidden')).toBe(false);
+        wrapper.unmount();
+    });
+
+    test('浮层内容不被隔离（弹层内下拉面板保持可交互）', async () => {
+        createBackground();
+        // 模拟 Teleport 到 body 的 Popper 根节点
+        const floating = document.createElement('div');
+        floating.id = 'floating';
+        floating.setAttribute('data-fes-focus-scope', 'true');
+        document.body.appendChild(floating);
+
+        const wrapper = mountModal();
+        await nextTick();
+        await wait(50);
+        expect(
+            document.getElementById('app-root')!.hasAttribute('inert'),
+        ).toBe(true);
+        expect(floating.hasAttribute('inert')).toBe(false);
+        expect(floating.hasAttribute('aria-hidden')).toBe(false);
+        wrapper.unmount();
+    });
+
+    test('背景节点内部含 role=alert 时仍被隔离（避免整体豁免）', async () => {
+        const background = createBackground();
+        // 应用根节点里出现表单错误是常态，不能因此豁免整个根节点
+        background.innerHTML += '<div role="alert">请输入用户名</div>';
+        // 内联浮层（appendToContainer=false）同样不能让容器整体豁免
+        const inlineFloating = document.createElement('div');
+        inlineFloating.setAttribute('data-fes-focus-scope', 'true');
+        background.appendChild(inlineFloating);
+
+        const wrapper = mountModal();
+        await nextTick();
+        await wait(50);
+        expect(background.hasAttribute('inert')).toBe(true);
+        expect(background.getAttribute('aria-hidden')).toBe('true');
+        wrapper.unmount();
+    });
+
+    test('多层弹层：只有栈顶不被隔离，栈顶关闭后下层恢复', async () => {
+        createBackground();
+        const wrapper = mount(
+            {
+                components: { FModal },
+                template: `
+                    <div>
+                        <FModal :show="true" title="A" />
+                        <FModal :show="showB" title="B" />
+                    </div>
+                `,
+                data() {
+                    return { showB: true };
+                },
+            },
+            { attachTo: document.body } as any,
+        );
+        await nextTick();
+        await wait(50);
+        let dialogs = document.querySelectorAll('.fes-modal-wrapper');
+        expect(dialogs.length).toBe(2);
+        // A（先打开，下层）被隔离；B（栈顶）不被隔离
+        expect(dialogs[0].closest('[inert]')).not.toBeNull();
+        expect(dialogs[1].closest('[inert]')).toBeNull();
+        expect(document.getElementById('app-root')!.hasAttribute('inert')).toBe(
+            true,
+        );
+
+        // 关闭栈顶 B 后，A 重新成为唯一弹层，背景与 A 都恢复；
+        // B 的 DOM 保留（v-show）但已属于背景，同样被隔离
+        (wrapper.vm as any).showB = false;
+        await nextTick();
+        await wait(50);
+        dialogs = document.querySelectorAll('.fes-modal-wrapper');
+        expect(dialogs.length).toBe(2);
+        expect(dialogs[0].closest('[inert]')).toBeNull();
+        expect(dialogs[1].closest('[inert]')).not.toBeNull();
+        expect(document.getElementById('app-root')!.hasAttribute('inert')).toBe(
+            true,
+        );
+        wrapper.unmount();
+    });
+
+    test('关闭后焦点仍能归还背景中的触发元素（inert 先摘除）', async () => {
+        createBackground();
+        const trigger = document.getElementById('bg-btn')!;
+        const wrapper = mount(
+            {
+                components: { FModal },
+                template: `
+                    <FModal
+                        :show="show"
+                        title="标题"
+                        @update:show="show = $event"
+                    />
+                `,
+                data() {
+                    return { show: false };
+                },
+            },
+            { attachTo: document.body } as any,
+        );
+        await nextTick();
+        trigger.focus();
+        expect(document.activeElement).toBe(trigger);
+
+        (wrapper.vm as any).show = true;
+        await nextTick();
+        await wait(50);
+        expect(document.getElementById('app-root')!.hasAttribute('inert')).toBe(
+            true,
+        );
+        // 初始聚焦在弹层内
+        expect(
+            document
+                .querySelector('.fes-modal-wrapper')!
+                .contains(document.activeElement),
+        ).toBe(true);
+
+        (wrapper.vm as any).show = false;
+        await nextTick();
+        await wait(50);
+        // 归还焦点前必须先摘掉 inert，否则 focus() 静默失败
+        expect(document.getElementById('app-root')!.hasAttribute('inert')).toBe(
+            false,
+        );
+        expect(document.activeElement).toBe(trigger);
+        wrapper.unmount();
+    });
+
+    test('抽屉同样隔离背景', async () => {
+        const background = createBackground();
+        const wrapper = mount(FDrawer as any, {
+            props: { show: true, title: '抽屉' },
+            slots: { default: () => h('p', '内容') },
+            attachTo: document.body,
+        } as any);
+        await nextTick();
+        await wait(50);
+        expect(background.hasAttribute('inert')).toBe(true);
+        const dialog = document.querySelector('.fes-drawer-wrapper')!;
+        expect(dialog.closest('[inert]')).toBeNull();
+        wrapper.unmount();
+        await nextTick();
+        await wait(50);
+        // 卸载后也要还原，不能把背景永久锁死
+        expect(background.hasAttribute('inert')).toBe(false);
+        expect(background.hasAttribute('aria-hidden')).toBe(false);
+    });
+});
+
+describe('FFormItem 错误信息关联（aria-describedby）', () => {
+    const validateForm = async (wrapper: any) => {
+        const form = wrapper.findComponent(FForm as any);
+        await (form.vm as any).validate().catch(() => {});
+        await nextTick();
+        await wait(50);
+    };
+
+    test('Input：校验失败后错误信息关联到输入框，错误消失后解除', async () => {
+        const wrapper = mount(
+            {
+                components: { FForm, FFormItem, FInput },
+                data() {
+                    return { model: { user: '' } };
+                },
+                template: `
+                    <FForm :model="model">
+                        <FFormItem
+                            label="用户名"
+                            prop="user"
+                            :rules="[{ required: true, message: '请输入用户名' }]"
+                        >
+                            <FInput v-model="model.user" />
+                        </FFormItem>
+                    </FForm>
+                `,
+            },
+            { attachTo: document.body } as any,
+        );
+        await nextTick();
+        const input = wrapper.find('input');
+        // 无错误信息时不输出，避免指向不存在的元素
+        expect(input.attributes('aria-describedby')).toBeUndefined();
+
+        await validateForm(wrapper);
+        const error = wrapper.find('.fes-form-item-error');
+        expect(error.exists()).toBe(true);
+        const errorId = error.attributes('id');
+        expect(errorId).toBeTruthy();
+        expect(input.attributes('aria-describedby')).toBe(errorId);
+        // 关联目标存在，且内容就是错误文案
+        expect(document.getElementById(errorId!)!.textContent).toContain(
+            '请输入用户名',
+        );
+        // label 关联不受影响
+        expect(input.attributes('aria-labelledby')).toBe(
+            wrapper.find('.fes-form-item-label').attributes('id'),
+        );
+
+        // 修正后错误节点消失，关联同步解除
+        (wrapper.vm as any).model.user = 'harrywan';
+        await validateForm(wrapper);
+        expect(wrapper.find('.fes-form-item-error').exists()).toBe(false);
+        expect(input.attributes('aria-describedby')).toBeUndefined();
+        wrapper.unmount();
+    });
+
+    test('Select：错误信息关联挂在触发器上（filterable 时挂在内部 input）', async () => {
+        const wrapper = mount(
+            {
+                components: { FForm, FFormItem, FSelect, FOption },
+                data() {
+                    return { model: { city: '' } };
+                },
+                template: `
+                    <FForm :model="model">
+                        <FFormItem
+                            label="城市"
+                            prop="city"
+                            :rules="[{ required: true, message: '请选择城市' }]"
+                        >
+                            <FSelect v-model="model.city">
+                                <FOption value="bj" label="北京" />
+                            </FSelect>
+                        </FFormItem>
+                    </FForm>,
+                `,
+            },
+            { attachTo: document.body } as any,
+        );
+        await nextTick();
+        const trigger = wrapper.find('.fes-select-trigger');
+        expect(trigger.attributes('aria-describedby')).toBeUndefined();
+        await validateForm(wrapper);
+        const errorId = wrapper
+            .find('.fes-form-item-error')
+            .attributes('id');
+        expect(errorId).toBeTruthy();
+        expect(trigger.attributes('aria-describedby')).toBe(errorId);
+        wrapper.unmount();
+    });
+
+    test('Switch：错误信息关联挂在开关上', async () => {
+        const wrapper = mount(
+            {
+                components: { FForm, FFormItem, FSwitch },
+                data() {
+                    return { model: { agree: null } };
+                },
+                template: `
+                    <FForm :model="model">
+                        <FFormItem
+                            label="同意"
+                            prop="agree"
+                            :rules="[{ required: true, message: '请先同意' }]"
+                        >
+                            <FSwitch v-model="model.agree" />
+                        </FFormItem>
+                    </FForm>,
+                `,
+            },
+            { attachTo: document.body } as any,
+        );
+        await nextTick();
+        const switchEl = wrapper.find('.fes-switch');
+        expect(switchEl.attributes('aria-describedby')).toBeUndefined();
+        await validateForm(wrapper);
+        const errorId = wrapper
+            .find('.fes-form-item-error')
+            .attributes('id');
+        expect(errorId).toBeTruthy();
+        expect(switchEl.attributes('aria-describedby')).toBe(errorId);
+        wrapper.unmount();
+    });
+
+    test('无 label 且无错误时不输出任何 aria 关联', async () => {
+        const wrapper = mount(
+            {
+                components: { FForm, FFormItem, FInput },
+                template: `
+                    <FForm :model="{}">
+                        <FFormItem prop="user">
+                            <FInput />
+                        </FFormItem>
+                    </FForm>
+                `,
+            },
+            { attachTo: document.body } as any,
+        );
+        await nextTick();
+        const input = wrapper.find('input');
+        expect(input.attributes('aria-labelledby')).toBeUndefined();
+        expect(input.attributes('aria-describedby')).toBeUndefined();
+        wrapper.unmount();
+    });
+});

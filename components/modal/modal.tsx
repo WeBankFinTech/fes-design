@@ -15,6 +15,7 @@ import { CloseOutlined } from '../icon';
 import { useTheme } from '../_theme/useTheme';
 import useEsc from '../_util/use/useEsc';
 import useFocusTrap from '../_util/use/useFocusTrap';
+import useInertBackground from '../_util/use/useInertBackground';
 import useId from '../_util/use/useId';
 import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
@@ -191,6 +192,10 @@ const Modal = defineComponent({
             contentMaxHeight,
             hasMaxHeight,
         } = useContentMaxHeight(styles, props);
+
+        // 无障碍：背景隔离（aria-modal 配套）。必须在 useFocusTrap 之前注册：
+        // 关闭时先摘掉 inert，focus trap 才能把焦点归还给背景里的触发元素
+        useInertBackground(modalRef, visible);
 
         // 无障碍：焦点管理（打开时初始聚焦/Tab 圈闭/关闭后焦点归还）
         // 复用 useContentMaxHeight 的 modalRef（同一 DOM 节点），

@@ -5,6 +5,7 @@
         :aria-checked="activeRef"
         :aria-disabled="innerDisabled || undefined"
         :aria-labelledby="labelId"
+        :aria-describedby="errorId"
         :tabindex="innerDisabled ? -1 : 0"
         @click="toggle"
         @keydown.space.prevent="toggle"
@@ -86,7 +87,9 @@ export default defineComponent({
                 isEqual: true,
             },
         );
-        const { validate, isFormDisabled, labelId } = useFormAdaptor();
+        const {
+            validate, isFormDisabled, labelId, errorId,
+        } = useFormAdaptor();
         onMounted(() => {
             // 默认为未选中，增加 props.inactiveValue 判断，避免 onMounted 设置初始值不生效
             if (currentValue.value === undefined && props.inactiveValue !== undefined) {
@@ -155,6 +158,7 @@ export default defineComponent({
             loadingRef,
             innerDisabled,
             labelId,
+            errorId,
         };
     },
 });

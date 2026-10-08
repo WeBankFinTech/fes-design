@@ -29,6 +29,7 @@
             :style="inputStyle"
             :class="`${prefixCls}-el`"
             :aria-labelledby="ariaLabelledby"
+            :aria-describedby="ariaDescribedby"
             @compositionstart="handleCompositionStart"
             @compositionend="handleCompositionEnd"
             @input="handleInput"
@@ -99,6 +100,8 @@ const inputInnerProps = {
     },
     // 无障碍：表单 label 元素 id（由 FFormItem 提供，经 FInput 透传）
     ariaLabelledby: String,
+    // 无障碍：表单错误信息元素 id（由 FFormItem 提供，经 FInput 透传）
+    ariaDescribedby: String,
 } as const satisfies ComponentObjectPropsOptions;
 
 const prefixCls = getPrefixCls('input-inner');

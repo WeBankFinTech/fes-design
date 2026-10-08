@@ -8,6 +8,7 @@
         :aria-controls="filterable ? undefined : ariaControls"
         :aria-activedescendant="filterable ? undefined : ariaActiveDescendant"
         :aria-labelledby="filterable ? undefined : ariaLabelledby"
+        :aria-describedby="filterable ? undefined : ariaDescribedby"
         @mouseenter="inputHoveringRef = true"
         @mouseleave="inputHoveringRef = false"
         @focusin="handleFocus"
@@ -47,6 +48,7 @@
                         :aria-controls="ariaControls"
                         :aria-activedescendant="ariaActiveDescendant"
                         :aria-labelledby="ariaLabelledby"
+                        :aria-describedby="ariaDescribedby"
                         :placeholder="
                             isOpened || unSelectedRef
                                 ? labelTextRef || placeholder
@@ -172,6 +174,7 @@
                     :aria-controls="ariaControls"
                     :aria-activedescendant="ariaActiveDescendant"
                     :aria-labelledby="ariaLabelledby"
+                    :aria-describedby="ariaDescribedby"
                     :class="`${prefixCls}-label-input`"
                     :style="{
                         width: inputWidthRef,
@@ -260,6 +263,7 @@ const selectTriggerProps = {
     ariaControls: String,
     ariaActiveDescendant: String,
     ariaLabelledby: String,
+    ariaDescribedby: String,
 } as const satisfies ComponentObjectPropsOptions;
 
 export default defineComponent({

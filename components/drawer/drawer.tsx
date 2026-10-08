@@ -20,6 +20,7 @@ import { useTheme } from '../_theme/useTheme';
 import { pxfy } from '../_util/utils';
 import useEsc from '../_util/use/useEsc';
 import useFocusTrap from '../_util/use/useFocusTrap';
+import useInertBackground from '../_util/use/useInertBackground';
 import useId from '../_util/use/useId';
 import { useLocale } from '../config-provider/useLocale';
 import { useResizable } from './useResizable';
@@ -180,6 +181,10 @@ const Drawer = defineComponent({
             props,
             drawerDimension,
         });
+
+        // 无障碍：背景隔离（aria-modal 配套）。必须在 useFocusTrap 之前注册：
+        // 关闭时先摘掉 inert，focus trap 才能把焦点归还给背景里的触发元素
+        useInertBackground(drawerRef, visible);
 
         // 无障碍：焦点管理（初始聚焦/Tab 圈闭/焦点归还）
         // 复用 useResizable 的 drawerRef（同一 DOM 节点），

@@ -124,6 +124,8 @@ export interface FormItemInject {
     isFormDisabled?: Ref<boolean>;
     /** 无障碍：label 元素 id，供表单控件 aria-labelledby 关联；无 label 时为 undefined */
     labelId?: Ref<string | undefined>;
+    /** 无障碍：错误信息 id，供表单控件 aria-describedby 关联；无错误信息时为 undefined */
+    errorId?: Ref<string | undefined>;
 }
 
 export interface Field {

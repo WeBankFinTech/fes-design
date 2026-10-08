@@ -15,6 +15,7 @@
             <transition name="fes-fade">
                 <div
                     v-if="formItemShowMessage"
+                    :id="errorId"
                     :class="`${prefixCls}-error`"
                     role="alert"
                 >
@@ -90,6 +91,8 @@ export default defineComponent({
         const injectLabelId = computed(() =>
             props.label || slots.label ? labelId : undefined,
         );
+        // 无障碍：错误信息 id，供表单控件 aria-describedby 关联
+        const errorId = useId();
         const fieldValue = computed(() => {
             // 优先获取 value 的值
             if (props.value !== undefined) {
@@ -293,6 +296,12 @@ export default defineComponent({
             removeField(formItemProp.value);
         });
 
+        // 无错误信息时错误节点不渲染（见模板 v-if），
+        // 此时注入 undefined，避免 aria-describedby 指向不存在的元素
+        const injectErrorId = computed(() =>
+            formItemShowMessage.value ? errorId : undefined,
+        );
+
         provide(FORM_ITEM_INJECTION_KEY, {
             validate,
             setRuleDefaultType,
@@ -301,11 +310,13 @@ export default defineComponent({
             }),
             isFormDisabled: formItemDisabled,
             labelId: injectLabelId,
+            errorId: injectErrorId,
         });
 
         return {
             prefixCls,
             labelId,
+            errorId,
 
             formItemClass,
             formItemLabelClass,

@@ -129,6 +129,16 @@ formItemValidator.vue
 | ----- | -------------------- |
 | label | 自定义表单项标签文本 |
 
+## 无障碍
+
+- 有 `label`（或 `#label` 插槽）时，label 元素带 id，并通过 `aria-labelledby`
+  关联到表单项内的控件。无 label 时不注入，避免指向不存在的元素。
+- 校验失败展示错误信息时，错误节点带 id，并通过 `aria-describedby` 关联到控件；
+  错误消失后关联同步解除。
+- 已接入该关联的控件：`Input`、`Select`、`Switch`。
+  其余控件（`InputNumber`、`DatePicker`、`TimePicker`、`RadioGroup`、
+  `CheckboxGroup` 等）尚未消费该注入，属于待补齐项。
+
 ## Form-Item Methods
 
 | 方法名称 | 说明                                                                                                                                                                   | 参数                     |

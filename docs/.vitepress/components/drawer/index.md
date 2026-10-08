@@ -109,6 +109,8 @@ closable.vue
 - 有标题时输出 `aria-labelledby`，指向**仅包含标题文本**的元素（不含关闭按钮）。
 - 打开时初始焦点移入抽屉，Tab / Shift+Tab 在抽屉内循环，关闭后焦点归还触发元素。
 - 与 Modal 共用 Esc 层栈：只有最上层响应 Esc，`escClosable` 为 `false` 时不关闭。
+- 与 Modal 一样做背景隔离：打开时给 body 下不属于本层的兄弟节点加 `inert` +
+  `aria-hidden="true"`，关闭后按原值还原。
 
 ## Drawer Event
 

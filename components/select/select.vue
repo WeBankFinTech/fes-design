@@ -31,6 +31,7 @@
                     :ariaControls="optionListId"
                     :ariaActiveDescendant="activeDescendantId"
                     :ariaLabelledby="triggerAriaLabelledby"
+                    :ariaDescribedby="triggerAriaDescribedby"
                     @keydown="onTriggerKeyDown"
                     @remove="onSelect"
                     @clear="handleClear"
@@ -105,7 +106,9 @@ export default defineComponent({
     emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'removeTag', 'visibleChange', 'focus', 'blur', 'clear', 'scroll', 'search', 'filter'],
     setup(props, { emit }) {
         useTheme();
-        const { validate, isError, isFormDisabled, labelId } = useFormAdaptor({
+        const {
+            validate, isError, isFormDisabled, labelId, errorId,
+        } = useFormAdaptor({
             valueType: computed(() => (props.multiple ? 'array' : 'string')),
         });
         const innerDisabled = computed(() => props.disabled === true || isFormDisabled.value);
@@ -113,6 +116,8 @@ export default defineComponent({
 
         // 无障碍：表单 label 关联（FFormItem 注入；无 label 时为 undefined）
         const triggerAriaLabelledby = computed(() => unref(labelId));
+        // 无障碍：表单错误信息关联（FFormItem 注入；无错误信息时为 undefined）
+        const triggerAriaDescribedby = computed(() => unref(errorId));
         // 与 props 中 modelValue 类型保持一致
         const [currentValue, updateCurrentValue] = props.multiple ? (useArrayModel(props, emit) as unknown as UseArrayModelReturn<SelectValue[]>) : useNormalModel(props, emit);
 
@@ -567,6 +572,7 @@ export default defineComponent({
             optionListId,
             activeDescendantId,
             triggerAriaLabelledby,
+            triggerAriaDescribedby,
             warnDeprecatedSlot,
             filterText,
         };
