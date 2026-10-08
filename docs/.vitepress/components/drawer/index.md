@@ -103,6 +103,13 @@ closable.vue
 | resizeMax        | 可拖拽的最大尺寸（如：`100`、`'200px'`、`'30%'`）                               | number/string                           | `-`                   |
 | resizeMin        | 可拖拽的最小尺寸（同上）                                                        | number/string                           | `-`                   |
 
+## 无障碍
+
+- 抽屉容器带 `role="dialog"` 与 `aria-modal="true"`。
+- 有标题时输出 `aria-labelledby`，指向**仅包含标题文本**的元素（不含关闭按钮）。
+- 打开时初始焦点移入抽屉，Tab / Shift+Tab 在抽屉内循环，关闭后焦点归还触发元素。
+- 与 Modal 共用 Esc 层栈：只有最上层响应 Esc，`escClosable` 为 `false` 时不关闭。
+
 ## Drawer Event
 
 | 事件名称   | 说明                                 | 回调参数 |

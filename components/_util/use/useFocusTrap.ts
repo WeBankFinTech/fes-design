@@ -16,18 +16,38 @@ const FOCUSABLE_SELECTOR = [
     .map((selector) => `${selector}:not([inert])`)
     .join(',');
 
+/**
+ * 浮层焦点作用域标记：Popper 内容挂在 body 上（Teleport），
+ * 不在弹层容器的 DOM 子树内。焦点进入这类浮层时，
+ * 弹层的 Tab 圈闭必须放行，否则会把焦点从浮层里拽回弹层。
+ */
+export const FOCUS_SCOPE_ATTR = 'data-fes-focus-scope';
+
+function isInFocusScope(element: Element | null): boolean {
+    return Boolean(element?.closest?.(`[${FOCUS_SCOPE_ATTR}]`));
+}
+
+function isFocusable(element: HTMLElement): boolean {
+    if (element === document.activeElement) {
+        return true;
+    }
+    // 排除隐藏元素：display:none（尺寸为 0）、hidden / aria-hidden 子树
+    if (
+        (element.offsetWidth <= 0 && element.offsetHeight <= 0)
+        || element.closest('[hidden], [aria-hidden="true"]')
+    ) {
+        return false;
+    }
+    return window.getComputedStyle(element).visibility !== 'hidden';
+}
+
 function getFocusableChildren(container: HTMLElement): HTMLElement[] {
     if (!container) {
         return [];
     }
     return Array.from(
         container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
-    ).filter(
-        (element) =>
-            element.offsetWidth > 0
-            || element.offsetHeight > 0
-            || element === document.activeElement,
-    );
+    ).filter(isFocusable);
 }
 
 /**
@@ -47,9 +67,10 @@ function isStackTop(trap: Trap) {
  * - 打开时记录此前焦点，关闭后归还（若归还目标已被移出 DOM 则放弃）
  * - 打开时初始聚焦（data-autofocus 元素优先，否则首个可聚焦元素）
  * - Tab 在弹层内圈闭（focus trap），Shift+Tab 循环到末尾
+ * - 焦点位于 Popper 浮层（Teleport 到 body）时不干预
  */
 export default function useFocusTrap(
-    containerRef: Ref<HTMLElement | undefined>,
+    containerRef: Ref<HTMLElement | null | undefined>,
     open: Ref<boolean>,
 ) {
     // SSR 无 DOM，跳过焦点管理
@@ -71,6 +92,12 @@ export default function useFocusTrap(
         if (!container) {
             return;
         }
+        const active = document.activeElement;
+        // 焦点在浮层内（且该浮层不在弹层子树内）：交给浏览器处理，
+        // 不抢焦。否则 Modal 内的 Select / DatePicker 浮层按 Tab 会失焦。
+        if (isInFocusScope(active) && !container.contains(active)) {
+            return;
+        }
         const focusableChildren = getFocusableChildren(container);
         if (!focusableChildren.length) {
             // 无可聚焦元素时，保持在容器上，避免焦点逃逸到 body
@@ -80,7 +107,6 @@ export default function useFocusTrap(
         }
         const first = focusableChildren[0];
         const last = focusableChildren[focusableChildren.length - 1];
-        const active = document.activeElement;
         if (event.shiftKey) {
             if (active === first || !container.contains(active)) {
                 event.preventDefault();
@@ -94,6 +120,11 @@ export default function useFocusTrap(
 
     const setup = async () => {
         await nextTick();
+        // 等待期间弹层可能已经关闭：此时不能再注册，
+        // 否则残留 trap 会霸占层栈栈顶并抢焦
+        if (!open.value) {
+            return;
+        }
         const container = containerRef.value;
         if (!container) {
             return;
@@ -108,8 +139,8 @@ export default function useFocusTrap(
             trapStack.push(trap);
         }
         window.addEventListener('keydown', trap, true);
-        // 初始聚焦：jsdom/部分环境下聚焦会改变 activeElement 引发
-        // 派发时序敏感（与按钮节流交互放大），仅在焦点不在容器内时聚焦
+        // 初始聚焦：仅在焦点不在容器内时聚焦（避免与命令式
+        // 连续开关弹窗、按钮节流等交互抢焦）
         if (!container.contains(document.activeElement)) {
             const autofocusEl = container.querySelector<HTMLElement>(
                 '[data-autofocus]',

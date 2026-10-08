@@ -71,11 +71,12 @@ export const popperProps = {
     },
     /**
      * 弹层语义角色，供读屏软件识别。
-     * 默认不输出 role；tooltip 类弹层传 'tooltip'，
-     * 列表类弹层（select 等）由业务层改用 listbox 容器语义
+     * 默认（'none'）不输出 role；tooltip 类弹层传 'tooltip'，
+     * 列表类弹层（select 等）由业务层改用 listbox 容器语义。
+     * 类型不限定枚举，便于业务使用 listbox / alertdialog 等角色。
      */
     role: {
-        type: String as PropType<'tooltip' | 'dialog' | 'menu' | 'none'>,
+        type: String as PropType<string>,
         default: 'none',
     },
 } as const satisfies ComponentObjectPropsOptions;

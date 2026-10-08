@@ -109,6 +109,17 @@ closable.vue
 | useAnimation     | 是否使用动画                                                                   | Boolean           | `true`                |
 | getContainer     | 指定 `Modal` 挂载的 HTML 节点                                                  | () => HTMLElement | `() => document.body` |
 
+## 无障碍
+
+- 弹层容器带 `role="dialog"` 与 `aria-modal="true"`。
+- 有标题时输出 `aria-labelledby`，指向**仅包含标题文本**的元素（不含关闭按钮），
+  读屏播报的可访问名即标题本身。
+- 打开时记录触发元素并将初始焦点移入弹层；Tab / Shift+Tab 在弹层内循环；
+  关闭后焦点归还触发元素。
+- 焦点位于 Teleport 到 body 的浮层（Popper）内时，Tab 圈闭放行，不抢焦。
+- 多层弹层叠放时只有最上层响应 Esc；`escClosable` 为 `false` 的最上层会吞掉 Esc，
+  不会误关下层弹层。
+
 ## Modal Event
 
 | 事件名称   | 说明                                 | 回调参数 |

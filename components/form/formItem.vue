@@ -17,7 +17,6 @@
                     v-if="formItemShowMessage"
                     :class="`${prefixCls}-error`"
                     role="alert"
-                    aria-live="polite"
                 >
                     {{ validateMessage }}
                 </div>
@@ -36,12 +35,12 @@ import {
     onBeforeUnmount,
     provide,
     ref,
-    useId,
 } from 'vue';
 import Schema from 'async-validator';
 import { cloneDeep, get, isArray, isNil, set } from 'lodash-es';
 import { pxfy } from '../_util/utils';
 import getPrefixCls from '../_util/getPrefixCls';
+import useId from '../_util/use/useId';
 import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
 import {
     FORM_ITEM_ALIGN,
@@ -63,7 +62,7 @@ export default defineComponent({
     name: FORM_ITEM_NAME,
     props: formItemProps,
 
-    setup(props) {
+    setup(props, { slots }) {
         const {
             model,
             rules,
@@ -86,6 +85,11 @@ export default defineComponent({
 
         // 无障碍：label 元素 id，供表单控件 aria-labelledby 关联
         const labelId = useId();
+        // 无 label 时 label 元素不渲染（见模板 v-if），
+        // 此时不能把 id 注入给控件，否则 aria-labelledby 指向不存在的元素
+        const injectLabelId = computed(() =>
+            props.label || slots.label ? labelId : undefined,
+        );
         const fieldValue = computed(() => {
             // 优先获取 value 的值
             if (props.value !== undefined) {
@@ -296,7 +300,7 @@ export default defineComponent({
                 return validateStatus.value === VALIDATE_STATUS.ERROR;
             }),
             isFormDisabled: formItemDisabled,
-            labelId,
+            labelId: injectLabelId,
         });
 
         return {

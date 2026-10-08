@@ -28,12 +28,9 @@
                     :class="[{ 'is-error': isError }, triggerClass]"
                     :style="triggerStyle"
                     :renderTag="$slots.tag"
-                    role="combobox"
-                    :aria-expanded="isOpenedRef"
-                    aria-haspopup="listbox"
-                    :aria-controls="optionListId"
-                    :aria-activedescendant="activeDescendantId"
-                    :aria-labelledby="triggerAriaLabelledby"
+                    :ariaControls="optionListId"
+                    :ariaActiveDescendant="activeDescendantId"
+                    :ariaLabelledby="triggerAriaLabelledby"
                     @keydown="onTriggerKeyDown"
                     @remove="onSelect"
                     @clear="handleClear"
@@ -81,12 +78,13 @@
 </template>
 
 <script lang="ts">
-import { type CSSProperties, computed, defineComponent, provide, ref, unref, useId, watch } from 'vue';
+import { type CSSProperties, computed, defineComponent, provide, ref, unref, watch } from 'vue';
 import { isNil } from 'lodash-es';
 import { useTheme } from '../_theme/useTheme';
 import { type UseArrayModelReturn, useArrayModel, useNormalModel } from '../_util/use/useModel';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '../_util/constants';
 import useFormAdaptor from '../_util/use/useFormAdaptor';
+import useId from '../_util/use/useId';
 import Popper from '../popper';
 import SelectTrigger from '../select-trigger';
 import { useLocale } from '../config-provider/useLocale';
@@ -113,8 +111,8 @@ export default defineComponent({
         const innerDisabled = computed(() => props.disabled === true || isFormDisabled.value);
         const isOpenedRef = ref(false);
 
-        // 无障碍：表单 label 关联（FFormItem 注入）
-        const triggerAriaLabelledby = computed(() => labelId);
+        // 无障碍：表单 label 关联（FFormItem 注入；无 label 时为 undefined）
+        const triggerAriaLabelledby = computed(() => unref(labelId));
         // 与 props 中 modelValue 类型保持一致
         const [currentValue, updateCurrentValue] = props.multiple ? (useArrayModel(props, emit) as unknown as UseArrayModelReturn<SelectValue[]>) : useNormalModel(props, emit);
 
@@ -443,6 +441,11 @@ export default defineComponent({
             hoverOptionValue.value = options[nextIndex].value;
         };
 
+        // filterable/remote 且已输入过滤文本时，Home/End 属于输入框光标操作，
+        // 不劫持（否则下拉打开时无法把光标移到文本首尾）
+        const isFiltering = () =>
+            Boolean(props.filterable || props.remote) && Boolean(filterText.value);
+
         // 归一化按键名：真实浏览器返回 'Enter'/'ArrowDown'（DOM key）
         // 或 'Enter'/'ArrowDown'（DOM code）；合成事件可能给小写 'enter'、
         // 甚至把数字 keyCode 塞进 code 字段——统一折算成 DOM key 风格
@@ -509,13 +512,21 @@ export default defineComponent({
                     }
                     break;
                 case 'Home':
-                    if (isOpenedRef.value && selectableOptions.value.length) {
+                    if (
+                        isOpenedRef.value
+                        && selectableOptions.value.length
+                        && !isFiltering()
+                    ) {
                         e.preventDefault();
                         hoverOptionValue.value = selectableOptions.value[0].value;
                     }
                     break;
                 case 'End':
-                    if (isOpenedRef.value && selectableOptions.value.length) {
+                    if (
+                        isOpenedRef.value
+                        && selectableOptions.value.length
+                        && !isFiltering()
+                    ) {
                         e.preventDefault();
                         hoverOptionValue.value
                             = selectableOptions.value[selectableOptions.value.length - 1].value;

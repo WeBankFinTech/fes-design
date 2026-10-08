@@ -5,7 +5,6 @@ import {
     defineComponent,
     nextTick,
     ref,
-    useId,
     watch,
 } from 'vue';
 import { isNumber } from 'lodash-es';
@@ -16,6 +15,7 @@ import { CloseOutlined } from '../icon';
 import { useTheme } from '../_theme/useTheme';
 import useEsc from '../_util/use/useEsc';
 import useFocusTrap from '../_util/use/useFocusTrap';
+import useId from '../_util/use/useId';
 import PopupManager from '../_util/popupManager';
 import useLockScreen from '../_util/use/useLockScreen';
 import { useConfig } from '../config-provider';
@@ -78,10 +78,6 @@ const Modal = defineComponent({
         // 无障碍：标题 id，供 aria-labelledby 关联
         const titleId = useId();
 
-        // 无障碍：焦点管理（打开时初始聚焦/Tab 圈闭/关闭后焦点归还）
-        const containerRef = ref<HTMLElement | null>(null);
-        useFocusTrap(containerRef as any, visible);
-
         function handleOk(event: MouseEvent) {
             ctx.emit(OK_EVENT, event);
         }
@@ -111,7 +107,7 @@ const Modal = defineComponent({
             }
             const header = ctx.slots.title?.() || props.title;
             return (
-                <div class={`${prefixCls}-header`} id={titleId} ref={modalHeaderRef}>
+                <div class={`${prefixCls}-header`} ref={modalHeaderRef}>
                     {props.type && (
                         <div
                             class={`${prefixCls}-icon ${prefixCls}-status-${props.type}`}
@@ -119,7 +115,12 @@ const Modal = defineComponent({
                             {props.type && modalIconMap[props.type]()}
                         </div>
                     )}
-                    <div>{header}</div>
+                    {/*
+                      * aria-labelledby 指向的元素必须只含标题：
+                      * 指向 header 会把关闭按钮的 aria-label 一起算进
+                      * 可访问名（结果形如「标题 关闭」）
+                      */}
+                    <div id={titleId}>{header}</div>
                     {closeJsx}
                 </div>
             );
@@ -190,6 +191,11 @@ const Modal = defineComponent({
             contentMaxHeight,
             hasMaxHeight,
         } = useContentMaxHeight(styles, props);
+
+        // 无障碍：焦点管理（打开时初始聚焦/Tab 圈闭/关闭后焦点归还）
+        // 复用 useContentMaxHeight 的 modalRef（同一 DOM 节点），
+        // 避免内联函数 ref 每次渲染重建导致容器 ref 反复置空
+        useFocusTrap(modalRef, visible);
 
         const getBody = () => {
             const modalBody = (
@@ -278,10 +284,7 @@ const Modal = defineComponent({
                         aria-modal="true"
                         aria-labelledby={hasHeader() ? titleId : undefined}
                         tabindex="-1"
-                        ref={(el: any) => {
-                            containerRef.value = el;
-                            modalRef.value = el;
-                        }}
+                        ref={modalRef}
                         onClick={(event) => event.stopPropagation()}
                         onMousedown={() => {
                             mouseDownInsideChild.value = true;

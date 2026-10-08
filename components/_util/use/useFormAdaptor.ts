@@ -43,11 +43,13 @@ export default (formAdaptorConfig?: FormAdaptorConfig) => {
     }
 
     if (forbidChildValidate) {
-        // 避免子组件重复
+        // 避免子组件重复校验；labelId 必须一并透传，
+        // 否则子控件拿不到 FFormItem 的 label 关联（aria-labelledby 丢失）
         provide(FORM_ITEM_INJECTION_KEY, {
             validate: noop,
             isError,
             isFormDisabled,
+            labelId,
         });
     }
 

@@ -21,7 +21,7 @@ import { useTheme } from '../_theme/useTheme';
 import PlusOutlined from '../icon/PlusOutlined';
 import Scrollbar from '../scrollbar';
 import { ADD_EVENT, CLICK_TAB_EVENT, COMPONENT_NAME, TABS_INJECTION_KEY } from './constants';
-import { mapTabPane } from './helper';
+import { getTabKey, mapTabPane } from './helper';
 import Tab from './tab';
 import TabPane from './tab-pane.vue';
 import { tabsProps } from './props';
@@ -79,13 +79,13 @@ export default defineComponent({
         // 水平布局用左右键，垂直布局用上下键
         const moveTab = (step: number) => {
             const enabledTabs = tabRefs.value.filter(
-                (tab) => !tab?.disabled && tab?.value !== undefined,
+                (tab) => !tab?.disabled && getTabKey(tab) !== undefined,
             );
             if (!enabledTabs.length) {
                 return;
             }
             const currentIndex = enabledTabs.findIndex(
-                (tab) => tab.value === currentValue.value,
+                (tab) => getTabKey(tab) === currentValue.value,
             );
             let nextIndex = currentIndex + step;
             if (nextIndex < 0) {
@@ -95,7 +95,11 @@ export default defineComponent({
                 nextIndex = 0;
             }
             const nextTab = enabledTabs[nextIndex];
-            handleTabClick(nextTab.value);
+            const nextKey = getTabKey(nextTab);
+            if (nextKey === undefined) {
+                return;
+            }
+            handleTabClick(nextKey);
             nextTick(() => {
                 nextTab?.$el?.focus?.();
             });
@@ -103,8 +107,8 @@ export default defineComponent({
 
         const onNavKeyDown = (event: KeyboardEvent) => {
             const horizontal = ['top', 'bottom'].includes(position.value);
-            // 兼容只设 key 不设 code 的合成事件
-            const key = event.code || event.key;
+            // 优先用 key，仅在没有 key 时回退 code（合成事件可能只有 code）
+            const key = event.key || event.code;
             let handled = false;
             let step = 0;
             if (
@@ -178,7 +182,7 @@ export default defineComponent({
             () => {
                 nextTick(() => {
                     const tab = tabRefs.value.find(
-                        (item) => item.value === currentValue.value,
+                        (item) => getTabKey(item) === currentValue.value,
                     );
                     autoScrollTab(tab?.$el);
                 });

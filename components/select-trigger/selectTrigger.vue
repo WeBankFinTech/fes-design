@@ -2,6 +2,12 @@
     <div
         tabindex="0"
         :class="triggerClass"
+        :role="filterable ? undefined : 'combobox'"
+        :aria-expanded="filterable ? undefined : isOpened"
+        :aria-haspopup="filterable ? undefined : 'listbox'"
+        :aria-controls="filterable ? undefined : ariaControls"
+        :aria-activedescendant="filterable ? undefined : ariaActiveDescendant"
+        :aria-labelledby="filterable ? undefined : ariaLabelledby"
         @mouseenter="inputHoveringRef = true"
         @mouseleave="inputHoveringRef = false"
         @focusin="handleFocus"
@@ -35,6 +41,12 @@
                     <input
                         ref="inputRef"
                         :value="filterTextRef"
+                        role="combobox"
+                        :aria-expanded="isOpened"
+                        aria-haspopup="listbox"
+                        :aria-controls="ariaControls"
+                        :aria-activedescendant="ariaActiveDescendant"
+                        :aria-labelledby="ariaLabelledby"
                         :placeholder="
                             isOpened || unSelectedRef
                                 ? labelTextRef || placeholder
@@ -154,6 +166,12 @@
                     v-if="filterable"
                     ref="inputRef"
                     :value="filterTextRef"
+                    role="combobox"
+                    :aria-expanded="isOpened"
+                    aria-haspopup="listbox"
+                    :aria-controls="ariaControls"
+                    :aria-activedescendant="ariaActiveDescendant"
+                    :aria-labelledby="ariaLabelledby"
                     :class="`${prefixCls}-label-input`"
                     :style="{
                         width: inputWidthRef,
@@ -236,6 +254,12 @@ const selectTriggerProps = {
         type: Boolean,
         default: false,
     },
+    // 无障碍：combobox 的 aria 关联值（由 FSelect 计算后传入）。
+    // 具体挂到哪个元素由本组件决定：filterable 时焦点在内部 input 上，
+    // 必须挂到 input，否则 aria-activedescendant / aria-expanded 不生效
+    ariaControls: String,
+    ariaActiveDescendant: String,
+    ariaLabelledby: String,
 } as const satisfies ComponentObjectPropsOptions;
 
 export default defineComponent({

@@ -86,7 +86,7 @@ panes.vue
 
 | 属性       | 说明                                                                       | 类型            | 默认值    |
 | ---------- | -------------------------------------------------------------------------- | --------------- | --------- |
-| modelValue | 当前激活 tab 面板的 key                                                    | number / string | -         |
+| modelValue | 当前激活 tab 面板的 key（即 tab 的 `value`，未设置 `value` 时为 `name`）   | number / string | -         |
 | position   | 页签位置，可选值有`left` `top` `right` `bottom`                            | string          | `top`     |
 | type       | 页签的基本样式，可选`card` `line`                                          | string          | `line`    |
 | closable   | 页签是否可关闭，type 为`card`时可用                                        | boolean         | `false`   |
@@ -102,6 +102,12 @@ panes.vue
 | change   | 切换 tab 时回调      | (key) => {} |
 | clickTab | 点击 tab 时回调      | (key) => {} |
 
+## 无障碍
+
+页签带 `role="tablist"` / `role="tab"` 与 `aria-selected`，并使用 roving tabindex
+（仅当前激活页签可 Tab 聚焦）。聚焦页签后可用方向键漫游：
+水平布局用 `←` `→`，垂直布局用 `↑` `↓`，并在移动时同步切换激活页签。
+
 ## Tabs Slots
 
 | 名称    | 说明             |
@@ -114,8 +120,8 @@ panes.vue
 
 | 属性             | 说明                                                                                                                                                            | 类型                            | 默认值  |
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | ------- |
-| value            | tab 的值                                                                                                                                                        | string / number                 | -       |
-| name             | tab 的名称                                                                                                                                                      | string / number                 | -       |
+| value            | tab 的值，作为身份标识；未设置时回退 `name`                                                                                                                     | string / number                 | -       |
+| name             | tab 的名称（未设置 `value` 时同时作为身份标识）                                                                                                                 | string / number                 | -       |
 | disabled         | 是否禁用                                                                                                                                                        | boolean                         | `false` |
 | closable         | 是否可关闭                                                                                                                                                      | boolean                         | `false` |
 | displayDirective | 选择渲染使用的指令为 if 、 show 或者 show:lazy。使用 show 的时候标签页内容不会随着切换重置。使用 show:lazy 的时候显示效果跟 show 一致，不过内容会进行延迟加载。 | string                          | `if`    |

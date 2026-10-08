@@ -11,6 +11,7 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { UPDATE_MODEL_EVENT } from '../_util/constants';
 import useClickOutSide from '../_util/use/useClickOutSide';
 import useResize from '../_util/use/useResize';
+import { FOCUS_SCOPE_ATTR } from '../_util/use/useFocusTrap';
 import { getFirstValidNode } from '../_util/vnode';
 import getElementFromVueInstance from '../_util/getElementFromVueInstance';
 import { useTheme } from '../_theme/useTheme';
@@ -135,6 +136,7 @@ export default defineComponent({
                         class={`${prefixCls}-wrapper`}
                         style={[popperStyle, props.popperStyle]}
                         role={props.role === 'none' ? undefined : props.role}
+                        {...{ [FOCUS_SCOPE_ATTR]: 'true' }}
                         onMouseenter={onPopperMouseEnter}
                         onMouseleave={onPopperMouseLeave}
                     >

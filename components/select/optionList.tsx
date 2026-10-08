@@ -4,6 +4,8 @@ import {
     type PropType,
     computed,
     defineComponent,
+    ref,
+    watch,
 } from 'vue';
 import Scrollbar from '../scrollbar/scrollbar.vue';
 import Ellipsis from '../ellipsis/ellipsis';
@@ -57,6 +59,7 @@ export default defineComponent({
     emits: ['scroll'],
     setup(props, { emit }) {
         const { t } = useLocale();
+        const virtualListRef = ref();
 
         const getOptionStyle = ({ level = 1 }) => {
             return {
@@ -130,6 +133,7 @@ export default defineComponent({
                 <div
                     class={classList}
                     style={getOptionStyle({ level: option.__level })}
+                    role="presentation"
                 >
                     {renderLabel(option, isSelected, prefixCls)}
                 </div>
@@ -185,10 +189,44 @@ export default defineComponent({
         const optionDomId = (value: SelectValue) =>
             props.id ? `${props.id}-option-${String(value)}` : undefined;
 
+        // 高亮项变化时滚动定位（键盘上下键 / Home / End 移动高亮）：
+        // 虚拟滚动用 scrollToIndex（目标可能还没渲染），
+        // 普通滚动用 scrollIntoView 滚到可视区。
+        // 鼠标 hover 触发时目标本身已可见，scrollIntoView 为空操作
+        watch(
+            () => props.hoverOptionValue,
+            (value) => {
+                if (value === undefined || value === null) {
+                    return;
+                }
+                const index = props.options.findIndex(
+                    (option) => option.value === value,
+                );
+                if (index < 0) {
+                    return;
+                }
+                if (enableVirtualScroll.value) {
+                    virtualListRef.value?.scrollToIndex?.(index);
+                    return;
+                }
+                if (typeof document === 'undefined') {
+                    return;
+                }
+                const id = optionDomId(value);
+                if (id) {
+                    document.getElementById(id)?.scrollIntoView?.({
+                        block: 'nearest',
+                    });
+                }
+            },
+            { flush: 'post' },
+        );
+
         return () =>
             enableVirtualScroll.value
                 ? (
                         <VirtualList
+                            ref={virtualListRef}
                             id={props.id}
                             role="listbox"
                             onScroll={(event: Event) => {
