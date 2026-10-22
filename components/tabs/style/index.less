@@ -320,6 +320,10 @@
     }
 
     &-tab-pane-wrapper {
+        // 离场 pane 为脱离文档流会置 absolute (#820)，其包含块必须是本 wrapper；
+        // 缺少 relative 时包含块会解析到更外层定位祖先/视口，overflow: hidden 裁不住，
+        // 离场内容会渲染到组件外（叠到相邻区域）
+        position: relative;
         flex: 1;
         overflow: hidden;
     }
