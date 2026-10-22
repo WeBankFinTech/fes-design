@@ -1,3 +1,42 @@
+## [0.8.89](https://github.com/WeBankFinTech/fes-design/compare/v0.8.88...v0.8.89) (2026-10-22)
+
+
+### Bug Fixes
+
+* **avatar-group:** options 默认值+调用处兜底，未传不再崩溃（[#1038](https://github.com/WeBankFinTech/fes-design/issues/1038)） ([1c6b1b7](https://github.com/WeBankFinTech/fes-design/commit/1c6b1b7854e2f01e11108aa7b371f174834ef1c6))
+* **draggable:** directive 输入归一化为纯数组模型（[#1036](https://github.com/WeBankFinTech/fes-design/issues/1036)） ([d351140](https://github.com/WeBankFinTech/fes-design/commit/d3511406748965563592bc2a5c31729af5f54a7f))
+* **e2e:** scrollbar-first-open 在 Windows 下必挂——/[@fs](https://github.com/fs) 路径拼接未转换反斜杠 ([62107c9](https://github.com/WeBankFinTech/fes-design/commit/62107c909ff12aa510260c4e567a7a245d00f649)), closes [#716](https://github.com/WeBankFinTech/fes-design/issues/716)
+* **FModal:** resolve content text overflow issue [#920](https://github.com/WeBankFinTech/fes-design/issues/920) ([8f47d9c](https://github.com/WeBankFinTech/fes-design/commit/8f47d9c2c8fee2f82f65675de24dac79fb3b3a5b))
+* **FModal:** resolve content text overflow issue [#920](https://github.com/WeBankFinTech/fes-design/issues/920) ([cc7811b](https://github.com/WeBankFinTech/fes-design/commit/cc7811b9cad49ced4ecca3ea818959fd575da0ff))
+* **layout:** aside/header 补齐 embedded 支持，与 main/footer 对齐 ([#1027](https://github.com/WeBankFinTech/fes-design/issues/1027)) ([7cf5178](https://github.com/WeBankFinTech/fes-design/commit/7cf51789a7d43774158ca192ab6b548019e19f21))
+* **menu:** menuGroup 孤儿挂载守卫熔断（[#1033](https://github.com/WeBankFinTech/fes-design/issues/1033)） ([126c39b](https://github.com/WeBankFinTech/fes-design/commit/126c39bfafdce0c0def1d7e6cc769da42a34098a))
+* **menu:** MenuItem 默认插槽文本被静默丢弃，label 回退链补 default 插槽兜底 ([#1017](https://github.com/WeBankFinTech/fes-design/issues/1017)) ([acda4aa](https://github.com/WeBankFinTech/fes-design/commit/acda4aa7cbda2d5a5b2badaffdab4d3dd5edb642))
+* **menu:** subMenu 展开状态派生化（[#1034](https://github.com/WeBankFinTech/fes-design/issues/1034) 根治·工序一） ([199d1b5](https://github.com/WeBankFinTech/fes-design/commit/199d1b56659436e2d9565d118963cf627c239797))
+* **menu:** 子项选中 isActive 单一事实源派生，根治 [#1040](https://github.com/WeBankFinTech/fes-design/issues/1040) 渲染自环 ([2fd04b0](https://github.com/WeBankFinTech/fes-design/commit/2fd04b06ff88f6c356c9a1df90c7a29f2e0f058f))
+* **menu:** 展开状态收敛为 expandedKeys 派生值，根治 [#1034](https://github.com/WeBankFinTech/fes-design/issues/1034) 递归更新 ([f60ded7](https://github.com/WeBankFinTech/fes-design/commit/f60ded7ad71fba3298b76819f2ac921e51493086)), closes [#1029](https://github.com/WeBankFinTech/fes-design/issues/1029)
+* **select-tree:** targetValues 路径数组类型完备防御，null/标量安全降级（[#1037](https://github.com/WeBankFinTech/fes-design/issues/1037)） ([65cfbeb](https://github.com/WeBankFinTech/fes-design/commit/65cfbeb62a55e3966bfc1266e288782fb8ddfd95))
+* **select:** groupOption 孤儿挂载熔断空渲染（[#1031](https://github.com/WeBankFinTech/fes-design/issues/1031)） ([b9eab51](https://github.com/WeBankFinTech/fes-design/commit/b9eab510e4609f9190a3c27ea32910f7e45b2f57))
+* **table:** cell 列配置只读化，杜绝 Object.assign 污染引发无限重渲染（[#1035](https://github.com/WeBankFinTech/fes-design/issues/1035)） ([0fc9949](https://github.com/WeBankFinTech/fes-design/commit/0fc99490d55045a8697a5c9d476efaa5c3041e75))
+* **table:** Scrollbar ref 卸载置空并防御 onScroll 空引用 ([#1021](https://github.com/WeBankFinTech/fes-design/issues/1021)) ([c7d11f2](https://github.com/WeBankFinTech/fes-design/commit/c7d11f2bef5ba2abd3d7cb7189268c68b045ce3b))
+* tabs 离场 pane 逃逸到组件外——补 wrapper 定位上下文 ([#820](https://github.com/WeBankFinTech/fes-design/issues/820) 后续) ([#1048](https://github.com/WeBankFinTech/fes-design/issues/1048)) ([1b237cd](https://github.com/WeBankFinTech/fes-design/commit/1b237cde0bc6c2065cba079456b77ee477b020c3))
+* **tabs:** tabPane 孤儿挂载空渲染（[#1032](https://github.com/WeBankFinTech/fes-design/issues/1032)） ([7b365cb](https://github.com/WeBankFinTech/fes-design/commit/7b365cbfe6f8475519a84b65794c68a60ce4d74d))
+* **tabs:** 只配 name 的 TabPane 关闭事件回退 name，value 改为可选 ([#1024](https://github.com/WeBankFinTech/fes-design/issues/1024)) ([0ab6405](https://github.com/WeBankFinTech/fes-design/commit/0ab64056c9c039c907c98165cb47490eb5f76c8c))
+* **text-highlight:** 子组件 default 插槽返回单 VNode 时崩溃，做数组归一化 ([#1019](https://github.com/WeBankFinTech/fes-design/issues/1019)) ([f10efea](https://github.com/WeBankFinTech/fes-design/commit/f10efeae775e21ca18e5514b390a7760ca3faab8))
+* **time-picker:** isRange 未实现时不再空白渲染，回退单值并输出 DEV 告警 ([#1022](https://github.com/WeBankFinTech/fes-design/issues/1022)) ([407ce8c](https://github.com/WeBankFinTech/fes-design/commit/407ce8c3cda9af1f30b7c4d76de877c87b6fce91))
+* **time-select:** modelValue 非字符串不再崩溃，类型防御+DEV 告警 ([#1023](https://github.com/WeBankFinTech/fes-design/issues/1023)) ([6952864](https://github.com/WeBankFinTech/fes-design/commit/69528640cfa65ac871374243eae575bad7f06e95))
+* **virtual-list:** render 补 header/footer 插槽渲染出口 ([#1028](https://github.com/WeBankFinTech/fes-design/issues/1028)) ([3452ffe](https://github.com/WeBankFinTech/fes-design/commit/3452ffeab829594b96e049ea3fa645b0bf24d716))
+* 修复 TimePicker 在 Vue 3.5 下的递归更新与弹层重建问题 [#1029](https://github.com/WeBankFinTech/fes-design/issues/1029) #AI commit# ([145505c](https://github.com/WeBankFinTech/fes-design/commit/145505c312c928ce7bf6f38362f2e406b7782ec8))
+
+
+### Features
+
+* **input-number:** 键盘上下与滚轮步进（keyboard/wheel 可关）（[#1039](https://github.com/WeBankFinTech/fes-design/issues/1039)） ([86da147](https://github.com/WeBankFinTech/fes-design/commit/86da14782d85fec85898e25679f0fea2a83cb047))
+* **input:** 新增 autoTruncate 配置项，支持超出 maxlength 时不自动截断 #AI commit# ([caa13e2](https://github.com/WeBankFinTech/fes-design/commit/caa13e2c8c3982a1f0cfd195e6d16b438f8a94d7))
+* **popper:** onlyShowTrigger 语义误导，新增 keepVisible 别名并对旧名告警 ([#1026](https://github.com/WeBankFinTech/fes-design/issues/1026)) ([fd013f5](https://github.com/WeBankFinTech/fes-design/commit/fd013f547af98e2b6175566eaccfacbfd055516f))
+* **tabs:** 非 card 类型使用 closable/addable 时输出告警提示 ([#1025](https://github.com/WeBankFinTech/fes-design/issues/1025)) ([0399033](https://github.com/WeBankFinTech/fes-design/commit/0399033c1cacd5b3d3370c2618a6ceb589ffbfca))
+
+
+
 ## [0.8.88](https://github.com/WeBankFinTech/fes-design/compare/v0.8.86...v0.8.88) (2026-09-11)
 
 
