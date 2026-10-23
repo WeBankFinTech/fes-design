@@ -93,6 +93,10 @@ export const selectProps = {
         type: Boolean,
         default: false,
     },
+    passive: {
+        type: Boolean,
+        default: true,
+    },
     popperClass: [String, Array, Object] as PropType<string | [] | object>,
     triggerClass: [String, Array, Object] as PropType<string | [] | object>,
     triggerStyle: [Object, String] as PropType<CSSProperties | string>,
