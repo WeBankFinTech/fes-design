@@ -46,7 +46,10 @@ const optionListProps = {
     emptyText: String,
     renderOption: Function,
     renderEmpty: Function,
-    hoverOptionValue: [String, Number, Object] as PropType<SelectValue>,
+    hoverOptionValue: {
+        type: [String, Number, Boolean, Object] as PropType<SelectValue>,
+        default: undefined as undefined,
+    },
     filterText: String,
     filterTextHighlight: Boolean,
 } as const satisfies ComponentObjectPropsOptions;

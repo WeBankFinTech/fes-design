@@ -199,7 +199,7 @@ export default defineComponent({
         });
 
         const isSelect = (value: SelectValue) => {
-            const selectVal = (unref(currentValue) as SelectValue[]) || [];
+            const selectVal = (unref(currentValue) as SelectValue[]) ?? [];
             const optVal = unref(value);
             if (selectVal === null) {
                 return false;
