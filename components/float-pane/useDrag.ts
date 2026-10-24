@@ -2,6 +2,7 @@ import { type Ref, computed, ref, unref } from 'vue';
 import { throttle } from 'lodash-es';
 import { useEventListener } from '@vueuse/core';
 import { depx } from '../_util/utils';
+import { isServer } from '../_util/isServer';
 import type { PanePosition } from './props';
 
 export const useDrag = (
@@ -22,6 +23,10 @@ export const useDrag = (
     let imgOffsetY: number;
 
     const limitTransformOffsetY = computed(() => {
+        // SSR：无 document/window，不做边界计算（拖拽是纯客户端交互）
+        if (isServer) {
+            return null;
+        }
         const containerEl = unref(getContainer)?.();
         // 不考虑非整个窗口拖拽超出边界的情况
         if (containerEl !== document.body) {
@@ -45,6 +50,10 @@ export const useDrag = (
     });
 
     const limitTransformOffsetX = computed(() => {
+        // SSR：无 document/window，不做边界计算（拖拽是纯客户端交互）
+        if (isServer) {
+            return null;
+        }
         const containerEl = unref(getContainer)?.();
         // 不考虑非整个窗口拖拽超出边界的情况
         if (containerEl !== document.body) {
@@ -114,19 +123,22 @@ export const useDrag = (
     });
 
     // mousemove 事件监听 document 拖拽效果更流畅
-    useEventListener(document, 'mousemove', (event) => {
-        if (!isDragging.value) {
-            return;
-        }
-        handleDrag(event);
-    });
+    // SSR：无 document，跳过全局监听（客户端激活后拖拽交互才有意义）
+    if (!isServer) {
+        useEventListener(document, 'mousemove', (event) => {
+            if (!isDragging.value) {
+                return;
+            }
+            handleDrag(event);
+        });
 
-    useEventListener(document, 'mouseup', () => {
-        if (!isDragging.value) {
-            return;
-        }
-        isDragging.value = false;
-    });
+        useEventListener(document, 'mouseup', () => {
+            if (!isDragging.value) {
+                return;
+            }
+            isDragging.value = false;
+        });
+    }
 
     return {
         handleMouseDown,

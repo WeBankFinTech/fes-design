@@ -18,6 +18,7 @@ import {
     InfoCircleFilled,
 } from '../icon';
 import { useTheme } from '../_theme/useTheme';
+import { isServer } from './isServer';
 import { getFirstValidNode } from './vnode';
 
 let seed = 0;
@@ -121,7 +122,21 @@ export function createManager(opt: {
     getContainer?: () => HTMLElement;
     [key: string]: any;
 }): Promise<NoticeManagerInst> {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
+        // SSR：通知类命令式 API 依赖 DOM 挂载，服务端调用属于用法错误。
+        // reject 而非抛裸 ReferenceError：调用方（FMessage 等）的 async
+        // 链路可捕获；未捕获时也会以明确的错误信息呈现，
+        // 不会静默丢失或半路崩溃。
+        if (isServer) {
+            reject(
+                new Error(
+                    '[NoticeManager]: 通知类命令式 API（FMessage 等）'
+                    + ' 依赖 DOM，不能在服务端调用；请在客户端生命周期'
+                    + '（onMounted/事件回调）中使用',
+                ),
+            );
+            return;
+        }
         const { getContainer, ...props } = opt;
         const div = document.createElement('div');
         if (getContainer) {

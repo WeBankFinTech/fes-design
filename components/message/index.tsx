@@ -108,10 +108,16 @@ function create({
             class: `${prefixCls}-wrapper`,
             maxCount: mergeConfig.maxCount,
             style: managerStyle,
-        }).then((instance) => {
-            messageInstance = instance;
-            renderItem();
-        });
+        })
+            .then((instance) => {
+                messageInstance = instance;
+                renderItem();
+            })
+            .catch((error) => {
+                // 服务端调用等场景 createManager 会 reject；
+                // 显式 catch 输出明确错误，避免 unhandled rejection 终止进程
+                console.error('[FMessage]:', error);
+            });
     } else {
         renderItem();
     }

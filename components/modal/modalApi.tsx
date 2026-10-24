@@ -1,5 +1,6 @@
 import { type VNode, type VNodeChild, render } from 'vue';
 import { isFunction, isNil, isUndefined } from 'lodash-es';
+import { isServer } from '../_util/isServer';
 import Modal from './modal';
 import type { ModalType } from './props';
 
@@ -50,6 +51,15 @@ let mergeConfig: ModalConfig = defaultConfig;
  * 创建 Model
  */
 function create(type: ModalType, config: ModalConfig) {
+    // SSR：命令式 API 依赖 DOM 挂载，服务端调用属于用法错误。
+    // 明确抛错（可被捕获），优于 ReferenceError 半路崩溃或静默无输出。
+    if (isServer) {
+        throw new Error(
+            '[FModal]: 命令式 API（info/success/warning/error/confirm）'
+            + ' 依赖 DOM，不能在服务端调用；请在客户端生命周期'
+            + '（onMounted/事件回调）中使用',
+        );
+    }
     const div = document.createElement('div');
     const slots: {
         [key: string]: () => VNodeChild | VNode | string;

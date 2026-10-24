@@ -31,7 +31,8 @@ export type ComponentInstall = DefineComponent & {
     [key: string]: DefineComponent;
 };
 
-export type GetContainer = () => HTMLElement;
+// 服务端渲染下 defaultContainer 返回 null（无 DOM），消费方需兼容
+export type GetContainer = () => HTMLElement | null;
 
 export type SFCWithInstall<T> = T & Plugin;
 

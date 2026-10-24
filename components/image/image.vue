@@ -57,6 +57,7 @@ import getPrefixCls from '../_util/getPrefixCls';
 import { PictureFailOutlined, PictureOutlined } from '../icon';
 import { getScrollContainer, isHtmlElement, isInContainer } from '../_util/dom';
 import { noop, noopInNoop, pxfy } from '../_util/utils';
+import { isServer } from '../_util/isServer';
 import { CLOSE_EVENT, ERROR_EVENT, LOAD_EVENT } from '../_util/constants';
 import download from '../_util/download';
 import { useTheme } from '../_theme/useTheme';
@@ -175,6 +176,10 @@ export default defineComponent({
         );
 
         const _scrollContainer = computed(() => {
+            // SSR：无 document，不做容器查询（懒加载监听本身只在客户端挂载后注册）
+            if (isServer) {
+                return undefined;
+            }
             let dom: any;
             const _container = props.scrollContainer;
             if (isString(_container) && _container !== '') {
@@ -219,6 +224,12 @@ export default defineComponent({
         const loadImage = () => {
             // loading 为true 才会加载图片
             if (!loading.value) {
+                return;
+            }
+
+            // SSR：无 Image 构造器，服务端不预加载图片；
+            // 客户端挂载后 src watch 会再次触发真实加载
+            if (isServer) {
                 return;
             }
 

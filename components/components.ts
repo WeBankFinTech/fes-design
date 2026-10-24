@@ -6,6 +6,8 @@ export * from './cascader';
 export * from './checkbox';
 export * from './checkbox-group';
 export * from './collapse';
+// SSR 首帧主题变量注入（getThemeVarsCss / getThemeStyleTag）
+export { getThemeVarsCss, getThemeStyleTag } from './_theme/applyTheme';
 export * from './config-provider';
 export * from './date-picker';
 export * from './descriptions';
