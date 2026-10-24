@@ -49,6 +49,11 @@ app.use(FSwitch);
 | v-model       | 绑定值，必须等于 active-value 或 inactive-value，默认为 Boolean 类型        | boolean / string / array / object/ number | -        |
 | size          | 大小，可选有'normal' 、 'small'                                             | string                                    | `normal` |
 
+## 无障碍
+
+开关带 `role="switch"` 与 `aria-checked`，可通过 `Tab` 聚焦、`Space` 切换。
+在 `FFormItem` 内且配置了 label 时，会通过 `aria-labelledby` 关联到 label。
+
 ## Switch Events
 
 | 事件名称 | 说明                            | 回调参数   |

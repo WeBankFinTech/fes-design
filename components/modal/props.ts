@@ -7,7 +7,6 @@ import type {
 } from 'vue';
 import { iconComponentMap } from '../_util/noticeManager';
 import type { ExtractPublicPropTypes } from '../_util/interface';
-import { useAnimate } from '../_util/use/useAnimate';
 
 export const modalIconMap = {
     ...iconComponentMap,

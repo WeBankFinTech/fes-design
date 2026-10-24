@@ -117,3 +117,13 @@ const messageInfo = FMessage.info();
 
 messageInfo.destroy();
 ```
+
+## 无障碍
+
+消息容器带 `role="status"` + `aria-live="polite"`，新消息出现时读屏会朗读。
+容器在消息内容之前插入 DOM，保证 live region 先注册再播报；
+`aria-atomic="false"` 让新增的一条只朗读自己，不重读已在屏上的消息。
+
+live 语义挂在容器本身（`getContainer` 的直接子节点）上。若通过
+`Message.config({ getContainer })` 换到自定义节点，弹层打开时该自定义节点
+仍会被背景隔离，此时需要自行在自定义节点上补 live 语义。

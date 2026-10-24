@@ -51,6 +51,12 @@ passive.vue
 | hideAfter         | 隐藏的延迟时间                                                                                                                                        | number                    | `0`                   |
 | lazy              | 是否懒渲染                                                                                                                                            | boolean                   | `true`                |
 | getContainer      | 配置渲染节点的输出位置                                                                                                                                | () => HTMLElement         | `() => document.body` |
+| role              | 弹层的语义角色，如 `tooltip`、`listbox`、`menu`；`none` 表示不输出 role                                                                               | string                    | `none`                |
+
+::: tip 无障碍
+弹层内容会带 `data-fes-focus-scope` 标记。Modal / Drawer 的 Tab 焦点圈闭据此识别
+Teleport 到 body 的浮层：焦点进入浮层后不再被弹层抢回。
+:::
 
 ## Popper Events
 

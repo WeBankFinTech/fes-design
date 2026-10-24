@@ -2,6 +2,7 @@
     <div :class="formItemClass">
         <span
             v-if="label || $slots.label"
+            :id="labelId"
             :class="formItemLabelClass"
             :style="formItemLabelStyle"
         >
@@ -12,7 +13,12 @@
         <div :class="`${prefixCls}-content`" :style="contentStyle">
             <slot />
             <transition name="fes-fade">
-                <div v-if="formItemShowMessage" :class="`${prefixCls}-error`">
+                <div
+                    v-if="formItemShowMessage"
+                    :id="errorId"
+                    :class="`${prefixCls}-error`"
+                    role="alert"
+                >
                     {{ validateMessage }}
                 </div>
             </transition>
@@ -35,6 +41,7 @@ import Schema from 'async-validator';
 import { cloneDeep, get, isArray, isNil, set } from 'lodash-es';
 import { pxfy } from '../_util/utils';
 import getPrefixCls from '../_util/getPrefixCls';
+import useId from '../_util/use/useId';
 import { FORM_ITEM_INJECTION_KEY } from '../_util/constants';
 import {
     FORM_ITEM_ALIGN,
@@ -56,7 +63,7 @@ export default defineComponent({
     name: FORM_ITEM_NAME,
     props: formItemProps,
 
-    setup(props) {
+    setup(props, { slots }) {
         const {
             model,
             rules,
@@ -76,6 +83,16 @@ export default defineComponent({
         const formItemProp = computed(() => {
             return props.prop || `${prefixCls}_${getCurrentInstance().uid}`;
         });
+
+        // 无障碍：label 元素 id，供表单控件 aria-labelledby 关联
+        const labelId = useId();
+        // 无 label 时 label 元素不渲染（见模板 v-if），
+        // 此时不能把 id 注入给控件，否则 aria-labelledby 指向不存在的元素
+        const injectLabelId = computed(() =>
+            props.label || slots.label ? labelId : undefined,
+        );
+        // 无障碍：错误信息 id，供表单控件 aria-describedby 关联
+        const errorId = useId();
         const fieldValue = computed(() => {
             // 优先获取 value 的值
             if (props.value !== undefined) {
@@ -116,7 +133,7 @@ export default defineComponent({
                 (props.showMessage === null
                     ? showMessage.value
                     : props.showMessage)
-                    && validateStatus.value === VALIDATE_STATUS.ERROR,
+                && validateStatus.value === VALIDATE_STATUS.ERROR,
         );
         const formItemDisabled = computed(
             () => {
@@ -185,12 +202,12 @@ export default defineComponent({
             const triggersRules = !trigger
                 ? formItemRules.value
                 : formItemRules.value.filter(
-                    (rule) =>
-                        !rule.trigger
-                        || (isArray(rule.trigger)
-                            ? rule.trigger.includes(trigger)
-                            : rule.trigger === trigger),
-                );
+                        (rule) =>
+                            !rule.trigger
+                            || (isArray(rule.trigger)
+                                ? rule.trigger.includes(trigger)
+                                : rule.trigger === trigger),
+                    );
 
             // 处理 rule 规则里面是自定义 validator
             const activeRules = triggersRules.map((rule) => {
@@ -246,7 +263,9 @@ export default defineComponent({
         const validate = async (trigger = TRIGGER_TYPE_DEFAULT) => {
             try {
                 await validateRules(trigger);
-            } catch (err) {}
+            } catch {
+                // 校验失败静默：错误信息已由 validateRules 写入展示
+            }
         };
         const clearValidate = () => {
             setValidateInfo();
@@ -277,6 +296,12 @@ export default defineComponent({
             removeField(formItemProp.value);
         });
 
+        // 无错误信息时错误节点不渲染（见模板 v-if），
+        // 此时注入 undefined，避免 aria-describedby 指向不存在的元素
+        const injectErrorId = computed(() =>
+            formItemShowMessage.value ? errorId : undefined,
+        );
+
         provide(FORM_ITEM_INJECTION_KEY, {
             validate,
             setRuleDefaultType,
@@ -284,10 +309,14 @@ export default defineComponent({
                 return validateStatus.value === VALIDATE_STATUS.ERROR;
             }),
             isFormDisabled: formItemDisabled,
+            labelId: injectLabelId,
+            errorId: injectErrorId,
         });
 
         return {
             prefixCls,
+            labelId,
+            errorId,
 
             formItemClass,
             formItemLabelClass,

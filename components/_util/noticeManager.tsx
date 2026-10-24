@@ -119,11 +119,28 @@ const Notification = defineComponent({
 
 export function createManager(opt: {
     getContainer?: () => HTMLElement;
+    /** 无障碍：容器 live region 角色，如 `status` / `alert` */
+    role?: string;
+    /** 无障碍：容器 live region 播报时机 */
+    ariaLive?: 'polite' | 'assertive' | 'off';
     [key: string]: any;
 }): Promise<NoticeManagerInst> {
     return new Promise((resolve) => {
-        const { getContainer, ...props } = opt;
+        const {
+            getContainer, role, ariaLive, ...props
+        } = opt;
         const div = document.createElement('div');
+        // 无障碍：live 语义必须落在容器本身。
+        // 1. 容器先插入 DOM、内容后追加，保证 live region 先注册再播报；
+        // 2. 弹层背景隔离按节点自身判断 live 语义，挂在里层 wrapper 上会被 inert 掉；
+        // 3. aria-atomic=false 让新消息只朗读自己，不重读已在屏上的消息。
+        if (role) {
+            div.setAttribute('role', role);
+        }
+        if (ariaLive) {
+            div.setAttribute('aria-live', ariaLive);
+            div.setAttribute('aria-atomic', 'false');
+        }
         if (getContainer) {
             const root = getContainer();
             root?.appendChild(div);

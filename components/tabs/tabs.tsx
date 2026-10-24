@@ -21,7 +21,7 @@ import { useTheme } from '../_theme/useTheme';
 import PlusOutlined from '../icon/PlusOutlined';
 import Scrollbar from '../scrollbar';
 import { ADD_EVENT, CLICK_TAB_EVENT, COMPONENT_NAME, TABS_INJECTION_KEY } from './constants';
-import { mapTabPane } from './helper';
+import { getTabKey, mapTabPane } from './helper';
 import Tab from './tab';
 import TabPane from './tab-pane.vue';
 import { tabsProps } from './props';
@@ -75,6 +75,61 @@ export default defineComponent({
             emit(CLOSE_EVENT, key);
         };
 
+        // 无障碍：方向键在 tab 间移动（roving tabindex），
+        // 水平布局用左右键，垂直布局用上下键
+        const moveTab = (step: number) => {
+            const enabledTabs = tabRefs.value.filter(
+                (tab) => !tab?.disabled && getTabKey(tab) !== undefined,
+            );
+            if (!enabledTabs.length) {
+                return;
+            }
+            const currentIndex = enabledTabs.findIndex(
+                (tab) => getTabKey(tab) === currentValue.value,
+            );
+            let nextIndex = currentIndex + step;
+            if (nextIndex < 0) {
+                nextIndex = enabledTabs.length - 1;
+            }
+            if (nextIndex > enabledTabs.length - 1) {
+                nextIndex = 0;
+            }
+            const nextTab = enabledTabs[nextIndex];
+            const nextKey = getTabKey(nextTab);
+            if (nextKey === undefined) {
+                return;
+            }
+            handleTabClick(nextKey);
+            nextTick(() => {
+                nextTab?.$el?.focus?.();
+            });
+        };
+
+        const onNavKeyDown = (event: KeyboardEvent) => {
+            const horizontal = ['top', 'bottom'].includes(position.value);
+            // 优先用 key，仅在没有 key 时回退 code（合成事件可能只有 code）
+            const key = event.key || event.code;
+            let handled = false;
+            let step = 0;
+            if (
+                (horizontal && (key === 'ArrowRight' || key === 'Right'))
+                || (!horizontal && (key === 'ArrowDown' || key === 'Down'))
+            ) {
+                step = 1;
+                handled = true;
+            } else if (
+                (horizontal && (key === 'ArrowLeft' || key === 'Left'))
+                || (!horizontal && (key === 'ArrowUp' || key === 'Up'))
+            ) {
+                step = -1;
+                handled = true;
+            }
+            if (handled) {
+                event.preventDefault();
+                moveTab(step);
+            }
+        };
+
         const autoScrollTab = (el?: HTMLElement) => {
             if (!tabNavRef.value || !el) {
                 return;
@@ -86,7 +141,7 @@ export default defineComponent({
             if (
                 ['top', 'bottom'].includes(props.position)
                 && (scrollLeft + offsetWidth < el.offsetLeft + el.offsetWidth
-                || el.offsetLeft < scrollLeft)
+                    || el.offsetLeft < scrollLeft)
             ) {
                 tabNavRef.value.setScrollLeft(
                     el.offsetLeft - offsetWidth + el.offsetWidth,
@@ -95,7 +150,7 @@ export default defineComponent({
             } else if (
                 ['left', 'right'].includes(props.position)
                 && (scrollTop + offsetHeight < el.offsetTop + el.offsetHeight
-                || el.offsetTop < scrollTop)
+                    || el.offsetTop < scrollTop)
             ) {
                 tabNavRef.value.setScrollTop(
                     el.offsetTop - offsetHeight + el.offsetHeight,
@@ -127,7 +182,7 @@ export default defineComponent({
             () => {
                 nextTick(() => {
                     const tab = tabRefs.value.find(
-                        (item) => item.value === currentValue.value,
+                        (item) => getTabKey(item) === currentValue.value,
                     );
                     autoScrollTab(tab?.$el);
                 });
@@ -138,10 +193,10 @@ export default defineComponent({
         const mergeRenderPanes = () => {
             const children
                 = (slots.default
-                && flatten(slots.default()).filter(
-                    (vNode) => (vNode.type as any).name === 'FTabPane',
-                ))
-                || [];
+                    && flatten(slots.default()).filter(
+                        (vNode) => (vNode.type as any).name === 'FTabPane',
+                    ))
+                    || [];
             if (props.panes?.length) {
                 return children.concat(
                     props.panes.map((pane) => {
@@ -228,7 +283,11 @@ export default defineComponent({
                             class={`${prefixCls}-nav-scroll`}
                             shadow={true}
                         >
-                            <div class={`${prefixCls}-nav-scroll-content`}>
+                            <div
+                                class={`${prefixCls}-nav-scroll-content`}
+                                role="tablist"
+                                onKeydown={onNavKeyDown}
+                            >
                                 {navItems}
                             </div>
                         </Scrollbar>

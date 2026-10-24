@@ -102,10 +102,12 @@ export default {
     modal: {
         okText: 'تأكيد',
         cancelText: 'إلغاء',
+        close: 'إغلاق',
     },
     drawer: {
         okText: 'تأكيد',
         cancelText: 'إلغاء',
+        close: 'إغلاق',
     },
     tooltip: {
         okText: 'تأكيد',
