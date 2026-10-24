@@ -10,7 +10,7 @@
 .@{dropdown-prefix-cls} {
     &-popper {
         padding: @padding-sm 0;
-        background: var(--f-white);
+        background: var(--f-component-bg-color);
     }
     &-option-wrapper {
         min-width: @dropdown-min-width;
@@ -33,7 +33,7 @@
         color: var(--f-text-color);
         font-size: var(--f-font-size-base);
         line-height: @dropdown-option-height;
-        background: var(--f-white);
+        background: var(--f-component-bg-color);
         cursor: pointer;
         transition: background-color @animation-duration-slow @ease-base-out;
         &-label {
@@ -72,7 +72,7 @@
         /* is-disabled 优先级比 is-selected 高 */
         &.is-disabled {
             color: var(--f-text-color-disabled);
-            background: var(--f-white);
+            background: var(--f-component-bg-color);
             cursor: not-allowed;
         }
     }

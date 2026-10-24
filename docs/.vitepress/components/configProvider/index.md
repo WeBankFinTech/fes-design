@@ -35,7 +35,53 @@ const getContainer = () => {
 
 --CUSTOMLOCALE
 
+### 暗色模式
+
+设置 `theme="dark"` 开启暗色主题。组件的全部设计令牌（背景/文字/边框/阴影/遮罩等 60+ CSS 变量）会整组翻转，无需逐个覆盖：
+
+--DARKTHEME
+
 --CODE
+
+跟随系统偏好自动切换：
+
+```vue
+<template>
+    <f-config-provider :theme="isDark ? 'dark' : 'light'">
+        <app />
+    </f-config-provider>
+</template>
+
+<script setup>
+import { usePreferredDark } from '@vueuse/core';
+
+const isDark = usePreferredDark();
+</script>
+```
+
+#### SSR 首屏防闪白
+
+服务端渲染时，组件挂载前页面以默认亮色渲染，暗色主题会出现闪白。在入口 HTML 的 `head` 中插入主题样式标签可消除：
+
+```js
+import { getThemeStyleTag } from '@fesjs/fes-design';
+
+// 模板中：${getThemeStyleTag('dark')}
+// 输出 <style>:root { --f-component-bg-color: #1f1f1f; ... }</style>
+```
+
+#### 深度定制
+
+暗色预设之上可通过 `themeOverrides` 继续覆盖任意变量（优先级高于预设）：
+
+```vue
+<f-config-provider
+    theme="dark"
+    :themeOverrides="{ common: { bodyBgColor: '#0d0d0d' } }"
+>
+    <app />
+</f-config-provider>
+```
 
 ## Props
 
@@ -43,4 +89,5 @@ const getContainer = () => {
 | -------------- | ---------------------------------------------------------------------------------------------------------------- | ----------------- | --------------------- |
 | getContainer   | 指定弹窗挂载的 DOM 节点                                                                                          | () => HTMLElement | `() => document.body` |
 | locale         | 语言包配置，已支持语言包可到[这里](https://github.com/WeBankFinTech/fes-design/tree/main/components/locales)查看 | object            | 中文                  |
-| themeOverrides | 主题覆盖的 css 选项                                                                                              | object            | -                     |
+| theme          | 主题模式，可选 `dark` / `light`                                                                                  | string            | -                     |
+| themeOverrides | 主题覆盖的 css 选项（优先级高于 theme 预设）                                                                      | object            | -                     |

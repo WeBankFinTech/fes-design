@@ -13,3 +13,4 @@ export type { ConfigProviderProps } from './const';
 export default FConfigProvider;
 
 export { useConfig } from './configProvider';
+export { getThemeStyleTag } from '../_theme/applyTheme';

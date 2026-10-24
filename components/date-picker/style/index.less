@@ -62,7 +62,7 @@
     flex-direction: column;
     color: var(--f-text-color);
     font-size: @font-size-caption;
-    background: var(--f-white);
+    background: var(--f-component-bg-color);
     user-select: none;
 
     & &-icon {
@@ -163,7 +163,7 @@
     }
     &-date-out {
         color: var(--f-text-color-disabled);
-        background-color: var(--f-white);
+        background-color: var(--f-component-bg-color);
     }
     &-date-selected {
         color: var(--f-white);
@@ -224,7 +224,7 @@
         grid-row-gap: 8px;
         grid-template-columns: repeat(4, 1fr);
         width: 256px;
-        background: var(--f-white);
+        background: var(--f-component-bg-color);
         .@{calendar-prefix-cls}-date-disabled {
             &::before {
                 width: 64px;
@@ -254,7 +254,7 @@
         font-weight: @font-weight-medium;
         line-height: 34px;
         text-align: center;
-        background: var(--f-white);
+        background: var(--f-component-bg-color);
         border-bottom: @date-border-split;
     }
 
@@ -287,7 +287,7 @@
     padding: 5px 9px;
     color: var(--f-text-color);
     font-size: var(--f-font-size-base);
-    background-color: var(--f-white);
+    background-color: var(--f-component-bg-color);
     border: var(--f-border-base);
     border-radius: var(--f-border-radius-base);
     outline: none;
@@ -331,7 +331,7 @@
         flex: 1;
         width: 100%;
         min-width: 0;
-        background-color: var(--f-white);
+        background-color: var(--f-component-bg-color);
         border: 0;
         outline: none;
         &::placeholder {
